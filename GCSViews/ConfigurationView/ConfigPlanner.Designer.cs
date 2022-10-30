@@ -65,6 +65,7 @@
             this.CHK_speechwaypoint = new System.Windows.Forms.CheckBox();
             this.label94 = new System.Windows.Forms.Label();
             this.CMB_osdcolor = new System.Windows.Forms.ComboBox();
+            this.CMB_severity = new System.Windows.Forms.ComboBox();
             this.CMB_language = new System.Windows.Forms.ComboBox();
             this.label93 = new System.Windows.Forms.Label();
             this.CHK_enablespeech = new System.Windows.Forms.CheckBox();
@@ -106,6 +107,7 @@
             this.CHK_params_bg = new System.Windows.Forms.CheckBox();
             this.chk_slowMachine = new System.Windows.Forms.CheckBox();
             this.CHK_speechArmedOnly = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
@@ -436,6 +438,14 @@
             this.CMB_osdcolor.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.CMB_osdcolor_DrawItem);
             this.CMB_osdcolor.SelectedIndexChanged += new System.EventHandler(this.CMB_osdcolor_SelectedIndexChanged);
             // 
+            // CMB_severity
+            // 
+            this.CMB_severity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_severity.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_severity, "CMB_severity");
+            this.CMB_severity.Name = "CMB_severity";
+            this.CMB_severity.SelectedIndexChanged += new System.EventHandler(this.CMB_severity_SelectedIndexChanged);
+            // 
             // CMB_language
             // 
             this.CMB_language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -735,9 +745,15 @@
             this.CHK_speechArmedOnly.UseVisualStyleBackColor = true;
             this.CHK_speechArmedOnly.CheckedChanged += new System.EventHandler(this.CHK_speechArmedOnly_CheckedChanged);
             // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.CHK_speechArmedOnly);
             this.Controls.Add(this.chk_slowMachine);
             this.Controls.Add(this.CHK_params_bg);
@@ -806,6 +822,7 @@
             this.Controls.Add(this.CHK_speechwaypoint);
             this.Controls.Add(this.label94);
             this.Controls.Add(this.CMB_osdcolor);
+            this.Controls.Add(this.CMB_severity);
             this.Controls.Add(this.CMB_language);
             this.Controls.Add(this.label93);
             this.Controls.Add(this.CHK_enablespeech);
@@ -862,6 +879,7 @@
         private System.Windows.Forms.CheckBox CHK_speechwaypoint;
         private System.Windows.Forms.Label label94;
         private System.Windows.Forms.ComboBox CMB_osdcolor;
+        private System.Windows.Forms.ComboBox CMB_severity;
         private System.Windows.Forms.ComboBox CMB_language;
         private System.Windows.Forms.Label label93;
         private System.Windows.Forms.CheckBox CHK_enablespeech;
@@ -903,5 +921,6 @@
         private System.Windows.Forms.CheckBox CHK_params_bg;
         private System.Windows.Forms.CheckBox chk_slowMachine;
         private System.Windows.Forms.CheckBox CHK_speechArmedOnly;
+        private System.Windows.Forms.Label label8;
     }
 }
