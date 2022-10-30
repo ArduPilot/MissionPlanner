@@ -17,6 +17,19 @@ namespace MissionPlanner.Utilities
         Advanced,
         Custom
     }
+
+    public enum SeverityLevel
+    {
+        Emergency,
+        Alert,
+        Critical,
+        Error,
+        Warning,
+        Notice,
+        Info,
+        Debug
+    }
+
     [Serializable]
     public class DisplayView
     {
