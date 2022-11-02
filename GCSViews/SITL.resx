@@ -2436,6 +2436,9 @@
   <data name="cmb_model.Items32" xml:space="preserve">
     <value>rover-skid</value>
   </data>
+  <data name="cmb_model.Items33" xml:space="preserve">
+    <value>plane-3d</value>
+  </data>
   <data name="cmb_model.Location" type="System.Drawing.Point, System.Drawing">
     <value>169, 17</value>
   </data>
