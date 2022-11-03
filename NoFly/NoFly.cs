@@ -15,6 +15,8 @@ namespace MissionPlanner.NoFly
 {
     public class NoFly
     {
+        private const int proximity = 100000;
+
         static GMapOverlay kmlpolygonsoverlay = new GMapOverlay();
 
         private static string directory = Settings.GetRunningDirectory() + "NoFly";
@@ -72,38 +74,48 @@ namespace MissionPlanner.NoFly
 
                 var nfzinfo = Utilities.nfz.HK.LoadNFZ().Result;
 
-                if (nfzinfo != null && nfzinfo.Type == GeoJSONObjectType.FeatureCollection)
-                {
-                    foreach (var item in nfzinfo.Features)
+                if (nfzinfo != null)
+                    UpdateNoFlyZoneEvent += (sender, args) =>
                     {
-                        if (item.Type == GeoJSONObjectType.Feature)
+                        if (nfzinfo.Type == GeoJSONObjectType.FeatureCollection)
                         {
-                            if (item.Geometry.Type == GeoJSONObjectType.Polygon)
+                            foreach (var item in nfzinfo.Features)
                             {
-                                var poly = (GeoJSON.Net.Geometry.Polygon)item.Geometry;
-                                var coordinates =
-                                    poly.Coordinates[0].Coordinates.OfType<GeoJSON.Net.Geometry.Position>()
-                                        .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                        .ToList();
-
-                                var name = item.Properties["name"];
-                                var desc = item.Properties["description"];
-
-                                GMapPolygon nfzpolygon = new GMapPolygon(coordinates, name.ToString());
-                                nfzpolygon.Tag = item;
-
-                                nfzpolygon.Stroke.Color = Color.Purple;
-
-                                nfzpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
-
-                                MainV2.instance.BeginInvoke(new Action(() =>
+                                if (item.Type == GeoJSONObjectType.Feature)
                                 {
-                                    kmlpolygonsoverlay.Polygons.Add(nfzpolygon);
-                                }));
+                                    if (item.Geometry.Type == GeoJSONObjectType.Polygon)
+                                    {
+                                        var poly = (GeoJSON.Net.Geometry.Polygon)item.Geometry;
+                                        var coordinates =
+                                            poly.Coordinates[0].Coordinates.OfType<GeoJSON.Net.Geometry.Position>()
+                                                .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                                .ToList();
+
+                                        var close = coordinates.Any(a => a.ToPLLA(0).GetDistance(args) < 100000);
+                                        if (!close)
+                                            continue;
+
+                                        var name = item.Properties["name"];
+                                        var desc = item.Properties["description"];
+
+                                        GMapPolygon nfzpolygon = new GMapPolygon(coordinates, "HK"+name.ToString());
+                                        nfzpolygon.Tag = item;
+
+                                        nfzpolygon.Stroke.Color = Color.Purple;
+
+                                        nfzpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
+                                        MainV2.instance.BeginInvoke(new Action(() =>
+                                        {
+                                            if (kmlpolygonsoverlay.Polygons.Any(a => a.Name == "HK" + name.ToString()))
+                                                return;
+                                            kmlpolygonsoverlay.Polygons.Add(nfzpolygon);
+                                        }));
+                                    }
+                                }
                             }
                         }
-                    }
-                }
+                    };
             }
             catch
             {
@@ -119,46 +131,72 @@ namespace MissionPlanner.NoFly
                 var nfzinfo = Utilities.nfz.EU.LoadNFZ().Result;
 
                 if (nfzinfo != null)
-                    foreach (var feat in nfzinfo.Features)
+                    UpdateNoFlyZoneEvent += (sender, args) =>
                     {
-                        foreach (var item in feat.Geometry)
+                        foreach (var feat in nfzinfo.Features)
                         {
-                            if (item.HorizontalProjection?.Type == "Polygon")
+                            foreach (var item in feat.Geometry)
                             {
-                                //if (item.LowerVerticalReference == "AGL" && item.UomDimensions == "M" && item.LowerLimit > 300)
-                                //continue;
-
-                                var coordinates = item.HorizontalProjection.Coordinates[0].Select(c => new PointLatLng(c[1], c[0])).ToList();
-
-                                GMapPolygon nfzpolygon = new GMapPolygon(coordinates, feat.Name);
-
-                                nfzpolygon.Tag = item;
-
-                                nfzpolygon.Stroke.Color = Color.Purple;
-
-                                nfzpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
-
-                                MainV2.instance.BeginInvoke(new Action(() =>
+                                if (item.HorizontalProjection?.Type == "Polygon")
                                 {
-                                    kmlpolygonsoverlay.Polygons.Add(nfzpolygon);
-                                }));
-                            }
-                            else if (item.HorizontalProjection?.Type == "Circle")
-                            {
-                                var coordinates = new PointLatLng(item.HorizontalProjection.Center[1], item.HorizontalProjection.Center[0]);
+                                    //if (item.LowerVerticalReference == "AGL" && item.UomDimensions == "M" && item.LowerLimit > 300)
+                                    //continue;
 
-                                GMapMarkerAirport nfzcircle = new GMapMarkerAirport(coordinates);
-                                nfzcircle.wprad = (int)(item.HorizontalProjection.Radius ?? 0);
-                                nfzcircle.Tag = feat;
+                                    var coordinates = item.HorizontalProjection.Coordinates[0].Select(c => new PointLatLng(c[1], c[0])).ToList();
 
-                                MainV2.instance.BeginInvoke(new Action(() =>
+                                    var close = coordinates.Any(a => a.ToPLLA(item.LowerLimit).GetDistance(args) < 100000);
+                                    if (!close)
+                                        continue;
+
+                                    GMapPolygon nfzpolygon = new GMapPolygon(coordinates, feat.Name);
+
+                                    nfzpolygon.Tag = item;
+
+                                    nfzpolygon.Stroke.Color = Color.Purple;
+
+                                    nfzpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
+                                    nfzpolygon.IsHitTestVisible = true;
+                                    /*
+                                    nfzpolygon.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                                    nfzpolygon.ToolTipText = feat.Name + "\r\n" + feat.Message;
+                                    */
+                                    if (kmlpolygonsoverlay.Control.IsMouseOverPolygon) { 
+
+                                    }
+                                    MainV2.instance.BeginInvoke(new Action(() =>
+                                    {
+                                        if (kmlpolygonsoverlay.Polygons.Any(a => a.Name == feat.Name))
+                                            return;
+                                        kmlpolygonsoverlay.Polygons.Add(nfzpolygon);
+                                    }));
+                                }
+                                else if (item.HorizontalProjection?.Type == "Circle")
                                 {
-                                    kmlpolygonsoverlay.Markers.Add(nfzcircle);
-                                }));
+                                    var coordinates = new PointLatLng(item.HorizontalProjection.Center[1], item.HorizontalProjection.Center[0]);
+
+                                    var close = coordinates.ToPLLA(item.LowerLimit).GetDistance(args) < proximity;
+                                    if (!close)
+                                        continue;
+
+                                    GMapMarkerAirport nfzcircle = new GMapMarkerAirport(coordinates);
+                                    nfzcircle.wprad = (int)(item.HorizontalProjection.Radius ?? 0);
+                                    nfzcircle.Tag = feat;
+                                    nfzcircle.IsHitTestVisible = true;
+                                    nfzcircle.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                                    nfzcircle.ToolTipText = feat.Name +"\r\n"+ feat.Message;
+
+                                    MainV2.instance.BeginInvoke(new Action(() =>
+                                    {
+                                        if (kmlpolygonsoverlay.Markers.Any(a => ((Utilities.nfz.Feature)a.Tag).Name == feat.Name))
+                                            return;
+                                        kmlpolygonsoverlay.Markers.Add(nfzcircle);
+                                    }));
+                                }
                             }
+
                         }
-
-                    }
+                    };
             }
             catch
             {
@@ -168,6 +206,17 @@ namespace MissionPlanner.NoFly
                 NoFlyEvent(null, new NoFlyEventArgs(kmlpolygonsoverlay));
         }
 
+        static PointLatLngAlt lastUpdateLocation = PointLatLngAlt.Zero;
+        public static void UpdateNoFlyZone(object sender, PointLatLngAlt plla)
+        {
+            if (plla.GetDistance(lastUpdateLocation) > 100)
+            {
+                UpdateNoFlyZoneEvent?.Invoke(sender, plla);
+                lastUpdateLocation = plla;
+            }
+        }
+
+        public static event EventHandler<PointLatLngAlt> UpdateNoFlyZoneEvent;
 
         public static void LoadNoFly(string file)
         {

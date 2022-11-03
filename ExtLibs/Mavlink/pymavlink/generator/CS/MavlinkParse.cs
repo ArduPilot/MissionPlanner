@@ -55,6 +55,13 @@ public partial class MAVLink
         public string Text { get; set; }
     }
 
+    public class hasLocation : Attribute
+    {
+        public hasLocation()
+        {
+        }
+    }
+
     public class MavlinkParse
     {
         public int packetcount = 0;

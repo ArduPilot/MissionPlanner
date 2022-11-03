@@ -67,6 +67,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 mavlinkNumericUpDownFS_BATT_MAH.setup(0, 99999, 1, 1, "BATT_LOW_MAH", MainV2.comPort.MAV.param, pnlmah);
             }
 
+            if (MainV2.comPort.MAV.param.ContainsKey("BATT_LOW_TIMER"))
+            {
+                mavlinkNumericUpDownBATT_LOW_TIMER.setup(0, 120, 1, 1, "BATT_LOW_TIMER", MainV2.comPort.MAV.param, pnltimer);
+            }
+
             // removed at randys request
             //mavlinkCheckBoxfs_gps_enable.setup(1, 0, "FS_GPS_ENABLE", MainV2.comPort.MAV.param);
             mavlinkCheckBoxFS_GCS_ENABLE.setup(1, 0, "FS_GCS_ENABLE", MainV2.comPort.MAV.param);

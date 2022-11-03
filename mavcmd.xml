@@ -107,8 +107,8 @@
       <P2>timeout</P2>
       <P3>arg1</P3>
       <P4>arg2</P4>
-      <X></X>
-      <Y></Y>
+      <X>arg3</X>
+      <Y>arg4</Y>
       <Z></Z>
     </SCRIPT_TIME>
     <SPLINE_WAYPOINT>
@@ -434,8 +434,8 @@
       <P2>timeout</P2>
       <P3>arg1</P3>
       <P4>arg2</P4>
-      <X></X>
-      <Y></Y>
+      <X>arg3</X>
+      <Y>arg4</Y>
       <Z></Z>
     </SCRIPT_TIME>
     <DO_VTOL_TRANSITION>
@@ -752,8 +752,8 @@
       <P2>timeout</P2>
       <P3>arg1</P3>
       <P4>arg2</P4>
-      <X></X>
-      <Y></Y>
+      <X>arg3</X>
+      <Y>arg4</Y>
       <Z></Z>
     </SCRIPT_TIME>
     <SET_YAW_SPEED>

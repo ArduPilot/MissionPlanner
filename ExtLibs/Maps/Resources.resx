@@ -428,7 +428,7 @@ ArduRover: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/rover"}}{\fldrslt{
 \pard\nowidctlpar\sa200\sl276\slmult1\tab Please visit {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/planner"}}{\fldrslt{\ul\cf1 http://ardupilot.org/planner}}}\f0\fs22  further information.\b0\par
 \pard\nowidctlpar\b\tab Main Developer:\b0  Michael Oborne\par
 \tab\b Design:\b0  Samantha Nelson\par
-\tab\b Contributions from:\b0  Andrew Radford,  Marooned, Ryan Beall and {\field{\*\fldinst{HYPERLINK "https://github.com/ArduPilot/MissionPlanner/graphs/contributors"}}{\fldrslt{\ul\cf1 https://github.com/ArduPilot/MissionPlanner/graphs/contributors}}}\f0\fs22\par
+\tab\b Contributions from:\b0  Andrew Radford,  Marooned, Ryan Beall, Tom Pittenger and {\field{\*\fldinst{HYPERLINK "https://github.com/ArduPilot/MissionPlanner/graphs/contributors"}}{\fldrslt{\ul\cf1 https://github.com/ArduPilot/MissionPlanner/graphs/contributors}}}\f0\fs22\par
 \pard\nowidctlpar\fi720\b ArduCopter Illustrations:\b0  Max Levine\par
 \b Librarys:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph, alglib, BouncyCastle, DotSpatial, LibVLC, netDXF\par
 \par

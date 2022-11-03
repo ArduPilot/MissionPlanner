@@ -7,6 +7,8 @@ public partial class DroneCAN {
 	(typeof(dronecan_remoteid_System), 20033, 0x9AC872F49BF32437, (b,s) => dronecan_remoteid_System.ByteArrayToDroneCANMsg(b,s)),
 	(typeof(dronecan_remoteid_OperatorID), 20034, 0x581E7FC7F03AF935, (b,s) => dronecan_remoteid_OperatorID.ByteArrayToDroneCANMsg(b,s)),
 	(typeof(dronecan_remoteid_ArmStatus), 20035, 0xFEDF72CCF06F3BDD, (b,s) => dronecan_remoteid_ArmStatus.ByteArrayToDroneCANMsg(b,s)),
+	(typeof(dronecan_remoteid_SecureCommand_req), 64, 0x126A47C9C17A8BD7, (b,s) => dronecan_remoteid_SecureCommand_req.ByteArrayToDroneCANMsg(b,s)),
+	(typeof(dronecan_remoteid_SecureCommand_res), 64, 0x126A47C9C17A8BD7, (b,s) => dronecan_remoteid_SecureCommand_res.ByteArrayToDroneCANMsg(b,s)),
 	(typeof(dronecan_sensors_hygrometer_Hygrometer), 1032, 0xCEB308892BF163E8, (b,s) => dronecan_sensors_hygrometer_Hygrometer.ByteArrayToDroneCANMsg(b,s)),
 	(typeof(com_hex_equipment_flow_Measurement), 20200, 0x6A908866BCB49C18, (b,s) => com_hex_equipment_flow_Measurement.ByteArrayToDroneCANMsg(b,s)),
 	(typeof(ardupilot_equipment_power_BatteryInfoAux), 20004, 0x7D7F49FC75484882, (b,s) => ardupilot_equipment_power_BatteryInfoAux.ByteArrayToDroneCANMsg(b,s)),

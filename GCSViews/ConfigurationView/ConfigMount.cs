@@ -97,8 +97,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
-                MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
+            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt(ParamHead + "TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), ParamHead + "TYPE", MainV2.comPort.MAV.param);
         }
 
         public void Activate()

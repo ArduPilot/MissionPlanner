@@ -223,6 +223,13 @@ namespace MissionPlanner.GCSViews
             log.Info("Components Done");
 
             instance = this;
+
+            this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
+            this.tabControlactions.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.tabControlactions.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
+            this.panel_persistent.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.panel_persistent.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             //    _serializer = new DockStateSerializer(dockContainer1);
             //    _serializer.SavePath = Application.StartupPath + Path.DirectorySeparatorChar + "FDscreen.xml";
             //    dockContainer1.PreviewRenderer = new PreviewRenderer();
@@ -1675,7 +1682,9 @@ namespace MissionPlanner.GCSViews
 
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
-                        param1 = 1; // reboot
+                        MainV2.comPort.doReboot();
+                        ((Control) sender).Enabled = true;
+                        return;
                     }
 
                     if (CMB_action.Text == actions.Battery_Reset.ToString())
@@ -3830,6 +3839,9 @@ namespace MissionPlanner.GCSViews
                                 }
                             }
 
+                            //nofly
+                            NoFly.NoFly.UpdateNoFlyZone(this, gMapControl1.Position);
+
                             waypoints = DateTime.Now;
                         }
 
@@ -4300,16 +4312,24 @@ namespace MissionPlanner.GCSViews
         {
             BeginInvoke((Action) delegate
             {
-                foreach (var poly in e.NoFlyZones.Polygons)
-                {
-                    kmlpolygons.Polygons.Add(poly);
-                }
+                gMapControl1.Overlays.Add(e.NoFlyZones);
             });
         }
 
         private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
+
+            foreach (var mark in photosoverlay.Markers.ToArray())
+            {
+                if (mark is GMapMarkerPhoto)
+                {
+                    if (!CameraOverlap)
+                    {
+                        photosoverlay.Markers.Remove(mark);
+                    }
+                }
+            }
         }
 
         void POI_POIModified(object sender, EventArgs e)

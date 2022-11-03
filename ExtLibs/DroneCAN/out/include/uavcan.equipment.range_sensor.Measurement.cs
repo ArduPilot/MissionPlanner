@@ -19,8 +19,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.CoarseOrientation.cs
 //using uavcan.Timestamp.cs
+//using uavcan.CoarseOrientation.cs
         public partial class uavcan_equipment_range_sensor_Measurement: IDroneCANSerialize 
         {
             public const int UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_MAX_PACK_SIZE = 15;

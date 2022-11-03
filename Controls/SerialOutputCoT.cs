@@ -17,7 +17,7 @@ namespace MissionPlanner.Controls
     {
         static TcpListener listener;
         static ICommsSerial CoTStream = new SerialPort();
-        static double updaterate = 5;
+        static double updaterate = 1;
         System.Threading.Thread t12;
         static bool threadrun = false;
         static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
@@ -35,7 +35,7 @@ namespace MissionPlanner.Controls
 
             CMB_serialport.Items.Add("ATAK MC");
 
-            CMB_updaterate.Text = updaterate + "hz";
+            CMB_updaterate.Text = updaterate + "Hz";
 
             if (threadrun)
             {
@@ -230,11 +230,32 @@ namespace MissionPlanner.Controls
             double altitude = MainV2.comPort.MAVlist[sysid, compid].cs.altasl;
             double groundSpeed = MainV2.comPort.MAVlist[sysid, compid].cs.groundspeed;
             double groundcourse = MainV2.comPort.MAVlist[sysid, compid].cs.groundcourse;
+
+            // See Appendix A
+            // where h- means human and m- means machine
+            // m-g      == h.gps
+            // h-p      == h.pasted
+            // m-f      == h.fused
+            // m-n      == h.ins
+            // m-g-n    == h.ins-gps
+            // m-g-d    == h.dgps
             String how = "m-g";
 
             String xmlStr = getXmlString(FindUIDviaSysid(sysid), TB_xml_type.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
 
             return xmlStr;
+        }
+        int FindRowviaUID(string uid)
+        {
+            if (uid == null || uid.Length <= 0)
+                return -1;
+
+            var rcnt = myDataGridView1.Rows.Count;
+            for (int x = 0; x < rcnt - 1; x++)
+                if (myDataGridView1[this.UID.Index, x].Value?.ToString() == uid)
+                    return x;
+
+            return -1;
         }
 
         string FindUIDviaSysid(byte sysid) 
@@ -285,6 +306,26 @@ namespace MissionPlanner.Controls
                 }
             };
 
+            int row = FindRowviaUID(uid);
+            if (row >= 0 && CB_advancedMode.Checked)
+            {
+                var callsign = myDataGridView1[this.ContactCallsign.Index, row].Value;
+                var endpoint = myDataGridView1[this.ContactEndPointIP.Index, row].Value;
+                if (callsign != null && callsign.ToString().Length > 0 && endpoint != null && endpoint.ToString().Length > 0)
+                {
+                    cotevent.detail.contact = new contact();
+                    cotevent.detail.contact.callsign = callsign.ToString();
+                    cotevent.detail.contact.endpoint = endpoint.ToString();
+                }
+
+                var uid_vmf = myDataGridView1[this.VMF.Index, row].Value;
+                if (uid_vmf != null && uid_vmf.ToString().Length > 0)
+                {
+                    cotevent.detail.uid = new uid();
+                    cotevent.detail.uid.vmf = uid_vmf.ToString();
+                }
+            }
+
             using(StringWriter textWriter = new Utf8StringWriter())
             {
                 XmlWriterSettings xws = new XmlWriterSettings();
@@ -312,44 +353,6 @@ namespace MissionPlanner.Controls
 
                 return ans;
             }
-            
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine  ("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>");
-            sb.AppendLine  ("<event version=\"2.0\"");
-
-            sb.AppendFormat("    uid=\"{0}\"", uid); sb.AppendLine();
-            sb.AppendFormat("    type=\"{0}\"", type); sb.AppendLine();  // CoT spec section 2.3, additional values by MIL-STD-2525
-
-            sb.AppendFormat("    time=\"{0}\"", time.ToString("o")); sb.AppendLine(); // time stamp: when the event was generated
-            sb.AppendFormat("    start=\"{0}\"", time.AddSeconds(-5).ToString("o")); sb.AppendLine(); // starting time when an event should be considered valid
-            sb.AppendFormat("    stale=\"{0}\"", time.AddSeconds(5).ToString("o")); sb.AppendLine(); // ending time when an event should no longer be considered valid
-
-            // See Appendix A
-            // where h- means human and m- means machine
-            // m-g      == h.gps
-            // h-p      == h.pasted
-            // m-f      == h.fused
-            // m-n      == h.ins
-            // m-g-n    == h.ins-gps
-            // m-g-d    == h.dgps
-            sb.AppendFormat("    how=\"{0}\">", how); sb.AppendLine(); // Gives a hint about how the coordinates were generated
-
-
-            sb.AppendLine  ("  <detail>");
-            if (course >= 0 && course <= 360 && speed >= 0) {
-                sb.AppendFormat(culture, "    <track course=\"{0:N2}\" speed=\"{1:N2}\" />", course, speed); sb.AppendLine();
-            }
-            sb.AppendLine  ("  </detail>");
-
-            // hae = Height above the WGS ellipsoid in meters
-            // ce = Circular 1-sigma or decimal a circular area about the point in meters
-            // le = Linear 1-sigma error or decimal an attitude range about the point in meters
-            sb.AppendFormat(culture, "  <point lat=\"{0:N7}\" lon=\"{1:N7}\" hae=\"{2,5:N2}\" ce=\"1.0\" le=\"1.0\"/>", lat, lng, alt); sb.AppendLine();
-            sb.AppendLine  ("</event>");
-
-            return sb.ToString();
-            
         }
 
         private void BTN_clear_TB_Click(object sender, EventArgs e)
@@ -359,7 +362,12 @@ namespace MissionPlanner.Controls
 
         private void SerialOutputCoT_Load(object sender, EventArgs e)
         {
-            myDataGridView1.Deserialize(Settings.Instance["CoTUID"]);
+            try
+            {
+                // this can crash if you're connecting as you're loading the screen so the row count may change as you're populating it.
+                myDataGridView1.Deserialize(Settings.Instance["CoTUID"]);
+            } catch { }
+            CB_advancedMode_CheckedChanged(null, null);
         }
 
         private void SerialOutputCoT_FormClosing(object sender, FormClosingEventArgs e)
@@ -370,6 +378,26 @@ namespace MissionPlanner.Controls
         private void myDataGridView1_RowValidated(object sender, DataGridViewCellEventArgs e)
         {
             Settings.Instance["CoTUID"] = myDataGridView1.Serialize();
+        }
+
+        private void CB_advancedMode_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int col = 0; col < myDataGridView1.Columns.Count; col++)
+            {
+                if (col != this.sysid.Index && col != this.UID.Index)
+                {
+                    myDataGridView1.Columns[col].Visible = CB_advancedMode.Checked;
+                }
+            }
+
+        }
+
+        private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!CMB_serialport.Text.ToLower().Contains("com"))
+                CMB_baudrate.Enabled = false;
+            else
+                CMB_baudrate.Enabled = true;
         }
     }
 
