@@ -225,6 +225,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenDroneID_Plugin", "Plugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bulb", "ExtLibs\LEDBulb\Bulb\Bulb.csproj", "{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlannerTests", "MissionPlannerTests\MissionPlannerTests.csproj", "{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -891,6 +893,14 @@ Global
 		{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107}.Release|Any CPU.Build.0 = Release|x86
 		{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107}.Release|x86.ActiveCfg = Release|x86
 		{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107}.Release|x86.Build.0 = Release|x86
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Debug|x86.Build.0 = Debug|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Release|x86.ActiveCfg = Release|Any CPU
+		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
