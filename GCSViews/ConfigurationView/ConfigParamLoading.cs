@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities; // for Settings
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -17,6 +18,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             get
             {
+                if (Settings.Instance.GetBoolean("Params_fetch_on_connect") == false)
+                {
+                    timer1.Stop();
+                    MainV2.View.Reload();
+                    return true;
+                }
                 if (MainV2.comPort.MAV.param.TotalReceived < MainV2.comPort.MAV.param.TotalReported)
                 {
                     return false;

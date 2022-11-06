@@ -106,6 +106,7 @@
             this.CHK_params_bg = new System.Windows.Forms.CheckBox();
             this.chk_slowMachine = new System.Windows.Forms.CheckBox();
             this.CHK_speechArmedOnly = new System.Windows.Forms.CheckBox();
+            this.CHK_fetchparams_on_connect = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
@@ -735,10 +736,20 @@
             this.CHK_speechArmedOnly.UseVisualStyleBackColor = true;
             this.CHK_speechArmedOnly.CheckedChanged += new System.EventHandler(this.CHK_speechArmedOnly_CheckedChanged);
             // 
+            // CHK_fetchparams_on_connect
+            // 
+            resources.ApplyResources(this.CHK_fetchparams_on_connect, "CHK_fetchparams_on_connect");
+            this.CHK_fetchparams_on_connect.Checked = true;
+            this.CHK_fetchparams_on_connect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_fetchparams_on_connect.Name = "CHK_fetchparams_on_connect";
+            this.CHK_fetchparams_on_connect.UseVisualStyleBackColor = true;
+            this.CHK_fetchparams_on_connect.CheckedChanged += new System.EventHandler(this.CHK_fetchparams_on_connect_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.CHK_speechArmedOnly);
+            this.Controls.Add(this.CHK_fetchparams_on_connect);
             this.Controls.Add(this.chk_slowMachine);
             this.Controls.Add(this.CHK_params_bg);
             this.Controls.Add(this.label7);
@@ -903,5 +914,6 @@
         private System.Windows.Forms.CheckBox CHK_params_bg;
         private System.Windows.Forms.CheckBox chk_slowMachine;
         private System.Windows.Forms.CheckBox CHK_speechArmedOnly;
+        private System.Windows.Forms.CheckBox CHK_fetchparams_on_connect;
     }
 }

@@ -135,6 +135,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("Params_BG", CHK_params_bg);
             SetCheckboxFromConfig("SlowMachine", chk_slowMachine);
             SetCheckboxFromConfig("speech_armed_only", CHK_speechArmedOnly);
+            SetCheckboxFromConfig("Params_fetch_on_connect", CHK_fetchparams_on_connect);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength", 200);
@@ -994,5 +995,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.speech_armed_only = CHK_speechArmedOnly.Checked;
             Settings.Instance["speech_armed_only"] = CHK_speechArmedOnly.Checked.ToString();
         }
+
+        private void CHK_fetchparams_on_connect_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Params_fetch_on_connect"] = CHK_fetchparams_on_connect.Checked.ToString();
+            if (CHK_fetchparams_on_connect.Checked) {
+                Console.WriteLine("-------------- DOING NORMAL PARAM FETCH !----------------");
+            } else
+            {
+                Console.WriteLine("--------------SKIPPING PARAM FETCH !----------------");
+            }
+        }
+
     }
 }
