@@ -106,6 +106,7 @@
     <Compile Remove="ExtLibs\Xamarin\**" />
     <Compile Remove="ExtLibs\ZedGraph\**" />
     <Compile Remove="ExtLibs\Zeroconf\**" />
+    <Compile Remove="MissionPlannerTests\**" />
     <Compile Remove="Msi\**" />
     <Compile Remove="Plugins\**" />
     <Compile Remove="plugins\Dowding\**" />
@@ -201,6 +202,7 @@
     <EmbeddedResource Remove="ExtLibs\Xamarin\**" />
     <EmbeddedResource Remove="ExtLibs\ZedGraph\**" />
     <EmbeddedResource Remove="ExtLibs\Zeroconf\**" />
+    <EmbeddedResource Remove="MissionPlannerTests\**" />
     <EmbeddedResource Remove="Msi\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <EmbeddedResource Remove="plugins\Dowding\**" />
@@ -295,6 +297,7 @@
     <None Remove="ExtLibs\Xamarin\**" />
     <None Remove="ExtLibs\ZedGraph\**" />
     <None Remove="ExtLibs\Zeroconf\**" />
+    <None Remove="MissionPlannerTests\**" />
     <None Remove="Msi\**" />
     <None Remove="Plugins\**" />
     <None Remove="plugins\Dowding\**" />
