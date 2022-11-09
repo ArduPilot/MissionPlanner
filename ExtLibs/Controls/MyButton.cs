@@ -18,6 +18,8 @@ namespace MissionPlanner.Controls
 
         internal Color _BGGradTop;
         internal Color _BGGradBot;
+        internal Color _BGGradDanger;
+        internal Color _BGGradWarning;
         internal Color _TextColor;
         internal Color _Outline;
         internal Color _ColorNotEnabled;
@@ -29,6 +31,9 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
         public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
+        public Color BGGradWarning { get { return _BGGradWarning; } set { _BGGradWarning = value; this.Invalidate(); } }
+        public Color BGGradDanger { get { return _BGGradDanger; } set { _BGGradDanger = value; this.Invalidate(); } }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
         public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
@@ -61,6 +66,9 @@ namespace MissionPlanner.Controls
             _ColorNotEnabled = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
             _ColorMouseOver = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
             _ColorMouseDown = Color.FromArgb(150, 0x2b, 0x3a, 0x03);
+
+            SetStyle(ControlStyles.StandardClick | ControlStyles.StandardDoubleClick, true);// allow buttons to also be double-clicked, if needed.https://www.youtube.com/watch?v=yNXJ63D7ZDc&ab_channel=DiscoTech
+
         }
 
         protected override void OnPaint(PaintEventArgs pevent)
@@ -82,7 +90,23 @@ namespace MissionPlanner.Controls
 
                 Rectangle outside = new Rectangle(0, 0, this.Width, this.Height);
 
-                LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
+                LinearGradientBrush linear;
+                if ((BGGradWarning.R != 0) || (BGGradWarning.G != 0) || (BGGradWarning.B != 0))
+                {
+
+                    linear = new LinearGradientBrush(outside, BGGradWarning, BGGradWarning, LinearGradientMode.Vertical);
+
+                }
+                else if ((BGGradDanger.R != 0) || (BGGradDanger.G != 0) || (BGGradDanger.B != 0))
+                {
+                    linear = new LinearGradientBrush(outside, BGGradDanger, BGGradDanger, LinearGradientMode.Vertical);
+
+                }
+                else
+                {
+                    linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
+                }
+
 
                 Pen mypen = new Pen(Outline, 1);
 

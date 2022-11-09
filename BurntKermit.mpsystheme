@@ -36,6 +36,26 @@
       <clrColor Web="#CDE296" />
       <strVariableName>ButBGBot</strVariableName>
     </ThemeColor>
+	     <ThemeColor>
+      <strColorItemName>Button Background top</strColorItemName>
+      <clrColor Web="#94C11F" />
+      <strVariableName>ButBG</strVariableName>
+    </ThemeColor>
+    <ThemeColor>
+      <strColorItemName>Button Background bottom</strColorItemName>
+      <clrColor Web="#CDE296" />
+      <strVariableName>ButBGBot</strVariableName>
+    </ThemeColor>
+	  <ThemeColor>
+		  <strColorItemName>Button Background Danger</strColorItemName>
+		  <clrColor Web="#ff0000" />
+		  <strVariableName>ButBGDanger</strVariableName>
+	  </ThemeColor>
+	  <ThemeColor>
+		  <strColorItemName>Button Background Warning</strColorItemName>
+		  <clrColor Web="#ffff00" />
+		  <strVariableName>ButBGWarning</strVariableName>
+	  </ThemeColor>
     <ThemeColor>
       <strColorItemName>ProgressBar Top</strColorItemName>
       <clrColor Web="#668B1A" />
