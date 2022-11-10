@@ -6194,7 +6194,11 @@ namespace MissionPlanner.GCSViews
         {
             for (int i = 0; i < 20; i++)
             {
-                MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAV_CMD.DO_SET_MODE, 1, 19, 0, 0, 0, 0, 0, false, null).AwaitSync();//buzz
+                // copter only:
+                //MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAV_CMD.DO_SET_MODE, 1, 19, 0, 0, 0, 0, 0, false, null).AwaitSync();//buzz
+                // should work with either:
+                MainV2.comPort.setMode(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "Avoid_ADSB");
+
                 log.Info("TERMINATE " + i);
                 //this.TermButton.Text = "TERMINATE " + i;//dont update UI from a Task, it kills simple tasks wihtout sync primitives.
                 Thread.Sleep(500);//ms
