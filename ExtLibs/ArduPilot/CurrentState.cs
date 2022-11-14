@@ -204,6 +204,9 @@ namespace MissionPlanner
 
             var t = Type.GetType("Mono.Runtime");
             MONO = t != null;
+
+            // Initialize firmware type from settings file
+            Enum.TryParse(Settings.Instance.APMFirmware, out firmware);
         }
 
         // propery name, Name   Name starts with MAV_ will link to named_value_float messages
