@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
@@ -21,6 +21,13 @@ namespace MissionPlanner.GCSViews
             {
                 log.InfoFormat("TotalReceived {0} TotalReported {1}", MainV2.comPort.MAV.param.TotalReceived,
                     MainV2.comPort.MAV.param.TotalReported);
+
+                // dont get params if user asked not to.
+                if (Settings.Instance.GetBoolean("Params_fetch_on_connect") == false)
+                {
+                    return true;
+                }
+                // otherwise assume success once recieved=reported
                 if (MainV2.comPort.MAV.param.TotalReceived < MainV2.comPort.MAV.param.TotalReported)
                 {
                     return false;

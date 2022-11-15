@@ -72,6 +72,8 @@ namespace MissionPlanner.Utilities
             colors.Add("Button Text", Color.FromArgb(64, 87, 4), "ButtonTextColor");				// This changes the colour of button text
             colors.Add("Button Background top", Color.FromArgb(148, 193, 31), "ButBG");								// This changes the colour of button backgrounds (Top)
             colors.Add("Button Background bottom", Color.FromArgb(205, 226, 150), "ButBGBot");						// This changes the colour of button backgrounds (Bot)
+            colors.Add("Button Danger", Color.FromArgb(255, 0, 0), "ButBGDanger");						// This changes the colour of dangerous button backgrounds 
+            colors.Add("Button Warning", Color.FromArgb(255, 255, 0), "ButBGWarning");						// This changes the colour of warning button backgrounds 
             colors.Add("ProgressBar Top", Color.FromArgb(102, 139, 26), "ProgressBarColorTop");	// These three variables change the colours of progress bars
             colors.Add("ProgressBar Bottom", Color.FromArgb(124, 164, 40), "ProgressBarColorBot");
             colors.Add("ProgressBar Outline", Color.FromArgb(150, 174, 112), "ProgressBarOutlineColor");
@@ -168,6 +170,10 @@ namespace MissionPlanner.Utilities
         public static Color BGColorTextBox;
         public static Color ButBG;
         public static Color ButBGBot;
+
+        public static Color ButBGDanger;
+        public static Color ButBGWarning;
+
         public static Color ButBorder;
         public static Color ProgressBarColorTop;
         public static Color ProgressBarColorBot;

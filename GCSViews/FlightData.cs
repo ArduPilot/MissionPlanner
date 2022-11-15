@@ -32,6 +32,7 @@ using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
 using UnauthorizedAccessException = System.UnauthorizedAccessException;
+using static MAVLink;
 
 // written by michael oborne
 
@@ -150,6 +151,8 @@ namespace MissionPlanner.GCSViews
 
         //whether or not a script is running
         bool scriptrunning;
+
+        Task tsk;// for occassional small tasks, mostly unused
 
         //the thread the script is running on
         Thread scriptthread;
@@ -6158,5 +6161,54 @@ namespace MissionPlanner.GCSViews
             tabControlactions.Multiline = !tabControlactions.Multiline;
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
+
+        private void TermButton_Click(object sender, EventArgs e)
+        {
+            //Thread.Sleep(10);
+        }
+        public async Task<bool> RepeatSender()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                // copter only:
+                //MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAV_CMD.DO_SET_MODE, 1, 19, 0, 0, 0, 0, 0, false, null).AwaitSync();//buzz
+                // should work with either:
+                MainV2.comPort.setMode(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "Avoid_ADSB");
+
+                log.Info("TERMINATE " + i);
+                //this.TermButton.Text = "TERMINATE " + i;//dont update UI from a Task, it kills simple tasks wihtout sync primitives.
+                Thread.Sleep(500);//ms
+            }
+            return true;
+        }
+
+        private void TermButton_DoubleClick(object sender, EventArgs e)
+        {
+
+            if ( (this.TermButton.BGGradDanger.R != 255) && (this.TermButton.BGGradDanger.G != 1) && (this.TermButton.BGGradDanger.B != 1) )
+            {
+                // really trigger the thing here.
+
+                // make button red
+                this.TermButton.BGGradWarning = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0))))); // not warning
+                this.TermButton.BGGradDanger = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(1)))), ((int)(((byte)(1))))); // danger
+                log.Info("start-terminate");
+                this.tsk = Task.Run(() => RepeatSender());//pushes it into a thread and doesn't wait for it.
+                return;
+            }
+            if ((this.TermButton.BGGradDanger.R == 255) && (this.TermButton.BGGradDanger.G == 1) && (this.TermButton.BGGradDanger.B == 1))
+            {
+                // return it to its normal non-red "green"  state and do nothing else
+                this.TermButton.BGGradWarning = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0))))); // not warning
+                this.TermButton.BGGradDanger = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));// not danger
+               // this.TermButton.Text = "TERMINATE";
+                // not done - cancelling the 20-second task, which might be running.
+                log.Info("end-terminate");
+                return;
+            }
+
+        }
+
+
     }
 }

@@ -50,13 +50,10 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_SendMSG = new MissionPlanner.Controls.MyButton();
             this.BUT_abortland = new MissionPlanner.Controls.MyButton();
-            this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.BUT_clear_track = new MissionPlanner.Controls.MyButton();
             this.CMB_action = new System.Windows.Forms.ComboBox();
             this.BUTactiondo = new MissionPlanner.Controls.MyButton();
             this.BUT_resumemis = new MissionPlanner.Controls.MyButton();
-            this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
-            this.modifyandSetSpeed = new MissionPlanner.Controls.ModifyandSet();
             this.CMB_setwp = new System.Windows.Forms.ComboBox();
             this.BUT_ARM = new MissionPlanner.Controls.MyButton();
             this.BUT_mountmode = new MissionPlanner.Controls.MyButton();
@@ -78,7 +75,6 @@ namespace MissionPlanner.GCSViews
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.tabPagePreFlight = new System.Windows.Forms.TabPage();
-            this.checkListControl1 = new MissionPlanner.Controls.PreFlight.CheckListControl();
             this.tabGauges = new System.Windows.Forms.TabPage();
             this.Gvspeed = new AGaugeApp.AGauge();
             this.bindingSourceGaugesTab = new System.Windows.Forms.BindingSource(this.components);
@@ -104,33 +100,8 @@ namespace MissionPlanner.GCSViews
             this.tabStatus = new System.Windows.Forms.TabPage();
             this.tabServo = new System.Windows.Forms.TabPage();
             this.flowLayoutPanelServos = new System.Windows.Forms.FlowLayoutPanel();
-            this.servoOptions1 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions2 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions3 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions4 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions5 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions6 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions7 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions8 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions9 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions10 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions11 = new MissionPlanner.Controls.ServoOptions();
-            this.servoOptions12 = new MissionPlanner.Controls.ServoOptions();
-            this.relayOptions1 = new MissionPlanner.Controls.RelayOptions();
-            this.relayOptions2 = new MissionPlanner.Controls.RelayOptions();
-            this.relayOptions3 = new MissionPlanner.Controls.RelayOptions();
-            this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
-            this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
-            this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
             this.tabAuxFunction = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.auxOptions1 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions2 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions3 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions4 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions5 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions6 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions7 = new MissionPlanner.Controls.AuxOptions();
             this.tabScripts = new System.Windows.Forms.TabPage();
             this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
             this.BUT_edit_selected = new MissionPlanner.Controls.MyButton();
@@ -202,7 +173,6 @@ namespace MissionPlanner.GCSViews
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
-            this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.windDir1 = new MissionPlanner.Controls.WindDir();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.label6 = new System.Windows.Forms.Label();
@@ -214,6 +184,8 @@ namespace MissionPlanner.GCSViews
             this.gMapControl1 = new MissionPlanner.Controls.myGMAP();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.TermButton = new MissionPlanner.Controls.MyButton();
+            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
             this.coords1 = new MissionPlanner.Controls.Coords();
             this.Zoomlevel = new System.Windows.Forms.NumericUpDown();
             this.label1 = new MissionPlanner.Controls.MyLabel();
@@ -225,6 +197,36 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
+            this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
+            this.modifyandSetSpeed = new MissionPlanner.Controls.ModifyandSet();
+            this.checkListControl1 = new MissionPlanner.Controls.PreFlight.CheckListControl();
+            this.servoOptions1 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions2 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions3 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions4 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions5 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions6 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions7 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions8 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions9 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions10 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions11 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions12 = new MissionPlanner.Controls.ServoOptions();
+            this.relayOptions1 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions2 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions3 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
+            this.auxOptions1 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions2 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions3 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions4 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions5 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions6 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions7 = new MissionPlanner.Controls.AuxOptions();
+            this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -746,6 +748,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_SendMSG
             // 
+            this.BUT_SendMSG.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_SendMSG.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_SendMSG.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_SendMSG.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_SendMSG.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -757,6 +761,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_abortland
             // 
+            this.BUT_abortland.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_abortland.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_abortland.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_abortland.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_abortland.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -766,36 +772,10 @@ namespace MissionPlanner.GCSViews
             this.BUT_abortland.UseVisualStyleBackColor = true;
             this.BUT_abortland.Click += new System.EventHandler(this.BUT_abortland_Click);
             // 
-            // modifyandSetLoiterRad
-            // 
-            resources.ApplyResources(this.modifyandSetLoiterRad, "modifyandSetLoiterRad");
-            this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
-            this.modifyandSetLoiterRad.DecimalPlaces = 0;
-            this.modifyandSetLoiterRad.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.modifyandSetLoiterRad.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.modifyandSetLoiterRad.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
-            this.modifyandSetLoiterRad.Name = "modifyandSetLoiterRad";
-            this.modifyandSetLoiterRad.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.modifyandSetLoiterRad.Click += new System.EventHandler(this.modifyandSetLoiterRad_Click);
-            // 
             // BUT_clear_track
             // 
+            this.BUT_clear_track.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_clear_track.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_clear_track.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_clear_track.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_clear_track.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -815,6 +795,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUTactiondo
             // 
+            this.BUTactiondo.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUTactiondo.BGGradWarning = System.Drawing.Color.Empty;
             this.BUTactiondo.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUTactiondo.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUTactiondo.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -826,6 +808,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_resumemis
             // 
+            this.BUT_resumemis.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_resumemis.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_resumemis.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_resumemis.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_resumemis.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -833,63 +817,6 @@ namespace MissionPlanner.GCSViews
             this.BUT_resumemis.Name = "BUT_resumemis";
             this.BUT_resumemis.UseVisualStyleBackColor = true;
             this.BUT_resumemis.Click += new System.EventHandler(this.BUT_resumemis_Click);
-            // 
-            // modifyandSetAlt
-            // 
-            resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
-            this.modifyandSetAlt.ButtonText = "Change Alt";
-            this.modifyandSetAlt.DecimalPlaces = 1;
-            this.modifyandSetAlt.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.modifyandSetAlt.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.modifyandSetAlt.Minimum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.modifyandSetAlt.Name = "modifyandSetAlt";
-            this.modifyandSetAlt.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.modifyandSetAlt.Click += new System.EventHandler(this.modifyandSetAlt_Click);
-            // 
-            // modifyandSetSpeed
-            // 
-            resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
-            this.modifyandSetSpeed.ButtonText = "Change Speed";
-            this.modifyandSetSpeed.DecimalPlaces = 1;
-            this.modifyandSetSpeed.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.modifyandSetSpeed.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.modifyandSetSpeed.Minimum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.modifyandSetSpeed.Name = "modifyandSetSpeed";
-            this.modifyandSetSpeed.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.modifyandSetSpeed.Click += new System.EventHandler(this.modifyandSetSpeed_Click);
-            this.modifyandSetSpeed.ParentChanged += new System.EventHandler(this.modifyandSetSpeed_ParentChanged);
             // 
             // CMB_setwp
             // 
@@ -904,6 +831,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_ARM
             // 
+            this.BUT_ARM.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_ARM.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_ARM.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_ARM.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_ARM.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -915,6 +844,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_mountmode
             // 
+            this.BUT_mountmode.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_mountmode.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_mountmode.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_mountmode.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_mountmode.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -926,6 +857,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_joystick
             // 
+            this.BUT_joystick.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_joystick.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_joystick.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_joystick.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_joystick.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -937,6 +870,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_RAWSensor
             // 
+            this.BUT_RAWSensor.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_RAWSensor.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_RAWSensor.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_RAWSensor.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_RAWSensor.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -948,6 +883,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_Homealt
             // 
+            this.BUT_Homealt.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_Homealt.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_Homealt.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_Homealt.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_Homealt.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -959,6 +896,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUTrestartmission
             // 
+            this.BUTrestartmission.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUTrestartmission.BGGradWarning = System.Drawing.Color.Empty;
             this.BUTrestartmission.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUTrestartmission.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUTrestartmission.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -978,6 +917,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_quickrtl
             // 
+            this.BUT_quickrtl.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_quickrtl.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_quickrtl.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_quickrtl.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_quickrtl.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -989,6 +930,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_quickmanual
             // 
+            this.BUT_quickmanual.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_quickmanual.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_quickmanual.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_quickmanual.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_quickmanual.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1000,6 +943,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_setwp
             // 
+            this.BUT_setwp.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_setwp.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_setwp.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_setwp.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_setwp.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1020,6 +965,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_quickauto
             // 
+            this.BUT_quickauto.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_quickauto.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_quickauto.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_quickauto.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_quickauto.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1031,6 +978,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_setmode
             // 
+            this.BUT_setmode.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_setmode.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_setmode.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_setmode.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_setmode.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1063,6 +1012,8 @@ namespace MissionPlanner.GCSViews
             // 
             // myButton1
             // 
+            this.myButton1.BGGradDanger = System.Drawing.Color.Empty;
+            this.myButton1.BGGradWarning = System.Drawing.Color.Empty;
             this.myButton1.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton1.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton1.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1074,6 +1025,8 @@ namespace MissionPlanner.GCSViews
             // 
             // myButton2
             // 
+            this.myButton2.BGGradDanger = System.Drawing.Color.Empty;
+            this.myButton2.BGGradWarning = System.Drawing.Color.Empty;
             this.myButton2.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton2.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton2.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1085,6 +1038,8 @@ namespace MissionPlanner.GCSViews
             // 
             // myButton3
             // 
+            this.myButton3.BGGradDanger = System.Drawing.Color.Empty;
+            this.myButton3.BGGradWarning = System.Drawing.Color.Empty;
             this.myButton3.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton3.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton3.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1100,11 +1055,6 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.tabPagePreFlight, "tabPagePreFlight");
             this.tabPagePreFlight.Name = "tabPagePreFlight";
             this.tabPagePreFlight.UseVisualStyleBackColor = true;
-            // 
-            // checkListControl1
-            // 
-            resources.ApplyResources(this.checkListControl1, "checkListControl1");
-            this.checkListControl1.Name = "checkListControl1";
             // 
             // tabGauges
             // 
@@ -1735,114 +1685,6 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions6);
             this.flowLayoutPanelServos.Name = "flowLayoutPanelServos";
             // 
-            // servoOptions1
-            // 
-            resources.ApplyResources(this.servoOptions1, "servoOptions1");
-            this.servoOptions1.Name = "servoOptions1";
-            this.servoOptions1.thisservo = 5;
-            // 
-            // servoOptions2
-            // 
-            resources.ApplyResources(this.servoOptions2, "servoOptions2");
-            this.servoOptions2.Name = "servoOptions2";
-            this.servoOptions2.thisservo = 6;
-            // 
-            // servoOptions3
-            // 
-            resources.ApplyResources(this.servoOptions3, "servoOptions3");
-            this.servoOptions3.Name = "servoOptions3";
-            this.servoOptions3.thisservo = 7;
-            // 
-            // servoOptions4
-            // 
-            resources.ApplyResources(this.servoOptions4, "servoOptions4");
-            this.servoOptions4.Name = "servoOptions4";
-            this.servoOptions4.thisservo = 8;
-            // 
-            // servoOptions5
-            // 
-            resources.ApplyResources(this.servoOptions5, "servoOptions5");
-            this.servoOptions5.Name = "servoOptions5";
-            this.servoOptions5.thisservo = 9;
-            // 
-            // servoOptions6
-            // 
-            resources.ApplyResources(this.servoOptions6, "servoOptions6");
-            this.servoOptions6.Name = "servoOptions6";
-            this.servoOptions6.thisservo = 10;
-            // 
-            // servoOptions7
-            // 
-            resources.ApplyResources(this.servoOptions7, "servoOptions7");
-            this.servoOptions7.Name = "servoOptions7";
-            this.servoOptions7.thisservo = 11;
-            // 
-            // servoOptions8
-            // 
-            resources.ApplyResources(this.servoOptions8, "servoOptions8");
-            this.servoOptions8.Name = "servoOptions8";
-            this.servoOptions8.thisservo = 12;
-            // 
-            // servoOptions9
-            // 
-            resources.ApplyResources(this.servoOptions9, "servoOptions9");
-            this.servoOptions9.Name = "servoOptions9";
-            this.servoOptions9.thisservo = 13;
-            // 
-            // servoOptions10
-            // 
-            resources.ApplyResources(this.servoOptions10, "servoOptions10");
-            this.servoOptions10.Name = "servoOptions10";
-            this.servoOptions10.thisservo = 14;
-            // 
-            // servoOptions11
-            // 
-            resources.ApplyResources(this.servoOptions11, "servoOptions11");
-            this.servoOptions11.Name = "servoOptions11";
-            this.servoOptions11.thisservo = 15;
-            // 
-            // servoOptions12
-            // 
-            resources.ApplyResources(this.servoOptions12, "servoOptions12");
-            this.servoOptions12.Name = "servoOptions12";
-            this.servoOptions12.thisservo = 16;
-            // 
-            // relayOptions1
-            // 
-            resources.ApplyResources(this.relayOptions1, "relayOptions1");
-            this.relayOptions1.Name = "relayOptions1";
-            this.relayOptions1.thisrelay = 0;
-            // 
-            // relayOptions2
-            // 
-            resources.ApplyResources(this.relayOptions2, "relayOptions2");
-            this.relayOptions2.Name = "relayOptions2";
-            this.relayOptions2.thisrelay = 1;
-            // 
-            // relayOptions3
-            // 
-            resources.ApplyResources(this.relayOptions3, "relayOptions3");
-            this.relayOptions3.Name = "relayOptions3";
-            this.relayOptions3.thisrelay = 2;
-            // 
-            // relayOptions4
-            // 
-            resources.ApplyResources(this.relayOptions4, "relayOptions4");
-            this.relayOptions4.Name = "relayOptions4";
-            this.relayOptions4.thisrelay = 3;
-            // 
-            // relayOptions5
-            // 
-            resources.ApplyResources(this.relayOptions5, "relayOptions5");
-            this.relayOptions5.Name = "relayOptions5";
-            this.relayOptions5.thisrelay = 4;
-            // 
-            // relayOptions6
-            // 
-            resources.ApplyResources(this.relayOptions6, "relayOptions6");
-            this.relayOptions6.Name = "relayOptions6";
-            this.relayOptions6.thisrelay = 5;
-            // 
             // tabAuxFunction
             // 
             this.tabAuxFunction.Controls.Add(this.flowLayoutPanel1);
@@ -1861,41 +1703,6 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanel1.Controls.Add(this.auxOptions7);
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            // 
-            // auxOptions1
-            // 
-            resources.ApplyResources(this.auxOptions1, "auxOptions1");
-            this.auxOptions1.Name = "auxOptions1";
-            // 
-            // auxOptions2
-            // 
-            resources.ApplyResources(this.auxOptions2, "auxOptions2");
-            this.auxOptions2.Name = "auxOptions2";
-            // 
-            // auxOptions3
-            // 
-            resources.ApplyResources(this.auxOptions3, "auxOptions3");
-            this.auxOptions3.Name = "auxOptions3";
-            // 
-            // auxOptions4
-            // 
-            resources.ApplyResources(this.auxOptions4, "auxOptions4");
-            this.auxOptions4.Name = "auxOptions4";
-            // 
-            // auxOptions5
-            // 
-            resources.ApplyResources(this.auxOptions5, "auxOptions5");
-            this.auxOptions5.Name = "auxOptions5";
-            // 
-            // auxOptions6
-            // 
-            resources.ApplyResources(this.auxOptions6, "auxOptions6");
-            this.auxOptions6.Name = "auxOptions6";
-            // 
-            // auxOptions7
-            // 
-            resources.ApplyResources(this.auxOptions7, "auxOptions7");
-            this.auxOptions7.Name = "auxOptions7";
             // 
             // tabScripts
             // 
@@ -1920,6 +1727,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_edit_selected
             // 
+            this.BUT_edit_selected.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_edit_selected.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_edit_selected.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_edit_selected.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_edit_selected.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1935,6 +1744,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_run_script
             // 
+            this.BUT_run_script.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_run_script.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_run_script.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_run_script.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_run_script.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1945,6 +1756,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_abort_script
             // 
+            this.BUT_abort_script.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_abort_script.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_abort_script.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_abort_script.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_abort_script.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1960,6 +1773,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_select_script
             // 
+            this.BUT_select_script.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_select_script.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_select_script.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_select_script.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_select_script.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -1981,6 +1796,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_PayloadFolder
             // 
+            this.BUT_PayloadFolder.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_PayloadFolder.BGGradWarning = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_PayloadFolder, "BUT_PayloadFolder");
             this.BUT_PayloadFolder.Name = "BUT_PayloadFolder";
             this.BUT_PayloadFolder.UseVisualStyleBackColor = true;
@@ -2039,6 +1856,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_resetGimbalPos
             // 
+            this.BUT_resetGimbalPos.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_resetGimbalPos.BGGradWarning = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_resetGimbalPos, "BUT_resetGimbalPos");
             this.BUT_resetGimbalPos.Name = "BUT_resetGimbalPos";
             this.BUT_resetGimbalPos.UseVisualStyleBackColor = true;
@@ -2109,6 +1928,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed10
             // 
+            this.BUT_speed10.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed10.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed10.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed10.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed10.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2120,6 +1941,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed5
             // 
+            this.BUT_speed5.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed5.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed5.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed5.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed5.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2131,6 +1954,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed2
             // 
+            this.BUT_speed2.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed2.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed2.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed2.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed2.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2142,6 +1967,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed1
             // 
+            this.BUT_speed1.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed1.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed1.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed1.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed1.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2153,6 +1980,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed1_2
             // 
+            this.BUT_speed1_2.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed1_2.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed1_2.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed1_2.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed1_2.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2164,6 +1993,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed1_4
             // 
+            this.BUT_speed1_4.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed1_4.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed1_4.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed1_4.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed1_4.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2175,6 +2006,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_speed1_10
             // 
+            this.BUT_speed1_10.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_speed1_10.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_speed1_10.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_speed1_10.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_speed1_10.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2186,6 +2019,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_loadtelem
             // 
+            this.BUT_loadtelem.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_loadtelem.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_loadtelem.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_loadtelem.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_loadtelem.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2212,6 +2047,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_log2kml
             // 
+            this.BUT_log2kml.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_log2kml.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_log2kml.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_log2kml.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_log2kml.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2222,6 +2059,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_playlog
             // 
+            this.BUT_playlog.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_playlog.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_playlog.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_playlog.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_playlog.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2259,6 +2098,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_DFMavlink
             // 
+            this.BUT_DFMavlink.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_DFMavlink.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_DFMavlink.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_DFMavlink.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_DFMavlink.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2269,12 +2110,16 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_georefimage
             // 
+            this.BUT_georefimage.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_georefimage.BGGradWarning = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
             this.BUT_georefimage.Name = "BUT_georefimage";
             this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
             // 
             // BUT_logbrowse
             // 
+            this.BUT_logbrowse.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_logbrowse.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_logbrowse.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_logbrowse.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_logbrowse.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2285,6 +2130,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_matlab
             // 
+            this.BUT_matlab.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_matlab.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_matlab.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_matlab.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_matlab.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2295,6 +2142,8 @@ namespace MissionPlanner.GCSViews
             // 
             // but_bintolog
             // 
+            this.but_bintolog.BGGradDanger = System.Drawing.Color.Empty;
+            this.but_bintolog.BGGradWarning = System.Drawing.Color.Empty;
             this.but_bintolog.ColorMouseDown = System.Drawing.Color.Empty;
             this.but_bintolog.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_bintolog.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2305,6 +2154,8 @@ namespace MissionPlanner.GCSViews
             // 
             // but_dflogtokml
             // 
+            this.but_dflogtokml.BGGradDanger = System.Drawing.Color.Empty;
+            this.but_dflogtokml.BGGradWarning = System.Drawing.Color.Empty;
             this.but_dflogtokml.ColorMouseDown = System.Drawing.Color.Empty;
             this.but_dflogtokml.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_dflogtokml.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2315,6 +2166,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_loganalysis
             // 
+            this.BUT_loganalysis.BGGradDanger = System.Drawing.Color.Empty;
+            this.BUT_loganalysis.BGGradWarning = System.Drawing.Color.Empty;
             this.BUT_loganalysis.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_loganalysis.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_loganalysis.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2501,6 +2354,8 @@ namespace MissionPlanner.GCSViews
             // 
             // but_disablejoystick
             // 
+            this.but_disablejoystick.BGGradDanger = System.Drawing.Color.Empty;
+            this.but_disablejoystick.BGGradWarning = System.Drawing.Color.Empty;
             this.but_disablejoystick.ColorMouseDown = System.Drawing.Color.Empty;
             this.but_disablejoystick.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_disablejoystick.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2509,20 +2364,12 @@ namespace MissionPlanner.GCSViews
             this.but_disablejoystick.UseVisualStyleBackColor = true;
             this.but_disablejoystick.Click += new System.EventHandler(this.but_disablejoystick_Click);
             // 
-            // distanceBar1
-            // 
-            resources.ApplyResources(this.distanceBar1, "distanceBar1");
-            this.distanceBar1.BackColor = System.Drawing.Color.Transparent;
-            this.distanceBar1.Name = "distanceBar1";
-            this.distanceBar1.totaldist = 100F;
-            this.distanceBar1.traveleddist = 0F;
-            // 
             // windDir1
             // 
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 0D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2624,12 +2471,34 @@ namespace MissionPlanner.GCSViews
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.TermButton);
+            this.panel1.Controls.Add(this.myLabel1);
             this.panel1.Controls.Add(this.coords1);
             this.panel1.Controls.Add(this.Zoomlevel);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
             this.panel1.Name = "panel1";
+            // 
+            // TermButton
+            // 
+            resources.ApplyResources(this.TermButton, "TermButton");
+            this.TermButton.BGGradDanger = System.Drawing.Color.DarkSeaGreen;
+            this.TermButton.BGGradWarning = System.Drawing.Color.ForestGreen;
+            this.TermButton.ColorMouseDown = System.Drawing.Color.Empty;
+            this.TermButton.ColorMouseOver = System.Drawing.Color.Empty;
+            this.TermButton.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.TermButton.Name = "TermButton";
+            this.toolTip1.SetToolTip(this.TermButton, resources.GetString("TermButton.ToolTip"));
+            this.TermButton.UseVisualStyleBackColor = false;
+            this.TermButton.DoubleClick += new System.EventHandler(this.TermButton_DoubleClick);
+            this.TermButton.Click += new System.EventHandler(this.TermButton_Click);
+            // 
+            // myLabel1
+            // 
+            resources.ApplyResources(this.myLabel1, "myLabel1");
+            this.myLabel1.Name = "myLabel1";
+            this.myLabel1.resize = false;
             // 
             // coords1
             // 
@@ -2722,6 +2591,247 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // modifyandSetLoiterRad
+            // 
+            resources.ApplyResources(this.modifyandSetLoiterRad, "modifyandSetLoiterRad");
+            this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
+            this.modifyandSetLoiterRad.DecimalPlaces = 0;
+            this.modifyandSetLoiterRad.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.modifyandSetLoiterRad.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.modifyandSetLoiterRad.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.modifyandSetLoiterRad.Name = "modifyandSetLoiterRad";
+            this.modifyandSetLoiterRad.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.modifyandSetLoiterRad.Click += new System.EventHandler(this.modifyandSetLoiterRad_Click);
+            // 
+            // modifyandSetAlt
+            // 
+            resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
+            this.modifyandSetAlt.ButtonText = "Change Alt";
+            this.modifyandSetAlt.DecimalPlaces = 1;
+            this.modifyandSetAlt.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.modifyandSetAlt.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.modifyandSetAlt.Minimum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.modifyandSetAlt.Name = "modifyandSetAlt";
+            this.modifyandSetAlt.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.modifyandSetAlt.Click += new System.EventHandler(this.modifyandSetAlt_Click);
+            // 
+            // modifyandSetSpeed
+            // 
+            resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
+            this.modifyandSetSpeed.ButtonText = "Change Speed";
+            this.modifyandSetSpeed.DecimalPlaces = 1;
+            this.modifyandSetSpeed.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.modifyandSetSpeed.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.modifyandSetSpeed.Minimum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.modifyandSetSpeed.Name = "modifyandSetSpeed";
+            this.modifyandSetSpeed.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.modifyandSetSpeed.Click += new System.EventHandler(this.modifyandSetSpeed_Click);
+            this.modifyandSetSpeed.ParentChanged += new System.EventHandler(this.modifyandSetSpeed_ParentChanged);
+            // 
+            // checkListControl1
+            // 
+            resources.ApplyResources(this.checkListControl1, "checkListControl1");
+            this.checkListControl1.Name = "checkListControl1";
+            // 
+            // servoOptions1
+            // 
+            resources.ApplyResources(this.servoOptions1, "servoOptions1");
+            this.servoOptions1.Name = "servoOptions1";
+            this.servoOptions1.thisservo = 5;
+            // 
+            // servoOptions2
+            // 
+            resources.ApplyResources(this.servoOptions2, "servoOptions2");
+            this.servoOptions2.Name = "servoOptions2";
+            this.servoOptions2.thisservo = 6;
+            // 
+            // servoOptions3
+            // 
+            resources.ApplyResources(this.servoOptions3, "servoOptions3");
+            this.servoOptions3.Name = "servoOptions3";
+            this.servoOptions3.thisservo = 7;
+            // 
+            // servoOptions4
+            // 
+            resources.ApplyResources(this.servoOptions4, "servoOptions4");
+            this.servoOptions4.Name = "servoOptions4";
+            this.servoOptions4.thisservo = 8;
+            // 
+            // servoOptions5
+            // 
+            resources.ApplyResources(this.servoOptions5, "servoOptions5");
+            this.servoOptions5.Name = "servoOptions5";
+            this.servoOptions5.thisservo = 9;
+            // 
+            // servoOptions6
+            // 
+            resources.ApplyResources(this.servoOptions6, "servoOptions6");
+            this.servoOptions6.Name = "servoOptions6";
+            this.servoOptions6.thisservo = 10;
+            // 
+            // servoOptions7
+            // 
+            resources.ApplyResources(this.servoOptions7, "servoOptions7");
+            this.servoOptions7.Name = "servoOptions7";
+            this.servoOptions7.thisservo = 11;
+            // 
+            // servoOptions8
+            // 
+            resources.ApplyResources(this.servoOptions8, "servoOptions8");
+            this.servoOptions8.Name = "servoOptions8";
+            this.servoOptions8.thisservo = 12;
+            // 
+            // servoOptions9
+            // 
+            resources.ApplyResources(this.servoOptions9, "servoOptions9");
+            this.servoOptions9.Name = "servoOptions9";
+            this.servoOptions9.thisservo = 13;
+            // 
+            // servoOptions10
+            // 
+            resources.ApplyResources(this.servoOptions10, "servoOptions10");
+            this.servoOptions10.Name = "servoOptions10";
+            this.servoOptions10.thisservo = 14;
+            // 
+            // servoOptions11
+            // 
+            resources.ApplyResources(this.servoOptions11, "servoOptions11");
+            this.servoOptions11.Name = "servoOptions11";
+            this.servoOptions11.thisservo = 15;
+            // 
+            // servoOptions12
+            // 
+            resources.ApplyResources(this.servoOptions12, "servoOptions12");
+            this.servoOptions12.Name = "servoOptions12";
+            this.servoOptions12.thisservo = 16;
+            // 
+            // relayOptions1
+            // 
+            resources.ApplyResources(this.relayOptions1, "relayOptions1");
+            this.relayOptions1.Name = "relayOptions1";
+            this.relayOptions1.thisrelay = 0;
+            // 
+            // relayOptions2
+            // 
+            resources.ApplyResources(this.relayOptions2, "relayOptions2");
+            this.relayOptions2.Name = "relayOptions2";
+            this.relayOptions2.thisrelay = 1;
+            // 
+            // relayOptions3
+            // 
+            resources.ApplyResources(this.relayOptions3, "relayOptions3");
+            this.relayOptions3.Name = "relayOptions3";
+            this.relayOptions3.thisrelay = 2;
+            // 
+            // relayOptions4
+            // 
+            resources.ApplyResources(this.relayOptions4, "relayOptions4");
+            this.relayOptions4.Name = "relayOptions4";
+            this.relayOptions4.thisrelay = 3;
+            // 
+            // relayOptions5
+            // 
+            resources.ApplyResources(this.relayOptions5, "relayOptions5");
+            this.relayOptions5.Name = "relayOptions5";
+            this.relayOptions5.thisrelay = 4;
+            // 
+            // relayOptions6
+            // 
+            resources.ApplyResources(this.relayOptions6, "relayOptions6");
+            this.relayOptions6.Name = "relayOptions6";
+            this.relayOptions6.thisrelay = 5;
+            // 
+            // auxOptions1
+            // 
+            resources.ApplyResources(this.auxOptions1, "auxOptions1");
+            this.auxOptions1.Name = "auxOptions1";
+            // 
+            // auxOptions2
+            // 
+            resources.ApplyResources(this.auxOptions2, "auxOptions2");
+            this.auxOptions2.Name = "auxOptions2";
+            // 
+            // auxOptions3
+            // 
+            resources.ApplyResources(this.auxOptions3, "auxOptions3");
+            this.auxOptions3.Name = "auxOptions3";
+            // 
+            // auxOptions4
+            // 
+            resources.ApplyResources(this.auxOptions4, "auxOptions4");
+            this.auxOptions4.Name = "auxOptions4";
+            // 
+            // auxOptions5
+            // 
+            resources.ApplyResources(this.auxOptions5, "auxOptions5");
+            this.auxOptions5.Name = "auxOptions5";
+            // 
+            // auxOptions6
+            // 
+            resources.ApplyResources(this.auxOptions6, "auxOptions6");
+            this.auxOptions6.Name = "auxOptions6";
+            // 
+            // auxOptions7
+            // 
+            resources.ApplyResources(this.auxOptions7, "auxOptions7");
+            this.auxOptions7.Name = "auxOptions7";
+            // 
+            // distanceBar1
+            // 
+            resources.ApplyResources(this.distanceBar1, "distanceBar1");
+            this.distanceBar1.BackColor = System.Drawing.Color.Transparent;
+            this.distanceBar1.Name = "distanceBar1";
+            this.distanceBar1.totaldist = 100F;
+            this.distanceBar1.traveleddist = 0F;
             // 
             // FlightData
             // 
@@ -3022,5 +3132,7 @@ namespace MissionPlanner.GCSViews
         private Controls.AuxOptions auxOptions5;
         private Controls.AuxOptions auxOptions6;
         private Controls.AuxOptions auxOptions7;
+        private Controls.MyButton TermButton;
+        private Controls.MyLabel myLabel1;
     }
 }

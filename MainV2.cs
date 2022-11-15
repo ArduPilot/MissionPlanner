@@ -1536,6 +1536,13 @@ namespace MissionPlanner
 
         public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true, bool showui = true)
         {
+            // use global checkbox to prevent param-fetching, ignoring the paed-in 'getparams'
+            if (Settings.Instance.GetBoolean("Params_fetch_on_connect", false))
+            {
+                getparams = false;
+                Console.WriteLine("--------------SKIPPING PARAM FETCH DUE TO PLANNER CONFIGURATION----------------");
+            }
+
             bool skipconnectcheck = false;
             log.Info($"We are connecting to {portname} {baud}");
             switch (portname)
@@ -1733,23 +1740,27 @@ namespace MissionPlanner
                     }
                     else
                     {
-                        if (Settings.Instance.GetBoolean("Params_BG", false))
+                        //Params_fetch_on_connect?
+                        if (Settings.Instance.GetBoolean("Params_fetch_on_connect", true))
                         {
-                            Task.Run(() =>
+                            if (Settings.Instance.GetBoolean("Params_BG", false))
                             {
-                                try
+                                Task.Run(() =>
                                 {
-                                    comPort.getParamListMavftp(comPort.MAV.sysid, comPort.MAV.compid);
-                                }
-                                catch
-                                {
+                                    try
+                                    {
+                                        comPort.getParamListMavftp(comPort.MAV.sysid, comPort.MAV.compid);
+                                    }
+                                    catch
+                                    {
 
-                                }
-                            });
-                        }
-                        else
-                        {
-                            comPort.getParamList();
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                comPort.getParamList();
+                            }
                         }
                     }
                 }
@@ -2950,6 +2961,11 @@ namespace MissionPlanner
                                     log.Error(e);
                                 }
                             });
+                        }
+                        //// we aren't gettting params, don't try to fetch them, assume 100%
+                        if (comPort.BaseStream.IsOpen && (instance.status1.Percent != 100.0) && (Settings.Instance.GetBoolean("Params_fetch_on_connect")  == false ))
+                        {
+                            instance.status1.Percent = 100.0;
                         }
                     }
 

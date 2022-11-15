@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Comms;
@@ -307,7 +307,7 @@ namespace MissionPlanner
             set { MAVlist[sysidcurrent, compidcurrent] = value; }
         }
 
-        public double CONNECT_TIMEOUT_SECONDS = Settings.Instance.GetDouble("CONNECT_TIMEOUT_SECONDS", 30.0);
+        public double CONNECT_TIMEOUT_SECONDS = Settings.Instance.GetDouble("CONNECT_TIMEOUT_SECONDS", 9999.0);
 
         /// <summary>
         /// progress form to handle connect and param requests
@@ -2122,6 +2122,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public void getParamPoll()
         {
+
+            if (Settings.Instance.GetBoolean("Params_fetch_on_connect") == false)
+            {
+                return; // don't get params if user asked not to.
+            }
             // check if we have all
             if (MAV.param.TotalReceived >= MAV.param.TotalReported)
             {
