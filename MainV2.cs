@@ -3939,19 +3939,6 @@ namespace MissionPlanner
             }
         }
 
-        private void BGgetTFR(object state)
-        {
-            try
-            {
-                tfr.tfrcache = Settings.GetUserDataDirectory() + "tfr.xml";
-                tfr.GetTFRs();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-
         private void BGNoFly(object state)
         {
             try

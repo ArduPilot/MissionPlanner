@@ -2574,8 +2574,6 @@ namespace MissionPlanner.GCSViews
         {
             POI.POIModified += POI_POIModified;
 
-            tfr.GotTFRs += tfr_GotTFRs;
-
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
                 NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
@@ -5032,28 +5030,6 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
-        }
-
-        void tfr_GotTFRs(object sender, EventArgs e)
-        {
-            BeginInvoke((Action) delegate
-            {
-                foreach (var item in tfr.tfrs)
-                {
-                    List<List<PointLatLng>> points = item.GetPaths();
-
-                    foreach (var list in points)
-                    {
-                        GMapPolygon poly = new GMapPolygon(list, item.NAME);
-
-                        poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
-
-                        tfrpolygons.Polygons.Add(poly);
-                    }
-                }
-
-                tfrpolygons.IsVisibile = MainV2.ShowTFR;
-            });
         }
 
         private void ZedGraphTimer_Tick(object sender, EventArgs e)

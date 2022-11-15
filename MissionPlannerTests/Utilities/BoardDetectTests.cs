@@ -28,6 +28,79 @@ namespace MissionPlanner.Utilities.Tests
         }
 
         [TestMethod()]
+        public void DetectBoardTestMany()
+        {
+            BoardDetect.boards ans;
+            /*
+            var ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "PX4 BL FMU v1.x", description = "", hardwareid = @"USB\VID_26AC&PID_0010", name = ""
+                    },
+                });
+            if(ans == BoardDetect.boards.none)
+                Assert.Fail();*/
+            ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "PX4 BL FMU v2.x", description = "", hardwareid = @"USB\VID_26AC&PID_0011", name = ""
+                    },
+                }); if (ans == BoardDetect.boards.none)
+                Assert.Fail();
+            ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "PX4 BL FMU v3.x", description = "", hardwareid = @"USB\VID_26AC&PID_0011", name = ""
+                    },
+                }); if (ans == BoardDetect.boards.none)
+                Assert.Fail();
+            ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "PX4 BL FMU v4.x", description = "", hardwareid = @"USB\VID_26AC&PID_0012", name = ""
+                    },
+                }); if (ans == BoardDetect.boards.none)
+                Assert.Fail();
+            ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "PX4 BL FMU v4.x PRO", description = "", hardwareid = @"USB\VID_26AC&PID_0013",
+                        name = ""
+                    },
+                }); if (ans == BoardDetect.boards.none)
+                Assert.Fail();
+            ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "PX4 BL FMU v5.x", description = "", hardwareid = @"USB\VID_26AC&PID_0032", name = ""
+                    },
+                }); if (ans == BoardDetect.boards.none)
+                Assert.Fail();
+            ans = BoardDetect.DetectBoard("com1",
+                new List<DeviceInfo>()
+                {
+                    new DeviceInfo()
+                    {
+                        board = "ProfiCNC CUBE F4 BL", description = "", hardwareid = @"USB\VID_2DAE&PID_0001",
+                        name = ""
+                    },
+                });
+        }
+
+
+        [TestMethod()]
         public void DetectBoardTest1()
         {
             var ans = BoardDetect.DetectBoard("com1",
@@ -66,7 +139,8 @@ namespace MissionPlanner.Utilities.Tests
                 new List<DeviceInfo>()
                 {
 
-                    new DeviceInfo() { board = "", description = "", hardwareid = @"USB\VID_2341&PID_0010", name = "" },
+                    new DeviceInfo() { board = "PX4 BL FMU v2.x", description = "", hardwareid = @"USB\VID_2341&PID_0010", name = "" },
+                    new DeviceInfo() { board = "PX4 FMU v2.x", description = "", hardwareid = @"USB\VID_2341&PID_0010", name = "" },
 
                 });
 
@@ -81,7 +155,8 @@ namespace MissionPlanner.Utilities.Tests
                 new List<DeviceInfo>()
                 {
 
-                    new DeviceInfo() { board = "", description = "", hardwareid = @"USB\VID_26AC&PID_0010", name = "" },
+                    new DeviceInfo() { board = "PX4 BL FMU v2.x", description = "", hardwareid = @"USB\VID_26AC&PID_0010", name = "" },
+                    new DeviceInfo() { board = "PX4 FMU v2.x", description = "", hardwareid = @"USB\VID_26AC&PID_0010", name = "" },
 
                 });
 
@@ -96,7 +171,8 @@ namespace MissionPlanner.Utilities.Tests
                 new List<DeviceInfo>()
                 {
 
-                    new DeviceInfo() { board = "", description = "", hardwareid = @"USB\VID_26AC&PID_0032", name = "" },
+                    new DeviceInfo() { board = "PX4 BL FMU v5.x", description = "", hardwareid = @"USB\VID_26AC&PID_0032", name = "" },  
+                    new DeviceInfo() { board = "PX4 FMU v5.x", description = "", hardwareid = @"USB\VID_26AC&PID_0032", name = "" },
 
                 });
             if (ans != BoardDetect.boards.chbootloader)
@@ -111,7 +187,9 @@ namespace MissionPlanner.Utilities.Tests
                 {
 
 
-                    new DeviceInfo() { board = "", description = "", hardwareid = @"USB\VID_26AC&PID_0001", name = "" },
+                    new DeviceInfo() { board = "PX4 BL FMU v3.x", description = "", hardwareid = @"USB\VID_26AC&PID_0011", name = "" },
+
+                    new DeviceInfo() { board = "PX4 FMU v3.x", description = "", hardwareid = @"USB\VID_26AC&PID_0011", name = "" },
 
 
                 });
@@ -153,7 +231,11 @@ namespace MissionPlanner.Utilities.Tests
 
                     new DeviceInfo()
                     {
-                        board = "", description = "chibios or normal px4", hardwareid = @"USB\VID_26AC&PID_0011",
+                        board = "PX4 BL FMU v2.x", description = "chibios or normal px4", hardwareid = @"USB\VID_26AC&PID_0011",
+                        name = ""
+                    },      new DeviceInfo()
+                    {
+                        board = "PX4 FMU v2.x", description = "chibios or normal px4", hardwareid = @"USB\VID_26AC&PID_0011",
                         name = ""
                     },
                 });

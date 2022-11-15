@@ -595,28 +595,19 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     string url = baseurl + file + "?" + new Random().Next();
-                    // Create a request using a URL that can receive a post. 
-                    WebRequest request = WebRequest.Create(url);
-                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                        ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                    log.Info("GetNewFile " + url);
-                    // Set the Method property of the request to GET.
-                    request.Method = "GET";
-                    // Allow compressed content
-                    ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip |
-                                                                        DecompressionMethods.Deflate;
-                    // tell server we allow compress content
-                    request.Headers.Add("Accept-Encoding", "gzip,deflate");
+                    var client = new HttpClient();
+                    client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                    client.Timeout = TimeSpan.FromSeconds(10);
                     // Get the response.
-                    using (WebResponse response = request.GetResponse())
+                    using (var response = client.GetAsync(url).GetAwaiter().GetResult())
                     {
                         // Display the status.
-                        log.Info(((HttpWebResponse)response).StatusDescription);
+                        log.Info(response.ReasonPhrase);
                         // Get the stream containing content returned by the server.
-                        Stream dataStream = response.GetResponseStream();
+                        Stream dataStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
 
                         // from head
-                        long bytes = response.ContentLength;
+                        long bytes = response.Content.Headers.ContentLength();
 
                         long contlen = bytes;
 

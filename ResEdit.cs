@@ -392,7 +392,6 @@ namespace resedit
                     lastitem = item.Value.ToString();
                     sb += '"' + item.Value.ToString() + '"' + ",";
                 }
-                //sb += new StreamReader(WebRequest.Create("https://www.googleapis.com/language/translate/v2?q=" + lastitem + "&target=zh&source=en&key=" + ApiKey).GetResponse().GetResponseStream()).ReadToEnd();
                 sb += "\n";
             }
 

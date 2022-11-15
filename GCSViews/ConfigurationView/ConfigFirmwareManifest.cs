@@ -10,6 +10,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -250,23 +251,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         var starttime = DateTime.Now;
 
                         // Create a request using a URL that can receive a post. 
-                        WebRequest request = WebRequest.Create(baseurl);
-                        if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                            ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                        request.Timeout = 10000;
-                        // Set the Method property of the request to POST.
-                        request.Method = "GET";
-                        // Get the request stream.
-                        Stream dataStream; //= request.GetRequestStream();
-                                           // Get the response (using statement is exception safe)
-                        using (WebResponse response = request.GetResponse())
+                        var client = new HttpClient();
+                        client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                        client.Timeout = TimeSpan.FromSeconds(10);
+                        using (var response = client.GetAsync(baseurl))
                         {
                             // Display the status.
-                            log.Info(((HttpWebResponse)response).StatusDescription);
+                            log.Info(baseurl + " " + response.Result.ReasonPhrase);
                             // Get the stream containing content returned by the server.
-                            using (dataStream = response.GetResponseStream())
+                            using (var dataStream = response.Result.Content.ReadAsStreamAsync().Result)
                             {
-                                long bytes = response.ContentLength;
+                                long bytes = int.Parse(response.Result.Content.Headers.First(h => h.Key.Equals("Content-Length")).Value.First());
                                 long contlen = bytes;
 
                                 byte[] buf1 = new byte[1024];
@@ -275,7 +270,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 {
                                     fw_Progress1(0, Strings.DownloadingFromInternet);
 
-                                    long length = response.ContentLength;
+                                    long length = int.Parse(response.Result.Content.Headers.First(h => h.Key.Equals("Content-Length")).Value.First());
                                     long progress = 0;
                                     dataStream.ReadTimeout = 30000;
 
@@ -300,7 +295,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 }
                                 dataStream.Close();
                             }
-                            response.Close();
                         }
 
                         var timetook = (DateTime.Now - starttime).TotalMilliseconds;

@@ -30,7 +30,7 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
@@ -295,7 +295,7 @@ namespace MissionPlanner.GCSViews
             timer1.Start();
 
             // hide altmode if old copter version
-            if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
+            if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
                 MainV2.comPort.MAV.cs.version < new Version(3, 3))
             {
                 CMB_altmode.Visible = false;
@@ -2221,7 +2221,8 @@ namespace MissionPlanner.GCSViews
                 }
 
                 MainMap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
-                FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
+                if(FlightData.mymap != null)
+                    FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
                 Settings.Instance["MapType"] = comboBoxMapType.Text;
             }
             catch (Exception ex)
@@ -7761,18 +7762,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        private XmlDocument MakeRequest(string requestUrl)
+        public XmlDocument MakeRequest(string requestUrl)
         {
             try
             {
-                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest) request).UserAgent = Settings.Instance.UserAgent;
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                client.Timeout = System.TimeSpan.FromSeconds(10);
 
 
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(response.GetResponseStream());
+                xmlDoc.Load(client.GetStreamAsync(requestUrl).GetAwaiter().GetResult());
                 return (xmlDoc);
             }
             catch (Exception e)
