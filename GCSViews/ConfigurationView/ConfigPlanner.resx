@@ -1430,7 +1430,7 @@
     <value>520, 10</value>
   </data>
   <data name="CHK_hudshow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 17</value>
+    <value>133, 18</value>
   </data>
   <data name="CHK_hudshow.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
