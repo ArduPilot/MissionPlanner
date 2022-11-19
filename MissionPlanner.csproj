@@ -4469,6 +4469,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Grid\GridUI.resx">
       <DependentUpon>GridUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Grid\GridUI.ru-KZ.resx">
       <DependentUpon>GridUI.cs</DependentUpon>

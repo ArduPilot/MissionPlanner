@@ -1675,6 +1675,12 @@ namespace MissionPlanner.Grid
                                 if (rad_digicam.Checked)
                                 {
                                     AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
+                                    if (NUM_UpDownStabilizeDelayDigi.Value > 0)
+                                    {
+                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DELAY,
+                                        (float)NUM_UpDownStabilizeDelayDigi.Value, 0, 0, 0, 0, 0, 0,
+                                        gridobject);
+                                    }
                                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 1, 0, 0, 0, 0, 1, 0,
                                         gridobject);
                                 }

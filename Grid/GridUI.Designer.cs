@@ -169,6 +169,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.map = new MissionPlanner.Controls.myGMAP();
+            this.label7 = new System.Windows.Forms.Label();
+            this.NUM_UpDownStabilizeDelayDigi = new System.Windows.Forms.NumericUpDown();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -207,6 +209,7 @@
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownStabilizeDelayDigi)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
@@ -381,6 +384,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.NUM_UpDownStabilizeDelayDigi);
+            this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label42);
             this.groupBox3.Controls.Add(this.num_setservono);
             this.groupBox3.Controls.Add(this.label41);
@@ -1457,6 +1462,27 @@
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
             this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
             // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // NUM_UpDownStabilizeDelayDigi
+            // 
+            this.NUM_UpDownStabilizeDelayDigi.DecimalPlaces = 1;
+            this.NUM_UpDownStabilizeDelayDigi.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.NUM_UpDownStabilizeDelayDigi, "NUM_UpDownStabilizeDelayDigi");
+            this.NUM_UpDownStabilizeDelayDigi.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUM_UpDownStabilizeDelayDigi.Name = "NUM_UpDownStabilizeDelayDigi";
+            // 
             // GridUI
             // 
             resources.ApplyResources(this, "$this");
@@ -1516,6 +1542,7 @@
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownStabilizeDelayDigi)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1663,5 +1690,7 @@
         private System.Windows.Forms.CheckBox CHK_match_spiral_perimeter;
         private System.Windows.Forms.NumericUpDown NUM_laps;
         private System.Windows.Forms.Label LBL_laps;
+        private System.Windows.Forms.NumericUpDown NUM_UpDownStabilizeDelayDigi;
+        private System.Windows.Forms.Label label7;
     }
 }
