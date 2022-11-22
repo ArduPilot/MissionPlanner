@@ -14,8 +14,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             bindingSource1.DataSource = typeof(CurrentState);
 
+            var num_servos = 16;
+
+            // See if 32 servo support is enabled
+            if (MainV2.comPort.MAV.param.ContainsKey("SERVO_32_ENABLE") &&
+                    (MainV2.comPort.MAV.param["SERVO_32_ENABLE"].Value > 0))
+            {
+                num_servos = 32;
+            }
+
             SuspendLayout();
-            foreach (var i in Enumerable.Range(1, 16))
+            foreach (var i in Enumerable.Range(1, num_servos))
             {
                 setup(i);
             }
