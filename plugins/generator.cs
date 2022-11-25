@@ -420,7 +420,7 @@ namespace generator
                     MainV2.instance.BeginInvoke((MethodInvoker)delegate
                    {
                        gen.aGaugeSpeed.Value1 = (float)(generator_speed / 1000.0);
-                       uint min = (run_time) / 60;
+                       uint min = ((run_time) / 60) % 60;
                        uint hour = ((run_time) / 3600);
                        gen.runTimeTxt.Text = hour.ToString("D4") + ":" + min.ToString("D2");
                        int nhour = timemaint / 3600;
