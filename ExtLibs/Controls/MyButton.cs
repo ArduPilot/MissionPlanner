@@ -19,6 +19,7 @@ namespace MissionPlanner.Controls
         internal Color _BGGradTop;
         internal Color _BGGradBot;
         internal Color _TextColor;
+        internal Color _TextColorNotEnabled;
         internal Color _Outline;
         internal Color _ColorNotEnabled;
         internal Color _ColorMouseOver;
@@ -46,6 +47,8 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
         public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        public Color TextColorNotEnabled { get { return (_TextColorNotEnabled.IsEmpty) ? _TextColor : _TextColorNotEnabled; } set { _TextColorNotEnabled = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
         public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
@@ -115,7 +118,7 @@ namespace MissionPlanner.Controls
 
                 gr.DrawPath(mypen, outline);
 
-                SolidBrush mybrush = new SolidBrush(TextColor);
+                SolidBrush mybrush = this.Enabled ? new SolidBrush(TextColor) : new SolidBrush(TextColorNotEnabled);
 
                 if (_mouseover)
                 {
