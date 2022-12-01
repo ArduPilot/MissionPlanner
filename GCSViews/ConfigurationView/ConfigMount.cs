@@ -15,7 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private readonly Transition _NoErrorTransition;
         private Transition[] _ErrorTransition;
-        public string ParamHead = "MNT_";
+        public string ParamHead = "MNT1_";
         private bool startup = true;
 
         public ConfigMount()
@@ -244,8 +244,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkNumericUpDownTSM.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTSMX.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownTAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_TIL", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownTAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_TIL", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownTAM.setup(-90, 0, 1, 1, ParamHead + "PITCH_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownTAMX.setup(0, 90, 1, 1, ParamHead + "PITCH_MAX", MainV2.comPort.MAV.param);
             mavlinkCheckBoxTR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
@@ -269,8 +269,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkNumericUpDownRSM.setup(800, 2200, 1, 1, mavlinkComboBoxRoll.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownRSMX.setup(800, 2200, 1, 1, mavlinkComboBoxRoll.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownRAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_ROL", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownRAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_ROL", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownRAM.setup(-90, 0, 1, 1, ParamHead + "ROLL_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownRAMX.setup(0, 90, 1, 1, ParamHead + "ROLL_MAX", MainV2.comPort.MAV.param);
             mavlinkCheckBoxRR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxRoll.Text + "_REV", mavlinkComboBoxRoll.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
@@ -294,8 +294,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkNumericUpDownPSM.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownPSMX.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownPAM.setup(-180, 0, 100, 1, ParamHead + "ANGMIN_PAN", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownPAMX.setup(0, 180, 100, 1, ParamHead + "ANGMAX_PAN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownPAM.setup(-180, 0, 1, 1, ParamHead + "YAW_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownPAMX.setup(0, 180, 1, 1, ParamHead + "YAW_MAX", MainV2.comPort.MAV.param);
             mavlinkCheckBoxPR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxPan.Text + "_REV", mavlinkComboBoxPan.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
