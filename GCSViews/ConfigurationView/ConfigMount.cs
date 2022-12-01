@@ -149,10 +149,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 updateRoll();
                 updateYaw();
 
-                CHK_stab_tilt.setup(1, 0, ParamHead + "STAB_TILT", MainV2.comPort.MAV.param);
-                CHK_stab_roll.setup(1, 0, ParamHead + "STAB_ROLL", MainV2.comPort.MAV.param);
-                CHK_stab_pan.setup(1, 0, ParamHead + "STAB_PAN", MainV2.comPort.MAV.param);
-
                 NUD_NEUTRAL_x.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_X", MainV2.comPort.MAV.param);
                 NUD_NEUTRAL_y.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_Y", MainV2.comPort.MAV.param);
                 NUD_NEUTRAL_z.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_Z", MainV2.comPort.MAV.param);
@@ -239,11 +235,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (mavlinkComboBoxTilt.Text != "Disable")
             {
                 MainV2.comPort.setParam(mavlinkComboBoxTilt.Text + "_FUNCTION", 7);
-                //MainV2.MainV2.comPort.setParam(ParamHead+"STAB_TILT", 1);
             }
             else
             {
-                //MainV2.comPort.setParam(ParamHead+"STAB_TILT", 0);
                 ensureDisabled(mavlinkComboBoxTilt, 7);
             }
 
@@ -267,11 +261,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (mavlinkComboBoxRoll.Text != "Disable")
             {
                 MainV2.comPort.setParam(mavlinkComboBoxRoll.Text + "_FUNCTION", 8);
-                //MainV2.comPort.setParam(ParamHead+"STAB_ROLL", 1);
             }
             else
             {
-                //MainV2.comPort.setParam(ParamHead+"STAB_ROLL", 0);
                 ensureDisabled(mavlinkComboBoxRoll, 8);
             }
 
@@ -294,11 +286,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (mavlinkComboBoxPan.Text != "Disable")
             {
                 MainV2.comPort.setParam(mavlinkComboBoxPan.Text + "_FUNCTION", 6);
-                //MainV2.comPort.setParam(ParamHead+"STAB_PAN", 1);
             }
             else
             {
-                //MainV2.comPort.setParam(ParamHead+"STAB_PAN", 0);
                 ensureDisabled(mavlinkComboBoxPan, 6);
             }
 

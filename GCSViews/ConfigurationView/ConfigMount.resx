@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>76</value>
+    <value>73</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 181</value>
@@ -166,7 +166,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>74</value>
+    <value>71</value>
   </data>
   <data name="pictureBox2.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -193,7 +193,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>75</value>
+    <value>72</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 54</value>
@@ -214,7 +214,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>73</value>
+    <value>70</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -247,7 +247,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>72</value>
+    <value>69</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -280,7 +280,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>71</value>
+    <value>68</value>
   </data>
   <data name="LNK_wiki.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -313,7 +313,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LNK_wiki.ZOrder" xml:space="preserve">
-    <value>70</value>
+    <value>67</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -346,7 +346,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>67</value>
+    <value>64</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 305</value>
@@ -367,7 +367,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>68</value>
+    <value>65</value>
   </data>
   <data name="pictureBox3.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -394,7 +394,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
-    <value>69</value>
+    <value>66</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -427,7 +427,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>56</value>
+    <value>53</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -460,7 +460,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>57</value>
+    <value>54</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -490,7 +490,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>58</value>
+    <value>55</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -520,7 +520,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>59</value>
+    <value>56</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -550,7 +550,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>62</value>
+    <value>59</value>
   </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -580,7 +580,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>63</value>
+    <value>60</value>
   </data>
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -613,7 +613,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
-    <value>45</value>
+    <value>42</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -646,7 +646,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>46</value>
+    <value>43</value>
   </data>
   <data name="label18.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -676,7 +676,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
-    <value>47</value>
+    <value>44</value>
   </data>
   <data name="label19.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -706,7 +706,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
-    <value>48</value>
+    <value>45</value>
   </data>
   <data name="label20.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -736,7 +736,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
-    <value>51</value>
+    <value>48</value>
   </data>
   <data name="label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -766,7 +766,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
-    <value>52</value>
+    <value>49</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -799,7 +799,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>31</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -832,7 +832,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>32</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -862,7 +862,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>33</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -892,7 +892,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>34</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -922,7 +922,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>37</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -952,7 +952,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>38</value>
   </data>
   <data name="mavlinkComboBoxTilt.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 34</value>
@@ -973,7 +973,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxTilt.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>30</value>
   </data>
   <data name="mavlinkComboBoxRoll.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 162</value>
@@ -994,7 +994,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxRoll.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>29</value>
   </data>
   <data name="mavlinkComboBoxPan.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 286</value>
@@ -1015,7 +1015,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxPan.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>28</value>
   </data>
   <data name="label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1048,7 +1048,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>26</value>
   </data>
   <data name="label23.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1081,7 +1081,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>24</value>
   </data>
   <data name="label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1114,466 +1114,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>25</value>
-  </data>
-  <data name="CMB_inputch_pan.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CMB_inputch_pan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>450, 336</value>
-  </data>
-  <data name="CMB_inputch_pan.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 21</value>
-  </data>
-  <data name="CMB_inputch_pan.TabIndex" type="System.Int32, mscorlib">
-    <value>135</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_pan.Name" xml:space="preserve">
-    <value>CMB_inputch_pan</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_pan.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_pan.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_pan.ZOrder" xml:space="preserve">
-    <value>26</value>
-  </data>
-  <data name="CMB_inputch_roll.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CMB_inputch_roll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>450, 212</value>
-  </data>
-  <data name="CMB_inputch_roll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 21</value>
-  </data>
-  <data name="CMB_inputch_roll.TabIndex" type="System.Int32, mscorlib">
-    <value>133</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_roll.Name" xml:space="preserve">
-    <value>CMB_inputch_roll</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_roll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_roll.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_roll.ZOrder" xml:space="preserve">
-    <value>28</value>
-  </data>
-  <data name="CMB_inputch_tilt.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CMB_inputch_tilt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>450, 85</value>
-  </data>
-  <data name="CMB_inputch_tilt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 21</value>
-  </data>
-  <data name="CMB_inputch_tilt.TabIndex" type="System.Int32, mscorlib">
-    <value>131</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_tilt.Name" xml:space="preserve">
-    <value>CMB_inputch_tilt</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_tilt.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_tilt.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CMB_inputch_tilt.ZOrder" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 85</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAM.TabIndex" type="System.Int32, mscorlib">
-    <value>123</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownTAM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAM.ZOrder" xml:space="preserve">
-    <value>38</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 111</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownTAMX.TabIndex" type="System.Int32, mscorlib">
-    <value>122</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownTAMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.ZOrder" xml:space="preserve">
-    <value>39</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 85</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSM.TabIndex" type="System.Int32, mscorlib">
-    <value>119</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownTSM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSM.ZOrder" xml:space="preserve">
-    <value>42</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 111</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownTSMX.TabIndex" type="System.Int32, mscorlib">
-    <value>118</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownTSMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.ZOrder" xml:space="preserve">
-    <value>43</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 137</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.TabIndex" type="System.Int32, mscorlib">
-    <value>117</value>
-  </data>
-  <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxTR.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxTR</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxTR.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxTR.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxTR.ZOrder" xml:space="preserve">
-    <value>44</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 336</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAM.TabIndex" type="System.Int32, mscorlib">
-    <value>112</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownPAM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAM.ZOrder" xml:space="preserve">
-    <value>49</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 362</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownPAMX.TabIndex" type="System.Int32, mscorlib">
-    <value>111</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownPAMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.ZOrder" xml:space="preserve">
-    <value>50</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 336</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSM.TabIndex" type="System.Int32, mscorlib">
-    <value>108</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownPSM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSM.ZOrder" xml:space="preserve">
-    <value>53</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 362</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownPSMX.TabIndex" type="System.Int32, mscorlib">
-    <value>107</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownPSMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.ZOrder" xml:space="preserve">
-    <value>54</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 388</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.TabIndex" type="System.Int32, mscorlib">
-    <value>106</value>
-  </data>
-  <data name="mavlinkCheckBoxPR.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxPR.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxPR</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxPR.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxPR.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxPR.ZOrder" xml:space="preserve">
-    <value>55</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 212</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAM.TabIndex" type="System.Int32, mscorlib">
-    <value>101</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownRAM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAM.ZOrder" xml:space="preserve">
-    <value>60</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 238</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownRAMX.TabIndex" type="System.Int32, mscorlib">
-    <value>100</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownRAMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.ZOrder" xml:space="preserve">
-    <value>61</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 212</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSM.TabIndex" type="System.Int32, mscorlib">
-    <value>97</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownRSM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSM.ZOrder" xml:space="preserve">
-    <value>64</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 238</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownRSMX.TabIndex" type="System.Int32, mscorlib">
-    <value>96</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownRSMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.ZOrder" xml:space="preserve">
-    <value>65</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 264</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.TabIndex" type="System.Int32, mscorlib">
-    <value>95</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxRR.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxRR</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxRR.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxRR.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxRR.ZOrder" xml:space="preserve">
-    <value>66</value>
+    <value>22</value>
   </data>
   <data name="label27.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1621,7 +1162,7 @@
     <value>NUD_RETRACT_z</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_z.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_z.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -1675,7 +1216,7 @@
     <value>NUD_RETRACT_y</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_y.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_y.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -1685,6 +1226,9 @@
   </data>
   <data name="label25.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label25.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 21</value>
@@ -1726,7 +1270,7 @@
     <value>NUD_RETRACT_x</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_x.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_x.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -1756,7 +1300,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>21</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1804,7 +1348,7 @@
     <value>NUD_NEUTRAL_z</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_z.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_z.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1858,7 +1402,7 @@
     <value>NUD_NEUTRAL_y</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_y.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_y.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1912,7 +1456,7 @@
     <value>NUD_NEUTRAL_x</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_x.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_x.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1942,102 +1486,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>23</value>
-  </data>
-  <data name="CHK_stab_tilt.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_stab_tilt.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_stab_tilt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>249, 36</value>
-  </data>
-  <data name="CHK_stab_tilt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 17</value>
-  </data>
-  <data name="CHK_stab_tilt.TabIndex" type="System.Int32, mscorlib">
-    <value>139</value>
-  </data>
-  <data name="CHK_stab_tilt.Text" xml:space="preserve">
-    <value>Stabalise Tilt</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_tilt.Name" xml:space="preserve">
-    <value>CHK_stab_tilt</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_tilt.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_tilt.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_tilt.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
-  <data name="CHK_stab_roll.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_stab_roll.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_stab_roll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_stab_roll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>249, 164</value>
-  </data>
-  <data name="CHK_stab_roll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 17</value>
-  </data>
-  <data name="CHK_stab_roll.TabIndex" type="System.Int32, mscorlib">
-    <value>140</value>
-  </data>
-  <data name="CHK_stab_roll.Text" xml:space="preserve">
-    <value>Stabalise Roll</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_roll.Name" xml:space="preserve">
-    <value>CHK_stab_roll</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_roll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_roll.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_roll.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="CHK_stab_pan.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_stab_pan.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_stab_pan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_stab_pan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>249, 288</value>
-  </data>
-  <data name="CHK_stab_pan.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 17</value>
-  </data>
-  <data name="CHK_stab_pan.TabIndex" type="System.Int32, mscorlib">
-    <value>141</value>
-  </data>
-  <data name="CHK_stab_pan.Text" xml:space="preserve">
-    <value>Stabalise Pan</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.Name" xml:space="preserve">
-    <value>CHK_stab_pan</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
   <data name="CMB_shuttertype.Location" type="System.Drawing.Point, System.Drawing">
@@ -2187,54 +1635,6 @@
   <data name="&gt;&gt;label38.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="mavlinkNumericUpDownshut_pushed.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_pushed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 475</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_pushed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_pushed.TabIndex" type="System.Int32, mscorlib">
-    <value>151</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownshut_pushed</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_notpushed.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_notpushed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 501</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_notpushed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_notpushed.TabIndex" type="System.Int32, mscorlib">
-    <value>150</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownshut_notpushed</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
   <data name="label39.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -2294,54 +1694,6 @@
   </data>
   <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
     <value>14</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutM.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 475</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutM.TabIndex" type="System.Int32, mscorlib">
-    <value>147</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutM.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownShutM</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutM.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutMX.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>276, 501</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownShutMX.TabIndex" type="System.Int32, mscorlib">
-    <value>146</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownShutMX</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.ZOrder" xml:space="preserve">
-    <value>16</value>
   </data>
   <data name="label41.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2451,30 +1803,6 @@
   <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="mavlinkNumericUpDownshut_duration.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_duration.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 527</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_duration.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="mavlinkNumericUpDownshut_duration.TabIndex" type="System.Int32, mscorlib">
-    <value>157</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownshut_duration</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="label42.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -2507,30 +1835,6 @@
   </data>
   <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="CMB_mnt_type.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CMB_mnt_type.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 7</value>
-  </data>
-  <data name="CMB_mnt_type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
-  </data>
-  <data name="CMB_mnt_type.TabIndex" type="System.Int32, mscorlib">
-    <value>160</value>
-  </data>
-  <data name="&gt;&gt;CMB_mnt_type.Name" xml:space="preserve">
-    <value>CMB_mnt_type</value>
-  </data>
-  <data name="&gt;&gt;CMB_mnt_type.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_mnt_type.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CMB_mnt_type.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="label43.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2594,6 +1898,609 @@
   </data>
   <data name="&gt;&gt;label44.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="CMB_mnt_type.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_mnt_type.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 7</value>
+  </data>
+  <data name="CMB_mnt_type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="CMB_mnt_type.TabIndex" type="System.Int32, mscorlib">
+    <value>160</value>
+  </data>
+  <data name="&gt;&gt;CMB_mnt_type.Name" xml:space="preserve">
+    <value>CMB_mnt_type</value>
+  </data>
+  <data name="&gt;&gt;CMB_mnt_type.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_mnt_type.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_mnt_type.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_duration.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_duration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>423, 527</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_duration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_duration.TabIndex" type="System.Int32, mscorlib">
+    <value>157</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownshut_duration</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_pushed.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_pushed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>423, 475</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_pushed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_pushed.TabIndex" type="System.Int32, mscorlib">
+    <value>151</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownshut_pushed</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_notpushed.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_notpushed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>423, 501</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_notpushed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownshut_notpushed.TabIndex" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownshut_notpushed</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 475</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutM.TabIndex" type="System.Int32, mscorlib">
+    <value>147</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownShutM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutM.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 501</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownShutMX.TabIndex" type="System.Int32, mscorlib">
+    <value>146</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownShutMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownShutMX.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="CMB_inputch_pan.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_inputch_pan.Location" type="System.Drawing.Point, System.Drawing">
+    <value>450, 336</value>
+  </data>
+  <data name="CMB_inputch_pan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 21</value>
+  </data>
+  <data name="CMB_inputch_pan.TabIndex" type="System.Int32, mscorlib">
+    <value>135</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_pan.Name" xml:space="preserve">
+    <value>CMB_inputch_pan</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_pan.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_pan.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_pan.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="CMB_inputch_roll.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_inputch_roll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>450, 212</value>
+  </data>
+  <data name="CMB_inputch_roll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 21</value>
+  </data>
+  <data name="CMB_inputch_roll.TabIndex" type="System.Int32, mscorlib">
+    <value>133</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_roll.Name" xml:space="preserve">
+    <value>CMB_inputch_roll</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_roll.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_roll.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_roll.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="CMB_inputch_tilt.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_inputch_tilt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>450, 85</value>
+  </data>
+  <data name="CMB_inputch_tilt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 21</value>
+  </data>
+  <data name="CMB_inputch_tilt.TabIndex" type="System.Int32, mscorlib">
+    <value>131</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_tilt.Name" xml:space="preserve">
+    <value>CMB_inputch_tilt</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_tilt.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_tilt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_inputch_tilt.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 85</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAM.TabIndex" type="System.Int32, mscorlib">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownTAM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAM.ZOrder" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 111</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownTAMX.TabIndex" type="System.Int32, mscorlib">
+    <value>122</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownTAMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTAMX.ZOrder" xml:space="preserve">
+    <value>36</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 85</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSM.TabIndex" type="System.Int32, mscorlib">
+    <value>119</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownTSM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSM.ZOrder" xml:space="preserve">
+    <value>39</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 111</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownTSMX.TabIndex" type="System.Int32, mscorlib">
+    <value>118</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownTSMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownTSMX.ZOrder" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 137</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.TabIndex" type="System.Int32, mscorlib">
+    <value>117</value>
+  </data>
+  <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxTR.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxTR</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxTR.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxTR.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxTR.ZOrder" xml:space="preserve">
+    <value>41</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 336</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAM.TabIndex" type="System.Int32, mscorlib">
+    <value>112</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownPAM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAM.ZOrder" xml:space="preserve">
+    <value>46</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 362</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownPAMX.TabIndex" type="System.Int32, mscorlib">
+    <value>111</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownPAMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPAMX.ZOrder" xml:space="preserve">
+    <value>47</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 336</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSM.TabIndex" type="System.Int32, mscorlib">
+    <value>108</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownPSM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSM.ZOrder" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 362</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownPSMX.TabIndex" type="System.Int32, mscorlib">
+    <value>107</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownPSMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownPSMX.ZOrder" xml:space="preserve">
+    <value>51</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 388</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="mavlinkCheckBoxPR.Text" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxPR.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxPR</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxPR.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxPR.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxPR.ZOrder" xml:space="preserve">
+    <value>52</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 212</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAM.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownRAM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAM.ZOrder" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 238</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownRAMX.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownRAMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRAMX.ZOrder" xml:space="preserve">
+    <value>58</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSM.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 212</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSM.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSM.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownRSM</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSM.ZOrder" xml:space="preserve">
+    <value>61</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSMX.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSMX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 238</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSMX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownRSMX.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownRSMX</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownRSMX.ZOrder" xml:space="preserve">
+    <value>62</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 264</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxRR.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxRR</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxRR.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17541, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxRR.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxRR.ZOrder" xml:space="preserve">
+    <value>63</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
