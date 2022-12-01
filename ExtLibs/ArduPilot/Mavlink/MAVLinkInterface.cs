@@ -2533,6 +2533,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             float p4,
             float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
+            if (BaseStream == null || BaseStream.IsOpen == false)
+                return false;
+
             MAVLinkMessage buffer;
 
             mavlink_command_long_t req = new mavlink_command_long_t
@@ -2690,6 +2693,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
             MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
+            if (BaseStream == null || BaseStream.IsOpen == false)
+                return false;
+
             MAVLinkMessage buffer;
 
             mavlink_command_int_t req = new mavlink_command_int_t()
