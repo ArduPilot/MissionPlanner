@@ -68,12 +68,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label24 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label27 = new System.Windows.Forms.Label();
+            this.NUD_RETRACT_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label26 = new System.Windows.Forms.Label();
+            this.NUD_RETRACT_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
+            this.NUD_RETRACT_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label28 = new System.Windows.Forms.Label();
+            this.NUD_NEUTRAL_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label29 = new System.Windows.Forms.Label();
+            this.NUD_NEUTRAL_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label30 = new System.Windows.Forms.Label();
+            this.NUD_NEUTRAL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.CMB_shuttertype = new System.Windows.Forms.ComboBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
@@ -94,12 +100,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownshut_notpushed = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDownShutM = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDownShutMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.NUD_NEUTRAL_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.NUD_NEUTRAL_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.NUD_NEUTRAL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.NUD_RETRACT_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.NUD_RETRACT_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.NUD_RETRACT_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.CMB_inputch_pan = new MissionPlanner.Controls.MavlinkComboBox();
             this.CMB_inputch_roll = new MissionPlanner.Controls.MavlinkComboBox();
             this.CMB_inputch_tilt = new MissionPlanner.Controls.MavlinkComboBox();
@@ -118,23 +118,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownRSM = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDownRSMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkCheckBoxRR = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_z)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_x)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_z)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_duration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_pushed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_notpushed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownShutM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownShutMX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_z)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_y)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_x)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_z)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_y)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownTAM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownTAMX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownTSM)).BeginInit();
@@ -371,15 +375,84 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label27, "label27");
             this.label27.Name = "label27";
             // 
+            // NUD_RETRACT_z
+            // 
+            resources.ApplyResources(this.NUD_RETRACT_z, "NUD_RETRACT_z");
+            this.NUD_RETRACT_z.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUD_RETRACT_z.Max = 1F;
+            this.NUD_RETRACT_z.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.NUD_RETRACT_z.Min = 0F;
+            this.NUD_RETRACT_z.Name = "NUD_RETRACT_z";
+            this.NUD_RETRACT_z.ParamName = null;
+            this.NUD_RETRACT_z.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
             // label26
             // 
             resources.ApplyResources(this.label26, "label26");
             this.label26.Name = "label26";
             // 
+            // NUD_RETRACT_y
+            // 
+            resources.ApplyResources(this.NUD_RETRACT_y, "NUD_RETRACT_y");
+            this.NUD_RETRACT_y.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUD_RETRACT_y.Max = 1F;
+            this.NUD_RETRACT_y.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.NUD_RETRACT_y.Min = 0F;
+            this.NUD_RETRACT_y.Name = "NUD_RETRACT_y";
+            this.NUD_RETRACT_y.ParamName = null;
+            this.NUD_RETRACT_y.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
             // label25
             // 
             resources.ApplyResources(this.label25, "label25");
             this.label25.Name = "label25";
+            // 
+            // NUD_RETRACT_x
+            // 
+            resources.ApplyResources(this.NUD_RETRACT_x, "NUD_RETRACT_x");
+            this.NUD_RETRACT_x.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUD_RETRACT_x.Max = 1F;
+            this.NUD_RETRACT_x.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.NUD_RETRACT_x.Min = 0F;
+            this.NUD_RETRACT_x.Name = "NUD_RETRACT_x";
+            this.NUD_RETRACT_x.ParamName = null;
+            this.NUD_RETRACT_x.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
             // groupBox5
             // 
@@ -398,15 +471,84 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label28, "label28");
             this.label28.Name = "label28";
             // 
+            // NUD_NEUTRAL_z
+            // 
+            resources.ApplyResources(this.NUD_NEUTRAL_z, "NUD_NEUTRAL_z");
+            this.NUD_NEUTRAL_z.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUD_NEUTRAL_z.Max = 1F;
+            this.NUD_NEUTRAL_z.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.NUD_NEUTRAL_z.Min = 0F;
+            this.NUD_NEUTRAL_z.Name = "NUD_NEUTRAL_z";
+            this.NUD_NEUTRAL_z.ParamName = null;
+            this.NUD_NEUTRAL_z.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
             // label29
             // 
             resources.ApplyResources(this.label29, "label29");
             this.label29.Name = "label29";
             // 
+            // NUD_NEUTRAL_y
+            // 
+            resources.ApplyResources(this.NUD_NEUTRAL_y, "NUD_NEUTRAL_y");
+            this.NUD_NEUTRAL_y.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUD_NEUTRAL_y.Max = 1F;
+            this.NUD_NEUTRAL_y.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.NUD_NEUTRAL_y.Min = 0F;
+            this.NUD_NEUTRAL_y.Name = "NUD_NEUTRAL_y";
+            this.NUD_NEUTRAL_y.ParamName = null;
+            this.NUD_NEUTRAL_y.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
             // label30
             // 
             resources.ApplyResources(this.label30, "label30");
             this.label30.Name = "label30";
+            // 
+            // NUD_NEUTRAL_x
+            // 
+            resources.ApplyResources(this.NUD_NEUTRAL_x, "NUD_NEUTRAL_x");
+            this.NUD_NEUTRAL_x.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUD_NEUTRAL_x.Max = 1F;
+            this.NUD_NEUTRAL_x.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.NUD_NEUTRAL_x.Min = 0F;
+            this.NUD_NEUTRAL_x.Name = "NUD_NEUTRAL_x";
+            this.NUD_NEUTRAL_x.ParamName = null;
+            this.NUD_NEUTRAL_x.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
             // CMB_shuttertype
             // 
@@ -619,144 +761,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownShutMX.ParamName = null;
             this.mavlinkNumericUpDownShutMX.Value = new decimal(new int[] {
             2000,
-            0,
-            0,
-            0});
-            // 
-            // NUD_NEUTRAL_z
-            // 
-            resources.ApplyResources(this.NUD_NEUTRAL_z, "NUD_NEUTRAL_z");
-            this.NUD_NEUTRAL_z.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_NEUTRAL_z.Max = 1F;
-            this.NUD_NEUTRAL_z.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_NEUTRAL_z.Min = 0F;
-            this.NUD_NEUTRAL_z.Name = "NUD_NEUTRAL_z";
-            this.NUD_NEUTRAL_z.ParamName = null;
-            this.NUD_NEUTRAL_z.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // NUD_NEUTRAL_y
-            // 
-            resources.ApplyResources(this.NUD_NEUTRAL_y, "NUD_NEUTRAL_y");
-            this.NUD_NEUTRAL_y.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_NEUTRAL_y.Max = 1F;
-            this.NUD_NEUTRAL_y.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_NEUTRAL_y.Min = 0F;
-            this.NUD_NEUTRAL_y.Name = "NUD_NEUTRAL_y";
-            this.NUD_NEUTRAL_y.ParamName = null;
-            this.NUD_NEUTRAL_y.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // NUD_NEUTRAL_x
-            // 
-            resources.ApplyResources(this.NUD_NEUTRAL_x, "NUD_NEUTRAL_x");
-            this.NUD_NEUTRAL_x.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_NEUTRAL_x.Max = 1F;
-            this.NUD_NEUTRAL_x.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_NEUTRAL_x.Min = 0F;
-            this.NUD_NEUTRAL_x.Name = "NUD_NEUTRAL_x";
-            this.NUD_NEUTRAL_x.ParamName = null;
-            this.NUD_NEUTRAL_x.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // NUD_RETRACT_z
-            // 
-            resources.ApplyResources(this.NUD_RETRACT_z, "NUD_RETRACT_z");
-            this.NUD_RETRACT_z.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_RETRACT_z.Max = 1F;
-            this.NUD_RETRACT_z.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_RETRACT_z.Min = 0F;
-            this.NUD_RETRACT_z.Name = "NUD_RETRACT_z";
-            this.NUD_RETRACT_z.ParamName = null;
-            this.NUD_RETRACT_z.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // NUD_RETRACT_y
-            // 
-            resources.ApplyResources(this.NUD_RETRACT_y, "NUD_RETRACT_y");
-            this.NUD_RETRACT_y.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_RETRACT_y.Max = 1F;
-            this.NUD_RETRACT_y.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_RETRACT_y.Min = 0F;
-            this.NUD_RETRACT_y.Name = "NUD_RETRACT_y";
-            this.NUD_RETRACT_y.ParamName = null;
-            this.NUD_RETRACT_y.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // NUD_RETRACT_x
-            // 
-            resources.ApplyResources(this.NUD_RETRACT_x, "NUD_RETRACT_x");
-            this.NUD_RETRACT_x.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_RETRACT_x.Max = 1F;
-            this.NUD_RETRACT_x.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_RETRACT_x.Min = 0F;
-            this.NUD_RETRACT_x.Name = "NUD_RETRACT_x";
-            this.NUD_RETRACT_x.ParamName = null;
-            this.NUD_RETRACT_x.Value = new decimal(new int[] {
-            1000,
             0,
             0,
             0});
@@ -1139,8 +1143,36 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxRR.ParamName = null;
             this.mavlinkCheckBoxRR.UseVisualStyleBackColor = true;
             // 
+            // label31
+            // 
+            resources.ApplyResources(this.label31, "label31");
+            this.label31.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label31.Name = "label31";
+            // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label32.Name = "label32";
+            // 
+            // label33
+            // 
+            resources.ApplyResources(this.label33, "label33");
+            this.label33.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label33.Name = "label33";
+            // 
+            // label45
+            // 
+            resources.ApplyResources(this.label45, "label45");
+            this.label45.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label45.Name = "label45";
+            // 
             // ConfigMount
             // 
+            this.Controls.Add(this.label45);
+            this.Controls.Add(this.label33);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.label31);
             this.Controls.Add(this.label44);
             this.Controls.Add(this.label43);
             this.Controls.Add(this.CMB_mnt_type);
@@ -1222,20 +1254,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_z)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_x)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_z)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_duration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_pushed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_notpushed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownShutM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownShutMX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_z)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_y)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_x)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_z)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_y)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RETRACT_x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownTAM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownTAMX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownTSM)).EndInit();
@@ -1341,5 +1373,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
         private ComboBox CMB_shuttertype;
+        private Label label31;
+        private Label label32;
+        private Label label33;
+        private Label label45;
     }
 }
