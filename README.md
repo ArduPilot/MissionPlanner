@@ -38,15 +38,17 @@ Currently VSCode with C# plugin is able to parse the code but cannot build.
 #### 2. Get the code
 
 If you get Visual Studio Community, you should be able to use Git from the IDE. 
-Just clone `https://github.com/ArduPilot/MissionPlanner.git` to get the full code.
+Clone `https://github.com/ArduPilot/MissionPlanner.git` to get the full code.
 
 In case you didn't install an IDE, you will need to manually install Git. Please follow instruction in https://ardupilot.org/dev/docs/where-to-get-the-code.html#downloading-the-code-using-git
+
+Open a git bash terminal in the MissionPlanner directory and type, "git submodule update --init" to download all submodules
 
 #### 3. Build
 
 To build the code:
 - Open MissionPlanner.sln with Visual Studio
-- Compile just the MissionPlanner project
+- From the Build menu, select "Build MissionPlanner"
 
 ### On other systems
 Building Mission Planner on other systems isn't support currently.
