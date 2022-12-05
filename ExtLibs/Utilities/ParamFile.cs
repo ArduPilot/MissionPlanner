@@ -60,6 +60,14 @@ namespace MissionPlanner.Utilities
                         continue;
                     if (name == "GND_TEMP")
                         continue;
+                    if (name == "BARO1_GND_PRESS")
+                        continue;
+                    if (name == "BARO2_GND_PRESS")
+                        continue;
+                    if (name == "BARO3_GND_PRESS")
+                        continue;
+                    if (name == "BARO_GND_TEMP")
+                        continue;
                     if (name == "CMD_INDEX")
                         continue;
                     if (name == "LOG_LASTFILE")
