@@ -227,9 +227,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                if (
-                    !MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT,
-                        speed, time, motorcount))
+                if (!MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent,
+                        MAVLink.MAV_CMD.DO_MOTOR_TEST,
+                        (float)motor,
+                        (float)(byte)MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT,
+                        (float)speed,
+                        (float)time,
+                        (float)motorcount,
+                        0,
+                        0))
                 {
                     CustomMessageBox.Show("Command was denied by the autopilot");
                 }
