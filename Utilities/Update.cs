@@ -395,6 +395,9 @@ namespace MissionPlanner.Utilities
                 */
                 int done = 0;
 
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+
                 Parallel.ForEach(tasklist, opt, task =>
                 //foreach (var task in tasklist)
                 {
@@ -436,7 +439,7 @@ namespace MissionPlanner.Utilities
                             else
                             {
                                 GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir,
-                                    Path.GetFileName(file));
+                                    Path.GetFileName(file), client);
                             }
 
                             // check the new downloaded file matchs hash
@@ -568,7 +571,8 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
+        static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir,
+            string file, HttpClient httpClient)
         {
             // create dest dir
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
@@ -595,9 +599,6 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     string url = baseurl + file + "?" + new Random().Next();
-                    var client = new HttpClient();
-                    client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-                    client.Timeout = TimeSpan.FromSeconds(10);
                     // Get the response.
                     using (var response = client.GetAsync(url).GetAwaiter().GetResult())
                     {
