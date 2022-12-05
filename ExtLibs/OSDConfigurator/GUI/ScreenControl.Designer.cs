@@ -54,7 +54,7 @@
             this.panelItemList.Location = new System.Drawing.Point(3, 195);
             this.panelItemList.MinimumSize = new System.Drawing.Size(50, 50);
             this.panelItemList.Name = "panelItemList";
-            this.panelItemList.Size = new System.Drawing.Size(672, 622);
+            this.panelItemList.Size = new System.Drawing.Size(405, 183);
             this.panelItemList.TabIndex = 1;
             // 
             // groupScreenOptions
@@ -62,7 +62,7 @@
             this.groupScreenOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupScreenOptions.Location = new System.Drawing.Point(3, 110);
             this.groupScreenOptions.Name = "groupScreenOptions";
-            this.groupScreenOptions.Size = new System.Drawing.Size(394, 350);
+            this.groupScreenOptions.Size = new System.Drawing.Size(344, 131);
             this.groupScreenOptions.TabIndex = 1;
             this.groupScreenOptions.TabStop = false;
             this.groupScreenOptions.Text = "Screen Options";
@@ -79,7 +79,7 @@
             this.tableRoot.Name = "tableRoot";
             this.tableRoot.RowCount = 1;
             this.tableRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableRoot.Size = new System.Drawing.Size(1090, 826);
+            this.tableRoot.Size = new System.Drawing.Size(773, 387);
             this.tableRoot.TabIndex = 5;
             // 
             // tableRight
@@ -90,22 +90,22 @@
             this.tableRight.Controls.Add(this.groupScreenOptions, 0, 1);
             this.tableRight.Controls.Add(this.grEditorOptions, 0, 0);
             this.tableRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableRight.Location = new System.Drawing.Point(687, 3);
+            this.tableRight.Location = new System.Drawing.Point(420, 3);
             this.tableRight.MaximumSize = new System.Drawing.Size(400, 0);
             this.tableRight.Name = "tableRight";
             this.tableRight.RowCount = 3;
             this.tableRight.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableRight.Size = new System.Drawing.Size(400, 820);
+            this.tableRight.Size = new System.Drawing.Size(350, 381);
             this.tableRight.TabIndex = 0;
             // 
             // groupOptions
             // 
             this.groupOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupOptions.Location = new System.Drawing.Point(3, 466);
+            this.groupOptions.Location = new System.Drawing.Point(3, 247);
             this.groupOptions.Name = "groupOptions";
-            this.groupOptions.Size = new System.Drawing.Size(394, 351);
+            this.groupOptions.Size = new System.Drawing.Size(344, 131);
             this.groupOptions.TabIndex = 0;
             this.groupOptions.TabStop = false;
             this.groupOptions.Text = "Item Options";
@@ -120,7 +120,7 @@
             this.grEditorOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.grEditorOptions.Location = new System.Drawing.Point(3, 3);
             this.grEditorOptions.Name = "grEditorOptions";
-            this.grEditorOptions.Size = new System.Drawing.Size(394, 101);
+            this.grEditorOptions.Size = new System.Drawing.Size(344, 101);
             this.grEditorOptions.TabIndex = 2;
             this.grEditorOptions.TabStop = false;
             this.grEditorOptions.Text = "Editor Options";
@@ -137,27 +137,27 @@
             // 
             // btnClearAll
             // 
-            this.btnClearAll.Location = new System.Drawing.Point(145, 58);
+            this.btnClearAll.Location = new System.Drawing.Point(127, 58);
             this.btnClearAll.Name = "btnClearAll";
-            this.btnClearAll.Size = new System.Drawing.Size(110, 33);
+            this.btnClearAll.Size = new System.Drawing.Size(93, 33);
             this.btnClearAll.TabIndex = 3;
             this.btnClearAll.Text = "Clear All";
             this.btnClearAll.UseVisualStyleBackColor = true;
             // 
             // btnPaste
             // 
-            this.btnPaste.Location = new System.Drawing.Point(261, 19);
+            this.btnPaste.Location = new System.Drawing.Point(226, 19);
             this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(110, 33);
+            this.btnPaste.Size = new System.Drawing.Size(93, 33);
             this.btnPaste.TabIndex = 2;
             this.btnPaste.Text = "Paste Layout";
             this.btnPaste.UseVisualStyleBackColor = true;
             // 
             // btnCopy
             // 
-            this.btnCopy.Location = new System.Drawing.Point(145, 19);
+            this.btnCopy.Location = new System.Drawing.Point(127, 19);
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(110, 33);
+            this.btnCopy.Size = new System.Drawing.Size(93, 33);
             this.btnCopy.TabIndex = 1;
             this.btnCopy.Text = "Copy Layout";
             this.btnCopy.UseVisualStyleBackColor = true;
@@ -174,6 +174,7 @@
             // 
             // tableLeft
             // 
+            this.tableLeft.AutoScroll = true;
             this.tableLeft.AutoSize = true;
             this.tableLeft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLeft.ColumnCount = 1;
@@ -186,14 +187,14 @@
             this.tableLeft.RowCount = 2;
             this.tableLeft.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLeft.Size = new System.Drawing.Size(678, 820);
+            this.tableLeft.Size = new System.Drawing.Size(411, 381);
             this.tableLeft.TabIndex = 1;
             // 
             // layoutControl
             // 
             this.layoutControl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.layoutControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
-            this.layoutControl.Location = new System.Drawing.Point(212, 3);
+            this.layoutControl.Location = new System.Drawing.Point(79, 3);
             this.layoutControl.Name = "layoutControl";
             this.layoutControl.Padding = new System.Windows.Forms.Padding(10);
             this.layoutControl.ScreenControl = null;
@@ -207,7 +208,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableRoot);
             this.Name = "ScreenControl";
-            this.Size = new System.Drawing.Size(1090, 826);
+            this.Size = new System.Drawing.Size(773, 387);
             this.tableRoot.ResumeLayout(false);
             this.tableRoot.PerformLayout();
             this.tableRight.ResumeLayout(false);
