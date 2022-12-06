@@ -272,7 +272,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                     long length = int.Parse(response.Result.Content.Headers.First(h => h.Key.Equals("Content-Length")).Value.First());
                                     long progress = 0;
-                                    dataStream.ReadTimeout = 30000;
 
                                     while (dataStream.CanRead)
                                     {
