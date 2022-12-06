@@ -31,12 +31,13 @@ using SkiaSharp;
 
 namespace MissionPlanner.Controls
 {
-    public class HUD2: HUD
+    public class HUD2 : HUD
     {
-        public HUD2(): base()
+        public HUD2() : base()
         {
             started = true;
             opengl = false;
+            InitializeComponent();
         }
 
         private Bitmap bitmap;
@@ -101,6 +102,21 @@ namespace MissionPlanner.Controls
                 Bitmap.Dispose();
                 bitmap = null;
             }
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // HUD2
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.hudcolor = System.Drawing.Color.LightGray;
+            this.Name = "HUD2";
+            this.Size = new System.Drawing.Size(466, 354);
+            this.VSync = false;
+            this.ResumeLayout(false);
+
         }
     }
 
@@ -381,6 +397,20 @@ namespace MissionPlanner.Controls
         public string speedunit { get; set; } = "";
 
         public string altunit { get; set; } = "";
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float load
+        {
+            get { return _load; }
+            set
+            {
+                if (_load != value)
+                {
+                    _load = value;
+                    this.Invalidate();
+                }
+            }
+        }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float alt
@@ -3039,6 +3069,9 @@ namespace MissionPlanner.Controls
                     }
                 }
 
+                if (load == 100)
+                    drawstring("CPU", font, fontsize + 2, _redBrush, vibehitzone.Right, vibehitzone.Y);
+
                 if (displayekf)
                 {
                     if (displayicons)
@@ -3171,6 +3204,8 @@ namespace MissionPlanner.Controls
         /// pth for drawstring
         /// </summary>
         private readonly GraphicsPath pth = new GraphicsPath();
+
+        private float _load;
 
         float calcfontsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
         {
@@ -3642,4 +3677,4 @@ namespace MissionPlanner.Controls
             }
         }
     }
-}
+ }
