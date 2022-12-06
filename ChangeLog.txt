@@ -1,4 +1,9 @@
-﻿*Mission Planner 1.3.78 - 05-12-2022
+﻿*Mission Planner 1.3.79 - 06-12-2022
+HttpClient: change timeouts
+ConfigFirmwareManifest: fix timeout download bug
+Linux: skip port detection via exist check
+
+*Mission Planner 1.3.78 - 05-12-2022
 ConfigMotorTest: update to use non obsolete
 OSDConfigurator: tweak sizes
 README: clarify build instructions
