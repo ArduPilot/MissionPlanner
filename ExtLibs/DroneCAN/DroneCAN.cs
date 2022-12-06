@@ -1062,7 +1062,7 @@ namespace DroneCAN
                 Console.WriteLine("LookForUpdate at " + url);
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("User-Agent", Assembly.GetExecutingAssembly().GetName().Name);
-                client.Timeout = TimeSpan.FromSeconds(4);
+                client.Timeout = TimeSpan.FromSeconds(30);
                 var req = client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)).Result;
 
                 try

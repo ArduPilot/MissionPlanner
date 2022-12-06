@@ -253,7 +253,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         // Create a request using a URL that can receive a post. 
                         var client = new HttpClient();
                         client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-                        client.Timeout = TimeSpan.FromSeconds(10);
+                        client.Timeout = TimeSpan.FromSeconds(30);
                         using (var response = client.GetAsync(baseurl))
                         {
                             // Display the status.

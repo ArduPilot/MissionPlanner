@@ -438,7 +438,7 @@ namespace MissionPlanner.Utilities
                     log.Info(url);
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-                client.Timeout = TimeSpan.FromSeconds(10);
+                client.Timeout = TimeSpan.FromSeconds(30);
 
                 // Get the response.
                 var response = client.GetAsync(url).Result;
@@ -543,7 +543,7 @@ namespace MissionPlanner.Utilities
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-            client.Timeout = TimeSpan.FromSeconds(10);
+            client.Timeout = TimeSpan.FromSeconds(30);
             var resp = client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)).Result;
             return resp.IsSuccessStatusCode;
 

@@ -204,7 +204,7 @@ namespace MissionPlanner.Utilities
                     log.Info("url: " + url);
                     var client = new HttpClient();
                     client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-                    client.Timeout = TimeSpan.FromSeconds(10);
+                    client.Timeout = TimeSpan.FromSeconds(30);
 
                     using (var response = client.GetAsync(url))
                     using (XmlReader xmlreader = XmlReader.Create(response.Result.Content.ReadAsStreamAsync().Result))
@@ -322,7 +322,7 @@ namespace MissionPlanner.Utilities
 
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-                client.Timeout = TimeSpan.FromSeconds(10);
+                client.Timeout = TimeSpan.FromSeconds(30);
 
                 using (var response = client.GetAsync(url))
                 using (StreamReader sr = new StreamReader(response.GetAwaiter().GetResult().Content.ReadAsStreamAsync().GetAwaiter().GetResult()))

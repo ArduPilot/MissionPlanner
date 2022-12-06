@@ -299,7 +299,7 @@ namespace MissionPlanner.Utilities
             {
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("User-Agent", productName + " " + productVersion + " (" + Environment.OSVersion.VersionString + ")");
-                client.Timeout = TimeSpan.FromSeconds(10);
+                client.Timeout = TimeSpan.FromSeconds(30);
 
                 string data = "";
 
