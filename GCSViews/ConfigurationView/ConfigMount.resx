@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>76</value>
+    <value>75</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 181</value>
@@ -166,7 +166,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>74</value>
+    <value>73</value>
   </data>
   <data name="pictureBox2.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -193,7 +193,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>75</value>
+    <value>74</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 54</value>
@@ -214,7 +214,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>73</value>
+    <value>72</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -247,7 +247,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>72</value>
+    <value>71</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -280,7 +280,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>71</value>
+    <value>70</value>
   </data>
   <data name="LNK_wiki.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -313,7 +313,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LNK_wiki.ZOrder" xml:space="preserve">
-    <value>70</value>
+    <value>69</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -346,7 +346,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>67</value>
+    <value>66</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 305</value>
@@ -367,7 +367,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>68</value>
+    <value>67</value>
   </data>
   <data name="pictureBox3.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -394,7 +394,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
-    <value>69</value>
+    <value>68</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -427,7 +427,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>56</value>
+    <value>55</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -460,7 +460,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>57</value>
+    <value>56</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -490,7 +490,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>58</value>
+    <value>57</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -520,7 +520,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>59</value>
+    <value>58</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -550,7 +550,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>62</value>
+    <value>61</value>
   </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -580,7 +580,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>63</value>
+    <value>62</value>
   </data>
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -613,7 +613,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
-    <value>45</value>
+    <value>44</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -646,7 +646,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>46</value>
+    <value>45</value>
   </data>
   <data name="label18.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -676,7 +676,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
-    <value>47</value>
+    <value>46</value>
   </data>
   <data name="label19.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -706,7 +706,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
-    <value>48</value>
+    <value>47</value>
   </data>
   <data name="label20.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -736,7 +736,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
-    <value>51</value>
+    <value>50</value>
   </data>
   <data name="label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -766,7 +766,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
-    <value>52</value>
+    <value>51</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -799,7 +799,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>33</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -832,7 +832,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>34</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -862,7 +862,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>35</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -892,7 +892,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>36</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -922,7 +922,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>39</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -952,7 +952,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>40</value>
   </data>
   <data name="mavlinkComboBoxTilt.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 34</value>
@@ -973,7 +973,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxTilt.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>32</value>
   </data>
   <data name="mavlinkComboBoxRoll.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 162</value>
@@ -994,7 +994,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxRoll.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>31</value>
   </data>
   <data name="mavlinkComboBoxPan.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 286</value>
@@ -1015,7 +1015,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxPan.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>30</value>
   </data>
   <data name="label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1048,7 +1048,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>28</value>
   </data>
   <data name="label23.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1081,7 +1081,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>26</value>
   </data>
   <data name="label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1114,7 +1114,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>24</value>
   </data>
   <data name="CMB_inputch_pan.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1138,7 +1138,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_pan.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>25</value>
   </data>
   <data name="CMB_inputch_roll.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1162,7 +1162,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_roll.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>27</value>
   </data>
   <data name="CMB_inputch_tilt.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1186,7 +1186,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_tilt.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>29</value>
   </data>
   <data name="mavlinkNumericUpDownTAM.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1210,7 +1210,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTAM.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>37</value>
   </data>
   <data name="mavlinkNumericUpDownTAMX.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1234,7 +1234,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTAMX.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>38</value>
   </data>
   <data name="mavlinkNumericUpDownTSM.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1258,7 +1258,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTSM.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>41</value>
   </data>
   <data name="mavlinkNumericUpDownTSMX.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1282,7 +1282,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTSMX.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>42</value>
   </data>
   <data name="mavlinkCheckBoxTR.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1315,7 +1315,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxTR.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>43</value>
   </data>
   <data name="mavlinkNumericUpDownPAM.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1339,7 +1339,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPAM.ZOrder" xml:space="preserve">
-    <value>49</value>
+    <value>48</value>
   </data>
   <data name="mavlinkNumericUpDownPAMX.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1363,7 +1363,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPAMX.ZOrder" xml:space="preserve">
-    <value>50</value>
+    <value>49</value>
   </data>
   <data name="mavlinkNumericUpDownPSM.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1387,7 +1387,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPSM.ZOrder" xml:space="preserve">
-    <value>53</value>
+    <value>52</value>
   </data>
   <data name="mavlinkNumericUpDownPSMX.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1411,7 +1411,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPSMX.ZOrder" xml:space="preserve">
-    <value>54</value>
+    <value>53</value>
   </data>
   <data name="mavlinkCheckBoxPR.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1444,7 +1444,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxPR.ZOrder" xml:space="preserve">
-    <value>55</value>
+    <value>54</value>
   </data>
   <data name="mavlinkNumericUpDownRAM.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1468,7 +1468,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRAM.ZOrder" xml:space="preserve">
-    <value>60</value>
+    <value>59</value>
   </data>
   <data name="mavlinkNumericUpDownRAMX.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1492,7 +1492,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRAMX.ZOrder" xml:space="preserve">
-    <value>61</value>
+    <value>60</value>
   </data>
   <data name="mavlinkNumericUpDownRSM.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1516,7 +1516,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRSM.ZOrder" xml:space="preserve">
-    <value>64</value>
+    <value>63</value>
   </data>
   <data name="mavlinkNumericUpDownRSMX.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1540,7 +1540,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRSMX.ZOrder" xml:space="preserve">
-    <value>65</value>
+    <value>64</value>
   </data>
   <data name="mavlinkCheckBoxRR.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1573,7 +1573,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxRR.ZOrder" xml:space="preserve">
-    <value>66</value>
+    <value>65</value>
   </data>
   <data name="label27.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1756,7 +1756,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>23</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1942,7 +1942,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>22</value>
   </data>
   <data name="CHK_stab_tilt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1972,7 +1972,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_stab_tilt.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>21</value>
   </data>
   <data name="CHK_stab_roll.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2005,39 +2005,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_stab_roll.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="CHK_stab_pan.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_stab_pan.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_stab_pan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_stab_pan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>249, 288</value>
-  </data>
-  <data name="CHK_stab_pan.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 17</value>
-  </data>
-  <data name="CHK_stab_pan.TabIndex" type="System.Int32, mscorlib">
-    <value>141</value>
-  </data>
-  <data name="CHK_stab_pan.Text" xml:space="preserve">
-    <value>Stabalise Pan</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.Name" xml:space="preserve">
-    <value>CHK_stab_pan</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.8370.17362, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_stab_pan.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
   <data name="CMB_shuttertype.Location" type="System.Drawing.Point, System.Drawing">

@@ -100,7 +100,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.NUD_NEUTRAL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.CHK_stab_tilt = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_stab_roll = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_stab_pan = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_shuttertype = new System.Windows.Forms.ComboBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
@@ -945,15 +944,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CHK_stab_roll.ParamName = null;
             this.CHK_stab_roll.UseVisualStyleBackColor = true;
             // 
-            // CHK_stab_pan
-            // 
-            resources.ApplyResources(this.CHK_stab_pan, "CHK_stab_pan");
-            this.CHK_stab_pan.Name = "CHK_stab_pan";
-            this.CHK_stab_pan.OffValue = 0D;
-            this.CHK_stab_pan.OnValue = 1D;
-            this.CHK_stab_pan.ParamName = null;
-            this.CHK_stab_pan.UseVisualStyleBackColor = true;
-            // 
             // CMB_shuttertype
             // 
             this.CMB_shuttertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1191,7 +1181,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.label41);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.CHK_stab_pan);
             this.Controls.Add(this.CHK_stab_roll);
             this.Controls.Add(this.CHK_stab_tilt);
             this.Controls.Add(this.groupBox5);
@@ -1356,7 +1345,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkNumericUpDown NUD_NEUTRAL_x;
         private MavlinkCheckBox CHK_stab_tilt;
         private MavlinkCheckBox CHK_stab_roll;
-        private MavlinkCheckBox CHK_stab_pan;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
