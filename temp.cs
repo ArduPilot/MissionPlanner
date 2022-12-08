@@ -467,7 +467,7 @@ namespace MissionPlanner
                         var sb = new StringBuilder();
 
                         sb.Append("#Shap to Poly - Mission Planner\r\n");
-                        foreach (var point in feature.Coordinates)
+                        foreach (var point in feature.Geometry.Coordinates)
                         {
                             if (reproject)
                             {

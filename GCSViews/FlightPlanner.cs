@@ -3534,7 +3534,7 @@ namespace MissionPlanner.GCSViews
                         string path = Path.GetDirectoryName(file);
                         foreach (var feature in fs.Features)
                         {
-                            foreach (var point in feature.Coordinates)
+                            foreach (var point in feature.Geometry.Coordinates)
                             {
                                 if (reproject)
                                 {

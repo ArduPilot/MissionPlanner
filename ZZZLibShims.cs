@@ -541,10 +541,12 @@ public interface IFeatureSet
     int NumRows();
 }
 
-public class Feature    
-{
-    public List<Coord> Coordinates { get; set; }
-}
+    public class Feature
+    {
+        public List<Coord> Coordinates { get; set; }
+
+        public Feature Geometry { get; set; }
+    }
 
 public class Coord
 {
@@ -836,7 +838,7 @@ namespace System.Management
         }
     }
 
-    public class ManagementObjectSearcher: IDisposable
+    public class ManagementObjectSearcher : IDisposable
     {
         private ObjectQuery query;
 
@@ -861,7 +863,7 @@ namespace System.Management
 
         public class PropertyDataCollection : ICollection
         {
-         
+
 
             public IEnumerator<extratype> GetEnumerator()
             {
@@ -875,7 +877,7 @@ namespace System.Management
 
             public void CopyTo(Array array, int index)
             {
-                
+
             }
 
             IEnumerator IEnumerable.GetEnumerator()
