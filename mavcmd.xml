@@ -329,9 +329,9 @@
     </CONDITION_DISTANCE>
     <CONDITION_YAW>
       <P1>Deg</P1>
-      <P2>Sec</P2>
+      <P2>Speed deg/s</P2>
       <P3>Dir 1=CW</P3>
-      <P4>rel/abs</P4>
+      <P4>0=Abs,1=Rel</P4>
       <X></X>
       <Y></Y>
       <Z></Z>
