@@ -1797,7 +1797,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     MAVLINK_MSG_ID.PARAM_VALUE,
                                     new mavlink_param_value_t((float) a.Value, (ushort) mavlist.Count,
                                         0,
-                                        a.Name.MakeBytesSize(16), (byte) a.Type)));
+                                        a.Name.MakeBytesSize(16), (byte) a.Type), sysid, compid));
                             });
 
                             UnSubscribeToPacketType(sub2);
