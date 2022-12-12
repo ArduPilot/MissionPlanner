@@ -7911,7 +7911,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             string place = "Perth Airport, Australia";
             if (DialogResult.OK == InputBox.Show("Location", "Enter your location", ref place))
             {
+                // Create a backup of the map provider
+                var provider = MainMap.MapProvider;
+                // Set map provider to OpenStreetMap
+                MainMap.MapProvider = GMapProviders.OpenStreetMap;
+                // Zoom to the region specified
                 GeoCoderStatusCode status = MainMap.SetPositionByKeywords(place);
+                // Restore the map provider
+                MainMap.MapProvider = provider;
                 if (status != GeoCoderStatusCode.G_GEO_SUCCESS)
                 {
                     CustomMessageBox.Show("Google Maps Geocoder can't find: '" + place + "', reason: " + status,
