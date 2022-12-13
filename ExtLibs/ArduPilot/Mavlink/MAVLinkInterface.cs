@@ -2389,6 +2389,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
 
         /// <summary>
+        /// Control high latency mode
+        /// </summary>
+        /// <param name="onoff">true to enable, false to disable</param>
+        /// <returns></returns>
+        public bool doHighLatency(bool onoff= false)
+        {
+            int param1 = onoff ? 1 : 0;
+
+            var ans1 = doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.CONTROL_HIGH_LATENCY,
+                    param1, 0, 0, 0, 0, 0, 0);
+
+            return ans1;
+        }
+
+        /// <summary>
         /// reboot the vehicle
         /// </summary>
         /// <param name="bootloadermode">reboot into bootloader mode?</param>

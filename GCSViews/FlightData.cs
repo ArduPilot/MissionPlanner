@@ -180,7 +180,9 @@ namespace MissionPlanner.GCSViews
             Battery_Reset,
             ADSB_Out_Ident,
             Scripting_cmd_stop_and_restart,
-            Scripting_cmd_stop
+            Scripting_cmd_stop,
+            HighLatency_Enable,
+            HighLatency_Disable
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
@@ -1708,6 +1710,18 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.doReboot();
                         ((Control) sender).Enabled = true;
+                        return;
+                    }
+                    if (CMB_action.Text == actions.HighLatency_Enable.ToString())
+                    {
+                        MainV2.comPort.doHighLatency(true);
+                        ((Control)sender).Enabled = true;
+                        return;
+                    }
+                    if (CMB_action.Text == actions.HighLatency_Disable.ToString())
+                    {
+                        MainV2.comPort.doHighLatency(false);
+                        ((Control)sender).Enabled = true;
                         return;
                     }
 
