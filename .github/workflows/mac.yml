@@ -16,7 +16,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
           key: ${{ runner.os }}-buildIOS
 
       - name: Build
@@ -46,7 +46,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
           key: ${{ runner.os }}-buildOSX
 
       - name: Build
