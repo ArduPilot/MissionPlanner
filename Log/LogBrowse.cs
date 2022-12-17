@@ -1036,7 +1036,8 @@ namespace MissionPlanner.Log
         {
             log.InfoFormat("GraphItem: {0} {1} {2}", type, fieldname, instance);
             DataModifer dataModifier = new DataModifer();
-            string nodeName = DataModifer.GetNodeName(type, instance != "" ? int.Parse(instance) : -1, fieldname);
+            int instance_int;
+            string nodeName = DataModifer.GetNodeName(type, int.TryParse(instance, out instance_int) ? instance_int : -1, fieldname);
 
             foreach (var curve in zg1.GraphPane.CurveList)
             {
