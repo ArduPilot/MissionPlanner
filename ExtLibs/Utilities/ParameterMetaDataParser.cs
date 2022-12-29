@@ -47,6 +47,7 @@ namespace MissionPlanner.Utilities
             {"Plane", "Plane"},
             {"Sub", "Sub"},
             {"Tracker", "Tracker"},
+            {"Blimp", "Blimp"},
         };
 
         /// <summary>
