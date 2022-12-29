@@ -23,7 +23,7 @@ namespace MissionPlanner.Utilities
         private static string[] vehicles = new[]
         {
              "SITL", "AP_Periph", "ArduSub", "Rover", "ArduCopter",
-            "ArduPlane", "AntennaTracker"
+            "ArduPlane", "AntennaTracker", "Blimp", "Heli"
         };
 
         static string url = "https://autotest.ardupilot.org/Parameters/{0}/apm.pdef.xml.gz";
