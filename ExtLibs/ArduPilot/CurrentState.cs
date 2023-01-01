@@ -1940,6 +1940,9 @@ namespace MissionPlanner
         [GroupText("EFI")]
         [DisplayText("EFI Fuel Consumed (g)")]
         public float efi_fuelconsumed { get; private set; }
+        [GroupText("EFI")]
+        [DisplayText("EFI Fuel Pressure (kPa)")]
+        public float efi_fuelpressure { get; private set; }
 
         [GroupText("Transponder Status")]
         [DisplayText("Transponder 1090ES Tx Enabled")]
@@ -2488,6 +2491,15 @@ namespace MissionPlanner
                                 efi_rpm = efi.rpm;
                                 efi_fuelflow = efi.fuel_flow;
                                 efi_fuelconsumed = efi.fuel_consumed;
+                                // A value of exactly zero indicates that fuel pressure is not supported
+                                if (efi.fuel_pressure == 0)
+                                {
+                                    efi_fuelpressure = -1;
+                                }
+                                else
+                                {
+                                    efi_fuelpressure = efi.fuel_pressure;
+                                }
                             }
                         }
                         break;
