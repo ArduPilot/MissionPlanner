@@ -247,11 +247,7 @@ namespace MissionPlanner.Controls
             {
                 msg = "Remote ID ARM Error";
 
-            }
-            else if (_uas_id == false)
-            {
-                msg = "Need to input UAS ID";
-            }
+            }            
             else
             {
                 myODID_Status.setStatusOK();
@@ -268,8 +264,7 @@ namespace MissionPlanner.Controls
         private void checkUID()
         {
 
-            _uas_id = (!String.IsNullOrEmpty(TXT_UAS_ID.Text) && CMB_uas_id_type.SelectedIndex > 0 && CMB_uas_type.SelectedIndex > 0);
-            LED_UAS_ID.Color = _uas_id ? Color.Green : Color.Red;
+            _uas_id = (!String.IsNullOrEmpty(TXT_UAS_ID.Text) && CMB_uas_id_type.SelectedIndex > 0 && CMB_uas_type.SelectedIndex > 0);            
 
             // Note - this needs to be updated later to accomondate a Standard Remote ID Configuratoin
             if (_uas_id && CMB_uas_id_type.SelectedIndex > 0 && CMB_uas_type.SelectedIndex > 0)
