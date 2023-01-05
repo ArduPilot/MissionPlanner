@@ -35,19 +35,20 @@ namespace MissionPlanner.Controls
             this.TXT_UAS_ID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label4_info = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.LED_ArmedError = new Bulb.LedBulb();
             this.label13 = new System.Windows.Forms.Label();
             this.LED_RemoteID_Messages = new Bulb.LedBulb();
             this.LED_gps_valid = new Bulb.LedBulb();
-            this.label14 = new System.Windows.Forms.Label();
-            this.LED_UAS_ID = new Bulb.LedBulb();
+            this.label14 = new System.Windows.Forms.Label();            
             this.label16 = new System.Windows.Forms.Label();
             this.CMB_uas_id_type = new System.Windows.Forms.ComboBox();
             this.CMB_uas_type = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
             this.CMB_self_id_type = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
+            this.label18_info = new System.Windows.Forms.Label();
             this.TXT_self_id_TXT = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
@@ -129,6 +130,18 @@ namespace MissionPlanner.Controls
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 11;
             this.label4.Text = "UA Type";
+
+            // 
+            // label4 info
+            // 
+            this.label4_info.AutoSize = true;
+            this.label4_info.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4_info.Location = new System.Drawing.Point(6, 119);
+            this.label4_info.Name = "label4_info";
+            this.label4_info.Size = new System.Drawing.Size(49, 13);
+            this.label4_info.TabIndex = 12;
+            this.label4_info.Text = "Optional settings. Typically these are set in the ArduRemoteID\r\ndevice instead.";
+
             // 
             // label12
             // 
@@ -189,26 +202,7 @@ namespace MissionPlanner.Controls
             this.label14.Size = new System.Drawing.Size(54, 13);
             this.label14.TabIndex = 35;
             this.label14.Text = "GCS GPS";
-            // 
-            // LED_UAS_ID
-            // 
-            this.LED_UAS_ID.Color = System.Drawing.Color.White;
-            this.LED_UAS_ID.Location = new System.Drawing.Point(93, 20);
-            this.LED_UAS_ID.Name = "LED_UAS_ID";
-            this.LED_UAS_ID.On = true;
-            this.LED_UAS_ID.Size = new System.Drawing.Size(16, 16);
-            this.LED_UAS_ID.TabIndex = 40;
-            this.LED_UAS_ID.Text = "ledBulb3";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(110, 22);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(43, 13);
-            this.label16.TabIndex = 39;
-            this.label16.Text = "UAS ID";
+
             // 
             // CMB_uas_id_type
             // 
@@ -265,6 +259,18 @@ namespace MissionPlanner.Controls
             this.TXT_self_id_TXT.Name = "TXT_self_id_TXT";
             this.TXT_self_id_TXT.Size = new System.Drawing.Size(195, 20);
             this.TXT_self_id_TXT.TabIndex = 46;
+
+            // 
+            // label18 info
+            // 
+            this.label18_info.AutoSize = true;
+            this.label18_info.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18_info.Location = new System.Drawing.Point(6, 150);
+            this.label18_info.Name = "label18_info";
+            this.label18_info.Size = new System.Drawing.Size(273, 26);
+            this.label18_info.TabIndex = 47;
+            this.label18_info.Text = "These fields are optional in the USA.\r\nThey can also be set in the ArduRemoteID device.";
+
             // 
             // groupBox2
             // 
@@ -272,7 +278,6 @@ namespace MissionPlanner.Controls
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.LED_ArmedError);
             this.groupBox2.Controls.Add(this.LED_RemoteID_Messages);
-            this.groupBox2.Controls.Add(this.LED_UAS_ID);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.LED_gps_valid);
@@ -364,6 +369,7 @@ namespace MissionPlanner.Controls
             this.tab_uid.Controls.Add(this.TXT_UAS_ID);
             this.tab_uid.Controls.Add(this.label2);
             this.tab_uid.Controls.Add(this.label4);
+            this.tab_uid.Controls.Add(this.label4_info);
             this.tab_uid.Controls.Add(this.CMB_uas_id_type);
             this.tab_uid.Controls.Add(this.CMB_uas_type);
             this.tab_uid.Controls.Add(this.label3);
@@ -385,6 +391,7 @@ namespace MissionPlanner.Controls
             this.tab_ops.Controls.Add(this.txt_UserID);
             this.tab_ops.Controls.Add(this.CMB_self_id_type);
             this.tab_ops.Controls.Add(this.label18);
+            this.tab_ops.Controls.Add(this.label18_info);
             this.tab_ops.Controls.Add(this.TXT_self_id_TXT);
             this.tab_ops.Location = new System.Drawing.Point(4, 22);
             this.tab_ops.Name = "tab_ops";
@@ -468,19 +475,20 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.TextBox TXT_UAS_ID;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label4_info;
         private System.Windows.Forms.Label label12;
         private Bulb.LedBulb LED_ArmedError;
         private System.Windows.Forms.Label label13;
         private Bulb.LedBulb LED_RemoteID_Messages;
         private Bulb.LedBulb LED_gps_valid;
-        private System.Windows.Forms.Label label14;
-        private Bulb.LedBulb LED_UAS_ID;
+        private System.Windows.Forms.Label label14;        
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox CMB_uas_id_type;
         private System.Windows.Forms.ComboBox CMB_uas_type;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox CMB_self_id_type;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label18_info;
         private System.Windows.Forms.TextBox TXT_self_id_TXT;
         private System.Windows.Forms.GroupBox groupBox2;
         private OpenDroneID_Map_Status myODID_Status;
