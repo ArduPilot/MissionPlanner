@@ -1251,6 +1251,8 @@ namespace MissionPlanner.GeoRef
             using (
                 StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
             using (
+            StreamWriter swlocgeo = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.geo"))
+            using (
                 StreamWriter swloctel = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.tel"))
             using (
                 XmlTextWriter swloctrim = new XmlTextWriter(
@@ -1394,6 +1396,8 @@ namespace MissionPlanner.GeoRef
 
                 swloctxt.WriteLine("#name latitude/Y longitude/X height/Z yaw pitch roll SAlt");
 
+                swlocgeo.WriteLine("EPSG:4326");
+
                 AppendText?.Invoke("Start Processing\n");
 
                 // Dont know why but it was 10 in the past so let it be. Used to generate jxl file simulating x100 from trimble
@@ -1509,6 +1513,8 @@ namespace MissionPlanner.GeoRef
                                        picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt, usegpsalt));
                     swloctel.Flush();
                     swloctxt.Flush();
+
+                    swlocgeo.WriteLine($"{filename} {picInfo.Lon.ToString(CultureInfo.InvariantCulture)} {picInfo.Lat.ToString(CultureInfo.InvariantCulture)} {picInfo.getAltitude(useAMSLAlt, usegpsalt).ToString(CultureInfo.InvariantCulture)} 0 0 0 10 10");
 
                     lastRecordN = GenPhotoStationRecord(swloctrim, picInfo.Path, picInfo.Lat, picInfo.Lon,
                         picInfo.getAltitude(useAMSLAlt, usegpsalt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);
