@@ -113,8 +113,29 @@ namespace MissionPlanner.Comms
             Open(url);
         }
 
+        public static string PercentEncode(string value)
+        {
+            StringBuilder retval = new StringBuilder();
+            foreach (char c in value)
+            {
+                if ((c >= 48 && c <= 57) || //0-9  
+                    (c >= 65 && c <= 90) || //a-z  
+                    (c >= 97 && c <= 122) || //A-Z                    
+                    (c == 45 || c == 46 || c == 95 || c == 126 || c == 64 || c== 47 || c==58)) // period, hyphen, underscore, tilde, @, :, /
+                {
+                    retval.Append(c);
+                }
+                else
+                {
+                    retval.AppendFormat("%{0:X2}", ((byte)c));
+                }
+            }
+            return retval.ToString();
+        }
+
         public void Open(string url)
         {
+            // Need to ensure URI is % encoded, except the first "@", colons and backslashes
             var count = url.Split('@').Length - 1;
 
             if (count > 1)
@@ -122,6 +143,8 @@ namespace MissionPlanner.Comms
                 var regex = new Regex("@");
                 url = regex.Replace(url, "%40", 1);
             }
+
+            url = PercentEncode(url);
 
             url = url.Replace("ntrip://", "http://");
 
