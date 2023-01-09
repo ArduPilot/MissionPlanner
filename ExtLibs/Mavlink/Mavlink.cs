@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Oct 25 2022";
+    public const string MAVLINK_BUILD_DATE = "Mon Jan 09 2023";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -202,7 +202,7 @@ public partial class MAVLink
         new message_info(217, "GOPRO_GET_RESPONSE", 202, 6, 6, typeof( mavlink_gopro_get_response_t )),
         new message_info(218, "GOPRO_SET_REQUEST", 17, 7, 7, typeof( mavlink_gopro_set_request_t )),
         new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, 2, typeof( mavlink_gopro_set_response_t )),
-        new message_info(225, "EFI_STATUS", 208, 65, 69, typeof( mavlink_efi_status_t )),
+        new message_info(225, "EFI_STATUS", 208, 65, 73, typeof( mavlink_efi_status_t )),
         new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
         new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
         new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
@@ -11299,7 +11299,7 @@ public partial class MAVLink
         public  /*OSD_PARAM_CONFIG_TYPE*/byte config_type;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> Obstacle located as a 3D vector. </summary>
@@ -22553,12 +22553,12 @@ public partial class MAVLink
 
     
     /// extensions_start 17
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=69)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=73)]
     ///<summary> EFI status output </summary>
     public struct mavlink_efi_status_t
     {
         /// packet ordered constructor
-        public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,byte health,float ignition_voltage) 
+        public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,byte health,float ignition_voltage,float fuel_pressure) 
         {
             this.ecu_index = ecu_index;
             this.rpm = rpm;
@@ -22578,11 +22578,12 @@ public partial class MAVLink
             this.pt_compensation = pt_compensation;
             this.health = health;
             this.ignition_voltage = ignition_voltage;
+            this.fuel_pressure = fuel_pressure;
             
         }
         
         /// packet xml order
-        public static mavlink_efi_status_t PopulateXMLOrder(byte health,float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,float ignition_voltage) 
+        public static mavlink_efi_status_t PopulateXMLOrder(byte health,float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,float ignition_voltage,float fuel_pressure) 
         {
             var msg = new mavlink_efi_status_t();
 
@@ -22604,6 +22605,7 @@ public partial class MAVLink
             msg.throttle_out = throttle_out;
             msg.pt_compensation = pt_compensation;
             msg.ignition_voltage = ignition_voltage;
+            msg.fuel_pressure = fuel_pressure;
             
             return msg;
         }
@@ -22716,6 +22718,12 @@ public partial class MAVLink
         [Description("Supply voltage to EFI sparking system.  Zero in this value means 'unknown', so if the supply voltage really is zero volts use 0.0001 instead.")]
         //[FieldOffset(65)]
         public  float ignition_voltage;
+
+        /// <summary>Fuel pressure. Zero in this value means 'unknown', so if the fuel pressure really is zero kPa use 0.0001 instead.  [kPa] </summary>
+        [Units("[kPa]")]
+        [Description("Fuel pressure. Zero in this value means 'unknown', so if the fuel pressure really is zero kPa use 0.0001 instead.")]
+        //[FieldOffset(69)]
+        public  float fuel_pressure;
     };
 
     
@@ -26221,7 +26229,7 @@ public partial class MAVLink
 		public byte[] password;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=58)]
     ///<summary> The location and information of an AIS vessel </summary>
