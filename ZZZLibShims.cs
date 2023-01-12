@@ -739,6 +739,15 @@ namespace System.Windows.Forms
     }
 }
 
+namespace GDAL {
+    internal class GDALProvider
+    {
+        internal static GDALProvider Instance;
+
+        internal double opacity = 1.0;
+    }
+}
+
 public class GdalConfiguration
 {
     public static void ConfigureGdal()
