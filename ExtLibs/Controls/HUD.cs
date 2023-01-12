@@ -2833,7 +2833,7 @@ namespace MissionPlanner.Controls
                         {
                             gps = (HUDT.GPS1);
                             col = (SolidBrush) Brushes.Red;
-                            icon = HUDT.nogps_wide;
+                            icon = HUDT.nofix_wide;
                         }
                         else if (_fix == 2)
                         {
