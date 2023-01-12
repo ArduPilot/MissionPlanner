@@ -32,6 +32,15 @@ namespace GDAL
             {
                 log.Error(ex);
             }
+
+            try
+            {
+                SpatialReference srs = new SpatialReference(null);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         public delegate void Progress(double percent, string message);
