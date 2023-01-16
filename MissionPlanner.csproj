@@ -262,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSecure.resx">
       <DependentUpon>ConfigSecure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSecureAP.resx">
+      <DependentUpon>ConfigSecureAP.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.uk.resx">
@@ -832,6 +835,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSecure.Designer.cs">
       <DependentUpon>ConfigSecure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSecureAP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSecureAP.Designer.cs">
+      <DependentUpon>ConfigSecureAP.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.Designer.cs">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>

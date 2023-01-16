@@ -136,7 +136,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            AddBackstageViewPage(typeof(ConfigSecure), "Secure",
+            AddBackstageViewPage(typeof(ConfigSecureAP), "Secure",
                 isDisConnected);
 
 
