@@ -93,6 +93,40 @@ namespace MissionPlanner.Utilities
 
                 var freqt = fft.FreqTable(N, (int)sample_rate);
 
+                {
+                    int done2 = 0;
+                    var fft3 = new fft3(N);
+                    int totalsamples2 = data.Count();
+                    var img2 = new Image<Rgba32>(totalsamples2, freqt.Length);
+
+                    foreach (var valueTuple in data)
+                    {
+                        fft3.add_data(valueTuple.d);
+                        fft3.sdft();
+
+                        var fftanswerz = fft3.powr_spectrum();
+
+                        // test
+                        //fftanswerz = fft.rin(fft3.@in, (uint)bins);
+
+
+                        allfftdata.Add((valueTuple.time, fftanswerz));
+
+                        var i = 0;
+                        foreach (var y in freqt)
+                        {
+                            img2[done2, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max);
+                            i++;
+                        }
+
+                        done2++;
+                    }
+
+                    freqtout = freqt;
+
+                    return img2;
+                }
+
                 // time , freq , [color] &freqcount
 
                 double lasttime = 0;
