@@ -729,7 +729,26 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     }
 
                     if (errorcode == FTPErrorCode.kErrEOF)
-                        timeout.Complete = true;
+                    {
+                        if (chunkSortedList.Sum(a => a.Value - a.Key) >= size)
+                        {
+                            timeout.Complete = true;
+                        }
+                        else 
+                        {
+                            log.InfoFormat("Missing Part {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
+                            var missing = FindMissing(chunkSortedList);
+                            //switch to part read
+                            payload.opcode = FTPOpcode.kCmdReadFile;
+                            payload.offset = missing;
+                            seq_no = (ushort)(ftphead.seq_number + 1);
+                            payload.seq_number = seq_no;
+                            fileTransferProtocol.payload = payload;
+                            timeout.RetriesCurrent = 0;
+
+                            _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+                        }                            
+                    }
                     return true;
                 }
 
@@ -741,16 +760,17 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     return true;
                 // reject bad packets
                 if (ftphead.offset > size || ftphead.size > size || ftphead.offset + ftphead.size > size ||
-                    answer.Length == 0 && ftphead.offset > 0 && size < 239)
+                    answer.Length == 0 && ftphead.offset > 0 && size < readsize)
                     return true;
-                // we have lost data - use retry after timeout
+                if (ftphead.size < readsize)
+                {
+                    // reset the file size because it was a short send from the source
+                    size = (int)(ftphead.offset + ftphead.size);
+                }
+                // we have lost data
                 if (answer.Position != ftphead.offset)
                 {
-                    seq_no = (ushort)(ftphead.seq_number + 1);
-                    payload.seq_number = seq_no;
-                    fileTransferProtocol.payload = payload;
-                    timeout.RetriesCurrent = 0;
-                    return true;
+    
                 }
 
                 // got a valid segment, so reset retrys
@@ -758,6 +778,10 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 timeout.ResetTimeout();
 
                 chunkSortedList[ftphead.offset] = ftphead.offset + ftphead.size;
+
+                var currentsize = chunkSortedList.Sum(a => a.Value - a.Key);
+
+                log.Info($"got data {file} at {ftphead.offset} got {currentsize} of {size}");
 
                 answer.Seek(ftphead.offset, SeekOrigin.Begin);
                 answer.Write(ftphead.data, 0, ftphead.size);
@@ -771,11 +795,32 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 // ignore the burst read first response
                 if (ftphead.size > 0)
                     Progress?.Invoke(file, (int)((float)payload.offset / size * 100.0));
-                if (ftphead.offset + ftphead.size >= size)
+                if (currentsize >= size)
                 {
                     log.InfoFormat("Done {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
                     timeout.Complete = true;
                     return true;
+                }
+                // we see the end, but didnt exit above on valid size, get missing parts
+                if (ftphead.offset + ftphead.size >= size)
+                {
+                    log.InfoFormat("Missing Part {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
+                    var missing = FindMissing(chunkSortedList);
+                    //switch to part read
+                    payload.opcode = FTPOpcode.kCmdReadFile;
+                    payload.offset = missing;
+                    seq_no = (ushort)(ftphead.seq_number + 1);
+                    payload.seq_number = seq_no;
+                    fileTransferProtocol.payload = payload;
+                    timeout.RetriesCurrent = 0;
+
+                    _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+                    return true;
+                }
+
+                if(payload.opcode == FTPOpcode.kCmdReadFile)
+                {
+                    _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 }
 
                 if (ftphead.burst_complete == 1)
@@ -805,6 +850,25 @@ namespace MissionPlanner.ArduPilot.Mavlink
             if (ex != null)
                 throw ex;
             return answer;
+        }
+
+        private uint FindMissing(SortedList<uint, uint> chunkSortedList)
+        {
+            var currentpoint = 0u;
+            foreach(var chunk in chunkSortedList)
+            {
+                if(chunk.Key == currentpoint) 
+                {
+                    // update the current offset
+                    currentpoint = chunk.Value;
+                }   
+                else
+                {
+                    // something is missing
+                    return currentpoint;
+                }
+            }
+            return uint.MaxValue;
         }
 
         public bool kCmdCalcFileCRC32(string file, ref uint crc32, CancellationTokenSource cancel)
