@@ -429,6 +429,15 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </VTOL_LAND>
+    <PAYLOAD_PLACE>
+      <P1>max descent</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </PAYLOAD_PLACE>
     <SCRIPT_TIME>
       <P1>commandId</P1>
       <P2>timeout</P2>
