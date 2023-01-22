@@ -736,8 +736,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         }
                         else 
                         {
-                            log.InfoFormat("Missing Part {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
                             var missing = FindMissing(chunkSortedList);
+                            log.InfoFormat("Missing Part {0}", missing);
                             //switch to part read
                             payload.opcode = FTPOpcode.kCmdReadFile;
                             payload.offset = missing;
@@ -794,18 +794,18 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 fileTransferProtocol.payload = payload;
                 // ignore the burst read first response
                 if (ftphead.size > 0)
-                    Progress?.Invoke(file, (int)((float)payload.offset / size * 100.0));
+                    Progress?.Invoke(file, (int)((float)currentsize / size * 100.0));
                 if (currentsize >= size)
                 {
                     log.InfoFormat("Done {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
                     timeout.Complete = true;
                     return true;
                 }
-                // we see the end, but didnt exit above on valid size, get missing parts
-                if (ftphead.offset + ftphead.size >= size)
+                // we see the end, but didnt exit above on valid size, get missing parts || we are in single read mode
+                if (ftphead.offset + ftphead.size >= size || payload.opcode == FTPOpcode.kCmdReadFile)
                 {
-                    log.InfoFormat("Missing Part {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
                     var missing = FindMissing(chunkSortedList);
+                    log.InfoFormat("Missing Part {0}", missing);
                     //switch to part read
                     payload.opcode = FTPOpcode.kCmdReadFile;
                     payload.offset = missing;
@@ -816,11 +816,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                     return true;
-                }
-
-                if(payload.opcode == FTPOpcode.kCmdReadFile)
-                {
-                    _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 }
 
                 if (ftphead.burst_complete == 1)
