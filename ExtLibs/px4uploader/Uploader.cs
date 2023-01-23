@@ -927,11 +927,26 @@ namespace px4uploader
             if (self.extf_maxsize < fw.extf_image_size && self.extf_maxsize != 0)
                 throw new Exception("extf image is too large for this board");
 
+            // erasing the internal flash will prevent a case where a unplug during external flashing will cause bootloader mode on reboot as there i no valid internal flash. even if the external was valid.
             if (fw.image_size > 0)
             {
                 print("erase...");
                 self.__erase();
+            }
 
+            // external first - second internal
+            if (fw.extf_image_size > 0)
+            {
+                print("erase extf...");
+                self.__erase_extf(fw);
+                print("program extf...");
+                self.__program_extf(fw);
+                print("verify extf...");
+                self.__verify_extf(fw);
+            }
+
+            if (fw.image_size > 0)
+            {
                 print("program...");
                 self.__program(fw);
 
@@ -940,15 +955,6 @@ namespace px4uploader
                     self.__verify_v2(fw);
                 else
                     self.__verify_v3(fw);
-            }
-            if(fw.extf_image_size > 0)
-            {
-                print("erase extf...");
-                self.__erase_extf(fw);
-                print("program extf...");
-                self.__program_extf(fw);
-                print("verify extf...");
-                self.__verify_extf(fw);
             }
 
             print("done, rebooting.");
