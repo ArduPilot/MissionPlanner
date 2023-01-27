@@ -1,12 +1,10 @@
 ﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
-using Org.BouncyCastle.Crypto.Tls;
+using Org.BouncyCastle.Tls;
+using Org.BouncyCastle.Tls.Crypto.Impl.BC;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -68,7 +66,7 @@ namespace MissionPlanner.plugins
                     var psk = new BasicTlsPskIdentity(username, token.MakeBytes());
                     var pskclient = new DTLSPsk(psk);
 
-                    DtlsClientProtocol client = new DtlsClientProtocol(new Org.BouncyCastle.Security.SecureRandom());
+                    DtlsClientProtocol client = new DtlsClientProtocol();
                     DatagramTransport transport = new UDPTransport(address, port);
                     var dtlstx = client.Connect(pskclient, transport);
 
@@ -106,7 +104,7 @@ namespace MissionPlanner.plugins
 
     internal class DTLSPsk : PskTlsClient
     {
-        public DTLSPsk(TlsPskIdentity pskIdentity) : base(pskIdentity)
+        public DTLSPsk(TlsPskIdentity pskIdentity) : base(new BcTlsCrypto(new Org.BouncyCastle.Security.SecureRandom()), pskIdentity)
         {
         }
 
@@ -121,17 +119,14 @@ namespace MissionPlanner.plugins
             };
         }
 
-        public override ProtocolVersion MinimumVersion
-        {
-            get { return ProtocolVersion.DTLSv10; }
-        }
+        //public override ProtocolVersion MinimumVersion        {            get { return ProtocolVersion.DTLSv10; }        }
 
         public override void NotifySecureRenegotiation(bool secureRenegotiation)
         {
 
         }
 
-        public override ProtocolVersion ClientVersion => ProtocolVersion.DTLSv12;
+        //public override ProtocolVersion ClientVersion => ProtocolVersion.DTLSv12;
     }
 
     public class UDPTransport : DatagramTransport
