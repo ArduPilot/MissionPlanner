@@ -47,7 +47,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
             MainV2.instance.DeviceChanged += Instance_DeviceChanged;
 
-            this.Enabled = false;
+            // Until we connect to the internet, disable all controls that require it
+            // Disable all ImageLabels
+            foreach (Control c in this.Controls)
+            {
+                if (c is ImageLabel)
+                {
+                    c.Enabled = false;
+                }
+            }
+            // Disable "All Options" and "Beta Firmwares"
+            lbl_alloptions.Enabled = false;
+            lbl_devfw.Enabled = false;
 
             flashdone = false;
 
@@ -101,7 +112,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                    imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersionStr + " " +
                                      first.MavFirmwareVersionType.ToString();
 
-               this.Enabled = true;
+               // Re-enable this ImageLabel
+               imageLabel.Enabled = true;
+               // Re-enable the "All Options" and "Beta Firmwares" controls
+               // (only needs to be done once, but easier to do here)
+               lbl_alloptions.Enabled = true;
+               lbl_devfw.Enabled = true;
            });
         }
 
