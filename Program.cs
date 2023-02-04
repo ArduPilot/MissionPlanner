@@ -30,6 +30,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Trace = System.Diagnostics.Trace;
+using System.Threading.Tasks;
 
 namespace MissionPlanner
 {

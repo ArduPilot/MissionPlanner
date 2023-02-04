@@ -338,6 +338,7 @@
  <ItemGroup>
    <Compile Remove="Controls\OpenGLtest.cs" />
    <Compile Remove="Controls\OpenGLtest2.cs" />
+   <Compile Remove="Utilities\ImageMatch.cs" />
  </ItemGroup>
 
  <ItemGroup>
