@@ -12,6 +12,7 @@ using DotSpatial.Topology;
 using MissionPlanner;
 using MissionPlanner.Utilities;
 using NodaTime;
+using Resources = AltitudeAngelWings.Plugin.Properties.Resources;
 
 namespace AltitudeAngelWings.Plugin
 {

@@ -27,8 +27,9 @@
     <NoWarn>1701;1702;NU1605</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DotSpatial.Projections" Version="3.0.1" />
     <PackageReference Include="DotSpatial.Topology" Version="1.9.0" />
+    <PackageReference Include="MP.DotSpatial.Positioning" Version="4.0.0" />
+    <PackageReference Include="MP.DotSpatial.Projections" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
 	  <ProjectReference Include="..\..\MissionPlanner.csproj">
