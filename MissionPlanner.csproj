@@ -588,7 +588,7 @@
     <PackageReference Include="DotSpatial.Extensions" version="3.0.1" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Modeling.Forms" version="3.0.1" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Positioning" Version="3.0.1" />
-    <PackageReference Include="DotSpatial.Projections" version="4.0.656" targetFramework="net462" />
+    <PackageReference Include="DotSpatial.Projections" version="3.0.1" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Projections.Forms" version="3.0.1" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Serialization" version="3.0.1" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Symbology" version="3.0.1" targetFramework="net462" />

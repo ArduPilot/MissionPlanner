@@ -3543,7 +3543,12 @@ namespace MissionPlanner.GCSViews
                                     Reproject.ReprojectPoints(xyarray, zarray, pStart, pESRIEnd, 0, 1);
                                     point.X = xyarray[0];
                                     point.Y = xyarray[1];
-                                    point.Z = zarray[0];
+                                    try
+                                    {
+                                        if (zarray[0] != double.NaN)
+                                            point.Z = zarray[0];
+                                    }
+                                    catch { }
                                 }
 
                                 drawnpolygon.Points.Add(new PointLatLng(point.Y, point.X));
