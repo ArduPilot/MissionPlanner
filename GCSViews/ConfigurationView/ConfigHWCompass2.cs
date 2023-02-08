@@ -476,7 +476,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_largemagcal_Click(object sender, EventArgs e)
         {
             double value = 0;
-            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required", ref value) == DialogResult.OK)
+            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required. Heading is true, not magnetic", ref value) == DialogResult.OK)
             {
                 try
                 {
