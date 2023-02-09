@@ -160,6 +160,11 @@ namespace MissionPlanner
         public Mavlink_Sensors sensors_health = new Mavlink_Sensors();
         public Mavlink_Sensors sensors_present = new Mavlink_Sensors();
 
+        public bool prearmstatus
+        {
+            get => connected && (sensors_health.prearm || !sensors_enabled.prearm);
+        }
+
         private bool useLocation;
 
         /// <summary>

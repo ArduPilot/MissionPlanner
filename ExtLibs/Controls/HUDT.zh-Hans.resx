@@ -163,4 +163,10 @@
   <data name="GS" xml:space="preserve">
     <value>地速 </value>
   </data>
+  <data name="NotReadyToArm" xml:space="preserve">
+    <value>未准备解锁</value>
+  </data>
+  <data name="ReadyToArm" xml:space="preserve">
+    <value>准备解锁</value>
+  </data>
 </root>
