@@ -1178,7 +1178,7 @@ namespace MissionPlanner.Controls
             if (prearmhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)) && !status) // Only when not armed
             {
                 if (prearmclick != null)
-                    vibeclick(this, null);
+                    prearmclick(this, null);
             }
         }
 
