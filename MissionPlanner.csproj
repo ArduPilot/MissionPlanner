@@ -922,7 +922,7 @@
     <None Include="plugins\example21-persistentsimple.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="plugins\example20-multiplepositions.cs" />
+    <None Include="plugins\example20-multiplepositions.cs" />
     <Compile Include="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
