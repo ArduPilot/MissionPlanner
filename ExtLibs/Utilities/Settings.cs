@@ -172,7 +172,7 @@ namespace MissionPlanner.Utilities
         {
             if (list == null || list.Count() == 0)
                 return;
-            config[key] = list.Select(a => System.Net.WebUtility.UrlEncode(a)).Distinct().Aggregate((s, s1) => s + ';' + s1);
+            config[key] = list.Distinct().Select(a => System.Net.WebUtility.UrlEncode(a)).Distinct().Aggregate((s, s1) => s + ';' + s1);
         }
 
         public void AppendList(string key, string item)
