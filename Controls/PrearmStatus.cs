@@ -1,9 +1,11 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,6 +14,8 @@ namespace MissionPlanner.Controls
 {
     public partial class PrearmStatus : Form
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private DateTime lastRequestTime = DateTime.MinValue;
         private DateTime searchTime = DateTime.MinValue;
         public PrearmStatus()
@@ -29,15 +33,23 @@ namespace MissionPlanner.Controls
         {
             if (MainV2.comPort.MAV.cs.prearmstatus) return; // Don't request prearm checks if we are ready to arm
 
-            lastRequestTime = DateTime.Now;
+            try
+            {
+                // Request prearm checks to be performed
+                MainV2.comPort.doCommand(
+                    (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.RUN_PREARM_CHECKS,
+                    0, 0, 0, 0, 0, 0, 0,
+                    false // don't require ack
+                );
+                
+                lastRequestTime = DateTime.Now;
 
-            // Request prearm checks to be performed
-            MainV2.comPort.doCommand(
-                (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
-                MAVLink.MAV_CMD.RUN_PREARM_CHECKS,
-                0, 0, 0, 0, 0, 0, 0,
-                false // don't require ack
-            );
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
         }
 
         private void updatetexttimer_Tick(object sender, EventArgs e)
