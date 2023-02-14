@@ -398,7 +398,7 @@ namespace generator
             {
                 if (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode)
                 {
-                    if (sub == null)
+                    if (sub == 0)
                         sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
                         {
                             MainV2.instance.BeginInvoke((MethodInvoker)delegate
@@ -447,8 +447,11 @@ namespace generator
                 }
                 else
                 {
-                    if (sub != null)
+                    if (sub != 0)
+                    {
                         MainV2.comPort.UnSubscribeToPacketType(sub);
+                        sub = 0;
+                    }
                 }
 
                 return true;
@@ -469,3 +472,4 @@ namespace generator
         }
     }
 }
+
