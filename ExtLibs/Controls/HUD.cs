@@ -221,6 +221,9 @@ namespace MissionPlanner.Controls
         public bool displayvibe { get; set; }
 
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
+        public bool displayprearm { get; set; }
+
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayAOASSA { get; set; }
 
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
@@ -242,11 +245,13 @@ namespace MissionPlanner.Controls
             opengl =
                 displayvibe =
                     displayekf =
-                        displayheading =
-                            displayspeed =
-                                displayalt =
-                                    displayconninfo =
-                                        displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
+                        displayprearm =
+                            displayheading =
+                                displayspeed =
+                                    displayalt =
+                                        displayconninfo =
+                                            displayxtrack =
+                                                displayrollpitch = displaygps = bgon = hudon = batteryon = true;
 
             displayAOASSA = false;
 
@@ -833,6 +838,9 @@ namespace MissionPlanner.Controls
         public float ekfstatus { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool prearmstatus { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float AOA
         {
             get { return _AOA; }
@@ -1145,9 +1153,11 @@ namespace MissionPlanner.Controls
 
         public event EventHandler ekfclick;
         public event EventHandler vibeclick;
+        public event EventHandler prearmclick;
 
         Rectangle ekfhitzone = new Rectangle();
         Rectangle vibehitzone = new Rectangle();
+        Rectangle prearmhitzone = new Rectangle();
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
@@ -1164,6 +1174,12 @@ namespace MissionPlanner.Controls
                 if (vibeclick != null)
                     vibeclick(this, null);
             }
+
+            if (prearmhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)) && !status) // Only when not armed
+            {
+                if (prearmclick != null)
+                    prearmclick(this, null);
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -1175,6 +1191,10 @@ namespace MissionPlanner.Controls
                 Cursor.Current = Cursors.Hand;
             }
             else if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
+            {
+                Cursor.Current = Cursors.Hand;
+            }
+            else if (prearmhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)) && !status) // Only when not armed
             {
                 Cursor.Current = Cursors.Hand;
             }
@@ -3118,6 +3138,46 @@ namespace MissionPlanner.Controls
                         else
                         {
                             drawstring("EKF", font, fontsize + 2, _whiteBrush, ekfhitzone.X, ekfhitzone.Y);
+                        }
+                    }
+                }
+
+                if (displayprearm && status == false) // not armed
+                {
+                    if (displayicons)
+                    {
+                        var width = (fontsize + 8) * 3;
+                        prearmhitzone = new Rectangle(this.Width - width * 5 + width / 2 - 7, this.Height - (fontsize*2 + 25), width * 2, fontsize + 8);
+                    }
+                    else
+                    {
+                        int x = this.Width - 24 * fontsize;
+                        if (!prearmstatus) x -= 2 * fontsize;
+                        // Estimate the width of the string for the hit zone
+                        int width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, new Font(HUDT.Font, fontsize + 2)).Width;
+                        prearmhitzone = new Rectangle(x, yPos[0] - 4, width, fontsize * 2);
+                    }
+
+                    if (prearmstatus)
+                    {
+                        if (displayicons)
+                        {
+                            DrawImage(HUDT.prearm_green, prearmhitzone.X, prearmhitzone.Y + 2, prearmhitzone.Width, prearmhitzone.Height);
+                        }
+                        else
+                        {
+                            drawstring(HUDT.ReadyToArm, font, fontsize + 2, _whiteBrush, prearmhitzone.X, prearmhitzone.Y);
+                        }
+                    }
+                    else
+                    {
+                        if (displayicons)
+                        {
+                            DrawImage(HUDT.prearm_red, prearmhitzone.X, prearmhitzone.Y + 2, prearmhitzone.Width, prearmhitzone.Height);
+                        }
+                        else
+                        {
+                            drawstring(HUDT.NotReadyToArm, font, fontsize + 2, (SolidBrush)Brushes.Red, prearmhitzone.X, prearmhitzone.Y);
                         }
                     }
                 }

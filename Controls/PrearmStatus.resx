@@ -117,56 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ARMED" xml:space="preserve">
-    <value>    已解锁</value>
-  </data>
-  <data name="AS" xml:space="preserve">
-    <value>空速 </value>
-  </data>
-  <data name="Bat" xml:space="preserve">
-    <value>电池</value>
-  </data>
-  <data name="DISARMED" xml:space="preserve">
-    <value>            已锁定</value>
-  </data>
-  <data name="FAILSAFE" xml:space="preserve">
-    <value>    故障保护</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="FailsafeH" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="Font" xml:space="preserve">
-    <value>Microsoft Yahei</value>
-  </data>
-  <data name="GPS0" xml:space="preserve">
-    <value>GPS: 无GPS</value>
-  </data>
-  <data name="GPS1" xml:space="preserve">
-    <value>GPS: 未定位</value>
-  </data>
-  <data name="GPS2" xml:space="preserve">
-    <value>GPS: 2D定位</value>
-  </data>
-  <data name="GPS3" xml:space="preserve">
-    <value>GPS: 3D定位</value>
-  </data>
-  <data name="GPS4" xml:space="preserve">
-    <value>GPS: 3D DGPS</value>
-  </data>
-  <data name="GPS5" xml:space="preserve">
-    <value>GPS: rtk Float</value>
-  </data>
-  <data name="GPS6" xml:space="preserve">
-    <value>GPS: rtk Fixed</value>
-  </data>
-  <data name="GS" xml:space="preserve">
-    <value>地速 </value>
-  </data>
-  <data name="NotReadyToArm" xml:space="preserve">
-    <value>未准备解锁</value>
-  </data>
-  <data name="ReadyToArm" xml:space="preserve">
-    <value>准备解锁</value>
-  </data>
+  <metadata name="updatetexttimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="requestchecktimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>156, 17</value>
+  </metadata>
 </root>

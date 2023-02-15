@@ -3186,6 +3186,15 @@ namespace MissionPlanner.GCSViews
             frm.Show();
         }
 
+        private void hud1_prearmclick(object sender, EventArgs e)
+        {
+            PrearmStatus frm = new PrearmStatus();
+            frm.RestoreStartupLocation();
+            frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
+            frm.TopMost = true;
+            frm.Show();
+        }
+
         /// <summary>
         /// <para>Collapses or expands MainH.Panel1 depending on no. of controls within.</para>
         /// If you add controls to <b>SubMainLeft</b> that can be hidden, displaced or removed, add their first parent control here. <br/>
