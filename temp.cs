@@ -1472,5 +1472,37 @@ namespace MissionPlanner
         {
             MainV2.comPort.doDFUBoot((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent);
         }
+
+        // Perform a force calibration for accelerometers when restoring parameters to a board after a param wipe,
+        // to mark the parameters as calibrated.
+        private void BUT_forcecal_accel_Click(object sender, EventArgs e)
+        {
+            // Send MAV_CMD_PREFLIGHT_CALIBRATION with param5=76 (magic number)
+            try
+            {
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 76, 0, 0, true);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            }
+        }
+
+        // Perform a force calibration for compasses when restoring parameters to a board after a param wipe,
+        // to mark the parameters as calibrated.
+        private void BUT_forcecal_mag_Click(object sender, EventArgs e)
+        {
+            // Send MAV_CMD_PREFLIGHT_CALIBRATION with param2=76 (magic number)
+            try
+            {
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 76, 0, 0, 0, 0, 0, true);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            }
+        }
     }
 }
