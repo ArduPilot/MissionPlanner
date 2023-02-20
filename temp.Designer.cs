@@ -148,6 +148,10 @@
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.but_dfumode = new MissionPlanner.Controls.MyButton();
             this.label56 = new System.Windows.Forms.Label();
+            this.BUT_forcecal_mag = new MissionPlanner.Controls.MyButton();
+            this.BUT_forcecal_accel = new MissionPlanner.Controls.MyButton();
+            this.label57 = new System.Windows.Forms.Label();
+            this.label58 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,6 +159,8 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.BUT_forcecal_accel, 0, 30);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_forcecal_mag, 0, 31);
             this.tableLayoutPanel1.Controls.Add(this.but_apjtool, 0, 27);
             this.tableLayoutPanel1.Controls.Add(this.BUT_CoT, 0, 29);
             this.tableLayoutPanel1.Controls.Add(this.but_proximity, 2, 27);
@@ -272,6 +278,8 @@
             this.tableLayoutPanel1.Controls.Add(this.label28, 3, 29);
             this.tableLayoutPanel1.Controls.Add(this.but_dfumode, 2, 30);
             this.tableLayoutPanel1.Controls.Add(this.label56, 3, 30);
+            this.tableLayoutPanel1.Controls.Add(this.label57, 1, 30);
+            this.tableLayoutPanel1.Controls.Add(this.label58, 1, 31);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // but_apjtool
@@ -984,6 +992,31 @@
             resources.ApplyResources(this.label56, "label56");
             this.label56.Name = "label56";
             // 
+            // 
+            // BUT_forcecal_mag
+            // 
+            resources.ApplyResources(this.BUT_forcecal_mag, "BUT_forcecal_mag");
+            this.BUT_forcecal_mag.Name = "BUT_forcecal_mag";
+            this.BUT_forcecal_mag.UseVisualStyleBackColor = true;
+            this.BUT_forcecal_mag.Click += new System.EventHandler(this.BUT_forcecal_mag_Click);
+            // 
+            // BUT_forcecal_accel
+            // 
+            resources.ApplyResources(this.BUT_forcecal_accel, "BUT_forcecal_accel");
+            this.BUT_forcecal_accel.Name = "BUT_forcecal_accel";
+            this.BUT_forcecal_accel.UseVisualStyleBackColor = true;
+            this.BUT_forcecal_accel.Click += new System.EventHandler(this.BUT_forcecal_accel_Click);
+            // 
+            // label57
+            // 
+            resources.ApplyResources(this.label57, "label57");
+            this.label57.Name = "label57";
+            // 
+            // label58
+            // 
+            resources.ApplyResources(this.label58, "label58");
+            this.label58.Name = "label58";
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
@@ -1121,5 +1154,9 @@
         private Controls.MyButton but_apjtool;
         private Controls.MyButton but_dfumode;
         private System.Windows.Forms.Label label56;
+        private Controls.MyButton BUT_forcecal_accel;
+        private Controls.MyButton BUT_forcecal_mag;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.Label label58;
     }
 }
