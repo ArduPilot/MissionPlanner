@@ -120,5 +120,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             new SpectrogramUI().Show();
         }
+
+        private void BUT_supportproxy_Click(object sender, EventArgs e)
+        {
+            new SerialSupportProxy().Show();
+        }
     }
 }
