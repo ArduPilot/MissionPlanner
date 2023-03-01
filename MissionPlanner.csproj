@@ -137,6 +137,9 @@
     <EmbeddedResource Include="Controls\AuxOptions.resx">
       <DependentUpon>AuxOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SerialSupportProxy.resx">
+      <DependentUpon>SerialSupportProxy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.uk.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -725,6 +728,12 @@
     </Compile>
     <Compile Include="Controls\AuxOptions.Designer.cs">
       <DependentUpon>AuxOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SerialSupportProxy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SerialSupportProxy.Designer.cs">
+      <DependentUpon>SerialSupportProxy.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SpectrogramUI.cs">
       <SubType>Form</SubType>
