@@ -1,4 +1,5 @@
-﻿using log4net;
+using AsyncKeyedLock;
+using log4net;
 using ManagedNativeWifi.Simple;
 using MissionPlanner.Arduino;
 using MissionPlanner.ArduPilot;
@@ -253,8 +254,11 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        object urlcachelock = new object();
-        Dictionary<string, SemaphoreSlim> urlcacheSem = new Dictionary<string, SemaphoreSlim>();
+        private AsyncKeyedLocker<string> urlcacheSem = new AsyncKeyedLocker<string>(o =>
+        {
+            o.PoolSize = 20;
+            o.PoolInitialFill = 1;
+        });
         static Dictionary<string, string> urlcache = new Dictionary<string, string>();
 
         /// <summary>
@@ -305,15 +309,9 @@ namespace MissionPlanner.Utilities
 
         public string GetAPMVERSIONFile(Uri url)
         {
-            lock (urlcachelock)
-                if (!urlcacheSem.ContainsKey(url.AbsoluteUri))
-                    urlcacheSem[url.AbsoluteUri] = new SemaphoreSlim(1, 1);
-
-            urlcacheSem[url.AbsoluteUri].Wait();
-
-            try
+            using (urlcacheSem.Lock(url.AbsoluteUri))
             {
-                lock (urlcachelock)
+                lock (urlcacheSem)
                     if (urlcache.ContainsKey(url.AbsoluteUri))
                     {
                         log.Info("GetAPMVERSIONFile: using cache " + url.AbsoluteUri);
@@ -335,17 +333,13 @@ namespace MissionPlanner.Utilities
                         {
                             log.Info(line);
 
-                            lock (urlcachelock)
+                            lock (urlcacheSem)
                                 urlcache[url.AbsoluteUri] = line;
 
                             return line;
                         }
                     }
                 }
-            }
-            finally
-            {
-                urlcacheSem[url.AbsoluteUri].Release();
             }
 
             throw new TimeoutException();
