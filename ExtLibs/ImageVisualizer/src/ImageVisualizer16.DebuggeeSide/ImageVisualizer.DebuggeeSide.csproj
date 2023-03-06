@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;netcoreapp2.0;net472</TargetFrameworks>
+    <TargetFrameworks>net472;netstandard2.0;netcoreapp2.0;net472</TargetFrameworks>
     <RootNamespace>Aberus.VisualStudio.Debugger.ImageVisualizer</RootNamespace>
     
     <AssemblyName>Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide</AssemblyName>
@@ -18,7 +18,7 @@
     </Reference>
   </ItemGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
       <Private>False</Private>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\Packages\Debugger\Visualizers\net2.0\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>

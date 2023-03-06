@@ -82,7 +82,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.Compression.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net472\lib\System.IO.Compression.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Speech">
