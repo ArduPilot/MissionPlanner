@@ -500,7 +500,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (value == null || value == "")
                         return;
 
-                    var row = new DataGridViewRow();
+                    var row = new DataGridViewRow() { Height = 36 };
                     lock (rowlist)
                         rowlist.Add(row);
                     row.CreateCells(Params);
@@ -521,8 +521,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
                         if (!string.IsNullOrEmpty(metaDataDescription))
                         {
-                            row.Cells[Command.Index].ToolTipText = metaDataDescription;
-                            row.Cells[Value.Index].ToolTipText = metaDataDescription;
+                            row.Cells[Command.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
+                            row.Cells[Value.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
 
                             var range = ParameterMetaDataRepository.GetParameterMetaData(value,
                                 ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
@@ -532,8 +532,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
                             row.Cells[Units.Index].Value = units;
-                            row.Cells[Options.Index].Value = range + options.Replace(",", " ");
+                            row.Cells[Options.Index].Value = range + options.Replace(",", "\n");
+                            if (options.Length > 0) row.Cells[Options.Index].ToolTipText = options.Replace(',', '\n');
+                            int N = options.Count(c => c.Equals(','));
+                            if (N > 50)
+                            {
+                                int columns = (N - 1) / 50 + 1;
+                                StringBuilder ans = new StringBuilder();
+                                var opts = options.Split(',');
+                                int i = 0;
+                                while(true)
+                                {
+                                    for(int j=0; j<columns; j++)
+                                    {
+                                        ans.Append(opts[i] + ", ");
+                                        i++;
+                                        if (i >= N) break;
+                                    }
+                                    if (i >= N) break;
+                                    ans.Append("\n");
+                                }
+                                row.Cells[Options.Index].ToolTipText = ans.ToInvariantString();
+                            }
                             row.Cells[Desc.Index].Value = metaDataDescription;
+                            row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
                         }
                     }
                     catch (Exception ex)
