@@ -3962,6 +3962,8 @@ namespace MissionPlanner.GCSViews
                         return null;
                     });
                     var values = missionpck.unpack(paramfileTask.GetAwaiter().GetResult().ToArray());
+                    MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid].wps.Clear();
+                    values.wps.ForEach(wp => MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid].wps[wp.seq] = wp);
                     WPtoScreen(values.wps.Select(a => (Locationwp)a).ToList());
                     return;
                 }
