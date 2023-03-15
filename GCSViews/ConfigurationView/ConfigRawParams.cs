@@ -36,11 +36,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal static bool startup = true;
         internal static List<DataGridViewRow> rowlist = new List<DataGridViewRow>();
 
-        // Signals to Param Tree view that the parameter list has updated
-        public event EventHandler ParameterListChanged;
-
         // Used by Param Tree to filter by prefix
-        public string filterPrefix = "";
+        private string filterPrefix = "";
 
         public ConfigRawParams()
         {
@@ -367,10 +364,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 FilterTimerOnElapsed(null, null);
 
-                // Signal event that parameter list has changed
-                if (ParameterListChanged != null)
-                    ParameterListChanged(this, EventArgs.Empty);
-
                 startup = false;
             }
         }
@@ -605,8 +598,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.Visible = true;
             Params.ResumeLayout();
 
+            if (splitContainer1.Panel1Collapsed == false)
+            {
+                BuildTree();
+            }
+
             log.Info("Done");
         }
+
+        private void BuildTree()
+        {
+            treeView1.Nodes.Clear();
+            var currentNode = treeView1.Nodes.Add("All");
+            string currentPrefix = "";
+            DataGridViewRowCollection rows = Params.Rows;
+            for (int i = 0; i < rows.Count - 1; i++)
+            {
+                string param = rows[i].Cells[0].Value.ToString();
+                string next_param = rows[i + 1].Cells[0].Value.ToString();
+
+                // While param does not start with currentPrefix, step up a layer in the tree
+                while (!param.StartsWith(currentPrefix))
+                {
+                    currentPrefix = currentPrefix.RemoveFromEnd(currentNode.Text.Split('_').Last() + "_");
+                    currentNode = currentNode.Parent;
+                }
+
+                // While the next parameter has a common prefix with this, add branch nodes
+                string nodeToAdd = param.Substring(currentPrefix.Length).Split('_')[0] + "_";
+                while (nodeToAdd.Length > 1 // While the currentPrefix is smaller than param
+                    && param.StartsWith(currentPrefix + nodeToAdd) // And while this parameter starts with currentPrefix+nodeToAdd (needed for edge case where next_param starts with the full name of this param; see Q_PLT_Y_RATE and Q_PLT_Y_RATE_TC)
+                    && next_param.StartsWith(currentPrefix + nodeToAdd)) // And the next parameter also starts with currentPrefix
+                {
+                    currentPrefix += nodeToAdd;
+                    currentNode = currentNode.Nodes.Add(currentPrefix.Substring(0, currentPrefix.Length - 1));
+                    nodeToAdd = param.Substring(currentPrefix.Length).Split('_')[0] + "_";
+                }
+                currentNode.Nodes.Add(param);
+            }
+            treeView1.TopNode.Expand();
+        }
+
 
         private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)
         {
@@ -928,6 +960,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
             processToScreen();
             startup = false;
+        }
+        
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            string txt = treeView1.SelectedNode.Text + "_";
+            if (txt == "All_") txt = "";
+            filterPrefix = txt;
+            FilterTimerOnElapsed(null, null);
+        }
+
+        private void but_collapse_Click(object sender, EventArgs e)
+        {
+            if (splitContainer1.Panel1Collapsed)
+            {
+                but_collapse.Text = "<";
+                splitContainer1.Panel1Collapsed = false;
+            }
+            else
+            {
+                but_collapse.Text = ">";
+                splitContainer1.Panel1Collapsed = true;
+            }
         }
     }
 

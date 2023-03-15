@@ -3765,7 +3765,7 @@ main()
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(newparamdata);
 
-            var frm = new ConfigRawParamsTree().ShowUserControl();
+            var frm = new ConfigRawParams().ShowUserControl();
         }
 
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
