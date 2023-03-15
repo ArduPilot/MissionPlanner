@@ -618,10 +618,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var currentNode = treeView1.Nodes.Add("All");
             string currentPrefix = "";
             DataGridViewRowCollection rows = Params.Rows;
-            for (int i = 0; i < rows.Count - 1; i++)
+            for (int i = 0; i < rows.Count; i++)
             {
                 string param = rows[i].Cells[0].Value.ToString();
-                string next_param = rows[i + 1].Cells[0].Value.ToString();
 
                 // While param does not start with currentPrefix, step up a layer in the tree
                 while (!param.StartsWith(currentPrefix))
@@ -630,6 +629,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     currentNode = currentNode.Parent;
                 }
 
+                // If this is the last parameter, add it
+                if (i == rows.Count - 1)
+                {
+                    currentNode.Nodes.Add(param);
+                    break;
+                }
+
+                string next_param = rows[i + 1].Cells[Command.Index].Value.ToString();
                 // While the next parameter has a common prefix with this, add branch nodes
                 string nodeToAdd = param.Substring(currentPrefix.Length).Split('_')[0] + "_";
                 while (nodeToAdd.Length > 1 // While the currentPrefix is smaller than param
