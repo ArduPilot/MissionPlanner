@@ -168,11 +168,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         continue;
                     if (name == "FORMAT_VERSION")
                         continue;
-                    if (row.Cells[0].Value != null && row.Cells[0].Value?.ToString() == name)
+                    if (row.Cells[Command.Index].Value != null && row.Cells[Command.Index].Value?.ToString() == name)
                     {
                         set = true;
-                        if (row.Cells[1].Value.ToString() != value)
-                            row.Cells[1].Value = value;
+                        if (row.Cells[Value.Index].Value.ToString() != value)
+                            row.Cells[Value.Index].Value = value;
                         break;
                     }
                 }
@@ -224,13 +224,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         try
                         {
-                            var value = double.Parse(row.Cells[1].Value.ToString());
+                            var value = double.Parse(row.Cells[Value.Index].Value.ToString());
 
-                            data[row.Cells[0].Value.ToString()] = value;
+                            data[row.Cells[Command.Index].Value.ToString()] = value;
                         }
                         catch (Exception)
                         {
-                            CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value);
+                            CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[Command.Index].Value);
                         }
                     }
 
@@ -290,9 +290,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         // set param table as well
                         foreach (DataGridViewRow row in Params.Rows)
                         {
-                            if (row.Cells[0].Value.ToString() == value)
+                            if (row.Cells[Command.Index].Value.ToString() == value)
                             {
-                                row.Cells[1].Style.BackColor = ThemeManager.ControlBGColor;
+                                row.Cells[Value.Index].Style.BackColor = ThemeManager.ControlBGColor;
                                 _changes.Remove(value);
                                 break;
                             }
@@ -376,7 +376,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Params_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex == -1 || e.ColumnIndex == -1 || startup || e.ColumnIndex != 1)
+            if (e.RowIndex == -1 || e.ColumnIndex == -1 || startup || e.ColumnIndex != Value.Index)
                 return;
             try
             {
@@ -620,7 +620,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             DataGridViewRowCollection rows = Params.Rows;
             for (int i = 0; i < rows.Count; i++)
             {
-                string param = rows[i].Cells[0].Value.ToString();
+                string param = rows[i].Cells[Command.Index].Value.ToString();
 
                 // While param does not start with currentPrefix, step up a layer in the tree
                 while (!param.StartsWith(currentPrefix))
@@ -854,7 +854,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (e.RowIndex == -1 || startup)
                 return;
 
-            if (e.ColumnIndex == 4)
+            if (e.ColumnIndex == Desc.Index)
             {
                 try
                 {
@@ -866,7 +866,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            if (e.ColumnIndex == 5)
+            if (e.ColumnIndex == Fav.Index)
             {
                 var check = Params[e.ColumnIndex, e.RowIndex].EditedFormattedValue;
                 var name = Params[Command.Index, e.RowIndex].Value.ToString();
