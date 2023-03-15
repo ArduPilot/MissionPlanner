@@ -297,7 +297,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyButton BUT_writePIDS;
         private Controls.MyButton BUT_save;
         private Controls.MyButton BUT_load;
-        private Controls.MyDataGridView Params;
+        public Controls.MyDataGridView Params;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
         private Controls.MyButton BUT_paramfileload;
