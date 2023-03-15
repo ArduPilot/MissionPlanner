@@ -72,6 +72,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }
+            splitContainer1.SplitterDistance = Settings.Instance.GetInt32("rawparam_splitterdistance", 180);
+            splitContainer1.Panel1Collapsed = Settings.Instance.GetBoolean("rawparam_panel1collapsed", false);
+            but_collapse.Text = splitContainer1.Panel1Collapsed ? ">" : "<";
 
             processToScreen();
 
@@ -90,6 +93,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 Settings.Instance["rawparam_" + col.Name + "_widthpercent"] = ((col.Width / (double)Params.Width) * 100.0).ToString("0", CultureInfo.InvariantCulture);
             }
+
+            Settings.Instance["rawparam_splitterdistance"] = splitContainer1.SplitterDistance.ToString();
+            Settings.Instance["rawparam_panel1collapsed"] = splitContainer1.Panel1Collapsed.ToString();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -976,6 +982,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 but_collapse.Text = "<";
                 splitContainer1.Panel1Collapsed = false;
+                BuildTree();
             }
             else
             {
