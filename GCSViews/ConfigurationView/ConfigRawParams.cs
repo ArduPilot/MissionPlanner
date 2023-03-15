@@ -36,6 +36,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal static bool startup = true;
         internal static List<DataGridViewRow> rowlist = new List<DataGridViewRow>();
 
+        // Signals to Param Tree view that the parameter list has updated
+        public event EventHandler ParameterListChanged;
+
+        // Used by Param Tree to filter by prefix
+        public string filterPrefix = "";
+
         public ConfigRawParams()
         {
             InitializeComponent();
@@ -361,6 +367,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 FilterTimerOnElapsed(null, null);
 
+                // Signal event that parameter list has changed
+                if (ParameterListChanged != null)
+                    ParameterListChanged(this, EventArgs.Empty);
+
                 startup = false;
             }
         }
@@ -665,6 +675,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 foreach (DataGridViewRow row in Params.Rows)
                 {
+                    string name = row.Cells[Command.Index].Value.ToString();
+                    if (name != filterPrefix.TrimEnd('_') && !name.StartsWith(filterPrefix))
+                    {
+                        row.Visible = false;
+                        continue;
+                    }
                     foreach (DataGridViewCell cell in row.Cells)
                     {
                         if (cell.Value != null && filter.IsMatch(cell.Value.ToString()))
@@ -778,7 +794,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _filterTimer.Start();
         }
 
-        private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        public void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
             _filterTimer.Stop();
             Invoke((Action)delegate
