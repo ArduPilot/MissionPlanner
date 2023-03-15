@@ -248,6 +248,9 @@ messageName = {
     [268] = 'LOGGING_ACK',
     [269] = 'VIDEO_STREAM_INFORMATION',
     [270] = 'VIDEO_STREAM_STATUS',
+    [271] = 'CAMERA_FOV_STATUS',
+    [275] = 'CAMERA_TRACKING_IMAGE_STATUS',
+    [276] = 'CAMERA_TRACKING_GEO_STATUS',
     [283] = 'GIMBAL_DEVICE_INFORMATION',
     [284] = 'GIMBAL_DEVICE_SET_ATTITUDE',
     [285] = 'GIMBAL_DEVICE_ATTITUDE_STATUS',
@@ -425,12 +428,17 @@ enumEntryName = {
         [528] = "MAV_CMD_REQUEST_FLIGHT_INFORMATION",
         [529] = "MAV_CMD_RESET_CAMERA_SETTINGS",
         [530] = "MAV_CMD_SET_CAMERA_MODE",
+        [531] = "MAV_CMD_SET_CAMERA_ZOOM",
+        [532] = "MAV_CMD_SET_CAMERA_FOCUS",
         [600] = "MAV_CMD_JUMP_TAG",
         [601] = "MAV_CMD_DO_JUMP_TAG",
         [1000] = "MAV_CMD_DO_GIMBAL_MANAGER_PITCHYAW",
         [2000] = "MAV_CMD_IMAGE_START_CAPTURE",
         [2001] = "MAV_CMD_IMAGE_STOP_CAPTURE",
         [2003] = "MAV_CMD_DO_TRIGGER_CONTROL",
+        [2004] = "MAV_CMD_CAMERA_TRACK_POINT",
+        [2005] = "MAV_CMD_CAMERA_TRACK_RECTANGLE",
+        [2010] = "MAV_CMD_CAMERA_STOP_TRACKING",
         [2500] = "MAV_CMD_VIDEO_START_CAPTURE",
         [2501] = "MAV_CMD_VIDEO_STOP_CAPTURE",
         [2502] = "MAV_CMD_VIDEO_START_STREAMING",
@@ -1534,6 +1542,37 @@ enumEntryName = {
         [2] = "VIDEO_STREAM_TYPE_TCP_MPEG",
         [3] = "VIDEO_STREAM_TYPE_MPEG_TS_H264",
     },
+    ["CAMERA_TRACKING_STATUS_FLAGS"] = {
+        [0] = "CAMERA_TRACKING_STATUS_FLAGS_IDLE",
+        [1] = "CAMERA_TRACKING_STATUS_FLAGS_ACTIVE",
+        [2] = "CAMERA_TRACKING_STATUS_FLAGS_ERROR",
+    },
+    ["CAMERA_TRACKING_MODE"] = {
+        [0] = "CAMERA_TRACKING_MODE_NONE",
+        [1] = "CAMERA_TRACKING_MODE_POINT",
+        [2] = "CAMERA_TRACKING_MODE_RECTANGLE",
+    },
+    ["CAMERA_TRACKING_TARGET_DATA"] = {
+        [0] = "CAMERA_TRACKING_TARGET_DATA_NONE",
+        [1] = "CAMERA_TRACKING_TARGET_DATA_EMBEDDED",
+        [2] = "CAMERA_TRACKING_TARGET_DATA_RENDERED",
+        [4] = "CAMERA_TRACKING_TARGET_DATA_IN_STATUS",
+    },
+    ["CAMERA_ZOOM_TYPE"] = {
+        [0] = "ZOOM_TYPE_STEP",
+        [1] = "ZOOM_TYPE_CONTINUOUS",
+        [2] = "ZOOM_TYPE_RANGE",
+        [3] = "ZOOM_TYPE_FOCAL_LENGTH",
+    },
+    ["SET_FOCUS_TYPE"] = {
+        [0] = "FOCUS_TYPE_STEP",
+        [1] = "FOCUS_TYPE_CONTINUOUS",
+        [2] = "FOCUS_TYPE_RANGE",
+        [3] = "FOCUS_TYPE_METERS",
+        [4] = "FOCUS_TYPE_AUTO",
+        [5] = "FOCUS_TYPE_AUTO_SINGLE",
+        [6] = "FOCUS_TYPE_AUTO_CONTINUOUS",
+    },
     ["PARAM_ACK"] = {
         [0] = "PARAM_ACK_ACCEPTED",
         [1] = "PARAM_ACK_VALUE_UNSUPPORTED",
@@ -1648,6 +1687,7 @@ enumEntryName = {
         [1] = "MAV_ODID_STATUS_GROUND",
         [2] = "MAV_ODID_STATUS_AIRBORNE",
         [3] = "MAV_ODID_STATUS_EMERGENCY",
+        [4] = "MAV_ODID_STATUS_REMOTE_ID_SYSTEM_FAILURE",
     },
     ["MAV_ODID_HEIGHT_REF"] = {
         [0] = "MAV_ODID_HEIGHT_REF_OVER_TAKEOFF",
@@ -1744,8 +1784,8 @@ enumEntryName = {
         [0] = "MAV_ODID_OPERATOR_ID_TYPE_CAA",
     },
     ["MAV_ODID_ARM_STATUS"] = {
-        [0] = "MAV_ODID_GOOD_TO_ARM",
-        [1] = "MAV_ODID_PRE_ARM_FAIL_GENERIC",
+        [0] = "MAV_ODID_ARM_STATUS_GOOD_TO_ARM",
+        [1] = "MAV_ODID_ARM_STATUS_PRE_ARM_FAIL_GENERIC",
     },
     ["AIS_TYPE"] = {
         [0] = "AIS_TYPE_UNKNOWN",
@@ -2483,6 +2523,7 @@ f.cmd_MAV_CMD_DO_CHANGE_ALTITUDE_param2 = ProtoField.new("param2: Frame (MAV_FRA
 
 f.cmd_MAV_CMD_DO_LAND_START_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_LAND_START_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_LAND_START_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_LAND_START_param6", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_LAND_START_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_LAND_START_param7", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_RALLY_LAND_param1 = ProtoField.new("param1: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_RALLY_LAND_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_RALLY_LAND_param2 = ProtoField.new("param2: Speed (float)", "mavlink_proto.cmd_MAV_CMD_DO_RALLY_LAND_param2", ftypes.FLOAT, nil)
@@ -2695,6 +2736,12 @@ f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1 = ProtoField.new("param1: Reset (floa
 
 f.cmd_MAV_CMD_SET_CAMERA_MODE_param2 = ProtoField.new("param2: Camera Mode (CAMERA_MODE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_MODE_param2", ftypes.UINT32, enumEntryName.CAMERA_MODE)
 
+f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param1 = ProtoField.new("param1: Zoom Type (CAMERA_ZOOM_TYPE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_ZOOM_param1", ftypes.UINT32, enumEntryName.CAMERA_ZOOM_TYPE)
+f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2 = ProtoField.new("param2: Zoom Value (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param1 = ProtoField.new("param1: Focus Type (SET_FOCUS_TYPE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_FOCUS_param1", ftypes.UINT32, enumEntryName.SET_FOCUS_TYPE)
+f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2 = ProtoField.new("param2: Focus Value (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2", ftypes.FLOAT, nil)
+
 f.cmd_MAV_CMD_JUMP_TAG_param1 = ProtoField.new("param1: Tag (float)", "mavlink_proto.cmd_MAV_CMD_JUMP_TAG_param1", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_JUMP_TAG_param1 = ProtoField.new("param1: Tag (float)", "mavlink_proto.cmd_MAV_CMD_DO_JUMP_TAG_param1", ftypes.FLOAT, nil)
@@ -2720,6 +2767,16 @@ f.cmd_MAV_CMD_IMAGE_START_CAPTURE_param4 = ProtoField.new("param4: Sequence Numb
 f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param1 = ProtoField.new("param1: Enable (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param2 = ProtoField.new("param2: Reset (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3 = ProtoField.new("param3: Pause (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param1 = ProtoField.new("param1: Point x (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param2 = ProtoField.new("param2: Point y (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3 = ProtoField.new("param3: Radius (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param1 = ProtoField.new("param1: Top left corner x (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param2 = ProtoField.new("param2: Top left corner y (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param3 = ProtoField.new("param3: Bottom right corner x (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param3", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4 = ProtoField.new("param4: Bottom right corner y (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4", ftypes.FLOAT, nil)
+
 
 f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param1 = ProtoField.new("param1: Stream ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_CAPTURE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param2 = ProtoField.new("param2: Status Frequency (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_CAPTURE_param2", ftypes.FLOAT, nil)
@@ -8904,6 +8961,45 @@ f.VIDEO_STREAM_STATUS_resolution_v = ProtoField.new("resolution_v (uint16_t)", "
 f.VIDEO_STREAM_STATUS_bitrate = ProtoField.new("bitrate (uint32_t)", "mavlink_proto.VIDEO_STREAM_STATUS_bitrate", ftypes.UINT32, nil)
 f.VIDEO_STREAM_STATUS_rotation = ProtoField.new("rotation (uint16_t)", "mavlink_proto.VIDEO_STREAM_STATUS_rotation", ftypes.UINT16, nil)
 f.VIDEO_STREAM_STATUS_hfov = ProtoField.new("hfov (uint16_t)", "mavlink_proto.VIDEO_STREAM_STATUS_hfov", ftypes.UINT16, nil)
+
+f.CAMERA_FOV_STATUS_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_FOV_STATUS_time_boot_ms", ftypes.UINT32, nil)
+f.CAMERA_FOV_STATUS_lat_camera = ProtoField.new("lat_camera (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_lat_camera", ftypes.INT32, nil)
+f.CAMERA_FOV_STATUS_lon_camera = ProtoField.new("lon_camera (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_lon_camera", ftypes.INT32, nil)
+f.CAMERA_FOV_STATUS_alt_camera = ProtoField.new("alt_camera (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_alt_camera", ftypes.INT32, nil)
+f.CAMERA_FOV_STATUS_lat_image = ProtoField.new("lat_image (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_lat_image", ftypes.INT32, nil)
+f.CAMERA_FOV_STATUS_lon_image = ProtoField.new("lon_image (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_lon_image", ftypes.INT32, nil)
+f.CAMERA_FOV_STATUS_alt_image = ProtoField.new("alt_image (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_alt_image", ftypes.INT32, nil)
+f.CAMERA_FOV_STATUS_q_0 = ProtoField.new("q[0] (float)", "mavlink_proto.CAMERA_FOV_STATUS_q_0", ftypes.FLOAT, nil)
+f.CAMERA_FOV_STATUS_q_1 = ProtoField.new("q[1] (float)", "mavlink_proto.CAMERA_FOV_STATUS_q_1", ftypes.FLOAT, nil)
+f.CAMERA_FOV_STATUS_q_2 = ProtoField.new("q[2] (float)", "mavlink_proto.CAMERA_FOV_STATUS_q_2", ftypes.FLOAT, nil)
+f.CAMERA_FOV_STATUS_q_3 = ProtoField.new("q[3] (float)", "mavlink_proto.CAMERA_FOV_STATUS_q_3", ftypes.FLOAT, nil)
+f.CAMERA_FOV_STATUS_hfov = ProtoField.new("hfov (float)", "mavlink_proto.CAMERA_FOV_STATUS_hfov", ftypes.FLOAT, nil)
+f.CAMERA_FOV_STATUS_vfov = ProtoField.new("vfov (float)", "mavlink_proto.CAMERA_FOV_STATUS_vfov", ftypes.FLOAT, nil)
+
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status = ProtoField.new("tracking_status (CAMERA_TRACKING_STATUS_FLAGS)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_STATUS_FLAGS)
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_mode = ProtoField.new("tracking_mode (CAMERA_TRACKING_MODE)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_mode", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_MODE)
+f.CAMERA_TRACKING_IMAGE_STATUS_target_data = ProtoField.new("target_data (CAMERA_TRACKING_TARGET_DATA)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_target_data", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_TARGET_DATA)
+f.CAMERA_TRACKING_IMAGE_STATUS_point_x = ProtoField.new("point_x (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_point_x", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_point_y = ProtoField.new("point_y (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_point_y", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_radius = ProtoField.new("radius (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_radius", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_rec_top_x = ProtoField.new("rec_top_x (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_top_x", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_rec_top_y = ProtoField.new("rec_top_y (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_top_y", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_x = ProtoField.new("rec_bottom_x (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_x", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_y = ProtoField.new("rec_bottom_y (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_y", ftypes.FLOAT, nil)
+
+f.CAMERA_TRACKING_GEO_STATUS_tracking_status = ProtoField.new("tracking_status (CAMERA_TRACKING_STATUS_FLAGS)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_STATUS_FLAGS)
+f.CAMERA_TRACKING_GEO_STATUS_lat = ProtoField.new("lat (int32_t)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_lat", ftypes.INT32, nil)
+f.CAMERA_TRACKING_GEO_STATUS_lon = ProtoField.new("lon (int32_t)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_lon", ftypes.INT32, nil)
+f.CAMERA_TRACKING_GEO_STATUS_alt = ProtoField.new("alt (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_alt", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_h_acc = ProtoField.new("h_acc (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_h_acc", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_v_acc = ProtoField.new("v_acc (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_v_acc", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_vel_n = ProtoField.new("vel_n (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_vel_n", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_vel_e = ProtoField.new("vel_e (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_vel_e", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_vel_d = ProtoField.new("vel_d (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_vel_d", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_vel_acc = ProtoField.new("vel_acc (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_vel_acc", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_dist = ProtoField.new("dist (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_dist", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_hdg = ProtoField.new("hdg (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_hdg", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_hdg_acc = ProtoField.new("hdg_acc (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_hdg_acc", ftypes.FLOAT, nil)
 
 f.GIMBAL_DEVICE_INFORMATION_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_time_boot_ms", ftypes.UINT32, nil)
 f.GIMBAL_DEVICE_INFORMATION_vendor_name = ProtoField.new("vendor_name (char)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_vendor_name", ftypes.STRING, nil)
@@ -18581,7 +18677,7 @@ function payload_fns.payload_75_cmd189(buffer, tree, msgid, offset, limit, pinfo
     field_offset = offset + 20
     subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_LAND_START_param6, padded(field_offset, 4))
     field_offset = offset + 24
-    subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_LAND_START_param7, padded(field_offset, 4))
 end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_RALLY_LAND
 function payload_fns.payload_75_cmd190(buffer, tree, msgid, offset, limit, pinfo)
@@ -20767,6 +20863,80 @@ function payload_fns.payload_75_cmd530(buffer, tree, msgid, offset, limit, pinfo
     field_offset = offset + 24
     subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_SET_CAMERA_ZOOM
+function payload_fns.payload_75_cmd531(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_INT_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_INT_target_component, padded(field_offset, 1))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_INT_frame, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_INT_command, padded(field_offset, 2))
+    field_offset = offset + 33
+    subtree, value = tree:add_le(f.COMMAND_INT_current, padded(field_offset, 1))
+    field_offset = offset + 34
+    subtree, value = tree:add_le(f.COMMAND_INT_autocontinue, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.COMMAND_INT_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_INT_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_INT_x, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_INT_y, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_SET_CAMERA_FOCUS
+function payload_fns.payload_75_cmd532(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_INT_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_INT_target_component, padded(field_offset, 1))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_INT_frame, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_INT_command, padded(field_offset, 2))
+    field_offset = offset + 33
+    subtree, value = tree:add_le(f.COMMAND_INT_current, padded(field_offset, 1))
+    field_offset = offset + 34
+    subtree, value = tree:add_le(f.COMMAND_INT_autocontinue, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.COMMAND_INT_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_INT_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_INT_x, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_INT_y, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_JUMP_TAG
 function payload_fns.payload_75_cmd600(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree
@@ -20981,6 +21151,117 @@ function payload_fns.payload_75_cmd2003(buffer, tree, msgid, offset, limit, pinf
     subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param2, padded(field_offset, 4))
     field_offset = offset + 8
     subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_INT_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_INT_x, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_INT_y, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CAMERA_TRACK_POINT
+function payload_fns.payload_75_cmd2004(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_INT_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_INT_target_component, padded(field_offset, 1))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_INT_frame, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_INT_command, padded(field_offset, 2))
+    field_offset = offset + 33
+    subtree, value = tree:add_le(f.COMMAND_INT_current, padded(field_offset, 1))
+    field_offset = offset + 34
+    subtree, value = tree:add_le(f.COMMAND_INT_autocontinue, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_INT_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_INT_x, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_INT_y, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CAMERA_TRACK_RECTANGLE
+function payload_fns.payload_75_cmd2005(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_INT_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_INT_target_component, padded(field_offset, 1))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_INT_frame, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_INT_command, padded(field_offset, 2))
+    field_offset = offset + 33
+    subtree, value = tree:add_le(f.COMMAND_INT_current, padded(field_offset, 1))
+    field_offset = offset + 34
+    subtree, value = tree:add_le(f.COMMAND_INT_autocontinue, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_INT_x, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_INT_y, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_INT_z, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CAMERA_STOP_TRACKING
+function payload_fns.payload_75_cmd2010(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_INT_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_INT_target_component, padded(field_offset, 1))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_INT_frame, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_INT_command, padded(field_offset, 2))
+    field_offset = offset + 33
+    subtree, value = tree:add_le(f.COMMAND_INT_current, padded(field_offset, 1))
+    field_offset = offset + 34
+    subtree, value = tree:add_le(f.COMMAND_INT_autocontinue, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.COMMAND_INT_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.COMMAND_INT_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.COMMAND_INT_param3, padded(field_offset, 4))
     field_offset = offset + 12
     subtree, value = tree:add_le(f.COMMAND_INT_param4, padded(field_offset, 4))
     field_offset = offset + 16
@@ -25015,7 +25296,7 @@ function payload_fns.payload_76_cmd189(buffer, tree, msgid, offset, limit, pinfo
     field_offset = offset + 20
     subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_LAND_START_param6, padded(field_offset, 4))
     field_offset = offset + 24
-    subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_LAND_START_param7, padded(field_offset, 4))
 end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_RALLY_LAND
 function payload_fns.payload_76_cmd190(buffer, tree, msgid, offset, limit, pinfo)
@@ -26965,6 +27246,72 @@ function payload_fns.payload_76_cmd530(buffer, tree, msgid, offset, limit, pinfo
     field_offset = offset + 24
     subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_SET_CAMERA_ZOOM
+function payload_fns.payload_76_cmd531(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_component, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_LONG_command, padded(field_offset, 2))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_LONG_confirmation, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.COMMAND_LONG_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_LONG_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_LONG_param5, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_LONG_param6, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_SET_CAMERA_FOCUS
+function payload_fns.payload_76_cmd532(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_component, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_LONG_command, padded(field_offset, 2))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_LONG_confirmation, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.COMMAND_LONG_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_LONG_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_LONG_param5, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_LONG_param6, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_JUMP_TAG
 function payload_fns.payload_76_cmd600(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree
@@ -27155,6 +27502,105 @@ function payload_fns.payload_76_cmd2003(buffer, tree, msgid, offset, limit, pinf
     subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param2, padded(field_offset, 4))
     field_offset = offset + 8
     subtree, value = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_LONG_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_LONG_param5, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_LONG_param6, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CAMERA_TRACK_POINT
+function payload_fns.payload_76_cmd2004(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_component, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_LONG_command, padded(field_offset, 2))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_LONG_confirmation, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.COMMAND_LONG_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_LONG_param5, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_LONG_param6, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CAMERA_TRACK_RECTANGLE
+function payload_fns.payload_76_cmd2005(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_component, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_LONG_command, padded(field_offset, 2))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_LONG_confirmation, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param3, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.COMMAND_LONG_param5, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.COMMAND_LONG_param6, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.COMMAND_LONG_param7, padded(field_offset, 4))
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CAMERA_STOP_TRACKING
+function payload_fns.payload_76_cmd2010(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_system, padded(field_offset, 1))
+    field_offset = offset + 31
+    subtree, value = tree:add_le(f.COMMAND_LONG_target_component, padded(field_offset, 1))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.COMMAND_LONG_command, padded(field_offset, 2))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.COMMAND_LONG_confirmation, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.COMMAND_LONG_param1, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.COMMAND_LONG_param2, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.COMMAND_LONG_param3, padded(field_offset, 4))
     field_offset = offset + 12
     subtree, value = tree:add_le(f.COMMAND_LONG_param4, padded(field_offset, 4))
     field_offset = offset + 16
@@ -36967,6 +37413,111 @@ function payload_fns.payload_270(buffer, tree, msgid, offset, limit, pinfo)
     subtree, value = tree:add_le(f.VIDEO_STREAM_STATUS_rotation, padded(field_offset, 2))
     field_offset = offset + 16
     subtree, value = tree:add_le(f.VIDEO_STREAM_STATUS_hfov, padded(field_offset, 2))
+end
+-- dissect payload of message type CAMERA_FOV_STATUS
+function payload_fns.payload_271(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 52 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 52)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_time_boot_ms, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_lat_camera, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_lon_camera, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_alt_camera, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_lat_image, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_lon_image, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_alt_image, padded(field_offset, 4))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_q_0, padded(field_offset, 4))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_q_1, padded(field_offset, 4))
+    field_offset = offset + 36
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_q_2, padded(field_offset, 4))
+    field_offset = offset + 40
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_q_3, padded(field_offset, 4))
+    field_offset = offset + 44
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_hfov, padded(field_offset, 4))
+    field_offset = offset + 48
+    subtree, value = tree:add_le(f.CAMERA_FOV_STATUS_vfov, padded(field_offset, 4))
+end
+-- dissect payload of message type CAMERA_TRACKING_IMAGE_STATUS
+function payload_fns.payload_275(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 31 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 31)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status, padded(field_offset, 1))
+    field_offset = offset + 29
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_tracking_mode, padded(field_offset, 1))
+    field_offset = offset + 30
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_target_data, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_point_x, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_point_y, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_radius, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_rec_top_x, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_rec_top_y, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_x, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_y, padded(field_offset, 4))
+end
+-- dissect payload of message type CAMERA_TRACKING_GEO_STATUS
+function payload_fns.payload_276(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 49 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 49)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 48
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_tracking_status, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_lat, padded(field_offset, 4))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_lon, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_alt, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_h_acc, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_v_acc, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_vel_n, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_vel_e, padded(field_offset, 4))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_vel_d, padded(field_offset, 4))
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_vel_acc, padded(field_offset, 4))
+    field_offset = offset + 36
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_dist, padded(field_offset, 4))
+    field_offset = offset + 40
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_hdg, padded(field_offset, 4))
+    field_offset = offset + 44
+    subtree, value = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_hdg_acc, padded(field_offset, 4))
 end
 -- dissect payload of message type GIMBAL_DEVICE_INFORMATION
 function payload_fns.payload_283(buffer, tree, msgid, offset, limit, pinfo)

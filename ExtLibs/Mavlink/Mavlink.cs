@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Mon Jan 09 2023";
+    public const string MAVLINK_BUILD_DATE = "Wed Mar 15 2023";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -239,6 +239,9 @@ public partial class MAVLink
         new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
         new message_info(269, "VIDEO_STREAM_INFORMATION", 109, 213, 213, typeof( mavlink_video_stream_information_t )),
         new message_info(270, "VIDEO_STREAM_STATUS", 59, 19, 19, typeof( mavlink_video_stream_status_t )),
+        new message_info(271, "CAMERA_FOV_STATUS", 22, 52, 52, typeof( mavlink_camera_fov_status_t )),
+        new message_info(275, "CAMERA_TRACKING_IMAGE_STATUS", 126, 31, 31, typeof( mavlink_camera_tracking_image_status_t )),
+        new message_info(276, "CAMERA_TRACKING_GEO_STATUS", 18, 49, 49, typeof( mavlink_camera_tracking_geo_status_t )),
         new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 144, typeof( mavlink_gimbal_device_information_t )),
         new message_info(284, "GIMBAL_DEVICE_SET_ATTITUDE", 99, 32, 32, typeof( mavlink_gimbal_device_set_attitude_t )),
         new message_info(285, "GIMBAL_DEVICE_ATTITUDE_STATUS", 137, 40, 40, typeof( mavlink_gimbal_device_attitude_status_t )),
@@ -557,6 +560,9 @@ public partial class MAVLink
         LOGGING_ACK = 268,
         VIDEO_STREAM_INFORMATION = 269,
         VIDEO_STREAM_STATUS = 270,
+        CAMERA_FOV_STATUS = 271,
+        CAMERA_TRACKING_IMAGE_STATUS = 275,
+        CAMERA_TRACKING_GEO_STATUS = 276,
         GIMBAL_DEVICE_INFORMATION = 283,
         GIMBAL_DEVICE_SET_ATTITUDE = 284,
         GIMBAL_DEVICE_ATTITUDE_STATUS = 285,
@@ -835,8 +841,8 @@ public partial class MAVLink
         ///<summary> Change altitude set point. |Altitude.| Frame of new altitude.| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change altitude set point.")]
         DO_CHANGE_ALTITUDE=186, 
-        ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
-        [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence.")]
+        ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. 	  It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. 	  The Latitude/Longitude/Altitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. 	 |Empty| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
+        [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. 	  It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. 	  The Latitude/Longitude/Altitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. 	")]
         [hasLocation()]
         DO_LAND_START=189, 
         ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1028,6 +1034,12 @@ public partial class MAVLink
         ///<summary> Set camera running mode. Use NaN for reserved values. GCS will send a MAV_CMD_REQUEST_VIDEO_STREAM_STATUS command after a mode change if the camera supports video streaming. |Reserved (Set to 0)| Camera mode| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
         [Description("Set camera running mode. Use NaN for reserved values. GCS will send a MAV_CMD_REQUEST_VIDEO_STREAM_STATUS command after a mode change if the camera supports video streaming.")]
         SET_CAMERA_MODE=530, 
+        ///<summary> Set camera zoom. Camera must respond with a CAMERA_SETTINGS message (on success). |Zoom type| Zoom value. The range of valid values depend on the zoom type.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
+        [Description("Set camera zoom. Camera must respond with a CAMERA_SETTINGS message (on success).")]
+        SET_CAMERA_ZOOM=531, 
+        ///<summary> Set camera focus. Camera must respond with a CAMERA_SETTINGS message (on success). |Focus type| Focus value| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
+        [Description("Set camera focus. Camera must respond with a CAMERA_SETTINGS message (on success).")]
+        SET_CAMERA_FOCUS=532, 
         ///<summary> Tagged jump target. Can be jumped to with MAV_CMD_DO_JUMP_TAG. |Tag.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Tagged jump target. Can be jumped to with MAV_CMD_DO_JUMP_TAG.")]
         JUMP_TAG=600, 
@@ -1047,6 +1059,15 @@ public partial class MAVLink
         ///<summary> Enable or disable on-board camera triggering system. |Trigger enable/disable (0 for disable, 1 for start), -1 to ignore| 1 to reset the trigger sequence, -1 or 0 to ignore| 1 to pause triggering, but without switching the camera off or retracting it. -1 to ignore| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Enable or disable on-board camera triggering system.")]
         DO_TRIGGER_CONTROL=2003, 
+        ///<summary> If the camera supports point visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_POINT is set), this command allows to initiate the tracking. |Point to track x value (normalized 0..1, 0 is left, 1 is right).| Point to track y value (normalized 0..1, 0 is top, 1 is bottom).| Point radius (normalized 0..1, 0 is image left, 1 is image right).| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("If the camera supports point visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_POINT is set), this command allows to initiate the tracking.")]
+        CAMERA_TRACK_POINT=2004, 
+        ///<summary> If the camera supports rectangle visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE is set), this command allows to initiate the tracking. |Top left corner of rectangle x value (normalized 0..1, 0 is left, 1 is right).| Top left corner of rectangle y value (normalized 0..1, 0 is top, 1 is bottom).| Bottom right corner of rectangle x value (normalized 0..1, 0 is left, 1 is right).| Bottom right corner of rectangle y value (normalized 0..1, 0 is top, 1 is bottom).| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("If the camera supports rectangle visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE is set), this command allows to initiate the tracking.")]
+        CAMERA_TRACK_RECTANGLE=2005, 
+        ///<summary> Stops ongoing tracking. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Stops ongoing tracking.")]
+        CAMERA_STOP_TRACKING=2010, 
         ///<summary> Starts video capture (recording). |Video Stream ID (0 for all streams)| Frequency CAMERA_CAPTURE_STATUS messages should be sent while recording (0 for no messages, otherwise frequency)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
         [Description("Starts video capture (recording).")]
         VIDEO_START_CAPTURE=2500, 
@@ -4408,6 +4429,100 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Camera tracking status flags </summary>
+    [Flags]
+	public enum CAMERA_TRACKING_STATUS_FLAGS: byte
+    {
+        ///<summary> Camera is not tracking | </summary>
+        [Description("Camera is not tracking")]
+        IDLE=0, 
+        ///<summary> Camera is tracking | </summary>
+        [Description("Camera is tracking")]
+        ACTIVE=1, 
+        ///<summary> Camera tracking in error state | </summary>
+        [Description("Camera tracking in error state")]
+        ERROR=2, 
+        
+    };
+    
+    ///<summary> Camera tracking modes </summary>
+    public enum CAMERA_TRACKING_MODE: byte
+    {
+        ///<summary> Not tracking | </summary>
+        [Description("Not tracking")]
+        NONE=0, 
+        ///<summary> Target is a point | </summary>
+        [Description("Target is a point")]
+        POINT=1, 
+        ///<summary> Target is a rectangle | </summary>
+        [Description("Target is a rectangle")]
+        RECTANGLE=2, 
+        
+    };
+    
+    ///<summary> Camera tracking target data (shows where tracked target is within image) </summary>
+    public enum CAMERA_TRACKING_TARGET_DATA: byte
+    {
+        ///<summary> No target data | </summary>
+        [Description("No target data")]
+        NONE=0, 
+        ///<summary> Target data embedded in image data (proprietary) | </summary>
+        [Description("Target data embedded in image data (proprietary)")]
+        EMBEDDED=1, 
+        ///<summary> Target data rendered in image | </summary>
+        [Description("Target data rendered in image")]
+        RENDERED=2, 
+        ///<summary> Target data within status message (Point or Rectangle) | </summary>
+        [Description("Target data within status message (Point or Rectangle)")]
+        IN_STATUS=4, 
+        
+    };
+    
+    ///<summary> Zoom types for MAV_CMD_SET_CAMERA_ZOOM </summary>
+    public enum CAMERA_ZOOM_TYPE: int /*default*/
+    {
+        ///<summary> Zoom one step increment (-1 for wide, 1 for tele) | </summary>
+        [Description("Zoom one step increment (-1 for wide, 1 for tele)")]
+        ZOOM_TYPE_STEP=0, 
+        ///<summary> Continuous zoom up/down until stopped (-1 for wide, 1 for tele, 0 to stop zooming) | </summary>
+        [Description("Continuous zoom up/down until stopped (-1 for wide, 1 for tele, 0 to stop zooming)")]
+        ZOOM_TYPE_CONTINUOUS=1, 
+        ///<summary> Zoom value as proportion of full camera range (a percentage value between 0.0 and 100.0) | </summary>
+        [Description("Zoom value as proportion of full camera range (a percentage value between 0.0 and 100.0)")]
+        ZOOM_TYPE_RANGE=2, 
+        ///<summary> Zoom value/variable focal length in millimetres. Note that there is no message to get the valid zoom range of the camera, so this can type can only be used for cameras where the zoom range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera) | </summary>
+        [Description("Zoom value/variable focal length in millimetres. Note that there is no message to get the valid zoom range of the camera, so this can type can only be used for cameras where the zoom range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera)")]
+        ZOOM_TYPE_FOCAL_LENGTH=3, 
+        
+    };
+    
+    ///<summary> Focus types for MAV_CMD_SET_CAMERA_FOCUS </summary>
+    public enum SET_FOCUS_TYPE: int /*default*/
+    {
+        ///<summary> Focus one step increment (-1 for focusing in, 1 for focusing out towards infinity). | </summary>
+        [Description("Focus one step increment (-1 for focusing in, 1 for focusing out towards infinity).")]
+        FOCUS_TYPE_STEP=0, 
+        ///<summary> Continuous focus up/down until stopped (-1 for focusing in, 1 for focusing out towards infinity, 0 to stop focusing) | </summary>
+        [Description("Continuous focus up/down until stopped (-1 for focusing in, 1 for focusing out towards infinity, 0 to stop focusing)")]
+        FOCUS_TYPE_CONTINUOUS=1, 
+        ///<summary> Focus value as proportion of full camera focus range (a value between 0.0 and 100.0) | </summary>
+        [Description("Focus value as proportion of full camera focus range (a value between 0.0 and 100.0)")]
+        FOCUS_TYPE_RANGE=2, 
+        ///<summary> Focus value in metres. Note that there is no message to get the valid focus range of the camera, so this can type can only be used for cameras where the range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera). | </summary>
+        [Description("Focus value in metres. Note that there is no message to get the valid focus range of the camera, so this can type can only be used for cameras where the range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera).")]
+        FOCUS_TYPE_METERS=3, 
+        ///<summary> Focus automatically. | </summary>
+        [Description("Focus automatically.")]
+        FOCUS_TYPE_AUTO=4, 
+        ///<summary> Single auto focus. Mainly used for still pictures. Usually abbreviated as AF-S. | </summary>
+        [Description("Single auto focus. Mainly used for still pictures. Usually abbreviated as AF-S.")]
+        FOCUS_TYPE_AUTO_SINGLE=5, 
+        ///<summary> Continuous auto focus. Mainly used for dynamic scenes. Abbreviated as AF-C. | </summary>
+        [Description("Continuous auto focus. Mainly used for dynamic scenes. Abbreviated as AF-C.")]
+        FOCUS_TYPE_AUTO_CONTINUOUS=6, 
+        
+    };
+    
     ///<summary> Result from PARAM_EXT_SET message (or a PARAM_SET within a transaction). </summary>
     public enum PARAM_ACK: byte
     {
@@ -4751,6 +4866,9 @@ public partial class MAVLink
         ///<summary> The UA is having an emergency. | </summary>
         [Description("The UA is having an emergency.")]
         EMERGENCY=3, 
+        ///<summary> The remote ID system is failing or unreliable in some way. | </summary>
+        [Description("The remote ID system is failing or unreliable in some way.")]
+        REMOTE_ID_SYSTEM_FAILURE=4, 
         
     };
     
@@ -5041,10 +5159,10 @@ public partial class MAVLink
     {
         ///<summary> Passing arming checks. | </summary>
         [Description("Passing arming checks.")]
-        MAV_ODID_GOOD_TO_ARM=0, 
+        GOOD_TO_ARM=0, 
         ///<summary> Generic arming failure, see error string for details. | </summary>
         [Description("Generic arming failure, see error string for details.")]
-        MAV_ODID_PRE_ARM_FAIL_GENERIC=1, 
+        PRE_ARM_FAIL_GENERIC=1, 
         
     };
     
@@ -25748,6 +25866,340 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=52)]
+    ///<summary> Information about the field of view of a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command. </summary>
+    public struct mavlink_camera_fov_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_fov_status_t(uint time_boot_ms,int lat_camera,int lon_camera,int alt_camera,int lat_image,int lon_image,int alt_image,float[] q,float hfov,float vfov) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.lat_camera = lat_camera;
+            this.lon_camera = lon_camera;
+            this.alt_camera = alt_camera;
+            this.lat_image = lat_image;
+            this.lon_image = lon_image;
+            this.alt_image = alt_image;
+            this.q = q;
+            this.hfov = hfov;
+            this.vfov = vfov;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_fov_status_t PopulateXMLOrder(uint time_boot_ms,int lat_camera,int lon_camera,int alt_camera,int lat_image,int lon_image,int alt_image,float[] q,float hfov,float vfov) 
+        {
+            var msg = new mavlink_camera_fov_status_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.lat_camera = lat_camera;
+            msg.lon_camera = lon_camera;
+            msg.alt_camera = alt_camera;
+            msg.lat_image = lat_image;
+            msg.lon_image = lon_image;
+            msg.alt_image = alt_image;
+            msg.q = q;
+            msg.hfov = hfov;
+            msg.vfov = vfov;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Latitude of camera (INT32_MAX if unknown).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of camera (INT32_MAX if unknown).")]
+        //[FieldOffset(4)]
+        public  int lat_camera;
+
+        /// <summary>Longitude of camera (INT32_MAX if unknown).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of camera (INT32_MAX if unknown).")]
+        //[FieldOffset(8)]
+        public  int lon_camera;
+
+        /// <summary>Altitude (MSL) of camera (INT32_MAX if unknown).  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (MSL) of camera (INT32_MAX if unknown).")]
+        //[FieldOffset(12)]
+        public  int alt_camera;
+
+        /// <summary>Latitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).")]
+        //[FieldOffset(16)]
+        public  int lat_image;
+
+        /// <summary>Longitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).")]
+        //[FieldOffset(20)]
+        public  int lon_image;
+
+        /// <summary>Altitude (MSL) of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (MSL) of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).")]
+        //[FieldOffset(24)]
+        public  int alt_image;
+
+        /// <summary>Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+        [Units("")]
+        [Description("Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(28)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>Horizontal field of view (NaN if unknown).  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Horizontal field of view (NaN if unknown).")]
+        //[FieldOffset(44)]
+        public  float hfov;
+
+        /// <summary>Vertical field of view (NaN if unknown).  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Vertical field of view (NaN if unknown).")]
+        //[FieldOffset(48)]
+        public  float vfov;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=31)]
+    ///<summary> Camera tracking status, sent while in active tracking. Use MAV_CMD_SET_MESSAGE_INTERVAL to define message interval. </summary>
+    public struct mavlink_camera_tracking_image_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_tracking_image_status_t(float point_x,float point_y,float radius,float rec_top_x,float rec_top_y,float rec_bottom_x,float rec_bottom_y,/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status,/*CAMERA_TRACKING_MODE*/byte tracking_mode,/*CAMERA_TRACKING_TARGET_DATA*/byte target_data) 
+        {
+            this.point_x = point_x;
+            this.point_y = point_y;
+            this.radius = radius;
+            this.rec_top_x = rec_top_x;
+            this.rec_top_y = rec_top_y;
+            this.rec_bottom_x = rec_bottom_x;
+            this.rec_bottom_y = rec_bottom_y;
+            this.tracking_status = tracking_status;
+            this.tracking_mode = tracking_mode;
+            this.target_data = target_data;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_tracking_image_status_t PopulateXMLOrder(/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status,/*CAMERA_TRACKING_MODE*/byte tracking_mode,/*CAMERA_TRACKING_TARGET_DATA*/byte target_data,float point_x,float point_y,float radius,float rec_top_x,float rec_top_y,float rec_bottom_x,float rec_bottom_y) 
+        {
+            var msg = new mavlink_camera_tracking_image_status_t();
+
+            msg.tracking_status = tracking_status;
+            msg.tracking_mode = tracking_mode;
+            msg.target_data = target_data;
+            msg.point_x = point_x;
+            msg.point_y = point_y;
+            msg.radius = radius;
+            msg.rec_top_x = rec_top_x;
+            msg.rec_top_y = rec_top_y;
+            msg.rec_bottom_x = rec_bottom_x;
+            msg.rec_bottom_y = rec_bottom_y;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Current tracked point x value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is left, 1 is right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked point x value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is left, 1 is right), NAN if unknown")]
+        //[FieldOffset(0)]
+        public  float point_x;
+
+        /// <summary>Current tracked point y value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked point y value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown")]
+        //[FieldOffset(4)]
+        public  float point_y;
+
+        /// <summary>Current tracked radius if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is image left, 1 is image right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked radius if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is image left, 1 is image right), NAN if unknown")]
+        //[FieldOffset(8)]
+        public  float radius;
+
+        /// <summary>Current tracked rectangle top x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle top x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown")]
+        //[FieldOffset(12)]
+        public  float rec_top_x;
+
+        /// <summary>Current tracked rectangle top y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle top y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown")]
+        //[FieldOffset(16)]
+        public  float rec_top_y;
+
+        /// <summary>Current tracked rectangle bottom x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle bottom x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown")]
+        //[FieldOffset(20)]
+        public  float rec_bottom_x;
+
+        /// <summary>Current tracked rectangle bottom y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle bottom y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown")]
+        //[FieldOffset(24)]
+        public  float rec_bottom_y;
+
+        /// <summary>Current tracking status CAMERA_TRACKING_STATUS_FLAGS  </summary>
+        [Units("")]
+        [Description("Current tracking status")]
+        //[FieldOffset(28)]
+        public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
+
+        /// <summary>Current tracking mode CAMERA_TRACKING_MODE  </summary>
+        [Units("")]
+        [Description("Current tracking mode")]
+        //[FieldOffset(29)]
+        public  /*CAMERA_TRACKING_MODE*/byte tracking_mode;
+
+        /// <summary>Defines location of target data CAMERA_TRACKING_TARGET_DATA  </summary>
+        [Units("")]
+        [Description("Defines location of target data")]
+        //[FieldOffset(30)]
+        public  /*CAMERA_TRACKING_TARGET_DATA*/byte target_data;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=49)]
+    ///<summary> Camera tracking status, sent while in active tracking. Use MAV_CMD_SET_MESSAGE_INTERVAL to define message interval. </summary>
+    public struct mavlink_camera_tracking_geo_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_tracking_geo_status_t(int lat,int lon,float alt,float h_acc,float v_acc,float vel_n,float vel_e,float vel_d,float vel_acc,float dist,float hdg,float hdg_acc,/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status) 
+        {
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.h_acc = h_acc;
+            this.v_acc = v_acc;
+            this.vel_n = vel_n;
+            this.vel_e = vel_e;
+            this.vel_d = vel_d;
+            this.vel_acc = vel_acc;
+            this.dist = dist;
+            this.hdg = hdg;
+            this.hdg_acc = hdg_acc;
+            this.tracking_status = tracking_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_tracking_geo_status_t PopulateXMLOrder(/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status,int lat,int lon,float alt,float h_acc,float v_acc,float vel_n,float vel_e,float vel_d,float vel_acc,float dist,float hdg,float hdg_acc) 
+        {
+            var msg = new mavlink_camera_tracking_geo_status_t();
+
+            msg.tracking_status = tracking_status;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.h_acc = h_acc;
+            msg.v_acc = v_acc;
+            msg.vel_n = vel_n;
+            msg.vel_e = vel_e;
+            msg.vel_d = vel_d;
+            msg.vel_acc = vel_acc;
+            msg.dist = dist;
+            msg.hdg = hdg;
+            msg.hdg_acc = hdg_acc;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Latitude of tracked object  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of tracked object")]
+        //[FieldOffset(0)]
+        public  int lat;
+
+        /// <summary>Longitude of tracked object  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of tracked object")]
+        //[FieldOffset(4)]
+        public  int lon;
+
+        /// <summary>Altitude of tracked object(AMSL, WGS84)  [m] </summary>
+        [Units("[m]")]
+        [Description("Altitude of tracked object(AMSL, WGS84)")]
+        //[FieldOffset(8)]
+        public  float alt;
+
+        /// <summary>Horizontal accuracy. NAN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Horizontal accuracy. NAN if unknown")]
+        //[FieldOffset(12)]
+        public  float h_acc;
+
+        /// <summary>Vertical accuracy. NAN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Vertical accuracy. NAN if unknown")]
+        //[FieldOffset(16)]
+        public  float v_acc;
+
+        /// <summary>North velocity of tracked object. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("North velocity of tracked object. NAN if unknown")]
+        //[FieldOffset(20)]
+        public  float vel_n;
+
+        /// <summary>East velocity of tracked object. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("East velocity of tracked object. NAN if unknown")]
+        //[FieldOffset(24)]
+        public  float vel_e;
+
+        /// <summary>Down velocity of tracked object. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Down velocity of tracked object. NAN if unknown")]
+        //[FieldOffset(28)]
+        public  float vel_d;
+
+        /// <summary>Velocity accuracy. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Velocity accuracy. NAN if unknown")]
+        //[FieldOffset(32)]
+        public  float vel_acc;
+
+        /// <summary>Distance between camera and tracked object. NAN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance between camera and tracked object. NAN if unknown")]
+        //[FieldOffset(36)]
+        public  float dist;
+
+        /// <summary>Heading in radians, in NED. NAN if unknown  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Heading in radians, in NED. NAN if unknown")]
+        //[FieldOffset(40)]
+        public  float hdg;
+
+        /// <summary>Accuracy of heading, in NED. NAN if unknown  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Accuracy of heading, in NED. NAN if unknown")]
+        //[FieldOffset(44)]
+        public  float hdg_acc;
+
+        /// <summary>Current tracking status CAMERA_TRACKING_STATUS_FLAGS  </summary>
+        [Units("")]
+        [Description("Current tracking status")]
+        //[FieldOffset(48)]
+        public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=144)]
     ///<summary> Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by software used are likely different/smaller and dependent on mode/settings/etc.. </summary>
     public struct mavlink_gimbal_device_information_t
@@ -25953,7 +26405,7 @@ public partial class MAVLink
         //[FieldOffset(24)]
         public  float angular_velocity_z;
 
-        /// <summary>Low level gimbal flags. GIMBAL_DEVICE_FLAGS  </summary>
+        /// <summary>Low level gimbal flags. GIMBAL_DEVICE_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Low level gimbal flags.")]
         //[FieldOffset(28)]
@@ -26049,7 +26501,7 @@ public partial class MAVLink
         //[FieldOffset(32)]
         public  /*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags;
 
-        /// <summary>Current gimbal flags set. GIMBAL_DEVICE_FLAGS  </summary>
+        /// <summary>Current gimbal flags set. GIMBAL_DEVICE_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Current gimbal flags set.")]
         //[FieldOffset(36)]
