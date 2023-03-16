@@ -54,8 +54,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.chk_none_default = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.but_collapse = new MissionPlanner.Controls.MyButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,18 +62,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.but_collapse = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_compare
             // 
             resources.ApplyResources(this.BUT_compare, "BUT_compare");
             this.BUT_compare.Name = "BUT_compare";
+            this.BUT_compare.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_compare.UseVisualStyleBackColor = true;
             this.BUT_compare.Click += new System.EventHandler(this.BUT_compare_Click);
             // 
@@ -83,6 +84,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_rerequestparams, "BUT_rerequestparams");
             this.BUT_rerequestparams.Name = "BUT_rerequestparams";
+            this.BUT_rerequestparams.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_rerequestparams.UseVisualStyleBackColor = true;
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
@@ -90,6 +92,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
             this.BUT_writePIDS.Name = "BUT_writePIDS";
+            this.BUT_writePIDS.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
             // 
@@ -97,6 +100,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_save, "BUT_save");
             this.BUT_save.Name = "BUT_save";
+            this.BUT_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -104,6 +108,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_load, "BUT_load");
             this.BUT_load.Name = "BUT_load";
+            this.BUT_load.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_load.UseVisualStyleBackColor = true;
             this.BUT_load.Click += new System.EventHandler(this.BUT_load_Click);
             // 
@@ -122,6 +127,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_paramfileload, "BUT_paramfileload");
             this.BUT_paramfileload.Name = "BUT_paramfileload";
+            this.BUT_paramfileload.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_paramfileload.UseVisualStyleBackColor = true;
             this.BUT_paramfileload.Click += new System.EventHandler(this.BUT_paramfileload_Click);
             // 
@@ -136,6 +142,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_reset_params, "BUT_reset_params");
             this.BUT_reset_params.Name = "BUT_reset_params";
+            this.BUT_reset_params.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_reset_params.UseVisualStyleBackColor = true;
             this.BUT_reset_params.Click += new System.EventHandler(this.BUT_reset_params_Click);
             // 
@@ -154,6 +161,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_commitToFlash, "BUT_commitToFlash");
             this.BUT_commitToFlash.Name = "BUT_commitToFlash";
+            this.BUT_commitToFlash.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_commitToFlash.UseVisualStyleBackColor = true;
             this.BUT_commitToFlash.Click += new System.EventHandler(this.BUT_commitToFlash_Click);
             // 
@@ -168,6 +176,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_refreshTable, "BUT_refreshTable");
             this.BUT_refreshTable.Name = "BUT_refreshTable";
+            this.BUT_refreshTable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_refreshTable.UseVisualStyleBackColor = true;
             this.BUT_refreshTable.Click += new System.EventHandler(this.BUT_refreshTable_Click);
             // 
@@ -199,33 +208,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Name = "treeView1";
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
-            // but_collapse
-            // 
-            resources.ApplyResources(this.but_collapse, "but_collapse");
-            this.but_collapse.Name = "but_collapse";
-            this.but_collapse.UseVisualStyleBackColor = true;
-            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 11);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable, 0, 16);
-            this.tableLayoutPanel1.Controls.Add(this.chk_none_default, 0, 14);
-            this.tableLayoutPanel1.Controls.Add(this.txt_search, 0, 12);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_load, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_save, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // Params
             // 
@@ -268,9 +250,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Params.RowHeadersVisible = false;
             this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.Params.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.Params_CellBeginEdit);
-            this.Params.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellClick);
             this.Params.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellContentClick);
             this.Params.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellValueChanged);
+            this.Params.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.Params_ColumnWidthChanged);
+            this.Params.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_RowEnter);
+            this.Params.RowHeightChanged += new System.Windows.Forms.DataGridViewRowEventHandler(this.Params_RowHeightChanged);
+            this.Params.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Params_Scroll);
             // 
             // Command
             // 
@@ -322,6 +307,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.Fav, "Fav");
             this.Fav.Name = "Fav";
             // 
+            // but_collapse
+            // 
+            resources.ApplyResources(this.but_collapse, "but_collapse");
+            this.but_collapse.Name = "but_collapse";
+            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_collapse.UseVisualStyleBackColor = true;
+            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.chk_none_default, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.txt_search, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_load, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_save, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
             // ConfigRawParams
             // 
             this.Controls.Add(this.splitContainer1);
@@ -332,9 +345,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
 
         }
