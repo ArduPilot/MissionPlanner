@@ -995,6 +995,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 but_collapse.Text = ">";
                 splitContainer1.Panel1Collapsed = true;
+                filterPrefix = "";
+                FilterTimerOnElapsed(null, null);
             }
         }
     }
