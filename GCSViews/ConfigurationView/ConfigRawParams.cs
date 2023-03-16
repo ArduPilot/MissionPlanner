@@ -845,6 +845,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Invoke((Action)delegate
            {
                filterList(txt_search.Text);
+               optionsControlUpateBounds();
            });
         }
 
@@ -930,34 +931,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return;
         }
 
-        private void Params_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == Value.Index)
-            {
-                var check = Params[e.ColumnIndex, e.RowIndex].EditedFormattedValue;
-                var name = Params[Command.Index, e.RowIndex].Value.ToString();
-
-                var availableBitMask =
-                    ParameterMetaDataRepository.GetParameterBitMaskInt(name, MainV2.comPort.MAV.cs.firmware.ToString());
-                if (availableBitMask.Count > 0)
-                {
-                    var mcb = new MavlinkCheckBoxBitMask();
-                    var list = new MAVLink.MAVLinkParamList();
-                    list.Add(new MAVLink.MAVLinkParam(name, double.Parse(check.ToString(), CultureInfo.InvariantCulture),
-                        MAVLink.MAV_PARAM_TYPE.INT32));
-                    mcb.setup(name, list);
-                    mcb.ValueChanged += (o, s, value) =>
-                    {
-                        Params[e.ColumnIndex, e.RowIndex].Value = value;
-                        Params.Invalidate();
-                        mcb.Focus();
-                    };
-                    var frm = mcb.ShowUserControl();
-                    frm.TopMost = true;
-                }
-            }
-        }
-
         private void chk_filter_CheckedChanged(object sender, EventArgs e)
         {
             FilterTimerOnElapsed(null, null);
@@ -997,6 +970,205 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 splitContainer1.Panel1Collapsed = true;
                 filterPrefix = "";
                 FilterTimerOnElapsed(null, null);
+            }
+        }
+
+        Control optionsControl;
+        // Create and place the relevant control in the options column when a row is entered
+        private void Params_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 1)
+                return;
+            
+            if (optionsControl != null)
+            {
+                Params.Controls.Remove(optionsControl);
+                optionsControl.Dispose();
+                optionsControl = null;
+            }
+
+            string param_name = Params[Command.Index, e.RowIndex].Value.ToString();
+            string vehicle = MainV2.comPort.MAV.cs.firmware.ToString();
+            var options = ParameterMetaDataRepository.GetParameterOptionsInt(param_name, vehicle);
+            var bitmask = ParameterMetaDataRepository.GetParameterBitMaskInt(param_name, vehicle);
+            // If there are options, create a combo box and populate it with the options
+            if (options.Count > 0)
+            {
+                ComboBox cmb = new ComboBox() { Dock = DockStyle.Fill };
+                cmb.DropDownStyle = ComboBoxStyle.DropDownList;
+                cmb.DataSource = options;
+                cmb.DisplayMember = "Value";
+                cmb.ValueMember = "Key";
+
+                // Widen the dropdown menu if the text is too long
+                // https://www.codeproject.com/Articles/5801/Adjust-combo-box-drop-down-list-width-to-longest-s
+                cmb.DropDown += (s, ev) =>
+                {
+                    ComboBox senderComboBox = (ComboBox)s;
+                    int width = senderComboBox.DropDownWidth;
+                    Graphics g = senderComboBox.CreateGraphics();
+                    Font font = senderComboBox.Font;
+                    int vertScrollBarWidth =
+                        (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                        ? SystemInformation.VerticalScrollBarWidth : 0;
+
+                    int newWidth;
+                    foreach (KeyValuePair<int, string> item in ((ComboBox)s).Items)
+                    {
+                        newWidth = (int)g.MeasureString(item.Value, font).Width
+                            + vertScrollBarWidth;
+                        if (width < newWidth)
+                        {
+                            width = newWidth;
+                        }
+                    }
+                    senderComboBox.DropDownWidth = width;
+                };
+
+                ThemeManager.ApplyThemeTo(cmb);
+
+                // Create a blank panel to hold the combo box
+                // (this blanks out the cell so that the text doesn't peak through)
+                optionsControl = new Panel();
+                ((Panel)optionsControl).BackColor = Params.Rows[e.RowIndex].InheritedStyle.BackColor;
+                optionsControl.Controls.Add(cmb);
+                optionsControl.Bounds = Params.GetCellDisplayRectangle(Options.Index, e.RowIndex, false);
+                Params.Controls.Add(optionsControl);
+
+                // Populate the current selection from the cell value, if it's valid
+                int val = -1;
+                if(int.TryParse(Params[Value.Index, e.RowIndex].Value.ToString(), out val))
+                {
+                    cmb.SelectedValue = val;
+                }
+                else
+                {
+                    cmb.SelectedIndex = -1;
+                }
+
+                // When the combo box selection changes, update the cell value
+                cmb.SelectedIndexChanged += (s, a) =>
+                {
+                    Params.CurrentRow.Cells[Value.Index].Value = cmb.SelectedValue.ToString();
+                    Params.Invalidate();
+                };
+            }
+            // If this is a bitmask, create a button to open the bitmask editor
+            // (this is better than trying to cram the bitmask checkboxes into the small cell)
+            else if (bitmask.Count > 0)
+            {
+                optionsControl = new MyButton() { Text = "Set Bitmask" };
+                optionsControl.Click += (s, a) =>
+                {
+                    var mcb = new MavlinkCheckBoxBitMask();
+                    var list = new MAVLink.MAVLinkParamList();
+                    list.Add(new MAVLink.MAVLinkParam(param_name, double.Parse(Params[Value.Index, e.RowIndex].Value.ToString(), CultureInfo.InvariantCulture),
+                        MAVLink.MAV_PARAM_TYPE.INT32));
+                    mcb.setup(param_name, list);
+                    mcb.ValueChanged += (o, x, value) =>
+                    {
+                        Params.CurrentRow.Cells[Value.Index].Value = value;
+                        Params.Invalidate();
+                        mcb.Focus();
+                    };
+                    var frm = mcb.ShowUserControl();
+                    frm.TopMost = true;
+                };
+
+                ThemeManager.ApplyThemeTo(optionsControl);
+                optionsControl.Bounds = Params.GetCellDisplayRectangle(Options.Index, e.RowIndex, false);
+                Params.Controls.Add(optionsControl);
+            }
+            // Otherwise, this is a simple numeric parameter
+            else
+            {
+                double min = -32768.0;
+                double max = 32768.0;
+                if (ParameterMetaDataRepository.GetParameterRange(param_name, ref min, ref max, vehicle))
+                {
+                    // Default increment is the range divided by 1000, rounded to the nearest power of 10
+                    double inc = Math.Pow(10, Math.Floor(Math.Log10((max - min) / 1000)));
+
+                    ParameterMetaDataRepository.GetParameterIncrement(param_name, ref inc, vehicle);
+
+                    NumericUpDown num = new NumericUpDown() { Dock = DockStyle.Fill };
+
+                    // Set the number of decimal places based on the increment, or the minimum value if it's smaller (but not zero)
+                    int decimalPlaces = (int)Math.Round(Math.Max(0, -Math.Log10(Math.Abs(inc))));
+                    if (Math.Abs(min) < inc && Math.Abs(min) >= 1e-9)
+                    {
+                        decimalPlaces = (int)Math.Round(Math.Max(0, -Math.Log10(Math.Abs(min))));
+                    }
+                    num.DecimalPlaces = decimalPlaces;
+                    num.Minimum = Math.Round((decimal)min, num.DecimalPlaces);
+                    num.Maximum = Math.Round((decimal)max, num.DecimalPlaces);
+                    num.Increment = Math.Round((decimal)inc, num.DecimalPlaces);
+                    
+                    // Parse the cell. If it lies outside the bounds, fail quietly
+                    decimal val = num.Minimum;
+                    decimal.TryParse(Params[Value.Index, e.RowIndex].Value?.ToString(), out val);
+                    if(num.Minimum < val && val < num.Maximum)
+                    {
+                        num.Value = Math.Round(val, num.DecimalPlaces);
+                    }
+
+                    // Update the cell if the text in the box changes
+                    num.TextChanged += (s, a) =>
+                    {
+                        Params.CurrentRow.Cells[Value.Index].Value = num.Text;
+                        Params.Invalidate();
+                    };
+
+                    ThemeManager.ApplyThemeTo(num);
+
+                    optionsControl = new Panel();
+                    ((Panel)optionsControl).BackColor = Params.Rows[e.RowIndex].InheritedStyle.BackColor;
+                    optionsControl.Controls.Add(num);
+                    optionsControl.Bounds = Params.GetCellDisplayRectangle(Options.Index, e.RowIndex, false);
+                    Params.Controls.Add(optionsControl);
+
+                }
+
+            }
+
+        }
+
+        // Upate the size and location of our options control whenever a scroll or resize happens
+        private void optionsControlUpateBounds()
+        {
+            if (optionsControl != null)
+            {
+                if (Params.CurrentRow == null)
+                {
+                    Params.Controls.Remove(optionsControl);
+                    optionsControl.Dispose();
+                    optionsControl = null;
+                    return;
+                }
+                var bounds = Params.GetCellDisplayRectangle(Options.Index, Params.CurrentRow.Index, false);
+                optionsControl.Bounds = bounds;
+                optionsControl.Visible = bounds.Height > 0;
+            }
+        }
+
+        private void Params_Scroll(object sender, ScrollEventArgs e)
+        {
+            optionsControlUpateBounds();
+        }
+
+        private void Params_RowHeightChanged(object sender, DataGridViewRowEventArgs e)
+        {
+            if(e.Row == Params.CurrentRow || e.Row.Index + 1 == Params.CurrentRow.Index)
+            {
+                optionsControlUpateBounds();
+            }
+        }
+
+        private void Params_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (e.Column.Index == Options.Index || e.Column.Index + 1 == Options.Index)
+            {
+                optionsControlUpateBounds();
             }
         }
     }
