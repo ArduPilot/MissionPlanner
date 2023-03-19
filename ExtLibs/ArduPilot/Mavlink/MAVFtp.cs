@@ -46,7 +46,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             _sysid = sysid;
             _compid = compid;
 
-            locker[(sysid, compid)] = new object();
+            if (!locker.ContainsKey((sysid, compid)))
+                locker[(sysid, compid)] = new object();
         }
 
         public enum errno
