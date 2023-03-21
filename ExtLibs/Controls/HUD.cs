@@ -2838,62 +2838,70 @@ namespace MissionPlanner.Controls
                 {
                     string gps = "";
                     SolidBrush col = _whiteBrush;
-                    Image icon;
+                    Image icon = null;
 
                     int a = 0;
-                    foreach (var _fix in new[] {_gpsfix, _gpsfix2})
+                    foreach (var _fix in new[] { _gpsfix, _gpsfix2 })
                     {
                         if (_fix == 0)
                         {
                             gps = (HUDT.GPS0);
-                            col = (SolidBrush) Brushes.Red;
-                            icon = HUDT.nogps_wide;
+                            col = (SolidBrush)Brushes.Red;
+                            if (displayicons)
+                                icon = HUDT.nogps_wide;
                         }
                         else if (_fix == 1)
                         {
                             gps = (HUDT.GPS1);
-                            col = (SolidBrush) Brushes.Red;
-                            icon = HUDT.nofix_wide;
+                            col = (SolidBrush)Brushes.Red; 
+                            if (displayicons)
+                                icon = HUDT.nofix_wide;
                         }
                         else if (_fix == 2)
                         {
-                            gps = (HUDT.GPS2);
-                            icon = HUDT._2dfix_wide;
+                            gps = (HUDT.GPS2); 
+                            if (displayicons)
+                                icon = HUDT._2dfix_wide;
                         }
                         else if (_fix == 3)
                         {
                             gps = (HUDT.GPS3);
-                            icon = HUDT._3dfix_wide;
+                            if (displayicons)
+                                icon = HUDT._3dfix_wide;
                         }
                         else if (_fix == 4)
                         {
-                            gps = (HUDT.GPS4);
-                            icon = HUDT._3ddgps_wide;
+                            gps = (HUDT.GPS4); 
+                            if (displayicons)
+                                icon = HUDT._3ddgps_wide;
                         }
                         else if (_fix == 5)
                         {
-                            gps = (HUDT.GPS5);
-                            icon = HUDT.rtkfloat_wide;
+                            gps = (HUDT.GPS5); 
+                            if (displayicons)
+                                icon = HUDT.rtkfloat_wide;
                         }
                         else if (_fix == 6)
                         {
-                            gps = (HUDT.GPS6);
-                            icon = HUDT.rtkfixed_wide;
+                            gps = (HUDT.GPS6); 
+                            if (displayicons)
+                                icon = HUDT.rtkfixed_wide;
                         }
                         else
                         {
                             gps = _fix.ToString();
-                            icon = HUDT.unknown;
+                            if (displayicons)
+                                icon = HUDT.unknown;
                         }
 
                         // gps2
                         if (a == 1) gps = gps.Replace("GPS:", "GPS2:");
                         // if nogps dont display
-                        if(a >= 1 && _fix == 0)
+                        if (a >= 1 && _fix == 0)
                             continue;
 
 
-                        int textIdx = (a == 0 && _gpsfix2 > 0) ? 0:1; 
+                        int textIdx = (a == 0 && _gpsfix2 > 0) ? 0 : 1;
 
 
                         //If displayicons is true then we display image icons instead of text on GPS staus
@@ -2904,7 +2912,7 @@ namespace MissionPlanner.Controls
                             if (a == 0 && _gpsfix2 == 0) hor_pos = this.Width - (((fontsize + 8) * 3)) - 3;
                             else hor_pos = this.Width - (((fontsize + 8) * 3) * 2) - 5;
 
-                            if (a == 1) hor_pos =  this.Width - (((fontsize + 8) * 3)) - 3;
+                            if (a == 1) hor_pos = this.Width - (((fontsize + 8) * 3)) - 3;
 
                             //DrawImage(icon, hor_pos, this.Height - ((fontsize + 2) * 3) - fontoffset + 2, (fontsize + 8) * 3, fontsize + 8);
                             DrawImage(icon, hor_pos, this.Height - (fontsize + 13), (fontsize + 8) * 3, fontsize + 8);
@@ -2913,9 +2921,9 @@ namespace MissionPlanner.Controls
                         else
                         {
 
-                            drawstring(gps, font, fontsize, col, this.Width - 13 * fontsize,yPos[textIdx]);
+                            drawstring(gps, font, fontsize, col, this.Width - 13 * fontsize, yPos[textIdx]);
                         }
-                        
+
                         a++;
                     }
                 }
