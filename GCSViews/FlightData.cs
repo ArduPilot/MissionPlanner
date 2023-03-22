@@ -5159,8 +5159,8 @@ namespace MissionPlanner.GCSViews
 
         private void updateBindingSource()
         {
-            //  run at 20 hz.
-            if (lastscreenupdate.AddMilliseconds(50) < DateTime.Now)
+            //  run at 10 hz.
+            if (lastscreenupdate.AddMilliseconds(100) < DateTime.Now)
             {
                 lock (updateBindingSourcelock)
                 {
