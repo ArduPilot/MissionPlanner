@@ -481,7 +481,6 @@
    <ProjectReference Include="ExtLibs\Antenna\MissionPlanner.Antenna.csproj" />
    <ProjectReference Include="ExtLibs\Arduino\Arduino.csproj" />
    <ProjectReference Include="ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj" />
-   <ProjectReference Include="ExtLibs\BouncyCastle\BouncyCastle.csproj" />
    <ProjectReference Include="ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
    <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj" />
    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj" />
