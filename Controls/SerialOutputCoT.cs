@@ -287,7 +287,7 @@ namespace MissionPlanner.Controls
             CultureInfo culture = new CultureInfo("en-US");
             culture.NumberFormat.NumberGroupSeparator = "";
 
-            string datetimeformat = "yyyy-MM-ddTHH:mm:ss.fffK";
+            string datetimeformat = "yyyy-MM-ddTHH:mm:ss.ffK";
 
             DateTime time = DateTime.UtcNow;
 
