@@ -182,6 +182,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.uk.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCubeID.resx">
+      <DependentUpon>ConfigCubeID.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.uk.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
@@ -792,6 +795,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigADSB.Designer.cs">
       <DependentUpon>ConfigADSB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigCubeID.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigCubeID.Designer.cs">
+      <DependentUpon>ConfigCubeID.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.cs">
       <SubType>UserControl</SubType>
