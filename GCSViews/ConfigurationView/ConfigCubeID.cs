@@ -47,13 +47,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        uint crc32_update(uint crc, byte[] data) {
+            uint[] gen_table = {
+                0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,
+                0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
+                0xedb88320, 0xf00f9344, 0xd6d6a3e8, 0xcb61b38c,
+                0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c
+            };
+            crc = crc ^ 0xffffffff;
+            foreach (var c in data) {
+                crc = gen_table[(crc ^ c) & 0x0f] ^ (crc >> 4);
+                crc = gen_table[(crc ^ (c >> 4)) & 0x0f] ^ (crc >> 4);
+            }
+            return crc ^ 0xffffffff;
+        }
+
         private void Prd_DoWork(Utilities.IProgressReporterDialogue sender)
         {
             var firmware_data = File.ReadAllBytes(file);
 
             var firmware_size = (uint)firmware_data.Length;
 
-            var crc32 = (uint)MAVFtp.crc_crc32(0, firmware_data);
+            var crc32 = (uint)crc32_update(0, firmware_data);
 
             bool seenresp = false;
 
