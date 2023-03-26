@@ -1,5 +1,6 @@
 ﻿using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,25 +27,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         uint offset = 0;
         private string file;
 
+        string url = "https://firmware.cubepilot.org/UAVCAN/com.cubepilot.cubeid/1.0/serial_fw_update.bin";
+
         private void but_upfw_Click(object sender, EventArgs e)
         {
             done = false;
             progress = 0.0;
             offset = 0;
 
+            /*
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "*.bin|*.bin";
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 file = ofd.FileName;
-
+            */
                 ProgressReporterDialogue prd = new ProgressReporterDialogue();
 
                 prd.DoWork += Prd_DoWork;
 
                 prd.RunBackgroundOperationAsync();
-            }
+            //}
         }
 
         uint crc32_update(uint crc, byte[] data) {
@@ -64,6 +68,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Prd_DoWork(Utilities.IProgressReporterDialogue sender)
         {
+            file = Path.GetTempFileName();
+            if (!Download.getFilefromNet(url, file))
+            {
+                sender.doWorkArgs.ErrorMessage = "Bad Download"; 
+                return;
+            }
+
             var firmware_data = File.ReadAllBytes(file);
 
             var firmware_size = (uint)firmware_data.Length;
