@@ -2598,6 +2598,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ar.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.az-Latn-AZ.resx">
       <DependentUpon>FlightData.cs</DependentUpon>

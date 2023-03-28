@@ -563,9 +563,10 @@ namespace MissionPlanner
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
+            MenuSimulation.Visible = false;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
-
+            MenuHelp.Visible = false;
             // force autohide on
             if (DisplayConfiguration.autoHideMenuForce)
             {
@@ -684,7 +685,15 @@ namespace MissionPlanner
                 {
                     t.TabPages.Remove(FlightData.tabPagemessages);
                 }
-
+                if (DisplayConfiguration.displayMessagesTab && !t.TabPages.Contains(FlightData.tabPage1))
+                {
+                    t.TabPages.Add(FlightData.tabPage1);
+                }
+                else if (!DisplayConfiguration.displayMessagesTab && t.TabPages.Contains(FlightData.tabPage1))
+                {
+                    t.TabPages.Remove(FlightData.tabPage1);
+                }
+                //if(DisplayConfiguration.displayDataflashTab && !t.TabPages.Contains())
                 t.SelectedIndex = 0;
 
                 MainV2.instance.FlightData.loadTabControlActions();
@@ -4656,14 +4665,14 @@ namespace MissionPlanner
 
         private void MenuArduPilot_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
-            }
-            catch
-            {
-                CustomMessageBox.Show("Failed to open url https://ardupilot.org");
-            }
+            //try
+            //{
+            //    System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+            //}
+            //catch
+            //{
+            //    CustomMessageBox.Show("Failed to open url https://ardupilot.org");
+            //}
         }
 
         private void connectionListToolStripMenuItem_Click(object sender, EventArgs e)

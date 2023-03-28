@@ -200,7 +200,7 @@ namespace MissionPlanner
                 return;
             }
 
-            name = "Mission Planner";
+            name = "Flaire Unmanned";
 
             try
             {
@@ -217,7 +217,8 @@ namespace MissionPlanner
 
             if (File.Exists(Settings.GetRunningDirectory() + "logo.png"))
                 Logo = new Bitmap(Settings.GetRunningDirectory() + "logo.png");
-
+            else
+                Logo = global::MissionPlanner.Properties.Resources.missionplannerlogo;
             if (File.Exists(Settings.GetRunningDirectory() + "logo2.png"))
                 Logo2 = new Bitmap(Settings.GetRunningDirectory() + "logo2.png");
 
@@ -228,7 +229,8 @@ namespace MissionPlanner
             }
             else
             {
-                IconFile = MissionPlanner.Properties.Resources.mpdesktop.ToBitmap();
+                //IconFile = MissionPlanner.Properties.Resources.mpdesktop.ToBitmap();
+                IconFile = global::MissionPlanner.Properties.Resources.Flairelogo;
             }
 
             if (File.Exists(Settings.GetRunningDirectory() + "splashbg.png")) // 600*375
