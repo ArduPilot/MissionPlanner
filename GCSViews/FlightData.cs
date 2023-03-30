@@ -6181,5 +6181,69 @@ namespace MissionPlanner.GCSViews
             tabControlactions.Multiline = !tabControlactions.Multiline;
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
+        private int selectedcam = 0;
+        private void myButton4_Click(object sender, EventArgs e)
+        {
+            if (selectedcam == 0)
+            {
+                if (MainV2.MONO)
+                    return;
+                if (MainV2.cam == null)
+                {
+                    try
+                    {
+                        MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+
+                        MainV2.cam.Start();
+
+                        MainV2.cam.camimage += new CamImage(cam_camimage);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                    }
+                }
+            }
+            else if (selectedcam == 1)
+            {
+                string url = Settings.Instance["gstreamer_url"] != null
+               ? Settings.Instance["gstreamer_url"]
+               : @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
+
+                if (DialogResult.OK == InputBox.Show("GStreamer url",
+                    "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                    ref url))
+                {
+                    Settings.Instance["gstreamer_url"] = url;
+
+                    GStreamer.StopAll();
+
+                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                    if (!GStreamer.gstlaunchexists)
+                    {
+                        GStreamerUI.DownloadGStreamer();
+
+                        if (!GStreamer.gstlaunchexists)
+                        {
+                            return;
+                        }
+                    }
+
+                    try
+                    {
+                        GStreamer.StartA(url);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                    }
+                }
+                else
+                {
+                    GStreamer.Stop(null);
+                }
+            }
+        }
     }
 }
