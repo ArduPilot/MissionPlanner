@@ -685,13 +685,13 @@ namespace MissionPlanner
                 {
                     t.TabPages.Remove(FlightData.tabPagemessages);
                 }
-                if (DisplayConfiguration.displayMessagesTab && !t.TabPages.Contains(FlightData.tabPage1))
+                if (DisplayConfiguration.displayMessagesTab && !t.TabPages.Contains(FlightData.tabCameracontrol))
                 {
-                    t.TabPages.Add(FlightData.tabPage1);
+                    t.TabPages.Add(FlightData.tabCameracontrol);
                 }
-                else if (!DisplayConfiguration.displayMessagesTab && t.TabPages.Contains(FlightData.tabPage1))
+                else if (!DisplayConfiguration.displayMessagesTab && t.TabPages.Contains(FlightData.tabCameracontrol))
                 {
-                    t.TabPages.Remove(FlightData.tabPage1);
+                    t.TabPages.Remove(FlightData.tabCameracontrol);
                 }
                 //if(DisplayConfiguration.displayDataflashTab && !t.TabPages.Contains())
                 t.SelectedIndex = 0;
