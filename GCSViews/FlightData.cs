@@ -6245,5 +6245,25 @@ namespace MissionPlanner.GCSViews
                 }
             }
         }
+
+        private void myButton5_Click(object sender, EventArgs e)
+        {
+            if (MainV2.cam == null)
+            {
+                try
+                {
+                    //MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+
+                    MainV2.cam.Dispose();
+                    MainV2.cam = null;
+
+
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                }
+            }
+        }
     }
 }
