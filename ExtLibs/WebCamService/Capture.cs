@@ -37,7 +37,7 @@ namespace WebCamService
 
         /// <summary> Indicates the status of the graph </summary>
         private bool m_bRunning = false;
-
+        public bool stop = false;
         /// <summary> Dimensions of the image, calculated once in constructor. </summary>
         private IntPtr m_handle = IntPtr.Zero;
         private int m_videoWidth;
@@ -264,7 +264,7 @@ namespace WebCamService
                 ip = this.GetBitMap();
                 image = new Bitmap(this.Width, this.Height, this.Stride, PixelFormat.Format24bppRgb, ip);
                 image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                if (m_camimage != null)
+                if (m_camimage != null && !stop)
                 {
                     m_camimage(image);
                 }

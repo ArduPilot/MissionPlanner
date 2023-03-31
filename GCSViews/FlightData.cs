@@ -32,6 +32,9 @@ using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
 using UnauthorizedAccessException = System.UnauthorizedAccessException;
+using System.Data;
+using BrightIdeasSoftware;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 // written by michael oborne
 
@@ -6193,7 +6196,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
-
+                        MainV2.cam.stop = false;
                         MainV2.cam.Start();
 
                         MainV2.cam.camimage += new CamImage(cam_camimage);
@@ -6248,13 +6251,14 @@ namespace MissionPlanner.GCSViews
 
         private void myButton5_Click(object sender, EventArgs e)
         {
-            if (MainV2.cam == null)
+            if (MainV2.cam != null)
             {
                 try
                 {
                     //MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
 
                     MainV2.cam.Dispose();
+                    MainV2.cam.stop = true;
                     MainV2.cam = null;
 
 
@@ -6264,6 +6268,12 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
                 }
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            selectedcam = comboBox1.SelectedIndex;
         }
     }
 }
