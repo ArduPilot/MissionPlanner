@@ -6251,29 +6251,77 @@ namespace MissionPlanner.GCSViews
 
         private void myButton5_Click(object sender, EventArgs e)
         {
-            if (MainV2.cam != null)
+            if (selectedcam == 0)
             {
-                try
+                if (MainV2.cam != null)
                 {
-                    //MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+                    try
+                    {
+                        //MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
 
-                    MainV2.cam.Dispose();
-                    MainV2.cam.stop = true;
-                    MainV2.cam = null;
+                        MainV2.cam.Dispose();
+                        MainV2.cam.stop = true;
+                        MainV2.cam = null;
 
 
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
-                }
+
             }
+            else if (selectedcam == 1)
+            {
+                GStreamer.StopAll();
+            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             
             selectedcam = comboBox1.SelectedIndex;
+        }
+        // start gstreamer recording 
+        private void myButton6_Click(object sender, EventArgs e)
+        {
+            //var url= "gst-launch-1.0 -ev  rtspsrc location=rtsp://192.168.144.108:554/stream=0  ! application/x-rtp, media=video, encoding-name=H264  ! queue ! rtph264depay ! h264parse ! matroskamux ! filesink location=recording.avi"
+            
+
+            //GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+            //if (!GStreamer.gstlaunchexists)
+            //{
+            //    GStreamerUI.DownloadGStreamer();
+
+            //    if (!GStreamer.gstlaunchexists)
+            //    {
+            //        return;
+            //    }
+            //}
+
+            //try
+            //{
+            //    GStreamer.StartA(url);
+            //}
+            //catch (Exception ex)
+            //{
+            //    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            //}
+
+
+        }
+
+        private void myButton7_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void myButton10_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

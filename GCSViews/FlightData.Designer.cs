@@ -232,6 +232,10 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.myButton8 = new MissionPlanner.Controls.MyButton();
+            this.myButton9 = new MissionPlanner.Controls.MyButton();
+            this.myButton10 = new MissionPlanner.Controls.MyButton();
+            this.myButton11 = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -1061,10 +1065,14 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPanel3
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.myButton11, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.myButton10, 1, 3);
+            this.tableLayoutPanel3.Controls.Add(this.myButton9, 1, 5);
+            this.tableLayoutPanel3.Controls.Add(this.myButton8, 2, 4);
             this.tableLayoutPanel3.Controls.Add(this.myButton7, 2, 1);
             this.tableLayoutPanel3.Controls.Add(this.myButton6, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.myButton5, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.myButton4, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.myButton5, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.myButton4, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.comboBox1, 0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
@@ -1078,6 +1086,7 @@ namespace MissionPlanner.GCSViews
             this.myButton7.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.myButton7, resources.GetString("myButton7.ToolTip"));
             this.myButton7.UseVisualStyleBackColor = true;
+            this.myButton7.Click += new System.EventHandler(this.myButton7_Click);
             // 
             // myButton6
             // 
@@ -1089,6 +1098,7 @@ namespace MissionPlanner.GCSViews
             this.myButton6.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.myButton6, resources.GetString("myButton6.ToolTip"));
             this.myButton6.UseVisualStyleBackColor = true;
+            this.myButton6.Click += new System.EventHandler(this.myButton6_Click);
             // 
             // myButton5
             // 
@@ -1125,7 +1135,6 @@ namespace MissionPlanner.GCSViews
             resources.GetString("comboBox1.Items1")});
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            this.comboBox1.SelectedIndex = 0;
             // 
             // tabPagemessages
             // 
@@ -2636,7 +2645,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2856,6 +2865,51 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // myButton8
+            // 
+            this.myButton8.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton8.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton8.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton8, "myButton8");
+            this.myButton8.Name = "myButton8";
+            this.myButton8.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton8, resources.GetString("myButton8.ToolTip"));
+            this.myButton8.UseVisualStyleBackColor = true;
+            // 
+            // myButton9
+            // 
+            this.myButton9.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton9.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton9.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton9, "myButton9");
+            this.myButton9.Name = "myButton9";
+            this.myButton9.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton9, resources.GetString("myButton9.ToolTip"));
+            this.myButton9.UseVisualStyleBackColor = true;
+            // 
+            // myButton10
+            // 
+            this.myButton10.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton10.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton10.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton10, "myButton10");
+            this.myButton10.Name = "myButton10";
+            this.myButton10.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton10, resources.GetString("myButton10.ToolTip"));
+            this.myButton10.UseVisualStyleBackColor = true;
+            this.myButton10.Click += new System.EventHandler(this.myButton10_Click);
+            // 
+            // myButton11
+            // 
+            this.myButton11.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton11.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton11.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton11, "myButton11");
+            this.myButton11.Name = "myButton11";
+            this.myButton11.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton11, resources.GetString("myButton11.ToolTip"));
+            this.myButton11.UseVisualStyleBackColor = true;
             // 
             // FlightData
             // 
@@ -3165,6 +3219,10 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton myButton5;
         private Controls.MyButton myButton7;
         private Controls.MyButton myButton6;
+        private Controls.MyButton myButton11;
+        private Controls.MyButton myButton10;
+        private Controls.MyButton myButton9;
+        private Controls.MyButton myButton8;
         //private TabPage tabPage1;
     }
 }
