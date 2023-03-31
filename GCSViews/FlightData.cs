@@ -6318,10 +6318,68 @@ namespace MissionPlanner.GCSViews
         {
             
         }
-
+        // gible up
         private void myButton10_Click(object sender, EventArgs e)
         {
+            trackBarPitch.Value = 80;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                trackBarYaw.Value * 100.0f, false);
+            System.Threading.Thread.Sleep(speedtime);
+            trackBarPitch.Value = -10;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                trackBarYaw.Value * 100.0f, false);
+        }
 
+        private void myButton12_Click(object sender, EventArgs e)
+        {
+            
+            customizeToolStripMenuItem_Click(sender,e);
+        }
+        // left gimble control
+        private void myButton11_Click(object sender, EventArgs e)
+        {
+            trackBarYaw.Value = 170;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+               trackBarYaw.Value * 100.0f, false);
+            System.Threading.Thread.Sleep(speedtime);
+            trackBarYaw.Value = 10;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                trackBarYaw.Value * 100.0f, false);
+        }
+        // right gimble control
+        private void myButton8_Click(object sender, EventArgs e)
+        {
+            trackBarYaw.Value = -170;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+               trackBarYaw.Value * 100.0f, false);
+            System.Threading.Thread.Sleep(speedtime);
+            trackBarYaw.Value = -10;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                trackBarYaw.Value * 100.0f, false);
+        }
+
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        private int speedtime = 100;
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (richTextBox1.Text.All(char.IsDigit))
+            {
+                speedtime = int.Parse(richTextBox1.Text);
+            }
+        }
+        //gimble down
+        private void myButton9_Click(object sender, EventArgs e)
+        {
+            trackBarPitch.Value = -80;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                trackBarYaw.Value * 100.0f, false);
+            System.Threading.Thread.Sleep(speedtime);
+            trackBarPitch.Value = -10;
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                trackBarYaw.Value * 100.0f, false);
         }
     }
 }

@@ -576,6 +576,39 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
+  <data name="myButton12.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="myButton12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="myButton12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 147</value>
+  </data>
+  <data name="myButton12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 31</value>
+  </data>
+  <data name="myButton12.TabIndex" type="System.Int32, mscorlib">
+    <value>89</value>
+  </data>
+  <data name="myButton12.Text" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="myButton12.ToolTip" xml:space="preserve">
+    <value>Send message to be saved in vehicle log</value>
+  </data>
+  <data name="&gt;&gt;myButton12.Name" xml:space="preserve">
+    <value>myButton12</value>
+  </data>
+  <data name="&gt;&gt;myButton12.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;myButton12.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;myButton12.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="BUT_SendMSG.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -607,7 +640,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_SendMSG.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="BUT_abortland.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -640,7 +673,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_abortland.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="modifyandSetLoiterRad.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -676,7 +709,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_clear_track.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -709,7 +742,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_clear_track.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CMB_action.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -736,7 +769,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_action.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="BUTactiondo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -769,7 +802,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUTactiondo.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="BUT_resumemis.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -799,7 +832,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_resumemis.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="modifyandSetAlt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -835,7 +868,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;modifyandSetAlt.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="modifyandSetSpeed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -871,7 +904,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;modifyandSetSpeed.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CMB_setwp.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -901,7 +934,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_setwp.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="BUT_ARM.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -934,7 +967,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_ARM.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="BUT_mountmode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -967,7 +1000,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_mountmode.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="BUT_joystick.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1000,7 +1033,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_joystick.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="BUT_RAWSensor.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1033,7 +1066,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_RAWSensor.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="BUT_Homealt.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1066,7 +1099,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_Homealt.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="BUTrestartmission.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1099,7 +1132,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUTrestartmission.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="CMB_mountmode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1126,7 +1159,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_mountmode.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="BUT_quickrtl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1159,7 +1192,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_quickrtl.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="BUT_quickmanual.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1192,7 +1225,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_quickmanual.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="BUT_setwp.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1225,7 +1258,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_setwp.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="CMB_modes.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1252,7 +1285,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_modes.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="BUT_quickauto.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1285,7 +1318,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_quickauto.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="BUT_setmode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1318,7 +1351,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_setmode.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -1345,7 +1378,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BUT_SendMSG" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_abortland" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetLoiterRad" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="BUT_clear_track" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_action" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUTactiondo" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_resumemis" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetAlt" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetSpeed" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_setwp" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_ARM" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_mountmode" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_joystick" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_RAWSensor" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Homealt" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUTrestartmission" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_mountmode" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickrtl" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickmanual" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setwp" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_modes" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickauto" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setmode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;Rows Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="myButton12" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_SendMSG" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_abortland" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetLoiterRad" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="BUT_clear_track" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_action" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUTactiondo" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_resumemis" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetAlt" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetSpeed" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_setwp" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_ARM" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_mountmode" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_joystick" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_RAWSensor" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Homealt" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUTrestartmission" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_mountmode" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickrtl" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickmanual" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setwp" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_modes" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickauto" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setmode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;Rows Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tabActions.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 44</value>
@@ -1671,6 +1704,30 @@
   <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="richTextBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 81</value>
+  </data>
+  <data name="richTextBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 26</value>
+  </data>
+  <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="&gt;&gt;richTextBox1.Name" xml:space="preserve">
+    <value>richTextBox1</value>
+  </data>
+  <data name="&gt;&gt;richTextBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;richTextBox1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;richTextBox1.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
     <value>-5, 0</value>
   </data>
@@ -1696,7 +1753,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="myButton11" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="myButton10" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="myButton9" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="myButton8" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="myButton7" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="myButton6" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="myButton5" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="myButton4" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="comboBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50,Absolute,94" /&gt;&lt;Rows Styles="Percent,49.47368,Percent,50.52632,Absolute,10,Absolute,32,Absolute,29,Absolute,29,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="myButton11" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="myButton10" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="myButton9" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="myButton8" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="myButton7" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="myButton6" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="myButton5" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="myButton4" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="comboBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="richTextBox1" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50,Absolute,94" /&gt;&lt;Rows Styles="Percent,49.47368,Percent,50.52632,Absolute,10,Absolute,32,Absolute,29,Absolute,29,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tabCameracontrol.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 44</value>
@@ -6232,6 +6289,9 @@
   <metadata name="bindingSourceStatusTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 57</value>
   </metadata>
+  <metadata name="contextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1096, 57</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -6525,6 +6585,12 @@
   </data>
   <data name="&gt;&gt;bindingSourceStatusTab.Type" xml:space="preserve">
     <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contextMenu1.Name" xml:space="preserve">
+    <value>contextMenu1</value>
+  </data>
+  <data name="&gt;&gt;contextMenu1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenu, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FlightData</value>

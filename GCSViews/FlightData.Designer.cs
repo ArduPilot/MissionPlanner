@@ -236,6 +236,9 @@ namespace MissionPlanner.GCSViews
             this.myButton9 = new MissionPlanner.Controls.MyButton();
             this.myButton10 = new MissionPlanner.Controls.MyButton();
             this.myButton11 = new MissionPlanner.Controls.MyButton();
+            this.myButton12 = new MissionPlanner.Controls.MyButton();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -718,6 +721,7 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.myButton12, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_SendMSG, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_abortland, 4, 4);
             this.tableLayoutPanel1.Controls.Add(this.modifyandSetLoiterRad, 4, 2);
@@ -1074,7 +1078,9 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel3.Controls.Add(this.myButton5, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.myButton4, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.comboBox1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.richTextBox1, 0, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
             // myButton7
             // 
@@ -2876,6 +2882,7 @@ namespace MissionPlanner.GCSViews
             this.myButton8.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.myButton8, resources.GetString("myButton8.ToolTip"));
             this.myButton8.UseVisualStyleBackColor = true;
+            this.myButton8.Click += new System.EventHandler(this.myButton8_Click);
             // 
             // myButton9
             // 
@@ -2887,6 +2894,7 @@ namespace MissionPlanner.GCSViews
             this.myButton9.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.myButton9, resources.GetString("myButton9.ToolTip"));
             this.myButton9.UseVisualStyleBackColor = true;
+            this.myButton9.Click += new System.EventHandler(this.myButton9_Click);
             // 
             // myButton10
             // 
@@ -2910,6 +2918,25 @@ namespace MissionPlanner.GCSViews
             this.myButton11.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.myButton11, resources.GetString("myButton11.ToolTip"));
             this.myButton11.UseVisualStyleBackColor = true;
+            this.myButton11.Click += new System.EventHandler(this.myButton11_Click);
+            // 
+            // myButton12
+            // 
+            this.myButton12.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton12.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton12.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton12, "myButton12");
+            this.myButton12.Name = "myButton12";
+            this.myButton12.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton12, resources.GetString("myButton12.ToolTip"));
+            this.myButton12.UseVisualStyleBackColor = true;
+            this.myButton12.Click += new System.EventHandler(this.myButton12_Click);
+            // 
+            // richTextBox1
+            // 
+            resources.ApplyResources(this.richTextBox1, "richTextBox1");
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // FlightData
             // 
@@ -3223,6 +3250,9 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton myButton10;
         private Controls.MyButton myButton9;
         private Controls.MyButton myButton8;
+        public Controls.MyButton myButton12;
+        private RichTextBox richTextBox1;
+        private ContextMenu contextMenu1;
         //private TabPage tabPage1;
     }
 }
