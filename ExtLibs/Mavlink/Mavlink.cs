@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Mar 15 2023";
+    public const string MAVLINK_BUILD_DATE = "Sun Apr 02 2023";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -242,6 +242,7 @@ public partial class MAVLink
         new message_info(271, "CAMERA_FOV_STATUS", 22, 52, 52, typeof( mavlink_camera_fov_status_t )),
         new message_info(275, "CAMERA_TRACKING_IMAGE_STATUS", 126, 31, 31, typeof( mavlink_camera_tracking_image_status_t )),
         new message_info(276, "CAMERA_TRACKING_GEO_STATUS", 18, 49, 49, typeof( mavlink_camera_tracking_geo_status_t )),
+        new message_info(282, "GIMBAL_MANAGER_SET_ATTITUDE", 123, 35, 35, typeof( mavlink_gimbal_manager_set_attitude_t )),
         new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 144, typeof( mavlink_gimbal_device_information_t )),
         new message_info(284, "GIMBAL_DEVICE_SET_ATTITUDE", 99, 32, 32, typeof( mavlink_gimbal_device_set_attitude_t )),
         new message_info(285, "GIMBAL_DEVICE_ATTITUDE_STATUS", 137, 40, 40, typeof( mavlink_gimbal_device_attitude_status_t )),
@@ -563,6 +564,7 @@ public partial class MAVLink
         CAMERA_FOV_STATUS = 271,
         CAMERA_TRACKING_IMAGE_STATUS = 275,
         CAMERA_TRACKING_GEO_STATUS = 276,
+        GIMBAL_MANAGER_SET_ATTITUDE = 282,
         GIMBAL_DEVICE_INFORMATION = 283,
         GIMBAL_DEVICE_SET_ATTITUDE = 284,
         GIMBAL_DEVICE_ATTITUDE_STATUS = 285,
@@ -2942,7 +2944,7 @@ public partial class MAVLink
     
     ///<summary> Flags for high level gimbal manager operation The first 16 bits are identical to the GIMBAL_DEVICE_FLAGS. </summary>
     [Flags]
-	public enum GIMBAL_MANAGER_FLAGS: int /*default*/
+	public enum GIMBAL_MANAGER_FLAGS: uint
     {
         ///<summary> Based on GIMBAL_DEVICE_FLAGS_RETRACT | </summary>
         [Description("Based on GIMBAL_DEVICE_FLAGS_RETRACT")]
@@ -26638,6 +26640,94 @@ public partial class MAVLink
         [Description("The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.")]
         //[FieldOffset(52)]
         public  /*MAV_LANDED_STATE*/byte landed_state;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
+    ///<summary> High level message to control a gimbal's attitude. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_gimbal_manager_set_attitude_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_manager_set_attitude_t(/*GIMBAL_MANAGER_FLAGS*/uint flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,byte target_system,byte target_component,byte gimbal_device_id) 
+        {
+            this.flags = flags;
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_manager_set_attitude_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_MANAGER_FLAGS*/uint flags,byte gimbal_device_id,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
+        {
+            var msg = new mavlink_gimbal_manager_set_attitude_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.gimbal_device_id = gimbal_device_id;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>High level gimbal manager flags to use. GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("High level gimbal manager flags to use.")]
+        //[FieldOffset(0)]
+        public  /*GIMBAL_MANAGER_FLAGS*/uint flags;
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_MANAGER_FLAGS_YAW_LOCK is set)   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_MANAGER_FLAGS_YAW_LOCK is set)")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity, positive is rolling to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity, positive is rolling to the right, NaN to be ignored.")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity, positive is pitching up, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity, positive is pitching up, NaN to be ignored.")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity, positive is yawing to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity, positive is yawing to the right, NaN to be ignored.")]
+        //[FieldOffset(28)]
+        public  float angular_velocity_z;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(32)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(33)]
+        public  byte target_component;
+
+        /// <summary>Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).")]
+        //[FieldOffset(34)]
+        public  byte gimbal_device_id;
     };
 
     

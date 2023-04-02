@@ -255,6 +255,7 @@ messageName = {
     [284] = 'GIMBAL_DEVICE_SET_ATTITUDE',
     [285] = 'GIMBAL_DEVICE_ATTITUDE_STATUS',
     [286] = 'AUTOPILOT_STATE_FOR_GIMBAL_DEVICE',
+    [282] = 'GIMBAL_MANAGER_SET_ATTITUDE',
     [299] = 'WIFI_CONFIG_AP',
     [301] = 'AIS_VESSEL',
     [310] = 'UAVCAN_NODE_STATUS',
@@ -9099,6 +9100,23 @@ f.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_estimator_status_flagESTIMATOR_PRED_POS_HORI
 f.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_estimator_status_flagESTIMATOR_GPS_GLITCH = ProtoField.bool("mavlink_proto.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_estimator_status.ESTIMATOR_GPS_GLITCH", "ESTIMATOR_GPS_GLITCH")
 f.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_estimator_status_flagESTIMATOR_ACCEL_ERROR = ProtoField.bool("mavlink_proto.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_estimator_status.ESTIMATOR_ACCEL_ERROR", "ESTIMATOR_ACCEL_ERROR")
 f.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_landed_state = ProtoField.new("landed_state (MAV_LANDED_STATE)", "mavlink_proto.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_landed_state", ftypes.UINT8, enumEntryName.MAV_LANDED_STATE)
+
+f.GIMBAL_MANAGER_SET_ATTITUDE_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_target_system", ftypes.UINT8, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_target_component", ftypes.UINT8, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_flags = ProtoField.new("flags (GIMBAL_MANAGER_FLAGS)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_flags", ftypes.UINT32, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_flags_flagGIMBAL_MANAGER_FLAGS_RETRACT = ProtoField.bool("mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_flags.GIMBAL_MANAGER_FLAGS_RETRACT", "GIMBAL_MANAGER_FLAGS_RETRACT")
+f.GIMBAL_MANAGER_SET_ATTITUDE_flags_flagGIMBAL_MANAGER_FLAGS_NEUTRAL = ProtoField.bool("mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_flags.GIMBAL_MANAGER_FLAGS_NEUTRAL", "GIMBAL_MANAGER_FLAGS_NEUTRAL")
+f.GIMBAL_MANAGER_SET_ATTITUDE_flags_flagGIMBAL_MANAGER_FLAGS_ROLL_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_flags.GIMBAL_MANAGER_FLAGS_ROLL_LOCK", "GIMBAL_MANAGER_FLAGS_ROLL_LOCK")
+f.GIMBAL_MANAGER_SET_ATTITUDE_flags_flagGIMBAL_MANAGER_FLAGS_PITCH_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_flags.GIMBAL_MANAGER_FLAGS_PITCH_LOCK", "GIMBAL_MANAGER_FLAGS_PITCH_LOCK")
+f.GIMBAL_MANAGER_SET_ATTITUDE_flags_flagGIMBAL_MANAGER_FLAGS_YAW_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_flags.GIMBAL_MANAGER_FLAGS_YAW_LOCK", "GIMBAL_MANAGER_FLAGS_YAW_LOCK")
+f.GIMBAL_MANAGER_SET_ATTITUDE_gimbal_device_id = ProtoField.new("gimbal_device_id (uint8_t)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_gimbal_device_id", ftypes.UINT8, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_q_0 = ProtoField.new("q[0] (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_q_0", ftypes.FLOAT, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_q_1 = ProtoField.new("q[1] (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_q_1", ftypes.FLOAT, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_q_2 = ProtoField.new("q[2] (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_q_2", ftypes.FLOAT, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_q_3 = ProtoField.new("q[3] (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_q_3", ftypes.FLOAT, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_x = ProtoField.new("angular_velocity_x (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_x", ftypes.FLOAT, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_y = ProtoField.new("angular_velocity_y (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_y", ftypes.FLOAT, nil)
+f.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_z = ProtoField.new("angular_velocity_z (float)", "mavlink_proto.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_z", ftypes.FLOAT, nil)
 
 f.WIFI_CONFIG_AP_ssid = ProtoField.new("ssid (char)", "mavlink_proto.WIFI_CONFIG_AP_ssid", ftypes.STRING, nil)
 f.WIFI_CONFIG_AP_password = ProtoField.new("password (char)", "mavlink_proto.WIFI_CONFIG_AP_password", ftypes.STRING, nil)
@@ -37671,6 +37689,40 @@ function payload_fns.payload_286(buffer, tree, msgid, offset, limit, pinfo)
     dissect_flags_ESTIMATOR_STATUS_FLAGS(subtree, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_estimator_status", value)
     field_offset = offset + 52
     subtree, value = tree:add_le(f.AUTOPILOT_STATE_FOR_GIMBAL_DEVICE_landed_state, padded(field_offset, 1))
+end
+-- dissect payload of message type GIMBAL_MANAGER_SET_ATTITUDE
+function payload_fns.payload_282(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    field_offset = offset + 32
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_target_system, padded(field_offset, 1))
+    field_offset = offset + 33
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_target_component, padded(field_offset, 1))
+    field_offset = offset + 0
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_flags, padded(field_offset, 4))
+    dissect_flags_GIMBAL_MANAGER_FLAGS(subtree, "GIMBAL_MANAGER_SET_ATTITUDE_flags", value)
+    field_offset = offset + 34
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_gimbal_device_id, padded(field_offset, 1))
+    field_offset = offset + 4
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_q_0, padded(field_offset, 4))
+    field_offset = offset + 8
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_q_1, padded(field_offset, 4))
+    field_offset = offset + 12
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_q_2, padded(field_offset, 4))
+    field_offset = offset + 16
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_q_3, padded(field_offset, 4))
+    field_offset = offset + 20
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_x, padded(field_offset, 4))
+    field_offset = offset + 24
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_y, padded(field_offset, 4))
+    field_offset = offset + 28
+    subtree, value = tree:add_le(f.GIMBAL_MANAGER_SET_ATTITUDE_angular_velocity_z, padded(field_offset, 4))
 end
 -- dissect payload of message type WIFI_CONFIG_AP
 function payload_fns.payload_299(buffer, tree, msgid, offset, limit, pinfo)
