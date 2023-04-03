@@ -6328,6 +6328,11 @@ namespace MissionPlanner.GCSViews
             trackBarPitch.Value = -10;
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
                 trackBarYaw.Value * 100.0f, false);
+            if (cammove[0] <= 1700)
+            {
+                cammove[0] += speedtime;
+            }
+            
         }
 
         private void myButton12_Click(object sender, EventArgs e)
@@ -6345,6 +6350,23 @@ namespace MissionPlanner.GCSViews
             trackBarYaw.Value = 10;
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
                 trackBarYaw.Value * 100.0f, false);
+            //cammove[1] += speedtime;
+            if (cammove[1] <14000)
+            {
+                if (speedtime == 100)
+                {
+                    cammove[1] += (speedtime + 13);
+                }
+                else
+                {
+                    cammove[1] += speedtime;
+                }
+                //cammove[1] += speedtime;
+            }
+            else if (cammove[1] >= 14000)
+            {
+                cammove[1] = 0;
+            }
         }
         // right gimble control
         private void myButton8_Click(object sender, EventArgs e)
@@ -6356,6 +6378,23 @@ namespace MissionPlanner.GCSViews
             trackBarYaw.Value = -10;
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
                 trackBarYaw.Value * 100.0f, false);
+            //cammove[1]-= speedtime;
+            if (cammove[1] > -14000)
+            {
+                if (speedtime == 100)
+                {
+                    cammove[1] -=( speedtime+13);
+                }
+                else
+                {
+                    cammove[1] -= speedtime;
+                }
+                
+            }
+            else if (cammove[1] <= -14000)
+            {
+                cammove[1] = 0;
+            }
         }
 
         private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
@@ -6363,6 +6402,8 @@ namespace MissionPlanner.GCSViews
 
         }
         private int speedtime = 100;
+        // 1st for vertical 2nd for horizon 
+        private List<int> cammove=new List<int>() { 0,0};
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             if (richTextBox1.Text.All(char.IsDigit))
@@ -6380,6 +6421,76 @@ namespace MissionPlanner.GCSViews
             trackBarPitch.Value = -10;
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
                 trackBarYaw.Value * 100.0f, false);
+            if (cammove[0] > -4000)
+            {
+                cammove[0] -= speedtime;
+            }
+            else if(cammove[0] <= -4000){
+                cammove[0] = -4400;
+            }
+            
+        }
+
+        private void myButton13_Click(object sender, EventArgs e)
+        {
+            // for set gimble vertical movement
+            if (cammove[0] > 0)
+            {
+                
+
+                trackBarPitch.Value = -80;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(cammove[0]);
+                trackBarPitch.Value = -10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+            }
+            else if(cammove[0] < 0)
+            {
+                trackBarPitch.Value = 80;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(-cammove[0]);
+                trackBarPitch.Value = -10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+
+
+                
+            }
+            // for horizontal movement
+            if(cammove[1] > 0)
+            {
+                trackBarYaw.Value = -170;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                   trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(cammove[1]);
+                trackBarYaw.Value = -10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+            }
+            else if(cammove[1] < 0)
+            {
+                trackBarYaw.Value = 170;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                   trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(-cammove[1]);
+                trackBarYaw.Value = 10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+
+
+                
+            }
+            cammove[0] = 0;
+            cammove[1] = 0;
+        }
+        // set home
+        private void myButton14_Click(object sender, EventArgs e)
+        {
+            cammove[0] = 0;
+            cammove[1] = 0;
         }
     }
 }
