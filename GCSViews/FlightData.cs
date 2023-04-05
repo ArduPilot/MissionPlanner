@@ -35,6 +35,8 @@ using UnauthorizedAccessException = System.UnauthorizedAccessException;
 using System.Data;
 using BrightIdeasSoftware;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static IronPython.Modules._ast;
+using IronPython.Runtime.Operations;
 
 // written by michael oborne
 
@@ -6284,39 +6286,58 @@ namespace MissionPlanner.GCSViews
             
             selectedcam = comboBox1.SelectedIndex;
         }
+        private bool rtsprecoding=false;
+        private Thread recthred;
         // start gstreamer recording 
         private void myButton6_Click(object sender, EventArgs e)
         {
-            //var url= "gst-launch-1.0 -ev  rtspsrc location=rtsp://192.168.144.108:554/stream=0  ! application/x-rtp, media=video, encoding-name=H264  ! queue ! rtph264depay ! h264parse ! matroskamux ! filesink location=recording.avi"
+            rtsprecoding = true;
+            string winpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            String[] spearator = { "Desktop" };
+            Int32 count = 2;
+
+            // using the method
+            String[] strlist = winpath.Split(spearator, count,
+                   StringSplitOptions.RemoveEmptyEntries);
+            String[] spearator1 = { @"\",@"\\" };
+            Int32 count1= 4;
+            String[] strlist2 = strlist[0].Split(spearator1, count1,
+                   StringSplitOptions.RemoveEmptyEntries);
+            winpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_rec.avi";
+            
+           // winpath.Replace(@"\", @"/");
+            var url = " rtspsrc location=rtsp://192.168.144.108:554/stream=0  ! application/x-rtp, media=video, encoding-name=H264  ! queue ! rtph264depay ! h264parse ! matroskamux ! filesink location="+winpath;
             
 
-            //GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            //if (!GStreamer.gstlaunchexists)
-            //{
-            //    GStreamerUI.DownloadGStreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            //    if (!GStreamer.gstlaunchexists)
-            //    {
-            //        return;
-            //    }
-            //}
+            if (!GStreamer.gstlaunchexists)
+            {
+                GStreamerUI.DownloadGStreamer();
 
-            //try
-            //{
-            //    GStreamer.StartA(url);
-            //}
-            //catch (Exception ex)
-            //{
-            //    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
-            //}
+                if (!GStreamer.gstlaunchexists)
+                {
+                    return;
+                }
+            }
+
+            try
+            {
+                recthred=GStreamer.StartA(url);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            }
 
 
         }
 
         private void myButton7_Click(object sender, EventArgs e)
         {
-            
+            rtsprecoding = false;
+            recthred.Abort();
         }
         // gible up
         private void myButton10_Click(object sender, EventArgs e)

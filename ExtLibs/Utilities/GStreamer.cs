@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Org.BouncyCastle.Asn1.Cms;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -1235,7 +1236,8 @@ namespace MissionPlanner.Utilities
             var th = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
 
             th.Start(stringpipeline);
-
+            //System.Threading.Thread.Sleep(5000);
+            //th.Abort();
             return th;
         }
 
