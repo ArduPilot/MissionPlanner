@@ -24,11 +24,81 @@ using WinApi.Windows.Helpers;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Utilities;
 using Rectangle = NetCoreEx.Geometry.Rectangle;
+using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace SkiaTest
 {
+
+    public class TreeNode
+    {
+        public int? Id { get; set; }
+        public object Value { get; set; }
+        public int? Parent { get; set; }
+        public List<TreeNode> Children { get; set; } = new List<TreeNode>();
+
+        public TreeNode()
+        {
+        }
+
+        public static TreeNode BuildTree(List<TreeNode> nodes)
+        {
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+            return new TreeNode().BuildTreeI(nodes);
+        }
+
+        private TreeNode BuildTreeI(List<TreeNode> nodes)
+        {
+            if (nodes.Count == 0) { return this; }
+
+            var children = FetchChildren(this, nodes).ToList();
+            Children.AddRange(children);
+            RemoveChildren(this, nodes);
+
+            for (int i = 0; i < children.Count; i++)
+            {
+                children[i] = children[i].BuildTreeI(nodes);
+                if (nodes.Count == 0) { break; }
+            }
+
+            return this;
+        }
+
+        public static IEnumerable<TreeNode> FetchChildren(TreeNode root, List<TreeNode> nodes)
+        {
+            return nodes.Where(n => n.Parent == root.Id);
+        }
+
+        public static void RemoveChildren(TreeNode root, List<TreeNode> nodes)
+        {
+            foreach (var node in root.Children)
+            {
+                nodes.Remove(node);
+            }
+        }
+
+        public TreeNode FindID(int handle)
+        {
+            var search = this.Children.Where(a => a.Id == handle);
+            if (search.Count() > 0)
+                return search.First();
+
+            foreach (var child in this.Children)
+            {
+                var ans = child.FindID(handle);
+                if(ans != null)
+                    return ans;
+            }
+
+            return null;
+        }
+    }
+
+
     static class Program
     {
         static int Main(string[] args)
@@ -323,7 +393,7 @@ namespace SkiaTest
 
             private SKPaint paint = new SKPaint() {FilterQuality = SKFilterQuality.Low};
 
-            private bool DrawOntoCanvas(IntPtr handle, SKCanvas Canvas, bool forcerender = false)
+            private bool DrawOntoCanvas(IntPtr handle, SKCanvas Canvas, TreeNode tree, bool forcerender = false)
             {
                 var hwnd = Hwnd.ObjectFromHandle(handle);
 
@@ -453,32 +523,35 @@ namespace SkiaTest
                 if (hwnd.Mapped && hwnd.Visible)
                 {
                     IEnumerable<Hwnd> children;
-                    lock (Hwnd.windows)
-                        children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
-                            .Where(hwnd2 =>
-                            {
-                                var Key = (IntPtr) hwnd2.Key;
-                                var Value = (Hwnd) hwnd2.Value;
-                                if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
-                                    Value.Mapped && !Value.zombie)
-                                    return true;
-                                return false;
-                            }).Select(a => (Hwnd) a.Value).ToArray();
-
-                    children = children.OrderBy((hwnd2) =>
+                    children = tree.FindID(hwnd.Handle.ToInt32())?.Children.Select(a => (Hwnd)a.Value);
+                   /* children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
+                         .Where(hwnd2 =>
+                        {
+                            var Key = (IntPtr) hwnd2.Key;
+                            var Value = (Hwnd) hwnd2.Value;
+                            if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
+                                Value.Mapped && !Value.zombie)
+                                return true;
+                            return false;
+                        }).Select(a => (Hwnd) a.Value).ToArray();
+                    */
+                    if (children != null)
                     {
-                        var info = XplatUIMine.GetInstance().GetZOrder(hwnd2.client_window);
-                        if (info.top)
-                            return 1000;
-                        if (info.bottom)
-                            return 0;
-                        return 500;
+                        children = children.OrderBy((hwnd2) =>
+                        {
+                            var info = XplatUIMine.GetInstance().GetZOrder(hwnd2.client_window);
+                            if (info.top)
+                                return 1000;
+                            if (info.bottom)
+                                return 0;
+                            return 500;
 
-                    });
+                        });
 
-                    foreach (var child in children)
-                    {
-                        DrawOntoCanvas(child.ClientWindow, Canvas, true);
+                        foreach (var child in children)
+                        {
+                            DrawOntoCanvas(child.ClientWindow, Canvas, tree, true);
+                        }
                     }
                 }
 
@@ -500,6 +573,19 @@ namespace SkiaTest
 
                     canvas.Save();
 
+                    var treeflat = Hwnd.windows
+                        .OfType<DictionaryEntry>()
+                        .Select(a=>new KeyValuePair<IntPtr,Hwnd>((IntPtr)a.Key,(Hwnd)a.Value))
+                        .Where(a => a.Value.Mapped && a.Value.Visible && !a.Value.zombie)
+                        .Select((a, idx) => new TreeNode()
+                    {
+                        Id = (int?)a.Key,
+                        Value = a.Value,
+                        Parent = (int?)(a.Value.parent?.Handle.ToInt64())
+                    });
+
+                    var newtree = TreeNode.BuildTree(treeflat.ToList());
+
                     foreach (Form form in Application.OpenForms.Select(a => a).ToArray())
                     {
                         if (form.IsHandleCreated)
@@ -509,7 +595,7 @@ namespace SkiaTest
 
                             try
                             {
-                                DrawOntoCanvas(form.Handle, canvas, true);
+                                DrawOntoCanvas(form.Handle, canvas, newtree, true);
                             }
                             catch (Exception ex)
                             {
@@ -521,12 +607,12 @@ namespace SkiaTest
                     IEnumerable<Hwnd> menu;
                     lock (Hwnd.windows)
                         menu = Hwnd.windows.Values.OfType<Hwnd>()
-                            .Where(hw => hw.topmost && hw.Mapped && hw.Visible).ToArray();
+                               .Where(hw => hw.topmost && hw.Mapped && hw.Visible).ToArray();
                     foreach (Hwnd hw in menu)
                     {
                         var ctlmenu = Control.FromHandle(hw.ClientWindow);
                         if (ctlmenu != null)
-                            DrawOntoCanvas(hw.ClientWindow, canvas, true);
+                            DrawOntoCanvas(hw.ClientWindow, canvas, newtree, true);
                     }
 
                     canvas.Restore();

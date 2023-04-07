@@ -87,28 +87,28 @@
     <expression>IMU.AccX IMU.AccY IMU.AccZ IMU2.AccX IMU2.AccY IMU2.AccZ</expression>
   </graph>
 
-  <graph name='Sensors/Gyroscope/Gyros'>
+  <graph name='Sensors/Gyroscope/Gyro 1 XYZ'>
     <description>Gyroscope Output</description>
     <expression>degrees(RAW_IMU.xgyro*0.001) degrees(RAW_IMU.ygyro*0.001) degrees(RAW_IMU.zgyro*0.001)</expression>
     <expression>IMU[0].GyrX IMU[0].GyrY IMU[0].GyrZ</expression>
     <expression>IMU.GyrX IMU.GyrY IMU.GyrZ</expression>
   </graph>
 
-  <graph name='Sensors/Gyroscope/Gyros(2)'>
+  <graph name='Sensors/Gyroscope/Gyro 2 XYZ'>
     <description>Gyroscope Two Output</description>
     <expression>degrees(SCALED_IMU2.xgyro*0.001) degrees(SCALED_IMU2.ygyro*0.001) degrees(SCALED_IMU2.zgyro*0.001)</expression>
     <expression>IMU[1].GyrX IMU[1].GyrY IMU[1].GyrZ</expression>
     <expression>IMU2.GyrX IMU2.GyrY IMU2.GyrZ</expression>
   </graph>
 
-  <graph name='Sensors/Gyroscope/Gyros(3)'>
+  <graph name='Sensors/Gyroscope/Gyro 3 XYZ'>
     <description>Gyroscope Three Output</description>
     <expression>degrees(SCALED_IMU3.xgyro*0.001) degrees(SCALED_IMU3.ygyro*0.001) degrees(SCALED_IMU3.zgyro*0.001)</expression>
     <expression>IMU[2].GyrX IMU[2].GyrY IMU[2].GyrZ</expression>
     <expression>IMU3.GyrX IMU3.GyrY IMU3.GyrZ</expression>
   </graph>
 
-  <graph name='Sensors/Gyroscope/Gyro Comparison'>
+  <graph name='Sensors/Gyroscope/Comparison/XYZ'>
     <description>Gyroscope Comparison</description>
     <expression>
       degrees(RAW_IMU.xgyro*0.001) degrees(RAW_IMU.ygyro*0.001) degrees(RAW_IMU.zgyro*0.001)
@@ -252,6 +252,16 @@
       RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8
     </expression>
   </graph>
+  
+ <graph name='Servos/Servos 5-8'>
+  <description></description>
+  <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8</expression>
+ </graph>
+ 
+  <graph name='Servos/Servos 9-12'>
+  <description></description>
+  <expression>RCOU.C9 RCOU.C10 RCOU.C11 RCOU.C12</expression>
+ </graph>
 
   <graph name='RC/RC Input 1-4'>
     <description>First 4 RC inputs</description>
@@ -263,6 +273,13 @@
     </expression>
     <expression>
       RCIN.C1 RCIN.C2 RCIN.C3 RCIN.C4
+    </expression>
+  </graph>
+
+   <graph name='RC/RC Input 5-12'>
+    <description>RC inputs 5-12</description>
+    <expression>
+      RCIN.C5 RCIN.C6 RCIN.C7 RCIN.C8 RCIN.C9 RCIN.C10 RCIN.C11 RCIN.C12
     </expression>
   </graph>
 
@@ -288,20 +305,6 @@
   <expression>BARO.Alt RFND.Dist[0]</expression>
  </graph>
 
- <graph name='Plane/PID Tuning/Pitch Controller'>
-  <description>This shows how well the pitch controller is tracking the desired pitch rate.
-For a well tuned aircraft PIDP.Des should match the smoothed IMU.GyrY value. 
-If PIDP.I has a constant positive value then it means the aircraft is a bit tail heavy, and the integrator is learning the elevator offset needed to keep the aircraft level. If PIDP.I has a constant negative value then the aircraft is a bit nose heavy.
-You should also check PIDP.D and look for signs of oscillation, in which case PTCH2SRV_D is too high.</description>
-  <expression>PIDP.Des PIDP.P PIDP.I PIDP.D lowpass(degrees(IMU.GyrY),"gy",0.9)</expression>
- </graph>
-
- <graph name='Plane/PID Tuning/Roll Controller'>
-  <description>This shows how well the roll controller is tracking the desired roll rate.
-For a well tuned aircraft PIDR.Des should match the smoothed IMU.GyrX value. 
-If PIDR.I has a constant positive value then it means the aircraft is trimmed to roll to the left side, and the integrator is learning the aileron offset needed to keep the aircraft level. If PIDR.I has a constant negative value then the aircraft is trimmed a bit to the right.</description>
-  <expression>PIDR.Des PIDR.P PIDR.I PIDR.D lowpass(degrees(IMU.GyrX),"gx",0.9)</expression>
- </graph>
 
  <graph name='Sensors/Compass/Compare Predicted'>
   <description></description>
@@ -324,55 +327,55 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
   <expression>SCALED_IMU3.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x SCALED_IMU3.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y SCALED_IMU3.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted Yaw'>
+ <graph name='Sensors/Compass/Compare Predicted Yaw (ATT based)'>
   <description></description>
   <expression>MAG[0].MagX expected_mag_yaw(GPS,ATT,MAG[0]).x MAG[0].MagY expected_mag_yaw(GPS,ATT,MAG[0]).y MAG[0].MagZ expected_mag_yaw(GPS,ATT,MAG[0]).z</expression>
   <expression>MAG.MagX expected_mag_yaw(GPS,ATT,MAG).x MAG.MagY expected_mag_yaw(GPS,ATT,MAG).y MAG.MagZ expected_mag_yaw(GPS,ATT,MAG).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted2 Yaw'>
+ <graph name='Sensors/Compass/Compare Predicted2 Yaw( ATT based)'>
   <description></description>
   <expression>MAG[1].MagX expected_mag_yaw(GPS,ATT,MAG[1]).x MAG[1].MagY expected_mag_yaw(GPS,ATT,MAG[1]).y MAG[1].MagZ expected_mag_yaw(GPS,ATT,MAG[1]).z</expression>
   <expression>MAG2.MagX expected_mag_yaw(GPS,ATT,MAG2).x MAG2.MagY expected_mag_yaw(GPS,ATT,MAG2).y MAG2.MagZ expected_mag_yaw(GPS,ATT,MAG2).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted3 Yaw'>
+ <graph name='Sensors/Compass/Compare Predicted3 Yaw (ATT based)'>
   <description></description>
   <expression>MAG[2].MagX expected_mag_yaw(GPS,ATT,MAG[2]).x MAG[2].MagY expected_mag_yaw(GPS,ATT,MAG[2]).y MAG[2].MagZ expected_mag_yaw(GPS,ATT,MAG[2]).z</expression>
   <expression>MAG3.MagX expected_mag_yaw(GPS,ATT,MAG3).x MAG3.MagY expected_mag_yaw(GPS,ATT,MAG3).y MAG3.MagZ expected_mag_yaw(GPS,ATT,MAG3).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted Yaw NKF1'>
+ <graph name='Sensors/Compass/Compare Predicted Yaw NKF1 based'>
   <description></description>
   <expression>MAG[0].MagX expected_mag_yaw(GPS,NKF1,MAG[0]).x MAG[0].MagY expected_mag_yaw(GPS,NKF1,MAG[0]).y MAG[0].MagZ expected_mag_yaw(GPS,NKF1,MAG[0]).z</expression>
   <expression>MAG.MagX expected_mag_yaw(GPS,NKF1,MAG).x MAG.MagY expected_mag_yaw(GPS,NKF1,MAG).y MAG.MagZ expected_mag_yaw(GPS,NKF1,MAG).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted2 Yaw NKF1'>
+ <graph name='Sensors/Compass/Compare Predicted2 Yaw NKF1 based'>
   <description></description>
   <expression>MAG[1].MagX expected_mag_yaw(GPS,NKF1,MAG[1]).x MAG[1].MagY expected_mag_yaw(GPS,NKF1,MAG[1]).y MAG[1].MagZ expected_mag_yaw(GPS,NKF1,MAG[1]).z</expression>
   <expression>MAG2.MagX expected_mag_yaw(GPS,NKF1,MAG2).x MAG2.MagY expected_mag_yaw(GPS,NKF1,MAG2).y MAG2.MagZ expected_mag_yaw(GPS,NKF1,MAG2).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted3 Yaw NKF1'>
+ <graph name='Sensors/Compass/Compare Predicted3 Yaw NKF1 based'>
   <description></description>
   <expression>MAG[2].MagX expected_mag_yaw(GPS,NKF1,MAG[2]).x MAG[2].MagY expected_mag_yaw(GPS,NKF1,MAG[2]).y MAG[2].MagZ expected_mag_yaw(GPS,NKF1,MAG[2]).z</expression>
   <expression>MAG3.MagX expected_mag_yaw(GPS,NKF1,MAG3).x MAG3.MagY expected_mag_yaw(GPS,NKF1,MAG3).y MAG3.MagZ expected_mag_yaw(GPS,NKF1,MAG3).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted Yaw XKF1'>
+ <graph name='Sensors/Compass/Compare Predicted Yaw XKF1 based'>
   <description></description>
   <expression>MAG[0].MagX expected_mag_yaw(GPS,XKF1,MAG[0]).x MAG[0].MagY expected_mag_yaw(GPS,XKF1,MAG[0]).y MAG[0].MagZ expected_mag_yaw(GPS,XKF1,MAG[0]).z</expression>
   <expression>MAG.MagX expected_mag_yaw(GPS,XKF1,MAG).x MAG.MagY expected_mag_yaw(GPS,XKF1,MAG).y MAG.MagZ expected_mag_yaw(GPS,XKF1,MAG).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted2 Yaw XKF1'>
+ <graph name='Sensors/Compass/Compare Predicted2 Yaw XKF1 based'>
   <description></description>
   <expression>MAG[1].MagX expected_mag_yaw(GPS,XKF1,MAG[1]).x MAG[1].MagY expected_mag_yaw(GPS,XKF1,MAG[1]).y MAG[1].MagZ expected_mag_yaw(GPS,XKF1,MAG[1]).z</expression>
   <expression>MAG2.MagX expected_mag_yaw(GPS,XKF1,MAG2).x MAG2.MagY expected_mag_yaw(GPS,XKF1,MAG2).y MAG2.MagZ expected_mag_yaw(GPS,XKF1,MAG2).z</expression>
  </graph>
 
- <graph name='Sensors/Compass/Compare Predicted3 Yaw XKF1'>
+ <graph name='Sensors/Compass/Compare Predicted3 Yaw XKF1 based'>
   <description></description>
   <expression>MAG[2].MagX expected_mag_yaw(GPS,XKF1,MAG[2]).x MAG[2].MagY expected_mag_yaw(GPS,XKF1,MAG[2]).y MAG[2].MagZ expected_mag_yaw(GPS,XKF1,MAG[2]).z</expression>
   <expression>MAG3.MagX expected_mag_yaw(GPS,XKF1,MAG3).x MAG3.MagY expected_mag_yaw(GPS,XKF1,MAG3).y MAG3.MagZ expected_mag_yaw(GPS,XKF1,MAG3).z</expression>
@@ -402,22 +405,22 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
   <expression>earth_field_error(GPS,XKF7).x earth_field_error(GPS,XKF7).y earth_field_error(GPS,XKF7).z</expression>
  </graph>
  
- <graph name='Copter/PID/PIDP'>
+ <graph name='Copter/PID Tuning/PIDP'>
   <description></description>
   <expression>PIDP.P PIDP.I PIDP.D</expression>
  </graph>
 
- <graph name='Copter/PID/PIDR'>
+ <graph name='Copter/PID Tuning/PIDR'>
   <description></description>
   <expression>PIDR.P PIDR.I PIDR.D</expression>
  </graph>
 
- <graph name='Copter/PID/PIDY'>
+ <graph name='Copter/PID Tuning/PIDY'>
   <description></description>
   <expression>PIDY.P PIDY.I PIDY.D</expression>
  </graph>
 
- <graph name='Copter/PID/PIDA'>
+ <graph name='Copter/PID Tuning/PIDA'>
   <description></description>
   <expression>PIDA.P PIDA.I PIDA.D</expression>
  </graph>
@@ -475,27 +478,27 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
   <expression>distance_two(GPS,GPS2){GPS2.GMS==GPS.GMS} GPS2.Alt-GPS.Alt{GPS2.GMS==GPS.GMS}</expression>
  </graph>
 
- <graph name='EKF3/GSF Yaws Lane1'>
+ <graph name='EKF3/GSF/GSF Yaws Lane1'>
   <description></description>
-  <expression>degrees(XKY0[0].Y0) degrees(XKY0[0].Y1) degrees(XKY0[0].Y2) degrees(XKY0[0].Y3) degrees(XKY0[0].Y4) degrees(XKY0[0].YC)</expression>
+  <expression>XKY0[0].Y0 XKY0[0].Y1 XKY0[0].Y2 XKY0[0].Y3 XKY0[0].Y4 XKY0[0].YC</expression>
  </graph>
 
- <graph name='EKF3/GSF Yaws Lane2'>
+ <graph name='EKF3/GSF/GSF Yaws Lane2'>
   <description></description>
-  <expression>degrees(XKY0[1].Y0) degrees(XKY0[1].Y1) degrees(XKY0[1].Y2) degrees(XKY0[1].Y3) degrees(XKY0[1].Y4) degrees(XKY0[1].YC)</expression>
+  <expression>XKY0[1].Y0 XKY0[1].Y1 XKY0[1].Y2 XKY0[1].Y3 XKY0[1].Y4 XKY0[1].YC</expression>
  </graph>
 
- <graph name='EKF3/GSF VelInnov Lane1'>
+ <graph name='EKF3/GSF/GSF VelInnov Lane1'>
   <description></description>
   <expression>sqrt(XKY1[0].IVN0**2+XKY1[0].IVE0**2) sqrt(XKY1[0].IVN1**2+XKY1[0].IVE1**2) sqrt(XKY1[0].IVN2**2+XKY1[0].IVE2**2) sqrt(XKY1[0].IVN3**2+XKY1[0].IVE3**2) sqrt(XKY1[0].IVN4**2+XKY1[0].IVE4**2) ATT.Yaw:2</expression>
  </graph>
 
- <graph name='EKF3/GSF Weights Lane1'>
+ <graph name='EKF3/GSF/GSF Weights Lane1'>
   <description></description>
   <expression>XKY0[0].W0 XKY0[0].W1 XKY0[0].W2 XKY0[0].W3 XKY0[0].W4</expression>
  </graph>
 
- <graph name='EKF3/GSF Weights Lane2'>
+ <graph name='EKF3/GSF/GSF Weights Lane2'>
   <description></description>
   <expression>XKY0[1].W0 XKY0[1].W1 XKY0[1].W2 XKY0[1].W3 XKY0[1].W4</expression>
  </graph>
@@ -600,46 +603,30 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
  </graph>
 
 
- <graph name='EKF3/Normalised Innovations EKF3 Lane100'>
+ <graph name='EKF3/Innovations/Normalised Innovations EKF3 Lane100'>
   <description></description>
   <expression>XKF4[100].SV XKF4[100].SP XKF4[100].SH XKF4[100].SM XKF4[100].SVT</expression>
  </graph>
 
- <graph name='EKF3/Normalised Innovations EKF3 Lane101'>
+ <graph name='EKF3/Innovations/Normalised Innovations EKF3 Lane101'>
   <description></description>
   <expression>XKF4[101].SV XKF4[101].SP XKF4[101].SH XKF4[101].SM XKF4[101].SVT</expression>
  </graph>
 
- <graph name='Plane/Roll Dmod'>
+ <graph name='Plane/PID Tuning/Roll/Roll Dmod'>
   <description></description>
   <expression>PIDR.Dmod PIDR.SRate:2</expression>
  </graph>
 
- <graph name='Plane/Pitch Dmod'>
+ <graph name='Plane/PID Tuning/Pitch/Pitch Dmod'>
   <description></description>
   <expression>PIDP.Dmod PIDP.SRate:2</expression>
  </graph>
 
- <graph name='Plane/autotune/Roll FF'>
+ <graph name='Plane/PID Tuning/Yaw/Yaw Dmod'>
   <description></description>
-  <expression>ATRP[0].FF ATRP[0].FF0</expression>
+  <expression>PIDY.Dmod PIDY.SRate:2</expression>
  </graph>
-
- <graph name='Plane/autotune/Pitch FF'>
-  <description></description>
-  <expression>ATRP[1].FF ATRP[1].FF0</expression>
- </graph>
-
- <graph name='Plane/autotune/Roll PD'>
-  <description></description>
-  <expression>ATRP[0].P ATRP[0].D:2</expression>
- </graph>
-
- <graph name='Plane/autotune/Pitch PD'>
-  <description></description>
-  <expression>ATRP[1].P ATRP[1].D:2</expression>
- </graph>
-
 
  <graph name='Servos/Servos 1-6'>
   <description></description>
@@ -647,13 +634,13 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
  </graph>
 
 
- <graph name='Plane/PitchRates'>
+ <graph name='Plane/PID Tuning/Pitch/PitchRates'>
   <description></description>
   <expression>PIDP.Tar PIDP.Act</expression>
  </graph>
 
 
- <graph name='Plane/RollRates'>
+ <graph name='Plane/PID Tuning/Roll/RollRates'>
   <description></description>
   <expression>PIDR.Act PIDR.Tar</expression>
  </graph>
@@ -700,16 +687,24 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
   <expression>lowpass(IMU[0].AccZ,0,0.9) IMU[0].T:2</expression>
  </graph>
 
- <graph name='Plane/FF/Roll'>
+ <graph name='Plane/PID Tuning/Roll/FF Calc'>
   <description></description>
+  <expression>0.3*PIDR.Act*AETR.SSx AETR.Ail*0.01</expression>
   <expression>0.3*PIDR.Act*AETR.SS AETR.Ail*0.01</expression>
  </graph>
 
- <graph name='Plane/FF/Pitch'>
+ <graph name='Plane/PID Tuning/Pitch/FF Calc'>
   <description></description>
+  <expression>0.3*PIDP.Act*AETR.SSy AETR.Elev*0.01</expression>
   <expression>0.3*PIDP.Act*AETR.SS AETR.Elev*0.01</expression>
  </graph>
 
+ <graph name='Plane/FF/Yaw'>
+  <description></description>
+  <expression>0.3*PIDY.Act*AETR.SSz AETR.Rudd*0.01</expression>
+  <expression>0.3*PIDY.Act*AETR.SS AETR.Rudd*0.01</expression>
+ </graph>
+ 
  <graph name='Sensors/Gyroscope/GyroX Lowpass'>
   <description></description>
   <expression>lowpass(degrees(IMU[0].GyrX),0,0.9) lowpass(degrees(IMU[1].GyrX),1,0.9) lowpass(degrees(IMU[2].GyrX),2,0.9)</expression>
@@ -751,3 +746,4 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
 
  
 </graphs>
+

@@ -402,7 +402,8 @@ namespace GMap.NET.MapProviders
             {
                 request.Headers.Add("User-Agent", UserAgent);
                 request.Headers.Add("Accept", requestAccept);
-                request.Headers.Add("Referer", RefererUrl);
+                if (!string.IsNullOrEmpty(RefererUrl))
+                    request.Headers.Add("Referer", RefererUrl);
 
                 MemoryStream data = Task.Run(async () =>
                 {

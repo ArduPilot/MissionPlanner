@@ -22,6 +22,7 @@ namespace MissionPlanner.Controls
         static bool threadrun = false;
         static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
         static object[,] tabledata;
+        private bool indent;
 
         public SerialOutputCoT()
         {
@@ -180,7 +181,7 @@ namespace MissionPlanner.Controls
 
                             if (CoTStream != null && CoTStream.IsOpen)
                             {
-                                CoTStream.WriteLine(xmlStr);
+                                CoTStream.WriteLine(xmlStr.Replace("\r", ""));
                             }
                         });
                     });
@@ -286,12 +287,14 @@ namespace MissionPlanner.Controls
             CultureInfo culture = new CultureInfo("en-US");
             culture.NumberFormat.NumberGroupSeparator = "";
 
+            string datetimeformat = "yyyy-MM-ddTHH:mm:ss.ffK";
+
             DateTime time = DateTime.UtcNow;
 
             var cotevent = new @event()
             {
-                uid = uid, type = type, time = time.ToString("o"), start = time.AddSeconds(-5).ToString("o"),
-                stale = time.AddSeconds(5).ToString("o"), how = how,
+                uid = uid, type = type, time = time.ToString(datetimeformat), start = time.AddSeconds(-5).ToString(datetimeformat),
+                stale = time.AddSeconds(120).ToString(datetimeformat), how = how,
                 detail = new detail()
                 {
                     track = new track()
@@ -329,10 +332,10 @@ namespace MissionPlanner.Controls
             using(StringWriter textWriter = new Utf8StringWriter())
             {
                 XmlWriterSettings xws = new XmlWriterSettings();
-                xws.OmitXmlDeclaration = false;
-                xws.Indent = true;
+                xws.OmitXmlDeclaration = true;
+                xws.Indent = indent;
                 xws.Encoding = Encoding.UTF8;
-                xws.NewLineOnAttributes = true;
+                xws.NewLineOnAttributes = indent;
 
                 //Create our own namespaces for the output
                 XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
@@ -347,9 +350,9 @@ namespace MissionPlanner.Controls
 
                 xtw.WriteStartDocument(true);          
        
-                serializer.Serialize(xtw, cotevent, ns);      
+                serializer.Serialize(xtw, cotevent, ns);
 
-                var ans = textWriter.ToString();
+                var ans = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n" + textWriter.ToString();
 
                 return ans;
             }
@@ -398,6 +401,11 @@ namespace MissionPlanner.Controls
                 CMB_baudrate.Enabled = false;
             else
                 CMB_baudrate.Enabled = true;
+        }
+
+        private void chk_indent_CheckedChanged(object sender, EventArgs e)
+        {
+            indent = chk_indent.Checked;
         }
     }
 

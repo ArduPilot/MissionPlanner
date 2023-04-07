@@ -38,11 +38,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// incremented anytime its not a retransmit
         private uint16_t seq_no = 0;
 
+        static Dictionary<(int, int), object> locker = new Dictionary<(int, int), object>();
+
         public MAVFtp(MAVLinkInterface mavint, byte sysid, byte compid)
         {
             _mavint = mavint;
             _sysid = sysid;
             _compid = compid;
+
+            if (!locker.ContainsKey((sysid, compid)))
+                locker[(sysid, compid)] = new object();
         }
 
         public enum errno
@@ -1211,7 +1216,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
             Progress?.Invoke(dir + " Listing", 0);
             Exception ex = null;
             var timeout = new RetryTimeout(5);
-            var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL,
+            lock (locker[(_sysid, _compid)])
+            {
+                var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL,
                 message =>
                 {
                     if (cancel != null && cancel.IsCancellationRequested)
@@ -1338,8 +1345,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             };
-            var ans = timeout.DoWork();
-            _mavint.UnSubscribeToPacketType(sub);
+                var ans = timeout.DoWork();
+                _mavint.UnSubscribeToPacketType(sub);
+            }
             Progress?.Invoke(dir + " Ready", 100);
             if (ex != null)
                 throw ex;

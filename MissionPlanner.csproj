@@ -137,6 +137,9 @@
     <EmbeddedResource Include="Controls\AuxOptions.resx">
       <DependentUpon>AuxOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SerialSupportProxy.resx">
+      <DependentUpon>SerialSupportProxy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.uk.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.uk.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCubeID.resx">
+      <DependentUpon>ConfigCubeID.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.uk.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
@@ -729,6 +735,12 @@
     <Compile Include="Controls\AuxOptions.Designer.cs">
       <DependentUpon>AuxOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SerialSupportProxy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SerialSupportProxy.Designer.cs">
+      <DependentUpon>SerialSupportProxy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SpectrogramUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -786,6 +798,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigADSB.Designer.cs">
       <DependentUpon>ConfigADSB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigCubeID.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigCubeID.Designer.cs">
+      <DependentUpon>ConfigCubeID.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.cs">
       <SubType>UserControl</SubType>

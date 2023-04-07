@@ -92,7 +92,7 @@ namespace MissionPlanner.Comms
             if (IsInRange("224.0.0.0", "239.255.255.255", hostEndPoint.Address.ToString()))
             {
                 log.Info($"UdpSerialConnect bind to port {Port}");
-                client = new UdpClient(int.Parse(Port));
+                client = new UdpClient(int.Parse(Port), hostEndPoint.AddressFamily);
 
                 IsOpen = true;
 
@@ -112,7 +112,7 @@ namespace MissionPlanner.Comms
             }
             else
             {
-                client = new UdpClient();
+                client = new UdpClient(hostEndPoint.AddressFamily);
             }
 
             IsOpen = true;

@@ -1,8 +1,92 @@
-﻿*Mission Planner 1.3.79 - 06-12-2022
+﻿*Mission Planner 1.3.80 - 20-03-2023
+MAVFtp: fix locker static
+MAVFtp: add lock on dir list
+Graphs: update
+Mavlink: update
+FlightPlanner: populate wps fro mavftp read
+ULog: fix parser error
+add DO_GRIPPER to Plane
+Clarify setup helper name
+mavcmd: add image start capture
+ConfigAdvanced: add support.ardupilot.org proxy
+GMapProvider: add Empty check for RefererUrl
+Xamarin: change http handler
+Fixes Android build
+UdpSerialConnect: tweak connect to no defined source
+temp: ForceCalibration buttons
+Grid: fix spiral start location
+Xamarin: add BLUETOOTH_CONNECT
+﻿MAVLink: add support for EFI fuel pressure
+LogBrowse: use int.TryParse instead of int.Parse
+ArduPilot: MavLink: Param fetch: fix getting stuck with missing params
+Log: LogBrowse: allow ploting bit mask feilds individualy
+Extlibs: ArduPilot: LogMetaData: Parse bitmasks
+magcal: note that heading is true, not magnetic
+HUD prearm status (#3057)
+HUD: add prearm status indicator
+Plugins: fix usings
+Settings: dedupe list
+Plugins: example update
+nuget: update
+Image Match
+Nuget: DotSpatial.Projections to 3.0.1
+nuget: Newtonsoft.Json update
+Example: update externalapi
+example: update herelink example for recording to sdcard and photo to sdcard. (must have started video already)
+USBSerialForAndroid: fix sdk31 mutable
+Drawing: add bitmap clone
+ConfigSecureAP: Add new securefw generator
+BouncyCastle: move to nuget
+Xamarin: fix api31 export requirement
+fft3: another method
+GithubActions: force Xcode 14.0.1
+ExtLibs: ArduPilot: Mavlink: try and pull AP firmware type from version string
+Xamarin: fix api level to 31
+Uploader: fix order of commands, to prevent bricking.
+ConfigFirmware: allow offline access to certain parts
+MAVFtp: fix single read mode after burst
+MAVLinkInterface: add reparse to crc fail packets
+MAVFtp: handle missing parts via single read
+support PAYLOAD_PLACE on planes
+ExtLibs: Allow for special characters in NTRIP connection string
+HUD: use nofix icon for "no fix" instead of nogps
+MissionPlannerLib: add GDALProvider shim
+FlightPlanner: expose gdal opacity (map tools)
+GDAL: support other linear projections
+GDAL: init SpatialReference at startup
+GDALProvider: add opacity option backend
+AutoConnect: fix pipeline
+Mavlink: update
+GeoRef: add OpenDroneMap format  *.geo
+GeoRef: add min shutter drop, fix text console, show cam msgs
+JpegSegmentReader: increase buffer size
+ImageLabel: remove unused
+Android: SDK 31
+Parameters: added Blimp
+fixes: "ERROR MissionPlanner.Utilities.ParameterMetaDataParser - Invalid MetaFrame Blimp"
+ParameterMetaDataRepositoryAPMpdef: add blimp and heli as valid targets
+GithubActions: cache glob
+MapTool: use OpenStreetMap to zoom to locations
+SRTM: migrate to terrain.ardupilot.org
+FlightData: Add action for MAV_CMD_CONTROL_HIGH_LATENCY
+AppX: update
+MAVFTP params: use MAV's sysid/compid in tlog
+SITL: add missing file after move to 64bit
+Update generator.cs
+There was a bug (actually wrong equation) on generator run_time print on the UI.
+MyButton: add disabled text color
+mavcmd: update description of CONDITION_YAW parameters
+ConfigMount: remove pan stabilize checkbox
+ConfigMount: remove mount Control parameter fields
+Dotspatial: update
+param: fixed exclusions for change of GND_ params to BARO params
+MissionPlanner: revert dotspatial.projection version
+HUD: add CPU on 100%  #3011
+
+*Mission Planner 1.3.79 - 06-12-2022
 HttpClient: change timeouts
 ConfigFirmwareManifest: fix timeout download bug
 Linux: skip port detection via exist check
-
 *Mission Planner 1.3.78 - 05-12-2022
 ConfigMotorTest: update to use non obsolete
 OSDConfigurator: tweak sizes
@@ -457,7 +541,6 @@ MainV2: remove tcpconsole
 FlightData: order icons
 Resources: shrink boat
 fix filter param in the extended tuning page
-
 *Mission Planner 1.3.77 - 16-03-2022
 LowBrowse: sort instance numbers #2817
 UdpSerialConnect: 30 second multicast join
@@ -553,7 +636,6 @@ Drawing: null checks
 Xamarin: usbdevice null check
 display DO_AUX_FUNCTION in mission editor
 Update Czech map provider for the new api format.
-
 *Mission Planner 1.3.76 - 25-12-2021
 Vario: move to async
 FlightPlanner: clear mavmarkers every 10 seconds
@@ -716,7 +798,6 @@ ConfigADSB: disable custom adsb config
 Mavlink: upstream update
 ConfigRawParam: fix offline local conversion
 DisplayView: add more disable options
-
 *Mission Planner 1.3.75 - 1-08-2021
 Xamarin: api 30
 Xamarin: remove GDAL
@@ -1319,7 +1400,6 @@ HUD message color depends on severity
 Xamarin: picturerecorder
 HUD: invalidate on resize
 Xamarin: fix ref
-
 *Mission Planner 1.3.74 - 15-09-2020
 ConfigHWCompass2: fix orient display
 LogBrowse: tooltips for msgs
@@ -1413,7 +1493,6 @@ FlightData: map - used planned home if real home is 0 (no gps)
 plugin : example8 fix cross thread call
 FlightData: fix distancebar with takeoff as first cmd
 Generator: fix scope issue
-
 *Mission Planner 1.3.73 - 13-08-2020
 UAVCAN update, bps stats, performance
 Drawing: change name

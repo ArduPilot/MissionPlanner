@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using ClipperLib;
 using log4net;
 using MissionPlanner.Comms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MissionPlanner.Utilities
 {
@@ -398,8 +400,11 @@ namespace MissionPlanner.Utilities
             public string Label;
             public bool Enabled = true;
             public int Port;
+            [JsonConverter(typeof(StringEnumConverter))]
             public ProtocolType Protocol;
+            [JsonConverter(typeof(StringEnumConverter))]
             public ConnectionFormat Format;
+            [JsonConverter(typeof(StringEnumConverter))]
             public Direction Direction;
             public string ConfigString;
 

@@ -58,6 +58,7 @@
             this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chk_indent = new System.Windows.Forms.CheckBox();
             this.GB_connection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -106,6 +107,7 @@
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 9;
             this.BUT_connect.Text = "Connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
@@ -240,11 +242,24 @@
             this.ContactEndPointIP.ToolTipText = "If you don\'t know what this is then leave it blank.";
             this.ContactEndPointIP.Width = 150;
             // 
+            // chk_indent
+            // 
+            this.chk_indent.AutoSize = true;
+            this.chk_indent.Location = new System.Drawing.Point(358, 20);
+            this.chk_indent.Margin = new System.Windows.Forms.Padding(2);
+            this.chk_indent.Name = "chk_indent";
+            this.chk_indent.Size = new System.Drawing.Size(100, 17);
+            this.chk_indent.TabIndex = 24;
+            this.chk_indent.Text = "Nice Formatting";
+            this.chk_indent.UseVisualStyleBackColor = true;
+            this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
+            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 575);
+            this.Controls.Add(this.chk_indent);
             this.Controls.Add(this.CB_advancedMode);
             this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.label_type);
@@ -281,5 +296,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactCallsign;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactEndPointIP;
+        private System.Windows.Forms.CheckBox chk_indent;
     }
 }

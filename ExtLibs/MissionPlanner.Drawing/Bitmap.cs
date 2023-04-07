@@ -16,21 +16,20 @@ namespace System.Drawing
     [Serializable]
     public class Bitmap : Image, ISerializable, ICloneable, IDisposable
     {
-        private object p;
-        private Size size;
+        private ColorPalette _palette = null;
 
         public Bitmap(int width, int height, int stride, SKColorType bgra8888 = (SKColorType.Bgra8888),
-            IntPtr data = default(IntPtr))
+                    IntPtr data = default(IntPtr))
         {
-            nativeSkBitmap = new SKBitmap(new SKImageInfo(width, height, bgra8888));
-            nativeSkBitmap.SetPixels(data);
+            nativeSkBitmap = new SKBitmap();
+            nativeSkBitmap.InstallPixels(new SKImageInfo(width, height, bgra8888), data);
         }
 
         public Bitmap(int width, int height, int stride, PixelFormat bgra8888 = Imaging.PixelFormat.Format32bppArgb,
             IntPtr data = default(IntPtr))
         {
-            nativeSkBitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888));
-            nativeSkBitmap.SetPixels(data);
+            nativeSkBitmap = new SKBitmap();
+            nativeSkBitmap.InstallPixels(new SKImageInfo(width, height, SKColorType.Bgra8888), data);
         }
 
         public Bitmap(int width, int height, SKColorType colorType = (SKColorType.Bgra8888))
@@ -64,7 +63,7 @@ namespace System.Drawing
             return new Bitmap(new MemoryStream(data));
         }
 
-        protected Bitmap(SerializationInfo info, StreamingContext context): base (info, context)
+        protected Bitmap(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 
@@ -128,7 +127,7 @@ namespace System.Drawing
             var skimage = SKImage.FromEncodedData(ms2);
             if (skimage == null)
                 return null;
-            var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
+            var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(skimage) };
             return ans;
         }
         public Bitmap(byte[] largeIconsImage, Size clientSizeHeight)
@@ -170,7 +169,7 @@ namespace System.Drawing
         {
         }
 
-        public ColorPalette Palette { get; set; } = new ColorPalette(256);
+        public ColorPalette Palette { get { if (_palette == null) _palette = new ColorPalette(256); return _palette; } set => _palette = value; }
 
         public BitmapData LockBits(Rectangle rectangle, object writeOnly, SKColorType imgPixelFormat)
         {
@@ -183,7 +182,7 @@ namespace System.Drawing
             };
         }
 
-        public BitmapData LockBits(int x,int y, int w, int h, object writeOnly, SKColorType imgPixelFormat)
+        public BitmapData LockBits(int x, int y, int w, int h, object writeOnly, SKColorType imgPixelFormat)
         {
             return new BitmapData()
             {
@@ -225,7 +224,7 @@ namespace System.Drawing
         {
             SKBitmap ans = new SKBitmap(v1, v2, SKColorType.Bgra8888, SKAlphaType.Premul);
             nativeSkBitmap.ScalePixels(ans, SKFilterQuality.Medium);
-            return new Bitmap() {nativeSkBitmap = ans, PixelFormat = PixelFormat.Format32bppArgb};
+            return new Bitmap() { nativeSkBitmap = ans, PixelFormat = PixelFormat.Format32bppArgb };
         }
 
         public BitmapData LockBits(Rectangle rectangle, ImageLockMode readWrite, PixelFormat format32BppArgb)

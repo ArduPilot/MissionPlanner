@@ -37,6 +37,8 @@
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.BUT_supportproxy = new MissionPlanner.Controls.MyButton();
             this.BUT_spect = new MissionPlanner.Controls.MyButton();
             this.but_fft = new MissionPlanner.Controls.MyButton();
             this.label7 = new System.Windows.Forms.Label();
@@ -108,6 +110,8 @@
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label14, 1, 12);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_supportproxy, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this.BUT_spect, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.but_fft, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.label7, 1, 5);
@@ -133,6 +137,18 @@
             this.tableLayoutPanel1.Controls.Add(this.label12, 1, 10);
             this.tableLayoutPanel1.Controls.Add(this.label13, 1, 11);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // BUT_supportproxy
+            // 
+            resources.ApplyResources(this.BUT_supportproxy, "BUT_supportproxy");
+            this.BUT_supportproxy.Name = "BUT_supportproxy";
+            this.BUT_supportproxy.UseVisualStyleBackColor = true;
+            this.BUT_supportproxy.Click += new System.EventHandler(this.BUT_supportproxy_Click);
             // 
             // BUT_spect
             // 
@@ -277,5 +293,7 @@
         private System.Windows.Forms.Label label12;
         private Controls.MyButton BUT_spect;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private Controls.MyButton BUT_supportproxy;
     }
 }
