@@ -6324,7 +6324,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                recthred=GStreamer.StartA(url);
+                recthred=GStreamer.RecordA(url);
             }
             catch (Exception ex)
             {
@@ -6337,7 +6337,8 @@ namespace MissionPlanner.GCSViews
         private void myButton7_Click(object sender, EventArgs e)
         {
             rtsprecoding = false;
-            recthred.Abort();
+            GStreamer.record_run = false;
+            //recthred.Abort();
         }
         // gible up
         private void myButton10_Click(object sender, EventArgs e)

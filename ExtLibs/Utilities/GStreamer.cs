@@ -1240,7 +1240,218 @@ namespace MissionPlanner.Utilities
             //th.Abort();
             return th;
         }
+        public static Thread RecordA(string stringpipeline)
+        {
+            record_run=true;
+            var th = new Thread(ThreadRecord) { IsBackground = true, Name = "gstreamer_rec" };
 
+            th.Start(stringpipeline);
+            //System.Threading.Thread.Sleep(5000);
+            //th.Abort();
+            return th;
+        }
+
+        [HandleProcessCorruptedStateExceptions, SecurityCritical]
+        static void ThreadRecord(object datao)
+        {
+            string stringpipeline = (string)datao;
+            int argc = 1;
+            string[] argv = new string[] { "-vvv" };
+
+            Environment.SetEnvironmentVariable("GST_DEBUG", "*:4");
+
+            try
+            {
+
+
+                //https://github.com/GStreamer/gstreamer/blob/master/tools/gst-launch.c#L1125
+                NativeMethods.gst_init(ref argc, argv);
+            }
+            catch (DllNotFoundException ex)
+            {
+                CustomMessageBox.Show("The file was not found at " + gstlaunch +
+                                      "\nPlease verify permissions " + ex.ToString());
+                return;
+            }
+            catch (BadImageFormatException)
+            {
+                CustomMessageBox.Show("The incorrect exe architecture has been detected at " + gstlaunch +
+                                      "\nPlease install gstreamer for the correct architecture");
+                return;
+            }
+
+            uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
+            NativeMethods.gst_version(out v1, out v2, out v3, out v4);
+
+            log.InfoFormat("GStreamer {0}.{1}.{2}.{3}", v1, v2, v3, v4);
+
+            IntPtr error;
+            NativeMethods.gst_init_check(IntPtr.Zero, IntPtr.Zero, out error);
+
+            if (error != IntPtr.Zero)
+            {
+                var er = Marshal.PtrToStructure<GError>(error);
+                log.Error("gst_init_check: " + er.message);
+                return;
+            }
+
+            /* Set up the pipeline */
+
+            log.InfoFormat("GStreamer parse {0}", stringpipeline);
+            var pipeline = NativeMethods.gst_parse_launch(
+                stringpipeline,
+                //@"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                //@"-v udpsrc port=5601 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                //@"rtspsrc location=rtsp://192.168.1.252/video1 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                out error);
+
+            //rtspsrc location=rtsp://192.168.1.21/live ! application/x-rtp ! rtph265depay ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink
+            //videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink 
+
+            if (error != IntPtr.Zero)
+            {
+                var er = Marshal.PtrToStructure<GError>(error);
+                log.Error("gst_parse_launch: " + er.message);
+                return;
+            }
+
+            NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL,
+                "pipeline");
+
+            log.Info("graphviz of pipeline is at " + Path.GetTempPath() + "pipeline.dot");
+
+            //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
+
+
+            // appsink is part of the parse launch
+            var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
+            log.Info("got appsink ");
+            //var appsink = NativeMethods.gst_element_factory_make("appsink", null);
+
+            bool newdata = false;
+            GstAppSinkCallbacks callbacks = new GstAppSinkCallbacks();
+            //var callbackhandle = GCHandle.Alloc(callbacks, GCHandleType.Pinned);
+            /*callbacks.new_buffer += (sink, data) =>
+            {
+                newdata = true;
+                return GstFlowReturn.GST_FLOW_OK;
+            };
+            callbacks.new_preroll += (sink, data) =>
+            {
+                log.Info("new_preroll");
+                return GstFlowReturn.GST_FLOW_OK;
+            };
+            callbacks.eos += (sink, data) => { log.Info("EOS"); };
+            */
+
+            if (appsink != IntPtr.Zero)
+            {
+                NativeMethods.gst_app_sink_set_drop(appsink, true);
+                NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
+                log.Info("set appsink params ");
+            }
+
+            // callback fail on linux
+            //NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, IntPtr.Zero, IntPtr.Zero);
+
+            /* Start playing */
+            var running = NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING) != GstStateChangeReturn.GST_STATE_CHANGE_FAILURE;
+            log.Info("set playing ");
+            /* Wait until error or EOS */
+            var bus = NativeMethods.gst_element_get_bus(pipeline);
+
+
+            int Width = 0;
+            int Height = 0;
+            // prevent it falling out of scope
+            int trys = 0;
+            GstAppSinkCallbacks callbacks2 = callbacks;
+
+            run = true;
+
+            // not using appsink
+            //if (appsink == IntPtr.Zero && running)
+            //{
+            //    /* Wait until error or EOS */
+            //    var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE,
+            //        (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+            //    run = false;
+
+            //}
+            //else
+            //{
+            //    var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, 0,
+            //         (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+            //    if (msg != IntPtr.Zero)
+            //        run = false;
+            //}
+
+            while (record_run)
+            {
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            log.Info("start frame loop gst_app_sink_is_eos");
+            //while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
+            //{
+            //    try
+            //    {
+            //        //log.Info("gst_app_sink_try_pull_sample ");
+            //        var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
+            //        if (sample != IntPtr.Zero)
+            //        {
+            //            trys = 0;
+            //            //var caps = gst_app_sink_get_caps(appsink);
+            //            //log.Info("gst_sample_get_caps ");
+            //            var caps = NativeMethods.gst_sample_get_caps(sample);
+            //            var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
+            //            NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
+            //            NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
+
+            //            var capsstring = NativeMethods.gst_caps_to_string(caps_s);
+            //            //var structure = gst_sample_get_info(sample);
+            //            //var structstring = gst_structure_to_string(structure);
+            //            //log.Info("gst_sample_get_buffer ");
+            //            var buffer = NativeMethods.gst_sample_get_buffer(sample);
+            //            if (buffer != IntPtr.Zero)
+            //            {
+            //                var info = new GstMapInfo();
+            //                if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+            //                {
+            //                    var image = new Bitmap(Width, Height, 4 * Width, SkiaSharp.SKColorType.Bgra8888,
+            //                        info.data);
+
+            //                    _onNewImage?.Invoke(null, image);
+            //                }
+
+            //                NativeMethods.gst_buffer_unmap(buffer, out info);
+            //            }
+
+            //            NativeMethods.gst_sample_unref(sample);
+            //        }
+            //        else
+            //        {
+            //            log.Info("failed gst_app_sink_try_pull_sample " + trys + "");
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        log.Error(ex);
+            //        trys++;
+            //        if (trys > 12) break;
+            //    }
+            //}
+
+            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+            NativeMethods.gst_buffer_unref(bus);
+
+            //callbackhandle.Free();
+
+            // cleanup
+            _onNewImage?.Invoke(null, null);
+
+            log.Info("Gstreamer Recording Exit");
+        }
 
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
         static void ThreadStart(object datao)
@@ -1375,6 +1586,8 @@ namespace MissionPlanner.Utilities
                 if (msg != IntPtr.Zero)
                     run = false;
             }
+
+
 
             log.Info("start frame loop gst_app_sink_is_eos");
             while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
@@ -2134,6 +2347,7 @@ namespace MissionPlanner.Utilities
         }
 
         private static bool run = true;
+        public static bool record_run = false;
         public static void StopAll()
         {
             run = false;
