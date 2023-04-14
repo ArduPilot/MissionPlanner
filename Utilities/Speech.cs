@@ -73,6 +73,8 @@ namespace MissionPlanner.Utilities
             text = Regex.Replace(text, @"\b([0-9]+)m\b", "$1 meters", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, @"\b([0-9]+)ft\b", "$1 feet", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, @"\b([0-9]+)\bbaud\b", "$1 baudrate", RegexOptions.IgnoreCase);
+            // Stop, for example, QHover from being pronounced "kohver"
+            text = Regex.Replace(text, @"\bq((?!u)[a-z]+)", "q $1", RegexOptions.IgnoreCase);
 
             if (MONO)
             {
