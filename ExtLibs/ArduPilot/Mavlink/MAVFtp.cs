@@ -28,7 +28,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         const byte kDirentSkip = (byte) 'S';
 
         /// max read/write size we will use - low to keep some radios happy
-        const uint16_t rwSize = 80;
+        const byte rwSize = 80;
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly byte _compid;
