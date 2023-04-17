@@ -391,7 +391,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 double min = 0;
                 double max = 0;
 
-                var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
+                var value = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
                 value = value.Replace(',', '.');
 
                 var newvalue = (double) new Expression(value).calculate();
@@ -443,7 +443,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 _changes[Params[Command.Index, e.RowIndex].Value] = newvalue;
 
                 Params.CellValueChanged -= Params_CellValueChanged;
-                Params[e.ColumnIndex, e.RowIndex].Value = newvalue;
+                Params[e.ColumnIndex, e.RowIndex].Value = newvalue.ToString();
                 Params.CellValueChanged += Params_CellValueChanged;
             }
             catch (Exception)
@@ -758,7 +758,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 foreach (DataGridViewRow row in Params.Rows)
                 {
-                    row.Visible = (string)row.Cells[Default_value.Index].Value != (string)row.Cells[Value.Index].Value;
+                    row.Visible = row.Cells[Default_value.Index].Value.ToString() != row.Cells[Value.Index].Value.ToString();
                 }
             }
 
