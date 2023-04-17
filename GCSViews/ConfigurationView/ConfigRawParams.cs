@@ -1104,13 +1104,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     num.Maximum = Math.Round((decimal)max, num.DecimalPlaces);
                     num.Increment = Math.Round((decimal)inc, num.DecimalPlaces);
                     
-                    // Parse the cell. If it lies outside the bounds, fail quietly
+                    // Parse the cell. Clamp the value to the bounds.
                     decimal val = num.Minimum;
                     decimal.TryParse(Params[Value.Index, e.RowIndex].Value?.ToString(), out val);
-                    if(num.Minimum < val && val < num.Maximum)
-                    {
-                        num.Value = Math.Round(val, num.DecimalPlaces);
-                    }
+                    val = Math.Min(val, num.Maximum);
+                    val = Math.Max(val, num.Minimum);
+                    num.Value = Math.Round(val, num.DecimalPlaces);
 
                     // Update the cell if the text in the box changes
                     num.TextChanged += (s, a) =>
