@@ -269,6 +269,11 @@ namespace MissionPlanner.Controls
             return "NOsysid" + sysid;
         }
 
+        bool isValidStr(object obj)
+        {
+            return (obj != null && obj.ToString().Length > 0);
+        }
+
         String getXmlString(String uid, String type, String how, double lat, double lng, double alt, double course = -1, double speed = -1)
         {
             // Cursor-on-Target spec
@@ -314,22 +319,22 @@ namespace MissionPlanner.Controls
             {
                 var callsign = myDataGridView1[this.ContactCallsign.Index, row].Value;
                 var endpoint = myDataGridView1[this.ContactEndPointIP.Index, row].Value;
-                if (callsign != null && callsign.ToString().Length > 0 && endpoint != null && endpoint.ToString().Length > 0)
+                if (isValidStr(callsign) || isValidStr(endpoint))
                 {
                     cotevent.detail.contact = new contact();
-                    cotevent.detail.contact.callsign = callsign.ToString();
-                    cotevent.detail.contact.endpoint = endpoint.ToString();
+                    if (isValidStr(callsign)) { cotevent.detail.contact.callsign = callsign.ToString(); }
+                    if (isValidStr(endpoint)) { cotevent.detail.contact.endpoint = endpoint.ToString(); }
                 }
 
                 var uid_vmf = myDataGridView1[this.VMF.Index, row].Value;
-                if (uid_vmf != null && uid_vmf.ToString().Length > 0)
+                if (isValidStr(uid_vmf))
                 {
                     cotevent.detail.uid = new uid();
-                    cotevent.detail.uid.vmf = uid_vmf.ToString();
+                    if (isValidStr(uid_vmf)) { cotevent.detail.uid.vmf = uid_vmf.ToString(); }
                 }
             }
 
-            using(StringWriter textWriter = new Utf8StringWriter())
+            using (StringWriter textWriter = new Utf8StringWriter())
             {
                 XmlWriterSettings xws = new XmlWriterSettings();
                 xws.OmitXmlDeclaration = true;
