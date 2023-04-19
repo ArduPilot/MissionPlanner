@@ -4610,7 +4610,7 @@ namespace MissionPlanner.GCSViews
             {
                 latitude = (int) (MouseDownStart.Lat * 1e7),
                 longitude = (int) (MouseDownStart.Lng * 1e7),
-                altitude = (int) alt.alt,
+                altitude = (int) alt.alt * 1000, // in mm
                 target_system = MainV2.comPort.MAV.sysid
             };
 
@@ -4677,10 +4677,10 @@ namespace MissionPlanner.GCSViews
                             "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
-                        MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                        MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent,
-                            MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (float) MouseDownStart.Lat,
-                            (float) MouseDownStart.Lng, (float) alt.alt);
+                            MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (int)(MouseDownStart.Lat * 1e7),
+                            (int)(MouseDownStart.Lng * 1e7), (float)(alt.alt));
                     }
 
                     await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
