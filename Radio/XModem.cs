@@ -149,7 +149,7 @@ namespace MissionPlanner.Radio
         {
             comPort.ReadTimeout = 2000;
 
-            using (var fs = new FileStream(firmwarebin, FileMode.Open))
+            using (var fs = new FileStream(firmwarebin, FileMode.OpenOrCreate,FileAccess.Read))
             {
                 var len = (int)fs.Length;
                 len = (len % 128) == 0 ? len / 128 : (len / 128) + 1;

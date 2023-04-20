@@ -1289,7 +1289,7 @@ namespace MissionPlanner.Utilities
                 }
                 catch (MissingFieldException)
                 {
-                    CustomMessageBox.Show("Please update, your install is currupt", Strings.ERROR);
+                    CustomMessageBox.Show("Please update, your install is corrupt", Strings.ERROR);
                     return false;
                 }
             }
