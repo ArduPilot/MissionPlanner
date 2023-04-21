@@ -343,6 +343,12 @@ namespace MissionPlanner.Controls
                     cotevent.detail.uid = new uid();
                     if (isValidStr(uid_vmf)) { cotevent.detail.uid.vmf = uid_vmf.ToString(); }
                 }
+
+                var takv = myDataGridView1[this.takv.Index, row].Value;
+                if (takv != null && Convert.ToBoolean(takv) == true)
+                {
+                    cotevent.detail.takv = new takv();
+                }
             }
 
             using (StringWriter textWriter = new Utf8StringWriter())
@@ -422,6 +428,16 @@ namespace MissionPlanner.Controls
         private void chk_indent_CheckedChanged(object sender, EventArgs e)
         {
             indent = chk_indent.Checked;
+        }
+
+        private void myDataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // End of edition on each click on column of checkbox
+            if (e.ColumnIndex == this.takv.Index && e.RowIndex != -1)
+            {
+                // refresh
+                myDataGridView1.EndEdit();
+            }
         }
     }
 
