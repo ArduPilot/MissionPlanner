@@ -328,26 +328,30 @@ namespace MissionPlanner.Controls
             int row = FindRowviaUID(uid);
             if (row >= 0 && CB_advancedMode.Checked)
             {
+                var takv = myDataGridView1[this.takv.Index, row].Value;
+                if (takv != null && Convert.ToBoolean(takv) == true)
+                {
+                    cotevent.detail.takv = new takv();
+                }
+
                 var callsign = myDataGridView1[this.ContactCallsign.Index, row].Value;
                 var endpoint = myDataGridView1[this.ContactEndPointIP.Index, row].Value;
-                if (isValidStr(callsign) || isValidStr(endpoint))
+                if (isValidStr(callsign))
                 {
-                    cotevent.detail.contact = new contact();
-                    if (isValidStr(callsign)) { cotevent.detail.contact.callsign = callsign.ToString(); }
-                    if (isValidStr(endpoint)) { cotevent.detail.contact.endpoint = endpoint.ToString(); }
+                    if (cotevent.detail.contact == null) cotevent.detail.contact = new contact();
+                    cotevent.detail.contact.callsign = callsign.ToString();
+                }
+                if (isValidStr(endpoint))
+                {
+                    if (cotevent.detail.contact == null) cotevent.detail.contact = new contact();
+                    cotevent.detail.contact.endpoint = endpoint.ToString();
                 }
 
                 var uid_vmf = myDataGridView1[this.VMF.Index, row].Value;
                 if (isValidStr(uid_vmf))
                 {
                     cotevent.detail.uid = new uid();
-                    if (isValidStr(uid_vmf)) { cotevent.detail.uid.vmf = uid_vmf.ToString(); }
-                }
-
-                var takv = myDataGridView1[this.takv.Index, row].Value;
-                if (takv != null && Convert.ToBoolean(takv) == true)
-                {
-                    cotevent.detail.takv = new takv();
+                    cotevent.detail.uid.vmf = uid_vmf.ToString();
                 }
             }
 
@@ -438,6 +442,11 @@ namespace MissionPlanner.Controls
                 // refresh
                 myDataGridView1.EndEdit();
             }
+        }
+
+        private void myDataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            myDataGridView1.EndEdit();
         }
     }
 

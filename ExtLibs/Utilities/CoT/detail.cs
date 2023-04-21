@@ -2,9 +2,9 @@
 {
     public class detail
     {
-        public track track;
+        public takv takv;
         public contact contact;
         public uid uid;
-        public takv takv;
+        public track track;
     }
 }
