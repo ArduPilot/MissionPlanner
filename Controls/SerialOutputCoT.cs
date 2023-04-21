@@ -114,11 +114,22 @@ namespace MissionPlanner.Controls
                         break;
                 }
             }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                // if we're trying to open a port but another app, like WinTAK, is already running and using the port then our open-port attempt will fail.
+                // expected error string: "Only one usage of each socket address (protocol/network address/port) is normally permitted"
+                if (ex.Message.StartsWith("Only one usage"))
+                    CustomMessageBox.Show("TAK IP Port in use. Is another app on this system already using it?");
+                else
+                    CustomMessageBox.Show(Strings.InvalidPortName);
+                return;
+            }
             catch
             {
                 CustomMessageBox.Show(Strings.InvalidPortName);
                 return;
             }
+
             try
             {
                 CoTStream.BaudRate = int.Parse(CMB_baudrate.Text);
