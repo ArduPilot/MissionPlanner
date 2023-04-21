@@ -5,5 +5,6 @@
         public track track;
         public contact contact;
         public uid uid;
+        public takv takv;
     }
 }

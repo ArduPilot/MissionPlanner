@@ -44,7 +44,6 @@
         {
             this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.TB_output = new System.Windows.Forms.TextBox();
             this.BTN_clear_TB = new System.Windows.Forms.Button();
@@ -52,13 +51,15 @@
             this.label_type = new System.Windows.Forms.Label();
             this.TB_xml_type = new System.Windows.Forms.TextBox();
             this.CB_advancedMode = new System.Windows.Forms.CheckBox();
+            this.chk_indent = new System.Windows.Forms.CheckBox();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.sysid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.takv = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.chk_indent = new System.Windows.Forms.CheckBox();
+            this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.GB_connection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -99,18 +100,6 @@
             this.CMB_baudrate.Size = new System.Drawing.Size(121, 21);
             this.CMB_baudrate.TabIndex = 10;
             // 
-            // BUT_connect
-            // 
-            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 9;
-            this.BUT_connect.Text = "Connect";
-            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
-            // 
             // CMB_serialport
             // 
             this.CMB_serialport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -131,7 +120,7 @@
             this.TB_output.Name = "TB_output";
             this.TB_output.ReadOnly = true;
             this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.TB_output.Size = new System.Drawing.Size(687, 334);
+            this.TB_output.Size = new System.Drawing.Size(559, 334);
             this.TB_output.TabIndex = 12;
             this.TB_output.WordWrap = false;
             // 
@@ -187,61 +176,6 @@
             this.CB_advancedMode.UseVisualStyleBackColor = true;
             this.CB_advancedMode.CheckedChanged += new System.EventHandler(this.CB_advancedMode_CheckedChanged);
             // 
-            // myDataGridView1
-            // 
-            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.sysid,
-            this.UID,
-            this.VMF,
-            this.ContactCallsign,
-            this.ContactEndPointIP});
-            this.myDataGridView1.Location = new System.Drawing.Point(12, 443);
-            this.myDataGridView1.Name = "myDataGridView1";
-            this.myDataGridView1.RowHeadersWidth = 62;
-            this.myDataGridView1.Size = new System.Drawing.Size(687, 121);
-            this.myDataGridView1.TabIndex = 22;
-            this.myDataGridView1.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowValidated);
-            // 
-            // sysid
-            // 
-            this.sysid.HeaderText = "sysid";
-            this.sysid.MinimumWidth = 8;
-            this.sysid.Name = "sysid";
-            this.sysid.Width = 150;
-            // 
-            // UID
-            // 
-            this.UID.HeaderText = "UID";
-            this.UID.MinimumWidth = 8;
-            this.UID.Name = "UID";
-            this.UID.Width = 150;
-            // 
-            // VMF
-            // 
-            this.VMF.HeaderText = "VMF";
-            this.VMF.MinimumWidth = 8;
-            this.VMF.Name = "VMF";
-            this.VMF.Width = 150;
-            // 
-            // ContactCallsign
-            // 
-            this.ContactCallsign.HeaderText = "ContactCallsign";
-            this.ContactCallsign.MinimumWidth = 8;
-            this.ContactCallsign.Name = "ContactCallsign";
-            this.ContactCallsign.ToolTipText = "If you don\'t knwo wat this is, either leave it blank or use the UID.";
-            this.ContactCallsign.Width = 150;
-            // 
-            // ContactEndPointIP
-            // 
-            this.ContactEndPointIP.HeaderText = "ContactEndPointIP";
-            this.ContactEndPointIP.MinimumWidth = 8;
-            this.ContactEndPointIP.Name = "ContactEndPointIP";
-            this.ContactEndPointIP.ToolTipText = "If you don\'t know what this is then leave it blank.";
-            this.ContactEndPointIP.Width = 150;
-            // 
             // chk_indent
             // 
             this.chk_indent.AutoSize = true;
@@ -254,11 +188,85 @@
             this.chk_indent.UseVisualStyleBackColor = true;
             this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
             // 
+            // myDataGridView1
+            // 
+            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sysid,
+            this.UID,
+            this.takv,
+            this.ContactCallsign,
+            this.ContactEndPointIP,
+            this.VMF});
+            this.myDataGridView1.Location = new System.Drawing.Point(12, 443);
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.RowHeadersWidth = 62;
+            this.myDataGridView1.Size = new System.Drawing.Size(559, 121);
+            this.myDataGridView1.TabIndex = 22;
+            this.myDataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.myDataGridView1_CellMouseUp);
+            this.myDataGridView1.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowValidated);
+            // 
+            // sysid
+            // 
+            this.sysid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.sysid.HeaderText = "sysid";
+            this.sysid.MinimumWidth = 8;
+            this.sysid.Name = "sysid";
+            this.sysid.Width = 55;
+            // 
+            // UID
+            // 
+            this.UID.HeaderText = "UID";
+            this.UID.MinimumWidth = 8;
+            this.UID.Name = "UID";
+            // 
+            // takv
+            // 
+            this.takv.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.takv.HeaderText = "takv";
+            this.takv.Name = "takv";
+            this.takv.Width = 34;
+            // 
+            // ContactCallsign
+            // 
+            this.ContactCallsign.HeaderText = "ContactCallsign";
+            this.ContactCallsign.MinimumWidth = 8;
+            this.ContactCallsign.Name = "ContactCallsign";
+            this.ContactCallsign.ToolTipText = "If you don\'t know what this is then leave it blank or use the UID";
+            // 
+            // ContactEndPointIP
+            // 
+            this.ContactEndPointIP.HeaderText = "ContactEndPointIP";
+            this.ContactEndPointIP.MinimumWidth = 8;
+            this.ContactEndPointIP.Name = "ContactEndPointIP";
+            this.ContactEndPointIP.ToolTipText = "If you don\'t know what this is then leave it blank";
+            // 
+            // VMF
+            // 
+            this.VMF.HeaderText = "VMF";
+            this.VMF.MinimumWidth = 8;
+            this.VMF.Name = "VMF";
+            this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
+            // 
+            // BUT_connect
+            // 
+            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
+            this.BUT_connect.TabIndex = 9;
+            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
+            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 575);
+            this.ClientSize = new System.Drawing.Size(583, 575);
             this.Controls.Add(this.chk_indent);
             this.Controls.Add(this.CB_advancedMode);
             this.Controls.Add(this.myDataGridView1);
@@ -291,11 +299,12 @@
         private System.Windows.Forms.TextBox TB_xml_type;
         private MyDataGridView myDataGridView1;
         private System.Windows.Forms.CheckBox CB_advancedMode;
+        private System.Windows.Forms.CheckBox chk_indent;
         private System.Windows.Forms.DataGridViewTextBoxColumn sysid;
         private System.Windows.Forms.DataGridViewTextBoxColumn UID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn takv;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactCallsign;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactEndPointIP;
-        private System.Windows.Forms.CheckBox chk_indent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
     }
 }
