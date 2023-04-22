@@ -541,7 +541,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
                             row.Cells[Units.Index].Value = units;
-                            row.Cells[Options.Index].Value = range + options.Replace(",", "\n");
+                            row.Cells[Options.Index].Value = (range + "\n" + options.Replace(",", "\n")).Trim();
                             if (options.Length > 0) row.Cells[Options.Index].ToolTipText = options.Replace(',', '\n');
                             int N = options.Count(c => c.Equals(','));
                             if (N > 50)
