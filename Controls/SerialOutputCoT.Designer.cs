@@ -52,7 +52,6 @@
             this.TB_xml_type = new System.Windows.Forms.TextBox();
             this.CB_advancedMode = new System.Windows.Forms.CheckBox();
             this.chk_indent = new System.Windows.Forms.CheckBox();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.sysid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +59,7 @@
             this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.GB_connection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -167,6 +167,8 @@
             // CB_advancedMode
             // 
             this.CB_advancedMode.AutoSize = true;
+            this.CB_advancedMode.Checked = true;
+            this.CB_advancedMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CB_advancedMode.Location = new System.Drawing.Point(247, 20);
             this.CB_advancedMode.Margin = new System.Windows.Forms.Padding(2);
             this.CB_advancedMode.Name = "CB_advancedMode";
@@ -179,6 +181,8 @@
             // chk_indent
             // 
             this.chk_indent.AutoSize = true;
+            this.chk_indent.Checked = true;
+            this.chk_indent.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_indent.Location = new System.Drawing.Point(358, 20);
             this.chk_indent.Margin = new System.Windows.Forms.Padding(2);
             this.chk_indent.Name = "chk_indent";
@@ -187,18 +191,6 @@
             this.chk_indent.Text = "Nice Formatting";
             this.chk_indent.UseVisualStyleBackColor = true;
             this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
-            // 
-            // BUT_connect
-            // 
-            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 9;
-            this.BUT_connect.Text = "Connect";
-            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // myDataGridView1
             // 
@@ -262,6 +254,18 @@
             this.VMF.MinimumWidth = 8;
             this.VMF.Name = "VMF";
             this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
+            // 
+            // BUT_connect
+            // 
+            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
+            this.BUT_connect.TabIndex = 9;
+            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // SerialOutputCoT
             // 

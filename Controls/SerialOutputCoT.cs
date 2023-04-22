@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Comms;
+﻿using Microsoft.Scripting.Utils;
+using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.CoT;
 using System;
@@ -34,7 +35,9 @@ namespace MissionPlanner.Controls
             CMB_serialport.Items.Add("UDP Host - 14551");
             CMB_serialport.Items.Add("UDP Client");
 
+
             CMB_serialport.Items.Add("ATAK MC");
+            CMB_serialport.SelectedIndex = CMB_serialport.Items.Count - 1; // select ATAK MC as default
 
             CMB_updaterate.Text = updaterate + "Hz";
 
@@ -397,6 +400,7 @@ namespace MissionPlanner.Controls
                 myDataGridView1.Deserialize(Settings.Instance["CoTUID"]);
             } catch { }
             CB_advancedMode_CheckedChanged(null, null);
+            chk_indent_CheckedChanged(null, null);
         }
 
         private void SerialOutputCoT_FormClosing(object sender, FormClosingEventArgs e)
