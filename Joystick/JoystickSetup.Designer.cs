@@ -45,6 +45,7 @@ namespace MissionPlanner.Joystick
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.label14 = new System.Windows.Forms.Label();
             this.chk_manualcontrol = new System.Windows.Forms.CheckBox();
+            this.Instruction1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CMB_joysticks
@@ -94,17 +95,17 @@ namespace MissionPlanner.Joystick
             // 
             // BUT_enable
             // 
-            this.BUT_enable.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_enable, "BUT_enable");
             this.BUT_enable.Name = "BUT_enable";
+            this.BUT_enable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_enable.UseVisualStyleBackColor = true;
             this.BUT_enable.Click += new System.EventHandler(this.BUT_enable_Click);
             // 
             // BUT_save
             // 
-            this.BUT_save.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_save, "BUT_save");
             this.BUT_save.Name = "BUT_save";
+            this.BUT_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -120,9 +121,14 @@ namespace MissionPlanner.Joystick
             this.chk_manualcontrol.UseVisualStyleBackColor = true;
             this.chk_manualcontrol.CheckedChanged += new System.EventHandler(this.chk_manualcontrol_CheckedChanged);
             // 
+            // Instruction1
+            // 
+            resources.ApplyResources(this.Instruction1, "Instruction1");
+            this.Instruction1.Name = "Instruction1";
+            // 
             // JoystickSetup
             // 
-            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.Instruction1);
             this.Controls.Add(this.chk_manualcontrol);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.CHK_elevons);
@@ -134,6 +140,7 @@ namespace MissionPlanner.Joystick
             this.Controls.Add(this.BUT_enable);
             this.Controls.Add(this.BUT_save);
             this.Controls.Add(this.CMB_joysticks);
+            resources.ApplyResources(this, "$this");
             this.Name = "JoystickSetup";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.JoystickSetup_FormClosed);
             this.Load += new System.EventHandler(this.Joystick_Load);
@@ -156,7 +163,6 @@ namespace MissionPlanner.Joystick
         private System.Windows.Forms.CheckBox CHK_elevons;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.CheckBox chk_manualcontrol;
-
-        
+        private Label Instruction1;
     }
 }
