@@ -237,7 +237,7 @@ namespace MissionPlanner.ArduPilot
         }
 
 
-        public static void test()
+        public static void Test()
         {
             GetList();
 

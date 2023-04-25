@@ -115,7 +115,7 @@ namespace MissionPlanner.Controls
             //
             textBox.Size = new Size(372, 20);
             textBox.Text = value;
-            textBox.TextChanged += textBox_TextChanged;
+            textBox.TextChanged += TextBox_TextChanged;
 
             if (multiline)
             {
@@ -198,7 +198,7 @@ namespace MissionPlanner.Controls
             return dialogResult;
         }
 
-        static void textBox_TextChanged(object sender, EventArgs e)
+        static void TextBox_TextChanged(object sender, EventArgs e)
         {
             TextChanged?.Invoke(sender, e);
         }
