@@ -225,6 +225,7 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.jumpToTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -2389,7 +2390,8 @@ namespace MissionPlanner.GCSViews
             this.flightPlannerToolStripMenuItem,
             this.setHomeHereToolStripMenuItem,
             this.takeOffToolStripMenuItem,
-            this.onOffCameraOverlapToolStripMenuItem});
+            this.onOffCameraOverlapToolStripMenuItem,
+            this.jumpToTagToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -2727,6 +2729,12 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // jumpToTagToolStripMenuItem
+            // 
+            this.jumpToTagToolStripMenuItem.Name = "jumpToTagToolStripMenuItem";
+            resources.ApplyResources(this.jumpToTagToolStripMenuItem, "jumpToTagToolStripMenuItem");
+            this.jumpToTagToolStripMenuItem.Click += new System.EventHandler(this.jumpToTagToolStripMenuItem_Click);
+            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -3026,5 +3034,6 @@ namespace MissionPlanner.GCSViews
         private Controls.AuxOptions auxOptions5;
         private Controls.AuxOptions auxOptions6;
         private Controls.AuxOptions auxOptions7;
+        private ToolStripMenuItem jumpToTagToolStripMenuItem;
     }
 }

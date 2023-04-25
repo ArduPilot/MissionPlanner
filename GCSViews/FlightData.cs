@@ -6170,5 +6170,29 @@ namespace MissionPlanner.GCSViews
             tabControlactions.Multiline = !tabControlactions.Multiline;
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
+
+        private void jumpToTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string tag_str = "";
+            if (InputBox.Show("Jump to Tag", "Tag Id:", ref tag_str) != DialogResult.OK)
+            {
+                return;
+            }
+
+            UInt16 tag;
+            if (!UInt16.TryParse(tag_str, out tag) || tag < 0 || tag > 0xFFFF)
+            {
+                CustomMessageBox.Show("Invalid Tag. Must be a number from 0 to 65535");
+                // NOTE: This is recursive to automatically re-pop up the dialog box
+                // on input error for as many times as you try to enter an invalid number.
+                jumpToTagToolStripMenuItem_Click(null, null);
+                return;
+            }
+
+            if (!MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_JUMP_TAG, tag, 0, 0, 0, 0, 0, 0))
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
+        }
     }
 }
