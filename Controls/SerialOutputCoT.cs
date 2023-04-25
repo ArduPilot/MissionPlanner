@@ -2,6 +2,7 @@
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.CoT;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Globalization;
 using System.IO;
@@ -18,47 +19,22 @@ namespace MissionPlanner.Controls
     {
         static TcpListener listener;
         static ICommsSerial CoTStream = new SerialPort();
-        static double updaterate = 1;
+        static int updaterate_ms = 10*1000;
         System.Threading.Thread t12;
         static bool threadrun = false;
-        static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
-        static object[,] tabledata;
         private bool indent;
 
         public SerialOutputCoT()
         {
             InitializeComponent();
 
-            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            CMB_serialport.Items.Add("TAK Multicast");
             CMB_serialport.Items.Add("TCP Host - 14551");
             CMB_serialport.Items.Add("TCP Client");
             CMB_serialport.Items.Add("UDP Host - 14551");
             CMB_serialport.Items.Add("UDP Client");
-
-
-            CMB_serialport.Items.Add("ATAK MC");
-            CMB_serialport.SelectedIndex = CMB_serialport.Items.Count - 1; // select ATAK MC as default
-
-            CMB_updaterate.Text = updaterate + "Hz";
-
-            if (threadrun)
-            {
-                BUT_connect.Text = Strings.Stop;
-            }
-
+            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
-        }
-
-        private void CMB_updaterate_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR);
-            }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
@@ -106,8 +82,8 @@ namespace MissionPlanner.Controls
                         CoTStream = new UdpSerialConnect();
                         CMB_baudrate.SelectedIndex = 0;
                         break;
-                    case "ATAK MC":
-                        CoTStream = new UdpSerialConnect() { ConfigRef = "ATAK" };
+                    case "TAK Multicast":
+                        CoTStream = new UdpSerialConnect() { ConfigRef = "TAK_Multicast" };
                         ((UdpSerialConnect)CoTStream).Open("239.2.3.1", "6969");
                         CMB_baudrate.SelectedIndex = 0;
                         break;
@@ -206,16 +182,12 @@ namespace MissionPlanner.Controls
                             TB_output.Text = view;
                         }); 
 
-                    var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
-                    var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
-                    Thread.Sleep(sleepfor);
+                    Thread.Sleep(updaterate_ms);
                     counter++;
-
-                        
                 }
                 catch
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(1000);
                 }
             }
         }
@@ -399,13 +371,37 @@ namespace MissionPlanner.Controls
                 // this can crash if you're connecting as you're loading the screen so the row count may change as you're populating it.
                 myDataGridView1.Deserialize(Settings.Instance["CoTUID"]);
             } catch { }
+
+
+            updateRate_numericUpDown.Value = Settings.Instance.GetDecimal("CoT_updateRate", 10);
+            CMB_serialport.SelectedIndex = Settings.Instance.GetInt32("CoT_CMB_serialport", 0);
+            CMB_baudrate.SelectedIndex = Settings.Instance.GetInt32("CoT_CMB_baudrate", 0);
+            CB_advancedMode.Checked = Settings.Instance.GetBoolean("CoT_CB_advancedMode", true);
+            chk_indent.Checked = Settings.Instance.GetBoolean("CoT_chk_indent", true);
+
             CB_advancedMode_CheckedChanged(null, null);
             chk_indent_CheckedChanged(null, null);
+            updateRate_numericUpDown_ValueChanged(null, null);
+            CMB_serialport_SelectedIndexChanged(null, null);
+
+            if (threadrun)
+            {
+                // stop
+                BUT_connect_Click(null, null);
+
+                // restart
+                BUT_connect_Click(null, null);
+            }
+
         }
 
         private void SerialOutputCoT_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            Settings.Instance["CoT_updateRate"] = updateRate_numericUpDown.Value.ToString();
+            Settings.Instance["CoT_CMB_serialport"] = CMB_serialport.SelectedIndex.ToString();
+            Settings.Instance["CoT_CMB_baudrate"] = CMB_baudrate.SelectedIndex.ToString();
+            Settings.Instance["CoT_CB_advancedMode"] = CB_advancedMode.Checked.ToString();
+            Settings.Instance["CoT_chk_indent"] = chk_indent.Checked.ToString();
         }
 
         private void myDataGridView1_RowValidated(object sender, DataGridViewCellEventArgs e)
@@ -451,6 +447,11 @@ namespace MissionPlanner.Controls
         private void myDataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             myDataGridView1.EndEdit();
+        }
+
+        private void updateRate_numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            updaterate_ms = (int)(updateRate_numericUpDown.Value * 1000);
         }
     }
 

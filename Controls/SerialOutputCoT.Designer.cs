@@ -42,16 +42,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.TB_output = new System.Windows.Forms.TextBox();
             this.BTN_clear_TB = new System.Windows.Forms.Button();
             this.GB_connection = new System.Windows.Forms.GroupBox();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.label_type = new System.Windows.Forms.Label();
             this.TB_xml_type = new System.Windows.Forms.TextBox();
             this.CB_advancedMode = new System.Windows.Forms.CheckBox();
             this.chk_indent = new System.Windows.Forms.CheckBox();
+            this.updateRate_numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.sysid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,28 +61,10 @@
             this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.GB_connection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // CMB_updaterate
-            // 
-            this.CMB_updaterate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CMB_updaterate.FormattingEnabled = true;
-            this.CMB_updaterate.Items.AddRange(new object[] {
-            "10hz",
-            "5hz",
-            "2hz",
-            "1hz",
-            "0.5hz",
-            "0.2hz",
-            "0.1hz"});
-            this.CMB_updaterate.Location = new System.Drawing.Point(136, 46);
-            this.CMB_updaterate.Name = "CMB_updaterate";
-            this.CMB_updaterate.Size = new System.Drawing.Size(75, 21);
-            this.CMB_updaterate.TabIndex = 11;
-            this.CMB_updaterate.SelectedIndexChanged += new System.EventHandler(this.CMB_updaterate_SelectedIndexChanged);
             // 
             // CMB_baudrate
             // 
@@ -126,7 +110,7 @@
             // 
             // BTN_clear_TB
             // 
-            this.BTN_clear_TB.Location = new System.Drawing.Point(264, 70);
+            this.BTN_clear_TB.Location = new System.Drawing.Point(370, 70);
             this.BTN_clear_TB.Name = "BTN_clear_TB";
             this.BTN_clear_TB.Size = new System.Drawing.Size(88, 23);
             this.BTN_clear_TB.TabIndex = 16;
@@ -138,7 +122,6 @@
             // 
             this.GB_connection.Controls.Add(this.CMB_serialport);
             this.GB_connection.Controls.Add(this.BUT_connect);
-            this.GB_connection.Controls.Add(this.CMB_updaterate);
             this.GB_connection.Controls.Add(this.CMB_baudrate);
             this.GB_connection.Location = new System.Drawing.Point(12, 12);
             this.GB_connection.Name = "GB_connection";
@@ -146,6 +129,18 @@
             this.GB_connection.TabIndex = 18;
             this.GB_connection.TabStop = false;
             this.GB_connection.Text = "Connection";
+            // 
+            // BUT_connect
+            // 
+            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
+            this.BUT_connect.TabIndex = 9;
+            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // label_type
             // 
@@ -191,6 +186,38 @@
             this.chk_indent.Text = "Nice Formatting";
             this.chk_indent.UseVisualStyleBackColor = true;
             this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
+            // 
+            // updateRate_numericUpDown
+            // 
+            this.updateRate_numericUpDown.Location = new System.Drawing.Point(307, 73);
+            this.updateRate_numericUpDown.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.updateRate_numericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.updateRate_numericUpDown.Name = "updateRate_numericUpDown";
+            this.updateRate_numericUpDown.Size = new System.Drawing.Size(46, 20);
+            this.updateRate_numericUpDown.TabIndex = 25;
+            this.updateRate_numericUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.updateRate_numericUpDown.ValueChanged += new System.EventHandler(this.updateRate_numericUpDown_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(235, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Interval (sec)";
             // 
             // myDataGridView1
             // 
@@ -255,24 +282,14 @@
             this.VMF.Name = "VMF";
             this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
             // 
-            // BUT_connect
-            // 
-            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 9;
-            this.BUT_connect.Text = "Connect";
-            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
-            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 575);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.chk_indent);
+            this.Controls.Add(this.updateRate_numericUpDown);
             this.Controls.Add(this.CB_advancedMode);
             this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.label_type);
@@ -285,6 +302,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialOutputCoT_FormClosing);
             this.Load += new System.EventHandler(this.SerialOutputCoT_Load);
             this.GB_connection.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -292,8 +310,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox CMB_updaterate;
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_serialport;
@@ -311,5 +327,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactCallsign;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactEndPointIP;
         private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
+        private System.Windows.Forms.NumericUpDown updateRate_numericUpDown;
+        private System.Windows.Forms.Label label2;
     }
 }
