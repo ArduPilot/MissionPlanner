@@ -243,6 +243,17 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
+        public decimal GetDecimal(string key, decimal defaultd = 0)
+        {
+            decimal result = defaultd;
+            string value = null;
+            if (config.TryGetValue(key, out value))
+            {
+                decimal.TryParse(value, out result);
+            }
+            return result;
+        }
+
         public byte GetByte(string key, byte defaultb = 0)
         {
             byte result = defaultb;
