@@ -164,9 +164,8 @@ namespace MissionPlanner.Controls
             // Increase the size of the form.
             form.ClientSize = new Size(396, y + buttonOk.Height + yMargin);
 
-            if (ApplyTheme != null)
-                ApplyTheme(form);
-            
+            ApplyTheme?.Invoke(form);
+
 
             Console.WriteLine("Input Box " + System.Threading.Thread.CurrentThread.Name);
 
@@ -201,8 +200,7 @@ namespace MissionPlanner.Controls
 
         static void textBox_TextChanged(object sender, EventArgs e)
         {
-            if (TextChanged != null)
-                TextChanged(sender, e);
+            TextChanged?.Invoke(sender, e);
         }
     }
 }
