@@ -213,6 +213,7 @@ namespace MissionPlanner.Controls
 
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool batteryon { get; set; }
+        public bool batteryon2 { get; set; }
 
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayekf { get; set; }
@@ -251,7 +252,7 @@ namespace MissionPlanner.Controls
                                     displayalt =
                                         displayconninfo =
                                             displayxtrack =
-                                                displayrollpitch = displaygps = bgon = hudon = batteryon = true;
+                                                displayrollpitch = displaygps = bgon = hudon = batteryon = batteryon2 = true;
 
             displayAOASSA = false;
 
@@ -2813,7 +2814,7 @@ namespace MissionPlanner.Controls
 
                         if (displayCellVoltage & (_batterycellcount != 0))
                             drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, xPos, yPos[1]);
-                        else if (_batterylevel2 > 0)
+                        else if (_batterylevel2 > 0 && batteryon2)
                         {
                             text = HUDT.Bat + "2 " + _batterylevel2.ToString("0.00v") + " " + _current2.ToString("0.0 A") + " " +
                                    (_batteryremaining2) + "%";
