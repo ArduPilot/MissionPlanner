@@ -1788,6 +1788,7 @@ namespace MissionPlanner.GCSViews
                 ZedGraphTimer.Stop();
                 zg1.Visible = false;
             }
+            BTN_tunning_dropout.Visible = zg1.Visible;
         }
 
         private void CheckAndBindPreFlightData()
@@ -2628,6 +2629,7 @@ namespace MissionPlanner.GCSViews
             prop = new Propagation(gMapControl1);
 
             splitContainer1.Panel1Collapsed = true;
+            BTN_tunning_dropout.Visible = false;
 
             try
             {
@@ -6199,6 +6201,31 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
             }
+        }
+
+        void tuningdropout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            (sender as Form).SaveStartupLocation();
+            ((sender as Form).Tag as Control).Controls.Add(zg1);
+            splitContainer1.Panel1Collapsed = false;
+            BTN_tunning_dropout.Visible = true;
+            CB_tuning.Enabled = true;
+        }
+
+        private void BTN_tunning_dropout_Click(object sender, EventArgs e)
+        {
+            Form dropout = new Form();
+            dropout.Text = "Tuning Dropout";
+            dropout.Size = new Size(zg1.Width, zg1.Height + 20);
+            dropout.Tag = zg1.Parent;
+            dropout.Controls.Add(zg1);
+            dropout.FormClosed += tuningdropout_FormClosed;
+            dropout.RestoreStartupLocation();
+            dropout.Show();
+
+            splitContainer1.Panel1Collapsed = true;
+            BTN_tunning_dropout.Visible = false;
+            CB_tuning.Enabled = false;
         }
     }
 }
