@@ -143,7 +143,7 @@ namespace MissionPlanner.Controls
                             displayspeed =
                                 displayalt =
                                     displayconninfo =
-                                        displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
+                                        displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = batteryon2 = true;
 
             displayAOASSA = false;
 
@@ -217,6 +217,7 @@ namespace MissionPlanner.Controls
 
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool batteryon { get; set; }
+        public bool batteryon2 { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float batteryremaining
