@@ -569,17 +569,6 @@ namespace MissionPlanner.GCSViews
 
         public void CheckBatteryShow()
         {
-            // ensure battery display is on - also set in hud if current is updated
-            if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") &&
-                (float) MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
-            {
-                hud1.batteryon = true;
-            }
-            else
-            {
-                hud1.batteryon = false;
-            }
-
             //Check if we want to display calculated battery cell voltage
             hud1.displayCellVoltage = Settings.Instance.GetBoolean("HUD_showbatterycell", false);
             hud1.batterycellcount = Settings.Instance.GetInt32("HUD_batterycellcount", 0);

@@ -568,7 +568,6 @@ namespace MissionPlanner.Controls
                 {
                     _current2 = value;
                     this.Invalidate();
-                    if (_current2 > 0) batteryon = true;
                 }
             }
         }
@@ -611,7 +610,6 @@ namespace MissionPlanner.Controls
                 {
                     _current = value;
                     this.Invalidate();
-                    if (_current > 0) batteryon = true;
                 }
             }
         }

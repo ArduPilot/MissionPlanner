@@ -298,7 +298,6 @@ namespace MissionPlanner.Controls
                 {
                     _current = value;
                     this.Invalidate();
-                    if (_current > 0) batteryon = true;
                 }
             }
         }
