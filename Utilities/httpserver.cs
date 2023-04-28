@@ -363,7 +363,7 @@ namespace MissionPlanner.Utilities
 
                                         MainV2.comPort.DoOnPacketSent(message);
 
-                                        lock (MainV2.comPort.objlock)
+                                        lock (MainV2.comPort.writelock)
                                         {
                                             if (MainV2.comPort.BaseStream.IsOpen)
                                                 MainV2.comPort.BaseStream.Write(payload, 0, paylen);

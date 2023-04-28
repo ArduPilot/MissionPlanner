@@ -350,7 +350,7 @@ namespace MissionPlanner
         /// <summary>
         /// used as a serial port write lock
         /// </summary>
-        public volatile object objlock = new object();
+        public volatile object writelock = new object();
 
         /// <summary>
         /// mavlink version
@@ -645,7 +645,7 @@ namespace MissionPlanner
             {
                 BaseStream.ReadBufferSize = 16 * 1024;
 
-                lock (objlock) // so we dont have random traffic
+                lock (writelock) // so we dont have random traffic
                 {
                     log.Info("Open port with " + BaseStream.PortName + " " + BaseStream.BaudRate);
 
@@ -1185,10 +1185,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 }
             }
 
-            lock (objlock)
+            byte[] packet = new byte[0];
+            lock (writelock)
             {
                 byte[] data = MavlinkUtil.StructureToByteArray(indata);
-                byte[] packet = new byte[0];
+                
                 int i = 0;
 
                 // are we mavlink2 enabled for this sysid/compid
@@ -1348,12 +1349,19 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 try
                 {
                     SaveToTlog(new Span<byte>(packet, 0, i));
-
-                    _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
                 }
                 catch
                 {
                 }
+            }
+            try
+            {
+                // callback outside of lock
+                if(packet.Length > 0)
+                    _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
+            }
+            catch
+            {
             }
         }
 
@@ -1381,7 +1389,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public bool Write(byte[] packet)
         {
-            lock (objlock)
+            lock (writelock)
             {
                 if (BaseStream.IsOpen)
                 {
@@ -1392,19 +1400,25 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 try
                 {
                     SaveToTlog(new Span<byte>(packet, 0, packet.Length));
-
-                    _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
                 }
                 catch
                 {
                 }
+            }
+            try
+            {
+                // callback outside of lock
+                _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
+            }
+            catch
+            {
             }
             return true;
         }
 
         public bool Write(string line)
         {
-            lock (objlock)
+            lock (writelock)
             {
                 BaseStream.Write(line);
             }
@@ -5084,49 +5098,46 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 //The packet header checking IF had to be splitted to allow moving the Readlock try/catch.
                 if (packetSeemValid)
                 {
-                    lock (objlock)
+                    MAVlist[sysid, compid].addPacket(message);
+
+                    // adsb packets are forwarded and can be from any sysid/compid
+                    if (msgid == (byte)MAVLINK_MSG_ID.ADSB_VEHICLE)
                     {
-                        MAVlist[sysid, compid].addPacket(message);
+                        var adsb = message.ToStructure<mavlink_adsb_vehicle_t>();
 
-                        // adsb packets are forwarded and can be from any sysid/compid
-                        if (msgid == (byte)MAVLINK_MSG_ID.ADSB_VEHICLE)
-                        {
-                            var adsb = message.ToStructure<mavlink_adsb_vehicle_t>();
+                        var id = adsb.ICAO_address.ToString("X5");
 
-                            var id = adsb.ICAO_address.ToString("X5");
-
-                            if (_UpdateADSBPlanePosition != null)
-                                _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7,
-                                        adsb.lon / 1e7,
-                                        adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
-                                        DateTime.Now)
+                        if (_UpdateADSBPlanePosition != null)
+                            _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7,
+                                    adsb.lon / 1e7,
+                                    adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
+                                    DateTime.Now)
                                 {
                                     CallSign = Encoding.UTF8.GetString(adsb.callsign),
                                     Squawk = adsb.squawk,
                                     Raw = adsb
                                 }
-                                );
-                        }
+                            );
+                    }
 
-                        if (msgid == (byte)MAVLINK_MSG_ID.COLLISION)
+                    if (msgid == (byte)MAVLINK_MSG_ID.COLLISION)
+                    {
+                        var coll = message.ToStructure<mavlink_collision_t>();
+
+                        var id = coll.id.ToString("X5");
+
+                        var coll_type = (MAV_COLLISION_SRC)coll.src;
+
+                        var action = (MAV_COLLISION_ACTION)coll.action;
+
+                        if (action > MAV_COLLISION_ACTION.REPORT)
                         {
-                            var coll = message.ToStructure<mavlink_collision_t>();
-
-                            var id = coll.id.ToString("X5");
-
-                            var coll_type = (MAV_COLLISION_SRC)coll.src;
-
-                            var action = (MAV_COLLISION_ACTION)coll.action;
-
-                            if (action > MAV_COLLISION_ACTION.REPORT)
-                            {
-                                // we are reacting to a threat
-                            }
-
-                            var threat_level = (MAV_COLLISION_THREAT_LEVEL)coll.threat_level;
-
-                            _UpdateADSBCollision?.Invoke(this, (id, threat_level));
+                            // we are reacting to a threat
                         }
+
+                        var threat_level = (MAV_COLLISION_THREAT_LEVEL)coll.threat_level;
+
+                        _UpdateADSBCollision?.Invoke(this, (id, threat_level));
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
@@ -5189,6 +5200,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             }
                         }
                     }
+
                     //treat a high latency packet as a HB
                     if (msgid == (byte)MAVLINK_MSG_ID.HIGH_LATENCY2)
                     {
@@ -5373,7 +5385,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         len = MirrorStream.Read(buf, 0, len);
 
                         if (MirrorStreamWrite)
-                            lock (objlock)
+                            lock (writelock)
                             {
                                 BaseStream.Write(buf, 0, len);
 
