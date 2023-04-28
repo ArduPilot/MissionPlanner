@@ -31,20 +31,20 @@ namespace DroneCAN
             public Single fuel_temperature = new Single();
             public uint8_t fuel_tank_id = new uint8_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_ice_FuelTankStatus(this, chunk_cb, ctx);
+                encode_uavcan_equipment_ice_FuelTankStatus(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_ice_FuelTankStatus(transfer, this);
+                decode_uavcan_equipment_ice_FuelTankStatus(transfer, this, fdcan);
             }
 
-            public static uavcan_equipment_ice_FuelTankStatus ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_equipment_ice_FuelTankStatus ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_equipment_ice_FuelTankStatus();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

@@ -30,20 +30,20 @@ namespace DroneCAN
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)] public Single[] flow_integral = new Single[2];
             public uint8_t quality = new uint8_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_com_hex_equipment_flow_Measurement(this, chunk_cb, ctx);
+                encode_com_hex_equipment_flow_Measurement(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_com_hex_equipment_flow_Measurement(transfer, this);
+                decode_com_hex_equipment_flow_Measurement(transfer, this, fdcan);
             }
 
-            public static com_hex_equipment_flow_Measurement ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static com_hex_equipment_flow_Measurement ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new com_hex_equipment_flow_Measurement();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

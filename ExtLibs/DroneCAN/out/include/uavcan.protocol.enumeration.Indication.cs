@@ -29,20 +29,20 @@ namespace DroneCAN
             public uavcan_protocol_param_NumericValue value = new uavcan_protocol_param_NumericValue();
             public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = Enumerable.Range(1, 92).Select(i => new uint8_t()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_protocol_enumeration_Indication(this, chunk_cb, ctx);
+                encode_uavcan_protocol_enumeration_Indication(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_protocol_enumeration_Indication(transfer, this);
+                decode_uavcan_protocol_enumeration_Indication(transfer, this, fdcan);
             }
 
-            public static uavcan_protocol_enumeration_Indication ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_protocol_enumeration_Indication ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_protocol_enumeration_Indication();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

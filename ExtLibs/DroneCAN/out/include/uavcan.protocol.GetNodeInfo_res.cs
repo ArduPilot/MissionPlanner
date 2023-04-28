@@ -19,8 +19,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.protocol.HardwareVersion.cs
 //using uavcan.protocol.SoftwareVersion.cs
+//using uavcan.protocol.HardwareVersion.cs
 //using uavcan.protocol.NodeStatus.cs
         public partial class uavcan_protocol_GetNodeInfo_res: IDroneCANSerialize 
         {
@@ -33,20 +33,20 @@ namespace DroneCAN
             public uavcan_protocol_HardwareVersion hardware_version = new uavcan_protocol_HardwareVersion();
             public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)] public uint8_t[] name = Enumerable.Range(1, 80).Select(i => new uint8_t()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_protocol_GetNodeInfo_res(this, chunk_cb, ctx);
+                encode_uavcan_protocol_GetNodeInfo_res(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_protocol_GetNodeInfo_res(transfer, this);
+                decode_uavcan_protocol_GetNodeInfo_res(transfer, this, fdcan);
             }
 
-            public static uavcan_protocol_GetNodeInfo_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_protocol_GetNodeInfo_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_protocol_GetNodeInfo_res();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

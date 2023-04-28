@@ -63,20 +63,20 @@ namespace DroneCAN
             public uint16_t interface_error = new uint16_t();
             public uint16_t status_flags = new uint16_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_cuav_equipment_power_CBAT(this, chunk_cb, ctx);
+                encode_cuav_equipment_power_CBAT(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_cuav_equipment_power_CBAT(transfer, this);
+                decode_cuav_equipment_power_CBAT(transfer, this, fdcan);
             }
 
-            public static cuav_equipment_power_CBAT ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static cuav_equipment_power_CBAT ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new cuav_equipment_power_CBAT();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

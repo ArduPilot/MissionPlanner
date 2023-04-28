@@ -29,20 +29,20 @@ namespace DroneCAN
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public int8_t[] fixed_axis_roll_pitch_yaw = new int8_t[3];
             public bool orientation_defined = new bool();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_CoarseOrientation(this, chunk_cb, ctx);
+                encode_uavcan_CoarseOrientation(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_CoarseOrientation(transfer, this);
+                decode_uavcan_CoarseOrientation(transfer, this, fdcan);
             }
 
-            public static uavcan_CoarseOrientation ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_CoarseOrientation ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_CoarseOrientation();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

@@ -41,20 +41,20 @@ namespace DroneCAN
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] linear_acceleration_body = new Single[3];
             public uint8_t velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] velocity_covariance = Enumerable.Range(1, 36).Select(i => new Single()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_navigation_GlobalNavigationSolution(this, chunk_cb, ctx);
+                encode_uavcan_navigation_GlobalNavigationSolution(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_navigation_GlobalNavigationSolution(transfer, this);
+                decode_uavcan_navigation_GlobalNavigationSolution(transfer, this, fdcan);
             }
 
-            public static uavcan_navigation_GlobalNavigationSolution ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_navigation_GlobalNavigationSolution ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_navigation_GlobalNavigationSolution();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

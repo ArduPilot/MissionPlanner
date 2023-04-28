@@ -31,20 +31,20 @@ namespace DroneCAN
             public uint8_t status = new uint8_t();
             public uint8_t error_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)] public uint8_t[] error = Enumerable.Range(1, 50).Select(i => new uint8_t()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_dronecan_remoteid_ArmStatus(this, chunk_cb, ctx);
+                encode_dronecan_remoteid_ArmStatus(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_dronecan_remoteid_ArmStatus(transfer, this);
+                decode_dronecan_remoteid_ArmStatus(transfer, this, fdcan);
             }
 
-            public static dronecan_remoteid_ArmStatus ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static dronecan_remoteid_ArmStatus ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new dronecan_remoteid_ArmStatus();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

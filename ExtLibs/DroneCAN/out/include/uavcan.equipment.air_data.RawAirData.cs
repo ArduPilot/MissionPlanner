@@ -39,20 +39,20 @@ namespace DroneCAN
             public Single pitot_temperature = new Single();
             public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public Single[] covariance = Enumerable.Range(1, 16).Select(i => new Single()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_air_data_RawAirData(this, chunk_cb, ctx);
+                encode_uavcan_equipment_air_data_RawAirData(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_air_data_RawAirData(transfer, this);
+                decode_uavcan_equipment_air_data_RawAirData(transfer, this, fdcan);
             }
 
-            public static uavcan_equipment_air_data_RawAirData ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_equipment_air_data_RawAirData ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_equipment_air_data_RawAirData();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

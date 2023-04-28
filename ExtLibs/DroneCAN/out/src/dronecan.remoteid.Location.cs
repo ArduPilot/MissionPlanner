@@ -19,14 +19,14 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_dronecan_remoteid_Location(dronecan_remoteid_Location msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+        static void encode_dronecan_remoteid_Location(dronecan_remoteid_Location msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
             uint8_t[] buffer = new uint8_t[8];
-            _encode_dronecan_remoteid_Location(buffer, msg, chunk_cb, ctx, true);
+            _encode_dronecan_remoteid_Location(buffer, msg, chunk_cb, ctx, !fdcan);
         }
 
-        static uint32_t decode_dronecan_remoteid_Location(CanardRxTransfer transfer, dronecan_remoteid_Location msg) {
+        static uint32_t decode_dronecan_remoteid_Location(CanardRxTransfer transfer, dronecan_remoteid_Location msg, bool fdcan) {
             uint32_t bit_ofs = 0;
-            _decode_dronecan_remoteid_Location(transfer, ref bit_ofs, msg, true);
+            _decode_dronecan_remoteid_Location(transfer, ref bit_ofs, msg, !fdcan);
             return (bit_ofs+7)/8;
         }
 

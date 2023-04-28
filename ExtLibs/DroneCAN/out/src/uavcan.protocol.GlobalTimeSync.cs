@@ -19,14 +19,14 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_GlobalTimeSync(uavcan_protocol_GlobalTimeSync msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+        static void encode_uavcan_protocol_GlobalTimeSync(uavcan_protocol_GlobalTimeSync msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
             uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_GlobalTimeSync(buffer, msg, chunk_cb, ctx, true);
+            _encode_uavcan_protocol_GlobalTimeSync(buffer, msg, chunk_cb, ctx, !fdcan);
         }
 
-        static uint32_t decode_uavcan_protocol_GlobalTimeSync(CanardRxTransfer transfer, uavcan_protocol_GlobalTimeSync msg) {
+        static uint32_t decode_uavcan_protocol_GlobalTimeSync(CanardRxTransfer transfer, uavcan_protocol_GlobalTimeSync msg, bool fdcan) {
             uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_GlobalTimeSync(transfer, ref bit_ofs, msg, true);
+            _decode_uavcan_protocol_GlobalTimeSync(transfer, ref bit_ofs, msg, !fdcan);
             return (bit_ofs+7)/8;
         }
 

@@ -29,20 +29,20 @@ namespace DroneCAN
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] magnetic_field_ga = new Single[3];
             public uint8_t magnetic_field_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] magnetic_field_covariance = Enumerable.Range(1, 9).Select(i => new Single()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_ahrs_MagneticFieldStrength2(this, chunk_cb, ctx);
+                encode_uavcan_equipment_ahrs_MagneticFieldStrength2(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_ahrs_MagneticFieldStrength2(transfer, this);
+                decode_uavcan_equipment_ahrs_MagneticFieldStrength2(transfer, this, fdcan);
             }
 
-            public static uavcan_equipment_ahrs_MagneticFieldStrength2 ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_equipment_ahrs_MagneticFieldStrength2 ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_equipment_ahrs_MagneticFieldStrength2();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

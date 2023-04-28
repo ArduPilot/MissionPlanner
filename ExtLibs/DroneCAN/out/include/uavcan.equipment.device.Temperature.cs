@@ -32,20 +32,20 @@ namespace DroneCAN
             public Single temperature = new Single();
             public uint8_t error_flags = new uint8_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_device_Temperature(this, chunk_cb, ctx);
+                encode_uavcan_equipment_device_Temperature(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_device_Temperature(transfer, this);
+                decode_uavcan_equipment_device_Temperature(transfer, this, fdcan);
             }
 
-            public static uavcan_equipment_device_Temperature ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_equipment_device_Temperature ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_equipment_device_Temperature();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

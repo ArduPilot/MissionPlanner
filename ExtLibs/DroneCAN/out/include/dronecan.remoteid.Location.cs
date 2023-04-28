@@ -90,20 +90,20 @@ namespace DroneCAN
             public Single timestamp = new Single();
             public uint8_t timestamp_accuracy = new uint8_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_dronecan_remoteid_Location(this, chunk_cb, ctx);
+                encode_dronecan_remoteid_Location(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_dronecan_remoteid_Location(transfer, this);
+                decode_dronecan_remoteid_Location(transfer, this, fdcan);
             }
 
-            public static dronecan_remoteid_Location ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static dronecan_remoteid_Location ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new dronecan_remoteid_Location();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

@@ -22,14 +22,14 @@ namespace DroneCAN
 {
 @{indent += 1}@{ind = '    '*indent}@
     public partial class DroneCAN {
-        static void encode_@(msg_underscored_name)(@(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+        static void encode_@(msg_underscored_name)(@(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
             uint8_t[] buffer = new uint8_t[8];
-            _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, true);
+            _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, !fdcan);
         }
 
-        static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg) {
+        static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg, bool fdcan) {
             uint32_t bit_ofs = 0;
-            _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, true);
+            _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, !fdcan);
             return (bit_ofs+7)/8;
         }
 

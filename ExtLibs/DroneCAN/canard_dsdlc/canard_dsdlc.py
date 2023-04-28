@@ -58,8 +58,8 @@ for template in templates:
 def build_message(msg_name):
     print ('building %s' % (msg_name))
     msg = message_dict[msg_name]
-    with open('%s.json' % (msg_name), 'w') as f:
-        f.write(json.dumps(msg, default=lambda x: x.__dict__))
+    #with open('%s.json' % (msg_name), 'w') as f:
+    #    f.write(json.dumps(msg, default=lambda x: x.__dict__))
     for template in templates:
         output = em.expand(template['source'], msg=msg)
 
@@ -116,11 +116,11 @@ if __name__ == '__main__':
             msg = message_dict[msg_name]
             print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
-                message_names_enum += '\t(typeof(%s), %s, 0x%08X, (b,s) => %s.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s), %s, 0x%08X, (b,s,fd) => %s.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
 
             if not msg.default_dtid is None and msg.kind == msg.KIND_SERVICE:
-                message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, (b,s) => %s_req.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
-                message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, (b,s) => %s_res.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, (b,s,fd) => %s_req.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, (b,s,fd) => %s_res.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
  
     #pool.close()
     #pool.join()
@@ -129,7 +129,7 @@ if __name__ == '__main__':
 
     print ('test')
     with open('messages.cs', 'w') as f:
-        f.write('using System;using System.Reflection;\nnamespace DroneCAN {\npublic partial class DroneCAN {\n    public static (Type type,UInt16 msgid, ulong crcseed, Func<Byte[],int, object> convert)[] MSG_INFO = {%s};}}' % (message_names_enum))
+        f.write('using System;using System.Reflection;\nnamespace DroneCAN {\npublic partial class DroneCAN {\n    public static (Type type,UInt16 msgid, ulong crcseed, Func<Byte[],int, bool, object> convert)[] MSG_INFO = { \n%s};}}' % (message_names_enum))
 
     print (message_names_enum)
 

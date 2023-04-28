@@ -53,20 +53,20 @@ namespace DroneCAN
             public uint8_t aux_data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=255)] public uint8_t[] aux_data = Enumerable.Range(1, 255).Select(i => new uint8_t()).ToArray();
             public uint64_t vehicle_state = new uint64_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_ardupilot_indication_NotifyState(this, chunk_cb, ctx);
+                encode_ardupilot_indication_NotifyState(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_ardupilot_indication_NotifyState(transfer, this);
+                decode_ardupilot_indication_NotifyState(transfer, this, fdcan);
             }
 
-            public static ardupilot_indication_NotifyState ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static ardupilot_indication_NotifyState ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new ardupilot_indication_NotifyState();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

@@ -28,20 +28,20 @@ namespace DroneCAN
 
             public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=15)] public uavcan_equipment_actuator_Command[] commands = Enumerable.Range(1, 15).Select(i => new uavcan_equipment_actuator_Command()).ToArray();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_actuator_ArrayCommand(this, chunk_cb, ctx);
+                encode_uavcan_equipment_actuator_ArrayCommand(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_actuator_ArrayCommand(transfer, this);
+                decode_uavcan_equipment_actuator_ArrayCommand(transfer, this, fdcan);
             }
 
-            public static uavcan_equipment_actuator_ArrayCommand ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static uavcan_equipment_actuator_ArrayCommand ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new uavcan_equipment_actuator_ArrayCommand();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

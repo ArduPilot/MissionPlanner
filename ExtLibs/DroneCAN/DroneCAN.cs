@@ -1402,7 +1402,7 @@ namespace DroneCAN
             IDroneCANSerialize msg, bool canfd = false)
         {
             var state = new statetracking();
-            msg.encode(dronecan_transmit_chunk_handler, state);
+            msg.encode(dronecan_transmit_chunk_handler, state, canfd);
 
             var msgtype = DroneCAN.MSG_INFO.First(a => a.Item1 == msg.GetType());
 
@@ -1746,6 +1746,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             int size_len = 1;
             int id_len;
             var line_len = line.Length;
+            bool fdcan = false;
 
             if (line_len <= 4)
                 return;
@@ -1764,10 +1765,12 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             else if (line[0] == 'D') // 29 bit data frame
             {
                 id_len = 8;
+                fdcan = true;
             }
             else if (line[0] == 'd') // 11 bit data frame
             {
                 id_len = 3;
+                fdcan = true;
             }
             else if (line[0] == 'B') // 29 bit data frame
             {
@@ -1812,7 +1815,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             if (packet_len == 0)
                 return;
 
-            var frame = new CANFrame(BitConverter.GetBytes(packet_id));
+            var frame = new CANFrame(BitConverter.GetBytes(packet_id), true, fdcan);
 
             var packet_data = line.Skip(1 + size_len + id_len).Take(packet_len * 2).NowNextBy2().Select(a =>
             {
@@ -1960,7 +1963,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 try
                 {
-                    var ans = msgtype.Item4(result, startbyte);
+                    var ans = msgtype.Item4(result, startbyte, frame.FDCan);
 
                     frame.SizeofEntireMsg = result.Length - startbyte;
                     //Console.WriteLine(("RX") + " " + msgtype.Item1 + " " + JsonConvert.SerializeObject(ans));
