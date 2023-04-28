@@ -1108,7 +1108,11 @@ namespace DroneCAN
                     if (bfures.error != DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS &&
                         bfures.error != DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK)
                         exception = new Exception(frame.SourceNode + " " + "Begin Firmware Update returned an error");
-                    acceptbegin = true;
+                    else
+                    {
+                        Console.WriteLine("Got BeginFirmwareUpdate_res " + frame.SourceNode);
+                        acceptbegin = true;
+                    }
                 }
                 else if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_res))
                 {
@@ -1235,6 +1239,7 @@ namespace DroneCAN
                 {
                     if(!inupdatemode)
                     {
+                        Console.WriteLine("Send GetNodeInfo " + b);
                         // get node info
                         DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
 
