@@ -912,10 +912,12 @@ namespace MissionPlanner.Utilities
                                 if (plla.Lat == 0 && plla.Lng == 0)
                                     continue;
                                 plla.Heading = (float)plane.heading;
+                                if (plane.CallSign != null) plla.CallSign = plane.CallSign;
+                                plla.Speed = plane.ground_speed;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(null, plla);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
-                                Console.WriteLine(plla);
+                                //Console.WriteLine(plla);
                             }
                             break;
                         default:
