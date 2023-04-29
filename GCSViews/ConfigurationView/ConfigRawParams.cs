@@ -39,6 +39,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // Used by Param Tree to filter by prefix
         private string filterPrefix = "";
 
+        private int out_of_range_count = 0;
+        private bool out_of_range_Ask = true;
+
         public ConfigRawParams()
         {
             InitializeComponent();
@@ -422,7 +425,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (ParameterMetaDataRepository.GetParameterRange(Params[Command.Index, e.RowIndex].Value.ToString(),
                     ref min, ref max, MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
-                    if (newvalue > max || newvalue < min)
+                    if ((newvalue > max || newvalue < min) && out_of_range_Ask)
                     {
                         if (
                             CustomMessageBox.Show(
@@ -434,6 +437,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             Params[e.ColumnIndex, e.RowIndex].Value = cellEditValue;
                             Params.CellValueChanged += Params_CellValueChanged;
                             return;
+                        }
+
+                        if (out_of_range_count >= 0 && ++out_of_range_count >= 3)
+                        {
+                            // after 3 warnings that we've said yes to, ask if we should stop asking
+                            out_of_range_count = -1; // stop counting
+
+                            if (CustomMessageBox.Show(
+                                "Assume yes on all further value is out of range warnings?",
+                                "Out of range - Assume yes?",
+                                MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                            {
+                                out_of_range_Ask = false;
+                            }
                         }
                     }
                 }
