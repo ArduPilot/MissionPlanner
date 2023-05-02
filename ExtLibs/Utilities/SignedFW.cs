@@ -5,6 +5,7 @@ using System.Text;
 using Ionic.Zlib;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
@@ -93,6 +94,12 @@ namespace MissionPlanner.Utilities
             signer.BlockUpdate(img, 0, offset);
             signer.BlockUpdate(img, offset + desc_len, img.Length - (offset + desc_len));
             var sig = signer.GenerateSignature();
+            
+            var sha = new Sha512Digest();
+            byte[] h = new byte[sha.GetDigestSize()];
+            sha.BlockUpdate(img, 0, offset);
+            sha.BlockUpdate(img, offset + desc_len, img.Length - (offset + desc_len));
+            sha.DoFinal(h, 0);
 
             //desc = struct.pack("<IQ64s", sig_len+8, sig_version, signature)
             //img = img[:(offset + 16)] + desc + img[(offset + desc_len):]
@@ -112,7 +119,8 @@ namespace MissionPlanner.Utilities
             }
 
             d["signed_firmware"] = true;
-
+            d["sha"] = Convert.ToBase64String(h);
+            Console.WriteLine("FW SHA: " + Convert.ToBase64String(h));
 
             return System.Text.ASCIIEncoding.ASCII.GetBytes(JsonConvert.SerializeObject(d, Formatting.Indented));
         }
