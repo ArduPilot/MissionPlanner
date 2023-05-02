@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace MissionPlanner
 {
@@ -121,7 +122,50 @@ namespace MissionPlanner
                 CustomMessageBox.Show("Error running script " + engine.GetService<ExceptionOperations>().FormatException(e));
             }
         }
+        private dynamic scriptcmd;
 
+
+        public void rungimbleScript(string filename)
+        {
+            try
+            {
+                Console.WriteLine("Run Script " + scope);
+
+                engine.CreateScriptSourceFromFile(filename).Execute(scope);
+                //scriptcmd = scope.GetVariable(controltype);
+                //var result = scriptcmd();
+                //Thread.Sleep(1000);
+
+                //scope.rightCMD();
+                while (true)
+                {
+                    Thread.Sleep(500);
+                    if (runcmd)
+                    {
+                        scriptcmd = scope.GetVariable(controlcmd__);
+                        var result = scriptcmd();
+                        runcmd = false;
+                    }
+
+
+                }
+                Console.WriteLine("Run Script Done");
+            }
+            catch (Exception e)
+            {
+                if (OutputWriter != null)
+                    OutputWriter.Write(engine.GetService<ExceptionOperations>().FormatException(e));
+                CustomMessageBox.Show("Error running script " + engine.GetService<ExceptionOperations>().FormatException(e));
+            }
+        }
+        private string controlcmd__ = "";
+        private Boolean runcmd = false;
+        public void controlcmd(string controltype, int sensivity)
+        {
+
+            controlcmd__ = controltype;
+            runcmd = true;
+        }
         public enum Conditional
         {
             NONE = 0,

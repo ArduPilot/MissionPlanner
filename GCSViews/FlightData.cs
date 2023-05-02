@@ -6343,18 +6343,26 @@ namespace MissionPlanner.GCSViews
         // gible up
         private void myButton10_Click(object sender, EventArgs e)
         {
-            trackBarPitch.Value = 80;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                trackBarYaw.Value * 100.0f, false);
-            System.Threading.Thread.Sleep(speedtime);
-            trackBarPitch.Value = -10;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                trackBarYaw.Value * 100.0f, false);
-            if (cammove[0] <= 1700)
+            if (controltype_ == 0)
             {
-                cammove[0] += speedtime;
+                trackBarPitch.Value = 80;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(speedtime);
+                trackBarPitch.Value = -10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                if (cammove[0] <= 1700)
+                {
+                    cammove[0] += speedtime;
+                }
             }
-            
+            else if (controltype_ == 1)
+            {
+
+                script.controlcmd("upCMD", 1);
+            }
+
         }
 
         private void myButton12_Click(object sender, EventArgs e)
@@ -6365,57 +6373,74 @@ namespace MissionPlanner.GCSViews
         // left gimble control
         private void myButton11_Click(object sender, EventArgs e)
         {
-            trackBarYaw.Value = 170;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-               trackBarYaw.Value * 100.0f, false);
-            System.Threading.Thread.Sleep(speedtime);
-            trackBarYaw.Value = 10;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                trackBarYaw.Value * 100.0f, false);
-            //cammove[1] += speedtime;
-            if (cammove[1] <14000)
+            if (controltype_ == 0)
             {
-                if (speedtime == 100)
-                {
-                    cammove[1] += (speedtime + 13);
-                }
-                else
-                {
-                    cammove[1] += speedtime;
-                }
+                trackBarYaw.Value = 170;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                   trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(speedtime);
+                trackBarYaw.Value = 10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
                 //cammove[1] += speedtime;
+                if (cammove[1] < 14000)
+                {
+                    if (speedtime == 100)
+                    {
+                        cammove[1] += (speedtime + 13);
+                    }
+                    else
+                    {
+                        cammove[1] += speedtime;
+                    }
+                    //cammove[1] += speedtime;
+                }
+                else if (cammove[1] >= 14000)
+                {
+                    cammove[1] = 0;
+                }
             }
-            else if (cammove[1] >= 14000)
+            else if (controltype_ == 1)
             {
-                cammove[1] = 0;
+
+                script.controlcmd("leftCMD", 1);
             }
         }
         // right gimble control
         private void myButton8_Click(object sender, EventArgs e)
         {
-            trackBarYaw.Value = -170;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-               trackBarYaw.Value * 100.0f, false);
-            System.Threading.Thread.Sleep(speedtime);
-            trackBarYaw.Value = -10;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                trackBarYaw.Value * 100.0f, false);
-            //cammove[1]-= speedtime;
-            if (cammove[1] > -14000)
+
+            if (controltype_ == 0)
             {
-                if (speedtime == 100)
+                trackBarYaw.Value = -170;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                   trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(speedtime);
+                trackBarYaw.Value = -10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                //cammove[1]-= speedtime;
+                if (cammove[1] > -14000)
                 {
-                    cammove[1] -=( speedtime+13);
+                    if (speedtime == 100)
+                    {
+                        cammove[1] -= (speedtime + 13);
+                    }
+                    else
+                    {
+                        cammove[1] -= speedtime;
+                    }
+
                 }
-                else
+                else if (cammove[1] <= -14000)
                 {
-                    cammove[1] -= speedtime;
+                    cammove[1] = 0;
                 }
-                
             }
-            else if (cammove[1] <= -14000)
+            else if (controltype_ == 1)
             {
-                cammove[1] = 0;
+
+                script.controlcmd("rightCMD", 1);
             }
         }
 
@@ -6436,20 +6461,30 @@ namespace MissionPlanner.GCSViews
         //gimble down
         private void myButton9_Click(object sender, EventArgs e)
         {
-            trackBarPitch.Value = -80;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                trackBarYaw.Value * 100.0f, false);
-            System.Threading.Thread.Sleep(speedtime);
-            trackBarPitch.Value = -10;
-            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                trackBarYaw.Value * 100.0f, false);
-            if (cammove[0] > -4000)
+            if (controltype_ == 0)
             {
-                cammove[0] -= speedtime;
+                trackBarPitch.Value = -80;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                System.Threading.Thread.Sleep(speedtime);
+                trackBarPitch.Value = -10;
+                MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    trackBarYaw.Value * 100.0f, false);
+                if (cammove[0] > -4000)
+                {
+                    cammove[0] -= speedtime;
+                }
+                else if (cammove[0] <= -4000)
+                {
+                    cammove[0] = -4400;
+                }
             }
-            else if(cammove[0] <= -4000){
-                cammove[0] = -4400;
+            else if (controltype_ == 1)
+            {
+
+                script.controlcmd("downCMD", 1);
             }
+           
             
         }
 
@@ -6513,6 +6548,132 @@ namespace MissionPlanner.GCSViews
         {
             cammove[0] = 0;
             cammove[1] = 0;
+        }
+
+        private string campyscript;
+        void run_controltype_script()
+        {
+            script = new Script(checkBoxRedirectOutput.Checked);
+            script.rungimbleScript(campyscript);
+            //script.runScript(selectedscript);
+            //scriptrunning = false;
+        }
+        private int controltype_ = 0;
+
+        private void Controltype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            controltype_ = Controltype.SelectedIndex;
+            string appPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            var currentDirectory = System.IO.Directory.GetCurrentDirectory();
+            campyscript = appPath + "\\camercontrolscript.py";
+            if (controltype_ == 0)
+            {
+                if (scriptthread != null)
+                {
+                    scriptthread.Abort();
+                }
+
+
+            }
+            else if (controltype_ == 1)
+            {
+                scriptthread = new Thread(() => run_controltype_script())
+                {
+                    IsBackground = true,
+                    Name = "rightCMD"
+                };
+
+
+                scriptthread.Start();
+            }
+        }
+
+        private void hoverAlt_Click(object sender, EventArgs e)
+        {
+
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                string alt = Settings.Instance["takeoff_alt", "5"];
+
+                if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Takeoff Alt", ref alt))
+                    return;
+
+                var altf = float.Parse(alt, CultureInfo.InvariantCulture);
+
+                Settings.Instance["takeoff_alt"] = altf.ToString();
+
+                MainV2.comPort.setMode("GUIDED");
+                if (!MainV2.comPort.BaseStream.IsOpen)
+                    return;
+
+                // arm the MAV
+                try
+                {
+                    var isitarmed = MainV2.comPort.MAV.cs.armed;
+                    var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+
+                    if (isitarmed)
+                        if (CustomMessageBox.Show("Are you sure you want to " + action, action,
+                                CustomMessageBox.MessageBoxButtons.YesNo) !=
+                            CustomMessageBox.DialogResult.Yes)
+                            return;
+                    StringBuilder sb = new StringBuilder();
+                    var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+                    {
+                        sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text)
+                            .TrimEnd('\0'));
+                        return true;
+                    }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    bool ans = MainV2.comPort.doARM(!isitarmed);
+                    MainV2.comPort.UnSubscribeToPacketType(sub);
+                    if (ans == false)
+                    {
+                        if (CustomMessageBox.Show(
+                                action + " failed.\n" + sb.ToString() + "\nForce " + action +
+                                " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
+                                action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
+                                CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                            CustomMessageBox.DialogResult.Yes)
+                        {
+                            ans = MainV2.comPort.doARM(!isitarmed, true);
+                            if (ans == false)
+                            {
+                                CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                }
+                try
+                {
+                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                        MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, altf);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+
+        }
+        // zoom Plus
+        private void myButton16_Click(object sender, EventArgs e)
+        {
+            script.controlcmd("calZoomCMD", 1);
+        }
+        // zoom sub
+        private void myButton15_Click(object sender, EventArgs e)
+        {
+            script.controlcmd("calZoomCMD_sub", 1);
+        }
+
+        private void zomm2x_Click(object sender, EventArgs e)
+        {
+            
+             script.controlcmd("calZoom2x", 1);
         }
     }
 }

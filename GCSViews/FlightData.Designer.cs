@@ -45,6 +45,7 @@ namespace MissionPlanner.GCSViews
             this.quickView1 = new MissionPlanner.Controls.QuickView();
             this.tabActions = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.hoverAlt = new MissionPlanner.Controls.MyButton();
             this.myButton12 = new MissionPlanner.Controls.MyButton();
             this.BUT_SendMSG = new MissionPlanner.Controls.MyButton();
             this.BUT_abortland = new MissionPlanner.Controls.MyButton();
@@ -71,6 +72,12 @@ namespace MissionPlanner.GCSViews
             this.BUT_setmode = new MissionPlanner.Controls.MyButton();
             this.tabCameracontrol = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.focus_plus = new MissionPlanner.Controls.MyButton();
+            this.zomm2x = new MissionPlanner.Controls.MyButton();
+            this.focus_minus = new MissionPlanner.Controls.MyButton();
+            this.Controltype = new System.Windows.Forms.ComboBox();
+            this.myButton16 = new MissionPlanner.Controls.MyButton();
+            this.myButton15 = new MissionPlanner.Controls.MyButton();
             this.myButton14 = new MissionPlanner.Controls.MyButton();
             this.myButton13 = new MissionPlanner.Controls.MyButton();
             this.myButton11 = new MissionPlanner.Controls.MyButton();
@@ -241,8 +248,6 @@ namespace MissionPlanner.GCSViews
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
-            this.myButton15 = new MissionPlanner.Controls.MyButton();
-            this.myButton16 = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -725,6 +730,7 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.hoverAlt, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.myButton12, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_SendMSG, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_abortland, 4, 4);
@@ -750,6 +756,18 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.BUT_quickauto, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUT_setmode, 1, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // hoverAlt
+            // 
+            this.hoverAlt.ColorMouseDown = System.Drawing.Color.Empty;
+            this.hoverAlt.ColorMouseOver = System.Drawing.Color.Empty;
+            this.hoverAlt.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.hoverAlt, "hoverAlt");
+            this.hoverAlt.Name = "hoverAlt";
+            this.hoverAlt.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.hoverAlt, resources.GetString("hoverAlt.ToolTip"));
+            this.hoverAlt.UseVisualStyleBackColor = true;
+            this.hoverAlt.Click += new System.EventHandler(this.hoverAlt_Click);
             // 
             // myButton12
             // 
@@ -1085,6 +1103,10 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPanel3
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.focus_plus, 0, 6);
+            this.tableLayoutPanel3.Controls.Add(this.zomm2x, 0, 6);
+            this.tableLayoutPanel3.Controls.Add(this.focus_minus, 0, 6);
+            this.tableLayoutPanel3.Controls.Add(this.Controltype, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.myButton16, 0, 5);
             this.tableLayoutPanel3.Controls.Add(this.myButton15, 2, 5);
             this.tableLayoutPanel3.Controls.Add(this.myButton14, 2, 3);
@@ -1101,6 +1123,76 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel3.Controls.Add(this.richTextBox1, 0, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
+            // 
+            // focus_plus
+            // 
+            this.focus_plus.ColorMouseDown = System.Drawing.Color.Empty;
+            this.focus_plus.ColorMouseOver = System.Drawing.Color.Empty;
+            this.focus_plus.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.focus_plus, "focus_plus");
+            this.focus_plus.Name = "focus_plus";
+            this.focus_plus.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.focus_plus, resources.GetString("focus_plus.ToolTip"));
+            this.focus_plus.UseVisualStyleBackColor = true;
+            // 
+            // zomm2x
+            // 
+            this.zomm2x.ColorMouseDown = System.Drawing.Color.Empty;
+            this.zomm2x.ColorMouseOver = System.Drawing.Color.Empty;
+            this.zomm2x.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.zomm2x, "zomm2x");
+            this.zomm2x.Name = "zomm2x";
+            this.zomm2x.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.zomm2x, resources.GetString("zomm2x.ToolTip"));
+            this.zomm2x.UseVisualStyleBackColor = true;
+            this.zomm2x.Click += new System.EventHandler(this.zomm2x_Click);
+            // 
+            // focus_minus
+            // 
+            this.focus_minus.ColorMouseDown = System.Drawing.Color.Empty;
+            this.focus_minus.ColorMouseOver = System.Drawing.Color.Empty;
+            this.focus_minus.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.focus_minus, "focus_minus");
+            this.focus_minus.Name = "focus_minus";
+            this.focus_minus.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.focus_minus, resources.GetString("focus_minus.ToolTip"));
+            this.focus_minus.UseVisualStyleBackColor = true;
+            // 
+            // Controltype
+            // 
+            resources.ApplyResources(this.Controltype, "Controltype");
+            this.Controltype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Controltype.DropDownWidth = 150;
+            this.Controltype.FormattingEnabled = true;
+            this.Controltype.Items.AddRange(new object[] {
+            resources.GetString("Controltype.Items"),
+            resources.GetString("Controltype.Items1")});
+            this.Controltype.Name = "Controltype";
+            this.Controltype.SelectedIndexChanged += new System.EventHandler(this.Controltype_SelectedIndexChanged);
+            // 
+            // myButton16
+            // 
+            this.myButton16.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton16.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton16.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton16, "myButton16");
+            this.myButton16.Name = "myButton16";
+            this.myButton16.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton16, resources.GetString("myButton16.ToolTip"));
+            this.myButton16.UseVisualStyleBackColor = true;
+            this.myButton16.Click += new System.EventHandler(this.myButton16_Click);
+            // 
+            // myButton15
+            // 
+            this.myButton15.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton15.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton15.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton15, "myButton15");
+            this.myButton15.Name = "myButton15";
+            this.myButton15.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton15, resources.GetString("myButton15.ToolTip"));
+            this.myButton15.UseVisualStyleBackColor = true;
+            this.myButton15.Click += new System.EventHandler(this.myButton15_Click);
             // 
             // myButton14
             // 
@@ -1233,8 +1325,6 @@ namespace MissionPlanner.GCSViews
             resources.GetString("comboBox1.Items1")});
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            this.comboBox1.SelectedIndex = 0;
-
             // 
             // richTextBox1
             // 
@@ -2972,28 +3062,6 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // myButton15
-            // 
-            this.myButton15.ColorMouseDown = System.Drawing.Color.Empty;
-            this.myButton15.ColorMouseOver = System.Drawing.Color.Empty;
-            this.myButton15.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.myButton15, "myButton15");
-            this.myButton15.Name = "myButton15";
-            this.myButton15.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.myButton15, resources.GetString("myButton15.ToolTip"));
-            this.myButton15.UseVisualStyleBackColor = true;
-            // 
-            // myButton16
-            // 
-            this.myButton16.ColorMouseDown = System.Drawing.Color.Empty;
-            this.myButton16.ColorMouseOver = System.Drawing.Color.Empty;
-            this.myButton16.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.myButton16, "myButton16");
-            this.myButton16.Name = "myButton16";
-            this.myButton16.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.myButton16, resources.GetString("myButton16.ToolTip"));
-            this.myButton16.UseVisualStyleBackColor = true;
-            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -3313,6 +3381,11 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton myButton14;
         private Controls.MyButton myButton16;
         private Controls.MyButton myButton15;
+        private ComboBox Controltype;
+        private Controls.MyButton focus_plus;
+        private Controls.MyButton zomm2x;
+        private Controls.MyButton focus_minus;
+        private Controls.MyButton hoverAlt;
         //private TabPage tabPage1;
     }
 }
