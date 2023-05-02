@@ -653,10 +653,10 @@ namespace MissionPlanner.Controls
                 var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
 
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
-                float asfloat = 0;
-                if (float.TryParse((string)Params[e.ColumnIndex, e.RowIndex].Value, out asfloat))
+                double asdouble = 0;
+                if (double.TryParse((string)Params[e.ColumnIndex, e.RowIndex].Value, out asdouble))
                 {
-                    _changes[Params[Command.Index, e.RowIndex].Value] = asfloat;
+                    _changes[Params[Command.Index, e.RowIndex].Value] = asdouble;
                 }
                 else
                 {
