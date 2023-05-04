@@ -7311,7 +7311,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         {
                             var value = item.Value;
                             quickadd = true;
-                            callMeDrag(item.Key, value.Lat, value.Lng, 0, altsettype.Leave);
+                            callMeDrag(item.Key, value.Lat, value.Lng, 0, altsettype.VerifyDrag);
                             quickadd = false;
                         }
 
