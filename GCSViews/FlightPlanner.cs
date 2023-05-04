@@ -1119,7 +1119,7 @@ namespace MissionPlanner.GCSViews
             if (altsettype == altsettype.VerifyDrag && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 if (CHK_verifyheight.Checked &&
-                    (altmode) CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
+                    (altmode) Commands.Rows[selectedrow].Cells[Frame.Index].Value != altmode.Terrain) //Drag with verifyheight // use srtm data
                 {
                     cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
                     float ans;
@@ -1184,12 +1184,12 @@ namespace MissionPlanner.GCSViews
                 if (CHK_verifyheight.Checked) // use srtm data
                 {
                     // is absolute but no verify
-                    if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+                    if ((altmode)Commands.Rows[selectedrow].Cells[Frame.Index].Value == altmode.Absolute)
                     {
                         //abs
                         alt += srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt;
                     }
-                    else
+                    else if ((altmode)Commands.Rows[selectedrow].Cells[Frame.Index].Value == altmode.Relative)
                     {
                         //relative and verify
                         alt += (srtm.getAltitude(lat, lng).alt - srtm.getAltitude(
