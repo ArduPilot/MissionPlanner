@@ -353,6 +353,9 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.TXT_homealt, "TXT_homealt");
             this.TXT_homealt.Name = "TXT_homealt";
             this.TXT_homealt.TextChanged += new System.EventHandler(this.TXT_homealt_TextChanged);
+            this.TXT_homealt.Enter += new System.EventHandler(this.TXT_homealt_Enter);
+            this.TXT_homealt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_homealt_KeyPress);
+            this.TXT_homealt.Leave += new System.EventHandler(this.TXT_homealt_Leave);
             // 
             // TXT_homelng
             // 

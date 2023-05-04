@@ -741,7 +741,7 @@ namespace MissionPlanner.GCSViews
             {
                 // auto update home alt
                 updateUndoBuffer(true);
-                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt).ToString();
+                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt).ToString("0.00");
 
                 TXT_homelat.Text = lat.ToString();
                 TXT_homelng.Text = lng.ToString();
@@ -4207,7 +4207,7 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.lat != 0)
             {
-                TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0");
+                TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0.00");
                 TXT_homelat.Text = MainV2.comPort.MAV.cs.lat.ToString();
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.lng.ToString();
 
@@ -5269,8 +5269,13 @@ namespace MissionPlanner.GCSViews
                                 cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                                 TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                                 cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
+
+                                suppress_textchanged = true;
                                 TXT_homealt.Text =
                                     (double.Parse(cellhome.Value.ToString()) * CurrentState.multiplieralt).ToString();
+                                previous_homealt = TXT_homealt.Text;
+                                suppress_textchanged = false;
+                                
                             }
                         }
                     }
@@ -6564,8 +6569,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        private bool suppress_textchanged = false;
+        private string previous_homealt = "";
         public void TXT_homealt_TextChanged(object sender, EventArgs e)
         {
+            if (suppress_textchanged)
+                return;
+            
             sethome = false;
             try
             {
@@ -6575,6 +6585,33 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 log.Error(ex);
             }
+
+            if (CHK_verifyheight.Checked && Commands.Rows.Count > 0 && previous_homealt != TXT_homealt.Text)
+            {
+                double prev, next;
+                if(double.TryParse(previous_homealt, out prev)
+                    && double.TryParse(TXT_homealt.Text, out next)
+                    && CustomMessageBox.Show(
+                        "Update all relative heights in reference new home alt?",
+                        "Update Heights", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                {
+                    for (int a = 0; a < Commands.Rows.Count; a++)
+                    {
+                        // If the frame is Relative, add the height difference to the altitude
+                        if((altmode)Commands[Frame.Index, a].Value == altmode.Relative)
+                        {
+                            double alt;
+                            if(double.TryParse(Commands[Alt.Index, a].Value.ToString(), out alt))
+                            {
+                                alt += prev - next;
+                                Commands[Alt.Index, a].Value = alt.ToString("0.00");
+                            }
+                        }
+                    }
+                }
+            }
+
+            previous_homealt = TXT_homealt.Text;
 
             writeKML();
         }
@@ -6758,7 +6795,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
+                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString("0.00");
 
                 writeKML();
             }
@@ -6769,7 +6806,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt.ToString();
+                TXT_homealt.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt.ToString("0.00");
 
                 writeKML();
             }
@@ -7939,6 +7976,29 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             var ans = GDAL.GDALProvider.Instance.opacity;
             if (InputBox.Show("Opacity 0.0-1.0", "Enter opacity (0.0-1.0)", ref ans) == DialogResult.OK)
                 GDAL.GDALProvider.Instance.opacity = double.Parse(InputBox.value);
+        }
+
+        // Suppress the textchanged handler until after the user is done typing
+        private void TXT_homealt_Enter(object sender, EventArgs e)
+        {
+            suppress_textchanged = true;
+            previous_homealt = TXT_homealt.Text;
+        }
+
+        // Run the textchanged handler when the user leaves
+        private void TXT_homealt_Leave(object sender, EventArgs e)
+        {
+            suppress_textchanged = false;
+            TXT_homealt_TextChanged(null, null);
+        }
+
+        // Run the textchanged handler when the user presses Enter
+        private void TXT_homealt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                TXT_homealt_Leave(null, null);
+            }
         }
     }
 }
