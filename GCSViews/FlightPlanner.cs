@@ -1125,20 +1125,17 @@ namespace MissionPlanner.GCSViews
                     float ans;
                     if (float.TryParse(cell.Value.ToString(), out ans))
                     {
-                        ans = (int) ans;
-
                         DataGridViewTextBoxCell celllat =
                             Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
                         DataGridViewTextBoxCell celllon =
                             Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
-                        int oldsrtm =
-                            (int)
-                            ((srtm.getAltitude(double.Parse(celllat.Value.ToString()),
-                                double.Parse(celllon.Value.ToString())).alt) * CurrentState.multiplieralt);
-                        int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt);
-                        int newh = (int) (ans + newsrtm - oldsrtm);
+                        double oldsrtm =
+                            (srtm.getAltitude(double.Parse(celllat.Value.ToString()),
+                                double.Parse(celllon.Value.ToString())).alt) * CurrentState.multiplieralt;
+                        double newsrtm = (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt;
+                        double newh = ans + newsrtm - oldsrtm;
 
-                        cell.Value = newh;
+                        cell.Value = newh.ToString("0.00");
 
                         cell.DataGridView.EndEdit();
                     }
@@ -1190,15 +1187,14 @@ namespace MissionPlanner.GCSViews
                     if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
                     {
                         //abs
-                        alt += (int)(srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt);
+                        alt += srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt;
                     }
                     else
                     {
                         //relative and verify
-                        alt += (int)(srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt) -
-                                (int)(srtm.getAltitude(
+                        alt += (srtm.getAltitude(lat, lng).alt - srtm.getAltitude(
                                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt);
+                                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt) * CurrentState.multiplieralt;
                     }
                 }
 
