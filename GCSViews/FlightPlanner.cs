@@ -323,7 +323,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                int.Parse(TXT_DefaultAlt.Text);
+                float.Parse(TXT_DefaultAlt.Text);
             }
             catch
             {
@@ -550,7 +550,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void AddWPToMap(double lat, double lng, int alt)
+        public void AddWPToMap(double lat, double lng, double alt)
         {
             if (polygongridmode)
             {
@@ -729,7 +729,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void callMeDrag(string pointno, double lat, double lng, int alt)
+        public void callMeDrag(string pointno, double lat, double lng, double alt, altsettype altsettype = altsettype.Set)
         {
             if (pointno == "")
             {
@@ -766,7 +766,7 @@ namespace MissionPlanner.GCSViews
                 return;
             }
             updateUndoBuffer(true);
-            setfromMap(lat, lng, alt);
+            setfromMap(lat, lng, alt, -1, altsettype);
         }
 
         public T DeepClone<T>(T obj)
@@ -1092,6 +1092,13 @@ namespace MissionPlanner.GCSViews
             }
 
         }
+        
+        public enum altsettype
+        {
+            Set,
+            Leave,
+            VerifyDrag
+        }
 
         /// <summary>
         /// Actualy Sets the values into the datagrid and verifys height if turned on
@@ -1099,7 +1106,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void setfromMap(double lat, double lng, int alt, double p1 = -1)
+        public void setfromMap(double lat, double lng, double alt, double p1 = -1, altsettype altsettype = altsettype.Set)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -1109,7 +1116,7 @@ namespace MissionPlanner.GCSViews
 
 
             DataGridViewTextBoxCell cell;
-            if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
+            if (altsettype == altsettype.VerifyDrag && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 if (CHK_verifyheight.Checked &&
                     (altmode) CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
@@ -1152,7 +1159,7 @@ namespace MissionPlanner.GCSViews
                 cell.DataGridView.EndEdit();
             }
 
-            if (alt != -1 && alt != -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
+            if (altsettype == altsettype.Set && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
 
@@ -1167,72 +1174,38 @@ namespace MissionPlanner.GCSViews
                         if (DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
                             return;
                         TXT_homealt.Text = homealt;
-                    }
-
-                    int results1;
-                    if (!int.TryParse(TXT_DefaultAlt.Text, out results1))
-                    {
-                        CustomMessageBox.Show("Your default alt is not valid");
-                        return;
-                    }
-
-                    if (results1 == 0)
-                    {
-                        string defalt = "100";
-                        if (DialogResult.Cancel == InputBox.Show("Default Alt", "Default Altitude", ref defalt))
+                        pass = double.TryParse(TXT_homealt.Text, out result);
+                        if (pass == false)
+                        {
+                            CustomMessageBox.Show("Invalid home altitude");
                             return;
-                        TXT_DefaultAlt.Text = defalt;
+                        }
                     }
                 }
 
-                cell.Value = TXT_DefaultAlt.Text;
-
-                float ans;
-                if (float.TryParse(cell.Value.ToString(), out ans))
+                // not online and verify alt via srtm
+                if (CHK_verifyheight.Checked) // use srtm data
                 {
-                    ans = (int) ans;
-                    if (alt != 0) // use passed in value;
-                        cell.Value = alt.ToString();
-                    if (ans == 0) // default
-                        cell.Value = 50;
-                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2))
-                        cell.Value = 15;
-
-                    // not online and verify alt via srtm
-                    if (CHK_verifyheight.Checked) // use srtm data
+                    // is absolute but no verify
+                    if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
                     {
-                        // is absolute but no verify
-                        if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-                        {
-                            //abs
-                            cell.Value =
-                                ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text)).ToString();
-                        }
-                        else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
-                        {
-                            cell.Value = int.Parse(TXT_DefaultAlt.Text);
-                        }
-                        else
-                        {
-                            //relative and verify
-                            cell.Value =
-                                ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text) -
-                                 (int)
-                                 srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
-                                .ToString();
-                        }
+                        //abs
+                        alt += (int)(srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt);
                     }
+                    else
+                    {
+                        //relative and verify
+                        alt += (int)(srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt) -
+                                (int)(srtm.getAltitude(
+                                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt);
+                    }
+                }
 
-                    cell.DataGridView.EndEdit();
-                }
-                else
-                {
-                    CustomMessageBox.Show("Invalid Home or wp Alt");
-                    cell.Style.BackColor = Color.Red;
-                }
+                cell.Value = alt.ToString("0.00");
+
+                cell.DataGridView.EndEdit();
+
             }
 
             // convert to utm
@@ -3022,7 +2995,7 @@ namespace MissionPlanner.GCSViews
 
                 PointLatLng pll = new PointLatLng(lat2 * MathHelper.rad2deg, lon2 * MathHelper.rad2deg);
 
-                setfromMap(pll.Lat, pll.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+                setfromMap(pll.Lat, pll.Lng, float.Parse(TXT_DefaultAlt.Text));
             }
 
             quickadd = false;
@@ -3031,7 +3004,7 @@ namespace MissionPlanner.GCSViews
 
         public void currentPositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddWPToMap(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, (int) MainV2.comPort.MAV.cs.alt);
+            AddWPToMap(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt);
         }
 
         private Locationwp DataViewtoLocationwp(int a)
@@ -3248,7 +3221,7 @@ namespace MissionPlanner.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
             updateUndoBuffer(false);
-            setfromMap(ans.Lat, ans.Lng, (int) ans.Alt);
+            setfromMap(ans.Lat, ans.Lng, float.Parse(TXT_DefaultAlt.Text));
         }
 
         public void FenceExclusionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3362,11 +3335,11 @@ namespace MissionPlanner.GCSViews
                 // add delay if supplied
                 Commands.Rows[rowIndex].Cells[Param1.Index].Value = p1;
 
-                setfromMap(y, x, (int) z, Math.Round(p1, 1));
+                setfromMap(y, x, z, Math.Round(p1, 1));
             }
             else if (cmd == MAVLink.MAV_CMD.LOITER_UNLIM)
             {
-                setfromMap(y, x, (int) z);
+                setfromMap(y, x, z);
             }
             else
             {
@@ -4023,7 +3996,7 @@ namespace MissionPlanner.GCSViews
                 ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
 
                 updateUndoBuffer(false);
-                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, float.Parse(TXT_DefaultAlt.Text));
             }
         }
 
@@ -4047,7 +4020,7 @@ namespace MissionPlanner.GCSViews
                 ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
 
                 updateUndoBuffer(false);
-                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, float.Parse(TXT_DefaultAlt.Text));
             }
         }
 
@@ -4709,7 +4682,7 @@ namespace MissionPlanner.GCSViews
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TURNS.ToString());
 
             updateUndoBuffer(false);
-            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -4722,7 +4695,7 @@ namespace MissionPlanner.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_UNLIM.ToString());
 
-            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -4742,7 +4715,7 @@ namespace MissionPlanner.GCSViews
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TIME.ToString());
 
             updateUndoBuffer(false);
-            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -6306,7 +6279,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             ChangeColumnHeader(MAVLink.MAV_CMD.DO_SET_ROI.ToString());
 
             updateUndoBuffer(false);
-            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -6469,7 +6442,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                         var newlla = newpos.ToLLA();
                         quickadd = true;
-                        AddWPToMap(newlla.Lat, newlla.Lng, int.Parse(TXT_DefaultAlt.Text));
+                        AddWPToMap(newlla.Lat, newlla.Lng, float.Parse(TXT_DefaultAlt.Text));
 
                     }
                 }
@@ -6583,7 +6556,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             float isNumber = 0;
             if (e.KeyChar.ToString() == "\b")
                 return;
-            e.Handled = !float.TryParse(e.KeyChar.ToString(), out isNumber);
+            e.Handled = !float.TryParse(TXT_DefaultAlt.Text + e.KeyChar.ToString(), out isNumber);
         }
 
         public void TXT_DefaultAlt_Leave(object sender, EventArgs e)
@@ -7310,7 +7283,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }
                     else
                     {
-                        AddWPToMap(currentMarker.Position.Lat, currentMarker.Position.Lng, 0);
+                        AddWPToMap(currentMarker.Position.Lat, currentMarker.Position.Lng, float.Parse(TXT_DefaultAlt.Text));
                     }
                 }
                 else
@@ -7342,7 +7315,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         {
                             var value = item.Value;
                             quickadd = true;
-                            callMeDrag(item.Key, value.Lat, value.Lng, -1);
+                            callMeDrag(item.Key, value.Lat, value.Lng, 0, altsettype.Leave);
                             quickadd = false;
                         }
 
@@ -7375,7 +7348,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         else
                         {
                             callMeDrag(CurentRectMarker.InnerMarker.Tag.ToString(), currentMarker.Position.Lat,
-                                currentMarker.Position.Lng, -2);
+                                currentMarker.Position.Lng, 0, altsettype.VerifyDrag);
                         }
 
                         CurentRectMarker = null;
