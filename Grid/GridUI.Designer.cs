@@ -1313,6 +1313,7 @@
             // 
             // NUM_altitude
             // 
+            this.NUM_altitude.DecimalPlaces = 2;
             this.NUM_altitude.Increment = new decimal(new int[] {
             10,
             0,

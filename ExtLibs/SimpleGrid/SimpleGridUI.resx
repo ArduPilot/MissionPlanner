@@ -151,7 +151,7 @@
     <value>153, 63</value>
   </data>
   <data name="lbl_distbetweenlines.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>66, 16</value>
   </data>
   <data name="lbl_distbetweenlines.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -178,7 +178,7 @@
     <value>12, 63</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 13</value>
+    <value>118, 16</value>
   </data>
   <data name="label25.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -205,7 +205,7 @@
     <value>153, 46</value>
   </data>
   <data name="lbl_strips.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>66, 16</value>
   </data>
   <data name="lbl_strips.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -232,7 +232,7 @@
     <value>12, 46</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 13</value>
+    <value>79, 16</value>
   </data>
   <data name="label33.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -259,7 +259,7 @@
     <value>154, 33</value>
   </data>
   <data name="lbl_distance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>66, 16</value>
   </data>
   <data name="lbl_distance.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -286,7 +286,7 @@
     <value>154, 20</value>
   </data>
   <data name="lbl_area.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>66, 16</value>
   </data>
   <data name="lbl_area.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -313,7 +313,7 @@
     <value>13, 33</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>66, 16</value>
   </data>
   <data name="label23.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -340,7 +340,7 @@
     <value>13, 20</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 13</value>
+    <value>42, 16</value>
   </data>
   <data name="label22.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -397,7 +397,7 @@
     <value>11, 177</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 13</value>
+    <value>77, 16</value>
   </data>
   <data name="label24.TabIndex" type="System.Int32, mscorlib">
     <value>64</value>
@@ -421,7 +421,7 @@
     <value>147, 175</value>
   </data>
   <data name="NUM_UpDownFlySpeed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_UpDownFlySpeed.TabIndex" type="System.Int32, mscorlib">
     <value>63</value>
@@ -448,7 +448,7 @@
     <value>10, 99</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>113, 16</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -472,7 +472,7 @@
     <value>147, 97</value>
   </data>
   <data name="NUM_spacing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_spacing.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -499,7 +499,7 @@
     <value>11, 151</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 13</value>
+    <value>93, 16</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -529,7 +529,7 @@
     <value>11, 47</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 13</value>
+    <value>77, 16</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -553,7 +553,7 @@
     <value>147, 149</value>
   </data>
   <data name="NUM_overshoot2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_overshoot2.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -574,7 +574,7 @@
     <value>147, 45</value>
   </data>
   <data name="NUM_angle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_angle.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -595,7 +595,7 @@
     <value>147, 19</value>
   </data>
   <data name="NUM_altitude.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_altitude.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -622,7 +622,7 @@
     <value>10, 204</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 13</value>
+    <value>65, 16</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -679,7 +679,7 @@
     <value>11, 21</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 13</value>
+    <value>51, 16</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -703,7 +703,7 @@
     <value>106, 201</value>
   </data>
   <data name="CMB_startfrom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 21</value>
+    <value>103, 24</value>
   </data>
   <data name="CMB_startfrom.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -730,7 +730,7 @@
     <value>10, 73</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 13</value>
+    <value>105, 16</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -754,7 +754,7 @@
     <value>147, 71</value>
   </data>
   <data name="NUM_Distance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_Distance.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -775,7 +775,7 @@
     <value>147, 123</value>
   </data>
   <data name="NUM_overshoot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>62, 22</value>
   </data>
   <data name="NUM_overshoot.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -802,7 +802,7 @@
     <value>11, 125</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 13</value>
+    <value>93, 16</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -856,7 +856,7 @@
     <value>87, 19</value>
   </data>
   <data name="CHK_internals.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
+    <value>76, 20</value>
   </data>
   <data name="CHK_internals.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -886,7 +886,7 @@
     <value>8, 66</value>
   </data>
   <data name="chk_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 17</value>
+    <value>51, 20</value>
   </data>
   <data name="chk_grid.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -916,7 +916,7 @@
     <value>8, 43</value>
   </data>
   <data name="chk_markers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 17</value>
+    <value>75, 20</value>
   </data>
   <data name="chk_markers.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -946,7 +946,7 @@
     <value>8, 20</value>
   </data>
   <data name="chk_boundary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 17</value>
+    <value>84, 20</value>
   </data>
   <data name="chk_boundary.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -991,13 +991,13 @@
     <value>1</value>
   </data>
   <data name="tabSimple.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabSimple.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabSimple.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 511</value>
+    <value>245, 508</value>
   </data>
   <data name="tabSimple.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>

@@ -893,11 +893,11 @@ namespace MissionPlanner.Grid
             {
                 if ((tag == "S" || tag == "SM") && chk_spline.Checked)
                 {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.SPLINE_WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * CurrentState.multiplierdist), gridobject);
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.SPLINE_WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt * CurrentState.multiplierdist, gridobject);
                 }
                 else
                 {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * CurrentState.multiplierdist), gridobject);
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt * CurrentState.multiplierdist, gridobject);
                 }
             }
         }
@@ -1633,14 +1633,14 @@ namespace MissionPlanner.Grid
                         if (plugin.Host.cs.firmware == Firmwares.ArduCopter2)
                         {
                             var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
-                                (int)(30 * CurrentState.multiplierdist), gridobject);
+                                30 * CurrentState.multiplierdist, gridobject);
 
                             wpsplitstart.Add(wpno);
                         }
                         else
                         {
                             var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
-                                (int)(30 * CurrentState.multiplierdist), gridobject);
+                                30 * CurrentState.multiplierdist, gridobject);
 
                             wpsplitstart.Add(wpno);
                         }
