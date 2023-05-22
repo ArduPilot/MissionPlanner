@@ -356,6 +356,7 @@ namespace MissionPlanner.GeoRef
                 using (var sr = new DFLogBuffer(File.OpenRead(fn)))
                 {
                     //FMT, 146, 43, CAM, QIHLLeeeccC, TimeUS,GPSTime,GPSWeek,Lat,Lng,Alt,RelAlt,GPSAlt,Roll,Pitch,Yaw
+                    //        "CAM", "QBHIHLLeeeccC","TimeUS,I,Img,GPSTime,GPSWeek,Lat,Lng,Alt,RelAlt,GPSAlt,R,P,Y
                     //FMT, 198, 17, RFND, QCBCB, TimeUS,Dist1,Orient1,Dist2,Orient2
                     foreach (var item in sr.GetEnumeratorType(new string[] { "CAM", "RFND" }))
                     {
@@ -370,6 +371,13 @@ namespace MissionPlanner.GeoRef
                             int rindex = sr.dflog.FindMessageOffset("CAM", "Roll");
                             int pindex = sr.dflog.FindMessageOffset("CAM", "Pitch");
                             int yindex = sr.dflog.FindMessageOffset("CAM", "Yaw");
+
+                            if (rindex == -1)
+                                rindex = sr.dflog.FindMessageOffset("CAM", "R");
+                            if (pindex == -1)
+                                pindex = sr.dflog.FindMessageOffset("CAM", "P");
+                            if (yindex == -1)
+                                yindex = sr.dflog.FindMessageOffset("CAM", "Y");
 
                             int gtimeindex = sr.dflog.FindMessageOffset("CAM", "GPSTime");
                             int gweekindex = sr.dflog.FindMessageOffset("CAM", "GPSWeek");
