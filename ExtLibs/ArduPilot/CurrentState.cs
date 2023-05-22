@@ -20,10 +20,19 @@ namespace MissionPlanner
         [JsonIgnore][IgnoreDataMember] public static ISpeech Speech;
 
         // multipliers
+        /// <summary>
+        /// Convert the SI unit (m) to the display unit *
+        /// </summary>
         public static float multiplierdist = 1;
         public static string DistanceUnit = "";
+        /// <summary>
+        /// Convert the SI unit (ms) to the display unit *
+        /// </summary>
         public static float multiplierspeed = 1;
         public static string SpeedUnit = "";
+        /// <summary>
+        /// Convert the SI unit (m) to the display unit *
+        /// </summary>
         public static float multiplieralt = 1;
         public static string AltUnit = "";
 
