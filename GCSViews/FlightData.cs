@@ -3736,7 +3736,7 @@ namespace MissionPlanner.GCSViews
 
                             foreach (var mark in MainV2.comPort.MAV.rallypoints.Values)
                             {
-                                rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLngAlt(mark)));
+                                rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLngAlt(mark), CurrentState.multiplieralt));
                             }
 
                             geofence.Clear();

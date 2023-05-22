@@ -4403,13 +4403,13 @@ namespace MissionPlanner.GCSViews
 
                                 rallypointoverlay.Markers.Add(
                                     new GMapMarkerRallyPt(new PointLatLngAlt(rally.lat / 1e7, rally.lng / 1e7,
-                                        rally.alt)));
+                                        rally.alt), CurrentState.multiplieralt));
                             }
                             else
                             {
                                 rallypointoverlay.Markers.Add(
                                     new GMapMarkerRallyPt(new PointLatLngAlt(rally.lat / 1e7, rally.lng / 1e7,
-                                        rally.alt)));
+                                        rally.alt), CurrentState.multiplieralt));
                             }
 
                             a++;
@@ -6265,12 +6265,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 PointLatLngAlt rallypt = new PointLatLngAlt(MouseDownStart.Lat, MouseDownStart.Lng,
                     alt / CurrentState.multiplieralt, "Rally Point");
                 rallypointoverlay.Markers.Add(
-                    new GMapMarkerRallyPt(rallypt)
+                    new GMapMarkerRallyPt(rallypt, CurrentState.multiplieralt)
                     {
-                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                        ToolTipText = "Rally Point" + "\nAlt: " + alt,
-                        Tag = rallypointoverlay.Markers.Count,
-                        Alt = (int) rallypt.Alt
+                        Tag = rallypointoverlay.Markers.Count
                     }
                 );
             }
