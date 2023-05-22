@@ -535,7 +535,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 FileDialog fd = new OpenFileDialog();
                 fd.RestoreDirectory = true;
-                fd.Filter = "*.bin|*.bin";
+                fd.Filter = "*.bin|*.bin|*.*|*.*";
                 var dia = fd.ShowDialog();
 
                 if (fd.CheckFileExists && dia == DialogResult.OK)
