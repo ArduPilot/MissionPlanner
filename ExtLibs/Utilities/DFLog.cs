@@ -44,7 +44,7 @@ namespace MissionPlanner.Utilities
                 get
                 {
                     // always return a time relative to the gps start time
-                    var time = parent.gpsstarttime.AddMilliseconds(timems - parent.msoffset);
+                    var time = parent.gpsstarttime.AddTicks((Int64)((timems - parent.msoffset) * 10000));
                     parent.lasttime = time;
                     return time;
                 }
@@ -95,8 +95,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            int _timems;
-            public int timems
+            double _timems;
+            public double timems
             {
                 get
                 {
@@ -116,7 +116,7 @@ namespace MissionPlanner.Utilities
                         index = parent.FindMessageOffset(msgtype, "TimeUS");
                         if (index >= 0)
                         {
-                            _timems = (int)(long.Parse(raw[index].ToString()) / 1000);
+                            _timems = (long.Parse(raw[index].ToString()) / 1000.0);
                             return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "T");
