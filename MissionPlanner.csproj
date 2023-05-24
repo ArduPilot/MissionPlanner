@@ -675,6 +675,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Antenna\TrackerGeneric.cs" />
+    <Compile Include="CamControl.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Controls\DroneCANSubscriber.cs">
       <SubType>UserControl</SubType>

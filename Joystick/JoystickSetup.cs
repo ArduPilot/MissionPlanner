@@ -4,6 +4,7 @@ using SharpDX.DirectInput;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 
@@ -15,7 +16,7 @@ namespace MissionPlanner.Joystick
 
         int noButtons = 0;
         private int maxaxis = 16;
-
+        
         public JoystickSetup()
         {
             InitializeComponent();
@@ -330,7 +331,6 @@ namespace MissionPlanner.Joystick
         private void BUT_detbutton_Click(object sender, EventArgs e)
         {
             string name = ((MyButton)sender).Name.Replace("mybut", "");
-
             ComboBox cmb = (ComboBox)(this.Controls.Find("cmbbutton" + name, false)[0]);
             cmb.Text = JoystickBase.getPressedButton(CMB_joysticks.Text).ToString();
         }

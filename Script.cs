@@ -35,8 +35,10 @@ namespace MissionPlanner
             paths.Add(Settings.GetRunningDirectory() + "lib");
             paths.Add(Settings.GetRunningDirectory());
             engine.SetSearchPaths(paths);
-
             scope = engine.CreateScope();
+            //engine.ExecuteFile("get-pip.py", scope);
+            //var pip = scope.GetVariable("pip");
+           // pip.main(new string[] { "install", "requests" });
 
             var all = System.Reflection.Assembly.GetExecutingAssembly();
             var asss = AppDomain.CurrentDomain.GetAssemblies();

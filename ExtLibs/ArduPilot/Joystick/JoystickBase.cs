@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
+using static alglib;
+
 
 namespace MissionPlanner.Joystick
 {
@@ -19,7 +22,9 @@ namespace MissionPlanner.Joystick
         bool[] buttonpressed = new bool[128];
         public string name;
         public bool elevons = false;
+        public bool scriptcontrolenabled=false;
 
+        public int camtype = 0;
         public static PlatformID pid = Environment.OSVersion.Platform;
 
         public bool manual_control = false;
@@ -48,7 +53,213 @@ namespace MissionPlanner.Joystick
         {
             get { return _Interface(); }
         }
+        //-----------------------camera control--------------------
+        // # 30x camera
+        static ushort[] wCRC_Table = new ushort[] { 0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401, 0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400 };
+        static byte[] Ctrstr = Array.Empty<byte>();
+        static byte[] head_up = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x04, 0x00, 0x00, 0xf4, 0x20, 0x00, 0x00 };
+        static byte[] head_down = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x04, 0x00, 0x00, 0xf4, 0x50, 0x00, 0x00 };
+        static byte[] head_left = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x04, 0x0C, 0x1E, 0x00, 0x00, 0x00, 0x00 };
+        static byte[] head_right = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x04, 0x0C, 0x8E, 0x00, 0x00, 0x00, 0x00 };
+        static byte[] zoom = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x12, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00 };
+        static byte[] zoom_sub = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x12, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00 };
+        static byte[] zoom_stop = new byte[] { 0xEB, 0x90, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x88, 0x0F, 0x12, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
+        // trip 2
+        private void observationmode()
+        {
+            //MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
+            //            (byte)MainV2.comPort.compidcurrent,
+            //            MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+            //           0, 3, 0, 0, 0, 0,
+            //           0);
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 3, 0, 0, 0, 0, 0);
+        }
+        private void gimbletrip2mavlin(float roll, float pitch)
+        {
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 6, roll, pitch, 0, 0, 0,0);
+            //MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
+            //            (byte)MainV2.comPort.compidcurrent,
+            //            MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+            //            6, roll, pitch, 0, 0, 0,
+            //           0);
+        }
+        private void sethome()
+        {
+            //MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
+            //            (byte)MainV2.comPort.compidcurrent,
+            //            MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+            //            0, 13, 0, 0, 0, 0,
+            //           0);
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                        0, 13, 0, 0, 0, 0,
+                       0);
+        }
+        private void trip2zoomin()
+        {
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                        6, 0, 0, 1, 0, 0,
+                       0);
+            Thread.Sleep(100);
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                        6, 0, 0, 0, 0, 0,
+                       0);
+
+        }
+        private void trip2zoomout()
+        {
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                        6, 0, 0, 2, 0, 0,
+                       0);
+            Thread.Sleep(100);
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                        6, 0, 0, 0, 0, 0,
+                       0);
+
+        }
+        private void trip2zoomstop()
+        {
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                        6, 0, 0, 0, 0, 0,
+                       0);
+        }
+        private void trip2gimble(int type)
+        {
+            //0 --> all angle 0
+            // 1 --> left 10 deg move
+            // 2 --> right
+            // 3 --> up
+            // 4 --> down
+            // 5 --> stop
+            if (type == 0)
+            {
+                sethome();
+                Thread.Sleep(500);
+                observationmode();
+
+            }
+            else if (type == 1)
+            {
+                gimbletrip2mavlin(0.1f, 0);
+            }
+            else if (type == 2)
+            {
+                gimbletrip2mavlin(-.1f, 0);
+            }
+            else if (type == 3)
+            {
+                gimbletrip2mavlin(0, 0.1f);
+
+            }
+            else if (type == 4)
+            {
+
+                gimbletrip2mavlin(0, -.1f);
+            }
+            else if(type == 5)
+            {
+                gimbletrip2mavlin(0, 0);
+            }
+        }
+
+
+
+        static void crc_fly16()
+        {
+            int length = Ctrstr.Length;
+            int lens = length;
+            ushort crcTmp = 0xFFFF;
+            while (length > 0)
+            {
+                length--;
+                ushort tmp = (ushort)(wCRC_Table[(Ctrstr[lens - length - 1] ^ crcTmp) & 15] ^ (crcTmp >> 4));
+                crcTmp = (ushort)(wCRC_Table[((Ctrstr[lens - length - 1] >> 4) ^ tmp) & 15] ^ (tmp >> 4));
+            }
+            byte crc1 = (byte)(0x00FF & crcTmp);
+            byte crc2 = (byte)(0xFF & (crcTmp >> 8));
+
+            Ctrstr = Ctrstr.Concat(new byte[] { crc1, crc2 }).ToArray();
+        }
+
+        protected void TCP_CMD()
+        {
+           
+
+            try
+            {
+                
+                Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                if (camtype == 2)
+                {
+                    crc_fly16();
+                    s.Connect("192.168.42.200", 2000);
+                    byte[] data = Ctrstr.ToArray();
+                    s.Send(data);
+                    Console.WriteLine("send data TCP Control CMD");
+                    s.Close();
+                    Ctrstr = Array.Empty<byte>();
+                }
+                else if(camtype == 3)
+                {
+
+                }
+
+                
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine(e.Message);
+                return;
+            }
+        }
+
+        // run for up
+        public void upCMD()
+        {
+            Ctrstr = head_up.ToArray();
+            TCP_CMD();
+        }
+
+        // run for down
+        public void downCMD()
+        {
+            Ctrstr = head_down.ToArray();
+            TCP_CMD();
+        }
+        // run for left
+        public void leftCMD()
+        {
+            Ctrstr = head_left.ToArray();
+            TCP_CMD();
+        }
+        // run for right
+        public void rightCMD()
+        {
+            Ctrstr = head_right.ToArray();
+            TCP_CMD();
+        }
+        // ------zoom stop ------
+        // run for stop zoom
+        public void stopzoomCMD()
+        {
+            Ctrstr = zoom_stop.ToArray();
+            TCP_CMD();
+        }
+        // run for right
+        public void zoomCMD()
+        {
+            Ctrstr = zoom.ToArray();
+            TCP_CMD();
+           
+        }
+        // run for right
+        public void subzoomCMD()
+        {
+            Ctrstr = zoom_sub.ToArray();
+            TCP_CMD();
+            
+        }
+        //-------------------------- end camera control
         public JoystickBase(Func<MAVLinkInterface> currentInterface)
         {
             this._Interface = currentInterface;
@@ -682,7 +893,9 @@ namespace MissionPlanner.Joystick
         {
             try
             {
+                
                 return JoyChannels[channel].axis;
+                
             }
             catch
             {
@@ -702,7 +915,7 @@ namespace MissionPlanner.Joystick
 
             return buts[JoyButtons[buttonno].buttonno];
         }
-
+        private Boolean isZ = false;
         protected short pickchannel(int chan, joystickaxis axis, bool rev, int expo)
         {
             int min, max, trim = 0;
@@ -905,7 +1118,131 @@ namespace MissionPlanner.Joystick
             //add limits to movement
             working = Math.Max(min, working);
             working = Math.Min(max, working);
+            //---------------camera control -------------------
+            if (scriptcontrolenabled)
+            {
+                if (working > 1600 && joystickaxis.Y == axis)
+                {
+                    if (camtype == 2)
+                    {
+                        downCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2gimble(3);
+                    }
+                    
+                }
+                else if (working < 1400 && joystickaxis.Y == axis)
+                {
+                    if (camtype == 2)
+                    {
+                        upCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2gimble(4);
+                    }
+                    
+                }
+                else
+                {
+                    if (camtype == 2)
+                    {
+                        //upCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2gimble(5);
+                    }
+                }
+                if (working > 1600 && joystickaxis.X == axis)
+                {
+                    
+                    if (camtype == 2)
+                    {
+                        rightCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2gimble(2);
+                    }
+                }
+                else if (working < 1400 && joystickaxis.X == axis)
+                {
+                    if (camtype == 2)
+                    {
+                        leftCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2gimble(1);
+                    }
+                    
+                }
+                else
+                {
+                    if (camtype == 2)
+                    {
+                        //upCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2gimble(5);
+                    }
+                }
 
+                if (working > 1600 && joystickaxis.Z == axis)
+                {
+                    
+                    if (camtype == 2)
+                    {
+                        zoomCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        if (!isZ)
+                        {
+                            trip2zoomin();
+                        }
+                        
+                    }
+                    isZ = true;
+                    
+                }
+                else if (working < 1400 && joystickaxis.Z == axis)
+                {
+                    isZ = true;
+                    if (camtype == 2)
+                    {
+                        subzoomCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        if (!isZ)
+                        {
+                            trip2zoomout();
+                        }
+                        
+                    }
+                    
+                }
+                else if (isZ)
+                {
+                    isZ = false;
+                    if (camtype == 2)
+                    {
+                        stopzoomCMD();
+                    }
+                    else if (camtype == 3)
+                    {
+                        trip2zoomstop();
+                    }
+                    
+                }
+
+            }
+            
             return (short) working;
         }
 
@@ -914,7 +1251,7 @@ namespace MissionPlanner.Joystick
             // input range -500 to 500
 
             double expomult = expo/100.0;
-
+            
             if (input >= 0)
             {
                 // linear scale
@@ -1013,6 +1350,7 @@ namespace MissionPlanner.Joystick
                     System.Threading.Thread.Sleep(50);
                     //joystick stuff
                     state = GetCurrentState();
+                    
 
                     //Console.WriteLine(state);
 
