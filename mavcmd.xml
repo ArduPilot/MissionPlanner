@@ -882,6 +882,15 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </LOITER_UNLIM>
+    <LOITER_TURNS>
+      <P1>Turns</P1>
+      <P2></P2>
+      <P3>Radius</P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LOITER_TURNS>
     <LOITER_TIME>
       <P1>Time s</P1>
       <P2></P2>
