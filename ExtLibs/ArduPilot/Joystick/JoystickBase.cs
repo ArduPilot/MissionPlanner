@@ -123,6 +123,8 @@ namespace MissionPlanner.Joystick
                         6, 0, 0, 0, 0, 0,
                        0);
         }
+        private Boolean camrolllstop = true;
+        private Boolean campitchstop = true;
         private void trip2gimble(int type)
         {
             //0 --> all angle 0
@@ -140,21 +142,21 @@ namespace MissionPlanner.Joystick
             }
             else if (type == 1)
             {
-                gimbletrip2mavlin(0.1f, 0);
+                gimbletrip2mavlin(0.5f, 0);
             }
             else if (type == 2)
             {
-                gimbletrip2mavlin(-.1f, 0);
+                gimbletrip2mavlin(-.5f, 0);
             }
             else if (type == 3)
             {
-                gimbletrip2mavlin(0, 0.1f);
+                gimbletrip2mavlin(0, 0.5f);
 
             }
             else if (type == 4)
             {
 
-                gimbletrip2mavlin(0, -.1f);
+                gimbletrip2mavlin(0, -.5f);
             }
             else if(type == 5)
             {
@@ -1118,6 +1120,7 @@ namespace MissionPlanner.Joystick
             //add limits to movement
             working = Math.Max(min, working);
             working = Math.Min(max, working);
+            
             //---------------camera control -------------------
             if (scriptcontrolenabled)
             {
@@ -1129,6 +1132,7 @@ namespace MissionPlanner.Joystick
                     }
                     else if (camtype == 3)
                     {
+                        campitchstop = false;
                         trip2gimble(3);
                     }
                     
@@ -1141,18 +1145,20 @@ namespace MissionPlanner.Joystick
                     }
                     else if (camtype == 3)
                     {
+                        campitchstop = false;
                         trip2gimble(4);
                     }
                     
                 }
-                else
+                else if(joystickaxis.Y == axis)
                 {
                     if (camtype == 2)
                     {
                         //upCMD();
                     }
-                    else if (camtype == 3)
+                    else if (camtype == 3 && !campitchstop)
                     {
+                        campitchstop = true;
                         trip2gimble(5);
                     }
                 }
@@ -1161,10 +1167,13 @@ namespace MissionPlanner.Joystick
                     
                     if (camtype == 2)
                     {
+
                         rightCMD();
                     }
                     else if (camtype == 3)
                     {
+
+                        camrolllstop = false;
                         trip2gimble(2);
                     }
                 }
@@ -1176,18 +1185,20 @@ namespace MissionPlanner.Joystick
                     }
                     else if (camtype == 3)
                     {
+                        camrolllstop = false;
                         trip2gimble(1);
                     }
                     
                 }
-                else
+                else if(joystickaxis.X == axis)
                 {
                     if (camtype == 2)
                     {
                         //upCMD();
                     }
-                    else if (camtype == 3)
+                    else if (camtype == 3 && !camrolllstop)
                     {
+                        camrolllstop = true;
                         trip2gimble(5);
                     }
                 }
