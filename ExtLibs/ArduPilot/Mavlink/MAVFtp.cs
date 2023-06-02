@@ -745,6 +745,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         else 
                         {
                             var missing = FindMissing(chunkSortedList);
+                            if (missing == uint.MaxValue)
+                            {
+                                timeout.Complete = true;
+                                return true;
+                            }
                             log.InfoFormat("Missing Part {0}", missing);
                             //switch to part read
                             payload.opcode = FTPOpcode.kCmdReadFile;
