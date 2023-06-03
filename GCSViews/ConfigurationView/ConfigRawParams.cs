@@ -991,8 +991,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             string vehicle = MainV2.comPort.MAV.cs.firmware.ToString();
             var options = ParameterMetaDataRepository.GetParameterOptionsInt(param_name, vehicle);
             var bitmask = ParameterMetaDataRepository.GetParameterBitMaskInt(param_name, vehicle);
+            // If this is a bitmask, create a button to open the bitmask editor
+            // (this is better than trying to cram the bitmask checkboxes into the small cell)
+            if (bitmask.Count > 0)
+            {
+                optionsControl = new MyButton() { Text = "Set Bitmask" };
+                optionsControl.Click += (s, a) =>
+                {
+                    var mcb = new MavlinkCheckBoxBitMask();
+                    var list = new MAVLink.MAVLinkParamList();
+                    list.Add(new MAVLink.MAVLinkParam(param_name, double.Parse(Params[Value.Index, e.RowIndex].Value.ToString(), CultureInfo.InvariantCulture),
+                        MAVLink.MAV_PARAM_TYPE.INT32));
+                    mcb.setup(param_name, list);
+                    mcb.ValueChanged += (o, x, value) =>
+                    {
+                        Params.CurrentRow.Cells[Value.Index].Value = value;
+                        Params.Invalidate();
+                        mcb.Focus();
+                    };
+                    var frm = mcb.ShowUserControl();
+                    frm.TopMost = true;
+                };
+
+                ThemeManager.ApplyThemeTo(optionsControl);
+                optionsControl.Bounds = Params.GetCellDisplayRectangle(Options.Index, e.RowIndex, false);
+                Params.Controls.Add(optionsControl);
+            }
             // If there are options, create a combo box and populate it with the options
-            if (options.Count > 0)
+            else if (options.Count > 0)
             {
                 ComboBox cmb = new ComboBox() { Dock = DockStyle.Fill };
                 cmb.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1053,32 +1079,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     Params.Invalidate();
                 };
             }
-            // If this is a bitmask, create a button to open the bitmask editor
-            // (this is better than trying to cram the bitmask checkboxes into the small cell)
-            else if (bitmask.Count > 0)
-            {
-                optionsControl = new MyButton() { Text = "Set Bitmask" };
-                optionsControl.Click += (s, a) =>
-                {
-                    var mcb = new MavlinkCheckBoxBitMask();
-                    var list = new MAVLink.MAVLinkParamList();
-                    list.Add(new MAVLink.MAVLinkParam(param_name, double.Parse(Params[Value.Index, e.RowIndex].Value.ToString(), CultureInfo.InvariantCulture),
-                        MAVLink.MAV_PARAM_TYPE.INT32));
-                    mcb.setup(param_name, list);
-                    mcb.ValueChanged += (o, x, value) =>
-                    {
-                        Params.CurrentRow.Cells[Value.Index].Value = value;
-                        Params.Invalidate();
-                        mcb.Focus();
-                    };
-                    var frm = mcb.ShowUserControl();
-                    frm.TopMost = true;
-                };
 
-                ThemeManager.ApplyThemeTo(optionsControl);
-                optionsControl.Bounds = Params.GetCellDisplayRectangle(Options.Index, e.RowIndex, false);
-                Params.Controls.Add(optionsControl);
-            }
             // Otherwise, this is a simple numeric parameter
             else
             {
