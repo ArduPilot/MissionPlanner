@@ -71,6 +71,7 @@ namespace WebCamService
 
         public Capture()
         {
+
         }
 
         /// <summary> Use capture with selected media caps</summary>

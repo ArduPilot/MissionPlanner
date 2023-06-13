@@ -228,7 +228,15 @@ namespace MissionPlanner.GCSViews
             log.Info("Ctor Start");
 
             InitializeComponent();
-
+            focus_minus.MouseUp += focus_minus_MouseUp;
+            myButton9.MouseUp += myButton9_MouseUp;
+            myButton9.MouseDown += myButton9_MouseDown;
+            myButton10.MouseUp += myButton10_MouseUp;
+            myButton10.MouseDown += myButton10_MouseDown;
+            myButton11.MouseUp += myButton11_MouseUp;
+            myButton11.MouseDown += myButton11_MouseDown;
+            myButton8.MouseUp += myButton8_MouseUp;
+            myButton8.MouseDown += myButton8_MouseDown;
             log.Info("Components Done");
 
             instance = this;
@@ -690,7 +698,8 @@ namespace MissionPlanner.GCSViews
 
         public void loadTabControlActions()
         {
-            string tabs = Settings.Instance["tabcontrolactions"];
+            //string tabs = Settings.Instance["tabcontrolactions"];
+            string tabs = "tabQuick;tabActions;tabCameracontrol;";
 
             if (String.IsNullOrEmpty(tabs) || TabListOriginal == null || TabListOriginal.Count == 0)
                 return;
@@ -1541,7 +1550,8 @@ namespace MissionPlanner.GCSViews
                             {
                                 if (!MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
                                     (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0,
-                                    lastwpdata.alt)) {
+                                    lastwpdata.alt))
+                                {
                                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                                     return;
                                 }
@@ -2493,7 +2503,8 @@ namespace MissionPlanner.GCSViews
                 if (tabs == null)
                 {
                     saveTabControlActions();
-                    tabs = Settings.Instance["tabcontrolactions"];
+                    tabs = "tabQuick;tabActions;tabCameracontrol;";
+                    //tabs = Settings.Instance["tabcontrolactions"];
                 }
 
                 string[] tabarray = tabs.Split(';');
@@ -5466,7 +5477,8 @@ namespace MissionPlanner.GCSViews
             }
 
             max_length += 25;
-            fields.Sort((a, b) => {
+            fields.Sort((a, b) =>
+            {
                 var ans = CurrentState.GetGroupText(a.name).CompareTo(CurrentState.GetGroupText(b.name));
                 if (ans == 0) return a.Item2.CompareTo(b.Item2);
                 return ans;
@@ -6337,8 +6349,8 @@ namespace MissionPlanner.GCSViews
 
         }
         // 
-        private List<int> trip2gimblemove = new List<int>() 
-        { 
+        private List<int> trip2gimblemove = new List<int>()
+        {
             0, // roll
             0   // pitch
         };
@@ -6350,19 +6362,20 @@ namespace MissionPlanner.GCSViews
             // 2 --> right
             // 3 --> up
             // 4 --> down
-            if(type == 0)
+            if (type == 0)
             {
                 trip2gimblemove[0] = 0;
-                trip2gimblemove[1] = 0; 
+                trip2gimblemove[1] = 0;
             }
-            else if(type == 1)
+            else if (type == 1)
             {
                 //trip2gimblemove[1] += 10;
                 if (trip2gimblemove[1] < 150)
                 {
                     trip2gimblemove[1] += 10;
                 }
-                else if(trip2gimblemove[1] >= 150 && trip2gimblemove[1]<=166){
+                else if (trip2gimblemove[1] >= 150 && trip2gimblemove[1] <= 166)
+                {
                     trip2gimblemove[1] += 2;
                 }
                 //else if (trip2gimblemove[1] == 170)
@@ -6371,7 +6384,7 @@ namespace MissionPlanner.GCSViews
                 //}
 
             }
-            else if(type == 2)
+            else if (type == 2)
             {
                 if (trip2gimblemove[1] > -150)
                 {
@@ -6386,16 +6399,16 @@ namespace MissionPlanner.GCSViews
                 //    trip2gimblemove[1] = -169;
                 //}
             }
-            else if(type == 3)
+            else if (type == 3)
             {
-               
+
                 if (trip2gimblemove[0] < 140)
                 {
                     trip2gimblemove[0] += 10;
                 }
 
             }
-            else if(type == 4)
+            else if (type == 4)
             {
                 if (trip2gimblemove[0] > -140)
                 {
@@ -6405,7 +6418,7 @@ namespace MissionPlanner.GCSViews
                 //{
                 //    trip2gimblemove[0] -= 10;
                 //}
-                
+
             }
             MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent,
@@ -6415,19 +6428,19 @@ namespace MissionPlanner.GCSViews
         }
         private void observationmode()
         {
-            MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
+            MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                        0, 3, 0, 0, 0, 0,
-                       0);
+                       0, false);
         }
-        private void gimbletrip2mavlin(float roll,float pitch)
+        private void gimbletrip2mavlin(float roll, float pitch)
         {
             MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                         6, roll, pitch, 0, 0, 0,
-                       0);
+                       0, false);
         }
         private void trip2gimble(int type)
         {
@@ -6451,11 +6464,11 @@ namespace MissionPlanner.GCSViews
                 }
                 else if (type == 1)
                 {
-                    gimbletrip2mavlin(0.01f, 0);
+                    gimbletrip2mavlin(0.1f, 0);
                 }
                 else if (type == 2)
                 {
-                    gimbletrip2mavlin(-.01f, 0);
+                    gimbletrip2mavlin(-.1f, 0);
                 }
                 else if (type == 3)
                 {
@@ -6467,12 +6480,21 @@ namespace MissionPlanner.GCSViews
 
                     gimbletrip2mavlin(0, -.1f);
                 }
+                else if (type == 5)
+                {
+                    //MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                    //    (byte)MainV2.comPort.compidcurrent,
+                    //    MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+                    //    6, 0, 0, 0, 0, 0,
+                    //   0,false);
+                    gimbletrip2mavlin(0, 0);
+                }
             }
             catch
             {
 
             }
-            
+
         }
         private void myButton7_Click(object sender, EventArgs e)
         {
@@ -6480,97 +6502,297 @@ namespace MissionPlanner.GCSViews
             GStreamer.record_run = false;
             //recthred.Abort();
         }
-        // gible up
-        private void myButton10_Click(object sender, EventArgs e)
+        private Boolean mybutton10up = true;
+        private Boolean mybutton11up = true;
+        private Boolean mybutton8up = true;
+        private void gimblestop()
         {
             try
             {
                 if (controltype_ == 0)
                 {
-                    trackBarPitch.Value = 80;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                        trackBarYaw.Value * 100.0f, false);
-                    System.Threading.Thread.Sleep(speedtime);
-                    trackBarPitch.Value = -10;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                        trackBarYaw.Value * 100.0f, false);
-                    if (cammove[0] <= 1700)
-                    {
-                        cammove[0] += speedtime;
-                    }
+                    //trackBarPitch.Value = -80;
+                    //MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    //    trackBarYaw.Value * 100.0f, false);
+                    //System.Threading.Thread.Sleep(speedtime);
+                    //trackBarPitch.Value = -10;
+                    //MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                    //    trackBarYaw.Value * 100.0f, false);
+                    //if (cammove[0] > -4000)
+                    //{
+                    //    cammove[0] -= speedtime;
+                    //}
+                    //else if (cammove[0] <= -4000)
+                    //{
+                    //    cammove[0] = -4400;
+                    //}
                 }
                 else if (controltype_ == 1)
                 {
 
-                    //script.controlcmd("upCMD", 1);
-                    camcontrol.upCMD();
+                    //script.controlcmd("downCMD", 1);
+                    // camcontrol.downCMD();
                 }
                 else if (controltype_ == 2)
                 {
-                    trip2gimble(3);
+                    trip2gimble(5);
                 }
             }
             catch
             {
 
             }
-            
+        }
+        private void gimbleup()
+        {
+            while (true)
+            {
+                if (mybutton10up)
+                {
+                    break;
+                }
+                try
+                {
+                    if (controltype_ == 0)
+                    {
+                        trackBarPitch.Value = 80;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                            trackBarYaw.Value * 100.0f, false);
+                        System.Threading.Thread.Sleep(speedtime);
+                        trackBarPitch.Value = -10;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                            trackBarYaw.Value * 100.0f, false);
+                        if (cammove[0] <= 1700)
+                        {
+                            cammove[0] += speedtime;
+                        }
+                    }
+                    else if (controltype_ == 1)
+                    {
+
+                        //script.controlcmd("upCMD", 1);
+                        camcontrol.upCMD();
+                    }
+                    else if (controltype_ == 2)
+                    {
+                        trip2gimble(3);
+                    }
+                }
+                catch
+                {
+
+                }
+                Thread.Sleep(10);
+            }
+
+        }
+        private void gimbledown()
+        {
+            while (true)
+            {
+                if (mybutton9up)
+                {
+                    break;
+                }
+                try
+                {
+                    if (controltype_ == 0)
+                    {
+                        trackBarPitch.Value = -80;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                            trackBarYaw.Value * 100.0f, false);
+                        System.Threading.Thread.Sleep(speedtime);
+                        trackBarPitch.Value = -10;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                            trackBarYaw.Value * 100.0f, false);
+                        if (cammove[0] > -4000)
+                        {
+                            cammove[0] -= speedtime;
+                        }
+                        else if (cammove[0] <= -4000)
+                        {
+                            cammove[0] = -4400;
+                        }
+                    }
+                    else if (controltype_ == 1)
+                    {
+
+                        //script.controlcmd("downCMD", 1);
+                        camcontrol.downCMD();
+                    }
+                    else if (controltype_ == 2)
+                    {
+                        trip2gimble(4);
+                    }
+                }
+                catch
+                {
+
+                }
+                Thread.Sleep(10);
+            }
+        }
+        private void gimbleleft()
+        {
+            while (true)
+            {
+                if (mybutton11up)
+                {
+                    break;
+                }
+                try
+                {
+                    if (controltype_ == 0)
+                    {
+                        trackBarYaw.Value = 170;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                           trackBarYaw.Value * 100.0f, false);
+                        System.Threading.Thread.Sleep(speedtime);
+                        trackBarYaw.Value = 10;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                            trackBarYaw.Value * 100.0f, false);
+                        //cammove[1] += speedtime;
+                        if (cammove[1] < 14000)
+                        {
+                            if (speedtime == 100)
+                            {
+                                cammove[1] += (speedtime + 13);
+                            }
+                            else
+                            {
+                                cammove[1] += speedtime;
+                            }
+                            //cammove[1] += speedtime;
+                        }
+                        else if (cammove[1] >= 14000)
+                        {
+                            cammove[1] = 0;
+                        }
+                    }
+                    else if (controltype_ == 1)
+                    {
+
+                        script.controlcmd("leftCMD", 1);
+                    }
+                    else if (controltype_ == 2)
+                    {
+                        trip2gimble(1);
+                    }
+                }
+                catch
+                {
+
+                }
+                Thread.Sleep(10);
+            }
+        }
+        private void gimbleright()
+        {
+            while (true)
+            {
+                if (mybutton8up)
+                {
+                    break;
+                }
+                try
+                {
+                    if (controltype_ == 0)
+                    {
+                        trackBarYaw.Value = -170;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                           trackBarYaw.Value * 100.0f, false);
+                        System.Threading.Thread.Sleep(speedtime);
+                        trackBarYaw.Value = -10;
+                        MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
+                            trackBarYaw.Value * 100.0f, false);
+                        //cammove[1]-= speedtime;
+                        if (cammove[1] > -14000)
+                        {
+                            if (speedtime == 100)
+                            {
+                                cammove[1] -= (speedtime + 13);
+                            }
+                            else
+                            {
+                                cammove[1] -= speedtime;
+                            }
+
+                        }
+                        else if (cammove[1] <= -14000)
+                        {
+                            cammove[1] = 0;
+                        }
+                    }
+                    else if (controltype_ == 1)
+                    {
+
+                        script.controlcmd("rightCMD", 1);
+                    }
+                    else if (controltype_ == 2)
+                    {
+                        trip2gimble(2);
+                    }
+                }
+                catch
+                {
+
+                }
+                Thread.Sleep(10);
+            }
         }
 
+        // gible up
+        private void myButton10_Click(object sender, EventArgs e)
+        {
+
+
+        }
+        private void myButton10_MouseDown(object sender, MouseEventArgs e)
+        {
+            mybutton10up = false;
+            Thread gimbleuploop = new Thread(gimbleup);
+            gimbleuploop.Start();
+        }
+        private void myButton10_MouseUp(object sender, MouseEventArgs e)
+        {
+            mybutton10up = true;
+            gimblestop();
+        }
         private void myButton12_Click(object sender, EventArgs e)
         {
-            
-            customizeToolStripMenuItem_Click(sender,e);
+
+            customizeToolStripMenuItem_Click(sender, e);
+        }
+        // left gimble clicked up
+        private void myButton11_MouseUp(object sender, MouseEventArgs e)
+        {
+            mybutton11up = true;
+            gimblestop();
+        }
+        // left gimble clicked down
+        private void myButton11_MouseDown(object sender, MouseEventArgs e)
+        {
+            mybutton11up = false;
+            Thread gimbleleftloop = new Thread(gimbleleft);
+            gimbleleftloop.Start();
         }
         // left gimble control
         private void myButton11_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (controltype_ == 0)
-                {
-                    trackBarYaw.Value = 170;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                       trackBarYaw.Value * 100.0f, false);
-                    System.Threading.Thread.Sleep(speedtime);
-                    trackBarYaw.Value = 10;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                        trackBarYaw.Value * 100.0f, false);
-                    //cammove[1] += speedtime;
-                    if (cammove[1] < 14000)
-                    {
-                        if (speedtime == 100)
-                        {
-                            cammove[1] += (speedtime + 13);
-                        }
-                        else
-                        {
-                            cammove[1] += speedtime;
-                        }
-                        //cammove[1] += speedtime;
-                    }
-                    else if (cammove[1] >= 14000)
-                    {
-                        cammove[1] = 0;
-                    }
-                }
-                else if (controltype_ == 1)
-                {
 
-                    script.controlcmd("leftCMD", 1);
-                }
-                else if (controltype_ == 2)
-                {
-                    trip2gimble(1);
-                }
-            }
-            catch
-            {
-
-            }
-            
         }
         // right gimble control
+        private void myButton8_MouseDown(object sender, MouseEventArgs e)
+        {
+            mybutton8up = false;
+            Thread gimblerightloop = new Thread(gimbleright);
+            gimblerightloop.Start();
+        }
+        private void myButton8_MouseUp(object sender, MouseEventArgs e)
+        {
+            mybutton8up = true;
+            gimblestop();
+        }
         private void myButton8_Click(object sender, EventArgs e)
         {
 
@@ -6579,50 +6801,8 @@ namespace MissionPlanner.GCSViews
             //            MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
             //            0, 13, 60, 0, 0, 0,
             //           0);
-            try
-            {
-                if (controltype_ == 0)
-                {
-                    trackBarYaw.Value = -170;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                       trackBarYaw.Value * 100.0f, false);
-                    System.Threading.Thread.Sleep(speedtime);
-                    trackBarYaw.Value = -10;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                        trackBarYaw.Value * 100.0f, false);
-                    //cammove[1]-= speedtime;
-                    if (cammove[1] > -14000)
-                    {
-                        if (speedtime == 100)
-                        {
-                            cammove[1] -= (speedtime + 13);
-                        }
-                        else
-                        {
-                            cammove[1] -= speedtime;
-                        }
 
-                    }
-                    else if (cammove[1] <= -14000)
-                    {
-                        cammove[1] = 0;
-                    }
-                }
-                else if (controltype_ == 1)
-                {
 
-                    script.controlcmd("rightCMD", 1);
-                }
-                else if (controltype_ == 2)
-                {
-                    trip2gimble(2);
-                }
-            }
-            catch
-            {
-
-            }
-            
         }
 
         private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
@@ -6631,58 +6811,40 @@ namespace MissionPlanner.GCSViews
         }
         private int speedtime = 100;
         // 1st for vertical 2nd for horizon 
-        private List<int> cammove=new List<int>() { 0,0};
+        private List<int> cammove = new List<int>() { 0, 0 };
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             if (richTextBox1.Text.All(char.IsDigit))
             {
-                speedtime = int.Parse(richTextBox1.Text); 
+                speedtime = int.Parse(richTextBox1.Text);
             }
         }
+        private Boolean mybutton9up = false;
         //gimble down
         private void myButton9_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (controltype_ == 0)
-                {
-                    trackBarPitch.Value = -80;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                        trackBarYaw.Value * 100.0f, false);
-                    System.Threading.Thread.Sleep(speedtime);
-                    trackBarPitch.Value = -10;
-                    MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f,
-                        trackBarYaw.Value * 100.0f, false);
-                    if (cammove[0] > -4000)
-                    {
-                        cammove[0] -= speedtime;
-                    }
-                    else if (cammove[0] <= -4000)
-                    {
-                        cammove[0] = -4400;
-                    }
-                }
-                else if (controltype_ == 1)
-                {
 
-                    //script.controlcmd("downCMD", 1);
-                    camcontrol.downCMD();
-                }
-                else if (controltype_ == 2)
-                {
-                    trip2gimble(4);
-                }
-            }
-            catch
-            {
-
-            }
-            
-            
         }
+
+
+
+
+
+        // gimble down clicked Down
         private void myButton9_MouseDown(object sender, MouseEventArgs e)
         {
             //
+            mybutton9up = false;
+            Thread gimbledownloop = new Thread(gimbledown);
+            gimbledownloop.Start();
+
+
+        }
+        // gimble down click up
+        private void myButton9_MouseUp(object sender, MouseEventArgs e)
+        {
+            mybutton9up = true;
+            gimblestop();
         }
         // set home
         private void myButton13_Click(object sender, EventArgs e)
@@ -6757,8 +6919,8 @@ namespace MissionPlanner.GCSViews
                     trip2gimble(0);
                 }
             }
-                  
-            
+
+
         }
         // set home
         private void myButton14_Click(object sender, EventArgs e)
@@ -6791,11 +6953,11 @@ namespace MissionPlanner.GCSViews
                     //{
                     //    scriptthread.Abort();
                     //}
-                    
+
                     if (MainV2.joystick != null)
                     {
                         MainV2.joystick.scriptcontrolenabled = false;
-                        MainV2.joystick.camtype = controltype_+1;
+                        MainV2.joystick.camtype = controltype_ + 1;
                     }
 
                 }
@@ -6812,9 +6974,9 @@ namespace MissionPlanner.GCSViews
                     if (MainV2.joystick != null)
                     {
                         MainV2.joystick.scriptcontrolenabled = true;
-                        MainV2.joystick.camtype = controltype_+1;
+                        MainV2.joystick.camtype = controltype_ + 1;
                     }
-                    
+
                     camcontrol = new CamControl();
                 }
                 else if (controltype_ == 2)
@@ -6822,10 +6984,10 @@ namespace MissionPlanner.GCSViews
                     //if (trip2gimblemove[0] == 0 && trip2gimblemove[1] == 0)
                     //{
                     //    trip2gimblecontrol(0);
-                    if (MainV2.joystick!=null)
+                    if (MainV2.joystick != null)
                     {
                         MainV2.joystick.scriptcontrolenabled = true;
-                        MainV2.joystick.camtype = controltype_+1;
+                        MainV2.joystick.camtype = controltype_ + 1;
                     }
                     //MainV2.joystick.scriptcontrolenabled = true;
                     camcontrol = new CamControl();
@@ -6836,7 +6998,7 @@ namespace MissionPlanner.GCSViews
             {
 
             }
-           
+
         }
 
         private void hoverAlt_Click(object sender, EventArgs e)
@@ -6854,6 +7016,7 @@ namespace MissionPlanner.GCSViews
                 Settings.Instance["takeoff_alt"] = altf.ToString();
 
                 MainV2.comPort.setMode("GUIDED");
+                Thread.Sleep(100);
                 if (!MainV2.comPort.BaseStream.IsOpen)
                     return;
 
@@ -6931,8 +7094,8 @@ namespace MissionPlanner.GCSViews
                             6, 0, 0, 0, 0, 0,
                            0);
             }
-            
-            
+
+
         }
         // zoom sub
         private void myButton15_Click(object sender, EventArgs e)
@@ -6958,10 +7121,11 @@ namespace MissionPlanner.GCSViews
                                0);
                 }
             }
-            catch { 
+            catch
+            {
             }
-           
-           
+
+
         }
 
         private void zomm2x_Click(object sender, EventArgs e)
@@ -6977,19 +7141,19 @@ namespace MissionPlanner.GCSViews
             {
 
             }
-            
-             
+
+
         }
         private int trip2mode = 0;
         // trip2 mode
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            trip2mode= comboBox2.SelectedIndex;
+            trip2mode = comboBox2.SelectedIndex;
         }
 
         private void Trip2setmode_Click(object sender, EventArgs e)
         {
-            if(trip2mode== 0)
+            if (trip2mode == 0)
             {
                 // day
                 MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
@@ -6998,7 +7162,7 @@ namespace MissionPlanner.GCSViews
                         3, 0, 0, 0, 0, 0,
                        0);
             }
-            else if(trip2mode== 1)
+            else if (trip2mode == 1)
             {
                 // night
                 MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
@@ -7036,5 +7200,14 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void focus_minus_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void focus_minus_MouseUp(object sender, MouseEventArgs e)
+        {
+            // pressTimer.Start();
+            //longPressTimer.Start();
+        }
     }
 }
