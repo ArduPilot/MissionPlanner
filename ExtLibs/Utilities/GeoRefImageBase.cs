@@ -773,22 +773,19 @@ namespace MissionPlanner.GeoRef
             
             AppendText("Log Read with - " + camLocations.Count + " - CAM Messages found\n");
 
-            camLocations = camLocations.Take(camLocations.Count/* - dropend*/).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
+            camLocations = camLocations.Take(camLocations.Count - dropend).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
 
             var deltalistv = camLocations
                 .PrevNowNext(InvalidValue: new KeyValuePair<long, VehicleLocation>(0,
                     new VehicleLocation() { Time = DateTime.MinValue }))
                 .Select(d => ((d.Item3.Value.Time - d.Item2.Value.Time), d.Item2)).ToList();
-
-            if (deltalistv.Any(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < minshutter))
+            
+            // Find and remove all CAM messages with shutter speed less than minshutter
+            foreach (var delta in deltalistv.Where(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < minshutter))
             {
-                AppendText("Possible Shutter speed issue - " +
-                           deltalistv.Min(a => a.Item1.TotalSeconds > 0 ? a.Item1.TotalSeconds : 9999) + "s\n");
+                AppendText("Possible Shutter speed issue - " + delta.Item1.TotalSeconds + "s\n");
 
-                var minitem = deltalistv.Where(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < 0.5).First()
-                    .Item2;
-
-                camLocations.Remove(minitem.Key);
+                camLocations.Remove(delta.Item2.Key);
             }
 
             AppendText("Filtered - " + camLocations.Count + " - CAM Messages found\n");
