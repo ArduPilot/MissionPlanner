@@ -16,7 +16,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
           key: ${{ runner.os }}-buildIOS
 
       - name: Build
@@ -41,12 +41,18 @@ jobs:
         with:
           submodules: true
           fetch-depth: 10
+          
+      - name: Set default Xcode 14.0.1
+        run: |
+          XCODE_ROOT=/Applications/Xcode_14.0.1.app
+          echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
+          sudo xcode-select -s $XCODE_ROOT
 
       - name: Cache multiple paths
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
           key: ${{ runner.os }}-buildOSX
 
       - name: Build
@@ -57,10 +63,25 @@ jobs:
           dotnet --list-sdks
           msbuild -v:m -restore  -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.MacOS\Xamarin.MacOS.csproj"
 
+      - name: Package
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          npm install --global create-dmg
+          cd ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/
+          create-dmg 'Mission Planner.app' --dmg-title='Mission Planner'
+          
       - uses: actions/upload-artifact@v2
         with:
           name: osx
           path: |
-            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.pkg
-            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.app
+            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.dmg
 
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        if: ${{ github.event_name == 'push' }}
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "osxlatest"
+          prerelease: true
+          title: "OSX Development Build"
+          files: '**/*.dmg'

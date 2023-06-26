@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,42 +17,32 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_MAX_PACK_SIZE = 5;
-        public const ulong UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_SIG = 0x8032C7097B48A3CC;
-
-        public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_ID = 30;
-
-
-
-
-
-
-        public partial class uavcan_protocol_dynamic_node_id_server_AppendEntries_res: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_protocol_dynamic_node_id_server_AppendEntries_res: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_MAX_PACK_SIZE = 5;
+            public const ulong UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_SIG = 0x8032C7097B48A3CC;
+            public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_ID = 30;
 
             public uint32_t term = new uint32_t();
-
-
-
             public bool success = new bool();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(this, chunk_cb, ctx);
+                encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(transfer, this);
+                decode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(transfer, this, fdcan);
+            }
+
+            public static uavcan_protocol_dynamic_node_id_server_AppendEntries_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new uavcan_protocol_dynamic_node_id_server_AppendEntries_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

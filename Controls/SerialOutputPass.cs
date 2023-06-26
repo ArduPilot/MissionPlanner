@@ -1,5 +1,12 @@
-﻿using MissionPlanner.Comms;
+﻿using Microsoft.Scripting.Utils;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
@@ -30,6 +37,14 @@ namespace MissionPlanner.Controls
             }
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+
+            try
+            {
+                Load();
+            }
+            catch (Exception ex) {
+                CustomMessageBox.Show("Failed to load list: " + ex.Message);
+            }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
@@ -130,6 +145,107 @@ namespace MissionPlanner.Controls
         private void chk_write_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.comPort.MirrorStreamWrite = chk_write.Checked;
+        }
+
+
+        private void myDataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            Save();
+        }
+
+        private void Save() 
+        {
+            List<string> ans = new List<string>();
+            myDataGridView1.Rows.ForEach<DataGridViewRow>(x => 
+            {
+                var line = x.Cells.Select(i => ((DataGridViewCell)i).FormattedValue).ToJSON(Formatting.None);
+                ans.Add(line);
+            });
+
+            Settings.Instance.SetList(configlist, ans);
+        }
+
+        private void Load() 
+        {
+            var ans = Settings.Instance.GetList(configlist);
+
+            foreach (string row in ans)
+            {
+                if (row == null || row == "")
+                    continue;
+                var data = ((JArray)JsonConvert.DeserializeObject(row)).Select(a => ((JValue)a).Value).ToArray();
+                myDataGridView1.Rows.Add(data);
+            }
+        }
+
+        string configlist = "serialpasslist";
+
+        private void myDataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            
+        }
+
+        private void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == Go.Index) 
+            {
+                try
+                {
+                    var protocol = myDataGridView1[Type.Index, e.RowIndex].Value.ToString();
+                    var direction = myDataGridView1[Direction.Index, e.RowIndex].Value.ToString();
+                    var port = myDataGridView1[Port.Index, e.RowIndex].Value.ToString();
+                    var extra = myDataGridView1[Extra.Index, e.RowIndex].Value.ToString();
+                    if (protocol == "TCP")
+                    {
+                        if (direction == "Inbound")
+                        {
+                            MainV2.comPort.MirrorStream = new TcpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
+                            listener = new TcpListener(System.Net.IPAddress.Any, int.Parse(port.ToString()));
+                            listener.Start(0);
+                            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                            BUT_connect.Text = Strings.Stop;
+                        }
+                        else if (direction == "Outbound")
+                        {
+                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true, Host = extra, Port = port };
+                            CMB_baudrate.SelectedIndex = 0;
+                            MainV2.comPort.MirrorStream.Open();
+                        }
+                    } 
+                    else if (protocol == "UDP")
+                    {
+                        if (direction == "Inbound")
+                        {
+                            var udp = new UdpSerial()
+                            { ConfigRef = "SerialOutputPassUDP", Port = port.ToString() };
+                            udp.client = new UdpClient(int.Parse(port));
+                            MainV2.comPort.MirrorStream = udp;
+                            CMB_baudrate.SelectedIndex = 0;
+                            MainV2.comPort.MirrorStream.Open();
+                        }
+                        else if (direction == "Outbound")
+                        {
+                            var udp = new UdpSerialConnect() { ConfigRef = "SerialOutputPassUDPCL" };
+                            udp.hostEndPoint = new IPEndPoint(IPAddress.Parse(extra), int.Parse(port));
+                            udp.client = new UdpClient();
+                            udp.IsOpen = true;
+                            MainV2.comPort.MirrorStream = udp;
+                            CMB_baudrate.SelectedIndex = 0;
+                        }
+                    } 
+                    else if (protocol == "Serial")
+                    {
+                        MainV2.comPort.MirrorStream = new SerialPort();
+                        MainV2.comPort.MirrorStream.PortName = port;
+                        MainV2.comPort.MirrorStream.BaudRate = int.Parse(extra);
+                        MainV2.comPort.MirrorStream.Open();
+                    }
+                }
+                catch (Exception ex) {
+                    CustomMessageBox.Show("Error: " + ex.Message);
+                }
+            }
         }
     }
 }

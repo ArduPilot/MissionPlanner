@@ -23,8 +23,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
             !**.apk
+            !**.so
+            !**.aab
           key: ${{ runner.os }}-buildAAB
 
       - name: Build
@@ -94,8 +96,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
             !**.apk
+            !**.so
+            !**.aab
           key: ${{ runner.os }}-buildAPK
       - name: Build
         shell: pwsh

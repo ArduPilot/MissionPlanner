@@ -18,11 +18,11 @@ namespace CameraControl
 {
     public class Plugin : MissionPlanner.Plugin.Plugin
     {
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub1;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub2;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub3;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub4;
+        private int sub;
+        private int sub1;
+        private int sub2;
+        private int sub3;
+        private int sub4;
 
         public override string Name
         {
@@ -85,6 +85,36 @@ namespace CameraControl
             but.Click += but9_Click;
             rootbut.DropDownItems.Add(but);
 
+            but = new ToolStripMenuItem("Dump Info");
+            but.Click += but_Click;
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Capture Start");
+            but.Click += (s, e) =>
+            {
+                var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
+                    a.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
+
+                if (mav == null)
+                    return;
+
+                mav.parent.doCommand(mav.sysid, mav.compid, MAV_CMD_VIDEO_START_CAPTURE, 0, 0, 0, 0, 0, 0, 0);
+            };
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Capture Stop");
+            but.Click += (s, e) =>
+            {
+                var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
+                    a.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
+
+                if (mav == null)
+                    return;
+
+                mav.parent.doCommand(mav.sysid, mav.compid, MAV_CMD_VIDEO_STOP_CAPTURE, 0, 0, 0, 0, 0, 0, 0);
+            };
+            rootbut.DropDownItems.Add(but);
+
             return true;
         }
 
@@ -108,45 +138,45 @@ namespace CameraControl
             if (mav == null)
                 return;
 
-            if (sub == null)
+            if (sub == 0)
                 sub = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION,
                     message =>
                     {
                         Console.WriteLine(message.ToJSON());
                         return true;
-                    });
+                    }, mav.sysid, mav.compid);
 
-            if (sub1 == null)
+            if (sub1 == 0)
                 sub1 = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS,
                     message =>
                     {
                         Console.WriteLine(message.ToJSON());
                         return true;
-                    });
+                    }, mav.sysid, mav.compid);
 
-            if (sub2 == null)
+            if (sub2 == 0)
                 sub2 = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION,
                     message =>
                     {
                         Console.WriteLine(message.ToJSON());
                         return true;
-                    });
+                    }, mav.sysid, mav.compid);
 
-            if (sub3 == null)
+            if (sub3 == 0)
                 sub3 = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_IMAGE_CAPTURED,
                     message =>
                     {
                         Console.WriteLine(message.ToJSON());
                         return true;
-                    });
+                    }, mav.sysid, mav.compid);
 
-            if (sub4 == null)
+            if (sub4 == 0)
                 sub4 = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS,
                     message =>
                     {
                         Console.WriteLine(message.ToJSON());
                         return true;
-                    });
+                    }, mav.sysid, mav.compid);
 
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION, 0, 0, 0, 0, 0, 0, 0);
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_VIDEO_STREAM_INFORMATION, 0, 0, 0, 0, 0, 0, 0);
@@ -154,11 +184,15 @@ namespace CameraControl
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.SET_CAMERA_MODE, 0, 1, 0, 0, 0, 0, 0);  // p2 = 1 for recording hint
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_STORAGE_INFORMATION, 0, 0, 0, 0, 0, 0, 0);
 
+
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.IMAGE_START_CAPTURE, 0, 0, 0, 0, 0, 0, 0);
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_CAMERA_CAPTURE_STATUS, 0, 0, 0, 0, 0, 0,
                 0, false);
 
         }
+
+        private const MAVLink.MAV_CMD MAV_CMD_VIDEO_START_CAPTURE = (MAVLink.MAV_CMD)2500;
+        private const MAVLink.MAV_CMD MAV_CMD_VIDEO_STOP_CAPTURE = (MAVLink.MAV_CMD)2501;
 
         private void but2_Click(object sender, EventArgs e)
         {
@@ -207,13 +241,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -239,13 +273,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -271,13 +305,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/H264Video latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -302,13 +336,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/H264Video1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -333,13 +367,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -364,13 +398,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }

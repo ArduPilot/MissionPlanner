@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Threading.Tasks;
+using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Extra;
 
@@ -11,12 +11,10 @@ namespace AltitudeAngelWings.Service
     {
         ObservableProperty<bool> IsSignedIn { get; }
         ObservableProperty<WeatherInfo> WeatherReport { get; }
-        ObservableProperty<Unit> SentTelemetry { get; }
         UserProfileInfo CurrentUser { get; }
-        IList<string> FilteredOut { get; }
+        IList<FilterInfoDisplay> FilterInfoDisplay { get; }
         Task SignInAsync();
         Task DisconnectAsync();
-        void ProcessAllFromCache(IMap map);
-        Task SignInIfAuthenticated();
+        void ProcessAllFromCache(IMap map, bool resetFilters = false);
     }
 }

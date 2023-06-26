@@ -216,9 +216,6 @@
   <data name="CB_tuning.Text" xml:space="preserve">
     <value>Ajustando</value>
   </data>
-  <data name="altitudeAngelSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ajuste do angulo altitude</value>
-  </data>
   <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
     <value>Disparar camera agora</value>
   </data>

@@ -376,7 +376,7 @@ namespace generator
                 get { return "Michael Oborne"; }
             }
 
-            private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub = null;
+            private int sub = 0;
 
             public override bool Init()
             {
@@ -398,15 +398,15 @@ namespace generator
             {
                 if (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode)
                 {
-                    if (sub == null)
+                    if (sub == 0)
                         sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
                         {
-                            MainV2.instance.BeginInvoke((MethodInvoker) delegate
+                            MainV2.instance.BeginInvoke((MethodInvoker)delegate
                             {
                                 if (!FlightData.instance.tabControlactions.Parent.Controls.Contains(gen))
                                     FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
                             });
-                            
+
                             var genmsg = (MAVLink.mavlink_generator_status_t)message.data;
                             status = genmsg.status;
                             generator_speed = genmsg.generator_speed;
@@ -415,12 +415,12 @@ namespace generator
                             run_time = genmsg.runtime;
                             timemaint = genmsg.time_until_maintenance;
                             return true;
-                        });
+                        }, 0, 0);
 
                     MainV2.instance.BeginInvoke((MethodInvoker)delegate
                    {
                        gen.aGaugeSpeed.Value1 = (float)(generator_speed / 1000.0);
-                       uint min = (run_time) / 60;
+                       uint min = ((run_time) / 60) % 60;
                        uint hour = ((run_time) / 3600);
                        gen.runTimeTxt.Text = hour.ToString("D4") + ":" + min.ToString("D2");
                        int nhour = timemaint / 3600;
@@ -447,8 +447,11 @@ namespace generator
                 }
                 else
                 {
-                    if (sub != null)
-                        MainV2.comPort.UnSubscribeToPacketType(sub.Value);
+                    if (sub != 0)
+                    {
+                        MainV2.comPort.UnSubscribeToPacketType(sub);
+                        sub = 0;
+                    }
                 }
 
                 return true;
@@ -469,3 +472,4 @@ namespace generator
         }
     }
 }
+

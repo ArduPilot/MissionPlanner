@@ -7,6 +7,7 @@ using System.Text;
 using uint16_t = System.UInt16;
 using uint64_t = System.UInt64;
 using uint8_t = System.Byte;
+using int8_t = System.SByte;
 
 namespace MissionPlanner.Utilities
 {
@@ -193,11 +194,13 @@ namespace MissionPlanner.Utilities
             public message_format_s(Span<byte> enumerable) : this()
             {
                 format = enumerable.ToArray();
+                Format = ASCIIEncoding.ASCII.GetString(format);
+                Type = ASCIIEncoding.ASCII.GetString(format).Split(':')[0];
             }
 
-            public string Format { get => ASCIIEncoding.ASCII.GetString(format); }
+            public string Format { get; set; }
 
-            public string Type { get => ASCIIEncoding.ASCII.GetString(format).Split(':')[0]; }
+            public string Type { get; set; }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -235,7 +238,8 @@ namespace MissionPlanner.Utilities
             if (value.Length == 0)
                 return "";
 
-            if (type.Contains("["))
+
+            if (type.Contains("[") || format.Any(a => a.Type == type))
             {
                 var typestring = type.Split('[')[0];
 
@@ -280,6 +284,12 @@ namespace MissionPlanner.Utilities
                     width = dataindex;
                     return ans.ToArray();
                 }
+            }
+
+            if (type.StartsWith("int8_t"))
+            {
+                width = 1;
+                return value[0];
             }
 
             if (type.StartsWith("uint8_t"))
@@ -395,7 +405,7 @@ namespace MissionPlanner.Utilities
 
             public ulog_message_parameter_default_header_s(Span<byte> buffer) : this()
             {
-                key_len = buffer[0];
+                key_len = buffer[1];
                 key = buffer.Slice(2, key_len).ToArray();
                 value = buffer.Slice(2 + key_len).ToArray();
             }
@@ -435,7 +445,7 @@ namespace MissionPlanner.Utilities
         {
             public uint16_t msg_id;
 
-            public uint8_t[] data;
+            internal uint8_t[] data;
 
             public string Decoded { get; set; }
 

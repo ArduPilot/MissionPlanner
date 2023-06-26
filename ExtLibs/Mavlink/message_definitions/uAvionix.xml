@@ -6,7 +6,7 @@
   <!-- mavlink ID range: 10000 - 10099                            -->
   <include>common.xml</include>
   <enums>
-    <enum name="UAVIONIX_ADSB_OUT_DYNAMIC_STATE">
+    <enum name="UAVIONIX_ADSB_OUT_DYNAMIC_STATE" bitmask="true">
       <description>State flags for ADS-B transponder dynamic report</description>
       <entry value="1" name="UAVIONIX_ADSB_OUT_DYNAMIC_STATE_INTENT_CHANGE"/>
       <entry value="2" name="UAVIONIX_ADSB_OUT_DYNAMIC_STATE_AUTOPILOT_ENABLED"/>
@@ -14,7 +14,7 @@
       <entry value="8" name="UAVIONIX_ADSB_OUT_DYNAMIC_STATE_ON_GROUND"/>
       <entry value="16" name="UAVIONIX_ADSB_OUT_DYNAMIC_STATE_IDENT"/>
     </enum>
-    <enum name="UAVIONIX_ADSB_OUT_RF_SELECT">
+    <enum name="UAVIONIX_ADSB_OUT_RF_SELECT" bitmask="true">
       <description>Transceiver RF control flags for ADS-B transponder dynamic reports</description>
       <entry value="0" name="UAVIONIX_ADSB_OUT_RF_SELECT_STANDBY"/>
       <entry value="1" name="UAVIONIX_ADSB_OUT_RF_SELECT_RX_ENABLED"/>
@@ -29,7 +29,7 @@
       <entry value="4" name="UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_DGPS"/>
       <entry value="5" name="UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_RTK"/>
     </enum>
-    <enum name="UAVIONIX_ADSB_RF_HEALTH">
+    <enum name="UAVIONIX_ADSB_RF_HEALTH" bitmask="true">
       <description>Status flags for ADS-B transponder dynamic output</description>
       <entry value="0" name="UAVIONIX_ADSB_RF_HEALTH_INITIALIZING"/>
       <entry value="1" name="UAVIONIX_ADSB_RF_HEALTH_OK"/>
@@ -82,7 +82,7 @@
       <entry value="6" name="UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY"/>
       <entry value="7" name="UAVIONIX_ADSB_OUT_RESERVED"/>
     </enum>
-    <enum name="UAVIONIX_ADSB_OUT_CONTROL_STATE">
+    <enum name="UAVIONIX_ADSB_OUT_CONTROL_STATE" bitmask="true">
       <description>State flags for ADS-B transponder dynamic report</description>
       <entry value="1" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_EXTERNAL_BARO_CROSSCHECKED"/>
       <entry value="4" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_ON_GROUND"/>
@@ -92,11 +92,11 @@
       <entry value="64" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_MODE_S_ENABLED"/>
       <entry value="128" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_1090ES_TX_ENABLED"/>
     </enum>
-    <enum name="UAVIONIX_ADSB_XBIT">
+    <enum name="UAVIONIX_ADSB_XBIT" bitmask="true">
       <description>State flags for X-Bit and reserved fields.</description>
       <entry value="128" name="UAVIONIX_ADSB_XBIT_ENABLED"/>
     </enum>
-    <enum name="UAVIONIX_ADSB_OUT_STATUS_STATE">
+    <enum name="UAVIONIX_ADSB_OUT_STATUS_STATE" bitmask="true">
       <description>State flags for ADS-B transponder status report</description>
       <entry value="1" name="UAVIONIX_ADSB_OUT_STATUS_STATE_ON_GROUND"/>
       <entry value="2" name="UAVIONIX_ADSB_OUT_STATUS_STATE_INTERROGATED_SINCE_LAST"/>
@@ -132,7 +132,7 @@
       <entry value="160" name="UAVIONIX_ADSB_NACP_EPU_10_M"/>
       <entry value="176" name="UAVIONIX_ADSB_NACP_EPU_3_M"/>
     </enum>
-    <enum name="UAVIONIX_ADSB_OUT_STATUS_FAULT">
+    <enum name="UAVIONIX_ADSB_OUT_STATUS_FAULT" bitmask="true">
       <description>State flags for ADS-B transponder fault report</description>
       <entry value="8" name="UAVIONIX_ADSB_OUT_STATUS_FAULT_STATUS_MESSAGE_UNAVAIL"/>
       <entry value="16" name="UAVIONIX_ADSB_OUT_STATUS_FAULT_GPS_NO_POS"/>

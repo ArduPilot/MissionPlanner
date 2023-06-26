@@ -39,10 +39,11 @@
 <thead>
     <tr>
         <th>MSG</th>
-        @foreach (var head in cb.dflog.logformat["MSG"].FieldNames)
-        {
-            <th>@head</th>
-        }
+        @if (cb.dflog.logformat.ContainsKey("MSG"))
+            @foreach (var head in cb.dflog.logformat["MSG"].FieldNames)
+            {
+                <th>@head</th>
+            }
     </tr></thead>
 <tbody>
 @foreach (var msg in cb.GetEnumeratorType("MSG"))
@@ -59,9 +60,10 @@
 <table id="myTable2">
 <thead><tr>
     <th>GPS</th>
-    @foreach (var head in cb.dflog.logformat["GPS"].FieldNames)
-    {
-        <th>@head</th>
+    @if (cb.dflog.logformat.ContainsKey("GPS"))
+        @foreach (var head in cb.dflog.logformat["GPS"].FieldNames)
+        {
+            <th>@head</th>
         }
 </tr></thead>
 <tbody>
@@ -109,17 +111,17 @@
                 if (instance == null)
                     return;
                 log.Info("fileReady start");
-                instance.processFile(instance.buffer);
+                var ms = new MemoryStream(instance.buffer);
+                log.Info("MemoryStream done");
+                instance.processFile(ms);
                 log.Info("fileReady done");
             }
 
             DFLogBuffer cb = null;
 
-            public async void processFile(byte[] buffer)
+            public async void processFile(MemoryStream ms)
             {
                 log.Info("processFile start");
-                var ms = new MemoryStream(buffer);
-                log.Info("MemoryStream done");
                 cb = new DFLogBuffer(ms);
                 log.Info("DFLogBuffer done");
                 foreach (var msg in cb.GetEnumeratorType("MSG"))
@@ -149,15 +151,16 @@
 
                     log.Debug(info.ToJSON());
 
-                    buffer = new byte[info.Size];
+                    //buffer = new byte[info.Size];
 
-                    var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                    //var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
 
-                    var js = JSRuntime as WebAssemblyJSRuntime;
-                    js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReady");
+                    //var js = JSRuntime as WebAssemblyJSRuntime;
+                    //js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReady");
 
+                    MemoryStream memoryStream = await file.CreateMemoryStreamAsync(4096);
 
-
+                    processFile(memoryStream);
                 }
 
                 log.Info("ReadFile done");

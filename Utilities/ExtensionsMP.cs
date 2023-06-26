@@ -1,5 +1,7 @@
 ﻿using log4net;
+using MissionPlanner.Controls;
 using MissionPlanner.test;
+using Newtonsoft.Json;
 using System;
 using System.Windows.Forms;
 using Xamarin.Forms;
@@ -82,19 +84,19 @@ namespace MissionPlanner.Utilities
             var done = false;
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
-                var app = new Xamarin.Forms.Application() {MainPage = ctl};
+                var app = new Xamarin.Forms.Application() { MainPage = ctl };
                 f.LoadApplication(app);
                 ThemeManager.ApplyThemeTo(f);
                 if (ctl is IClose)
                 {
-                    ((IClose) ctl).CloseAction = () => f.Close();
+                    ((IClose)ctl).CloseAction = () => f.Close();
                 }
 
                 f.ShowDialog();
                 done = true;
             });
 
-            while(!done) Application.DoEvents();
+            while (!done) Application.DoEvents();
 
             return f;
         }
@@ -154,6 +156,30 @@ namespace MissionPlanner.Utilities
             if (((Form)sender).Tag is MissionPlanner.Controls.IActivate)
             {
                 ((MissionPlanner.Controls.IActivate)((Form)sender).Tag).Activate();
+            }
+        }
+
+        public static string Serialize(this DataGridView myDataGridView)
+        {
+            // row -1 as new blank row is counted
+            object[,] dataGridViewObjectsArray = new object[myDataGridView.Rows.Count-1, myDataGridView.Columns.Count];
+            for (int x = 0; x < myDataGridView.Rows.Count-1; x++)
+                for (int y = 0; y < myDataGridView.Columns.Count; y++)
+                    dataGridViewObjectsArray[x, y] = myDataGridView.Rows[x].Cells[y].Value;
+
+            return dataGridViewObjectsArray.ToJSON();
+        }
+
+        public static void Deserialize(this DataGridView myDataGridView, string input)
+        {
+            if (input == null)
+                return;
+            var dataGridViewObjectsArray = JsonConvert.DeserializeObject<object[,]>(input);
+            for (int x = 0; x < dataGridViewObjectsArray.GetLength(0); x++)
+            {
+                myDataGridView.Rows.Add();
+                for (int y = 0; y < dataGridViewObjectsArray.GetLength(1); y++)
+                    myDataGridView.Rows[x].Cells[y].Value = dataGridViewObjectsArray[x, y];
             }
         }
     }

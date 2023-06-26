@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MissionPlanner.Maps;
 
 namespace MissionPlanner.GeoRef
 {
@@ -75,7 +76,7 @@ namespace MissionPlanner.GeoRef
 
             var inv = new MethodInvoker(delegate
             {
-                text.Replace("\n", Environment.NewLine);
+                text = text.Replace("\n", Environment.NewLine);
                 TXT_outputlog.AppendText(text);
                 TXT_outputlog.Refresh();
             });
@@ -91,7 +92,7 @@ namespace MissionPlanner.GeoRef
             if (File.Exists(openFileDialog1.FileName))
             {
                 TXT_logfile.Text = openFileDialog1.FileName;
-                TXT_jpgdir.Text = Path.GetDirectoryName(TXT_logfile.Text);
+                TXT_jpgdir.Text = Path.GetDirectoryName(TXT_logfile.Text);                
             }
         }
 
@@ -161,6 +162,7 @@ namespace MissionPlanner.GeoRef
 
             BUT_doit.Enabled = false;
             TXT_outputlog.Clear();
+            myGMAP1.Overlays[0].Markers.Clear();
 
             try
             {
@@ -199,6 +201,7 @@ namespace MissionPlanner.GeoRef
 
             log.Info("Draw to Map");
 
+            
             GMapRoute route = new GMapRoute("vehicle");
             if (georef.vehicleLocations != null)
             {
@@ -209,7 +212,19 @@ namespace MissionPlanner.GeoRef
                 }
             }
 
-            myGMAP1.Overlays[0].Markers.Clear();
+            if (georef.camLocations != null)
+            {
+                ushort a = 0;
+                foreach (var vehicleLocation in georef.camLocations)
+                {
+                    myGMAP1.Overlays[0].Markers.Add(new GMapMarkerPhoto(
+                        new MAVLink.mavlink_camera_feedback_t((ulong)vehicleLocation.Key,
+                            (int)(vehicleLocation.Value.Lat * 1e7),
+                            (int)(vehicleLocation.Value.Lon * 1e7), (float)vehicleLocation.Value.AltAMSL,
+                            (float)vehicleLocation.Value.RelAlt, 0, 0, 0, 0, a++, 0, 0, 0, 0)));
+                }
+            }
+
             if (georef.picturesInfo != null)
             {
                 foreach (var pictureLocation in georef.picturesInfo)
@@ -368,6 +383,11 @@ namespace MissionPlanner.GeoRef
         {
             if (georef.vehicleLocations != null)
                 georef.vehicleLocations.Clear();
+        }
+
+        private void num_minshutter_ValueChanged(object sender, EventArgs e)
+        {
+            georef.minshutter = (double)num_minshutter.Value;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace MissionPlanner {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class files {
@@ -122,7 +122,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to &quot;id&quot;,&quot;ident&quot;,&quot;type&quot;,&quot;name&quot;,&quot;latitude_deg&quot;,&quot;longitude_deg&quot;,&quot;elevation_ft&quot;,&quot;continent&quot;,&quot;iso_country&quot;,&quot;iso_region&quot;,&quot;municipality&quot;,&quot;scheduled_service&quot;,&quot;gps_code&quot;,&quot;iata_code&quot;,&quot;local_code&quot;,&quot;home_link&quot;,&quot;wikipedia_link&quot;,&quot;keywords&quot;
         ///6523,&quot;00A&quot;,&quot;heliport&quot;,&quot;Total Rf Heliport&quot;,40.07080078125,-74.93360137939453,11,&quot;NA&quot;,&quot;US&quot;,&quot;US-PA&quot;,&quot;Bensalem&quot;,&quot;no&quot;,&quot;00A&quot;,,&quot;00A&quot;,,,
         ///323361,&quot;00AA&quot;,&quot;small_airport&quot;,&quot;Aero B Ranch Airport&quot;,38.704022,-101.473911,3435,&quot;NA&quot;,&quot;US&quot;,&quot;US-KS&quot;,&quot;Leoti&quot;,&quot;no&quot;,&quot;00AA&quot;,,&quot;00AA&quot;,,,
-        ///6524,&quot;00AK&quot;,&quot;small_airport&quot;,&quot;Lo [rest of string was truncated]&quot;;.
+        ///6524,&quot;00AK&quot;,&quot;small_airport&quot;, [rest of string was truncated]&quot;;.
         /// </summary>
         public static string airports {
             get {
@@ -170,8 +170,7 @@ namespace MissionPlanner {
         ///    &lt;ThemeColor&gt;
         ///      &lt;strColorItemName&gt;Control Background&lt;/strColorItemName&gt;
         ///      &lt;clrColor Web=&quot;#434445&quot; /&gt;
-        ///      &lt;strVariableName&gt;ControlBGColor&lt;/strVariableName&gt;
-        ///    &lt;/ [rest of string was truncated]&quot;;.
+        ///      &lt;strVariableName&gt;ControlBGColor&lt;/strVariableN [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BurntKermit {
             get {
@@ -203,8 +202,7 @@ namespace MissionPlanner {
         ///    &lt;flen&gt;6.3&lt;/flen&gt;
         ///    &lt;imgh&gt;2448&lt;/imgh&gt;
         ///    &lt;imgw&gt;3264&lt;/imgw&gt;
-        ///    &lt;senh&gt;4.29&lt;/senh&gt;
-        ///    &lt;senw&gt;5 [rest of string was truncated]&quot;;.
+        ///    &lt;senh&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string camerasBuiltin {
             get {
@@ -272,17 +270,17 @@ namespace MissionPlanner {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;graphs&gt;
-        ///  &lt;graph name=&apos;EKF/Normalised GPS Innovations&apos;&gt;
-        ///    &lt;description&gt;Normalised GPS Innovations&lt;/description&gt;
-        ///    &lt;expression&gt;XKF4[0].SV XKF4[0].SP XKF4[1].SV XKF4[1].SP&lt;/expression&gt;
-        ///    &lt;expression&gt;XKF4.SV XKF4.SP XKF9.SV XKF9.SP&lt;/expression&gt;
-        ///    &lt;expression&gt;EKF4.SV EKF4.SP XKF4.SV XKF4.SP&lt;/expression&gt;
-        ///    &lt;expression&gt;EKF4.SV EKF4.SP&lt;/expression&gt;
+        ///
+        ///  &lt;graph name=&apos;EKF3/Gyro Bias&apos;&gt;
+        ///    &lt;description&gt;EKF3 Gyro Bias&lt;/description&gt;
+        ///    &lt;expression&gt;XKF1[0].GX XKF1[0].GY XKF1[0].GZ XKF1[1].GX XKF1[1].GY XKF1[1].GZ XKF1[2].GX XKF1[2].GY XKF1[2].GZ&lt;/expression&gt;
+        ///    &lt;expression&gt;XKF1[0].GX XKF1[0].GY XKF1[0].GZ XKF1[1].GX XKF1[1].GY XKF1[1].GZ&lt;/expression&gt;
+        ///    &lt;expression&gt;XKF1.GX XKF1.GY XKF1.GZ&lt;/expression&gt;
         ///  &lt;/graph&gt;
         ///
-        ///  &lt;graph name=&apos;EKF/Normalised GPS Innovations - EKF1&apos;&gt;
-        ///    &lt;description&gt;Normalised GPS Innovations - EKF1&lt;/description&gt;
-        ///    &lt;expression&gt;EKF4.SV E [rest of string was truncated]&quot;;.
+        ///  &lt;graph name=&apos;EKF3/Origin Height&apos;&gt;
+        ///    &lt;description&gt;EKF3 Origin Height&lt;/description&gt;
+        ///    &lt;expression&gt;XKF1[0].OH XKF1[1].OH XKF1[2].OH&lt;/ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ekf3Graphs {
             get {
@@ -292,17 +290,17 @@ namespace MissionPlanner {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;graphs&gt;
-        ///  &lt;graph name=&apos;EKF/Normalised GPS Innovations&apos;&gt;
-        ///    &lt;description&gt;Normalised GPS Innovations&lt;/description&gt;
-        ///    &lt;expression&gt;NKF4[0].SV NKF4[0].SP NKF4[1].SV NKF4[1].SP&lt;/expression&gt;
-        ///    &lt;expression&gt;NKF4.SV NKF4.SP NKF9.SV NKF9.SP&lt;/expression&gt;
-        ///    &lt;expression&gt;EKF4.SV EKF4.SP NKF4.SV NKF4.SP&lt;/expression&gt;
-        ///    &lt;expression&gt;EKF4.SV EKF4.SP&lt;/expression&gt;
+        ///
+        ///  &lt;graph name=&apos;EKF2/Gyro Bias&apos;&gt;
+        ///    &lt;description&gt;EKF2 Gyro Bias&lt;/description&gt;
+        ///    &lt;expression&gt;NKF1[0].GX NKF1[0].GY NKF1[0].GZ NKF1[1].GX NKF1[1].GY NKF1[1].GZ NKF1[2].GX NKF1[2].GY NKF1[2].GZ&lt;/expression&gt;
+        ///    &lt;expression&gt;NKF1[0].GX NKF1[0].GY NKF1[0].GZ NKF1[1].GX NKF1[1].GY NKF1[1].GZ&lt;/expression&gt;
+        ///    &lt;expression&gt;NKF1.GX NKF1.GY NKF1.GZ&lt;/expression&gt;
         ///  &lt;/graph&gt;
         ///
-        ///  &lt;graph name=&apos;EKF/Normalised GPS Innovations - EKF1&apos;&gt;
-        ///    &lt;description&gt;Normalised GPS Innovations - EKF1&lt;/description&gt;
-        ///    &lt;expression&gt;EKF4.SV E [rest of string was truncated]&quot;;.
+        ///  &lt;graph name=&apos;EKF2/Origin Height&apos;&gt;
+        ///    &lt;description&gt;EKF2 Origin Height&lt;/description&gt;
+        ///    &lt;expression&gt;NKF1[0].OH NKF1[1].OH NKF1[2].OH&lt;/ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ekfGraphs {
             get {
@@ -311,15 +309,318 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using MissionPlanner;
+        ///using MissionPlanner.Utilities;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Drawing;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Windows.Forms;
+        ///using MissionPlanner.Controls;
+        ///using Newtonsoft.Json;
+        ///using DroneCAN;
+        /////loadassembly: DroneCAN
+        ///
+        ///namespace CANLogExtract
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        public override string Name
+        ///        {
+        ///            get { return &quot;CAN Log Extract&quot;; }
+        ///        }
+        ///
+        ///        public over [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example10_canlogfile {
+            get {
+                return ResourceManager.GetString("example10_canlogfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using MissionPlanner;
+        ///using MissionPlanner.Utilities;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Drawing;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Windows.Forms;
+        ///using MissionPlanner.Controls;
+        ///using Newtonsoft.Json;
+        ///
+        ///namespace tracemp
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        public override string Name
+        ///        {
+        ///            get { return &quot;tracemp&quot;; }
+        ///        }
+        ///
+        ///        public override string Version
+        ///        {
+        ///            get { return  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example11_trace {
+            get {
+                return ResourceManager.GetString("example11_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using MissionPlanner.Utilities;
+        ///using MissionPlanner.Controls;
+        ///using System.IO;
+        ///using System.Windows.Forms;
+        ///using System.Diagnostics;
+        ///using MissionPlanner;
+        ///using System.Drawing;
+        ///using System.Threading.Tasks;
+        ///using GMap.NET.WindowsForms;
+        ///using MissionPlanner.ArduPilot;
+        ///using MissionPlanner.GCSViews;
+        ///using MissionPlanner.Maps;
+        ///
+        ///
+        ///namespace FenceDist
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example3_fencedist {
+            get {
+                return ResourceManager.GetString("example3_fencedist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using MissionPlanner.Utilities;
+        ///using MissionPlanner.Controls;
+        ///using System.IO;
+        ///using System.Windows.Forms;
+        ///using System.Diagnostics;
+        ///using MissionPlanner;
+        ///using System.Drawing;
+        ///using GMap.NET.WindowsForms;
+        ///using MissionPlanner.GCSViews;
+        ///using MissionPlanner.Maps;
+        ///
+        ///
+        ///namespace CameraControl
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        private int sub;
+        ///        private int sub1;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example4_herelink {
+            get {
+                return ResourceManager.GetString("example4_herelink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using MissionPlanner;
+        ///using MissionPlanner.Utilities;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Drawing;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Windows.Forms;
+        ///
+        ///
+        ///namespace LatencyTracker
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        private List&lt;MAVLink.mavlink_gps_raw_int_t&gt; gpsraw = new List&lt;MAVLink.mavlink_gps_raw_int_t&gt;();
+        ///        private List&lt;MAVLink.mavlink_system_time_t&gt; systemtime = new List&lt;MAVLink.mavlink_syste [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example5_latencytracker {
+            get {
+                return ResourceManager.GetString("example5_latencytracker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using MissionPlanner;
+        ///using MissionPlanner.Utilities;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Drawing;
+        ///using System.Linq;
+        ///using System.Windows.Forms;
+        ///using MissionPlanner.Controls;
+        ///
+        ///
+        ///namespace MapIconDesc
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        public override string Name
+        ///        {
+        ///            get { return &quot;MapIconDesc&quot;; }
+        ///        }
+        ///
+        ///        public override string Version
+        ///        {
+        ///            get { return &quot;0.10&quot;; }
+        ///        }
+        ///
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example6_mapicondesc {
+            get {
+                return ResourceManager.GetString("example6_mapicondesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using MissionPlanner;
+        ///using MissionPlanner.Utilities;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Drawing;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Windows.Forms;
+        ///using MissionPlanner.Controls;
+        ///using DroneCAN;
+        /////loadassembly: DroneCAN
+        ///
+        ///namespace CANRTCMExtract
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        public override string Name
+        ///        {
+        ///            get { return &quot;CAN RTCM Extract&quot;; }
+        ///        }
+        ///
+        ///        public override string Version [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example7_canrtcm {
+            get {
+                return ResourceManager.GetString("example7_canrtcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using MissionPlanner.Utilities;
+        ///using System.IO;
+        ///using System.Windows.Forms;
+        ///using System.Diagnostics;
+        ///using System.Drawing;
+        ///using MissionPlanner;
+        ///using MissionPlanner.Controls;
+        ///
+        ///namespace ModeChange
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///        private int hashcode;
+        ///        private ToolStripComboBox modecmb;
+        ///        private string currentmode;
+        ///        private bool inchange;
+        ///        private bool se [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example8_modechange {
+            get {
+                return ResourceManager.GetString("example8_modechange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using MissionPlanner.Utilities;
+        ///using MissionPlanner.Controls;
+        ///using System.IO;
+        ///using System.Windows.Forms;
+        ///using System.Diagnostics;
+        ///using MissionPlanner;
+        ///using System.Drawing;
+        ///using GMap.NET.WindowsForms;
+        ///using MissionPlanner.GCSViews;
+        ///using MissionPlanner.Maps;
+        ///
+        ///
+        ///namespace hudonoff
+        ///{
+        ///    public class Plugin : MissionPlanner.Plugin.Plugin
+        ///    {
+        ///
+        ///        public override string Name
+        ///        {
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string example9_hudonoff {
+            get {
+                return ResourceManager.GetString("example9_hudonoff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/diydrones/binary/raw/e94e833a5628f19137d297822343f6282af6d9cc/History/firmware2.xml AC 4.0.3 AP 4.0.5 AS 4.0.0
         ///https://github.com/diydrones/binary/raw/e3d514ff4770cd9fd91c278fd15abe31e10882ca/History/firmware2.xml AC 4.0.2 AP 4.0.4
         ///https://github.com/diydrones/binary/raw/ef33cbb549fd1a77ea5e23e7ecb52bc6d0f4d915/History/firmware2.xml AC 4.0.1 AP 4.0.3
         ///https://github.com/diydrones/binary/raw/7003e370dffdfbb9d6bc3813a46729a1b8a8fd70/History/firmware2.xml AC 4.0.0 AP 4.0.2
-        ///https://github.com/ [rest of string was truncated]&quot;;.
+        ///https://github. [rest of string was truncated]&quot;;.
         /// </summary>
         public static string FirmwareHistory {
             get {
                 return ResourceManager.GetString("FirmwareHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using MissionPlanner;
+        ///using MissionPlanner.GCSViews;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Windows.Forms;
+        ///using static MAVLink;
+        ///
+        ///namespace generator
+        ///{
+        ///    public class generator : MyUserControl
+        ///    {
+        ///        public generator()
+        ///        {
+        ///            InitializeComponent();
+        ///        }
+        ///
+        ///        /// &lt;summary&gt;
+        ///        /// Required designer variable.
+        ///        /// &lt;/summary&gt;
+        ///        private System.ComponentModel.IContainer components = null;
+        ///
+        ///        /// &lt;summary&gt;
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string generator {
+            get {
+                return ResourceManager.GetString("generator", resourceCulture);
             }
         }
         
@@ -335,8 +636,7 @@ namespace MissionPlanner {
         ///    &lt;ThemeColor&gt;
         ///      &lt;strColorItemName&gt;Control Background&lt;/strColorItemName&gt;
         ///      &lt;clrColor Web=&quot;#E2E2E2&quot; /&gt;
-        ///      &lt;strVariableName&gt;ControlBGColor&lt;/strVariableName&gt;
-        ///    &lt;/ [rest of string was truncated]&quot;;.
+        ///      &lt;strVariableName&gt;ControlBGColor&lt;/strVariableN [rest of string was truncated]&quot;;.
         /// </summary>
         public static string HighContrast {
             get {
@@ -359,22 +659,24 @@ namespace MissionPlanner {
         ///      &lt;Y&gt;Long&lt;/Y&gt;
         ///      &lt;Z&gt;Alt&lt;/Z&gt;
         ///    &lt;/WAYPOINT&gt;
-        ///    &lt;SPLINE_WAYPOINT&gt;
-        ///      &lt;P1&gt;Delay&lt;/P1&gt;
+        ///    &lt;TAKEOFF&gt;
+        ///      &lt;P1&gt;&lt;/P1&gt;
         ///      &lt;P2&gt;&lt;/P2&gt;
         ///      &lt;P3&gt;&lt;/P3&gt;
         ///      &lt;P4&gt;&lt;/P4&gt;
-        ///      &lt;X&gt;Lat&lt;/X&gt;
-        ///      &lt;Y&gt;Long&lt;/Y&gt;
+        ///      &lt;X&gt;&lt;/X&gt;
+        ///      &lt;Y&gt;&lt;/Y&gt;
         ///      &lt;Z&gt;Alt&lt;/Z&gt;
-        ///    &lt;/SPLINE_WAYPOINT&gt;
-        ///    &lt;LOITER_TURNS&gt;
-        ///      &lt;P1&gt;Turns&lt;/P1&gt;
+        ///    &lt;/TAKEOFF&gt;
+        ///    &lt;RETURN_TO_LAUNCH&gt;
+        ///      &lt;P1&gt;&lt;/P1&gt;
         ///      &lt;P2&gt;&lt;/P2&gt;
-        ///      &lt;P3&gt;Radius&lt;/P3&gt;
+        ///      &lt;P3&gt;&lt;/P3&gt;
         ///      &lt;P4&gt;&lt;/P4&gt;
-        ///      &lt;X&gt;Lat&lt;/X&gt;
-        ///      &lt;Y&gt;Long [rest of string was truncated]&quot;;.
+        ///      &lt;X&gt;&lt;/X&gt;
+        ///      &lt;Y&gt;&lt;/Y&gt;
+        ///      &lt;Z&gt;&lt;/Z&gt;
+        ///    &lt;/RETURN_TO_LAUNCH&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string mavcmd {
             get {
@@ -406,11 +708,7 @@ namespace MissionPlanner {
         ///    # rotmat doesn&apos;t work on Python3.2 yet
         ///    from rotmat import Vector3, Matrix3
         ///except Exception:
-        ///    pass
-        ///
-        ///
-        ///def kmh(mps):
-        ///    [rest of string was truncated]&quot;;.
+        ///    p [rest of string was truncated]&quot;;.
         /// </summary>
         public static string mavextra {
             get {
@@ -422,21 +720,16 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to &lt;graphs&gt;
         ///  &lt;graph name=&quot;Speed/Ground vs Air Speed&quot;&gt;
         ///    &lt;expression&gt;VFR_HUD.groundspeed VFR_HUD.airspeed&lt;/expression&gt;
+        ///    &lt;expression&gt;GPS[0].Spd GPS[1].Spd CTUN.As ARSP.Airspeed&lt;/expression&gt;
+        ///    &lt;expression&gt;GPS.Spd CTUN.As ARSP.Airspeed&lt;/expression&gt;
         ///    &lt;expression&gt;GPS.Spd ARSP.Airspeed&lt;/expression&gt;
         ///    &lt;description&gt;
         ///      This shows the ground speed of the vehicle versus its air speed
         ///    &lt;/description&gt;
         ///  &lt;/graph&gt;
         ///
-        ///  &lt;graph name=&quot;Speed/Ground Speed&quot;&gt;
-        ///    &lt;expression&gt;VFR_HUD.groundspeed&lt;/expression&gt;
-        ///    &lt;expression&gt;GPS.Spd&lt;/expression&gt;
-        ///    &lt;description&gt;
-        ///      This shows the ground speed of the vehicle
-        ///    &lt;/description&gt;
-        ///  &lt;/graph&gt;
-        ///  
-        ///   [rest of string was truncated]&quot;;.
+        ///  &lt;graph name=&quot;Speed/Ground vs Corrected AirSpeed&quot;&gt;
+        ///    &lt;expression&gt;GPS[0].Spd GPS[1].Spd CT [rest of string was truncated]&quot;;.
         /// </summary>
         public static string mavgraphs {
             get {
@@ -497,13 +790,16 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;Params&gt;
-        ///  &lt;ArduCopter2&gt;
-        ///    &lt;ACRO_BAL_PITCH&gt;
-        ///      &lt;DisplayName&gt;Acro Balance Pitch&lt;/DisplayName&gt;
-        ///      &lt;Description&gt;rate at which pitch angle returns to level in acro and sport mode.  A higher value causes the vehicle to return to level faster. For helicopter sets the decay rate of the virtual flybar in the pitch axis. A higher value causes faster decay of desired to actual attitude.&lt;/Description&gt;
-        ///      &lt;Range&gt;0 3&lt;/Range&gt;
-        ///      &lt;Increment&gt;0.1&lt;/Increment&gt;
-        ///      [rest of string was truncated]&quot;;.
+        ///	&lt;ArduCopter2&gt;
+        ///		&lt;ACCEL_Z_D&gt;
+        ///			&lt;DisplayName&gt;Throttle acceleration controller D gain&lt;/DisplayName&gt;
+        ///			&lt;Description&gt;Throttle acceleration controller D gain.  Compensates for short-term change in desired vertical acceleration vs actual acceleration&lt;/Description&gt;
+        ///			&lt;Range&gt;0.000 0.400&lt;/Range&gt;
+        ///			&lt;User&gt;Standard&lt;/User&gt;
+        ///		&lt;/ACCEL_Z_D&gt;
+        ///		&lt;ACCEL_Z_FILT&gt;
+        ///			&lt;DisplayName&gt;Throttle acceleration filter&lt;/DisplayName&gt;
+        ///			&lt;Description&gt;Filter applied to acceleration [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ParameterMetaDataBackup {
             get {
@@ -557,7 +853,7 @@ namespace MissionPlanner {
         ///# Free Software Foundation; either version 2.1 of the License, or (at your
         ///# option) any later version.
         ///#
-        ///# This library is distributed in the hope  [rest of string was truncated]&quot;;.
+        ///# This library is distributed [rest of string was truncated]&quot;;.
         /// </summary>
         public static string rotmat {
             get {

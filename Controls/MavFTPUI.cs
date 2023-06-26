@@ -33,9 +33,6 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
-                    if (toolStripProgressBar1.Value == percent)
-                        return;
-
                     if (this.IsDisposed)
                     {
                         _mavftp = null;
@@ -46,7 +43,8 @@ namespace MissionPlanner.Controls
                     {
                         try
                         {
-                            toolStripProgressBar1.Value = percent;
+                            if(percent >= 0)
+                                toolStripProgressBar1.Value = percent;
                             toolStripStatusLabel1.Text = message;
                             statusStrip1.Refresh();
                         }

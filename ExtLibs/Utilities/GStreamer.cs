@@ -157,7 +157,22 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-
+            public static IntPtr gst_bus_timed_pop_filtered(IntPtr raw, ulong timeout, int types)
+            {
+                switch (Backend)
+                {
+                    default:
+                    case BackendEnum.Windows:
+                        return WinNativeMethods.gst_bus_timed_pop_filtered(raw, timeout, types);
+                        break;
+                    case BackendEnum.Linux:
+                        return LinuxNativeMethods.gst_bus_timed_pop_filtered(raw, timeout, types);
+                        break;
+                    case BackendEnum.Android:
+                        return AndroidNativeMethods.gst_bus_timed_pop_filtered(raw, timeout, types);
+                        break;
+                }
+            }
 
             public static void gst_buffer_extract_dup(IntPtr raw, UIntPtr offset, UIntPtr size, out IntPtr dest,
               out UIntPtr dest_size)
@@ -489,6 +504,77 @@ namespace MissionPlanner.Utilities
                         break;
                 }
             }
+
+            public static string gst_caps_to_string(IntPtr capsS)
+            {
+                IntPtr raw_ret;
+                switch (Backend)
+                {
+                    default:
+                    case BackendEnum.Windows:
+                        raw_ret = WinNativeMethods.gst_caps_to_string(capsS);
+                        break;
+                    case BackendEnum.Linux:
+                        raw_ret = LinuxNativeMethods.gst_caps_to_string(capsS);
+                        break;
+                    case BackendEnum.Android:
+                        raw_ret = AndroidNativeMethods.gst_caps_to_string(capsS);
+                        break;
+                }
+
+                string ret = PtrToStringGFree(raw_ret);
+                return ret;
+            }
+
+
+            public static string Utf8PtrToString(IntPtr ptr)
+            {
+                if (ptr == IntPtr.Zero)
+                    return null;
+
+                int len = (int)(uint)strlen(ptr);
+                byte[] bytes = new byte[len];
+                Marshal.Copy(ptr, bytes, 0, len);
+                return System.Text.Encoding.UTF8.GetString(bytes);
+            }
+
+            public static string[] Utf8PtrToString(IntPtr[] ptrs)
+            {
+                // The last pointer is a null terminator.
+                string[] ret = new string[ptrs.Length - 1];
+                for (int i = 0; i < ret.Length; i++)
+                    ret[i] = Utf8PtrToString(ptrs[i]);
+                return ret;
+            }
+
+            public static string PtrToStringGFree(IntPtr ptr)
+            {
+                string ret = Utf8PtrToString(ptr);
+                return ret;
+            }
+
+            public static string[] PtrToStringGFree(IntPtr[] ptrs)
+            {
+                // The last pointer is a null terminator.
+                string[] ret = new string[ptrs.Length - 1];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = Utf8PtrToString(ptrs[i]);
+                }
+                return ret;
+            }
+
+            static ulong strlen(IntPtr s)
+            {
+                ulong cnt = 0;
+                byte b = Marshal.ReadByte(s, (int)cnt);
+                while (b != 0)
+                {
+                    cnt++;
+                    b = Marshal.ReadByte(s, (int)cnt);
+                }
+                return cnt;
+            }
         }
 
         public static class AndroidNativeMethods
@@ -525,6 +611,8 @@ namespace MissionPlanner.Utilities
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
 
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr raw, ulong timeout, int types);
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_buffer_extract_dup(IntPtr raw, UIntPtr offset, UIntPtr size, out IntPtr dest,
@@ -679,6 +767,8 @@ namespace MissionPlanner.Utilities
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
 
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr raw, ulong timeout, int types);
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_buffer_extract_dup(IntPtr raw, UIntPtr offset, UIntPtr size, out IntPtr dest,
@@ -849,6 +939,11 @@ namespace MissionPlanner.Utilities
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
+
+
+
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr raw, ulong timeout, int types);
 
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
@@ -1152,6 +1247,8 @@ namespace MissionPlanner.Utilities
             int argc = 1;
             string[] argv = new string[] { "-vvv" };
 
+            Environment.SetEnvironmentVariable("GST_DEBUG", "*:4");
+
             try
             {
                 
@@ -1236,31 +1333,54 @@ namespace MissionPlanner.Utilities
             callbacks.eos += (sink, data) => { log.Info("EOS"); };
             */
 
-            NativeMethods.gst_app_sink_set_drop(appsink, true);
-            NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
+            if (appsink != IntPtr.Zero)
+            {
+                NativeMethods.gst_app_sink_set_drop(appsink, true);
+                NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
+                log.Info("set appsink params ");
+            }
+
             // callback fail on linux
             //NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, IntPtr.Zero, IntPtr.Zero);
-            log.Info("set appsink params ");
+            
             /* Start playing */
             var running = NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING) != GstStateChangeReturn.GST_STATE_CHANGE_FAILURE;
             log.Info("set playing ");
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
+                      
 
             int Width = 0;
             int Height = 0;
-            int trys = 0;
             // prevent it falling out of scope
+            int trys = 0;
             GstAppSinkCallbacks callbacks2 = callbacks;
 
             run = true;
+
+            // not using appsink
+            if (appsink == IntPtr.Zero && running)
+            {
+                /* Wait until error or EOS */
+                var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE,
+                    (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+                run = false;
+
+            }
+            else {
+                var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, 0,
+                     (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+                if (msg != IntPtr.Zero)
+                    run = false;
+            }
+
             log.Info("start frame loop gst_app_sink_is_eos");
             while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
             {
                 try
                 {
                     //log.Info("gst_app_sink_try_pull_sample ");
-                    var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
+                        var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
                     if (sample != IntPtr.Zero)
                     {
                         trys = 0;
@@ -1271,7 +1391,7 @@ namespace MissionPlanner.Utilities
                         NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
                         NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
 
-                        //var capsstring = gst_caps_to_string(caps_s);
+                        var capsstring = NativeMethods.gst_caps_to_string(caps_s);
                         //var structure = gst_sample_get_info(sample);
                         //var structstring = gst_structure_to_string(structure);
                         //log.Info("gst_sample_get_buffer ");
@@ -1444,7 +1564,10 @@ namespace MissionPlanner.Utilities
                     var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0") || a.ToLower().Contains("libgstreamer_android.so")).ToArray();
 
                     ans = ans.Where(a =>
-                        (!is64bit && !a.ToLower().Contains("_64")) || is64bit && a.ToLower().Contains("_64")).ToArray();
+                        (!is64bit && !a.ToLower().Contains("_64")) || // windows
+                        is64bit && a.ToLower().Contains("_64") || // windows
+                        a.ToLower().Contains(".so.") // linux/rpi
+                        ).ToArray();
 
                     if (ans.Length > 0)
                     {

@@ -124,7 +124,7 @@
     <value>空速 </value>
   </data>
   <data name="Bat" xml:space="preserve">
-    <value>电池 </value>
+    <value>电池</value>
   </data>
   <data name="DISARMED" xml:space="preserve">
     <value>            已锁定</value>
@@ -162,5 +162,11 @@
   </data>
   <data name="GS" xml:space="preserve">
     <value>地速 </value>
+  </data>
+  <data name="NotReadyToArm" xml:space="preserve">
+    <value>未准备解锁</value>
+  </data>
+  <data name="ReadyToArm" xml:space="preserve">
+    <value>准备解锁</value>
   </data>
 </root>

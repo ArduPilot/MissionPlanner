@@ -15,11 +15,20 @@ namespace MissionPlanner.Comms
     {
         private readonly CircularBuffer<byte> _bufferRX = new CircularBuffer<byte>(1024 * 100);
 
+        public CommsInjection()
+        {
+            BaseStream = new CommsStream(this, 0);
+        }
         public void AppendBuffer(byte[] indata)
         {
-            foreach (var b in indata)
+            lock (_bufferRX)
             {
-                _bufferRX.Add(b);
+                foreach (var b in indata)
+                {
+                    _bufferRX.Add(b);
+                }
+
+                BaseStream.SetLength(BaseStream.Length + indata.Length);
             }
         }
 
@@ -28,17 +37,20 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
-            _bufferRX.Clear();
+            lock (_bufferRX)
+                _bufferRX.Clear();
         }
 
         public void DiscardInBuffer()
         {
-            _bufferRX.Clear();
+            lock (_bufferRX)
+                _bufferRX.Clear();
         }
 
         public void Open()
         {
-            _bufferRX.Clear();
+            lock (_bufferRX)
+                _bufferRX.Clear();
         }
 
         public int Read(byte[] buffer, int offset, int count)
@@ -52,10 +64,13 @@ namespace MissionPlanner.Comms
                 counttimeout++;
             }
 
-            var read = Math.Min(count, _bufferRX.Length());
-            for (var i = 0; i < read; i++) buffer[offset + i] = _bufferRX.Read();
+            lock (_bufferRX)
+            {
+                var read = Math.Min(count, _bufferRX.Length());
+                for (var i = 0; i < read; i++) buffer[offset + i] = _bufferRX.Read();
 
-            return read;
+                return read;
+            }
         }
 
         public int ReadByte()
@@ -150,7 +165,8 @@ namespace MissionPlanner.Comms
             get
             {
                 ReadBufferUpdate?.Invoke(this, 0);
-                return _bufferRX.Length();
+                lock (_bufferRX)
+                    return _bufferRX.Length();
             }
         }
 

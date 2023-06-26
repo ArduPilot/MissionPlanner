@@ -1,5 +1,3 @@
-
-
 namespace DroneCAN
 {
 	public partial class DroneCAN {
@@ -8,4 +6,3 @@ namespace DroneCAN
 		const double UAVCAN_PROTOCOL_FILE_READ_DT_SIG = 0x8DCDCA939F33F678;
 	}
 }
-

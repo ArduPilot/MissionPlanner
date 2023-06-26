@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Mar 08 2022";
+    public const string MAVLINK_BUILD_DATE = "Sun Apr 02 2023";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -202,7 +202,7 @@ public partial class MAVLink
         new message_info(217, "GOPRO_GET_RESPONSE", 202, 6, 6, typeof( mavlink_gopro_get_response_t )),
         new message_info(218, "GOPRO_SET_REQUEST", 17, 7, 7, typeof( mavlink_gopro_set_request_t )),
         new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, 2, typeof( mavlink_gopro_set_response_t )),
-        new message_info(225, "EFI_STATUS", 208, 65, 65, typeof( mavlink_efi_status_t )),
+        new message_info(225, "EFI_STATUS", 208, 65, 73, typeof( mavlink_efi_status_t )),
         new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
         new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
         new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
@@ -239,7 +239,13 @@ public partial class MAVLink
         new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
         new message_info(269, "VIDEO_STREAM_INFORMATION", 109, 213, 213, typeof( mavlink_video_stream_information_t )),
         new message_info(270, "VIDEO_STREAM_STATUS", 59, 19, 19, typeof( mavlink_video_stream_status_t )),
+        new message_info(271, "CAMERA_FOV_STATUS", 22, 52, 52, typeof( mavlink_camera_fov_status_t )),
+        new message_info(275, "CAMERA_TRACKING_IMAGE_STATUS", 126, 31, 31, typeof( mavlink_camera_tracking_image_status_t )),
+        new message_info(276, "CAMERA_TRACKING_GEO_STATUS", 18, 49, 49, typeof( mavlink_camera_tracking_geo_status_t )),
+        new message_info(282, "GIMBAL_MANAGER_SET_ATTITUDE", 123, 35, 35, typeof( mavlink_gimbal_manager_set_attitude_t )),
         new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 144, typeof( mavlink_gimbal_device_information_t )),
+        new message_info(284, "GIMBAL_DEVICE_SET_ATTITUDE", 99, 32, 32, typeof( mavlink_gimbal_device_set_attitude_t )),
+        new message_info(285, "GIMBAL_DEVICE_ATTITUDE_STATUS", 137, 40, 40, typeof( mavlink_gimbal_device_attitude_status_t )),
         new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 210, 53, 53, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
         new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
         new message_info(301, "AIS_VESSEL", 243, 58, 58, typeof( mavlink_ais_vessel_t )),
@@ -273,10 +279,13 @@ public partial class MAVLink
         new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
         new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 71, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
         new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 240, 14, 14, typeof( mavlink_uavionix_adsb_out_status_t )),
+        new message_info(10151, "LOWEHEISER_GOV_EFI", 195, 85, 85, typeof( mavlink_loweheiser_gov_efi_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
         new message_info(11003, "DEVICE_OP_WRITE_REPLY", 64, 5, 5, typeof( mavlink_device_op_write_reply_t )),
+        new message_info(11004, "SECURE_COMMAND", 11, 232, 232, typeof( mavlink_secure_command_t )),
+        new message_info(11005, "SECURE_COMMAND_REPLY", 93, 230, 230, typeof( mavlink_secure_command_reply_t )),
         new message_info(11010, "ADAP_TUNING", 46, 49, 49, typeof( mavlink_adap_tuning_t )),
         new message_info(11011, "VISION_POSITION_DELTA", 106, 44, 44, typeof( mavlink_vision_position_delta_t )),
         new message_info(11020, "AOA_SSA", 205, 16, 16, typeof( mavlink_aoa_ssa_t )),
@@ -290,9 +299,29 @@ public partial class MAVLink
         new message_info(11037, "OBSTACLE_DISTANCE_3D", 130, 28, 28, typeof( mavlink_obstacle_distance_3d_t )),
         new message_info(11038, "WATER_DEPTH", 47, 38, 38, typeof( mavlink_water_depth_t )),
         new message_info(11039, "MCU_STATUS", 142, 9, 9, typeof( mavlink_mcu_status_t )),
+        new message_info(11040, "ESC_TELEMETRY_13_TO_16", 132, 44, 44, typeof( mavlink_esc_telemetry_13_to_16_t )),
+        new message_info(11041, "ESC_TELEMETRY_17_TO_20", 208, 44, 44, typeof( mavlink_esc_telemetry_17_to_20_t )),
+        new message_info(11042, "ESC_TELEMETRY_21_TO_24", 201, 44, 44, typeof( mavlink_esc_telemetry_21_to_24_t )),
+        new message_info(11043, "ESC_TELEMETRY_25_TO_28", 193, 44, 44, typeof( mavlink_esc_telemetry_25_to_28_t )),
+        new message_info(11044, "ESC_TELEMETRY_29_TO_32", 189, 44, 44, typeof( mavlink_esc_telemetry_29_to_32_t )),
+        new message_info(12900, "OPEN_DRONE_ID_BASIC_ID", 114, 44, 44, typeof( mavlink_open_drone_id_basic_id_t )),
+        new message_info(12901, "OPEN_DRONE_ID_LOCATION", 254, 59, 59, typeof( mavlink_open_drone_id_location_t )),
+        new message_info(12902, "OPEN_DRONE_ID_AUTHENTICATION", 140, 53, 53, typeof( mavlink_open_drone_id_authentication_t )),
+        new message_info(12903, "OPEN_DRONE_ID_SELF_ID", 249, 46, 46, typeof( mavlink_open_drone_id_self_id_t )),
+        new message_info(12904, "OPEN_DRONE_ID_SYSTEM", 77, 54, 54, typeof( mavlink_open_drone_id_system_t )),
+        new message_info(12905, "OPEN_DRONE_ID_OPERATOR_ID", 49, 43, 43, typeof( mavlink_open_drone_id_operator_id_t )),
+        new message_info(12915, "OPEN_DRONE_ID_MESSAGE_PACK", 94, 249, 249, typeof( mavlink_open_drone_id_message_pack_t )),
+        new message_info(12918, "OPEN_DRONE_ID_ARM_STATUS", 139, 51, 51, typeof( mavlink_open_drone_id_arm_status_t )),
+        new message_info(12919, "OPEN_DRONE_ID_SYSTEM_UPDATE", 7, 18, 18, typeof( mavlink_open_drone_id_system_update_t )),
         new message_info(12920, "HYGROMETER_SENSOR", 20, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
+        new message_info(50001, "CUBEPILOT_RAW_RC", 246, 32, 32, typeof( mavlink_cubepilot_raw_rc_t )),
+        new message_info(50002, "HERELINK_VIDEO_STREAM_INFORMATION", 181, 246, 246, typeof( mavlink_herelink_video_stream_information_t )),
+        new message_info(50003, "HERELINK_TELEM", 62, 19, 19, typeof( mavlink_herelink_telem_t )),
+        new message_info(50004, "CUBEPILOT_FIRMWARE_UPDATE_START", 240, 10, 10, typeof( mavlink_cubepilot_firmware_update_start_t )),
+        new message_info(50005, "CUBEPILOT_FIRMWARE_UPDATE_RESP", 152, 6, 6, typeof( mavlink_cubepilot_firmware_update_resp_t )),
+        new message_info(26900, "VIDEO_STREAM_INFORMATION99", 222, 246, 246, typeof( mavlink_video_stream_information99_t )),
         new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
 
     };
@@ -532,7 +561,13 @@ public partial class MAVLink
         LOGGING_ACK = 268,
         VIDEO_STREAM_INFORMATION = 269,
         VIDEO_STREAM_STATUS = 270,
+        CAMERA_FOV_STATUS = 271,
+        CAMERA_TRACKING_IMAGE_STATUS = 275,
+        CAMERA_TRACKING_GEO_STATUS = 276,
+        GIMBAL_MANAGER_SET_ATTITUDE = 282,
         GIMBAL_DEVICE_INFORMATION = 283,
+        GIMBAL_DEVICE_SET_ATTITUDE = 284,
+        GIMBAL_DEVICE_ATTITUDE_STATUS = 285,
         AUTOPILOT_STATE_FOR_GIMBAL_DEVICE = 286,
         WIFI_CONFIG_AP = 299,
         AIS_VESSEL = 301,
@@ -566,10 +601,13 @@ public partial class MAVLink
         UAVIONIX_ADSB_GET = 10006,
         UAVIONIX_ADSB_OUT_CONTROL = 10007,
         UAVIONIX_ADSB_OUT_STATUS = 10008,
+        LOWEHEISER_GOV_EFI = 10151,
         DEVICE_OP_READ = 11000,
         DEVICE_OP_READ_REPLY = 11001,
         DEVICE_OP_WRITE = 11002,
         DEVICE_OP_WRITE_REPLY = 11003,
+        SECURE_COMMAND = 11004,
+        SECURE_COMMAND_REPLY = 11005,
         ADAP_TUNING = 11010,
         VISION_POSITION_DELTA = 11011,
         AOA_SSA = 11020,
@@ -583,9 +621,29 @@ public partial class MAVLink
         OBSTACLE_DISTANCE_3D = 11037,
         WATER_DEPTH = 11038,
         MCU_STATUS = 11039,
+        ESC_TELEMETRY_13_TO_16 = 11040,
+        ESC_TELEMETRY_17_TO_20 = 11041,
+        ESC_TELEMETRY_21_TO_24 = 11042,
+        ESC_TELEMETRY_25_TO_28 = 11043,
+        ESC_TELEMETRY_29_TO_32 = 11044,
+        OPEN_DRONE_ID_BASIC_ID = 12900,
+        OPEN_DRONE_ID_LOCATION = 12901,
+        OPEN_DRONE_ID_AUTHENTICATION = 12902,
+        OPEN_DRONE_ID_SELF_ID = 12903,
+        OPEN_DRONE_ID_SYSTEM = 12904,
+        OPEN_DRONE_ID_OPERATOR_ID = 12905,
+        OPEN_DRONE_ID_MESSAGE_PACK = 12915,
+        OPEN_DRONE_ID_ARM_STATUS = 12918,
+        OPEN_DRONE_ID_SYSTEM_UPDATE = 12919,
         HYGROMETER_SENSOR = 12920,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
+        CUBEPILOT_RAW_RC = 50001,
+        HERELINK_VIDEO_STREAM_INFORMATION = 50002,
+        HERELINK_TELEM = 50003,
+        CUBEPILOT_FIRMWARE_UPDATE_START = 50004,
+        CUBEPILOT_FIRMWARE_UPDATE_RESP = 50005,
+        VIDEO_STREAM_INFORMATION99 = 26900,
         HEARTBEAT = 0,
     }
     
@@ -647,41 +705,51 @@ public partial class MAVLink
     ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. NaN and INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current yaw or latitude rather than a specific value). See https://mavlink.io/en/guide/xml_schema.html#MAV_CMD for information about the structure of the MAV_CMD entries </summary>
     public enum MAV_CMD: ushort
     {
-        ///<summary> Navigate to waypoint. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Acceptance radius (if the sphere with this radius is hit, the waypoint counts as reached)| 0 radius to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at waypoint (rotary wing). NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Navigate to waypoint. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Acceptance radius (if the sphere with this radius is hit, the waypoint counts as reached)| 0 to pass through the WP, if > 0 radius to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at waypoint (rotary wing). NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Navigate to waypoint.")]
+        [hasLocation()]
         WAYPOINT=16, 
         ///<summary> Loiter around this waypoint an unlimited amount of time |Empty| Empty| Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, else counter-clockwise| Desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint an unlimited amount of time")]
+        [hasLocation()]
         LOITER_UNLIM=17, 
         ///<summary> Loiter around this waypoint for X turns |Number of turns.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint for X turns")]
+        [hasLocation()]
         LOITER_TURNS=18, 
         ///<summary> Loiter around this waypoint for X seconds |Loiter time.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise.| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle.  NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint for X seconds")]
+        [hasLocation()]
         LOITER_TIME=19, 
         ///<summary> Return to launch location |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Return to launch location")]
         RETURN_TO_LAUNCH=20, 
         ///<summary> Land at location. |Minimum target altitude if landing is aborted (0 = undefined/use system default).| Precision land mode.| Empty.| Desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude.| Longitude.| Landing altitude (ground level in current frame).|  </summary>
         [Description("Land at location.")]
+        [hasLocation()]
         LAND=21, 
         ///<summary> Takeoff from ground / hand. Vehicles that support multiple takeoff modes (e.g. VTOL quadplane) should take off using the currently configured mode. |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Empty| Yaw angle (if magnetometer present), ignored without magnetometer. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Takeoff from ground / hand. Vehicles that support multiple takeoff modes (e.g. VTOL quadplane) should take off using the currently configured mode.")]
+        [hasLocation()]
         TAKEOFF=22, 
         ///<summary> Land at local position (local frame only) |Landing target number (if available)| Maximum accepted offset from desired landing position - computed magnitude from spherical coordinates: d = sqrt(x^2 + y^2 + z^2), which gives the maximum accepted distance between the desired landing position and the position where the vehicle is about to land| Landing descend rate| Desired yaw angle| Y-axis position| X-axis position| Z-axis / ground level position|  </summary>
         [Description("Land at local position (local frame only)")]
+        [hasLocation()]
         LAND_LOCAL=23, 
         ///<summary> Takeoff from local position (local frame only) |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Takeoff ascend rate| Yaw angle (if magnetometer or another yaw estimation source present), ignored without one of these| Y-axis position| X-axis position| Z-axis position|  </summary>
         [Description("Takeoff from local position (local frame only)")]
+        [hasLocation()]
         TAKEOFF_LOCAL=24, 
         ///<summary> Vehicle following, i.e. this waypoint represents the position of a moving vehicle |Following logic to use (e.g. loitering or sinusoidal following) - depends on specific autopilot implementation| Ground speed of vehicle to be followed| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
         [Description("Vehicle following, i.e. this waypoint represents the position of a moving vehicle")]
+        [hasLocation()]
         FOLLOW=25, 
         ///<summary> Continue on the current course and climb/descend to specified altitude.  When the altitude is reached continue to the next command (i.e., don't proceed to the next command until the desired altitude is reached. |Climb or Descend (0 = Neutral, command completes when within 5m of this command's altitude, 1 = Climbing, command completes when at or above this command's altitude, 2 = Descending, command completes when at or below this command's altitude.| Empty| Empty| Empty| Empty| Empty| Desired altitude|  </summary>
         [Description("Continue on the current course and climb/descend to specified altitude.  When the altitude is reached continue to the next command (i.e., don't proceed to the next command until the desired altitude is reached.")]
         CONTINUE_AND_CHANGE_ALT=30, 
-        ///<summary> Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint. |Heading Required (0 = False)| Radius. If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.| Empty| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint. |Heading Required (0 = False)| Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.| Empty| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location| Latitude| Longitude| Altitude|  </summary>
         [Description("Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint.")]
+        [hasLocation()]
         LOITER_TO_ALT=31, 
         ///<summary> Begin following a target |System ID (of the FOLLOW_TARGET beacon). Send 0 to disable follow-me and return to the default position hold mode.| Reserved| Reserved| Altitude mode: 0: Keep current altitude, 1: keep altitude difference to target, 2: go to a fixed altitude above home.| Altitude above home. (used if mode=2)| Reserved| Time to land in which the MAV should go to the default position hold mode after a message RX timeout.|  </summary>
         [Description("Begin following a target")]
@@ -691,24 +759,29 @@ public partial class MAVLink
         DO_FOLLOW_REPOSITION=33, 
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         [Description("Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras.")]
+        [hasLocation()]
         [Obsolete]
         ROI=80, 
         ///<summary> Control autonomous path planning on the MAV. |0: Disable local obstacle avoidance / local path planning (without resetting map), 1: Enable local path planning, 2: Enable and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         [Description("Control autonomous path planning on the MAV.")]
+        [hasLocation()]
         PATHPLANNING=81, 
         ///<summary> Navigate to waypoint using a spline path. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         [Description("Navigate to waypoint using a spline path.")]
+        [hasLocation()]
         SPLINE_WAYPOINT=82, 
         ///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |Altitude.| Descent speed.| How long to wiggle the control surfaces to prevent them seizing up.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up.")]
         ALTITUDE_WAIT=83, 
-        ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. |Empty| Front transition heading.| Empty| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
-        [Description("Takeoff from ground using VTOL mode, and transition to forward flight with specified heading.")]
+        ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. The command should be ignored by vehicles that dont support both VTOL and fixed-wing flight (multicopters, boats,etc.). |Empty| Front transition heading.| Empty| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
+        [Description("Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. The command should be ignored by vehicles that dont support both VTOL and fixed-wing flight (multicopters, boats,etc.).")]
+        [hasLocation()]
         VTOL_TAKEOFF=84, 
-        ///<summary> Land using VTOL mode |Empty| Empty| Approach altitude (with the same reference as the Altitude field). NaN if unspecified.| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude (ground level)|  </summary>
+        ///<summary> Land using VTOL mode |See NAV_VTOL_LAND_OPTIONS enum| Empty| Approach altitude (with the same reference as the Altitude field). NaN if unspecified.| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude (ground level)|  </summary>
         [Description("Land using VTOL mode")]
+        [hasLocation()]
         VTOL_LAND=85, 
-        ///<summary> hand control over to an external controller |0.5f on)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> hand control over to an external controller |On / Off (> 0.5f on)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("hand control over to an external controller")]
         GUIDED_ENABLE=92, 
         ///<summary> Delay the next navigation command a number of seconds or until a specified time |Delay (-1 to enable time-of-day fields)| hour (24h format, UTC, -1 to ignore)| minute (24h format, UTC, -1 to ignore)| second (24h format, UTC, -1 to ignore)| Empty| Empty| Empty|  </summary>
@@ -716,6 +789,7 @@ public partial class MAVLink
         DELAY=93, 
         ///<summary> Descend and place payload. Vehicle moves to specified location, descends until it detects a hanging payload has reached the ground, and then releases the payload. If ground is not detected before the reaching the maximum descent value (param1), the command will complete without releasing the payload. |Maximum distance to descend.| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
         [Description("Descend and place payload. Vehicle moves to specified location, descends until it detects a hanging payload has reached the ground, and then releases the payload. If ground is not detected before the reaching the maximum descent value (param1), the command will complete without releasing the payload.")]
+        [hasLocation()]
         PAYLOAD_PLACE=94, 
         ///<summary> NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration")]
@@ -741,11 +815,12 @@ public partial class MAVLink
         ///<summary> Jump to the desired command in the mission list.  Repeat this action only the specified number of times |Sequence number| Repeat count| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Jump to the desired command in the mission list.  Repeat this action only the specified number of times")]
         DO_JUMP=177, 
-        ///<summary> Change speed and/or throttle set points. |Speed type (0=Airspeed, 1=Ground Speed, 2=Climb Speed, 3=Descent Speed)| Speed (-1 indicates no change)| Throttle (-1 indicates no change)| 0: absolute, 1: relative| Empty| Empty| Empty|  </summary>
+        ///<summary> Change speed and/or throttle set points. |Speed type (0=Airspeed, 1=Ground Speed, 2=Climb Speed, 3=Descent Speed)| Speed (-1 indicates no change, -2 indicates return to default vehicle speed)| Throttle (-1 indicates no change, -2 indicates return to default vehicle throttle value)| 0: absolute, 1: relative| Empty| Empty| Empty|  </summary>
         [Description("Change speed and/or throttle set points.")]
         DO_CHANGE_SPEED=178, 
         ///<summary> Changes the home location either to the current location or a specified location. |Use current (1=use current location, 0=use specified location)| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
         [Description("Changes the home location either to the current location or a specified location.")]
+        [hasLocation()]
         DO_SET_HOME=179, 
         ///<summary> Set a system parameter.  Caution!  Use of this command requires knowledge of the numeric enumeration value of the parameter. |Parameter number| Parameter value| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Set a system parameter.  Caution!  Use of this command requires knowledge of the numeric enumeration value of the parameter.")]
@@ -762,25 +837,27 @@ public partial class MAVLink
         ///<summary> Cycle a between its nominal setting and a desired PWM for a desired number of cycles with a desired period. |Servo instance number.| Pulse Width Modulation.| Cycle count.| Cycle time.| Empty| Empty| Empty|  </summary>
         [Description("Cycle a between its nominal setting and a desired PWM for a desired number of cycles with a desired period.")]
         DO_REPEAT_SERVO=184, 
-        ///<summary> Terminate flight immediately |0.5| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> Terminate flight immediately |Flight termination activated if > 0.5| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Terminate flight immediately")]
         DO_FLIGHTTERMINATION=185, 
         ///<summary> Change altitude set point. |Altitude.| Frame of new altitude.| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change altitude set point.")]
         DO_CHANGE_ALTITUDE=186, 
-        ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
-        [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence.")]
+        ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. 	  It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. 	  The Latitude/Longitude/Altitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. 	 |Empty| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
+        [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. 	  It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. 	  The Latitude/Longitude/Altitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. 	")]
+        [hasLocation()]
         DO_LAND_START=189, 
-        ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| ty| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to perform a landing from a rally point.")]
         DO_RALLY_LAND=190, 
         ///<summary> Mission command to safely abort an autonomous landing. |Altitude| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to safely abort an autonomous landing.")]
         DO_GO_AROUND=191, 
-        ///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags.| Reserved| Yaw heading. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.). For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags.| Loiter radius for planes. Positive values only, direction is controlled by Yaw value. A value of zero or NaN is ignored. | Yaw heading. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.). For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude| Longitude| Altitude|  </summary>
         [Description("Reposition the vehicle to a specific WGS84 global position.")]
+        [hasLocation()]
         DO_REPOSITION=192, 
-        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
+        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |0: Pause current mission or reposition command, hold current position. 1: Continue mission. A VTOL capable vehicle should enter hover mode (multicopter and VTOL planes). A plane should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("If in a GPS controlled position mode, hold the current position or continue.")]
         DO_PAUSE_CONTINUE=193, 
         ///<summary> Set moving direction to forward or reverse. |Direction (0=Forward, 1=Reverse)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -788,6 +865,7 @@ public partial class MAVLink
         DO_SET_REVERSE=194, 
         ///<summary> Sets the region of interest (ROI) to a location. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Empty| Empty| Empty| Empty| Latitude of ROI location| Longitude of ROI location| Altitude of ROI location|  </summary>
         [Description("Sets the region of interest (ROI) to a location. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras.")]
+        [hasLocation()]
         DO_SET_ROI_LOCATION=195, 
         ///<summary> Sets the region of interest (ROI) to be toward next waypoint, with optional pitch/roll/yaw offset. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Empty| Empty| Empty| Empty| Pitch offset from next waypoint, positive pitching up| Roll offset from next waypoint, positive rolling to the right| Yaw offset from next waypoint, positive yawing to the right|  </summary>
         [Description("Sets the region of interest (ROI) to be toward next waypoint, with optional pitch/roll/yaw offset. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras.")]
@@ -798,11 +876,12 @@ public partial class MAVLink
         ///<summary> Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means. |System ID| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means.")]
         DO_SET_ROI_SYSID=198, 
-        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| mages every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
+        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| Transmission mode: 0: video stream, >0: single images every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         [Description("Control onboard camera system.")]
         DO_CONTROL_VIDEO=200, 
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID (depends on param 1).| Region of interest index. (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         [Description("Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras.")]
+        [hasLocation()]
         [Obsolete]
         DO_SET_ROI=201, 
         ///<summary> Configure digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ). |Modes: P, TV, AV, M, Etc.| Shutter speed: Divisor number for one second.| Aperture: F stop number.| ISO number e.g. 80, 100, 200, Etc.| Exposure type enumerator.| Command Identity.| Main engine cut-off time before camera trigger. (0 means no cut-off)|  </summary>
@@ -811,7 +890,7 @@ public partial class MAVLink
         ///<summary> Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ). |Session control e.g. show/hide lens| Zoom's absolute position| Zooming step value to offset zoom from the current position| Focus Locking, Unlocking or Re-locking| Shooting Command| Command Identity| Test shot identifier. If set to 1, image will only be captured, but not counted towards internal frame count.|  </summary>
         [Description("Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ).")]
         DO_DIGICAM_CONTROL=203, 
-        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| h? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
         [Description("Mission command to configure a camera or antenna mount")]
         DO_MOUNT_CONFIGURE=204, 
         ///<summary> Mission command to control a camera or antenna mount |pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.| roll (WIP: DEPRECATED: or lon in degrees) depending on mount mode.| yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.| WIP: alt in meters depending on mount mode.| WIP: latitude in degrees * 1E7, set if appropriate mount mode.| WIP: longitude in degrees * 1E7, set if appropriate mount mode.| Mount mode.|  </summary>
@@ -877,13 +956,13 @@ public partial class MAVLink
         ///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration| 1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
         [Description("Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero.")]
         PREFLIGHT_CALIBRATION=241, 
-        ///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
+        ///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
         [Description("Set sensor offsets. This command will be only accepted if in pre-flight mode.")]
         PREFLIGHT_SET_SENSOR_OFFSETS=242, 
         ///<summary> Trigger UAVCAN configuration (actuator ID assignment and direction mapping). Note that this maps to the legacy UAVCAN v0 function UAVCAN_ENUMERATE, which is intended to be executed just once during initial vehicle configuration (it is not a normal pre-flight command and has been poorly named). |1: Trigger actuator ID assignment and direction mapping. 0: Cancel command.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("Trigger UAVCAN configuration (actuator ID assignment and direction mapping). Note that this maps to the legacy UAVCAN v0 function UAVCAN_ENUMERATE, which is intended to be executed just once during initial vehicle configuration (it is not a normal pre-flight command and has been poorly named).")]
         PREFLIGHT_UAVCAN=243, 
-        ///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |EPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| 1: logging rate (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
+        ///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |Parameter storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Onboard logging: 0: Ignore, 1: Start default rate logging, -1: Stop logging, > 1: logging rate (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
         [Description("Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode.")]
         PREFLIGHT_STORAGE=245, 
         ///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded| WIP: 0: Do nothing for mount (e.g. gimbal), 1: Reboot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved (set to 0)| Reserved (set to 0)| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
@@ -891,6 +970,7 @@ public partial class MAVLink
         PREFLIGHT_REBOOT_SHUTDOWN=246, 
         ///<summary> Override current mission with command to pause mission, pause mission and move to position, continue/resume mission. When param 1 indicates that the mission is paused (MAV_GOTO_DO_HOLD), param 2 defines whether it holds in place or moves to another position. |MAV_GOTO_DO_HOLD: pause mission and either hold or move to specified position (depending on param2), MAV_GOTO_DO_CONTINUE: resume mission.| MAV_GOTO_HOLD_AT_CURRENT_POSITION: hold at current position, MAV_GOTO_HOLD_AT_SPECIFIED_POSITION: hold at specified position.| Coordinate frame of hold point.| Desired yaw angle.| Latitude/X position.| Longitude/Y position.| Altitude/Z position.|  </summary>
         [Description("Override current mission with command to pause mission, pause mission and move to position, continue/resume mission. When param 1 indicates that the mission is paused (MAV_GOTO_DO_HOLD), param 2 defines whether it holds in place or moves to another position.")]
+        [hasLocation()]
         OVERRIDE_GOTO=252, 
         ///<summary> Mission command to set a Camera Auto Mount Pivoting Oblique Survey (Replaces CAM_TRIGG_DIST for this purpose). The camera is triggered each time this distance is exceeded, then the mount moves to the next position. Params 4~6 set-up the angle limits and number of positions for oblique survey, where mount-enabled vehicles automatically roll the camera between shots to emulate an oblique camera setup (providing an increased HFOV). This command can also be used to set the shutter integration time for the camera. |Camera trigger distance. 0 to stop triggering.| Camera shutter integration time. 0 to ignore| The minimum interval in which the camera is capable of taking subsequent pictures repeatedly. 0 to ignore.| Total number of roll positions at which the camera will capture photos (images captures spread evenly across the limits defined by param5).| Angle limits that the camera can be rolled to left and right of center.| Fixed pitch angle that the camera will hold in oblique mode if the mount is actuated in the pitch axis.| Empty|  </summary>
         [Description("Mission command to set a Camera Auto Mount Pivoting Oblique Survey (Replaces CAM_TRIGG_DIST for this purpose). The camera is triggered each time this distance is exceeded, then the mount moves to the next position. Params 4~6 set-up the angle limits and number of positions for oblique survey, where mount-enabled vehicles automatically roll the camera between shots to emulate an oblique camera setup (providing an increased HFOV). This command can also be used to set the shutter integration time for the camera.")]
@@ -956,12 +1036,22 @@ public partial class MAVLink
         ///<summary> Set camera running mode. Use NaN for reserved values. GCS will send a MAV_CMD_REQUEST_VIDEO_STREAM_STATUS command after a mode change if the camera supports video streaming. |Reserved (Set to 0)| Camera mode| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
         [Description("Set camera running mode. Use NaN for reserved values. GCS will send a MAV_CMD_REQUEST_VIDEO_STREAM_STATUS command after a mode change if the camera supports video streaming.")]
         SET_CAMERA_MODE=530, 
+        ///<summary> Set camera zoom. Camera must respond with a CAMERA_SETTINGS message (on success). |Zoom type| Zoom value. The range of valid values depend on the zoom type.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
+        [Description("Set camera zoom. Camera must respond with a CAMERA_SETTINGS message (on success).")]
+        SET_CAMERA_ZOOM=531, 
+        ///<summary> Set camera focus. Camera must respond with a CAMERA_SETTINGS message (on success). |Focus type| Focus value| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
+        [Description("Set camera focus. Camera must respond with a CAMERA_SETTINGS message (on success).")]
+        SET_CAMERA_FOCUS=532, 
         ///<summary> Tagged jump target. Can be jumped to with MAV_CMD_DO_JUMP_TAG. |Tag.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Tagged jump target. Can be jumped to with MAV_CMD_DO_JUMP_TAG.")]
         JUMP_TAG=600, 
         ///<summary> Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number. |Target tag to jump to.| Repeat count.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.")]
         DO_JUMP_TAG=601, 
+        ///<summary> High level setpoint to be sent to a gimbal manager to set a gimbal attitude. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: a gimbal is never to react to this command but only the gimbal manager. |Pitch angle (positive to pitch up, relative to vehicle for FOLLOW mode, relative to world horizon for LOCK mode).| Yaw angle (positive to yaw to the right, relative to vehicle for FOLLOW mode, absolute to North for LOCK mode).| Pitch rate (positive to pitch up).| Yaw rate (positive to yaw to the right).| Gimbal manager flags to use.| Reserved (default:0)| Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).|  </summary>
+        [Description("High level setpoint to be sent to a gimbal manager to set a gimbal attitude. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: a gimbal is never to react to this command but only the gimbal manager.")]
+        [Obsolete]
+        DO_GIMBAL_MANAGER_PITCHYAW=1000, 
         ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| Capture sequence number starting from 1. This is only valid for single-capture (param3 == 1), otherwise set to 0. Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
         [Description("Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.")]
         IMAGE_START_CAPTURE=2000, 
@@ -971,6 +1061,15 @@ public partial class MAVLink
         ///<summary> Enable or disable on-board camera triggering system. |Trigger enable/disable (0 for disable, 1 for start), -1 to ignore| 1 to reset the trigger sequence, -1 or 0 to ignore| 1 to pause triggering, but without switching the camera off or retracting it. -1 to ignore| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Enable or disable on-board camera triggering system.")]
         DO_TRIGGER_CONTROL=2003, 
+        ///<summary> If the camera supports point visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_POINT is set), this command allows to initiate the tracking. |Point to track x value (normalized 0..1, 0 is left, 1 is right).| Point to track y value (normalized 0..1, 0 is top, 1 is bottom).| Point radius (normalized 0..1, 0 is image left, 1 is image right).| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("If the camera supports point visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_POINT is set), this command allows to initiate the tracking.")]
+        CAMERA_TRACK_POINT=2004, 
+        ///<summary> If the camera supports rectangle visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE is set), this command allows to initiate the tracking. |Top left corner of rectangle x value (normalized 0..1, 0 is left, 1 is right).| Top left corner of rectangle y value (normalized 0..1, 0 is top, 1 is bottom).| Bottom right corner of rectangle x value (normalized 0..1, 0 is left, 1 is right).| Bottom right corner of rectangle y value (normalized 0..1, 0 is top, 1 is bottom).| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("If the camera supports rectangle visual tracking (CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE is set), this command allows to initiate the tracking.")]
+        CAMERA_TRACK_RECTANGLE=2005, 
+        ///<summary> Stops ongoing tracking. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Stops ongoing tracking.")]
+        CAMERA_STOP_TRACKING=2010, 
         ///<summary> Starts video capture (recording). |Video Stream ID (0 for all streams)| Frequency CAMERA_CAPTURE_STATUS messages should be sent while recording (0 for no messages, otherwise frequency)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
         [Description("Starts video capture (recording).")]
         VIDEO_START_CAPTURE=2500, 
@@ -991,7 +1090,7 @@ public partial class MAVLink
         [Description("Request video stream status (VIDEO_STREAM_STATUS)")]
         [Obsolete]
         REQUEST_VIDEO_STREAM_STATUS=2505, 
-        ///<summary> Request to start streaming logging data over MAVLink (see also LOGGING_DATA message) |Format: 0: ULog| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| eserved (set to 0)| Reserved (set to 0)|  </summary>
+        ///<summary> Request to start streaming logging data over MAVLink (see also LOGGING_DATA message) |Format: 0: ULog| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Request to start streaming logging data over MAVLink (see also LOGGING_DATA message)")]
         LOGGING_START=2510, 
         ///<summary> Request to stop streaming log data over MAVLink |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
@@ -1017,66 +1116,87 @@ public partial class MAVLink
         SET_GUIDED_SUBMODE_STANDARD=4000, 
         ///<summary> This command sets submode circle when vehicle is in guided mode. Vehicle flies along a circle facing the center of the circle. The user can input the velocity along the circle and change the radius. If no input is given the vehicle will hold position.                    |Radius of desired circle in CIRCLE_MODE| User defined| User defined| User defined| Target latitude of center of circle in CIRCLE_MODE| Target longitude of center of circle in CIRCLE_MODE| Reserved (default:0)|  </summary>
         [Description("This command sets submode circle when vehicle is in guided mode. Vehicle flies along a circle facing the center of the circle. The user can input the velocity along the circle and change the radius. If no input is given the vehicle will hold position.                   ")]
+        [hasLocation()]
         SET_GUIDED_SUBMODE_CIRCLE=4001, 
         ///<summary> Fence return point (there can only be one such point in a geofence definition). If rally points are supported they should be used instead. |Reserved| Reserved| Reserved| Reserved| Latitude| Longitude| Altitude|  </summary>
         [Description("Fence return point (there can only be one such point in a geofence definition). If rally points are supported they should be used instead.")]
+        [hasLocation()]
         FENCE_RETURN_POINT=5000, 
         ///<summary> Fence vertex for an inclusion polygon (the polygon must not be self-intersecting). The vehicle must stay within this area. Minimum of 3 vertices required.          |Polygon vertex count| Vehicle must be inside ALL inclusion zones in a single group, vehicle must be inside at least one group, must be the same for all points in each polygon| Reserved| Reserved| Latitude| Longitude| Reserved|  </summary>
         [Description("Fence vertex for an inclusion polygon (the polygon must not be self-intersecting). The vehicle must stay within this area. Minimum of 3 vertices required.         ")]
+        [hasLocation()]
         FENCE_POLYGON_VERTEX_INCLUSION=5001, 
         ///<summary> Fence vertex for an exclusion polygon (the polygon must not be self-intersecting). The vehicle must stay outside this area. Minimum of 3 vertices required.          |Polygon vertex count| Reserved| Reserved| Reserved| Latitude| Longitude| Reserved|  </summary>
         [Description("Fence vertex for an exclusion polygon (the polygon must not be self-intersecting). The vehicle must stay outside this area. Minimum of 3 vertices required.         ")]
+        [hasLocation()]
         FENCE_POLYGON_VERTEX_EXCLUSION=5002, 
         ///<summary> Circular fence area. The vehicle must stay inside this area.          |Radius.| Vehicle must be inside ALL inclusion zones in a single group, vehicle must be inside at least one group| Reserved| Reserved| Latitude| Longitude| Reserved|  </summary>
         [Description("Circular fence area. The vehicle must stay inside this area.         ")]
+        [hasLocation()]
         FENCE_CIRCLE_INCLUSION=5003, 
         ///<summary> Circular fence area. The vehicle must stay outside this area.          |Radius.| Reserved| Reserved| Reserved| Latitude| Longitude| Reserved|  </summary>
         [Description("Circular fence area. The vehicle must stay outside this area.         ")]
+        [hasLocation()]
         FENCE_CIRCLE_EXCLUSION=5004, 
         ///<summary> Rally point. You can have multiple rally points defined.          |Reserved| Reserved| Reserved| Reserved| Latitude| Longitude| Altitude|  </summary>
         [Description("Rally point. You can have multiple rally points defined.         ")]
+        [hasLocation()]
         RALLY_POINT=5100, 
-        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| 0)| Reserved (set to 0)|  </summary>
+        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
         ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec.")]
         DO_ADSB_OUT_IDENT=10001, 
-        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| d at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
+        ///<summary> Set Loweheiser desired states |EFI Index| Desired Engine/EFI State (0: Power Off, 1:Running)| Desired Governor State (0:manual throttle, 1:Governed throttle)| Manual throttle level, 0% - 100%| Electronic Start up (0:Off, 1:On)| Empty| Empty|  </summary>
+        [Description("Set Loweheiser desired states")]
+        LOWEHEISER_SET_STATE=10151, 
+        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
+        [hasLocation()]
         PAYLOAD_PREPARE_DEPLOY=30001, 
         ///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deployment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("Control the payload deployment.")]
         PAYLOAD_CONTROL_DEPLOY=30002, 
         ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
+        [hasLocation()]
         WAYPOINT_USER_1=31000, 
         ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
+        [hasLocation()]
         WAYPOINT_USER_2=31001, 
         ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
+        [hasLocation()]
         WAYPOINT_USER_3=31002, 
         ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
+        [hasLocation()]
         WAYPOINT_USER_4=31003, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| ned| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
+        [hasLocation()]
         WAYPOINT_USER_5=31004, 
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
+        [hasLocation()]
         SPATIAL_USER_1=31005, 
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
+        [hasLocation()]
         SPATIAL_USER_2=31006, 
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
+        [hasLocation()]
         SPATIAL_USER_3=31007, 
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
+        [hasLocation()]
         SPATIAL_USER_4=31008, 
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
+        [hasLocation()]
         SPATIAL_USER_5=31009, 
         ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
         [Description("User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item.")]
@@ -1111,11 +1231,12 @@ public partial class MAVLink
         ///<summary> Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity. |Magnetic declination.| Magnetic inclination.| Magnetic intensity.| Yaw.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity.")]
         FIXED_MAG_CAL=42004, 
-        ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| th Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| Field strength Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed expected field values.")]
         FIXED_MAG_CAL_FIELD=42005, 
-        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |n earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |Yaw of vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location.")]
+        [hasLocation()]
         FIXED_MAG_CAL_YAW=42006, 
         ///<summary> Set EKF sensor source set. |Source Set Id.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Set EKF sensor source set.")]
@@ -1165,9 +1286,12 @@ public partial class MAVLink
         ///<summary> Control onboard scripting. |Scripting command to execute| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Control onboard scripting.")]
         SCRIPTING=42701, 
-        ///<summary> Scripting command as NAV command with wait for completion. |integer command number (0 to 255)| timeout for operation in seconds. Zero means no timeout (0 to 255)| argument1.| argument2.| Empty| Empty| Empty|  </summary>
+        ///<summary> Scripting command as NAV command with wait for completion. |integer command number (0 to 255)| timeout for operation in seconds. Zero means no timeout (0 to 255)| argument1.| argument2.| argument3.| argument4.| Empty|  </summary>
         [Description("Scripting command as NAV command with wait for completion.")]
         SCRIPT_TIME=42702, 
+        ///<summary> Maintain an attitude for a specified time. |Time to maintain specified attitude and climb rate| Roll angle in degrees (positive is lean right, negative is lean left)| Pitch angle in degrees (positive is lean back, negative is lean forward)| Yaw angle| Climb rate| Empty| Empty|  </summary>
+        [Description("Maintain an attitude for a specified time.")]
+        ATTITUDE_TIME=42703, 
         ///<summary> Change flight speed at a given rate. This slews the vehicle at a controllable rate between it's previous speed and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.) |Airspeed or groundspeed.| Target Speed| Acceleration rate, 0 to take effect instantly| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change flight speed at a given rate. This slews the vehicle at a controllable rate between it's previous speed and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)")]
         GUIDED_CHANGE_SPEED=43000, 
@@ -1195,6 +1319,36 @@ public partial class MAVLink
         ///<summary> Stop execution of scripts and restart. | </summary>
         [Description("Stop execution of scripts and restart.")]
         STOP_AND_RESTART=3, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum SECURE_COMMAND_OP: uint
+    {
+        ///<summary> Get an 8 byte session key which is used for remote secure updates which operate on flight controller data such as bootloader public keys. Return data will be 8 bytes on success. The session key remains valid until either the flight controller reboots or another SECURE_COMMAND_GET_SESSION_KEY is run. | </summary>
+        [Description("Get an 8 byte session key which is used for remote secure updates which operate on flight controller data such as bootloader public keys. Return data will be 8 bytes on success. The session key remains valid until either the flight controller reboots or another SECURE_COMMAND_GET_SESSION_KEY is run.")]
+        SECURE_COMMAND_GET_SESSION_KEY=0, 
+        ///<summary> Get an 8 byte session key which is used for remote secure updates which operate on RemoteID module data. Return data will be 8 bytes on success. The session key remains valid until either the remote ID module reboots or another SECURE_COMMAND_GET_REMOTEID_SESSION_KEY is run. | </summary>
+        [Description("Get an 8 byte session key which is used for remote secure updates which operate on RemoteID module data. Return data will be 8 bytes on success. The session key remains valid until either the remote ID module reboots or another SECURE_COMMAND_GET_REMOTEID_SESSION_KEY is run.")]
+        SECURE_COMMAND_GET_REMOTEID_SESSION_KEY=1, 
+        ///<summary> Remove range of public keys from the bootloader. Command data consists of two bytes, first byte if index of first public key to remove. Second byte is the number of keys to remove. If all keys are removed then secure boot is disabled and insecure firmware can be loaded. | </summary>
+        [Description("Remove range of public keys from the bootloader. Command data consists of two bytes, first byte if index of first public key to remove. Second byte is the number of keys to remove. If all keys are removed then secure boot is disabled and insecure firmware can be loaded.")]
+        SECURE_COMMAND_REMOVE_PUBLIC_KEYS=2, 
+        ///<summary> Get current public keys from the bootloader. Command data consists of two bytes, first byte is index of first public key to fetch, 2nd byte is number of keys to fetch. Total data needs to fit in data portion of reply (max 6 keys for 32 byte keys). Reply data has the index of the first key in the first byte, followed by the keys. Returned keys may be less than the number of keys requested if there are less keys installed than requested. | </summary>
+        [Description("Get current public keys from the bootloader. Command data consists of two bytes, first byte is index of first public key to fetch, 2nd byte is number of keys to fetch. Total data needs to fit in data portion of reply (max 6 keys for 32 byte keys). Reply data has the index of the first key in the first byte, followed by the keys. Returned keys may be less than the number of keys requested if there are less keys installed than requested.")]
+        SECURE_COMMAND_GET_PUBLIC_KEYS=3, 
+        ///<summary> Set current public keys in the bootloader. Data consists of a one byte public key index followed by the public keys. With 32 byte keys this allows for up to 6 keys to be set in one request. Keys outside of the range that is being set will remain unchanged. | </summary>
+        [Description("Set current public keys in the bootloader. Data consists of a one byte public key index followed by the public keys. With 32 byte keys this allows for up to 6 keys to be set in one request. Keys outside of the range that is being set will remain unchanged.")]
+        SECURE_COMMAND_SET_PUBLIC_KEYS=4, 
+        ///<summary> Get config data for remote ID module. This command should be sent to the component ID of the flight controller which will forward it to the RemoteID module either over mavlink or DroneCAN. Data format is specific to the RemoteID implementation, see RemoteID firmware documentation for details. | </summary>
+        [Description("Get config data for remote ID module. This command should be sent to the component ID of the flight controller which will forward it to the RemoteID module either over mavlink or DroneCAN. Data format is specific to the RemoteID implementation, see RemoteID firmware documentation for details.")]
+        SECURE_COMMAND_GET_REMOTEID_CONFIG=5, 
+        ///<summary> Set config data for remote ID module. This command should be sent to the component ID of the flight controller which will forward it to the RemoteID module either over mavlink or DroneCAN. Data format is specific to the RemoteID implementation, see RemoteID firmware documentation for details. | </summary>
+        [Description("Set config data for remote ID module. This command should be sent to the component ID of the flight controller which will forward it to the RemoteID module either over mavlink or DroneCAN. Data format is specific to the RemoteID implementation, see RemoteID firmware documentation for details.")]
+        SECURE_COMMAND_SET_REMOTEID_CONFIG=6, 
+        ///<summary> Flash bootloader from local storage. Data is the filename to use for the bootloader. This is intended to be used with MAVFtp to upload a new bootloader to a microSD before flashing. | </summary>
+        [Description("Flash bootloader from local storage. Data is the filename to use for the bootloader. This is intended to be used with MAVFtp to upload a new bootloader to a microSD before flashing.")]
+        SECURE_COMMAND_FLASH_BOOTLOADER=7, 
         
     };
     
@@ -2311,6 +2465,7 @@ public partial class MAVLink
     };
     
     
+    
     ///<summary> These values define the type of firmware release.  These values indicate the first version or release of this type.  For example the first alpha release would be 64, the second would be 65. </summary>
     public enum FIRMWARE_VERSION_TYPE: int /*default*/
     {
@@ -2536,14 +2691,14 @@ public partial class MAVLink
         
     };
     
-    ///<summary>  </summary>
+    ///<summary> Co-ordinate frames used by MAVLink. Not all frames are supported by all commands, messages, or vehicles.              Global frames use the following naming conventions:       - 'GLOBAL': Global co-ordinate frame with WGS84 latitude/longitude and altitude positive over mean sea level (MSL) by default.          The following modifiers may be used with 'GLOBAL':         - 'RELATIVE_ALT': Altitude is relative to the vehicle home position rather than MSL.         - 'TERRAIN_ALT': Altitude is relative to ground level rather than MSL.         - 'INT': Latitude/longitude (in degrees) are scaled by multiplying by 1E7.        Local frames use the following naming conventions:       - 'LOCAL': Origin of local frame is fixed relative to earth. Unless otherwise specified this origin is the origin of the vehicle position-estimator ('EKF').       - 'BODY': Origin of local frame travels with the vehicle. NOTE, 'BODY' does NOT indicate alignment of frame axis with vehicle attitude.       - 'OFFSET': Deprecated synonym for 'BODY' (origin travels with the vehicle). Not to be used for new frames.        Some deprecated frames do not follow these conventions (e.g. MAV_FRAME_BODY_NED and MAV_FRAME_BODY_OFFSET_NED).   </summary>
     public enum MAV_FRAME: byte
     {
         ///<summary> Global (WGS84) coordinate frame + MSL altitude. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL). | </summary>
         [Description("Global (WGS84) coordinate frame + MSL altitude. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL).")]
         GLOBAL=0, 
-        ///<summary> Local coordinate frame, Z-down (x: North, y: East, z: Down). | </summary>
-        [Description("Local coordinate frame, Z-down (x: North, y: East, z: Down).")]
+        ///<summary> NED local tangent frame (x: North, y: East, z: Down) with origin fixed relative to earth. | </summary>
+        [Description("NED local tangent frame (x: North, y: East, z: Down) with origin fixed relative to earth.")]
         LOCAL_NED=1, 
         ///<summary> NOT a coordinate frame, indicates a mission command. | </summary>
         [Description("NOT a coordinate frame, indicates a mission command.")]
@@ -2551,34 +2706,34 @@ public partial class MAVLink
         ///<summary> Global (WGS84) coordinate frame + altitude relative to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
         [Description("Global (WGS84) coordinate frame + altitude relative to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location.")]
         GLOBAL_RELATIVE_ALT=3, 
-        ///<summary> Local coordinate frame, Z-up (x: East, y: North, z: Up). | </summary>
-        [Description("Local coordinate frame, Z-up (x: East, y: North, z: Up).")]
+        ///<summary> ENU local tangent frame (x: East, y: North, z: Up) with origin fixed relative to earth. | </summary>
+        [Description("ENU local tangent frame (x: East, y: North, z: Up) with origin fixed relative to earth.")]
         LOCAL_ENU=4, 
-        ///<summary> Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1.0e-7, second value / y: longitude in degrees*1.0e-7, third value / z: positive altitude over mean sea level (MSL). | </summary>
-        [Description("Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1.0e-7, second value / y: longitude in degrees*1.0e-7, third value / z: positive altitude over mean sea level (MSL).")]
+        ///<summary> Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude over mean sea level (MSL). | </summary>
+        [Description("Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude over mean sea level (MSL).")]
         GLOBAL_INT=5, 
-        ///<summary> Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
-        [Description("Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude with 0 being at the altitude of the home location.")]
+        ///<summary> Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
+        [Description("Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude with 0 being at the altitude of the home location.")]
         GLOBAL_RELATIVE_ALT_INT=6, 
-        ///<summary> Offset to the current local frame. Anything expressed in this frame should be added to the current local frame position. | </summary>
-        [Description("Offset to the current local frame. Anything expressed in this frame should be added to the current local frame position.")]
+        ///<summary> NED local tangent frame (x: North, y: East, z: Down) with origin that travels with the vehicle. | </summary>
+        [Description("NED local tangent frame (x: North, y: East, z: Down) with origin that travels with the vehicle.")]
         LOCAL_OFFSET_NED=7, 
-        ///<summary> Setpoint in body NED frame. This makes sense if all position control is externalized - e.g. useful to command 2 m/s^2 acceleration to the right. | </summary>
-        [Description("Setpoint in body NED frame. This makes sense if all position control is externalized - e.g. useful to command 2 m/s^2 acceleration to the right.")]
+        ///<summary> Same as MAV_FRAME_LOCAL_NED when used to represent position values. Same as MAV_FRAME_BODY_FRD when used with velocity/accelaration values. | </summary>
+        [Description("Same as MAV_FRAME_LOCAL_NED when used to represent position values. Same as MAV_FRAME_BODY_FRD when used with velocity/accelaration values.")]
         [Obsolete]
         BODY_NED=8, 
-        ///<summary> Offset in body NED frame. This makes sense if adding setpoints to the current flight path, to avoid an obstacle - e.g. useful to command 2 m/s^2 acceleration to the east. | </summary>
-        [Description("Offset in body NED frame. This makes sense if adding setpoints to the current flight path, to avoid an obstacle - e.g. useful to command 2 m/s^2 acceleration to the east.")]
+        ///<summary> This is the same as MAV_FRAME_BODY_FRD. | </summary>
+        [Description("This is the same as MAV_FRAME_BODY_FRD.")]
         [Obsolete]
         BODY_OFFSET_NED=9, 
         ///<summary> Global (WGS84) coordinate frame with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees, second value / y: longitude in degrees, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
         [Description("Global (WGS84) coordinate frame with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees, second value / y: longitude in degrees, third value / z: positive altitude in meters with 0 being at ground level in terrain model.")]
         GLOBAL_TERRAIN_ALT=10, 
-        ///<summary> Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
-        [Description("Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude in meters with 0 being at ground level in terrain model.")]
+        ///<summary> Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
+        [Description("Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude in meters with 0 being at ground level in terrain model.")]
         GLOBAL_TERRAIN_ALT_INT=11, 
-        ///<summary> Body fixed frame of reference, Z-down (x: Forward, y: Right, z: Down). | </summary>
-        [Description("Body fixed frame of reference, Z-down (x: Forward, y: Right, z: Down).")]
+        ///<summary> FRD local tangent frame (x: Forward, y: Right, z: Down) with origin that travels with vehicle. The forward axis is aligned to the front of the vehicle in the horizontal plane. | </summary>
+        [Description("FRD local tangent frame (x: Forward, y: Right, z: Down) with origin that travels with vehicle. The forward axis is aligned to the front of the vehicle in the horizontal plane.")]
         BODY_FRD=12, 
         ///<summary> MAV_FRAME_BODY_FLU - Body fixed frame of reference, Z-up (x: Forward, y: Left, z: Up). | </summary>
         [Description("MAV_FRAME_BODY_FLU - Body fixed frame of reference, Z-up (x: Forward, y: Left, z: Up).")]
@@ -2608,11 +2763,11 @@ public partial class MAVLink
         [Description("MAV_FRAME_ESTIM_ENU - Odometry local coordinate frame of data given by an estimator running onboard the vehicle, Z-up (x: East, y: North, z: Up).")]
         [Obsolete]
         RESERVED_19=19, 
-        ///<summary> Forward, Right, Down coordinate frame. This is a local frame with Z-down and arbitrary F/R alignment (i.e. not aligned with NED/earth frame). | </summary>
-        [Description("Forward, Right, Down coordinate frame. This is a local frame with Z-down and arbitrary F/R alignment (i.e. not aligned with NED/earth frame).")]
+        ///<summary> FRD local tangent frame (x: Forward, y: Right, z: Down) with origin fixed relative to earth. The forward axis is aligned to the front of the vehicle in the horizontal plane. | </summary>
+        [Description("FRD local tangent frame (x: Forward, y: Right, z: Down) with origin fixed relative to earth. The forward axis is aligned to the front of the vehicle in the horizontal plane.")]
         LOCAL_FRD=20, 
-        ///<summary> Forward, Left, Up coordinate frame. This is a local frame with Z-up and arbitrary F/L alignment (i.e. not aligned with ENU/earth frame). | </summary>
-        [Description("Forward, Left, Up coordinate frame. This is a local frame with Z-up and arbitrary F/L alignment (i.e. not aligned with ENU/earth frame).")]
+        ///<summary> FLU local tangent frame (x: Forward, y: Left, z: Up) with origin fixed relative to earth. The forward axis is aligned to the front of the vehicle in the horizontal plane. | </summary>
+        [Description("FLU local tangent frame (x: Forward, y: Left, z: Up) with origin fixed relative to earth. The forward axis is aligned to the front of the vehicle in the horizontal plane.")]
         LOCAL_FLU=21, 
         
     };
@@ -2765,6 +2920,84 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Flags for gimbal device (lower level) operation. </summary>
+    [Flags]
+	public enum GIMBAL_DEVICE_FLAGS: ushort
+    {
+        ///<summary> Set to retracted safe position (no stabilization), takes presedence over all other flags. | </summary>
+        [Description("Set to retracted safe position (no stabilization), takes presedence over all other flags.")]
+        RETRACT=1, 
+        ///<summary> Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation. | </summary>
+        [Description("Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation.")]
+        NEUTRAL=2, 
+        ///<summary> Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal. | </summary>
+        [Description("Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal.")]
+        ROLL_LOCK=4, 
+        ///<summary> Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default. | </summary>
+        [Description("Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default.")]
+        PITCH_LOCK=8, 
+        ///<summary> Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle). | </summary>
+        [Description("Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle).")]
+        YAW_LOCK=16, 
+        
+    };
+    
+    ///<summary> Flags for high level gimbal manager operation The first 16 bits are identical to the GIMBAL_DEVICE_FLAGS. </summary>
+    [Flags]
+	public enum GIMBAL_MANAGER_FLAGS: uint
+    {
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_RETRACT | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_RETRACT")]
+        RETRACT=1, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_NEUTRAL | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_NEUTRAL")]
+        NEUTRAL=2, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK")]
+        ROLL_LOCK=4, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK")]
+        PITCH_LOCK=8, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK")]
+        YAW_LOCK=16, 
+        
+    };
+    
+    ///<summary> Gimbal device (low level) error flags (bitmap, 0 means no error) </summary>
+    [Flags]
+	public enum GIMBAL_DEVICE_ERROR_FLAGS: uint
+    {
+        ///<summary> Gimbal device is limited by hardware roll limit. | </summary>
+        [Description("Gimbal device is limited by hardware roll limit.")]
+        AT_ROLL_LIMIT=1, 
+        ///<summary> Gimbal device is limited by hardware pitch limit. | </summary>
+        [Description("Gimbal device is limited by hardware pitch limit.")]
+        AT_PITCH_LIMIT=2, 
+        ///<summary> Gimbal device is limited by hardware yaw limit. | </summary>
+        [Description("Gimbal device is limited by hardware yaw limit.")]
+        AT_YAW_LIMIT=4, 
+        ///<summary> There is an error with the gimbal encoders. | </summary>
+        [Description("There is an error with the gimbal encoders.")]
+        ENCODER_ERROR=8, 
+        ///<summary> There is an error with the gimbal power source. | </summary>
+        [Description("There is an error with the gimbal power source.")]
+        POWER_ERROR=16, 
+        ///<summary> There is an error with the gimbal motor's. | </summary>
+        [Description("There is an error with the gimbal motor's.")]
+        MOTOR_ERROR=32, 
+        ///<summary> There is an error with the gimbal's software. | </summary>
+        [Description("There is an error with the gimbal's software.")]
+        SOFTWARE_ERROR=64, 
+        ///<summary> There is an error with the gimbal's communication. | </summary>
+        [Description("There is an error with the gimbal's communication.")]
+        COMMS_ERROR=128, 
+        ///<summary> Gimbal is currently calibrating. | </summary>
+        [Description("Gimbal is currently calibrating.")]
+        CALIBRATION_RUNNING=256, 
+        
+    };
+    
     ///<summary> Gripper actions. </summary>
     public enum GRIPPER_ACTIONS: int /*default*/
     {
@@ -2780,15 +3013,33 @@ public partial class MAVLink
     ///<summary> Winch actions. </summary>
     public enum WINCH_ACTIONS: int /*default*/
     {
-        ///<summary> Relax winch. | </summary>
-        [Description("Relax winch.")]
+        ///<summary> Allow motor to freewheel. | </summary>
+        [Description("Allow motor to freewheel.")]
         WINCH_RELAXED=0, 
-        ///<summary> Wind or unwind specified length of cable, optionally using specified rate. | </summary>
-        [Description("Wind or unwind specified length of cable, optionally using specified rate.")]
+        ///<summary> Wind or unwind specified length of line, optionally using specified rate. | </summary>
+        [Description("Wind or unwind specified length of line, optionally using specified rate.")]
         WINCH_RELATIVE_LENGTH_CONTROL=1, 
-        ///<summary> Wind or unwind cable at specified rate. | </summary>
-        [Description("Wind or unwind cable at specified rate.")]
+        ///<summary> Wind or unwind line at specified rate. | </summary>
+        [Description("Wind or unwind line at specified rate.")]
         WINCH_RATE_CONTROL=2, 
+        ///<summary> Perform the locking sequence to relieve motor while in the fully retracted position. Only action and instance command parameters are used, others are ignored. | </summary>
+        [Description("Perform the locking sequence to relieve motor while in the fully retracted position. Only action and instance command parameters are used, others are ignored.")]
+        WINCH_LOCK=3, 
+        ///<summary> Sequence of drop, slow down, touch down, reel up, lock. Only action and instance command parameters are used, others are ignored. | </summary>
+        [Description("Sequence of drop, slow down, touch down, reel up, lock. Only action and instance command parameters are used, others are ignored.")]
+        WINCH_DELIVER=4, 
+        ///<summary> Engage motor and hold current position. Only action and instance command parameters are used, others are ignored. | </summary>
+        [Description("Engage motor and hold current position. Only action and instance command parameters are used, others are ignored.")]
+        WINCH_HOLD=5, 
+        ///<summary> Return the reel to the fully retracted position. Only action and instance command parameters are used, others are ignored. | </summary>
+        [Description("Return the reel to the fully retracted position. Only action and instance command parameters are used, others are ignored.")]
+        WINCH_RETRACT=6, 
+        ///<summary> Load the reel with line. The winch will calculate the total loaded length and stop when the tension exceeds a threshold. Only action and instance command parameters are used, others are ignored. | </summary>
+        [Description("Load the reel with line. The winch will calculate the total loaded length and stop when the tension exceeds a threshold. Only action and instance command parameters are used, others are ignored.")]
+        WINCH_LOAD_LINE=7, 
+        ///<summary> Spool out the entire length of the line. Only action and instance command parameters are used, others are ignored. | </summary>
+        [Description("Spool out the entire length of the line. Only action and instance command parameters are used, others are ignored.")]
+        WINCH_ABANDON_LINE=8, 
         
     };
     
@@ -3408,8 +3659,8 @@ public partial class MAVLink
         ///<summary> Autopilot supports the new param union message type. | </summary>
         [Description("Autopilot supports the new param union message type.")]
         PARAM_UNION=16, 
-        ///<summary> Autopilot supports the new FILE_TRANSFER_PROTOCOL message type. | </summary>
-        [Description("Autopilot supports the new FILE_TRANSFER_PROTOCOL message type.")]
+        ///<summary> Autopilot supports the File Transfer Protocol v1: https://mavlink.io/en/services/ftp.html. | </summary>
+        [Description("Autopilot supports the File Transfer Protocol v1: https://mavlink.io/en/services/ftp.html.")]
         FTP=32, 
         ///<summary> Autopilot supports commanding attitude offboard. | </summary>
         [Description("Autopilot supports commanding attitude offboard.")]
@@ -3426,8 +3677,8 @@ public partial class MAVLink
         ///<summary> Autopilot supports direct actuator control. | </summary>
         [Description("Autopilot supports direct actuator control.")]
         SET_ACTUATOR_TARGET=1024, 
-        ///<summary> Autopilot supports the flight termination command. | </summary>
-        [Description("Autopilot supports the flight termination command.")]
+        ///<summary> Autopilot supports the MAV_CMD_DO_FLIGHTTERMINATION command (flight termination). | </summary>
+        [Description("Autopilot supports the MAV_CMD_DO_FLIGHTTERMINATION command (flight termination).")]
         FLIGHT_TERMINATION=2048, 
         ///<summary> Autopilot supports onboard compass calibration. | </summary>
         [Description("Autopilot supports onboard compass calibration.")]
@@ -3558,11 +3809,11 @@ public partial class MAVLink
         ///<summary> Battery state is too low for ordinary abort sequence. Perform fastest possible emergency stop to prevent damage. | </summary>
         [Description("Battery state is too low for ordinary abort sequence. Perform fastest possible emergency stop to prevent damage.")]
         EMERGENCY=4, 
-        ///<summary> Battery failed, damage unavoidable. | </summary>
-        [Description("Battery failed, damage unavoidable.")]
+        ///<summary> Battery failed, damage unavoidable. Possible causes (faults) are listed in MAV_BATTERY_FAULT. | </summary>
+        [Description("Battery failed, damage unavoidable. Possible causes (faults) are listed in MAV_BATTERY_FAULT.")]
         FAILED=5, 
-        ///<summary> Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited. | </summary>
-        [Description("Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited.")]
+        ///<summary> Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited. Possible causes (faults) are listed in MAV_BATTERY_FAULT. | </summary>
+        [Description("Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited. Possible causes (faults) are listed in MAV_BATTERY_FAULT.")]
         UNHEALTHY=6, 
         ///<summary> Battery is charging. | </summary>
         [Description("Battery is charging.")]
@@ -3904,35 +4155,35 @@ public partial class MAVLink
         
     };
     
-    ///<summary>  </summary>
+    ///<summary> Sequence that motors are tested when using MAV_CMD_DO_MOTOR_TEST. </summary>
     public enum MOTOR_TEST_ORDER: int /*default*/
     {
-        ///<summary> default autopilot motor test method | </summary>
-        [Description("default autopilot motor test method")]
+        ///<summary> Default autopilot motor test method. | </summary>
+        [Description("Default autopilot motor test method.")]
         DEFAULT=0, 
-        ///<summary> motor numbers are specified as their index in a predefined vehicle-specific sequence | </summary>
-        [Description("motor numbers are specified as their index in a predefined vehicle-specific sequence")]
+        ///<summary> Motor numbers are specified as their index in a predefined vehicle-specific sequence. | </summary>
+        [Description("Motor numbers are specified as their index in a predefined vehicle-specific sequence.")]
         SEQUENCE=1, 
-        ///<summary> motor numbers are specified as the output as labeled on the board | </summary>
-        [Description("motor numbers are specified as the output as labeled on the board")]
+        ///<summary> Motor numbers are specified as the output as labeled on the board. | </summary>
+        [Description("Motor numbers are specified as the output as labeled on the board.")]
         BOARD=2, 
         
     };
     
-    ///<summary>  </summary>
+    ///<summary> Defines how throttle value is represented in MAV_CMD_DO_MOTOR_TEST. </summary>
     public enum MOTOR_TEST_THROTTLE_TYPE: int /*default*/
     {
-        ///<summary> throttle as a percentage from 0 ~ 100 | </summary>
-        [Description("throttle as a percentage from 0 ~ 100")]
+        ///<summary> Throttle as a percentage (0 ~ 100) | </summary>
+        [Description("Throttle as a percentage (0 ~ 100)")]
         MOTOR_TEST_THROTTLE_PERCENT=0, 
-        ///<summary> throttle as an absolute PWM value (normally in range of 1000~2000) | </summary>
-        [Description("throttle as an absolute PWM value (normally in range of 1000~2000)")]
+        ///<summary> Throttle as an absolute PWM value (normally in range of 1000~2000). | </summary>
+        [Description("Throttle as an absolute PWM value (normally in range of 1000~2000).")]
         MOTOR_TEST_THROTTLE_PWM=1, 
-        ///<summary> throttle pass-through from pilot's transmitter | </summary>
-        [Description("throttle pass-through from pilot's transmitter")]
+        ///<summary> Throttle pass-through from pilot's transmitter. | </summary>
+        [Description("Throttle pass-through from pilot's transmitter.")]
         MOTOR_TEST_THROTTLE_PILOT=2, 
-        ///<summary> per-motor compass calibration test | </summary>
-        [Description("per-motor compass calibration test")]
+        ///<summary> Per-motor compass calibration test. | </summary>
+        [Description("Per-motor compass calibration test.")]
         MOTOR_TEST_COMPASS_CAL=3, 
         
     };
@@ -4177,6 +4428,100 @@ public partial class MAVLink
         ///<summary> Stream is h.264 on MPEG TS (URI gives the port number) | </summary>
         [Description("Stream is h.264 on MPEG TS (URI gives the port number)")]
         MPEG_TS_H264=3, 
+        
+    };
+    
+    ///<summary> Camera tracking status flags </summary>
+    [Flags]
+	public enum CAMERA_TRACKING_STATUS_FLAGS: byte
+    {
+        ///<summary> Camera is not tracking | </summary>
+        [Description("Camera is not tracking")]
+        IDLE=0, 
+        ///<summary> Camera is tracking | </summary>
+        [Description("Camera is tracking")]
+        ACTIVE=1, 
+        ///<summary> Camera tracking in error state | </summary>
+        [Description("Camera tracking in error state")]
+        ERROR=2, 
+        
+    };
+    
+    ///<summary> Camera tracking modes </summary>
+    public enum CAMERA_TRACKING_MODE: byte
+    {
+        ///<summary> Not tracking | </summary>
+        [Description("Not tracking")]
+        NONE=0, 
+        ///<summary> Target is a point | </summary>
+        [Description("Target is a point")]
+        POINT=1, 
+        ///<summary> Target is a rectangle | </summary>
+        [Description("Target is a rectangle")]
+        RECTANGLE=2, 
+        
+    };
+    
+    ///<summary> Camera tracking target data (shows where tracked target is within image) </summary>
+    public enum CAMERA_TRACKING_TARGET_DATA: byte
+    {
+        ///<summary> No target data | </summary>
+        [Description("No target data")]
+        NONE=0, 
+        ///<summary> Target data embedded in image data (proprietary) | </summary>
+        [Description("Target data embedded in image data (proprietary)")]
+        EMBEDDED=1, 
+        ///<summary> Target data rendered in image | </summary>
+        [Description("Target data rendered in image")]
+        RENDERED=2, 
+        ///<summary> Target data within status message (Point or Rectangle) | </summary>
+        [Description("Target data within status message (Point or Rectangle)")]
+        IN_STATUS=4, 
+        
+    };
+    
+    ///<summary> Zoom types for MAV_CMD_SET_CAMERA_ZOOM </summary>
+    public enum CAMERA_ZOOM_TYPE: int /*default*/
+    {
+        ///<summary> Zoom one step increment (-1 for wide, 1 for tele) | </summary>
+        [Description("Zoom one step increment (-1 for wide, 1 for tele)")]
+        ZOOM_TYPE_STEP=0, 
+        ///<summary> Continuous zoom up/down until stopped (-1 for wide, 1 for tele, 0 to stop zooming) | </summary>
+        [Description("Continuous zoom up/down until stopped (-1 for wide, 1 for tele, 0 to stop zooming)")]
+        ZOOM_TYPE_CONTINUOUS=1, 
+        ///<summary> Zoom value as proportion of full camera range (a percentage value between 0.0 and 100.0) | </summary>
+        [Description("Zoom value as proportion of full camera range (a percentage value between 0.0 and 100.0)")]
+        ZOOM_TYPE_RANGE=2, 
+        ///<summary> Zoom value/variable focal length in millimetres. Note that there is no message to get the valid zoom range of the camera, so this can type can only be used for cameras where the zoom range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera) | </summary>
+        [Description("Zoom value/variable focal length in millimetres. Note that there is no message to get the valid zoom range of the camera, so this can type can only be used for cameras where the zoom range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera)")]
+        ZOOM_TYPE_FOCAL_LENGTH=3, 
+        
+    };
+    
+    ///<summary> Focus types for MAV_CMD_SET_CAMERA_FOCUS </summary>
+    public enum SET_FOCUS_TYPE: int /*default*/
+    {
+        ///<summary> Focus one step increment (-1 for focusing in, 1 for focusing out towards infinity). | </summary>
+        [Description("Focus one step increment (-1 for focusing in, 1 for focusing out towards infinity).")]
+        FOCUS_TYPE_STEP=0, 
+        ///<summary> Continuous focus up/down until stopped (-1 for focusing in, 1 for focusing out towards infinity, 0 to stop focusing) | </summary>
+        [Description("Continuous focus up/down until stopped (-1 for focusing in, 1 for focusing out towards infinity, 0 to stop focusing)")]
+        FOCUS_TYPE_CONTINUOUS=1, 
+        ///<summary> Focus value as proportion of full camera focus range (a value between 0.0 and 100.0) | </summary>
+        [Description("Focus value as proportion of full camera focus range (a value between 0.0 and 100.0)")]
+        FOCUS_TYPE_RANGE=2, 
+        ///<summary> Focus value in metres. Note that there is no message to get the valid focus range of the camera, so this can type can only be used for cameras where the range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera). | </summary>
+        [Description("Focus value in metres. Note that there is no message to get the valid focus range of the camera, so this can type can only be used for cameras where the range is known (implying that this cannot reliably be used in a GCS for an arbitrary camera).")]
+        FOCUS_TYPE_METERS=3, 
+        ///<summary> Focus automatically. | </summary>
+        [Description("Focus automatically.")]
+        FOCUS_TYPE_AUTO=4, 
+        ///<summary> Single auto focus. Mainly used for still pictures. Usually abbreviated as AF-S. | </summary>
+        [Description("Single auto focus. Mainly used for still pictures. Usually abbreviated as AF-S.")]
+        FOCUS_TYPE_AUTO_SINGLE=5, 
+        ///<summary> Continuous auto focus. Mainly used for dynamic scenes. Abbreviated as AF-C. | </summary>
+        [Description("Continuous auto focus. Mainly used for dynamic scenes. Abbreviated as AF-C.")]
+        FOCUS_TYPE_AUTO_CONTINUOUS=6, 
         
     };
     
@@ -4430,6 +4775,396 @@ public partial class MAVLink
         ///<summary> Registered for STorM32 gimbal controller. | </summary>
         [Description("Registered for STorM32 gimbal controller.")]
         STORM32_RESERVED9=209, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_ID_TYPE: byte
+    {
+        ///<summary> No type defined. | </summary>
+        [Description("No type defined.")]
+        NONE=0, 
+        ///<summary> Manufacturer Serial Number (ANSI/CTA-2063 format). | </summary>
+        [Description("Manufacturer Serial Number (ANSI/CTA-2063 format).")]
+        SERIAL_NUMBER=1, 
+        ///<summary> CAA (Civil Aviation Authority) registered ID. Format: [ICAO Country Code].[CAA Assigned ID]. | </summary>
+        [Description("CAA (Civil Aviation Authority) registered ID. Format: [ICAO Country Code].[CAA Assigned ID].")]
+        CAA_REGISTRATION_ID=2, 
+        ///<summary> UTM (Unmanned Traffic Management) assigned UUID (RFC4122). | </summary>
+        [Description("UTM (Unmanned Traffic Management) assigned UUID (RFC4122).")]
+        UTM_ASSIGNED_UUID=3, 
+        ///<summary> A 20 byte ID for a specific flight/session. The exact ID type is indicated by the first byte of uas_id and these type values are managed by ICAO. | </summary>
+        [Description("A 20 byte ID for a specific flight/session. The exact ID type is indicated by the first byte of uas_id and these type values are managed by ICAO.")]
+        SPECIFIC_SESSION_ID=4, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_UA_TYPE: byte
+    {
+        ///<summary> No UA (Unmanned Aircraft) type defined. | </summary>
+        [Description("No UA (Unmanned Aircraft) type defined.")]
+        NONE=0, 
+        ///<summary> Aeroplane/Airplane. Fixed wing. | </summary>
+        [Description("Aeroplane/Airplane. Fixed wing.")]
+        AEROPLANE=1, 
+        ///<summary> Helicopter or multirotor. | </summary>
+        [Description("Helicopter or multirotor.")]
+        HELICOPTER_OR_MULTIROTOR=2, 
+        ///<summary> Gyroplane. | </summary>
+        [Description("Gyroplane.")]
+        GYROPLANE=3, 
+        ///<summary> VTOL (Vertical Take-Off and Landing). Fixed wing aircraft that can take off vertically. | </summary>
+        [Description("VTOL (Vertical Take-Off and Landing). Fixed wing aircraft that can take off vertically.")]
+        HYBRID_LIFT=4, 
+        ///<summary> Ornithopter. | </summary>
+        [Description("Ornithopter.")]
+        ORNITHOPTER=5, 
+        ///<summary> Glider. | </summary>
+        [Description("Glider.")]
+        GLIDER=6, 
+        ///<summary> Kite. | </summary>
+        [Description("Kite.")]
+        KITE=7, 
+        ///<summary> Free Balloon. | </summary>
+        [Description("Free Balloon.")]
+        FREE_BALLOON=8, 
+        ///<summary> Captive Balloon. | </summary>
+        [Description("Captive Balloon.")]
+        CAPTIVE_BALLOON=9, 
+        ///<summary> Airship. E.g. a blimp. | </summary>
+        [Description("Airship. E.g. a blimp.")]
+        AIRSHIP=10, 
+        ///<summary> Free Fall/Parachute (unpowered). | </summary>
+        [Description("Free Fall/Parachute (unpowered).")]
+        FREE_FALL_PARACHUTE=11, 
+        ///<summary> Rocket. | </summary>
+        [Description("Rocket.")]
+        ROCKET=12, 
+        ///<summary> Tethered powered aircraft. | </summary>
+        [Description("Tethered powered aircraft.")]
+        TETHERED_POWERED_AIRCRAFT=13, 
+        ///<summary> Ground Obstacle. | </summary>
+        [Description("Ground Obstacle.")]
+        GROUND_OBSTACLE=14, 
+        ///<summary> Other type of aircraft not listed earlier. | </summary>
+        [Description("Other type of aircraft not listed earlier.")]
+        OTHER=15, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_STATUS: byte
+    {
+        ///<summary> The status of the (UA) Unmanned Aircraft is undefined. | </summary>
+        [Description("The status of the (UA) Unmanned Aircraft is undefined.")]
+        UNDECLARED=0, 
+        ///<summary> The UA is on the ground. | </summary>
+        [Description("The UA is on the ground.")]
+        GROUND=1, 
+        ///<summary> The UA is in the air. | </summary>
+        [Description("The UA is in the air.")]
+        AIRBORNE=2, 
+        ///<summary> The UA is having an emergency. | </summary>
+        [Description("The UA is having an emergency.")]
+        EMERGENCY=3, 
+        ///<summary> The remote ID system is failing or unreliable in some way. | </summary>
+        [Description("The remote ID system is failing or unreliable in some way.")]
+        REMOTE_ID_SYSTEM_FAILURE=4, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_HEIGHT_REF: byte
+    {
+        ///<summary> The height field is relative to the take-off location. | </summary>
+        [Description("The height field is relative to the take-off location.")]
+        OVER_TAKEOFF=0, 
+        ///<summary> The height field is relative to ground. | </summary>
+        [Description("The height field is relative to ground.")]
+        OVER_GROUND=1, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_HOR_ACC: byte
+    {
+        ///<summary> The horizontal accuracy is unknown. | </summary>
+        [Description("The horizontal accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The horizontal accuracy is smaller than 10 Nautical Miles. 18.52 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 10 Nautical Miles. 18.52 km.")]
+        _10NM=1, 
+        ///<summary> The horizontal accuracy is smaller than 4 Nautical Miles. 7.408 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 4 Nautical Miles. 7.408 km.")]
+        _4NM=2, 
+        ///<summary> The horizontal accuracy is smaller than 2 Nautical Miles. 3.704 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 2 Nautical Miles. 3.704 km.")]
+        _2NM=3, 
+        ///<summary> The horizontal accuracy is smaller than 1 Nautical Miles. 1.852 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 1 Nautical Miles. 1.852 km.")]
+        _1NM=4, 
+        ///<summary> The horizontal accuracy is smaller than 0.5 Nautical Miles. 926 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.5 Nautical Miles. 926 m.")]
+        _0_5NM=5, 
+        ///<summary> The horizontal accuracy is smaller than 0.3 Nautical Miles. 555.6 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.3 Nautical Miles. 555.6 m.")]
+        _0_3NM=6, 
+        ///<summary> The horizontal accuracy is smaller than 0.1 Nautical Miles. 185.2 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.1 Nautical Miles. 185.2 m.")]
+        _0_1NM=7, 
+        ///<summary> The horizontal accuracy is smaller than 0.05 Nautical Miles. 92.6 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.05 Nautical Miles. 92.6 m.")]
+        _0_05NM=8, 
+        ///<summary> The horizontal accuracy is smaller than 30 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 30 meter.")]
+        _30_METER=9, 
+        ///<summary> The horizontal accuracy is smaller than 10 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 10 meter.")]
+        _10_METER=10, 
+        ///<summary> The horizontal accuracy is smaller than 3 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 3 meter.")]
+        _3_METER=11, 
+        ///<summary> The horizontal accuracy is smaller than 1 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 1 meter.")]
+        _1_METER=12, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_VER_ACC: byte
+    {
+        ///<summary> The vertical accuracy is unknown. | </summary>
+        [Description("The vertical accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The vertical accuracy is smaller than 150 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 150 meter.")]
+        _150_METER=1, 
+        ///<summary> The vertical accuracy is smaller than 45 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 45 meter.")]
+        _45_METER=2, 
+        ///<summary> The vertical accuracy is smaller than 25 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 25 meter.")]
+        _25_METER=3, 
+        ///<summary> The vertical accuracy is smaller than 10 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 10 meter.")]
+        _10_METER=4, 
+        ///<summary> The vertical accuracy is smaller than 3 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 3 meter.")]
+        _3_METER=5, 
+        ///<summary> The vertical accuracy is smaller than 1 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 1 meter.")]
+        _1_METER=6, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_SPEED_ACC: byte
+    {
+        ///<summary> The speed accuracy is unknown. | </summary>
+        [Description("The speed accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The speed accuracy is smaller than 10 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 10 meters per second.")]
+        _10_METERS_PER_SECOND=1, 
+        ///<summary> The speed accuracy is smaller than 3 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 3 meters per second.")]
+        _3_METERS_PER_SECOND=2, 
+        ///<summary> The speed accuracy is smaller than 1 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 1 meters per second.")]
+        _1_METERS_PER_SECOND=3, 
+        ///<summary> The speed accuracy is smaller than 0.3 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 0.3 meters per second.")]
+        _0_3_METERS_PER_SECOND=4, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_TIME_ACC: byte
+    {
+        ///<summary> The timestamp accuracy is unknown. | </summary>
+        [Description("The timestamp accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.1 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.1 second.")]
+        _0_1_SECOND=1, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.2 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.2 second.")]
+        _0_2_SECOND=2, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.3 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.3 second.")]
+        _0_3_SECOND=3, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.4 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.4 second.")]
+        _0_4_SECOND=4, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.5 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.5 second.")]
+        _0_5_SECOND=5, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.6 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.6 second.")]
+        _0_6_SECOND=6, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.7 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.7 second.")]
+        _0_7_SECOND=7, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.8 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.8 second.")]
+        _0_8_SECOND=8, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.9 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.9 second.")]
+        _0_9_SECOND=9, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.0 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.0 second.")]
+        _1_0_SECOND=10, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.1 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.1 second.")]
+        _1_1_SECOND=11, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.2 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.2 second.")]
+        _1_2_SECOND=12, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.3 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.3 second.")]
+        _1_3_SECOND=13, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.4 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.4 second.")]
+        _1_4_SECOND=14, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.5 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.5 second.")]
+        _1_5_SECOND=15, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_AUTH_TYPE: byte
+    {
+        ///<summary> No authentication type is specified. | </summary>
+        [Description("No authentication type is specified.")]
+        NONE=0, 
+        ///<summary> Signature for the UAS (Unmanned Aircraft System) ID. | </summary>
+        [Description("Signature for the UAS (Unmanned Aircraft System) ID.")]
+        UAS_ID_SIGNATURE=1, 
+        ///<summary> Signature for the Operator ID. | </summary>
+        [Description("Signature for the Operator ID.")]
+        OPERATOR_ID_SIGNATURE=2, 
+        ///<summary> Signature for the entire message set. | </summary>
+        [Description("Signature for the entire message set.")]
+        MESSAGE_SET_SIGNATURE=3, 
+        ///<summary> Authentication is provided by Network Remote ID. | </summary>
+        [Description("Authentication is provided by Network Remote ID.")]
+        NETWORK_REMOTE_ID=4, 
+        ///<summary> The exact authentication type is indicated by the first byte of authentication_data and these type values are managed by ICAO. | </summary>
+        [Description("The exact authentication type is indicated by the first byte of authentication_data and these type values are managed by ICAO.")]
+        SPECIFIC_AUTHENTICATION=5, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_DESC_TYPE: byte
+    {
+        ///<summary> Free-form text description of the purpose of the flight. | </summary>
+        [Description("Free-form text description of the purpose of the flight.")]
+        TEXT=0, 
+        ///<summary> Optional additional clarification when status == MAV_ODID_STATUS_EMERGENCY. | </summary>
+        [Description("Optional additional clarification when status == MAV_ODID_STATUS_EMERGENCY.")]
+        EMERGENCY=1, 
+        ///<summary> Optional additional clarification when status != MAV_ODID_STATUS_EMERGENCY. | </summary>
+        [Description("Optional additional clarification when status != MAV_ODID_STATUS_EMERGENCY.")]
+        EXTENDED_STATUS=2, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_OPERATOR_LOCATION_TYPE: byte
+    {
+        ///<summary> The location of the operator is the same as the take-off location. | </summary>
+        [Description("The location of the operator is the same as the take-off location.")]
+        TAKEOFF=0, 
+        ///<summary> The location of the operator is based on live GNSS data. | </summary>
+        [Description("The location of the operator is based on live GNSS data.")]
+        LIVE_GNSS=1, 
+        ///<summary> The location of the operator is a fixed location. | </summary>
+        [Description("The location of the operator is a fixed location.")]
+        FIXED=2, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_CLASSIFICATION_TYPE: byte
+    {
+        ///<summary> The classification type for the UA is undeclared. | </summary>
+        [Description("The classification type for the UA is undeclared.")]
+        UNDECLARED=0, 
+        ///<summary> The classification type for the UA follows EU (European Union) specifications. | </summary>
+        [Description("The classification type for the UA follows EU (European Union) specifications.")]
+        EU=1, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_CATEGORY_EU: byte
+    {
+        ///<summary> The category for the UA, according to the EU specification, is undeclared. | </summary>
+        [Description("The category for the UA, according to the EU specification, is undeclared.")]
+        UNDECLARED=0, 
+        ///<summary> The category for the UA, according to the EU specification, is the Open category. | </summary>
+        [Description("The category for the UA, according to the EU specification, is the Open category.")]
+        OPEN=1, 
+        ///<summary> The category for the UA, according to the EU specification, is the Specific category. | </summary>
+        [Description("The category for the UA, according to the EU specification, is the Specific category.")]
+        SPECIFIC=2, 
+        ///<summary> The category for the UA, according to the EU specification, is the Certified category. | </summary>
+        [Description("The category for the UA, according to the EU specification, is the Certified category.")]
+        CERTIFIED=3, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_CLASS_EU: byte
+    {
+        ///<summary> The class for the UA, according to the EU specification, is undeclared. | </summary>
+        [Description("The class for the UA, according to the EU specification, is undeclared.")]
+        UNDECLARED=0, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 0. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 0.")]
+        CLASS_0=1, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 1. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 1.")]
+        CLASS_1=2, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 2. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 2.")]
+        CLASS_2=3, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 3. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 3.")]
+        CLASS_3=4, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 4. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 4.")]
+        CLASS_4=5, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 5. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 5.")]
+        CLASS_5=6, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 6. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 6.")]
+        CLASS_6=7, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_OPERATOR_ID_TYPE: byte
+    {
+        ///<summary> CAA (Civil Aviation Authority) registered operator ID. | </summary>
+        [Description("CAA (Civil Aviation Authority) registered operator ID.")]
+        CAA=0, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_ARM_STATUS: byte
+    {
+        ///<summary> Passing arming checks. | </summary>
+        [Description("Passing arming checks.")]
+        GOOD_TO_ARM=0, 
+        ///<summary> Generic arming failure, see error string for details. | </summary>
+        [Description("Generic arming failure, see error string for details.")]
+        PRE_ARM_FAIL_GENERIC=1, 
         
     };
     
@@ -4902,6 +5637,21 @@ public partial class MAVLink
         
     };
     
+    ///<summary>  </summary>
+    public enum NAV_VTOL_LAND_OPTIONS: int /*default*/
+    {
+        ///<summary> Default autopilot landing behaviour. | </summary>
+        [Description("Default autopilot landing behaviour.")]
+        VTOL_LAND_OPTIONS_DEFAULT=0, 
+        ///<summary> Use a fixed wing spiral desent approach before landing. | </summary>
+        [Description("Use a fixed wing spiral desent approach before landing.")]
+        VTOL_LAND_OPTIONS_FW_SPIRAL_APPROACH=1, 
+        ///<summary> Use a fixed wing approach before detransitioning and landing vertically. | </summary>
+        [Description("Use a fixed wing approach before detransitioning and landing vertically.")]
+        VTOL_LAND_OPTIONS_FW_APPROACH=2, 
+        
+    };
+    
     
     ///<summary> State flags for ADS-B transponder dynamic report </summary>
     public enum UAVIONIX_ADSB_OUT_DYNAMIC_STATE: ushort
@@ -5307,6 +6057,8 @@ public partial class MAVLink
     };
     
     
+    
+    
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT: byte
     {
@@ -5370,6 +6122,9 @@ public partial class MAVLink
         ///<summary> AirRails - http://uaventure.com | </summary>
         [Description("AirRails - http://uaventure.com")]
         AIRRAILS=19, 
+        ///<summary> Fusion Reflex - https://fusion.engineering | </summary>
+        [Description("Fusion Reflex - https://fusion.engineering")]
+        REFLEX=20, 
         
     };
     
@@ -5484,6 +6239,27 @@ public partial class MAVLink
         ///<summary> Decarotor | </summary>
         [Description("Decarotor")]
         DECAROTOR=35, 
+        ///<summary> Battery | </summary>
+        [Description("Battery")]
+        BATTERY=36, 
+        ///<summary> Parachute | </summary>
+        [Description("Parachute")]
+        PARACHUTE=37, 
+        ///<summary> Log | </summary>
+        [Description("Log")]
+        LOG=38, 
+        ///<summary> OSD | </summary>
+        [Description("OSD")]
+        OSD=39, 
+        ///<summary> IMU | </summary>
+        [Description("IMU")]
+        IMU=40, 
+        ///<summary> GPS | </summary>
+        [Description("GPS")]
+        GPS=41, 
+        ///<summary> Winch | </summary>
+        [Description("Winch")]
+        WINCH=42, 
         
     };
     
@@ -5896,6 +6672,9 @@ public partial class MAVLink
         ///<summary> FLARM collision alert component. | </summary>
         [Description("FLARM collision alert component.")]
         MAV_COMP_ID_FLARM=160, 
+        ///<summary> Parachute component. | </summary>
+        [Description("Parachute component.")]
+        MAV_COMP_ID_PARACHUTE=161, 
         ///<summary> Gimbal #2. | </summary>
         [Description("Gimbal #2.")]
         MAV_COMP_ID_GIMBAL2=171, 
@@ -5911,6 +6690,12 @@ public partial class MAVLink
         ///<summary> Gimbal #6. | </summary>
         [Description("Gimbal #6.")]
         MAV_COMP_ID_GIMBAL6=175, 
+        ///<summary> Battery #1. | </summary>
+        [Description("Battery #1.")]
+        MAV_COMP_ID_BATTERY=180, 
+        ///<summary> Battery #2. | </summary>
+        [Description("Battery #2.")]
+        MAV_COMP_ID_BATTERY2=181, 
         ///<summary> CAN over MAVLink client. | </summary>
         [Description("CAN over MAVLink client.")]
         MAV_COMP_ID_MAVCAN=189, 
@@ -5920,6 +6705,15 @@ public partial class MAVLink
         ///<summary> Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on. | </summary>
         [Description("Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on.")]
         MAV_COMP_ID_ONBOARD_COMPUTER=191, 
+        ///<summary> Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on. | </summary>
+        [Description("Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on.")]
+        MAV_COMP_ID_ONBOARD_COMPUTER2=192, 
+        ///<summary> Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on. | </summary>
+        [Description("Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on.")]
+        MAV_COMP_ID_ONBOARD_COMPUTER3=193, 
+        ///<summary> Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on. | </summary>
+        [Description("Component that lives on the onboard computer (companion computer) and has some generic functionalities, such as settings system parameters and monitoring the status of some processes that don't directly speak mavlink and so on.")]
+        MAV_COMP_ID_ONBOARD_COMPUTER4=194, 
         ///<summary> Component that finds an optimal path between points based on a certain constraint (e.g. minimum snap, shortest path, cost, etc.). | </summary>
         [Description("Component that finds an optimal path between points based on a certain constraint (e.g. minimum snap, shortest path, cost, etc.).")]
         MAV_COMP_ID_PATHPLANNER=195, 
@@ -5972,12 +6766,13 @@ public partial class MAVLink
         
     };
     
-    
+    [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Offsets and calibrations values for hardware sensors. This makes it easier to debug the calibration process. </summary>
     public struct mavlink_sensor_offsets_t
     {
+        /// packet ordered constructor
         public mavlink_sensor_offsets_t(float mag_declination,int raw_press,int raw_temp,float gyro_cal_x,float gyro_cal_y,float gyro_cal_z,float accel_cal_x,float accel_cal_y,float accel_cal_z,short mag_ofs_x,short mag_ofs_y,short mag_ofs_z) 
         {
             this.mag_declination = mag_declination;
@@ -5994,6 +6789,28 @@ public partial class MAVLink
             this.mag_ofs_z = mag_ofs_z;
             
         }
+        
+        /// packet xml order
+        public static mavlink_sensor_offsets_t PopulateXMLOrder(short mag_ofs_x,short mag_ofs_y,short mag_ofs_z,float mag_declination,int raw_press,int raw_temp,float gyro_cal_x,float gyro_cal_y,float gyro_cal_z,float accel_cal_x,float accel_cal_y,float accel_cal_z) 
+        {
+            var msg = new mavlink_sensor_offsets_t();
+
+            msg.mag_ofs_x = mag_ofs_x;
+            msg.mag_ofs_y = mag_ofs_y;
+            msg.mag_ofs_z = mag_ofs_z;
+            msg.mag_declination = mag_declination;
+            msg.raw_press = raw_press;
+            msg.raw_temp = raw_temp;
+            msg.gyro_cal_x = gyro_cal_x;
+            msg.gyro_cal_y = gyro_cal_y;
+            msg.gyro_cal_z = gyro_cal_z;
+            msg.accel_cal_x = accel_cal_x;
+            msg.accel_cal_y = accel_cal_y;
+            msg.accel_cal_z = accel_cal_z;
+            
+            return msg;
+        }
+        
 
         /// <summary>Magnetic declination.  [rad] </summary>
         [Units("[rad]")]
@@ -6074,6 +6891,7 @@ public partial class MAVLink
     ///<summary> Set the magnetometer offsets </summary>
     public struct mavlink_set_mag_offsets_t
     {
+        /// packet ordered constructor
         public mavlink_set_mag_offsets_t(short mag_ofs_x,short mag_ofs_y,short mag_ofs_z,byte target_system,byte target_component) 
         {
             this.mag_ofs_x = mag_ofs_x;
@@ -6083,6 +6901,21 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_mag_offsets_t PopulateXMLOrder(byte target_system,byte target_component,short mag_ofs_x,short mag_ofs_y,short mag_ofs_z) 
+        {
+            var msg = new mavlink_set_mag_offsets_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.mag_ofs_x = mag_ofs_x;
+            msg.mag_ofs_y = mag_ofs_y;
+            msg.mag_ofs_z = mag_ofs_z;
+            
+            return msg;
+        }
+        
 
         /// <summary>Magnetometer X offset.   </summary>
         [Units("")]
@@ -6121,6 +6954,7 @@ public partial class MAVLink
     ///<summary> State of autopilot RAM. </summary>
     public struct mavlink_meminfo_t
     {
+        /// packet ordered constructor
         public mavlink_meminfo_t(ushort brkval,ushort freemem,uint freemem32) 
         {
             this.brkval = brkval;
@@ -6128,6 +6962,19 @@ public partial class MAVLink
             this.freemem32 = freemem32;
             
         }
+        
+        /// packet xml order
+        public static mavlink_meminfo_t PopulateXMLOrder(ushort brkval,ushort freemem,uint freemem32) 
+        {
+            var msg = new mavlink_meminfo_t();
+
+            msg.brkval = brkval;
+            msg.freemem = freemem;
+            msg.freemem32 = freemem32;
+            
+            return msg;
+        }
+        
 
         /// <summary>Heap top.   </summary>
         [Units("")]
@@ -6154,6 +7001,7 @@ public partial class MAVLink
     ///<summary> Raw ADC output. </summary>
     public struct mavlink_ap_adc_t
     {
+        /// packet ordered constructor
         public mavlink_ap_adc_t(ushort adc1,ushort adc2,ushort adc3,ushort adc4,ushort adc5,ushort adc6) 
         {
             this.adc1 = adc1;
@@ -6164,6 +7012,22 @@ public partial class MAVLink
             this.adc6 = adc6;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ap_adc_t PopulateXMLOrder(ushort adc1,ushort adc2,ushort adc3,ushort adc4,ushort adc5,ushort adc6) 
+        {
+            var msg = new mavlink_ap_adc_t();
+
+            msg.adc1 = adc1;
+            msg.adc2 = adc2;
+            msg.adc3 = adc3;
+            msg.adc4 = adc4;
+            msg.adc5 = adc5;
+            msg.adc6 = adc6;
+            
+            return msg;
+        }
+        
 
         /// <summary>ADC output 1.   </summary>
         [Units("")]
@@ -6208,6 +7072,7 @@ public partial class MAVLink
     ///<summary> Configure on-board Camera Control System. </summary>
     public struct mavlink_digicam_configure_t
     {
+        /// packet ordered constructor
         public mavlink_digicam_configure_t(float extra_value,ushort shutter_speed,byte target_system,byte target_component,byte mode,byte aperture,byte iso,byte exposure_type,byte command_id,byte engine_cut_off,byte extra_param) 
         {
             this.extra_value = extra_value;
@@ -6223,6 +7088,27 @@ public partial class MAVLink
             this.extra_param = extra_param;
             
         }
+        
+        /// packet xml order
+        public static mavlink_digicam_configure_t PopulateXMLOrder(byte target_system,byte target_component,byte mode,ushort shutter_speed,byte aperture,byte iso,byte exposure_type,byte command_id,byte engine_cut_off,byte extra_param,float extra_value) 
+        {
+            var msg = new mavlink_digicam_configure_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.mode = mode;
+            msg.shutter_speed = shutter_speed;
+            msg.aperture = aperture;
+            msg.iso = iso;
+            msg.exposure_type = exposure_type;
+            msg.command_id = command_id;
+            msg.engine_cut_off = engine_cut_off;
+            msg.extra_param = extra_param;
+            msg.extra_value = extra_value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Correspondent value to given extra_param.   </summary>
         [Units("")]
@@ -6297,6 +7183,7 @@ public partial class MAVLink
     ///<summary> Control on-board Camera Control System to take shots. </summary>
     public struct mavlink_digicam_control_t
     {
+        /// packet ordered constructor
         public mavlink_digicam_control_t(float extra_value,byte target_system,byte target_component,byte session,byte zoom_pos,sbyte zoom_step,byte focus_lock,byte shot,byte command_id,byte extra_param) 
         {
             this.extra_value = extra_value;
@@ -6311,6 +7198,26 @@ public partial class MAVLink
             this.extra_param = extra_param;
             
         }
+        
+        /// packet xml order
+        public static mavlink_digicam_control_t PopulateXMLOrder(byte target_system,byte target_component,byte session,byte zoom_pos,sbyte zoom_step,byte focus_lock,byte shot,byte command_id,byte extra_param,float extra_value) 
+        {
+            var msg = new mavlink_digicam_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.session = session;
+            msg.zoom_pos = zoom_pos;
+            msg.zoom_step = zoom_step;
+            msg.focus_lock = focus_lock;
+            msg.shot = shot;
+            msg.command_id = command_id;
+            msg.extra_param = extra_param;
+            msg.extra_value = extra_value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Correspondent value to given extra_param.   </summary>
         [Units("")]
@@ -6379,6 +7286,7 @@ public partial class MAVLink
     ///<summary> Message to configure a camera mount, directional antenna, etc. </summary>
     public struct mavlink_mount_configure_t
     {
+        /// packet ordered constructor
         public mavlink_mount_configure_t(byte target_system,byte target_component,/*MAV_MOUNT_MODE*/byte mount_mode,byte stab_roll,byte stab_pitch,byte stab_yaw) 
         {
             this.target_system = target_system;
@@ -6389,6 +7297,22 @@ public partial class MAVLink
             this.stab_yaw = stab_yaw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mount_configure_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_MOUNT_MODE*/byte mount_mode,byte stab_roll,byte stab_pitch,byte stab_yaw) 
+        {
+            var msg = new mavlink_mount_configure_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.mount_mode = mount_mode;
+            msg.stab_roll = stab_roll;
+            msg.stab_pitch = stab_pitch;
+            msg.stab_yaw = stab_yaw;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -6433,6 +7357,7 @@ public partial class MAVLink
     ///<summary> Message to control a camera mount, directional antenna, etc. </summary>
     public struct mavlink_mount_control_t
     {
+        /// packet ordered constructor
         public mavlink_mount_control_t(int input_a,int input_b,int input_c,byte target_system,byte target_component,byte save_position) 
         {
             this.input_a = input_a;
@@ -6443,6 +7368,22 @@ public partial class MAVLink
             this.save_position = save_position;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mount_control_t PopulateXMLOrder(byte target_system,byte target_component,int input_a,int input_b,int input_c,byte save_position) 
+        {
+            var msg = new mavlink_mount_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.input_a = input_a;
+            msg.input_b = input_b;
+            msg.input_c = input_c;
+            msg.save_position = save_position;
+            
+            return msg;
+        }
+        
 
         /// <summary>Pitch (centi-degrees) or lat (degE7), depending on mount mode.   </summary>
         [Units("")]
@@ -6487,6 +7428,7 @@ public partial class MAVLink
     ///<summary> Message with some status from autopilot to GCS about camera or antenna mount. </summary>
     public struct mavlink_mount_status_t
     {
+        /// packet ordered constructor
         public mavlink_mount_status_t(int pointing_a,int pointing_b,int pointing_c,byte target_system,byte target_component,/*MAV_MOUNT_MODE*/byte mount_mode) 
         {
             this.pointing_a = pointing_a;
@@ -6497,6 +7439,22 @@ public partial class MAVLink
             this.mount_mode = mount_mode;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mount_status_t PopulateXMLOrder(byte target_system,byte target_component,int pointing_a,int pointing_b,int pointing_c,/*MAV_MOUNT_MODE*/byte mount_mode) 
+        {
+            var msg = new mavlink_mount_status_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.pointing_a = pointing_a;
+            msg.pointing_b = pointing_b;
+            msg.pointing_c = pointing_c;
+            msg.mount_mode = mount_mode;
+            
+            return msg;
+        }
+        
 
         /// <summary>Pitch.  [cdeg] </summary>
         [Units("[cdeg]")]
@@ -6541,6 +7499,7 @@ public partial class MAVLink
     ///<summary> A fence point. Used to set a point when from GCS -> MAV. Also used to return a point from MAV -> GCS. </summary>
     public struct mavlink_fence_point_t
     {
+        /// packet ordered constructor
         public mavlink_fence_point_t(float lat,float lng,byte target_system,byte target_component,byte idx,byte count) 
         {
             this.lat = lat;
@@ -6551,6 +7510,22 @@ public partial class MAVLink
             this.count = count;
             
         }
+        
+        /// packet xml order
+        public static mavlink_fence_point_t PopulateXMLOrder(byte target_system,byte target_component,byte idx,byte count,float lat,float lng) 
+        {
+            var msg = new mavlink_fence_point_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.idx = idx;
+            msg.count = count;
+            msg.lat = lat;
+            msg.lng = lng;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude of point.  [deg] </summary>
         [Units("[deg]")]
@@ -6595,6 +7570,7 @@ public partial class MAVLink
     ///<summary> Request a current fence point from MAV. </summary>
     public struct mavlink_fence_fetch_point_t
     {
+        /// packet ordered constructor
         public mavlink_fence_fetch_point_t(byte target_system,byte target_component,byte idx) 
         {
             this.target_system = target_system;
@@ -6602,6 +7578,19 @@ public partial class MAVLink
             this.idx = idx;
             
         }
+        
+        /// packet xml order
+        public static mavlink_fence_fetch_point_t PopulateXMLOrder(byte target_system,byte target_component,byte idx) 
+        {
+            var msg = new mavlink_fence_fetch_point_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.idx = idx;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -6628,6 +7617,7 @@ public partial class MAVLink
     ///<summary> Status of DCM attitude estimator. </summary>
     public struct mavlink_ahrs_t
     {
+        /// packet ordered constructor
         public mavlink_ahrs_t(float omegaIx,float omegaIy,float omegaIz,float accel_weight,float renorm_val,float error_rp,float error_yaw) 
         {
             this.omegaIx = omegaIx;
@@ -6639,6 +7629,23 @@ public partial class MAVLink
             this.error_yaw = error_yaw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ahrs_t PopulateXMLOrder(float omegaIx,float omegaIy,float omegaIz,float accel_weight,float renorm_val,float error_rp,float error_yaw) 
+        {
+            var msg = new mavlink_ahrs_t();
+
+            msg.omegaIx = omegaIx;
+            msg.omegaIy = omegaIy;
+            msg.omegaIz = omegaIz;
+            msg.accel_weight = accel_weight;
+            msg.renorm_val = renorm_val;
+            msg.error_rp = error_rp;
+            msg.error_yaw = error_yaw;
+            
+            return msg;
+        }
+        
 
         /// <summary>X gyro drift estimate.  [rad/s] </summary>
         [Units("[rad/s]")]
@@ -6689,6 +7696,7 @@ public partial class MAVLink
     ///<summary> Status of simulation environment, if used. </summary>
     public struct mavlink_simstate_t
     {
+        /// packet ordered constructor
         public mavlink_simstate_t(float roll,float pitch,float yaw,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,int lat,int lng) 
         {
             this.roll = roll;
@@ -6704,6 +7712,27 @@ public partial class MAVLink
             this.lng = lng;
             
         }
+        
+        /// packet xml order
+        public static mavlink_simstate_t PopulateXMLOrder(float roll,float pitch,float yaw,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,int lat,int lng) 
+        {
+            var msg = new mavlink_simstate_t();
+
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.lat = lat;
+            msg.lng = lng;
+            
+            return msg;
+        }
+        
 
         /// <summary>Roll angle.  [rad] </summary>
         [Units("[rad]")]
@@ -6778,12 +7807,25 @@ public partial class MAVLink
     ///<summary> Status of key hardware. </summary>
     public struct mavlink_hwstatus_t
     {
+        /// packet ordered constructor
         public mavlink_hwstatus_t(ushort Vcc,byte I2Cerr) 
         {
             this.Vcc = Vcc;
             this.I2Cerr = I2Cerr;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hwstatus_t PopulateXMLOrder(ushort Vcc,byte I2Cerr) 
+        {
+            var msg = new mavlink_hwstatus_t();
+
+            msg.Vcc = Vcc;
+            msg.I2Cerr = I2Cerr;
+            
+            return msg;
+        }
+        
 
         /// <summary>Board voltage.  [mV] </summary>
         [Units("[mV]")]
@@ -6804,6 +7846,7 @@ public partial class MAVLink
     ///<summary> Status generated by radio. </summary>
     public struct mavlink_radio_t
     {
+        /// packet ordered constructor
         public mavlink_radio_t(ushort rxerrors,ushort @fixed,byte rssi,byte remrssi,byte txbuf,byte noise,byte remnoise) 
         {
             this.rxerrors = rxerrors;
@@ -6815,6 +7858,23 @@ public partial class MAVLink
             this.remnoise = remnoise;
             
         }
+        
+        /// packet xml order
+        public static mavlink_radio_t PopulateXMLOrder(byte rssi,byte remrssi,byte txbuf,byte noise,byte remnoise,ushort rxerrors,ushort @fixed) 
+        {
+            var msg = new mavlink_radio_t();
+
+            msg.rssi = rssi;
+            msg.remrssi = remrssi;
+            msg.txbuf = txbuf;
+            msg.noise = noise;
+            msg.remnoise = remnoise;
+            msg.rxerrors = rxerrors;
+            msg.@fixed = @fixed;
+            
+            return msg;
+        }
+        
 
         /// <summary>Receive errors.   </summary>
         [Units("")]
@@ -6865,6 +7925,7 @@ public partial class MAVLink
     ///<summary> Status of AP_Limits. Sent in extended status stream when AP_Limits is enabled. </summary>
     public struct mavlink_limits_status_t
     {
+        /// packet ordered constructor
         public mavlink_limits_status_t(uint last_trigger,uint last_action,uint last_recovery,uint last_clear,ushort breach_count,/*LIMITS_STATE*/byte limits_state,/*LIMIT_MODULE*/byte mods_enabled,/*LIMIT_MODULE*/byte mods_required,/*LIMIT_MODULE*/byte mods_triggered) 
         {
             this.last_trigger = last_trigger;
@@ -6878,6 +7939,25 @@ public partial class MAVLink
             this.mods_triggered = mods_triggered;
             
         }
+        
+        /// packet xml order
+        public static mavlink_limits_status_t PopulateXMLOrder(/*LIMITS_STATE*/byte limits_state,uint last_trigger,uint last_action,uint last_recovery,uint last_clear,ushort breach_count,/*LIMIT_MODULE*/byte mods_enabled,/*LIMIT_MODULE*/byte mods_required,/*LIMIT_MODULE*/byte mods_triggered) 
+        {
+            var msg = new mavlink_limits_status_t();
+
+            msg.limits_state = limits_state;
+            msg.last_trigger = last_trigger;
+            msg.last_action = last_action;
+            msg.last_recovery = last_recovery;
+            msg.last_clear = last_clear;
+            msg.breach_count = breach_count;
+            msg.mods_enabled = mods_enabled;
+            msg.mods_required = mods_required;
+            msg.mods_triggered = mods_triggered;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time (since boot) of last breach.  [ms] </summary>
         [Units("[ms]")]
@@ -6940,6 +8020,7 @@ public partial class MAVLink
     ///<summary> Wind estimation. </summary>
     public struct mavlink_wind_t
     {
+        /// packet ordered constructor
         public mavlink_wind_t(float direction,float speed,float speed_z) 
         {
             this.direction = direction;
@@ -6947,6 +8028,19 @@ public partial class MAVLink
             this.speed_z = speed_z;
             
         }
+        
+        /// packet xml order
+        public static mavlink_wind_t PopulateXMLOrder(float direction,float speed,float speed_z) 
+        {
+            var msg = new mavlink_wind_t();
+
+            msg.direction = direction;
+            msg.speed = speed;
+            msg.speed_z = speed_z;
+            
+            return msg;
+        }
+        
 
         /// <summary>Wind direction (that wind is coming from).  [deg] </summary>
         [Units("[deg]")]
@@ -6973,6 +8067,7 @@ public partial class MAVLink
     ///<summary> Data packet, size 16. </summary>
     public struct mavlink_data16_t
     {
+        /// packet ordered constructor
         public mavlink_data16_t(byte type,byte len,byte[] data) 
         {
             this.type = type;
@@ -6980,6 +8075,19 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_data16_t PopulateXMLOrder(byte type,byte len,byte[] data) 
+        {
+            var msg = new mavlink_data16_t();
+
+            msg.type = type;
+            msg.len = len;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Data type.   </summary>
         [Units("")]
@@ -7007,6 +8115,7 @@ public partial class MAVLink
     ///<summary> Data packet, size 32. </summary>
     public struct mavlink_data32_t
     {
+        /// packet ordered constructor
         public mavlink_data32_t(byte type,byte len,byte[] data) 
         {
             this.type = type;
@@ -7014,6 +8123,19 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_data32_t PopulateXMLOrder(byte type,byte len,byte[] data) 
+        {
+            var msg = new mavlink_data32_t();
+
+            msg.type = type;
+            msg.len = len;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Data type.   </summary>
         [Units("")]
@@ -7041,6 +8163,7 @@ public partial class MAVLink
     ///<summary> Data packet, size 64. </summary>
     public struct mavlink_data64_t
     {
+        /// packet ordered constructor
         public mavlink_data64_t(byte type,byte len,byte[] data) 
         {
             this.type = type;
@@ -7048,6 +8171,19 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_data64_t PopulateXMLOrder(byte type,byte len,byte[] data) 
+        {
+            var msg = new mavlink_data64_t();
+
+            msg.type = type;
+            msg.len = len;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Data type.   </summary>
         [Units("")]
@@ -7075,6 +8211,7 @@ public partial class MAVLink
     ///<summary> Data packet, size 96. </summary>
     public struct mavlink_data96_t
     {
+        /// packet ordered constructor
         public mavlink_data96_t(byte type,byte len,byte[] data) 
         {
             this.type = type;
@@ -7082,6 +8219,19 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_data96_t PopulateXMLOrder(byte type,byte len,byte[] data) 
+        {
+            var msg = new mavlink_data96_t();
+
+            msg.type = type;
+            msg.len = len;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Data type.   </summary>
         [Units("")]
@@ -7109,12 +8259,25 @@ public partial class MAVLink
     ///<summary> Rangefinder reporting. </summary>
     public struct mavlink_rangefinder_t
     {
+        /// packet ordered constructor
         public mavlink_rangefinder_t(float distance,float voltage) 
         {
             this.distance = distance;
             this.voltage = voltage;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rangefinder_t PopulateXMLOrder(float distance,float voltage) 
+        {
+            var msg = new mavlink_rangefinder_t();
+
+            msg.distance = distance;
+            msg.voltage = voltage;
+            
+            return msg;
+        }
+        
 
         /// <summary>Distance.  [m] </summary>
         [Units("[m]")]
@@ -7135,6 +8298,7 @@ public partial class MAVLink
     ///<summary> Airspeed auto-calibration. </summary>
     public struct mavlink_airspeed_autocal_t
     {
+        /// packet ordered constructor
         public mavlink_airspeed_autocal_t(float vx,float vy,float vz,float diff_pressure,float EAS2TAS,float ratio,float state_x,float state_y,float state_z,float Pax,float Pby,float Pcz) 
         {
             this.vx = vx;
@@ -7151,6 +8315,28 @@ public partial class MAVLink
             this.Pcz = Pcz;
             
         }
+        
+        /// packet xml order
+        public static mavlink_airspeed_autocal_t PopulateXMLOrder(float vx,float vy,float vz,float diff_pressure,float EAS2TAS,float ratio,float state_x,float state_y,float state_z,float Pax,float Pby,float Pcz) 
+        {
+            var msg = new mavlink_airspeed_autocal_t();
+
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.diff_pressure = diff_pressure;
+            msg.EAS2TAS = EAS2TAS;
+            msg.ratio = ratio;
+            msg.state_x = state_x;
+            msg.state_y = state_y;
+            msg.state_z = state_z;
+            msg.Pax = Pax;
+            msg.Pby = Pby;
+            msg.Pcz = Pcz;
+            
+            return msg;
+        }
+        
 
         /// <summary>GPS velocity north.  [m/s] </summary>
         [Units("[m/s]")]
@@ -7231,6 +8417,7 @@ public partial class MAVLink
     ///<summary> A rally point. Used to set a point when from GCS -> MAV. Also used to return a point from MAV -> GCS. </summary>
     public struct mavlink_rally_point_t
     {
+        /// packet ordered constructor
         public mavlink_rally_point_t(int lat,int lng,short alt,short break_alt,ushort land_dir,byte target_system,byte target_component,byte idx,byte count,/*RALLY_FLAGS*/byte flags) 
         {
             this.lat = lat;
@@ -7245,6 +8432,26 @@ public partial class MAVLink
             this.flags = flags;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rally_point_t PopulateXMLOrder(byte target_system,byte target_component,byte idx,byte count,int lat,int lng,short alt,short break_alt,ushort land_dir,/*RALLY_FLAGS*/byte flags) 
+        {
+            var msg = new mavlink_rally_point_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.idx = idx;
+            msg.count = count;
+            msg.lat = lat;
+            msg.lng = lng;
+            msg.alt = alt;
+            msg.break_alt = break_alt;
+            msg.land_dir = land_dir;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude of point.  [degE7] </summary>
         [Units("[degE7]")]
@@ -7313,6 +8520,7 @@ public partial class MAVLink
     ///<summary> Request a current rally point from MAV. MAV should respond with a RALLY_POINT message. MAV should not respond if the request is invalid. </summary>
     public struct mavlink_rally_fetch_point_t
     {
+        /// packet ordered constructor
         public mavlink_rally_fetch_point_t(byte target_system,byte target_component,byte idx) 
         {
             this.target_system = target_system;
@@ -7320,6 +8528,19 @@ public partial class MAVLink
             this.idx = idx;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rally_fetch_point_t PopulateXMLOrder(byte target_system,byte target_component,byte idx) 
+        {
+            var msg = new mavlink_rally_fetch_point_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.idx = idx;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -7346,6 +8567,7 @@ public partial class MAVLink
     ///<summary> Status of compassmot calibration. </summary>
     public struct mavlink_compassmot_status_t
     {
+        /// packet ordered constructor
         public mavlink_compassmot_status_t(float current,float CompensationX,float CompensationY,float CompensationZ,ushort throttle,ushort interference) 
         {
             this.current = current;
@@ -7356,6 +8578,22 @@ public partial class MAVLink
             this.interference = interference;
             
         }
+        
+        /// packet xml order
+        public static mavlink_compassmot_status_t PopulateXMLOrder(ushort throttle,float current,ushort interference,float CompensationX,float CompensationY,float CompensationZ) 
+        {
+            var msg = new mavlink_compassmot_status_t();
+
+            msg.throttle = throttle;
+            msg.current = current;
+            msg.interference = interference;
+            msg.CompensationX = CompensationX;
+            msg.CompensationY = CompensationY;
+            msg.CompensationZ = CompensationZ;
+            
+            return msg;
+        }
+        
 
         /// <summary>Current.  [A] </summary>
         [Units("[A]")]
@@ -7400,6 +8638,7 @@ public partial class MAVLink
     ///<summary> Status of secondary AHRS filter if available. </summary>
     public struct mavlink_ahrs2_t
     {
+        /// packet ordered constructor
         public mavlink_ahrs2_t(float roll,float pitch,float yaw,float altitude,int lat,int lng) 
         {
             this.roll = roll;
@@ -7410,6 +8649,22 @@ public partial class MAVLink
             this.lng = lng;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ahrs2_t PopulateXMLOrder(float roll,float pitch,float yaw,float altitude,int lat,int lng) 
+        {
+            var msg = new mavlink_ahrs2_t();
+
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.altitude = altitude;
+            msg.lat = lat;
+            msg.lng = lng;
+            
+            return msg;
+        }
+        
 
         /// <summary>Roll angle.  [rad] </summary>
         [Units("[rad]")]
@@ -7454,6 +8709,7 @@ public partial class MAVLink
     ///<summary> Camera Event. </summary>
     public struct mavlink_camera_status_t
     {
+        /// packet ordered constructor
         public mavlink_camera_status_t(ulong time_usec,float p1,float p2,float p3,float p4,ushort img_idx,byte target_system,byte cam_idx,/*CAMERA_STATUS_TYPES*/byte event_id) 
         {
             this.time_usec = time_usec;
@@ -7467,6 +8723,25 @@ public partial class MAVLink
             this.event_id = event_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_status_t PopulateXMLOrder(ulong time_usec,byte target_system,byte cam_idx,ushort img_idx,/*CAMERA_STATUS_TYPES*/byte event_id,float p1,float p2,float p3,float p4) 
+        {
+            var msg = new mavlink_camera_status_t();
+
+            msg.time_usec = time_usec;
+            msg.target_system = target_system;
+            msg.cam_idx = cam_idx;
+            msg.img_idx = img_idx;
+            msg.event_id = event_id;
+            msg.p1 = p1;
+            msg.p2 = p2;
+            msg.p3 = p3;
+            msg.p4 = p4;
+            
+            return msg;
+        }
+        
 
         /// <summary>Image timestamp (since UNIX epoch, according to camera clock).  [us] </summary>
         [Units("[us]")]
@@ -7529,6 +8804,7 @@ public partial class MAVLink
     ///<summary> Camera Capture Feedback. </summary>
     public struct mavlink_camera_feedback_t
     {
+        /// packet ordered constructor
         public mavlink_camera_feedback_t(ulong time_usec,int lat,int lng,float alt_msl,float alt_rel,float roll,float pitch,float yaw,float foc_len,ushort img_idx,byte target_system,byte cam_idx,/*CAMERA_FEEDBACK_FLAGS*/byte flags,ushort completed_captures) 
         {
             this.time_usec = time_usec;
@@ -7547,6 +8823,30 @@ public partial class MAVLink
             this.completed_captures = completed_captures;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_feedback_t PopulateXMLOrder(ulong time_usec,byte target_system,byte cam_idx,ushort img_idx,int lat,int lng,float alt_msl,float alt_rel,float roll,float pitch,float yaw,float foc_len,/*CAMERA_FEEDBACK_FLAGS*/byte flags,ushort completed_captures) 
+        {
+            var msg = new mavlink_camera_feedback_t();
+
+            msg.time_usec = time_usec;
+            msg.target_system = target_system;
+            msg.cam_idx = cam_idx;
+            msg.img_idx = img_idx;
+            msg.lat = lat;
+            msg.lng = lng;
+            msg.alt_msl = alt_msl;
+            msg.alt_rel = alt_rel;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.foc_len = foc_len;
+            msg.flags = flags;
+            msg.completed_captures = completed_captures;
+            
+            return msg;
+        }
+        
 
         /// <summary>Image timestamp (since UNIX epoch), as passed in by CAMERA_STATUS message (or autopilot if no CCB).  [us] </summary>
         [Units("[us]")]
@@ -7639,12 +8939,25 @@ public partial class MAVLink
     ///<summary> 2nd Battery status </summary>
     public struct mavlink_battery2_t
     {
+        /// packet ordered constructor
         public mavlink_battery2_t(ushort voltage,short current_battery) 
         {
             this.voltage = voltage;
             this.current_battery = current_battery;
             
         }
+        
+        /// packet xml order
+        public static mavlink_battery2_t PopulateXMLOrder(ushort voltage,short current_battery) 
+        {
+            var msg = new mavlink_battery2_t();
+
+            msg.voltage = voltage;
+            msg.current_battery = current_battery;
+            
+            return msg;
+        }
+        
 
         /// <summary>Voltage.  [mV] </summary>
         [Units("[mV]")]
@@ -7665,6 +8978,7 @@ public partial class MAVLink
     ///<summary> Status of third AHRS filter if available. This is for ANU research group (Ali and Sean). </summary>
     public struct mavlink_ahrs3_t
     {
+        /// packet ordered constructor
         public mavlink_ahrs3_t(float roll,float pitch,float yaw,float altitude,int lat,int lng,float v1,float v2,float v3,float v4) 
         {
             this.roll = roll;
@@ -7679,6 +8993,26 @@ public partial class MAVLink
             this.v4 = v4;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ahrs3_t PopulateXMLOrder(float roll,float pitch,float yaw,float altitude,int lat,int lng,float v1,float v2,float v3,float v4) 
+        {
+            var msg = new mavlink_ahrs3_t();
+
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.altitude = altitude;
+            msg.lat = lat;
+            msg.lng = lng;
+            msg.v1 = v1;
+            msg.v2 = v2;
+            msg.v3 = v3;
+            msg.v4 = v4;
+            
+            return msg;
+        }
+        
 
         /// <summary>Roll angle.  [rad] </summary>
         [Units("[rad]")]
@@ -7747,12 +9081,25 @@ public partial class MAVLink
     ///<summary> Request the autopilot version from the system/component. </summary>
     public struct mavlink_autopilot_version_request_t
     {
+        /// packet ordered constructor
         public mavlink_autopilot_version_request_t(byte target_system,byte target_component) 
         {
             this.target_system = target_system;
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_autopilot_version_request_t PopulateXMLOrder(byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_autopilot_version_request_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -7773,6 +9120,7 @@ public partial class MAVLink
     ///<summary> Send a block of log data to remote location. </summary>
     public struct mavlink_remote_log_data_block_t
     {
+        /// packet ordered constructor
         public mavlink_remote_log_data_block_t(/*MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS*/uint seqno,byte target_system,byte target_component,byte[] data) 
         {
             this.seqno = seqno;
@@ -7781,6 +9129,20 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_remote_log_data_block_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS*/uint seqno,byte[] data) 
+        {
+            var msg = new mavlink_remote_log_data_block_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seqno = seqno;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Log data block sequence number. MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS  </summary>
         [Units("")]
@@ -7814,6 +9176,7 @@ public partial class MAVLink
     ///<summary> Send Status of each log block that autopilot board might have sent. </summary>
     public struct mavlink_remote_log_block_status_t
     {
+        /// packet ordered constructor
         public mavlink_remote_log_block_status_t(uint seqno,byte target_system,byte target_component,/*MAV_REMOTE_LOG_DATA_BLOCK_STATUSES*/byte status) 
         {
             this.seqno = seqno;
@@ -7822,6 +9185,20 @@ public partial class MAVLink
             this.status = status;
             
         }
+        
+        /// packet xml order
+        public static mavlink_remote_log_block_status_t PopulateXMLOrder(byte target_system,byte target_component,uint seqno,/*MAV_REMOTE_LOG_DATA_BLOCK_STATUSES*/byte status) 
+        {
+            var msg = new mavlink_remote_log_block_status_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seqno = seqno;
+            msg.status = status;
+            
+            return msg;
+        }
+        
 
         /// <summary>Log data block sequence number.   </summary>
         [Units("")]
@@ -7854,6 +9231,7 @@ public partial class MAVLink
     ///<summary> Control vehicle LEDs. </summary>
     public struct mavlink_led_control_t
     {
+        /// packet ordered constructor
         public mavlink_led_control_t(byte target_system,byte target_component,byte instance,byte pattern,byte custom_len,byte[] custom_bytes) 
         {
             this.target_system = target_system;
@@ -7864,6 +9242,22 @@ public partial class MAVLink
             this.custom_bytes = custom_bytes;
             
         }
+        
+        /// packet xml order
+        public static mavlink_led_control_t PopulateXMLOrder(byte target_system,byte target_component,byte instance,byte pattern,byte custom_len,byte[] custom_bytes) 
+        {
+            var msg = new mavlink_led_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.instance = instance;
+            msg.pattern = pattern;
+            msg.custom_len = custom_len;
+            msg.custom_bytes = custom_bytes;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -7909,6 +9303,7 @@ public partial class MAVLink
     ///<summary> Reports progress of compass calibration. </summary>
     public struct mavlink_mag_cal_progress_t
     {
+        /// packet ordered constructor
         public mavlink_mag_cal_progress_t(float direction_x,float direction_y,float direction_z,byte compass_id,byte cal_mask,/*MAG_CAL_STATUS*/byte cal_status,byte attempt,byte completion_pct,byte[] completion_mask) 
         {
             this.direction_x = direction_x;
@@ -7922,6 +9317,25 @@ public partial class MAVLink
             this.completion_mask = completion_mask;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mag_cal_progress_t PopulateXMLOrder(byte compass_id,byte cal_mask,/*MAG_CAL_STATUS*/byte cal_status,byte attempt,byte completion_pct,byte[] completion_mask,float direction_x,float direction_y,float direction_z) 
+        {
+            var msg = new mavlink_mag_cal_progress_t();
+
+            msg.compass_id = compass_id;
+            msg.cal_mask = cal_mask;
+            msg.cal_status = cal_status;
+            msg.attempt = attempt;
+            msg.completion_pct = completion_pct;
+            msg.completion_mask = completion_mask;
+            msg.direction_x = direction_x;
+            msg.direction_y = direction_y;
+            msg.direction_z = direction_z;
+            
+            return msg;
+        }
+        
 
         /// <summary>Body frame direction vector for display.   </summary>
         [Units("")]
@@ -7985,6 +9399,7 @@ public partial class MAVLink
     ///<summary> EKF Status message including flags and variances. </summary>
     public struct mavlink_ekf_status_report_t
     {
+        /// packet ordered constructor
         public mavlink_ekf_status_report_t(float velocity_variance,float pos_horiz_variance,float pos_vert_variance,float compass_variance,float terrain_alt_variance,/*EKF_STATUS_FLAGS*/ushort flags,float airspeed_variance) 
         {
             this.velocity_variance = velocity_variance;
@@ -7996,6 +9411,23 @@ public partial class MAVLink
             this.airspeed_variance = airspeed_variance;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ekf_status_report_t PopulateXMLOrder(/*EKF_STATUS_FLAGS*/ushort flags,float velocity_variance,float pos_horiz_variance,float pos_vert_variance,float compass_variance,float terrain_alt_variance,float airspeed_variance) 
+        {
+            var msg = new mavlink_ekf_status_report_t();
+
+            msg.flags = flags;
+            msg.velocity_variance = velocity_variance;
+            msg.pos_horiz_variance = pos_horiz_variance;
+            msg.pos_vert_variance = pos_vert_variance;
+            msg.compass_variance = compass_variance;
+            msg.terrain_alt_variance = terrain_alt_variance;
+            msg.airspeed_variance = airspeed_variance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Velocity variance.   </summary>
         [Units("")]
@@ -8046,6 +9478,7 @@ public partial class MAVLink
     ///<summary> PID tuning information. </summary>
     public struct mavlink_pid_tuning_t
     {
+        /// packet ordered constructor
         public mavlink_pid_tuning_t(float desired,float achieved,float FF,float P,float I,float D,/*PID_TUNING_AXIS*/byte axis,float SRate,float PDmod) 
         {
             this.desired = desired;
@@ -8059,6 +9492,25 @@ public partial class MAVLink
             this.PDmod = PDmod;
             
         }
+        
+        /// packet xml order
+        public static mavlink_pid_tuning_t PopulateXMLOrder(/*PID_TUNING_AXIS*/byte axis,float desired,float achieved,float FF,float P,float I,float D,float SRate,float PDmod) 
+        {
+            var msg = new mavlink_pid_tuning_t();
+
+            msg.axis = axis;
+            msg.desired = desired;
+            msg.achieved = achieved;
+            msg.FF = FF;
+            msg.P = P;
+            msg.I = I;
+            msg.D = D;
+            msg.SRate = SRate;
+            msg.PDmod = PDmod;
+            
+            return msg;
+        }
+        
 
         /// <summary>Desired rate.   </summary>
         [Units("")]
@@ -8121,6 +9573,7 @@ public partial class MAVLink
     ///<summary> Deepstall path planning. </summary>
     public struct mavlink_deepstall_t
     {
+        /// packet ordered constructor
         public mavlink_deepstall_t(int landing_lat,int landing_lon,int path_lat,int path_lon,int arc_entry_lat,int arc_entry_lon,float altitude,float expected_travel_distance,float cross_track_error,/*DEEPSTALL_STAGE*/byte stage) 
         {
             this.landing_lat = landing_lat;
@@ -8135,6 +9588,26 @@ public partial class MAVLink
             this.stage = stage;
             
         }
+        
+        /// packet xml order
+        public static mavlink_deepstall_t PopulateXMLOrder(int landing_lat,int landing_lon,int path_lat,int path_lon,int arc_entry_lat,int arc_entry_lon,float altitude,float expected_travel_distance,float cross_track_error,/*DEEPSTALL_STAGE*/byte stage) 
+        {
+            var msg = new mavlink_deepstall_t();
+
+            msg.landing_lat = landing_lat;
+            msg.landing_lon = landing_lon;
+            msg.path_lat = path_lat;
+            msg.path_lon = path_lon;
+            msg.arc_entry_lat = arc_entry_lat;
+            msg.arc_entry_lon = arc_entry_lon;
+            msg.altitude = altitude;
+            msg.expected_travel_distance = expected_travel_distance;
+            msg.cross_track_error = cross_track_error;
+            msg.stage = stage;
+            
+            return msg;
+        }
+        
 
         /// <summary>Landing latitude.  [degE7] </summary>
         [Units("[degE7]")]
@@ -8203,6 +9676,7 @@ public partial class MAVLink
     ///<summary> 3 axis gimbal measurements. </summary>
     public struct mavlink_gimbal_report_t
     {
+        /// packet ordered constructor
         public mavlink_gimbal_report_t(float delta_time,float delta_angle_x,float delta_angle_y,float delta_angle_z,float delta_velocity_x,float delta_velocity_y,float delta_velocity_z,float joint_roll,float joint_el,float joint_az,byte target_system,byte target_component) 
         {
             this.delta_time = delta_time;
@@ -8219,6 +9693,28 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gimbal_report_t PopulateXMLOrder(byte target_system,byte target_component,float delta_time,float delta_angle_x,float delta_angle_y,float delta_angle_z,float delta_velocity_x,float delta_velocity_y,float delta_velocity_z,float joint_roll,float joint_el,float joint_az) 
+        {
+            var msg = new mavlink_gimbal_report_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.delta_time = delta_time;
+            msg.delta_angle_x = delta_angle_x;
+            msg.delta_angle_y = delta_angle_y;
+            msg.delta_angle_z = delta_angle_z;
+            msg.delta_velocity_x = delta_velocity_x;
+            msg.delta_velocity_y = delta_velocity_y;
+            msg.delta_velocity_z = delta_velocity_z;
+            msg.joint_roll = joint_roll;
+            msg.joint_el = joint_el;
+            msg.joint_az = joint_az;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time since last update.  [s] </summary>
         [Units("[s]")]
@@ -8299,6 +9795,7 @@ public partial class MAVLink
     ///<summary> Control message for rate gimbal. </summary>
     public struct mavlink_gimbal_control_t
     {
+        /// packet ordered constructor
         public mavlink_gimbal_control_t(float demanded_rate_x,float demanded_rate_y,float demanded_rate_z,byte target_system,byte target_component) 
         {
             this.demanded_rate_x = demanded_rate_x;
@@ -8308,6 +9805,21 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gimbal_control_t PopulateXMLOrder(byte target_system,byte target_component,float demanded_rate_x,float demanded_rate_y,float demanded_rate_z) 
+        {
+            var msg = new mavlink_gimbal_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.demanded_rate_x = demanded_rate_x;
+            msg.demanded_rate_y = demanded_rate_y;
+            msg.demanded_rate_z = demanded_rate_z;
+            
+            return msg;
+        }
+        
 
         /// <summary>Demanded angular rate X.  [rad/s] </summary>
         [Units("[rad/s]")]
@@ -8346,6 +9858,7 @@ public partial class MAVLink
     ///<summary> 100 Hz gimbal torque command telemetry. </summary>
     public struct mavlink_gimbal_torque_cmd_report_t
     {
+        /// packet ordered constructor
         public mavlink_gimbal_torque_cmd_report_t(short rl_torque_cmd,short el_torque_cmd,short az_torque_cmd,byte target_system,byte target_component) 
         {
             this.rl_torque_cmd = rl_torque_cmd;
@@ -8355,6 +9868,21 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gimbal_torque_cmd_report_t PopulateXMLOrder(byte target_system,byte target_component,short rl_torque_cmd,short el_torque_cmd,short az_torque_cmd) 
+        {
+            var msg = new mavlink_gimbal_torque_cmd_report_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.rl_torque_cmd = rl_torque_cmd;
+            msg.el_torque_cmd = el_torque_cmd;
+            msg.az_torque_cmd = az_torque_cmd;
+            
+            return msg;
+        }
+        
 
         /// <summary>Roll Torque Command.   </summary>
         [Units("")]
@@ -8393,6 +9921,7 @@ public partial class MAVLink
     ///<summary> Heartbeat from a HeroBus attached GoPro. </summary>
     public struct mavlink_gopro_heartbeat_t
     {
+        /// packet ordered constructor
         public mavlink_gopro_heartbeat_t(/*GOPRO_HEARTBEAT_STATUS*/byte status,/*GOPRO_CAPTURE_MODE*/byte capture_mode,/*GOPRO_HEARTBEAT_FLAGS*/byte flags) 
         {
             this.status = status;
@@ -8400,6 +9929,19 @@ public partial class MAVLink
             this.flags = flags;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gopro_heartbeat_t PopulateXMLOrder(/*GOPRO_HEARTBEAT_STATUS*/byte status,/*GOPRO_CAPTURE_MODE*/byte capture_mode,/*GOPRO_HEARTBEAT_FLAGS*/byte flags) 
+        {
+            var msg = new mavlink_gopro_heartbeat_t();
+
+            msg.status = status;
+            msg.capture_mode = capture_mode;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
 
         /// <summary>Status. GOPRO_HEARTBEAT_STATUS  </summary>
         [Units("")]
@@ -8426,6 +9968,7 @@ public partial class MAVLink
     ///<summary> Request a GOPRO_COMMAND response from the GoPro. </summary>
     public struct mavlink_gopro_get_request_t
     {
+        /// packet ordered constructor
         public mavlink_gopro_get_request_t(byte target_system,byte target_component,/*GOPRO_COMMAND*/byte cmd_id) 
         {
             this.target_system = target_system;
@@ -8433,6 +9976,19 @@ public partial class MAVLink
             this.cmd_id = cmd_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gopro_get_request_t PopulateXMLOrder(byte target_system,byte target_component,/*GOPRO_COMMAND*/byte cmd_id) 
+        {
+            var msg = new mavlink_gopro_get_request_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.cmd_id = cmd_id;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -8459,6 +10015,7 @@ public partial class MAVLink
     ///<summary> Response from a GOPRO_COMMAND get request. </summary>
     public struct mavlink_gopro_get_response_t
     {
+        /// packet ordered constructor
         public mavlink_gopro_get_response_t(/*GOPRO_COMMAND*/byte cmd_id,/*GOPRO_REQUEST_STATUS*/byte status,byte[] value) 
         {
             this.cmd_id = cmd_id;
@@ -8466,6 +10023,19 @@ public partial class MAVLink
             this.value = value;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gopro_get_response_t PopulateXMLOrder(/*GOPRO_COMMAND*/byte cmd_id,/*GOPRO_REQUEST_STATUS*/byte status,byte[] value) 
+        {
+            var msg = new mavlink_gopro_get_response_t();
+
+            msg.cmd_id = cmd_id;
+            msg.status = status;
+            msg.value = value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Command ID. GOPRO_COMMAND  </summary>
         [Units("")]
@@ -8493,6 +10063,7 @@ public partial class MAVLink
     ///<summary> Request to set a GOPRO_COMMAND with a desired. </summary>
     public struct mavlink_gopro_set_request_t
     {
+        /// packet ordered constructor
         public mavlink_gopro_set_request_t(byte target_system,byte target_component,/*GOPRO_COMMAND*/byte cmd_id,byte[] value) 
         {
             this.target_system = target_system;
@@ -8501,6 +10072,20 @@ public partial class MAVLink
             this.value = value;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gopro_set_request_t PopulateXMLOrder(byte target_system,byte target_component,/*GOPRO_COMMAND*/byte cmd_id,byte[] value) 
+        {
+            var msg = new mavlink_gopro_set_request_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.cmd_id = cmd_id;
+            msg.value = value;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID.   </summary>
         [Units("")]
@@ -8534,12 +10119,25 @@ public partial class MAVLink
     ///<summary> Response from a GOPRO_COMMAND set request. </summary>
     public struct mavlink_gopro_set_response_t
     {
+        /// packet ordered constructor
         public mavlink_gopro_set_response_t(/*GOPRO_COMMAND*/byte cmd_id,/*GOPRO_REQUEST_STATUS*/byte status) 
         {
             this.cmd_id = cmd_id;
             this.status = status;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gopro_set_response_t PopulateXMLOrder(/*GOPRO_COMMAND*/byte cmd_id,/*GOPRO_REQUEST_STATUS*/byte status) 
+        {
+            var msg = new mavlink_gopro_set_response_t();
+
+            msg.cmd_id = cmd_id;
+            msg.status = status;
+            
+            return msg;
+        }
+        
 
         /// <summary>Command ID. GOPRO_COMMAND  </summary>
         [Units("")]
@@ -8560,12 +10158,25 @@ public partial class MAVLink
     ///<summary> RPM sensor output. </summary>
     public struct mavlink_rpm_t
     {
+        /// packet ordered constructor
         public mavlink_rpm_t(float rpm1,float rpm2) 
         {
             this.rpm1 = rpm1;
             this.rpm2 = rpm2;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rpm_t PopulateXMLOrder(float rpm1,float rpm2) 
+        {
+            var msg = new mavlink_rpm_t();
+
+            msg.rpm1 = rpm1;
+            msg.rpm2 = rpm2;
+            
+            return msg;
+        }
+        
 
         /// <summary>RPM Sensor1.   </summary>
         [Units("")]
@@ -8586,6 +10197,7 @@ public partial class MAVLink
     ///<summary> Read registers for a device. </summary>
     public struct mavlink_device_op_read_t
     {
+        /// packet ordered constructor
         public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte bank) 
         {
             this.request_id = request_id;
@@ -8600,6 +10212,26 @@ public partial class MAVLink
             this.bank = bank;
             
         }
+        
+        /// packet xml order
+        public static mavlink_device_op_read_t PopulateXMLOrder(byte target_system,byte target_component,uint request_id,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte bank) 
+        {
+            var msg = new mavlink_device_op_read_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.request_id = request_id;
+            msg.bustype = bustype;
+            msg.bus = bus;
+            msg.address = address;
+            msg.busname = busname;
+            msg.regstart = regstart;
+            msg.count = count;
+            msg.bank = bank;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
@@ -8669,6 +10301,7 @@ public partial class MAVLink
     ///<summary> Read registers reply. </summary>
     public struct mavlink_device_op_read_reply_t
     {
+        /// packet ordered constructor
         public mavlink_device_op_read_reply_t(uint request_id,byte result,byte regstart,byte count,byte[] data,byte bank) 
         {
             this.request_id = request_id;
@@ -8679,6 +10312,22 @@ public partial class MAVLink
             this.bank = bank;
             
         }
+        
+        /// packet xml order
+        public static mavlink_device_op_read_reply_t PopulateXMLOrder(uint request_id,byte result,byte regstart,byte count,byte[] data,byte bank) 
+        {
+            var msg = new mavlink_device_op_read_reply_t();
+
+            msg.request_id = request_id;
+            msg.result = result;
+            msg.regstart = regstart;
+            msg.count = count;
+            msg.data = data;
+            msg.bank = bank;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
@@ -8724,6 +10373,7 @@ public partial class MAVLink
     ///<summary> Write registers for a device. </summary>
     public struct mavlink_device_op_write_t
     {
+        /// packet ordered constructor
         public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data,byte bank) 
         {
             this.request_id = request_id;
@@ -8739,6 +10389,27 @@ public partial class MAVLink
             this.bank = bank;
             
         }
+        
+        /// packet xml order
+        public static mavlink_device_op_write_t PopulateXMLOrder(byte target_system,byte target_component,uint request_id,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data,byte bank) 
+        {
+            var msg = new mavlink_device_op_write_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.request_id = request_id;
+            msg.bustype = bustype;
+            msg.bus = bus;
+            msg.address = address;
+            msg.busname = busname;
+            msg.regstart = regstart;
+            msg.count = count;
+            msg.data = data;
+            msg.bank = bank;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
@@ -8815,12 +10486,25 @@ public partial class MAVLink
     ///<summary> Write registers reply. </summary>
     public struct mavlink_device_op_write_reply_t
     {
+        /// packet ordered constructor
         public mavlink_device_op_write_reply_t(uint request_id,byte result) 
         {
             this.request_id = request_id;
             this.result = result;
             
         }
+        
+        /// packet xml order
+        public static mavlink_device_op_write_reply_t PopulateXMLOrder(uint request_id,byte result) 
+        {
+            var msg = new mavlink_device_op_write_reply_t();
+
+            msg.request_id = request_id;
+            msg.result = result;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
@@ -8837,10 +10521,155 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=232)]
+    ///<summary> Send a secure command. Data should be signed with a private key corresponding with a public key known to the recipient. Signature should be over the concatenation of the sequence number (little-endian format), the operation (little-endian format) the data and the session key. For SECURE_COMMAND_GET_SESSION_KEY the session key should be zero length. The data array consists of the data followed by the signature. The sum of the data_length and the sig_length cannot be more than 220. The format of the data is command specific. </summary>
+    public struct mavlink_secure_command_t
+    {
+        /// packet ordered constructor
+        public mavlink_secure_command_t(uint sequence,/*SECURE_COMMAND_OP*/uint operation,byte target_system,byte target_component,byte data_length,byte sig_length,byte[] data) 
+        {
+            this.sequence = sequence;
+            this.operation = operation;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.data_length = data_length;
+            this.sig_length = sig_length;
+            this.data = data;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_secure_command_t PopulateXMLOrder(byte target_system,byte target_component,uint sequence,/*SECURE_COMMAND_OP*/uint operation,byte data_length,byte sig_length,byte[] data) 
+        {
+            var msg = new mavlink_secure_command_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.sequence = sequence;
+            msg.operation = operation;
+            msg.data_length = data_length;
+            msg.sig_length = sig_length;
+            msg.data = data;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Sequence ID for tagging reply.   </summary>
+        [Units("")]
+        [Description("Sequence ID for tagging reply.")]
+        //[FieldOffset(0)]
+        public  uint sequence;
+
+        /// <summary>Operation being requested. SECURE_COMMAND_OP  </summary>
+        [Units("")]
+        [Description("Operation being requested.")]
+        //[FieldOffset(4)]
+        public  /*SECURE_COMMAND_OP*/uint operation;
+
+        /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        //[FieldOffset(8)]
+        public  byte target_system;
+
+        /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        //[FieldOffset(9)]
+        public  byte target_component;
+
+        /// <summary>Data length.   </summary>
+        [Units("")]
+        [Description("Data length.")]
+        //[FieldOffset(10)]
+        public  byte data_length;
+
+        /// <summary>Signature length.   </summary>
+        [Units("")]
+        [Description("Signature length.")]
+        //[FieldOffset(11)]
+        public  byte sig_length;
+
+        /// <summary>Signed data.   </summary>
+        [Units("")]
+        [Description("Signed data.")]
+        //[FieldOffset(12)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=220)]
+		public byte[] data;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=230)]
+    ///<summary> Reply from secure command. </summary>
+    public struct mavlink_secure_command_reply_t
+    {
+        /// packet ordered constructor
+        public mavlink_secure_command_reply_t(uint sequence,/*SECURE_COMMAND_OP*/uint operation,/*MAV_RESULT*/byte result,byte data_length,byte[] data) 
+        {
+            this.sequence = sequence;
+            this.operation = operation;
+            this.result = result;
+            this.data_length = data_length;
+            this.data = data;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_secure_command_reply_t PopulateXMLOrder(uint sequence,/*SECURE_COMMAND_OP*/uint operation,/*MAV_RESULT*/byte result,byte data_length,byte[] data) 
+        {
+            var msg = new mavlink_secure_command_reply_t();
+
+            msg.sequence = sequence;
+            msg.operation = operation;
+            msg.result = result;
+            msg.data_length = data_length;
+            msg.data = data;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Sequence ID from request.   </summary>
+        [Units("")]
+        [Description("Sequence ID from request.")]
+        //[FieldOffset(0)]
+        public  uint sequence;
+
+        /// <summary>Operation that was requested. SECURE_COMMAND_OP  </summary>
+        [Units("")]
+        [Description("Operation that was requested.")]
+        //[FieldOffset(4)]
+        public  /*SECURE_COMMAND_OP*/uint operation;
+
+        /// <summary>Result of command. MAV_RESULT  </summary>
+        [Units("")]
+        [Description("Result of command.")]
+        //[FieldOffset(8)]
+        public  /*MAV_RESULT*/byte result;
+
+        /// <summary>Data length.   </summary>
+        [Units("")]
+        [Description("Data length.")]
+        //[FieldOffset(9)]
+        public  byte data_length;
+
+        /// <summary>Reply data.   </summary>
+        [Units("")]
+        [Description("Reply data.")]
+        //[FieldOffset(10)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=220)]
+		public byte[] data;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=49)]
     ///<summary> Adaptive Controller tuning information. </summary>
     public struct mavlink_adap_tuning_t
     {
+        /// packet ordered constructor
         public mavlink_adap_tuning_t(float desired,float achieved,float error,float theta,float omega,float sigma,float theta_dot,float omega_dot,float sigma_dot,float f,float f_dot,float u,/*PID_TUNING_AXIS*/byte axis) 
         {
             this.desired = desired;
@@ -8858,6 +10687,29 @@ public partial class MAVLink
             this.axis = axis;
             
         }
+        
+        /// packet xml order
+        public static mavlink_adap_tuning_t PopulateXMLOrder(/*PID_TUNING_AXIS*/byte axis,float desired,float achieved,float error,float theta,float omega,float sigma,float theta_dot,float omega_dot,float sigma_dot,float f,float f_dot,float u) 
+        {
+            var msg = new mavlink_adap_tuning_t();
+
+            msg.axis = axis;
+            msg.desired = desired;
+            msg.achieved = achieved;
+            msg.error = error;
+            msg.theta = theta;
+            msg.omega = omega;
+            msg.sigma = sigma;
+            msg.theta_dot = theta_dot;
+            msg.omega_dot = omega_dot;
+            msg.sigma_dot = sigma_dot;
+            msg.f = f;
+            msg.f_dot = f_dot;
+            msg.u = u;
+            
+            return msg;
+        }
+        
 
         /// <summary>Desired rate.  [deg/s] </summary>
         [Units("[deg/s]")]
@@ -8944,6 +10796,7 @@ public partial class MAVLink
     ///<summary> Camera vision based attitude and position deltas. </summary>
     public struct mavlink_vision_position_delta_t
     {
+        /// packet ordered constructor
         public mavlink_vision_position_delta_t(ulong time_usec,ulong time_delta_usec,float[] angle_delta,float[] position_delta,float confidence) 
         {
             this.time_usec = time_usec;
@@ -8953,6 +10806,21 @@ public partial class MAVLink
             this.confidence = confidence;
             
         }
+        
+        /// packet xml order
+        public static mavlink_vision_position_delta_t PopulateXMLOrder(ulong time_usec,ulong time_delta_usec,float[] angle_delta,float[] position_delta,float confidence) 
+        {
+            var msg = new mavlink_vision_position_delta_t();
+
+            msg.time_usec = time_usec;
+            msg.time_delta_usec = time_delta_usec;
+            msg.angle_delta = angle_delta;
+            msg.position_delta = position_delta;
+            msg.confidence = confidence;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
         [Units("[us]")]
@@ -8993,6 +10861,7 @@ public partial class MAVLink
     ///<summary> Angle of Attack and Side Slip Angle. </summary>
     public struct mavlink_aoa_ssa_t
     {
+        /// packet ordered constructor
         public mavlink_aoa_ssa_t(ulong time_usec,float AOA,float SSA) 
         {
             this.time_usec = time_usec;
@@ -9000,6 +10869,19 @@ public partial class MAVLink
             this.SSA = SSA;
             
         }
+        
+        /// packet xml order
+        public static mavlink_aoa_ssa_t PopulateXMLOrder(ulong time_usec,float AOA,float SSA) 
+        {
+            var msg = new mavlink_aoa_ssa_t();
+
+            msg.time_usec = time_usec;
+            msg.AOA = AOA;
+            msg.SSA = SSA;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (since boot or Unix epoch).  [us] </summary>
         [Units("[us]")]
@@ -9026,6 +10908,7 @@ public partial class MAVLink
     ///<summary> ESC Telemetry Data for ESCs 1 to 4, matching data sent by BLHeli ESCs. </summary>
     public struct mavlink_esc_telemetry_1_to_4_t
     {
+        /// packet ordered constructor
         public mavlink_esc_telemetry_1_to_4_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
         {
             this.voltage = voltage;
@@ -9036,6 +10919,22 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_1_to_4_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_1_to_4_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
 
         /// <summary>Voltage.  [cV] </summary>
         [Units("[cV]")]
@@ -9086,6 +10985,7 @@ public partial class MAVLink
     ///<summary> ESC Telemetry Data for ESCs 5 to 8, matching data sent by BLHeli ESCs. </summary>
     public struct mavlink_esc_telemetry_5_to_8_t
     {
+        /// packet ordered constructor
         public mavlink_esc_telemetry_5_to_8_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
         {
             this.voltage = voltage;
@@ -9096,6 +10996,22 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_5_to_8_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_5_to_8_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
 
         /// <summary>Voltage.  [cV] </summary>
         [Units("[cV]")]
@@ -9146,6 +11062,7 @@ public partial class MAVLink
     ///<summary> ESC Telemetry Data for ESCs 9 to 12, matching data sent by BLHeli ESCs. </summary>
     public struct mavlink_esc_telemetry_9_to_12_t
     {
+        /// packet ordered constructor
         public mavlink_esc_telemetry_9_to_12_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
         {
             this.voltage = voltage;
@@ -9156,6 +11073,22 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_9_to_12_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_9_to_12_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
 
         /// <summary>Voltage.  [cV] </summary>
         [Units("[cV]")]
@@ -9206,6 +11139,7 @@ public partial class MAVLink
     ///<summary> Configure an OSD parameter slot. </summary>
     public struct mavlink_osd_param_config_t
     {
+        /// packet ordered constructor
         public mavlink_osd_param_config_t(uint request_id,float min_value,float max_value,float increment,byte target_system,byte target_component,byte osd_screen,byte osd_index,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type) 
         {
             this.request_id = request_id;
@@ -9220,6 +11154,26 @@ public partial class MAVLink
             this.config_type = config_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_osd_param_config_t PopulateXMLOrder(byte target_system,byte target_component,uint request_id,byte osd_screen,byte osd_index,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type,float min_value,float max_value,float increment) 
+        {
+            var msg = new mavlink_osd_param_config_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.request_id = request_id;
+            msg.osd_screen = osd_screen;
+            msg.osd_index = osd_index;
+            msg.param_id = param_id;
+            msg.config_type = config_type;
+            msg.min_value = min_value;
+            msg.max_value = max_value;
+            msg.increment = increment;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
@@ -9289,12 +11243,25 @@ public partial class MAVLink
     ///<summary> Configure OSD parameter reply. </summary>
     public struct mavlink_osd_param_config_reply_t
     {
+        /// packet ordered constructor
         public mavlink_osd_param_config_reply_t(uint request_id,/*OSD_PARAM_CONFIG_ERROR*/byte result) 
         {
             this.request_id = request_id;
             this.result = result;
             
         }
+        
+        /// packet xml order
+        public static mavlink_osd_param_config_reply_t PopulateXMLOrder(uint request_id,/*OSD_PARAM_CONFIG_ERROR*/byte result) 
+        {
+            var msg = new mavlink_osd_param_config_reply_t();
+
+            msg.request_id = request_id;
+            msg.result = result;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
@@ -9315,6 +11282,7 @@ public partial class MAVLink
     ///<summary> Read a configured an OSD parameter slot. </summary>
     public struct mavlink_osd_param_show_config_t
     {
+        /// packet ordered constructor
         public mavlink_osd_param_show_config_t(uint request_id,byte target_system,byte target_component,byte osd_screen,byte osd_index) 
         {
             this.request_id = request_id;
@@ -9324,6 +11292,21 @@ public partial class MAVLink
             this.osd_index = osd_index;
             
         }
+        
+        /// packet xml order
+        public static mavlink_osd_param_show_config_t PopulateXMLOrder(byte target_system,byte target_component,uint request_id,byte osd_screen,byte osd_index) 
+        {
+            var msg = new mavlink_osd_param_show_config_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.request_id = request_id;
+            msg.osd_screen = osd_screen;
+            msg.osd_index = osd_index;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
@@ -9362,6 +11345,7 @@ public partial class MAVLink
     ///<summary> Read configured OSD parameter reply. </summary>
     public struct mavlink_osd_param_show_config_reply_t
     {
+        /// packet ordered constructor
         public mavlink_osd_param_show_config_reply_t(uint request_id,float min_value,float max_value,float increment,/*OSD_PARAM_CONFIG_ERROR*/byte result,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type) 
         {
             this.request_id = request_id;
@@ -9373,6 +11357,23 @@ public partial class MAVLink
             this.config_type = config_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_osd_param_show_config_reply_t PopulateXMLOrder(uint request_id,/*OSD_PARAM_CONFIG_ERROR*/byte result,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type,float min_value,float max_value,float increment) 
+        {
+            var msg = new mavlink_osd_param_show_config_reply_t();
+
+            msg.request_id = request_id;
+            msg.result = result;
+            msg.param_id = param_id;
+            msg.config_type = config_type;
+            msg.min_value = min_value;
+            msg.max_value = max_value;
+            msg.increment = increment;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
@@ -9418,12 +11419,13 @@ public partial class MAVLink
         public  /*OSD_PARAM_CONFIG_TYPE*/byte config_type;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> Obstacle located as a 3D vector. </summary>
     public struct mavlink_obstacle_distance_3d_t
     {
+        /// packet ordered constructor
         public mavlink_obstacle_distance_3d_t(uint time_boot_ms,float x,float y,float z,float min_distance,float max_distance,ushort obstacle_id,/*MAV_DISTANCE_SENSOR*/byte sensor_type,/*MAV_FRAME*/byte frame) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -9437,6 +11439,25 @@ public partial class MAVLink
             this.frame = frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_obstacle_distance_3d_t PopulateXMLOrder(uint time_boot_ms,/*MAV_DISTANCE_SENSOR*/byte sensor_type,/*MAV_FRAME*/byte frame,ushort obstacle_id,float x,float y,float z,float min_distance,float max_distance) 
+        {
+            var msg = new mavlink_obstacle_distance_3d_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.sensor_type = sensor_type;
+            msg.frame = frame;
+            msg.obstacle_id = obstacle_id;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.min_distance = min_distance;
+            msg.max_distance = max_distance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -9499,6 +11520,7 @@ public partial class MAVLink
     ///<summary> Water depth </summary>
     public struct mavlink_water_depth_t
     {
+        /// packet ordered constructor
         public mavlink_water_depth_t(uint time_boot_ms,int lat,int lng,float alt,float roll,float pitch,float yaw,float distance,float temperature,byte id,byte healthy) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -9514,6 +11536,27 @@ public partial class MAVLink
             this.healthy = healthy;
             
         }
+        
+        /// packet xml order
+        public static mavlink_water_depth_t PopulateXMLOrder(uint time_boot_ms,byte id,byte healthy,int lat,int lng,float alt,float roll,float pitch,float yaw,float distance,float temperature) 
+        {
+            var msg = new mavlink_water_depth_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.id = id;
+            msg.healthy = healthy;
+            msg.lat = lat;
+            msg.lng = lng;
+            msg.alt = alt;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.distance = distance;
+            msg.temperature = temperature;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot)  [ms] </summary>
         [Units("[ms]")]
@@ -9588,6 +11631,7 @@ public partial class MAVLink
     ///<summary> The MCU status, giving MCU temperature and voltage. The min and max voltages are to allow for detecting power supply instability. </summary>
     public struct mavlink_mcu_status_t
     {
+        /// packet ordered constructor
         public mavlink_mcu_status_t(short MCU_temperature,ushort MCU_voltage,ushort MCU_voltage_min,ushort MCU_voltage_max,byte id) 
         {
             this.MCU_temperature = MCU_temperature;
@@ -9597,6 +11641,21 @@ public partial class MAVLink
             this.id = id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mcu_status_t PopulateXMLOrder(byte id,short MCU_temperature,ushort MCU_voltage,ushort MCU_voltage_min,ushort MCU_voltage_max) 
+        {
+            var msg = new mavlink_mcu_status_t();
+
+            msg.id = id;
+            msg.MCU_temperature = MCU_temperature;
+            msg.MCU_voltage = MCU_voltage;
+            msg.MCU_voltage_min = MCU_voltage_min;
+            msg.MCU_voltage_max = MCU_voltage_max;
+            
+            return msg;
+        }
+        
 
         /// <summary>MCU Internal temperature  [cdegC] </summary>
         [Units("[cdegC]")]
@@ -9631,10 +11690,484 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 13 to 16, matching data sent by BLHeli ESCs. </summary>
+    public struct mavlink_esc_telemetry_13_to_16_t
+    {
+        /// packet ordered constructor
+        public mavlink_esc_telemetry_13_to_16_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
+        {
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_13_to_16_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_13_to_16_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Voltage.  [cV] </summary>
+        [Units("[cV]")]
+        [Description("Voltage.")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] voltage;
+
+        /// <summary>Current.  [cA] </summary>
+        [Units("[cA]")]
+        [Description("Current.")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] current;
+
+        /// <summary>Total current.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Total current.")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] totalcurrent;
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] rpm;
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+        [Units("")]
+        [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] count;
+
+        /// <summary>Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature.")]
+        //[FieldOffset(40)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 17 to 20, matching data sent by BLHeli ESCs. </summary>
+    public struct mavlink_esc_telemetry_17_to_20_t
+    {
+        /// packet ordered constructor
+        public mavlink_esc_telemetry_17_to_20_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
+        {
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_17_to_20_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_17_to_20_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Voltage.  [cV] </summary>
+        [Units("[cV]")]
+        [Description("Voltage.")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] voltage;
+
+        /// <summary>Current.  [cA] </summary>
+        [Units("[cA]")]
+        [Description("Current.")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] current;
+
+        /// <summary>Total current.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Total current.")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] totalcurrent;
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] rpm;
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+        [Units("")]
+        [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] count;
+
+        /// <summary>Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature.")]
+        //[FieldOffset(40)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 21 to 24, matching data sent by BLHeli ESCs. </summary>
+    public struct mavlink_esc_telemetry_21_to_24_t
+    {
+        /// packet ordered constructor
+        public mavlink_esc_telemetry_21_to_24_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
+        {
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_21_to_24_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_21_to_24_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Voltage.  [cV] </summary>
+        [Units("[cV]")]
+        [Description("Voltage.")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] voltage;
+
+        /// <summary>Current.  [cA] </summary>
+        [Units("[cA]")]
+        [Description("Current.")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] current;
+
+        /// <summary>Total current.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Total current.")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] totalcurrent;
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] rpm;
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+        [Units("")]
+        [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] count;
+
+        /// <summary>Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature.")]
+        //[FieldOffset(40)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 25 to 28, matching data sent by BLHeli ESCs. </summary>
+    public struct mavlink_esc_telemetry_25_to_28_t
+    {
+        /// packet ordered constructor
+        public mavlink_esc_telemetry_25_to_28_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
+        {
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_25_to_28_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_25_to_28_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Voltage.  [cV] </summary>
+        [Units("[cV]")]
+        [Description("Voltage.")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] voltage;
+
+        /// <summary>Current.  [cA] </summary>
+        [Units("[cA]")]
+        [Description("Current.")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] current;
+
+        /// <summary>Total current.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Total current.")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] totalcurrent;
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] rpm;
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+        [Units("")]
+        [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] count;
+
+        /// <summary>Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature.")]
+        //[FieldOffset(40)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 29 to 32, matching data sent by BLHeli ESCs. </summary>
+    public struct mavlink_esc_telemetry_29_to_32_t
+    {
+        /// packet ordered constructor
+        public mavlink_esc_telemetry_29_to_32_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
+        {
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_esc_telemetry_29_to_32_t PopulateXMLOrder(byte[] temperature,ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count) 
+        {
+            var msg = new mavlink_esc_telemetry_29_to_32_t();
+
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.totalcurrent = totalcurrent;
+            msg.rpm = rpm;
+            msg.count = count;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Voltage.  [cV] </summary>
+        [Units("[cV]")]
+        [Description("Voltage.")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] voltage;
+
+        /// <summary>Current.  [cA] </summary>
+        [Units("[cA]")]
+        [Description("Current.")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] current;
+
+        /// <summary>Total current.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Total current.")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] totalcurrent;
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] rpm;
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+        [Units("")]
+        [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] count;
+
+        /// <summary>Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature.")]
+        //[FieldOffset(40)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
+    ///<summary> Information about video stream </summary>
+    public struct mavlink_video_stream_information99_t
+    {
+        /// packet ordered constructor
+        public mavlink_video_stream_information99_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
+        {
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.camera_id = camera_id;
+            this.status = status;
+            this.uri = uri;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_video_stream_information99_t PopulateXMLOrder(byte camera_id,byte status,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,byte[] uri) 
+        {
+            var msg = new mavlink_video_stream_information99_t();
+
+            msg.camera_id = camera_id;
+            msg.status = status;
+            msg.framerate = framerate;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.bitrate = bitrate;
+            msg.rotation = rotation;
+            msg.uri = uri;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Frame rate.  [Hz] </summary>
+        [Units("[Hz]")]
+        [Description("Frame rate.")]
+        //[FieldOffset(0)]
+        public  float framerate;
+
+        /// <summary>Bit rate.  [bits/s] </summary>
+        [Units("[bits/s]")]
+        [Description("Bit rate.")]
+        //[FieldOffset(4)]
+        public  uint bitrate;
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Horizontal resolution.")]
+        //[FieldOffset(8)]
+        public  ushort resolution_h;
+
+        /// <summary>Vertical resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Vertical resolution.")]
+        //[FieldOffset(10)]
+        public  ushort resolution_v;
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Video image rotation clockwise.")]
+        //[FieldOffset(12)]
+        public  ushort rotation;
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        [Units("")]
+        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(14)]
+        public  byte camera_id;
+
+        /// <summary>Number of streams available.   </summary>
+        [Units("")]
+        [Description("Number of streams available.")]
+        //[FieldOffset(15)]
+        public  byte status;
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+        [Units("")]
+        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
+		public byte[] uri;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=31)]
     ///<summary> The general system state. If the system is following the MAVLink standard, the system state is mainly defined by three orthogonal states/modes: The system mode, which is either LOCKED (motors shut down and locked), MANUAL (system under RC control), GUIDED (system with autonomous position control, position setpoint controlled manually) or AUTO (system guided by path/waypoint planner). The NAV_MODE defined the current flight state: LIFTOFF (often an open-loop maneuver), LANDING, WAYPOINTS or VECTOR. This represents the internal navigation state machine. The system status shows whether the system is currently active or not and if an emergency occurred. During the CRITICAL and EMERGENCY states the MAV is still considered to be active, but should start emergency procedures autonomously. After a failure occurred it should first move from active to critical to allow manual intervention and then move to emergency after a certain timeout. </summary>
     public struct mavlink_sys_status_t
     {
+        /// packet ordered constructor
         public mavlink_sys_status_t(/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_present,/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_enabled,/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_health,ushort load,ushort voltage_battery,short current_battery,ushort drop_rate_comm,ushort errors_comm,ushort errors_count1,ushort errors_count2,ushort errors_count3,ushort errors_count4,sbyte battery_remaining) 
         {
             this.onboard_control_sensors_present = onboard_control_sensors_present;
@@ -9652,6 +12185,29 @@ public partial class MAVLink
             this.battery_remaining = battery_remaining;
             
         }
+        
+        /// packet xml order
+        public static mavlink_sys_status_t PopulateXMLOrder(/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_present,/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_enabled,/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_health,ushort load,ushort voltage_battery,short current_battery,sbyte battery_remaining,ushort drop_rate_comm,ushort errors_comm,ushort errors_count1,ushort errors_count2,ushort errors_count3,ushort errors_count4) 
+        {
+            var msg = new mavlink_sys_status_t();
+
+            msg.onboard_control_sensors_present = onboard_control_sensors_present;
+            msg.onboard_control_sensors_enabled = onboard_control_sensors_enabled;
+            msg.onboard_control_sensors_health = onboard_control_sensors_health;
+            msg.load = load;
+            msg.voltage_battery = voltage_battery;
+            msg.current_battery = current_battery;
+            msg.battery_remaining = battery_remaining;
+            msg.drop_rate_comm = drop_rate_comm;
+            msg.errors_comm = errors_comm;
+            msg.errors_count1 = errors_count1;
+            msg.errors_count2 = errors_count2;
+            msg.errors_count3 = errors_count3;
+            msg.errors_count4 = errors_count4;
+            
+            return msg;
+        }
+        
 
         /// <summary>Bitmap showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. MAV_SYS_STATUS_SENSOR  bitmask</summary>
         [Units("")]
@@ -9738,12 +12294,25 @@ public partial class MAVLink
     ///<summary> The system time is the time of the master clock, typically the computer clock of the main onboard computer. </summary>
     public struct mavlink_system_time_t
     {
+        /// packet ordered constructor
         public mavlink_system_time_t(ulong time_unix_usec,uint time_boot_ms) 
         {
             this.time_unix_usec = time_unix_usec;
             this.time_boot_ms = time_boot_ms;
             
         }
+        
+        /// packet xml order
+        public static mavlink_system_time_t PopulateXMLOrder(ulong time_unix_usec,uint time_boot_ms) 
+        {
+            var msg = new mavlink_system_time_t();
+
+            msg.time_unix_usec = time_unix_usec;
+            msg.time_boot_ms = time_boot_ms;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX epoch time).  [us] </summary>
         [Units("[us]")]
@@ -9764,6 +12333,7 @@ public partial class MAVLink
     ///<summary> A ping message either requesting or responding to a ping. This allows to measure the system latencies, including serial port, radio modem and UDP connections. The ping microservice is documented at https://mavlink.io/en/services/ping.html </summary>
     public struct mavlink_ping_t
     {
+        /// packet ordered constructor
         public mavlink_ping_t(ulong time_usec,uint seq,byte target_system,byte target_component) 
         {
             this.time_usec = time_usec;
@@ -9772,6 +12342,20 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ping_t PopulateXMLOrder(ulong time_usec,uint seq,byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_ping_t();
+
+            msg.time_usec = time_usec;
+            msg.seq = seq;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -9804,6 +12388,7 @@ public partial class MAVLink
     ///<summary> Request to control this MAV </summary>
     public struct mavlink_change_operator_control_t
     {
+        /// packet ordered constructor
         public mavlink_change_operator_control_t(byte target_system,byte control_request,byte version,byte[] passkey) 
         {
             this.target_system = target_system;
@@ -9812,6 +12397,20 @@ public partial class MAVLink
             this.passkey = passkey;
             
         }
+        
+        /// packet xml order
+        public static mavlink_change_operator_control_t PopulateXMLOrder(byte target_system,byte control_request,byte version,byte[] passkey) 
+        {
+            var msg = new mavlink_change_operator_control_t();
+
+            msg.target_system = target_system;
+            msg.control_request = control_request;
+            msg.version = version;
+            msg.passkey = passkey;
+            
+            return msg;
+        }
+        
 
         /// <summary>System the GCS requests control for   </summary>
         [Units("")]
@@ -9845,6 +12444,7 @@ public partial class MAVLink
     ///<summary> Accept / deny control of this MAV </summary>
     public struct mavlink_change_operator_control_ack_t
     {
+        /// packet ordered constructor
         public mavlink_change_operator_control_ack_t(byte gcs_system_id,byte control_request,byte ack) 
         {
             this.gcs_system_id = gcs_system_id;
@@ -9852,6 +12452,19 @@ public partial class MAVLink
             this.ack = ack;
             
         }
+        
+        /// packet xml order
+        public static mavlink_change_operator_control_ack_t PopulateXMLOrder(byte gcs_system_id,byte control_request,byte ack) 
+        {
+            var msg = new mavlink_change_operator_control_ack_t();
+
+            msg.gcs_system_id = gcs_system_id;
+            msg.control_request = control_request;
+            msg.ack = ack;
+            
+            return msg;
+        }
+        
 
         /// <summary>ID of the GCS this message    </summary>
         [Units("")]
@@ -9878,11 +12491,23 @@ public partial class MAVLink
     ///<summary> Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so transmitting the key requires an encrypted channel for true safety. </summary>
     public struct mavlink_auth_key_t
     {
+        /// packet ordered constructor
         public mavlink_auth_key_t(byte[] key) 
         {
             this.key = key;
             
         }
+        
+        /// packet xml order
+        public static mavlink_auth_key_t PopulateXMLOrder(byte[] key) 
+        {
+            var msg = new mavlink_auth_key_t();
+
+            msg.key = key;
+            
+            return msg;
+        }
+        
 
         /// <summary>key   </summary>
         [Units("")]
@@ -9898,6 +12523,7 @@ public partial class MAVLink
     ///<summary> Set the system mode, as defined by enum MAV_MODE. There is no target component id as the mode is by definition for the overall aircraft, not only for one component. </summary>
     public struct mavlink_set_mode_t
     {
+        /// packet ordered constructor
         public mavlink_set_mode_t(uint custom_mode,byte target_system,/*MAV_MODE*/byte base_mode) 
         {
             this.custom_mode = custom_mode;
@@ -9905,6 +12531,19 @@ public partial class MAVLink
             this.base_mode = base_mode;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_mode_t PopulateXMLOrder(byte target_system,/*MAV_MODE*/byte base_mode,uint custom_mode) 
+        {
+            var msg = new mavlink_set_mode_t();
+
+            msg.target_system = target_system;
+            msg.base_mode = base_mode;
+            msg.custom_mode = custom_mode;
+            
+            return msg;
+        }
+        
 
         /// <summary>The new autopilot-specific mode. This field can be ignored by an autopilot.   </summary>
         [Units("")]
@@ -9931,6 +12570,7 @@ public partial class MAVLink
     ///<summary> Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and IMU code. </summary>
     public struct mavlink_param_request_read_t
     {
+        /// packet ordered constructor
         public mavlink_param_request_read_t(short param_index,byte target_system,byte target_component,byte[] param_id) 
         {
             this.param_index = param_index;
@@ -9939,6 +12579,20 @@ public partial class MAVLink
             this.param_id = param_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_request_read_t PopulateXMLOrder(byte target_system,byte target_component,byte[] param_id,short param_index) 
+        {
+            var msg = new mavlink_param_request_read_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.param_id = param_id;
+            msg.param_index = param_index;
+            
+            return msg;
+        }
+        
 
         /// <summary>Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)   </summary>
         [Units("")]
@@ -9972,12 +12626,25 @@ public partial class MAVLink
     ///<summary> Request all parameters of this component. After this request, all parameters are emitted. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_request_list_t
     {
+        /// packet ordered constructor
         public mavlink_param_request_list_t(byte target_system,byte target_component) 
         {
             this.target_system = target_system;
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_request_list_t PopulateXMLOrder(byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_param_request_list_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -9998,6 +12665,7 @@ public partial class MAVLink
     ///<summary> Emit the value of a onboard parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows him to re-request missing parameters after a loss or timeout. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_value_t
     {
+        /// packet ordered constructor
         public mavlink_param_value_t(float param_value,ushort param_count,ushort param_index,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
             this.param_value = param_value;
@@ -10007,6 +12675,21 @@ public partial class MAVLink
             this.param_type = param_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_value_t PopulateXMLOrder(byte[] param_id,float param_value,/*MAV_PARAM_TYPE*/byte param_type,ushort param_count,ushort param_index) 
+        {
+            var msg = new mavlink_param_value_t();
+
+            msg.param_id = param_id;
+            msg.param_value = param_value;
+            msg.param_type = param_type;
+            msg.param_count = param_count;
+            msg.param_index = param_index;
+            
+            return msg;
+        }
+        
 
         /// <summary>Onboard parameter value   </summary>
         [Units("")]
@@ -10046,6 +12729,7 @@ public partial class MAVLink
     ///<summary> Set a parameter value (write new value to permanent storage).         The receiving component should acknowledge the new parameter value by broadcasting a PARAM_VALUE message (broadcasting ensures that multiple GCS all have an up-to-date list of all parameters). If the sending GCS did not receive a PARAM_VALUE within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html.          </summary>
     public struct mavlink_param_set_t
     {
+        /// packet ordered constructor
         public mavlink_param_set_t(float param_value,byte target_system,byte target_component,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
             this.param_value = param_value;
@@ -10055,6 +12739,21 @@ public partial class MAVLink
             this.param_type = param_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_set_t PopulateXMLOrder(byte target_system,byte target_component,byte[] param_id,float param_value,/*MAV_PARAM_TYPE*/byte param_type) 
+        {
+            var msg = new mavlink_param_set_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.param_id = param_id;
+            msg.param_value = param_value;
+            msg.param_type = param_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Onboard parameter value   </summary>
         [Units("")]
@@ -10094,6 +12793,7 @@ public partial class MAVLink
     ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                 NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_gps_raw_int_t
     {
+        /// packet ordered constructor
         public mavlink_gps_raw_int_t(ulong time_usec,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw) 
         {
             this.time_usec = time_usec;
@@ -10114,6 +12814,32 @@ public partial class MAVLink
             this.yaw = yaw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_raw_int_t PopulateXMLOrder(ulong time_usec,/*GPS_FIX_TYPE*/byte fix_type,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw) 
+        {
+            var msg = new mavlink_gps_raw_int_t();
+
+            msg.time_usec = time_usec;
+            msg.fix_type = fix_type;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.eph = eph;
+            msg.epv = epv;
+            msg.vel = vel;
+            msg.cog = cog;
+            msg.satellites_visible = satellites_visible;
+            msg.alt_ellipsoid = alt_ellipsoid;
+            msg.h_acc = h_acc;
+            msg.v_acc = v_acc;
+            msg.vel_acc = vel_acc;
+            msg.hdg_acc = hdg_acc;
+            msg.yaw = yaw;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -10218,6 +12944,7 @@ public partial class MAVLink
     ///<summary> The positioning status, as reported by GPS. This message is intended to display status information about each satellite visible to the receiver. See message GLOBAL_POSITION for the global position estimate. This message can contain information for up to 20 satellites. </summary>
     public struct mavlink_gps_status_t
     {
+        /// packet ordered constructor
         public mavlink_gps_status_t(byte satellites_visible,byte[] satellite_prn,byte[] satellite_used,byte[] satellite_elevation,byte[] satellite_azimuth,byte[] satellite_snr) 
         {
             this.satellites_visible = satellites_visible;
@@ -10228,6 +12955,22 @@ public partial class MAVLink
             this.satellite_snr = satellite_snr;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_status_t PopulateXMLOrder(byte satellites_visible,byte[] satellite_prn,byte[] satellite_used,byte[] satellite_elevation,byte[] satellite_azimuth,byte[] satellite_snr) 
+        {
+            var msg = new mavlink_gps_status_t();
+
+            msg.satellites_visible = satellites_visible;
+            msg.satellite_prn = satellite_prn;
+            msg.satellite_used = satellite_used;
+            msg.satellite_elevation = satellite_elevation;
+            msg.satellite_azimuth = satellite_azimuth;
+            msg.satellite_snr = satellite_snr;
+            
+            return msg;
+        }
+        
 
         /// <summary>Number of satellites visible   </summary>
         [Units("")]
@@ -10277,6 +13020,7 @@ public partial class MAVLink
     ///<summary> The RAW IMU readings for the usual 9DOF sensor setup. This message should contain the scaled values to the described units </summary>
     public struct mavlink_scaled_imu_t
     {
+        /// packet ordered constructor
         public mavlink_scaled_imu_t(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10292,6 +13036,27 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_scaled_imu_t PopulateXMLOrder(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
+        {
+            var msg = new mavlink_scaled_imu_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.xmag = xmag;
+            msg.ymag = ymag;
+            msg.zmag = zmag;
+            msg.temperature = temperature;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10366,6 +13131,7 @@ public partial class MAVLink
     ///<summary> The RAW IMU readings for a 9DOF sensor, which is identified by the id (default IMU1). This message should always contain the true raw values without any scaling to allow data capture and system debugging. </summary>
     public struct mavlink_raw_imu_t
     {
+        /// packet ordered constructor
         public mavlink_raw_imu_t(ulong time_usec,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,byte id,short temperature) 
         {
             this.time_usec = time_usec;
@@ -10382,6 +13148,28 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_raw_imu_t PopulateXMLOrder(ulong time_usec,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,byte id,short temperature) 
+        {
+            var msg = new mavlink_raw_imu_t();
+
+            msg.time_usec = time_usec;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.xmag = xmag;
+            msg.ymag = ymag;
+            msg.zmag = zmag;
+            msg.id = id;
+            msg.temperature = temperature;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -10462,6 +13250,7 @@ public partial class MAVLink
     ///<summary> The RAW pressure readings for the typical setup of one absolute pressure and one differential pressure sensor. The sensor values should be the raw, UNSCALED ADC values. </summary>
     public struct mavlink_raw_pressure_t
     {
+        /// packet ordered constructor
         public mavlink_raw_pressure_t(ulong time_usec,short press_abs,short press_diff1,short press_diff2,short temperature) 
         {
             this.time_usec = time_usec;
@@ -10471,6 +13260,21 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_raw_pressure_t PopulateXMLOrder(ulong time_usec,short press_abs,short press_diff1,short press_diff2,short temperature) 
+        {
+            var msg = new mavlink_raw_pressure_t();
+
+            msg.time_usec = time_usec;
+            msg.press_abs = press_abs;
+            msg.press_diff1 = press_diff1;
+            msg.press_diff2 = press_diff2;
+            msg.temperature = temperature;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -10509,6 +13313,7 @@ public partial class MAVLink
     ///<summary> The pressure readings for the typical setup of one absolute and differential pressure sensor. The units are as specified in each field. </summary>
     public struct mavlink_scaled_pressure_t
     {
+        /// packet ordered constructor
         public mavlink_scaled_pressure_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10518,6 +13323,21 @@ public partial class MAVLink
             this.temperature_press_diff = temperature_press_diff;
             
         }
+        
+        /// packet xml order
+        public static mavlink_scaled_pressure_t PopulateXMLOrder(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
+        {
+            var msg = new mavlink_scaled_pressure_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.press_abs = press_abs;
+            msg.press_diff = press_diff;
+            msg.temperature = temperature;
+            msg.temperature_press_diff = temperature_press_diff;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10556,6 +13376,7 @@ public partial class MAVLink
     ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right). </summary>
     public struct mavlink_attitude_t
     {
+        /// packet ordered constructor
         public mavlink_attitude_t(uint time_boot_ms,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10567,6 +13388,23 @@ public partial class MAVLink
             this.yawspeed = yawspeed;
             
         }
+        
+        /// packet xml order
+        public static mavlink_attitude_t PopulateXMLOrder(uint time_boot_ms,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed) 
+        {
+            var msg = new mavlink_attitude_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.rollspeed = rollspeed;
+            msg.pitchspeed = pitchspeed;
+            msg.yawspeed = yawspeed;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10617,6 +13455,7 @@ public partial class MAVLink
     ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0). </summary>
     public struct mavlink_attitude_quaternion_t
     {
+        /// packet ordered constructor
         public mavlink_attitude_quaternion_t(uint time_boot_ms,float q1,float q2,float q3,float q4,float rollspeed,float pitchspeed,float yawspeed,float[] repr_offset_q) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10630,6 +13469,25 @@ public partial class MAVLink
             this.repr_offset_q = repr_offset_q;
             
         }
+        
+        /// packet xml order
+        public static mavlink_attitude_quaternion_t PopulateXMLOrder(uint time_boot_ms,float q1,float q2,float q3,float q4,float rollspeed,float pitchspeed,float yawspeed,float[] repr_offset_q) 
+        {
+            var msg = new mavlink_attitude_quaternion_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.q1 = q1;
+            msg.q2 = q2;
+            msg.q3 = q3;
+            msg.q4 = q4;
+            msg.rollspeed = rollspeed;
+            msg.pitchspeed = pitchspeed;
+            msg.yawspeed = yawspeed;
+            msg.repr_offset_q = repr_offset_q;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10693,6 +13551,7 @@ public partial class MAVLink
     ///<summary> The filtered local position (e.g. fused computer vision and accelerometers). Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention) </summary>
     public struct mavlink_local_position_ned_t
     {
+        /// packet ordered constructor
         public mavlink_local_position_ned_t(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10704,6 +13563,23 @@ public partial class MAVLink
             this.vz = vz;
             
         }
+        
+        /// packet xml order
+        public static mavlink_local_position_ned_t PopulateXMLOrder(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz) 
+        {
+            var msg = new mavlink_local_position_ned_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10754,6 +13630,7 @@ public partial class MAVLink
     ///<summary> The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It                is designed as scaled integer message since the resolution of float is not sufficient. </summary>
     public struct mavlink_global_position_int_t
     {
+        /// packet ordered constructor
         public mavlink_global_position_int_t(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10767,6 +13644,25 @@ public partial class MAVLink
             this.hdg = hdg;
             
         }
+        
+        /// packet xml order
+        public static mavlink_global_position_int_t PopulateXMLOrder(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
+        {
+            var msg = new mavlink_global_position_int_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.relative_alt = relative_alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.hdg = hdg;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10829,6 +13725,7 @@ public partial class MAVLink
     ///<summary> The scaled values of the RC channels received: (-100%) -10000, (0%) 0, (100%) 10000. Channels that are inactive should be set to UINT16_MAX. </summary>
     public struct mavlink_rc_channels_scaled_t
     {
+        /// packet ordered constructor
         public mavlink_rc_channels_scaled_t(uint time_boot_ms,short chan1_scaled,short chan2_scaled,short chan3_scaled,short chan4_scaled,short chan5_scaled,short chan6_scaled,short chan7_scaled,short chan8_scaled,byte port,byte rssi) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10844,6 +13741,27 @@ public partial class MAVLink
             this.rssi = rssi;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rc_channels_scaled_t PopulateXMLOrder(uint time_boot_ms,byte port,short chan1_scaled,short chan2_scaled,short chan3_scaled,short chan4_scaled,short chan5_scaled,short chan6_scaled,short chan7_scaled,short chan8_scaled,byte rssi) 
+        {
+            var msg = new mavlink_rc_channels_scaled_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.port = port;
+            msg.chan1_scaled = chan1_scaled;
+            msg.chan2_scaled = chan2_scaled;
+            msg.chan3_scaled = chan3_scaled;
+            msg.chan4_scaled = chan4_scaled;
+            msg.chan5_scaled = chan5_scaled;
+            msg.chan6_scaled = chan6_scaled;
+            msg.chan7_scaled = chan7_scaled;
+            msg.chan8_scaled = chan8_scaled;
+            msg.rssi = rssi;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -10918,6 +13836,7 @@ public partial class MAVLink
     ///<summary> The RAW values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. A value of UINT16_MAX implies the channel is unused. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_raw_t
     {
+        /// packet ordered constructor
         public mavlink_rc_channels_raw_t(uint time_boot_ms,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,byte port,byte rssi) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -10933,6 +13852,27 @@ public partial class MAVLink
             this.rssi = rssi;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rc_channels_raw_t PopulateXMLOrder(uint time_boot_ms,byte port,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,byte rssi) 
+        {
+            var msg = new mavlink_rc_channels_raw_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.port = port;
+            msg.chan1_raw = chan1_raw;
+            msg.chan2_raw = chan2_raw;
+            msg.chan3_raw = chan3_raw;
+            msg.chan4_raw = chan4_raw;
+            msg.chan5_raw = chan5_raw;
+            msg.chan6_raw = chan6_raw;
+            msg.chan7_raw = chan7_raw;
+            msg.chan8_raw = chan8_raw;
+            msg.rssi = rssi;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -11007,6 +13947,7 @@ public partial class MAVLink
     ///<summary> Superseded by ACTUATOR_OUTPUT_STATUS. The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages). The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. </summary>
     public struct mavlink_servo_output_raw_t
     {
+        /// packet ordered constructor
         public mavlink_servo_output_raw_t(uint time_usec,ushort servo1_raw,ushort servo2_raw,ushort servo3_raw,ushort servo4_raw,ushort servo5_raw,ushort servo6_raw,ushort servo7_raw,ushort servo8_raw,byte port,ushort servo9_raw,ushort servo10_raw,ushort servo11_raw,ushort servo12_raw,ushort servo13_raw,ushort servo14_raw,ushort servo15_raw,ushort servo16_raw) 
         {
             this.time_usec = time_usec;
@@ -11029,6 +13970,34 @@ public partial class MAVLink
             this.servo16_raw = servo16_raw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_servo_output_raw_t PopulateXMLOrder(uint time_usec,byte port,ushort servo1_raw,ushort servo2_raw,ushort servo3_raw,ushort servo4_raw,ushort servo5_raw,ushort servo6_raw,ushort servo7_raw,ushort servo8_raw,ushort servo9_raw,ushort servo10_raw,ushort servo11_raw,ushort servo12_raw,ushort servo13_raw,ushort servo14_raw,ushort servo15_raw,ushort servo16_raw) 
+        {
+            var msg = new mavlink_servo_output_raw_t();
+
+            msg.time_usec = time_usec;
+            msg.port = port;
+            msg.servo1_raw = servo1_raw;
+            msg.servo2_raw = servo2_raw;
+            msg.servo3_raw = servo3_raw;
+            msg.servo4_raw = servo4_raw;
+            msg.servo5_raw = servo5_raw;
+            msg.servo6_raw = servo6_raw;
+            msg.servo7_raw = servo7_raw;
+            msg.servo8_raw = servo8_raw;
+            msg.servo9_raw = servo9_raw;
+            msg.servo10_raw = servo10_raw;
+            msg.servo11_raw = servo11_raw;
+            msg.servo12_raw = servo12_raw;
+            msg.servo13_raw = servo13_raw;
+            msg.servo14_raw = servo14_raw;
+            msg.servo15_raw = servo15_raw;
+            msg.servo16_raw = servo16_raw;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -11145,6 +14114,7 @@ public partial class MAVLink
     ///<summary> Request a partial list of mission items from the system/component. https://mavlink.io/en/services/mission.html. If start and end index are the same, just send one waypoint. </summary>
     public struct mavlink_mission_request_partial_list_t
     {
+        /// packet ordered constructor
         public mavlink_mission_request_partial_list_t(short start_index,short end_index,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.start_index = start_index;
@@ -11154,6 +14124,21 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_request_partial_list_t PopulateXMLOrder(byte target_system,byte target_component,short start_index,short end_index,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_request_partial_list_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.start_index = start_index;
+            msg.end_index = end_index;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Start index   </summary>
         [Units("")]
@@ -11192,6 +14177,7 @@ public partial class MAVLink
     ///<summary> This message is sent to the MAV to write a partial list. If start index == end index, only one item will be transmitted / updated. If the start index is NOT 0 and above the current list size, this request should be REJECTED! </summary>
     public struct mavlink_mission_write_partial_list_t
     {
+        /// packet ordered constructor
         public mavlink_mission_write_partial_list_t(short start_index,short end_index,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.start_index = start_index;
@@ -11201,6 +14187,21 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_write_partial_list_t PopulateXMLOrder(byte target_system,byte target_component,short start_index,short end_index,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_write_partial_list_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.start_index = start_index;
+            msg.end_index = end_index;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Start index. Must be smaller / equal to the largest index of the current onboard list.   </summary>
         [Units("")]
@@ -11239,6 +14240,7 @@ public partial class MAVLink
     ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN may be used to indicate an optional/default value (e.g. to use the system's current latitude or yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_t
     {
+        /// packet ordered constructor
         public mavlink_mission_item_t(float param1,float param2,float param3,float param4,float x,float y,float z,ushort seq,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.param1 = param1;
@@ -11258,6 +14260,31 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_item_t PopulateXMLOrder(byte target_system,byte target_component,ushort seq,/*MAV_FRAME*/byte frame,/*MAV_CMD*/ushort command,byte current,byte autocontinue,float param1,float param2,float param3,float param4,float x,float y,float z,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_item_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seq = seq;
+            msg.frame = frame;
+            msg.command = command;
+            msg.current = current;
+            msg.autocontinue = autocontinue;
+            msg.param1 = param1;
+            msg.param2 = param2;
+            msg.param3 = param3;
+            msg.param4 = param4;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>PARAM1, see MAV_CMD enum   </summary>
         [Units("")]
@@ -11356,6 +14383,7 @@ public partial class MAVLink
     ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM message. https://mavlink.io/en/services/mission.html </summary>
     public struct mavlink_mission_request_t
     {
+        /// packet ordered constructor
         public mavlink_mission_request_t(ushort seq,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.seq = seq;
@@ -11364,6 +14392,20 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_request_t PopulateXMLOrder(byte target_system,byte target_component,ushort seq,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_request_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seq = seq;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Sequence   </summary>
         [Units("")]
@@ -11396,6 +14438,7 @@ public partial class MAVLink
     ///<summary> Set the mission item with sequence number seq as current item. This means that the MAV will continue to this mission item on the shortest path (not following the mission items in-between). </summary>
     public struct mavlink_mission_set_current_t
     {
+        /// packet ordered constructor
         public mavlink_mission_set_current_t(ushort seq,byte target_system,byte target_component) 
         {
             this.seq = seq;
@@ -11403,6 +14446,19 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_set_current_t PopulateXMLOrder(byte target_system,byte target_component,ushort seq) 
+        {
+            var msg = new mavlink_mission_set_current_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seq = seq;
+            
+            return msg;
+        }
+        
 
         /// <summary>Sequence   </summary>
         [Units("")]
@@ -11429,11 +14485,23 @@ public partial class MAVLink
     ///<summary> Message that announces the sequence number of the current active mission item. The MAV will fly towards this mission item. </summary>
     public struct mavlink_mission_current_t
     {
+        /// packet ordered constructor
         public mavlink_mission_current_t(ushort seq) 
         {
             this.seq = seq;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_current_t PopulateXMLOrder(ushort seq) 
+        {
+            var msg = new mavlink_mission_current_t();
+
+            msg.seq = seq;
+            
+            return msg;
+        }
+        
 
         /// <summary>Sequence   </summary>
         [Units("")]
@@ -11448,6 +14516,7 @@ public partial class MAVLink
     ///<summary> Request the overall list of mission items from the system/component. </summary>
     public struct mavlink_mission_request_list_t
     {
+        /// packet ordered constructor
         public mavlink_mission_request_list_t(byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.target_system = target_system;
@@ -11455,6 +14524,19 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_request_list_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_request_list_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -11481,6 +14563,7 @@ public partial class MAVLink
     ///<summary> This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of waypoints. </summary>
     public struct mavlink_mission_count_t
     {
+        /// packet ordered constructor
         public mavlink_mission_count_t(ushort count,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.count = count;
@@ -11489,6 +14572,20 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_count_t PopulateXMLOrder(byte target_system,byte target_component,ushort count,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_count_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.count = count;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Number of mission items in the sequence   </summary>
         [Units("")]
@@ -11521,6 +14618,7 @@ public partial class MAVLink
     ///<summary> Delete all mission items at once. </summary>
     public struct mavlink_mission_clear_all_t
     {
+        /// packet ordered constructor
         public mavlink_mission_clear_all_t(byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.target_system = target_system;
@@ -11528,6 +14626,19 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_clear_all_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_clear_all_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -11554,11 +14665,23 @@ public partial class MAVLink
     ///<summary> A certain mission item has been reached. The system will either hold this position (or circle on the orbit) or (if the autocontinue on the WP was set) continue to the next waypoint. </summary>
     public struct mavlink_mission_item_reached_t
     {
+        /// packet ordered constructor
         public mavlink_mission_item_reached_t(ushort seq) 
         {
             this.seq = seq;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_item_reached_t PopulateXMLOrder(ushort seq) 
+        {
+            var msg = new mavlink_mission_item_reached_t();
+
+            msg.seq = seq;
+            
+            return msg;
+        }
+        
 
         /// <summary>Sequence   </summary>
         [Units("")]
@@ -11573,6 +14696,7 @@ public partial class MAVLink
     ///<summary> Acknowledgment message during waypoint handling. The type field states if this message is a positive ack (type=0) or if an error happened (type=non-zero). </summary>
     public struct mavlink_mission_ack_t
     {
+        /// packet ordered constructor
         public mavlink_mission_ack_t(byte target_system,byte target_component,/*MAV_MISSION_RESULT*/byte type,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.target_system = target_system;
@@ -11581,6 +14705,20 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_ack_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_MISSION_RESULT*/byte type,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_ack_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.type = type;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -11613,6 +14751,7 @@ public partial class MAVLink
     ///<summary> Sets the GPS co-ordinates of the vehicle local origin (0,0,0) position. Vehicle should emit GPS_GLOBAL_ORIGIN irrespective of whether the origin is changed. This enables transform between the local coordinate frame and the global (GPS) coordinate frame, which may be necessary when (for example) indoor and outdoor settings are connected and the MAV should move from in- to outdoor. </summary>
     public struct mavlink_set_gps_global_origin_t
     {
+        /// packet ordered constructor
         public mavlink_set_gps_global_origin_t(int latitude,int longitude,int altitude,byte target_system,ulong time_usec) 
         {
             this.latitude = latitude;
@@ -11622,6 +14761,21 @@ public partial class MAVLink
             this.time_usec = time_usec;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_gps_global_origin_t PopulateXMLOrder(byte target_system,int latitude,int longitude,int altitude,ulong time_usec) 
+        {
+            var msg = new mavlink_set_gps_global_origin_t();
+
+            msg.target_system = target_system;
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude = altitude;
+            msg.time_usec = time_usec;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
@@ -11660,6 +14814,7 @@ public partial class MAVLink
     ///<summary> Publishes the GPS co-ordinates of the vehicle local origin (0,0,0) position. Emitted whenever a new GPS-Local position mapping is requested or set - e.g. following SET_GPS_GLOBAL_ORIGIN message. </summary>
     public struct mavlink_gps_global_origin_t
     {
+        /// packet ordered constructor
         public mavlink_gps_global_origin_t(int latitude,int longitude,int altitude,ulong time_usec) 
         {
             this.latitude = latitude;
@@ -11668,6 +14823,20 @@ public partial class MAVLink
             this.time_usec = time_usec;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_global_origin_t PopulateXMLOrder(int latitude,int longitude,int altitude,ulong time_usec) 
+        {
+            var msg = new mavlink_gps_global_origin_t();
+
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude = altitude;
+            msg.time_usec = time_usec;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
@@ -11700,6 +14869,7 @@ public partial class MAVLink
     ///<summary> Bind a RC channel to a parameter. The parameter should change according to the RC channel value. </summary>
     public struct mavlink_param_map_rc_t
     {
+        /// packet ordered constructor
         public mavlink_param_map_rc_t(float param_value0,float scale,float param_value_min,float param_value_max,short param_index,byte target_system,byte target_component,byte[] param_id,byte parameter_rc_channel_index) 
         {
             this.param_value0 = param_value0;
@@ -11713,6 +14883,25 @@ public partial class MAVLink
             this.parameter_rc_channel_index = parameter_rc_channel_index;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_map_rc_t PopulateXMLOrder(byte target_system,byte target_component,byte[] param_id,short param_index,byte parameter_rc_channel_index,float param_value0,float scale,float param_value_min,float param_value_max) 
+        {
+            var msg = new mavlink_param_map_rc_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.param_id = param_id;
+            msg.param_index = param_index;
+            msg.parameter_rc_channel_index = parameter_rc_channel_index;
+            msg.param_value0 = param_value0;
+            msg.scale = scale;
+            msg.param_value_min = param_value_min;
+            msg.param_value_max = param_value_max;
+            
+            return msg;
+        }
+        
 
         /// <summary>Initial parameter value   </summary>
         [Units("")]
@@ -11776,6 +14965,7 @@ public partial class MAVLink
     ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM_INT message. https://mavlink.io/en/services/mission.html </summary>
     public struct mavlink_mission_request_int_t
     {
+        /// packet ordered constructor
         public mavlink_mission_request_int_t(ushort seq,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.seq = seq;
@@ -11784,6 +14974,20 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_request_int_t PopulateXMLOrder(byte target_system,byte target_component,ushort seq,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_request_int_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seq = seq;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Sequence   </summary>
         [Units("")]
@@ -11816,6 +15020,7 @@ public partial class MAVLink
     ///<summary> Set a safety zone (volume), which is defined by two corners of a cube. This message can be used to tell the MAV which setpoints/waypoints to accept and which to reject. Safety areas are often enforced by national or competition regulations. </summary>
     public struct mavlink_safety_set_allowed_area_t
     {
+        /// packet ordered constructor
         public mavlink_safety_set_allowed_area_t(float p1x,float p1y,float p1z,float p2x,float p2y,float p2z,byte target_system,byte target_component,/*MAV_FRAME*/byte frame) 
         {
             this.p1x = p1x;
@@ -11829,6 +15034,25 @@ public partial class MAVLink
             this.frame = frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_safety_set_allowed_area_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_FRAME*/byte frame,float p1x,float p1y,float p1z,float p2x,float p2y,float p2z) 
+        {
+            var msg = new mavlink_safety_set_allowed_area_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.frame = frame;
+            msg.p1x = p1x;
+            msg.p1y = p1y;
+            msg.p1z = p1z;
+            msg.p2x = p2x;
+            msg.p2y = p2y;
+            msg.p2z = p2z;
+            
+            return msg;
+        }
+        
 
         /// <summary>x position 1 / Latitude 1  [m] </summary>
         [Units("[m]")]
@@ -11891,6 +15115,7 @@ public partial class MAVLink
     ///<summary> Read out the safety zone the MAV currently assumes. </summary>
     public struct mavlink_safety_allowed_area_t
     {
+        /// packet ordered constructor
         public mavlink_safety_allowed_area_t(float p1x,float p1y,float p1z,float p2x,float p2y,float p2z,/*MAV_FRAME*/byte frame) 
         {
             this.p1x = p1x;
@@ -11902,6 +15127,23 @@ public partial class MAVLink
             this.frame = frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_safety_allowed_area_t PopulateXMLOrder(/*MAV_FRAME*/byte frame,float p1x,float p1y,float p1z,float p2x,float p2y,float p2z) 
+        {
+            var msg = new mavlink_safety_allowed_area_t();
+
+            msg.frame = frame;
+            msg.p1x = p1x;
+            msg.p1y = p1y;
+            msg.p1z = p1z;
+            msg.p2x = p2x;
+            msg.p2y = p2y;
+            msg.p2z = p2z;
+            
+            return msg;
+        }
+        
 
         /// <summary>x position 1 / Latitude 1  [m] </summary>
         [Units("[m]")]
@@ -11952,6 +15194,7 @@ public partial class MAVLink
     ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0). </summary>
     public struct mavlink_attitude_quaternion_cov_t
     {
+        /// packet ordered constructor
         public mavlink_attitude_quaternion_cov_t(ulong time_usec,float[] q,float rollspeed,float pitchspeed,float yawspeed,float[] covariance) 
         {
             this.time_usec = time_usec;
@@ -11962,6 +15205,22 @@ public partial class MAVLink
             this.covariance = covariance;
             
         }
+        
+        /// packet xml order
+        public static mavlink_attitude_quaternion_cov_t PopulateXMLOrder(ulong time_usec,float[] q,float rollspeed,float pitchspeed,float yawspeed,float[] covariance) 
+        {
+            var msg = new mavlink_attitude_quaternion_cov_t();
+
+            msg.time_usec = time_usec;
+            msg.q = q;
+            msg.rollspeed = rollspeed;
+            msg.pitchspeed = pitchspeed;
+            msg.yawspeed = yawspeed;
+            msg.covariance = covariance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -12008,6 +15267,7 @@ public partial class MAVLink
     ///<summary> The state of the fixed wing navigation and position controller. </summary>
     public struct mavlink_nav_controller_output_t
     {
+        /// packet ordered constructor
         public mavlink_nav_controller_output_t(float nav_roll,float nav_pitch,float alt_error,float aspd_error,float xtrack_error,short nav_bearing,short target_bearing,ushort wp_dist) 
         {
             this.nav_roll = nav_roll;
@@ -12020,6 +15280,24 @@ public partial class MAVLink
             this.wp_dist = wp_dist;
             
         }
+        
+        /// packet xml order
+        public static mavlink_nav_controller_output_t PopulateXMLOrder(float nav_roll,float nav_pitch,short nav_bearing,short target_bearing,ushort wp_dist,float alt_error,float aspd_error,float xtrack_error) 
+        {
+            var msg = new mavlink_nav_controller_output_t();
+
+            msg.nav_roll = nav_roll;
+            msg.nav_pitch = nav_pitch;
+            msg.nav_bearing = nav_bearing;
+            msg.target_bearing = target_bearing;
+            msg.wp_dist = wp_dist;
+            msg.alt_error = alt_error;
+            msg.aspd_error = aspd_error;
+            msg.xtrack_error = xtrack_error;
+            
+            return msg;
+        }
+        
 
         /// <summary>Current desired roll  [deg] </summary>
         [Units("[deg]")]
@@ -12076,6 +15354,7 @@ public partial class MAVLink
     ///<summary> The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It  is designed as scaled integer message since the resolution of float is not sufficient. NOTE: This message is intended for onboard networks / companion computers and higher-bandwidth links and optimized for accuracy and completeness. Please use the GLOBAL_POSITION_INT message for a minimal subset. </summary>
     public struct mavlink_global_position_int_cov_t
     {
+        /// packet ordered constructor
         public mavlink_global_position_int_cov_t(ulong time_usec,int lat,int lon,int alt,int relative_alt,float vx,float vy,float vz,float[] covariance,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
         {
             this.time_usec = time_usec;
@@ -12090,6 +15369,26 @@ public partial class MAVLink
             this.estimator_type = estimator_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_global_position_int_cov_t PopulateXMLOrder(ulong time_usec,/*MAV_ESTIMATOR_TYPE*/byte estimator_type,int lat,int lon,int alt,int relative_alt,float vx,float vy,float vz,float[] covariance) 
+        {
+            var msg = new mavlink_global_position_int_cov_t();
+
+            msg.time_usec = time_usec;
+            msg.estimator_type = estimator_type;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.relative_alt = relative_alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.covariance = covariance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -12159,6 +15458,7 @@ public partial class MAVLink
     ///<summary> The filtered local position (e.g. fused computer vision and accelerometers). Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention) </summary>
     public struct mavlink_local_position_ned_cov_t
     {
+        /// packet ordered constructor
         public mavlink_local_position_ned_cov_t(ulong time_usec,float x,float y,float z,float vx,float vy,float vz,float ax,float ay,float az,float[] covariance,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
         {
             this.time_usec = time_usec;
@@ -12175,6 +15475,28 @@ public partial class MAVLink
             this.estimator_type = estimator_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_local_position_ned_cov_t PopulateXMLOrder(ulong time_usec,/*MAV_ESTIMATOR_TYPE*/byte estimator_type,float x,float y,float z,float vx,float vy,float vz,float ax,float ay,float az,float[] covariance) 
+        {
+            var msg = new mavlink_local_position_ned_cov_t();
+
+            msg.time_usec = time_usec;
+            msg.estimator_type = estimator_type;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.ax = ax;
+            msg.ay = ay;
+            msg.az = az;
+            msg.covariance = covariance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -12256,6 +15578,7 @@ public partial class MAVLink
     ///<summary> The PPM values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%.  A value of UINT16_MAX implies the channel is unused. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_t
     {
+        /// packet ordered constructor
         public mavlink_rc_channels_t(uint time_boot_ms,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,ushort chan13_raw,ushort chan14_raw,ushort chan15_raw,ushort chan16_raw,ushort chan17_raw,ushort chan18_raw,byte chancount,byte rssi) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -12281,6 +15604,37 @@ public partial class MAVLink
             this.rssi = rssi;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rc_channels_t PopulateXMLOrder(uint time_boot_ms,byte chancount,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,ushort chan13_raw,ushort chan14_raw,ushort chan15_raw,ushort chan16_raw,ushort chan17_raw,ushort chan18_raw,byte rssi) 
+        {
+            var msg = new mavlink_rc_channels_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.chancount = chancount;
+            msg.chan1_raw = chan1_raw;
+            msg.chan2_raw = chan2_raw;
+            msg.chan3_raw = chan3_raw;
+            msg.chan4_raw = chan4_raw;
+            msg.chan5_raw = chan5_raw;
+            msg.chan6_raw = chan6_raw;
+            msg.chan7_raw = chan7_raw;
+            msg.chan8_raw = chan8_raw;
+            msg.chan9_raw = chan9_raw;
+            msg.chan10_raw = chan10_raw;
+            msg.chan11_raw = chan11_raw;
+            msg.chan12_raw = chan12_raw;
+            msg.chan13_raw = chan13_raw;
+            msg.chan14_raw = chan14_raw;
+            msg.chan15_raw = chan15_raw;
+            msg.chan16_raw = chan16_raw;
+            msg.chan17_raw = chan17_raw;
+            msg.chan18_raw = chan18_raw;
+            msg.rssi = rssi;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -12415,6 +15769,7 @@ public partial class MAVLink
     ///<summary> Request a data stream. </summary>
     public struct mavlink_request_data_stream_t
     {
+        /// packet ordered constructor
         public mavlink_request_data_stream_t(ushort req_message_rate,byte target_system,byte target_component,byte req_stream_id,byte start_stop) 
         {
             this.req_message_rate = req_message_rate;
@@ -12424,6 +15779,21 @@ public partial class MAVLink
             this.start_stop = start_stop;
             
         }
+        
+        /// packet xml order
+        public static mavlink_request_data_stream_t PopulateXMLOrder(byte target_system,byte target_component,byte req_stream_id,ushort req_message_rate,byte start_stop) 
+        {
+            var msg = new mavlink_request_data_stream_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.req_stream_id = req_stream_id;
+            msg.req_message_rate = req_message_rate;
+            msg.start_stop = start_stop;
+            
+            return msg;
+        }
+        
 
         /// <summary>The requested message rate  [Hz] </summary>
         [Units("[Hz]")]
@@ -12462,6 +15832,7 @@ public partial class MAVLink
     ///<summary> Data stream status information. </summary>
     public struct mavlink_data_stream_t
     {
+        /// packet ordered constructor
         public mavlink_data_stream_t(ushort message_rate,byte stream_id,byte on_off) 
         {
             this.message_rate = message_rate;
@@ -12469,6 +15840,19 @@ public partial class MAVLink
             this.on_off = on_off;
             
         }
+        
+        /// packet xml order
+        public static mavlink_data_stream_t PopulateXMLOrder(byte stream_id,ushort message_rate,byte on_off) 
+        {
+            var msg = new mavlink_data_stream_t();
+
+            msg.stream_id = stream_id;
+            msg.message_rate = message_rate;
+            msg.on_off = on_off;
+            
+            return msg;
+        }
+        
 
         /// <summary>The message rate  [Hz] </summary>
         [Units("[Hz]")]
@@ -12495,6 +15879,7 @@ public partial class MAVLink
     ///<summary> This message provides an API for manually controlling the vehicle using standard joystick axes nomenclature, along with a joystick-like input device. Unused axes can be disabled an buttons are also transmit as boolean values of their  </summary>
     public struct mavlink_manual_control_t
     {
+        /// packet ordered constructor
         public mavlink_manual_control_t(short x,short y,short z,short r,ushort buttons,byte target) 
         {
             this.x = x;
@@ -12505,6 +15890,22 @@ public partial class MAVLink
             this.target = target;
             
         }
+        
+        /// packet xml order
+        public static mavlink_manual_control_t PopulateXMLOrder(byte target,short x,short y,short z,short r,ushort buttons) 
+        {
+            var msg = new mavlink_manual_control_t();
+
+            msg.target = target;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.r = r;
+            msg.buttons = buttons;
+            
+            return msg;
+        }
+        
 
         /// <summary>X-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to forward(1000)-backward(-1000) movement on a joystick and the pitch of a vehicle.   </summary>
         [Units("")]
@@ -12549,6 +15950,7 @@ public partial class MAVLink
     ///<summary> The RAW values of the RC channels sent to the MAV to override info received from the RC radio. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification.  Note carefully the semantic differences between the first 8 channels and the subsequent channels </summary>
     public struct mavlink_rc_channels_override_t
     {
+        /// packet ordered constructor
         public mavlink_rc_channels_override_t(ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,byte target_system,byte target_component,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,ushort chan13_raw,ushort chan14_raw,ushort chan15_raw,ushort chan16_raw,ushort chan17_raw,ushort chan18_raw) 
         {
             this.chan1_raw = chan1_raw;
@@ -12573,6 +15975,36 @@ public partial class MAVLink
             this.chan18_raw = chan18_raw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_rc_channels_override_t PopulateXMLOrder(byte target_system,byte target_component,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,ushort chan13_raw,ushort chan14_raw,ushort chan15_raw,ushort chan16_raw,ushort chan17_raw,ushort chan18_raw) 
+        {
+            var msg = new mavlink_rc_channels_override_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.chan1_raw = chan1_raw;
+            msg.chan2_raw = chan2_raw;
+            msg.chan3_raw = chan3_raw;
+            msg.chan4_raw = chan4_raw;
+            msg.chan5_raw = chan5_raw;
+            msg.chan6_raw = chan6_raw;
+            msg.chan7_raw = chan7_raw;
+            msg.chan8_raw = chan8_raw;
+            msg.chan9_raw = chan9_raw;
+            msg.chan10_raw = chan10_raw;
+            msg.chan11_raw = chan11_raw;
+            msg.chan12_raw = chan12_raw;
+            msg.chan13_raw = chan13_raw;
+            msg.chan14_raw = chan14_raw;
+            msg.chan15_raw = chan15_raw;
+            msg.chan16_raw = chan16_raw;
+            msg.chan17_raw = chan17_raw;
+            msg.chan18_raw = chan18_raw;
+            
+            return msg;
+        }
+        
 
         /// <summary>RC channel 1 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
@@ -12701,6 +16133,7 @@ public partial class MAVLink
     ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN or INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current latitude, yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_int_t
     {
+        /// packet ordered constructor
         public mavlink_mission_item_int_t(float param1,float param2,float param3,float param4,int x,int y,float z,ushort seq,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
             this.param1 = param1;
@@ -12720,6 +16153,31 @@ public partial class MAVLink
             this.mission_type = mission_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mission_item_int_t PopulateXMLOrder(byte target_system,byte target_component,ushort seq,/*MAV_FRAME*/byte frame,/*MAV_CMD*/ushort command,byte current,byte autocontinue,float param1,float param2,float param3,float param4,int x,int y,float z,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            var msg = new mavlink_mission_item_int_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.seq = seq;
+            msg.frame = frame;
+            msg.command = command;
+            msg.current = current;
+            msg.autocontinue = autocontinue;
+            msg.param1 = param1;
+            msg.param2 = param2;
+            msg.param3 = param3;
+            msg.param4 = param4;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.mission_type = mission_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>PARAM1, see MAV_CMD enum   </summary>
         [Units("")]
@@ -12818,6 +16276,7 @@ public partial class MAVLink
     ///<summary> Metrics typically displayed on a HUD for fixed wing aircraft. </summary>
     public struct mavlink_vfr_hud_t
     {
+        /// packet ordered constructor
         public mavlink_vfr_hud_t(float airspeed,float groundspeed,float alt,float climb,short heading,ushort throttle) 
         {
             this.airspeed = airspeed;
@@ -12828,6 +16287,22 @@ public partial class MAVLink
             this.throttle = throttle;
             
         }
+        
+        /// packet xml order
+        public static mavlink_vfr_hud_t PopulateXMLOrder(float airspeed,float groundspeed,short heading,ushort throttle,float alt,float climb) 
+        {
+            var msg = new mavlink_vfr_hud_t();
+
+            msg.airspeed = airspeed;
+            msg.groundspeed = groundspeed;
+            msg.heading = heading;
+            msg.throttle = throttle;
+            msg.alt = alt;
+            msg.climb = climb;
+            
+            return msg;
+        }
+        
 
         /// <summary>Vehicle speed in form appropriate for vehicle type. For standard aircraft this is typically calibrated airspeed (CAS) or indicated airspeed (IAS) - either of which can be used by a pilot to estimate stall speed.  [m/s] </summary>
         [Units("[m/s]")]
@@ -12872,6 +16347,7 @@ public partial class MAVLink
     ///<summary> Message encoding a command with parameters as scaled integers. Scaling depends on the actual command value. The command microservice is documented at https://mavlink.io/en/services/command.html </summary>
     public struct mavlink_command_int_t
     {
+        /// packet ordered constructor
         public mavlink_command_int_t(float param1,float param2,float param3,float param4,int x,int y,float z,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue) 
         {
             this.param1 = param1;
@@ -12889,6 +16365,29 @@ public partial class MAVLink
             this.autocontinue = autocontinue;
             
         }
+        
+        /// packet xml order
+        public static mavlink_command_int_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_FRAME*/byte frame,/*MAV_CMD*/ushort command,byte current,byte autocontinue,float param1,float param2,float param3,float param4,int x,int y,float z) 
+        {
+            var msg = new mavlink_command_int_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.frame = frame;
+            msg.command = command;
+            msg.current = current;
+            msg.autocontinue = autocontinue;
+            msg.param1 = param1;
+            msg.param2 = param2;
+            msg.param3 = param3;
+            msg.param4 = param4;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            
+            return msg;
+        }
+        
 
         /// <summary>PARAM1, see MAV_CMD enum   </summary>
         [Units("")]
@@ -12975,6 +16474,7 @@ public partial class MAVLink
     ///<summary> Send a command with up to seven parameters to the MAV. The command microservice is documented at https://mavlink.io/en/services/command.html </summary>
     public struct mavlink_command_long_t
     {
+        /// packet ordered constructor
         public mavlink_command_long_t(float param1,float param2,float param3,float param4,float param5,float param6,float param7,/*MAV_CMD*/ushort command,byte target_system,byte target_component,byte confirmation) 
         {
             this.param1 = param1;
@@ -12990,6 +16490,27 @@ public partial class MAVLink
             this.confirmation = confirmation;
             
         }
+        
+        /// packet xml order
+        public static mavlink_command_long_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_CMD*/ushort command,byte confirmation,float param1,float param2,float param3,float param4,float param5,float param6,float param7) 
+        {
+            var msg = new mavlink_command_long_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.command = command;
+            msg.confirmation = confirmation;
+            msg.param1 = param1;
+            msg.param2 = param2;
+            msg.param3 = param3;
+            msg.param4 = param4;
+            msg.param5 = param5;
+            msg.param6 = param6;
+            msg.param7 = param7;
+            
+            return msg;
+        }
+        
 
         /// <summary>Parameter 1 (for the specific command).   </summary>
         [Units("")]
@@ -13064,6 +16585,7 @@ public partial class MAVLink
     ///<summary> Report status of a command. Includes feedback whether the command was executed. The command microservice is documented at https://mavlink.io/en/services/command.html </summary>
     public struct mavlink_command_ack_t
     {
+        /// packet ordered constructor
         public mavlink_command_ack_t(/*MAV_CMD*/ushort command,/*MAV_RESULT*/byte result,byte progress,int result_param2,byte target_system,byte target_component) 
         {
             this.command = command;
@@ -13074,6 +16596,22 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_command_ack_t PopulateXMLOrder(/*MAV_CMD*/ushort command,/*MAV_RESULT*/byte result,byte progress,int result_param2,byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_command_ack_t();
+
+            msg.command = command;
+            msg.result = result;
+            msg.progress = progress;
+            msg.result_param2 = result_param2;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>Command ID (of acknowledged command). MAV_CMD  </summary>
         [Units("")]
@@ -13118,6 +16656,7 @@ public partial class MAVLink
     ///<summary> Setpoint in roll, pitch, yaw and thrust from the operator </summary>
     public struct mavlink_manual_setpoint_t
     {
+        /// packet ordered constructor
         public mavlink_manual_setpoint_t(uint time_boot_ms,float roll,float pitch,float yaw,float thrust,byte mode_switch,byte manual_override_switch) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13129,6 +16668,23 @@ public partial class MAVLink
             this.manual_override_switch = manual_override_switch;
             
         }
+        
+        /// packet xml order
+        public static mavlink_manual_setpoint_t PopulateXMLOrder(uint time_boot_ms,float roll,float pitch,float yaw,float thrust,byte mode_switch,byte manual_override_switch) 
+        {
+            var msg = new mavlink_manual_setpoint_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.thrust = thrust;
+            msg.mode_switch = mode_switch;
+            msg.manual_override_switch = manual_override_switch;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -13179,6 +16735,7 @@ public partial class MAVLink
     ///<summary> Sets a desired vehicle attitude. Used by an external controller to command the vehicle (manual controller or other system). </summary>
     public struct mavlink_set_attitude_target_t
     {
+        /// packet ordered constructor
         public mavlink_set_attitude_target_t(uint time_boot_ms,float[] q,float body_roll_rate,float body_pitch_rate,float body_yaw_rate,float thrust,byte target_system,byte target_component,/*ATTITUDE_TARGET_TYPEMASK*/byte type_mask) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13192,6 +16749,25 @@ public partial class MAVLink
             this.type_mask = type_mask;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_attitude_target_t PopulateXMLOrder(uint time_boot_ms,byte target_system,byte target_component,/*ATTITUDE_TARGET_TYPEMASK*/byte type_mask,float[] q,float body_roll_rate,float body_pitch_rate,float body_yaw_rate,float thrust) 
+        {
+            var msg = new mavlink_set_attitude_target_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.type_mask = type_mask;
+            msg.q = q;
+            msg.body_roll_rate = body_roll_rate;
+            msg.body_pitch_rate = body_pitch_rate;
+            msg.body_yaw_rate = body_yaw_rate;
+            msg.thrust = thrust;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -13255,6 +16831,7 @@ public partial class MAVLink
     ///<summary> Reports the current commanded attitude of the vehicle as specified by the autopilot. This should match the commands sent in a SET_ATTITUDE_TARGET message if the vehicle is being controlled this way. </summary>
     public struct mavlink_attitude_target_t
     {
+        /// packet ordered constructor
         public mavlink_attitude_target_t(uint time_boot_ms,float[] q,float body_roll_rate,float body_pitch_rate,float body_yaw_rate,float thrust,/*ATTITUDE_TARGET_TYPEMASK*/byte type_mask) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13266,6 +16843,23 @@ public partial class MAVLink
             this.type_mask = type_mask;
             
         }
+        
+        /// packet xml order
+        public static mavlink_attitude_target_t PopulateXMLOrder(uint time_boot_ms,/*ATTITUDE_TARGET_TYPEMASK*/byte type_mask,float[] q,float body_roll_rate,float body_pitch_rate,float body_yaw_rate,float thrust) 
+        {
+            var msg = new mavlink_attitude_target_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.type_mask = type_mask;
+            msg.q = q;
+            msg.body_roll_rate = body_roll_rate;
+            msg.body_pitch_rate = body_pitch_rate;
+            msg.body_yaw_rate = body_yaw_rate;
+            msg.thrust = thrust;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -13317,6 +16911,7 @@ public partial class MAVLink
     ///<summary> Sets a desired vehicle position in a local north-east-down coordinate frame. Used by an external controller to command the vehicle (manual controller or other system). </summary>
     public struct mavlink_set_position_target_local_ned_t
     {
+        /// packet ordered constructor
         public mavlink_set_position_target_local_ned_t(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,byte target_system,byte target_component,/*MAV_FRAME*/byte coordinate_frame) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13337,6 +16932,32 @@ public partial class MAVLink
             this.coordinate_frame = coordinate_frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_position_target_local_ned_t PopulateXMLOrder(uint time_boot_ms,byte target_system,byte target_component,/*MAV_FRAME*/byte coordinate_frame,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,float x,float y,float z,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate) 
+        {
+            var msg = new mavlink_set_position_target_local_ned_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.coordinate_frame = coordinate_frame;
+            msg.type_mask = type_mask;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.afx = afx;
+            msg.afy = afy;
+            msg.afz = afz;
+            msg.yaw = yaw;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -13441,6 +17062,7 @@ public partial class MAVLink
     ///<summary> Reports the current commanded vehicle position, velocity, and acceleration as specified by the autopilot. This should match the commands sent in SET_POSITION_TARGET_LOCAL_NED if the vehicle is being controlled this way. </summary>
     public struct mavlink_position_target_local_ned_t
     {
+        /// packet ordered constructor
         public mavlink_position_target_local_ned_t(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,/*MAV_FRAME*/byte coordinate_frame) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13459,6 +17081,30 @@ public partial class MAVLink
             this.coordinate_frame = coordinate_frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_position_target_local_ned_t PopulateXMLOrder(uint time_boot_ms,/*MAV_FRAME*/byte coordinate_frame,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,float x,float y,float z,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate) 
+        {
+            var msg = new mavlink_position_target_local_ned_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.coordinate_frame = coordinate_frame;
+            msg.type_mask = type_mask;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.afx = afx;
+            msg.afy = afy;
+            msg.afz = afz;
+            msg.yaw = yaw;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -13551,6 +17197,7 @@ public partial class MAVLink
     ///<summary> Sets a desired vehicle position, velocity, and/or acceleration in a global coordinate system (WGS84). Used by an external controller to command the vehicle (manual controller or other system). </summary>
     public struct mavlink_set_position_target_global_int_t
     {
+        /// packet ordered constructor
         public mavlink_set_position_target_global_int_t(uint time_boot_ms,int lat_int,int lon_int,float alt,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,byte target_system,byte target_component,/*MAV_FRAME*/byte coordinate_frame) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13571,6 +17218,32 @@ public partial class MAVLink
             this.coordinate_frame = coordinate_frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_position_target_global_int_t PopulateXMLOrder(uint time_boot_ms,byte target_system,byte target_component,/*MAV_FRAME*/byte coordinate_frame,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,int lat_int,int lon_int,float alt,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate) 
+        {
+            var msg = new mavlink_set_position_target_global_int_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.coordinate_frame = coordinate_frame;
+            msg.type_mask = type_mask;
+            msg.lat_int = lat_int;
+            msg.lon_int = lon_int;
+            msg.alt = alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.afx = afx;
+            msg.afy = afy;
+            msg.afz = afz;
+            msg.yaw = yaw;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.  [ms] </summary>
         [Units("[ms]")]
@@ -13675,6 +17348,7 @@ public partial class MAVLink
     ///<summary> Reports the current commanded vehicle position, velocity, and acceleration as specified by the autopilot. This should match the commands sent in SET_POSITION_TARGET_GLOBAL_INT if the vehicle is being controlled this way. </summary>
     public struct mavlink_position_target_global_int_t
     {
+        /// packet ordered constructor
         public mavlink_position_target_global_int_t(uint time_boot_ms,int lat_int,int lon_int,float alt,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,/*MAV_FRAME*/byte coordinate_frame) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13693,6 +17367,30 @@ public partial class MAVLink
             this.coordinate_frame = coordinate_frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_position_target_global_int_t PopulateXMLOrder(uint time_boot_ms,/*MAV_FRAME*/byte coordinate_frame,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,int lat_int,int lon_int,float alt,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate) 
+        {
+            var msg = new mavlink_position_target_global_int_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.coordinate_frame = coordinate_frame;
+            msg.type_mask = type_mask;
+            msg.lat_int = lat_int;
+            msg.lon_int = lon_int;
+            msg.alt = alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.afx = afx;
+            msg.afy = afy;
+            msg.afz = afz;
+            msg.yaw = yaw;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.  [ms] </summary>
         [Units("[ms]")]
@@ -13785,6 +17483,7 @@ public partial class MAVLink
     ///<summary> The offset in X, Y, Z and yaw between the LOCAL_POSITION_NED messages of MAV X and the global coordinate frame in NED coordinates. Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention) </summary>
     public struct mavlink_local_position_ned_system_global_offset_t
     {
+        /// packet ordered constructor
         public mavlink_local_position_ned_system_global_offset_t(uint time_boot_ms,float x,float y,float z,float roll,float pitch,float yaw) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -13796,6 +17495,23 @@ public partial class MAVLink
             this.yaw = yaw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_local_position_ned_system_global_offset_t PopulateXMLOrder(uint time_boot_ms,float x,float y,float z,float roll,float pitch,float yaw) 
+        {
+            var msg = new mavlink_local_position_ned_system_global_offset_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -13846,6 +17562,7 @@ public partial class MAVLink
     ///<summary> Sent from simulation to autopilot. This packet is useful for high throughput applications such as hardware in the loop simulations. </summary>
     public struct mavlink_hil_state_t
     {
+        /// packet ordered constructor
         public mavlink_hil_state_t(ulong time_usec,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed,int lat,int lon,int alt,short vx,short vy,short vz,short xacc,short yacc,short zacc) 
         {
             this.time_usec = time_usec;
@@ -13866,6 +17583,32 @@ public partial class MAVLink
             this.zacc = zacc;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_state_t PopulateXMLOrder(ulong time_usec,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed,int lat,int lon,int alt,short vx,short vy,short vz,short xacc,short yacc,short zacc) 
+        {
+            var msg = new mavlink_hil_state_t();
+
+            msg.time_usec = time_usec;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.rollspeed = rollspeed;
+            msg.pitchspeed = pitchspeed;
+            msg.yawspeed = yawspeed;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -13970,6 +17713,7 @@ public partial class MAVLink
     ///<summary> Sent from autopilot to simulation. Hardware in the loop control outputs </summary>
     public struct mavlink_hil_controls_t
     {
+        /// packet ordered constructor
         public mavlink_hil_controls_t(ulong time_usec,float roll_ailerons,float pitch_elevator,float yaw_rudder,float throttle,float aux1,float aux2,float aux3,float aux4,/*MAV_MODE*/byte mode,byte nav_mode) 
         {
             this.time_usec = time_usec;
@@ -13985,6 +17729,27 @@ public partial class MAVLink
             this.nav_mode = nav_mode;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_controls_t PopulateXMLOrder(ulong time_usec,float roll_ailerons,float pitch_elevator,float yaw_rudder,float throttle,float aux1,float aux2,float aux3,float aux4,/*MAV_MODE*/byte mode,byte nav_mode) 
+        {
+            var msg = new mavlink_hil_controls_t();
+
+            msg.time_usec = time_usec;
+            msg.roll_ailerons = roll_ailerons;
+            msg.pitch_elevator = pitch_elevator;
+            msg.yaw_rudder = yaw_rudder;
+            msg.throttle = throttle;
+            msg.aux1 = aux1;
+            msg.aux2 = aux2;
+            msg.aux3 = aux3;
+            msg.aux4 = aux4;
+            msg.mode = mode;
+            msg.nav_mode = nav_mode;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14059,6 +17824,7 @@ public partial class MAVLink
     ///<summary> Sent from simulation to autopilot. The RAW values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_hil_rc_inputs_raw_t
     {
+        /// packet ordered constructor
         public mavlink_hil_rc_inputs_raw_t(ulong time_usec,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,byte rssi) 
         {
             this.time_usec = time_usec;
@@ -14077,6 +17843,30 @@ public partial class MAVLink
             this.rssi = rssi;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_rc_inputs_raw_t PopulateXMLOrder(ulong time_usec,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,byte rssi) 
+        {
+            var msg = new mavlink_hil_rc_inputs_raw_t();
+
+            msg.time_usec = time_usec;
+            msg.chan1_raw = chan1_raw;
+            msg.chan2_raw = chan2_raw;
+            msg.chan3_raw = chan3_raw;
+            msg.chan4_raw = chan4_raw;
+            msg.chan5_raw = chan5_raw;
+            msg.chan6_raw = chan6_raw;
+            msg.chan7_raw = chan7_raw;
+            msg.chan8_raw = chan8_raw;
+            msg.chan9_raw = chan9_raw;
+            msg.chan10_raw = chan10_raw;
+            msg.chan11_raw = chan11_raw;
+            msg.chan12_raw = chan12_raw;
+            msg.rssi = rssi;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14169,6 +17959,7 @@ public partial class MAVLink
     ///<summary> Sent from autopilot to simulation. Hardware in the loop control outputs (replacement for HIL_CONTROLS) </summary>
     public struct mavlink_hil_actuator_controls_t
     {
+        /// packet ordered constructor
         public mavlink_hil_actuator_controls_t(ulong time_usec,ulong flags,float[] controls,/*MAV_MODE_FLAG*/byte mode) 
         {
             this.time_usec = time_usec;
@@ -14177,6 +17968,20 @@ public partial class MAVLink
             this.mode = mode;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_actuator_controls_t PopulateXMLOrder(ulong time_usec,float[] controls,/*MAV_MODE_FLAG*/byte mode,ulong flags) 
+        {
+            var msg = new mavlink_hil_actuator_controls_t();
+
+            msg.time_usec = time_usec;
+            msg.controls = controls;
+            msg.mode = mode;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14210,6 +18015,7 @@ public partial class MAVLink
     ///<summary> Optical flow from a flow sensor (e.g. optical mouse sensor) </summary>
     public struct mavlink_optical_flow_t
     {
+        /// packet ordered constructor
         public mavlink_optical_flow_t(ulong time_usec,float flow_comp_m_x,float flow_comp_m_y,float ground_distance,short flow_x,short flow_y,byte sensor_id,byte quality,float flow_rate_x,float flow_rate_y) 
         {
             this.time_usec = time_usec;
@@ -14224,6 +18030,26 @@ public partial class MAVLink
             this.flow_rate_y = flow_rate_y;
             
         }
+        
+        /// packet xml order
+        public static mavlink_optical_flow_t PopulateXMLOrder(ulong time_usec,byte sensor_id,short flow_x,short flow_y,float flow_comp_m_x,float flow_comp_m_y,byte quality,float ground_distance,float flow_rate_x,float flow_rate_y) 
+        {
+            var msg = new mavlink_optical_flow_t();
+
+            msg.time_usec = time_usec;
+            msg.sensor_id = sensor_id;
+            msg.flow_x = flow_x;
+            msg.flow_y = flow_y;
+            msg.flow_comp_m_x = flow_comp_m_x;
+            msg.flow_comp_m_y = flow_comp_m_y;
+            msg.quality = quality;
+            msg.ground_distance = ground_distance;
+            msg.flow_rate_x = flow_rate_x;
+            msg.flow_rate_y = flow_rate_y;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14292,6 +18118,7 @@ public partial class MAVLink
     ///<summary> Global position/attitude estimate from a vision source. </summary>
     public struct mavlink_global_vision_position_estimate_t
     {
+        /// packet ordered constructor
         public mavlink_global_vision_position_estimate_t(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance,byte reset_counter) 
         {
             this.usec = usec;
@@ -14305,6 +18132,25 @@ public partial class MAVLink
             this.reset_counter = reset_counter;
             
         }
+        
+        /// packet xml order
+        public static mavlink_global_vision_position_estimate_t PopulateXMLOrder(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance,byte reset_counter) 
+        {
+            var msg = new mavlink_global_vision_position_estimate_t();
+
+            msg.usec = usec;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.covariance = covariance;
+            msg.reset_counter = reset_counter;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX time or since system boot)  [us] </summary>
         [Units("[us]")]
@@ -14368,6 +18214,7 @@ public partial class MAVLink
     ///<summary> Local position/attitude estimate from a vision source. </summary>
     public struct mavlink_vision_position_estimate_t
     {
+        /// packet ordered constructor
         public mavlink_vision_position_estimate_t(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance,byte reset_counter) 
         {
             this.usec = usec;
@@ -14381,6 +18228,25 @@ public partial class MAVLink
             this.reset_counter = reset_counter;
             
         }
+        
+        /// packet xml order
+        public static mavlink_vision_position_estimate_t PopulateXMLOrder(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance,byte reset_counter) 
+        {
+            var msg = new mavlink_vision_position_estimate_t();
+
+            msg.usec = usec;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.covariance = covariance;
+            msg.reset_counter = reset_counter;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX time or time since system boot)  [us] </summary>
         [Units("[us]")]
@@ -14444,6 +18310,7 @@ public partial class MAVLink
     ///<summary> Speed estimate from a vision source. </summary>
     public struct mavlink_vision_speed_estimate_t
     {
+        /// packet ordered constructor
         public mavlink_vision_speed_estimate_t(ulong usec,float x,float y,float z,float[] covariance,byte reset_counter) 
         {
             this.usec = usec;
@@ -14454,6 +18321,22 @@ public partial class MAVLink
             this.reset_counter = reset_counter;
             
         }
+        
+        /// packet xml order
+        public static mavlink_vision_speed_estimate_t PopulateXMLOrder(ulong usec,float x,float y,float z,float[] covariance,byte reset_counter) 
+        {
+            var msg = new mavlink_vision_speed_estimate_t();
+
+            msg.usec = usec;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.covariance = covariance;
+            msg.reset_counter = reset_counter;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX time or time since system boot)  [us] </summary>
         [Units("[us]")]
@@ -14499,6 +18382,7 @@ public partial class MAVLink
     ///<summary> Global position estimate from a Vicon motion system source. </summary>
     public struct mavlink_vicon_position_estimate_t
     {
+        /// packet ordered constructor
         public mavlink_vicon_position_estimate_t(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance) 
         {
             this.usec = usec;
@@ -14511,6 +18395,24 @@ public partial class MAVLink
             this.covariance = covariance;
             
         }
+        
+        /// packet xml order
+        public static mavlink_vicon_position_estimate_t PopulateXMLOrder(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance) 
+        {
+            var msg = new mavlink_vicon_position_estimate_t();
+
+            msg.usec = usec;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.covariance = covariance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX time or time since system boot)  [us] </summary>
         [Units("[us]")]
@@ -14568,6 +18470,7 @@ public partial class MAVLink
     ///<summary> The IMU readings in SI units in NED body frame </summary>
     public struct mavlink_highres_imu_t
     {
+        /// packet ordered constructor
         public mavlink_highres_imu_t(ulong time_usec,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float xmag,float ymag,float zmag,float abs_pressure,float diff_pressure,float pressure_alt,float temperature,ushort fields_updated,byte id) 
         {
             this.time_usec = time_usec;
@@ -14588,6 +18491,32 @@ public partial class MAVLink
             this.id = id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_highres_imu_t PopulateXMLOrder(ulong time_usec,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float xmag,float ymag,float zmag,float abs_pressure,float diff_pressure,float pressure_alt,float temperature,ushort fields_updated,byte id) 
+        {
+            var msg = new mavlink_highres_imu_t();
+
+            msg.time_usec = time_usec;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.xmag = xmag;
+            msg.ymag = ymag;
+            msg.zmag = zmag;
+            msg.abs_pressure = abs_pressure;
+            msg.diff_pressure = diff_pressure;
+            msg.pressure_alt = pressure_alt;
+            msg.temperature = temperature;
+            msg.fields_updated = fields_updated;
+            msg.id = id;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14692,6 +18621,7 @@ public partial class MAVLink
     ///<summary> Optical flow from an angular rate flow sensor (e.g. PX4FLOW or mouse sensor) </summary>
     public struct mavlink_optical_flow_rad_t
     {
+        /// packet ordered constructor
         public mavlink_optical_flow_rad_t(ulong time_usec,uint integration_time_us,float integrated_x,float integrated_y,float integrated_xgyro,float integrated_ygyro,float integrated_zgyro,uint time_delta_distance_us,float distance,short temperature,byte sensor_id,byte quality) 
         {
             this.time_usec = time_usec;
@@ -14708,6 +18638,28 @@ public partial class MAVLink
             this.quality = quality;
             
         }
+        
+        /// packet xml order
+        public static mavlink_optical_flow_rad_t PopulateXMLOrder(ulong time_usec,byte sensor_id,uint integration_time_us,float integrated_x,float integrated_y,float integrated_xgyro,float integrated_ygyro,float integrated_zgyro,short temperature,byte quality,uint time_delta_distance_us,float distance) 
+        {
+            var msg = new mavlink_optical_flow_rad_t();
+
+            msg.time_usec = time_usec;
+            msg.sensor_id = sensor_id;
+            msg.integration_time_us = integration_time_us;
+            msg.integrated_x = integrated_x;
+            msg.integrated_y = integrated_y;
+            msg.integrated_xgyro = integrated_xgyro;
+            msg.integrated_ygyro = integrated_ygyro;
+            msg.integrated_zgyro = integrated_zgyro;
+            msg.temperature = temperature;
+            msg.quality = quality;
+            msg.time_delta_distance_us = time_delta_distance_us;
+            msg.distance = distance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14788,6 +18740,7 @@ public partial class MAVLink
     ///<summary> The IMU readings in SI units in NED body frame </summary>
     public struct mavlink_hil_sensor_t
     {
+        /// packet ordered constructor
         public mavlink_hil_sensor_t(ulong time_usec,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float xmag,float ymag,float zmag,float abs_pressure,float diff_pressure,float pressure_alt,float temperature,uint fields_updated,byte id) 
         {
             this.time_usec = time_usec;
@@ -14808,6 +18761,32 @@ public partial class MAVLink
             this.id = id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_sensor_t PopulateXMLOrder(ulong time_usec,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float xmag,float ymag,float zmag,float abs_pressure,float diff_pressure,float pressure_alt,float temperature,uint fields_updated,byte id) 
+        {
+            var msg = new mavlink_hil_sensor_t();
+
+            msg.time_usec = time_usec;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.xmag = xmag;
+            msg.ymag = ymag;
+            msg.zmag = zmag;
+            msg.abs_pressure = abs_pressure;
+            msg.diff_pressure = diff_pressure;
+            msg.pressure_alt = pressure_alt;
+            msg.temperature = temperature;
+            msg.fields_updated = fields_updated;
+            msg.id = id;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -14912,6 +18891,7 @@ public partial class MAVLink
     ///<summary> Status of simulation environment, if used </summary>
     public struct mavlink_sim_state_t
     {
+        /// packet ordered constructor
         public mavlink_sim_state_t(float q1,float q2,float q3,float q4,float roll,float pitch,float yaw,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float lat,float lon,float alt,float std_dev_horz,float std_dev_vert,float vn,float ve,float vd) 
         {
             this.q1 = q1;
@@ -14937,6 +18917,37 @@ public partial class MAVLink
             this.vd = vd;
             
         }
+        
+        /// packet xml order
+        public static mavlink_sim_state_t PopulateXMLOrder(float q1,float q2,float q3,float q4,float roll,float pitch,float yaw,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float lat,float lon,float alt,float std_dev_horz,float std_dev_vert,float vn,float ve,float vd) 
+        {
+            var msg = new mavlink_sim_state_t();
+
+            msg.q1 = q1;
+            msg.q2 = q2;
+            msg.q3 = q3;
+            msg.q4 = q4;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.std_dev_horz = std_dev_horz;
+            msg.std_dev_vert = std_dev_vert;
+            msg.vn = vn;
+            msg.ve = ve;
+            msg.vd = vd;
+            
+            return msg;
+        }
+        
 
         /// <summary>True attitude quaternion component 1, w (1 in null-rotation)   </summary>
         [Units("")]
@@ -15071,6 +19082,7 @@ public partial class MAVLink
     ///<summary> Status generated by radio and injected into MAVLink stream. </summary>
     public struct mavlink_radio_status_t
     {
+        /// packet ordered constructor
         public mavlink_radio_status_t(ushort rxerrors,ushort @fixed,byte rssi,byte remrssi,byte txbuf,byte noise,byte remnoise) 
         {
             this.rxerrors = rxerrors;
@@ -15082,6 +19094,23 @@ public partial class MAVLink
             this.remnoise = remnoise;
             
         }
+        
+        /// packet xml order
+        public static mavlink_radio_status_t PopulateXMLOrder(byte rssi,byte remrssi,byte txbuf,byte noise,byte remnoise,ushort rxerrors,ushort @fixed) 
+        {
+            var msg = new mavlink_radio_status_t();
+
+            msg.rssi = rssi;
+            msg.remrssi = remrssi;
+            msg.txbuf = txbuf;
+            msg.noise = noise;
+            msg.remnoise = remnoise;
+            msg.rxerrors = rxerrors;
+            msg.@fixed = @fixed;
+            
+            return msg;
+        }
+        
 
         /// <summary>Count of radio packet receive errors (since boot).   </summary>
         [Units("")]
@@ -15132,6 +19161,7 @@ public partial class MAVLink
     ///<summary> File transfer message </summary>
     public struct mavlink_file_transfer_protocol_t
     {
+        /// packet ordered constructor
         public mavlink_file_transfer_protocol_t(byte target_network,byte target_system,byte target_component,byte[] payload) 
         {
             this.target_network = target_network;
@@ -15140,6 +19170,20 @@ public partial class MAVLink
             this.payload = payload;
             
         }
+        
+        /// packet xml order
+        public static mavlink_file_transfer_protocol_t PopulateXMLOrder(byte target_network,byte target_system,byte target_component,byte[] payload) 
+        {
+            var msg = new mavlink_file_transfer_protocol_t();
+
+            msg.target_network = target_network;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.payload = payload;
+            
+            return msg;
+        }
+        
 
         /// <summary>Network ID (0 for broadcast)   </summary>
         [Units("")]
@@ -15173,12 +19217,25 @@ public partial class MAVLink
     ///<summary> Time synchronization message. </summary>
     public struct mavlink_timesync_t
     {
+        /// packet ordered constructor
         public mavlink_timesync_t(long tc1,long ts1) 
         {
             this.tc1 = tc1;
             this.ts1 = ts1;
             
         }
+        
+        /// packet xml order
+        public static mavlink_timesync_t PopulateXMLOrder(long tc1,long ts1) 
+        {
+            var msg = new mavlink_timesync_t();
+
+            msg.tc1 = tc1;
+            msg.ts1 = ts1;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time sync timestamp 1   </summary>
         [Units("")]
@@ -15199,12 +19256,25 @@ public partial class MAVLink
     ///<summary> Camera-IMU triggering and synchronisation message. </summary>
     public struct mavlink_camera_trigger_t
     {
+        /// packet ordered constructor
         public mavlink_camera_trigger_t(ulong time_usec,uint seq) 
         {
             this.time_usec = time_usec;
             this.seq = seq;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_trigger_t PopulateXMLOrder(ulong time_usec,uint seq) 
+        {
+            var msg = new mavlink_camera_trigger_t();
+
+            msg.time_usec = time_usec;
+            msg.seq = seq;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -15225,6 +19295,7 @@ public partial class MAVLink
     ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                  NOT the global position estimate of the sytem, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_hil_gps_t
     {
+        /// packet ordered constructor
         public mavlink_hil_gps_t(ulong time_usec,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,short vn,short ve,short vd,ushort cog,byte fix_type,byte satellites_visible,byte id,ushort yaw) 
         {
             this.time_usec = time_usec;
@@ -15244,6 +19315,31 @@ public partial class MAVLink
             this.yaw = yaw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_gps_t PopulateXMLOrder(ulong time_usec,byte fix_type,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,short vn,short ve,short vd,ushort cog,byte satellites_visible,byte id,ushort yaw) 
+        {
+            var msg = new mavlink_hil_gps_t();
+
+            msg.time_usec = time_usec;
+            msg.fix_type = fix_type;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.eph = eph;
+            msg.epv = epv;
+            msg.vel = vel;
+            msg.vn = vn;
+            msg.ve = ve;
+            msg.vd = vd;
+            msg.cog = cog;
+            msg.satellites_visible = satellites_visible;
+            msg.id = id;
+            msg.yaw = yaw;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -15342,6 +19438,7 @@ public partial class MAVLink
     ///<summary> Simulated optical flow from a flow sensor (e.g. PX4FLOW or optical mouse sensor) </summary>
     public struct mavlink_hil_optical_flow_t
     {
+        /// packet ordered constructor
         public mavlink_hil_optical_flow_t(ulong time_usec,uint integration_time_us,float integrated_x,float integrated_y,float integrated_xgyro,float integrated_ygyro,float integrated_zgyro,uint time_delta_distance_us,float distance,short temperature,byte sensor_id,byte quality) 
         {
             this.time_usec = time_usec;
@@ -15358,6 +19455,28 @@ public partial class MAVLink
             this.quality = quality;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_optical_flow_t PopulateXMLOrder(ulong time_usec,byte sensor_id,uint integration_time_us,float integrated_x,float integrated_y,float integrated_xgyro,float integrated_ygyro,float integrated_zgyro,short temperature,byte quality,uint time_delta_distance_us,float distance) 
+        {
+            var msg = new mavlink_hil_optical_flow_t();
+
+            msg.time_usec = time_usec;
+            msg.sensor_id = sensor_id;
+            msg.integration_time_us = integration_time_us;
+            msg.integrated_x = integrated_x;
+            msg.integrated_y = integrated_y;
+            msg.integrated_xgyro = integrated_xgyro;
+            msg.integrated_ygyro = integrated_ygyro;
+            msg.integrated_zgyro = integrated_zgyro;
+            msg.temperature = temperature;
+            msg.quality = quality;
+            msg.time_delta_distance_us = time_delta_distance_us;
+            msg.distance = distance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -15438,6 +19557,7 @@ public partial class MAVLink
     ///<summary> Sent from simulation to autopilot, avoids in contrast to HIL_STATE singularities. This packet is useful for high throughput applications such as hardware in the loop simulations. </summary>
     public struct mavlink_hil_state_quaternion_t
     {
+        /// packet ordered constructor
         public mavlink_hil_state_quaternion_t(ulong time_usec,float[] attitude_quaternion,float rollspeed,float pitchspeed,float yawspeed,int lat,int lon,int alt,short vx,short vy,short vz,ushort ind_airspeed,ushort true_airspeed,short xacc,short yacc,short zacc) 
         {
             this.time_usec = time_usec;
@@ -15458,6 +19578,32 @@ public partial class MAVLink
             this.zacc = zacc;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hil_state_quaternion_t PopulateXMLOrder(ulong time_usec,float[] attitude_quaternion,float rollspeed,float pitchspeed,float yawspeed,int lat,int lon,int alt,short vx,short vy,short vz,ushort ind_airspeed,ushort true_airspeed,short xacc,short yacc,short zacc) 
+        {
+            var msg = new mavlink_hil_state_quaternion_t();
+
+            msg.time_usec = time_usec;
+            msg.attitude_quaternion = attitude_quaternion;
+            msg.rollspeed = rollspeed;
+            msg.pitchspeed = pitchspeed;
+            msg.yawspeed = yawspeed;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.ind_airspeed = ind_airspeed;
+            msg.true_airspeed = true_airspeed;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -15563,6 +19709,7 @@ public partial class MAVLink
     ///<summary> The RAW IMU readings for secondary 9DOF sensor setup. This message should contain the scaled values to the described units </summary>
     public struct mavlink_scaled_imu2_t
     {
+        /// packet ordered constructor
         public mavlink_scaled_imu2_t(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -15578,6 +19725,27 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_scaled_imu2_t PopulateXMLOrder(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
+        {
+            var msg = new mavlink_scaled_imu2_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.xmag = xmag;
+            msg.ymag = ymag;
+            msg.zmag = zmag;
+            msg.temperature = temperature;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -15652,6 +19820,7 @@ public partial class MAVLink
     ///<summary> Request a list of available logs. On some systems calling this may stop on-board logging until LOG_REQUEST_END is called. If there are no log files available this request shall be answered with one LOG_ENTRY message with id = 0 and num_logs = 0. </summary>
     public struct mavlink_log_request_list_t
     {
+        /// packet ordered constructor
         public mavlink_log_request_list_t(ushort start,ushort end,byte target_system,byte target_component) 
         {
             this.start = start;
@@ -15660,6 +19829,20 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_log_request_list_t PopulateXMLOrder(byte target_system,byte target_component,ushort start,ushort end) 
+        {
+            var msg = new mavlink_log_request_list_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.start = start;
+            msg.end = end;
+            
+            return msg;
+        }
+        
 
         /// <summary>First log id (0 for first available)   </summary>
         [Units("")]
@@ -15692,6 +19875,7 @@ public partial class MAVLink
     ///<summary> Reply to LOG_REQUEST_LIST </summary>
     public struct mavlink_log_entry_t
     {
+        /// packet ordered constructor
         public mavlink_log_entry_t(uint time_utc,uint size,ushort id,ushort num_logs,ushort last_log_num) 
         {
             this.time_utc = time_utc;
@@ -15701,6 +19885,21 @@ public partial class MAVLink
             this.last_log_num = last_log_num;
             
         }
+        
+        /// packet xml order
+        public static mavlink_log_entry_t PopulateXMLOrder(ushort id,ushort num_logs,ushort last_log_num,uint time_utc,uint size) 
+        {
+            var msg = new mavlink_log_entry_t();
+
+            msg.id = id;
+            msg.num_logs = num_logs;
+            msg.last_log_num = last_log_num;
+            msg.time_utc = time_utc;
+            msg.size = size;
+            
+            return msg;
+        }
+        
 
         /// <summary>UTC timestamp of log since 1970, or 0 if not available  [s] </summary>
         [Units("[s]")]
@@ -15739,6 +19938,7 @@ public partial class MAVLink
     ///<summary> Request a chunk of a log </summary>
     public struct mavlink_log_request_data_t
     {
+        /// packet ordered constructor
         public mavlink_log_request_data_t(uint ofs,uint count,ushort id,byte target_system,byte target_component) 
         {
             this.ofs = ofs;
@@ -15748,6 +19948,21 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_log_request_data_t PopulateXMLOrder(byte target_system,byte target_component,ushort id,uint ofs,uint count) 
+        {
+            var msg = new mavlink_log_request_data_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id = id;
+            msg.ofs = ofs;
+            msg.count = count;
+            
+            return msg;
+        }
+        
 
         /// <summary>Offset into the log   </summary>
         [Units("")]
@@ -15786,6 +20001,7 @@ public partial class MAVLink
     ///<summary> Reply to LOG_REQUEST_DATA </summary>
     public struct mavlink_log_data_t
     {
+        /// packet ordered constructor
         public mavlink_log_data_t(uint ofs,ushort id,byte count,byte[] data) 
         {
             this.ofs = ofs;
@@ -15794,6 +20010,20 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_log_data_t PopulateXMLOrder(ushort id,uint ofs,byte count,byte[] data) 
+        {
+            var msg = new mavlink_log_data_t();
+
+            msg.id = id;
+            msg.ofs = ofs;
+            msg.count = count;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Offset into the log   </summary>
         [Units("")]
@@ -15827,12 +20057,25 @@ public partial class MAVLink
     ///<summary> Erase all logs </summary>
     public struct mavlink_log_erase_t
     {
+        /// packet ordered constructor
         public mavlink_log_erase_t(byte target_system,byte target_component) 
         {
             this.target_system = target_system;
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_log_erase_t PopulateXMLOrder(byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_log_erase_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -15853,12 +20096,25 @@ public partial class MAVLink
     ///<summary> Stop log transfer and resume normal logging </summary>
     public struct mavlink_log_request_end_t
     {
+        /// packet ordered constructor
         public mavlink_log_request_end_t(byte target_system,byte target_component) 
         {
             this.target_system = target_system;
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_log_request_end_t PopulateXMLOrder(byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_log_request_end_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -15879,6 +20135,7 @@ public partial class MAVLink
     ///<summary> Data for injecting into the onboard GPS (used for DGPS) </summary>
     public struct mavlink_gps_inject_data_t
     {
+        /// packet ordered constructor
         public mavlink_gps_inject_data_t(byte target_system,byte target_component,byte len,byte[] data) 
         {
             this.target_system = target_system;
@@ -15887,6 +20144,20 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_inject_data_t PopulateXMLOrder(byte target_system,byte target_component,byte len,byte[] data) 
+        {
+            var msg = new mavlink_gps_inject_data_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.len = len;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -15920,6 +20191,7 @@ public partial class MAVLink
     ///<summary> Second GPS data. </summary>
     public struct mavlink_gps2_raw_t
     {
+        /// packet ordered constructor
         public mavlink_gps2_raw_t(ulong time_usec,int lat,int lon,int alt,uint dgps_age,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,byte dgps_numch,ushort yaw,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc) 
         {
             this.time_usec = time_usec;
@@ -15942,6 +20214,34 @@ public partial class MAVLink
             this.hdg_acc = hdg_acc;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps2_raw_t PopulateXMLOrder(ulong time_usec,/*GPS_FIX_TYPE*/byte fix_type,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,byte satellites_visible,byte dgps_numch,uint dgps_age,ushort yaw,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc) 
+        {
+            var msg = new mavlink_gps2_raw_t();
+
+            msg.time_usec = time_usec;
+            msg.fix_type = fix_type;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.eph = eph;
+            msg.epv = epv;
+            msg.vel = vel;
+            msg.cog = cog;
+            msg.satellites_visible = satellites_visible;
+            msg.dgps_numch = dgps_numch;
+            msg.dgps_age = dgps_age;
+            msg.yaw = yaw;
+            msg.alt_ellipsoid = alt_ellipsoid;
+            msg.h_acc = h_acc;
+            msg.v_acc = v_acc;
+            msg.vel_acc = vel_acc;
+            msg.hdg_acc = hdg_acc;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -16058,6 +20358,7 @@ public partial class MAVLink
     ///<summary> Power supply status </summary>
     public struct mavlink_power_status_t
     {
+        /// packet ordered constructor
         public mavlink_power_status_t(ushort Vcc,ushort Vservo,/*MAV_POWER_STATUS*/ushort flags) 
         {
             this.Vcc = Vcc;
@@ -16065,6 +20366,19 @@ public partial class MAVLink
             this.flags = flags;
             
         }
+        
+        /// packet xml order
+        public static mavlink_power_status_t PopulateXMLOrder(ushort Vcc,ushort Vservo,/*MAV_POWER_STATUS*/ushort flags) 
+        {
+            var msg = new mavlink_power_status_t();
+
+            msg.Vcc = Vcc;
+            msg.Vservo = Vservo;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
 
         /// <summary>5V rail voltage.  [mV] </summary>
         [Units("[mV]")]
@@ -16091,6 +20405,7 @@ public partial class MAVLink
     ///<summary> Control a serial port. This can be used for raw access to an onboard serial peripheral such as a GPS or telemetry radio. It is designed to make it possible to update the devices firmware via MAVLink messages or change the devices settings. A message with zero bytes can be used to change just the baudrate. </summary>
     public struct mavlink_serial_control_t
     {
+        /// packet ordered constructor
         public mavlink_serial_control_t(uint baudrate,ushort timeout,/*SERIAL_CONTROL_DEV*/byte device,/*SERIAL_CONTROL_FLAG*/byte flags,byte count,byte[] data) 
         {
             this.baudrate = baudrate;
@@ -16101,6 +20416,22 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_serial_control_t PopulateXMLOrder(/*SERIAL_CONTROL_DEV*/byte device,/*SERIAL_CONTROL_FLAG*/byte flags,ushort timeout,uint baudrate,byte count,byte[] data) 
+        {
+            var msg = new mavlink_serial_control_t();
+
+            msg.device = device;
+            msg.flags = flags;
+            msg.timeout = timeout;
+            msg.baudrate = baudrate;
+            msg.count = count;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Baudrate of transfer. Zero means no change.  [bits/s] </summary>
         [Units("[bits/s]")]
@@ -16146,6 +20477,7 @@ public partial class MAVLink
     ///<summary> RTK GPS data. Gives information on the relative baseline calculation the GPS is reporting </summary>
     public struct mavlink_gps_rtk_t
     {
+        /// packet ordered constructor
         public mavlink_gps_rtk_t(uint time_last_baseline_ms,uint tow,int baseline_a_mm,int baseline_b_mm,int baseline_c_mm,uint accuracy,int iar_num_hypotheses,ushort wn,byte rtk_receiver_id,byte rtk_health,byte rtk_rate,byte nsats,/*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type) 
         {
             this.time_last_baseline_ms = time_last_baseline_ms;
@@ -16163,6 +20495,29 @@ public partial class MAVLink
             this.baseline_coords_type = baseline_coords_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_rtk_t PopulateXMLOrder(uint time_last_baseline_ms,byte rtk_receiver_id,ushort wn,uint tow,byte rtk_health,byte rtk_rate,byte nsats,/*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type,int baseline_a_mm,int baseline_b_mm,int baseline_c_mm,uint accuracy,int iar_num_hypotheses) 
+        {
+            var msg = new mavlink_gps_rtk_t();
+
+            msg.time_last_baseline_ms = time_last_baseline_ms;
+            msg.rtk_receiver_id = rtk_receiver_id;
+            msg.wn = wn;
+            msg.tow = tow;
+            msg.rtk_health = rtk_health;
+            msg.rtk_rate = rtk_rate;
+            msg.nsats = nsats;
+            msg.baseline_coords_type = baseline_coords_type;
+            msg.baseline_a_mm = baseline_a_mm;
+            msg.baseline_b_mm = baseline_b_mm;
+            msg.baseline_c_mm = baseline_c_mm;
+            msg.accuracy = accuracy;
+            msg.iar_num_hypotheses = iar_num_hypotheses;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time since boot of last baseline message received.  [ms] </summary>
         [Units("[ms]")]
@@ -16249,6 +20604,7 @@ public partial class MAVLink
     ///<summary> RTK GPS data. Gives information on the relative baseline calculation the GPS is reporting </summary>
     public struct mavlink_gps2_rtk_t
     {
+        /// packet ordered constructor
         public mavlink_gps2_rtk_t(uint time_last_baseline_ms,uint tow,int baseline_a_mm,int baseline_b_mm,int baseline_c_mm,uint accuracy,int iar_num_hypotheses,ushort wn,byte rtk_receiver_id,byte rtk_health,byte rtk_rate,byte nsats,/*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type) 
         {
             this.time_last_baseline_ms = time_last_baseline_ms;
@@ -16266,6 +20622,29 @@ public partial class MAVLink
             this.baseline_coords_type = baseline_coords_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps2_rtk_t PopulateXMLOrder(uint time_last_baseline_ms,byte rtk_receiver_id,ushort wn,uint tow,byte rtk_health,byte rtk_rate,byte nsats,/*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type,int baseline_a_mm,int baseline_b_mm,int baseline_c_mm,uint accuracy,int iar_num_hypotheses) 
+        {
+            var msg = new mavlink_gps2_rtk_t();
+
+            msg.time_last_baseline_ms = time_last_baseline_ms;
+            msg.rtk_receiver_id = rtk_receiver_id;
+            msg.wn = wn;
+            msg.tow = tow;
+            msg.rtk_health = rtk_health;
+            msg.rtk_rate = rtk_rate;
+            msg.nsats = nsats;
+            msg.baseline_coords_type = baseline_coords_type;
+            msg.baseline_a_mm = baseline_a_mm;
+            msg.baseline_b_mm = baseline_b_mm;
+            msg.baseline_c_mm = baseline_c_mm;
+            msg.accuracy = accuracy;
+            msg.iar_num_hypotheses = iar_num_hypotheses;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time since boot of last baseline message received.  [ms] </summary>
         [Units("[ms]")]
@@ -16352,6 +20731,7 @@ public partial class MAVLink
     ///<summary> The RAW IMU readings for 3rd 9DOF sensor setup. This message should contain the scaled values to the described units </summary>
     public struct mavlink_scaled_imu3_t
     {
+        /// packet ordered constructor
         public mavlink_scaled_imu3_t(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -16367,6 +20747,27 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_scaled_imu3_t PopulateXMLOrder(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
+        {
+            var msg = new mavlink_scaled_imu3_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            msg.xmag = xmag;
+            msg.ymag = ymag;
+            msg.zmag = zmag;
+            msg.temperature = temperature;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -16441,6 +20842,7 @@ public partial class MAVLink
     ///<summary> Handshake message to initiate, control and stop image streaming when using the Image Transmission Protocol: https://mavlink.io/en/services/image_transmission.html. </summary>
     public struct mavlink_data_transmission_handshake_t
     {
+        /// packet ordered constructor
         public mavlink_data_transmission_handshake_t(uint size,ushort width,ushort height,ushort packets,/*MAVLINK_DATA_STREAM_TYPE*/byte type,byte payload,byte jpg_quality) 
         {
             this.size = size;
@@ -16452,6 +20854,23 @@ public partial class MAVLink
             this.jpg_quality = jpg_quality;
             
         }
+        
+        /// packet xml order
+        public static mavlink_data_transmission_handshake_t PopulateXMLOrder(/*MAVLINK_DATA_STREAM_TYPE*/byte type,uint size,ushort width,ushort height,ushort packets,byte payload,byte jpg_quality) 
+        {
+            var msg = new mavlink_data_transmission_handshake_t();
+
+            msg.type = type;
+            msg.size = size;
+            msg.width = width;
+            msg.height = height;
+            msg.packets = packets;
+            msg.payload = payload;
+            msg.jpg_quality = jpg_quality;
+            
+            return msg;
+        }
+        
 
         /// <summary>total data size (set on ACK only).  [bytes] </summary>
         [Units("[bytes]")]
@@ -16502,12 +20921,25 @@ public partial class MAVLink
     ///<summary> Data packet for images sent using the Image Transmission Protocol: https://mavlink.io/en/services/image_transmission.html. </summary>
     public struct mavlink_encapsulated_data_t
     {
+        /// packet ordered constructor
         public mavlink_encapsulated_data_t(ushort seqnr,byte[] data) 
         {
             this.seqnr = seqnr;
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_encapsulated_data_t PopulateXMLOrder(ushort seqnr,byte[] data) 
+        {
+            var msg = new mavlink_encapsulated_data_t();
+
+            msg.seqnr = seqnr;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>sequence number (starting with 0 on every transmission)   </summary>
         [Units("")]
@@ -16529,6 +20961,7 @@ public partial class MAVLink
     ///<summary> Distance sensor information for an onboard rangefinder. </summary>
     public struct mavlink_distance_sensor_t
     {
+        /// packet ordered constructor
         public mavlink_distance_sensor_t(uint time_boot_ms,ushort min_distance,ushort max_distance,ushort current_distance,/*MAV_DISTANCE_SENSOR*/byte type,byte id,/*MAV_SENSOR_ORIENTATION*/byte orientation,byte covariance,float horizontal_fov,float vertical_fov,float[] quaternion,byte signal_quality) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -16545,6 +20978,28 @@ public partial class MAVLink
             this.signal_quality = signal_quality;
             
         }
+        
+        /// packet xml order
+        public static mavlink_distance_sensor_t PopulateXMLOrder(uint time_boot_ms,ushort min_distance,ushort max_distance,ushort current_distance,/*MAV_DISTANCE_SENSOR*/byte type,byte id,/*MAV_SENSOR_ORIENTATION*/byte orientation,byte covariance,float horizontal_fov,float vertical_fov,float[] quaternion,byte signal_quality) 
+        {
+            var msg = new mavlink_distance_sensor_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.min_distance = min_distance;
+            msg.max_distance = max_distance;
+            msg.current_distance = current_distance;
+            msg.type = type;
+            msg.id = id;
+            msg.orientation = orientation;
+            msg.covariance = covariance;
+            msg.horizontal_fov = horizontal_fov;
+            msg.vertical_fov = vertical_fov;
+            msg.quaternion = quaternion;
+            msg.signal_quality = signal_quality;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -16626,6 +21081,7 @@ public partial class MAVLink
     ///<summary> Request for terrain data and terrain status. See terrain protocol docs: https://mavlink.io/en/services/terrain.html </summary>
     public struct mavlink_terrain_request_t
     {
+        /// packet ordered constructor
         public mavlink_terrain_request_t(ulong mask,int lat,int lon,ushort grid_spacing) 
         {
             this.mask = mask;
@@ -16634,6 +21090,20 @@ public partial class MAVLink
             this.grid_spacing = grid_spacing;
             
         }
+        
+        /// packet xml order
+        public static mavlink_terrain_request_t PopulateXMLOrder(int lat,int lon,ushort grid_spacing,ulong mask) 
+        {
+            var msg = new mavlink_terrain_request_t();
+
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.grid_spacing = grid_spacing;
+            msg.mask = mask;
+            
+            return msg;
+        }
+        
 
         /// <summary>Bitmask of requested 4x4 grids (row major 8x7 array of grids, 56 bits)   bitmask</summary>
         [Units("")]
@@ -16666,6 +21136,7 @@ public partial class MAVLink
     ///<summary> Terrain data sent from GCS. The lat/lon and grid_spacing must be the same as a lat/lon from a TERRAIN_REQUEST. See terrain protocol docs: https://mavlink.io/en/services/terrain.html </summary>
     public struct mavlink_terrain_data_t
     {
+        /// packet ordered constructor
         public mavlink_terrain_data_t(int lat,int lon,ushort grid_spacing,short[] data,byte gridbit) 
         {
             this.lat = lat;
@@ -16675,6 +21146,21 @@ public partial class MAVLink
             this.gridbit = gridbit;
             
         }
+        
+        /// packet xml order
+        public static mavlink_terrain_data_t PopulateXMLOrder(int lat,int lon,ushort grid_spacing,byte gridbit,short[] data) 
+        {
+            var msg = new mavlink_terrain_data_t();
+
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.grid_spacing = grid_spacing;
+            msg.gridbit = gridbit;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude of SW corner of first grid  [degE7] </summary>
         [Units("[degE7]")]
@@ -16714,12 +21200,25 @@ public partial class MAVLink
     ///<summary> Request that the vehicle report terrain height at the given location (expected response is a TERRAIN_REPORT). Used by GCS to check if vehicle has all terrain data needed for a mission. </summary>
     public struct mavlink_terrain_check_t
     {
+        /// packet ordered constructor
         public mavlink_terrain_check_t(int lat,int lon) 
         {
             this.lat = lat;
             this.lon = lon;
             
         }
+        
+        /// packet xml order
+        public static mavlink_terrain_check_t PopulateXMLOrder(int lat,int lon) 
+        {
+            var msg = new mavlink_terrain_check_t();
+
+            msg.lat = lat;
+            msg.lon = lon;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
@@ -16740,6 +21239,7 @@ public partial class MAVLink
     ///<summary> Streamed from drone to report progress of terrain map download (initiated by TERRAIN_REQUEST), or sent as a response to a TERRAIN_CHECK request. See terrain protocol docs: https://mavlink.io/en/services/terrain.html </summary>
     public struct mavlink_terrain_report_t
     {
+        /// packet ordered constructor
         public mavlink_terrain_report_t(int lat,int lon,float terrain_height,float current_height,ushort spacing,ushort pending,ushort loaded) 
         {
             this.lat = lat;
@@ -16751,6 +21251,23 @@ public partial class MAVLink
             this.loaded = loaded;
             
         }
+        
+        /// packet xml order
+        public static mavlink_terrain_report_t PopulateXMLOrder(int lat,int lon,ushort spacing,float terrain_height,float current_height,ushort pending,ushort loaded) 
+        {
+            var msg = new mavlink_terrain_report_t();
+
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.spacing = spacing;
+            msg.terrain_height = terrain_height;
+            msg.current_height = current_height;
+            msg.pending = pending;
+            msg.loaded = loaded;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
@@ -16801,6 +21318,7 @@ public partial class MAVLink
     ///<summary> Barometer readings for 2nd barometer </summary>
     public struct mavlink_scaled_pressure2_t
     {
+        /// packet ordered constructor
         public mavlink_scaled_pressure2_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -16810,6 +21328,21 @@ public partial class MAVLink
             this.temperature_press_diff = temperature_press_diff;
             
         }
+        
+        /// packet xml order
+        public static mavlink_scaled_pressure2_t PopulateXMLOrder(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
+        {
+            var msg = new mavlink_scaled_pressure2_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.press_abs = press_abs;
+            msg.press_diff = press_diff;
+            msg.temperature = temperature;
+            msg.temperature_press_diff = temperature_press_diff;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -16848,6 +21381,7 @@ public partial class MAVLink
     ///<summary> Motion capture attitude and position </summary>
     public struct mavlink_att_pos_mocap_t
     {
+        /// packet ordered constructor
         public mavlink_att_pos_mocap_t(ulong time_usec,float[] q,float x,float y,float z,float[] covariance) 
         {
             this.time_usec = time_usec;
@@ -16858,6 +21392,22 @@ public partial class MAVLink
             this.covariance = covariance;
             
         }
+        
+        /// packet xml order
+        public static mavlink_att_pos_mocap_t PopulateXMLOrder(ulong time_usec,float[] q,float x,float y,float z,float[] covariance) 
+        {
+            var msg = new mavlink_att_pos_mocap_t();
+
+            msg.time_usec = time_usec;
+            msg.q = q;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.covariance = covariance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -16904,6 +21454,7 @@ public partial class MAVLink
     ///<summary> Set the vehicle attitude and body angular rates. </summary>
     public struct mavlink_set_actuator_control_target_t
     {
+        /// packet ordered constructor
         public mavlink_set_actuator_control_target_t(ulong time_usec,float[] controls,byte group_mlx,byte target_system,byte target_component) 
         {
             this.time_usec = time_usec;
@@ -16913,6 +21464,21 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_actuator_control_target_t PopulateXMLOrder(ulong time_usec,byte group_mlx,byte target_system,byte target_component,float[] controls) 
+        {
+            var msg = new mavlink_set_actuator_control_target_t();
+
+            msg.time_usec = time_usec;
+            msg.group_mlx = group_mlx;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.controls = controls;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -16952,6 +21518,7 @@ public partial class MAVLink
     ///<summary> Set the vehicle attitude and body angular rates. </summary>
     public struct mavlink_actuator_control_target_t
     {
+        /// packet ordered constructor
         public mavlink_actuator_control_target_t(ulong time_usec,float[] controls,byte group_mlx) 
         {
             this.time_usec = time_usec;
@@ -16959,6 +21526,19 @@ public partial class MAVLink
             this.group_mlx = group_mlx;
             
         }
+        
+        /// packet xml order
+        public static mavlink_actuator_control_target_t PopulateXMLOrder(ulong time_usec,byte group_mlx,float[] controls) 
+        {
+            var msg = new mavlink_actuator_control_target_t();
+
+            msg.time_usec = time_usec;
+            msg.group_mlx = group_mlx;
+            msg.controls = controls;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -16986,6 +21566,7 @@ public partial class MAVLink
     ///<summary> The current system altitude. </summary>
     public struct mavlink_altitude_t
     {
+        /// packet ordered constructor
         public mavlink_altitude_t(ulong time_usec,float altitude_monotonic,float altitude_amsl,float altitude_local,float altitude_relative,float altitude_terrain,float bottom_clearance) 
         {
             this.time_usec = time_usec;
@@ -16997,6 +21578,23 @@ public partial class MAVLink
             this.bottom_clearance = bottom_clearance;
             
         }
+        
+        /// packet xml order
+        public static mavlink_altitude_t PopulateXMLOrder(ulong time_usec,float altitude_monotonic,float altitude_amsl,float altitude_local,float altitude_relative,float altitude_terrain,float bottom_clearance) 
+        {
+            var msg = new mavlink_altitude_t();
+
+            msg.time_usec = time_usec;
+            msg.altitude_monotonic = altitude_monotonic;
+            msg.altitude_amsl = altitude_amsl;
+            msg.altitude_local = altitude_local;
+            msg.altitude_relative = altitude_relative;
+            msg.altitude_terrain = altitude_terrain;
+            msg.bottom_clearance = bottom_clearance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -17047,6 +21645,7 @@ public partial class MAVLink
     ///<summary> The autopilot is requesting a resource (file, binary, other type of data) </summary>
     public struct mavlink_resource_request_t
     {
+        /// packet ordered constructor
         public mavlink_resource_request_t(byte request_id,byte uri_type,byte[] uri,byte transfer_type,byte[] storage) 
         {
             this.request_id = request_id;
@@ -17056,6 +21655,21 @@ public partial class MAVLink
             this.storage = storage;
             
         }
+        
+        /// packet xml order
+        public static mavlink_resource_request_t PopulateXMLOrder(byte request_id,byte uri_type,byte[] uri,byte transfer_type,byte[] storage) 
+        {
+            var msg = new mavlink_resource_request_t();
+
+            msg.request_id = request_id;
+            msg.uri_type = uri_type;
+            msg.uri = uri;
+            msg.transfer_type = transfer_type;
+            msg.storage = storage;
+            
+            return msg;
+        }
+        
 
         /// <summary>Request ID. This ID should be re-used when sending back URI contents   </summary>
         [Units("")]
@@ -17096,6 +21710,7 @@ public partial class MAVLink
     ///<summary> Barometer readings for 3rd barometer </summary>
     public struct mavlink_scaled_pressure3_t
     {
+        /// packet ordered constructor
         public mavlink_scaled_pressure3_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -17105,6 +21720,21 @@ public partial class MAVLink
             this.temperature_press_diff = temperature_press_diff;
             
         }
+        
+        /// packet xml order
+        public static mavlink_scaled_pressure3_t PopulateXMLOrder(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
+        {
+            var msg = new mavlink_scaled_pressure3_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.press_abs = press_abs;
+            msg.press_diff = press_diff;
+            msg.temperature = temperature;
+            msg.temperature_press_diff = temperature_press_diff;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -17143,6 +21773,7 @@ public partial class MAVLink
     ///<summary> Current motion information from a designated system </summary>
     public struct mavlink_follow_target_t
     {
+        /// packet ordered constructor
         public mavlink_follow_target_t(ulong timestamp,ulong custom_state,int lat,int lon,float alt,float[] vel,float[] acc,float[] attitude_q,float[] rates,float[] position_cov,byte est_capabilities) 
         {
             this.timestamp = timestamp;
@@ -17158,6 +21789,27 @@ public partial class MAVLink
             this.est_capabilities = est_capabilities;
             
         }
+        
+        /// packet xml order
+        public static mavlink_follow_target_t PopulateXMLOrder(ulong timestamp,byte est_capabilities,int lat,int lon,float alt,float[] vel,float[] acc,float[] attitude_q,float[] rates,float[] position_cov,ulong custom_state) 
+        {
+            var msg = new mavlink_follow_target_t();
+
+            msg.timestamp = timestamp;
+            msg.est_capabilities = est_capabilities;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.vel = vel;
+            msg.acc = acc;
+            msg.attitude_q = attitude_q;
+            msg.rates = rates;
+            msg.position_cov = position_cov;
+            msg.custom_state = custom_state;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -17237,6 +21889,7 @@ public partial class MAVLink
     ///<summary> The smoothed, monotonic system state used to feed the control loops of the system. </summary>
     public struct mavlink_control_system_state_t
     {
+        /// packet ordered constructor
         public mavlink_control_system_state_t(ulong time_usec,float x_acc,float y_acc,float z_acc,float x_vel,float y_vel,float z_vel,float x_pos,float y_pos,float z_pos,float airspeed,float[] vel_variance,float[] pos_variance,float[] q,float roll_rate,float pitch_rate,float yaw_rate) 
         {
             this.time_usec = time_usec;
@@ -17258,6 +21911,33 @@ public partial class MAVLink
             this.yaw_rate = yaw_rate;
             
         }
+        
+        /// packet xml order
+        public static mavlink_control_system_state_t PopulateXMLOrder(ulong time_usec,float x_acc,float y_acc,float z_acc,float x_vel,float y_vel,float z_vel,float x_pos,float y_pos,float z_pos,float airspeed,float[] vel_variance,float[] pos_variance,float[] q,float roll_rate,float pitch_rate,float yaw_rate) 
+        {
+            var msg = new mavlink_control_system_state_t();
+
+            msg.time_usec = time_usec;
+            msg.x_acc = x_acc;
+            msg.y_acc = y_acc;
+            msg.z_acc = z_acc;
+            msg.x_vel = x_vel;
+            msg.y_vel = y_vel;
+            msg.z_vel = z_vel;
+            msg.x_pos = x_pos;
+            msg.y_pos = y_pos;
+            msg.z_pos = z_pos;
+            msg.airspeed = airspeed;
+            msg.vel_variance = vel_variance;
+            msg.pos_variance = pos_variance;
+            msg.q = q;
+            msg.roll_rate = roll_rate;
+            msg.pitch_rate = pitch_rate;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -17371,6 +22051,7 @@ public partial class MAVLink
     ///<summary> Battery information </summary>
     public struct mavlink_battery_status_t
     {
+        /// packet ordered constructor
         public mavlink_battery_status_t(int current_consumed,int energy_consumed,short temperature,ushort[] voltages,short current_battery,byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,sbyte battery_remaining,int time_remaining,/*MAV_BATTERY_CHARGE_STATE*/byte charge_state,ushort[] voltages_ext,/*MAV_BATTERY_MODE*/byte mode,/*MAV_BATTERY_FAULT*/uint fault_bitmask) 
         {
             this.current_consumed = current_consumed;
@@ -17389,6 +22070,30 @@ public partial class MAVLink
             this.fault_bitmask = fault_bitmask;
             
         }
+        
+        /// packet xml order
+        public static mavlink_battery_status_t PopulateXMLOrder(byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,short temperature,ushort[] voltages,short current_battery,int current_consumed,int energy_consumed,sbyte battery_remaining,int time_remaining,/*MAV_BATTERY_CHARGE_STATE*/byte charge_state,ushort[] voltages_ext,/*MAV_BATTERY_MODE*/byte mode,/*MAV_BATTERY_FAULT*/uint fault_bitmask) 
+        {
+            var msg = new mavlink_battery_status_t();
+
+            msg.id = id;
+            msg.battery_function = battery_function;
+            msg.type = type;
+            msg.temperature = temperature;
+            msg.voltages = voltages;
+            msg.current_battery = current_battery;
+            msg.current_consumed = current_consumed;
+            msg.energy_consumed = energy_consumed;
+            msg.battery_remaining = battery_remaining;
+            msg.time_remaining = time_remaining;
+            msg.charge_state = charge_state;
+            msg.voltages_ext = voltages_ext;
+            msg.mode = mode;
+            msg.fault_bitmask = fault_bitmask;
+            
+            return msg;
+        }
+        
 
         /// <summary>Consumed charge, -1: autopilot does not provide consumption estimate  [mAh] </summary>
         [Units("[mAh]")]
@@ -17483,6 +22188,7 @@ public partial class MAVLink
     ///<summary> Version and capability of autopilot software. This should be emitted in response to a request with MAV_CMD_REQUEST_MESSAGE. </summary>
     public struct mavlink_autopilot_version_t
     {
+        /// packet ordered constructor
         public mavlink_autopilot_version_t(/*MAV_PROTOCOL_CAPABILITY*/ulong capabilities,ulong uid,uint flight_sw_version,uint middleware_sw_version,uint os_sw_version,uint board_version,ushort vendor_id,ushort product_id,byte[] flight_custom_version,byte[] middleware_custom_version,byte[] os_custom_version,byte[] uid2) 
         {
             this.capabilities = capabilities;
@@ -17499,6 +22205,28 @@ public partial class MAVLink
             this.uid2 = uid2;
             
         }
+        
+        /// packet xml order
+        public static mavlink_autopilot_version_t PopulateXMLOrder(/*MAV_PROTOCOL_CAPABILITY*/ulong capabilities,uint flight_sw_version,uint middleware_sw_version,uint os_sw_version,uint board_version,byte[] flight_custom_version,byte[] middleware_custom_version,byte[] os_custom_version,ushort vendor_id,ushort product_id,ulong uid,byte[] uid2) 
+        {
+            var msg = new mavlink_autopilot_version_t();
+
+            msg.capabilities = capabilities;
+            msg.flight_sw_version = flight_sw_version;
+            msg.middleware_sw_version = middleware_sw_version;
+            msg.os_sw_version = os_sw_version;
+            msg.board_version = board_version;
+            msg.flight_custom_version = flight_custom_version;
+            msg.middleware_custom_version = middleware_custom_version;
+            msg.os_custom_version = os_custom_version;
+            msg.vendor_id = vendor_id;
+            msg.product_id = product_id;
+            msg.uid = uid;
+            msg.uid2 = uid2;
+            
+            return msg;
+        }
+        
 
         /// <summary>Bitmap of capabilities MAV_PROTOCOL_CAPABILITY  bitmask</summary>
         [Units("")]
@@ -17583,6 +22311,7 @@ public partial class MAVLink
     ///<summary> The location of a landing target. See: https://mavlink.io/en/services/landing_target.html </summary>
     public struct mavlink_landing_target_t
     {
+        /// packet ordered constructor
         public mavlink_landing_target_t(ulong time_usec,float angle_x,float angle_y,float distance,float size_x,float size_y,byte target_num,/*MAV_FRAME*/byte frame,float x,float y,float z,float[] q,/*LANDING_TARGET_TYPE*/byte type,byte position_valid) 
         {
             this.time_usec = time_usec;
@@ -17601,6 +22330,30 @@ public partial class MAVLink
             this.position_valid = position_valid;
             
         }
+        
+        /// packet xml order
+        public static mavlink_landing_target_t PopulateXMLOrder(ulong time_usec,byte target_num,/*MAV_FRAME*/byte frame,float angle_x,float angle_y,float distance,float size_x,float size_y,float x,float y,float z,float[] q,/*LANDING_TARGET_TYPE*/byte type,byte position_valid) 
+        {
+            var msg = new mavlink_landing_target_t();
+
+            msg.time_usec = time_usec;
+            msg.target_num = target_num;
+            msg.frame = frame;
+            msg.angle_x = angle_x;
+            msg.angle_y = angle_y;
+            msg.distance = distance;
+            msg.size_x = size_x;
+            msg.size_y = size_y;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.q = q;
+            msg.type = type;
+            msg.position_valid = position_valid;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -17694,6 +22447,7 @@ public partial class MAVLink
     ///<summary> Status of geo-fencing. Sent in extended status stream when fencing enabled. </summary>
     public struct mavlink_fence_status_t
     {
+        /// packet ordered constructor
         public mavlink_fence_status_t(uint breach_time,ushort breach_count,byte breach_status,/*FENCE_BREACH*/byte breach_type,/*FENCE_MITIGATE*/byte breach_mitigation) 
         {
             this.breach_time = breach_time;
@@ -17703,6 +22457,21 @@ public partial class MAVLink
             this.breach_mitigation = breach_mitigation;
             
         }
+        
+        /// packet xml order
+        public static mavlink_fence_status_t PopulateXMLOrder(byte breach_status,ushort breach_count,/*FENCE_BREACH*/byte breach_type,uint breach_time,/*FENCE_MITIGATE*/byte breach_mitigation) 
+        {
+            var msg = new mavlink_fence_status_t();
+
+            msg.breach_status = breach_status;
+            msg.breach_count = breach_count;
+            msg.breach_type = breach_type;
+            msg.breach_time = breach_time;
+            msg.breach_mitigation = breach_mitigation;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time (since boot) of last breach.  [ms] </summary>
         [Units("[ms]")]
@@ -17741,6 +22510,7 @@ public partial class MAVLink
     ///<summary> Reports results of completed compass calibration. Sent until MAG_CAL_ACK received. </summary>
     public struct mavlink_mag_cal_report_t
     {
+        /// packet ordered constructor
         public mavlink_mag_cal_report_t(float fitness,float ofs_x,float ofs_y,float ofs_z,float diag_x,float diag_y,float diag_z,float offdiag_x,float offdiag_y,float offdiag_z,byte compass_id,byte cal_mask,/*MAG_CAL_STATUS*/byte cal_status,byte autosaved,float orientation_confidence,/*MAV_SENSOR_ORIENTATION*/byte old_orientation,/*MAV_SENSOR_ORIENTATION*/byte new_orientation,float scale_factor) 
         {
             this.fitness = fitness;
@@ -17763,6 +22533,34 @@ public partial class MAVLink
             this.scale_factor = scale_factor;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mag_cal_report_t PopulateXMLOrder(byte compass_id,byte cal_mask,/*MAG_CAL_STATUS*/byte cal_status,byte autosaved,float fitness,float ofs_x,float ofs_y,float ofs_z,float diag_x,float diag_y,float diag_z,float offdiag_x,float offdiag_y,float offdiag_z,float orientation_confidence,/*MAV_SENSOR_ORIENTATION*/byte old_orientation,/*MAV_SENSOR_ORIENTATION*/byte new_orientation,float scale_factor) 
+        {
+            var msg = new mavlink_mag_cal_report_t();
+
+            msg.compass_id = compass_id;
+            msg.cal_mask = cal_mask;
+            msg.cal_status = cal_status;
+            msg.autosaved = autosaved;
+            msg.fitness = fitness;
+            msg.ofs_x = ofs_x;
+            msg.ofs_y = ofs_y;
+            msg.ofs_z = ofs_z;
+            msg.diag_x = diag_x;
+            msg.diag_y = diag_y;
+            msg.diag_z = diag_z;
+            msg.offdiag_x = offdiag_x;
+            msg.offdiag_y = offdiag_y;
+            msg.offdiag_z = offdiag_z;
+            msg.orientation_confidence = orientation_confidence;
+            msg.old_orientation = old_orientation;
+            msg.new_orientation = new_orientation;
+            msg.scale_factor = scale_factor;
+            
+            return msg;
+        }
+        
 
         /// <summary>RMS milligauss residuals.  [mgauss] </summary>
         [Units("[mgauss]")]
@@ -17874,12 +22672,13 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=65)]
+    /// extensions_start 17
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=73)]
     ///<summary> EFI status output </summary>
     public struct mavlink_efi_status_t
     {
-        public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,byte health) 
+        /// packet ordered constructor
+        public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,byte health,float ignition_voltage,float fuel_pressure) 
         {
             this.ecu_index = ecu_index;
             this.rpm = rpm;
@@ -17898,8 +22697,39 @@ public partial class MAVLink
             this.throttle_out = throttle_out;
             this.pt_compensation = pt_compensation;
             this.health = health;
+            this.ignition_voltage = ignition_voltage;
+            this.fuel_pressure = fuel_pressure;
             
         }
+        
+        /// packet xml order
+        public static mavlink_efi_status_t PopulateXMLOrder(byte health,float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,float ignition_voltage,float fuel_pressure) 
+        {
+            var msg = new mavlink_efi_status_t();
+
+            msg.health = health;
+            msg.ecu_index = ecu_index;
+            msg.rpm = rpm;
+            msg.fuel_consumed = fuel_consumed;
+            msg.fuel_flow = fuel_flow;
+            msg.engine_load = engine_load;
+            msg.throttle_position = throttle_position;
+            msg.spark_dwell_time = spark_dwell_time;
+            msg.barometric_pressure = barometric_pressure;
+            msg.intake_manifold_pressure = intake_manifold_pressure;
+            msg.intake_manifold_temperature = intake_manifold_temperature;
+            msg.cylinder_head_temperature = cylinder_head_temperature;
+            msg.ignition_timing = ignition_timing;
+            msg.injection_time = injection_time;
+            msg.exhaust_gas_temperature = exhaust_gas_temperature;
+            msg.throttle_out = throttle_out;
+            msg.pt_compensation = pt_compensation;
+            msg.ignition_voltage = ignition_voltage;
+            msg.fuel_pressure = fuel_pressure;
+            
+            return msg;
+        }
+        
 
         /// <summary>ECU index   </summary>
         [Units("")]
@@ -18002,6 +22832,18 @@ public partial class MAVLink
         [Description("EFI health status")]
         //[FieldOffset(64)]
         public  byte health;
+
+        /// <summary>Supply voltage to EFI sparking system.  Zero in this value means 'unknown', so if the supply voltage really is zero volts use 0.0001 instead.  [V] </summary>
+        [Units("[V]")]
+        [Description("Supply voltage to EFI sparking system.  Zero in this value means 'unknown', so if the supply voltage really is zero volts use 0.0001 instead.")]
+        //[FieldOffset(65)]
+        public  float ignition_voltage;
+
+        /// <summary>Fuel pressure. Zero in this value means 'unknown', so if the fuel pressure really is zero kPa use 0.0001 instead.  [kPa] </summary>
+        [Units("[kPa]")]
+        [Description("Fuel pressure. Zero in this value means 'unknown', so if the fuel pressure really is zero kPa use 0.0001 instead.")]
+        //[FieldOffset(69)]
+        public  float fuel_pressure;
     };
 
     
@@ -18010,6 +22852,7 @@ public partial class MAVLink
     ///<summary> Estimator status message including flags, innovation test ratios and estimated accuracies. The flags message is an integer bitmask containing information on which EKF outputs are valid. See the ESTIMATOR_STATUS_FLAGS enum definition for further information. The innovation test ratios show the magnitude of the sensor innovation divided by the innovation check threshold. Under normal operation the innovation test ratios should be below 0.5 with occasional values up to 1.0. Values greater than 1.0 should be rare under normal operation and indicate that a measurement has been rejected by the filter. The user should be notified if an innovation test ratio greater than 1.0 is recorded. Notifications for values in the range between 0.5 and 1.0 should be optional and controllable by the user. </summary>
     public struct mavlink_estimator_status_t
     {
+        /// packet ordered constructor
         public mavlink_estimator_status_t(ulong time_usec,float vel_ratio,float pos_horiz_ratio,float pos_vert_ratio,float mag_ratio,float hagl_ratio,float tas_ratio,float pos_horiz_accuracy,float pos_vert_accuracy,/*ESTIMATOR_STATUS_FLAGS*/ushort flags) 
         {
             this.time_usec = time_usec;
@@ -18024,6 +22867,26 @@ public partial class MAVLink
             this.flags = flags;
             
         }
+        
+        /// packet xml order
+        public static mavlink_estimator_status_t PopulateXMLOrder(ulong time_usec,/*ESTIMATOR_STATUS_FLAGS*/ushort flags,float vel_ratio,float pos_horiz_ratio,float pos_vert_ratio,float mag_ratio,float hagl_ratio,float tas_ratio,float pos_horiz_accuracy,float pos_vert_accuracy) 
+        {
+            var msg = new mavlink_estimator_status_t();
+
+            msg.time_usec = time_usec;
+            msg.flags = flags;
+            msg.vel_ratio = vel_ratio;
+            msg.pos_horiz_ratio = pos_horiz_ratio;
+            msg.pos_vert_ratio = pos_vert_ratio;
+            msg.mag_ratio = mag_ratio;
+            msg.hagl_ratio = hagl_ratio;
+            msg.tas_ratio = tas_ratio;
+            msg.pos_horiz_accuracy = pos_horiz_accuracy;
+            msg.pos_vert_accuracy = pos_vert_accuracy;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -18092,6 +22955,7 @@ public partial class MAVLink
     ///<summary> Wind covariance estimate from vehicle. </summary>
     public struct mavlink_wind_cov_t
     {
+        /// packet ordered constructor
         public mavlink_wind_cov_t(ulong time_usec,float wind_x,float wind_y,float wind_z,float var_horiz,float var_vert,float wind_alt,float horiz_accuracy,float vert_accuracy) 
         {
             this.time_usec = time_usec;
@@ -18105,6 +22969,25 @@ public partial class MAVLink
             this.vert_accuracy = vert_accuracy;
             
         }
+        
+        /// packet xml order
+        public static mavlink_wind_cov_t PopulateXMLOrder(ulong time_usec,float wind_x,float wind_y,float wind_z,float var_horiz,float var_vert,float wind_alt,float horiz_accuracy,float vert_accuracy) 
+        {
+            var msg = new mavlink_wind_cov_t();
+
+            msg.time_usec = time_usec;
+            msg.wind_x = wind_x;
+            msg.wind_y = wind_y;
+            msg.wind_z = wind_z;
+            msg.var_horiz = var_horiz;
+            msg.var_vert = var_vert;
+            msg.wind_alt = wind_alt;
+            msg.horiz_accuracy = horiz_accuracy;
+            msg.vert_accuracy = vert_accuracy;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -18167,6 +23050,7 @@ public partial class MAVLink
     ///<summary> GPS sensor input message.  This is a raw sensor value sent by the GPS. This is NOT the global position estimate of the system. </summary>
     public struct mavlink_gps_input_t
     {
+        /// packet ordered constructor
         public mavlink_gps_input_t(ulong time_usec,uint time_week_ms,int lat,int lon,float alt,float hdop,float vdop,float vn,float ve,float vd,float speed_accuracy,float horiz_accuracy,float vert_accuracy,/*GPS_INPUT_IGNORE_FLAGS*/ushort ignore_flags,ushort time_week,byte gps_id,byte fix_type,byte satellites_visible,ushort yaw) 
         {
             this.time_usec = time_usec;
@@ -18190,6 +23074,35 @@ public partial class MAVLink
             this.yaw = yaw;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_input_t PopulateXMLOrder(ulong time_usec,byte gps_id,/*GPS_INPUT_IGNORE_FLAGS*/ushort ignore_flags,uint time_week_ms,ushort time_week,byte fix_type,int lat,int lon,float alt,float hdop,float vdop,float vn,float ve,float vd,float speed_accuracy,float horiz_accuracy,float vert_accuracy,byte satellites_visible,ushort yaw) 
+        {
+            var msg = new mavlink_gps_input_t();
+
+            msg.time_usec = time_usec;
+            msg.gps_id = gps_id;
+            msg.ignore_flags = ignore_flags;
+            msg.time_week_ms = time_week_ms;
+            msg.time_week = time_week;
+            msg.fix_type = fix_type;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.hdop = hdop;
+            msg.vdop = vdop;
+            msg.vn = vn;
+            msg.ve = ve;
+            msg.vd = vd;
+            msg.speed_accuracy = speed_accuracy;
+            msg.horiz_accuracy = horiz_accuracy;
+            msg.vert_accuracy = vert_accuracy;
+            msg.satellites_visible = satellites_visible;
+            msg.yaw = yaw;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -18312,6 +23225,7 @@ public partial class MAVLink
     ///<summary> RTCM message for injecting into the onboard GPS (used for DGPS) </summary>
     public struct mavlink_gps_rtcm_data_t
     {
+        /// packet ordered constructor
         public mavlink_gps_rtcm_data_t(byte flags,byte len,byte[] data) 
         {
             this.flags = flags;
@@ -18319,6 +23233,19 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gps_rtcm_data_t PopulateXMLOrder(byte flags,byte len,byte[] data) 
+        {
+            var msg = new mavlink_gps_rtcm_data_t();
+
+            msg.flags = flags;
+            msg.len = len;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order.   </summary>
         [Units("")]
@@ -18346,6 +23273,7 @@ public partial class MAVLink
     ///<summary> Message appropriate for high latency connections like Iridium </summary>
     public struct mavlink_high_latency_t
     {
+        /// packet ordered constructor
         public mavlink_high_latency_t(uint custom_mode,int latitude,int longitude,short roll,short pitch,ushort heading,short heading_sp,short altitude_amsl,short altitude_sp,ushort wp_distance,/*MAV_MODE_FLAG*/byte base_mode,/*MAV_LANDED_STATE*/byte landed_state,sbyte throttle,byte airspeed,byte airspeed_sp,byte groundspeed,sbyte climb_rate,byte gps_nsat,/*GPS_FIX_TYPE*/byte gps_fix_type,byte battery_remaining,sbyte temperature,sbyte temperature_air,byte failsafe,byte wp_num) 
         {
             this.custom_mode = custom_mode;
@@ -18374,6 +23302,40 @@ public partial class MAVLink
             this.wp_num = wp_num;
             
         }
+        
+        /// packet xml order
+        public static mavlink_high_latency_t PopulateXMLOrder(/*MAV_MODE_FLAG*/byte base_mode,uint custom_mode,/*MAV_LANDED_STATE*/byte landed_state,short roll,short pitch,ushort heading,sbyte throttle,short heading_sp,int latitude,int longitude,short altitude_amsl,short altitude_sp,byte airspeed,byte airspeed_sp,byte groundspeed,sbyte climb_rate,byte gps_nsat,/*GPS_FIX_TYPE*/byte gps_fix_type,byte battery_remaining,sbyte temperature,sbyte temperature_air,byte failsafe,byte wp_num,ushort wp_distance) 
+        {
+            var msg = new mavlink_high_latency_t();
+
+            msg.base_mode = base_mode;
+            msg.custom_mode = custom_mode;
+            msg.landed_state = landed_state;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.heading = heading;
+            msg.throttle = throttle;
+            msg.heading_sp = heading_sp;
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude_amsl = altitude_amsl;
+            msg.altitude_sp = altitude_sp;
+            msg.airspeed = airspeed;
+            msg.airspeed_sp = airspeed_sp;
+            msg.groundspeed = groundspeed;
+            msg.climb_rate = climb_rate;
+            msg.gps_nsat = gps_nsat;
+            msg.gps_fix_type = gps_fix_type;
+            msg.battery_remaining = battery_remaining;
+            msg.temperature = temperature;
+            msg.temperature_air = temperature_air;
+            msg.failsafe = failsafe;
+            msg.wp_num = wp_num;
+            msg.wp_distance = wp_distance;
+            
+            return msg;
+        }
+        
 
         /// <summary>A bitfield for use for autopilot-specific flags.   bitmask</summary>
         [Units("")]
@@ -18526,6 +23488,7 @@ public partial class MAVLink
     ///<summary> Message appropriate for high latency connections like Iridium (version 2) </summary>
     public struct mavlink_high_latency2_t
     {
+        /// packet ordered constructor
         public mavlink_high_latency2_t(uint timestamp,int latitude,int longitude,ushort custom_mode,short altitude,short target_altitude,ushort target_distance,ushort wp_num,/*HL_FAILURE_FLAG*/ushort failure_flags,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,byte heading,byte target_heading,byte throttle,byte airspeed,byte airspeed_sp,byte groundspeed,byte windspeed,byte wind_heading,byte eph,byte epv,sbyte temperature_air,sbyte climb_rate,sbyte battery,sbyte custom0,sbyte custom1,sbyte custom2) 
         {
             this.timestamp = timestamp;
@@ -18557,6 +23520,43 @@ public partial class MAVLink
             this.custom2 = custom2;
             
         }
+        
+        /// packet xml order
+        public static mavlink_high_latency2_t PopulateXMLOrder(uint timestamp,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,ushort custom_mode,int latitude,int longitude,short altitude,short target_altitude,byte heading,byte target_heading,ushort target_distance,byte throttle,byte airspeed,byte airspeed_sp,byte groundspeed,byte windspeed,byte wind_heading,byte eph,byte epv,sbyte temperature_air,sbyte climb_rate,sbyte battery,ushort wp_num,/*HL_FAILURE_FLAG*/ushort failure_flags,sbyte custom0,sbyte custom1,sbyte custom2) 
+        {
+            var msg = new mavlink_high_latency2_t();
+
+            msg.timestamp = timestamp;
+            msg.type = type;
+            msg.autopilot = autopilot;
+            msg.custom_mode = custom_mode;
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude = altitude;
+            msg.target_altitude = target_altitude;
+            msg.heading = heading;
+            msg.target_heading = target_heading;
+            msg.target_distance = target_distance;
+            msg.throttle = throttle;
+            msg.airspeed = airspeed;
+            msg.airspeed_sp = airspeed_sp;
+            msg.groundspeed = groundspeed;
+            msg.windspeed = windspeed;
+            msg.wind_heading = wind_heading;
+            msg.eph = eph;
+            msg.epv = epv;
+            msg.temperature_air = temperature_air;
+            msg.climb_rate = climb_rate;
+            msg.battery = battery;
+            msg.wp_num = wp_num;
+            msg.failure_flags = failure_flags;
+            msg.custom0 = custom0;
+            msg.custom1 = custom1;
+            msg.custom2 = custom2;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (milliseconds since boot or Unix epoch)  [ms] </summary>
         [Units("[ms]")]
@@ -18727,6 +23727,7 @@ public partial class MAVLink
     ///<summary> Vibration levels and accelerometer clipping </summary>
     public struct mavlink_vibration_t
     {
+        /// packet ordered constructor
         public mavlink_vibration_t(ulong time_usec,float vibration_x,float vibration_y,float vibration_z,uint clipping_0,uint clipping_1,uint clipping_2) 
         {
             this.time_usec = time_usec;
@@ -18738,6 +23739,23 @@ public partial class MAVLink
             this.clipping_2 = clipping_2;
             
         }
+        
+        /// packet xml order
+        public static mavlink_vibration_t PopulateXMLOrder(ulong time_usec,float vibration_x,float vibration_y,float vibration_z,uint clipping_0,uint clipping_1,uint clipping_2) 
+        {
+            var msg = new mavlink_vibration_t();
+
+            msg.time_usec = time_usec;
+            msg.vibration_x = vibration_x;
+            msg.vibration_y = vibration_y;
+            msg.vibration_z = vibration_z;
+            msg.clipping_0 = clipping_0;
+            msg.clipping_1 = clipping_1;
+            msg.clipping_2 = clipping_2;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -18788,6 +23806,7 @@ public partial class MAVLink
     ///<summary> This message can be requested by sending the MAV_CMD_GET_HOME_POSITION command. The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
     public struct mavlink_home_position_t
     {
+        /// packet ordered constructor
         public mavlink_home_position_t(int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,ulong time_usec) 
         {
             this.latitude = latitude;
@@ -18803,6 +23822,27 @@ public partial class MAVLink
             this.time_usec = time_usec;
             
         }
+        
+        /// packet xml order
+        public static mavlink_home_position_t PopulateXMLOrder(int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,ulong time_usec) 
+        {
+            var msg = new mavlink_home_position_t();
+
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude = altitude;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.q = q;
+            msg.approach_x = approach_x;
+            msg.approach_y = approach_y;
+            msg.approach_z = approach_z;
+            msg.time_usec = time_usec;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
@@ -18878,6 +23918,7 @@ public partial class MAVLink
     ///<summary> The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
     public struct mavlink_set_home_position_t
     {
+        /// packet ordered constructor
         public mavlink_set_home_position_t(int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,byte target_system,ulong time_usec) 
         {
             this.latitude = latitude;
@@ -18894,6 +23935,28 @@ public partial class MAVLink
             this.time_usec = time_usec;
             
         }
+        
+        /// packet xml order
+        public static mavlink_set_home_position_t PopulateXMLOrder(byte target_system,int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,ulong time_usec) 
+        {
+            var msg = new mavlink_set_home_position_t();
+
+            msg.target_system = target_system;
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude = altitude;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.q = q;
+            msg.approach_x = approach_x;
+            msg.approach_y = approach_y;
+            msg.approach_z = approach_z;
+            msg.time_usec = time_usec;
+            
+            return msg;
+        }
+        
 
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
@@ -18975,12 +24038,25 @@ public partial class MAVLink
     ///<summary> The interval between messages for a particular MAVLink message ID. This message is the response to the MAV_CMD_GET_MESSAGE_INTERVAL command. This interface replaces DATA_STREAM. </summary>
     public struct mavlink_message_interval_t
     {
+        /// packet ordered constructor
         public mavlink_message_interval_t(int interval_us,ushort message_id) 
         {
             this.interval_us = interval_us;
             this.message_id = message_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_message_interval_t PopulateXMLOrder(ushort message_id,int interval_us) 
+        {
+            var msg = new mavlink_message_interval_t();
+
+            msg.message_id = message_id;
+            msg.interval_us = interval_us;
+            
+            return msg;
+        }
+        
 
         /// <summary>The interval between two messages. A value of -1 indicates this stream is disabled, 0 indicates it is not available, > 0 indicates the interval at which it is sent.  [us] </summary>
         [Units("[us]")]
@@ -19001,12 +24077,25 @@ public partial class MAVLink
     ///<summary> Provides state for additional features </summary>
     public struct mavlink_extended_sys_state_t
     {
+        /// packet ordered constructor
         public mavlink_extended_sys_state_t(/*MAV_VTOL_STATE*/byte vtol_state,/*MAV_LANDED_STATE*/byte landed_state) 
         {
             this.vtol_state = vtol_state;
             this.landed_state = landed_state;
             
         }
+        
+        /// packet xml order
+        public static mavlink_extended_sys_state_t PopulateXMLOrder(/*MAV_VTOL_STATE*/byte vtol_state,/*MAV_LANDED_STATE*/byte landed_state) 
+        {
+            var msg = new mavlink_extended_sys_state_t();
+
+            msg.vtol_state = vtol_state;
+            msg.landed_state = landed_state;
+            
+            return msg;
+        }
+        
 
         /// <summary>The VTOL state if applicable. Is set to MAV_VTOL_STATE_UNDEFINED if UAV is not in VTOL configuration. MAV_VTOL_STATE  </summary>
         [Units("")]
@@ -19027,6 +24116,7 @@ public partial class MAVLink
     ///<summary> The location and information of an ADSB vehicle </summary>
     public struct mavlink_adsb_vehicle_t
     {
+        /// packet ordered constructor
         public mavlink_adsb_vehicle_t(uint ICAO_address,int lat,int lon,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,/*ADSB_FLAGS*/ushort flags,ushort squawk,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc) 
         {
             this.ICAO_address = ICAO_address;
@@ -19044,6 +24134,29 @@ public partial class MAVLink
             this.tslc = tslc;
             
         }
+        
+        /// packet xml order
+        public static mavlink_adsb_vehicle_t PopulateXMLOrder(uint ICAO_address,int lat,int lon,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc,/*ADSB_FLAGS*/ushort flags,ushort squawk) 
+        {
+            var msg = new mavlink_adsb_vehicle_t();
+
+            msg.ICAO_address = ICAO_address;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.altitude_type = altitude_type;
+            msg.altitude = altitude;
+            msg.heading = heading;
+            msg.hor_velocity = hor_velocity;
+            msg.ver_velocity = ver_velocity;
+            msg.callsign = callsign;
+            msg.emitter_type = emitter_type;
+            msg.tslc = tslc;
+            msg.flags = flags;
+            msg.squawk = squawk;
+            
+            return msg;
+        }
+        
 
         /// <summary>ICAO address   </summary>
         [Units("")]
@@ -19131,6 +24244,7 @@ public partial class MAVLink
     ///<summary> Information about a potential collision </summary>
     public struct mavlink_collision_t
     {
+        /// packet ordered constructor
         public mavlink_collision_t(uint id,float time_to_minimum_delta,float altitude_minimum_delta,float horizontal_minimum_delta,/*MAV_COLLISION_SRC*/byte src,/*MAV_COLLISION_ACTION*/byte action,/*MAV_COLLISION_THREAT_LEVEL*/byte threat_level) 
         {
             this.id = id;
@@ -19142,6 +24256,23 @@ public partial class MAVLink
             this.threat_level = threat_level;
             
         }
+        
+        /// packet xml order
+        public static mavlink_collision_t PopulateXMLOrder(/*MAV_COLLISION_SRC*/byte src,uint id,/*MAV_COLLISION_ACTION*/byte action,/*MAV_COLLISION_THREAT_LEVEL*/byte threat_level,float time_to_minimum_delta,float altitude_minimum_delta,float horizontal_minimum_delta) 
+        {
+            var msg = new mavlink_collision_t();
+
+            msg.src = src;
+            msg.id = id;
+            msg.action = action;
+            msg.threat_level = threat_level;
+            msg.time_to_minimum_delta = time_to_minimum_delta;
+            msg.altitude_minimum_delta = altitude_minimum_delta;
+            msg.horizontal_minimum_delta = horizontal_minimum_delta;
+            
+            return msg;
+        }
+        
 
         /// <summary>Unique identifier, domain based on src field   </summary>
         [Units("")]
@@ -19192,6 +24323,7 @@ public partial class MAVLink
     ///<summary> Message implementing parts of the V2 payload specs in V1 frames for transitional support. </summary>
     public struct mavlink_v2_extension_t
     {
+        /// packet ordered constructor
         public mavlink_v2_extension_t(ushort message_type,byte target_network,byte target_system,byte target_component,byte[] payload) 
         {
             this.message_type = message_type;
@@ -19201,6 +24333,21 @@ public partial class MAVLink
             this.payload = payload;
             
         }
+        
+        /// packet xml order
+        public static mavlink_v2_extension_t PopulateXMLOrder(byte target_network,byte target_system,byte target_component,ushort message_type,byte[] payload) 
+        {
+            var msg = new mavlink_v2_extension_t();
+
+            msg.target_network = target_network;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.message_type = message_type;
+            msg.payload = payload;
+            
+            return msg;
+        }
+        
 
         /// <summary>A code that identifies the software component that understands this message (analogous to USB device classes or mime type strings). If this code is less than 32768, it is considered a 'registered' protocol extension and the corresponding entry should be added to https://github.com/mavlink/mavlink/definition_files/extension_message_ids.xml. Software creators can register blocks of message IDs as needed (useful for GCS specific metadata, etc...). Message_types greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.   </summary>
         [Units("")]
@@ -19240,6 +24387,7 @@ public partial class MAVLink
     ///<summary> Send raw controller memory. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_memory_vect_t
     {
+        /// packet ordered constructor
         public mavlink_memory_vect_t(ushort address,byte ver,byte type,sbyte[] value) 
         {
             this.address = address;
@@ -19248,6 +24396,20 @@ public partial class MAVLink
             this.value = value;
             
         }
+        
+        /// packet xml order
+        public static mavlink_memory_vect_t PopulateXMLOrder(ushort address,byte ver,byte type,sbyte[] value) 
+        {
+            var msg = new mavlink_memory_vect_t();
+
+            msg.address = address;
+            msg.ver = ver;
+            msg.type = type;
+            msg.value = value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Starting address of the debug variables   </summary>
         [Units("")]
@@ -19281,6 +24443,7 @@ public partial class MAVLink
     ///<summary> To debug something using a named 3D vector. </summary>
     public struct mavlink_debug_vect_t
     {
+        /// packet ordered constructor
         public mavlink_debug_vect_t(ulong time_usec,float x,float y,float z,byte[] name) 
         {
             this.time_usec = time_usec;
@@ -19290,6 +24453,21 @@ public partial class MAVLink
             this.name = name;
             
         }
+        
+        /// packet xml order
+        public static mavlink_debug_vect_t PopulateXMLOrder(byte[] name,ulong time_usec,float x,float y,float z) 
+        {
+            var msg = new mavlink_debug_vect_t();
+
+            msg.name = name;
+            msg.time_usec = time_usec;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -19329,6 +24507,7 @@ public partial class MAVLink
     ///<summary> Send a key-value pair as float. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_float_t
     {
+        /// packet ordered constructor
         public mavlink_named_value_float_t(uint time_boot_ms,float value,byte[] name) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19336,6 +24515,19 @@ public partial class MAVLink
             this.name = name;
             
         }
+        
+        /// packet xml order
+        public static mavlink_named_value_float_t PopulateXMLOrder(uint time_boot_ms,byte[] name,float value) 
+        {
+            var msg = new mavlink_named_value_float_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.name = name;
+            msg.value = value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19363,6 +24555,7 @@ public partial class MAVLink
     ///<summary> Send a key-value pair as integer. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_int_t
     {
+        /// packet ordered constructor
         public mavlink_named_value_int_t(uint time_boot_ms,int value,byte[] name) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19370,6 +24563,19 @@ public partial class MAVLink
             this.name = name;
             
         }
+        
+        /// packet xml order
+        public static mavlink_named_value_int_t PopulateXMLOrder(uint time_boot_ms,byte[] name,int value) 
+        {
+            var msg = new mavlink_named_value_int_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.name = name;
+            msg.value = value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19397,6 +24603,7 @@ public partial class MAVLink
     ///<summary> Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz). </summary>
     public struct mavlink_statustext_t
     {
+        /// packet ordered constructor
         public mavlink_statustext_t(/*MAV_SEVERITY*/byte severity,byte[] text,ushort id,byte chunk_seq) 
         {
             this.severity = severity;
@@ -19405,6 +24612,20 @@ public partial class MAVLink
             this.chunk_seq = chunk_seq;
             
         }
+        
+        /// packet xml order
+        public static mavlink_statustext_t PopulateXMLOrder(/*MAV_SEVERITY*/byte severity,byte[] text,ushort id,byte chunk_seq) 
+        {
+            var msg = new mavlink_statustext_t();
+
+            msg.severity = severity;
+            msg.text = text;
+            msg.id = id;
+            msg.chunk_seq = chunk_seq;
+            
+            return msg;
+        }
+        
 
         /// <summary>Severity of status. Relies on the definitions within RFC-5424. MAV_SEVERITY  </summary>
         [Units("")]
@@ -19438,6 +24659,7 @@ public partial class MAVLink
     ///<summary> Send a debug value. The index is used to discriminate between values. These values show up in the plot of QGroundControl as DEBUG N. </summary>
     public struct mavlink_debug_t
     {
+        /// packet ordered constructor
         public mavlink_debug_t(uint time_boot_ms,float value,byte ind) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19445,6 +24667,19 @@ public partial class MAVLink
             this.ind = ind;
             
         }
+        
+        /// packet xml order
+        public static mavlink_debug_t PopulateXMLOrder(uint time_boot_ms,byte ind,float value) 
+        {
+            var msg = new mavlink_debug_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.ind = ind;
+            msg.value = value;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19471,6 +24706,7 @@ public partial class MAVLink
     ///<summary> Setup a MAVLink2 signing key. If called with secret_key of all zero and zero initial_timestamp will disable signing </summary>
     public struct mavlink_setup_signing_t
     {
+        /// packet ordered constructor
         public mavlink_setup_signing_t(ulong initial_timestamp,byte target_system,byte target_component,byte[] secret_key) 
         {
             this.initial_timestamp = initial_timestamp;
@@ -19479,6 +24715,20 @@ public partial class MAVLink
             this.secret_key = secret_key;
             
         }
+        
+        /// packet xml order
+        public static mavlink_setup_signing_t PopulateXMLOrder(byte target_system,byte target_component,byte[] secret_key,ulong initial_timestamp) 
+        {
+            var msg = new mavlink_setup_signing_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.secret_key = secret_key;
+            msg.initial_timestamp = initial_timestamp;
+            
+            return msg;
+        }
+        
 
         /// <summary>initial timestamp   </summary>
         [Units("")]
@@ -19512,6 +24762,7 @@ public partial class MAVLink
     ///<summary> Report button state change. </summary>
     public struct mavlink_button_change_t
     {
+        /// packet ordered constructor
         public mavlink_button_change_t(uint time_boot_ms,uint last_change_ms,byte state) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19519,6 +24770,19 @@ public partial class MAVLink
             this.state = state;
             
         }
+        
+        /// packet xml order
+        public static mavlink_button_change_t PopulateXMLOrder(uint time_boot_ms,uint last_change_ms,byte state) 
+        {
+            var msg = new mavlink_button_change_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.last_change_ms = last_change_ms;
+            msg.state = state;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19545,6 +24809,7 @@ public partial class MAVLink
     ///<summary> Control vehicle tone generation (buzzer). </summary>
     public struct mavlink_play_tune_t
     {
+        /// packet ordered constructor
         public mavlink_play_tune_t(byte target_system,byte target_component,byte[] tune,byte[] tune2) 
         {
             this.target_system = target_system;
@@ -19553,6 +24818,20 @@ public partial class MAVLink
             this.tune2 = tune2;
             
         }
+        
+        /// packet xml order
+        public static mavlink_play_tune_t PopulateXMLOrder(byte target_system,byte target_component,byte[] tune,byte[] tune2) 
+        {
+            var msg = new mavlink_play_tune_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.tune = tune;
+            msg.tune2 = tune2;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -19587,6 +24866,7 @@ public partial class MAVLink
     ///<summary> Information about a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command. </summary>
     public struct mavlink_camera_information_t
     {
+        /// packet ordered constructor
         public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,byte[] cam_definition_uri) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19604,6 +24884,29 @@ public partial class MAVLink
             this.cam_definition_uri = cam_definition_uri;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_information_t PopulateXMLOrder(uint time_boot_ms,byte[] vendor_name,byte[] model_name,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,ushort resolution_h,ushort resolution_v,byte lens_id,/*CAMERA_CAP_FLAGS*/uint flags,ushort cam_definition_version,byte[] cam_definition_uri) 
+        {
+            var msg = new mavlink_camera_information_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.vendor_name = vendor_name;
+            msg.model_name = model_name;
+            msg.firmware_version = firmware_version;
+            msg.focal_length = focal_length;
+            msg.sensor_size_h = sensor_size_h;
+            msg.sensor_size_v = sensor_size_v;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.lens_id = lens_id;
+            msg.flags = flags;
+            msg.cam_definition_version = cam_definition_version;
+            msg.cam_definition_uri = cam_definition_uri;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19693,6 +24996,7 @@ public partial class MAVLink
     ///<summary> Settings of a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command. </summary>
     public struct mavlink_camera_settings_t
     {
+        /// packet ordered constructor
         public mavlink_camera_settings_t(uint time_boot_ms,/*CAMERA_MODE*/byte mode_id,float zoomLevel,float focusLevel) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19701,6 +25005,20 @@ public partial class MAVLink
             this.focusLevel = focusLevel;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_settings_t PopulateXMLOrder(uint time_boot_ms,/*CAMERA_MODE*/byte mode_id,float zoomLevel,float focusLevel) 
+        {
+            var msg = new mavlink_camera_settings_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.mode_id = mode_id;
+            msg.zoomLevel = zoomLevel;
+            msg.focusLevel = focusLevel;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19733,6 +25051,7 @@ public partial class MAVLink
     ///<summary> Information about a storage medium. This message is sent in response to a request with MAV_CMD_REQUEST_MESSAGE and whenever the status of the storage changes (STORAGE_STATUS). Use MAV_CMD_REQUEST_MESSAGE.param2 to indicate the index/id of requested storage: 0 for all, 1 for first, 2 for second, etc. </summary>
     public struct mavlink_storage_information_t
     {
+        /// packet ordered constructor
         public mavlink_storage_information_t(uint time_boot_ms,float total_capacity,float used_capacity,float available_capacity,float read_speed,float write_speed,byte storage_id,byte storage_count,/*STORAGE_STATUS*/byte status,/*STORAGE_TYPE*/byte type,byte[] name) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19748,6 +25067,27 @@ public partial class MAVLink
             this.name = name;
             
         }
+        
+        /// packet xml order
+        public static mavlink_storage_information_t PopulateXMLOrder(uint time_boot_ms,byte storage_id,byte storage_count,/*STORAGE_STATUS*/byte status,float total_capacity,float used_capacity,float available_capacity,float read_speed,float write_speed,/*STORAGE_TYPE*/byte type,byte[] name) 
+        {
+            var msg = new mavlink_storage_information_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.storage_id = storage_id;
+            msg.storage_count = storage_count;
+            msg.status = status;
+            msg.total_capacity = total_capacity;
+            msg.used_capacity = used_capacity;
+            msg.available_capacity = available_capacity;
+            msg.read_speed = read_speed;
+            msg.write_speed = write_speed;
+            msg.type = type;
+            msg.name = name;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19823,6 +25163,7 @@ public partial class MAVLink
     ///<summary> Information about the status of a capture. Can be requested with a MAV_CMD_REQUEST_MESSAGE command. </summary>
     public struct mavlink_camera_capture_status_t
     {
+        /// packet ordered constructor
         public mavlink_camera_capture_status_t(uint time_boot_ms,float image_interval,uint recording_time_ms,float available_capacity,byte image_status,byte video_status,int image_count) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -19834,6 +25175,23 @@ public partial class MAVLink
             this.image_count = image_count;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_capture_status_t PopulateXMLOrder(uint time_boot_ms,byte image_status,byte video_status,float image_interval,uint recording_time_ms,float available_capacity,int image_count) 
+        {
+            var msg = new mavlink_camera_capture_status_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.image_status = image_status;
+            msg.video_status = video_status;
+            msg.image_interval = image_interval;
+            msg.recording_time_ms = recording_time_ms;
+            msg.available_capacity = available_capacity;
+            msg.image_count = image_count;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -19884,6 +25242,7 @@ public partial class MAVLink
     ///<summary> Information about a captured image. This is emitted every time a message is captured. It may be re-requested using MAV_CMD_REQUEST_MESSAGE, using param2 to indicate the sequence number for the missing image. </summary>
     public struct mavlink_camera_image_captured_t
     {
+        /// packet ordered constructor
         public mavlink_camera_image_captured_t(ulong time_utc,uint time_boot_ms,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,byte camera_id,sbyte capture_result,byte[] file_url) 
         {
             this.time_utc = time_utc;
@@ -19899,6 +25258,27 @@ public partial class MAVLink
             this.file_url = file_url;
             
         }
+        
+        /// packet xml order
+        public static mavlink_camera_image_captured_t PopulateXMLOrder(uint time_boot_ms,ulong time_utc,byte camera_id,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,sbyte capture_result,byte[] file_url) 
+        {
+            var msg = new mavlink_camera_image_captured_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.time_utc = time_utc;
+            msg.camera_id = camera_id;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.relative_alt = relative_alt;
+            msg.q = q;
+            msg.image_index = image_index;
+            msg.capture_result = capture_result;
+            msg.file_url = file_url;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since UNIX epoch) in UTC. 0 for unknown.  [us] </summary>
         [Units("[us]")]
@@ -19975,6 +25355,7 @@ public partial class MAVLink
     ///<summary> Information about flight since last arming. </summary>
     public struct mavlink_flight_information_t
     {
+        /// packet ordered constructor
         public mavlink_flight_information_t(ulong arming_time_utc,ulong takeoff_time_utc,ulong flight_uuid,uint time_boot_ms) 
         {
             this.arming_time_utc = arming_time_utc;
@@ -19983,6 +25364,20 @@ public partial class MAVLink
             this.time_boot_ms = time_boot_ms;
             
         }
+        
+        /// packet xml order
+        public static mavlink_flight_information_t PopulateXMLOrder(uint time_boot_ms,ulong arming_time_utc,ulong takeoff_time_utc,ulong flight_uuid) 
+        {
+            var msg = new mavlink_flight_information_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.arming_time_utc = arming_time_utc;
+            msg.takeoff_time_utc = takeoff_time_utc;
+            msg.flight_uuid = flight_uuid;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp at arming (time since UNIX epoch) in UTC, 0 for unknown  [us] </summary>
         [Units("[us]")]
@@ -20015,6 +25410,7 @@ public partial class MAVLink
     ///<summary> Orientation of a mount </summary>
     public struct mavlink_mount_orientation_t
     {
+        /// packet ordered constructor
         public mavlink_mount_orientation_t(uint time_boot_ms,float roll,float pitch,float yaw,float yaw_absolute) 
         {
             this.time_boot_ms = time_boot_ms;
@@ -20024,6 +25420,21 @@ public partial class MAVLink
             this.yaw_absolute = yaw_absolute;
             
         }
+        
+        /// packet xml order
+        public static mavlink_mount_orientation_t PopulateXMLOrder(uint time_boot_ms,float roll,float pitch,float yaw,float yaw_absolute) 
+        {
+            var msg = new mavlink_mount_orientation_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.roll = roll;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.yaw_absolute = yaw_absolute;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
@@ -20062,6 +25473,7 @@ public partial class MAVLink
     ///<summary> A message containing logged data (see also MAV_CMD_LOGGING_START) </summary>
     public struct mavlink_logging_data_t
     {
+        /// packet ordered constructor
         public mavlink_logging_data_t(ushort sequence,byte target_system,byte target_component,byte length,byte first_message_offset,byte[] data) 
         {
             this.sequence = sequence;
@@ -20072,6 +25484,22 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_logging_data_t PopulateXMLOrder(byte target_system,byte target_component,ushort sequence,byte length,byte first_message_offset,byte[] data) 
+        {
+            var msg = new mavlink_logging_data_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.sequence = sequence;
+            msg.length = length;
+            msg.first_message_offset = first_message_offset;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>sequence number (can wrap)   </summary>
         [Units("")]
@@ -20117,6 +25545,7 @@ public partial class MAVLink
     ///<summary> A message containing logged data which requires a LOGGING_ACK to be sent back </summary>
     public struct mavlink_logging_data_acked_t
     {
+        /// packet ordered constructor
         public mavlink_logging_data_acked_t(ushort sequence,byte target_system,byte target_component,byte length,byte first_message_offset,byte[] data) 
         {
             this.sequence = sequence;
@@ -20127,6 +25556,22 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_logging_data_acked_t PopulateXMLOrder(byte target_system,byte target_component,ushort sequence,byte length,byte first_message_offset,byte[] data) 
+        {
+            var msg = new mavlink_logging_data_acked_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.sequence = sequence;
+            msg.length = length;
+            msg.first_message_offset = first_message_offset;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>sequence number (can wrap)   </summary>
         [Units("")]
@@ -20172,6 +25617,7 @@ public partial class MAVLink
     ///<summary> An ack for a LOGGING_DATA_ACKED message </summary>
     public struct mavlink_logging_ack_t
     {
+        /// packet ordered constructor
         public mavlink_logging_ack_t(ushort sequence,byte target_system,byte target_component) 
         {
             this.sequence = sequence;
@@ -20179,6 +25625,19 @@ public partial class MAVLink
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_logging_ack_t PopulateXMLOrder(byte target_system,byte target_component,ushort sequence) 
+        {
+            var msg = new mavlink_logging_ack_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.sequence = sequence;
+            
+            return msg;
+        }
+        
 
         /// <summary>sequence number (must match the one in LOGGING_DATA_ACKED)   </summary>
         [Units("")]
@@ -20205,6 +25664,7 @@ public partial class MAVLink
     ///<summary> Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc. </summary>
     public struct mavlink_video_stream_information_t
     {
+        /// packet ordered constructor
         public mavlink_video_stream_information_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri) 
         {
             this.framerate = framerate;
@@ -20221,6 +25681,28 @@ public partial class MAVLink
             this.uri = uri;
             
         }
+        
+        /// packet xml order
+        public static mavlink_video_stream_information_t PopulateXMLOrder(byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,ushort hfov,byte[] name,byte[] uri) 
+        {
+            var msg = new mavlink_video_stream_information_t();
+
+            msg.stream_id = stream_id;
+            msg.count = count;
+            msg.type = type;
+            msg.flags = flags;
+            msg.framerate = framerate;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.bitrate = bitrate;
+            msg.rotation = rotation;
+            msg.hfov = hfov;
+            msg.name = name;
+            msg.uri = uri;
+            
+            return msg;
+        }
+        
 
         /// <summary>Frame rate.  [Hz] </summary>
         [Units("[Hz]")]
@@ -20303,6 +25785,7 @@ public partial class MAVLink
     ///<summary> Information about the status of a video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE. </summary>
     public struct mavlink_video_stream_status_t
     {
+        /// packet ordered constructor
         public mavlink_video_stream_status_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id) 
         {
             this.framerate = framerate;
@@ -20315,6 +25798,24 @@ public partial class MAVLink
             this.stream_id = stream_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_video_stream_status_t PopulateXMLOrder(byte stream_id,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,ushort hfov) 
+        {
+            var msg = new mavlink_video_stream_status_t();
+
+            msg.stream_id = stream_id;
+            msg.flags = flags;
+            msg.framerate = framerate;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.bitrate = bitrate;
+            msg.rotation = rotation;
+            msg.hfov = hfov;
+            
+            return msg;
+        }
+        
 
         /// <summary>Frame rate  [Hz] </summary>
         [Units("[Hz]")]
@@ -20367,10 +25868,345 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=52)]
+    ///<summary> Information about the field of view of a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command. </summary>
+    public struct mavlink_camera_fov_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_fov_status_t(uint time_boot_ms,int lat_camera,int lon_camera,int alt_camera,int lat_image,int lon_image,int alt_image,float[] q,float hfov,float vfov) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.lat_camera = lat_camera;
+            this.lon_camera = lon_camera;
+            this.alt_camera = alt_camera;
+            this.lat_image = lat_image;
+            this.lon_image = lon_image;
+            this.alt_image = alt_image;
+            this.q = q;
+            this.hfov = hfov;
+            this.vfov = vfov;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_fov_status_t PopulateXMLOrder(uint time_boot_ms,int lat_camera,int lon_camera,int alt_camera,int lat_image,int lon_image,int alt_image,float[] q,float hfov,float vfov) 
+        {
+            var msg = new mavlink_camera_fov_status_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.lat_camera = lat_camera;
+            msg.lon_camera = lon_camera;
+            msg.alt_camera = alt_camera;
+            msg.lat_image = lat_image;
+            msg.lon_image = lon_image;
+            msg.alt_image = alt_image;
+            msg.q = q;
+            msg.hfov = hfov;
+            msg.vfov = vfov;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Latitude of camera (INT32_MAX if unknown).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of camera (INT32_MAX if unknown).")]
+        //[FieldOffset(4)]
+        public  int lat_camera;
+
+        /// <summary>Longitude of camera (INT32_MAX if unknown).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of camera (INT32_MAX if unknown).")]
+        //[FieldOffset(8)]
+        public  int lon_camera;
+
+        /// <summary>Altitude (MSL) of camera (INT32_MAX if unknown).  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (MSL) of camera (INT32_MAX if unknown).")]
+        //[FieldOffset(12)]
+        public  int alt_camera;
+
+        /// <summary>Latitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).")]
+        //[FieldOffset(16)]
+        public  int lat_image;
+
+        /// <summary>Longitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).")]
+        //[FieldOffset(20)]
+        public  int lon_image;
+
+        /// <summary>Altitude (MSL) of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (MSL) of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).")]
+        //[FieldOffset(24)]
+        public  int alt_image;
+
+        /// <summary>Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+        [Units("")]
+        [Description("Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(28)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>Horizontal field of view (NaN if unknown).  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Horizontal field of view (NaN if unknown).")]
+        //[FieldOffset(44)]
+        public  float hfov;
+
+        /// <summary>Vertical field of view (NaN if unknown).  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Vertical field of view (NaN if unknown).")]
+        //[FieldOffset(48)]
+        public  float vfov;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=31)]
+    ///<summary> Camera tracking status, sent while in active tracking. Use MAV_CMD_SET_MESSAGE_INTERVAL to define message interval. </summary>
+    public struct mavlink_camera_tracking_image_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_tracking_image_status_t(float point_x,float point_y,float radius,float rec_top_x,float rec_top_y,float rec_bottom_x,float rec_bottom_y,/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status,/*CAMERA_TRACKING_MODE*/byte tracking_mode,/*CAMERA_TRACKING_TARGET_DATA*/byte target_data) 
+        {
+            this.point_x = point_x;
+            this.point_y = point_y;
+            this.radius = radius;
+            this.rec_top_x = rec_top_x;
+            this.rec_top_y = rec_top_y;
+            this.rec_bottom_x = rec_bottom_x;
+            this.rec_bottom_y = rec_bottom_y;
+            this.tracking_status = tracking_status;
+            this.tracking_mode = tracking_mode;
+            this.target_data = target_data;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_tracking_image_status_t PopulateXMLOrder(/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status,/*CAMERA_TRACKING_MODE*/byte tracking_mode,/*CAMERA_TRACKING_TARGET_DATA*/byte target_data,float point_x,float point_y,float radius,float rec_top_x,float rec_top_y,float rec_bottom_x,float rec_bottom_y) 
+        {
+            var msg = new mavlink_camera_tracking_image_status_t();
+
+            msg.tracking_status = tracking_status;
+            msg.tracking_mode = tracking_mode;
+            msg.target_data = target_data;
+            msg.point_x = point_x;
+            msg.point_y = point_y;
+            msg.radius = radius;
+            msg.rec_top_x = rec_top_x;
+            msg.rec_top_y = rec_top_y;
+            msg.rec_bottom_x = rec_bottom_x;
+            msg.rec_bottom_y = rec_bottom_y;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Current tracked point x value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is left, 1 is right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked point x value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is left, 1 is right), NAN if unknown")]
+        //[FieldOffset(0)]
+        public  float point_x;
+
+        /// <summary>Current tracked point y value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked point y value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown")]
+        //[FieldOffset(4)]
+        public  float point_y;
+
+        /// <summary>Current tracked radius if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is image left, 1 is image right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked radius if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is image left, 1 is image right), NAN if unknown")]
+        //[FieldOffset(8)]
+        public  float radius;
+
+        /// <summary>Current tracked rectangle top x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle top x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown")]
+        //[FieldOffset(12)]
+        public  float rec_top_x;
+
+        /// <summary>Current tracked rectangle top y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle top y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown")]
+        //[FieldOffset(16)]
+        public  float rec_top_y;
+
+        /// <summary>Current tracked rectangle bottom x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle bottom x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown")]
+        //[FieldOffset(20)]
+        public  float rec_bottom_x;
+
+        /// <summary>Current tracked rectangle bottom y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown   </summary>
+        [Units("")]
+        [Description("Current tracked rectangle bottom y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown")]
+        //[FieldOffset(24)]
+        public  float rec_bottom_y;
+
+        /// <summary>Current tracking status CAMERA_TRACKING_STATUS_FLAGS  </summary>
+        [Units("")]
+        [Description("Current tracking status")]
+        //[FieldOffset(28)]
+        public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
+
+        /// <summary>Current tracking mode CAMERA_TRACKING_MODE  </summary>
+        [Units("")]
+        [Description("Current tracking mode")]
+        //[FieldOffset(29)]
+        public  /*CAMERA_TRACKING_MODE*/byte tracking_mode;
+
+        /// <summary>Defines location of target data CAMERA_TRACKING_TARGET_DATA  </summary>
+        [Units("")]
+        [Description("Defines location of target data")]
+        //[FieldOffset(30)]
+        public  /*CAMERA_TRACKING_TARGET_DATA*/byte target_data;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=49)]
+    ///<summary> Camera tracking status, sent while in active tracking. Use MAV_CMD_SET_MESSAGE_INTERVAL to define message interval. </summary>
+    public struct mavlink_camera_tracking_geo_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_tracking_geo_status_t(int lat,int lon,float alt,float h_acc,float v_acc,float vel_n,float vel_e,float vel_d,float vel_acc,float dist,float hdg,float hdg_acc,/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status) 
+        {
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.h_acc = h_acc;
+            this.v_acc = v_acc;
+            this.vel_n = vel_n;
+            this.vel_e = vel_e;
+            this.vel_d = vel_d;
+            this.vel_acc = vel_acc;
+            this.dist = dist;
+            this.hdg = hdg;
+            this.hdg_acc = hdg_acc;
+            this.tracking_status = tracking_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_tracking_geo_status_t PopulateXMLOrder(/*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status,int lat,int lon,float alt,float h_acc,float v_acc,float vel_n,float vel_e,float vel_d,float vel_acc,float dist,float hdg,float hdg_acc) 
+        {
+            var msg = new mavlink_camera_tracking_geo_status_t();
+
+            msg.tracking_status = tracking_status;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.h_acc = h_acc;
+            msg.v_acc = v_acc;
+            msg.vel_n = vel_n;
+            msg.vel_e = vel_e;
+            msg.vel_d = vel_d;
+            msg.vel_acc = vel_acc;
+            msg.dist = dist;
+            msg.hdg = hdg;
+            msg.hdg_acc = hdg_acc;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Latitude of tracked object  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of tracked object")]
+        //[FieldOffset(0)]
+        public  int lat;
+
+        /// <summary>Longitude of tracked object  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of tracked object")]
+        //[FieldOffset(4)]
+        public  int lon;
+
+        /// <summary>Altitude of tracked object(AMSL, WGS84)  [m] </summary>
+        [Units("[m]")]
+        [Description("Altitude of tracked object(AMSL, WGS84)")]
+        //[FieldOffset(8)]
+        public  float alt;
+
+        /// <summary>Horizontal accuracy. NAN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Horizontal accuracy. NAN if unknown")]
+        //[FieldOffset(12)]
+        public  float h_acc;
+
+        /// <summary>Vertical accuracy. NAN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Vertical accuracy. NAN if unknown")]
+        //[FieldOffset(16)]
+        public  float v_acc;
+
+        /// <summary>North velocity of tracked object. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("North velocity of tracked object. NAN if unknown")]
+        //[FieldOffset(20)]
+        public  float vel_n;
+
+        /// <summary>East velocity of tracked object. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("East velocity of tracked object. NAN if unknown")]
+        //[FieldOffset(24)]
+        public  float vel_e;
+
+        /// <summary>Down velocity of tracked object. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Down velocity of tracked object. NAN if unknown")]
+        //[FieldOffset(28)]
+        public  float vel_d;
+
+        /// <summary>Velocity accuracy. NAN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Velocity accuracy. NAN if unknown")]
+        //[FieldOffset(32)]
+        public  float vel_acc;
+
+        /// <summary>Distance between camera and tracked object. NAN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance between camera and tracked object. NAN if unknown")]
+        //[FieldOffset(36)]
+        public  float dist;
+
+        /// <summary>Heading in radians, in NED. NAN if unknown  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Heading in radians, in NED. NAN if unknown")]
+        //[FieldOffset(40)]
+        public  float hdg;
+
+        /// <summary>Accuracy of heading, in NED. NAN if unknown  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Accuracy of heading, in NED. NAN if unknown")]
+        //[FieldOffset(44)]
+        public  float hdg_acc;
+
+        /// <summary>Current tracking status CAMERA_TRACKING_STATUS_FLAGS  </summary>
+        [Units("")]
+        [Description("Current tracking status")]
+        //[FieldOffset(48)]
+        public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=144)]
     ///<summary> Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by software used are likely different/smaller and dependent on mode/settings/etc.. </summary>
     public struct mavlink_gimbal_device_information_t
     {
+        /// packet ordered constructor
         public mavlink_gimbal_device_information_t(ulong uid,uint time_boot_ms,uint firmware_version,uint hardware_version,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max,/*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags,ushort custom_cap_flags,byte[] vendor_name,byte[] model_name,byte[] custom_name) 
         {
             this.uid = uid;
@@ -20390,6 +26226,31 @@ public partial class MAVLink
             this.custom_name = custom_name;
             
         }
+        
+        /// packet xml order
+        public static mavlink_gimbal_device_information_t PopulateXMLOrder(uint time_boot_ms,byte[] vendor_name,byte[] model_name,byte[] custom_name,uint firmware_version,uint hardware_version,ulong uid,/*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags,ushort custom_cap_flags,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max) 
+        {
+            var msg = new mavlink_gimbal_device_information_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.vendor_name = vendor_name;
+            msg.model_name = model_name;
+            msg.custom_name = custom_name;
+            msg.firmware_version = firmware_version;
+            msg.hardware_version = hardware_version;
+            msg.uid = uid;
+            msg.cap_flags = cap_flags;
+            msg.custom_cap_flags = custom_cap_flags;
+            msg.roll_min = roll_min;
+            msg.roll_max = roll_max;
+            msg.pitch_min = pitch_min;
+            msg.pitch_max = pitch_max;
+            msg.yaw_min = yaw_min;
+            msg.yaw_max = yaw_max;
+            
+            return msg;
+        }
+        
 
         /// <summary>UID of gimbal hardware (0 if unknown).   </summary>
         [Units("")]
@@ -20485,12 +26346,189 @@ public partial class MAVLink
 		public byte[] custom_name;
     };
 
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Low level message to control a gimbal device's attitude. This message is to be sent from the gimbal manager to the gimbal device component. Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_gimbal_device_set_attitude_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_device_set_attitude_t(float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
+        {
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_device_set_attitude_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
+        {
+            var msg = new mavlink_gimbal_device_set_attitude_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity, positive is rolling to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity, positive is rolling to the right, NaN to be ignored.")]
+        //[FieldOffset(16)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity, positive is pitching up, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity, positive is pitching up, NaN to be ignored.")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity, positive is yawing to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity, positive is yawing to the right, NaN to be ignored.")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_z;
+
+        /// <summary>Low level gimbal flags. GIMBAL_DEVICE_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Low level gimbal flags.")]
+        //[FieldOffset(28)]
+        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(30)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(31)]
+        public  byte target_component;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
+    ///<summary> Message reporting the status of a gimbal device. This message should be broadcasted by a gimbal device component. The angles encoded in the quaternion are relative to absolute North if the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set (roll: positive is rolling to the right, pitch: positive is pitching up, yaw is turn to the right) or relative to the vehicle heading if the flag is not set. This message should be broadcast at a low regular rate (e.g. 10Hz). </summary>
+    public struct mavlink_gimbal_device_attitude_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_device_attitude_status_t(uint time_boot_ms,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.failure_flags = failure_flags;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_device_attitude_status_t PopulateXMLOrder(byte target_system,byte target_component,uint time_boot_ms,/*GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags) 
+        {
+            var msg = new mavlink_gimbal_device_attitude_status_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.time_boot_ms = time_boot_ms;
+            msg.flags = flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            msg.failure_flags = failure_flags;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set)   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set)")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity (NaN if unknown)  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity (NaN if unknown)")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity (NaN if unknown)  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity (NaN if unknown)")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity (NaN if unknown)  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity (NaN if unknown)")]
+        //[FieldOffset(28)]
+        public  float angular_velocity_z;
+
+        /// <summary>Failure flags (0 for no failure) GIMBAL_DEVICE_ERROR_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Failure flags (0 for no failure)")]
+        //[FieldOffset(32)]
+        public  /*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags;
+
+        /// <summary>Current gimbal flags set. GIMBAL_DEVICE_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Current gimbal flags set.")]
+        //[FieldOffset(36)]
+        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(38)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(39)]
+        public  byte target_component;
+    };
+
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=53)]
     ///<summary> Low level message containing autopilot state relevant for a gimbal device. This message is to be sent from the gimbal manager to the gimbal device component. The data of this message server for the gimbal's estimator corrections in particular horizon compensation, as well as the autopilot's control intention e.g. feed forward angular control in z-axis. </summary>
     public struct mavlink_autopilot_state_for_gimbal_device_t
     {
+        /// packet ordered constructor
         public mavlink_autopilot_state_for_gimbal_device_t(ulong time_boot_us,float[] q,uint q_estimated_delay_us,float vx,float vy,float vz,uint v_estimated_delay_us,float feed_forward_angular_velocity_z,/*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status,byte target_system,byte target_component,/*MAV_LANDED_STATE*/byte landed_state) 
         {
             this.time_boot_us = time_boot_us;
@@ -20507,6 +26545,28 @@ public partial class MAVLink
             this.landed_state = landed_state;
             
         }
+        
+        /// packet xml order
+        public static mavlink_autopilot_state_for_gimbal_device_t PopulateXMLOrder(byte target_system,byte target_component,ulong time_boot_us,float[] q,uint q_estimated_delay_us,float vx,float vy,float vz,uint v_estimated_delay_us,float feed_forward_angular_velocity_z,/*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status,/*MAV_LANDED_STATE*/byte landed_state) 
+        {
+            var msg = new mavlink_autopilot_state_for_gimbal_device_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.time_boot_us = time_boot_us;
+            msg.q = q;
+            msg.q_estimated_delay_us = q_estimated_delay_us;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.v_estimated_delay_us = v_estimated_delay_us;
+            msg.feed_forward_angular_velocity_z = feed_forward_angular_velocity_z;
+            msg.estimator_status = estimator_status;
+            msg.landed_state = landed_state;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (time since system boot).  [us] </summary>
         [Units("[us]")]
@@ -20582,18 +26642,119 @@ public partial class MAVLink
         public  /*MAV_LANDED_STATE*/byte landed_state;
     };
 
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
+    ///<summary> High level message to control a gimbal's attitude. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_gimbal_manager_set_attitude_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_manager_set_attitude_t(/*GIMBAL_MANAGER_FLAGS*/uint flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,byte target_system,byte target_component,byte gimbal_device_id) 
+        {
+            this.flags = flags;
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_manager_set_attitude_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_MANAGER_FLAGS*/uint flags,byte gimbal_device_id,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
+        {
+            var msg = new mavlink_gimbal_manager_set_attitude_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.gimbal_device_id = gimbal_device_id;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>High level gimbal manager flags to use. GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("High level gimbal manager flags to use.")]
+        //[FieldOffset(0)]
+        public  /*GIMBAL_MANAGER_FLAGS*/uint flags;
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_MANAGER_FLAGS_YAW_LOCK is set)   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_MANAGER_FLAGS_YAW_LOCK is set)")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity, positive is rolling to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity, positive is rolling to the right, NaN to be ignored.")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity, positive is pitching up, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity, positive is pitching up, NaN to be ignored.")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity, positive is yawing to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity, positive is yawing to the right, NaN to be ignored.")]
+        //[FieldOffset(28)]
+        public  float angular_velocity_z;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(32)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(33)]
+        public  byte target_component;
+
+        /// <summary>Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).")]
+        //[FieldOffset(34)]
+        public  byte gimbal_device_id;
+    };
+
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=96)]
     ///<summary> Configure WiFi AP SSID, password, and mode. This message is re-emitted as an acknowledgement by the AP. The message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE </summary>
     public struct mavlink_wifi_config_ap_t
     {
+        /// packet ordered constructor
         public mavlink_wifi_config_ap_t(byte[] ssid,byte[] password) 
         {
             this.ssid = ssid;
             this.password = password;
             
         }
+        
+        /// packet xml order
+        public static mavlink_wifi_config_ap_t PopulateXMLOrder(byte[] ssid,byte[] password) 
+        {
+            var msg = new mavlink_wifi_config_ap_t();
+
+            msg.ssid = ssid;
+            msg.password = password;
+            
+            return msg;
+        }
+        
 
         /// <summary>Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a response.   </summary>
         [Units("")]
@@ -20610,12 +26771,13 @@ public partial class MAVLink
 		public byte[] password;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=58)]
     ///<summary> The location and information of an AIS vessel </summary>
     public struct mavlink_ais_vessel_t
     {
+        /// packet ordered constructor
         public mavlink_ais_vessel_t(uint MMSI,int lat,int lon,ushort COG,ushort heading,ushort velocity,ushort dimension_bow,ushort dimension_stern,ushort tslc,/*AIS_FLAGS*/ushort flags,sbyte turn_rate,/*AIS_NAV_STATUS*/byte navigational_status,/*AIS_TYPE*/byte type,byte dimension_port,byte dimension_starboard,byte[] callsign,byte[] name) 
         {
             this.MMSI = MMSI;
@@ -20637,6 +26799,33 @@ public partial class MAVLink
             this.name = name;
             
         }
+        
+        /// packet xml order
+        public static mavlink_ais_vessel_t PopulateXMLOrder(uint MMSI,int lat,int lon,ushort COG,ushort heading,ushort velocity,sbyte turn_rate,/*AIS_NAV_STATUS*/byte navigational_status,/*AIS_TYPE*/byte type,ushort dimension_bow,ushort dimension_stern,byte dimension_port,byte dimension_starboard,byte[] callsign,byte[] name,ushort tslc,/*AIS_FLAGS*/ushort flags) 
+        {
+            var msg = new mavlink_ais_vessel_t();
+
+            msg.MMSI = MMSI;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.COG = COG;
+            msg.heading = heading;
+            msg.velocity = velocity;
+            msg.turn_rate = turn_rate;
+            msg.navigational_status = navigational_status;
+            msg.type = type;
+            msg.dimension_bow = dimension_bow;
+            msg.dimension_stern = dimension_stern;
+            msg.dimension_port = dimension_port;
+            msg.dimension_starboard = dimension_starboard;
+            msg.callsign = callsign;
+            msg.name = name;
+            msg.tslc = tslc;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
 
         /// <summary>Mobile Marine Service Identifier, 9 decimal digits   </summary>
         [Units("")]
@@ -20749,6 +26938,7 @@ public partial class MAVLink
     ///<summary> General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message 'uavcan.protocol.NodeStatus' for the background information. The UAVCAN specification is available at http://uavcan.org. </summary>
     public struct mavlink_uavcan_node_status_t
     {
+        /// packet ordered constructor
         public mavlink_uavcan_node_status_t(ulong time_usec,uint uptime_sec,ushort vendor_specific_status_code,/*UAVCAN_NODE_HEALTH*/byte health,/*UAVCAN_NODE_MODE*/byte mode,byte sub_mode) 
         {
             this.time_usec = time_usec;
@@ -20759,6 +26949,22 @@ public partial class MAVLink
             this.sub_mode = sub_mode;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavcan_node_status_t PopulateXMLOrder(ulong time_usec,uint uptime_sec,/*UAVCAN_NODE_HEALTH*/byte health,/*UAVCAN_NODE_MODE*/byte mode,byte sub_mode,ushort vendor_specific_status_code) 
+        {
+            var msg = new mavlink_uavcan_node_status_t();
+
+            msg.time_usec = time_usec;
+            msg.uptime_sec = uptime_sec;
+            msg.health = health;
+            msg.mode = mode;
+            msg.sub_mode = sub_mode;
+            msg.vendor_specific_status_code = vendor_specific_status_code;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -20803,6 +27009,7 @@ public partial class MAVLink
     ///<summary> General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service 'uavcan.protocol.GetNodeInfo' for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org. </summary>
     public struct mavlink_uavcan_node_info_t
     {
+        /// packet ordered constructor
         public mavlink_uavcan_node_info_t(ulong time_usec,uint uptime_sec,uint sw_vcs_commit,byte[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor) 
         {
             this.time_usec = time_usec;
@@ -20816,6 +27023,25 @@ public partial class MAVLink
             this.sw_version_minor = sw_version_minor;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavcan_node_info_t PopulateXMLOrder(ulong time_usec,uint uptime_sec,byte[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor,uint sw_vcs_commit) 
+        {
+            var msg = new mavlink_uavcan_node_info_t();
+
+            msg.time_usec = time_usec;
+            msg.uptime_sec = uptime_sec;
+            msg.name = name;
+            msg.hw_version_major = hw_version_major;
+            msg.hw_version_minor = hw_version_minor;
+            msg.hw_unique_id = hw_unique_id;
+            msg.sw_version_major = sw_version_major;
+            msg.sw_version_minor = sw_version_minor;
+            msg.sw_vcs_commit = sw_vcs_commit;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -20880,6 +27106,7 @@ public partial class MAVLink
     ///<summary> Request to read the value of a parameter with either the param_id string id or param_index. PARAM_EXT_VALUE should be emitted in response. </summary>
     public struct mavlink_param_ext_request_read_t
     {
+        /// packet ordered constructor
         public mavlink_param_ext_request_read_t(short param_index,byte target_system,byte target_component,byte[] param_id) 
         {
             this.param_index = param_index;
@@ -20888,6 +27115,20 @@ public partial class MAVLink
             this.param_id = param_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_ext_request_read_t PopulateXMLOrder(byte target_system,byte target_component,byte[] param_id,short param_index) 
+        {
+            var msg = new mavlink_param_ext_request_read_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.param_id = param_id;
+            msg.param_index = param_index;
+            
+            return msg;
+        }
+        
 
         /// <summary>Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored)   </summary>
         [Units("")]
@@ -20921,12 +27162,25 @@ public partial class MAVLink
     ///<summary> Request all parameters of this component. All parameters should be emitted in response as PARAM_EXT_VALUE. </summary>
     public struct mavlink_param_ext_request_list_t
     {
+        /// packet ordered constructor
         public mavlink_param_ext_request_list_t(byte target_system,byte target_component) 
         {
             this.target_system = target_system;
             this.target_component = target_component;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_ext_request_list_t PopulateXMLOrder(byte target_system,byte target_component) 
+        {
+            var msg = new mavlink_param_ext_request_list_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -20947,6 +27201,7 @@ public partial class MAVLink
     ///<summary> Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout. </summary>
     public struct mavlink_param_ext_value_t
     {
+        /// packet ordered constructor
         public mavlink_param_ext_value_t(ushort param_count,ushort param_index,byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
         {
             this.param_count = param_count;
@@ -20956,6 +27211,21 @@ public partial class MAVLink
             this.param_type = param_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_ext_value_t PopulateXMLOrder(byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type,ushort param_count,ushort param_index) 
+        {
+            var msg = new mavlink_param_ext_value_t();
+
+            msg.param_id = param_id;
+            msg.param_value = param_value;
+            msg.param_type = param_type;
+            msg.param_count = param_count;
+            msg.param_index = param_index;
+            
+            return msg;
+        }
+        
 
         /// <summary>Total number of parameters   </summary>
         [Units("")]
@@ -20996,6 +27266,7 @@ public partial class MAVLink
     ///<summary> Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response. </summary>
     public struct mavlink_param_ext_set_t
     {
+        /// packet ordered constructor
         public mavlink_param_ext_set_t(byte target_system,byte target_component,byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
         {
             this.target_system = target_system;
@@ -21005,6 +27276,21 @@ public partial class MAVLink
             this.param_type = param_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_ext_set_t PopulateXMLOrder(byte target_system,byte target_component,byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
+        {
+            var msg = new mavlink_param_ext_set_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.param_id = param_id;
+            msg.param_value = param_value;
+            msg.param_type = param_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>System ID   </summary>
         [Units("")]
@@ -21045,6 +27331,7 @@ public partial class MAVLink
     ///<summary> Response from a PARAM_EXT_SET message. </summary>
     public struct mavlink_param_ext_ack_t
     {
+        /// packet ordered constructor
         public mavlink_param_ext_ack_t(byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type,/*PARAM_ACK*/byte param_result) 
         {
             this.param_id = param_id;
@@ -21053,6 +27340,20 @@ public partial class MAVLink
             this.param_result = param_result;
             
         }
+        
+        /// packet xml order
+        public static mavlink_param_ext_ack_t PopulateXMLOrder(byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type,/*PARAM_ACK*/byte param_result) 
+        {
+            var msg = new mavlink_param_ext_ack_t();
+
+            msg.param_id = param_id;
+            msg.param_value = param_value;
+            msg.param_type = param_type;
+            msg.param_result = param_result;
+            
+            return msg;
+        }
+        
 
         /// <summary>Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
@@ -21087,6 +27388,7 @@ public partial class MAVLink
     ///<summary> Obstacle distances in front of the sensor, starting from the left in increment degrees to the right </summary>
     public struct mavlink_obstacle_distance_t
     {
+        /// packet ordered constructor
         public mavlink_obstacle_distance_t(ulong time_usec,ushort[] distances,ushort min_distance,ushort max_distance,/*MAV_DISTANCE_SENSOR*/byte sensor_type,byte increment,float increment_f,float angle_offset,/*MAV_FRAME*/byte frame) 
         {
             this.time_usec = time_usec;
@@ -21100,6 +27402,25 @@ public partial class MAVLink
             this.frame = frame;
             
         }
+        
+        /// packet xml order
+        public static mavlink_obstacle_distance_t PopulateXMLOrder(ulong time_usec,/*MAV_DISTANCE_SENSOR*/byte sensor_type,ushort[] distances,byte increment,ushort min_distance,ushort max_distance,float increment_f,float angle_offset,/*MAV_FRAME*/byte frame) 
+        {
+            var msg = new mavlink_obstacle_distance_t();
+
+            msg.time_usec = time_usec;
+            msg.sensor_type = sensor_type;
+            msg.distances = distances;
+            msg.increment = increment;
+            msg.min_distance = min_distance;
+            msg.max_distance = max_distance;
+            msg.increment_f = increment_f;
+            msg.angle_offset = angle_offset;
+            msg.frame = frame;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -21163,6 +27484,7 @@ public partial class MAVLink
     ///<summary> Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for aerial vehicles (http://www.ros.org/reps/rep-0147.html). </summary>
     public struct mavlink_odometry_t
     {
+        /// packet ordered constructor
         public mavlink_odometry_t(ulong time_usec,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
         {
             this.time_usec = time_usec;
@@ -21184,6 +27506,33 @@ public partial class MAVLink
             this.estimator_type = estimator_type;
             
         }
+        
+        /// packet xml order
+        public static mavlink_odometry_t PopulateXMLOrder(ulong time_usec,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
+        {
+            var msg = new mavlink_odometry_t();
+
+            msg.time_usec = time_usec;
+            msg.frame_id = frame_id;
+            msg.child_frame_id = child_frame_id;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
+            msg.q = q;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.rollspeed = rollspeed;
+            msg.pitchspeed = pitchspeed;
+            msg.yawspeed = yawspeed;
+            msg.pose_covariance = pose_covariance;
+            msg.velocity_covariance = velocity_covariance;
+            msg.reset_counter = reset_counter;
+            msg.estimator_type = estimator_type;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -21297,6 +27646,7 @@ public partial class MAVLink
     ///<summary> Status of the Iridium SBD link. </summary>
     public struct mavlink_isbd_link_status_t
     {
+        /// packet ordered constructor
         public mavlink_isbd_link_status_t(ulong timestamp,ulong last_heartbeat,ushort failed_sessions,ushort successful_sessions,byte signal_quality,byte ring_pending,byte tx_session_pending,byte rx_session_pending) 
         {
             this.timestamp = timestamp;
@@ -21309,6 +27659,24 @@ public partial class MAVLink
             this.rx_session_pending = rx_session_pending;
             
         }
+        
+        /// packet xml order
+        public static mavlink_isbd_link_status_t PopulateXMLOrder(ulong timestamp,ulong last_heartbeat,ushort failed_sessions,ushort successful_sessions,byte signal_quality,byte ring_pending,byte tx_session_pending,byte rx_session_pending) 
+        {
+            var msg = new mavlink_isbd_link_status_t();
+
+            msg.timestamp = timestamp;
+            msg.last_heartbeat = last_heartbeat;
+            msg.failed_sessions = failed_sessions;
+            msg.successful_sessions = successful_sessions;
+            msg.signal_quality = signal_quality;
+            msg.ring_pending = ring_pending;
+            msg.tx_session_pending = tx_session_pending;
+            msg.rx_session_pending = rx_session_pending;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -21365,12 +27733,25 @@ public partial class MAVLink
     ///<summary> RPM sensor data message. </summary>
     public struct mavlink_raw_rpm_t
     {
+        /// packet ordered constructor
         public mavlink_raw_rpm_t(float frequency,byte index) 
         {
             this.frequency = frequency;
             this.index = index;
             
         }
+        
+        /// packet xml order
+        public static mavlink_raw_rpm_t PopulateXMLOrder(byte index,float frequency) 
+        {
+            var msg = new mavlink_raw_rpm_t();
+
+            msg.index = index;
+            msg.frequency = frequency;
+            
+            return msg;
+        }
+        
 
         /// <summary>Indicated rate  [rpm] </summary>
         [Units("[rpm]")]
@@ -21391,6 +27772,7 @@ public partial class MAVLink
     ///<summary> The global position resulting from GPS and sensor fusion. </summary>
     public struct mavlink_utm_global_position_t
     {
+        /// packet ordered constructor
         public mavlink_utm_global_position_t(ulong time,int lat,int lon,int alt,int relative_alt,int next_lat,int next_lon,int next_alt,short vx,short vy,short vz,ushort h_acc,ushort v_acc,ushort vel_acc,ushort update_rate,byte[] uas_id,/*UTM_FLIGHT_STATE*/byte flight_state,/*UTM_DATA_AVAIL_FLAGS*/byte flags) 
         {
             this.time = time;
@@ -21413,6 +27795,34 @@ public partial class MAVLink
             this.flags = flags;
             
         }
+        
+        /// packet xml order
+        public static mavlink_utm_global_position_t PopulateXMLOrder(ulong time,byte[] uas_id,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort h_acc,ushort v_acc,ushort vel_acc,int next_lat,int next_lon,int next_alt,ushort update_rate,/*UTM_FLIGHT_STATE*/byte flight_state,/*UTM_DATA_AVAIL_FLAGS*/byte flags) 
+        {
+            var msg = new mavlink_utm_global_position_t();
+
+            msg.time = time;
+            msg.uas_id = uas_id;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.relative_alt = relative_alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.h_acc = h_acc;
+            msg.v_acc = v_acc;
+            msg.vel_acc = vel_acc;
+            msg.next_lat = next_lat;
+            msg.next_lon = next_lon;
+            msg.next_alt = next_alt;
+            msg.update_rate = update_rate;
+            msg.flight_state = flight_state;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
 
         /// <summary>Time of applicability of position (microseconds since UNIX epoch).  [us] </summary>
         [Units("[us]")]
@@ -21530,6 +27940,7 @@ public partial class MAVLink
     ///<summary> Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in production code. </summary>
     public struct mavlink_debug_float_array_t
     {
+        /// packet ordered constructor
         public mavlink_debug_float_array_t(ulong time_usec,ushort array_id,byte[] name,float[] data) 
         {
             this.time_usec = time_usec;
@@ -21538,6 +27949,20 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_debug_float_array_t PopulateXMLOrder(ulong time_usec,byte[] name,ushort array_id,float[] data) 
+        {
+            var msg = new mavlink_debug_float_array_t();
+
+            msg.time_usec = time_usec;
+            msg.name = name;
+            msg.array_id = array_id;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
@@ -21572,6 +27997,7 @@ public partial class MAVLink
     ///<summary> Smart Battery information (static/infrequent update). Use for updates from: smart battery to flight stack, flight stack to GCS. Use BATTERY_STATUS for smart battery frequent updates. </summary>
     public struct mavlink_smart_battery_info_t
     {
+        /// packet ordered constructor
         public mavlink_smart_battery_info_t(int capacity_full_specification,int capacity_full,ushort cycle_count,ushort weight,ushort discharge_minimum_voltage,ushort charging_minimum_voltage,ushort resting_minimum_voltage,byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,byte[] serial_number,byte[] device_name,ushort charging_maximum_voltage,byte cells_in_series,uint discharge_maximum_current,uint discharge_maximum_burst_current,byte[] manufacture_date) 
         {
             this.capacity_full_specification = capacity_full_specification;
@@ -21593,6 +28019,33 @@ public partial class MAVLink
             this.manufacture_date = manufacture_date;
             
         }
+        
+        /// packet xml order
+        public static mavlink_smart_battery_info_t PopulateXMLOrder(byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,int capacity_full_specification,int capacity_full,ushort cycle_count,byte[] serial_number,byte[] device_name,ushort weight,ushort discharge_minimum_voltage,ushort charging_minimum_voltage,ushort resting_minimum_voltage,ushort charging_maximum_voltage,byte cells_in_series,uint discharge_maximum_current,uint discharge_maximum_burst_current,byte[] manufacture_date) 
+        {
+            var msg = new mavlink_smart_battery_info_t();
+
+            msg.id = id;
+            msg.battery_function = battery_function;
+            msg.type = type;
+            msg.capacity_full_specification = capacity_full_specification;
+            msg.capacity_full = capacity_full;
+            msg.cycle_count = cycle_count;
+            msg.serial_number = serial_number;
+            msg.device_name = device_name;
+            msg.weight = weight;
+            msg.discharge_minimum_voltage = discharge_minimum_voltage;
+            msg.charging_minimum_voltage = charging_minimum_voltage;
+            msg.resting_minimum_voltage = resting_minimum_voltage;
+            msg.charging_maximum_voltage = charging_maximum_voltage;
+            msg.cells_in_series = cells_in_series;
+            msg.discharge_maximum_current = discharge_maximum_current;
+            msg.discharge_maximum_burst_current = discharge_maximum_burst_current;
+            msg.manufacture_date = manufacture_date;
+            
+            return msg;
+        }
+        
 
         /// <summary>Capacity when full according to manufacturer, -1: field not provided.  [mAh] </summary>
         [Units("[mAh]")]
@@ -21706,6 +28159,7 @@ public partial class MAVLink
     ///<summary> Telemetry of power generation system. Alternator or mechanical generator. </summary>
     public struct mavlink_generator_status_t
     {
+        /// packet ordered constructor
         public mavlink_generator_status_t(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,float battery_current,float load_current,float power_generated,float bus_voltage,float bat_current_setpoint,uint runtime,int time_until_maintenance,ushort generator_speed,short rectifier_temperature,short generator_temperature) 
         {
             this.status = status;
@@ -21721,6 +28175,27 @@ public partial class MAVLink
             this.generator_temperature = generator_temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_generator_status_t PopulateXMLOrder(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,ushort generator_speed,float battery_current,float load_current,float power_generated,float bus_voltage,short rectifier_temperature,float bat_current_setpoint,short generator_temperature,uint runtime,int time_until_maintenance) 
+        {
+            var msg = new mavlink_generator_status_t();
+
+            msg.status = status;
+            msg.generator_speed = generator_speed;
+            msg.battery_current = battery_current;
+            msg.load_current = load_current;
+            msg.power_generated = power_generated;
+            msg.bus_voltage = bus_voltage;
+            msg.rectifier_temperature = rectifier_temperature;
+            msg.bat_current_setpoint = bat_current_setpoint;
+            msg.generator_temperature = generator_temperature;
+            msg.runtime = runtime;
+            msg.time_until_maintenance = time_until_maintenance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Status flags. MAV_GENERATOR_STATUS_FLAG  bitmask</summary>
         [Units("")]
@@ -21795,6 +28270,7 @@ public partial class MAVLink
     ///<summary> The raw values of the actuator outputs (e.g. on Pixhawk, from MAIN, AUX ports). This message supersedes SERVO_OUTPUT_RAW. </summary>
     public struct mavlink_actuator_output_status_t
     {
+        /// packet ordered constructor
         public mavlink_actuator_output_status_t(ulong time_usec,uint active,float[] actuator) 
         {
             this.time_usec = time_usec;
@@ -21802,6 +28278,19 @@ public partial class MAVLink
             this.actuator = actuator;
             
         }
+        
+        /// packet xml order
+        public static mavlink_actuator_output_status_t PopulateXMLOrder(ulong time_usec,uint active,float[] actuator) 
+        {
+            var msg = new mavlink_actuator_output_status_t();
+
+            msg.time_usec = time_usec;
+            msg.active = active;
+            msg.actuator = actuator;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (since system boot).  [us] </summary>
         [Units("[us]")]
@@ -21829,6 +28318,7 @@ public partial class MAVLink
     ///<summary> Message for transporting 'arbitrary' variable-length data from one component to another (broadcast is not forbidden, but discouraged). The encoding of the data is usually extension specific, i.e. determined by the source, and is usually not documented as part of the MAVLink specification. </summary>
     public struct mavlink_tunnel_t
     {
+        /// packet ordered constructor
         public mavlink_tunnel_t(/*MAV_TUNNEL_PAYLOAD_TYPE*/ushort payload_type,byte target_system,byte target_component,byte payload_length,byte[] payload) 
         {
             this.payload_type = payload_type;
@@ -21838,6 +28328,21 @@ public partial class MAVLink
             this.payload = payload;
             
         }
+        
+        /// packet xml order
+        public static mavlink_tunnel_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_TUNNEL_PAYLOAD_TYPE*/ushort payload_type,byte payload_length,byte[] payload) 
+        {
+            var msg = new mavlink_tunnel_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.payload_type = payload_type;
+            msg.payload_length = payload_length;
+            msg.payload = payload;
+            
+            return msg;
+        }
+        
 
         /// <summary>A code that identifies the content of the payload (0 for unknown, which is the default). If this code is less than 32768, it is a 'registered' payload type and the corresponding code should be added to the MAV_TUNNEL_PAYLOAD_TYPE enum. Software creators can register blocks of types as needed. Codes greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase. MAV_TUNNEL_PAYLOAD_TYPE  </summary>
         [Units("")]
@@ -21877,6 +28382,7 @@ public partial class MAVLink
     ///<summary> A forwarded CAN frame as requested by MAV_CMD_CAN_FORWARD. </summary>
     public struct mavlink_can_frame_t
     {
+        /// packet ordered constructor
         public mavlink_can_frame_t(uint id,byte target_system,byte target_component,byte bus,byte len,byte[] data) 
         {
             this.id = id;
@@ -21887,6 +28393,22 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_can_frame_t PopulateXMLOrder(byte target_system,byte target_component,byte bus,byte len,uint id,byte[] data) 
+        {
+            var msg = new mavlink_can_frame_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.bus = bus;
+            msg.len = len;
+            msg.id = id;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Frame ID   </summary>
         [Units("")]
@@ -21932,6 +28454,7 @@ public partial class MAVLink
     ///<summary> A forwarded CANFD frame as requested by MAV_CMD_CAN_FORWARD. These are separated from CAN_FRAME as they need different handling (eg. TAO handling) </summary>
     public struct mavlink_canfd_frame_t
     {
+        /// packet ordered constructor
         public mavlink_canfd_frame_t(uint id,byte target_system,byte target_component,byte bus,byte len,byte[] data) 
         {
             this.id = id;
@@ -21942,6 +28465,22 @@ public partial class MAVLink
             this.data = data;
             
         }
+        
+        /// packet xml order
+        public static mavlink_canfd_frame_t PopulateXMLOrder(byte target_system,byte target_component,byte bus,byte len,uint id,byte[] data) 
+        {
+            var msg = new mavlink_canfd_frame_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.bus = bus;
+            msg.len = len;
+            msg.id = id;
+            msg.data = data;
+            
+            return msg;
+        }
+        
 
         /// <summary>Frame ID   </summary>
         [Units("")]
@@ -21987,6 +28526,7 @@ public partial class MAVLink
     ///<summary> Modify the filter of what CAN messages to forward over the mavlink. This can be used to make CAN forwarding work well on low bandwith links. The filtering is applied on bits 8 to 24 of the CAN id (2nd and 3rd bytes) which corresponds to the DroneCAN message ID for DroneCAN. Filters with more than 16 IDs can be constructed by sending multiple CAN_FILTER_MODIFY messages. </summary>
     public struct mavlink_can_filter_modify_t
     {
+        /// packet ordered constructor
         public mavlink_can_filter_modify_t(ushort[] ids,byte target_system,byte target_component,byte bus,/*CAN_FILTER_OP*/byte operation,byte num_ids) 
         {
             this.ids = ids;
@@ -21997,6 +28537,22 @@ public partial class MAVLink
             this.num_ids = num_ids;
             
         }
+        
+        /// packet xml order
+        public static mavlink_can_filter_modify_t PopulateXMLOrder(byte target_system,byte target_component,byte bus,/*CAN_FILTER_OP*/byte operation,byte num_ids,ushort[] ids) 
+        {
+            var msg = new mavlink_can_filter_modify_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.bus = bus;
+            msg.operation = operation;
+            msg.num_ids = num_ids;
+            msg.ids = ids;
+            
+            return msg;
+        }
+        
 
         /// <summary>filter IDs, length num_ids   </summary>
         [Units("")]
@@ -22042,6 +28598,7 @@ public partial class MAVLink
     ///<summary> Cumulative distance traveled for each reported wheel. </summary>
     public struct mavlink_wheel_distance_t
     {
+        /// packet ordered constructor
         public mavlink_wheel_distance_t(ulong time_usec,double[] distance,byte count) 
         {
             this.time_usec = time_usec;
@@ -22049,6 +28606,19 @@ public partial class MAVLink
             this.count = count;
             
         }
+        
+        /// packet xml order
+        public static mavlink_wheel_distance_t PopulateXMLOrder(ulong time_usec,byte count,double[] distance) 
+        {
+            var msg = new mavlink_wheel_distance_t();
+
+            msg.time_usec = time_usec;
+            msg.count = count;
+            msg.distance = distance;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
         [Units("[us]")]
@@ -22076,6 +28646,7 @@ public partial class MAVLink
     ///<summary> Winch status. </summary>
     public struct mavlink_winch_status_t
     {
+        /// packet ordered constructor
         public mavlink_winch_status_t(ulong time_usec,float line_length,float speed,float tension,float voltage,float current,/*MAV_WINCH_STATUS_FLAG*/uint status,short temperature) 
         {
             this.time_usec = time_usec;
@@ -22088,6 +28659,24 @@ public partial class MAVLink
             this.temperature = temperature;
             
         }
+        
+        /// packet xml order
+        public static mavlink_winch_status_t PopulateXMLOrder(ulong time_usec,float line_length,float speed,float tension,float voltage,float current,short temperature,/*MAV_WINCH_STATUS_FLAG*/uint status) 
+        {
+            var msg = new mavlink_winch_status_t();
+
+            msg.time_usec = time_usec;
+            msg.line_length = line_length;
+            msg.speed = speed;
+            msg.tension = tension;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.temperature = temperature;
+            msg.status = status;
+            
+            return msg;
+        }
+        
 
         /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
         [Units("[us]")]
@@ -22138,12 +28727,817 @@ public partial class MAVLink
         public  short temperature;
     };
 
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> Data for filling the OpenDroneID Basic ID message. This and the below messages are primarily meant for feeding data to/from an OpenDroneID implementation. E.g. https://github.com/opendroneid/opendroneid-core-c. These messages are compatible with the ASTM F3411 Remote ID standard and the ASD-STAN prEN 4709-002 Direct Remote ID standard. Additional information and usage of these messages is documented at https://mavlink.io/en/services/opendroneid.html. </summary>
+    public struct mavlink_open_drone_id_basic_id_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_basic_id_t(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_ID_TYPE*/byte id_type,/*MAV_ODID_UA_TYPE*/byte ua_type,byte[] uas_id) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.id_type = id_type;
+            this.ua_type = ua_type;
+            this.uas_id = uas_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_basic_id_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_ID_TYPE*/byte id_type,/*MAV_ODID_UA_TYPE*/byte ua_type,byte[] uas_id) 
+        {
+            var msg = new mavlink_open_drone_id_basic_id_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.id_type = id_type;
+            msg.ua_type = ua_type;
+            msg.uas_id = uas_id;
+            
+            return msg;
+        }
+        
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the format for the uas_id field of this message. MAV_ODID_ID_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the format for the uas_id field of this message.")]
+        //[FieldOffset(22)]
+        public  /*MAV_ODID_ID_TYPE*/byte id_type;
+
+        /// <summary>Indicates the type of UA (Unmanned Aircraft). MAV_ODID_UA_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of UA (Unmanned Aircraft).")]
+        //[FieldOffset(23)]
+        public  /*MAV_ODID_UA_TYPE*/byte ua_type;
+
+        /// <summary>UAS (Unmanned Aircraft System) ID following the format specified by id_type. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("UAS (Unmanned Aircraft System) ID following the format specified by id_type. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] uas_id;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=59)]
+    ///<summary> Data for filling the OpenDroneID Location message. The float data types are 32-bit IEEE 754. The Location message provides the location, altitude, direction and speed of the aircraft. </summary>
+    public struct mavlink_open_drone_id_location_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_location_t(int latitude,int longitude,float altitude_barometric,float altitude_geodetic,float height,float timestamp,ushort direction,ushort speed_horizontal,short speed_vertical,byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_STATUS*/byte status,/*MAV_ODID_HEIGHT_REF*/byte height_reference,/*MAV_ODID_HOR_ACC*/byte horizontal_accuracy,/*MAV_ODID_VER_ACC*/byte vertical_accuracy,/*MAV_ODID_VER_ACC*/byte barometer_accuracy,/*MAV_ODID_SPEED_ACC*/byte speed_accuracy,/*MAV_ODID_TIME_ACC*/byte timestamp_accuracy) 
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude_barometric = altitude_barometric;
+            this.altitude_geodetic = altitude_geodetic;
+            this.height = height;
+            this.timestamp = timestamp;
+            this.direction = direction;
+            this.speed_horizontal = speed_horizontal;
+            this.speed_vertical = speed_vertical;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.status = status;
+            this.height_reference = height_reference;
+            this.horizontal_accuracy = horizontal_accuracy;
+            this.vertical_accuracy = vertical_accuracy;
+            this.barometer_accuracy = barometer_accuracy;
+            this.speed_accuracy = speed_accuracy;
+            this.timestamp_accuracy = timestamp_accuracy;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_location_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_STATUS*/byte status,ushort direction,ushort speed_horizontal,short speed_vertical,int latitude,int longitude,float altitude_barometric,float altitude_geodetic,/*MAV_ODID_HEIGHT_REF*/byte height_reference,float height,/*MAV_ODID_HOR_ACC*/byte horizontal_accuracy,/*MAV_ODID_VER_ACC*/byte vertical_accuracy,/*MAV_ODID_VER_ACC*/byte barometer_accuracy,/*MAV_ODID_SPEED_ACC*/byte speed_accuracy,float timestamp,/*MAV_ODID_TIME_ACC*/byte timestamp_accuracy) 
+        {
+            var msg = new mavlink_open_drone_id_location_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.status = status;
+            msg.direction = direction;
+            msg.speed_horizontal = speed_horizontal;
+            msg.speed_vertical = speed_vertical;
+            msg.latitude = latitude;
+            msg.longitude = longitude;
+            msg.altitude_barometric = altitude_barometric;
+            msg.altitude_geodetic = altitude_geodetic;
+            msg.height_reference = height_reference;
+            msg.height = height;
+            msg.horizontal_accuracy = horizontal_accuracy;
+            msg.vertical_accuracy = vertical_accuracy;
+            msg.barometer_accuracy = barometer_accuracy;
+            msg.speed_accuracy = speed_accuracy;
+            msg.timestamp = timestamp;
+            msg.timestamp_accuracy = timestamp_accuracy;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Current latitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Current latitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(0)]
+        public  int latitude;
+
+        /// <summary>Current longitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Current longitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(4)]
+        public  int longitude;
+
+        /// <summary>The altitude calculated from the barometric pressue. Reference is against 29.92inHg or 1013.2mb. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("The altitude calculated from the barometric pressue. Reference is against 29.92inHg or 1013.2mb. If unknown: -1000 m.")]
+        //[FieldOffset(8)]
+        public  float altitude_barometric;
+
+        /// <summary>The geodetic altitude as defined by WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("The geodetic altitude as defined by WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(12)]
+        public  float altitude_geodetic;
+
+        /// <summary>The current height of the unmanned aircraft above the take-off location or the ground as indicated by height_reference. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("The current height of the unmanned aircraft above the take-off location or the ground as indicated by height_reference. If unknown: -1000 m.")]
+        //[FieldOffset(16)]
+        public  float height;
+
+        /// <summary>Seconds after the full hour with reference to UTC time. Typically the GPS outputs a time-of-week value in milliseconds. First convert that to UTC and then convert for this field using ((float) (time_week_ms % (60*60*1000))) / 1000. If unknown: 0xFFFF.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds after the full hour with reference to UTC time. Typically the GPS outputs a time-of-week value in milliseconds. First convert that to UTC and then convert for this field using ((float) (time_week_ms % (60*60*1000))) / 1000. If unknown: 0xFFFF.")]
+        //[FieldOffset(20)]
+        public  float timestamp;
+
+        /// <summary>Direction over ground (not heading, but direction of movement) measured clockwise from true North: 0 - 35999 centi-degrees. If unknown: 36100 centi-degrees.  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("Direction over ground (not heading, but direction of movement) measured clockwise from true North: 0 - 35999 centi-degrees. If unknown: 36100 centi-degrees.")]
+        //[FieldOffset(24)]
+        public  ushort direction;
+
+        /// <summary>Ground speed. Positive only. If unknown: 25500 cm/s. If speed is larger than 25425 cm/s, use 25425 cm/s.  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Ground speed. Positive only. If unknown: 25500 cm/s. If speed is larger than 25425 cm/s, use 25425 cm/s.")]
+        //[FieldOffset(26)]
+        public  ushort speed_horizontal;
+
+        /// <summary>The vertical speed. Up is positive. If unknown: 6300 cm/s. If speed is larger than 6200 cm/s, use 6200 cm/s. If lower than -6200 cm/s, use -6200 cm/s.  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("The vertical speed. Up is positive. If unknown: 6300 cm/s. If speed is larger than 6200 cm/s, use 6200 cm/s. If lower than -6200 cm/s, use -6200 cm/s.")]
+        //[FieldOffset(28)]
+        public  short speed_vertical;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(30)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(31)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates whether the unmanned aircraft is on the ground or in the air. MAV_ODID_STATUS  </summary>
+        [Units("")]
+        [Description("Indicates whether the unmanned aircraft is on the ground or in the air.")]
+        //[FieldOffset(52)]
+        public  /*MAV_ODID_STATUS*/byte status;
+
+        /// <summary>Indicates the reference point for the height field. MAV_ODID_HEIGHT_REF  </summary>
+        [Units("")]
+        [Description("Indicates the reference point for the height field.")]
+        //[FieldOffset(53)]
+        public  /*MAV_ODID_HEIGHT_REF*/byte height_reference;
+
+        /// <summary>The accuracy of the horizontal position. MAV_ODID_HOR_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the horizontal position.")]
+        //[FieldOffset(54)]
+        public  /*MAV_ODID_HOR_ACC*/byte horizontal_accuracy;
+
+        /// <summary>The accuracy of the vertical position. MAV_ODID_VER_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the vertical position.")]
+        //[FieldOffset(55)]
+        public  /*MAV_ODID_VER_ACC*/byte vertical_accuracy;
+
+        /// <summary>The accuracy of the barometric altitude. MAV_ODID_VER_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the barometric altitude.")]
+        //[FieldOffset(56)]
+        public  /*MAV_ODID_VER_ACC*/byte barometer_accuracy;
+
+        /// <summary>The accuracy of the horizontal and vertical speed. MAV_ODID_SPEED_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the horizontal and vertical speed.")]
+        //[FieldOffset(57)]
+        public  /*MAV_ODID_SPEED_ACC*/byte speed_accuracy;
+
+        /// <summary>The accuracy of the timestamps. MAV_ODID_TIME_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the timestamps.")]
+        //[FieldOffset(58)]
+        public  /*MAV_ODID_TIME_ACC*/byte timestamp_accuracy;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=53)]
+    ///<summary> Data for filling the OpenDroneID Authentication message. The Authentication Message defines a field that can provide a means of authenticity for the identity of the UAS (Unmanned Aircraft System). The Authentication message can have two different formats. For data page 0, the fields PageCount, Length and TimeStamp are present and AuthData is only 17 bytes. For data page 1 through 15, PageCount, Length and TimeStamp are not present and the size of AuthData is 23 bytes. </summary>
+    public struct mavlink_open_drone_id_authentication_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_authentication_t(uint timestamp,byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_AUTH_TYPE*/byte authentication_type,byte data_page,byte last_page_index,byte length,byte[] authentication_data) 
+        {
+            this.timestamp = timestamp;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.authentication_type = authentication_type;
+            this.data_page = data_page;
+            this.last_page_index = last_page_index;
+            this.length = length;
+            this.authentication_data = authentication_data;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_authentication_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_AUTH_TYPE*/byte authentication_type,byte data_page,byte last_page_index,byte length,uint timestamp,byte[] authentication_data) 
+        {
+            var msg = new mavlink_open_drone_id_authentication_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.authentication_type = authentication_type;
+            msg.data_page = data_page;
+            msg.last_page_index = last_page_index;
+            msg.length = length;
+            msg.timestamp = timestamp;
+            msg.authentication_data = authentication_data;
+            
+            return msg;
+        }
+        
+
+        /// <summary>This field is only present for page 0. 32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.  [s] </summary>
+        [Units("[s]")]
+        [Description("This field is only present for page 0. 32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.")]
+        //[FieldOffset(0)]
+        public  uint timestamp;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(4)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(5)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(6)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the type of authentication. MAV_ODID_AUTH_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of authentication.")]
+        //[FieldOffset(26)]
+        public  /*MAV_ODID_AUTH_TYPE*/byte authentication_type;
+
+        /// <summary>Allowed range is 0 - 15.   </summary>
+        [Units("")]
+        [Description("Allowed range is 0 - 15.")]
+        //[FieldOffset(27)]
+        public  byte data_page;
+
+        /// <summary>This field is only present for page 0. Allowed range is 0 - 15. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.   </summary>
+        [Units("")]
+        [Description("This field is only present for page 0. Allowed range is 0 - 15. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.")]
+        //[FieldOffset(28)]
+        public  byte last_page_index;
+
+        /// <summary>This field is only present for page 0. Total bytes of authentication_data from all data pages. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.  [bytes] </summary>
+        [Units("[bytes]")]
+        [Description("This field is only present for page 0. Total bytes of authentication_data from all data pages. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.")]
+        //[FieldOffset(29)]
+        public  byte length;
+
+        /// <summary>Opaque authentication data. For page 0, the size is only 17 bytes. For other pages, the size is 23 bytes. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Opaque authentication data. For page 0, the size is only 17 bytes. For other pages, the size is 23 bytes. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(30)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=23)]
+		public byte[] authentication_data;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
+    ///<summary> Data for filling the OpenDroneID Self ID message. The Self ID Message is an opportunity for the operator to (optionally) declare their identity and purpose of the flight. This message can provide additional information that could reduce the threat profile of a UA (Unmanned Aircraft) flying in a particular area or manner. This message can also be used to provide optional additional clarification in an emergency/remote ID system failure situation. </summary>
+    public struct mavlink_open_drone_id_self_id_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_self_id_t(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_DESC_TYPE*/byte description_type,byte[] description) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.description_type = description_type;
+            this.description = description;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_self_id_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_DESC_TYPE*/byte description_type,byte[] description) 
+        {
+            var msg = new mavlink_open_drone_id_self_id_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.description_type = description_type;
+            msg.description = description;
+            
+            return msg;
+        }
+        
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the type of the description field. MAV_ODID_DESC_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of the description field.")]
+        //[FieldOffset(22)]
+        public  /*MAV_ODID_DESC_TYPE*/byte description_type;
+
+        /// <summary>Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(23)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=23)]
+		public byte[] description;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=54)]
+    ///<summary> Data for filling the OpenDroneID System message. The System Message contains general system information including the operator location/altitude and possible aircraft group and/or category/class information. </summary>
+    public struct mavlink_open_drone_id_system_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_system_t(int operator_latitude,int operator_longitude,float area_ceiling,float area_floor,float operator_altitude_geo,uint timestamp,ushort area_count,ushort area_radius,byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_OPERATOR_LOCATION_TYPE*/byte operator_location_type,/*MAV_ODID_CLASSIFICATION_TYPE*/byte classification_type,/*MAV_ODID_CATEGORY_EU*/byte category_eu,/*MAV_ODID_CLASS_EU*/byte class_eu) 
+        {
+            this.operator_latitude = operator_latitude;
+            this.operator_longitude = operator_longitude;
+            this.area_ceiling = area_ceiling;
+            this.area_floor = area_floor;
+            this.operator_altitude_geo = operator_altitude_geo;
+            this.timestamp = timestamp;
+            this.area_count = area_count;
+            this.area_radius = area_radius;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.operator_location_type = operator_location_type;
+            this.classification_type = classification_type;
+            this.category_eu = category_eu;
+            this.class_eu = class_eu;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_system_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_OPERATOR_LOCATION_TYPE*/byte operator_location_type,/*MAV_ODID_CLASSIFICATION_TYPE*/byte classification_type,int operator_latitude,int operator_longitude,ushort area_count,ushort area_radius,float area_ceiling,float area_floor,/*MAV_ODID_CATEGORY_EU*/byte category_eu,/*MAV_ODID_CLASS_EU*/byte class_eu,float operator_altitude_geo,uint timestamp) 
+        {
+            var msg = new mavlink_open_drone_id_system_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.operator_location_type = operator_location_type;
+            msg.classification_type = classification_type;
+            msg.operator_latitude = operator_latitude;
+            msg.operator_longitude = operator_longitude;
+            msg.area_count = area_count;
+            msg.area_radius = area_radius;
+            msg.area_ceiling = area_ceiling;
+            msg.area_floor = area_floor;
+            msg.category_eu = category_eu;
+            msg.class_eu = class_eu;
+            msg.operator_altitude_geo = operator_altitude_geo;
+            msg.timestamp = timestamp;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Latitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(0)]
+        public  int operator_latitude;
+
+        /// <summary>Longitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(4)]
+        public  int operator_longitude;
+
+        /// <summary>Area Operations Ceiling relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Area Operations Ceiling relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(8)]
+        public  float area_ceiling;
+
+        /// <summary>Area Operations Floor relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Area Operations Floor relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(12)]
+        public  float area_floor;
+
+        /// <summary>Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(16)]
+        public  float operator_altitude_geo;
+
+        /// <summary>32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.  [s] </summary>
+        [Units("[s]")]
+        [Description("32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.")]
+        //[FieldOffset(20)]
+        public  uint timestamp;
+
+        /// <summary>Number of aircraft in the area, group or formation (default 1).   </summary>
+        [Units("")]
+        [Description("Number of aircraft in the area, group or formation (default 1).")]
+        //[FieldOffset(24)]
+        public  ushort area_count;
+
+        /// <summary>Radius of the cylindrical area of the group or formation (default 0).  [m] </summary>
+        [Units("[m]")]
+        [Description("Radius of the cylindrical area of the group or formation (default 0).")]
+        //[FieldOffset(26)]
+        public  ushort area_radius;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(28)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(29)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(30)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Specifies the operator location type. MAV_ODID_OPERATOR_LOCATION_TYPE  </summary>
+        [Units("")]
+        [Description("Specifies the operator location type.")]
+        //[FieldOffset(50)]
+        public  /*MAV_ODID_OPERATOR_LOCATION_TYPE*/byte operator_location_type;
+
+        /// <summary>Specifies the classification type of the UA. MAV_ODID_CLASSIFICATION_TYPE  </summary>
+        [Units("")]
+        [Description("Specifies the classification type of the UA.")]
+        //[FieldOffset(51)]
+        public  /*MAV_ODID_CLASSIFICATION_TYPE*/byte classification_type;
+
+        /// <summary>When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the category of the UA. MAV_ODID_CATEGORY_EU  </summary>
+        [Units("")]
+        [Description("When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the category of the UA.")]
+        //[FieldOffset(52)]
+        public  /*MAV_ODID_CATEGORY_EU*/byte category_eu;
+
+        /// <summary>When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the class of the UA. MAV_ODID_CLASS_EU  </summary>
+        [Units("")]
+        [Description("When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the class of the UA.")]
+        //[FieldOffset(53)]
+        public  /*MAV_ODID_CLASS_EU*/byte class_eu;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=43)]
+    ///<summary> Data for filling the OpenDroneID Operator ID message, which contains the CAA (Civil Aviation Authority) issued operator ID. </summary>
+    public struct mavlink_open_drone_id_operator_id_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_operator_id_t(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_OPERATOR_ID_TYPE*/byte operator_id_type,byte[] operator_id) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.operator_id_type = operator_id_type;
+            this.operator_id = operator_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_operator_id_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_OPERATOR_ID_TYPE*/byte operator_id_type,byte[] operator_id) 
+        {
+            var msg = new mavlink_open_drone_id_operator_id_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.operator_id_type = operator_id_type;
+            msg.operator_id = operator_id;
+            
+            return msg;
+        }
+        
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the type of the operator_id field. MAV_ODID_OPERATOR_ID_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of the operator_id field.")]
+        //[FieldOffset(22)]
+        public  /*MAV_ODID_OPERATOR_ID_TYPE*/byte operator_id_type;
+
+        /// <summary>Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(23)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] operator_id;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
+    ///<summary> Status from the transmitter telling the flight controller if the remote ID system is ready for arming. </summary>
+    public struct mavlink_open_drone_id_arm_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_arm_status_t(/*MAV_ODID_ARM_STATUS*/byte status,byte[] error) 
+        {
+            this.status = status;
+            this.error = error;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_arm_status_t PopulateXMLOrder(/*MAV_ODID_ARM_STATUS*/byte status,byte[] error) 
+        {
+            var msg = new mavlink_open_drone_id_arm_status_t();
+
+            msg.status = status;
+            msg.error = error;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Status level indicating if arming is allowed. MAV_ODID_ARM_STATUS  </summary>
+        [Units("")]
+        [Description("Status level indicating if arming is allowed.")]
+        //[FieldOffset(0)]
+        public  /*MAV_ODID_ARM_STATUS*/byte status;
+
+        /// <summary>Text error message, should be empty if status is good to arm. Fill with nulls in unused portion.   </summary>
+        [Units("")]
+        [Description("Text error message, should be empty if status is good to arm. Fill with nulls in unused portion.")]
+        //[FieldOffset(1)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
+		public byte[] error;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=249)]
+    ///<summary> An OpenDroneID message pack is a container for multiple encoded OpenDroneID messages (i.e. not in the format given for the above message descriptions but after encoding into the compressed OpenDroneID byte format). Used e.g. when transmitting on Bluetooth 5.0 Long Range/Extended Advertising or on WiFi Neighbor Aware Networking or on WiFi Beacon. </summary>
+    public struct mavlink_open_drone_id_message_pack_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_message_pack_t(byte target_system,byte target_component,byte[] id_or_mac,byte single_message_size,byte msg_pack_size,byte[] messages) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.single_message_size = single_message_size;
+            this.msg_pack_size = msg_pack_size;
+            this.messages = messages;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_message_pack_t PopulateXMLOrder(byte target_system,byte target_component,byte[] id_or_mac,byte single_message_size,byte msg_pack_size,byte[] messages) 
+        {
+            var msg = new mavlink_open_drone_id_message_pack_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.id_or_mac = id_or_mac;
+            msg.single_message_size = single_message_size;
+            msg.msg_pack_size = msg_pack_size;
+            msg.messages = messages;
+            
+            return msg;
+        }
+        
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>This field must currently always be equal to 25 (bytes), since all encoded OpenDroneID messages are specificed to have this length.  [bytes] </summary>
+        [Units("[bytes]")]
+        [Description("This field must currently always be equal to 25 (bytes), since all encoded OpenDroneID messages are specificed to have this length.")]
+        //[FieldOffset(22)]
+        public  byte single_message_size;
+
+        /// <summary>Number of encoded messages in the pack (not the number of bytes). Allowed range is 1 - 9.   </summary>
+        [Units("")]
+        [Description("Number of encoded messages in the pack (not the number of bytes). Allowed range is 1 - 9.")]
+        //[FieldOffset(23)]
+        public  byte msg_pack_size;
+
+        /// <summary>Concatenation of encoded OpenDroneID messages. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Concatenation of encoded OpenDroneID messages. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=225)]
+		public byte[] messages;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
+    ///<summary> Update the data in the OPEN_DRONE_ID_SYSTEM message with new location information. This can be sent to update the location information for the operator when no other information in the SYSTEM message has changed. This message allows for efficient operation on radio links which have limited uplink bandwidth while meeting requirements for update frequency of the operator location. </summary>
+    public struct mavlink_open_drone_id_system_update_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_system_update_t(int operator_latitude,int operator_longitude,float operator_altitude_geo,uint timestamp,byte target_system,byte target_component) 
+        {
+            this.operator_latitude = operator_latitude;
+            this.operator_longitude = operator_longitude;
+            this.operator_altitude_geo = operator_altitude_geo;
+            this.timestamp = timestamp;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_system_update_t PopulateXMLOrder(byte target_system,byte target_component,int operator_latitude,int operator_longitude,float operator_altitude_geo,uint timestamp) 
+        {
+            var msg = new mavlink_open_drone_id_system_update_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.operator_latitude = operator_latitude;
+            msg.operator_longitude = operator_longitude;
+            msg.operator_altitude_geo = operator_altitude_geo;
+            msg.timestamp = timestamp;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Latitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(0)]
+        public  int operator_latitude;
+
+        /// <summary>Longitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(4)]
+        public  int operator_longitude;
+
+        /// <summary>Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(8)]
+        public  float operator_altitude_geo;
+
+        /// <summary>32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.  [s] </summary>
+        [Units("[s]")]
+        [Description("32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.")]
+        //[FieldOffset(12)]
+        public  uint timestamp;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(16)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(17)]
+        public  byte target_component;
+    };
+
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
     ///<summary> Temperature and humidity from hygrometer. </summary>
     public struct mavlink_hygrometer_sensor_t
     {
+        /// packet ordered constructor
         public mavlink_hygrometer_sensor_t(short temperature,ushort humidity,byte id) 
         {
             this.temperature = temperature;
@@ -22151,6 +29545,19 @@ public partial class MAVLink
             this.id = id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_hygrometer_sensor_t PopulateXMLOrder(byte id,short temperature,ushort humidity) 
+        {
+            var msg = new mavlink_hygrometer_sensor_t();
+
+            msg.id = id;
+            msg.temperature = temperature;
+            msg.humidity = humidity;
+            
+            return msg;
+        }
+        
 
         /// <summary>Temperature  [cdegC] </summary>
         [Units("[cdegC]")]
@@ -22177,6 +29584,7 @@ public partial class MAVLink
     ///<summary> Static data to configure the ADS-B transponder (send within 10 sec of a POR and every 10 sec thereafter) </summary>
     public struct mavlink_uavionix_adsb_out_cfg_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_out_cfg_t(uint ICAO,ushort stallSpeed,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
         {
             this.ICAO = ICAO;
@@ -22189,6 +29597,24 @@ public partial class MAVLink
             this.rfSelect = rfSelect;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_out_cfg_t PopulateXMLOrder(uint ICAO,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,ushort stallSpeed,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
+        {
+            var msg = new mavlink_uavionix_adsb_out_cfg_t();
+
+            msg.ICAO = ICAO;
+            msg.callsign = callsign;
+            msg.emitterType = emitterType;
+            msg.aircraftSize = aircraftSize;
+            msg.gpsOffsetLat = gpsOffsetLat;
+            msg.gpsOffsetLon = gpsOffsetLon;
+            msg.stallSpeed = stallSpeed;
+            msg.rfSelect = rfSelect;
+            
+            return msg;
+        }
+        
 
         /// <summary>Vehicle address (24 bit)   </summary>
         [Units("")]
@@ -22246,6 +29672,7 @@ public partial class MAVLink
     ///<summary> Dynamic data used to generate ADS-B out transponder data (send at 5Hz) </summary>
     public struct mavlink_uavionix_adsb_out_dynamic_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_out_dynamic_t(uint utcTime,int gpsLat,int gpsLon,int gpsAlt,int baroAltMSL,uint accuracyHor,ushort accuracyVert,ushort accuracyVel,short velVert,short velNS,short VelEW,/*UAVIONIX_ADSB_OUT_DYNAMIC_STATE*/ushort state,ushort squawk,/*UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX*/byte gpsFix,byte numSats,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus) 
         {
             this.utcTime = utcTime;
@@ -22266,6 +29693,32 @@ public partial class MAVLink
             this.emergencyStatus = emergencyStatus;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_out_dynamic_t PopulateXMLOrder(uint utcTime,int gpsLat,int gpsLon,int gpsAlt,/*UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX*/byte gpsFix,byte numSats,int baroAltMSL,uint accuracyHor,ushort accuracyVert,ushort accuracyVel,short velVert,short velNS,short VelEW,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,/*UAVIONIX_ADSB_OUT_DYNAMIC_STATE*/ushort state,ushort squawk) 
+        {
+            var msg = new mavlink_uavionix_adsb_out_dynamic_t();
+
+            msg.utcTime = utcTime;
+            msg.gpsLat = gpsLat;
+            msg.gpsLon = gpsLon;
+            msg.gpsAlt = gpsAlt;
+            msg.gpsFix = gpsFix;
+            msg.numSats = numSats;
+            msg.baroAltMSL = baroAltMSL;
+            msg.accuracyHor = accuracyHor;
+            msg.accuracyVert = accuracyVert;
+            msg.accuracyVel = accuracyVel;
+            msg.velVert = velVert;
+            msg.velNS = velNS;
+            msg.VelEW = VelEW;
+            msg.emergencyStatus = emergencyStatus;
+            msg.state = state;
+            msg.squawk = squawk;
+            
+            return msg;
+        }
+        
 
         /// <summary>UTC time in seconds since GPS epoch (Jan 6, 1980). If unknown set to UINT32_MAX  [s] </summary>
         [Units("[s]")]
@@ -22370,11 +29823,23 @@ public partial class MAVLink
     ///<summary> Transceiver heartbeat with health report (updated every 10s) </summary>
     public struct mavlink_uavionix_adsb_transceiver_health_report_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_transceiver_health_report_t(/*UAVIONIX_ADSB_RF_HEALTH*/byte rfHealth) 
         {
             this.rfHealth = rfHealth;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_transceiver_health_report_t PopulateXMLOrder(/*UAVIONIX_ADSB_RF_HEALTH*/byte rfHealth) 
+        {
+            var msg = new mavlink_uavionix_adsb_transceiver_health_report_t();
+
+            msg.rfHealth = rfHealth;
+            
+            return msg;
+        }
+        
 
         /// <summary>ADS-B transponder messages UAVIONIX_ADSB_RF_HEALTH  bitmask</summary>
         [Units("")]
@@ -22389,11 +29854,23 @@ public partial class MAVLink
     ///<summary> Aircraft Registration. </summary>
     public struct mavlink_uavionix_adsb_out_cfg_registration_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_out_cfg_registration_t(byte[] registration) 
         {
             this.registration = registration;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_out_cfg_registration_t PopulateXMLOrder(byte[] registration) 
+        {
+            var msg = new mavlink_uavionix_adsb_out_cfg_registration_t();
+
+            msg.registration = registration;
+            
+            return msg;
+        }
+        
 
         /// <summary>Aircraft Registration (ASCII string A-Z, 0-9 only), e.g. 'N8644B '. Trailing spaces (0x20) only. This is null-terminated.   </summary>
         [Units("")]
@@ -22409,11 +29886,23 @@ public partial class MAVLink
     ///<summary> Flight Identification for ADSB-Out vehicles. </summary>
     public struct mavlink_uavionix_adsb_out_cfg_flightid_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_out_cfg_flightid_t(byte[] flight_id) 
         {
             this.flight_id = flight_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_out_cfg_flightid_t PopulateXMLOrder(byte[] flight_id) 
+        {
+            var msg = new mavlink_uavionix_adsb_out_cfg_flightid_t();
+
+            msg.flight_id = flight_id;
+            
+            return msg;
+        }
+        
 
         /// <summary>Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable. Reflects Control message setting. This is null-terminated.   </summary>
         [Units("")]
@@ -22429,11 +29918,23 @@ public partial class MAVLink
     ///<summary> Request messages. </summary>
     public struct mavlink_uavionix_adsb_get_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_get_t(uint ReqMessageId) 
         {
             this.ReqMessageId = ReqMessageId;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_get_t PopulateXMLOrder(uint ReqMessageId) 
+        {
+            var msg = new mavlink_uavionix_adsb_get_t();
+
+            msg.ReqMessageId = ReqMessageId;
+            
+            return msg;
+        }
+        
 
         /// <summary>Message ID to request. Supports any message in this 10000-10099 range   </summary>
         [Units("")]
@@ -22448,6 +29949,7 @@ public partial class MAVLink
     ///<summary> Control message with all data sent in UCP control message. </summary>
     public struct mavlink_uavionix_adsb_out_control_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_out_control_t(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,/*UAVIONIX_ADSB_XBIT*/byte x_bit) 
         {
             this.baroAltMSL = baroAltMSL;
@@ -22458,6 +29960,22 @@ public partial class MAVLink
             this.x_bit = x_bit;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_out_control_t PopulateXMLOrder(/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,/*UAVIONIX_ADSB_XBIT*/byte x_bit) 
+        {
+            var msg = new mavlink_uavionix_adsb_out_control_t();
+
+            msg.state = state;
+            msg.baroAltMSL = baroAltMSL;
+            msg.squawk = squawk;
+            msg.emergencyStatus = emergencyStatus;
+            msg.flight_id = flight_id;
+            msg.x_bit = x_bit;
+            
+            return msg;
+        }
+        
 
         /// <summary>Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX  [mbar] </summary>
         [Units("[mbar]")]
@@ -22503,6 +30021,7 @@ public partial class MAVLink
     ///<summary> Status message with information from UCP Heartbeat and Status messages. </summary>
     public struct mavlink_uavionix_adsb_out_status_t
     {
+        /// packet ordered constructor
         public mavlink_uavionix_adsb_out_status_t(ushort squawk,/*UAVIONIX_ADSB_OUT_STATUS_STATE*/byte state,/*UAVIONIX_ADSB_OUT_STATUS_NIC_NACP*/byte NIC_NACp,byte boardTemp,/*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault,byte[] flight_id) 
         {
             this.squawk = squawk;
@@ -22513,6 +30032,22 @@ public partial class MAVLink
             this.flight_id = flight_id;
             
         }
+        
+        /// packet xml order
+        public static mavlink_uavionix_adsb_out_status_t PopulateXMLOrder(/*UAVIONIX_ADSB_OUT_STATUS_STATE*/byte state,ushort squawk,/*UAVIONIX_ADSB_OUT_STATUS_NIC_NACP*/byte NIC_NACp,byte boardTemp,/*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault,byte[] flight_id) 
+        {
+            var msg = new mavlink_uavionix_adsb_out_status_t();
+
+            msg.state = state;
+            msg.squawk = squawk;
+            msg.NIC_NACp = NIC_NACp;
+            msg.boardTemp = boardTemp;
+            msg.fault = fault;
+            msg.flight_id = flight_id;
+            
+            return msg;
+        }
+        
 
         /// <summary>Mode A code (typically 1200 [0x04B0] for VFR)   </summary>
         [Units("")]
@@ -22558,11 +30093,23 @@ public partial class MAVLink
     ///<summary> ICAROUS heartbeat </summary>
     public struct mavlink_icarous_heartbeat_t
     {
+        /// packet ordered constructor
         public mavlink_icarous_heartbeat_t(/*ICAROUS_FMS_STATE*/byte status) 
         {
             this.status = status;
             
         }
+        
+        /// packet xml order
+        public static mavlink_icarous_heartbeat_t PopulateXMLOrder(/*ICAROUS_FMS_STATE*/byte status) 
+        {
+            var msg = new mavlink_icarous_heartbeat_t();
+
+            msg.status = status;
+            
+            return msg;
+        }
+        
 
         /// <summary>See the FMS_STATE enum. ICAROUS_FMS_STATE  </summary>
         [Units("")]
@@ -22577,6 +30124,7 @@ public partial class MAVLink
     ///<summary> Kinematic multi bands (track) output from Daidalus </summary>
     public struct mavlink_icarous_kinematic_bands_t
     {
+        /// packet ordered constructor
         public mavlink_icarous_kinematic_bands_t(float min1,float max1,float min2,float max2,float min3,float max3,float min4,float max4,float min5,float max5,sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5) 
         {
             this.min1 = min1;
@@ -22597,6 +30145,32 @@ public partial class MAVLink
             this.type5 = type5;
             
         }
+        
+        /// packet xml order
+        public static mavlink_icarous_kinematic_bands_t PopulateXMLOrder(sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,float min1,float max1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,float min2,float max2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,float min3,float max3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,float min4,float max4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5,float min5,float max5) 
+        {
+            var msg = new mavlink_icarous_kinematic_bands_t();
+
+            msg.numBands = numBands;
+            msg.type1 = type1;
+            msg.min1 = min1;
+            msg.max1 = max1;
+            msg.type2 = type2;
+            msg.min2 = min2;
+            msg.max2 = max2;
+            msg.type3 = type3;
+            msg.min3 = min3;
+            msg.max3 = max3;
+            msg.type4 = type4;
+            msg.min4 = min4;
+            msg.max4 = max4;
+            msg.type5 = type5;
+            msg.min5 = min5;
+            msg.max5 = max5;
+            
+            return msg;
+        }
+        
 
         /// <summary>min angle (degrees)  [deg] </summary>
         [Units("[deg]")]
@@ -22697,10 +30271,519 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=85)]
+    ///<summary> Composite EFI and Governor data from Loweheiser equipment.  This message is created by the EFI unit based on its own data and data received from a governor attached to that EFI unit. </summary>
+    public struct mavlink_loweheiser_gov_efi_t
+    {
+        /// packet ordered constructor
+        public mavlink_loweheiser_gov_efi_t(float volt_batt,float curr_batt,float curr_gen,float curr_rot,float fuel_level,float throttle,uint runtime,int until_maintenance,float rectifier_temp,float generator_temp,float efi_batt,float efi_rpm,float efi_pw,float efi_fuel_flow,float efi_fuel_consumed,float efi_baro,float efi_mat,float efi_clt,float efi_tps,float efi_exhaust_gas_temperature,ushort generator_status,ushort efi_status,byte efi_index) 
+        {
+            this.volt_batt = volt_batt;
+            this.curr_batt = curr_batt;
+            this.curr_gen = curr_gen;
+            this.curr_rot = curr_rot;
+            this.fuel_level = fuel_level;
+            this.throttle = throttle;
+            this.runtime = runtime;
+            this.until_maintenance = until_maintenance;
+            this.rectifier_temp = rectifier_temp;
+            this.generator_temp = generator_temp;
+            this.efi_batt = efi_batt;
+            this.efi_rpm = efi_rpm;
+            this.efi_pw = efi_pw;
+            this.efi_fuel_flow = efi_fuel_flow;
+            this.efi_fuel_consumed = efi_fuel_consumed;
+            this.efi_baro = efi_baro;
+            this.efi_mat = efi_mat;
+            this.efi_clt = efi_clt;
+            this.efi_tps = efi_tps;
+            this.efi_exhaust_gas_temperature = efi_exhaust_gas_temperature;
+            this.generator_status = generator_status;
+            this.efi_status = efi_status;
+            this.efi_index = efi_index;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_loweheiser_gov_efi_t PopulateXMLOrder(float volt_batt,float curr_batt,float curr_gen,float curr_rot,float fuel_level,float throttle,uint runtime,int until_maintenance,float rectifier_temp,float generator_temp,float efi_batt,float efi_rpm,float efi_pw,float efi_fuel_flow,float efi_fuel_consumed,float efi_baro,float efi_mat,float efi_clt,float efi_tps,float efi_exhaust_gas_temperature,byte efi_index,ushort generator_status,ushort efi_status) 
+        {
+            var msg = new mavlink_loweheiser_gov_efi_t();
+
+            msg.volt_batt = volt_batt;
+            msg.curr_batt = curr_batt;
+            msg.curr_gen = curr_gen;
+            msg.curr_rot = curr_rot;
+            msg.fuel_level = fuel_level;
+            msg.throttle = throttle;
+            msg.runtime = runtime;
+            msg.until_maintenance = until_maintenance;
+            msg.rectifier_temp = rectifier_temp;
+            msg.generator_temp = generator_temp;
+            msg.efi_batt = efi_batt;
+            msg.efi_rpm = efi_rpm;
+            msg.efi_pw = efi_pw;
+            msg.efi_fuel_flow = efi_fuel_flow;
+            msg.efi_fuel_consumed = efi_fuel_consumed;
+            msg.efi_baro = efi_baro;
+            msg.efi_mat = efi_mat;
+            msg.efi_clt = efi_clt;
+            msg.efi_tps = efi_tps;
+            msg.efi_exhaust_gas_temperature = efi_exhaust_gas_temperature;
+            msg.efi_index = efi_index;
+            msg.generator_status = generator_status;
+            msg.efi_status = efi_status;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Generator Battery voltage.  [V] </summary>
+        [Units("[V]")]
+        [Description("Generator Battery voltage.")]
+        //[FieldOffset(0)]
+        public  float volt_batt;
+
+        /// <summary>Generator Battery current.  [A] </summary>
+        [Units("[A]")]
+        [Description("Generator Battery current.")]
+        //[FieldOffset(4)]
+        public  float curr_batt;
+
+        /// <summary>Current being produced by generator.  [A] </summary>
+        [Units("[A]")]
+        [Description("Current being produced by generator.")]
+        //[FieldOffset(8)]
+        public  float curr_gen;
+
+        /// <summary>Load current being consumed by the UAV (sum of curr_gen and curr_batt)  [A] </summary>
+        [Units("[A]")]
+        [Description("Load current being consumed by the UAV (sum of curr_gen and curr_batt)")]
+        //[FieldOffset(12)]
+        public  float curr_rot;
+
+        /// <summary>Generator fuel remaining in litres.  [l] </summary>
+        [Units("[l]")]
+        [Description("Generator fuel remaining in litres.")]
+        //[FieldOffset(16)]
+        public  float fuel_level;
+
+        /// <summary>Throttle Output.  [%] </summary>
+        [Units("[%]")]
+        [Description("Throttle Output.")]
+        //[FieldOffset(20)]
+        public  float throttle;
+
+        /// <summary>Seconds this generator has run since it was rebooted.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds this generator has run since it was rebooted.")]
+        //[FieldOffset(24)]
+        public  uint runtime;
+
+        /// <summary>Seconds until this generator requires maintenance.  A negative value indicates maintenance is past due.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds until this generator requires maintenance.  A negative value indicates maintenance is past due.")]
+        //[FieldOffset(28)]
+        public  int until_maintenance;
+
+        /// <summary>The Temperature of the rectifier.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("The Temperature of the rectifier.")]
+        //[FieldOffset(32)]
+        public  float rectifier_temp;
+
+        /// <summary>The temperature of the mechanical motor, fuel cell core or generator.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("The temperature of the mechanical motor, fuel cell core or generator.")]
+        //[FieldOffset(36)]
+        public  float generator_temp;
+
+        /// <summary> EFI Supply Voltage.  [V] </summary>
+        [Units("[V]")]
+        [Description(" EFI Supply Voltage.")]
+        //[FieldOffset(40)]
+        public  float efi_batt;
+
+        /// <summary>Motor RPM.  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("Motor RPM.")]
+        //[FieldOffset(44)]
+        public  float efi_rpm;
+
+        /// <summary>Injector pulse-width in miliseconds.  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Injector pulse-width in miliseconds.")]
+        //[FieldOffset(48)]
+        public  float efi_pw;
+
+        /// <summary>Fuel flow rate in litres/hour.   </summary>
+        [Units("")]
+        [Description("Fuel flow rate in litres/hour.")]
+        //[FieldOffset(52)]
+        public  float efi_fuel_flow;
+
+        /// <summary>Fuel consumed.  [l] </summary>
+        [Units("[l]")]
+        [Description("Fuel consumed.")]
+        //[FieldOffset(56)]
+        public  float efi_fuel_consumed;
+
+        /// <summary>Atmospheric pressure.  [kPa] </summary>
+        [Units("[kPa]")]
+        [Description("Atmospheric pressure.")]
+        //[FieldOffset(60)]
+        public  float efi_baro;
+
+        /// <summary>Manifold Air Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Manifold Air Temperature.")]
+        //[FieldOffset(64)]
+        public  float efi_mat;
+
+        /// <summary>Cylinder Head Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Cylinder Head Temperature.")]
+        //[FieldOffset(68)]
+        public  float efi_clt;
+
+        /// <summary>Throttle Position.  [%] </summary>
+        [Units("[%]")]
+        [Description("Throttle Position.")]
+        //[FieldOffset(72)]
+        public  float efi_tps;
+
+        /// <summary>Exhaust gas temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Exhaust gas temperature.")]
+        //[FieldOffset(76)]
+        public  float efi_exhaust_gas_temperature;
+
+        /// <summary>Generator status.   </summary>
+        [Units("")]
+        [Description("Generator status.")]
+        //[FieldOffset(80)]
+        public  ushort generator_status;
+
+        /// <summary>EFI status.   </summary>
+        [Units("")]
+        [Description("EFI status.")]
+        //[FieldOffset(82)]
+        public  ushort efi_status;
+
+        /// <summary>EFI index.   </summary>
+        [Units("")]
+        [Description("EFI index.")]
+        //[FieldOffset(84)]
+        public  byte efi_index;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Raw RC Data </summary>
+    public struct mavlink_cubepilot_raw_rc_t
+    {
+        /// packet ordered constructor
+        public mavlink_cubepilot_raw_rc_t(byte[] rc_raw) 
+        {
+            this.rc_raw = rc_raw;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_cubepilot_raw_rc_t PopulateXMLOrder(byte[] rc_raw) 
+        {
+            var msg = new mavlink_cubepilot_raw_rc_t();
+
+            msg.rc_raw = rc_raw;
+            
+            return msg;
+        }
+        
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] rc_raw;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
+    ///<summary> Information about video stream </summary>
+    public struct mavlink_herelink_video_stream_information_t
+    {
+        /// packet ordered constructor
+        public mavlink_herelink_video_stream_information_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
+        {
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.camera_id = camera_id;
+            this.status = status;
+            this.uri = uri;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_herelink_video_stream_information_t PopulateXMLOrder(byte camera_id,byte status,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,byte[] uri) 
+        {
+            var msg = new mavlink_herelink_video_stream_information_t();
+
+            msg.camera_id = camera_id;
+            msg.status = status;
+            msg.framerate = framerate;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.bitrate = bitrate;
+            msg.rotation = rotation;
+            msg.uri = uri;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Frame rate.  [Hz] </summary>
+        [Units("[Hz]")]
+        [Description("Frame rate.")]
+        //[FieldOffset(0)]
+        public  float framerate;
+
+        /// <summary>Bit rate.  [bits/s] </summary>
+        [Units("[bits/s]")]
+        [Description("Bit rate.")]
+        //[FieldOffset(4)]
+        public  uint bitrate;
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Horizontal resolution.")]
+        //[FieldOffset(8)]
+        public  ushort resolution_h;
+
+        /// <summary>Vertical resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Vertical resolution.")]
+        //[FieldOffset(10)]
+        public  ushort resolution_v;
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Video image rotation clockwise.")]
+        //[FieldOffset(12)]
+        public  ushort rotation;
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        [Units("")]
+        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(14)]
+        public  byte camera_id;
+
+        /// <summary>Number of streams available.   </summary>
+        [Units("")]
+        [Description("Number of streams available.")]
+        //[FieldOffset(15)]
+        public  byte status;
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+        [Units("")]
+        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
+		public byte[] uri;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=19)]
+    ///<summary> Herelink Telemetry </summary>
+    public struct mavlink_herelink_telem_t
+    {
+        /// packet ordered constructor
+        public mavlink_herelink_telem_t(uint rf_freq,uint link_bw,uint link_rate,short snr,short cpu_temp,short board_temp,byte rssi) 
+        {
+            this.rf_freq = rf_freq;
+            this.link_bw = link_bw;
+            this.link_rate = link_rate;
+            this.snr = snr;
+            this.cpu_temp = cpu_temp;
+            this.board_temp = board_temp;
+            this.rssi = rssi;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_herelink_telem_t PopulateXMLOrder(byte rssi,short snr,uint rf_freq,uint link_bw,uint link_rate,short cpu_temp,short board_temp) 
+        {
+            var msg = new mavlink_herelink_telem_t();
+
+            msg.rssi = rssi;
+            msg.snr = snr;
+            msg.rf_freq = rf_freq;
+            msg.link_bw = link_bw;
+            msg.link_rate = link_rate;
+            msg.cpu_temp = cpu_temp;
+            msg.board_temp = board_temp;
+            
+            return msg;
+        }
+        
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(0)]
+        public  uint rf_freq;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(4)]
+        public  uint link_bw;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(8)]
+        public  uint link_rate;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(12)]
+        public  short snr;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(14)]
+        public  short cpu_temp;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(16)]
+        public  short board_temp;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(18)]
+        public  byte rssi;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=10)]
+    ///<summary> Start firmware update with encapsulated data. </summary>
+    public struct mavlink_cubepilot_firmware_update_start_t
+    {
+        /// packet ordered constructor
+        public mavlink_cubepilot_firmware_update_start_t(uint size,uint crc,byte target_system,byte target_component) 
+        {
+            this.size = size;
+            this.crc = crc;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_cubepilot_firmware_update_start_t PopulateXMLOrder(byte target_system,byte target_component,uint size,uint crc) 
+        {
+            var msg = new mavlink_cubepilot_firmware_update_start_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.size = size;
+            msg.crc = crc;
+            
+            return msg;
+        }
+        
+
+        /// <summary>FW Size.  [bytes] </summary>
+        [Units("[bytes]")]
+        [Description("FW Size.")]
+        //[FieldOffset(0)]
+        public  uint size;
+
+        /// <summary>FW CRC.   </summary>
+        [Units("")]
+        [Description("FW CRC.")]
+        //[FieldOffset(4)]
+        public  uint crc;
+
+        /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        //[FieldOffset(8)]
+        public  byte target_system;
+
+        /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        //[FieldOffset(9)]
+        public  byte target_component;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
+    ///<summary> offset response to encapsulated data. </summary>
+    public struct mavlink_cubepilot_firmware_update_resp_t
+    {
+        /// packet ordered constructor
+        public mavlink_cubepilot_firmware_update_resp_t(uint offset,byte target_system,byte target_component) 
+        {
+            this.offset = offset;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_cubepilot_firmware_update_resp_t PopulateXMLOrder(byte target_system,byte target_component,uint offset) 
+        {
+            var msg = new mavlink_cubepilot_firmware_update_resp_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.offset = offset;
+            
+            return msg;
+        }
+        
+
+        /// <summary>FW Offset.  [bytes] </summary>
+        [Units("[bytes]")]
+        [Description("FW Offset.")]
+        //[FieldOffset(0)]
+        public  uint offset;
+
+        /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        //[FieldOffset(4)]
+        public  byte target_system;
+
+        /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        //[FieldOffset(5)]
+        public  byte target_component;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> The heartbeat message shows that a system or component is present and responding. The type and autopilot fields (along with the message component id), allow the receiving system to treat further messages from this system appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at https://mavlink.io/en/services/heartbeat.html </summary>
     public struct mavlink_heartbeat_t
     {
+        /// packet ordered constructor
         public mavlink_heartbeat_t(uint custom_mode,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
         {
             this.custom_mode = custom_mode;
@@ -22711,6 +30794,22 @@ public partial class MAVLink
             this.mavlink_version = mavlink_version;
             
         }
+        
+        /// packet xml order
+        public static mavlink_heartbeat_t PopulateXMLOrder(/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,uint custom_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
+        {
+            var msg = new mavlink_heartbeat_t();
+
+            msg.type = type;
+            msg.autopilot = autopilot;
+            msg.base_mode = base_mode;
+            msg.custom_mode = custom_mode;
+            msg.system_status = system_status;
+            msg.mavlink_version = mavlink_version;
+            
+            return msg;
+        }
+        
 
         /// <summary>A bitfield for use for autopilot-specific flags   </summary>
         [Units("")]

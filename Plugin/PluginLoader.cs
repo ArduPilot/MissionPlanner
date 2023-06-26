@@ -11,6 +11,7 @@ using MissionPlanner.Controls;
 using DroneCAN;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace MissionPlanner.Plugin
 {
@@ -32,6 +33,8 @@ namespace MissionPlanner.Plugin
         public static List<Plugin> Plugins = new List<Plugin>();
 
         public static Dictionary<string, string[]> filecache = new Dictionary<string, string[]>();
+
+        public static Dictionary<string, string> ErrorInfo = new Dictionary<string, string>();
 
         static Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
         {
@@ -186,6 +189,11 @@ namespace MissionPlanner.Plugin
                     }
                 }
             }
+            catch (ReflectionTypeLoadException ex)
+            {
+                log.Error("Failed to load plugin " + asm.FullName, ex);
+                log.Error("Failed to load plugin " + asm.FullName, ex.LoaderExceptions.FirstOrDefault());
+            }
             catch (Exception ex)
             {
                 log.Error("Failed to load plugin " + asm.FullName, ex);
@@ -239,8 +247,15 @@ namespace MissionPlanner.Plugin
                         // csharp 8
                         var ans = CodeGenRoslyn.BuildCode(csFile);
 
+                        if (CodeGenRoslyn.lasterror != "")
+                            lock(ErrorInfo)
+                                ErrorInfo[csFile] = CodeGenRoslyn.lasterror;
+
                         InitPlugin(ans, Path.GetFileName(csFile));
 
+                        log.Info("CodeGenRoslyn: " + csFile);
+                        if (Program.MONO)
+                            Thread.Sleep(2000);
                         continue;
                     }
                     catch (Exception ex)
@@ -260,10 +275,19 @@ namespace MissionPlanner.Plugin
                         // compile the code into an assembly
                         var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
+                        if (CodeGenRoslyn.lasterror != "")
+                            lock (ErrorInfo)
+                                ErrorInfo[csFile] = CodeGen.lasterror;
+
                         InitPlugin(results?.CompiledAssembly, Path.GetFileName(csFile));
 
                         if (results?.CompiledAssembly != null)
+                        {
+                            log.Info("CodeGen: " + csFile);
+                            if (Program.MONO)
+                                Thread.Sleep(2000);
                             continue;
+                        }
                     }
                     catch (Exception ex)
                     {

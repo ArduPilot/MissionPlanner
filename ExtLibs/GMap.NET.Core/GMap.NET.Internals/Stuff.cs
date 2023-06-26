@@ -1,7 +1,10 @@
 ﻿
 namespace GMap.NET.Internals
 {
-   using System;
+    using Org.BouncyCastle.Crypto.Digests;
+    using Org.BouncyCastle.Crypto.Parameters;
+    using Org.BouncyCastle.Security;
+    using System;
    using System.Collections.Generic;
    using System.ComponentModel;
    using System.IO;
@@ -123,85 +126,42 @@ namespace GMap.NET.Internals
          }
       }
 
-      #region -- encryption --
-      static string EncryptString(string Message, string Passphrase)
-      {
-          byte[] Results;
+        #region -- encryption --
+        static string EncryptString(string Message, string Passphrase)
+        {
+            byte[] Results;
 
-          using (var HashProvider = new SHA1CryptoServiceProvider())
-          {
-              byte[] TDESKey = HashProvider.ComputeHash(Encoding.UTF8.GetBytes(Passphrase));
-              Array.Resize(ref TDESKey, 16);
+            var md = new Sha1Digest();
+            byte[] TDESKey = new byte[32];
+            var data = Encoding.UTF8.GetBytes(Passphrase);
+            md.BlockUpdate(data, 0, data.Length);
+            md.DoFinal(TDESKey, 0);
+            Array.Resize(ref TDESKey, 16);
 
-              using (TripleDESCryptoServiceProvider TDESAlgorithm = new TripleDESCryptoServiceProvider())
-              {
-                  TDESAlgorithm.Key = TDESKey;
-                  TDESAlgorithm.Mode = CipherMode.ECB;
-                  TDESAlgorithm.Padding = PaddingMode.PKCS7;
+            var cp = CipherUtilities.GetCipher("DESede/ECB/PKCS7Padding");
+            var keySpec = new DesEdeParameters(TDESKey);
+            cp.Init(true, keySpec);
+            Results = cp.DoFinal(Encoding.UTF8.GetBytes(Message));
+            return Convert.ToBase64String(Results);
+        }
 
-                  byte[] DataToEncrypt = Encoding.UTF8.GetBytes(Message);
+        static string DecryptString(string Message, string Passphrase)
+        {
+            byte[] Results;
 
-                  // Step 5. Attempt to encrypt the string
-                  try
-                  {
-                      using (ICryptoTransform Encryptor = TDESAlgorithm.CreateEncryptor())
-                      {
-                          Results = Encryptor.TransformFinalBlock(DataToEncrypt, 0, DataToEncrypt.Length);
-                      }
-                  }
-                  finally
-                  {
-                      // Clear the TripleDes and Hashprovider services of any sensitive information
-                      TDESAlgorithm.Clear();
-                      HashProvider.Clear();
-                  }
-              }
-          }
+            var md = new Sha1Digest();
+            byte[] TDESKey = new byte[32];
+            var data = Encoding.UTF8.GetBytes(Passphrase);
+            md.BlockUpdate(data, 0, data.Length);
+            md.DoFinal(TDESKey, 0);
+            Array.Resize(ref TDESKey, 16);
 
-          // Step 6. Return the encrypted string as a base64 encoded string
-          return Convert.ToBase64String(Results);
-      }
-
-      static string DecryptString(string Message, string Passphrase)
-      {
-          byte[] Results;
-
-          using (var HashProvider = new SHA1CryptoServiceProvider())
-          {
-              byte[] TDESKey = HashProvider.ComputeHash(Encoding.UTF8.GetBytes(Passphrase));
-              Array.Resize(ref TDESKey, 16);
-
-              // Step 2. Create a new TripleDESCryptoServiceProvider object
-              using (TripleDESCryptoServiceProvider TDESAlgorithm = new TripleDESCryptoServiceProvider())
-              {
-                  // Step 3. Setup the decoder
-                  TDESAlgorithm.Key = TDESKey;
-                  TDESAlgorithm.Mode = CipherMode.ECB;
-                  TDESAlgorithm.Padding = PaddingMode.PKCS7;
-
-                  // Step 4. Convert the input string to a byte[]
-                  byte[] DataToDecrypt = Convert.FromBase64String(Message);
-
-                  // Step 5. Attempt to decrypt the string
-                  try
-                  {
-                      using (ICryptoTransform Decryptor = TDESAlgorithm.CreateDecryptor())
-                      {
-                          Results = Decryptor.TransformFinalBlock(DataToDecrypt, 0, DataToDecrypt.Length);
-                      }
-                  }
-                  finally
-                  {
-                      // Clear the TripleDes and Hashprovider services of any sensitive information
-                      TDESAlgorithm.Clear();
-                      HashProvider.Clear();
-                  }
-              }
-          }
-
-          // Step 6. Return the decrypted string in UTF8 format
-          return Encoding.UTF8.GetString(Results, 0, Results.Length);
-      }
+            var cp = CipherUtilities.GetCipher("DESede/ECB/PKCS7Padding");
+            var keySpec = new DesEdeParameters(TDESKey);
+            cp.Init(false, keySpec);
+            Results = cp.DoFinal(Convert.FromBase64String(Message));
+            return Encoding.UTF8.GetString(Results, 0, Results.Length);
+        }
 
       public static string EncryptString(string Message)
       {

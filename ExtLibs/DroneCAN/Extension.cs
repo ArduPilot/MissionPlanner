@@ -9,13 +9,6 @@ namespace DroneCAN
 {
     public static class Extension
     {
-        public static T ByteArrayToDroneCANMsg<T>(this byte[] transfer, int startoffset) where T : new()
-        {
-            var ans = ((IDroneCANSerialize) new T());
-            ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
-            return (T) ans;
-        }
-
         public static IEnumerable<Tuple<T, T>> NowNextBy2<T>(this IEnumerable<T> list)
         {
             T now = default(T);
@@ -37,19 +30,19 @@ namespace DroneCAN
         {
             switch (value.uavcan_protocol_param_Value_type)
             {
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
+                case DroneCAN.uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
                     return value.union.boolean_value;
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_EMPTY:
+                case DroneCAN.uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_EMPTY:
                     return "Empty";
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
+                case DroneCAN.uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
                     return value.union.integer_value;
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
+                case DroneCAN.uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
                     return value.union.real_value;
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
+                case DroneCAN.uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
                     return ASCIIEncoding.ASCII.GetString(value.union.string_value, 0, value.union.string_value_len);
                     break;
             }
@@ -61,13 +54,13 @@ namespace DroneCAN
         {
             switch (value.uavcan_protocol_param_NumericValue_type)
             {
-                case DroneCAN.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_EMPTY:
+                case DroneCAN.uavcan_protocol_param_NumericValue.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_EMPTY:
                     return "";
                     break;
-                case DroneCAN.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_INTEGER_VALUE:
+                case DroneCAN.uavcan_protocol_param_NumericValue.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_INTEGER_VALUE:
                     return value.union.integer_value;
                     break;
-                case DroneCAN.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_REAL_VALUE:
+                case DroneCAN.uavcan_protocol_param_NumericValue.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_REAL_VALUE:
                     return value.union.real_value;
                     break;
             }

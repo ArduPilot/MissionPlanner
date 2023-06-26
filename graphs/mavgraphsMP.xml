@@ -104,7 +104,8 @@ Velocity comparison x
  
  <graph name='Sensors/GPS/Accuracy'>
   <description></description>
-  <expression>GPA.HAcc GPA.SAcc GPA.VAcc GPS.NSats:2</expression>
+  <expression>GPA[0].HAcc GPA[0].SAcc GPA[0].VAcc GPS[0].NSats:2</expression>
+	 <expression>GPA[1].HAcc GPA[1].SAcc GPA[1].VAcc GPS[1].NSats:2</expression>
  </graph>
 
   <graph name='Sensors/Compass/Compass vs Throttle'>
@@ -154,4 +155,16 @@ Velocity comparison x
     <expression>distance_from(GPS,GPS.Lat-diff(GPS.Lat,"Lat"),GPS.Lng-diff(GPS.Lng,"Lng"))</expression>
     <description>    </description>
   </graph>
+	<graph name="Builtin/Throw HighSpeed">
+		<expression>THRO.Vel 500+THRO.Vel*0.00000001</expression>
+		<description>    </description>
+	</graph>
+	<graph name="Builtin/Throw Change Height">
+		<expression>delta(THRO.VelZ,'VelZDelta',THRO.TimeUS):2 THRO.VelZ:2 -50+THRO.VelZ*0.00000001:2 50+THRO.VelZ*0.00000001:2 -250+THRO.VelZ*0.00000001:2</expression>
+		<description>    </description>
+	</graph>
+	<graph name="Builtin/Throw No Throw Action">
+		<expression>THRO.Acc 9.80665+THRO.Acc*0.00000001</expression>
+		<description>    </description>
+	</graph>
 </graphs>

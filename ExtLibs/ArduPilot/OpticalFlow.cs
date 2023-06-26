@@ -22,8 +22,8 @@ namespace MissionPlanner.Utilities
         // data from handshake
         MAVLink.mavlink_encapsulated_data_t msgEncapsulatedData;
 
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subDataTrans;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subEncapData;
+        private int subDataTrans;
+        private int subEncapData;
 
         MAVLinkInterface _mav;
 
@@ -41,12 +41,14 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public OpticalFlow(MAVLinkInterface mav)
+        public OpticalFlow(MAVLinkInterface mav, byte sysid, byte compid)
         {
             _mav = mav;
-             
-            subDataTrans = mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.DATA_TRANSMISSION_HANDSHAKE, ReceviedPacket);
-            subEncapData = mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.ENCAPSULATED_DATA, ReceviedPacket);
+
+            subDataTrans = mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.DATA_TRANSMISSION_HANDSHAKE, ReceviedPacket,
+                sysid, compid);
+            subEncapData =
+                mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.ENCAPSULATED_DATA, ReceviedPacket, sysid, compid);
         }
 
         public void CalibrationMode(bool on_off = false)

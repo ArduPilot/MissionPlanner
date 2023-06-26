@@ -20,8 +20,9 @@ namespace AltitudeAngelWings.Service.FlightData.Providers
                     Longitude = _missionPlannerState.Longitude,
                     Latitude = _missionPlannerState.Latitude,
                     Altitude = (int) _missionPlannerState.Altitude,
-                    Heading = (int) _missionPlannerState.MagneticDeclination,
-                    Speed = _missionPlannerState.GroundSpeed
+                    Course = _missionPlannerState.GroundCourse,
+                    Speed = _missionPlannerState.GroundSpeed,
+                    VerticalSpeed = _missionPlannerState.VerticalSpeed
                 }
             };
         }

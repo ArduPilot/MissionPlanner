@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using MissionPlanner;
-using UAVCAN;
+using DroneCAN;
 
 namespace UAVCANFlasher
 {
@@ -54,7 +54,7 @@ namespace UAVCANFlasher
             }
             catch { }
 
-            UAVCAN.uavcan can = new UAVCAN.uavcan();
+            DroneCAN.DroneCAN can = new DroneCAN.DroneCAN();
 
             can.SourceNode = 127;
 
@@ -67,7 +67,7 @@ namespace UAVCANFlasher
             Exception exception = null;
             Dictionary<int, DateTime> lastseenDateTimes = new Dictionary<int, DateTime>();
 
-            UAVCAN.uavcan.MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
+            DroneCAN.DroneCAN.MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != can.SourceNode)
                     return;
@@ -77,33 +77,33 @@ namespace UAVCANFlasher
 
                 lastseenDateTimes[frame.SourceNode] = DateTime.Now;
                 
-                if (msg.GetType() == typeof(uavcan.uavcan_protocol_file_BeginFirmwareUpdate_res))
+                if (msg.GetType() == typeof(DroneCAN.DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res))
                 {
-                    var bfures = msg as uavcan.uavcan_protocol_file_BeginFirmwareUpdate_res;
+                    var bfures = msg as DroneCAN.DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res;
                     if (bfures.error != 0)
                         exception = new Exception(frame.SourceNode + " Begin Firmware Update returned an error");
                 }
-                else if (msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
+                else if (msg.GetType() == typeof(DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_res))
                 {
-                    var gnires = msg as uavcan.uavcan_protocol_GetNodeInfo_res;
+                    var gnires = msg as DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_res;
                     Console.WriteLine("GetNodeInfo: seen '{0}' from {1}",
                         ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
                     if (firmware_crc != gnires.software_version.image_crc || firmware_crc == ulong.MaxValue)
                     {
-                        if (gnires.status.mode != uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
+                        if (gnires.status.mode != DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
                         {
                             Console.WriteLine("Update node " + frame.SourceNode);
                             var req_msg =
-                                new uavcan.uavcan_protocol_file_BeginFirmwareUpdate_req()
+                                new DroneCAN.DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_req()
                                 {
-                                    image_file_remote_path = new uavcan.uavcan_protocol_file_Path()
+                                    image_file_remote_path = new DroneCAN.DroneCAN.uavcan_protocol_file_Path()
                                         {path = firmware_namebytes},
                                     source_node_id = can.SourceNode
                                 };
                             req_msg.image_file_remote_path.path_len = (byte) firmware_namebytes.Length;
 
-                            var slcan = can.PackageMessage(frame.SourceNode, frame.Priority, transferID, req_msg);
-                                can.WriteToStream(slcan);
+                            var slcan = can.PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID, req_msg);
+                                can.WriteToStreamSLCAN(slcan);
                             
                         }
                         else
@@ -148,14 +148,14 @@ namespace UAVCANFlasher
             {
                 Console.WriteLine(id + " Node status seen");
                 // get node info
-                uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
+                DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
 
-                var slcan = can.PackageMessage((byte)id, 30, 0, gnireq);
+                var slcan = can.PackageMessageSLCAN((byte)id, 30, 0, gnireq);
 
-                   can.WriteToStream(slcan);
+                   can.WriteToStreamSLCAN(slcan);
             };
 
-            uavcan.uavcan_protocol_NodeStatus node;
+            DroneCAN.DroneCAN.uavcan_protocol_NodeStatus node;
             can.FileSendComplete += (id, file) =>
             {
                 Console.WriteLine(id + " File send complete " + file);

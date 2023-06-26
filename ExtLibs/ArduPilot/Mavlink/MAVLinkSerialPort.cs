@@ -18,7 +18,7 @@ namespace MissionPlanner.Comms
 
         MAVLinkInterface mavint;
 
-        static KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subscription;
+        static int subscription;
 
         uint baud = 0;
 
@@ -65,10 +65,11 @@ namespace MissionPlanner.Comms
                 throw new Exception(Strings.No_valid_heartbeats_read_from_port);
             }
 
-            if (subscription.Value != null)
+            if (subscription != 0)
                 mavint.UnSubscribeToPacketType(subscription);
 
-            subscription = mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL, ReceviedPacket, true);
+            subscription = mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL, ReceviedPacket,
+                (byte)mavint.sysidcurrent, (byte)mavint.compidcurrent, true);
 
             bgdata = new Thread(mainloop);
             bgdata.Name = "MAVLinkSerialPort";

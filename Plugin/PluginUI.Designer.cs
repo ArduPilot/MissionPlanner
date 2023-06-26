@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.bSave = new MissionPlanner.Controls.MyButton();
             this.labelWarning = new System.Windows.Forms.Label();
+            this.but_errors = new MissionPlanner.Controls.MyButton();
+            this.bSave = new MissionPlanner.Controls.MyButton();
             this.dgvPlugins = new MissionPlanner.Controls.MyDataGridView();
             this.pluginName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pluginAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,17 +39,6 @@
             this.pluginEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlugins)).BeginInit();
             this.SuspendLayout();
-            // 
-            // bSave
-            // 
-            this.bSave.Location = new System.Drawing.Point(11, 8);
-            this.bSave.Margin = new System.Windows.Forms.Padding(2);
-            this.bSave.Name = "bSave";
-            this.bSave.Size = new System.Drawing.Size(73, 31);
-            this.bSave.TabIndex = 1;
-            this.bSave.Text = "Save && Close";
-            this.bSave.UseVisualStyleBackColor = true;
-            this.bSave.Click += new System.EventHandler(this.bSave_Click);
             // 
             // labelWarning
             // 
@@ -60,7 +50,28 @@
             this.labelWarning.TabIndex = 4;
             this.labelWarning.Text = "Enable/Disable settings changed, till restart \rnot loaded but enabled plugins wil" +
     "l not shown!";
-            this.labelWarning.Visible = false;
+            // 
+            // but_errors
+            // 
+            this.but_errors.Location = new System.Drawing.Point(316, 8);
+            this.but_errors.Margin = new System.Windows.Forms.Padding(2);
+            this.but_errors.Name = "but_errors";
+            this.but_errors.Size = new System.Drawing.Size(73, 31);
+            this.but_errors.TabIndex = 5;
+            this.but_errors.Text = "Show Errors";
+            this.but_errors.UseVisualStyleBackColor = true;
+            this.but_errors.Click += new System.EventHandler(this.but_errors_Click);
+            // 
+            // bSave
+            // 
+            this.bSave.Location = new System.Drawing.Point(11, 8);
+            this.bSave.Margin = new System.Windows.Forms.Padding(2);
+            this.bSave.Name = "bSave";
+            this.bSave.Size = new System.Drawing.Size(73, 31);
+            this.bSave.TabIndex = 1;
+            this.bSave.Text = "Save && Close";
+            this.bSave.UseVisualStyleBackColor = true;
+            this.bSave.Click += new System.EventHandler(this.bSave_Click);
             // 
             // dgvPlugins
             // 
@@ -137,6 +148,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(673, 373);
+            this.Controls.Add(this.but_errors);
             this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.bSave);
             this.Controls.Add(this.dgvPlugins);
@@ -161,5 +173,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pluginVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn pluginDll;
         private System.Windows.Forms.DataGridViewCheckBoxColumn pluginEnabled;
+        private MyButton but_errors;
     }
 }

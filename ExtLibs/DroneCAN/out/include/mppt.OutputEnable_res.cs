@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,40 +17,31 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int MPPT_OUTPUTENABLE_RES_MAX_PACK_SIZE = 1;
-        public const ulong MPPT_OUTPUTENABLE_RES_DT_SIG = 0xEA251F2A6DD1D8A5;
-
-        public const int MPPT_OUTPUTENABLE_RES_DT_ID = 240;
-
-
-
-
-
-
-        public partial class mppt_OutputEnable_res: IDroneCANSerialize {
-
-
-
-
+    public partial class DroneCAN 
+    {
+        public partial class mppt_OutputEnable_res: IDroneCANSerialize 
+        {
+            public const int MPPT_OUTPUTENABLE_RES_MAX_PACK_SIZE = 1;
+            public const ulong MPPT_OUTPUTENABLE_RES_DT_SIG = 0xEA251F2A6DD1D8A5;
+            public const int MPPT_OUTPUTENABLE_RES_DT_ID = 240;
 
             public bool enabled = new bool();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_mppt_OutputEnable_res(this, chunk_cb, ctx);
+                encode_mppt_OutputEnable_res(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_mppt_OutputEnable_res(transfer, this);
+                decode_mppt_OutputEnable_res(transfer, this, fdcan);
+            }
+
+            public static mppt_OutputEnable_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new mppt_OutputEnable_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

@@ -188,7 +188,7 @@ public partial class MAVLink
                         MAVLINK_SIGNATURE_BLOCK_LEN);
                 }
             }
-            else
+            else if (buffer[0] == MAVLINK_STX_MAVLINK1)
             {
                 if (buffer.Length < 6)
                 {

@@ -37,7 +37,7 @@ namespace OSDConfigurator.GUI
         public const char SYM_WPDST = (char)0xE7;
         public const char SYM_FTMIN = (char)0xE8;
         public const char SYM_FTSEC = (char)0x99;
-        
+
         public const char SYM_SAT_L = (char)0x1E;
         public const char SYM_SAT_R = (char)0x1F;
         public const char SYM_HDOP_L = (char)0xBD;
@@ -48,13 +48,12 @@ namespace OSDConfigurator.GUI
 
         public const char SYM_ARROW_START = (char)0x60;
         public const char SYM_ARROW_COUNT = (char)16;
-
         public const char SYM_AH_H_START = (char)0x80;
         public const char SYM_AH_H_COUNT = (char)9;
 
         public const char SYM_AH_V_START = (char)0xCA;
         public const char SYM_AH_V_COUNT = (char)6;
-        
+
         public const char SYM_AH_CENTER_LINE_LEFT = (char)0x26;
         public const char SYM_AH_CENTER_LINE_RIGHT = (char)0x27;
         public const char SYM_AH_CENTER = (char)0x7E;
@@ -90,5 +89,26 @@ namespace OSDConfigurator.GUI
         public const char SYM_FLY = (char)0x9C;
         public const char SYM_EFF = (char)0xF2;
         public const char SYM_AH = (char)0xF3;
+        public const char SYM_MW = (char)0xF4;
+        public const char SYM_CLK = (char)0xBC;
+        public const char SYM_KILO = (char)0x4B;
+        public const char SYM_TERALT = (char)0xEF;
+        public const char SYM_FENCE_ENABLED = (char)0xF5;
+        public const char SYM_FENCE_DISABLED = (char)0xF6;
+        public const char SYM_RNGFD = (char)0xF7;
+        public const char SYM_LQ = (char)0xF8;
+
+        public const char SYM_SIDEBAR_R_ARROW = (char)0x09;
+        public const char SYM_SIDEBAR_L_ARROW = (char)0x0A;
+        public const char SYM_SIDEBAR_A = (char)0x13;
+        public const char SYM_SIDEBAR_B = (char)0x14;
+        public const char SYM_SIDEBAR_C = (char)0x15;
+        public const char SYM_SIDEBAR_D = (char)0xDD;
+        public const char SYM_SIDEBAR_E = (char)0xDB;
+        public const char SYM_SIDEBAR_F = (char)0xDC;
+        public const char SYM_SIDEBAR_G = (char)0xDA;
+        public const char SYM_SIDEBAR_H = (char)0xDE;
+        public const char SYM_SIDEBAR_I = (char)0x11;
+        public const char SYM_SIDEBAR_J = (char)0x12;
     }
 }

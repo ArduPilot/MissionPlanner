@@ -48,7 +48,7 @@ namespace MissionPlanner.Utilities
 
                 if (param.Length > max_len)
                 {
-                    throw new Exception(String.Format("Error: Length {0} larger than maximum {1}", length, max_len));
+                    throw new Exception(String.Format("Error: Length {0} larger than maximum {1}", param.Length, max_len));
                 }
 
                 var paramdata = new byte[length];
@@ -64,6 +64,9 @@ namespace MissionPlanner.Utilities
                 new_fw.Write(ASCIIEncoding.ASCII.GetBytes(param), 0, param.Length);
 
                 fw_json["image"] = Convert.ToBase64String(ZlibStream.CompressBuffer(new_fwms.ToArray()));
+                fw_json["image_size"] = new_fwms.Length;
+                fw_json["flash_free"] = int.Parse(fw_json["flash_total"].ToString()) -
+                                        int.Parse(fw_json["image_size"].ToString());
 
                 //File.WriteAllBytes(filename + "orig.bin", fw_binary.ToArray());
                 //File.WriteAllBytes(filename + "new.bin", new_fwms.ToArray());

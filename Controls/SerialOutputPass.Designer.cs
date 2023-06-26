@@ -33,6 +33,13 @@
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.chk_write = new System.Windows.Forms.CheckBox();
+            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Port = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Extra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Go = new System.Windows.Forms.DataGridViewButtonColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -72,15 +79,66 @@
             this.chk_write.UseVisualStyleBackColor = true;
             this.chk_write.CheckedChanged += new System.EventHandler(this.chk_write_CheckedChanged);
             // 
+            // myDataGridView1
+            // 
+            resources.ApplyResources(this.myDataGridView1, "myDataGridView1");
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Type,
+            this.Direction,
+            this.Port,
+            this.Extra,
+            this.Go});
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
+            this.myDataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellEndEdit);
+            this.myDataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.myDataGridView1_DataError);
+            // 
+            // Type
+            // 
+            resources.ApplyResources(this.Type, "Type");
+            this.Type.Items.AddRange(new object[] {
+            "Serial",
+            "TCP",
+            "UDP"});
+            this.Type.Name = "Type";
+            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // Direction
+            // 
+            resources.ApplyResources(this.Direction, "Direction");
+            this.Direction.Items.AddRange(new object[] {
+            "Inbound",
+            "Outbound"});
+            this.Direction.Name = "Direction";
+            // 
+            // Port
+            // 
+            resources.ApplyResources(this.Port, "Port");
+            this.Port.Name = "Port";
+            // 
+            // Extra
+            // 
+            resources.ApplyResources(this.Extra, "Extra");
+            this.Extra.Name = "Extra";
+            // 
+            // Go
+            // 
+            resources.ApplyResources(this.Go, "Go");
+            this.Go.Name = "Go";
+            this.Go.Text = "Go";
+            // 
             // SerialOutputPass
             // 
             resources.ApplyResources(this, "$this");
-            
+            this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.chk_write);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.CMB_serialport);
             this.Name = "SerialOutputPass";
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +150,11 @@
         private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private System.Windows.Forms.CheckBox chk_write;
+        private MyDataGridView myDataGridView1;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Type;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Direction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Port;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Extra;
+        private System.Windows.Forms.DataGridViewButtonColumn Go;
     }
 }

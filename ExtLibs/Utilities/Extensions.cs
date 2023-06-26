@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -116,6 +117,71 @@ namespace MissionPlanner.Utilities
             return tsk.GetAwaiter().GetResult();
         }
 
+        public static void InsertSorted<T>(this Collection<T> collection, T item)
+            where T : IComparable<T>
+        {
+            InsertSorted(collection, item, Comparer<T>.Create((x, y) => x.CompareTo(y)));
+        }
+
+        //https://stackoverflow.com/questions/12172162/how-to-insert-item-into-list-in-order
+        public static void InsertSorted<T>(this Collection<T> collection, T item, IComparer<T> comparerFunction)
+        {
+            if (collection.Count == 0)
+            {
+                collection.Add(item);
+                return;
+            }
+            else if (collection.Contains(item))
+            {
+                return;
+            }
+            else if (comparerFunction.Compare(item, collection[collection.Count - 1]) >= 0)
+            {
+                // Add to the end as the item being added is greater than the last item by comparison.
+                collection.Add(item);
+            }
+            else if (comparerFunction.Compare(item, collection[0]) <= 0)
+            {
+                // Add to the front as the item being added is less than the first item by comparison.
+                collection.Insert(0, item);
+            }
+            else
+            {
+                // Otherwise, search for the place to insert.
+                int index = 0;
+                {
+                    for (int i = 0; i < collection.Count; i++)
+                    {
+                        if (comparerFunction.Compare(collection[i], item) >= 0)
+                        {
+                            // If the item is the same or before, then the insertion point is here.
+                            index = i;
+                            break;
+                        }
+
+                        // Otherwise loop. We're already tested the last element for greater than count.
+                    }
+                }
+
+                if (index < 0)
+                {
+                    // The zero-based index of item if item is found,
+                    // otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or, if there is no larger element, the bitwise complement of Count.
+                    index = ~index;
+                }
+
+                collection.Insert(index, item);
+            }
+        }
+
+        /// <summary>
+        /// this could be unsafe
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Span<T> AsSpan<T>(this List<T> list) => list is null ? default : new Span<T>((T[])list.GetPropertyOrFieldPrivate("_items"), 0, (int)list.GetPropertyOrFieldPrivate("_size"));
+
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
         {
             while (source.Any())
@@ -123,6 +189,12 @@ namespace MissionPlanner.Utilities
                 yield return source.Take(chunksize);
                 source = source.Skip(chunksize);
             }
+        }
+
+        public static IEnumerable<T> ToEnumerable<T>(this IEnumerator enumerator)
+        {
+            while (enumerator.MoveNext())
+                yield return (T)enumerator.Current;
         }
 
         /// <summary>
@@ -211,6 +283,19 @@ namespace MissionPlanner.Utilities
             return st;
         }
 
+        
+        public static ulong getbituEndian(this byte[] buff, uint pos, uint len)
+        {
+            var normal = getbitu(buff, pos, len);
+            return BitConverter.ToUInt64(BitConverter.GetBytes(normal).Take((int)Math.Ceiling(len / 8.0)).Reverse().ToArray().MakeSize(8), 0);
+        }
+        public static long getbitsEndian(this byte[] buff, uint pos, uint len)
+        {
+            var bits = getbituEndian(buff, pos, len);
+            if (len <= 0 || 64 <= len || !((bits & (1u << (int)(len - 1))) != 0))
+                return (long)bits;
+            return (long)(bits | (~0ul << (int)len));
+        }
         /// <summary>
         /// get upto 64 bits at a time
         /// </summary>
@@ -235,43 +320,32 @@ namespace MissionPlanner.Utilities
             return (long)(bits | (~0ul << (int)len));
         }
 
-        public static T GetBitOffsetLength<T>(this byte[] input, int start, int offset, int length, bool signed, double resolution = 0)
+        public static OUT GetBitOffsetLength<IN,OUT>(this byte[] input, int start, int offset, int length, bool signed, double resolution = 0)
         {
             if (resolution == 0)
                 resolution = 1;
 
-            if (typeof(T) == typeof(string))
+            if (typeof(OUT) == typeof(string))
             {
-                return (T)(object)Encoding.ASCII.GetString(BitConverter.GetBytes(input.getbitu((uint)offset, (uint)length)));
+                return (OUT)(object)Encoding.ASCII.GetString(input.Skip(offset/8).Take((length / 8) + 1).ToArray()).TrimEnd();
             }
 
-            if (typeof(T) == typeof(int) && signed)
+            if (typeof(OUT) == typeof(byte[]))
             {
-                return (T)(object)input.getbits((uint)offset, (uint)length);
-            }
-            if (typeof(T) == typeof(uint) && !signed)
-            {
-                return (T)(object)input.getbitu((uint)offset, (uint)length);
+                return (OUT)(object)BitConverter.GetBytes(input.getbituEndian((uint)offset, (uint)length)).MakeSize((length/8) + 1);
             }
 
-            if (typeof(T) == typeof(float) && signed)
+            if (length <= 64 && signed)
             {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.f32;
-            }
-            if (typeof(T) == typeof(double) && signed)
-            {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.d64;
-            }
-            if (typeof(T) == typeof(long) && signed)
-            {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.s64;
-            }
-            if (typeof(T) == typeof(DateTime))
-            {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.u32;
+                return (OUT)Convert.ChangeType(input.getbitsEndian((uint)offset, (uint)length) * resolution, typeof(OUT));
             }
 
-            return default(T);
+            if (length <= 64 && !signed)
+            {
+                return (OUT)Convert.ChangeType(input.getbituEndian((uint)offset, (uint)length) * resolution, typeof(OUT));
+            }
+
+            return default(OUT);
         }
 
         public static string ToHexString(this byte[] input)
@@ -309,6 +383,16 @@ namespace MissionPlanner.Utilities
             return msg.ToJSON(Formatting.Indented);
         }
 
+        public static void SaveJSON<T>(this T obj, string path)
+        {
+            File.WriteAllText(path, obj.ToJSON());
+        }
+
+        public static T LoadJSON<T>(string path)
+        {
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+        }
+
         public static string ToJSON(this System.Type a_Type)
         {
             var TypeBlob = a_Type.GetFields().ToDictionary(x => x.Name, x => x.GetValue(null));
@@ -331,6 +415,26 @@ namespace MissionPlanner.Utilities
             return JsonConvert.DeserializeObject<T>(msg);
         }
 
+        public static void ForEach<T>(this ReadOnlySpan<T> span, Action<T> action) 
+        {
+            var enumerator = span.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                action(enumerator.Current);
+            }
+        }
+
+        public static IEnumerable<TOut> Select<T,TOut>(this ReadOnlySpan<T> span, Func<T,TOut> action)
+        {
+            List<TOut> list = new List<TOut>();
+            var enumerator = span.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                list.Add(action(enumerator.Current));
+            }
+            return list;
+        }
+
         public static string CleanString(this string dirtyString)
         {
             return new String(dirtyString.Where(Char.IsLetterOrDigit).ToArray());
@@ -347,8 +451,8 @@ namespace MissionPlanner.Utilities
                 return s;
             }
         }
-        
-        public static byte[] MakeSize(this byte[] buffer, int length)
+
+        public static T[] MakeSize<T>(this T[] buffer, int length)
         {
             if (buffer.Length == length)
                 return buffer;
@@ -359,7 +463,7 @@ namespace MissionPlanner.Utilities
         public static byte[] MakeBytesSize(this string item, int length)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            var buffer = ASCIIEncoding.ASCII.GetBytes(item);
+            var buffer = ASCIIEncoding.UTF8.GetBytes(item);
             if (buffer.Length == length)
                 return buffer;
             Array.Resize(ref buffer, length);
@@ -368,7 +472,7 @@ namespace MissionPlanner.Utilities
         public static byte[] MakeBytes(this string item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            var buffer = ASCIIEncoding.ASCII.GetBytes(item);
+            var buffer = ASCIIEncoding.UTF8.GetBytes(item);
             return buffer;
         }
 

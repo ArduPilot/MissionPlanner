@@ -136,8 +136,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public string ParameterMode { get; set; }
 
         private int y = 10;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub1;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub2;
+        private int sub1;
+        private int sub2;
 
         #endregion
 
@@ -214,8 +214,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if ((int)DialogResult.OK ==
-                CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
+            if (DialogResult.OK == Common.MessageShowAgain("Refresh Params", Strings.WarningUpdateParamList, true))
             {
                 ((Control)sender).Enabled = false;
 

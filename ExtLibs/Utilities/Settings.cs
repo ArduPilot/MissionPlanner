@@ -172,7 +172,7 @@ namespace MissionPlanner.Utilities
         {
             if (list == null || list.Count() == 0)
                 return;
-            config[key] = list.Select(a => System.Net.WebUtility.UrlEncode(a)).Distinct().Aggregate((s, s1) => s + ';' + s1);
+            config[key] = list.Distinct().Select(a => System.Net.WebUtility.UrlEncode(a)).Distinct().Aggregate((s, s1) => s + ';' + s1);
         }
 
         public void AppendList(string key, string item)
@@ -190,76 +190,91 @@ namespace MissionPlanner.Utilities
 
         public int GetInt32(string key, int defaulti = 0)
         {
-            int result = defaulti;
-            string value = null;
-            if (config.TryGetValue(key, out value))
+            int result;
+            string value;
+            if (config.TryGetValue(key, out value) && int.TryParse(value, out result))
             {
-                int.TryParse(value, out result);
+                return result;
             }
-            return result;
+            return defaulti;
         }
 
         public DisplayView GetDisplayView(string key)
         {
-            DisplayView result = new DisplayView();
-            string value = null;
-            if (config.TryGetValue(key, out value))
+            DisplayView result;
+            string value;
+            if (config.TryGetValue(key, out value) && DisplayViewExtensions.TryParse(value, out result))
             {
-                DisplayViewExtensions.TryParse(value, out result);
+                return result;
             }
-            return result;
+            return new DisplayView();
         }
 
         public bool GetBoolean(string key, bool defaultb = false)
         {
-            bool result = defaultb;
-            string value = null;
-            if (config.TryGetValue(key, out value))
+            bool result;
+            string value;
+            if (config.TryGetValue(key, out value) && bool.TryParse(value, out result))
             {
-                bool.TryParse(value, out result);
+                return result;
             }
-            return result;
+            return defaultb;
         }
 
         public float GetFloat(string key, float defaultv = 0)
         {
-            float result = defaultv;
-            string value = null;
-            if (config.TryGetValue(key, out value))
+            float result;
+            string value;
+            if (config.TryGetValue(key, out value) && float.TryParse(value, out result))
             {
-                float.TryParse(value, out result);
+                return result;
             }
-            return result;
+            return defaultv;
         }
 
         public double GetDouble(string key, double defaultd = 0)
         {
-            double result = defaultd;
-            string value = null;
-            if (config.TryGetValue(key, out value))
+            double result;
+            string value;
+            if (config.TryGetValue(key, out value) && double.TryParse(value, out result))
             {
-                double.TryParse(value, out result);
+                return result;
             }
-            return result;
+            return defaultd;
+        }
+
+        public decimal GetDecimal(string key, decimal defaultd = 0)
+        {
+            decimal result;
+            string value;
+            if (config.TryGetValue(key, out value) && decimal.TryParse(value, out result))
+            {
+                return result;
+            }
+            return defaultd;
         }
 
         public byte GetByte(string key, byte defaultb = 0)
         {
-            byte result = defaultb;
-            string value = null;
-            if (config.TryGetValue(key, out value))
+            byte result;
+            string value;
+            if (config.TryGetValue(key, out value) && byte.TryParse(value, out result))
             {
-                byte.TryParse(value, out result);
+                return result;
             }
-            return result;
+            return defaultb;
         }
 
+        private static string _GetRunningDirectory = "";
         /// <summary>
         /// Install directory path
         /// </summary>
         /// <returns></returns>
         public static string GetRunningDirectory()
         {
+            if(_GetRunningDirectory != "")
+                return _GetRunningDirectory;
+
             var ass = Assembly.GetEntryAssembly();
 
             if (ass == null)
@@ -280,7 +295,9 @@ namespace MissionPlanner.Utilities
                 path = Path.GetDirectoryName(GetDataDirectory());
             }
 
-            return path + Path.DirectorySeparatorChar;
+            _GetRunningDirectory = path + Path.DirectorySeparatorChar;
+
+            return _GetRunningDirectory;
         }
 
         static bool isMono()
@@ -418,7 +435,10 @@ namespace MissionPlanner.Utilities
                                         case "xml":
                                             break;
                                         default:
-                                            config[xmlreader.Name] = xmlreader.ReadString();
+                                            var key = xmlreader.Name;
+                                            if (key.Contains("____"))
+                                                key = key.Replace("____", "/");
+                                            config[key] = xmlreader.ReadString();
                                             break;
                                     }
                                 }
@@ -486,13 +506,19 @@ namespace MissionPlanner.Utilities
 
                 xmlwriter.WriteStartElement("Config");
 
-                foreach (string key in config.Keys.OrderBy(a=>a))
+                foreach (string key2 in config.Keys.OrderBy(a=>a))
                 {
+                    var key = key2;
                     try
                     {
+                        if (key.Contains("/"))
+                            key = key.Replace("/", "____");
+
                         if (key == "" || key.Contains("/") || key.Contains(" ")
                             || key.Contains("-") || key.Contains(":")
-                            || key.Contains(";") || key.Contains("."))
+                            || key.Contains(";") || key.Contains("@")
+                            || key.Contains("!") || key.Contains("#")
+                            || key.Contains("$") || key.Contains("%"))
                         {
                             Debugger.Break();
                             Console.WriteLine("Bad config key " + key);

@@ -1,4 +1,4 @@
-import uavcan.dsdl
+import dronecan.dsdl
 import argparse
 import os
 import em
@@ -38,28 +38,28 @@ if args.build:
 namespace_paths = [os.path.abspath(path) for path in args.namespace_dir]
 build_dir = os.path.abspath(args.build_dir[0])
 
-print(namespace_paths)
-print(build_dir)
-print(buildlist)
+print("namespace_paths",namespace_paths)
+print("build_dir",build_dir)
+print("buildlist",buildlist)
 
 os.chdir(os.path.dirname(__file__))
 templates_dir = 'templates'
 
-messages = uavcan.dsdl.parse_namespaces(namespace_paths)
+messages = dronecan.dsdl.parse_namespaces(namespace_paths)
 message_dict = {}
 for msg in messages:
     print(msg)
     message_dict[msg.full_name] = msg
 
 for template in templates:
-    with open(os.path.join(templates_dir, template['source_file']), 'rb') as f:
+    with open(os.path.join(templates_dir, template['source_file']), 'r') as f:
         template['source'] = f.read()
 
 def build_message(msg_name):
     print ('building %s' % (msg_name))
     msg = message_dict[msg_name]
-    with open('%s.json' % (msg_name), 'w') as f:
-        f.write(json.dumps(msg, default=lambda x: x.__dict__))
+    #with open('%s.json' % (msg_name), 'w') as f:
+    #    f.write(json.dumps(msg, default=lambda x: x.__dict__))
     for template in templates:
         output = em.expand(template['source'], msg=msg)
 
@@ -90,9 +90,9 @@ if __name__ == '__main__':
 
             buildlist = new_buildlist
 
-    from multiprocessing import Pool
+    #from multiprocessing import Pool
 
-    pool = Pool(2)
+    #pool = Pool(2)
     builtlist = set()
     if buildlist is not None:
         for msg_name in buildlist:
@@ -102,11 +102,11 @@ if __name__ == '__main__':
             msg = message_dict[msg_name]
             print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
-                message_names_enum += '\t(typeof(%s), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(%s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s), %s, 0x%08X, (b,s) => %s.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
 
             if not msg.default_dtid is None and msg.kind == msg.KIND_SERVICE:
-                message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(%s_req))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
-                message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(%s_res))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, (b,s) => %s_req.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, (b,s) => %s_res.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
     else:
         for msg_name in [msg.full_name for msg in messages]:
             print ('building %s' % (msg_name,))
@@ -116,20 +116,20 @@ if __name__ == '__main__':
             msg = message_dict[msg_name]
             print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
-                message_names_enum += '\t(typeof(%s), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(%s))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s), %s, 0x%08X, (b,s,fd) => %s.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
 
             if not msg.default_dtid is None and msg.kind == msg.KIND_SERVICE:
-                message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(%s_req))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
-                message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(%s_res))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
-
-    pool.close()
-    pool.join()
+                message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, (b,s,fd) => %s_req.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, (b,s,fd) => %s_res.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+ 
+    #pool.close()
+    #pool.join()
 
     assert buildlist is None or not buildlist-builtlist, "%s not built" % (buildlist-builtlist,)
 
     print ('test')
     with open('messages.cs', 'w') as f:
-        f.write('using System;using System.Reflection;\nnamespace DroneCAN {\npublic partial class DroneCAN {\n    public static readonly (Type,UInt16, ulong, MethodInfo)[] MSG_INFO = {%s};}}' % (message_names_enum))
+        f.write('using System;using System.Reflection;\nnamespace DroneCAN {\npublic partial class DroneCAN {\n    public static (Type type,UInt16 msgid, ulong crcseed, Func<Byte[],int, bool, object> convert)[] MSG_INFO = { \n%s};}}' % (message_names_enum))
 
     print (message_names_enum)
 

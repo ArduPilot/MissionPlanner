@@ -1,3 +1,0 @@
-uint39 node_id
-bool is_tag
-float32[3] pos

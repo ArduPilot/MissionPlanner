@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -147,10 +148,13 @@ namespace MissionPlanner.Utilities
                 int b = 0;
                 foreach (var item in this)
                 {
-					var idx = item.IndexOf(',');
-					
-					if (idx <= 0)
-						continue;
+                    var idx = item.IndexOf(',');
+
+                    if (idx <= 0)
+                    {
+                        b++;
+                        continue;
+                    }
 					
                     var msgtype = item.Substring(0, idx);
 
@@ -225,23 +229,24 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            foreach (var item in GetEnumeratorType("UNIT"))
-            {
-                try
+            if (Unit.Count > 0)
+                foreach (var item in GetEnumeratorType("UNIT"))
                 {
-                    Unit[(char)int.Parse(item["Id"])] = item["Label"].Trim();
+                    try
+                    {
+                        Unit[(char)int.Parse(item["Id"])] = item["Label"].Trim();
+                    }
+                    catch { }
                 }
-                catch { }
-            }
-
-            foreach (var item in GetEnumeratorType("MULT"))
-            {
-                try
+            if (Mult.Count > 0)
+                foreach (var item in GetEnumeratorType("MULT"))
                 {
-                    Mult[(char)int.Parse(item["Id"])] = item["Mult"].Trim();
+                    try
+                    {
+                        Mult[(char)int.Parse(item["Id"])] = item["Mult"].Trim();
+                    }
+                    catch { }
                 }
-                catch { }
-            }
 
             BuildUnitMultiList();
 
@@ -465,18 +470,35 @@ namespace MissionPlanner.Utilities
 
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string[] types)
         {
-            Dictionary<string, string> instances = new Dictionary<string, string>();
+            Dictionary<string, List<string>> instances = new Dictionary<string, List<string>>();
 
             types.ForEach(x =>
-            {
+            {                
+                // match ACC[0] GPS[0] or ACC or GPS
                 var m = Regex.Match(x, @"(\w+)(\[([0-9]+)\])?", RegexOptions.None);
                 if (m.Success)
                 {
-                    instances[m.Groups[1].ToString()] = m.Groups[2].Success ? m.Groups[2].ToString() : "";
+                    if (!instances.ContainsKey(m.Groups[1].ToString()))
+                        instances[m.Groups[1].ToString()] = new List<string>();
+
+                    instances[m.Groups[1].ToString()].Add(m.Groups[3].Success ? m.Groups[3].ToString() : "");
                 }
                 else
                 {
-                    instances[x] = "";
+                    if (!instances.ContainsKey(x))
+                        instances[x] = new List<string>();
+
+                    instances[x].Add("");
+                }
+
+                // match ACC1  GYR1
+                m = Regex.Match(x, @"(\w+)([0-9]+)$", RegexOptions.None);
+                if (m.Success)
+                {
+                    if (!instances.ContainsKey(m.Groups[1].ToString()))
+                        instances[m.Groups[1].ToString()] = new List<string>();
+
+                    instances[m.Groups[1].ToString()].Add(m.Groups[2].Success ? (int.Parse(m.Groups[2].ToString()) - 1).ToString() : "");
                 }
             });
 
@@ -498,13 +520,20 @@ namespace MissionPlanner.Utilities
             if(types.Length > 1)
                 slist.Sort();
 
+            int progress = DateTime.Now.Second;
             // work through list of lines
             foreach (var l in slist)
             {
+                if (DateTime.Now.Second != progress)
+                {
+                    Console.WriteLine(l);
+                    progress = DateTime.Now.Second;
+                }
                 var ans = this[(long) l];
                 var inst = instances[ans.msgtype];
                 // instance was requested, and its not a match
-                if (inst != "" && ans.instance != inst)
+                //if (inst != "" && ans.instance != inst)
+                if (!inst.Contains("") && !inst.Contains(ans.instance))
                     continue;
                 yield return ans;
             }

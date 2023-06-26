@@ -219,9 +219,6 @@
   <data name="CHK_mavdebug.Text" xml:space="preserve">
     <value>Mavlink Boşluq mesajı</value>
   </data>
-  <data name="but_AAsignin.Text" xml:space="preserve">
-    <value>Hündürlük bucağı</value>
-  </data>
   <data name="chk_temp.Text" xml:space="preserve">
     <value>Test ekranı</value>
   </data>

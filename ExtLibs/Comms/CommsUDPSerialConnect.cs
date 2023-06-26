@@ -16,9 +16,11 @@ namespace MissionPlanner.Comms
     public class UdpSerialConnect : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(UdpSerialConnect));
+        /// <summary>
+        /// set hostEndPoint as well, if injecting
+        /// </summary>
         public UdpClient client = new UdpClient();
-        private byte[] rbuffer = new byte[0];
-        private int rbufferread;
+        private MemoryStream rbuffer = new MemoryStream();
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         private int retrys = 3;
@@ -61,7 +63,7 @@ namespace MissionPlanner.Comms
             set { }
         }
 
-        public int BytesToRead => client.Available + rbuffer.Length - rbufferread;
+        public int BytesToRead => (int)(client.Available + rbuffer.Length - rbuffer.Position);
 
         public int BytesToWrite => 0;
 
@@ -90,7 +92,7 @@ namespace MissionPlanner.Comms
             if (IsInRange("224.0.0.0", "239.255.255.255", hostEndPoint.Address.ToString()))
             {
                 log.Info($"UdpSerialConnect bind to port {Port}");
-                client = new UdpClient(int.Parse(Port));
+                client = new UdpClient(int.Parse(Port), hostEndPoint.AddressFamily);
 
                 IsOpen = true;
 
@@ -107,12 +109,10 @@ namespace MissionPlanner.Comms
                     }
                 });
                 log.Info($"UdpSerialConnect default endpoint {hostEndPoint}");
-                client.Connect(hostEndPoint);
             }
             else
             {
-                client = new UdpClient();
-                client.Connect(hostEndPoint);
+                client = new UdpClient(hostEndPoint.AddressFamily);
             }
 
             IsOpen = true;
@@ -122,7 +122,7 @@ namespace MissionPlanner.Comms
 
         public void Open()
         {
-            if (client.Client.Connected)
+            if (IsOpen)
             {
                 log.Warn("UdpSerialConnect socket already open");
                 return;
@@ -165,36 +165,39 @@ namespace MissionPlanner.Comms
             VerifyConnected();
             if (length < 1) return 0;
 
-            // check if we are at the end of our current allocation
-            if (rbufferread == rbuffer.Length)
-            {
-                var deadline = DateTime.Now.AddMilliseconds(ReadTimeout);
+            var deadline = DateTime.Now.AddMilliseconds(ReadTimeout);
 
-                var r = new MemoryStream();
-                do
+            lock (rbuffer)
+            {
+                if (rbuffer.Position == rbuffer.Length)
+                    rbuffer.SetLength(0);
+
+                var position = rbuffer.Position;
+
+                while ((rbuffer.Length - rbuffer.Position) < length && DateTime.Now < deadline)
                 {
                     // read more
-                    while (client.Available > 0 && r.Length < 1024 * 1024)
+                    while (client.Available > 0 && (rbuffer.Length - rbuffer.Position) < length)
                     {
-                        var b = client.Receive(ref RemoteIpEndPoint);
-                        r.Write(b, 0, b.Length);
+                        var currentRemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                        // assumes the udp packets are mavlink aligned, if we are receiving from more than one source
+                        var b = client.Receive(ref currentRemoteIpEndPoint);
+                        rbuffer.Seek(0, SeekOrigin.End);
+                        rbuffer.Write(b, 0, b.Length);
+                        rbuffer.Seek(position, SeekOrigin.Begin);
+
+                        RemoteIpEndPoint = currentRemoteIpEndPoint;
                     }
 
-                    // copy mem stream to byte array.
-                    rbuffer = r.ToArray();
-                    // reset head.
-                    rbufferread = 0;
-                } while (rbuffer.Length < length && DateTime.Now < deadline);
+                    Thread.Yield();
+                }
+
+                // prevent read past end of array
+                if (rbuffer.Length - rbuffer.Position < length)
+                    length = (int)(rbuffer.Length - rbuffer.Position);
+
+                return rbuffer.Read(readto, offset, length);
             }
-
-            // prevent read past end of array
-            if (rbuffer.Length - rbufferread < length) length = rbuffer.Length - rbufferread;
-
-            Array.Copy(rbuffer, rbufferread, readto, offset, length);
-
-            rbufferread += length;
-
-            return length;
         }
 
         public int ReadByte()
@@ -241,7 +244,7 @@ namespace MissionPlanner.Comms
         public void Write(string line)
         {
             VerifyConnected();
-            var data = new ASCIIEncoding().GetBytes(line);
+            var data = ASCIIEncoding.UTF8.GetBytes(line);
             Write(data, 0, data.Length);
         }
 
@@ -345,27 +348,7 @@ namespace MissionPlanner.Comms
 
         private void VerifyConnected()
         {
-            if (!IsOpen)
-            {
-                try
-                {
-                    client.Dispose();
-                }
-                catch
-                {
-                }
 
-                // this should only happen if we have established a connection in the first place
-                if (client != null && retrys > 0)
-                {
-                    log.Info("udp reconnect");
-                    client = new UdpClient();
-                    client.Connect(OnSettings("UDP_host", ""), int.Parse(OnSettings("UDP_port", "")));
-                    retrys--;
-                }
-
-                throw new Exception("The UdpSerialConnect is closed");
-            }
         }
 
         protected virtual void Dispose(bool disposing)

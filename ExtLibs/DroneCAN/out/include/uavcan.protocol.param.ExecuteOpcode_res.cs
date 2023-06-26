@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,42 +17,32 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_MAX_PACK_SIZE = 7;
-        public const ulong UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_DT_SIG = 0x3B131AC5EB69D2CD;
-
-        public const int UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_DT_ID = 10;
-
-
-
-
-
-
-        public partial class uavcan_protocol_param_ExecuteOpcode_res: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_protocol_param_ExecuteOpcode_res: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_MAX_PACK_SIZE = 7;
+            public const ulong UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_DT_SIG = 0x3B131AC5EB69D2CD;
+            public const int UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_DT_ID = 10;
 
             public int64_t argument = new int64_t();
-
-
-
             public bool ok = new bool();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_protocol_param_ExecuteOpcode_res(this, chunk_cb, ctx);
+                encode_uavcan_protocol_param_ExecuteOpcode_res(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_protocol_param_ExecuteOpcode_res(transfer, this);
+                decode_uavcan_protocol_param_ExecuteOpcode_res(transfer, this, fdcan);
+            }
+
+            public static uavcan_protocol_param_ExecuteOpcode_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new uavcan_protocol_param_ExecuteOpcode_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

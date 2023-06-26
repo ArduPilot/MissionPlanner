@@ -1,7 +1,7 @@
 UAVCAN namespace
 ================
 
-For details, please refer to the [UAVCAN specification](http://uavcan.org/).
+For details, please refer to the [DroneCAN specification](http://dronecan.org/).
 
 ## Standard ID grouping
 

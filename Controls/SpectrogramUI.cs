@@ -117,6 +117,13 @@ namespace MissionPlanner.Controls
             zedGraphControl1.MasterPane[2].YAxis.Scale.Min = 0;
             zedGraphControl1.MasterPane[2].YAxis.Scale.Max = freqt.Max();
 
+            zedGraphControl1.MasterPane[0].YAxis.Scale.MajorStep = 20;
+            zedGraphControl1.MasterPane[0].YAxis.MajorGrid.IsVisible = true;
+            zedGraphControl1.MasterPane[1].YAxis.Scale.MajorStep = 20;
+            zedGraphControl1.MasterPane[1].YAxis.MajorGrid.IsVisible = true;
+            zedGraphControl1.MasterPane[2].YAxis.Scale.MajorStep = 20;
+            zedGraphControl1.MasterPane[2].YAxis.MajorGrid.IsVisible = true;
+
             Bitmap bitmap = new Bitmap( 10, 10 );
             Graphics g = Graphics.FromImage( bitmap );
             zedGraphControl1.MasterPane.DoLayout(g);

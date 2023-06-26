@@ -10,6 +10,9 @@ namespace MissionPlanner.Utilities
         public const double rad2deg = (180 / Math.PI);
         public const double deg2rad = (1.0 / rad2deg);
 
+        public const float rad2degf = (float)(180 / Math.PI);
+        public const float deg2radf = (float)(1.0 / rad2deg);
+
         public static double Degrees(double rad)
         {
             return rad * rad2deg;

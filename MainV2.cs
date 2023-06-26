@@ -1,5 +1,5 @@
 ﻿#if !LIB
-extern alias Drawing;using AltitudeAngelWings;using MissionPlanner.Utilities.AltitudeAngel;
+extern alias Drawing;
 #endif
 
 using GMap.NET.WindowsForms;
@@ -457,6 +457,18 @@ namespace MissionPlanner
             }
         }
 
+        public static bool speech_armed_only = false;
+        public static bool speechEnabled()
+        {
+            if (!speechEnable) {
+                return false;
+            }
+            if (speech_armed_only) {
+                return MainV2.comPort.MAV.cs.armed;
+            }
+            return true;
+        }
+
         /// <summary>
         /// spech engine static class
         /// </summary>
@@ -742,6 +754,16 @@ namespace MissionPlanner
             Application.DoEvents();
 
             instance = this;
+
+            MyView = new MainSwitcher(this);
+
+            View = MyView;
+
+            if (Settings.Instance.ContainsKey("language") && !string.IsNullOrEmpty(Settings.Instance["language"]))
+            {
+                changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
+            }
+
             InitializeComponent();
 
             //Init Theme table and load BurntKermit as a default
@@ -764,12 +786,6 @@ namespace MissionPlanner
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
-            MyView = new MainSwitcher(this);
-
-            View = MyView;
-
-            //startup console
-            TCPConsole.Write((byte) 'S');
 
             // define default basestream
             comPort.BaseStream = new SerialPort();
@@ -849,11 +865,6 @@ namespace MissionPlanner
             }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(Settings.Instance["guid"].ToString());
-
-            if (Settings.Instance.ContainsKey("language") && !string.IsNullOrEmpty(Settings.Instance["language"]))
-            {
-                changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
-            }
 
             if (splash != null)
             {
@@ -1033,7 +1044,7 @@ namespace MissionPlanner
 
                 //Load customfield names from config
 
-                for (short i = 0; i < 10; i++)
+                for (short i = 0; i < 20; i++)
                 {
                     var fieldname = "customfield" + i.ToString();
                     if (Settings.Instance.ContainsKey(fieldname))
@@ -1289,35 +1300,35 @@ namespace MissionPlanner
                                 DateTime.Now)
                             {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw};
                 }
+            }
 
-                try
-                {
-                    // dont rebroadcast something that came from the drone
-                    if (sender != null && sender is MAVLinkInterface)
-                        return;
+            try
+            {
+                // dont rebroadcast something that came from the drone
+                if (sender != null && sender is MAVLinkInterface)
+                    return;
 
-                    MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
+                MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
-                    packet.altitude = (int) (MainV2.instance.adsbPlanes[id].Alt * 1000);
-                    packet.altitude_type = (byte) MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
-                    packet.callsign = adsb.CallSign.MakeBytes();
-                    packet.squawk = adsb.Squawk;
-                    packet.emitter_type = (byte) MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
-                    packet.heading = (ushort) (MainV2.instance.adsbPlanes[id].Heading * 100);
-                    packet.lat = (int) (MainV2.instance.adsbPlanes[id].Lat * 1e7);
-                    packet.lon = (int) (MainV2.instance.adsbPlanes[id].Lng * 1e7);
-                    packet.ICAO_address = uint.Parse(id, NumberStyles.HexNumber);
+                packet.altitude = (int) (adsb.Alt * 1000);
+                packet.altitude_type = (byte) MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
+                packet.callsign = adsb.CallSign.MakeBytes();
+                packet.squawk = adsb.Squawk;
+                packet.emitter_type = (byte) MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.heading = (ushort) (adsb.Heading * 100);
+                packet.lat = (int) (adsb.Lat * 1e7);
+                packet.lon = (int) (adsb.Lng * 1e7);
+                packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
 
-                    packet.flags = (ushort) (MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
-                                             MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+                packet.flags = (ushort) (MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                                            MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
 
-                    //send to current connected
-                    MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-                }
-                catch
-                {
+                //send to current connected
+                MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+            }
+            catch
+            {
 
-                }
             }
         }
 
@@ -1787,7 +1798,7 @@ namespace MissionPlanner
                     FlightData.CheckBatteryShow();
 
                     // save the baudrate for this port
-                    Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] =
+                    Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ","_") + "_BAUD"] =
                         _connectionControl.CMB_baudrate.Text;
 
                     this.Text = titlebar + " " + comPort.MAV.VersionString;
@@ -2031,10 +2042,10 @@ namespace MissionPlanner
             try
             {
                 // check for saved baud rate and restore
-                if (Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] != null)
+                if (Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ", "_") + "_BAUD"] != null)
                 {
                     _connectionControl.CMB_baudrate.Text =
-                        Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"];
+                        Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ", "_") + "_BAUD"];
                 }
             }
             catch
@@ -2070,9 +2081,6 @@ namespace MissionPlanner
 
             log.Info("close logs");
 
-#if !LIB
-            AltitudeAngel.Dispose();
-#endif
             // close bases connection
             try
             {
@@ -2699,7 +2707,7 @@ namespace MissionPlanner
                     }
 
                     // 30 seconds interval speech options
-                    if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
+                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (MainV2.speechEngine.IsReady)
@@ -2743,7 +2751,7 @@ namespace MissionPlanner
                     }
 
                     // speech for airspeed alerts
-                    if (speechEnable && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
+                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (Settings.Instance.GetBoolean("speechlowspeedenabled") == true &&
@@ -2780,7 +2788,7 @@ namespace MissionPlanner
                     }
 
                     // speech altitude warning - message high warning
-                    if (speechEnable && speechEngine != null &&
+                    if (speechEnabled() && speechEngine != null &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         float warnalt = float.MaxValue;
@@ -2818,7 +2826,8 @@ namespace MissionPlanner
                                 lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh &&
                                 MainV2.comPort.MAV.cs.messageHigh != null)
                             {
-                                if (!MainV2.comPort.MAV.cs.messageHigh.StartsWith("PX4v2 "))
+                                if (!MainV2.comPort.MAV.cs.messageHigh.StartsWith("PX4v2 ") &&
+                                    !MainV2.comPort.MAV.cs.messageHigh.StartsWith("PreArm:")) // Supress audibly repeating PreArm messages
                                 {
                                     MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
                                     lastmessagehigh = MainV2.comPort.MAV.cs.messageHigh;
@@ -2852,21 +2861,20 @@ namespace MissionPlanner
                         }
                     }
 
-                    // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
-                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 10
+                    // data loss warning - wait min of 3 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
+                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 3
                         && (DateTime.Now - connecttime).TotalSeconds > 30
                         && (DateTime.Now - nodatawarning).TotalSeconds > 5
                         && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen)
                         && MainV2.comPort.MAV.cs.armed)
                     {
-                        if (speechEnable && speechEngine != null)
+                        var msg = "WARNING No Data for " + (int)(DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
+                        MainV2.comPort.MAV.cs.messageHigh = msg;
+                        if (speechEnabled() && speechEngine != null)
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
-                                MainV2.speechEngine.SpeakAsync("WARNING No Data for " +
-                                                               (int)
-                                                               (DateTime.Now - MainV2.comPort.MAV.lastvalidpacket)
-                                                               .TotalSeconds + " Seconds");
+                                MainV2.speechEngine.SpeakAsync(msg);
                                 nodatawarning = DateTime.Now;
                             }
                         }
@@ -3604,27 +3612,6 @@ namespace MissionPlanner
                 }
             };
 
-            try
-            {
-                if (!MONO)
-                {
-#if !LIB
-                    log.Info("Load AltitudeAngel");
-                    AltitudeAngel.Configure();
-                    _ = AltitudeAngel.Initialize().ConfigureAwait(false);
-                    log.Info("Load AltitudeAngel... Done");
-#endif
-                }
-            }
-            catch (TypeInitializationException) // windows xp lacking patch level
-            {
-                //CustomMessageBox.Show("Please update your .net version. kb2468871");
-            }
-            catch (Exception ex)
-            {
-                Tracking.AddException(ex);
-            }
-
             this.ResumeLayout();
 
             Program.Splash?.Close();
@@ -3946,19 +3933,6 @@ namespace MissionPlanner
 
                     Settings.Instance["kindexdate"] = DateTime.Now.ToShortDateString();
                 }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-
-        private void BGgetTFR(object state)
-        {
-            try
-            {
-                tfr.tfrcache = Settings.GetUserDataDirectory() + "tfr.xml";
-                tfr.GetTFRs();
             }
             catch (Exception ex)
             {

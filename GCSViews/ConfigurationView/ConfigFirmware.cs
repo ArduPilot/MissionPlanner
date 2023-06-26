@@ -430,6 +430,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                ports.AddRange(Linux.GetAllCOMPorts());
 
                 if (ExtraDeviceInfo != null)
                 {
@@ -443,7 +444,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
-                var updated = fw.update(MainV2.comPortName, fwtoupload, history, ports);
+                var updated = fw.updateLegacy(MainV2.comPortName, fwtoupload, history, ports);
 
                 if (updated)
                 {
@@ -546,12 +547,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                             else
                             {
-                                boardtype = BoardDetect.boards.px4v2;
+                                boardtype = BoardDetect.boards.px4v3;
                             }
                         }
                         else
                         {
                             var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                            ports.AddRange(Linux.GetAllCOMPorts());
 
                             if (ExtraDeviceInfo != null)
                             {

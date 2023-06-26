@@ -50,6 +50,8 @@ namespace MissionPlanner.Controls
             }
             set
             {
+                if (_numberformat.Equals(value))
+                    return;
                 _numberformat = value;
                 this.Invalidate();
             }

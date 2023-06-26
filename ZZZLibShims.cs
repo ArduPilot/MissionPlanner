@@ -133,28 +133,6 @@ namespace Microsoft.Scripting.Runtime
 
 namespace Microsoft.Scripting.Utils
 {
-    public static class CollectionUtils
-    {
-        public static IEnumerable<TRet> Select<TRet>(this IEnumerable enumerable, Func<object, TRet> selector)
-        {
-            ContractUtils.RequiresNotNull(enumerable, "enumerable");
-            ContractUtils.RequiresNotNull(selector, "selector");
-            foreach (object item in enumerable)
-            {
-                yield return selector(item);
-            }
-        }
-
-        public static IList<T> ToSortedList<T>(this ICollection<T> collection, Comparison<T> comparison)
-        {
-            ContractUtils.RequiresNotNull(collection, "collection");
-            ContractUtils.RequiresNotNull(comparison, "comparison");
-            T[] array = new T[collection.Count];
-            collection.CopyTo(array, 0);
-            Array.Sort(array, comparison);
-            return array;
-        }
-    }
 
     public static class ContractUtils
     {
@@ -174,6 +152,10 @@ public delegate int GetInt();
 namespace  IronPython.Runtime
 {
 
+}
+
+namespace IronPython.Runtime.Operations
+{
 }
 
 namespace SharpAdbClient
@@ -559,10 +541,12 @@ public interface IFeatureSet
     int NumRows();
 }
 
-public class Feature    
-{
-    public List<Coord> Coordinates { get; set; }
-}
+    public class Feature
+    {
+        public List<Coord> Coordinates { get; set; }
+
+        public Feature Geometry { get; set; }
+    }
 
 public class Coord
 {
@@ -755,6 +739,15 @@ namespace System.Windows.Forms
     }
 }
 
+namespace GDAL {
+    internal class GDALProvider
+    {
+        internal static GDALProvider Instance;
+
+        internal double opacity = 1.0;
+    }
+}
+
 public class GdalConfiguration
 {
     public static void ConfigureGdal()
@@ -854,7 +847,7 @@ namespace System.Management
         }
     }
 
-    public class ManagementObjectSearcher: IDisposable
+    public class ManagementObjectSearcher : IDisposable
     {
         private ObjectQuery query;
 
@@ -879,7 +872,7 @@ namespace System.Management
 
         public class PropertyDataCollection : ICollection
         {
-         
+
 
             public IEnumerator<extratype> GetEnumerator()
             {
@@ -893,7 +886,7 @@ namespace System.Management
 
             public void CopyTo(Array array, int index)
             {
-                
+
             }
 
             IEnumerator IEnumerable.GetEnumerator()

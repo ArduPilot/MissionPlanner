@@ -1,19 +1,22 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Models;
-using DotNetOpenAuth.OAuth2;
-using GMap.NET;
+using AltitudeAngelWings.ApiClient.Models.FlightV2;
+using AltitudeAngelWings.ApiClient.Models.Strategic;
+using AltitudeAngelWings.Models;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
     public interface IAltitudeAngelClient : IDisposable
     {
-        IAuthorizationState AuthorizationState { get; }
-        void Disconnect();
-        Task<AAFeatureCollection> GetMapData(RectLatLng latLongBounds);
-        Task<WeatherInfo> GetWeather(PointLatLng latLong);
+        void Disconnect(bool resetAuth = false);
+        Task<AAFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken);
+        Task<WeatherInfo> GetWeather(LatLong latLong);
         Task<UserProfileInfo> GetUserProfile();
-        Task<string> CreateFlightReport(string flightReportName, bool isCommerial, DateTime localStartTime, DateTime localEndTime, PointLatLng location, int radius);
-        Task CompleteFlightReport(string flightId);
+        Task CompleteFlight(string flightId);
+        Task<CreateStrategicPlanResponse> CreateFlightPlan(FlightPlan flightPlan, UserProfileInfo currentUser);
+        Task<StartFlightResponse> StartFlight(string flightPlanId);
+        Task CancelFlightPlan(string flightPlanId);
     }
 }

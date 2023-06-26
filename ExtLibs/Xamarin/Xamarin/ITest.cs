@@ -20,11 +20,15 @@ namespace Xamarin
             get;
             set;
         }
+
+        public static ISpeech Speech { get; set; }
     }
 
     public interface ISystemInfo
     {
         string GetSystemTag();
+
+        void StartProcess(string[] cmd);
     }
 
     public interface IGPS

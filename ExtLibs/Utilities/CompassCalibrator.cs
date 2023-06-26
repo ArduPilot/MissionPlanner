@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using Newtonsoft.Json;
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using int16_t = System.Int16;
@@ -13,6 +14,7 @@ using staticfloat = System.Single;
 
 namespace MissionPlanner.Utilities
 {
+    //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Compass/CompassCalibrator.cpp
     public class CompassCalibrator : Utils
     {
         public enum compass_cal_status_t
@@ -529,7 +531,8 @@ namespace MissionPlanner.Utilities
             return sum;
         }
 
-        void calc_sphere_jacob(Vector3f  sample,param_t @params,ref float[] ret) {
+        void calc_sphere_jacob(Vector3f sample, param_t @params, ref float[] ret)
+        {
             Vector3f  offset = @params.offset;
             Vector3f  diag = @params.diag;
             Vector3f  offdiag = @params.offdiag;
@@ -549,7 +552,7 @@ namespace MissionPlanner.Utilities
             float length = (float)(softiron * (sample + offset)).length();
 
 // 0: partial derivative (radius wrt fitness fn) fn operated on sample
-            ret[0] = 1.0f;
+            ret[0] = 1.0f;//length / @params.radius;
             // 1-3: partial derivative (offsets wrt fitness fn) fn operated on sample
             ret[1] = -1.0f * (((diag.x * A) + (offdiag.x * B) + (offdiag.y * C)) / length);
             ret[2] = -1.0f * (((offdiag.x * A) + (diag.y * B) + (offdiag.z * C)) / length);
@@ -635,9 +638,11 @@ namespace MissionPlanner.Utilities
                     fit2_params.get_sphere_params()[row] -= JTFI[col] * JTJ2[row * COMPASS_CAL_NUM_SPHERE_PARAMS + col];
                 }
             }
-
+            
             fit1 = calc_mean_squared_residuals(fit1_params);
             fit2 = calc_mean_squared_residuals(fit2_params);
+
+            Console.WriteLine(fit1_params.ToJSON(Formatting.None) + " " + fit1 + " " + fit2);
 
             if (fit1 > _fitness && fit2 > _fitness)
             {
@@ -762,15 +767,17 @@ namespace MissionPlanner.Utilities
             {
                 for (uint8_t col = 0; col < COMPASS_CAL_NUM_ELLIPSOID_PARAMS; col++)
                 {
-                    fit1_params.get_sphere_params()[row+1] -=
+                    fit1_params.get_ellipsoid_params()[row] -=
                         JTFI[col] * JTJ[row * COMPASS_CAL_NUM_ELLIPSOID_PARAMS + col];
-                    fit2_params.get_sphere_params()[row+1] -=
+                    fit2_params.get_ellipsoid_params()[row] -=
                         JTFI[col] * JTJ2[row * COMPASS_CAL_NUM_ELLIPSOID_PARAMS + col];
                 }
             }
-
+            
             fit1 = calc_mean_squared_residuals(fit1_params);
             fit2 = calc_mean_squared_residuals(fit2_params);
+
+            Console.WriteLine(fit1_params.ToJSON(Formatting.None) + " " + fit1 + " " + fit2);
 
             if (fit1 > _fitness && fit2 > _fitness)
             {
@@ -811,16 +818,16 @@ namespace MissionPlanner.Utilities
 
         public class param_t
         {
-            public ref float[] get_sphere_params()
+            public Span<float> get_sphere_params()
             {
-                return ref data;
+                return new Span<float>(data, 0, 4);
             }
 
-          /*  public ref float[] get_ellipsoid_params()
+            public Span<float> get_ellipsoid_params()
             {
-                return ref data[1];
+                return new Span<float>(data, 1, 9);
             }
-            */
+            
             private float[] data = new float[10];
 
             public float radius

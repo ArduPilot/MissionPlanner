@@ -30,6 +30,7 @@ using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
+using Android.Media;
 using Android.Provider;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -47,13 +48,42 @@ using String = System.String;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 using Uri = Android.Net.Uri;
 using View = Android.Views.View;
+using Interfaces;
+using Encoding = Android.Media.Encoding;
+using Stream = Android.Media.Stream;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
 [assembly: UsesFeature(GLESVersion = 0x00030000, Required = true)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
-//[assembly: UsesPermission("android.permission.MANAGE_EXTERNAL_STORAGE")]
+[assembly: UsesPermission("android.permission.BLUETOOTH")]
+[assembly: UsesPermission("android.permission.BLUETOOTH_CONNECT")]
+[assembly: UsesPermission("android.permission.BLUETOOTH_ADMIN")]
+[assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
+[assembly: UsesFeature("android.hardware.bluetooth_le", Required = false)]
+[assembly: UsesPermission("android.permission.ACCESS_FINE_LOCATION")]
+[assembly: UsesPermission("android.permission.ACCESS_COARSE_LOCATION")]
+[assembly: UsesPermission("android.permission.INTERNET")]
+[assembly: UsesPermission("android.permission.LOCATION_HARDWARE")]
+[assembly: UsesPermission("android.permission.WAKE_LOCK")]
+[assembly: UsesPermission("android.permission.WRITE_EXTERNAL_STORAGE")]
+[assembly: UsesPermission("android.permission.READ_EXTERNAL_STORAGE")]
+[assembly: UsesPermission("android.permission.CHANGE_NETWORK_STATE")]
+[assembly: UsesPermission("android.permission.CHANGE_WIFI_MULTICAST_STATE")]
+[assembly: UsesPermission("android.permission.CHANGE_WIFI_STATE")]
+[assembly: UsesPermission("android.permission.ACCESS_NETWORK_STATE")]
+[assembly: UsesPermission("android.permission.ACCESS_WIFI_STATE")]
+[assembly: UsesPermission("android.permission.RECEIVE_BOOT_COMPLETED")]
+[assembly: UsesPermission("android.permission.BLUETOOTH")]
+[assembly: UsesPermission("android.permission.USB_PERMISSION")]
+[assembly: UsesPermission("android.permission.BATTERY_STATS")]
+[assembly: UsesFeature("android.hardware.usb.accessory", Required = false)]
+[assembly: UsesFeature("android.hardware.touchscreen" , Required = false)]
+[assembly: UsesFeature("android.hardware.location" , Required = false)]
+[assembly: UsesFeature("android.hardware.telephony", Required = false)]
+[assembly: UsesFeature("android.hardware.faketouch" , Required = true)]
+
 
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
@@ -65,7 +95,7 @@ namespace Xamarin.Droid
     [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.tlog", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })]
     [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.bin", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })] 
     [MetaData("android.hardware.usb.action.USB_DEVICE_ATTACHED", Resource = "@xml/device_filter")]
-    [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(Label = "Mission Planner", Exported = true, ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
         MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true, LaunchMode = LaunchMode.SingleInstance)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -235,11 +265,19 @@ namespace Xamarin.Droid
             }
             catch (Exception ex) { Log.Error("MP", ex.ToString()); }
 
-            Test.BlueToothDevice = new BTDevice();
-            Test.UsbDevices = new USBDevices();
-            Test.Radio = new Radio();
-            Test.GPS = new GPS();
-            Test.SystemInfo = new SystemInfo();
+            ServiceLocator.Register<IBlueToothDevice>(() => new BTDevice());
+            ServiceLocator.Register<IUSBDevices>(() => new USBDevices());
+            ServiceLocator.Register<IRadio>(() => new Radio());
+            ServiceLocator.Register<IGPS>(() => new GPS());
+            ServiceLocator.Register<ISystemInfo>(() => new SystemInfo());
+
+            Test.BlueToothDevice = ServiceLocator.Get<IBlueToothDevice>();
+            Test.UsbDevices = ServiceLocator.Get<IUSBDevices>();
+            Test.Radio = ServiceLocator.Get<IRadio>();
+            Test.GPS = ServiceLocator.Get<IGPS>();
+            Test.SystemInfo = ServiceLocator.Get<ISystemInfo>();
+
+            Vario.Beep = (i, i1) => { playSound(i, i1); };
 
             androidvideo = new AndroidVideo();
             //disable
@@ -248,7 +286,7 @@ namespace Xamarin.Droid
             {
                 WinForms.SetHUDbg(o);
             };
-            
+
 
             //ConfigFirmwareManifest.ExtraDeviceInfo
             /*
@@ -287,7 +325,7 @@ namespace Xamarin.Droid
                     Thread.Sleep(1000);
                     var text = "Checking Permissions - " + DateTime.Now.ToString("T");
 
-                    DoToastMessage(text);
+                    //DoToastMessage(text);
                 }
             }
 
@@ -311,7 +349,7 @@ namespace Xamarin.Droid
                 // clean start, see if it was an intent/usb attach
                 //if (savedInstanceState == null)
                 {
-                    DoToastMessage("Init Saved State");
+                    //DoToastMessage("Init Saved State");
                     proxyIfUsbAttached(this.Intent);
 
                     Console.WriteLine(this.Intent?.Action);
@@ -347,9 +385,47 @@ namespace Xamarin.Droid
             });
             
 
-            DoToastMessage("Launch App");
+            //DoToastMessage("Launch App");
 
             LoadApplication(new App());
+        }
+
+        byte[] genTone(int sampleRate, int freqOfTone, int numSamples)
+        {
+            byte[] generatedSnd = new byte[2 * numSamples];
+            double[] sample = new double[numSamples];
+            // fill out the array
+            for (int i = 0; i < numSamples; ++i)
+            {
+                sample[i] = System.Math.Sin(2 * System.Math.PI * i / (sampleRate / freqOfTone));
+            }
+
+            // convert to 16 bit pcm sound array
+            // assumes the sample buffer is normalised.
+            int idx = 0;
+            foreach (double dVal in sample)
+            {
+                // scale to maximum amplitude
+                short val = (short)((dVal * 32767));
+                // in 16 bit wav PCM, first byte is the low order byte
+                generatedSnd[idx++] = (byte)(val & 0x00ff);
+                generatedSnd[idx++] = (byte)((val & 0xff00) >> 8);
+
+            }
+
+            return generatedSnd;
+        }
+
+        void playSound(int freq, int duration)
+        {
+            var sampleRate = 8000;
+            var generatedSnd = genTone(sampleRate, freq, (duration * sampleRate) / 1000);
+            AudioTrack audioTrack = new AudioTrack(Stream.Music,
+                sampleRate, ChannelConfiguration.Mono, Encoding.Pcm16bit, generatedSnd.Length, AudioTrackMode.Stream);
+            audioTrack.Play();
+            audioTrack.Write(generatedSnd, 0, generatedSnd.Length);
+            Thread.Sleep(duration + 40);
+            audioTrack.Stop();
         }
 
         public override bool OnGenericMotionEvent(MotionEvent e)
@@ -679,6 +755,11 @@ namespace Xamarin.Droid
             {
                 return "";
             }
+        }
+
+        public void StartProcess(string[] cmd)
+        {
+            Runtime.GetRuntime().Exec(cmd);
         }
     }
 }

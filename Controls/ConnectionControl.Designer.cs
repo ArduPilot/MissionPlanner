@@ -39,8 +39,8 @@
             // 
             this.cmb_Baud.BackColor = System.Drawing.Color.Black;
             this.cmb_Baud.DropDownWidth = 110;
-            resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
             this.cmb_Baud.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
             this.cmb_Baud.Items.AddRange(new object[] {
             resources.GetString("cmb_Baud.Items"),
             resources.GetString("cmb_Baud.Items1"),
@@ -65,9 +65,9 @@
             this.cmb_Connection.BackColor = System.Drawing.Color.Black;
             this.cmb_Connection.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmb_Connection.DropDownWidth = 230;
-            resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.ForeColor = System.Drawing.Color.White;
             this.cmb_Connection.FormattingEnabled = true;
+            resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.Name = "cmb_Connection";
             this.cmb_Connection.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cmb_Connection_DrawItem);
             // 
@@ -75,7 +75,6 @@
             // 
             resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Image = global::MissionPlanner.Properties.Resources.bgdark;
             this.linkLabel1.LinkColor = System.Drawing.Color.White;
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;

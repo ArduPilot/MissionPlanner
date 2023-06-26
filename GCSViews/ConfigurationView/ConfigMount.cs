@@ -97,8 +97,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
-                MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
+            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt(ParamHead + "TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), ParamHead + "TYPE", MainV2.comPort.MAV.param);
         }
 
         public void Activate()
@@ -151,11 +151,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 CHK_stab_tilt.setup(1, 0, ParamHead + "STAB_TILT", MainV2.comPort.MAV.param);
                 CHK_stab_roll.setup(1, 0, ParamHead + "STAB_ROLL", MainV2.comPort.MAV.param);
-                CHK_stab_pan.setup(1, 0, ParamHead + "STAB_PAN", MainV2.comPort.MAV.param);
-
-                NUD_CONTROL_x.setup(-180, 180, 1, 1, ParamHead + "CONTROL_X", MainV2.comPort.MAV.param);
-                NUD_CONTROL_y.setup(-180, 180, 1, 1, ParamHead + "CONTROL_Y", MainV2.comPort.MAV.param);
-                NUD_CONTROL_z.setup(-180, 180, 1, 1, ParamHead + "CONTROL_Z", MainV2.comPort.MAV.param);
 
                 NUD_NEUTRAL_x.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_X", MainV2.comPort.MAV.param);
                 NUD_NEUTRAL_y.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_Y", MainV2.comPort.MAV.param);
@@ -298,11 +293,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (mavlinkComboBoxPan.Text != "Disable")
             {
                 MainV2.comPort.setParam(mavlinkComboBoxPan.Text + "_FUNCTION", 6);
-                //MainV2.comPort.setParam(ParamHead+"STAB_PAN", 1);
             }
             else
             {
-                //MainV2.comPort.setParam(ParamHead+"STAB_PAN", 0);
                 ensureDisabled(mavlinkComboBoxPan, 6);
             }
 

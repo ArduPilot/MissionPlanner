@@ -31,7 +31,7 @@ namespace MissionPlanner.Utilities
                 double sample_rate = -1;
                 double multiplier = -1;
 
-                var data = cb.GetEnumeratorType(new string[] {"ISBH", "ISBD"})
+                var data = cb.GetEnumeratorType(new string[] { "ISBH", "ISBD" })
                     .SelectMany(
                         item =>
                         {
@@ -46,7 +46,7 @@ namespace MissionPlanner.Utilities
 
                                 if (instance != sensorno || type1 != sensor)
                                     return new (double time, double d)[0];
-                                
+
                                 sample_rate = double.Parse(
                                     item.items[cb.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
                                     CultureInfo.InvariantCulture);
@@ -73,17 +73,16 @@ namespace MissionPlanner.Utilities
 
                                 double time = double.Parse(item.items[offsetTime], CultureInfo.InvariantCulture);
 
-                                var ua = (BinaryLog.UnionArray) item.GetRaw(field.ToLower()
+                                var ua = (BinaryLog.UnionArray)item.GetRaw(field.ToLower()
                                     .Substring(field.Length - 1));
 
-                                return ua.Shorts.Take(ua.ShortsLength).Select(ds =>
+                                return ua.Shorts.Select(ds =>
                                     {
-                                        double d = ((double) ds / multiplier);
+                                        double d = ((double)ds / multiplier);
                                         return (time, d);
                                     })
                                     .ToArray();
                             }
-
                             return new (double time, double d)[0];
                         }).ToArray();
 
@@ -93,6 +92,40 @@ namespace MissionPlanner.Utilities
                 var fft = new FFT2();
 
                 var freqt = fft.FreqTable(N, (int)sample_rate);
+
+                {
+                    int done2 = 0;
+                    var fft3 = new fft3(N);
+                    int totalsamples2 = data.Count();
+                    var img2 = new Image<Rgba32>(totalsamples2, freqt.Length);
+
+                    foreach (var valueTuple in data)
+                    {
+                        fft3.add_data(valueTuple.d);
+                        fft3.sdft();
+
+                        var fftanswerz = fft3.powr_spectrum();
+
+                        // test
+                        //fftanswerz = fft.rin(fft3.@in, (uint)bins);
+
+
+                        allfftdata.Add((valueTuple.time, fftanswerz));
+
+                        var i = 0;
+                        foreach (var y in freqt)
+                        {
+                            img2[done2, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max);
+                            i++;
+                        }
+
+                        done2++;
+                    }
+
+                    freqtout = freqt;
+
+                    return img2;
+                }
 
                 // time , freq , [color] &freqcount
 
@@ -107,23 +140,35 @@ namespace MissionPlanner.Utilities
                 log.Debug("done and count ");
                 while (count > 1) // skip last part
                 {
-                    var fftdata = data.Skip((int) (N * (done / (double) divisor))).Take(N);
+                    if ((int)(N * (done / (double)divisor)) > data.Length - N)
+                        break;
 
-                    if (fftdata.Count() < N)
+                    var fftdata = data.AsSpan().Slice((int)(N * (done / (double)divisor)), N);
+
+                    if (fftdata.Length < N)
                     {
                         break;
                     }
 
-                    var timeusvalue = fftdata.Min(a => a.time);
+                    var timeusvalue = double.MaxValue;
+                    var data1 = new double[N];
+                    int c = 0;
+                    foreach (var a in fftdata)
+                    {
+                        timeusvalue = Math.Min(timeusvalue, a.time);
+                        data1[c++] = a.d;
+                    }
 
-                    var fftanswerz = fft.rin(fftdata.Select(a => (double) a.d).ToArray(),
-                        (uint) bins);
+                    var fftanswerz = fft.rin(data1, (uint)bins);
 
                     allfftdata.Add((timeusvalue, fftanswerz));
 
-                    //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
-                    freqt.Select((y, i) => img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max))
-                        .ToArray();
+                    var i = 0;
+                    foreach (var y in freqt)
+                    {
+                        img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max);
+                        i++;
+                    }
 
                     count--;
                     done++;
@@ -142,59 +187,62 @@ namespace MissionPlanner.Utilities
 
                 var acc1data = cb.GetEnumeratorType(type).ToArray();
                 log.Debug(type);
-                var firstsample = acc1data.Take(N);
-                var samplemin = double.Parse(firstsample.Min(a => a[timeus]));
-                var samplemax = double.Parse(firstsample.Max(a => a[timeus]));
+                if (cb.dflog.FindMessageOffset(acc1data[0].msgtype, "TimeUS") == -1)
+                    timeus = "SampleUS";
 
-                log.Debug("samplemin " + samplemin + " samplemax " + samplemax);
-
-                var timedelta = samplemin - samplemax;
-
-                log.Debug(" timedelta " + timedelta);
-
-                var freqt = fft.FreqTable(N, (int) (1000 / (N / timedelta)));
-
-                // time , freq , [color] &freqcount
-
-                double lasttime = 0;
                 int totalsamples = acc1data.Count();
                 int count = totalsamples / N;
                 int done = 0;
+                double timedelta = 0;
                 // 50% overlap
                 int divisor = 4;
                 count *= divisor;
-                var img = new Image<Rgba32>(count, freqt.Length);
+                var img = new Image<Rgba32>(count, N / 2);
                 log.Debug("done and count ");
                 while (count > 1) // skip last part
                 {
-                    var fftdata = acc1data.Skip((int) (N * (done / (double) divisor))).Take(N);
+                    if ((int)(N * (done / (double)divisor)) > acc1data.Length - N)
+                        break;
 
-                    if (fftdata.Count() < N)
+                    var fftdata = acc1data.AsSpan().Slice((int)(N * (done / (double)divisor)), N);
+
+                    if (fftdata.Length < N)
                     {
                         break;
                     }
 
-                    var timeusvalue = double.Parse(fftdata.Min(a => a[timeus]));
+                    var timeusvalue = double.MaxValue;
+                    var timeusvalueend = double.MinValue;
+                    var data = new double[N];
+                    int c = 0;
+                    foreach (var a in fftdata)
+                    {
+                        var time = Convert.ToDouble(a.GetRaw(timeus));
+                        timeusvalue = Math.Min(timeusvalue, time);
+                        timeusvalueend = Math.Max(timeusvalueend, time);
+                        data[c++] = Convert.ToDouble(a.GetRaw(field));
+                    }
 
-                    timedelta = timedelta * 0.99 + (timeusvalue - lasttime) * 0.01;
-                    lasttime = timeusvalue;
+                    timedelta = timedelta * 0.99 + ((timeusvalueend - timeusvalue)) * 0.01;
 
-                    //var time = fftdata.Skip(N / 2).First().time.ToString("o");
-
-                    var fftanswerz = fft.rin(fftdata.Select(a => (double) (float) a.GetRaw(field)).ToArray(),
-                        (uint) bins);
+                    var fftanswerz = fft.rin(data, (uint)bins);
 
                     allfftdata.Add((timeusvalue, fftanswerz));
 
-                    //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
-                    freqt.Select((y, i) => img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max))
-                        .ToArray();
+                    var i = 0;
+                    foreach (var y in Enumerable.Range(0, N/2))
+                    {
+                        img[done, ((N / 2) - 1) - i] = GetColor(fftanswerz[i], min, max);
+                        i++;
+                    }
 
                     count--;
                     done++;
                 }
 
-                freqtout = fft.FreqTable(N, (int) (1.0 / (N / (timedelta * divisor))));
+                // 1s / (1/ (N/delta))
+                var sample_rate = (int)(1000000 / (1.0 / (N / (timedelta))));
+                freqtout = fft.FreqTable(N, sample_rate);
 
                 return img;
             }
@@ -266,15 +314,15 @@ namespace MissionPlanner.Utilities
                 }
             }
             Rgba32 rgb = new Rgba32(0, 0, 0);
-            rgb.R = Convert.ToByte(r * 255.0f);
-            rgb.G = Convert.ToByte(g * 255.0f);
-            rgb.B = Convert.ToByte(b * 255.0f);
+            rgb.R = Convert.ToByte(r * 255);
+            rgb.G = Convert.ToByte(g * 255);
+            rgb.B = Convert.ToByte(b * 255);
             return rgb;
         }
 
         static Rgba32 GetColor(double actualValue, int min = -80, int max = -20)
         {
-            var scale = SCALE * Math.Log(actualValue + double.Epsilon);
+            var scale = actualValue;// SCALE * Math.Log(actualValue + double.Epsilon);
 
             scale = MathHelper.mapConstrained(scale, min, max, 0, 255);
 

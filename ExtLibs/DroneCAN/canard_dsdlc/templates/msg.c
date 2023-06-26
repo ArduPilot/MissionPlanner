@@ -22,14 +22,14 @@ namespace DroneCAN
 {
 @{indent += 1}@{ind = '    '*indent}@
     public partial class DroneCAN {
-        static void encode_@(msg_underscored_name)(@(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+        static void encode_@(msg_underscored_name)(@(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
             uint8_t[] buffer = new uint8_t[8];
-            _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, true);
+            _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, !fdcan);
         }
 
-        static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg) {
+        static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg, bool fdcan) {
             uint32_t bit_ofs = 0;
-            _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, true);
+            _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, !fdcan);
             return (bit_ofs+7)/8;
         }
 
@@ -47,7 +47,7 @@ namespace DroneCAN
 @[  end if]@
 @[    for field in msg_fields]@
 @[      if msg_union]@
-@(ind)case @(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
+@(ind)case @(msg_underscored_name).@(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
 @{indent += 1}@{ind = '    '*indent}@
 @[      end if]@
 @[      if field.type.category == field.type.CATEGORY_COMPOUND]@
@@ -119,7 +119,7 @@ namespace DroneCAN
 @[  if msg_union]@
 @(ind)@(union_msg_tag_uint_type_from_num_fields(len(msg_fields))) @(msg_underscored_name)_type = 0;
 @(ind)canardDecodeScalar(transfer, bit_ofs, @(union_msg_tag_bitlen_from_num_fields(len(msg_fields))), false, ref @(msg_underscored_name)_type);
-@(ind)msg.@(msg_underscored_name)_type = (@(msg_underscored_name)_type_t)@(msg_underscored_name)_type;
+@(ind)msg.@(msg_underscored_name)_type = (@(msg_underscored_name).@(msg_underscored_name)_type_t)@(msg_underscored_name)_type;
 @(ind)bit_ofs += @(union_msg_tag_bitlen_from_num_fields(len(msg_fields)));
 
 @(ind)switch(msg.@(msg_underscored_name)_type) {
@@ -127,7 +127,7 @@ namespace DroneCAN
 @[  end if]@
 @[    for field in msg_fields]@
 @[      if msg_union]@
-@(ind)case @(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
+@(ind)case @(msg_underscored_name).@(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
 @{indent += 1}@{ind = '    '*indent}@
 @[      end if]@
 @[      if field.type.category == field.type.CATEGORY_COMPOUND]@

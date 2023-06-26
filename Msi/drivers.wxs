@@ -16,116 +16,117 @@
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder" Name="PFiles">
-				<Directory Id="driver" Name="UAV Drivers">
-					<Component Id="drivercert" Guid="625389D7-EB3C-4d77-A5F6-A285CF994371">
+			<Directory Id="ProgramFilesFolder" Name="PFiles"> 
+   <Directory Id="driver" Name="UAV Drivers">
+						<Component Id="drivercert" Guid="625389D7-EB3C-4d77-A5F6-A285CF994371">
 						<RegistryValue Root="HKCU" Key="Software\MichaelOborne\driver" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 
 						<iis:Certificate Id="rootcert" StoreLocation="localMachine" StoreName="root" Overwrite='yes' BinaryKey='signedcer' Request="no" Name='Michael Oborne' />
 					</Component>
-						
-                        
-    				<Component Id="Drivers" Guid="5e65ea40-2450-4d03-8f31-cd83505fc09d">
-					<File Id="arduino_cat" Source="..\bin\release\net461\Drivers\arduino.cat" />
-				<File Id="arduino_inf" Source="..\bin\release\net461\Drivers\arduino.inf" />
-				<File Id="chibios_cat" Source="..\bin\release\net461\Drivers\chibios.cat" />
-				<File Id="ChibiOS_inf" Source="..\bin\release\net461\Drivers\ChibiOS.inf" />
-                <File Id="chibioscomp_cat" Source="..\bin\release\net461\Drivers\chibioscomp.cat" />
-				<File Id="ChibiOScomp_inf" Source="..\bin\release\net461\Drivers\ChibiOScomp.inf" />
-				<File Id="cube_cat" Source="..\bin\release\net461\Drivers\cube.cat" />
-				<File Id="Cube_inf" Source="..\bin\release\net461\Drivers\Cube.inf" />
-				<File Id="CubeComp_cat" Source="..\bin\release\net461\Drivers\CubeComp.cat" />
-				<File Id="CubeComp_inf" Source="..\bin\release\net461\Drivers\CubeComp.inf" />
-				<File Id="devcon_exe" Source="..\bin\release\net461\Drivers\devcon.exe" />
-				<File Id="dpinst_xml" Source="..\bin\release\net461\Drivers\dpinst.xml" />
-				<File Id="DPInstx64_exe" Source="..\bin\release\net461\Drivers\DPInstx64.exe" />
-				<File Id="DPInstx86_exe" Source="..\bin\release\net461\Drivers\DPInstx86.exe" />
-				<File Id="DriverCleanup_exe" Source="..\bin\release\net461\Drivers\DriverCleanup.exe" />
-				<File Id="DriverCleanup_exe_config" Source="..\bin\release\net461\Drivers\DriverCleanup.exe.config" />
-				<File Id="holybro_cat" Source="..\bin\release\net461\Drivers\holybro.cat" />
-				<File Id="Holybro_inf" Source="..\bin\release\net461\Drivers\Holybro.inf" />
-				<File Id="mindpx_cat" Source="..\bin\release\net461\Drivers\mindpx.cat" />
-				<File Id="mindpx_inf" Source="..\bin\release\net461\Drivers\mindpx.inf" />
-				<File Id="nxp_cat" Source="..\bin\release\net461\Drivers\nxp.cat" />
-				<File Id="nxp_inf" Source="..\bin\release\net461\Drivers\nxp.inf" />
-				<File Id="px4flow_cat" Source="..\bin\release\net461\Drivers\px4flow.cat" />
-				<File Id="px4flow_inf" Source="..\bin\release\net461\Drivers\px4flow.inf" />
-				<File Id="px4fmu_cat" Source="..\bin\release\net461\Drivers\px4fmu.cat" />
-				<File Id="px4fmu_inf" Source="..\bin\release\net461\Drivers\px4fmu.inf" />
-				<File Id="px4mav_cat" Source="..\bin\release\net461\Drivers\px4mav.cat" />
-				<File Id="px4mav_inf" Source="..\bin\release\net461\Drivers\px4mav.inf" />
-				<File Id="signed_cer" Source="..\bin\release\net461\Drivers\signed.cer" />
-				<File Id="stmcdc_cat" Source="..\bin\release\net461\Drivers\stmcdc.cat" />
-				<File Id="stmcdc_inf" Source="..\bin\release\net461\Drivers\stmcdc.inf" />
-				<File Id="ubloxusb_cat" Source="..\bin\release\net461\Drivers\ubloxusb.cat" />
-				<File Id="ubloxusb_inf" Source="..\bin\release\net461\Drivers\ubloxusb.inf" />
-				<File Id="ubloxusb_sys" Source="..\bin\release\net461\Drivers\ubloxusb.sys" />
-				<File Id="ubloxusb64_sys" Source="..\bin\release\net461\Drivers\ubloxusb64.sys" />
-				<File Id="vrbrain_cat" Source="..\bin\release\net461\Drivers\vrbrain.cat" />
-				<File Id="vrbrain_inf" Source="..\bin\release\net461\Drivers\vrbrain.inf" />
-				<File Id="vrcore_cat" Source="..\bin\release\net461\Drivers\vrcore.cat" />
-				<File Id="vrcore_inf" Source="..\bin\release\net461\Drivers\vrcore.inf" />
-				<File Id="vrflightstop_cat" Source="..\bin\release\net461\Drivers\vrflightstop.cat" />
-				<File Id="vrflightstop_inf" Source="..\bin\release\net461\Drivers\vrflightstop.inf" />
-				<File Id="vrgimbal_cat" Source="..\bin\release\net461\Drivers\vrgimbal.cat" />
-				<File Id="vrgimbal_inf" Source="..\bin\release\net461\Drivers\vrgimbal.inf" />
-				<File Id="vrhero_cat" Source="..\bin\release\net461\Drivers\vrhero.cat" />
-				<File Id="vrhero_inf" Source="..\bin\release\net461\Drivers\vrhero.inf" />
-				<File Id="vrmapper_cat" Source="..\bin\release\net461\Drivers\vrmapper.cat" />
-				<File Id="vrmapper_inf" Source="..\bin\release\net461\Drivers\vrmapper.inf" />
-				<File Id="vrspark_cat" Source="..\bin\release\net461\Drivers\vrspark.cat" />
-				<File Id="vrspark_inf" Source="..\bin\release\net461\Drivers\vrspark.inf" />
-				<File Id="vrthermal_cat" Source="..\bin\release\net461\Drivers\vrthermal.cat" />
-				<File Id="vrthermal_inf" Source="..\bin\release\net461\Drivers\vrthermal.inf" />
-				<File Id="vrubrain_cat" Source="..\bin\release\net461\Drivers\vrubrain.cat" />
-				<File Id="vrubrain_inf" Source="..\bin\release\net461\Drivers\vrubrain.inf" />
-				<File Id="vrugimbal_cat" Source="..\bin\release\net461\Drivers\vrugimbal.cat" />
-				<File Id="vrugimbal_inf" Source="..\bin\release\net461\Drivers\vrugimbal.inf" />
-				</Component>
-				</Directory>
-			</Directory>
+		<Component Id="Drivers" Guid="93a95e0d-6f2a-4b10-ba3e-934fa43a73c6">
+			<File Id="arduino_cat" Source="../Drivers\arduino.cat" />
+			<File Id="arduino_inf" Source="../Drivers\arduino.inf" />
+			<File Id="chibios_cat" Source="../Drivers\chibios.cat" />
+			<File Id="ChibiOS_inf" Source="../Drivers\ChibiOS.inf" />
+			<File Id="chibioscomp_cat" Source="../Drivers\chibioscomp.cat" />
+			<File Id="ChibiOSComp_inf" Source="../Drivers\ChibiOSComp.inf" />
+			<File Id="cube_cat" Source="../Drivers\cube.cat" />
+			<File Id="Cube_inf" Source="../Drivers\Cube.inf" />
+			<File Id="cubecomp_cat" Source="../Drivers\cubecomp.cat" />
+			<File Id="CubeComp_inf" Source="../Drivers\CubeComp.inf" />
+			<File Id="cubeorangeplus_cat" Source="../Drivers\cubeorangeplus.cat" />
+			<File Id="CubeOrangePlus_inf" Source="../Drivers\CubeOrangePlus.inf" />
+			<File Id="devcon_exe" Source="../Drivers\devcon.exe" />
+			<File Id="dpinst_xml" Source="../Drivers\dpinst.xml" />
+			<File Id="DPInstx64_exe" Source="../Drivers\DPInstx64.exe" />
+			<File Id="DPInstx86_exe" Source="../Drivers\DPInstx86.exe" />
+			<File Id="DriverCleanup_exe" Source="../Drivers\DriverCleanup.exe" />
+			<File Id="DriverCleanup_exe_config" Source="../Drivers\DriverCleanup.exe.config" />
+			<File Id="DriverCleanup_pdb" Source="../Drivers\DriverCleanup.pdb" />
+			<File Id="holybro_cat" Source="../Drivers\holybro.cat" />
+			<File Id="Holybro_inf" Source="../Drivers\Holybro.inf" />
+			<File Id="inf2cat_bat" Source="../Drivers\inf2cat.bat" />
+			<File Id="mindpx_cat" Source="../Drivers\mindpx.cat" />
+			<File Id="mindpx_inf" Source="../Drivers\mindpx.inf" />
+			<File Id="nxp_cat" Source="../Drivers\nxp.cat" />
+			<File Id="nxp_inf" Source="../Drivers\nxp.inf" />
+			<File Id="px4flow_cat" Source="../Drivers\px4flow.cat" />
+			<File Id="px4flow_inf" Source="../Drivers\px4flow.inf" />
+			<File Id="px4fmu_cat" Source="../Drivers\px4fmu.cat" />
+			<File Id="px4fmu_inf" Source="../Drivers\px4fmu.inf" />
+			<File Id="px4mav_cat" Source="../Drivers\px4mav.cat" />
+			<File Id="px4mav_inf" Source="../Drivers\px4mav.inf" />
+			<File Id="signed_cer" Source="../Drivers\signed.cer" />
+			<File Id="stm32bootloader_cat" Source="../Drivers\stm32bootloader.cat" />
+			<File Id="STM32Bootloader_inf" Source="../Drivers\STM32Bootloader.inf" />
+			<File Id="stmcdc_cat" Source="../Drivers\stmcdc.cat" />
+			<File Id="stmcdc_inf" Source="../Drivers\stmcdc.inf" />
+			<File Id="ubloxusb_cat" Source="../Drivers\ubloxusb.cat" />
+			<File Id="ubloxusb_inf" Source="../Drivers\ubloxusb.inf" />
+			<File Id="ubloxusb_sys" Source="../Drivers\ubloxusb.sys" />
+			<File Id="ubloxusb64_sys" Source="../Drivers\ubloxusb64.sys" />
+			<File Id="uninstall_drivers_bat" Source="../Drivers\uninstall_drivers.bat" />
+			<File Id="vrbrain_cat" Source="../Drivers\vrbrain.cat" />
+			<File Id="vrbrain_inf" Source="../Drivers\vrbrain.inf" />
+			<File Id="vrcore_cat" Source="../Drivers\vrcore.cat" />
+			<File Id="vrcore_inf" Source="../Drivers\vrcore.inf" />
+			<File Id="vrflightstop_cat" Source="../Drivers\vrflightstop.cat" />
+			<File Id="vrflightstop_inf" Source="../Drivers\vrflightstop.inf" />
+			<File Id="vrgimbal_cat" Source="../Drivers\vrgimbal.cat" />
+			<File Id="vrgimbal_inf" Source="../Drivers\vrgimbal.inf" />
+			<File Id="vrhero_cat" Source="../Drivers\vrhero.cat" />
+			<File Id="vrhero_inf" Source="../Drivers\vrhero.inf" />
+			<File Id="vrmapper_cat" Source="../Drivers\vrmapper.cat" />
+			<File Id="vrmapper_inf" Source="../Drivers\vrmapper.inf" />
+			<File Id="vrspark_cat" Source="../Drivers\vrspark.cat" />
+			<File Id="vrspark_inf" Source="../Drivers\vrspark.inf" />
+			<File Id="vrthermal_cat" Source="../Drivers\vrthermal.cat" />
+			<File Id="vrthermal_inf" Source="../Drivers\vrthermal.inf" />
+			<File Id="vrubrain_cat" Source="../Drivers\vrubrain.cat" />
+			<File Id="vrubrain_inf" Source="../Drivers\vrubrain.inf" />
+			<File Id="vrugimbal_cat" Source="../Drivers\vrugimbal.cat" />
+			<File Id="vrugimbal_inf" Source="../Drivers\vrugimbal.inf" />
+		</Component>
+		<Directory Id="amd64" Name="amd64">
+			<Component Id="amd64" Guid="72814b8d-3690-4977-ba5c-779b581aee17">
+				<File Id="WdfCoInstaller01009_dll" Source="../Drivers\amd64\WdfCoInstaller01009.dll" />
+				<File Id="winusbcoinstaller2_dll" Source="../Drivers\amd64\winusbcoinstaller2.dll" />
+			</Component>
 		</Directory>
+		<Directory Id="x86" Name="x86">
+			<Component Id="x86" Guid="3c6f5dde-4149-43e8-83ec-e53345f2fde1">
+				<File Id="WdfCoInstaller01009_dll_1" Source="../Drivers\x86\WdfCoInstaller01009.dll" />
+				<File Id="winusbcoinstaller2_dll_1" Source="../Drivers\x86\winusbcoinstaller2.dll" />
+			</Component>
+		</Directory>
+    </Directory>
+</Directory>
+</Directory>
 
 
-
-		<Binary Id="signedcer"  SourceFile="..\Drivers\signed.cer" />
-
-    <CustomAction  Id='Drivercleanup' Execute='deferred' 
-    Directory='driver'  ExeCommand='[driver]DriverCleanup.exe' Return='ignore' Impersonate='no'/>
-
-		<CustomAction  Id='Install_signed_Driver86' Execute='deferred' 
-  Directory='driver'  ExeCommand='[driver]DPInstx86.exe' Return='ignore' Impersonate='no'/>
-		<CustomAction  Id='Install_signed_Driver64' Execute='deferred' 
-  Directory='driver'  ExeCommand='[driver]DPInstx64.exe' Return='ignore' Impersonate='no'/>
-
-		<InstallExecuteSequence>
-			<Custom Action="Install_signed_Driver86"  After="CreateShortcuts">NOT 	Installed AND NOT VersionNT64</Custom>
-			<Custom Action="Install_signed_Driver64"  After="CreateShortcuts">NOT 	Installed AND VersionNT64</Custom>
-            <Custom Action="Drivercleanup"  After="CreateShortcuts"></Custom>
-		</InstallExecuteSequence>
-
-
-
-
-
-		<Feature Id="Complete" Title="UAV Drivers" Level="1">
-
-		<ComponentRef Id="drivercert" />
-			<ComponentRef Id="Drivers" />
+  		<Binary Id="signedcer"  SourceFile="..\Drivers\signed.cer" />   
+   <CustomAction  Id='Drivercleanup' Execute='deferred'      Directory='driver'  ExeCommand='[driver]DriverCleanup.exe' Return='ignore' Impersonate='no'/>  	
+	<CustomAction  Id='Install_signed_Driver86' Execute='deferred'    Directory='driver'  ExeCommand='[driver]DPInstx86.exe' Return='ignore' Impersonate='no'/> 	
+	<CustomAction  Id='Install_signed_Driver64' Execute='deferred'    Directory='driver'  ExeCommand='[driver]DPInstx64.exe' Return='ignore' Impersonate='no'/>  	
+	<InstallExecuteSequence> 
+			<Custom Action="Install_signed_Driver86"  After="CreateShortcuts">NOT 	Installed AND NOT VersionNT64</Custom> 	
+		<Custom Action="Install_signed_Driver64"  After="CreateShortcuts">NOT 	Installed AND VersionNT64</Custom>        
+     <Custom Action="Drivercleanup"  After="CreateShortcuts"></Custom> 
+		</InstallExecuteSequence>     
+ 		<Feature Id="Complete" Title="UAV Drivers" Level="1">  	
+	<ComponentRef Id="drivercert" /> 		
 	
-			
-		</Feature>
-
-		<!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
-		<Property Id="WIXUI_INSTALLDIR" Value="driver" />
-
-
+<ComponentRef Id="Drivers" />
+<ComponentRef Id="amd64" />
+<ComponentRef Id="x86" />
+	 		
+	 		</Feature>  
+		<!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action --> 	
+	<Property Id="WIXUI_INSTALLDIR" Value="driver" />   
 		<Property Id="ApplicationFolderName" Value="driver" /> 
-
-		<WixVariable Id="WixUILicenseRtf" Value="licence.rtf" />
-
-		<UI>
-			<UIRef Id="WixUI_InstallDir" />
-		</UI>
+  		<WixVariable Id="WixUILicenseRtf" Value="licence.rtf" />  	
+	<UI> 		
+	<UIRef Id="WixUI_InstallDir" /> 	
+	</UI> 
 	</Product>
-</Wix>
+ </Wix>

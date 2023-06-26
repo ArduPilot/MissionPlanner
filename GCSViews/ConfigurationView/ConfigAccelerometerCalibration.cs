@@ -16,6 +16,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         bool _incalibrate = false;
         private MAVLink.ACCELCAL_VEHICLE_POS pos;
+        private int sub1;
+        private int sub2;
 
         public ConfigAccelerometerCalibration()
         {
@@ -68,8 +70,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     _incalibrate = true;
 
-                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
-                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
+                    sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
                     BUT_calib_accell.Text = Strings.Click_when_Done;
                 }
@@ -106,8 +108,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         });
 
                         _incalibrate = false;
-                        MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
-                        MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
+                        MainV2.comPort.UnSubscribeToPacketType(sub1);
+                        MainV2.comPort.UnSubscribeToPacketType(sub2);
                     }
                     catch
                     {

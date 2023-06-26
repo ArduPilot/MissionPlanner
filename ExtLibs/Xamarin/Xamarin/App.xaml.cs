@@ -39,7 +39,7 @@ namespace Xamarin
                 (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(App)));
 
             var patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message";
+            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message\r\n";
             patternLayout.AddConverter(new ConverterInfo() {Name = "memory", Type = typeof(MemoryConverterInfo)});
             patternLayout.ActivateOptions();
 
@@ -75,6 +75,11 @@ namespace Xamarin
         protected override void OnStart()
         {
             MainV2.isHerelink = Test.SystemInfo?.GetSystemTag().Contains("CubePilot") ?? false;
+            if (MainV2.isHerelink) {
+                var video = AutoConnect.connectionInfos.Find(a => a.Label.Equals("HereLink GCS"));
+                if (video != null)
+                    video.Enabled = true;
+            }
 
             // Handle when your app starts
             /*

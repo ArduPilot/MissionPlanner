@@ -76,6 +76,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.pnltimer = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.mavlinkNumericUpDownBATT_LOW_TIMER = new MissionPlanner.Controls.MavlinkNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownlow_voltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownfs_thr_value)).BeginInit();
@@ -87,6 +90,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.pnltimer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownBATT_LOW_TIMER)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -575,12 +580,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.pnltimer);
             this.groupBox4.Controls.Add(this.mavlinkComboBoxfs_batt_enable);
             this.groupBox4.Controls.Add(this.PNL_low_bat);
             this.groupBox4.Controls.Add(this.pnlmah);
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // pnltimer
+            // 
+            this.pnltimer.Controls.Add(this.label6);
+            this.pnltimer.Controls.Add(this.mavlinkNumericUpDownBATT_LOW_TIMER);
+            resources.ApplyResources(this.pnltimer, "pnltimer");
+            this.pnltimer.Name = "pnltimer";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // mavlinkNumericUpDownBATT_LOW_TIMER
+            // 
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.DecimalPlaces = 1;
+            resources.ApplyResources(this.mavlinkNumericUpDownBATT_LOW_TIMER, "mavlinkNumericUpDownBATT_LOW_TIMER");
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.Max = 120F;
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.Min = 0F;
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.Name = "mavlinkNumericUpDownBATT_LOW_TIMER";
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.ParamName = null;
+            this.mavlinkNumericUpDownBATT_LOW_TIMER.Value = new decimal(new int[] {
+            131,
+            0,
+            0,
+            65536});
             // 
             // ConfigFailSafe
             // 
@@ -627,6 +664,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            this.pnltimer.ResumeLayout(false);
+            this.pnltimer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownBATT_LOW_TIMER)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -679,5 +719,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel pnltimer;
+        private System.Windows.Forms.Label label6;
+        private MavlinkNumericUpDown mavlinkNumericUpDownBATT_LOW_TIMER;
     }
 }

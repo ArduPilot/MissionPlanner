@@ -30,6 +30,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             txt_log_dir.TextChanged += OnLogDirTextChanged;
 
+            CMB_severity.Items.Add(SeverityLevel.Emergency);
+            CMB_severity.Items.Add(SeverityLevel.Alert);
+            CMB_severity.Items.Add(SeverityLevel.Critical);
+            CMB_severity.Items.Add(SeverityLevel.Error);
+            CMB_severity.Items.Add(SeverityLevel.Warning);
+            CMB_severity.Items.Add(SeverityLevel.Notice);
+            CMB_severity.Items.Add(SeverityLevel.Info);
+            CMB_severity.Items.Add(SeverityLevel.Debug);
         }
 
 
@@ -73,11 +81,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             num_gcsid.Value = MAVLinkInterface.gcssysid;
 
+            // setup severity selection
+            if (Settings.Instance["severity"] != null)
+            {
+                CMB_severity.SelectedIndex = Settings.Instance.GetInt32("severity");
+            }
+            else
+            {
+                CMB_severity.SelectedIndex = 4;  // SeverityLevel.Warning
+                Settings.Instance["severity"] = CMB_severity.SelectedIndex.ToString();
+            }
+
             // setup language selection
             var cultureCodes = new[]
             {
                 "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR",
-                "ar", "pt", "tr", "ru-KZ"
+                "ar", "pt", "tr", "ru-KZ", "uk"
             };
 
             _languages = cultureCodes
@@ -134,6 +153,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
             SetCheckboxFromConfig("Params_BG", CHK_params_bg);
             SetCheckboxFromConfig("SlowMachine", chk_slowMachine);
+            SetCheckboxFromConfig("speech_armed_only", CHK_speechArmedOnly);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength", 200);
@@ -337,6 +357,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (CHK_enablespeech.Checked)
             {
+                CHK_speechArmedOnly.Visible = true;
                 CHK_speechwaypoint.Visible = true;
                 CHK_speechaltwarning.Visible = true;
                 CHK_speechbattery.Visible = true;
@@ -347,6 +368,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
+                CHK_speechArmedOnly.Visible = false;
                 CHK_speechwaypoint.Visible = false;
                 CHK_speechaltwarning.Visible = false;
                 CHK_speechbattery.Visible = false;
@@ -355,6 +377,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speecharmdisarm.Visible = false;
                 CHK_speechlowspeed.Visible = false;
             }
+        }
+
+        private void CMB_severity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["severity"] = CMB_severity.SelectedIndex.ToString();
         }
 
         private void CMB_language_SelectedIndexChanged(object sender, EventArgs e)
@@ -935,13 +962,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["norcreceiver"] = chk_norcreceiver.Checked.ToString();
         }
 
-        private void but_AAsignin_Click(object sender, EventArgs e)
-        {
-#if !LIB
-            new Utilities.AltitudeAngel.AASettings().Show(this);
-#endif
-        }
-
         private void CMB_Layout_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((DisplayNames)CMB_Layout.SelectedItem == DisplayNames.Advanced)
@@ -991,6 +1011,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_slowMachine_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["SlowMachine"] = chk_slowMachine.Checked.ToString();
+        }
+
+        private void CHK_speechArmedOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.speech_armed_only = CHK_speechArmedOnly.Checked;
+            Settings.Instance["speech_armed_only"] = CHK_speechArmedOnly.Checked.ToString();
         }
     }
 }

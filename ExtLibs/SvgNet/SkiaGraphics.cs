@@ -40,13 +40,50 @@ namespace System
             return paint;
         }
 
+        static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
+
+        /// <summary>
+        /// from MP.Drawing.Extension.cs
+        /// </summary>
+        /// <param name="font"></param>
+        /// <returns></returns>
         public static SKPaint SKPaint(this Font font)
         {
+            var fm = SKFontManager.Default;
+            var id = "";
+            lock (fontcache)
+                if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
+                {
+                    id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    if (!fontcache.ContainsKey(id))
+                        fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
+                            fm.MatchCharacter("YaHei", new[] {"zh"}, '飞');
+                }
+                else if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ja")
+                {
+                    id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    if (!fontcache.ContainsKey(id))
+                        fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
+                            fm.MatchCharacter("", new[] {"ja"}, 'フ');
+                }
+                else if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "kr")
+                {
+                    id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    if (!fontcache.ContainsKey(id))
+                        fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
+                            fm.MatchCharacter("", new[] {"kr"}, '비');
+                }
+                else
+                {
+                    if (!fontcache.ContainsKey(id))
+                        fontcache[id] = SKTypeface.FromFamilyName(id);
+                }
+
             return new SKPaint
             {
-                Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
-                TextSize = font.Size * 1.4f,
-                StrokeWidth = 2
+                Typeface = fontcache[id],
+                TextSize = font.SizeInPoints * 1.33334f,
+                StrokeWidth = 2,
             };
         }
 
@@ -198,6 +235,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 return _surface.Canvas;
             }
         }
+
+        public SKCanvas Image => _image;
 
 
         public void Dispose()

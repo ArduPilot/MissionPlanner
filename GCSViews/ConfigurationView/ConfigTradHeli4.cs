@@ -92,10 +92,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     new ItemInfo {name = "H_SW_COL_DIR", type = uitype.Combo},
                     new ItemInfo {name = "H_SW_LIN_SVO", type = uitype.Combo},
                     new ItemInfo {name = "H_FLYBAR_MODE", type = uitype.Combo},
+                    new ItemInfo {name = "H_CYC_MAX", type = uitype.Num},
                     new ItemInfo {name = "H_COL_MAX", type = uitype.Num},
                     new ItemInfo {name = "H_COL_MID", type = uitype.Num},
                     new ItemInfo {name = "H_COL_MIN", type = uitype.Num},
-                    new ItemInfo {name = "H_CYC_MAX", type = uitype.Num},
+                    new ItemInfo {name = "H_COL_ANG_MIN", type = uitype.Num},
+                    new ItemInfo {name = "H_COL_ANG_MAX", type = uitype.Num},
+                    new ItemInfo {name = "H_COL_ZERO_THRST", type = uitype.Num},
+                    new ItemInfo {name = "H_COL_LAND_MIN", type = uitype.Num},
                 };
 
                 current = tableLayoutPanel5;
@@ -110,6 +114,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     new ItemInfo {name = "H_RSC_CRITICAL", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_RAMP_TIME", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_RUNUP_TIME", type = uitype.Num},
+                    new ItemInfo {name = "H_RSC_CLDWN_TIME", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_SETPOINT", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_IDLE", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_THRCRV_0", type = uitype.Num},
@@ -127,11 +132,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 var governor = new[]
                 {
+                    new ItemInfo {name = "H_RSC_GOV_COMP", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_GOV_SETPNT", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_GOV_DISGAG", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_GOV_DROOP", type = uitype.Num},
+                    new ItemInfo {name = "H_RSC_GOV_FF", type = uitype.Num},                  
                     new ItemInfo {name = "H_RSC_GOV_TCGAIN", type = uitype.Num},
                     new ItemInfo {name = "H_RSC_GOV_RANGE", type = uitype.Num},
+                    new ItemInfo {name = "H_RSC_GOV_RPM", type = uitype.Num},
+                    new ItemInfo {name = "H_RSC_GOV_TORQUE", type = uitype.Num},
                 };
 
                 current = tableLayoutPanel2;

@@ -13,6 +13,7 @@ namespace MissionPlanner.ArduPilot
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         static readonly int magic = 0x671b;
+        static readonly int magic_with_defaults = 0x671c;
         /*
           packed format:
             file header:
@@ -21,21 +22,21 @@ namespace MissionPlanner.ArduPilot
               uint16_t total_params
             per-parameter:
             uint8_t type:4;         // AP_Param type NONE=0, INT8=1, INT16=2, INT32=3, FLOAT=4
-            uint8_t flags:4;        // for future use
+            uint8_t flags:4;        // bit 0: includes default value for this param
             uint8_t common_len:4;   // number of name bytes in common with previous entry, 0..15
             uint8_t name_len:4;     // non-common length of param name -1 (0..15)
             uint8_t name[name_len]; // name
-            uint8_t data[];         // value, length given by variable type
+            uint8_t data[];         // value, length given by variable type, data length doubled if default is included
             Any leading zero bytes after the header should be discarded as pad
             bytes. Pad bytes are used to ensure that a parameter data[] field
             does not cross a read packet boundary
         */
-        static Dictionary<int, (int size, char type)> map = new Dictionary<int, (int size, char type)>()
+        static Dictionary<int, (int type_len, char type_format)> map = new Dictionary<int, (int type_len, char type_format)>()
         {
             { 1, (1, 'b') },
             { 2, (2, 'h') },
-            {3, (4, 'i')},
-            {4, (4, 'f')},
+            { 3, (4, 'i') },
+            { 4, (4, 'f') },
         };
 
         public static MAVLink.MAVLinkParamList unpack(byte[] data)
@@ -45,49 +46,71 @@ namespace MissionPlanner.ArduPilot
             if (data.Length < 6)
                 return null;
 
-            var magic2 = BitConverter.ToUInt16(data.Take(6).ToArray(), 0);
-            var num_params = BitConverter.ToUInt16(data.Take(6).ToArray(), 2);
-            var total_params = BitConverter.ToUInt16(data.Take(6).ToArray(), 4);
+            int dataPointer = 0;
 
-            if (magic2 != magic)
+            var magic2 = BitConverter.ToUInt16(data, dataPointer);
+            var num_params = BitConverter.ToUInt16(data, dataPointer+=2);
+            var total_params = BitConverter.ToUInt16(data, dataPointer+=2);
+            dataPointer+=2;
+
+            if ((magic2 != magic) && (magic2 != magic_with_defaults))
                 return null;
 
-            data = data.Skip(6).ToArray();
+            bool with_defaults = magic2 == magic_with_defaults;
 
             byte pad_byte = 0;
             int count = 0;
             var last_name = "";
             while (true)
             {
-                while (len(data) > 0 && ord(data[0]) == pad_byte)
-                    data = data.Skip(1).ToArray();
+                while (data.Length - dataPointer > 0 && data[dataPointer] == pad_byte)
+                    dataPointer++;
 
-                if (len(data) == 0)
+                if (data.Length - dataPointer == 0)
                     break;
 
-                var ptype = data[0];
-                var plen = data[1];
+                var ptype = data[dataPointer++];
+                var plen = data[dataPointer++];
                 var flags = (ptype >> 4) & 0x0F;
                 ptype &= 0x0F;
 
-                if (!map.ContainsKey(ptype))
+                if (!map.TryGetValue(ptype, out (int type_len, char type_format) mapped))
                     return null;
 
-                var (type_len, type_format) = map[ptype];
-
                 var name_len = ((plen >> 4) & 0x0F) + 1;
-                var common_len = (plen & 0x0F);
-                var name = new StringBuilder().Append(last_name.Take(common_len).ToArray())
-                    .Append(data.Skip(2).Take(name_len).Select(a => (char)a).ToArray()).ToString();
-                var vdata = data.Skip(2 + name_len).Take(type_len);
+                var common_len = plen & 0x0F;
+
+                var nameBuilder = new StringBuilder().Append(last_name.Substring(0, common_len));
+
+                for (int i = dataPointer; i < dataPointer + name_len; i++)
+                    nameBuilder.Append((char)data[i]);
+
+                dataPointer += name_len;
+
+                var name = nameBuilder.ToString();
+                
                 last_name = name;
-                data = data.Skip(2 + name_len + type_len).ToArray();
-                var v = decode_value(ptype, vdata);
+                var v = decode_value(mapped.type_format, data, dataPointer);
+
                 count += 1;
-                log.DebugFormat("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, type_len, type_format);
+                log.DebugFormat("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, mapped.type_len, mapped.type_format);
                 //print("%-16s %f" % (name, float (v)))
 
-                list.Add(new MAVLink.MAVLinkParam(name, vdata.ToArray().MakeSize(4),
+                var vdata = new byte[4];
+                Array.Copy(data, dataPointer, vdata, 0, mapped.type_len);
+                dataPointer += mapped.type_len;
+
+                decimal? default_value = null;
+                if (with_defaults) {
+                    if ((flags & 1U) == 0) {
+                        default_value = Convert.ToDecimal(v);
+                    } else {
+                        default_value = Convert.ToDecimal(decode_value(mapped.type_format, data, dataPointer));
+                        dataPointer += mapped.type_len;
+                    }
+                }
+
+                list.Add(new MAVLink.MAVLinkParam(name, vdata,
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
                         ptype == 2 ? MAVLink.MAV_PARAM_TYPE.INT16 :
                         ptype == 3 ? MAVLink.MAV_PARAM_TYPE.INT32 :
@@ -95,7 +118,8 @@ namespace MissionPlanner.ArduPilot
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
                         ptype == 2 ? MAVLink.MAV_PARAM_TYPE.INT16 :
                         ptype == 3 ? MAVLink.MAV_PARAM_TYPE.INT32 :
-                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE)0)));
+                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE)0),
+                        default_value));
             }
 
             if (count != num_params || count > total_params)
@@ -104,52 +128,18 @@ namespace MissionPlanner.ArduPilot
             return list;
         }
 
-        private static object decode_value(byte ptype, IEnumerable<byte> vdata)
+        private static object decode_value(char type_format, byte[] data, int startIndex)
         {
-            if (ptype == 1)
+            switch (type_format)
             {
-                vdata = pad_data(vdata, 1);
-                return vdata.First();
+                case 'b': return (sbyte)data[startIndex];
+                case 'h': return BitConverter.ToInt16(data, startIndex);
+                case 'i': return BitConverter.ToInt32(data, startIndex);
+                case 'f': return BitConverter.ToSingle(data, startIndex);
+
+                default:
+                    throw new Exception($"Unexpected type_format: {type_format}");
             }
-
-            if (ptype == 2)
-            {
-                vdata = pad_data(vdata, 2);
-                return BitConverter.ToUInt16(vdata.ToArray(), 0);
-            }
-
-            if (ptype == 3)
-            {
-                vdata = pad_data(vdata, 4);
-                return BitConverter.ToUInt32(vdata.ToArray(), 0);
-            }
-
-            if (ptype == 4)
-            {
-                vdata = pad_data(vdata, 4);
-                return BitConverter.ToSingle(vdata.ToArray(), 0);
-            }
-
-            //print("bad ptype %u" % ptype)
-            return 0;
-        }
-
-        private static byte[] pad_data(IEnumerable<byte> vdata, int vlen)
-        {
-            var ans = vdata.ToList();
-            while (len(ans) < vlen)
-                ans.Add(0);
-            return ans.ToArray();
-        }
-
-        private static int ord(byte b)
-        {
-            return b;
-        }
-
-        private static int len(IEnumerable<byte> data)
-        {
-            return data.Count();
         }
     }
 }

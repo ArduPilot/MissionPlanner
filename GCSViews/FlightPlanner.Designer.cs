@@ -78,6 +78,7 @@ namespace MissionPlanner.GCSViews
             this.coords1 = new MissionPlanner.Controls.Coords();
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new System.Windows.Forms.Panel();
+            this.chk_usemavftp = new System.Windows.Forms.CheckBox();
             this.but_mincommands = new MissionPlanner.Controls.MyButton();
             this.CMB_altmode = new System.Windows.Forms.ComboBox();
             this.CHK_splinedefault = new System.Windows.Forms.CheckBox();
@@ -220,6 +221,7 @@ namespace MissionPlanner.GCSViews
             this.zoomToVehicleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gDALOpacityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
@@ -292,6 +294,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.but_writewpfast, "but_writewpfast");
             this.but_writewpfast.Name = "but_writewpfast";
+            this.but_writewpfast.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_writewpfast.UseVisualStyleBackColor = true;
             this.but_writewpfast.Click += new System.EventHandler(this.but_writewpfast_Click);
             // 
@@ -299,6 +302,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.BUT_write, "BUT_write");
             this.BUT_write.Name = "BUT_write";
+            this.BUT_write.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_write.UseVisualStyleBackColor = true;
             this.BUT_write.Click += new System.EventHandler(this.BUT_write_Click);
             // 
@@ -306,6 +310,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.BUT_read, "BUT_read");
             this.BUT_read.Name = "BUT_read";
+            this.BUT_read.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_read.UseVisualStyleBackColor = true;
             this.BUT_read.Click += new System.EventHandler(this.BUT_read_Click);
             // 
@@ -404,6 +409,7 @@ namespace MissionPlanner.GCSViews
             // 
             // panelWaypoints
             // 
+            this.panelWaypoints.Controls.Add(this.chk_usemavftp);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
             this.panelWaypoints.Controls.Add(this.CMB_altmode);
             this.panelWaypoints.Controls.Add(this.CHK_splinedefault);
@@ -422,17 +428,25 @@ namespace MissionPlanner.GCSViews
             this.panelWaypoints.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panelWaypoints.Name = "panelWaypoints";
             // 
+            // chk_usemavftp
+            // 
+            resources.ApplyResources(this.chk_usemavftp, "chk_usemavftp");
+            this.chk_usemavftp.Name = "chk_usemavftp";
+            this.chk_usemavftp.UseVisualStyleBackColor = true;
+            this.chk_usemavftp.CheckedChanged += new System.EventHandler(this.chk_usemavftp_CheckedChanged);
+            // 
             // but_mincommands
             // 
             resources.ApplyResources(this.but_mincommands, "but_mincommands");
             this.but_mincommands.Name = "but_mincommands";
+            this.but_mincommands.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_mincommands.UseVisualStyleBackColor = true;
             this.but_mincommands.Click += new System.EventHandler(this.but_mincommands_Click);
             // 
             // CMB_altmode
             // 
-            resources.ApplyResources(this.CMB_altmode, "CMB_altmode");
             this.CMB_altmode.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_altmode, "CMB_altmode");
             this.CMB_altmode.Name = "CMB_altmode";
             this.CMB_altmode.SelectedIndexChanged += new System.EventHandler(this.CMB_altmode_SelectedIndexChanged);
             // 
@@ -488,7 +502,6 @@ namespace MissionPlanner.GCSViews
             this.AZ,
             this.TagData});
             this.Commands.Name = "Commands";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -645,6 +658,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.BUT_Add, "BUT_Add");
             this.BUT_Add.Name = "BUT_Add";
+            this.BUT_Add.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.BUT_Add, resources.GetString("BUT_Add.ToolTip"));
             this.BUT_Add.UseVisualStyleBackColor = true;
             this.BUT_Add.Click += new System.EventHandler(this.BUT_Add_Click);
@@ -727,6 +741,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.BUT_loadwpfile, "BUT_loadwpfile");
             this.BUT_loadwpfile.Name = "BUT_loadwpfile";
+            this.BUT_loadwpfile.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_loadwpfile.UseVisualStyleBackColor = true;
             this.BUT_loadwpfile.Click += new System.EventHandler(this.BUT_loadwpfile_Click);
             // 
@@ -734,6 +749,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.BUT_saveWPFile, "BUT_saveWPFile");
             this.BUT_saveWPFile.Name = "BUT_saveWPFile";
+            this.BUT_saveWPFile.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_saveWPFile.UseVisualStyleBackColor = true;
             this.BUT_saveWPFile.Click += new System.EventHandler(this.BUT_saveWPFile_Click);
             // 
@@ -1185,7 +1201,8 @@ namespace MissionPlanner.GCSViews
             this.prefetchWPPathToolStripMenuItem,
             this.kMLOverlayToolStripMenuItem,
             this.elevationGraphToolStripMenuItem,
-            this.reverseWPsToolStripMenuItem});
+            this.reverseWPsToolStripMenuItem,
+            this.gDALOpacityToolStripMenuItem});
             this.mapToolToolStripMenuItem.Name = "mapToolToolStripMenuItem";
             resources.ApplyResources(this.mapToolToolStripMenuItem, "mapToolToolStripMenuItem");
             // 
@@ -1470,6 +1487,12 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.zoomToHomeToolStripMenuItem, "zoomToHomeToolStripMenuItem");
             this.zoomToHomeToolStripMenuItem.Click += new System.EventHandler(this.zoomToHomeToolStripMenuItem_Click);
             // 
+            // gDALOpacityToolStripMenuItem
+            // 
+            this.gDALOpacityToolStripMenuItem.Name = "gDALOpacityToolStripMenuItem";
+            resources.ApplyResources(this.gDALOpacityToolStripMenuItem, "gDALOpacityToolStripMenuItem");
+            this.gDALOpacityToolStripMenuItem.Click += new System.EventHandler(this.gDALOpacityToolStripMenuItem_Click);
+            // 
             // FlightPlanner
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -1647,6 +1670,11 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem zoomToVehicleToolStripMenuItem;
         private ToolStripMenuItem zoomToMissionToolStripMenuItem;
         private ToolStripMenuItem zoomToHomeToolStripMenuItem;
+        private ToolStripMenuItem convertWPToPolygonToolStripMenuItem;
+        private ToolStripMenuItem fromCurrentWaypointsToolStripMenuItem;
+        private ToolStripMenuItem offsetPolygonToolStripMenuItem;
+        private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
+        public CheckBox chk_usemavftp;
         private DataGridViewComboBoxColumn Command;
         private DataGridViewTextBoxColumn Param1;
         private DataGridViewTextBoxColumn Param2;
@@ -1668,9 +1696,6 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn Dist;
         private DataGridViewTextBoxColumn AZ;
         private DataGridViewTextBoxColumn TagData;
-        private ToolStripMenuItem convertWPToPolygonToolStripMenuItem;
-        private ToolStripMenuItem fromCurrentWaypointsToolStripMenuItem;
-        private ToolStripMenuItem offsetPolygonToolStripMenuItem;
-        private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
+        private ToolStripMenuItem gDALOpacityToolStripMenuItem;
     }
 }

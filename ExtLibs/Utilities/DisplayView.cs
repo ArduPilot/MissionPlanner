@@ -17,6 +17,19 @@ namespace MissionPlanner.Utilities
         Advanced,
         Custom
     }
+
+    public enum SeverityLevel
+    {
+        Emergency,
+        Alert,
+        Critical,
+        Error,
+        Warning,
+        Notice,
+        Info,
+        Debug
+    }
+
     [Serializable]
     public class DisplayView
     {
@@ -106,6 +119,8 @@ namespace MissionPlanner.Utilities
         public bool displayFFTSetup { get; set; } = true;
         public bool displayPreFlightTabEdit { get; set; } = true;
         public bool displayPlannerLayout { get; set; } = true;
+
+        public bool lockQuickView { get; set; } = false;
 
         public DisplayView()
         {

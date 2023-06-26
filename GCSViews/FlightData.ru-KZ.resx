@@ -258,9 +258,6 @@
   <data name="CB_tuning.Text" xml:space="preserve">
     <value>Тюнинг</value>
   </data>
-  <data name="altitudeAngelSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Altitude Angel Настройки</value>
-  </data>
   <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
     <value>Сделать фото/видео</value>
   </data>

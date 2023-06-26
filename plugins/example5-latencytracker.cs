@@ -52,7 +52,7 @@ namespace LatencyTracker
                 if (gpsraw.Count > 20)
                     gpsraw.RemoveAt(0);
                 return true;
-            });
+            }, 0,0);
             MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SYSTEM_TIME, message =>
             {
                 var time = (MAVLink.mavlink_system_time_t)message.data;
@@ -63,25 +63,25 @@ namespace LatencyTracker
                 if (systemtime.Count > 20)
                     systemtime.RemoveAt(0);
                 return true;
-            });
+            }, 0, 0);
             MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, message =>
             {
                 var pos = (MAVLink.mavlink_global_position_int_t) message.data;
                 last_boot_ms = pos.time_boot_ms;
                 return true;
-            });
+            }, 0, 0);
             MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.LOCAL_POSITION_NED, message =>
             {
                 var pos = (MAVLink.mavlink_local_position_ned_t) message.data;
                 last_boot_ms = pos.time_boot_ms;
                 return true;
-            });
+            }, 0, 0);
             MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TIMESYNC, message =>
             {
                 var time = (MAVLink.mavlink_timesync_t) message.data;
                 last_boot_ms = (uint) (time.ts1 / 1000.0 / 1000.0);
                 return true;
-            });
+            }, 0, 0);
 
             pnl = new Panel();
             lbl = new Label();

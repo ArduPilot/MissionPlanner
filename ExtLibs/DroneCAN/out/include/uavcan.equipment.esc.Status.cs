@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,62 +17,37 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_EQUIPMENT_ESC_STATUS_MAX_PACK_SIZE = 14;
-        public const ulong UAVCAN_EQUIPMENT_ESC_STATUS_DT_SIG = 0xA9AF28AEA2FBB254;
-
-        public const int UAVCAN_EQUIPMENT_ESC_STATUS_DT_ID = 1034;
-
-
-
-
-
-
-        public partial class uavcan_equipment_esc_Status: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_equipment_esc_Status: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_ESC_STATUS_MAX_PACK_SIZE = 14;
+            public const ulong UAVCAN_EQUIPMENT_ESC_STATUS_DT_SIG = 0xA9AF28AEA2FBB254;
+            public const int UAVCAN_EQUIPMENT_ESC_STATUS_DT_ID = 1034;
 
             public uint32_t error_count = new uint32_t();
-
-
-
             public Single voltage = new Single();
-
-
-
             public Single current = new Single();
-
-
-
             public Single temperature = new Single();
-
-
-
             public int32_t rpm = new int32_t();
-
-
-
             public uint8_t power_rating_pct = new uint8_t();
-
-
-
             public uint8_t esc_index = new uint8_t();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_esc_Status(this, chunk_cb, ctx);
+                encode_uavcan_equipment_esc_Status(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_esc_Status(transfer, this);
+                decode_uavcan_equipment_esc_Status(transfer, this, fdcan);
+            }
+
+            public static uavcan_equipment_esc_Status ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new uavcan_equipment_esc_Status();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

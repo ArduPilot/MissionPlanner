@@ -64,7 +64,7 @@ namespace CANRTCMExtract
                         
                         can.MessageReceived += (frame, msg, id) =>
                         {
-                            if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                            if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                             {
                                 var rtcm = (DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream) msg;
 
@@ -76,7 +76,7 @@ namespace CANRTCMExtract
                         {
                             try
                             {
-                                can.Read((byte) b);
+                                can.ReadSLCAN((byte) b);
                             } catch {}
                         });
                     }

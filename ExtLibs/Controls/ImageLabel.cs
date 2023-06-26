@@ -12,8 +12,6 @@ namespace MissionPlanner.Controls
     [DefaultEvent("Click")]
     public partial class ImageLabel : MyUserControl //ContainerControl
     {
-        private string _label;
-
         public new event EventHandler Click;
 
         //[System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

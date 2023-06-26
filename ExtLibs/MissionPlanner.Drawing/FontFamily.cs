@@ -48,6 +48,17 @@ namespace System.Drawing
         {
         }
 
+        public FontFamily(string ff)
+        {
+            Name = ff;
+            if (Name == "Microsoft Sans Serif")
+                Name = "sans-serif";
+            if (Name == "Sans Serif")
+                Name = "sans-serif";
+            if (Name == "Microsoft Yahei")
+                Name = "sans-serif";
+        }
+
         public int GetCellAscent(FontStyle fontStyle)
         {
             return 0;

@@ -266,11 +266,13 @@ namespace MissionPlanner.GCSViews
                     foreach (var template in checks)
                     {
                         file = String.Format(template, filename);
+                        log.Info("try path " + BundledPath + System.IO.Path.DirectorySeparatorChar + file);
                         if (File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
                         {
                             return BundledPath + System.IO.Path.DirectorySeparatorChar + file;
                         }
                         file = file.ToLower();
+                        log.Info("try path " + BundledPath + System.IO.Path.DirectorySeparatorChar + file);
                         if (File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
                         {
                             return BundledPath + System.IO.Path.DirectorySeparatorChar + file;
@@ -405,8 +407,10 @@ namespace MissionPlanner.GCSViews
 
                 load.Refresh();
 
-                var files = new string[] { "cygatomic-1.dll",
+                var files = new string[] { 
+                    "cygatomic-1.dll",
                     "cyggcc_s-1.dll",
+                    "cyggcc_s-seh-1.dll",
                     "cyggomp-1.dll",
                     "cygquadmath-0.dll",
                     "cygssp-0.dll",
@@ -687,7 +691,10 @@ namespace MissionPlanner.GCSViews
 
             await Task.Delay(2000);
 
-            MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
+            MainV2.instance.InvokeIfRequired(() =>
+            {
+                MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
+            });
 
             var client = new Comms.TcpSerial();
 

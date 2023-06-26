@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,54 +17,35 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_MAX_PACK_SIZE = 6;
-        public const ulong UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_SIG = 0xBBA05074AD757480;
-
-        public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_ID = 1090;
-
-
-
-
-
-
-        public partial class uavcan_equipment_power_PrimaryPowerSupplyStatus: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_equipment_power_PrimaryPowerSupplyStatus: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_MAX_PACK_SIZE = 6;
+            public const ulong UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_SIG = 0xBBA05074AD757480;
+            public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_ID = 1090;
 
             public Single hours_to_empty_at_10sec_avg_power = new Single();
-
-
-
             public Single hours_to_empty_at_10sec_avg_power_variance = new Single();
-
-
-
             public bool external_power_available = new bool();
-
-
-
             public uint8_t remaining_energy_pct = new uint8_t();
-
-
-
             public uint8_t remaining_energy_pct_stdev = new uint8_t();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_equipment_power_PrimaryPowerSupplyStatus(this, chunk_cb, ctx);
+                encode_uavcan_equipment_power_PrimaryPowerSupplyStatus(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_equipment_power_PrimaryPowerSupplyStatus(transfer, this);
+                decode_uavcan_equipment_power_PrimaryPowerSupplyStatus(transfer, this, fdcan);
+            }
+
+            public static uavcan_equipment_power_PrimaryPowerSupplyStatus ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new uavcan_equipment_power_PrimaryPowerSupplyStatus();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

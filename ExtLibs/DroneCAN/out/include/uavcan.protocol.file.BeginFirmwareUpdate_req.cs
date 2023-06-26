@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,44 +17,33 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using uavcan.protocol.file.Path.cs
-
-
-        public const int UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_MAX_PACK_SIZE = 202;
-        public const ulong UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_DT_SIG = 0xB7D725DF72724126;
-
-        public const int UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_DT_ID = 40;
-
-
-
-
-
-
-        public partial class uavcan_protocol_file_BeginFirmwareUpdate_req: IDroneCANSerialize {
-
-
+        public partial class uavcan_protocol_file_BeginFirmwareUpdate_req: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_MAX_PACK_SIZE = 202;
+            public const ulong UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_DT_SIG = 0xB7D725DF72724126;
+            public const int UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_DT_ID = 40;
 
             public uint8_t source_node_id = new uint8_t();
-
-
-
             public uavcan_protocol_file_Path image_file_remote_path = new uavcan_protocol_file_Path();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_protocol_file_BeginFirmwareUpdate_req(this, chunk_cb, ctx);
+                encode_uavcan_protocol_file_BeginFirmwareUpdate_req(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_protocol_file_BeginFirmwareUpdate_req(transfer, this);
+                decode_uavcan_protocol_file_BeginFirmwareUpdate_req(transfer, this, fdcan);
+            }
+
+            public static uavcan_protocol_file_BeginFirmwareUpdate_req ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new uavcan_protocol_file_BeginFirmwareUpdate_req();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

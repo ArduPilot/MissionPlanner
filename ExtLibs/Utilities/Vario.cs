@@ -14,7 +14,11 @@ namespace MissionPlanner.Utilities
 
         public static string Running
         {
-            get { if (run) return "Stop Vario"; return "Start Vario"; }
+            get
+            {
+                if (run) return "Stop Vario";
+                return "Start Vario";
+            }
         }
 
         public static void SetValue(float climbrate)
@@ -22,11 +26,13 @@ namespace MissionPlanner.Utilities
             Vario.climbrate = climbrate;
         }
 
+        public static Action<int, int> Beep = (note, durationms) => { Console.Beep(note, durationms); };
+
         public static async void mainloop(object o)
         {
             while (run)
             {
-                float note = climbrate *30 + MidTone;
+                float note = climbrate * 30 + MidTone;
 
                 try
                 {
@@ -36,12 +42,12 @@ namespace MissionPlanner.Utilities
                         // freq , duration
                         if (climbrate > 0)
                         {
-                            Console.Beep((int)note, 300 - (int)(climbrate * 5));
+                            Beep((int)note, 300 - (int)(climbrate * 5));
                             await Task.Delay(20).ConfigureAwait(false);
                         }
                         else
                         {
-                            Console.Beep((int)note - 50, 600);
+                            Beep((int)note - 50, 600);
                         }
                     }
                     else
@@ -51,8 +57,9 @@ namespace MissionPlanner.Utilities
                     }
 
                 }
-                catch { }
-
+                catch
+                {
+                }
             }
         }
 

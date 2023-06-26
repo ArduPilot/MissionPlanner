@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using com.drew.metadata.jpeg;
 using GeoAPI.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
 using MissionPlanner.Controls;
@@ -1502,14 +1503,24 @@ namespace MissionPlanner.Grid
                             Console.WriteLine(lcDirectory.GetName() + " - " + tag.GetTagName() + " " + tag.GetTagValue().ToString());
                         }
 
-                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT))
+                        if (lcDirectory is ExifDirectory && lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT))
                         {
                             TXT_imgheight.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT).ToString();
                         }
 
-                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_WIDTH))
+                        if (lcDirectory is ExifDirectory && lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_WIDTH))
                         {
                             TXT_imgwidth.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_WIDTH).ToString();
+                        }
+
+                        if (lcDirectory is JpegDirectory && lcDirectory.ContainsTag(JpegDirectory.TAG_JPEG_IMAGE_HEIGHT))
+                        {
+                            TXT_imgheight.Text = lcDirectory.GetInt(JpegDirectory.TAG_JPEG_IMAGE_HEIGHT).ToString();
+                        }
+
+                        if (lcDirectory is JpegDirectory && lcDirectory.ContainsTag(JpegDirectory.TAG_JPEG_IMAGE_WIDTH))
+                        {
+                            TXT_imgwidth.Text = lcDirectory.GetInt(JpegDirectory.TAG_JPEG_IMAGE_WIDTH).ToString();
                         }
 
                         if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_X_RES))

@@ -8,7 +8,7 @@ trigger:
 - refs/tags/beta
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/MissionPlanner.sln'
@@ -24,6 +24,12 @@ steps:
 
 - script: dotnet nuget locals all --clear
 - script: git submodule update --init --depth 2 --no-single-branch 
+
+- task: UseDotNet@2
+  displayName: Use .NET 6.0
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
 
 - task: VSBuild@1
   inputs:

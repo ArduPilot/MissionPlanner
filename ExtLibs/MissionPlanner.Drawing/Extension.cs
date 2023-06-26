@@ -56,34 +56,31 @@ namespace System.Drawing
             return new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skiaImage)};
         }
 
-
-        static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
-
-        public static SKPaint ToSKPaint(this Font font)
+        public static SKTypeface ToSKTypeface(this FontFamily ff)
         {
             var fm = SKFontManager.Default;
-            var id = font.Name;
+            var id = "";
             lock (fontcache)
                 if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
                 {
                     id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                     if (!fontcache.ContainsKey(id))
                         fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
-                            fm.MatchCharacter("", new[] {"zh"}, '飞');
+                            fm.MatchCharacter("YaHei", new[] { "zh" }, '飞');
                 }
                 else if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ja")
                 {
                     id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                     if (!fontcache.ContainsKey(id))
                         fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
-                            fm.MatchCharacter("", new[] {"ja"}, 'フ');
+                            fm.MatchCharacter("", new[] { "ja" }, 'フ');
                 }
                 else if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "kr")
                 {
                     id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                     if (!fontcache.ContainsKey(id))
                         fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
-                            fm.MatchCharacter("", new[] {"kr"}, '비');
+                            fm.MatchCharacter("", new[] { "kr" }, '비');
                 }
                 else
                 {
@@ -91,9 +88,16 @@ namespace System.Drawing
                         fontcache[id] = SKTypeface.FromFamilyName(id);
                 }
 
+            return fontcache[id];
+        }
+
+        static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
+
+        public static SKPaint ToSKPaint(this Font font)
+        {
             return new SKPaint
             {
-                Typeface = fontcache[id],
+                Typeface = font.FontFamily.ToSKTypeface(),
                 TextSize = font.SizeInPoints * 1.33334f,
                 StrokeWidth = 2,
             };

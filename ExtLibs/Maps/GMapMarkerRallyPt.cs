@@ -29,12 +29,12 @@ namespace MissionPlanner.Maps
             Offset = new Point(-10, -40);
         }
 
-        public GMapMarkerRallyPt(PointLatLngAlt plla)
+        public GMapMarkerRallyPt(PointLatLngAlt plla, double altmultiplier = 1)
             : this(new PointLatLng(plla.Lat, plla.Lng))
         {
             Alt = (int)plla.Alt;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
-            ToolTipText = "Rally Point" + "\nAlt: " + plla.Alt;
+            ToolTipText = "Rally Point" + "\nAlt: " + (int)(plla.Alt * altmultiplier);
         }
 
         static readonly Point[] Arrow = new Point[]

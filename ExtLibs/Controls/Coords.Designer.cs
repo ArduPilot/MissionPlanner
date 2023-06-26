@@ -33,15 +33,15 @@
             // 
             // CMB_coordsystem
             // 
-            this.CMB_coordsystem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
             this.CMB_coordsystem.FormattingEnabled = true;
             this.CMB_coordsystem.Items.AddRange(new object[] {
             "GEO",
             "UTM",
             "MGRS"});
-            this.CMB_coordsystem.Location = new System.Drawing.Point(0, 0);
+            this.CMB_coordsystem.Location = new System.Drawing.Point(0, 2);
             this.CMB_coordsystem.Name = "CMB_coordsystem";
-            this.CMB_coordsystem.Size = new System.Drawing.Size(54, 28);
+            this.CMB_coordsystem.Size = new System.Drawing.Size(64, 24);
             this.CMB_coordsystem.TabIndex = 0;
             this.CMB_coordsystem.Text = "GEO";
             this.CMB_coordsystem.SelectedIndexChanged += new System.EventHandler(this.CMB_coordsystem_SelectedIndexChanged);

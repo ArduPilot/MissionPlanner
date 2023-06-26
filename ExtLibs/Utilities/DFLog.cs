@@ -44,16 +44,24 @@ namespace MissionPlanner.Utilities
                 get
                 {
                     // always return a time relative to the gps start time
-                    var time = parent.gpsstarttime.AddMilliseconds(timems - parent.msoffset);
+                    var time = parent.gpsstarttime.AddTicks((Int64)((timems - parent.msoffset) * 10000));
                     parent.lasttime = time;
                     return time;
                 }
             }
 
+            private static Dictionary<int, int> instanceCache = new Dictionary<int, int>();
             public string instance
             {
                 get
                 {
+                    // double access save
+                    if (_instance != null)
+                        return _instance;
+                    // field offset save
+                    if (instanceCache.ContainsKey(msgtype.GetHashCode()))
+                        return raw[instanceCache[msgtype.GetHashCode()]].ToString();
+
                     var typeno = parent.logformat[msgtype].Id;
 
                     if (!parent._dfLogBuffer.InstanceType.ContainsKey(typeno))
@@ -62,7 +70,9 @@ namespace MissionPlanner.Utilities
                     var unittypes = parent._dfLogBuffer.FMTU[typeno].Item1;
 
                     int colinst = unittypes.IndexOf("#") + 1;
-                    return raw[colinst].ToString();
+                    instanceCache[msgtype.GetHashCode()] = colinst;
+                    _instance = raw[colinst].ToString();
+                    return _instance;
                 }
             }
 
@@ -85,8 +95,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            int _timems;
-            public int timems
+            double _timems;
+            public double timems
             {
                 get
                 {
@@ -106,7 +116,7 @@ namespace MissionPlanner.Utilities
                         index = parent.FindMessageOffset(msgtype, "TimeUS");
                         if (index >= 0)
                         {
-                            _timems = (int)(long.Parse(raw[index].ToString()) / 1000);
+                            _timems = (long.Parse(raw[index].ToString()) / 1000.0);
                             return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "T");
@@ -135,6 +145,7 @@ namespace MissionPlanner.Utilities
             }
 
             public DFLog parent;
+            private string _instance;
 
             public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
             {
@@ -307,6 +318,17 @@ namespace MissionPlanner.Utilities
             STANDBY_ENABLE = 74,
             STANDBY_DISABLE = 75,
 
+            FENCE_FLOOR_ENABLE = 80,
+            FENCE_FLOOR_DISABLE = 81,
+
+            // if the EKF's source input set is changed (e.g. via a switch or
+            // a script), we log an event:
+            EK3_SOURCES_SET_TO_PRIMARY = 85,
+            EK3_SOURCES_SET_TO_SECONDARY = 86,
+            EK3_SOURCES_SET_TO_TERTIARY = 87,
+
+            AIRSPEED_PRIMARY_CHANGED = 90,
+
             SURFACED = 163,
             NOT_SURFACED = 164,
             BOTTOMED = 165,
@@ -344,6 +366,8 @@ namespace MissionPlanner.Utilities
             FAILSAFE_LEAK = 27,
             PILOT_INPUT = 28,
             FAILSAFE_VIBE = 29,
+            INTERNAL_ERROR = 30,
+            FAILSAFE_DEADRECKON = 31
         }
 
         // bizarrely this enumeration has lots of duplicate values, offering
@@ -373,6 +397,9 @@ namespace MissionPlanner.Utilities
             RESTARTED_RTL = 3,
             FAILED_CIRCLE_INIT = 4,
             DEST_OUTSIDE_FENCE = 5,
+            RTL_MISSING_RNGFND = 6,
+            // subsystem specific error codes -- internal_error
+            INTERNAL_ERRORS_DETECTED = 1,
 
             // parachute failed to deploy because of low altitude or landed
             PARACHUTE_TOO_LOW = 2,
@@ -667,10 +694,15 @@ namespace MissionPlanner.Utilities
             return basetime.ToLocalTime();
         }
 
+        Dictionary<int, int> msgoffsetcache = new Dictionary<int, int>();
+
         public int FindMessageOffset(string linetype, string find)
         {
             if (linetype == null || find == null)
                 return -1;
+
+            if (msgoffsetcache.ContainsKey(linetype.GetHashCode() ^ find.GetHashCode()))
+                return msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()];
 
             if (logformat.ContainsKey(linetype.ToUpper()))
             {
@@ -678,7 +710,8 @@ namespace MissionPlanner.Utilities
                 if (ans == -1)
                     return -1;
                 // + type
-                return ans + 1;
+                msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()] = ans + 1;
+                return msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()];
             }
 
             return -1;

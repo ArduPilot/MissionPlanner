@@ -28,6 +28,9 @@ namespace MavlinkMessagePlugin
         {
             var oldlist = MAVLink.MAVLINK_MESSAGE_INFOS.ToList();
             oldlist.Add(new MAVLink.message_info(27499, "VFR_HUD_EDIT", 20, 20, 20, typeof(mavlink_vfr_hud_EDIT_t)));
+
+            oldlist.Add(new MAVLink.message_info(8, "HEARTBEAT", 50, 9, 9, typeof(MAVLink.mavlink_heartbeat_t)));
+
             MAVLink.MAVLINK_MESSAGE_INFOS = oldlist.ToArray();
 
             var parse = new MAVLink.MavlinkParse();

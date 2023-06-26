@@ -2071,7 +2071,7 @@ namespace System.Drawing.Drawing2D
             StringFormat genericTypographic)
         {
             var paint = new SKPaint()
-                {Typeface = SKTypeface.FromFamilyName(fontFontFamily?.Name), TextSize = fontsize};
+                {Typeface = fontFontFamily.ToSKTypeface(), TextSize = fontsize};
             var path = paint.GetTextPath(s, point.X, point.Y + fontsize);
 
             path.Simplify();

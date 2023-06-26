@@ -1,91 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
-    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <ApplicationIcon />
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Views\**" />
-    <EmbeddedResource Remove="Views\**" />
-    <None Remove="Views\**" />
+    <PackageReference Include="MarkdownSharp" Version="2.0.5" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="3.0.0" />
+    <PackageReference Include="Flurl" Version="3.0.2" />
+    <PackageReference Include="Flurl.Http" Version="3.2.0" />
+    <PackageReference Include="GeoJSON.Net" Version="1.1.64" />
+    <PackageReference Include="Polly" Version="7.2.2" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="IsolatedPluginMain.cs" />
-    <Compile Remove="MissionPlannerInterfaces.cs" />
-    <Compile Remove="PluginMain.cs" />
-    <Compile Remove="UserInterfaceMain.cs" />
-    <Compile Remove="WpfExtensions.cs" />
-  </ItemGroup>  <ItemGroup>
-    <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AsyncFixer" Version="1.5.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Asyncify" Version="0.9.7" />
-    <PackageReference Include="Autofac" Version="4.9.4" />
-    <PackageReference Include="DotNetOpenAuth.OAuth2.Client" Version="4.3.4.13329" />
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>  <ItemGroup>
-    <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
-  </ItemGroup> <ItemGroup>
-    <Reference Include="System.Windows.Forms" Condition="'$(TargetFramework)' == 'net461'" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Flurl">
-      <Version>3.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Flurl.Http">
-      <Version>3.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="GeoJSON.Net">
-      <Version>1.1.64</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reactive">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reactive.Core">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="TimeZoneConverter">
-      <Version>3.2.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

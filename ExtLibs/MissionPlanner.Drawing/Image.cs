@@ -119,6 +119,11 @@ namespace System.Drawing
             return new Bitmap() {nativeSkBitmap = this.nativeSkBitmap.Copy()};
         }
 
+        public Bitmap Clone(Rectangle rectangle, PixelFormat format24bppRgb)
+        {
+            return new Bitmap() { nativeSkBitmap = this.nativeSkBitmap.Copy(SKColorType.Rgb888x) };
+        }
+
         internal Image()
         {
         }

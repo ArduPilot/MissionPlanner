@@ -42,37 +42,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.TB_output = new System.Windows.Forms.TextBox();
-            this.TB_xml_uid = new System.Windows.Forms.TextBox();
-            this.label_uid = new System.Windows.Forms.Label();
             this.BTN_clear_TB = new System.Windows.Forms.Button();
             this.GB_connection = new System.Windows.Forms.GroupBox();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.label_type = new System.Windows.Forms.Label();
             this.TB_xml_type = new System.Windows.Forms.TextBox();
+            this.CB_advancedMode = new System.Windows.Forms.CheckBox();
+            this.chk_indent = new System.Windows.Forms.CheckBox();
+            this.updateRate_numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.sysid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.takv = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GB_connection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // CMB_updaterate
-            // 
-            this.CMB_updaterate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CMB_updaterate.FormattingEnabled = true;
-            this.CMB_updaterate.Items.AddRange(new object[] {
-            "10hz",
-            "5hz",
-            "2hz",
-            "1hz",
-            "0.5hz",
-            "0.2hz",
-            "0.1hz"});
-            this.CMB_updaterate.Location = new System.Drawing.Point(136, 46);
-            this.CMB_updaterate.Name = "CMB_updaterate";
-            this.CMB_updaterate.Size = new System.Drawing.Size(75, 21);
-            this.CMB_updaterate.TabIndex = 11;
-            this.CMB_updaterate.SelectedIndexChanged += new System.EventHandler(this.CMB_updaterate_SelectedIndexChanged);
             // 
             // CMB_baudrate
             // 
@@ -92,17 +84,6 @@
             this.CMB_baudrate.Size = new System.Drawing.Size(121, 21);
             this.CMB_baudrate.TabIndex = 10;
             // 
-            // BUT_connect
-            // 
-            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 9;
-            this.BUT_connect.Text = "Connect";
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
-            // 
             // CMB_serialport
             // 
             this.CMB_serialport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -111,6 +92,7 @@
             this.CMB_serialport.Name = "CMB_serialport";
             this.CMB_serialport.Size = new System.Drawing.Size(121, 21);
             this.CMB_serialport.TabIndex = 8;
+            this.CMB_serialport.SelectedIndexChanged += new System.EventHandler(this.CMB_serialport_SelectedIndexChanged);
             // 
             // TB_output
             // 
@@ -122,30 +104,13 @@
             this.TB_output.Name = "TB_output";
             this.TB_output.ReadOnly = true;
             this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.TB_output.Size = new System.Drawing.Size(383, 367);
+            this.TB_output.Size = new System.Drawing.Size(559, 334);
             this.TB_output.TabIndex = 12;
             this.TB_output.WordWrap = false;
             // 
-            // TB_xml_uid
-            // 
-            this.TB_xml_uid.Location = new System.Drawing.Point(265, 21);
-            this.TB_xml_uid.Name = "TB_xml_uid";
-            this.TB_xml_uid.Size = new System.Drawing.Size(130, 20);
-            this.TB_xml_uid.TabIndex = 13;
-            this.TB_xml_uid.Text = "K1000ULE";
-            // 
-            // label_uid
-            // 
-            this.label_uid.AutoSize = true;
-            this.label_uid.Location = new System.Drawing.Point(233, 23);
-            this.label_uid.Name = "label_uid";
-            this.label_uid.Size = new System.Drawing.Size(26, 13);
-            this.label_uid.TabIndex = 15;
-            this.label_uid.Text = "UID";
-            // 
             // BTN_clear_TB
             // 
-            this.BTN_clear_TB.Location = new System.Drawing.Point(307, 73);
+            this.BTN_clear_TB.Location = new System.Drawing.Point(370, 70);
             this.BTN_clear_TB.Name = "BTN_clear_TB";
             this.BTN_clear_TB.Size = new System.Drawing.Size(88, 23);
             this.BTN_clear_TB.TabIndex = 16;
@@ -157,7 +122,6 @@
             // 
             this.GB_connection.Controls.Add(this.CMB_serialport);
             this.GB_connection.Controls.Add(this.BUT_connect);
-            this.GB_connection.Controls.Add(this.CMB_updaterate);
             this.GB_connection.Controls.Add(this.CMB_baudrate);
             this.GB_connection.Location = new System.Drawing.Point(12, 12);
             this.GB_connection.Name = "GB_connection";
@@ -165,6 +129,18 @@
             this.GB_connection.TabIndex = 18;
             this.GB_connection.TabStop = false;
             this.GB_connection.Text = "Connection";
+            // 
+            // BUT_connect
+            // 
+            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
+            this.BUT_connect.TabIndex = 9;
+            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // label_type
             // 
@@ -183,40 +159,175 @@
             this.TB_xml_type.TabIndex = 20;
             this.TB_xml_type.Text = "a-f-A-M-F-Q";
             // 
+            // CB_advancedMode
+            // 
+            this.CB_advancedMode.AutoSize = true;
+            this.CB_advancedMode.Checked = true;
+            this.CB_advancedMode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_advancedMode.Location = new System.Drawing.Point(247, 20);
+            this.CB_advancedMode.Margin = new System.Windows.Forms.Padding(2);
+            this.CB_advancedMode.Name = "CB_advancedMode";
+            this.CB_advancedMode.Size = new System.Drawing.Size(107, 17);
+            this.CB_advancedMode.TabIndex = 23;
+            this.CB_advancedMode.Text = "Additional Details";
+            this.CB_advancedMode.UseVisualStyleBackColor = true;
+            this.CB_advancedMode.CheckedChanged += new System.EventHandler(this.CB_advancedMode_CheckedChanged);
+            // 
+            // chk_indent
+            // 
+            this.chk_indent.AutoSize = true;
+            this.chk_indent.Checked = true;
+            this.chk_indent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_indent.Location = new System.Drawing.Point(358, 20);
+            this.chk_indent.Margin = new System.Windows.Forms.Padding(2);
+            this.chk_indent.Name = "chk_indent";
+            this.chk_indent.Size = new System.Drawing.Size(100, 17);
+            this.chk_indent.TabIndex = 24;
+            this.chk_indent.Text = "Nice Formatting";
+            this.chk_indent.UseVisualStyleBackColor = true;
+            this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
+            // 
+            // updateRate_numericUpDown
+            // 
+            this.updateRate_numericUpDown.Location = new System.Drawing.Point(307, 73);
+            this.updateRate_numericUpDown.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.updateRate_numericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.updateRate_numericUpDown.Name = "updateRate_numericUpDown";
+            this.updateRate_numericUpDown.Size = new System.Drawing.Size(46, 20);
+            this.updateRate_numericUpDown.TabIndex = 25;
+            this.updateRate_numericUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.updateRate_numericUpDown.ValueChanged += new System.EventHandler(this.updateRate_numericUpDown_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(235, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Interval (sec)";
+            // 
+            // myDataGridView1
+            // 
+            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sysid,
+            this.UID,
+            this.takv,
+            this.ContactCallsign,
+            this.ContactEndPointIP,
+            this.VMF});
+            this.myDataGridView1.Location = new System.Drawing.Point(12, 443);
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.RowHeadersWidth = 62;
+            this.myDataGridView1.Size = new System.Drawing.Size(559, 121);
+            this.myDataGridView1.TabIndex = 22;
+            this.myDataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellLeave);
+            this.myDataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.myDataGridView1_CellMouseUp);
+            this.myDataGridView1.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowValidated);
+            // 
+            // sysid
+            // 
+            this.sysid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.sysid.HeaderText = "sysid";
+            this.sysid.MinimumWidth = 8;
+            this.sysid.Name = "sysid";
+            this.sysid.Width = 55;
+            // 
+            // UID
+            // 
+            this.UID.HeaderText = "UID";
+            this.UID.MinimumWidth = 8;
+            this.UID.Name = "UID";
+            // 
+            // takv
+            // 
+            this.takv.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.takv.HeaderText = "takv";
+            this.takv.Name = "takv";
+            this.takv.Width = 34;
+            // 
+            // ContactCallsign
+            // 
+            this.ContactCallsign.HeaderText = "ContactCallsign";
+            this.ContactCallsign.MinimumWidth = 8;
+            this.ContactCallsign.Name = "ContactCallsign";
+            this.ContactCallsign.ToolTipText = "If you don\'t know what this is then leave it blank or use the UID";
+            // 
+            // ContactEndPointIP
+            // 
+            this.ContactEndPointIP.HeaderText = "ContactEndPointIP";
+            this.ContactEndPointIP.MinimumWidth = 8;
+            this.ContactEndPointIP.Name = "ContactEndPointIP";
+            this.ContactEndPointIP.ToolTipText = "If you don\'t know what this is then leave it blank";
+            // 
+            // VMF
+            // 
+            this.VMF.HeaderText = "VMF";
+            this.VMF.MinimumWidth = 8;
+            this.VMF.Name = "VMF";
+            this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
+            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(407, 474);
+            this.ClientSize = new System.Drawing.Size(583, 575);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.chk_indent);
+            this.Controls.Add(this.updateRate_numericUpDown);
+            this.Controls.Add(this.CB_advancedMode);
+            this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.label_type);
             this.Controls.Add(this.TB_xml_type);
             this.Controls.Add(this.GB_connection);
             this.Controls.Add(this.BTN_clear_TB);
-            this.Controls.Add(this.label_uid);
-            this.Controls.Add(this.TB_xml_uid);
             this.Controls.Add(this.TB_output);
             this.Name = "SerialOutputCoT";
             this.Text = "Output Cursor on Target";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialOutputCoT_FormClosing);
             this.Load += new System.EventHandler(this.SerialOutputCoT_Load);
             this.GB_connection.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox CMB_updaterate;
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_serialport;
         private System.Windows.Forms.TextBox TB_output;
-        private System.Windows.Forms.TextBox TB_xml_uid;
-        private System.Windows.Forms.Label label_uid;
         private System.Windows.Forms.Button BTN_clear_TB;
         private System.Windows.Forms.GroupBox GB_connection;
         private System.Windows.Forms.Label label_type;
         private System.Windows.Forms.TextBox TB_xml_type;
+        private MyDataGridView myDataGridView1;
+        private System.Windows.Forms.CheckBox CB_advancedMode;
+        private System.Windows.Forms.CheckBox chk_indent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sysid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UID;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn takv;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContactCallsign;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContactEndPointIP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
+        private System.Windows.Forms.NumericUpDown updateRate_numericUpDown;
+        private System.Windows.Forms.Label label2;
     }
 }

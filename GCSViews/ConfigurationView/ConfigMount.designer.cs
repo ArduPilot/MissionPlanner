@@ -98,17 +98,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.NUD_NEUTRAL_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label30 = new System.Windows.Forms.Label();
             this.NUD_NEUTRAL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.NUD_CONTROL_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label32 = new System.Windows.Forms.Label();
-            this.NUD_CONTROL_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label33 = new System.Windows.Forms.Label();
-            this.NUD_CONTROL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.CHK_stab_tilt = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_stab_roll = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_stab_pan = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CMB_shuttertype =  new ComboBox();
+            this.CMB_shuttertype = new System.Windows.Forms.ComboBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
@@ -151,10 +143,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_z)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_x)).BeginInit();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CONTROL_z)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CONTROL_y)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CONTROL_x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_pushed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_notpushed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownShutM)).BeginInit();
@@ -938,102 +926,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.label31);
-            this.groupBox6.Controls.Add(this.NUD_CONTROL_z);
-            this.groupBox6.Controls.Add(this.label32);
-            this.groupBox6.Controls.Add(this.NUD_CONTROL_y);
-            this.groupBox6.Controls.Add(this.label33);
-            this.groupBox6.Controls.Add(this.NUD_CONTROL_x);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
-            // 
-            // label31
-            // 
-            resources.ApplyResources(this.label31, "label31");
-            this.label31.Name = "label31";
-            // 
-            // NUD_CONTROL_z
-            // 
-            resources.ApplyResources(this.NUD_CONTROL_z, "NUD_CONTROL_z");
-            this.NUD_CONTROL_z.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_CONTROL_z.Max = 1F;
-            this.NUD_CONTROL_z.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_CONTROL_z.Min = 0F;
-            this.NUD_CONTROL_z.Name = "NUD_CONTROL_z";
-            this.NUD_CONTROL_z.ParamName = null;
-            this.NUD_CONTROL_z.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // label32
-            // 
-            resources.ApplyResources(this.label32, "label32");
-            this.label32.Name = "label32";
-            // 
-            // NUD_CONTROL_y
-            // 
-            resources.ApplyResources(this.NUD_CONTROL_y, "NUD_CONTROL_y");
-            this.NUD_CONTROL_y.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_CONTROL_y.Max = 1F;
-            this.NUD_CONTROL_y.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_CONTROL_y.Min = 0F;
-            this.NUD_CONTROL_y.Name = "NUD_CONTROL_y";
-            this.NUD_CONTROL_y.ParamName = null;
-            this.NUD_CONTROL_y.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // label33
-            // 
-            resources.ApplyResources(this.label33, "label33");
-            this.label33.Name = "label33";
-            // 
-            // NUD_CONTROL_x
-            // 
-            resources.ApplyResources(this.NUD_CONTROL_x, "NUD_CONTROL_x");
-            this.NUD_CONTROL_x.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_CONTROL_x.Max = 1F;
-            this.NUD_CONTROL_x.Maximum = new decimal(new int[] {
-            2200,
-            0,
-            0,
-            0});
-            this.NUD_CONTROL_x.Min = 0F;
-            this.NUD_CONTROL_x.Name = "NUD_CONTROL_x";
-            this.NUD_CONTROL_x.ParamName = null;
-            this.NUD_CONTROL_x.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
             // CHK_stab_tilt
             // 
             resources.ApplyResources(this.CHK_stab_tilt, "CHK_stab_tilt");
@@ -1051,15 +943,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CHK_stab_roll.OnValue = 1D;
             this.CHK_stab_roll.ParamName = null;
             this.CHK_stab_roll.UseVisualStyleBackColor = true;
-            // 
-            // CHK_stab_pan
-            // 
-            resources.ApplyResources(this.CHK_stab_pan, "CHK_stab_pan");
-            this.CHK_stab_pan.Name = "CHK_stab_pan";
-            this.CHK_stab_pan.OffValue = 0D;
-            this.CHK_stab_pan.OnValue = 1D;
-            this.CHK_stab_pan.ParamName = null;
-            this.CHK_stab_pan.UseVisualStyleBackColor = true;
             // 
             // CMB_shuttertype
             // 
@@ -1298,10 +1181,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.label41);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.CHK_stab_pan);
             this.Controls.Add(this.CHK_stab_roll);
             this.Controls.Add(this.CHK_stab_tilt);
-            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label24);
@@ -1383,11 +1264,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_z)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NEUTRAL_x)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CONTROL_z)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CONTROL_y)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CONTROL_x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_pushed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownshut_notpushed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownShutM)).EndInit();
@@ -1467,16 +1343,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkNumericUpDown NUD_NEUTRAL_y;
         private System.Windows.Forms.Label label30;
         private MavlinkNumericUpDown NUD_NEUTRAL_x;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Label label31;
-        private MavlinkNumericUpDown NUD_CONTROL_z;
-        private System.Windows.Forms.Label label32;
-        private MavlinkNumericUpDown NUD_CONTROL_y;
-        private System.Windows.Forms.Label label33;
-        private MavlinkNumericUpDown NUD_CONTROL_x;
         private MavlinkCheckBox CHK_stab_tilt;
         private MavlinkCheckBox CHK_stab_roll;
-        private MavlinkCheckBox CHK_stab_pan;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;

@@ -27,7 +27,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Enabled = true;
 
-            _flow = new OpticalFlow(MainV2.comPort);
+            _flow = new OpticalFlow(MainV2.comPort, (byte)MainV2.comPort.sysidcurrent,
+                (byte)MainV2.comPort.compidcurrent);
 
             // setup bitmap to screen
             _flow.newImage += (s, eh) =>

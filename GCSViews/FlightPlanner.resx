@@ -148,7 +148,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;CHK_verifyheight.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="TXT_WPRad.Location" type="System.Drawing.Point, System.Drawing">
     <value>23, 20</value>
@@ -172,7 +172,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_WPRad.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="TXT_DefaultAlt.Location" type="System.Drawing.Point, System.Drawing">
     <value>154, 20</value>
@@ -196,7 +196,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_DefaultAlt.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="LBL_WPRad.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -226,7 +226,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;LBL_WPRad.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="LBL_defalutalt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -256,7 +256,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;LBL_defalutalt.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="TXT_loiterrad.Location" type="System.Drawing.Point, System.Drawing">
     <value>89, 20</value>
@@ -280,7 +280,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_loiterrad.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -310,7 +310,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="but_writewpfast.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -715,6 +715,36 @@
   <data name="&gt;&gt;lbl_status.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="chk_usemavftp.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_usemavftp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_usemavftp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>589, 12</value>
+  </data>
+  <data name="chk_usemavftp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 17</value>
+  </data>
+  <data name="chk_usemavftp.TabIndex" type="System.Int32, mscorlib">
+    <value>56</value>
+  </data>
+  <data name="chk_usemavftp.Text" xml:space="preserve">
+    <value>MAVFTP</value>
+  </data>
+  <data name="&gt;&gt;chk_usemavftp.Name" xml:space="preserve">
+    <value>chk_usemavftp</value>
+  </data>
+  <data name="&gt;&gt;chk_usemavftp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_usemavftp.Parent" xml:space="preserve">
+    <value>panelWaypoints</value>
+  </data>
+  <data name="&gt;&gt;chk_usemavftp.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="but_mincommands.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -743,16 +773,13 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;but_mincommands.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CMB_altmode.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12pt</value>
+    <value>1</value>
   </data>
   <data name="CMB_altmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>213, 7</value>
   </data>
   <data name="CMB_altmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 28</value>
+    <value>79, 21</value>
   </data>
   <data name="CMB_altmode.TabIndex" type="System.Int32, mscorlib">
     <value>54</value>
@@ -770,7 +797,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;CMB_altmode.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CHK_splinedefault.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -800,7 +827,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;CHK_splinedefault.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -830,7 +857,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="TXT_altwarn.Location" type="System.Drawing.Point, System.Drawing">
     <value>482, 20</value>
@@ -854,7 +881,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_altwarn.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Commands.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -1158,7 +1185,7 @@
     <value>3, 40</value>
   </data>
   <data name="Commands.RowHeadersWidth" type="System.Int32, mscorlib">
-    <value>50</value>
+    <value>60</value>
   </data>
   <data name="Commands.Size" type="System.Drawing.Size, System.Drawing">
     <value>968, 126</value>
@@ -1170,13 +1197,13 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8064.23188, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8412.38456, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;Commands.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="BUT_Add.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1209,7 +1236,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;BUT_Add.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="panelWaypoints.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -1736,9 +1763,6 @@
   <data name="cmb_missiontype.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="cmb_missiontype.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12pt</value>
-  </data>
   <data name="cmb_missiontype.Items" xml:space="preserve">
     <value>Mission</value>
   </data>
@@ -1752,7 +1776,7 @@
     <value>798, 3</value>
   </data>
   <data name="cmb_missiontype.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 28</value>
+    <value>121, 21</value>
   </data>
   <data name="cmb_missiontype.TabIndex" type="System.Int32, mscorlib">
     <value>51</value>
@@ -2055,52 +2079,58 @@
     <value>Auto WP</value>
   </data>
   <data name="ContextMeasure.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ContextMeasure.Text" xml:space="preserve">
     <value>Measure Distance</value>
   </data>
   <data name="rotateMapToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="rotateMapToolStripMenuItem.Text" xml:space="preserve">
     <value>Rotate Map</value>
   </data>
   <data name="zoomToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="zoomToToolStripMenuItem.Text" xml:space="preserve">
     <value>Zoom To</value>
   </data>
   <data name="prefetchToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="prefetchToolStripMenuItem.Text" xml:space="preserve">
     <value>Prefetch</value>
   </data>
   <data name="prefetchWPPathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="prefetchWPPathToolStripMenuItem.Text" xml:space="preserve">
     <value>Prefetch WP Path</value>
   </data>
   <data name="kMLOverlayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="kMLOverlayToolStripMenuItem.Text" xml:space="preserve">
     <value>KML Overlay</value>
   </data>
   <data name="elevationGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>Elevation Graph</value>
   </data>
   <data name="reverseWPsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
     <value>Reverse WPs</value>
+  </data>
+  <data name="gDALOpacityToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="gDALOpacityToolStripMenuItem.Text" xml:space="preserve">
+    <value>GDAL Opacity</value>
   </data>
   <data name="mapToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 22</value>
@@ -2409,7 +2439,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>55</value>
+    <value>53</value>
   </metadata>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -3087,6 +3117,12 @@
     <value>zoomToHomeToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;zoomToHomeToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;gDALOpacityToolStripMenuItem.Name" xml:space="preserve">
+    <value>gDALOpacityToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;gDALOpacityToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

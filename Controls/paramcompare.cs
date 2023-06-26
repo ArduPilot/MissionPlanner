@@ -7,7 +7,7 @@ namespace MissionPlanner.Controls
 {
     public partial class ParamCompare : Form
     {
-        public delegate void dtlvcallbackHandler(string param, float value);
+        public delegate void dtlvcallbackHandler(string param, double value);
 
         public event dtlvcallbackHandler dtlvcallback;
 
@@ -40,7 +40,8 @@ namespace MissionPlanner.Controls
                 {
                     if (param.ContainsKey(value) && param2.ContainsKey(value))
                     {
-                        if (((float)(double)param[value]).ToString() != param2[value].ToString())
+                        // check double != double
+                        if (param[value] != param2[value])
                         // this will throw is there is no matching key
                         {
                             Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
@@ -73,10 +74,10 @@ namespace MissionPlanner.Controls
                         {
                             if (dtlvcallback != null)
                                 dtlvcallback(row.Cells[Command.Index].Value.ToString().Trim(),
-                                    float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                                    double.Parse(row.Cells[newvalue.Index].Value.ToString()));
                             else
                                 MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, row.Cells[Command.Index].Value.ToString().Trim(),
-                                    float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                                    double.Parse(row.Cells[newvalue.Index].Value.ToString()));
                         }
                     }
                 }

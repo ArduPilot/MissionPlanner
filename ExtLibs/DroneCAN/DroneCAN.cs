@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -284,7 +285,7 @@ namespace DroneCAN
                     {
                         if (queue.TryDequeue(out line))
                         {
-                            ReadMessage(line);
+                            ReadMessageSLCAN(line);
                         }
                         else
                         {
@@ -313,25 +314,25 @@ namespace DroneCAN
                     {
                         if (NodeStatus)
                         {
-                            var slcan = PackageMessage(SourceNode, 0, transferID++,
+                            var slcan = PackageMessageSLCAN(SourceNode, 0, transferID++,
                                 new DroneCAN.uavcan_protocol_NodeStatus()
                                 {
-                                    health = (byte) DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
-                                    mode = (byte) DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0,
+                                    health = (byte) DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
+                                    mode = (byte) DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0,
                                     uptime_sec = (uint) (DateTime.Now - uptime).TotalSeconds,
                                     vendor_specific_status_code = 0
                                 });
 
-                            WriteToStream(slcan);
+                            WriteToStreamSLCAN(slcan);
 
                             // query all nodeinfo
                             if (DateTime.Now.Second % 10 == 0 &&  NodeList.Count > 0)
                             {
-                                slcan = PackageMessage((byte) NodeList.Keys.ToArray()[nodeinfo % NodeList.Count], 30,
+                                slcan = PackageMessageSLCAN((byte) NodeList.Keys.ToArray()[nodeinfo % NodeList.Count], 30,
                                     transferID++,
                                     new uavcan_protocol_GetNodeInfo_req());
 
-                                WriteToStream(slcan);
+                                WriteToStreamSLCAN(slcan);
 
                                 nodeinfo++;
                             }
@@ -378,11 +379,11 @@ namespace DroneCAN
                     gnires.name = ASCIIEncoding.ASCII.GetBytes("org.missionplanner");
                     gnires.name_len = (byte)gnires.name.Length;
                     gnires.status = new DroneCAN.uavcan_protocol_NodeStatus()
-                    { health = (byte)DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK, mode = (byte)DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0, uptime_sec = (uint)(DateTime.Now - uptime).TotalSeconds, vendor_specific_status_code = 0 };
+                    { health = (byte)DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK, mode = (byte)DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0, uptime_sec = (uint)(DateTime.Now - uptime).TotalSeconds, vendor_specific_status_code = 0 };
 
-                    var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, gnires);
+                    var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID, gnires);
                
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
                 }
             };
         }
@@ -439,7 +440,7 @@ namespace DroneCAN
 
             MessageReceived += configdelgate;
 
-            var req = new DroneCAN.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)DroneCAN.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_OPCODE_SAVE};
+            var req = new DroneCAN.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)DroneCAN.uavcan_protocol_param_ExecuteOpcode_req.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_OPCODE_SAVE };
 
             var trys = 0;
             DateTime nextsend = DateTime.MinValue;
@@ -451,9 +452,9 @@ namespace DroneCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
 
-                    WriteToStream(slcan);
+                    WriteToStreamSLCAN(slcan);
 
                     nextsend = DateTime.Now.AddSeconds(1);
                     trys++;
@@ -503,9 +504,9 @@ namespace DroneCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
 
-                    WriteToStream(slcan);
+                    WriteToStreamSLCAN(slcan);
 
                     nextsend = DateTime.Now.AddSeconds(1);
                     trys++;
@@ -569,9 +570,9 @@ namespace DroneCAN
                 };
 
 
-                var slcan = PackageMessage(node, 0, transferID++, req);
+                var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
 
-                WriteToStream(slcan);
+                WriteToStreamSLCAN(slcan);
 
                 wait.Wait(333);
             }
@@ -627,12 +628,12 @@ namespace DroneCAN
                             data = buffer,
                             data_len = (ushort)read,
                             error = new DroneCAN.uavcan_protocol_file_Error()
-                            { value = (short)DroneCAN.UAVCAN_PROTOCOL_FILE_ERROR_OK }
+                            { value = (short)DroneCAN.uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK }
                         };
 
-                        var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, readRes);
+                        var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID, readRes);
 
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
 
                         FileSendProgress?.Invoke(frame.SourceNode, requestedfile,
                             (((double) frreq.offset + read) / file.Length) * 100.0);
@@ -707,15 +708,15 @@ namespace DroneCAN
                 {
                     var gdei = msg as DroneCAN.uavcan_protocol_file_GetDirectoryEntryInfo_res;
 
-                    if (gdei.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    if (gdei.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK)
                     {
                         // add our valid entry
                         var fullpath = ASCIIEncoding.ASCII.GetString(gdei.entry_full_path.path).TrimEnd('\0');
                         answer.Add(new DroneCANFileInfo(Path.GetFileName(fullpath), path,
-                            (gdei.entry_type.flags & (byte)UAVCAN_PROTOCOL_FILE_ENTRYTYPE_FLAG_DIRECTORY) > 0, 0));
+                            (gdei.entry_type.flags & (byte)uavcan_protocol_file_EntryType.UAVCAN_PROTOCOL_FILE_ENTRYTYPE_FLAG_DIRECTORY) > 0, 0));
                         wait.Set();
                     } 
-                    else if (gdei.error.value == UAVCAN_PROTOCOL_FILE_ERROR_NOT_FOUND)
+                    else if (gdei.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_NOT_FOUND)
                     {
                         // set max index to 0
                         counttoget = 0;
@@ -741,9 +742,9 @@ namespace DroneCAN
                     {
                         file_GetDirectoryEntryInfo_req.entry_index = i;
 
-                        var slcan = PackageMessage(DestNode, 0, transferID++, file_GetDirectoryEntryInfo_req);
+                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, file_GetDirectoryEntryInfo_req);
                      
-                            WriteToStream(slcan);
+                            WriteToStreamSLCAN(slcan);
 
                         if (wait.WaitOne(2000))
                         {
@@ -783,7 +784,7 @@ namespace DroneCAN
                 {
                     var frr = msg as DroneCAN.uavcan_protocol_file_Read_res;
 
-                    if (frr.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    if (frr.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK)
                     {
                         destfile.Seek((int) fileReadReq.offset, SeekOrigin.Begin);
                         destfile.Write(frr.data, 0, frr.data_len);
@@ -814,9 +815,9 @@ namespace DroneCAN
                     {
                         if (cancel.IsCancellationRequested)
                             break;
-                        var slcan = PackageMessage(DestNode, 0, transferID++, fileReadReq);
+                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, fileReadReq);
                       
-                            WriteToStream(slcan);
+                            WriteToStreamSLCAN(slcan);
 
                         if (wait.WaitOne(2000))
                         {
@@ -856,7 +857,7 @@ namespace DroneCAN
                 {
                     var frr = msg as DroneCAN.uavcan_protocol_file_Write_res;
 
-                    if (frr.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    if (frr.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK)
                     {
                         wait.Set();
                     }
@@ -884,9 +885,9 @@ namespace DroneCAN
                         var read = sourcefile.Read(fileWriteReq.data, 0, fileWriteReq.data.Length);
                         fileWriteReq.data_len = (byte) read;
 
-                        var slcan = PackageMessage(DestNode, 0, transferID++, fileWriteReq);
+                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, fileWriteReq);
 
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
 
                         if (wait.WaitOne(300))
                         {
@@ -905,8 +906,8 @@ namespace DroneCAN
                     {
                         fileWriteReq.data_len = (byte) 0;
                         fileWriteReq.offset = (ulong)sourcefile.Length;
-                        var slcan = PackageMessage(DestNode, 0, transferID++, fileWriteReq);
-                        WriteToStream(slcan);
+                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, fileWriteReq);
+                        WriteToStreamSLCAN(slcan);
                         break;
                     }
                 }
@@ -952,10 +953,10 @@ namespace DroneCAN
                         dynamicBytes.Clear();
                         dynamicBytes.AddRange(allocation.unique_id.Take(allocation.unique_id_len));
 
-                        var slcan = PackageMessage(SourceNode, frame.Priority, transferID, allocation);
+                        var slcan = PackageMessageSLCAN(SourceNode, frame.Priority, transferID, allocation);
                         Console.WriteLine(slcan);
 
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
                     }
                     else if (allocation.unique_id_len == 6 && dynamicBytes.Count == 6)
                     {
@@ -965,10 +966,10 @@ namespace DroneCAN
 
                         allocation.unique_id_len = (byte) allocation.unique_id.Length;
 
-                        var slcan = PackageMessage(SourceNode, 0, transferID, allocation);
+                        var slcan = PackageMessageSLCAN(SourceNode, 0, transferID, allocation);
                         Console.WriteLine(slcan);
 
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
                     }
                     else if (dynamicBytes.Count == 12)
                     {
@@ -1018,10 +1019,10 @@ namespace DroneCAN
                             dynamicBytes.Clear();
                         }
 
-                        var slcan = PackageMessage(SourceNode, 0, transferID, allocation);
+                        var slcan = PackageMessageSLCAN(SourceNode, 0, transferID, allocation);
                         Console.WriteLine(slcan);
 
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
 
                     } 
                     else
@@ -1059,15 +1060,14 @@ namespace DroneCAN
 
                 var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##", CultureInfo.InvariantCulture), "firmware.bin");
                 Console.WriteLine("LookForUpdate at " + url);
-                var req = WebRequest.Create(url);
-                ((HttpWebRequest)req).UserAgent = Assembly.GetExecutingAssembly().GetName().Name;
-                req.Timeout = 4000; // miliseconds
-                req.Method = "HEAD";
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Assembly.GetExecutingAssembly().GetName().Name);
+                client.Timeout = TimeSpan.FromSeconds(30);
+                var req = client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)).Result;
 
                 try
                 {
-                    var res = (HttpWebResponse)req.GetResponse();
-                    if (res.StatusCode == HttpStatusCode.OK)
+                    if (req.StatusCode == HttpStatusCode.OK)
                     {
                         Console.WriteLine("LookForUpdate valid url " + url);
                         return url;
@@ -1105,10 +1105,14 @@ namespace DroneCAN
                 if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res))
                 {
                     var bfures = msg as DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res;
-                    if (bfures.error != DroneCAN.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS &&
-                        bfures.error != DroneCAN.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK)
+                    if (bfures.error != DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS &&
+                        bfures.error != DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK)
                         exception = new Exception(frame.SourceNode + " " + "Begin Firmware Update returned an error");
-                    acceptbegin = true;
+                    else
+                    {
+                        Console.WriteLine("Got BeginFirmwareUpdate_res " + frame.SourceNode);
+                        acceptbegin = true;
+                    }
                 }
                 else if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_res))
                 {
@@ -1126,7 +1130,7 @@ namespace DroneCAN
                                 double.Parse(gnires.hardware_version.major + "." + gnires.hardware_version.minor,
                                     CultureInfo.InvariantCulture) || hwversion == 0)
                             {
-                                if (gnires.status.mode != DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
+                                if (gnires.status.mode != DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
                                 {
                                     var req_msg =
                                         new DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_req()
@@ -1138,9 +1142,9 @@ namespace DroneCAN
                                             source_node_id = SourceNode
                                         };
 
-                                    var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID++, req_msg);
+                                    var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID++, req_msg);
                                
-                                        WriteToStream(slcan);
+                                        WriteToStreamSLCAN(slcan);
                                         Console.WriteLine("Send uavcan_protocol_file_BeginFirmwareUpdate_req");
                                 }
                                 else
@@ -1220,7 +1224,7 @@ namespace DroneCAN
                     break;
                 }
 
-                if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
+                if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
                 {
                     var lastrxts = NodeList.First(a => a.Key == nodeid).Value.uptime_sec;
                     if(lastrxts != timestamp)
@@ -1235,12 +1239,13 @@ namespace DroneCAN
                 {
                     if(!inupdatemode)
                     {
+                        Console.WriteLine("Send GetNodeInfo " + b);
                         // get node info
                         DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
 
-                        var slcan = PackageMessage((byte) nodeid, 0, transferID++, gnireq);
+                        var slcan = PackageMessageSLCAN((byte) nodeid, 0, transferID++, gnireq);
 
-                        WriteToStream(slcan);
+                        WriteToStreamSLCAN(slcan);
                     }
                 }
 
@@ -1317,7 +1322,7 @@ namespace DroneCAN
         /// Write the slcan string to the underlying stream
         /// </summary>
         /// <param name="slcan">slcan encoded string</param>
-        public void WriteToStream(string slcan)
+        public void WriteToStreamSLCAN(string slcan)
         {
             var lines = slcan.Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -1365,6 +1370,26 @@ namespace DroneCAN
                 sr.Flush();
             }
         }
+
+        public string PackageMessageSLCAN(byte destNode, byte priority,
+            byte transferID, IDroneCANSerialize msg, bool canfd = false)
+        {
+            var ans = "";
+            var canframes = PackageMessage(destNode, priority, transferID, msg, canfd);
+            InvokeMessageReceived(canframes[0].cf, msg, transferID);
+            foreach (var canframe in canframes)
+            {
+                var cf = canframe.cf;
+                var payload = canframe.payload;
+                var length = dataLengthToDlc(payload.packet_data.Length);
+
+                ans += String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X"),
+                    payload.ToHex(dlcToDataLength(length)));
+            }
+
+            return ans;
+        }
+
         /// <summary>
         /// create a slcan string with the encoded @msg
         /// </summary>
@@ -1373,10 +1398,11 @@ namespace DroneCAN
         /// <param name="transferID">An integer value that allows receiving nodes to distinguish this transfer from all others</param>
         /// <param name="msg">A IUAVCANSerialize message for packaging</param>
         /// <returns></returns>
-        public string PackageMessage(byte destNode, byte priority, byte transferID, IDroneCANSerialize msg, bool canfd = false)
+        public List<(CANFrame cf, CANPayload payload)> PackageMessage(byte destNode, byte priority, byte transferID,
+            IDroneCANSerialize msg, bool canfd = false)
         {
             var state = new statetracking();
-            msg.encode(dronecan_transmit_chunk_handler, state);
+            msg.encode(dronecan_transmit_chunk_handler, state, canfd);
 
             var msgtype = DroneCAN.MSG_INFO.First(a => a.Item1 == msg.GetType());
 
@@ -1390,15 +1416,15 @@ namespace DroneCAN
                 cf.IsServiceMsg = true;
                 cf.SvcDestinationNode = destNode;
                 cf.SvcIsRequest = msg.GetType().FullName.EndsWith("_req") ? true : false;
-                cf.SvcTypeID = (byte)msgtype.Item2;
+                cf.SvcTypeID = (byte) msgtype.Item2;
             }
             else
             {
                 // message
-                cf.MsgTypeID = (ushort)msgtype.Item2;
+                cf.MsgTypeID = (ushort) msgtype.Item2;
             }
 
-            string ans = "";
+            var ans = new List<(CANFrame cf, CANPayload payload)>();
 
             var payloaddata = state.ToBytes();
 
@@ -1415,13 +1441,13 @@ namespace DroneCAN
                 var toogle = false;
                 var framesize = canfd ? 63 : 7;
                 var size = framesize;
-                var buffer = new byte[size + 1];
                 for (int a = 0; a < payloaddata.Length; a += size)
                 {
+                    var buffer = new byte[framesize + 1];
                     if (a == 0)
                     {
-                        buffer[0] = (byte)(crc & 0xff);
-                        buffer[1] = (byte)(crc >> 8);
+                        buffer[0] = (byte) (crc & 0xff);
+                        buffer[1] = (byte) (crc >> 8);
                         size = canfd ? 61 : 5;
                         Array.ConstrainedCopy(payloaddata, a, buffer, 2, size);
                     }
@@ -1432,18 +1458,15 @@ namespace DroneCAN
                         if (buffer.Length != size + 1)
                             Array.Resize(ref buffer, size + 1);
                     }
+
                     CANPayload payload = new CANPayload(buffer);
                     payload.SOT = a == 0 ? true : false;
                     payload.EOT = a + size == payloaddata.Length ? true : false;
-                    payload.TransferID = (byte)transferID;
+                    payload.TransferID = (byte) transferID;
                     payload.Toggle = toogle;
                     toogle = !toogle;
 
-                    var length = a == 0
-                        ? dataLengthToDlc(size + 3)
-                        : dataLengthToDlc(size + 1);
-                    ans += String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
-                        , payload.ToHex(dlcToDataLength(length)));
+                    ans.Add((cf, payload));
                 }
             }
             else
@@ -1452,11 +1475,9 @@ namespace DroneCAN
                 Array.Copy(payloaddata, buffer, payloaddata.Length);
                 CANPayload payload = new CANPayload(buffer);
                 payload.SOT = payload.EOT = true;
-                payload.TransferID = (byte)transferID;
+                payload.TransferID = (byte) transferID;
 
-                var length = dataLengthToDlc(buffer.Length);
-
-                ans = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X"), payload.ToHex(dlcToDataLength(length)));
+                ans.Add((cf, payload));
             }
 
             //Console.Write("TX " + ans.Replace("\r", "\r\n"));
@@ -1605,11 +1626,18 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             var fixtest = new DroneCAN.uavcan_equipment_gnss_Fix();
             fixtest.decode(new DroneCAN.CanardRxTransfer(data));
 
-            var canfdframe = PackageMessage(1, 0, 0, fix, true);
+            var canfdframe = PackageMessageSLCAN(1, 0, 0, fix, true);
 
             foreach (var s in canfdframe.Split('\r'))
             {
-                ReadMessage(s);
+                ReadMessageSLCAN(s);
+            }
+
+            var canframe = PackageMessageSLCAN(1, 0, 0, fix, false);
+
+            foreach (var s in canframe.Split('\r'))
+            {
+                ReadMessageSLCAN(s);
             }
 
             string[] slcandata = new string[]
@@ -1628,7 +1656,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             foreach (var s in slcandata)
             {
-                ReadMessage(s);
+                ReadMessageSLCAN(s);
             }
         }
 
@@ -1640,7 +1668,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             else return 0;
         }
 
-        static uint8_t dlcToDataLength(uint8_t dlc)
+        public static uint8_t dlcToDataLength(uint8_t dlc)
         {
             /*
             Data Length Code      9  10  11  12  13  14  15
@@ -1676,7 +1704,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
             return 64;
         }
-        static uint8_t dataLengthToDlc(int data_length)
+        public static uint8_t dataLengthToDlc(int data_length)
         {
             if (data_length <= 8)
             {
@@ -1713,11 +1741,12 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
         /// Process a single CAN Frame
         /// </summary>
         /// <param name="line">A Single CAN frame</param>
-        public void ReadMessage(string line)
+        public void ReadMessageSLCAN(string line)
         {
             int size_len = 1;
             int id_len;
             var line_len = line.Length;
+            bool fdcan = false;
 
             if (line_len <= 4)
                 return;
@@ -1736,10 +1765,12 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             else if (line[0] == 'D') // 29 bit data frame
             {
                 id_len = 8;
+                fdcan = true;
             }
             else if (line[0] == 'd') // 11 bit data frame
             {
                 id_len = 3;
+                fdcan = true;
             }
             else if (line[0] == 'B') // 29 bit data frame
             {
@@ -1773,7 +1804,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             {
                 Console.WriteLine("Bad SLCAN " + line);
                 var idx= line.IndexOf("T", 1);
-                ReadMessage(line.Substring(idx ));
+                ReadMessageSLCAN(line.Substring(idx ));
                 return;
             }
             var packet_id = Convert.ToUInt32(msgdata, 16); // id
@@ -1784,7 +1815,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             if (packet_len == 0)
                 return;
 
-            var frame = new CANFrame(BitConverter.GetBytes(packet_id));
+            var frame = new CANFrame(BitConverter.GetBytes(packet_id), true, fdcan);
 
             var packet_data = line.Skip(1 + size_len + id_len).Take(packet_len * 2).NowNextBy2().Select(a =>
             {
@@ -1803,6 +1834,11 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             FrameReceived?.Invoke(frame, payload);
 
+            ProcessFrame(frame, packet_id, payload);
+        }
+
+        public void ProcessFrame(CANFrame frame, uint packet_id, CANPayload payload)
+        {
             if (payload.SOT)
             {
                 transfer[(packet_id, payload.TransferID)] = new List<byte>();
@@ -1850,8 +1886,8 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 {
                     // dynamic node allocation
                     if (!DroneCAN.MSG_INFO.Any(a =>
-                        a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.anonymous &&
-                        !a.Item1.Name.EndsWith("_req") && !a.Item1.Name.EndsWith("_res")))
+                            a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.anonymous &&
+                            !a.Item1.Name.EndsWith("_req") && !a.Item1.Name.EndsWith("_res")))
                     {
                         Console.WriteLine("No Message ID anon " + frame.MsgTypeID);
                         return;
@@ -1861,7 +1897,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 if (frame.TransferType == CANFrame.FrameType.service)
                 {
                     if (!DroneCAN.MSG_INFO.Any(a =>
-                        a.Item2 == frame.SvcTypeID && frame.TransferType == CANFrame.FrameType.service))
+                            a.Item2 == frame.SvcTypeID && frame.TransferType == CANFrame.FrameType.service))
                     {
                         Console.WriteLine("No Message ID svc " + frame.SvcTypeID);
                         return;
@@ -1871,7 +1907,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 if (frame.TransferType == CANFrame.FrameType.message)
                 {
                     if (!DroneCAN.MSG_INFO.Any(a =>
-                        a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.message))
+                            a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.message))
                     {
                         Console.WriteLine("No Message ID msg " + frame.MsgTypeID);
                         return;
@@ -1927,7 +1963,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 try
                 {
-                    var ans = msgtype.Item4.Invoke(null, new object[] {result, startbyte});
+                    var ans = msgtype.Item4(result, startbyte, frame.FDCan);
 
                     frame.SizeofEntireMsg = result.Length - startbyte;
                     //Console.WriteLine(("RX") + " " + msgtype.Item1 + " " + JsonConvert.SerializeObject(ans));
@@ -1940,6 +1976,17 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     Console.WriteLine(ex);
                 }
             }
+        }
+
+        /// <summary>
+        /// used mainly for GCS loopback viewing
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="msg"></param>
+        /// <param name="transferID"></param>
+        public void InvokeMessageReceived(CANFrame frame, object msg, byte transferID)
+        {
+            MessageReceived?.Invoke(frame, msg, transferID);
         }
 
         /// <summary>
@@ -1974,7 +2021,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             return SetParameter(node, name, valuein, type);
         }
 
-        public bool SetParameter(byte node, string name, object valuein, uavcan_protocol_param_Value_type_t type)
+        public bool SetParameter(byte node, string name, object valuein, uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t type)
         {
             DroneCAN.uavcan_protocol_param_GetSet_req req = new DroneCAN.uavcan_protocol_param_GetSet_req()
             {
@@ -1994,36 +2041,36 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             switch (type)
             {
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions()
                             {boolean_value = (value) > 0 ? (byte) 1 : (byte) 0}
                     };
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions() {integer_value = (int) value}
                     };
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions() {real_value = (float) value}
                     };
 
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions()
                         {
@@ -2071,10 +2118,10 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
 
                     reqtime = DateTime.Now;
-                    WriteToStream(slcan);
+                    WriteToStreamSLCAN(slcan);
 
                     nextsend = DateTime.Now.AddSeconds(1);
                     trys++;
@@ -2099,7 +2146,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
         private SemaphoreSlim logfilesemaphore = new SemaphoreSlim(1);
         private bool cmdack;
 
-        public int Read(byte b)
+        public int ReadSLCAN(byte b)
         {
             if (b >= '0' && b <= '9' || b >= 'a' && b <= 'f' || b >= 'A' && b <= 'F' || b == 't' || b == 'T' || b == 'n' || b == '\r' || b == '\a' || b == '\n')
             {
@@ -2112,7 +2159,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     {
                         var data = readsb.ToString();
                         readsb.Clear();
-                        ReadMessage(data);
+                        ReadMessageSLCAN(data);
                         return 1;
                     }
 
@@ -2151,7 +2198,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             MessageReceived += configdelgate;
 
             var req = new DroneCAN.uavcan_protocol_RestartNode_req()
-                {magic_number = (ulong)UAVCAN_PROTOCOL_RESTARTNODE_REQ_MAGIC_NUMBER };
+                {magic_number = (ulong)uavcan_protocol_RestartNode_req.UAVCAN_PROTOCOL_RESTARTNODE_REQ_MAGIC_NUMBER };
 
             var trys = 0;
             DateTime nextsend = DateTime.MinValue;
@@ -2163,9 +2210,9 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
 
-                    WriteToStream(slcan);
+                    WriteToStreamSLCAN(slcan);
 
                     nextsend = DateTime.Now.AddSeconds(1);
                     trys++;

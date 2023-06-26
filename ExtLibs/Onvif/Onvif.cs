@@ -59,6 +59,9 @@ namespace Onvif
             // in zoom X
             var z = (float) MathHelper.mapConstrained(fov, FOVMax, FOVMin, ZoomMin, ZoomMax);
 
+            bearing += YawOffset;
+            bearing = bearing % 360;
+
             await SetRPYAsync(0, Math.Atan(heightdelta / distance) * rad2deg, bearing, z);
         }
 
@@ -184,5 +187,7 @@ namespace Onvif
         public string Password { get; set; } = "";
 
         public string UserName { get; set; } = "admin";
+
+        public double YawOffset { get; set; } = 0;
     }
 }

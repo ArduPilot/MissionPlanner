@@ -112,12 +112,12 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="acsimplepids" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\acsimplepids.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -166,9 +166,6 @@
   <data name="ekf3Graphs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\graphs\ekf3Graphs.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  
-  
-
   <data name="ekfGraphs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\graphs\ekfGraphs.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -181,5 +178,34 @@
   <data name="mavgraphsMP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\graphs\mavgraphsMP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-
+  <data name="example10_canlogfile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example10-canlogfile.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example11_trace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example11-trace.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example3_fencedist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example3-fencedist.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example4_herelink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example4-herelink.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example5_latencytracker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example5-latencytracker.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example6_mapicondesc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example6-mapicondesc.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example7_canrtcm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example7-canrtcm.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="example8_modechange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example8-modechange.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="example9_hudonoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\plugins\example9-hudonoff.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="generator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+	  <value>..\..\..\plugins\generator.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

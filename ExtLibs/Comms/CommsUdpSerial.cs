@@ -17,15 +17,17 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly List<IPEndPoint> EndPointList = new List<IPEndPoint>();
+        public readonly List<IPEndPoint> EndPointList = new List<IPEndPoint>();
 
         private bool _isopen;
 
         public bool CancelConnect = false;
+        /// <summary>
+        /// add to EndPointList if need when injecting
+        /// </summary>
         public UdpClient client = new UdpClient();
 
-        private byte[] rbuffer = new byte[0];
-        private int rbufferread;
+        private MemoryStream rbuffer = new MemoryStream();
 
         /// <summary>
         ///     this is the remote endpoint we send messages too. this class does not support multiple remote endpoints.
@@ -79,7 +81,7 @@ namespace MissionPlanner.Comms
             set { }
         }
 
-        public int BytesToRead => client.Available + rbuffer.Length - rbufferread;
+        public int BytesToRead => (int)(client.Available + rbuffer.Length - rbuffer.Position);
 
         public int BytesToWrite => 0;
 
@@ -175,41 +177,40 @@ namespace MissionPlanner.Comms
             VerifyConnected();
             if (length < 1) return 0;
 
-            // check if we are at the end of our current allocation
-            if (rbufferread == rbuffer.Length)
-            {
-                var deadline = DateTime.Now.AddMilliseconds(ReadTimeout);
+            var deadline = DateTime.Now.AddMilliseconds(ReadTimeout);
 
-                var r = new MemoryStream();
-                do
+            lock (rbuffer)
+            {
+                if (rbuffer.Position == rbuffer.Length)
+                    rbuffer.SetLength(0);
+
+                var position = rbuffer.Position;
+
+                while ((rbuffer.Length - rbuffer.Position) < length && DateTime.Now < deadline)
                 {
                     // read more
-                    while (client.Available > 0 && r.Length < 1024 * 1024)
+                    while (client.Available > 0 && (rbuffer.Length - rbuffer.Position) < length)
                     {
                         var currentRemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                         // assumes the udp packets are mavlink aligned, if we are receiving from more than one source
                         var b = client.Receive(ref currentRemoteIpEndPoint);
-                        r.Write(b, 0, b.Length);
+                        rbuffer.Seek(0, SeekOrigin.End);
+                        rbuffer.Write(b, 0, b.Length);
+                        rbuffer.Seek(position, SeekOrigin.Begin);
 
                         if (!EndPointList.Contains(currentRemoteIpEndPoint))
                             EndPointList.Add(currentRemoteIpEndPoint);
                     }
 
-                    // copy mem stream to byte array.
-                    rbuffer = r.ToArray();
-                    // reset head.
-                    rbufferread = 0;
-                } while (rbuffer.Length < length && DateTime.Now < deadline);
+                    Thread.Yield();
+                }
+
+                // prevent read past end of array
+                if (rbuffer.Length - rbuffer.Position < length)
+                    length = (int)(rbuffer.Length - rbuffer.Position);
+
+                return rbuffer.Read(readto, offset, length);
             }
-
-            // prevent read past end of array
-            if (rbuffer.Length - rbufferread < length) length = rbuffer.Length - rbufferread;
-
-            Array.Copy(rbuffer, rbufferread, readto, offset, length);
-
-            rbufferread += length;
-
-            return length;
         }
 
         public int ReadByte()

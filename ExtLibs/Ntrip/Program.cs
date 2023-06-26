@@ -54,7 +54,7 @@ namespace Ntrip
             // feed the rtcm data into the rtcm parser if we get a can message
             can.MessageReceived += (frame, msg, id) =>
             {
-                if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                 {
                     var rtcmcan = (DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream)msg;
 
@@ -138,7 +138,7 @@ namespace Ntrip
                                 gotRTCMData?.Invoke(rtcm.packet, rtcm.length);
                                 file.Write(rtcm.packet, 0, rtcm.length);
                             }
-                            if ((by >= 0 && can.Read(by) > 0))// can_rtcm
+                            if ((by >= 0 && can.ReadSLCAN(by) > 0))// can_rtcm
                             {
                                 ubx.resetParser();
                             }

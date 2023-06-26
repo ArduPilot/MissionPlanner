@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,46 +17,34 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
+    public partial class DroneCAN 
+    {
+        public partial class ardupilot_indication_Button: IDroneCANSerialize 
+        {
+            public const int ARDUPILOT_INDICATION_BUTTON_MAX_PACK_SIZE = 2;
+            public const ulong ARDUPILOT_INDICATION_BUTTON_DT_SIG = 0x645A46EFBA7466E;
+            public const int ARDUPILOT_INDICATION_BUTTON_DT_ID = 20001;
 
-
-
-
-        public const int ARDUPILOT_INDICATION_BUTTON_MAX_PACK_SIZE = 2;
-        public const ulong ARDUPILOT_INDICATION_BUTTON_DT_SIG = 0x645A46EFBA7466E;
-
-        public const int ARDUPILOT_INDICATION_BUTTON_DT_ID = 20001;
-
-
-
-
-
-        public const double ARDUPILOT_INDICATION_BUTTON_BUTTON_SAFETY = 1; // saturated uint8
-
-
-
-
-        public partial class ardupilot_indication_Button: IDroneCANSerialize {
-
-
+            public const double ARDUPILOT_INDICATION_BUTTON_BUTTON_SAFETY = 1; // saturated uint8
 
             public uint8_t button = new uint8_t();
-
-
-
             public uint8_t press_time = new uint8_t();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_ardupilot_indication_Button(this, chunk_cb, ctx);
+                encode_ardupilot_indication_Button(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_ardupilot_indication_Button(transfer, this);
+                decode_ardupilot_indication_Button(transfer, this, fdcan);
+            }
+
+            public static ardupilot_indication_Button ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new ardupilot_indication_Button();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

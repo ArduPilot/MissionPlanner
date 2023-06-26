@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
+    <value>Графік висоти</value>
+  </data>
+  <data name="enterUTMCoordToolStripMenuItem.Text" xml:space="preserve">
+    <value>Введіть UTM координат</value>
+  </data>
+  <data name="lbl_homedist.Text" xml:space="preserve">
+    <value>Домашній екран</value>
+  </data>
+  <data name="trackerHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Додому трекера</value>
+  </data>
+  <data name="poiaddToolStripMenuItem.Text" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="GeoFencedownloadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Звантажити</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Завантажити Згуртування Військ для Файлу</value>
+  </data>
+  <data name="lbl_prevdist.Text" xml:space="preserve">
+    <value>Попередня</value>
+  </data>
+  <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити та додати</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Масштабування</value>
+  </data>
+  <data name="comboBoxMapType.ToolTip" xml:space="preserve">
+    <value>Змінити поточний тип карти</value>
+  </data>
+  <data name="Param4.HeaderText" xml:space="preserve">
+    <value>Ф4</value>
+  </data>
+  <data name="loitertimeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Час</value>
+  </data>
+  <data name="zoomToVehicleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Збільшити для транспортного засобу</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Альт-Ворн</value>
+  </data>
+  <data name="Param2.HeaderText" xml:space="preserve">
+    <value>Ф2</value>
+  </data>
+  <data name="rotateMapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Повернути карту</value>
+  </data>
+  <data name="kMLOverlayToolStripMenuItem.Text" xml:space="preserve">
+    <value>KML Оверлей</value>
+  </data>
+  <data name="coordNorthing.HeaderText" xml:space="preserve">
+    <value>Відст. на північ</value>
+  </data>
+  <data name="fenceInclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Паркан</value>
+  </data>
+  <data name="CHK_splinedefault.Text" xml:space="preserve">
+    <value>Сплайн</value>
+  </data>
+  <data name="fenceExclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Виключення паркану</value>
+  </data>
+  <data name="createCircleSurveyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Створити опитування кола</value>
+  </data>
+  <data name="but_writewpfast.Text" xml:space="preserve">
+    <value>Швидкий запис</value>
+  </data>
+  <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Авто WP</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Довгий</value>
+  </data>
+  <data name="insertSplineWPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Вставити Spline WP</value>
+  </data>
+  <data name="fromSHPToolStripMenuItem2.Text" xml:space="preserve">
+    <value>З SHP</value>
+  </data>
+  <data name="CHK_verifyheight.Text" xml:space="preserve">
+    <value>Перевірити висоту</value>
+  </data>
+  <data name="coordZone.HeaderText" xml:space="preserve">
+    <value>Зона</value>
+  </data>
+  <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
+    <value>Інструмент карти</value>
+  </data>
+  <data name="saveRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Вивантажити</value>
+  </data>
+  <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
+    <value>Без обмежень</value>
+  </data>
+  <data name="setROIToolStripMenuItem.Text" xml:space="preserve">
+    <value>Введіть адресу</value>
+  </data>
+  <data name="BUT_saveWPFile.Text" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
+    <value>Вгору</value>
+  </data>
+  <data name="CMB_altmode.Text" xml:space="preserve">
+    <value>Відносно</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Місцезнаходження</value>
+  </data>
+  <data name="BUT_loadwpfile.Text" xml:space="preserve">
+    <value>Завантажити файл</value>
+  </data>
+  <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити WP файл</value>
+  </data>
+  <data name="jumpstartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Старт</value>
+  </data>
+  <data name="BUT_read.Text" xml:space="preserve">
+    <value>Прочитано</value>
+  </data>
+  <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити багатокутник</value>
+  </data>
+  <data name="surveyGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>Опитування (сітка)</value>
+  </data>
+  <data name="prefetchToolStripMenuItem.Text" xml:space="preserve">
+    <value>Префетч</value>
+  </data>
+  <data name="textToolStripMenuItem.Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="GeoFenceuploadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Вивантажити</value>
+  </data>
+  <data name="LBL_WPRad.Text" xml:space="preserve">
+    <value>Радіус WP</value>
+  </data>
+  <data name="zoomToToolStripMenuItem.Text" xml:space="preserve">
+    <value>Збільшити до</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Зберегти згуртування у файл</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Команда</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Dist.HeaderText" xml:space="preserve">
+    <value>Відст.</value>
+  </data>
+  <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Вказати розташування повернення</value>
+  </data>
+  <data name="panelMap.Text" xml:space="preserve">
+    <value>панель 6</value>
+  </data>
+  <data name="clearPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Очистити багатокутник</value>
+  </data>
+  <data name="loadKMLFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити KML файл</value>
+  </data>
+  <data name="panelAction.Text" xml:space="preserve">
+    <value>Дія</value>
+  </data>
+  <data name="MGRS.HeaderText" xml:space="preserve">
+    <value>МГРИ</value>
+  </data>
+  <data name="Param1.HeaderText" xml:space="preserve">
+    <value>Ф1</value>
+  </data>
+  <data name="chk_grid.Text" xml:space="preserve">
+    <value>Сітка</value>
+  </data>
+  <data name="addPolygonPointToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Намалюй багатокутник</value>
+  </data>
+  <data name="Delete.ToolTipText" xml:space="preserve">
+    <value>Видалити рядок</value>
+  </data>
+  <data name="prefetchWPPathToolStripMenuItem.Text" xml:space="preserve">
+    <value>Prefetch WP шлях</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Зміщення полігону</value>
+  </data>
+  <data name="takeoffToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зліт</value>
+  </data>
+  <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Намалюй багатокутник</value>
+  </data>
+  <data name="Command.ToolTipText" xml:space="preserve">
+    <value>Команда</value>
+  </data>
+  <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити точки Згуртування</value>
+  </data>
+  <data name="rallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Очки Згуртування Військ</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зміщення полігону</value>
+  </data>
+  <data name="BUT_Add.Text" xml:space="preserve">
+    <value>Додати нижче</value>
+  </data>
+  <data name="areaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Площа</value>
+  </data>
+  <data name="lbl_distance.Text" xml:space="preserve">
+    <value>Відстань</value>
+  </data>
+  <data name="Down.ToolTipText" xml:space="preserve">
+    <value>Перемістити рядок вниз</value>
+  </data>
+  <data name="BUT_write.Text" xml:space="preserve">
+    <value>Записати</value>
+  </data>
+  <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>Змінити Alt</value>
+  </data>
+  <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
+    <value>Донизу</value>
+  </data>
+  <data name="Lon.HeaderText" xml:space="preserve">
+    <value>Лон</value>
+  </data>
+  <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Многокутник</value>
+  </data>
+  <data name="createSplineCircleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Створити Spline Circle</value>
+  </data>
+  <data name="jumpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Стрибнути</value>
+  </data>
+  <data name="landToolStripMenuItem.Text" xml:space="preserve">
+    <value>Посадка</value>
+  </data>
+  <data name="loadPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Завантажити багатокутник</value>
+  </data>
+  <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантаження або збереження файлу</value>
+  </data>
+  <data name="clearToolStripMenuItem.Text" xml:space="preserve">
+    <value>Очистити</value>
+  </data>
+  <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
+    <value>Гео-паркан</value>
+  </data>
+  <data name="coordEasting.HeaderText" xml:space="preserve">
+    <value>На схід</value>
+  </data>
+  <data name="saveWPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зберегти WP файл</value>
+  </data>
+  <data name="currentPositionToolStripMenuItem.Text" xml:space="preserve">
+    <value>За поточною позицією</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зберегти до файлу</value>
+  </data>
+  <data name="insertWpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Вставити Wp</value>
+  </data>
+  <data name="Up.ToolTipText" xml:space="preserve">
+    <value>Перемістити рядок UP</value>
+  </data>
+  <data name="poideleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановіть домівку тут</value>
+  </data>
+  <data name="Delete.HeaderText" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="savePolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Зберегти багатокутник</value>
+  </data>
+  <data name="loitercirclesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Кола</value>
+  </data>
+  <data name="deleteWPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Видалити WP</value>
+  </data>
+  <data name="panelWaypoints.Text" xml:space="preserve">
+    <value>Точки</value>
+  </data>
+  <data name="getRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Звантажити</value>
+  </data>
+  <data name="switchDockingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Змінити док-станцію</value>
+  </data>
+  <data name="Grad.HeaderText" xml:space="preserve">
+    <value>Град %</value>
+  </data>
+  <data name="zoomToMissionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Збільшити до місії</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити з файлу</value>
+  </data>
+  <data name="fromCurrentWaypointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>З поточних точок</value>
+  </data>
+  <data name="areaToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Площа</value>
+  </data>
+  <data name="zoomToHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Масштаб на домашню сторінку</value>
+  </data>
+  <data name="areaToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Площа</value>
+  </data>
+  <data name="drawAPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Намалюй багатокутник</value>
+  </data>
+  <data name="clearMissionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Очистити місію</value>
+  </data>
+  <data name="BUT_Add.ToolTip" xml:space="preserve">
+    <value>Додай рядок до лінії сітки</value>
+  </data>
+  <data name="clearRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Очистити Очки Згуртування Військ</value>
+  </data>
+  <data name="convertWPToPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>З поточних точок</value>
+  </data>
+  <data name="Param3.HeaderText" xml:space="preserve">
+    <value>Ф3</value>
+  </data>
+  <data name="savePolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зберегти багатокутник</value>
+  </data>
+  <data name="createWpCircleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Створити Wp кола</value>
+  </data>
+  <data name="clearPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Очистити багатокутник</value>
+  </data>
+  <data name="ContextMeasure.Text" xml:space="preserve">
+    <value>Відстань вимірювання</value>
+  </data>
+  <data name="poieditToolStripMenuItem.Text" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="fromSHPToolStripMenuItem.Text" xml:space="preserve">
+    <value>З SHP</value>
+  </data>
+  <data name="lnk_kml.Text" xml:space="preserve">
+    <value>Перегляд KML</value>
+  </data>
+  <data name="testToolStripMenuItem.Text" xml:space="preserve">
+    <value>тест</value>
+  </data>
+  <data name="loadSHPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити файл SHP</value>
+  </data>
+  <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Обернені WP</value>
+  </data>
+  <data name="Angle.HeaderText" xml:space="preserve">
+    <value>Кут</value>
+  </data>
+</root>

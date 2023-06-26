@@ -62,11 +62,6 @@ namespace MissionPlanner.GCSViews
                 {
                     if (MainV2.comPort.BaseStream.IsOpen)
                     {
-                        if (MainV2.DisplayConfiguration.displayFlightModes)
-                        {
-                            start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
-                        }
-
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
 
@@ -129,12 +124,6 @@ namespace MissionPlanner.GCSViews
                     if(!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
                         AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList, null, true);
                 }
-                if (MainV2.DisplayConfiguration.displayFullParamTree && !Program.MONO)
-                {
-                    if (!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
-                        AddBackstageViewPage(typeof(ConfigRawParamsTree), Strings.FullParameterTree, null, true);
-                }
-
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     if (MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)

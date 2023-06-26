@@ -10,6 +10,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,7 +47,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
             MainV2.instance.DeviceChanged += Instance_DeviceChanged;
 
-            this.Enabled = false;
+            // Until we connect to the internet, disable all controls that require it
+            // Disable all ImageLabels
+            foreach (Control c in this.Controls)
+            {
+                if (c is ImageLabel)
+                {
+                    c.Enabled = false;
+                }
+            }
+            // Disable "All Options" and "Beta Firmwares"
+            lbl_alloptions.Enabled = false;
+            lbl_devfw.Enabled = false;
 
             flashdone = false;
 
@@ -100,7 +112,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                    imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersionStr + " " +
                                      first.MavFirmwareVersionType.ToString();
 
-               this.Enabled = true;
+               // Re-enable this ImageLabel
+               imageLabel.Enabled = true;
+               // Re-enable the "All Options" and "Beta Firmwares" controls
+               // (only needs to be done once, but easier to do here)
+               lbl_alloptions.Enabled = true;
+               lbl_devfw.Enabled = true;
            });
         }
 
@@ -176,6 +193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void LookForPort(APFirmware.MAV_TYPE mavtype, bool alloptions = false)
         {
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
+            ports.AddRange(Linux.GetAllCOMPorts());
 
             if (ExtraDeviceInfo != null)
             {
@@ -195,20 +213,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             foreach (var deviceInfo in ports)
             {
                 long? devid = detectedboardid;
+                long[] devids = null;
 
                 // make best guess at board_id based on usb info
                 if (!devid.HasValue)
-                    devid = APFirmware.GetBoardID(deviceInfo);
+                    devids = APFirmware.GetBoardID(deviceInfo);
 
-                if (devid.HasValue && devid.Value != 0 || alloptions == true)
+                if (devid.HasValue && devid.Value != 0 || alloptions == true || devids != null)
                 {
                     log.InfoFormat("{0}: {1} - {2}", deviceInfo.name, deviceInfo.description, deviceInfo.board);
+
+                    if (devids == null && devid.HasValue)
+                        devids = new long[] {devid.Value};
+                    else if (devids == null)
+                        devids = new long[]{};
 
                     var baseurl = "";
 
                     // get the options for this device
                     var fwitems = APFirmware.Manifest.Firmware.Where(a =>
-                        a.BoardId == devid && a.MavType == mavtype.ToString() &&
+                        devids.Any(devidlocal => devidlocal == a.BoardId) && a.MavType == mavtype.ToString() &&
                         a.MavFirmwareVersionType == REL_Type.ToString()).ToList();
 
                     if (alloptions)
@@ -243,23 +267,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         var starttime = DateTime.Now;
 
                         // Create a request using a URL that can receive a post. 
-                        WebRequest request = WebRequest.Create(baseurl);
-                        if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                            ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                        request.Timeout = 10000;
-                        // Set the Method property of the request to POST.
-                        request.Method = "GET";
-                        // Get the request stream.
-                        Stream dataStream; //= request.GetRequestStream();
-                                           // Get the response (using statement is exception safe)
-                        using (WebResponse response = request.GetResponse())
+                        var client = new HttpClient();
+                        client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                        client.Timeout = TimeSpan.FromSeconds(30);
+                        using (var response = client.GetAsync(baseurl))
                         {
                             // Display the status.
-                            log.Info(((HttpWebResponse)response).StatusDescription);
+                            log.Info(baseurl + " " + response.Result.ReasonPhrase);
                             // Get the stream containing content returned by the server.
-                            using (dataStream = response.GetResponseStream())
+                            using (var dataStream = response.Result.Content.ReadAsStreamAsync().Result)
                             {
-                                long bytes = response.ContentLength;
+                                long bytes = int.Parse(response.Result.Content.Headers.First(h => h.Key.Equals("Content-Length")).Value.First());
                                 long contlen = bytes;
 
                                 byte[] buf1 = new byte[1024];
@@ -268,9 +286,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 {
                                     fw_Progress1(0, Strings.DownloadingFromInternet);
 
-                                    long length = response.ContentLength;
+                                    long length = int.Parse(response.Result.Content.Headers.First(h => h.Key.Equals("Content-Length")).Value.First());
                                     long progress = 0;
-                                    dataStream.ReadTimeout = 30000;
 
                                     while (dataStream.CanRead)
                                     {
@@ -293,7 +310,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 }
                                 dataStream.Close();
                             }
-                            response.Close();
                         }
 
                         var timetook = (DateTime.Now - starttime).TotalMilliseconds;
@@ -327,14 +343,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
 
                 }
+                /*
+                // allow scanning multiple ports
                 else
                 {
                     CustomMessageBox.Show("Failed to discover board id. Please reconnect via usb and try again.", Strings.ERROR);
                     return;
                 }
+                */
             }
 
-            CustomMessageBox.Show("Failed to detect port to upload to", Strings.ERROR);
+            CustomMessageBox.Show("Failed to detect port to upload to (Unknown VID/PID or Board String)\r\nPlease try Disconnect/Reconnect and upload while on this screen", Strings.ERROR);
             return;
         }
 
@@ -394,7 +413,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Lbl_Custom_firmware_label_Click(object sender, EventArgs e)
         {
             using (var fd = new OpenFileDialog
-                {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*"})
+                {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|DFU|*.hex;*.bin;*.dfu|All files (*.*)|*.*"})
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -411,7 +430,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var boardtype = BoardDetect.boards.none;
                     try
                     {
-                        if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
+                        if (fd.FileName.ToLower().EndsWith(".dfu"))
+                        {
+                            DFU.Progress = fw_Progress1;
+                            DFU.Flash(fd.FileName);
+                            return;
+                        }
+                        else if (fd.FileName.ToLower().EndsWith(".hex"))
+                        {
+                            DFU.Progress = fw_Progress1;
+                            if (CustomMessageBox.Show("Do you want to upload this via DFU?", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
+                            {
+                                DFU.Flash(fd.FileName);
+                                return;
+                            }
+                        }
+                        else if(fd.FileName.ToLower().EndsWith(".bin"))
+                        {
+                            DFU.Progress = fw_Progress1;
+                            if (CustomMessageBox.Show("Flashing image to 0x08000000", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
+                                DFU.Flash(fd.FileName, 0x08000000);
+                            return;
+                        }
+                        else if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
                             if (solo.Solo.is_solo_alive &&
                                 CustomMessageBox.Show("Solo", "Is this a Solo?",
@@ -427,6 +468,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         else
                         {
                             var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                            ports.AddRange(Linux.GetAllCOMPorts());
 
                             if (ExtraDeviceInfo != null)
                             {

@@ -99,7 +99,7 @@ namespace MissionPlanner
             this.SerialString = "";
             this.FrameString = "";
             if (sysid != 255 && !(compid == 0 && sysid == 0)) // && !parent.logreadmode)
-                this.Proximity = new Proximity(this);
+                this.Proximity = new Proximity(this, sysid, compid);
 
             camerapoints.Clear();
 
@@ -324,6 +324,7 @@ namespace MissionPlanner
         internal int recvpacketcount = 0;
         public Int64 time_offset_ns { get; set; }
         public CameraProtocol Camera { get; set; }
+        public GimbalProtocol Gimbal { get; set; }
 
         public override string ToString()
         {

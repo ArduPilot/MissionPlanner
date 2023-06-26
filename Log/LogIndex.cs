@@ -29,9 +29,28 @@ namespace MissionPlanner.Log
 
         private void LogIndex_Load(object sender, EventArgs e)
         {
-            createFileList(Settings.Instance.LogDir);
+        }
 
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
+        private List<string> GetFiles(string path, string pattern)
+        {
+            var files = new List<string>();
+            var directories = new string[] { };
+
+            try
+            {
+                files.AddRange(Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly));
+                directories = Directory.GetDirectories(path);
+            }
+            catch (UnauthorizedAccessException) { }
+
+            foreach (var directory in directories)
+                try
+                {
+                    files.AddRange(GetFiles(directory, pattern));
+                }
+                catch (UnauthorizedAccessException) { }
+
+            return files;
         }
 
         List<string> files = new List<string>();
@@ -40,20 +59,25 @@ namespace MissionPlanner.Log
         {
             Loading.ShowLoading("Scanning for files", this);
 
-            string[] files1 = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
-            string[] files2 = Directory.GetFiles(directory.ToString(), "*.bin", SearchOption.AllDirectories);
-            string[] files3 = Directory.GetFiles(directory.ToString(), "*.log", SearchOption.AllDirectories);
+            var files1 = GetFiles(directory.ToString(), "*.tlog");
+            var files2 = GetFiles(directory.ToString(), "*.bin");
+            var files3 = GetFiles(directory.ToString(), "*.log");
 
-            files.Clear();
+            lock (files)
+            {
+                files.Clear();
 
-            files.AddRange(files1);
-            files.AddRange(files2);
-            files.AddRange(files3);
+                files.AddRange(files1);
+                files.AddRange(files2);
+                files.AddRange(files3);
+            }
         }
 
         private void queueRunner(object nothing)
         {
-            Parallel.ForEach(files, async (file) => { await ProcessFile(file).ConfigureAwait(false); });
+            a = 0;
+            lock(files)
+                Parallel.ForEach(files, async (file) => { await ProcessFile(file).ConfigureAwait(false); });
 
             Loading.ShowLoading("Populating Data", this);
 
@@ -210,16 +234,16 @@ namespace MissionPlanner.Log
 
                                 end = dfItem.time;
 
-                                // add distance
-                                loginfo.DistTraveled += (float)lastpos.GetDistance(pos);
-                                lastpos = pos;
-
                                 // set home
                                 if (loginfo.Home == null)
                                     loginfo.Home = pos;
 
                                 if (dfItem.time > tia.AddSeconds(1))
                                 {
+                                    // add distance
+                                    loginfo.DistTraveled += (float)lastpos.GetDistance(pos);
+                                    lastpos = pos;
+
                                     // ground speed  > 0.2 or  alt > homelat+2
                                     if (double.Parse(dfItem["Spd"], CultureInfo.InvariantCulture) > 0.2 ||
                                         pos.Alt > (loginfo.Home.Alt + 2))
@@ -327,7 +351,8 @@ namespace MissionPlanner.Log
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                files.Clear();
+                lock (files)
+                    files.Clear();
                 createFileList(fbd.SelectedPath);
                 System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
             }
@@ -399,6 +424,13 @@ namespace MissionPlanner.Log
             var sec = (int)(seconds % 60);
 
             return (hours < 10 ? "0" : "") + hours + ":" + minutes.ToString("D2") + ":" + sec.ToString("D2");
+        }
+
+        private void but_defaultlogdir_Click(object sender, EventArgs e)
+        {
+            createFileList(Settings.Instance.LogDir);
+
+            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
         }
     }
 }

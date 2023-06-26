@@ -39,9 +39,9 @@ namespace MissionPlanner.Utilities
             var sub = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION,
                 message =>
                 {
-                    act((MAVLink.mavlink_camera_information_t) message.data);
+                    act((MAVLink.mavlink_camera_information_t)message.data);
                     return true;
-                });
+                }, mav.sysid, mav.compid);
 
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION, 0, 0, 0, 0, 0, 0, 0);
 

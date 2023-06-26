@@ -252,11 +252,20 @@ namespace System.Drawing
             bool gdiVerticalFont = false)
         {
             try {
+                var loader = SKTypeface.Default;
+
                 nativeFont = new SKPaint()
                 {
                     Typeface = SKTypeface.FromFamilyName(genericSansSerif?.Name), TextSize = size,
                     TextAlign = SKTextAlign.Left
-                };                
+                };
+
+                if (nativeFont.Typeface == null)
+                {
+                    nativeFont.Typeface = genericSansSerif.ToSKTypeface();
+                    if (nativeFont.Typeface == null)
+                        nativeFont.Typeface = SKTypeface.Default;
+                }
 
                 FontFamily = new FontFamily() {Name = nativeFont.Typeface.FamilyName};
                 Name = nativeFont.Typeface.FamilyName;
@@ -274,7 +283,7 @@ namespace System.Drawing
             GraphicsUnit pixel = GraphicsUnit.Point, byte gdiCharSet = 0,
             bool gdiVerticalFont = false)
         {
-            Initialize(FontFamily.GenericSansSerif, size, bold, pixel, gdiCharSet, gdiVerticalFont);
+            Initialize(new FontFamily(genericSansSerif), size, bold, pixel, gdiCharSet, gdiVerticalFont);
         }
 
 

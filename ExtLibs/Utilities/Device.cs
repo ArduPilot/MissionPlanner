@@ -156,6 +156,8 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_ICM40605 = 0x36,
                 DEVTYPE_INS_IIM42652 = 0x37,
                 DEVTYPE_BMI270 = 0x38,
+                DEVTYPE_INS_BMI085 = 0x39,
+                DEVTYPE_INS_ICM42670 = 0x3A,
             };
 
 
@@ -176,6 +178,8 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_BARO_SPL06 = 0x0C,
                 DEVTYPE_BARO_DRONECAN = 0x0D,
                 DEVTYPE_BARO_MSP = 0x0E,
+                DEVTYPE_BARO_ICP101XX = 0x0F,
+                DEVTYPE_BARO_ICP201XX = 0x10,
             };
 
             //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Airspeed/AP_Airspeed_Backend.h#L99

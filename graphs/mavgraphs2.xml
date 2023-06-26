@@ -17,26 +17,42 @@
 
  <graph name='Sensors/Accelerometer/Vibration'>
   <description>This shows the raw vibration values before filtering in the accelerometers. If you see values above 50 m/s/s then you should redo your vibration isolation system</description>
+  <expression>VIBE[0].VibeX VIBE[0].VibeY VIBE[0].VibeZ</expression>
   <expression>VIBE.VibeX VIBE.VibeY VIBE.VibeZ</expression>
  </graph>
 
+  <graph name='Sensors/Accelerometer/Vibration IMU2'>
+  <description>This shows the raw vibration values before filtering in the accelerometers. If you see values above 50 m/s/s then you should redo your vibration isolation system</description>
+  <expression>VIBE[1].VibeX VIBE[1].VibeY VIBE[1].VibeZ</expression>
+ </graph>
+
+  <graph name='Sensors/Accelerometer/Vibration IMU3'>
+  <description>This shows the raw vibration values before filtering in the accelerometers. If you see values above 50 m/s/s then you should redo your vibration isolation system</description>
+  <expression>VIBE[2].VibeX VIBE[2].VibeY VIBE[2].VibeZ</expression>
+ </graph>
+ 
  <graph name='Sensors/Accelerometer/Clipping'>
   <description>This shows the clipping count for the accelerometers. A clipping event is when any axis of an accelerometer goes above 16g. You should only see clipping events if the vehicle hits a surface very hard, such as a crash or hard landing. If you see any clipping events (the clipping value rising) in flight then you should redo your vibration isolation system</description>
+  <expression>VIBE[0].Clip VIBE[1].Clip VIBE[2].Clip</expression>
+  <expression>VIBE[0].Clip VIBE[1].Clip</expression>
+  <expression>VIBE[0].Clip</expression>
   <expression>VIBE.Clip0 VIBE.Clip1 VIBE.Clip2</expression>
  </graph>
 
  <graph name='Sensors/Lidar/Corrected'>
   <description></description>
-  <expression>BARO.Alt/(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))) RFND.Dist1</expression>
+  <expression>BARO.Alt RFND[0].Dist*(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)))</expression>
  </graph>
 
  <graph name='Sensors/Lidar/Corrected Baro'>
   <description></description>
   <expression>BARO.Alt/(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))) RFND.Dist1</expression>
+  <expression>BARO.Alt/(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))) RFND[0].Dist</expression>
  </graph>
 
  <graph name='Sensors/Lidar/Corrected Distance'>
   <description></description>
+  <expression>BARO.Alt RFND.Dist[0]*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))</expression>
   <expression>BARO.Alt RFND.Dist1*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))</expression>
  </graph>
 
@@ -68,7 +84,7 @@
   <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8 RCOU.C9 RCOU.C10 RCOU.C11 RCOU.C12</expression>
  </graph>
 
- <graph name='Servos/OctaQuad'>
+ <graph name='Servos/OctaQuad/OctaQuad'>
   <description></description>
   <expression>RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8 RCOU.Ch9 RCOU.Ch10 RCOU.Ch11 RCOU.Ch12</expression>
   <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8 RCOU.C9 RCOU.C10 RCOU.C11 RCOU.C12</expression>
@@ -141,13 +157,13 @@
   <expression>STER.Achieved STER.Demanded</expression>
  </graph>
 
- <graph name='Servos/OctaQuad-CCW'>
+ <graph name='Servos/OctaQuad/OctaQuad-CCW'>
   <description></description>
   <expression>RCOU.Ch5 RCOU.Ch7 RCOU.Ch9 RCOU.Ch11</expression>
   <expression>RCOU.C5 RCOU.C7 RCOU.C9 RCOU.C11</expression>
  </graph>
 
- <graph name='Servos/OctaQuad-CW'>
+ <graph name='Servos/OctaQuad/OctaQuad-CW'>
   <description></description>
   <expression>RCOU.Ch6 RCOU.Ch8 RCOU.Ch10 RCOU.Ch12</expression>
   <expression>RCOU.C6 RCOU.C8 RCOU.C10 RCOU.C12</expression>
@@ -176,17 +192,17 @@
   <expression>degrees(IMU3.GyrX) degrees(IMU3.GyrY) degrees(IMU3.GyrZ)</expression>
  </graph>
  
- <graph name='Servos/OctaQuad-FRONT'>
+ <graph name='Servos/OctaQuad/OctaQuad-FRONT'>
   <description></description>
   <expression>RCOU.C5 RCOU.C6 RCOU.C9 RCOU.C10</expression>
  </graph>
 
- <graph name='Servos/OctaQuad-REAR'>
+ <graph name='Servos/OctaQuad/OctaQuad-REAR'>
   <description></description>
   <expression>RCOU.C7 RCOU.C8 RCOU.C11 RCOU.C12</expression>
  </graph>
 
- <graph name='Servos/OctaQuad-Front-Rear'>
+ <graph name='Servos/OctaQuad/OctaQuad-Front-Rear'>
   <description></description>
   <expression>RCOU.C5+RCOU.C6+RCOU.C9+RCOU.C10 RCOU.C7+RCOU.C8+RCOU.C11+RCOU.C12</expression>
  </graph>
@@ -206,27 +222,22 @@
   <expression>lowpass(max((GPS.Spd/(OF.flowY-OF.bodyY)),0)*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)),"flowheight",0.95) TERR.CHeight</expression>
  </graph>
 
- <graph name='Servos/TiltTri'>
-  <description></description>
-  <expression>RCOU.C5 RCOU.C6 RCOU.C8 RCOU.C11 RCOU.C12</expression>
- </graph>
-
  <graph name='Flow/FlowHeight'>
   <description></description>
   <expression>max(min(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))*GPS.Spd/lowpass(ROF.Fx-ROF.By,"r",0.95),100),0) BARO.Alt</expression>
  </graph>
 
- <graph name='Servos/OctaQuad CCW-CW'>
+ <graph name='Servos/OctaQuad/OctaQuad CCW-CW'>
   <description></description>
   <expression>(RCOU.C5+RCOU.C7+RCOU.C9+RCOU.C11)/4 (RCOU.C6+RCOU.C8+RCOU.C10+RCOU.C12)/4</expression>
  </graph>
 
- <graph name='Servos/OctaQuad-CCW-CW'>
+ <graph name='Servos/OctaQuad/OctaQuad-CCW-CW'>
   <description></description>
   <expression>0.25*(SERVO_OUTPUT_RAW.servo5_raw+SERVO_OUTPUT_RAW.servo7_raw+SERVO_OUTPUT_RAW.servo9_raw+SERVO_OUTPUT_RAW.servo11_raw) 0.25*(SERVO_OUTPUT_RAW.servo6_raw+SERVO_OUTPUT_RAW.servo8_raw+SERVO_OUTPUT_RAW.servo10_raw+SERVO_OUTPUT_RAW.servo12_raw)</expression>
  </graph>
 
- <graph name='Servos/OctaQuad-Front-Back'>
+ <graph name='Servos/OctaQuad/OctaQuad-Front-Back'>
   <description></description>
   <expression>0.25*(SERVO_OUTPUT_RAW.servo5_raw+SERVO_OUTPUT_RAW.servo6_raw+SERVO_OUTPUT_RAW.servo9_raw+SERVO_OUTPUT_RAW.servo10_raw) 0.25*(SERVO_OUTPUT_RAW.servo7_raw+SERVO_OUTPUT_RAW.servo8_raw+SERVO_OUTPUT_RAW.servo11_raw+SERVO_OUTPUT_RAW.servo12_raw)</expression>
  </graph>
@@ -273,7 +284,7 @@
   <expression>TECS.sp TECS.spdem</expression>
  </graph>
 
- <graph name='Sensors/GPS Time Jitter'>
+ <graph name='Sensors/GPS/GPS Time Jitter'>
   <description></description>
   <expression>diff(GPS.TimeUS,"t")*1.0e-6 diff(GPS.GMS,"gt")*1.0e-3</expression>
  </graph>
@@ -312,6 +323,7 @@
  <graph name='Flow/Velocity vs GPS'>
   <description></description>
   <expression>sqrt((OF.flowX-OF.bodyX)**2+(OF.flowY-OF.bodyY)**2)*RFND.Dist1*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)) GPS.Spd BARO.Alt:2</expression>
+  <expression>sqrt((OF.flowX-OF.bodyX)**2+(OF.flowY-OF.bodyY)**2)*RFND[0].Dist*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)) GPS.Spd BARO.Alt:2</expression>
  </graph>
 
  <graph name='Sensors/Accelerometer/Vibration'>
@@ -334,47 +346,368 @@
  <graph name='Flow/GPS vel body'>
   <description></description>
   <expression>gps_vel_body(GPS,ATT).x (OF.flowY-OF.bodyY)*RFND.Dist1 gps_vel_body(GPS,ATT).y (OF.flowX-OF.bodyX)*RFND.Dist1*-1</expression>
+  <expression>gps_vel_body(GPS,ATT).x (OF.flowY-OF.bodyY)*RFND[0].Dist gps_vel_body(GPS,ATT).y (OF.flowX-OF.bodyX)*RFND[0].Dist*-1</expression>
  </graph>
 
- <graph name='EKF/EKF3 Accel Offsets'>
-  <description></description>
-  <expression>XKF2.AX XKF2.AY XKF2.AZ</expression>
- </graph>
-
- <graph name='Copter/PID Tuning/PIQP'>
+ <graph name='Quadplane/PID Tuning/Pitch/PIQP'>
   <description></description>
   <expression>PIQP.FF PIQP.P PIQP.I PIQP.D</expression>
  </graph>
+ 
+ <graph name='Quadplane/PID Tuning/Roll/Roll Dmod'>
+  <description></description>
+  <expression>PIQR.Dmod PIQR.SRate:2</expression>
+ </graph>
+ 
+ <graph name='Quadplane/PID Tuning/Pitch/Pitch Dmod'>
+  <description></description>
+  <expression>PIQP.Dmod PIQP.SRate:2</expression>
+ </graph>
 
- <graph name='Copter/PID Tuning/PIQR'>
+ <graph name='Quadplane/PID Tuning/Roll/PIQR'>
   <description></description>
   <expression>PIQR.FF PIQR.P PIQR.I PIQR.D</expression>
  </graph>
 
- <graph name='Copter/PID Tuning/PIQY'>
+ <graph name='Quadplane/PID Tuning/Yaw/PIQY'>
   <description></description>
   <expression>PIQY.FF PIQY.P PIQY.I PIQY.D</expression>
  </graph>
+ 
+  <graph name='Quadplane/PID Tuning/Yaw/Yaw Dmod'>
+  <description></description>
+  <expression>PIQY.Dmod PIQY.SRate:2</expression>
+ </graph>
 
- <graph name='Copter/PID Tuning/PIQA'>
+ <graph name='Quadplane/PID Tuning/Altitude/PIQA'>
   <description></description>
   <expression>PIQA.P PIQA.I PIQA.D</expression>
  </graph>
 
- <graph name='Plane/PID Tuning/PIDR'>
+ <graph name='Plane/PID Tuning/Roll/PIDR'>
   <description></description>
   <expression>PIDR.FF PIDR.P PIDR.I PIDR.D</expression>
  </graph>
+ 
+ <graph name='Quadplane/PID Tuning/Roll/RollRates'>
+  <description></description>
+  <expression>PIQR.Tar PIQR.Act</expression>
+  </graph>
+  
+  <graph name='Quadplane/PID Tuning/Yaw/YawRates'>
+  <description></description>
+  <expression>PIQY.Tar PIQY.Act</expression>
+ </graph>
 
- <graph name='Plane/PID Tuning/PIDP'>
+ <graph name='Plane/PID Tuning/Pitch/PIDP'>
   <description></description>
   <expression>PIDP.FF PIDP.P PIDP.I PIDP.D</expression>
  </graph>
+ 
+  <graph name='Quadplane/PID Tuning/Pitch/FF Calculation'>
+  <description></description>
+  <expression>PIQP.Act PIQP.Tar PIQP.FF+PIQP.P+PIQP.D:2 PIQP.Act*0.2:2</expression>
+ </graph>
+ 
+   <graph name='Quadplane/PID Tuning/Pitch/PitchRates'>
+  <description></description>
+  <expression>PIQP.Tar PIQP.Act</expression>
+ </graph>
 
- <graph name='Plane/PID Tuning/PIDS'>
+ <graph name='Plane/PID Tuning/Steering/PIDS'>
   <description></description>
   <expression>PIDS.P PIDS.I PIDS.D</expression>
  </graph>
 
+ <graph name='Battery'>
+  <description></description>
+  <expression>BAT[0].Curr BAT[0].Volt BAT[0].VoltR BAT[0].CurrTot:2</expression>
+ </graph>
+
+ <graph name='Plane/Autotune/Roll'>
+  <description></description>
+  <expression>ATRP[0].P ATRP[0].FF  PIDR.Dmod ATRP[0].D:2</expression>
+ </graph>
+
+ <graph name='Plane/Autotune/Pitch'>
+  <description></description>
+  <expression>ATRP[1].P ATRP[1].FF PIDP.Dmod ATRP[1].D:2</expression>
+ </graph>
+
+ <graph name='Plane/Autotune/Yaw'>
+  <description></description>
+  <expression>ATRP[2].P ATRP[2].FF PIDY.Dmod ATRP[2].D:2</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/Yaw/PIDY'>
+  <description></description>
+  <expression>PIDY.FF PIDY.P PIDY.I PIDY.D</expression>
+ </graph>
+  
+ <graph name='Plane/PID Tuning/Yaw/YawRates'>
+  <description></description>
+  <expression>PIDY.Tar PIDY.Act</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/Yaw/FF Calculation'>
+  <description></description>
+  <expression>0.3*PIDY.Act*AETR.SS AETR.Rudd*0.01</expression>
+ </graph>
+ 
+  <graph name='Aerobatics/Position Error'>
+  <description></description>
+  <expression>AERT.Perr MSG.Message</expression>
+ </graph>
+
+<graph name='Plane/PID Tuning/FWSlewRates'>
+  <description></description>
+  <expression>PIDR.SRate PIDP.SRate PIDY.SRate</expression>
+ </graph>
+ 
+ <graph name='Sensors/Gyroscope/Gyro Sample Rates'>
+  <description></description>
+  <expression>IMU[0].GHz IMU[1].GHz IMU[2].GHz</expression>
+  <expression>IMU[0].GHz IMU[1].GHz</expression>
+  <expression>IMU[0].GHz</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroHealth'>
+  <description></description>
+  <expression>IMU[0].GH IMU[1].GH IMU[2].GH</expression>
+  <expression>IMU[0].GH IMU[1].GH</expression>
+  <expression>IMU[0].GH</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/AccelHealth'>
+  <description></description>
+  <expression>IMU[0].AH IMU[1].AH IMU[2].AH</expression>
+  <expression>IMU[0].AH IMU[1].AH</expression>
+  <expression>IMU[0].AH</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Accel Sample Rate'>
+  <description></description>
+  <expression>IMU[0].AHz IMU[1].AHz IMU[2].AHz</expression>
+  <expression>IMU[0].AHz IMU[1].AHz</expression>
+  <expression>IMU[0].AHz</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/Comparison/GyroX compare'>
+  <description></description>
+  <expression>degrees(IMU[0].GyrX) degrees(IMU[1].GyrX) degrees(IMU[2].GyrX)</expression>
+  <expression>degrees(IMU[0].GyrX) degrees(IMU[1].GyrX)</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/Comparison/GyroY compare'>
+  <description></description>
+  <expression>degrees(IMU[0].GyrY) degrees(IMU[1].GyrY) degrees(IMU[2].GyrY)</expression>
+  <expression>degrees(IMU[0].GyrY) degrees(IMU[1].GyrY)</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/Comparison/GyroZ compare'>
+  <description></description>
+  <expression>degrees(IMU[0].GyrZ) degrees(IMU[1].GyrZ) degrees(IMU[2].GyrZ)</expression>
+  <expression>degrees(IMU[0].GyrZ) degrees(IMU[1].GyrZ)</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Comparison/AccX compare'>
+  <description></description>
+  <expression>IMU[0].AccX IMU[1].AccX IMU[2].AccX</expression>
+  <expression>IMU[0].AccX IMU[1].AccX</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Comparison/AccY compare'>
+  <description></description>
+  <expression>IMU[0].AccY IMU[1].AccY IMU[2].AccY</expression>
+  <expression>IMU[0].AccY IMU[1].AccY</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Comparison/AccZ compare'>
+  <description></description>
+  <expression>IMU[0].AccZ IMU[1].AccZ IMU[2].AccZ</expression>
+  <expression>IMU[0].AccZ IMU[1].AccZ</expression>
+ </graph>
+  
+ <graph name='Notch/FFT/PeakX'>
+  <description></description>
+  <expression>FTN2[0].PkX FTN2[1].PkX FTN2[2].PkX</expression>
+ </graph>
+
+ <graph name='Notch/Freq1-4'>
+  <description></description>
+  <expression>FTN[1].NF1 FTN[1].NF2 FTN[1].NF3 FTN[1].NF4</expression>
+ </graph>
+
+ <graph name='Copter/SlewRates'>
+  <description></description>
+  <expression>PIDR.SRate PIDP.SRate PIDY.SRate</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/Sample Time Delta'>
+  <description></description>
+  <expression>GPA[0].Delta GPA[1].Delta</expression>
+    <expression>GPA.Delta </expression>
+ </graph>
+
+ <graph name='EKF3/Vel NE vs GPS Spd'>
+  <description></description>
+  <expression>sqrt(XKF1[0].VN**2+XKF1[0].VE**2) GPS.Spd</expression>
+ </graph>
+
+ <graph name='Quadplane/AngPScale'>
+  <description></description>
+  <expression>ATSC.AngPScX ATSC.AngPScY ATSC.AngPScZ</expression>
+ </graph>
+
+ <graph name='Quadplane/VTOL Slew Rates'>
+  <description></description>
+  <expression>PIQR.SRate PIQP.SRate PIQY.SRate</expression>
+ </graph>
+ 
+  <graph name='Copter/NTUN Desired vs Achieved'>
+  <description></description>
+  <expression>NTUN.DVelX NTUN.DVelY NTUN.VelX NTUN.VelY</expression>
+ </graph>
+
+
+ <graph name='Quadplane/Desired Alt'>
+  <description></description>
+  <expression>QTUN.DAlt QTUN.Alt</expression>
+ </graph>
+
+ <graph name='Power/5 ESC Current'>
+  <description></description>
+  <expression>ESC1.Curr+ESC2.Curr+ESC3.Curr+ESC4.Curr+ESC5.Curr</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/IMU1-2-diff'>
+  <description></description>
+  <expression>sqrt((IMU[0].AccX-IMU[1].AccX)**2+(IMU[0].AccY-IMU[1].AccY)**2+(IMU[0].AccZ-IMU[1].AccZ)**2)</expression>
+ </graph>
+
+ <graph name='Plane/AETR'>
+  <description></description>
+  <expression>AETR.Ail AETR.Elev AETR.Rudd AETR.Thr:2</expression>
+ </graph>
+
+ <graph name='Copter/Autotune/ATUN'>
+  <description></description>
+  <expression>ATDE.Rate ATUN.Targ ATUN.Min ATUN.Max</expression>
+ </graph>
+ 
+ <graph name='TECS/Speed(mph)'>
+  <description></description>
+  <expression> 2.24*(TECS.sp) 2.24*(TECS.spdem)</expression>
+ </graph>
+
+ <graph name='Sensors/Airspeed vs GroundSpeed mph'>
+  <description></description>
+  <expression>2.24*(GPS.Spd) 2.24*(ARSP.Airspeed)</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/Baro Alt Compare'>
+  <description></description>
+  <expression>GPS_RAW_INT.alt*0.001 BARO.Alt</expression>
+ </graph>
+
+ <graph name='PSC/Accel Target'>
+  <description></description>
+  <expression>PSC.TAX PSC.AX PSC.TAY PSC.AY</expression>
+ </graph>
+
+ <graph name='PSC/Targ Position'>
+  <description></description>
+  <expression>PSC.PX PSC.TPX PSC.PY PSC.TPY</expression>
+ </graph>
+
+ <graph name='PSC/Targ Velocity'>
+  <description></description>
+  <expression>PSC.VX PSC.TVX PSC.VY PSC.TVY</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/WMM Err1'>
+  <description></description>
+  <expression>MAG.MagX-expected_mag_yaw(GPS,ATT,MAG).x MAG.MagY-expected_mag_yaw(GPS,ATT,MAG).y MAG.MagZ-expected_mag_yaw(GPS,ATT,MAG).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/WMM Err2'>
+  <description></description>
+  <expression>MAG2.MagX-expected_mag_yaw(GPS,ATT,MAG2).x MAG2.MagY-expected_mag_yaw(GPS,ATT,MAG2).y MAG2.MagZ-expected_mag_yaw(GPS,ATT,MAG2).z</expression>
+ </graph>
+
+ <graph name='Copter/Tuning Ch6'>
+  <description></description>
+  <expression>PTUN.TunVal PTUN.Param:2</expression>
+ </graph>
+
+ <graph name='EKF3/State Variances/EK3 Variances 1-11'>
+  <description></description>
+  <expression>XKV1.V01 XKV1.V02 XKV1.V03 XKV1.V04 XKV1.V05 XKV1.V06 XKV1.V07 XKV1.V08 XKV1.V09 XKV1.V10 XKV1.V11</expression>
+ </graph>
+
+ <graph name='EKF3/State Variances/EK3 Variances 12-23'>
+  <description></description>
+  <expression>XKV2.V12 XKV2.V13 XKV2.V14 XKV2.V15 XKV2.V16 XKV2.V17 XKV2.V18 XKV2.V19 XKV2.V20 XKV2.V21 XKV2.V22 XKV2.V23</expression>
+ </graph>
+
+ <graph name='TECS/Height (feet)'>
+  <description></description>
+  <expression>3.28*(TECS.h) 3.28*(TECS.hdem) 3.28*(BARO.Alt) 3.28*(GPS.Alt):2</expression>
+ </graph>
+
+ <graph name='Quadplane/PID Tuning/Yaw/FF Calculation'>
+  <description></description>
+  <expression>PIQY.Act PIQY.Tar PIQY.FF+PIQY.P+PIQY.D:2 PIQY.Act*0.15:2</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/Alt VZ Consistency'>
+  <description></description>
+  <expression>delta(GPS.Alt,0,GPS.TimeUS) GPS.VZ*-1</expression>
+ </graph>
+
+ <graph name='EKF3/State Values/Velocity NE'>
+  <description></description>
+  <expression>XKF1[0].VN XKF1[0].VE</expression>
+ </graph>
+
+ <graph name='EKF3/State Values/GPS Gnd Crs Compare'>
+  <description></description>
+  <expression>GPS.GCrs wrap_360(degrees(atan2(XKF1[0].VE,XKF1[0].VN)))</expression>
+ </graph>
+ 
+  <graph name='Plane/Cruise Analysis'>
+  <description></description>
+  <expression>ATT.DesPitch:2 BAT.Curr CTUN.ThO CTUN.As BARO.Alt</expression>
+ </graph>
+
+ <graph name='Rover/Steering Control'>
+  <description></description>
+  <expression>STER.DesTurnRate STER.TurnRate STER.DesLatAcc:2 STER.LatAcc:2</expression>
+ </graph>
+
+ <graph name='Rover/Speed Control'>
+  <description></description>
+  <expression>THR.DesSpeed THR.Speed</expression>
+ </graph>
+
+ <graph name='Rover/Speed and Battery'>
+  <description></description>
+  <expression>THR.Speed BAT.Curr:2 BAT.Volt:2</expression>
+ </graph>
+ 
+ <graph name='Rover/Speed and Throttle'>
+  <description></description>
+  <expression>THR.Speed THR.ThrOut:2</expression>
+ </graph>
+ 
+ <graph name='Sensors/Wheel Encoders'>
+  <description></description>
+  <expression>WENC.Dist0 WENC.Dist1</expression>
+ </graph>
+ 
+ <graph name='Sensors/Visual Position'>
+  <description></description>
+  <expression>VISP.PX VISP.PY VISP.PZ</expression>
+ </graph>
 </graphs>
 

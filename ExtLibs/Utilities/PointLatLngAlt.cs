@@ -206,6 +206,16 @@ namespace MissionPlanner.Utilities
             return ((Math.Abs(zone) * 6) - 180);
         }
 
+        public int GetLatStartUTM()
+        {
+            return (int) (Lat - (Lat % 8));
+        }
+
+        public int GetLatEndUTM()
+        {
+            return (int)(Lat - (Lat % 8)) - 8;
+        }
+
         public string GetFriendlyZone()
         {
             return GetUTMZone().ToString("0N;0S");

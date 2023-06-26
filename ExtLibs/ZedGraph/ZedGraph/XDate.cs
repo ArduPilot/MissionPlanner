@@ -144,7 +144,7 @@ namespace ZedGraph
 		{
 			_xlDate = CalendarDateToXLDate( dateTime.Year, dateTime.Month,
 							dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second,
-							dateTime.Millisecond );
+							dateTime.Millisecond + ((dateTime.Ticks % 10000)/10000.0));
 		}
 		
 		/// <summary>
@@ -463,7 +463,7 @@ namespace ZedGraph
 		/// </param>
 		/// <returns>The corresponding XL date, expressed in double floating point format</returns>
 		public static double CalendarDateToXLDate( int year, int month, int day,
-			int hour, int minute, int second, int millisecond )
+			int hour, int minute, int second, double millisecond )
 		{
 			// Normalize the data to allow for negative and out of range values
 			// In this way, setting month to zero would be December of the previous year,

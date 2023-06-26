@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,52 +17,35 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using uavcan.protocol.CANIfaceStats.cs
-
-
-        public const int UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_MAX_PACK_SIZE = 73;
-        public const ulong UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_DT_SIG = 0xBE6F76A7EC312B04;
-
-        public const int UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_DT_ID = 4;
-
-
-
-
-
-
-        public partial class uavcan_protocol_GetTransportStats_res: IDroneCANSerialize {
-
-
+        public partial class uavcan_protocol_GetTransportStats_res: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_MAX_PACK_SIZE = 73;
+            public const ulong UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_DT_SIG = 0xBE6F76A7EC312B04;
+            public const int UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_DT_ID = 4;
 
             public uint64_t transfers_tx = new uint64_t();
-
-
-
             public uint64_t transfers_rx = new uint64_t();
-
-
-
             public uint64_t transfer_errors = new uint64_t();
-
-
-
             public uint8_t can_iface_stats_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public uavcan_protocol_CANIfaceStats[] can_iface_stats = Enumerable.Range(1, 3).Select(i => new uavcan_protocol_CANIfaceStats()).ToArray();
 
-
-
-
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_uavcan_protocol_GetTransportStats_res(this, chunk_cb, ctx);
+                encode_uavcan_protocol_GetTransportStats_res(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_uavcan_protocol_GetTransportStats_res(transfer, this);
+                decode_uavcan_protocol_GetTransportStats_res(transfer, this, fdcan);
+            }
+
+            public static uavcan_protocol_GetTransportStats_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
+            {
+                var ans = new uavcan_protocol_GetTransportStats_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
+                return ans;
             }
         }
     }

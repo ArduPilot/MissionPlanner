@@ -40,10 +40,11 @@
             this.olvColumnHome = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnTimeInAir = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDistTraveled = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             this.olvColumnCamMSG = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             this.btnDeleteLog = new MissionPlanner.Controls.MyButton();
             this.lbStats = new MissionPlanner.Controls.MyLabel();
+            this.but_defaultlogdir = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -174,11 +175,12 @@
             // BUT_changedir
             // 
             this.BUT_changedir.AutoSize = true;
-            this.BUT_changedir.Location = new System.Drawing.Point(13, 13);
+            this.BUT_changedir.Location = new System.Drawing.Point(117, 13);
             this.BUT_changedir.Name = "BUT_changedir";
             this.BUT_changedir.Size = new System.Drawing.Size(99, 23);
             this.BUT_changedir.TabIndex = 1;
-            this.BUT_changedir.Text = "Change Directory";
+            this.BUT_changedir.Text = "Custom Directory";
+            this.BUT_changedir.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_changedir.UseVisualStyleBackColor = true;
             this.BUT_changedir.Click += new System.EventHandler(this.BUT_changedir_Click);
             // 
@@ -190,6 +192,7 @@
             this.btnDeleteLog.Size = new System.Drawing.Size(104, 23);
             this.btnDeleteLog.TabIndex = 2;
             this.btnDeleteLog.Text = "Delete selected";
+            this.btnDeleteLog.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btnDeleteLog.UseVisualStyleBackColor = true;
             this.btnDeleteLog.Click += new System.EventHandler(this.btnDeleteLog_Click);
             // 
@@ -202,9 +205,22 @@
             this.lbStats.TabIndex = 3;
             this.lbStats.Text = "Selected: 0";
             // 
+            // but_defaultlogdir
+            // 
+            this.but_defaultlogdir.AutoSize = true;
+            this.but_defaultlogdir.Location = new System.Drawing.Point(12, 13);
+            this.but_defaultlogdir.Name = "but_defaultlogdir";
+            this.but_defaultlogdir.Size = new System.Drawing.Size(99, 23);
+            this.but_defaultlogdir.TabIndex = 4;
+            this.but_defaultlogdir.Text = "Default Log Dir";
+            this.but_defaultlogdir.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_defaultlogdir.UseVisualStyleBackColor = true;
+            this.but_defaultlogdir.Click += new System.EventHandler(this.but_defaultlogdir_Click);
+            // 
             // LogIndex
             // 
             this.ClientSize = new System.Drawing.Size(1177, 514);
+            this.Controls.Add(this.but_defaultlogdir);
             this.Controls.Add(this.lbStats);
             this.Controls.Add(this.btnDeleteLog);
             this.Controls.Add(this.BUT_changedir);
@@ -236,5 +252,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumnCamMSG;
         private Controls.MyButton btnDeleteLog;
         private Controls.MyLabel lbStats;
+        private Controls.MyButton but_defaultlogdir;
     }
 }

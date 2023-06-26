@@ -156,6 +156,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     // durandal
                     CMB_HWVersion.SelectedIndex = 9;
                 }
+                 else if (value == 8)
+                {
+                    // Pixhawk 6C/Pix32 v6
+                    CMB_HWVersion.SelectedIndex = 10;
+                }
             }
             else
             {
@@ -480,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            var selection = int.Parse(CMB_HWVersion.Text.Substring(0, 1));
+            var selection = int.Parse(CMB_HWVersion.Text.Substring(0, 2).Replace(":", ""));
 
             try
             {
@@ -543,6 +548,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //durandal
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 16);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 17);
+                }
+                else if (selection == 10)
+                {
+                    //Pixhawk 6C/Pix32 v6
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 8);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 4);
                 }
             }
             catch

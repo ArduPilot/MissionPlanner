@@ -52,7 +52,7 @@ namespace MissionPlanner.Controls
         //     property.
         [Bindable(true)]
         [DefaultValue(0)]
-        public int Value { get; set; }
+        public int Value { get => valuei; set  { valuei = value; Invalidate(); } }
 
         public int BarSize = 40;
 
@@ -104,11 +104,11 @@ namespace MissionPlanner.Controls
                 delta = 100;
             int position = (int)((Value / (float)delta) * this.Width);
 
-            Rectangle outside = new Rectangle(new Point(1, 1), new System.Drawing.Size(this.Width - 2,this.Height - 2));
+            Rectangle outside = new Rectangle(new Point(1, 1), new System.Drawing.Size(this.Width - 2, this.Height - 2));
 
             LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
 
-            Rectangle progressdone = new Rectangle(new Point(1, 1), new System.Drawing.Size(position,this.Height -2));
+            Rectangle progressdone = new Rectangle(new Point(1, 1), new System.Drawing.Size(position, this.Height - 2));
 
             if (Style == ProgressBarStyle.Marquee)
                 progressdone = new Rectangle(new Point(position, 1), new System.Drawing.Size(BarSize, this.Height - 2));
@@ -130,11 +130,13 @@ namespace MissionPlanner.Controls
         }
 
         ProgressBarStyle _style = ProgressBarStyle.Continuous;
+        private int valuei;
+
         public ProgressBarStyle Style
         {
-            get 
-            { 
-                return _style; 
+            get
+            {
+                return _style;
             }
             set
             {
@@ -147,7 +149,7 @@ namespace MissionPlanner.Controls
                 else
                 {
                     if (marquee.Enabled)
-                        marquee.Stop(); 
+                        marquee.Stop();
                 }
 
                 this.Invalidate();

@@ -26,7 +26,7 @@ namespace hudonoff
 
         public override string Version
         {
-            get { return "0.10"; }
+            get { return "0.2"; }
         }
 
         public override string Author
@@ -57,8 +57,10 @@ namespace hudonoff
                 {"displayrollpitch", "Roll/Pitch"},
                 {"displaygps", "GPS"},
                 {"batteryon", "Battery"},
+                {"batteryon2", "Battery2"},
                 {"displayekf", "EKF"},
                 {"displayvibe", "Vibe"},
+                {"displayprearm", "Prearm Status"},
                 {"displayAOASSA", "AOA"},
             };
 

@@ -8,7 +8,10 @@ namespace DroneCAN
     /// </summary>
     public class CANFrame
     {
-        private byte[] packet_data;
+        /// <summary>
+        /// raw packet data
+        /// </summary>
+        public byte[] packet_data;
 
         public enum FrameType
         {
@@ -17,10 +20,14 @@ namespace DroneCAN
             message
         }
 
-        public CANFrame(byte[] packet_data)
+        public CANFrame(byte[] packet_data, bool extended = true, bool fdcan = false)
         {
             this.packet_data = packet_data;
+            Extended = extended;
+            this.FDCan = fdcan;
         }
+
+        public bool FDCan { get; set; }
 
         //[JsonConverter(typeof(StringEnumConverter))]
         public FrameType TransferType
@@ -111,6 +118,8 @@ namespace DroneCAN
             get;
             internal set;
         }
+
+        public bool Extended { get; }
 
         public string ToHex()
         {

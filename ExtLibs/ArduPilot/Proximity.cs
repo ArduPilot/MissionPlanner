@@ -18,17 +18,23 @@ namespace MissionPlanner.Utilities
         directionState _dS = new directionState();
         public directionState DirectionState => _dS;
 
-        KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub;
-        KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub2;
+        int sub;
+        int sub2;
+        private byte sysid;
+        private byte compid;
 
         public bool DataAvailable { get; set; } = false;
 
-        public Proximity(MAVState mavInt)
+        public Proximity(MAVState mavInt, byte sysid, byte compid) 
         {
+            this.sysid = sysid;
+            this.compid = compid;
             _parent = mavInt;
-            sub = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.DISTANCE_SENSOR, messageReceived);
+            sub = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.DISTANCE_SENSOR, messageReceived, sysid,
+                compid);
 
-            sub2 = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.OBSTACLE_DISTANCE, messageReceived);
+            sub2 = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.OBSTACLE_DISTANCE, messageReceived, sysid,
+                compid);
 
             log.InfoFormat("created for {0} - {1}", mavInt.sysid, mavInt.compid);
         }

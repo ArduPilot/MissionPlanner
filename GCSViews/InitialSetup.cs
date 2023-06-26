@@ -136,6 +136,9 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            AddBackstageViewPage(typeof(ConfigSecureAP), "Secure",
+                isDisConnected);
+         
 
             var mand = AddBackstageViewPage(typeof(ConfigMandatory), rm.GetString("backstageViewPagemand.Text"), isConnected && gotAllParams);
 
@@ -149,7 +152,7 @@ namespace MissionPlanner.GCSViews
                     mand);
             }
 
-            if (isCopter && MainV2.DisplayConfiguration.displayInitialParams)
+            if ((isCopter || isQuadPlane) && MainV2.DisplayConfiguration.displayInitialParams)
             {
                 AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
             }
@@ -201,6 +204,9 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigSerialInjectGPS), "RTK/GPS Inject", true, opt);
             }
+
+            AddBackstageViewPage(typeof(ConfigCubeID), "CubeID Update",
+    isConnected, opt);
 
             if (MainV2.DisplayConfiguration.displaySikRadio)
             {

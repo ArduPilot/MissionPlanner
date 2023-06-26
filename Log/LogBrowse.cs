@@ -28,6 +28,7 @@ using IronPython.Runtime;
 using Microsoft.Scripting.Hosting;
 using MissionPlanner.GCSViews.ConfigurationView;
 using ZedGraph; // Graphs
+using IronPython.Runtime.Operations;
 
 #if !LIB
 [assembly: ExtensionType(typeof(Dictionary<string, object>), typeof(LogBrowse.ext))]
@@ -71,6 +72,8 @@ namespace MissionPlanner.Log
             public double offset = 0;
             public double scalar = 1;
             public bool doOffsetFirst = false;
+            public bool isMask = false;
+            public uint mask = 0;
 
             public DataModifer()
             {
@@ -80,8 +83,16 @@ namespace MissionPlanner.Log
 
             public DataModifer(string _commandString)
             {
-                this.commandString = _commandString;
+                this.commandString = _commandString.Trim();
                 this.isValid = ParseCommandString(_commandString);
+            }
+
+            public DataModifer(uint _mask)
+            {
+                this.commandString = "";
+                this.isValid = true;
+                this.isMask = true;
+                this.mask = _mask;
             }
 
             private bool ParseCommandString(string _commandString)
@@ -137,6 +148,15 @@ namespace MissionPlanner.Log
                         case '-':
                             this.doOffsetFirst = (i == 0);
                             this.offset = -value;
+                            break;
+
+                        case '&':
+                            if (value < 0)
+                            {
+                                return false;
+                            }
+                            this.isMask = true;
+                            this.mask = (uint)value;
                             break;
 
                         default:
@@ -223,6 +243,14 @@ namespace MissionPlanner.Log
 
             if (logdata != null)
                 logdata.Clear();
+
+
+            //map
+            splitContainerZgMap.Panel2Collapsed = true;
+            //dg
+            splitContainerButGrid.Panel2Collapsed = true;
+
+            this.LogBrowse_Resize(this,null);
 
             GC.Collect();
 
@@ -482,24 +510,28 @@ namespace MissionPlanner.Log
         // get extra info derived from paramters
         private string get_extra_info(string LogMSG, string felid, string VehicleType)
         {
-            switch(LogMSG)
+            try
             {
-                case "RCOU":
+                switch (LogMSG)
+                {
+                    case "RCOU":
                     {
-                        return get_param_value_string("SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION", VehicleType);
+                        return get_param_value_string("SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION",
+                            VehicleType);
                     }
 
-                case "RCIN":
+                    case "RCIN":
                     {
                         var rc_in_num = Regex.Match(felid, @"\d+").Value;
                         if (rc_in_num.Length == 0)
                         {
                             return "";
                         }
+
                         var ret = "";
 
                         // Check RCMAP values
-                        var rc_map = new[] { "ROLL", "PITCH", "THROTTLE", "YAW", "FORWARD", "LATERAL" };
+                        var rc_map = new[] {"ROLL", "PITCH", "THROTTLE", "YAW", "FORWARD", "LATERAL"};
                         foreach (string map in rc_map)
                         {
                             var map_param = MainV2.comPort.MAV.param["RCMAP_" + map];
@@ -509,6 +541,7 @@ namespace MissionPlanner.Log
                                 {
                                     ret += " + ";
                                 }
+
                                 ret += map;
                             }
                         }
@@ -521,6 +554,7 @@ namespace MissionPlanner.Log
                             {
                                 ret += " + ";
                             }
+
                             ret += "FlightMode";
                         }
 
@@ -532,10 +566,17 @@ namespace MissionPlanner.Log
                             {
                                 ret += " + ";
                             }
+
                             return ret + opt;
                         }
+
                         return ret;
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
 
             return "";
@@ -544,9 +585,11 @@ namespace MissionPlanner.Log
         // Get per intance info
         private string get_instance_info(string LogMSG, string instance, string VehicleType)
         {
-            switch (LogMSG)
+            try
             {
-                case "BARO":
+                switch (LogMSG)
+                {
+                    case "BARO":
                     {
                         // convert to 1 indexed
                         var param = "BARO" + (Convert.ToUInt32(instance) + 1).ToString() + "_DEVID";
@@ -555,12 +598,13 @@ namespace MissionPlanner.Log
                         {
                             return "";
                         }
+
                         Device.DeviceStructure baro = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
                         return baro.ToString();
                     }
 
-                case "GPS":
-                case "GPA":
+                    case "GPS":
+                    case "GPA":
                     {
                         var param = "GPS_TYPE";
                         if (Convert.ToUInt32(instance) > 0)
@@ -568,10 +612,11 @@ namespace MissionPlanner.Log
                             // GPS instance 1 is GPS_TPYE2
                             param += (Convert.ToUInt32(instance) + 2).ToString();
                         }
+
                         return get_param_value_string(param, VehicleType);
                     }
 
-                case "MAG":
+                    case "MAG":
                     {
                         var param = "COMPASS_PRIO" + (Convert.ToUInt32(instance) + 1).ToString() + "_ID";
                         var dev_id = MainV2.comPort.MAV.param[param];
@@ -579,11 +624,35 @@ namespace MissionPlanner.Log
                         {
                             return "";
                         }
+
                         Device.DeviceStructure mag = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
                         return mag.ToString();
                     }
+                }
             }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
             return "";
+        }
+
+        private void add_field_node(ref TreeNode root_node, string LogMSG, string instance, string VehicleType)
+        {
+            var new_node = root_node.Nodes.Add(instance);
+            new_node.ToolTipText = get_extra_info(LogMSG, instance, VehicleType);
+
+            // if bitmask add sub nodes, look up in metadata
+            if (LogMetaData.MetaData.ContainsKey(LogMSG) && LogMetaData.MetaData[LogMSG].ContainsKey(instance) && LogMetaData.MetaData[LogMSG][instance].bitmask != null)
+            {
+                foreach(var bit in LogMetaData.MetaData[LogMSG][instance].bitmask)
+                {
+                    var new_bit_node = new_node.Nodes.Add(bit.name);
+                    new_bit_node.ToolTipText = bit.description;
+                    new_bit_node.Tag = "bitmask";
+                }
+            }
         }
 
         private void ResetTreeView(List<string> seenmessagetypes, string VehicleType)
@@ -610,14 +679,13 @@ namespace MissionPlanner.Log
                     var instance = logdata.InstanceType.ContainsKey(item.Id);
                     if (instance)
                     {
-                        foreach (var instanceinfo in logdata.InstanceType[item.Id].value)
+                        foreach (var instanceinfo in logdata.InstanceType[item.Id].value.OrderBy(a=>a))
                         {
                             var instNode = msgNode.Nodes.Add(instanceinfo);
                             instNode.ToolTipText = get_instance_info(item.Name, instanceinfo, VehicleType);
                             foreach (var item1 in item.FieldNames)
                             {
-                                var new_node = instNode.Nodes.Add(item1);
-                                new_node.ToolTipText = get_extra_info(item.Name, item1, VehicleType);
+                                add_field_node(ref instNode, item.Name, item1, VehicleType);
                             }
                         }
                     }
@@ -626,8 +694,7 @@ namespace MissionPlanner.Log
                         // no instance add the fields
                         foreach (var item1 in item.FieldNames)
                         {
-                            var new_node = msgNode.Nodes.Add(item1);
-                            new_node.ToolTipText = get_extra_info(item.Name, item1, VehicleType);
+                            add_field_node(ref msgNode, item.Name, item1, VehicleType);
                         }
                     }
                     treeView1.Nodes.Add(msgNode);
@@ -895,6 +962,8 @@ namespace MissionPlanner.Log
             myPane.Title.Text = "Value Graph";
             myPane.XAxis.Title.Text = "Line Number";
             myPane.YAxis.Title.Text = "";
+            myPane.YAxis.Title.FontSpec.Size += 2;
+            myPane.Y2Axis.Title.FontSpec.Size += 2;
 
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
@@ -997,11 +1066,12 @@ namespace MissionPlanner.Log
         }
 
         void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
-            bool isexpression = false, string instance = "")
+            bool isexpression = false, string instance = "", string bitmask = null)
         {
             log.InfoFormat("GraphItem: {0} {1} {2}", type, fieldname, instance);
             DataModifer dataModifier = new DataModifer();
-            string nodeName = DataModifer.GetNodeName(type, instance != "" ? int.Parse(instance) : -1, fieldname);
+            int instance_int;
+            string nodeName = DataModifer.GetNodeName(type, int.TryParse(instance, out instance_int) ? instance_int : -1, fieldname);
 
             foreach (var curve in zg1.GraphPane.CurveList)
             {
@@ -1015,7 +1085,7 @@ namespace MissionPlanner.Log
                     return;
             }
 
-            if (dataModifierHash.ContainsKey(nodeName))
+            if (dataModifierHash.ContainsKey(nodeName) && (bitmask == null))
             {
                 dataModifier = (DataModifer)dataModifierHash[nodeName];
             }
@@ -1036,6 +1106,54 @@ namespace MissionPlanner.Log
                                 {
                                     if (subsubnode.Text == fieldname)
                                     {
+                                        if (bitmask == null)
+                                        {
+                                            if (subsubnode.Checked != true)
+                                            {
+                                                subsubnode.Checked = true;
+                                            }
+                                            extra_label = " " + subsubnode.ToolTipText;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            foreach (TreeNode subsubsubnode in subsubnode.Nodes)
+                                            {
+                                                if (subsubsubnode.Text == bitmask)
+                                                {
+                                                    if (subsubsubnode.Checked != true)
+                                                    {
+                                                        subsubsubnode.Checked = true;
+                                                    }
+                                                    extra_label = " " + subsubsubnode.ToolTipText;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (bitmask == null)
+                            {
+                                if (subnode.Text == fieldname)
+                                {
+                                    if (subnode.Checked != true)
+                                    {
+                                        subnode.Checked = true;
+                                    }
+                                    extra_label = " " + subnode.ToolTipText;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                foreach (TreeNode subsubnode in subnode.Nodes)
+                                {
+                                    if (subsubnode.Text == bitmask)
+                                    {
                                         if (subsubnode.Checked != true)
                                         {
                                             subsubnode.Checked = true;
@@ -1046,18 +1164,24 @@ namespace MissionPlanner.Log
                                 }
                             }
                         }
-                        else
-                        {
-                            if (subnode.Text == fieldname)
-                            {
-                                if (subnode.Checked != true)
-                                {
-                                    subnode.Checked = true;
-                                }
-                                extra_label = " " + subnode.ToolTipText;
-                                break;
-                            }
-                        }
+                    }
+                }
+            }
+
+            if (dataModifier.IsValid())
+            {
+                extra_label = dataModifier.commandString + extra_label;
+            }
+
+            if (bitmask != null)
+            {
+                foreach (var bitmask_item in LogMetaData.MetaData[type][fieldname].bitmask)
+                {
+                    if (bitmask_item.name == bitmask)
+                    {
+                        extra_label = "." + bitmask + extra_label;
+                        dataModifier = new DataModifer(bitmask_item.mask);
+                        break;
                     }
                 }
             }
@@ -1119,7 +1243,7 @@ namespace MissionPlanner.Log
         private List<Tuple<DFLog.DFItem, double>> TestPython(DFLog dflog, DFLogBuffer logdata, string expression)
         {
 
-            var engine = Python.CreateEngine();
+            var engine = Python.CreateEngine(new Dictionary<string, object> { { "Debug", ScriptingRuntimeHelpers.True } });
 
             var paths = engine.GetSearchPaths();
             paths.Add(Settings.GetRunningDirectory() + "Lib.zip");
@@ -1170,7 +1294,7 @@ namespace MissionPlanner.Log
             
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 
-            if (!fieldsUsed.Any(x => dflog.logformat.ContainsKey(x.Key)))
+            if (!fieldsUsed.Any(x => dflog.logformat.ContainsKey(x.Key.Replace("[0]","").Replace("[1]", "").Replace("[2]", "").Replace("[3]", ""))))
                 return answer;
 
             scope.SetVariable("answer", answer);
@@ -1179,7 +1303,7 @@ namespace MissionPlanner.Log
 
             var exp = "[" + expression
                 .Split(new char[] {'(', ')', ',', ' ', '.', '-', '+', '*', '/'},
-                    StringSplitOptions.RemoveEmptyEntries).Where(a => dflog.logformat.Keys.Any(b => a == b))
+                    StringSplitOptions.RemoveEmptyEntries).Where(a => dflog.logformat.Keys.Any(b => a.Replace("[0]", "").Replace("[1]", "").Replace("[2]", "").Replace("[3]", "") == b))
                 .Aggregate("", (a, b) => a + ",\"" + b + "\"").TrimStart(',') + "]";
 
             var scriptsrc = String.Format(@"
@@ -1187,6 +1311,7 @@ import clr
 import sys
 import os
 import System
+import re
 clr.AddReference('MissionPlanner.Utilities')
 from MissionPlanner.Utilities import DFLog
 from math import *
@@ -1225,9 +1350,10 @@ def main():
     vars = {{}}
     a=0
     for line in logdata.GetEnumeratorType(System.Array[System.String]({0})):
-        if line.instance != '' and line.instance != '0':
-            continue
-        globals()[line.msgtype] = AttrDict(line.ToDictionary())
+        if line.instance != '':
+            globals()[line.msgtype] = {{ int(line.instance): AttrDict(line.ToDictionary()) }}
+        else:
+            globals()[line.msgtype] = AttrDict(line.ToDictionary())
         v = evaluate_expression()
         a += 1
         if (a % 10000) == 0:
@@ -1317,7 +1443,6 @@ main()
             double a = 0; // row counter
             double b = 0;
             DateTime screenupdate = DateTime.MinValue;
-            double value_prev = 0;
 
             foreach (var item in logdata.GetEnumeratorType(type))
             {
@@ -1337,24 +1462,20 @@ main()
                         double value = double.Parse(item.items[col],
                             System.Globalization.CultureInfo.InvariantCulture);
 
-                        // abandon realy bad data
-                        if (Math.Abs(value) > 9.15e8)
-                        {
-                            a++;
-                            continue;
-                        }
-
                         if (dataModifier.IsValid())
                         {
-                            if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                            if (dataModifier.isMask)
                             {
-                                // there is a glitch in the data, reject it by replacing it with the previous value
-                                value = value_prev;
+                                int shift;
+                                for (shift = 0; shift < 32; shift++)
+                                { 
+                                    if (((dataModifier.mask >> shift) & 1) != 0) {
+                                        break;
+                                    }
+                                }
+                                value = ((uint)value & dataModifier.mask) >> shift;
                             }
-
-                            value_prev = value;
-
-                            if (dataModifier.doOffsetFirst)
+                            else if (dataModifier.doOffsetFirst)
                             {
                                 value += dataModifier.offset;
                                 value *= dataModifier.scalar;
@@ -1426,6 +1547,9 @@ main()
 
             // this is so precaned graphs draw on a singel axis
             if (isexpression)
+                unit = "";
+
+            if (unit == null)
                 unit = "";
 
             if (unit != "")
@@ -2902,28 +3026,32 @@ main()
 
                 if (e.Node.Checked)
                 {
-                    if (wasrightclick)
-                    {
-                        if (parts.Length == 3)
-                            GraphItem(parts[0], parts[2], false, true, false, parts[1]);
+                    if (parts.Length == 4)
+                        GraphItem(parts[0], parts[2], !wasrightclick, true, false, parts[1], parts[3]);
+
+                    else if (parts.Length == 3)
+                        if ((e.Node.Tag != null) && (e.Node.Tag.ToString() == "bitmask"))
+                            GraphItem(parts[0], parts[1], !wasrightclick, true, false, "", parts[2]);
                         else
-                            GraphItem(parts[0], parts[1], false);
-                    }
-                    else
-                    {
-                        if (parts.Length == 3)
-                            GraphItem(parts[0], parts[2], true, true, false, parts[1]);
-                        else
-                            GraphItem(parts[0], parts[1], true);
-                    }
+                            GraphItem(parts[0], parts[2], !wasrightclick, true, false, parts[1]);
+                     else
+                        GraphItem(parts[0], parts[1], !wasrightclick, true, false, "");
                 }
                 else
                 {
                     List<CurveItem> removeitems = new List<CurveItem>();
 
-                    var name = parts.Length == 3
-                        ? parts[0] + "[" + parts[1] + "]." + parts[2]
-                        : parts[0] + "." + parts[1];
+                    string name;
+                    if (parts.Length == 4)
+                        name = parts[0] + "[" + parts[1] + "]." + parts[2] + "." + parts[3];
+
+                    else if (parts.Length == 3)
+                        if ((e.Node.Tag != null) && (e.Node.Tag.ToString() == "bitmask"))
+                            name = parts[0] + "." + parts[1] + "." + parts[2];
+                        else
+                            name = parts[0] + "[" + parts[1] + "]." + parts[2];
+                    else
+                        name = parts[0] + "." + parts[1];
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
@@ -3487,9 +3615,8 @@ main()
 
                         dataGridView1.ColumnCount = colcount;
 
-                        int a = 0;
-                        while (a++ < 1000)
-                            dataGridView1.Rows.Add();
+                        if (dataGridView1.Rows.Count < 1000)
+                            dataGridView1.Rows.Add(1000 - dataGridView1.Rows.Count);
 
                         // populate first row
                         populateRowData(0, 0, 0);
@@ -3587,18 +3714,18 @@ main()
                 if (items.Length >= 2 && LogMetaData.MetaData.ContainsKey(items[0]) &&
                     LogMetaData.MetaData[items[0]].ContainsKey(items[items.Length - 1]))
                 {
-                    var desc = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
+                    var feild = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
                     pos.Y -= 30;
                     pos.X += 30;
-                    txt_info.Text = desc;
+                    txt_info.Text = feild.description;
                     //toolTip1.Show(desc, treeView1, pos, 2000);
                 } else if (items.Length == 1 && LogMetaData.MetaData.ContainsKey(items[0]) &&
                            LogMetaData.MetaData[items[0]].ContainsKey("description"))
                 {
-                    var desc = LogMetaData.MetaData[items[0]]["description"];
+                    var feild = LogMetaData.MetaData[items[0]]["description"];
                     pos.Y -= 30;
                     pos.X += 30;
-                    txt_info.Text = desc;
+                    txt_info.Text = feild.description;
                     //toolTip1.Show(desc, treeView1, pos, 2000);
                 }
             }
@@ -3638,7 +3765,7 @@ main()
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(newparamdata);
 
-            var frm = new ConfigRawParamsTree().ShowUserControl();
+            var frm = new ConfigRawParams().ShowUserControl();
         }
 
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
@@ -3651,6 +3778,49 @@ main()
                 if (node != null)
                 {
                     node.Checked = !node.Checked;
+                }
+            }
+        }
+
+        private void exportFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Where to save the files";
+            fbd.ShowNewFolderButton = true;
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                var dir = fbd.SelectedPath;
+                if (Directory.Exists(dir))
+                {
+                    var files = logdata.GetEnumeratorType("FILE");
+
+                    Dictionary<string, FileStream> filehandles = new Dictionary<string, FileStream>();
+
+                    foreach (var file in files)
+                    {
+                        var name = file.GetRaw<string>("FileName");
+                        var offset = file.GetRaw<uint>("Offset");
+                        var length = file.GetRaw<byte>("Length");
+                        var data = file.GetRaw<string>("Data");
+
+                        var path = Path.Combine(dir, name);
+
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                        FileStream f;
+                        if (!filehandles.TryGetValue(name, out f))
+                        {
+                            f = File.OpenWrite(path);
+                            filehandles.Add(name, f);
+                        }
+
+                        f.Seek(offset, SeekOrigin.Begin);
+                        var data2 = data.Select(a => (byte) a).ToArray().MakeSize(length);
+                        f.Write(data2, 0, length);
+                    }
+
+                    filehandles.ForEach(a => a.Value.Close());
                 }
             }
         }

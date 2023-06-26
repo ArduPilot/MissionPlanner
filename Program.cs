@@ -19,6 +19,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using log4net.Appender;
+using log4net.Repository.Hierarchy;
 #if !LIB
 using JetBrains.Profiler.Api;
 using JetBrains.Profiler.SelfApi;
@@ -28,6 +30,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Trace = System.Diagnostics.Trace;
+using System.Threading.Tasks;
 
 namespace MissionPlanner
 {
@@ -127,10 +130,19 @@ namespace MissionPlanner
             Console.WriteLine("To fix any filename case issues under mono use    export MONO_IOMAP=drive:case");
             Console.WriteLine("for pinvoke      MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll mono MissionPlanner.exe");
 
+            Console.WriteLine("watch -n 1 ls -l /proc/$(pidof mono)/fd");
+            Console.WriteLine("watch -n 1 lsof -p $(pidof mono)");
+
             Console.WriteLine("Data Dir " + Settings.GetDataDirectory());
             Console.WriteLine("Log Dir " + Settings.GetDefaultLogDir());
             Console.WriteLine("Running Dir " + Settings.GetRunningDirectory());
             Console.WriteLine("User Data Dir " + Settings.GetUserDataDirectory());
+
+
+            Console.WriteLine("PlacesRecentDocuments Dir " + Environment.GetFolderPath(Environment.SpecialFolder.Recent));
+            Console.WriteLine("PlacesDesktop Dir " +  Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            Console.WriteLine("PlacesPersonal Dir " +  Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+            Console.WriteLine("PlacesMyComputer Dir " + Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
@@ -148,6 +160,27 @@ namespace MissionPlanner
 
             System.Windows.Forms.Application.EnableVisualStyles();
             XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetCallingAssembly()));
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                var repository = LogManager.GetRepository() as Hierarchy;
+                if (repository != null)
+                {
+                    var appenders = repository.GetAppenders();
+                    if (appenders != null)
+                    {
+                        foreach (var appender in appenders)
+                        {
+                            if (appender is FileAppender)
+                            {
+                                var fileLogAppender = appender as FileAppender;
+                                fileLogAppender.File = fileLogAppender.File.Replace(@"\", Path.DirectorySeparatorChar.ToString());
+                                fileLogAppender.ActivateOptions();
+                            }
+                        }
+                    }
+                }
+            }
+
             log.Info("******************* Logging Configured *******************");
 
             ServicePointManager.DefaultConnectionLimit = 10;
@@ -208,8 +241,12 @@ namespace MissionPlanner
                 IntPtr ptr = IntPtr.Zero;
 
                 if (MONO)
+                {
                     ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
                         MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
+                    log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
+                }
+
                 if (ptr == IntPtr.Zero)
                     ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
 
