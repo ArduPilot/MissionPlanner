@@ -193,7 +193,7 @@
       <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
-      <P1>On/Off</P1>
+      <P1>Session Control</P1>
       <P2>Zoom Position</P2>
       <P3>Zoom Step</P3>
       <P4>Focus Lock</P4>
@@ -754,7 +754,7 @@
       <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
-      <P1>On/Off</P1>
+      <P1>Session Control</P1>
       <P2>Zoom Position</P2>
       <P3>Zoom Step</P3>
       <P4>Focus Lock</P4>
@@ -991,7 +991,7 @@
       <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
-      <P1>On/Off</P1>
+      <P1>Session Control</P1>
       <P2>Zoom Position</P2>
       <P3>Zoom Step</P3>
       <P4>Focus Lock</P4>
