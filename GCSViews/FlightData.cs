@@ -4655,7 +4655,7 @@ namespace MissionPlanner.GCSViews
                 {
                     var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng);
 
-                    if (alt.currenttype != srtm.tiletype.valid)
+                    if (alt.currenttype != srtm.tiletype.valid && alt.currenttype != srtm.tiletype.ocean)
                     {
                         CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
                         return;
