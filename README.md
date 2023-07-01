@@ -27,10 +27,18 @@ Visual Studio 2022
 
 ##### IDE
 
-###### Visual Studio Community
-The recommended way to compile Mission Planner is through Visual Studio.
-You could do it with Visual Studio Community [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
-Visual Studio suite is quite complex and comes with Git support. During the Selection phase, please goto More > import configuration, and use the file (https://raw.githubusercontent.com/ArduPilot/MissionPlanner/master/vs2022.vsconfig "vs2022.vsconfig")
+### Visual Studio Community
+To compile Mission Planner, we recommend using Visual Studio. You can download Visual Studio Community from the [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
+
+Visual Studio is a comprehensive suite with built-in Git support, but it can be overwhelming due to its complexity. To streamline the installation process, you can customize your installation by selecting the relevant "Workloads" and "Individual components" based on your software development needs.
+
+To simplify this selection process, we have provided a configuration file that specifies the components required for MissionPlanner development. Here's how you can use it:
+
+1. Go to "More" in the Visual Studio installer.
+2. Select "Import configuration."
+3. Use the following file: [vs2022.vsconfig](https://raw.githubusercontent.com/ArduPilot/MissionPlanner/master/vs2022.vsconfig "vs2022.vsconfig").
+
+By following these steps, you'll have the necessary components installed and ready for Mission Planner development.
 
 ###### VSCode
 Currently VSCode with C# plugin is able to parse the code but cannot build.
