@@ -804,6 +804,9 @@ namespace MissionPlanner.Controls
         public bool failsafe { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool safetyactive { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool lowvoltagealert { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -2998,7 +3001,7 @@ namespace MissionPlanner.Controls
                     //if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
 
-                        var size = calcsize(HUDT.DISARMED, font, fontsize + 10, (SolidBrush)Brushes.Red, Width - 50 - 50);
+                        var size = calcsize(HUDT.DISARMED, fontsize + 10, (SolidBrush)Brushes.Red);
 
                         drawstring(HUDT.DISARMED, font, fontsize + 10, (SolidBrush) Brushes.Red, size.Width/ -2/* - 85*/,
                             halfheight / -3);
@@ -3009,11 +3012,18 @@ namespace MissionPlanner.Controls
                 {
                     if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
-                        var size = calcsize(HUDT.ARMED, font, fontsize + 10, (SolidBrush)Brushes.Red, Width - 50 - 50);
+                        var size = calcsize(HUDT.ARMED, fontsize + 20, (SolidBrush)Brushes.Red);
                         drawstring(HUDT.ARMED, font, fontsize + 20, (SolidBrush) Brushes.Red, size.Width / -2/* - 70*/,
                             halfheight / -3);
                         statuslast = status;
                     }
+                }
+                
+                if (safetyactive)
+                {
+                    var size = calcsize(HUDT.SAFE, fontsize + 10, (SolidBrush)Brushes.Red);
+                    drawstring(HUDT.SAFE, font, fontsize + 10, (SolidBrush)Brushes.Red, size.Width / -2, halfheight / -6);
+                    statuslast = status;
                 }
 
                 if (failsafe == true)
@@ -3035,7 +3045,7 @@ namespace MissionPlanner.Controls
 
                     var newfontsize = calcfontsize(message, font, fontsize + 10, (SolidBrush) brush, Width - 50 - 50);
 
-                    var size = calcsize(message, font, newfontsize, (SolidBrush)Brushes.Red, Width - 50 - 50);
+                    var size = calcsize(message, newfontsize, (SolidBrush)Brushes.Red);
 
                     drawstring(message, font, newfontsize, (SolidBrush) brush, size.Width / -2,
                         halfheight / 3);
@@ -3300,7 +3310,7 @@ namespace MissionPlanner.Controls
             return fontsize;
         }
 
-        Size calcsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
+        Size calcsize(string text, float fontsize, SolidBrush brush)
         {
             if (text == null)
                 return new Size(0, 0);
