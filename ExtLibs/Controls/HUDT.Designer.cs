@@ -449,6 +449,15 @@ namespace MissionPlanner.Controls {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SAFE.
+        /// </summary>
+        public static string SAFE {
+            get {
+                return ResourceManager.GetString("SAFE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SE.
         /// </summary>
         public static string SE {
