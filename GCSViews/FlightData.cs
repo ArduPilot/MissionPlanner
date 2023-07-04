@@ -4129,7 +4129,7 @@ namespace MissionPlanner.GCSViews
                 || GetTagMarker == null || create == null || update == null)
                 return;
 
-            var markers = gMapOverlay.Markers.ToArray();
+            var markers = gMapOverlay.Markers.Where(a => a is TMarker).ToArray();
 
             foreach (var item in list)
             {
