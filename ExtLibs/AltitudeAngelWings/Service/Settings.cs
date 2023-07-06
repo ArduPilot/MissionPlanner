@@ -56,7 +56,7 @@ namespace AltitudeAngelWings.Service
             "tactical_crs"
         };
 
-        public string RedirectUri => "https://aawings.com/";
+        public string RedirectUri => $"https://auth{UrlDomainSuffix}/authorization/poll_complete";
 
         public string FlightServiceUrl => $"https://flight.{UrlDomainSuffix}";
 
