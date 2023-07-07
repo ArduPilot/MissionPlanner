@@ -26,7 +26,11 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(CheckEnableAltitudeAngel), value);
         }
 
-        public bool SurveillanceMode => false;
+        public bool SurveillanceMode
+        {
+            get => Get(nameof(SurveillanceMode), false, bool.Parse);
+            set => Set(nameof(SurveillanceMode), value);
+        }
 
         public string AuthenticationUrl => $"https://auth.{UrlDomainSuffix}";
 
@@ -82,8 +86,11 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(OutboundNotifsEndpointUrl), value);
         }
 
-        /// <inheritdoc />
-        public bool DisableTelemetrySending => false;
+        public bool DisableTelemetrySending
+        {
+            get => Get(nameof(DisableTelemetrySending), false, bool.Parse);
+            set => Set(nameof(DisableTelemetrySending), value);
+        }
 
         public TokenResponse TokenResponse
         {
