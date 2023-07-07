@@ -62,6 +62,7 @@ namespace OSDConfigurator.GUI
            
             cbReducedView.CheckedChanged += (s, e) => SetViewSize();
             cbUseNameCaptions.CheckedChanged += (s, e) => SetCaptionMode();
+            cbHighDefView.CheckedChanged += (s, e) => SetHighDefView();
 
             btnClearAll.Click += (s, e) => { foreach (var i in screen.Items) i.Enabled.Value = 0; };
 
@@ -80,7 +81,29 @@ namespace OSDConfigurator.GUI
 
         private void SetViewSize()
         {
-            layoutControl.CharSize = cbReducedView.Checked ? new Size(12, 18) : new Size(24, 36);
+            if (cbHighDefView.Checked)
+            {
+                layoutControl.CharSize = cbReducedView.Checked ? new Size(12, 18) : new Size(18, 27);
+            }
+            else
+            {
+                layoutControl.CharSize = cbReducedView.Checked ? new Size(12, 18) : new Size(24, 36);
+            }
+        }
+
+        private void SetHighDefView()
+        {
+            if(cbHighDefView.Checked)
+            {
+                layoutControl.ScreenSize = new Size(60, 22);
+                layoutControl.IsHighDef = true;
+            }
+            else
+            {
+                layoutControl.ScreenSize = new Size(30, 16);
+                layoutControl.IsHighDef = false;
+            }
+            SetViewSize();
         }
 
         protected override void OnLoad(EventArgs e)
