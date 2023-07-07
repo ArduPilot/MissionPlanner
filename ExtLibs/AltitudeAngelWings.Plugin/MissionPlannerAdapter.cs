@@ -39,6 +39,13 @@ namespace AltitudeAngelWings.Plugin
             {
                 return null;
             }
+            var homeLocation = MainV2.comPort.MAV.cs.PlannedHomeLocation;
+            waypoints.Insert(0, new Locationwp
+            {
+                lat = homeLocation.Lat,
+                lng = homeLocation.Lng,
+                alt = (float)homeLocation.Alt
+            });
             var envelope = GeometryFactory.Default.CreateMultiPoint(
                 waypoints
                     .Select(l => new Point(l.lng, l.lat))
@@ -178,14 +185,23 @@ namespace AltitudeAngelWings.Plugin
                 case MAVLink.MAV_TYPE.FIXED_WING:
                     return FlightCapability.FixedWing;
 
-                // There are a lot more types but these will do for now
                 case MAVLink.MAV_TYPE.QUADROTOR:
                 case MAVLink.MAV_TYPE.COAXIAL:
                 case MAVLink.MAV_TYPE.HEXAROTOR:
                 case MAVLink.MAV_TYPE.OCTOROTOR:
                 case MAVLink.MAV_TYPE.TRICOPTER:
                 case MAVLink.MAV_TYPE.DODECAROTOR:
+                case MAVLink.MAV_TYPE.HELICOPTER:
                     return FlightCapability.Rotary;
+
+                case MAVLink.MAV_TYPE.VTOL_DUOROTOR:
+                case MAVLink.MAV_TYPE.VTOL_QUADROTOR:
+                case MAVLink.MAV_TYPE.VTOL_TILTROTOR:
+                case MAVLink.MAV_TYPE.VTOL_RESERVED2:
+                case MAVLink.MAV_TYPE.VTOL_RESERVED3:
+                case MAVLink.MAV_TYPE.VTOL_RESERVED4:
+                case MAVLink.MAV_TYPE.VTOL_RESERVED5:
+                    return FlightCapability.VTOL;
 
                 default:
                     return FlightCapability.Unspecified;
