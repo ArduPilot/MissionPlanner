@@ -41,6 +41,7 @@
             this.cbReducedView = new System.Windows.Forms.CheckBox();
             this.tableLeft = new System.Windows.Forms.TableLayoutPanel();
             this.layoutControl = new OSDConfigurator.GUI.LayoutControl();
+            this.cbHighDefView = new System.Windows.Forms.CheckBox();
             this.tableRoot.SuspendLayout();
             this.tableRight.SuspendLayout();
             this.grEditorOptions.SuspendLayout();
@@ -51,7 +52,7 @@
             // 
             this.panelItemList.AutoScroll = true;
             this.panelItemList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelItemList.Location = new System.Drawing.Point(3, 195);
+            this.panelItemList.Location = new System.Drawing.Point(4, 196);
             this.panelItemList.MinimumSize = new System.Drawing.Size(50, 50);
             this.panelItemList.Name = "panelItemList";
             this.panelItemList.Size = new System.Drawing.Size(405, 183);
@@ -60,9 +61,9 @@
             // groupScreenOptions
             // 
             this.groupScreenOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupScreenOptions.Location = new System.Drawing.Point(3, 110);
+            this.groupScreenOptions.Location = new System.Drawing.Point(3, 123);
             this.groupScreenOptions.Name = "groupScreenOptions";
-            this.groupScreenOptions.Size = new System.Drawing.Size(344, 131);
+            this.groupScreenOptions.Size = new System.Drawing.Size(344, 124);
             this.groupScreenOptions.TabIndex = 1;
             this.groupScreenOptions.TabStop = false;
             this.groupScreenOptions.Text = "Screen Options";
@@ -103,15 +104,16 @@
             // groupOptions
             // 
             this.groupOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupOptions.Location = new System.Drawing.Point(3, 247);
+            this.groupOptions.Location = new System.Drawing.Point(3, 253);
             this.groupOptions.Name = "groupOptions";
-            this.groupOptions.Size = new System.Drawing.Size(344, 131);
+            this.groupOptions.Size = new System.Drawing.Size(344, 125);
             this.groupOptions.TabIndex = 0;
             this.groupOptions.TabStop = false;
             this.groupOptions.Text = "Item Options";
             // 
             // grEditorOptions
             // 
+            this.grEditorOptions.Controls.Add(this.cbHighDefView);
             this.grEditorOptions.Controls.Add(this.cbUseNameCaptions);
             this.grEditorOptions.Controls.Add(this.btnClearAll);
             this.grEditorOptions.Controls.Add(this.btnPaste);
@@ -120,7 +122,7 @@
             this.grEditorOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.grEditorOptions.Location = new System.Drawing.Point(3, 3);
             this.grEditorOptions.Name = "grEditorOptions";
-            this.grEditorOptions.Size = new System.Drawing.Size(344, 101);
+            this.grEditorOptions.Size = new System.Drawing.Size(344, 114);
             this.grEditorOptions.TabIndex = 2;
             this.grEditorOptions.TabStop = false;
             this.grEditorOptions.Text = "Editor Options";
@@ -130,7 +132,7 @@
             this.cbUseNameCaptions.AutoSize = true;
             this.cbUseNameCaptions.Location = new System.Drawing.Point(23, 58);
             this.cbUseNameCaptions.Name = "cbUseNameCaptions";
-            this.cbUseNameCaptions.Size = new System.Drawing.Size(89, 17);
+            this.cbUseNameCaptions.Size = new System.Drawing.Size(103, 19);
             this.cbUseNameCaptions.TabIndex = 4;
             this.cbUseNameCaptions.Text = "Show Names";
             this.cbUseNameCaptions.UseVisualStyleBackColor = true;
@@ -167,7 +169,7 @@
             this.cbReducedView.AutoSize = true;
             this.cbReducedView.Location = new System.Drawing.Point(23, 28);
             this.cbReducedView.Name = "cbReducedView";
-            this.cbReducedView.Size = new System.Drawing.Size(72, 17);
+            this.cbReducedView.Size = new System.Drawing.Size(82, 19);
             this.cbReducedView.TabIndex = 0;
             this.cbReducedView.Text = "Decrease";
             this.cbReducedView.UseVisualStyleBackColor = true;
@@ -194,13 +196,24 @@
             // 
             this.layoutControl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.layoutControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
-            this.layoutControl.Location = new System.Drawing.Point(79, 3);
+            this.layoutControl.Location = new System.Drawing.Point(80, 4);
             this.layoutControl.Name = "layoutControl";
             this.layoutControl.Padding = new System.Windows.Forms.Padding(10);
             this.layoutControl.ScreenControl = null;
+            this.layoutControl.ScreenSize = new System.Drawing.Size(253, 186);
             this.layoutControl.Size = new System.Drawing.Size(253, 186);
             this.layoutControl.TabIndex = 2;
             this.layoutControl.Visualizer = null;
+            // 
+            // cbHighDefView
+            // 
+            this.cbHighDefView.AutoSize = true;
+            this.cbHighDefView.Location = new System.Drawing.Point(23, 88);
+            this.cbHighDefView.Name = "cbHighDefView";
+            this.cbHighDefView.Size = new System.Drawing.Size(108, 24);
+            this.cbHighDefView.TabIndex = 5;
+            this.cbHighDefView.Text = "HD Layout";
+            this.cbHighDefView.UseVisualStyleBackColor = true;
             // 
             // ScreenControl
             // 
@@ -233,5 +246,6 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnPaste;
         private System.Windows.Forms.CheckBox cbUseNameCaptions;
+        private System.Windows.Forms.CheckBox cbHighDefView;
     }
 }

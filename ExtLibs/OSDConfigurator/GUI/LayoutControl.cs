@@ -44,6 +44,17 @@ namespace OSDConfigurator.GUI
                 ReDraw();
             }
         }
+        
+        public bool IsHighDef = false;
+        
+        public Size ScreenSize
+        {
+            set
+            {
+                Visualizer?.SetScreenSizeChar(value);
+                ReDraw();
+            }
+        }
 
         public LayoutControl()
         {
@@ -120,7 +131,14 @@ namespace OSDConfigurator.GUI
             if (DesignMode)
                 return;
 
-            Visualizer.DrawBackground(e.Graphics);
+            if(IsHighDef)
+            {
+                Visualizer.DrawHDBackground(e.Graphics);
+            }
+            else
+            {
+                Visualizer.DrawSDBackground(e.Graphics);
+            }
 
             if (items != null)
             {
