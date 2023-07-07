@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
-using GMap.NET.WindowsForms;
-using MissionPlanner;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
@@ -44,7 +41,6 @@ namespace AltitudeAngelWings.Plugin
             ServiceLocator.Register<IMissionPlannerState>(l => new MissionPlannerStateAdapter(
                 () => l.Resolve<PluginHost>().comPort.MAV.cs));
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new WpfAuthorizeDisplay(
-                l.Resolve<IUiThreadInvoke>(),
                 l.Resolve<PluginHost>().MainForm));
             ServiceLocator.Register<IMessageDisplay>(l => new MessageDisplay(
                 new [] {

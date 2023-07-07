@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
@@ -107,7 +108,8 @@ namespace AltitudeAngelWings.Plugin
         {
             ServiceLocator.Clear();
             ServiceLocator.Register(l => Host);
-            ServiceLocator.Configure();
+            ServiceLocator.ConfigureFromAssembly(Assembly.GetAssembly(typeof(AltitudeAngelPlugin)));
+            ServiceLocator.ConfigureFromAssembly(Assembly.GetAssembly(typeof(IAltitudeAngelService)));
         }
     }
 }

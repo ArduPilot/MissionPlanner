@@ -80,18 +80,5 @@ namespace AltitudeAngelWings
                 configuration.Configure();
             }
         }
-
-        public static void Configure(AppDomain appDomain = null)
-        {
-            if (appDomain == null)
-            {
-                appDomain = AppDomain.CurrentDomain;
-            }
-
-            foreach (var assembly in appDomain.GetAssemblies())
-            {
-                ConfigureFromAssembly(assembly);
-            }
-        }
     }
 }

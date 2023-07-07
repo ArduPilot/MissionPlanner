@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
-using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
-using DotSpatial.Positioning;
-using DotSpatial.Topology;
 using MissionPlanner;
 using MissionPlanner.Utilities;
+using NetTopologySuite.Algorithm;
+using NetTopologySuite.Geometries;
 using NodaTime;
 using Resources = AltitudeAngelWings.Plugin.Properties.Resources;
 
@@ -40,12 +39,13 @@ namespace AltitudeAngelWings.Plugin
             {
                 return null;
             }
-            var envelope = GeometryFactory.Default.CreateMultiPoint(waypoints
-                .Select(l => new Coordinate(l.lng, l.lat))).Envelope;
-            var center = envelope.Center();
-            var minPos = new Position(new Latitude(envelope.Minimum.Y), new Longitude(envelope.Minimum.X));
-            var maxPos = new Position(new Latitude(envelope.Maximum.Y), new Longitude(envelope.Maximum.X));
-            var boundingRadius = (int)Math.Ceiling(minPos.DistanceTo(maxPos).ToMeters().Value);
+            var envelope = GeometryFactory.Default.CreateMultiPoint(
+                waypoints
+                    .Select(l => new Point(l.lng, l.lat))
+                    .ToArray())
+                .Envelope;
+            var center = envelope.Centroid;
+            var minimumBoundingCircle = new MinimumBoundingCircle(envelope);
             return Task.FromResult(new FlightPlan(waypoints.Select(f => new FlightPlanWaypoint
             {
                 Latitude = f.lat,
@@ -55,7 +55,7 @@ namespace AltitudeAngelWings.Plugin
             {
                 CenterLongitude = center.X,
                 CenterLatitude = center.Y,
-                BoundingRadius = boundingRadius,
+                BoundingRadius = (int)Math.Ceiling(minimumBoundingCircle.GetRadius()),
                 FlightCapability = MavTypeToFlightCapability(MainV2.comPort.MAV.aptype),
                 Summary =  _settings.FlightReportName,
                 Description = _settings.FlightReportDescription,

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Service.AltitudeAngelTelemetry.Encryption;
@@ -27,23 +26,15 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(CheckEnableAltitudeAngel), value);
         }
 
-        public bool SurveillanceMode
-        {
-            get
-            {
-                var value = ConfigurationManager.AppSettings["SurveillanceMode"];
-                bool.TryParse(value, out var result);
-                return result;
-            }
-        }
+        public bool SurveillanceMode => false;
 
         public string AuthenticationUrl => $"https://auth.{UrlDomainSuffix}";
 
         public string ApiUrl => $"https://api.{UrlDomainSuffix}";
 
-        public string ClientId => OverrideClientUrlSettings ? OverrideClientId : ConfigurationManager.AppSettings["ClientId"];
+        public string ClientId => OverrideClientUrlSettings ? OverrideClientId : "zHTnuEq0RAWoLy5thcvTtMdwX7r6et2L3MAhxv8a0";
 
-        public string ClientSecret => OverrideClientUrlSettings ? OverrideClientSecret : ConfigurationManager.AppSettings["ClientSecret"];
+        public string ClientSecret => OverrideClientUrlSettings ? OverrideClientSecret : "1ylYlXV4GuWJHIUywFg+XxE6hxsd3P/Dq5+J1PCUGxulC05/GC4Xpg==";
 
         public string[] ClientScopes => new[]
         {
@@ -56,11 +47,11 @@ namespace AltitudeAngelWings.Service
             "tactical_crs"
         };
 
-        public string RedirectUri => $"https://auth{UrlDomainSuffix}/authorization/poll_complete";
+        public string RedirectUri => $"https://auth.{UrlDomainSuffix}/authorization/poll_complete";
 
         public string FlightServiceUrl => $"https://flight.{UrlDomainSuffix}";
 
-        public string UrlDomainSuffix => OverrideClientUrlSettings ? OverrideUrlDomainSuffix : ConfigurationManager.AppSettings["UrlDomainSuffix"];
+        public string UrlDomainSuffix => OverrideClientUrlSettings ? OverrideUrlDomainSuffix : "altitudeangel.com";
 
         public bool OverrideClientUrlSettings
         {
@@ -92,7 +83,7 @@ namespace AltitudeAngelWings.Service
         }
 
         /// <inheritdoc />
-        public bool DisableTelemetrySending => Convert.ToBoolean(ConfigurationManager.AppSettings["DisableTelemetrySending"]);
+        public bool DisableTelemetrySending => false;
 
         public TokenResponse TokenResponse
         {
@@ -100,11 +91,11 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(TokenResponse), value, JsonConvert.SerializeObject);
         }
 
-        public HashType EncryptionHashType => HashType.Hmac256; //TODO add to config file to hide from mission planner
+        public HashType EncryptionHashType => HashType.Hmac256;
 
-        public SymmetricEncryptionType EncryptionType => SymmetricEncryptionType.Aes128; //TODO add to config file to hide from mission planner
+        public SymmetricEncryptionType EncryptionType => SymmetricEncryptionType.Aes128;
 
-        public string EncryptionKeySecret => ConfigurationManager.AppSettings["AA.Telemetry.EncryptionKeySecret"];
+        public string EncryptionKeySecret => "e05b7b90-3866-4eea-9b2a-73b02f46423a";
 
         public TimeSpan MinimumPollInterval
         {

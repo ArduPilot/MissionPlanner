@@ -59,5 +59,14 @@ namespace AltitudeAngelWings.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Altitude Angel Login.
+        /// </summary>
+        public static string WpfAuthorizeDisplay_GetCodeUri_Altitude_Angel_Login {
+            get {
+                return ResourceManager.GetString("WpfAuthorizeDisplay_GetCodeUri_Altitude_Angel_Login", resourceCulture);
+            }
+        }
     }
 }
