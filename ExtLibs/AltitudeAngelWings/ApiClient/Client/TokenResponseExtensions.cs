@@ -1,9 +1,38 @@
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
     public static class TokenResponseExtensions
     {
+        public static string[] AccessTokenScopes(this TokenResponse tokenResponse)
+        {
+            var token = new JwtSecurityToken(tokenResponse.AccessToken);
+            if (!token.Payload.TryGetValue("urn:oauth:scope", out var value))
+            {
+                return Array.Empty<string>();
+            }
+
+            var scopes = new List<string>();
+            switch (value)
+            {
+                case string str:
+                    scopes.Add(str);
+                    break;
+                case IEnumerable<object> values:
+                    scopes.AddRange(values.Select(item => item.ToString()));
+                    break;
+                default:
+                    scopes.Add(JsonExtensions.SerializeToJson(value));
+                    break;
+            }
+
+            scopes.Sort();
+            return scopes.ToArray();
+        }
+
         public static bool IsValidForAuth(this TokenResponse tokenResponse)
         {
             if (tokenResponse == null)

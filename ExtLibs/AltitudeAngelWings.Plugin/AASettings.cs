@@ -265,7 +265,7 @@ namespace AltitudeAngelWings.Plugin
         {
             var user = _altitudeAngelService.CurrentUser;
             lbl_UserDetails.Text = signedIn
-                ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}": string.Empty;
+                ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}\r\n{string.Join("\r\n", _settings.TokenResponse.AccessTokenScopes())}": string.Empty;
             RefreshControlStates();
         }
 
