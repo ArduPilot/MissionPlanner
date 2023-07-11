@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AltitudeAngelWings.Models;
 
@@ -22,5 +23,6 @@ namespace AltitudeAngelWings.Extra
         Task Disarm();
         Task ShowMessageBox(string message, string caption = "Message");
         Task<bool> ShowYesNoMessageBox(string message, string caption = "Message");
+        ProductInfoHeaderValue VersionHeader { get; }
     }
 }

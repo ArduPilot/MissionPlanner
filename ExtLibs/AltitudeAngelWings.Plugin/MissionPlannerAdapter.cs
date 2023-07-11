@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AltitudeAngelWings.Extra;
@@ -22,14 +23,29 @@ namespace AltitudeAngelWings.Plugin
         private readonly ISettings _settings;
         public IMap FlightPlanningMap { get; }
         public IMap FlightDataMap { get; }
+        public ProductInfoHeaderValue VersionHeader { get; }
 
-        public MissionPlannerAdapter(IUiThreadInvoke uiThreadInvoke, IMap flightDataMap, IMap flightPlanningMap, Func<IList<Locationwp>> getFlightPlan, ISettings settings)
+        public MissionPlannerAdapter(IUiThreadInvoke uiThreadInvoke, IMap flightDataMap, IMap flightPlanningMap, Func<IList<Locationwp>> getFlightPlan, ISettings settings, string titleVersionString)
         {
             FlightDataMap = flightDataMap;
             FlightPlanningMap = flightPlanningMap;
             _uiThreadInvoke = uiThreadInvoke;
             _getFlightPlan = getFlightPlan;
             _settings = settings;
+            var lastPart = titleVersionString.LastIndexOf(' ');
+            if (lastPart > 0 && lastPart < titleVersionString.Length - 1)
+            {
+                titleVersionString = titleVersionString.Substring(lastPart + 1);
+            }
+
+            try
+            {
+                VersionHeader = new ProductInfoHeaderValue("MissionPlanner", titleVersionString);
+            }
+            catch (FormatException)
+            {
+                VersionHeader = new ProductInfoHeaderValue("MissionPlanner", "unknown");
+            }
         }
 
         public Task<FlightPlan> GetFlightPlan()

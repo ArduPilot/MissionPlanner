@@ -51,18 +51,21 @@ namespace AltitudeAngelWings
                 l.Resolve<ISettings>(),
                 new DefaultHttpClientFactory(),
                 l.Resolve<IAuthorizeCodeProvider>(),
-                l.Resolve<IMessagesService>()));
+                l.Resolve<IMessagesService>(),
+                l.Resolve<IMissionPlanner>().VersionHeader));
             ServiceLocator.Register<IHttpClientFactory>(l => new AltitudeAngelHttpHandlerFactory(
                 l.Resolve<ITokenProvider>()));
             ServiceLocator.Register<ITelemetryClient>(l => new TelemetryClient(l.Resolve<IAutpService>()));
             ServiceLocator.Register<IFlightClient>(l => new FlightClient(
                 l.Resolve<ISettings>().FlightServiceUrl,
                 l.Resolve<IHttpClientFactory>(),
-                l.Resolve<IAsyncPolicy>()));
+                l.Resolve<IAsyncPolicy>(),
+                l.Resolve<IMissionPlanner>().VersionHeader));
             ServiceLocator.Register<IAltitudeAngelClient>(l => new AltitudeAngelClient(
                 l.Resolve<ISettings>(),
                 l.Resolve<IHttpClientFactory>(),
-                l.Resolve<IAsyncPolicy>()));
+                l.Resolve<IAsyncPolicy>(),
+                l.Resolve<IMissionPlanner>().VersionHeader));
             ServiceLocator.Register<IOutboundNotifsService>(l => new OutboundNotifsService(
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Models;
@@ -29,16 +30,19 @@ namespace AltitudeAngelWings.ApiClient.Client
         private FlurlClient _client;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IAsyncPolicy _asyncPolicy;
+        private readonly ProductInfoHeaderValue _version;
         private readonly ISettings _settings;
 
         public AltitudeAngelClient(
             ISettings settings,
             IHttpClientFactory clientFactory,
-            IAsyncPolicy asyncPolicy)
+            IAsyncPolicy asyncPolicy,
+            ProductInfoHeaderValue version)
         {
             _settings = settings;
             _clientFactory = clientFactory;
             _asyncPolicy = asyncPolicy;
+            _version = version;
         }
 
         protected FlurlClient Client
@@ -46,7 +50,8 @@ namespace AltitudeAngelWings.ApiClient.Client
             {
                 Settings =
                 {
-                    HttpClientFactory = _clientFactory
+                    HttpClientFactory = _clientFactory,
+                    BeforeCall = call => call.HttpRequestMessage.Headers.UserAgent.Add(_version)
                 }
             });
 

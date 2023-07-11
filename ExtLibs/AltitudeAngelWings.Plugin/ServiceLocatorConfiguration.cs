@@ -37,7 +37,8 @@ namespace AltitudeAngelWings.Plugin
                         l.Resolve<IUiThreadInvoke>()),
                     l.Resolve<ISettings>()),
                 () => GetCurrentFlightPlan(l.Resolve<PluginHost>().MainForm.FlightPlanner),
-                l.Resolve<ISettings>()));
+                l.Resolve<ISettings>(),
+                l.Resolve<PluginHost>().MainForm.Text));
             ServiceLocator.Register<IMissionPlannerState>(l => new MissionPlannerStateAdapter(
                 () => l.Resolve<PluginHost>().comPort.MAV.cs));
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new WpfAuthorizeDisplay(

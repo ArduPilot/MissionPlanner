@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,13 +19,15 @@ namespace AltitudeAngelWings.ApiClient.Client
         private readonly IAuthorizeCodeProvider _provider;
         private readonly IMessagesService _messagesService;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1);
+        private readonly ProductInfoHeaderValue _version;
 
-        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAuthorizeCodeProvider provider, IMessagesService messagesService)
+        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAuthorizeCodeProvider provider, IMessagesService messagesService, ProductInfoHeaderValue version)
         {
             _settings = settings;
             _clientFactory = clientFactory;
             _provider = provider;
             _messagesService = messagesService;
+            _version = version;
         }
 
         public async Task<string> GetToken(CancellationToken cancellationToken)
@@ -89,7 +92,11 @@ namespace AltitudeAngelWings.ApiClient.Client
             var client = _clientFactory.CreateHttpClient(new HttpClientHandler());
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_settings.AuthenticationUrl}/oauth/v2/token")
             {
-                Content = postBody()
+                Content = postBody(),
+                Headers =
+                {
+                    UserAgent = { _version }
+                }
             };
             using (var response = await client.SendAsync(request, cancellationToken))
             {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl.Http.Configuration;
 using Polly;
+using System.Net.Http.Headers;
 
 namespace AltitudeAngelWings.ApiClient.Client.FlightClient
 {
@@ -15,7 +16,7 @@ namespace AltitudeAngelWings.ApiClient.Client.FlightClient
         private readonly IAsyncPolicy _asyncPolicy;
         private readonly FlurlClient _client;
 
-        public FlightClient(string flightServiceUrl, IHttpClientFactory clientFactory, IAsyncPolicy asyncPolicy)
+        public FlightClient(string flightServiceUrl, IHttpClientFactory clientFactory, IAsyncPolicy asyncPolicy, ProductInfoHeaderValue version)
         {
             _flightServiceUrl = flightServiceUrl;
             _asyncPolicy = asyncPolicy;
@@ -23,7 +24,8 @@ namespace AltitudeAngelWings.ApiClient.Client.FlightClient
             {
                 Settings =
                 {
-                    HttpClientFactory = clientFactory
+                    HttpClientFactory = clientFactory,
+                    BeforeCall = call => call.HttpRequestMessage.Headers.UserAgent.Add(version)
                 }
             };
         }
