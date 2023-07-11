@@ -13,18 +13,16 @@ namespace AltitudeAngelWings.Service
         string FlightServiceUrl { get; }
         string ClientId { get; }
         string ClientSecret { get; }
-        bool SurveillanceMode { get; }
+        bool UseFlightPlans { get; set; }
+        bool UseFlights { get; set; }
         TokenResponse TokenResponse { get; set; }
         IList<FilterInfoDisplay> MapFilters { get; set; }
-        bool FlightReportEnable { get; set; }
         bool UseExistingFlightPlanId { get; set; }
-        bool UseFlightPlanLocalScope { get; set; }
         Guid ExistingFlightPlanId { get; set; }
         string CurrentFlightReportId { get; set; }
         string CurrentFlightId { get; set; }
         string FlightReportName { get; set; }
         string FlightReportDescription { get; set; }
-        bool FlightReportCommercial { get; set; }
         TimeSpan FlightReportTimeSpan { get; set; }
         HashType EncryptionHashType { get; }
         string EncryptionKeySecret { get; }
@@ -36,7 +34,7 @@ namespace AltitudeAngelWings.Service
         int TransmissionRateInMilliseconds { get; set; }
         TimeSpan MinimumPollInterval { get; set; }
         string OutboundNotifsEndpointUrl { get; set; }
-        bool DisableTelemetrySending { get; }
+        bool SendFlightTelemetry { get; set; }
         string UrlDomainSuffix { get; }
         bool OverrideClientUrlSettings { get; set; }
         string OverrideClientId { get; set; }

@@ -67,16 +67,19 @@ namespace AltitudeAngelWings.Service
                 .MapChanged
                 .SubscribeWithAsync((i, ct) => UpdateMapData(_missionPlanner.FlightPlanningMap, ct)));
 
-            _disposer.Add(_missionPlanner.FlightDataMap
-                .FeatureClicked
-                .Select(f => new { Feature = f, Properties = f.GetFeatureProperties()})
-                .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
-                .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
-            _disposer.Add(_missionPlanner.FlightPlanningMap
-                .FeatureClicked
-                .Select(f => new { Feature = f, Properties = f.GetFeatureProperties()})
-                .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
-                .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
+            if (_settings.UseFlightPlans)
+            {
+                _disposer.Add(_missionPlanner.FlightDataMap
+                    .FeatureClicked
+                    .Select(f => new { Feature = f, Properties = f.GetFeatureProperties() })
+                    .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
+                    .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
+                _disposer.Add(_missionPlanner.FlightPlanningMap
+                    .FeatureClicked
+                    .Select(f => new { Feature = f, Properties = f.GetFeatureProperties() })
+                    .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
+                    .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
+            }
         }
 
         public async Task SignInAsync()
@@ -313,7 +316,7 @@ namespace AltitudeAngelWings.Service
             _settings.ExistingFlightPlanId = Guid.Parse(feature.Id);
             _settings.UseExistingFlightPlanId = true;
             await _messagesService.AddMessageAsync(new Message($"Current flight plan ID set to {feature.Id}")
-                { TimeToLive = TimeSpan.FromSeconds(10) });
+            { TimeToLive = TimeSpan.FromSeconds(10) });
         }
 
         public void Dispose()

@@ -26,10 +26,16 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(CheckEnableAltitudeAngel), value);
         }
 
-        public bool SurveillanceMode
+        public bool UseFlightPlans
         {
-            get => Get(nameof(SurveillanceMode), false, bool.Parse);
-            set => Set(nameof(SurveillanceMode), value);
+            get => Get(nameof(UseFlightPlans), false, bool.Parse);
+            set => Set(nameof(UseFlightPlans), value);
+        }
+
+        public bool UseFlights
+        {
+            get => Get(nameof(UseFlights), false, bool.Parse);
+            set => Set(nameof(UseFlights), value);
         }
 
         public string AuthenticationUrl => $"https://auth.{UrlDomainSuffix}";
@@ -86,10 +92,10 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(OutboundNotifsEndpointUrl), value);
         }
 
-        public bool DisableTelemetrySending
+        public bool SendFlightTelemetry
         {
-            get => Get(nameof(DisableTelemetrySending), false, bool.Parse);
-            set => Set(nameof(DisableTelemetrySending), value);
+            get => Get(nameof(SendFlightTelemetry), false, bool.Parse);
+            set => Set(nameof(SendFlightTelemetry), value);
         }
 
         public TokenResponse TokenResponse
@@ -116,22 +122,10 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(MapFilters), value, JsonConvert.SerializeObject);
         }
 
-        public bool FlightReportEnable
-        {
-            get => Get(nameof(FlightReportEnable), true, bool.Parse);
-            set => Set(nameof(FlightReportEnable), value);
-        }
-
         public bool UseExistingFlightPlanId
         {
             get => Get(nameof(UseExistingFlightPlanId), false, bool.Parse);
             set => Set(nameof(UseExistingFlightPlanId), value);
-        }
-
-        public bool UseFlightPlanLocalScope
-        {
-            get => Get(nameof(UseFlightPlanLocalScope), false, bool.Parse);
-            set => Set(nameof(UseFlightPlanLocalScope), value);
         }
 
         public Guid ExistingFlightPlanId
@@ -162,12 +156,6 @@ namespace AltitudeAngelWings.Service
         {
             get => Get(nameof(FlightReportDescription), "Mission Planner flight report", s => s);
             set => Set(nameof(FlightReportDescription), value);
-        }
-
-        public bool FlightReportCommercial
-        {
-            get => Get(nameof(FlightReportCommercial), false, bool.Parse);
-            set => Set(nameof(FlightReportCommercial), value);
         }
 
         public TimeSpan FlightReportTimeSpan

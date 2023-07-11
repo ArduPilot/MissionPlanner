@@ -83,7 +83,7 @@ namespace AltitudeAngelWings.Plugin
                 Summary =  _settings.FlightReportName,
                 Description = _settings.FlightReportDescription,
                 Duration = Duration.FromTimeSpan(_settings.FlightReportTimeSpan),
-                UseLocalConflictScope = _settings.UseFlightPlanLocalScope,
+                UseLocalConflictScope = false,
                 AllowSmsContact = false,
                 SmsPhoneNumber = "",
                 DroneSerialNumber = "",

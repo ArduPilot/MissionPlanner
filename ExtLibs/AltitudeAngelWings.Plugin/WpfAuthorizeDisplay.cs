@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.Properties;
+using AltitudeAngelWings.Plugin.Properties;
 
 namespace AltitudeAngelWings.Plugin
 {
@@ -40,7 +42,8 @@ namespace AltitudeAngelWings.Plugin
                 form.Height = _height;
                 form.MaximizeBox = false;
                 form.FormBorderStyle = FormBorderStyle.FixedSingle;
-                form.Text = Resources.WpfAuthorizeDisplay_GetCodeUri_Altitude_Angel_Login;
+                form.Text = Resources.LoginWindowTitleText;
+                form.Icon = Resources.AAIcon;
                 var webBrowser = new WebBrowser();
                 webBrowser.Navigating += WebBrowserOnNavigating;
                 webBrowser.Navigated += WebBrowserOnNavigated;

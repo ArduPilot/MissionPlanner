@@ -61,6 +61,16 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon AAIcon {
+            get {
+                object obj = ResourceManager.GetObject("AAIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] AALogo {
@@ -86,8 +96,15 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you wish to enable Altitude Angel airspace management data?
-        ///For more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com].
+        ///   Looks up a localized string similar to Do you wish to enable the Altitude Angel plugin?
+        ///
+        ///Clicking &quot;Yes&quot; will provide you with Altitude Angel&apos;s trusted and worldwide airspace and ground hazard data directly on the
+        ///Mission Planner maps, enabling you to plan for safer flights. You will be asked to login with your Altitude Angel account,
+        ///or register for a new account if you don&apos;t have one.
+        ///
+        ///You can always access the settings for this plugin by right-clicking the map and choosing &quot;Altitude Angel Settings&quot;.
+        ///
+        ///For more information, privacy polic [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AskToEnableAltitudeAngel {
             get {
@@ -96,7 +113,7 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Altitude Angel - Enable.
+        ///   Looks up a localized string similar to Altitude Angel Plugin.
         /// </summary>
         internal static string AskToEnableCaption {
             get {
@@ -110,6 +127,15 @@ namespace AltitudeAngelWings.Plugin.Properties {
         internal static string ExplicitClickPrefix {
             get {
                 return ResourceManager.GetString("ExplicitClickPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Altitude Angel Login.
+        /// </summary>
+        internal static string LoginWindowTitleText {
+            get {
+                return ResourceManager.GetString("LoginWindowTitleText", resourceCulture);
             }
         }
         

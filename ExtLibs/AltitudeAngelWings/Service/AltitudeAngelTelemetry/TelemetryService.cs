@@ -28,12 +28,14 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             _settings = settings;
             _client = client;
 
-            if (_settings.DisableTelemetrySending) return;
-            _disposer.Add(flightDataService.ArmedFlightData
-                .SubscribeWithAsync((i, ct) => SendTelemetry(i)));
+            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry)
+            {
+                _disposer.Add(flightDataService.ArmedFlightData
+                    .SubscribeWithAsync((i, ct) => SendTelemetry(i)));
 
-            _disposer.Add(flightDataService.FlightDisarmed
-                .SubscribeWithAsync((i, ct) => FlightDisarmed(i)));
+                _disposer.Add(flightDataService.FlightDisarmed
+                    .SubscribeWithAsync((i, ct) => FlightDisarmed(i)));
+            }
         }
 
         private Task FlightDisarmed(Models.FlightData flightData)

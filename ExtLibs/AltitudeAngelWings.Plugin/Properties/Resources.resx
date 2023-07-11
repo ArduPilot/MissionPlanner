@@ -118,14 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AskToEnableAltitudeAngel" xml:space="preserve">
-    <value>Do you wish to enable Altitude Angel airspace management data?
-For more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]</value>
+    <value>Do you wish to enable the Altitude Angel plugin?
+
+Clicking "Yes" will provide you with Altitude Angel's trusted and worldwide airspace and ground hazard data directly on the
+Mission Planner maps, enabling you to plan for safer flights. You will be asked to login with your Altitude Angel account,
+or register for a new account if you don't have one.
+
+You can always access the settings for this plugin by right-clicking the map and choosing "Altitude Angel Settings".
+
+For more information, privacy policy, and terms and conditions, visit: [link;https://www.altitudeangel.com;www.altitudeangel.com]</value>
   </data>
   <data name="ExplicitClickPrefix" xml:space="preserve">
     <value>Altitude Angel is currently disabled. </value>
   </data>
   <data name="AskToEnableCaption" xml:space="preserve">
-    <value>Altitude Angel - Enable</value>
+    <value>Altitude Angel Plugin</value>
   </data>
   <data name="SettingsMenuItemText" xml:space="preserve">
     <value>Altitude Angel Settings</value>
@@ -241,5 +248,11 @@ For more information visit [link;http://www.altitudeangel.com;www.altitudeangel.
   </data>
   <data name="MapInfoDockPanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MapInfoDockPanel.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LoginWindowTitleText" xml:space="preserve">
+    <value>Altitude Angel Login</value>
+  </data>
+  <data name="AAIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AAIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

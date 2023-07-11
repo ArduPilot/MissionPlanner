@@ -41,7 +41,7 @@ namespace AltitudeAngelWings.Service.FlightService
             _settings.CurrentFlightReportId = null;
             _settings.CurrentFlightId = null;
 
-            if (_settings.SurveillanceMode)
+            if (_settings.UseFlightPlans && _settings.UseFlights)
             {
                 _disposer.Add(flightDataService.FlightArmed
                     .SubscribeWithAsync(async (i, ct) => await StartSurveillanceFlight(await _missionPlanner.GetFlightPlan())));

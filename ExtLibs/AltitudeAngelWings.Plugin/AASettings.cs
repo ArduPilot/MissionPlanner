@@ -40,15 +40,14 @@ namespace AltitudeAngelWings.Plugin
 
             ThemeManager.ApplyThemeTo(this);
             pic_AboutLogo.Image = Image.FromStream(new MemoryStream(Resources.AALogo));
+            Icon = Resources.AAIcon;
 
             // load settings
-            chk_FlightReportEnable.Checked = _settings.FlightReportEnable;
+            chk_FlightReportEnable.Checked = _settings.UseFlightPlans;
             chk_UseExistingFlightPlanId.Checked = _settings.UseExistingFlightPlanId;
             txt_ExistingFlightPlanId.Text = _settings.ExistingFlightPlanId == Guid.Empty ? "" : _settings.ExistingFlightPlanId.ToString();
             txt_FlightReportName.Text = _settings.FlightReportName;
             txt_FlightReportDescription.Text = _settings.FlightReportDescription;
-            chk_FlightReportCommercial.Checked = _settings.FlightReportCommercial;
-            chk_FlightReportLocalScope.Checked = _settings.UseFlightPlanLocalScope;
             txt_FlightReportDuration.Text = ((int)_settings.FlightReportTimeSpan.TotalMinutes).ToString();
             but_SignIn.Enabled = !_altitudeAngelService.IsSignedIn;
             but_SignOut.Enabled = _altitudeAngelService.IsSignedIn;
@@ -119,15 +118,9 @@ namespace AltitudeAngelWings.Plugin
             RefreshControlStates();
         }
 
-        private void chk_FlightReportCommercial_CheckedChanged(object sender, EventArgs e)
-        {
-            _settings.FlightReportCommercial = chk_FlightReportCommercial.Checked;
-            RefreshControlStates();
-        }
-
         private void chk_FlightReportEnable_CheckedChanged(object sender, EventArgs e)
         {
-            _settings.FlightReportEnable = chk_FlightReportEnable.Checked;
+            _settings.UseFlightPlans = chk_FlightReportEnable.Checked;
             RefreshControlStates();
         }
 
@@ -145,12 +138,6 @@ namespace AltitudeAngelWings.Plugin
         private void txt_ExistingFlightPlanId_TextChanged(object sender, EventArgs e)
         {
             _settings.ExistingFlightPlanId = Guid.TryParse(txt_ExistingFlightPlanId.Text, out var id) ? id : Guid.Empty;
-            RefreshControlStates();
-        }
-
-        private void chk_FlightReportLocalScope_CheckedChanged(object sender, EventArgs e)
-        {
-            _settings.UseFlightPlanLocalScope = chk_FlightReportLocalScope.Checked;
             RefreshControlStates();
         }
 
@@ -331,8 +318,6 @@ namespace AltitudeAngelWings.Plugin
             txt_FlightReportDescription.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             lbl_FlightReportDuration.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             txt_FlightReportDuration.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            chk_FlightReportCommercial.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            chk_FlightReportLocalScope.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             lbl_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings;
             txt_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings;
             lbl_OverrideClientSecret.Enabled = _settings.OverrideClientUrlSettings;
