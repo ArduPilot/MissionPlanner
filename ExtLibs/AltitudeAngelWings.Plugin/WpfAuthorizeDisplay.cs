@@ -45,6 +45,7 @@ namespace AltitudeAngelWings.Plugin
                 form.Text = Resources.LoginWindowTitleText;
                 form.Icon = Resources.AAIcon;
                 var webBrowser = new WebBrowser();
+                webBrowser.ScriptErrorsSuppressed = true;
                 webBrowser.Navigating += WebBrowserOnNavigating;
                 webBrowser.Navigated += WebBrowserOnNavigated;
                 webBrowser.Dock = DockStyle.Fill;
