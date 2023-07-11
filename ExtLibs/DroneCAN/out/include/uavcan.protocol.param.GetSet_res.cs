@@ -1,4 +1,3 @@
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,8 +18,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.protocol.param.NumericValue.cs
 //using uavcan.protocol.param.Value.cs
+//using uavcan.protocol.param.NumericValue.cs
         public partial class uavcan_protocol_param_GetSet_res: IDroneCANSerialize 
         {
             public const int UAVCAN_PROTOCOL_PARAM_GETSET_RES_MAX_PACK_SIZE = 371;

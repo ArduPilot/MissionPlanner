@@ -10,6 +10,11 @@
 # with their default values. The node may require a restart in order for some changes to take effect.
 #
 # Other opcodes may be added in the future (for example, an opcode for switching between multiple configurations).
+
+# note that implementors may choose to make parameter set operations
+# be immediately persistent, or can choose to make them temporary,
+# requiring a ExecuteOpcode with OPCODE_SAVE to put into persistent
+# storage
 #
 uint8 OPCODE_SAVE  = 0  # Save all parameters to non-volatile storage.
 uint8 OPCODE_ERASE = 1  # Clear the non-volatile storage; some changes may take effect only after reboot.

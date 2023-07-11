@@ -74,6 +74,7 @@ def build_message(msg_name):
 if __name__ == '__main__':
     print("start main")
     if buildlist is not None:
+        print("buildlist is not None")
         while True:
             new_buildlist = set(buildlist)
             for msg_name in buildlist:
@@ -90,15 +91,15 @@ if __name__ == '__main__':
 
             buildlist = new_buildlist
 
-    #from multiprocessing import Pool
+    from multiprocessing import Pool
 
-    #pool = Pool(2)
+    pool = Pool(8)
     builtlist = set()
     if buildlist is not None:
         for msg_name in buildlist:
             builtlist.add(msg_name)
-            #pool.apply_async(build_message, (msg_name,))
-            build_message(msg_name)
+            pool.apply_async(build_message, (msg_name,))
+            #build_message(msg_name)
             msg = message_dict[msg_name]
             print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
@@ -108,10 +109,12 @@ if __name__ == '__main__':
                 message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, (b,s) => %s_req.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
                 message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, (b,s) => %s_res.ByteArrayToDroneCANMsg(b,s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
     else:
+        print("buildlist is None")
+        print(f'{os.getpid()}: {os.getcwd()}')
         for msg_name in [msg.full_name for msg in messages]:
             print ('building %s' % (msg_name,))
-            builtlist.add(msg_name)
-            #pool.apply_async(build_message, (msg_name,))
+            #builtlist.add(msg_name)
+            pool.apply_async(build_message, (msg_name,))
             build_message(msg_name)
             msg = message_dict[msg_name]
             print (dir(msg))
@@ -122,8 +125,8 @@ if __name__ == '__main__':
                 message_names_enum += '\t(typeof(%s_req), %s, 0x%08X, (b,s,fd) => %s_req.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
                 message_names_enum += '\t(typeof(%s_res), %s, 0x%08X, (b,s,fd) => %s_res.ByteArrayToDroneCANMsg(b,s,fd)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
  
-    #pool.close()
-    #pool.join()
+    pool.close()
+    pool.join()
 
     assert buildlist is None or not buildlist-builtlist, "%s not built" % (buildlist-builtlist,)
 
