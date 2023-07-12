@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DroneCAN;
 using Timer = System.Windows.Forms.Timer;
+using static DroneCAN.DroneCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -341,7 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
                         gnireq.encode(DroneCAN.DroneCAN.dronecan_transmit_chunk_handler, statetracking);
 
-                        var slcan = can.PackageMessageSLCAN(frame.SourceNode, 30, 0, gnireq);
+                        var slcan = can.PackageMessageSLCAN(frame.SourceNode, 30, can.TransferID++, gnireq);
                         can.WriteToStreamSLCAN(slcan);
                     }
 
@@ -606,6 +607,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             mavlinkCANRun = false;
+            try
+            {
+                if (listener != null)
+                    listener.Stop();
+            }
+            catch
+            {
+            }
+
+            listener = null;
             can?.Stop(chk_canonclose.Checked);
             can = null;
             timer?.Stop();
@@ -665,7 +676,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
 
                         listener = new TcpListener(IPAddress.Any, port);
-                        listener.Start();
+                        listener.Start(1);
 
                         int tcpbps = 0;
                         int rtcmbps = 0;
@@ -732,7 +743,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                         Console.WriteLine();
                                         tcpbps += read;
-                                        var slcan = can.PackageMessageSLCAN(0, 30, 0,
+                                        var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
                                             new DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream()
                                                 {protocol_id = 3, data = buffer, data_len = (byte) read});
                                         can.WriteToStreamSLCAN(slcan);
@@ -869,6 +880,221 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var frm = paneltop.ShowUserControl();
             
             frm.Invalidate();
+        }
+
+        private void menu_passthrough4_Click(object sender, EventArgs e)
+        {
+            if (listener != null)
+            {
+                menu_passthrough4.Checked = false;
+                listener.Stop();
+                CustomMessageBox.Show("Stop", "Disabled forwarding");
+                listener = null;
+                return;
+            }
+
+            var port = 500;
+            var baudrate = 230400;
+            var target_node =
+                byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString());
+            if (InputBox.Show("Enter TCP Port", "Enter TCP Port", ref port) != DialogResult.OK)
+            {
+                return;
+            }
+
+            if (InputBox.Show("Enter Baudrate", "Enter Baudrate", ref baudrate) != DialogResult.OK)
+            {
+                return;
+            }
+
+            menu_passthrough4.Checked = true;
+
+            Task.Run(() =>
+            {
+                try
+                {
+
+                    listener = new TcpListener(IPAddress.Any, port);
+                    listener.Start(1);
+
+                    int tcpbps = 0;
+                    int tunnelbps = 0;
+                    int combps = 0;
+                    int second = 0;
+
+                    {
+                        var bauds = new[] {  9600, 38400, 57600, 115200, 230400, 460800 };
+
+                        foreach (var baud in bauds)
+                        {
+                            var packet = Ubx.generate(0x6, 0x00, new byte[]
+                            {
+                                0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 
+                                (byte)(baudrate & 0xff),
+                                (byte)((baudrate >> 8) & 0xff),
+                                (byte)((baudrate >> 16) & 0xff), 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00
+                            });
+
+                            packet = new byte[] { 0x55, 0x55 }.Concat(packet).ToArray();
+
+                            var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
+                                new DroneCAN.DroneCAN.uavcan_tunnel_Targetted()
+                                {
+                                    protocol = new uavcan_tunnel_Protocol()
+                                    {
+                                        protocol = (byte)uavcan_tunnel_Protocol
+                                            .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
+                                    },
+                                    target_node = target_node,
+                                    serial_id = -1,
+                                    baudrate = (uint)baud,
+                                    options = (byte)uavcan_tunnel_Targetted
+                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                    buffer_len = (byte)packet.Length,
+                                    buffer = packet
+                                });
+                            can.WriteToStreamSLCAN(slcan);
+                            Thread.Sleep(100);
+                        }
+                    }
+
+                    while (true)
+                    {
+                        using (var client = listener.AcceptTcpClient())
+                        {
+                            client.NoDelay = true;
+
+                            using (var st = client.GetStream())
+                            {
+                                DroneCAN.DroneCAN.MessageRecievedDel mrd = (frame, msg, id) =>
+                                {
+                                    combps += frame.SizeofEntireMsg;
+                                    if (frame.MsgTypeID == DroneCAN.DroneCAN.uavcan_tunnel_Targetted
+                                            .UAVCAN_TUNNEL_TARGETTED_DT_ID)
+                                    {
+                                        var data = msg as DroneCAN.DroneCAN.uavcan_tunnel_Targetted;
+                                        if (frame.SourceNode != target_node)
+                                        {
+                                            // not addressed to us
+                                            return;
+                                        }
+
+                                        if (data.target_node != can.SourceNode)
+                                        {
+                                            // not for us
+                                            return;
+                                        }
+                                        try
+                                        {
+                                            tunnelbps += data.buffer_len;
+                                            st.Write(data.buffer, 0, data.buffer_len);
+                                            st.Flush();
+                                        }
+                                        catch
+                                        {
+                                            return;
+                                        }
+                                    }
+                                };
+
+                                can.MessageReceived -= mrd;
+                                can.MessageReceived += mrd;
+
+                                try
+                                {
+                                    var lastsend = DateTime.MinValue;
+                                    while (client.Connected)
+                                    {
+                                        if (listener == null)
+                                        {
+                                            if(can != null)
+                                                can.MessageReceived -= mrd;
+                                            client.Close();
+                                            return;
+                                        }
+
+                                        if (client.Available > 0)
+                                        {
+                                            var toread = Math.Min(client.Available, 120);
+                                            byte[] buffer = new byte[toread];
+                                            var read = st.Read(buffer, 0, toread);
+                                            /*foreach (var b in buffer)
+                                    {
+                                        Console.Write("0x{0:X} ", b);
+                                    }
+
+                                    Console.WriteLine();*/
+                                            tcpbps += read;
+                                            var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
+                                                new DroneCAN.DroneCAN.uavcan_tunnel_Targetted()
+                                                {
+                                                    protocol = new uavcan_tunnel_Protocol()
+                                                    {
+                                                        protocol = (byte)uavcan_tunnel_Protocol
+                                                            .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
+                                                    },
+                                                    target_node = target_node, serial_id = -1,
+                                                    baudrate = (uint)baudrate,
+                                                    options = (byte)uavcan_tunnel_Targetted
+                                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                                    buffer = buffer, buffer_len = (byte)read
+                                                });
+                                            can.WriteToStreamSLCAN(slcan);
+                                            lastsend = DateTime.Now;
+                                        }
+                                        else
+                                            Thread.Sleep(1);
+
+                                        if ((DateTime.Now - lastsend).TotalSeconds >= 0.5 )
+                                        {
+                                            var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
+                                                new DroneCAN.DroneCAN.uavcan_tunnel_Targetted()
+                                                {
+                                                    protocol = new uavcan_tunnel_Protocol()
+                                                    {
+                                                        protocol = (byte)uavcan_tunnel_Protocol
+                                                            .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
+                                                    },
+                                                    target_node = target_node,
+                                                    serial_id = -1,
+                                                    baudrate = (uint)baudrate,
+                                                    options = (byte)uavcan_tunnel_Targetted
+                                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                                    buffer_len = 0,
+                                                    buffer = Array.Empty<byte>()
+                                                });
+                                            can.WriteToStreamSLCAN(slcan);
+                                            lastsend = DateTime.Now;
+                                        }
+
+                                        if (second != DateTime.Now.Second)
+                                        {
+                                            Console.WriteLine("tcp:{0} can:{1} tunn:{2} avail:{3}", tcpbps, combps,
+                                                tunnelbps,
+                                                client.Available);
+                                            tcpbps = combps = tunnelbps = 0;
+                                            second = DateTime.Now.Second;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    can.MessageReceived -= mrd;
+                                    Console.WriteLine(ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    CustomMessageBox.Show(Strings.ERROR, "Forwarder problem " + exception.ToString());
+                    if (listener != null)
+                        listener.Stop();
+                    listener = null;
+                    this.InvokeIfRequired(() => { menu_passthrough4.Checked = true; });
+                }
+            });
         }
     }
 }
