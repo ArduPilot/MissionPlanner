@@ -53,6 +53,7 @@ namespace AltitudeAngelWings.Service
             "talk_tower",
             "query_userinfo",
             "manage_flightreports",
+            "request_flightapprovals",
             "strategic_crs",
             "tactical_crs"
         };

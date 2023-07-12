@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -73,14 +74,18 @@ namespace AltitudeAngelWings.ApiClient.Client
         private async Task<string> AskUserForAccessToken(CancellationToken cancellationToken)
         {
             var redirectUri = new Uri(_settings.RedirectUri);
-            var result = await _provider.GetCodeUri(
+
+            var parameters = HttpUtility.ParseQueryString(string.Empty);
+            parameters.Add("client_id", _settings.ClientId);
+            parameters.Add("redirect_uri", redirectUri.ToString());
+            parameters.Add("scope", string.Join(" ", _settings.ClientScopes));
+            parameters.Add("response_type", "code");
+            _provider.GetAuthorizeParameters(parameters);
+            
+            var code = await _provider.GetAuthorizeCode(
                 FormatCodeAuthorizeUri(
                     new Uri($"{_settings.AuthenticationUrl}/oauth/v2/authorize"),
-                    _settings.ClientId,
-                    redirectUri,
-                    _settings.ClientScopes),
-                redirectUri);
-            var code = GetAuthCodeFromRedirect(result);
+                    parameters));
             _settings.TokenResponse = await MakeTokenRequest(
                 () => GetTokenRequestBody("authorization_code", "code", code),
                 cancellationToken);
@@ -122,30 +127,13 @@ namespace AltitudeAngelWings.ApiClient.Client
                 ["token_format"] = "jwt"
             });
 
-        private static Uri FormatCodeAuthorizeUri(Uri baseUri, string clientId, Uri redirectUri, string[] scopes)
+        private static Uri FormatCodeAuthorizeUri(Uri baseUri, NameValueCollection parameters)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query.Add("client_id", clientId);
-            query.Add("redirect_uri", redirectUri.ToString());
-            query.Add("scope", string.Join(" ", scopes));
-            query.Add("response_type", "code");
             var builder = new UriBuilder(baseUri)
             {
-                Query = query.ToString()
+                Query = parameters.ToString()
             };
             return builder.Uri;
-        }
-
-        private static string GetAuthCodeFromRedirect(Uri redirect)
-        {
-            var queryString = HttpUtility.ParseQueryString(redirect.Query);
-            var code = queryString.Get("code");
-            if (string.IsNullOrEmpty(code))
-            {
-                throw new InvalidOperationException($"Code not found in redirect URI '{redirect}'");
-            }
-
-            return code;
         }
     }
 }

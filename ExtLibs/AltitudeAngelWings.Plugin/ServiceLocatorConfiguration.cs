@@ -41,8 +41,9 @@ namespace AltitudeAngelWings.Plugin
                 l.Resolve<PluginHost>().MainForm.Text));
             ServiceLocator.Register<IMissionPlannerState>(l => new MissionPlannerStateAdapter(
                 () => l.Resolve<PluginHost>().comPort.MAV.cs));
-            ServiceLocator.Register<IAuthorizeCodeProvider>(l => new WpfAuthorizeDisplay(
-                l.Resolve<PluginHost>().MainForm));
+            ServiceLocator.Register<IAuthorizeCodeProvider>(l => new ExternalWebBrowserAuthorizeCodeProvider(
+                l.Resolve<ISettings>(),
+                l.Resolve<IMissionPlanner>().VersionHeader));
             ServiceLocator.Register<IMessageDisplay>(l => new MessageDisplay(
                 new [] {
                     l.Resolve<PluginHost>().FDGMapControl.Parent,

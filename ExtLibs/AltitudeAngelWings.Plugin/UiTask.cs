@@ -1,0 +1,129 @@
+﻿using System;
+using System.Drawing;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MissionPlanner;
+using MissionPlanner.Utilities;
+
+namespace AltitudeAngelWings.Plugin
+{
+    public static class UiTask
+    {
+        private static readonly TimeSpan TaskCheckInterval = TimeSpan.FromMilliseconds(100);
+        private static readonly TimeSpan WaitToShowTime = TimeSpan.FromMilliseconds(200);
+
+        public static T ShowDialog<T>(Func<CancellationToken, Task<T>> runTask, string description)
+        {
+            T result = default;
+            using (var form = new Form())
+            {
+                ThemeManager.ApplyThemeTo(form);
+                form.Width = 500;
+                form.Height = 300;
+                form.MinimizeBox = false;
+                form.MaximizeBox = false;
+                form.ShowInTaskbar = false;
+                form.FormBorderStyle = FormBorderStyle.None;
+                form.Load += (sender, args) =>
+                {
+                    if (form.Owner != null)
+                    {
+                        form.Location = new Point(
+                            form.Owner.Location.X + form.Owner.Width / 2 - form.Width / 2,
+                            form.Owner.Location.Y + form.Owner.Height / 2 - form.Height / 2);
+                    }
+                };
+                form.Shown += (sender, args) =>
+                {
+                    result = ShowWaitPanel(form, runTask, description, false);
+                    form.DialogResult = DialogResult.OK;
+                };
+                form.ShowDialog(MainV2.instance);
+            }
+
+            return result;
+        }
+
+
+        public static T ShowWaitPanel<T>(Control parentControl, Func<CancellationToken, Task<T>> runTask, string description, bool waitToShow = true)
+        {
+            var cts = new CancellationTokenSource();
+            WaitPanel panel = null;
+            var start = DateTimeOffset.UtcNow;
+            var waitTime = waitToShow ? WaitToShowTime : TimeSpan.Zero;
+            var task = runTask(cts.Token);
+            try
+            {
+                do
+                {
+                    if (panel == null && DateTimeOffset.UtcNow.Subtract(start) >= waitTime)
+                    {
+                        panel = ShowWaitPanel(parentControl, description, cts);
+                    }
+
+                    Application.DoEvents();
+                } while (!task.Wait(TaskCheckInterval));
+                return task.GetAwaiter().GetResult();
+            }
+            catch (TaskCanceledException)
+            {
+                // This is OK
+            }
+            catch (AggregateException ae) when (ae.InnerExceptions.Any(e => e.GetType() == typeof(TaskCanceledException)))
+            {
+                // This is OK
+            }
+            catch (Exception e)
+            {
+                DisplayException(description, e);
+            }
+            finally
+            {
+                if (panel != null)
+                {
+                    HideWaitPanel(parentControl, panel);
+                }
+            }
+
+            return default;
+        }
+
+        private static WaitPanel ShowWaitPanel(Control parentControl, string description, CancellationTokenSource cts)
+        {
+            parentControl.SuspendLayout();
+            var panel = new WaitPanel
+            {
+                Size = parentControl.ClientSize,
+                Operation = description
+            };
+            parentControl.Controls.Add(panel);
+            panel.BringToFront();
+            parentControl.UseWaitCursor = true;
+            panel.CancelClick += (o, args) =>
+            {
+                // TODO: Need an exception handler and feedback in here too
+                cts.Cancel();
+            };
+            parentControl.ResumeLayout();
+            return panel;
+        }
+
+        private static void HideWaitPanel(Control parentControl, Control panel)
+        {
+            parentControl.SuspendLayout();
+            parentControl.UseWaitCursor = false;
+            panel.Visible = false;
+            parentControl.Controls.Remove(panel);
+            panel.Dispose();
+            parentControl.ResumeLayout();
+        }
+
+        private static void DisplayException(string description, Exception exception)
+        {
+            var message = $"{exception.GetType().Name}: {exception.Message}";
+            CustomMessageBox.Show(message, description);
+        }
+    }
+}
