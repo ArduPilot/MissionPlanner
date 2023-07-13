@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AltitudeAngelWings.Plugin.Properties;
 using MissionPlanner;
 using MissionPlanner.Utilities;
 
@@ -20,25 +21,30 @@ namespace AltitudeAngelWings.Plugin
             using (var form = new Form())
             {
                 ThemeManager.ApplyThemeTo(form);
-                form.Width = 500;
+                form.Width = 450;
                 form.Height = 300;
                 form.MinimizeBox = false;
                 form.MaximizeBox = false;
-                form.ShowInTaskbar = false;
+                form.ShowInTaskbar = true;
+                form.TopMost = true;
+                form.Icon = Resources.AAIcon;
+                form.Text = Resources.WaitWindowTitle;
                 form.FormBorderStyle = FormBorderStyle.None;
                 form.Load += (sender, args) =>
                 {
-                    if (form.Owner != null)
+                    if (!(sender is Form frm)) return;
+                    if (frm?.Owner != null)
                     {
-                        form.Location = new Point(
-                            form.Owner.Location.X + form.Owner.Width / 2 - form.Width / 2,
-                            form.Owner.Location.Y + form.Owner.Height / 2 - form.Height / 2);
+                        frm.Location = new Point(
+                            frm.Owner.Location.X + frm.Owner.Width / 2 - frm.Width / 2,
+                            frm.Owner.Location.Y + frm.Owner.Height / 2 - frm.Height / 2);
                     }
                 };
                 form.Shown += (sender, args) =>
                 {
-                    result = ShowWaitPanel(form, runTask, description, false);
-                    form.DialogResult = DialogResult.OK;
+                    if (!(sender is Form frm)) return;
+                    result = ShowWaitPanel(frm, runTask, description, false);
+                    frm.DialogResult = DialogResult.OK;
                 };
                 form.ShowDialog(MainV2.instance);
             }
@@ -63,6 +69,8 @@ namespace AltitudeAngelWings.Plugin
                         panel = ShowWaitPanel(parentControl, description, cts);
                     }
 
+                    panel?.BringToFront();
+                    panel?.ParentForm?.BringToFront();
                     Application.DoEvents();
                 } while (!task.Wait(TaskCheckInterval));
                 return task.GetAwaiter().GetResult();

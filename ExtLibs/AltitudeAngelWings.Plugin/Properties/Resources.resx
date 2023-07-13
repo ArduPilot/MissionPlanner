@@ -120,9 +120,9 @@
   <data name="AskToEnableAltitudeAngel" xml:space="preserve">
     <value>Do you wish to enable the Altitude Angel plugin?
 
-Clicking "Yes" will provide you with Altitude Angel's trusted worldwide airspace and ground hazard data directly on the
-Mission Planner maps, enabling you to plan for safer flights. You will be asked to login with your Altitude Angel account,
-or register for a new account if you don't have one.
+Clicking "Yes" will provide you with Altitude Angel's airspace and ground hazard data directly on the Mission Planner maps,
+making it easier to discover where you can and cannot fly, and plan for safer flights. You will be asked to login with your
+Altitude Angel account, or register for a new account if you don't have one.
 
 You can always access the settings for this plugin by right-clicking the map and choosing "Altitude Angel Settings".
 
@@ -257,5 +257,8 @@ For more information, privacy policy, and terms and conditions, visit: [link;htt
   </data>
   <data name="AAAnimatedLogoWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AAAnimatedLogoWhite.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaitWindowTitle" xml:space="preserve">
+    <value>Altitude Angel</value>
   </data>
 </root>
