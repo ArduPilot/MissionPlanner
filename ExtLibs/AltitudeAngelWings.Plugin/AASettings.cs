@@ -69,6 +69,7 @@ namespace AltitudeAngelWings.Plugin
             chk_SerialNumber.Checked = _settings.FlightIdentifierSerial;
             txt_SerialNumber.Text = _settings.FlightIdentifierSerialNumber;
             web_About.DocumentText = Resources.About;
+            trk_AltitudeFilter.Value = _settings.AltitudeFilter;
 
             RefreshControlStates();
         }
@@ -178,6 +179,14 @@ namespace AltitudeAngelWings.Plugin
         private void trk_OpacityAdjust_ValueChanged(object sender, EventArgs e)
         {
             _settings.MapOpacityAdjust = (float)trk_OpacityAdjust.Value / 100;
+            RefreshControlStates(processMap: true);
+        }
+
+
+        private void trk_AltitudeFilter_ValueChanged(object sender, EventArgs e)
+        {
+            _settings.AltitudeFilter = trk_AltitudeFilter.Value;
+            lbl_AltitudeDisplay.Text = $"{_settings.AltitudeFilter}m ({_settings.AltitudeFilter*3.28084:F0}ft) AGL";
             RefreshControlStates(processMap: true);
         }
 
@@ -330,6 +339,7 @@ namespace AltitudeAngelWings.Plugin
             txt_IcaoAddress.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_IcaoAddress.Checked;
             chk_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             txt_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_SerialNumber.Checked;
+            trk_AltitudeFilter.Enabled = _altitudeAngelService.IsSignedIn;
 
             SetTabVisibility(tabPageAccount, _settings.CheckEnableAltitudeAngel);
             SetTabVisibility(tabPageMap, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn);

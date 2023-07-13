@@ -53,6 +53,7 @@ namespace AltitudeAngelWings.Service
         string FlightIdentifierIcaoAddress { get; set; }
         bool FlightIdentifierSerial { get; set; }
         string FlightIdentifierSerialNumber { get; set; }
+        int AltitudeFilter { get; set; }
     }
 
 }

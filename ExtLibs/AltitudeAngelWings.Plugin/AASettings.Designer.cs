@@ -47,6 +47,9 @@ namespace AltitudeAngelWings.Plugin
             this.but_SignOut = new MissionPlanner.Controls.MyButton();
             this.but_SignIn = new MissionPlanner.Controls.MyButton();
             this.tabPageMap = new System.Windows.Forms.TabPage();
+            this.lbl_AltitudeDisplay = new System.Windows.Forms.Label();
+            this.lbl_AltitudeFilter = new System.Windows.Forms.Label();
+            this.trk_AltitudeFilter = new System.Windows.Forms.TrackBar();
             this.chk_EnablePlanMap = new System.Windows.Forms.CheckBox();
             this.chk_EnableDataMap = new System.Windows.Forms.CheckBox();
             this.btn_DefaultLayers = new MissionPlanner.Controls.MyButton();
@@ -77,6 +80,7 @@ namespace AltitudeAngelWings.Plugin
             this.tabPages.SuspendLayout();
             this.tabPageAccount.SuspendLayout();
             this.tabPageMap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trk_AltitudeFilter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trk_OpacityAdjust)).BeginInit();
             this.tabPageFlight.SuspendLayout();
             this.tabPageAbout.SuspendLayout();
@@ -92,7 +96,7 @@ namespace AltitudeAngelWings.Plugin
             this.tabPages.Location = new System.Drawing.Point(12, 12);
             this.tabPages.Name = "tabPages";
             this.tabPages.SelectedIndex = 0;
-            this.tabPages.Size = new System.Drawing.Size(453, 284);
+            this.tabPages.Size = new System.Drawing.Size(452, 284);
             this.tabPages.TabIndex = 15;
             // 
             // tabPageAccount
@@ -233,6 +237,9 @@ namespace AltitudeAngelWings.Plugin
             // 
             // tabPageMap
             // 
+            this.tabPageMap.Controls.Add(this.lbl_AltitudeDisplay);
+            this.tabPageMap.Controls.Add(this.lbl_AltitudeFilter);
+            this.tabPageMap.Controls.Add(this.trk_AltitudeFilter);
             this.tabPageMap.Controls.Add(this.chk_EnablePlanMap);
             this.tabPageMap.Controls.Add(this.chk_EnableDataMap);
             this.tabPageMap.Controls.Add(this.btn_DefaultLayers);
@@ -242,15 +249,48 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageMap.Location = new System.Drawing.Point(4, 22);
             this.tabPageMap.Name = "tabPageMap";
             this.tabPageMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMap.Size = new System.Drawing.Size(445, 258);
+            this.tabPageMap.Size = new System.Drawing.Size(444, 258);
             this.tabPageMap.TabIndex = 0;
             this.tabPageMap.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsMapLayersText;
             this.tabPageMap.UseVisualStyleBackColor = true;
             // 
+            // lbl_AltitudeDisplay
+            // 
+            this.lbl_AltitudeDisplay.Location = new System.Drawing.Point(320, 145);
+            this.lbl_AltitudeDisplay.Name = "lbl_AltitudeDisplay";
+            this.lbl_AltitudeDisplay.Size = new System.Drawing.Size(118, 20);
+            this.lbl_AltitudeDisplay.TabIndex = 49;
+            this.lbl_AltitudeDisplay.Text = "altitude";
+            this.lbl_AltitudeDisplay.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_AltitudeFilter
+            // 
+            this.lbl_AltitudeFilter.AutoSize = true;
+            this.lbl_AltitudeFilter.Location = new System.Drawing.Point(349, 132);
+            this.lbl_AltitudeFilter.Name = "lbl_AltitudeFilter";
+            this.lbl_AltitudeFilter.Size = new System.Drawing.Size(66, 13);
+            this.lbl_AltitudeFilter.TabIndex = 48;
+            this.lbl_AltitudeFilter.Text = "Show Below";
+            // 
+            // trk_AltitudeFilter
+            // 
+            this.trk_AltitudeFilter.LargeChange = 100;
+            this.trk_AltitudeFilter.Location = new System.Drawing.Point(320, 100);
+            this.trk_AltitudeFilter.Maximum = 1000;
+            this.trk_AltitudeFilter.Minimum = 10;
+            this.trk_AltitudeFilter.Name = "trk_AltitudeFilter";
+            this.trk_AltitudeFilter.Size = new System.Drawing.Size(118, 45);
+            this.trk_AltitudeFilter.SmallChange = 10;
+            this.trk_AltitudeFilter.TabIndex = 47;
+            this.trk_AltitudeFilter.Text = "Ground Data";
+            this.trk_AltitudeFilter.TickFrequency = 100;
+            this.trk_AltitudeFilter.Value = 300;
+            this.trk_AltitudeFilter.ValueChanged += new System.EventHandler(this.trk_AltitudeFilter_ValueChanged);
+            // 
             // chk_EnablePlanMap
             // 
             this.chk_EnablePlanMap.AutoSize = true;
-            this.chk_EnablePlanMap.Location = new System.Drawing.Point(343, 134);
+            this.chk_EnablePlanMap.Location = new System.Drawing.Point(343, 203);
             this.chk_EnablePlanMap.Name = "chk_EnablePlanMap";
             this.chk_EnablePlanMap.Size = new System.Drawing.Size(71, 17);
             this.chk_EnablePlanMap.TabIndex = 46;
@@ -261,7 +301,7 @@ namespace AltitudeAngelWings.Plugin
             // chk_EnableDataMap
             // 
             this.chk_EnableDataMap.AutoSize = true;
-            this.chk_EnableDataMap.Location = new System.Drawing.Point(343, 111);
+            this.chk_EnableDataMap.Location = new System.Drawing.Point(343, 180);
             this.chk_EnableDataMap.Name = "chk_EnableDataMap";
             this.chk_EnableDataMap.Size = new System.Drawing.Size(73, 17);
             this.chk_EnableDataMap.TabIndex = 45;
@@ -271,7 +311,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             // btn_DefaultLayers
             // 
-            this.btn_DefaultLayers.Location = new System.Drawing.Point(348, 6);
+            this.btn_DefaultLayers.Location = new System.Drawing.Point(341, 6);
             this.btn_DefaultLayers.Name = "btn_DefaultLayers";
             this.btn_DefaultLayers.Size = new System.Drawing.Size(75, 31);
             this.btn_DefaultLayers.TabIndex = 44;
@@ -285,14 +325,14 @@ namespace AltitudeAngelWings.Plugin
             this.trv_MapLayers.CheckBoxes = true;
             this.trv_MapLayers.Location = new System.Drawing.Point(6, 6);
             this.trv_MapLayers.Name = "trv_MapLayers";
-            this.trv_MapLayers.Size = new System.Drawing.Size(321, 246);
+            this.trv_MapLayers.Size = new System.Drawing.Size(308, 246);
             this.trv_MapLayers.TabIndex = 18;
             this.trv_MapLayers.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trv_MapLayers_AfterCheck);
             // 
             // lbl_OpacityAdjust
             // 
             this.lbl_OpacityAdjust.AutoSize = true;
-            this.lbl_OpacityAdjust.Location = new System.Drawing.Point(349, 82);
+            this.lbl_OpacityAdjust.Location = new System.Drawing.Point(341, 75);
             this.lbl_OpacityAdjust.Name = "lbl_OpacityAdjust";
             this.lbl_OpacityAdjust.Size = new System.Drawing.Size(75, 13);
             this.lbl_OpacityAdjust.TabIndex = 17;
@@ -301,11 +341,11 @@ namespace AltitudeAngelWings.Plugin
             // trk_OpacityAdjust
             // 
             this.trk_OpacityAdjust.LargeChange = 80;
-            this.trk_OpacityAdjust.Location = new System.Drawing.Point(343, 49);
+            this.trk_OpacityAdjust.Location = new System.Drawing.Point(320, 43);
             this.trk_OpacityAdjust.Maximum = 240;
             this.trk_OpacityAdjust.Minimum = 20;
             this.trk_OpacityAdjust.Name = "trk_OpacityAdjust";
-            this.trk_OpacityAdjust.Size = new System.Drawing.Size(87, 45);
+            this.trk_OpacityAdjust.Size = new System.Drawing.Size(118, 45);
             this.trk_OpacityAdjust.SmallChange = 20;
             this.trk_OpacityAdjust.TabIndex = 15;
             this.trk_OpacityAdjust.Text = "Ground Data";
@@ -553,6 +593,7 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageAccount.PerformLayout();
             this.tabPageMap.ResumeLayout(false);
             this.tabPageMap.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trk_AltitudeFilter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trk_OpacityAdjust)).EndInit();
             this.tabPageFlight.ResumeLayout(false);
             this.tabPageFlight.PerformLayout();
@@ -605,5 +646,8 @@ namespace AltitudeAngelWings.Plugin
         private System.Windows.Forms.CheckBox chk_IcaoAddress;
         private System.Windows.Forms.Label lbl_ContactPhoneNumber;
         private System.Windows.Forms.WebBrowser web_About;
+        private Label lbl_AltitudeDisplay;
+        private Label lbl_AltitudeFilter;
+        private TrackBar trk_AltitudeFilter;
     }
 }

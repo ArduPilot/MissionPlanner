@@ -196,6 +196,14 @@ namespace AltitudeAngelWings.Service
                     }
 
                     var properties = feature.GetFeatureProperties();
+                    if (properties.AltitudeFloor != null)
+                    {
+                        // TODO: Ignoring datum for now
+                        if (properties.AltitudeFloor.Meters > _settings.AltitudeFilter)
+                        {
+                            continue;
+                        }
+                    }
 
                     switch (feature.Geometry.Type)
                     {

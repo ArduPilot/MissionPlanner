@@ -201,6 +201,12 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(MapOpacityAdjust), value);
         }
 
+        public int AltitudeFilter
+        {
+            get => Get(nameof(AltitudeFilter), 300, int.Parse);
+            set => Set(nameof(AltitudeFilter), value);
+        }
+
         public bool EnableDataMap
         {
             get => Get(nameof(EnableDataMap), true, bool.Parse);

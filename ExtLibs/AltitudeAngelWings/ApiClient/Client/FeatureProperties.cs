@@ -88,5 +88,11 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         [JsonProperty("display")]
         public DisplayInfo DisplayInfo { get; set; }
+
+        [JsonProperty("altitudeFloor")]
+        public AltitudeProperty AltitudeFloor { get; set; }
+
+        [JsonProperty("altitudeCeiling")]
+        public AltitudeProperty AltitudeCeiling { get; set; }
     }
 }
