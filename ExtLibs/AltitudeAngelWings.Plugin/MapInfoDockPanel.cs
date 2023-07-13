@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
+using WebBrowser = System.Windows.Forms.WebBrowser;
 
 namespace AltitudeAngelWings.Plugin
 {
@@ -70,9 +72,16 @@ namespace AltitudeAngelWings.Plugin
                 AllowWebBrowserDrop = false,
                 IsWebBrowserContextMenuEnabled = false,
                 ScriptErrorsSuppressed = true,
+                AllowNavigation = true,
                 Width = 350,
                 Visible = false
             };
+            browser.NewWindow += (sender, args) => args.Cancel = true;
+            ((SHDocVw.WebBrowser)browser.ActiveXInstance).NewWindow3 +=
+                (ref object o, ref bool b, uint u, string s, string url) =>
+                {
+                    Process.Start(url);
+                };
             _parent.Controls.Add(browser);
             return browser;
         }
