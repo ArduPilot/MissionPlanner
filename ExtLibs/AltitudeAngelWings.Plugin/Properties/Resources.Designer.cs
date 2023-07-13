@@ -108,13 +108,13 @@ namespace AltitudeAngelWings.Plugin.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Do you wish to enable the Altitude Angel plugin?
         ///
-        ///Clicking &quot;Yes&quot; will provide you with Altitude Angel&apos;s trusted and worldwide airspace and ground hazard data directly on the
+        ///Clicking &quot;Yes&quot; will provide you with Altitude Angel&apos;s trusted worldwide airspace and ground hazard data directly on the
         ///Mission Planner maps, enabling you to plan for safer flights. You will be asked to login with your Altitude Angel account,
         ///or register for a new account if you don&apos;t have one.
         ///
         ///You can always access the settings for this plugin by right-clicking the map and choosing &quot;Altitude Angel Settings&quot;.
         ///
-        ///For more information, privacy polic [rest of string was truncated]&quot;;.
+        ///For more information, privacy policy, a [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AskToEnableAltitudeAngel {
             get {

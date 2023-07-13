@@ -1,4 +1,5 @@
-﻿using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
+﻿using AltitudeAngelWings.ApiClient.Client;
+using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.AltitudeAngelTelemetry.TelemetryEvents;
 using AltitudeAngelWings.Service.FlightData;
@@ -28,7 +29,7 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             _settings = settings;
             _client = client;
 
-            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry)
+            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs))
             {
                 _disposer.Add(flightDataService.ArmedFlightData
                     .SubscribeWithAsync((i, ct) => SendTelemetry(i)));

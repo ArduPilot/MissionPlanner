@@ -120,7 +120,7 @@
   <data name="AskToEnableAltitudeAngel" xml:space="preserve">
     <value>Do you wish to enable the Altitude Angel plugin?
 
-Clicking "Yes" will provide you with Altitude Angel's trusted and worldwide airspace and ground hazard data directly on the
+Clicking "Yes" will provide you with Altitude Angel's trusted worldwide airspace and ground hazard data directly on the
 Mission Planner maps, enabling you to plan for safer flights. You will be asked to login with your Altitude Angel account,
 or register for a new account if you don't have one.
 

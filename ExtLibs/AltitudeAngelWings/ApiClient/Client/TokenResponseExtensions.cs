@@ -9,6 +9,11 @@ namespace AltitudeAngelWings.ApiClient.Client
     {
         public static string[] AccessTokenScopes(this TokenResponse tokenResponse)
         {
+            if (!tokenResponse.IsValidForAuth())
+            {
+                return Array.Empty<string>();
+            }
+
             var token = new JwtSecurityToken(tokenResponse.AccessToken);
             if (!token.Payload.TryGetValue("urn:oauth:scope", out var value))
             {
@@ -60,5 +65,15 @@ namespace AltitudeAngelWings.ApiClient.Client
             return !string.IsNullOrEmpty(tokenResponse.RefreshToken);
         }
 
+        public static bool HasScopes(this TokenResponse tokenResponse, params string[] scopesToCheck)
+        {
+            if (tokenResponse == null)
+            {
+                return false;
+            }
+
+            var scopes = tokenResponse.AccessTokenScopes();
+            return scopesToCheck.All(c => scopes.Contains(c));
+        }
     }
 }

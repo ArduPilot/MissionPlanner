@@ -28,13 +28,13 @@ namespace AltitudeAngelWings.Service
 
         public bool UseFlightPlans
         {
-            get => Get(nameof(UseFlightPlans), false, bool.Parse);
+            get => Get(nameof(UseFlightPlans), true, bool.Parse);
             set => Set(nameof(UseFlightPlans), value);
         }
 
         public bool UseFlights
         {
-            get => Get(nameof(UseFlights), false, bool.Parse);
+            get => Get(nameof(UseFlights), true, bool.Parse);
             set => Set(nameof(UseFlights), value);
         }
 
@@ -48,14 +48,14 @@ namespace AltitudeAngelWings.Service
 
         public string[] ClientScopes => new[]
         {
-            "query_mapdata",
-            "query_mapairdata",
-            "talk_tower",
-            "query_userinfo",
-            "manage_flightreports",
-            "request_flightapprovals",
-            "strategic_crs",
-            "tactical_crs"
+            Scopes.QueryMapData,
+            Scopes.QueryMapAirData,
+            Scopes.TalkTower,
+            Scopes.QueryUserInfo,
+            Scopes.ManageFlightReports,
+            Scopes.RequestFlightApprovals,
+            Scopes.StrategicCrs,
+            Scopes.TacticalCrs
         };
 
         public string RedirectUri => $"https://auth.{UrlDomainSuffix}/authorization/poll_complete";
@@ -95,7 +95,7 @@ namespace AltitudeAngelWings.Service
 
         public bool SendFlightTelemetry
         {
-            get => Get(nameof(SendFlightTelemetry), false, bool.Parse);
+            get => Get(nameof(SendFlightTelemetry), true, bool.Parse);
             set => Set(nameof(SendFlightTelemetry), value);
         }
 

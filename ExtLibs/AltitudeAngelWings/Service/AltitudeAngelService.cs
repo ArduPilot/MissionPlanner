@@ -67,7 +67,7 @@ namespace AltitudeAngelWings.Service
                 .MapChanged
                 .SubscribeWithAsync((i, ct) => UpdateMapData(_missionPlanner.FlightPlanningMap, ct)));
 
-            if (_settings.UseFlightPlans)
+            if (_settings.UseFlightPlans && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs))
             {
                 _disposer.Add(_missionPlanner.FlightDataMap
                     .FeatureClicked
