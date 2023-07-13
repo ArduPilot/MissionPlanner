@@ -103,8 +103,22 @@ namespace AltitudeAngelWings.Plugin
             parentControl.UseWaitCursor = true;
             panel.CancelClick += (o, args) =>
             {
-                // TODO: Need an exception handler and feedback in here too
-                cts.Cancel();
+                try
+                {
+                    cts.Cancel();
+                }
+                catch (TaskCanceledException)
+                {
+                    // This is OK
+                }
+                catch (AggregateException ae) when (ae.InnerExceptions.Any(e => e.GetType() == typeof(TaskCanceledException)))
+                {
+                    // This is OK
+                }
+                catch (Exception e)
+                {
+                    DisplayException(description, e);
+                }
             };
             parentControl.ResumeLayout();
             return panel;
