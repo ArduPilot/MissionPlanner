@@ -19,40 +19,44 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_CANIfaceStats(uavcan_protocol_CANIfaceStats msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_CANIfaceStats(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_CANIfaceStats(CanardRxTransfer transfer, uavcan_protocol_CANIfaceStats msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_CANIfaceStats(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class uavcan_protocol_CANIfaceStats : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_CANIfaceStats(uavcan_protocol_CANIfaceStats msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_CANIfaceStats(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_uavcan_protocol_CANIfaceStats(uint8_t[] buffer, uavcan_protocol_CANIfaceStats msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 48, msg.frames_tx);
-            chunk_cb(buffer, 48, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 48, msg.frames_rx);
-            chunk_cb(buffer, 48, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 48, msg.errors);
-            chunk_cb(buffer, 48, ctx);
-        }
+            public static uint32_t decode_uavcan_protocol_CANIfaceStats(CanardRxTransfer transfer, uavcan_protocol_CANIfaceStats msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_CANIfaceStats(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_uavcan_protocol_CANIfaceStats(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_CANIfaceStats msg, bool tao) {
+            internal static void _encode_uavcan_protocol_CANIfaceStats(uint8_t[] buffer, uavcan_protocol_CANIfaceStats msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 48, msg.frames_tx);
+                chunk_cb(buffer, 48, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 48, msg.frames_rx);
+                chunk_cb(buffer, 48, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 48, msg.errors);
+                chunk_cb(buffer, 48, ctx);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 48, false, ref msg.frames_tx);
-            bit_ofs += 48;
+            internal static void _decode_uavcan_protocol_CANIfaceStats(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_CANIfaceStats msg, bool tao) {
 
-            canardDecodeScalar(transfer, bit_ofs, 48, false, ref msg.frames_rx);
-            bit_ofs += 48;
+                canardDecodeScalar(transfer, bit_ofs, 48, false, ref msg.frames_tx);
+                bit_ofs += 48;
 
-            canardDecodeScalar(transfer, bit_ofs, 48, false, ref msg.errors);
-            bit_ofs += 48;
+                canardDecodeScalar(transfer, bit_ofs, 48, false, ref msg.frames_rx);
+                bit_ofs += 48;
 
+                canardDecodeScalar(transfer, bit_ofs, 48, false, ref msg.errors);
+                bit_ofs += 48;
+
+            }
         }
     }
 }

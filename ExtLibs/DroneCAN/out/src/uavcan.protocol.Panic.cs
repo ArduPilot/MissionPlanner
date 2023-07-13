@@ -19,45 +19,49 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_Panic(uavcan_protocol_Panic msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_Panic(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_Panic(CanardRxTransfer transfer, uavcan_protocol_Panic msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_Panic(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_uavcan_protocol_Panic(uint8_t[] buffer, uavcan_protocol_Panic msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            if (!tao) {
-                memset(buffer,0,8);
-                canardEncodeScalar(buffer, 0, 3, msg.reason_text_len);
-                chunk_cb(buffer, 3, ctx);
+        public partial class uavcan_protocol_Panic : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_Panic(uavcan_protocol_Panic msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_Panic(buffer, msg, chunk_cb, ctx, !fdcan);
             }
-            for (int i=0; i < msg.reason_text_len; i++) {
+
+            public static uint32_t decode_uavcan_protocol_Panic(CanardRxTransfer transfer, uavcan_protocol_Panic msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_Panic(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
+
+            internal static void _encode_uavcan_protocol_Panic(uint8_t[] buffer, uavcan_protocol_Panic msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                if (!tao) {
                     memset(buffer,0,8);
-                    canardEncodeScalar(buffer, 0, 8, msg.reason_text[i]);
-                    chunk_cb(buffer, 8, ctx);
-            }
-        }
-
-        static void _decode_uavcan_protocol_Panic(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_Panic msg, bool tao) {
-
-            if (!tao) {
-                canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.reason_text_len);
-                bit_ofs += 3;
-            } else {
-                msg.reason_text_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
+                    canardEncodeScalar(buffer, 0, 3, msg.reason_text_len);
+                    chunk_cb(buffer, 3, ctx);
+                }
+                for (int i=0; i < msg.reason_text_len; i++) {
+                        memset(buffer,0,8);
+                        canardEncodeScalar(buffer, 0, 8, msg.reason_text[i]);
+                        chunk_cb(buffer, 8, ctx);
+                }
             }
 
-            msg.reason_text = new uint8_t[msg.reason_text_len];
-            for (int i=0; i < msg.reason_text_len; i++) {
-                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.reason_text[i]);
-                bit_ofs += 8;
-            }
+            internal static void _decode_uavcan_protocol_Panic(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_Panic msg, bool tao) {
 
+                if (!tao) {
+                    canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.reason_text_len);
+                    bit_ofs += 3;
+                } else {
+                    msg.reason_text_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
+                }
+
+                msg.reason_text = new uint8_t[msg.reason_text_len];
+                for (int i=0; i < msg.reason_text_len; i++) {
+                    canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.reason_text[i]);
+                    bit_ofs += 8;
+                }
+
+            }
         }
     }
 }

@@ -22,19 +22,23 @@ namespace DroneCAN
 {
 @{indent += 1}@{ind = '    '*indent}@
     public partial class DroneCAN {
-        static void encode_@(msg_underscored_name)(@(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class @(msg_c_type) : IDroneCANSerialize
+        {
+            public static void encode_@(msg_underscored_name)(@(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_@(msg_underscored_name)(uint8_t[] buffer, @(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+            public static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
+
+            internal static void _encode_@(msg_underscored_name)(uint8_t[] buffer, @(msg_c_type) msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
 @{indent += 1}@{ind = '    '*indent}@
+@{indent += 1}@{ind = '    ' * indent}@
 @{indent += 1}@{ind = '    '*indent}@
 @[  if msg_union]@
 @(ind)@(union_msg_tag_uint_type_from_num_fields(len(msg_fields))) @(msg_underscored_name)_type = (@(union_msg_tag_uint_type_from_num_fields(len(msg_fields))))msg.@(msg_underscored_name)_type;
@@ -51,7 +55,7 @@ namespace DroneCAN
 @{indent += 1}@{ind = '    '*indent}@
 @[      end if]@
 @[      if field.type.category == field.type.CATEGORY_COMPOUND]@
-@(ind)_encode_@(underscored_name(field.type))(buffer, msg.@('union.' if msg_union else '')@(field.name), chunk_cb, ctx, @('tao' if field == msg_fields[-1] else 'false'));
+@(ind)@(underscored_name(field.type))._encode_@(underscored_name(field.type))(buffer, msg.@('union.' if msg_union else '')@(field.name), chunk_cb, ctx, @('tao' if field == msg_fields[-1] else 'false'));
 @[      elif field.type.category == field.type.CATEGORY_PRIMITIVE]@
 @(ind)memset(buffer,0,8);
 @[        if field.type.kind == field.type.KIND_FLOAT and field.type.bitlen == 16]@
@@ -93,7 +97,7 @@ namespace DroneCAN
 @[          end if]@
 @(ind)    chunk_cb(buffer, @(field.type.value_type.bitlen), ctx);
 @[        elif field.type.value_type.category == field.type.value_type.CATEGORY_COMPOUND]@
-@(ind)    _encode_@(underscored_name(field.type.value_type))(buffer, msg.@('union.' if msg_union else '')@(field.name)[i], chunk_cb, ctx, @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
+@(ind)    @(underscored_name(field.type.value_type))._encode_@(underscored_name(field.type.value_type))(buffer, msg.@('union.' if msg_union else '')@(field.name)[i], chunk_cb, ctx, @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao&& i == msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
 @[        end if]@
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
@@ -113,7 +117,7 @@ namespace DroneCAN
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 
-        static void _decode_@(msg_underscored_name)(CanardRxTransfer transfer,ref uint32_t bit_ofs, @(msg_c_type) msg, bool tao) {
+            internal static void _decode_@(msg_underscored_name)(CanardRxTransfer transfer,ref uint32_t bit_ofs, @(msg_c_type) msg, bool tao) {
 @{indent += 1}@{ind = '    '*indent}@
 
 @[  if msg_union]@
@@ -131,7 +135,7 @@ namespace DroneCAN
 @{indent += 1}@{ind = '    '*indent}@
 @[      end if]@
 @[      if field.type.category == field.type.CATEGORY_COMPOUND]@
-@(ind)_decode_@(underscored_name(field.type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name), @('tao' if field == msg_fields[-1] else 'false'));
+@(ind)@(underscored_name(field.type))._decode_@(underscored_name(field.type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name), @('tao' if field == msg_fields[-1] else 'false'));
 @[      elif field.type.category == field.type.CATEGORY_PRIMITIVE]@
 @[        if field.type.kind == field.type.KIND_FLOAT and field.type.bitlen == 16]@
 @(ind){
@@ -176,7 +180,7 @@ namespace DroneCAN
 @{indent += 1}@{ind = '    '*indent}@
 @(ind)msg.@('union.' if msg_union else '')@(field.name)_len++;
 @(ind)temp.Add(new @(dronecan_type_to_ctype(field.type.value_type))());
-@(ind)_decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, temp[msg.@(field.name)_len - 1], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
+@(ind)@(dronecan_type_to_ctype(field.type.value_type))._decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, temp[msg.@(field.name)_len - 1], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 @(ind)msg.@('union.' if msg_union else '')@(field.name) = temp.ToArray();
@@ -202,7 +206,7 @@ namespace DroneCAN
 @[          end if]@
 @(ind)bit_ofs += @(field.type.value_type.bitlen);
 @[        elif field.type.value_type.category == field.type.value_type.CATEGORY_COMPOUND]@
-@(ind)_decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name)[i], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
+@(ind)@(underscored_name(field.type.value_type))._decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name)[i], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
 @[        end if]@
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
@@ -229,4 +233,5 @@ namespace DroneCAN
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 @{indent -= 1}@{ind = '    '*indent}@
+@(ind)}
 }

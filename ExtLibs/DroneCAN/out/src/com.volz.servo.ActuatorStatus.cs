@@ -19,65 +19,69 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_com_volz_servo_ActuatorStatus(com_volz_servo_ActuatorStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_com_volz_servo_ActuatorStatus(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_com_volz_servo_ActuatorStatus(CanardRxTransfer transfer, com_volz_servo_ActuatorStatus msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_com_volz_servo_ActuatorStatus(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_com_volz_servo_ActuatorStatus(uint8_t[] buffer, com_volz_servo_ActuatorStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.actuator_id);
-            chunk_cb(buffer, 8, ctx);
-            memset(buffer,0,8);
-            {
-                uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.actual_position);
-                canardEncodeScalar(buffer, 0, 16, float16_val);
+        public partial class com_volz_servo_ActuatorStatus : IDroneCANSerialize
+        {
+            public static void encode_com_volz_servo_ActuatorStatus(com_volz_servo_ActuatorStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_com_volz_servo_ActuatorStatus(buffer, msg, chunk_cb, ctx, !fdcan);
             }
-            chunk_cb(buffer, 16, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.current);
-            chunk_cb(buffer, 8, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.voltage);
-            chunk_cb(buffer, 8, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.motor_pwm);
-            chunk_cb(buffer, 8, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.motor_temperature);
-            chunk_cb(buffer, 8, ctx);
-        }
 
-        static void _decode_com_volz_servo_ActuatorStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, com_volz_servo_ActuatorStatus msg, bool tao) {
-
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.actuator_id);
-            bit_ofs += 8;
-
-            {
-                uint16_t float16_val = 0;
-                canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-                msg.actual_position = canardConvertFloat16ToNativeFloat(float16_val);
+            public static uint32_t decode_com_volz_servo_ActuatorStatus(CanardRxTransfer transfer, com_volz_servo_ActuatorStatus msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_com_volz_servo_ActuatorStatus(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
             }
-            bit_ofs += 16;
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.current);
-            bit_ofs += 8;
+            internal static void _encode_com_volz_servo_ActuatorStatus(uint8_t[] buffer, com_volz_servo_ActuatorStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.actuator_id);
+                chunk_cb(buffer, 8, ctx);
+                memset(buffer,0,8);
+                {
+                    uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.actual_position);
+                    canardEncodeScalar(buffer, 0, 16, float16_val);
+                }
+                chunk_cb(buffer, 16, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.current);
+                chunk_cb(buffer, 8, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.voltage);
+                chunk_cb(buffer, 8, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.motor_pwm);
+                chunk_cb(buffer, 8, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.motor_temperature);
+                chunk_cb(buffer, 8, ctx);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.voltage);
-            bit_ofs += 8;
+            internal static void _decode_com_volz_servo_ActuatorStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, com_volz_servo_ActuatorStatus msg, bool tao) {
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.motor_pwm);
-            bit_ofs += 8;
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.actuator_id);
+                bit_ofs += 8;
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.motor_temperature);
-            bit_ofs += 8;
+                {
+                    uint16_t float16_val = 0;
+                    canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
+                    msg.actual_position = canardConvertFloat16ToNativeFloat(float16_val);
+                }
+                bit_ofs += 16;
 
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.current);
+                bit_ofs += 8;
+
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.voltage);
+                bit_ofs += 8;
+
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.motor_pwm);
+                bit_ofs += 8;
+
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.motor_temperature);
+                bit_ofs += 8;
+
+            }
         }
     }
 }

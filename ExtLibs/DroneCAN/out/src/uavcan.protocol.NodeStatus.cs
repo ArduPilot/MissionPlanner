@@ -19,52 +19,56 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_NodeStatus(uavcan_protocol_NodeStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_NodeStatus(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_NodeStatus(CanardRxTransfer transfer, uavcan_protocol_NodeStatus msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_NodeStatus(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class uavcan_protocol_NodeStatus : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_NodeStatus(uavcan_protocol_NodeStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_NodeStatus(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_uavcan_protocol_NodeStatus(uint8_t[] buffer, uavcan_protocol_NodeStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 32, msg.uptime_sec);
-            chunk_cb(buffer, 32, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 2, msg.health);
-            chunk_cb(buffer, 2, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 3, msg.mode);
-            chunk_cb(buffer, 3, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 3, msg.sub_mode);
-            chunk_cb(buffer, 3, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 16, msg.vendor_specific_status_code);
-            chunk_cb(buffer, 16, ctx);
-        }
+            public static uint32_t decode_uavcan_protocol_NodeStatus(CanardRxTransfer transfer, uavcan_protocol_NodeStatus msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_NodeStatus(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_uavcan_protocol_NodeStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_NodeStatus msg, bool tao) {
+            internal static void _encode_uavcan_protocol_NodeStatus(uint8_t[] buffer, uavcan_protocol_NodeStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 32, msg.uptime_sec);
+                chunk_cb(buffer, 32, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 2, msg.health);
+                chunk_cb(buffer, 2, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 3, msg.mode);
+                chunk_cb(buffer, 3, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 3, msg.sub_mode);
+                chunk_cb(buffer, 3, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 16, msg.vendor_specific_status_code);
+                chunk_cb(buffer, 16, ctx);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.uptime_sec);
-            bit_ofs += 32;
+            internal static void _decode_uavcan_protocol_NodeStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_NodeStatus msg, bool tao) {
 
-            canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.health);
-            bit_ofs += 2;
+                canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.uptime_sec);
+                bit_ofs += 32;
 
-            canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.mode);
-            bit_ofs += 3;
+                canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.health);
+                bit_ofs += 2;
 
-            canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.sub_mode);
-            bit_ofs += 3;
+                canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.mode);
+                bit_ofs += 3;
 
-            canardDecodeScalar(transfer, bit_ofs, 16, false, ref msg.vendor_specific_status_code);
-            bit_ofs += 16;
+                canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.sub_mode);
+                bit_ofs += 3;
 
+                canardDecodeScalar(transfer, bit_ofs, 16, false, ref msg.vendor_specific_status_code);
+                bit_ofs += 16;
+
+            }
         }
     }
 }

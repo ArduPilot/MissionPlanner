@@ -19,62 +19,66 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_equipment_ice_FuelTankStatus(uavcan_equipment_ice_FuelTankStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_equipment_ice_FuelTankStatus(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_equipment_ice_FuelTankStatus(CanardRxTransfer transfer, uavcan_equipment_ice_FuelTankStatus msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_equipment_ice_FuelTankStatus(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_uavcan_equipment_ice_FuelTankStatus(uint8_t[] buffer, uavcan_equipment_ice_FuelTankStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            chunk_cb(null, 9, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 7, msg.available_fuel_volume_percent);
-            chunk_cb(buffer, 7, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 32, msg.available_fuel_volume_cm3);
-            chunk_cb(buffer, 32, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 32, msg.fuel_consumption_rate_cm3pm);
-            chunk_cb(buffer, 32, ctx);
-            memset(buffer,0,8);
-            {
-                uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.fuel_temperature);
-                canardEncodeScalar(buffer, 0, 16, float16_val);
+        public partial class uavcan_equipment_ice_FuelTankStatus : IDroneCANSerialize
+        {
+            public static void encode_uavcan_equipment_ice_FuelTankStatus(uavcan_equipment_ice_FuelTankStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_equipment_ice_FuelTankStatus(buffer, msg, chunk_cb, ctx, !fdcan);
             }
-            chunk_cb(buffer, 16, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.fuel_tank_id);
-            chunk_cb(buffer, 8, ctx);
-        }
 
-        static void _decode_uavcan_equipment_ice_FuelTankStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_ice_FuelTankStatus msg, bool tao) {
-
-            bit_ofs += 9;
-
-            canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.available_fuel_volume_percent);
-            bit_ofs += 7;
-
-            canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.available_fuel_volume_cm3);
-            bit_ofs += 32;
-
-            canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.fuel_consumption_rate_cm3pm);
-            bit_ofs += 32;
-
-            {
-                uint16_t float16_val = 0;
-                canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-                msg.fuel_temperature = canardConvertFloat16ToNativeFloat(float16_val);
+            public static uint32_t decode_uavcan_equipment_ice_FuelTankStatus(CanardRxTransfer transfer, uavcan_equipment_ice_FuelTankStatus msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_equipment_ice_FuelTankStatus(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
             }
-            bit_ofs += 16;
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.fuel_tank_id);
-            bit_ofs += 8;
+            internal static void _encode_uavcan_equipment_ice_FuelTankStatus(uint8_t[] buffer, uavcan_equipment_ice_FuelTankStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                chunk_cb(null, 9, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 7, msg.available_fuel_volume_percent);
+                chunk_cb(buffer, 7, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 32, msg.available_fuel_volume_cm3);
+                chunk_cb(buffer, 32, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 32, msg.fuel_consumption_rate_cm3pm);
+                chunk_cb(buffer, 32, ctx);
+                memset(buffer,0,8);
+                {
+                    uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.fuel_temperature);
+                    canardEncodeScalar(buffer, 0, 16, float16_val);
+                }
+                chunk_cb(buffer, 16, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.fuel_tank_id);
+                chunk_cb(buffer, 8, ctx);
+            }
 
+            internal static void _decode_uavcan_equipment_ice_FuelTankStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_ice_FuelTankStatus msg, bool tao) {
+
+                bit_ofs += 9;
+
+                canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.available_fuel_volume_percent);
+                bit_ofs += 7;
+
+                canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.available_fuel_volume_cm3);
+                bit_ofs += 32;
+
+                canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.fuel_consumption_rate_cm3pm);
+                bit_ofs += 32;
+
+                {
+                    uint16_t float16_val = 0;
+                    canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
+                    msg.fuel_temperature = canardConvertFloat16ToNativeFloat(float16_val);
+                }
+                bit_ofs += 16;
+
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.fuel_tank_id);
+                bit_ofs += 8;
+
+            }
         }
     }
 }

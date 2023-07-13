@@ -19,60 +19,64 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_ardupilot_gnss_Heading(ardupilot_gnss_Heading msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_ardupilot_gnss_Heading(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_ardupilot_gnss_Heading(CanardRxTransfer transfer, ardupilot_gnss_Heading msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_ardupilot_gnss_Heading(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_ardupilot_gnss_Heading(uint8_t[] buffer, ardupilot_gnss_Heading msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 1, msg.heading_valid);
-            chunk_cb(buffer, 1, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 1, msg.heading_accuracy_valid);
-            chunk_cb(buffer, 1, ctx);
-            memset(buffer,0,8);
-            {
-                uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.heading_rad);
-                canardEncodeScalar(buffer, 0, 16, float16_val);
+        public partial class ardupilot_gnss_Heading : IDroneCANSerialize
+        {
+            public static void encode_ardupilot_gnss_Heading(ardupilot_gnss_Heading msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_ardupilot_gnss_Heading(buffer, msg, chunk_cb, ctx, !fdcan);
             }
-            chunk_cb(buffer, 16, ctx);
-            memset(buffer,0,8);
-            {
-                uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.heading_accuracy_rad);
-                canardEncodeScalar(buffer, 0, 16, float16_val);
+
+            public static uint32_t decode_ardupilot_gnss_Heading(CanardRxTransfer transfer, ardupilot_gnss_Heading msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_ardupilot_gnss_Heading(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
             }
-            chunk_cb(buffer, 16, ctx);
-        }
 
-        static void _decode_ardupilot_gnss_Heading(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_gnss_Heading msg, bool tao) {
-
-            canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.heading_valid);
-            bit_ofs += 1;
-
-            canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.heading_accuracy_valid);
-            bit_ofs += 1;
-
-            {
-                uint16_t float16_val = 0;
-                canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-                msg.heading_rad = canardConvertFloat16ToNativeFloat(float16_val);
+            internal static void _encode_ardupilot_gnss_Heading(uint8_t[] buffer, ardupilot_gnss_Heading msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 1, msg.heading_valid);
+                chunk_cb(buffer, 1, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 1, msg.heading_accuracy_valid);
+                chunk_cb(buffer, 1, ctx);
+                memset(buffer,0,8);
+                {
+                    uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.heading_rad);
+                    canardEncodeScalar(buffer, 0, 16, float16_val);
+                }
+                chunk_cb(buffer, 16, ctx);
+                memset(buffer,0,8);
+                {
+                    uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.heading_accuracy_rad);
+                    canardEncodeScalar(buffer, 0, 16, float16_val);
+                }
+                chunk_cb(buffer, 16, ctx);
             }
-            bit_ofs += 16;
 
-            {
-                uint16_t float16_val = 0;
-                canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-                msg.heading_accuracy_rad = canardConvertFloat16ToNativeFloat(float16_val);
+            internal static void _decode_ardupilot_gnss_Heading(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_gnss_Heading msg, bool tao) {
+
+                canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.heading_valid);
+                bit_ofs += 1;
+
+                canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.heading_accuracy_valid);
+                bit_ofs += 1;
+
+                {
+                    uint16_t float16_val = 0;
+                    canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
+                    msg.heading_rad = canardConvertFloat16ToNativeFloat(float16_val);
+                }
+                bit_ofs += 16;
+
+                {
+                    uint16_t float16_val = 0;
+                    canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
+                    msg.heading_accuracy_rad = canardConvertFloat16ToNativeFloat(float16_val);
+                }
+                bit_ofs += 16;
+
             }
-            bit_ofs += 16;
-
         }
     }
 }
