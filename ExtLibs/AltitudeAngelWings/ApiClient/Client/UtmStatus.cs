@@ -15,6 +15,5 @@ namespace AltitudeAngelWings.ApiClient.Client
         public UtmDetails UtmDetails { get; set; }
         [JsonProperty("rateCards")]
         public IDictionary<string, IReadOnlyList<RateCard>> RateCards { get; set; }
-
     }
 }
