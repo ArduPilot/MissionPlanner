@@ -19,47 +19,51 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_dynamic_node_id_server_Entry(uavcan_protocol_dynamic_node_id_server_Entry msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_dynamic_node_id_server_Entry(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_dynamic_node_id_server_Entry(CanardRxTransfer transfer, uavcan_protocol_dynamic_node_id_server_Entry msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_uavcan_protocol_dynamic_node_id_server_Entry(uint8_t[] buffer, uavcan_protocol_dynamic_node_id_server_Entry msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 32, msg.term);
-            chunk_cb(buffer, 32, ctx);
-            for (int i=0; i < 16; i++) {
-                    memset(buffer,0,8);
-                    canardEncodeScalar(buffer, 0, 8, msg.unique_id[i]);
-                    chunk_cb(buffer, 8, ctx);
-            }
-            chunk_cb(null, 1, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 7, msg.node_id);
-            chunk_cb(buffer, 7, ctx);
-        }
-
-        static void _decode_uavcan_protocol_dynamic_node_id_server_Entry(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_dynamic_node_id_server_Entry msg, bool tao) {
-
-            canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.term);
-            bit_ofs += 32;
-
-            for (int i=0; i < 16; i++) {
-                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.unique_id[i]);
-                bit_ofs += 8;
+        public partial class uavcan_protocol_dynamic_node_id_server_Entry : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_dynamic_node_id_server_Entry(uavcan_protocol_dynamic_node_id_server_Entry msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_dynamic_node_id_server_Entry(buffer, msg, chunk_cb, ctx, !fdcan);
             }
 
-            bit_ofs += 1;
+            public static uint32_t decode_uavcan_protocol_dynamic_node_id_server_Entry(CanardRxTransfer transfer, uavcan_protocol_dynamic_node_id_server_Entry msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.node_id);
-            bit_ofs += 7;
+            internal static void _encode_uavcan_protocol_dynamic_node_id_server_Entry(uint8_t[] buffer, uavcan_protocol_dynamic_node_id_server_Entry msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 32, msg.term);
+                chunk_cb(buffer, 32, ctx);
+                for (int i=0; i < 16; i++) {
+                        memset(buffer,0,8);
+                        canardEncodeScalar(buffer, 0, 8, msg.unique_id[i]);
+                        chunk_cb(buffer, 8, ctx);
+                }
+                chunk_cb(null, 1, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 7, msg.node_id);
+                chunk_cb(buffer, 7, ctx);
+            }
 
+            internal static void _decode_uavcan_protocol_dynamic_node_id_server_Entry(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_dynamic_node_id_server_Entry msg, bool tao) {
+
+                canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.term);
+                bit_ofs += 32;
+
+                for (int i=0; i < 16; i++) {
+                    canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.unique_id[i]);
+                    bit_ofs += 8;
+                }
+
+                bit_ofs += 1;
+
+                canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.node_id);
+                bit_ofs += 7;
+
+            }
         }
     }
 }

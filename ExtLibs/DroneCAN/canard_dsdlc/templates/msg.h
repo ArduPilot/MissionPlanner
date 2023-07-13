@@ -1,5 +1,9 @@
 @{from canard_dsdlc_helpers import *}@
-
+@{ 
+for field in msg_fields :
+    if field.name == "interface" :
+        field.name = "@" + field.name
+}@
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;

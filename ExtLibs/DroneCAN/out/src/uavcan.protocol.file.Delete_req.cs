@@ -19,25 +19,29 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_file_Delete_req(uavcan_protocol_file_Delete_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_file_Delete_req(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_file_Delete_req(CanardRxTransfer transfer, uavcan_protocol_file_Delete_req msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_file_Delete_req(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class uavcan_protocol_file_Delete_req : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_file_Delete_req(uavcan_protocol_file_Delete_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_file_Delete_req(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_uavcan_protocol_file_Delete_req(uint8_t[] buffer, uavcan_protocol_file_Delete_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            _encode_uavcan_protocol_file_Path(buffer, msg.path, chunk_cb, ctx, tao);
-        }
+            public static uint32_t decode_uavcan_protocol_file_Delete_req(CanardRxTransfer transfer, uavcan_protocol_file_Delete_req msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_file_Delete_req(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_uavcan_protocol_file_Delete_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_Delete_req msg, bool tao) {
+            internal static void _encode_uavcan_protocol_file_Delete_req(uint8_t[] buffer, uavcan_protocol_file_Delete_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                uavcan_protocol_file_Path._encode_uavcan_protocol_file_Path(buffer, msg.path, chunk_cb, ctx, tao);
+            }
 
-            _decode_uavcan_protocol_file_Path(transfer, ref bit_ofs, msg.path, tao);
+            internal static void _decode_uavcan_protocol_file_Delete_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_Delete_req msg, bool tao) {
 
+                uavcan_protocol_file_Path._decode_uavcan_protocol_file_Path(transfer, ref bit_ofs, msg.path, tao);
+
+            }
         }
     }
 }

@@ -19,40 +19,44 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_ardupilot_gnss_Status(ardupilot_gnss_Status msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_ardupilot_gnss_Status(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_ardupilot_gnss_Status(CanardRxTransfer transfer, ardupilot_gnss_Status msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_ardupilot_gnss_Status(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class ardupilot_gnss_Status : IDroneCANSerialize
+        {
+            public static void encode_ardupilot_gnss_Status(ardupilot_gnss_Status msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_ardupilot_gnss_Status(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_ardupilot_gnss_Status(uint8_t[] buffer, ardupilot_gnss_Status msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 32, msg.error_codes);
-            chunk_cb(buffer, 32, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 1, msg.healthy);
-            chunk_cb(buffer, 1, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 23, msg.status);
-            chunk_cb(buffer, 23, ctx);
-        }
+            public static uint32_t decode_ardupilot_gnss_Status(CanardRxTransfer transfer, ardupilot_gnss_Status msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_ardupilot_gnss_Status(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_ardupilot_gnss_Status(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_gnss_Status msg, bool tao) {
+            internal static void _encode_ardupilot_gnss_Status(uint8_t[] buffer, ardupilot_gnss_Status msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 32, msg.error_codes);
+                chunk_cb(buffer, 32, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 1, msg.healthy);
+                chunk_cb(buffer, 1, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 23, msg.status);
+                chunk_cb(buffer, 23, ctx);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.error_codes);
-            bit_ofs += 32;
+            internal static void _decode_ardupilot_gnss_Status(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_gnss_Status msg, bool tao) {
 
-            canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.healthy);
-            bit_ofs += 1;
+                canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.error_codes);
+                bit_ofs += 32;
 
-            canardDecodeScalar(transfer, bit_ofs, 23, false, ref msg.status);
-            bit_ofs += 23;
+                canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.healthy);
+                bit_ofs += 1;
 
+                canardDecodeScalar(transfer, bit_ofs, 23, false, ref msg.status);
+                bit_ofs += 23;
+
+            }
         }
     }
 }

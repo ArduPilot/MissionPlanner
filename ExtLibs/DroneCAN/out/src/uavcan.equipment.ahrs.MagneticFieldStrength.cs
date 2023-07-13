@@ -19,69 +19,73 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_equipment_ahrs_MagneticFieldStrength(uavcan_equipment_ahrs_MagneticFieldStrength msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_equipment_ahrs_MagneticFieldStrength(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_equipment_ahrs_MagneticFieldStrength(CanardRxTransfer transfer, uavcan_equipment_ahrs_MagneticFieldStrength msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_equipment_ahrs_MagneticFieldStrength(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_uavcan_equipment_ahrs_MagneticFieldStrength(uint8_t[] buffer, uavcan_equipment_ahrs_MagneticFieldStrength msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            for (int i=0; i < 3; i++) {
-                    memset(buffer,0,8);
-                    {
-                        uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.magnetic_field_ga[i]);
-                        canardEncodeScalar(buffer, 0, 16, float16_val);
-                    }
-                    chunk_cb(buffer, 16, ctx);
+        public partial class uavcan_equipment_ahrs_MagneticFieldStrength : IDroneCANSerialize
+        {
+            public static void encode_uavcan_equipment_ahrs_MagneticFieldStrength(uavcan_equipment_ahrs_MagneticFieldStrength msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_equipment_ahrs_MagneticFieldStrength(buffer, msg, chunk_cb, ctx, !fdcan);
             }
-            if (!tao) {
-                memset(buffer,0,8);
-                canardEncodeScalar(buffer, 0, 4, msg.magnetic_field_covariance_len);
-                chunk_cb(buffer, 4, ctx);
-            }
-            for (int i=0; i < msg.magnetic_field_covariance_len; i++) {
-                    memset(buffer,0,8);
-                    {
-                        uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.magnetic_field_covariance[i]);
-                        canardEncodeScalar(buffer, 0, 16, float16_val);
-                    }
-                    chunk_cb(buffer, 16, ctx);
-            }
-        }
 
-        static void _decode_uavcan_equipment_ahrs_MagneticFieldStrength(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_ahrs_MagneticFieldStrength msg, bool tao) {
+            public static uint32_t decode_uavcan_equipment_ahrs_MagneticFieldStrength(CanardRxTransfer transfer, uavcan_equipment_ahrs_MagneticFieldStrength msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_equipment_ahrs_MagneticFieldStrength(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-            for (int i=0; i < 3; i++) {
-                {
-                    uint16_t float16_val = 0;
-                    canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-                    msg.magnetic_field_ga[i] = canardConvertFloat16ToNativeFloat(float16_val);
+            internal static void _encode_uavcan_equipment_ahrs_MagneticFieldStrength(uint8_t[] buffer, uavcan_equipment_ahrs_MagneticFieldStrength msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                for (int i=0; i < 3; i++) {
+                        memset(buffer,0,8);
+                        {
+                            uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.magnetic_field_ga[i]);
+                            canardEncodeScalar(buffer, 0, 16, float16_val);
+                        }
+                        chunk_cb(buffer, 16, ctx);
                 }
-                bit_ofs += 16;
-            }
-
-            if (!tao) {
-                canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.magnetic_field_covariance_len);
-                bit_ofs += 4;
-            } else {
-                msg.magnetic_field_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
-            }
-
-            msg.magnetic_field_covariance = new Single[msg.magnetic_field_covariance_len];
-            for (int i=0; i < msg.magnetic_field_covariance_len; i++) {
-                {
-                    uint16_t float16_val = 0;
-                    canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-                    msg.magnetic_field_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
+                if (!tao) {
+                    memset(buffer,0,8);
+                    canardEncodeScalar(buffer, 0, 4, msg.magnetic_field_covariance_len);
+                    chunk_cb(buffer, 4, ctx);
                 }
-                bit_ofs += 16;
+                for (int i=0; i < msg.magnetic_field_covariance_len; i++) {
+                        memset(buffer,0,8);
+                        {
+                            uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.magnetic_field_covariance[i]);
+                            canardEncodeScalar(buffer, 0, 16, float16_val);
+                        }
+                        chunk_cb(buffer, 16, ctx);
+                }
             }
 
+            internal static void _decode_uavcan_equipment_ahrs_MagneticFieldStrength(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_ahrs_MagneticFieldStrength msg, bool tao) {
+
+                for (int i=0; i < 3; i++) {
+                    {
+                        uint16_t float16_val = 0;
+                        canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
+                        msg.magnetic_field_ga[i] = canardConvertFloat16ToNativeFloat(float16_val);
+                    }
+                    bit_ofs += 16;
+                }
+
+                if (!tao) {
+                    canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.magnetic_field_covariance_len);
+                    bit_ofs += 4;
+                } else {
+                    msg.magnetic_field_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
+                }
+
+                msg.magnetic_field_covariance = new Single[msg.magnetic_field_covariance_len];
+                for (int i=0; i < msg.magnetic_field_covariance_len; i++) {
+                    {
+                        uint16_t float16_val = 0;
+                        canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
+                        msg.magnetic_field_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
+                    }
+                    bit_ofs += 16;
+                }
+
+            }
         }
     }
 }

@@ -19,31 +19,35 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_mppt_OutputEnable_res(mppt_OutputEnable_res msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_mppt_OutputEnable_res(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_mppt_OutputEnable_res(CanardRxTransfer transfer, mppt_OutputEnable_res msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_mppt_OutputEnable_res(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class mppt_OutputEnable_res : IDroneCANSerialize
+        {
+            public static void encode_mppt_OutputEnable_res(mppt_OutputEnable_res msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_mppt_OutputEnable_res(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_mppt_OutputEnable_res(uint8_t[] buffer, mppt_OutputEnable_res msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            chunk_cb(null, 7, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 1, msg.enabled);
-            chunk_cb(buffer, 1, ctx);
-        }
+            public static uint32_t decode_mppt_OutputEnable_res(CanardRxTransfer transfer, mppt_OutputEnable_res msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_mppt_OutputEnable_res(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_mppt_OutputEnable_res(CanardRxTransfer transfer,ref uint32_t bit_ofs, mppt_OutputEnable_res msg, bool tao) {
+            internal static void _encode_mppt_OutputEnable_res(uint8_t[] buffer, mppt_OutputEnable_res msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                chunk_cb(null, 7, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 1, msg.enabled);
+                chunk_cb(buffer, 1, ctx);
+            }
 
-            bit_ofs += 7;
+            internal static void _decode_mppt_OutputEnable_res(CanardRxTransfer transfer,ref uint32_t bit_ofs, mppt_OutputEnable_res msg, bool tao) {
 
-            canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.enabled);
-            bit_ofs += 1;
+                bit_ofs += 7;
 
+                canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.enabled);
+                bit_ofs += 1;
+
+            }
         }
     }
 }

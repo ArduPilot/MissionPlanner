@@ -1,4 +1,3 @@
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,8 +18,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.Timestamp.cs
 //using uavcan.equipment.gnss.ECEFPositionVelocity.cs
+//using uavcan.Timestamp.cs
         public partial class uavcan_equipment_gnss_Fix2: IDroneCANSerialize 
         {
             public const int UAVCAN_EQUIPMENT_GNSS_FIX2_MAX_PACK_SIZE = 222;

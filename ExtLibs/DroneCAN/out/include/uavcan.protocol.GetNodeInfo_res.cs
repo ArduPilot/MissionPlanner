@@ -1,4 +1,3 @@
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,8 +18,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.protocol.SoftwareVersion.cs
 //using uavcan.protocol.HardwareVersion.cs
+//using uavcan.protocol.SoftwareVersion.cs
 //using uavcan.protocol.NodeStatus.cs
         public partial class uavcan_protocol_GetNodeInfo_res: IDroneCANSerialize 
         {

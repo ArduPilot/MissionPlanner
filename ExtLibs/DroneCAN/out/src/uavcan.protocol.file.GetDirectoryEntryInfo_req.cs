@@ -19,31 +19,35 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(uavcan_protocol_file_GetDirectoryEntryInfo_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(CanardRxTransfer transfer, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class uavcan_protocol_file_GetDirectoryEntryInfo_req : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(uavcan_protocol_file_GetDirectoryEntryInfo_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(uint8_t[] buffer, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 32, msg.entry_index);
-            chunk_cb(buffer, 32, ctx);
-            _encode_uavcan_protocol_file_Path(buffer, msg.directory_path, chunk_cb, ctx, tao);
-        }
+            public static uint32_t decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(CanardRxTransfer transfer, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, bool tao) {
+            internal static void _encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(uint8_t[] buffer, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 32, msg.entry_index);
+                chunk_cb(buffer, 32, ctx);
+                uavcan_protocol_file_Path._encode_uavcan_protocol_file_Path(buffer, msg.directory_path, chunk_cb, ctx, tao);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.entry_index);
-            bit_ofs += 32;
+            internal static void _decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, bool tao) {
 
-            _decode_uavcan_protocol_file_Path(transfer, ref bit_ofs, msg.directory_path, tao);
+                canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.entry_index);
+                bit_ofs += 32;
 
+                uavcan_protocol_file_Path._decode_uavcan_protocol_file_Path(transfer, ref bit_ofs, msg.directory_path, tao);
+
+            }
         }
     }
 }

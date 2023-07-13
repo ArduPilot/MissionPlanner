@@ -1,4 +1,3 @@
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -47,6 +46,8 @@ namespace DroneCAN
             public const double ARDUPILOT_INDICATION_NOTIFYSTATE_VEHICLE_STATE_THROW_READY = 19; // saturated uint8
             public const double ARDUPILOT_INDICATION_NOTIFYSTATE_VEHICLE_STATE_POWERING_OFF = 20; // saturated uint8
             public const double ARDUPILOT_INDICATION_NOTIFYSTATE_VEHICLE_STATE_VIDEO_RECORDING = 21; // saturated uint8
+            public const double ARDUPILOT_INDICATION_NOTIFYSTATE_VEHICLE_STATE_IS_LANDING = 22; // saturated uint8
+            public const double ARDUPILOT_INDICATION_NOTIFYSTATE_VEHICLE_STATE_IS_TAKING_OFF = 23; // saturated uint8
             public const double ARDUPILOT_INDICATION_NOTIFYSTATE_VEHICLE_YAW_EARTH_CENTIDEGREES = 0; // saturated uint8
 
             public uint8_t aux_data_type = new uint8_t();

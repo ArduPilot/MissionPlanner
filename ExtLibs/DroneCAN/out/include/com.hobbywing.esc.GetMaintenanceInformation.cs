@@ -1,0 +1,8 @@
+namespace DroneCAN
+{
+	public partial class DroneCAN {
+
+		const double COM_HOBBYWING_ESC_GETMAINTENANCEINFORMATION_DT_ID = 241;
+		const double COM_HOBBYWING_ESC_GETMAINTENANCEINFORMATION_DT_SIG = 0xB81DBD4EC9A5977D;
+	}
+}

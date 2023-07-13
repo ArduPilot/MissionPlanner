@@ -1,0 +1,8 @@
+namespace DroneCAN
+{
+	public partial class DroneCAN {
+
+		const double COM_HOBBYWING_ESC_SETREPORTINGFREQUENCY_DT_ID = 214;
+		const double COM_HOBBYWING_ESC_SETREPORTINGFREQUENCY_DT_SIG = 0x1FD0404420983DEB;
+	}
+}

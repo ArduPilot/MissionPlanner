@@ -19,28 +19,32 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_RestartNode_req(uavcan_protocol_RestartNode_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_RestartNode_req(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_RestartNode_req(CanardRxTransfer transfer, uavcan_protocol_RestartNode_req msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_RestartNode_req(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class uavcan_protocol_RestartNode_req : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_RestartNode_req(uavcan_protocol_RestartNode_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_RestartNode_req(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_uavcan_protocol_RestartNode_req(uint8_t[] buffer, uavcan_protocol_RestartNode_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 40, msg.magic_number);
-            chunk_cb(buffer, 40, ctx);
-        }
+            public static uint32_t decode_uavcan_protocol_RestartNode_req(CanardRxTransfer transfer, uavcan_protocol_RestartNode_req msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_RestartNode_req(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_uavcan_protocol_RestartNode_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_RestartNode_req msg, bool tao) {
+            internal static void _encode_uavcan_protocol_RestartNode_req(uint8_t[] buffer, uavcan_protocol_RestartNode_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 40, msg.magic_number);
+                chunk_cb(buffer, 40, ctx);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 40, false, ref msg.magic_number);
-            bit_ofs += 40;
+            internal static void _decode_uavcan_protocol_RestartNode_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_RestartNode_req msg, bool tao) {
 
+                canardDecodeScalar(transfer, bit_ofs, 40, false, ref msg.magic_number);
+                bit_ofs += 40;
+
+            }
         }
     }
 }

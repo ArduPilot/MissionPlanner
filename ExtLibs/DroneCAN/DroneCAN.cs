@@ -73,6 +73,12 @@ namespace DroneCAN
         private Stream sr;
         DateTime uptime = DateTime.Now;
 
+        public byte TransferID
+        {
+            get { return transferID; }
+            set { transferID = value; }
+        }
+
         /// <summary>
         /// Read a line from the underlying stream
         /// </summary>
@@ -1326,10 +1332,10 @@ namespace DroneCAN
         {
             var lines = slcan.Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-            lines = lines.Select((x, i) => new {index = i, value = x})
+            /*lines = lines.Select((x, i) => new {index = i, value = x})
                 .GroupBy(x => x.index / 10)
                 .Select(x => x.Select(v => v.value).Aggregate((i, j) => i + "\r" + j)).ToArray();
-
+            */
             foreach (var line in lines)
             {
                 lock (sr_lock)
@@ -1337,7 +1343,7 @@ namespace DroneCAN
                     if (sr.CanWrite)
                     {
                         sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
-
+                        sr.Flush();
                         try
                         {
                             logfilesemaphore.Wait();

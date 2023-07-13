@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DroneCAN;
 using Timer = System.Windows.Forms.Timer;
+using static DroneCAN.DroneCAN;
+using System.ComponentModel;
+using System.Drawing;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -63,7 +66,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             StartMavlinkCAN(1);
         }
 
-        private void StartMavlinkCAN(byte bus = 1) 
+        private void StartMavlinkCAN(byte bus = 1)
         {
             BusInUse = bus;
             but_slcanmode1.Enabled = false;
@@ -82,14 +85,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         // setup forwarding on can port 1
-                        var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0, false);
+                        var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                            (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0,
+                            false);
 
                         if (ans == false) // MAVLink.MAV_RESULT.UNSUPPORTED)
                         {
                             //return;
                         }
                     }
-                    catch (Exception ex) {  }
+                    catch (Exception ex)
+                    {
+                    }
 
                     if (mavlinkCANRun)
                         Thread.Sleep(1000);
@@ -106,18 +113,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //  message_id |= 1 << 31
 
                 if (payload.packet_data.Length > 8)
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_canfd_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000: 0),
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_canfd_frame_t(
+                            BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000 : 0),
                             (byte)MainV2.comPort.sysidcurrent,
-                            (byte)MainV2.comPort.compidcurrent, (byte)(bus-1), (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
+                            (byte)MainV2.comPort.compidcurrent, (byte)(bus - 1),
+                            (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
                             payload.packet_data),
                         (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
                 else
                 {
-                    var frame2 = new MAVLink.mavlink_can_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000 : 0),
-                            (byte)MainV2.comPort.sysidcurrent,
-                            (byte)MainV2.comPort.compidcurrent, (byte)(bus-1), (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
-                            payload.packet_data);
+                    var frame2 = new MAVLink.mavlink_can_frame_t(
+                        BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000 : 0),
+                        (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent, (byte)(bus - 1),
+                        (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
+                        payload.packet_data);
                     MainV2.comPort.sendPacket(frame2,
                         (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
@@ -128,7 +139,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             port.WriteCallback += (o, bytes) =>
             {
                 var lines = ASCIIEncoding.ASCII.GetString(bytes.ToArray())
-                    .Split(new[] {'\r'}, StringSplitOptions.RemoveEmptyEntries);
+                    .Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var line in lines)
                 {
@@ -150,7 +161,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var payload = new CANPayload(pkt.data);
 
                     var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
-                    , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
+                        , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
 
                     port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
                 }
@@ -163,7 +174,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var payload = new CANPayload(pkt.data);
 
                     var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
-                    , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
+                        , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
 
                     port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
                 }
@@ -212,15 +223,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var paramname = "CAN_SLCAN_SERNUM";
                     var req = new MAVLink.mavlink_param_set_t
                     {
-                        target_system = (byte) MainV2.comPort.sysidcurrent,
-                        target_component = (byte) MainV2.comPort.compidcurrent,
-                        param_type = (byte) MainV2.comPort
-                            .MAVlist[(byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent]
+                        target_system = (byte)MainV2.comPort.sysidcurrent,
+                        target_component = (byte)MainV2.comPort.compidcurrent,
+                        param_type = (byte)MainV2.comPort
+                            .MAVlist[(byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent]
                             .param_types[paramname],
                         param_id = paramname.MakeBytesSize(16)
                     };
-                    MainV2.comPort.sendPacket(req, (byte) MainV2.comPort.sysidcurrent,
-                        (byte) MainV2.comPort.compidcurrent);
+                    MainV2.comPort.sendPacket(req, (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent);
                     MainV2.comPort.sendPacket(req, (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
                 }
@@ -230,11 +241,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             }
 
-                // grab the connected port
-                var port = MainV2.comPort.BaseStream;
-                // place an invalid port in its place
-                if (port != null)
-                    MainV2.comPort.BaseStream = new Comms.SerialPort() { PortName = port.PortName, BaudRate = port.BaudRate };
+            // grab the connected port
+            var port = MainV2.comPort.BaseStream;
+            // place an invalid port in its place
+            if (port != null)
+                MainV2.comPort.BaseStream = new Comms.SerialPort()
+                    { PortName = port.PortName, BaudRate = port.BaudRate };
             SetupSLCanPort(port);
 
         }
@@ -306,7 +318,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (chk_log.Checked)
                 can.LogFile = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
-                          DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".can";
+                              DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".can";
 
             var prd = new ProgressReporterDialogue();
             prd.UpdateProgressAndStatus(-1, "Trying to connect");
@@ -336,12 +348,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (nodes.Count() > 0 && nodes.First().Name == "?")
                     {
                         var statetracking = new DroneCAN.DroneCAN.statetracking();
-                            // get node info
+                        // get node info
                         DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq =
-                                new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
+                            new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
                         gnireq.encode(DroneCAN.DroneCAN.dronecan_transmit_chunk_handler, statetracking);
 
-                        var slcan = can.PackageMessageSLCAN(frame.SourceNode, 30, 0, gnireq);
+                        var slcan = can.PackageMessageSLCAN(frame.SourceNode, 30, can.TransferID++, gnireq);
                         can.WriteToStreamSLCAN(slcan);
                     }
 
@@ -349,35 +361,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         switch (ns.health)
                         {
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK:
                                 item.Health = "OK";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_WARNING:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_HEALTH_WARNING:
                                 item.Health = "WARNING";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_ERROR:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_HEALTH_ERROR:
                                 item.Health = "ERROR";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_CRITICAL:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_HEALTH_CRITICAL:
                                 item.Health = "CRITICAL";
                                 break;
                         }
 
                         switch (ns.mode)
                         {
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL:
                                 item.Mode = "OPERATIONAL";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_INITIALIZATION:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_MODE_INITIALIZATION:
                                 item.Mode = "INITIALIZATION";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_MAINTENANCE:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_MODE_MAINTENANCE:
                                 item.Mode = "MAINTENANCE";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE:
                                 item.Mode = "SOFTWARE_UPDATE";
                                 break;
-                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OFFLINE:
+                            case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus
+                                .UAVCAN_PROTOCOL_NODESTATUS_MODE_OFFLINE:
                                 item.Mode = "OFFLINE";
                                 break;
                         }
@@ -397,13 +418,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         item.Name = ASCIIEncoding.ASCII.GetString(gnires.name, 0, gnires.name_len);
                         item.HardwareVersion = gnires.hardware_version.major + "." + gnires.hardware_version.minor;
-                        item.SoftwareVersion = gnires.software_version.major + "." + gnires.software_version.minor + "." +
-                                                   gnires.software_version.vcs_commit.ToString("X");
+                        item.SoftwareVersion = gnires.software_version.major + "." + gnires.software_version.minor +
+                                               "." +
+                                               gnires.software_version.vcs_commit.ToString("X");
                         item.SoftwareCRC = gnires.software_version.image_crc;
-                        item.HardwareUID = gnires.hardware_version.unique_id.Select(a => a.ToString("X2")).Aggregate((a, b) =>
-                              {
-                                  return a + " " + b;
-                              });
+                        item.HardwareUID = gnires.hardware_version.unique_id.Select(a => a.ToString("X2"))
+                            .Aggregate((a, b) => { return a + " " + b; });
                         item.RawMsg = gnires;
                         item.VSC = gnires.status.vendor_specific_status_code;
                     }
@@ -414,13 +434,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     var debug = msg as DroneCAN.DroneCAN.uavcan_protocol_debug_LogMessage;
 
-                    this.BeginInvoke((Action)delegate ()
-                       {
+                    this.BeginInvoke((Action)delegate()
+                    {
                         DGDebug.Rows.Insert(0, new object[]
                         {
-                                frame.SourceNode, debug.level.value,
-                                ASCIIEncoding.ASCII.GetString(debug.source, 0, debug.source_len),
-                                ASCIIEncoding.ASCII.GetString(debug.text, 0, debug.text_len)
+                            frame.SourceNode, debug.level.value,
+                            ASCIIEncoding.ASCII.GetString(debug.source, 0, debug.source_len),
+                            ASCIIEncoding.ASCII.GetString(debug.text, 0, debug.text_len)
                         });
                         if (DGDebug.Rows.Count > 100)
                         {
@@ -443,12 +463,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Ignore clicks that are not on button cells. 
             if (e.RowIndex < 0) return;
 
-            try {
+            try
+            {
                 if (e.ColumnIndex == myDataGridView1.Columns["Menu"].Index)
                 {
                     contextMenu1.Show(myDataGridView1, myDataGridView1.PointToClient(Control.MousePosition));
                 }
-            } catch
+            }
+            catch
             {
 
             }
@@ -459,17 +481,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ProgressReporterDialogue prd = new ProgressReporterDialogue();
             DroneCAN.DroneCAN.FileSendProgressArgs filesend = (id, file, percent) =>
             {
-                prd.UpdateProgressAndStatus((int) percent, id + " " + file);
+                prd.UpdateProgressAndStatus((int)percent, id + " " + file);
             };
             can.FileSendProgress += filesend;
             var devicename = can.GetNodeName(nodeID);
             var hwversion =
                 double.Parse(
-                    can.NodeInfo[nodeID].hardware_version.major +"."+ can.NodeInfo[nodeID].hardware_version.minor,
+                    can.NodeInfo[nodeID].hardware_version.major + "." + can.NodeInfo[nodeID].hardware_version.minor,
                     CultureInfo.InvariantCulture);
 
             if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
-                CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
                 var url = can.LookForUpdate(devicename, hwversion, beta);
 
@@ -491,7 +513,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             };
                             DroneCAN.DroneCAN.FileSendProgressArgs fileprog = (n, f, p) =>
                             {
-                                prd.UpdateProgressAndStatus((int) p, f);
+                                prd.UpdateProgressAndStatus((int)p, f);
                             };
                             can.FileSendComplete += file;
                             can.FileSendProgress += fileprog;
@@ -546,7 +568,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     };
                     DroneCAN.DroneCAN.FileSendProgressArgs fileprog = (n, f, p) =>
                     {
-                        prd.UpdateProgressAndStatus((int) p, f);
+                        prd.UpdateProgressAndStatus((int)p, f);
                     };
                     can.FileSendComplete += file;
                     can.FileSendProgress += fileprog;
@@ -575,7 +597,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     catch (Exception ex)
                     {
                         CustomMessageBox.Show(ex.Message, Strings.ERROR);
-                    }   
+                    }
                     finally
                     {
                         can.FileSendComplete -= file;
@@ -606,6 +628,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             mavlinkCANRun = false;
+            try
+            {
+                if (listener != null)
+                    listener.Stop();
+            }
+            catch
+            {
+            }
+
+            listener = null;
             can?.Stop(chk_canonclose.Checked);
             can = null;
             timer?.Stop();
@@ -665,7 +697,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
 
                         listener = new TcpListener(IPAddress.Any, port);
-                        listener.Start();
+                        listener.Start(1);
 
                         int tcpbps = 0;
                         int rtcmbps = 0;
@@ -679,10 +711,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             var st = client.GetStream();
 
-                            DroneCAN.DroneCAN.MessageRecievedDel mrd =  (frame, msg, id) =>
+                            DroneCAN.DroneCAN.MessageRecievedDel mrd = (frame, msg, id) =>
                             {
                                 combps += frame.SizeofEntireMsg;
-                                if (frame.MsgTypeID == DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                                if (frame.MsgTypeID == DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream
+                                        .UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                                 {
                                     var data = msg as DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream;
                                     try
@@ -697,7 +730,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                     }
                                 }
 
-                                if (frame.MsgTypeID == DroneCAN.DroneCAN.ardupilot_gnss_MovingBaselineData.ARDUPILOT_GNSS_MOVINGBASELINEDATA_DT_ID)
+                                if (frame.MsgTypeID == DroneCAN.DroneCAN.ardupilot_gnss_MovingBaselineData
+                                        .ARDUPILOT_GNSS_MOVINGBASELINEDATA_DT_ID)
                                 {
                                     var data = msg as DroneCAN.DroneCAN.ardupilot_gnss_MovingBaselineData;
                                     try
@@ -732,9 +766,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                         Console.WriteLine();
                                         tcpbps += read;
-                                        var slcan = can.PackageMessageSLCAN(0, 30, 0,
+                                        var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
                                             new DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream()
-                                                {protocol_id = 3, data = buffer, data_len = (byte) read});
+                                                { protocol_id = 3, data = buffer, data_len = (byte)read });
                                         can.WriteToStreamSLCAN(slcan);
                                     }
 
@@ -770,22 +804,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void menu_update_Click(object sender, EventArgs e)
         {
-            FirmwareUpdate(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
+            FirmwareUpdate(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value
+                .ToString()));
         }
 
         private void menu_parameters_Click(object sender, EventArgs e)
         {
-            GetParameters(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
+            GetParameters(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value
+                .ToString()));
         }
 
         private void menu_restart_Click(object sender, EventArgs e)
         {
-            can.RestartNode(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
+            can.RestartNode(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value
+                .ToString()));
         }
 
         private void menu_updatebeta_Click(object sender, EventArgs e)
         {
-            FirmwareUpdate(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()), true);
+            FirmwareUpdate(
+                byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()), true);
         }
 
         private void but_slcanmode2_2_Click(object sender, EventArgs e)
@@ -804,10 +842,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 DroneCAN.DroneCAN.uavcan_protocol_RestartNode_req.UAVCAN_PROTOCOL_RESTARTNODE_REQ_DT_ID,
                 DroneCAN.DroneCAN.uavcan_protocol_param_GetSet_req.UAVCAN_PROTOCOL_PARAM_GETSET_REQ_DT_ID,
                 DroneCAN.DroneCAN.uavcan_protocol_param_ExecuteOpcode_req.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_DT_ID,
-                DroneCAN.DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_req.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_DT_ID,
+                DroneCAN.DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_req
+                    .UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQ_DT_ID,
                 DroneCAN.DroneCAN.uavcan_protocol_file_Read_req.UAVCAN_PROTOCOL_FILE_READ_REQ_DT_ID,
                 DroneCAN.DroneCAN.uavcan_protocol_file_GetInfo_req.UAVCAN_PROTOCOL_FILE_GETINFO_REQ_DT_ID,
-                DroneCAN.DroneCAN.uavcan_protocol_dynamic_node_id_Allocation.UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_ALLOCATION_DT_ID,
+                DroneCAN.DroneCAN.uavcan_protocol_dynamic_node_id_Allocation
+                    .UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_ALLOCATION_DT_ID,
                 DroneCAN.DroneCAN.uavcan_protocol_debug_LogMessage.UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_ID,
             };
 
@@ -823,22 +863,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             cball.CheckedChanged += (s, e2) =>
             {
                 // update custom
-                MAVLink.mavlink_can_filter_modify_t filter2 = new MAVLink.mavlink_can_filter_modify_t(defaultfilter.ToArray().MakeSize(16), (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, BusInUse, (byte)MAVLink.CAN_FILTER_OP.CAN_FILTER_REPLACE, 0);
+                MAVLink.mavlink_can_filter_modify_t filter2 = new MAVLink.mavlink_can_filter_modify_t(
+                    defaultfilter.ToArray().MakeSize(16), (byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent, BusInUse, (byte)MAVLink.CAN_FILTER_OP.CAN_FILTER_REPLACE, 0);
 
                 if (mavlinkCANRun)
                 {
                     try
                     {
-                        MainV2.comPort.sendPacket(filter2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                        MainV2.comPort.sendPacket(filter2, (byte)MainV2.comPort.sysidcurrent,
+                            (byte)MainV2.comPort.compidcurrent);
                     }
-                    catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             };
             panel.Controls.Add(cball);
-            
+
             panel.Controls.AddRange(list.Select(a =>
             {
-                var cb = new CheckBox() { Name = a.Name, Text = a.Name, Checked = defaultfilter.Contains(a.msgid), Width = 320 };
+                var cb = new CheckBox()
+                    { Name = a.Name, Text = a.Name, Checked = defaultfilter.Contains(a.msgid), Width = 320 };
                 cb.CheckedChanged += (s, e2) =>
                 {
                     if (cb.Checked)
@@ -852,23 +899,509 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     // update custom
-                    MAVLink.mavlink_can_filter_modify_t filter2 = new MAVLink.mavlink_can_filter_modify_t(defaultfilter.ToArray().MakeSize(16), (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, BusInUse, (byte)MAVLink.CAN_FILTER_OP.CAN_FILTER_REPLACE, (byte)defaultfilter.Count());
+                    MAVLink.mavlink_can_filter_modify_t filter2 = new MAVLink.mavlink_can_filter_modify_t(
+                        defaultfilter.ToArray().MakeSize(16), (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent, BusInUse, (byte)MAVLink.CAN_FILTER_OP.CAN_FILTER_REPLACE,
+                        (byte)defaultfilter.Count());
 
                     if (mavlinkCANRun)
                     {
                         try
                         {
-                            MainV2.comPort.sendPacket(filter2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                            MainV2.comPort.sendPacket(filter2, (byte)MainV2.comPort.sysidcurrent,
+                                (byte)MainV2.comPort.compidcurrent);
                         }
-                        catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
                     }
                 };
                 return cb;
             }).ToArray());
 
             var frm = paneltop.ShowUserControl();
-            
+
             frm.Invalidate();
+        }
+
+        private void menu_passthrough4_Click(object sender, EventArgs e)
+        {
+            if (listener != null)
+            {
+                menu_passthrough4.Checked = false;
+                listener.Stop();
+                CustomMessageBox.Show("Stop", "Disabled forwarding");
+                listener = null;
+                return;
+            }
+
+            var port = 500;
+            var baudrate = 230400;
+            var target_node =
+                byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString());
+            if (InputBox.Show("Enter TCP Port", "Enter TCP Port", ref port) != DialogResult.OK)
+            {
+                return;
+            }
+
+            if (InputBox.Show("Enter Baudrate", "Enter Baudrate", ref baudrate) != DialogResult.OK)
+            {
+                return;
+            }
+
+            menu_passthrough4.Checked = true;
+
+            Task.Run(() =>
+            {
+                try
+                {
+
+                    listener = new TcpListener(IPAddress.Any, port);
+                    listener.Start(1);
+
+                    int tcpbps = 0;
+                    int tunnelbps = 0;
+                    int combps = 0;
+                    int second = 0;
+
+                    {
+                        var bauds = new[] { 9600, 38400, 57600, 115200, 230400, 460800 };
+
+                        foreach (var baud in bauds)
+                        {
+                            var packet = Ubx.generate(0x6, 0x00, new byte[]
+                            {
+                                0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00,
+                                (byte)(baudrate & 0xff),
+                                (byte)((baudrate >> 8) & 0xff),
+                                (byte)((baudrate >> 16) & 0xff), 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00
+                            });
+
+                            packet = new byte[] { 0x55, 0x55 }.Concat(packet).ToArray();
+
+                            var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
+                                new DroneCAN.DroneCAN.uavcan_tunnel_Targetted()
+                                {
+                                    protocol = new uavcan_tunnel_Protocol()
+                                    {
+                                        protocol = (byte)uavcan_tunnel_Protocol
+                                            .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
+                                    },
+                                    target_node = target_node,
+                                    serial_id = -1,
+                                    baudrate = (uint)baud,
+                                    options = (byte)uavcan_tunnel_Targetted
+                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                    buffer_len = (byte)packet.Length,
+                                    buffer = packet
+                                });
+                            can.WriteToStreamSLCAN(slcan);
+                            Thread.Sleep(100);
+                        }
+                    }
+
+                    while (true)
+                    {
+                        using (var client = listener.AcceptTcpClient())
+                        {
+                            client.NoDelay = true;
+
+                            using (var st = client.GetStream())
+                            {
+                                DroneCAN.DroneCAN.MessageRecievedDel mrd = (frame, msg, id) =>
+                                {
+                                    combps += frame.SizeofEntireMsg;
+                                    if (frame.MsgTypeID == DroneCAN.DroneCAN.uavcan_tunnel_Targetted
+                                            .UAVCAN_TUNNEL_TARGETTED_DT_ID)
+                                    {
+                                        var data = msg as DroneCAN.DroneCAN.uavcan_tunnel_Targetted;
+                                        if (frame.SourceNode != target_node)
+                                        {
+                                            // not addressed to us
+                                            return;
+                                        }
+
+                                        if (data.target_node != can.SourceNode)
+                                        {
+                                            // not for us
+                                            return;
+                                        }
+
+                                        try
+                                        {
+                                            tunnelbps += data.buffer_len;
+                                            st.Write(data.buffer, 0, data.buffer_len);
+                                            st.Flush();
+                                        }
+                                        catch
+                                        {
+                                            return;
+                                        }
+                                    }
+                                };
+
+                                can.MessageReceived -= mrd;
+                                can.MessageReceived += mrd;
+
+                                try
+                                {
+                                    var lastsend = DateTime.MinValue;
+                                    while (client.Connected)
+                                    {
+                                        if (listener == null)
+                                        {
+                                            if (can != null)
+                                                can.MessageReceived -= mrd;
+                                            client.Close();
+                                            return;
+                                        }
+
+                                        if (client.Available > 0)
+                                        {
+                                            var toread = Math.Min(client.Available, 120);
+                                            byte[] buffer = new byte[toread];
+                                            var read = st.Read(buffer, 0, toread);
+                                            /*foreach (var b in buffer)
+                                    {
+                                        Console.Write("0x{0:X} ", b);
+                                    }
+
+                                    Console.WriteLine();*/
+                                            tcpbps += read;
+                                            var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
+                                                new DroneCAN.DroneCAN.uavcan_tunnel_Targetted()
+                                                {
+                                                    protocol = new uavcan_tunnel_Protocol()
+                                                    {
+                                                        protocol = (byte)uavcan_tunnel_Protocol
+                                                            .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
+                                                    },
+                                                    target_node = target_node, serial_id = -1,
+                                                    baudrate = (uint)baudrate,
+                                                    options = (byte)uavcan_tunnel_Targetted
+                                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                                    buffer = buffer, buffer_len = (byte)read
+                                                });
+                                            can.WriteToStreamSLCAN(slcan);
+                                            lastsend = DateTime.Now;
+                                        }
+                                        else
+                                            Thread.Sleep(1);
+
+                                        if ((DateTime.Now - lastsend).TotalSeconds >= 0.5)
+                                        {
+                                            var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
+                                                new DroneCAN.DroneCAN.uavcan_tunnel_Targetted()
+                                                {
+                                                    protocol = new uavcan_tunnel_Protocol()
+                                                    {
+                                                        protocol = (byte)uavcan_tunnel_Protocol
+                                                            .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
+                                                    },
+                                                    target_node = target_node,
+                                                    serial_id = -1,
+                                                    baudrate = (uint)baudrate,
+                                                    options = (byte)uavcan_tunnel_Targetted
+                                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                                    buffer_len = 0,
+                                                    buffer = Array.Empty<byte>()
+                                                });
+                                            can.WriteToStreamSLCAN(slcan);
+                                            lastsend = DateTime.Now;
+                                        }
+
+                                        if (second != DateTime.Now.Second)
+                                        {
+                                            Console.WriteLine("tcp:{0} can:{1} tunn:{2} avail:{3}", tcpbps, combps,
+                                                tunnelbps,
+                                                client.Available);
+                                            tcpbps = combps = tunnelbps = 0;
+                                            second = DateTime.Now.Second;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    can.MessageReceived -= mrd;
+                                    Console.WriteLine(ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    CustomMessageBox.Show(Strings.ERROR, "Forwarder problem " + exception.ToString());
+                    if (listener != null)
+                        listener.Stop();
+                    listener = null;
+                    this.InvokeIfRequired(() => { menu_passthrough4.Checked = true; });
+                }
+            });
+        }
+
+        public class CanStats : dronecan_protocol_CanStats
+        {
+            public int NodeID { get; set; }
+
+            public CanStats(byte NodeID, dronecan_protocol_CanStats data)
+            {
+                this.NodeID = NodeID;
+                
+                busoff_errors = data.busoff_errors;
+                rx_errors = data.rx_errors;
+                @interface = data.@interface;
+                tx_requests = data.tx_requests;
+                tx_rejected = data.tx_rejected;
+                tx_overflow = data.tx_overflow;
+                tx_success = data.tx_success;
+                tx_timedout = data.tx_timedout;
+                tx_abort = data.tx_abort;
+                rx_overflow= data.rx_overflow;
+                rx_received= data.rx_received;
+            }
+
+            public new byte @interface
+            {
+                get { return base.@interface; }
+                set { base.@interface = value; }
+            }
+
+            public new uint tx_requests
+            {
+                get { return base.tx_requests; }
+                set { base.tx_requests = value; }
+            }
+
+            public new ushort tx_rejected
+            {
+                get { return base.tx_rejected; }
+                set { base.tx_rejected = value; }
+            }
+
+            public new ushort tx_overflow
+            {
+                get { return base.tx_overflow; }
+                set { base.tx_overflow = value; }
+            }
+
+            public new ushort tx_success
+            {
+                get { return base.tx_success; }
+                set { base.tx_success = value; }
+            }
+
+            public new ushort tx_timedout
+            {
+                get { return base.tx_timedout; }
+                set { base.tx_timedout = value; }
+            }
+
+            public new ushort tx_abort
+            {
+                get { return base.tx_abort; }
+                set { base.tx_abort = value; }
+            }
+
+            public new uint rx_received
+            {
+                get { return base.rx_received; }
+                set { base.rx_received = value; }
+            }
+
+            public new ushort rx_overflow
+            {
+                get { return base.rx_overflow; }
+                set { base.rx_overflow = value; }
+            }
+
+            public new ushort rx_errors
+            {
+                get { return base.rx_errors; }
+                set { base.rx_errors = value; }
+            }
+
+            public new ushort busoff_errors
+            {
+                get { return base.busoff_errors; }
+                set { base.busoff_errors = value; }
+            }
+        }
+
+        public class Stats : dronecan_protocol_Stats
+        {
+            public int NodeID { get; set; }
+
+            public Stats(byte NodeID, dronecan_protocol_Stats data) : base()
+            {
+                this.NodeID = NodeID;
+                tx_frames = data.tx_frames;
+                tx_errors = data.tx_errors;
+                rx_frames = data.rx_frames;
+                rx_error_oom = data.rx_error_oom;
+                rx_error_internal = data.rx_error_internal;
+                rx_error_missed_start = data.rx_error_missed_start;
+                rx_error_bad_crc = data.rx_error_bad_crc;
+                rx_error_wrong_toggle = data.rx_error_wrong_toggle;
+                rx_error_short_frame = data.rx_error_short_frame;
+                rx_ignored_wrong_address = data.rx_ignored_wrong_address;
+                rx_ignored_not_wanted = data.rx_ignored_not_wanted;
+                rx_ignored_unexpected_tid = data.rx_ignored_unexpected_tid;
+            }
+
+            public new uint tx_frames
+            {
+                get { return base.tx_frames; }
+                set { base.tx_frames = value; }
+            }
+
+            public new ushort tx_errors
+            {
+                get { return base.tx_errors; }
+                set { base.tx_errors = value; }
+            }
+
+            public new uint rx_frames
+            {
+                get { return base.rx_frames; }
+                set { base.rx_frames = value; }
+            }
+
+            public new ushort rx_error_oom
+            {
+                get { return base.rx_error_oom; }
+                set { base.rx_error_oom = value; }
+            }
+
+            public new ushort rx_error_internal
+            {
+                get { return base.rx_error_internal; }
+                set { base.rx_error_internal = value; }
+            }
+
+            public new ushort rx_error_missed_start
+            {
+                get { return base.rx_error_missed_start; }
+                set { base.rx_error_missed_start = value; }
+            }
+
+            public new ushort rx_error_wrong_toggle
+            {
+                get { return base.rx_error_wrong_toggle; }
+                set { base.rx_error_wrong_toggle = value; }
+            }
+
+            public new ushort rx_error_short_frame
+            {
+                get { return base.rx_error_short_frame; }
+                set { base.rx_error_short_frame = value; }
+            }
+
+            public new ushort rx_error_bad_crc
+            {
+                get { return base.rx_error_bad_crc; }
+                set { base.rx_error_bad_crc = value; }
+            }
+
+            public new ushort rx_ignored_wrong_address
+            {
+                get { return base.rx_ignored_wrong_address; }
+                set { base.rx_ignored_wrong_address = value; }
+            }
+
+            public new ushort rx_ignored_not_wanted
+            {
+                get { return base.rx_ignored_not_wanted; }
+                set { base.rx_ignored_not_wanted = value; }
+            }
+
+            public new ushort rx_ignored_unexpected_tid
+            {
+                get { return base.rx_ignored_unexpected_tid; }
+                set { base.rx_ignored_unexpected_tid = value; }
+            }
+        }
+
+        private void but_stats_Click(object sender, EventArgs e)
+        {
+            DataGridView dgvcanstats = new DataGridView();
+            dgvcanstats.AutoGenerateColumns = true;
+
+            DataGridView dgvstats = new DataGridView();
+            dgvstats.AutoGenerateColumns = true;
+
+            var list1 = new BindingList<CanStats>();
+            var list2 = new BindingList<Stats>();
+
+            DroneCAN.DroneCAN.MessageRecievedDel mrd = (frame, msg, id) =>
+            {
+                if (frame.MsgTypeID == DroneCAN.DroneCAN.dronecan_protocol_CanStats.DRONECAN_PROTOCOL_CANSTATS_DT_ID)
+                {
+                    var data = msg as dronecan_protocol_CanStats;
+                    var d1 = new CanStats(frame.SourceNode, data);
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        if (list1.Any(a => a.@interface == d1.@interface && a.NodeID == frame.SourceNode))
+                            list1[list1.IndexOf(
+                                list1.First(a => a.@interface == d1.@interface && a.NodeID == frame.SourceNode))] = d1;
+                        else
+                        {
+
+                            list1.Add(d1);
+
+                        }
+                    }));
+                }
+                else if (frame.MsgTypeID == DroneCAN.DroneCAN.dronecan_protocol_Stats.DRONECAN_PROTOCOL_STATS_DT_ID)
+                {
+                    var data = msg as dronecan_protocol_Stats;
+                    var d1 = new Stats(frame.SourceNode, data);
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        if (list2.Any(a => a.NodeID == frame.SourceNode))
+                            list2[list2.IndexOf(list2.First(a => a.NodeID == frame.SourceNode))] = d1;
+                        else
+                        {
+                            list2.Add(d1);
+                        }
+                    }));
+                }
+            };
+
+
+            Panel p = new Panel()
+            {
+                Width = (int)(Screen.PrimaryScreen.WorkingArea.Width / 1.2),
+                Height = (int)(Screen.PrimaryScreen.WorkingArea.Height / 1.2)
+            };
+            dgvcanstats.Width = p.Width;
+            dgvcanstats.Height = p.Height / 2;
+            dgvstats.Width = p.Width;
+            dgvstats.Height = p.Height / 2;
+            dgvstats.Location = new Point(0, p.Height / 2);
+            dgvcanstats.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dgvstats.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+
+            p.Controls.Add(dgvcanstats);
+            p.Controls.Add(dgvstats);
+            var frm = p.ShowUserControl();
+            frm.Text = "Stats";
+            frm.StartPosition = FormStartPosition.CenterScreen;
+
+            can.MessageReceived += mrd;
+
+            var bs1 = new BindingSource();
+            bs1.DataSource = list1;
+            dgvcanstats.DataSource = bs1;
+
+            var bs2 = new BindingSource();
+            bs2.DataSource = list2;
+            dgvstats.DataSource = bs2;
+
+            frm.Refresh();
+
+            frm.Closing += (o, args) => { can.MessageReceived -= mrd; };
         }
     }
 }

@@ -19,50 +19,54 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_ardupilot_indication_NotifyState(ardupilot_indication_NotifyState msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_ardupilot_indication_NotifyState(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_ardupilot_indication_NotifyState(CanardRxTransfer transfer, ardupilot_indication_NotifyState msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_ardupilot_indication_NotifyState(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
-
-        static void _encode_ardupilot_indication_NotifyState(uint8_t[] buffer, ardupilot_indication_NotifyState msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.aux_data_type);
-            chunk_cb(buffer, 8, ctx);
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 8, msg.aux_data_len);
-            chunk_cb(buffer, 8, ctx);
-            for (int i=0; i < msg.aux_data_len; i++) {
-                    memset(buffer,0,8);
-                    canardEncodeScalar(buffer, 0, 8, msg.aux_data[i]);
-                    chunk_cb(buffer, 8, ctx);
+        public partial class ardupilot_indication_NotifyState : IDroneCANSerialize
+        {
+            public static void encode_ardupilot_indication_NotifyState(ardupilot_indication_NotifyState msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_ardupilot_indication_NotifyState(buffer, msg, chunk_cb, ctx, !fdcan);
             }
-            memset(buffer,0,8);
-            canardEncodeScalar(buffer, 0, 64, msg.vehicle_state);
-            chunk_cb(buffer, 64, ctx);
-        }
 
-        static void _decode_ardupilot_indication_NotifyState(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_indication_NotifyState msg, bool tao) {
+            public static uint32_t decode_ardupilot_indication_NotifyState(CanardRxTransfer transfer, ardupilot_indication_NotifyState msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_ardupilot_indication_NotifyState(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.aux_data_type);
-            bit_ofs += 8;
+            internal static void _encode_ardupilot_indication_NotifyState(uint8_t[] buffer, ardupilot_indication_NotifyState msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.aux_data_type);
+                chunk_cb(buffer, 8, ctx);
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 8, msg.aux_data_len);
+                chunk_cb(buffer, 8, ctx);
+                for (int i=0; i < msg.aux_data_len; i++) {
+                        memset(buffer,0,8);
+                        canardEncodeScalar(buffer, 0, 8, msg.aux_data[i]);
+                        chunk_cb(buffer, 8, ctx);
+                }
+                memset(buffer,0,8);
+                canardEncodeScalar(buffer, 0, 64, msg.vehicle_state);
+                chunk_cb(buffer, 64, ctx);
+            }
 
-            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.aux_data_len);
-            bit_ofs += 8;
-            msg.aux_data = new uint8_t[msg.aux_data_len];
-            for (int i=0; i < msg.aux_data_len; i++) {
-                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.aux_data[i]);
+            internal static void _decode_ardupilot_indication_NotifyState(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_indication_NotifyState msg, bool tao) {
+
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.aux_data_type);
                 bit_ofs += 8;
+
+                canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.aux_data_len);
+                bit_ofs += 8;
+                msg.aux_data = new uint8_t[msg.aux_data_len];
+                for (int i=0; i < msg.aux_data_len; i++) {
+                    canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.aux_data[i]);
+                    bit_ofs += 8;
+                }
+
+                canardDecodeScalar(transfer, bit_ofs, 64, false, ref msg.vehicle_state);
+                bit_ofs += 64;
+
             }
-
-            canardDecodeScalar(transfer, bit_ofs, 64, false, ref msg.vehicle_state);
-            bit_ofs += 64;
-
         }
     }
 }

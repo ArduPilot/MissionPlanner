@@ -19,22 +19,26 @@ using System.Collections.Generic;
 namespace DroneCAN
 {
     public partial class DroneCAN {
-        static void encode_uavcan_protocol_param_Empty(uavcan_protocol_param_Empty msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
-            uint8_t[] buffer = new uint8_t[8];
-            _encode_uavcan_protocol_param_Empty(buffer, msg, chunk_cb, ctx, !fdcan);
-        }
 
-        static uint32_t decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer, uavcan_protocol_param_Empty msg, bool fdcan) {
-            uint32_t bit_ofs = 0;
-            _decode_uavcan_protocol_param_Empty(transfer, ref bit_ofs, msg, !fdcan);
-            return (bit_ofs+7)/8;
-        }
+        public partial class uavcan_protocol_param_Empty : IDroneCANSerialize
+        {
+            public static void encode_uavcan_protocol_param_Empty(uavcan_protocol_param_Empty msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan) {
+                uint8_t[] buffer = new uint8_t[8];
+                _encode_uavcan_protocol_param_Empty(buffer, msg, chunk_cb, ctx, !fdcan);
+            }
 
-        static void _encode_uavcan_protocol_param_Empty(uint8_t[] buffer, uavcan_protocol_param_Empty msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-        }
+            public static uint32_t decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer, uavcan_protocol_param_Empty msg, bool fdcan) {
+                uint32_t bit_ofs = 0;
+                _decode_uavcan_protocol_param_Empty(transfer, ref bit_ofs, msg, !fdcan);
+                return (bit_ofs+7)/8;
+            }
 
-        static void _decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_param_Empty msg, bool tao) {
+            internal static void _encode_uavcan_protocol_param_Empty(uint8_t[] buffer, uavcan_protocol_param_Empty msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+            }
 
+            internal static void _decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_param_Empty msg, bool tao) {
+
+            }
         }
     }
 }
