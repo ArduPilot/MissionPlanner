@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -40,6 +40,7 @@
             this.menu_update = new System.Windows.Forms.MenuItem();
             this.menu_updatebeta = new System.Windows.Forms.MenuItem();
             this.menu_passthrough = new System.Windows.Forms.MenuItem();
+            this.menu_passthrough4 = new System.Windows.Forms.MenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.but_mavlinkcanmode2 = new MissionPlanner.Controls.MyButton();
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
@@ -80,7 +81,7 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.menu_passthrough4 = new System.Windows.Forms.MenuItem();
+            this.but_stats = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
@@ -159,6 +160,12 @@
             this.menu_passthrough.RadioCheck = true;
             this.menu_passthrough.Text = "CANPassThrough Here3";
             this.menu_passthrough.Click += new System.EventHandler(this.menu_passthrough_Click);
+            // 
+            // menu_passthrough4
+            // 
+            this.menu_passthrough4.Index = 5;
+            this.menu_passthrough4.Text = "CANPassThough Here3+/4";
+            this.menu_passthrough4.Click += new System.EventHandler(this.menu_passthrough4_Click);
             // 
             // label1
             // 
@@ -495,10 +502,10 @@
             this.Menu});
             this.myDataGridView1.ContextMenu = this.contextMenu1;
             this.myDataGridView1.DataSource = this.uAVCANModelBindingSource;
-            this.myDataGridView1.Location = new System.Drawing.Point(7, 76);
+            this.myDataGridView1.Location = new System.Drawing.Point(7, 89);
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.ReadOnly = true;
-            this.myDataGridView1.Size = new System.Drawing.Size(788, 242);
+            this.myDataGridView1.Size = new System.Drawing.Size(788, 229);
             this.myDataGridView1.TabIndex = 1;
             this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
             this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
@@ -563,9 +570,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle3.Format = "X";
-            dataGridViewCellStyle3.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SW CRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -573,24 +580,30 @@
             // 
             // Menu
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.NullValue = "Menu";
-            this.Menu.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = "Menu";
+            this.Menu.DefaultCellStyle = dataGridViewCellStyle2;
             this.Menu.HeaderText = "Menu";
             this.Menu.Name = "Menu";
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;
             // 
-            // menu_passthrough4
+            // but_stats
             // 
-            this.menu_passthrough4.Index = 5;
-            this.menu_passthrough4.Text = "CANPassThough Here3+/4";
-            this.menu_passthrough4.Click += new System.EventHandler(this.menu_passthrough4_Click);
+            this.but_stats.Location = new System.Drawing.Point(290, 60);
+            this.but_stats.Name = "but_stats";
+            this.but_stats.Size = new System.Drawing.Size(42, 23);
+            this.but_stats.TabIndex = 93;
+            this.but_stats.Text = "Stats";
+            this.but_stats.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_stats.UseVisualStyleBackColor = true;
+            this.but_stats.Click += new System.EventHandler(this.but_stats_Click);
             // 
             // ConfigDroneCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_stats);
             this.Controls.Add(this.but_filter);
             this.Controls.Add(this.but_mavlinkcanmode2_2);
             this.Controls.Add(this.chk_canonclose);
@@ -668,5 +681,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
         private System.Windows.Forms.DataGridViewButtonColumn Menu;
         private System.Windows.Forms.MenuItem menu_passthrough4;
+        private Controls.MyButton but_stats;
     }
 }
