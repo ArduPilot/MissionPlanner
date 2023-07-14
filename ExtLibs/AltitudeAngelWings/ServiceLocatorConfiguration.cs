@@ -50,6 +50,7 @@ namespace AltitudeAngelWings
             ServiceLocator.Register<ITokenProvider>(l => new UserAuthenticationTokenProvider(
                 l.Resolve<ISettings>(),
                 new DefaultHttpClientFactory(),
+                l.Resolve<IAsyncPolicy>(),
                 l.Resolve<IAuthorizeCodeProvider>(),
                 l.Resolve<IMessagesService>(),
                 l.Resolve<IMissionPlanner>().VersionHeader));

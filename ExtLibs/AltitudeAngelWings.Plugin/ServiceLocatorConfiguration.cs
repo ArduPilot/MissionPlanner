@@ -8,6 +8,7 @@ using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
+using Polly;
 using Settings = AltitudeAngelWings.Service.Settings;
 
 namespace AltitudeAngelWings.Plugin
@@ -47,6 +48,7 @@ namespace AltitudeAngelWings.Plugin
                 () => l.Resolve<PluginHost>().comPort.MAV.cs));
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new ExternalWebBrowserAuthorizeCodeProvider(
                 l.Resolve<ISettings>(),
+                l.Resolve<IAsyncPolicy>(),
                 l.Resolve<IMissionPlanner>().VersionHeader));
             ServiceLocator.Register<IMessageDisplay>(l => new MessageDisplay(
                 new [] {

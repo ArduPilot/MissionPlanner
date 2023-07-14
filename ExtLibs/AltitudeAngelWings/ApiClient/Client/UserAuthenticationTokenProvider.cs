@@ -10,6 +10,7 @@ using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
+using Polly;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
@@ -17,15 +18,17 @@ namespace AltitudeAngelWings.ApiClient.Client
     {
         private readonly ISettings _settings;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IAsyncPolicy _asyncPolicy;
         private readonly IAuthorizeCodeProvider _provider;
         private readonly IMessagesService _messagesService;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1);
         private readonly ProductInfoHeaderValue _version;
 
-        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAuthorizeCodeProvider provider, IMessagesService messagesService, ProductInfoHeaderValue version)
+        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAsyncPolicy asyncPolicy, IAuthorizeCodeProvider provider, IMessagesService messagesService, ProductInfoHeaderValue version)
         {
             _settings = settings;
             _clientFactory = clientFactory;
+            _asyncPolicy = asyncPolicy;
             _provider = provider;
             _messagesService = messagesService;
             _version = version;
@@ -103,7 +106,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                     UserAgent = { _version }
                 }
             };
-            using (var response = await client.SendAsync(request, cancellationToken))
+            using (var response = await _asyncPolicy.ExecuteAsync(() => client.SendAsync(request, cancellationToken)))
             {
                 var content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)

@@ -10,18 +10,21 @@ using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Service;
 using Newtonsoft.Json.Linq;
+using Polly;
 
 namespace AltitudeAngelWings.Plugin
 {
     public class ExternalWebBrowserAuthorizeCodeProvider : IAuthorizeCodeProvider
     {
         private readonly ISettings _settings;
+        private readonly IAsyncPolicy _asyncPolicy;
         private readonly ProductInfoHeaderValue _version;
         private string _pollId;
 
-        public ExternalWebBrowserAuthorizeCodeProvider(ISettings settings, ProductInfoHeaderValue version)
+        public ExternalWebBrowserAuthorizeCodeProvider(ISettings settings, IAsyncPolicy asyncPolicy, ProductInfoHeaderValue version)
         {
             _settings = settings;
+            _asyncPolicy = asyncPolicy;
             _version = version;
         }
 
@@ -58,7 +61,7 @@ namespace AltitudeAngelWings.Plugin
 
         private async Task<string> GetClientTokenForLoginPoll(HttpMessageInvoker client, CancellationToken cancellationToken)
         {
-            using (var response = await client.SendAsync(new HttpRequestMessage
+            using (var response = await _asyncPolicy.ExecuteAsync(() => client.SendAsync(new HttpRequestMessage
                    {
                        Method = HttpMethod.Post,
                        RequestUri = new Uri($"{_settings.AuthenticationUrl}/oauth/v2/token"),
@@ -70,7 +73,7 @@ namespace AltitudeAngelWings.Plugin
                            new KeyValuePair<string, string>("grant_type", "client_credentials"),
                            new KeyValuePair<string, string>("token_type", "jwt"),
                        })
-                   }, cancellationToken))
+                   }, cancellationToken)))
             {
                 response.EnsureSuccessStatusCode();
                 return (string)JObject.Parse(await response.Content.ReadAsStringAsync())["access_token"];
@@ -79,7 +82,7 @@ namespace AltitudeAngelWings.Plugin
 
         private async Task<string> PollForAuthenticationCode(HttpMessageInvoker client, string token, CancellationToken cancellationToken)
         {
-            using (var response = await client.SendAsync(new HttpRequestMessage
+            using (var response = await _asyncPolicy.ExecuteAsync(() => client.SendAsync(new HttpRequestMessage
                    {
                        Method = HttpMethod.Get,
                        RequestUri = new Uri($"{_settings.AuthenticationUrl}/api/v1/security/get-login?id={_pollId}"),
@@ -88,7 +91,7 @@ namespace AltitudeAngelWings.Plugin
                            Authorization = new AuthenticationHeaderValue("Bearer", token),
                            UserAgent = { _version }
                        }
-                   }, cancellationToken))
+                   }, cancellationToken)))
             {
                 if (response == null || response.StatusCode != HttpStatusCode.OK)
                 {
