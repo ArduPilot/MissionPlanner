@@ -157,24 +157,34 @@ namespace AltitudeAngelWings.Plugin.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;style&gt;
         ///        body {
-        ///            margin: 5px;
-        ///            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        ///            margin: 0;
+        ///            padding: 0;
+        ///            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
         ///            font-weight: normal;
-        ///            color: black;
-        ///            background-color: white;
+        ///            color: #000;
+        ///            background-color: #fff;
+        ///            overflow-x: hidden;
         ///        }
         ///
         ///        p {
-        ///            margin: 0.4em 0 0 0;
+        ///            margin: 5px 0;
         ///        }
         ///
-        ///        div.displayInfo {
-        ///            border-top: 1px solid black;
-        ///       [rest of string was truncated]&quot;;.
+        ///        a {
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MapInfoDockPanel {
             get {
                 return ResourceManager.GetString("MapInfoDockPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Ctrl + Click to show Altitude Angel map information on the flight planning map..
+        /// </summary>
+        internal static string MessageCtrlClickPlannerMap {
+            get {
+                return ResourceManager.GetString("MessageCtrlClickPlannerMap", resourceCulture);
             }
         }
         

@@ -10,10 +10,13 @@ using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
+using AltitudeAngelWings.Service.Messaging;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using Feature = GeoJSON.Net.Feature.Feature;
+using Message = AltitudeAngelWings.Models.Message;
 using Unit = System.Reactive.Unit;
 
 namespace AltitudeAngelWings.Plugin
@@ -25,20 +28,23 @@ namespace AltitudeAngelWings.Plugin
         private readonly GMapControl _mapControl;
         private readonly Func<bool> _enabled;
         private readonly IMapInfoDockPanel _mapInfoDockPanel;
+        private readonly IMessagesService _messages;
         private readonly bool _ctrlForPanel;
         private CompositeDisposable _disposer = new CompositeDisposable();
         private readonly SynchronizationContext _context;
         private Point? _mouseDown;
+        private bool _shownCtrlClickMessage = false;
 
         public IObservable<Unit> MapChanged { get; }
         public ObservableProperty<Feature> FeatureClicked { get; } = new ObservableProperty<Feature>(0);
 
-        public MapAdapter(GMapControl mapControl, Func<bool> enabled, IMapInfoDockPanel mapInfoDockPanel, ISettings settings, bool ctrlForPanel)
+        public MapAdapter(GMapControl mapControl, Func<bool> enabled, IMapInfoDockPanel mapInfoDockPanel, ISettings settings, IMessagesService messages, bool ctrlForPanel)
         {
             _context = new WindowsFormsSynchronizationContext();
             _mapControl = mapControl;
             _enabled = enabled;
             _mapInfoDockPanel = mapInfoDockPanel;
+            _messages = messages;
             _ctrlForPanel = ctrlForPanel;
 
             var positionChanged = Observable
@@ -79,23 +85,25 @@ namespace AltitudeAngelWings.Plugin
             mapControl.MouseUp += OnMouseUp;
         }
 
-        private void OnMouseDown(object s, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && ((_ctrlForPanel && Control.ModifierKeys == Keys.Control) || !_ctrlForPanel))
-            {
-                _mouseDown = e.Location;
-                return;
-            }
-            _mouseDown = null;
-        }
+        private void OnMouseDown(object s, MouseEventArgs e) => _mouseDown = e.Button == MouseButtons.Left ? e.Location : (Point?)null;
 
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left) return;
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
 
-            if (_mouseDown == null || e.Location != _mouseDown)
+            if (e.Location != _mouseDown)
             {
                 _mouseDown = null;
+                return;
+            }
+
+            if (_ctrlForPanel && Control.ModifierKeys == Keys.None && !_shownCtrlClickMessage)
+            {
+                _messages.AddMessageAsync(new Message(Resources.MessageCtrlClickPlannerMap) { TimeToLive = TimeSpan.FromSeconds(30) });
+                _shownCtrlClickMessage = true;
                 return;
             }
 

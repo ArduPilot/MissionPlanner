@@ -261,4 +261,7 @@ For more information, privacy policy, and terms and conditions, visit: [link;htt
   <data name="WaitWindowTitle" xml:space="preserve">
     <value>Altitude Angel</value>
   </data>
+  <data name="MessageCtrlClickPlannerMap" xml:space="preserve">
+    <value>Use Ctrl + Click to show Altitude Angel map information on the flight planning map.</value>
+  </data>
 </root>
