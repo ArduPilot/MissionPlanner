@@ -69,7 +69,6 @@ namespace AltitudeAngelWings.Plugin
                     }
 
                     panel?.BringToFront();
-                    panel?.ParentForm?.BringToFront();
                     Application.DoEvents();
                 } while (!task.Wait(TaskCheckInterval));
                 return task.GetAwaiter().GetResult();
