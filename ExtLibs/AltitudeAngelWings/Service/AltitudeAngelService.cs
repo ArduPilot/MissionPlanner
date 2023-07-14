@@ -90,15 +90,26 @@ namespace AltitudeAngelWings.Service
             }
             try
             {
-                // Load the user's profile, will trigger auth
-                CurrentUser = await _client.GetUserProfile();
-                IsSignedIn.Value = true;
+                try
+                {
+                    // Load the user's profile, will trigger auth
+                    CurrentUser = await _client.GetUserProfile();
+                    IsSignedIn.Value = true;
+                }
+                catch (Exception e)
+                {
+                    // Reset token and try again
+                    _client.Disconnect(true);
+                    CurrentUser = await _client.GetUserProfile();
+                    IsSignedIn.Value = true;
+                }
                 await UpdateMapData(_missionPlanner.FlightDataMap, CancellationToken.None);
                 await UpdateMapData(_missionPlanner.FlightPlanningMap, CancellationToken.None);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync("There was a problem signing you in.");
+                await _messagesService.AddMessageAsync($"There was a problem signing you in. {ex.Message}");
+                _client.Disconnect(true);
             }
         }
 
