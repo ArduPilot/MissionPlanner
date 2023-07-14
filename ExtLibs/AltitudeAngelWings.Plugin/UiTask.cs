@@ -26,7 +26,6 @@ namespace AltitudeAngelWings.Plugin
                 form.MinimizeBox = false;
                 form.MaximizeBox = false;
                 form.ShowInTaskbar = true;
-                form.TopMost = true;
                 form.Icon = Resources.AAIcon;
                 form.Text = Resources.WaitWindowTitle;
                 form.FormBorderStyle = FormBorderStyle.None;

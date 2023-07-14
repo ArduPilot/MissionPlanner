@@ -49,7 +49,6 @@ namespace AltitudeAngelWings.Plugin
                     l.Resolve<PluginHost>().FDGMapControl.Parent,
                     l.Resolve<PluginHost>().FPGMapControl.Parent
                 },
-                l.Resolve<PluginHost>().FDGMapControl.Parent.Controls["label4"],
                 l.Resolve<IUiThreadInvoke>()));
         }
 

@@ -36,7 +36,7 @@ namespace AltitudeAngelWings.Plugin
             }
             builder.Append("</div>");
             
-            _uiThreadInvoke.FireAndForget(() =>
+            _uiThreadInvoke.Invoke(() =>
             {
                 _parent.SuspendLayout();
                 var browser = GetOrAddWebBrowser();
@@ -51,7 +51,7 @@ namespace AltitudeAngelWings.Plugin
 
         public void Hide()
         {
-            _uiThreadInvoke.FireAndForget(() =>
+            _uiThreadInvoke.Invoke(() =>
             {
                 _parent.SuspendLayout();
                 GetOrAddWebBrowser().Visible = false;
