@@ -23,8 +23,6 @@ namespace AltitudeAngelWings.Plugin
 {
     internal class MapAdapter : IMap, IDisposable
     {
-        private const int MinimumZoomLevelFilter = 10;
-
         private readonly GMapControl _mapControl;
         private readonly Func<bool> _enabled;
         private readonly IMapInfoDockPanel _mapInfoDockPanel;
@@ -77,8 +75,7 @@ namespace AltitudeAngelWings.Plugin
                 .Merge(interval)
                 .Merge(mapZoom)
                 .Throttle(TimeSpan.FromSeconds(settings.MapUpdateThrottle))
-                .Where(i => _mapControl.Visible && _mapControl.Zoom >= MinimumZoomLevelFilter)
-                .Where(i => settings.TokenResponse.IsValidForAuth())
+                .Where(i => _mapControl.Visible)
                 .ObserveOn(ThreadPoolScheduler.Instance);
 
             mapControl.MouseDown += OnMouseDown;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AltitudeAngelWings.Service.Messaging;
@@ -13,6 +14,7 @@ namespace AltitudeAngelWings.Plugin
         private readonly Label[] _messagesLabels;
         private readonly IUiThreadInvoke _uiThreadInvoke;
         private readonly List<Message> _messages = new List<Message>();
+        private const int Offset = 5;
 
         public MessageDisplay(IReadOnlyList<Control> parentControls, IUiThreadInvoke uiThreadInvoke)
         {
@@ -24,11 +26,11 @@ namespace AltitudeAngelWings.Plugin
                     Name = "AA_MessageDisplay",
                     AutoSize = true,
                     ForeColor = Color.White,
-                    BackColor = Color.Black,
+                    BackColor = Color.Transparent,
                     Visible = false,
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Padding = new Padding(5),
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Padding = new Padding(5, 2, 5, 2),
                     Font = new Font("Microsoft Sans Serif", 9, FontStyle.Regular)
                 };
             }
@@ -55,7 +57,7 @@ namespace AltitudeAngelWings.Plugin
                     messagesLabel.Parent.SuspendLayout();
                     messagesLabel.Text = messages;
                     messagesLabel.Visible = messages.Length > 0;
-                    messagesLabel.Location = new Point(0, messagesLabel.Parent.Height - messagesLabel.Height);
+                    messagesLabel.Location = new Point(Offset, messagesLabel.Parent.Height - messagesLabel.Height - Offset);
                     messagesLabel.Parent.ResumeLayout();
                 }
             });
@@ -73,7 +75,7 @@ namespace AltitudeAngelWings.Plugin
                     messagesLabel.Parent.SuspendLayout();
                     messagesLabel.Text = messages;
                     messagesLabel.Visible = messages.Length > 0;
-                    messagesLabel.Location = new Point(0, messagesLabel.Parent.Height - messagesLabel.Height);
+                    messagesLabel.Location = new Point(Offset, messagesLabel.Parent.Height - messagesLabel.Height - Offset);
                     messagesLabel.Parent.ResumeLayout();
                 }
             });
@@ -82,9 +84,9 @@ namespace AltitudeAngelWings.Plugin
         private string FormatMessages()
         {
             var builder = new StringBuilder();
-            foreach (var message in _messages)
+            foreach (var message in _messages.Select(m => m.Content).Distinct())
             {
-                builder.AppendLine(message.Content);
+                builder.AppendLine(message);
             }
 
             return builder.ToString(0, Math.Max(0, builder.Length - Environment.NewLine.Length));

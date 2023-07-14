@@ -11,7 +11,7 @@ namespace AltitudeAngelWings.ApiClient.Client
     public interface IAltitudeAngelClient : IDisposable
     {
         void Disconnect(bool resetAuth = false);
-        Task<AAFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken);
+        Task<MapFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken);
         Task<WeatherInfo> GetWeather(LatLong latLong);
         Task<UserProfileInfo> GetUserProfile();
         Task CompleteFlight(string flightId);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace AltitudeAngelWings
 {
@@ -11,6 +12,25 @@ namespace AltitudeAngelWings
             dict.TryGetValue(key, out val);
 
             return val;
+        }
+
+        public static string AsReadableList(this IEnumerable<string> list)
+        {
+            var builder = new StringBuilder();
+
+            foreach (var item in list)
+            {
+                builder.Append(item);
+                builder.Append(" ");
+            }
+
+            if (builder.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            builder.Length -= " ".Length;
+            return builder.ToString();
         }
     }
 }

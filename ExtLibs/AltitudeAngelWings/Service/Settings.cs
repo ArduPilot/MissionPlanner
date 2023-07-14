@@ -221,7 +221,7 @@ namespace AltitudeAngelWings.Service
 
         public double MapUpdateThrottle
         {
-            get => Get(nameof(MapUpdateThrottle), 0.25, double.Parse);
+            get => Get(nameof(MapUpdateThrottle), 1, double.Parse);
             set => Set(nameof(MapUpdateThrottle), value);
         }
 

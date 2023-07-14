@@ -68,7 +68,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             }
         }
 
-        public Task<AAFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken)
+        public Task<MapFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken)
             => _asyncPolicy.ExecuteAsync(() => _settings.ApiUrl
                     .AppendPathSegments("v2", "mapdata", "geojson")
                     .SetQueryParams(new
@@ -82,7 +82,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                         include = "flight_report,flight_restrictions"
                     })
                     .WithClient(Client)
-                    .GetJsonAsync<AAFeatureCollection>(cancellationToken));
+                    .GetJsonAsync<MapFeatureCollection>(cancellationToken));
 
         public Task<RateCardDetail> GetRateCard(string rateCardId, CancellationToken cancellationToken)
             => _asyncPolicy.ExecuteAsync(() => _settings.ApiUrl

@@ -96,7 +96,7 @@ namespace AltitudeAngelWings.Service
                     CurrentUser = await _client.GetUserProfile();
                     IsSignedIn.Value = true;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // Reset token and try again
                     _client.Disconnect(true);
@@ -145,6 +145,26 @@ namespace AltitudeAngelWings.Service
                 var mapData = await _client.GetMapData(area, cancellationToken);
                 sw.Stop();
 
+                foreach (var errorReason in mapData.ExcludedData.Select(e => e.ErrorReason).Distinct())
+                {
+                    var reasons = mapData.ExcludedData.Where(e => e.ErrorReason == errorReason).ToList();
+                    if (reasons.Count > 0)
+                    {
+                        switch (errorReason)
+                        {
+                            case "QueryAreaTooLarge":
+                                await _messagesService.AddMessageAsync(
+                                    new Message($"Zoom in to see {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} from Altitude Angel") { TimeToLive = TimeSpan.FromSeconds(_settings.MapUpdateRefresh)});
+                                break;
+
+                            default:
+                                await _messagesService.AddMessageAsync(
+                                    new Message($"{errorReason}: {reasons.Select(d => $"[{d.Detail.DisplayName}] {d.Message}").AsReadableList()}"));
+                                break;
+                        }
+                    }
+                }
+
                 mapData.Features.UpdateFilterInfo(FilterInfoDisplay);
                 _settings.MapFilters = FilterInfoDisplay;
 
@@ -160,7 +180,7 @@ namespace AltitudeAngelWings.Service
             }
             catch (Exception ex) when (!(ex is FlurlHttpException) && !(ex.InnerException is TaskCanceledException))
             {
-                await _messagesService.AddMessageAsync("Failed to update map data.");
+                await _messagesService.AddMessageAsync($"Failed to update map data. {ex.Message}");
             }
         }
 
