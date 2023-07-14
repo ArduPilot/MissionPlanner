@@ -5,15 +5,17 @@
     <meta charset="utf-8" />
     <style>
         body {
-            margin: 10px 5px;
+            margin: 0;
+            padding: 0;
             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
             font-weight: normal;
             color: #000;
             background-color: #fff;
+            overflow-x: hidden;
         }
 
         p {
-            margin: 10px 0;
+            margin: 5px 0;
         }
 
         a {
@@ -29,15 +31,18 @@
             color: #000;
         }
 
+        div.panel {
+            margin: 5px 10px;
+        }
+
         div.feature {
-            padding: 0 2px 10px;
             font-size: 10pt;
             color: #000;
+            margin: 10px 0 20px;
         }
 
         div.header {
             border: 1px solid #000;
-            margin: 10px 0 10px;
             padding: 10px;
         }
 
@@ -62,6 +67,12 @@
             padding: 0 10px;
         }
 
+        div.noUtm {
+            border: 1px solid #d9534f;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
         div.utmStatus div.button {
             background-color: #3dbb4e;
             text-align: center;
@@ -81,13 +92,20 @@
         }
 
         div.phoneNumber span {
-            padding: 10px 0;
+            display: inline-block;
+        }
+
+        div.phoneNumber span.location {
+            font-weight: bold;
+            min-width: 100px;
+            padding: 10px 20px 10px 0;
         }
 
         div.phoneNumber span.number {
-            float: right;
             background-color: #32c6e1;
             padding: 10px;
+            min-width: 100px;
+            text-align: center;
         }
 
         div.phoneNumber span.number:hover {
@@ -95,7 +113,7 @@
         }
 
         div.section {
-            padding: 10px 0;
+            padding: 10px 0 0;
         }
 
         div.section div.title {
@@ -111,6 +129,6 @@
     <base target="_blank">
 </head>
 <body>
-###MapInfoDockPanel###
+    ###MapInfoDockPanel###
 </body>
 </html>

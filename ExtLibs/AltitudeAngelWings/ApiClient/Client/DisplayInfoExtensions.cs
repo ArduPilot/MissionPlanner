@@ -48,14 +48,15 @@ namespace AltitudeAngelWings.ApiClient.Client
             }
             if (featureProperties.Contact?.PhoneNumbers != null)
             {
-                builder.Append("<div class=\"contact\">");
                 if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
                 {
+                    builder.Append("<div class=\"contact\">");
                     builder.Append("<div class=\"section\">");
                     builder.Append("<div class=\"title\">Contacts</div>");
                 }
                 else
                 {
+                    builder.Append("<div class=\"noUtm\">");
                     builder.Append("<div class=\"section\">");
                     builder.Append("<div class=\"title\">FACILITY IS NOT UTM READY</div>");
                     builder.Append("<div class=\"text\"><p>We can't submit a digital flight request to this facility as it isn't connected to Altitude Angel or has no compatible UTM service in operation. It may be possible to fly here, but you will have to contact the facility operator by phone to find out whether you can and what process to follow. According to our records, you can contact them on the number(s) below:</p></div>");
@@ -68,6 +69,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                     builder.Append($"<span class=\"number\"><a href=\"tel:{phoneNumber.Number}\">{phoneNumber.Number}</a></span>");
                     builder.Append("</div>");
                 }
+                builder.Append("</div>");
                 builder.Append("</div>");
             }
             foreach (var section in featureProperties.DisplayInfo.Sections)

@@ -29,10 +29,12 @@ namespace AltitudeAngelWings.Plugin
             }
 
             var builder = new StringBuilder();
+            builder.Append("<div class=\"panel\">");
             foreach (var featureProperty in featureProperties)
             {
                 builder.Append(featureProperty.FormatAsHtml());
             }
+            builder.Append("</div>");
             
             _uiThreadInvoke.FireAndForget(() =>
             {
