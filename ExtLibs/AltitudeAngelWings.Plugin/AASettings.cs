@@ -39,7 +39,6 @@ namespace AltitudeAngelWings.Plugin
             _missionPlanner.FlightPlanningMap.MapChanged.ObserveOn(MainV2.instance).Subscribe(OnMapChanged);
 
             ThemeManager.ApplyThemeTo(this);
-            pic_AboutLogo.Image = Image.FromStream(new MemoryStream(Resources.AALogo));
             Icon = Resources.AAIcon;
 
             // load settings
@@ -70,6 +69,11 @@ namespace AltitudeAngelWings.Plugin
             txt_SerialNumber.Text = _settings.FlightIdentifierSerialNumber;
             web_About.DocumentText = Resources.About;
             trk_AltitudeFilter.Value = _settings.AltitudeFilter;
+            ((SHDocVw.WebBrowser)web_About.ActiveXInstance).NewWindow3 +=
+                (ref object o, ref bool b, uint u, string s, string url) =>
+                {
+                    Process.Start(url);
+                };
 
             RefreshControlStates();
         }
@@ -314,7 +318,7 @@ namespace AltitudeAngelWings.Plugin
             trv_MapLayers.ExpandAll();
             trv_MapLayers.EndUpdate();
 
-            but_SignIn.Enabled = !_altitudeAngelService.IsSignedIn;
+            but_SignIn.Enabled = _settings.CheckEnableAltitudeAngel && !_altitudeAngelService.IsSignedIn;
             but_SignOut.Enabled = _altitudeAngelService.IsSignedIn;
             trv_MapLayers.Enabled = _altitudeAngelService.IsSignedIn;
             trk_OpacityAdjust.Enabled = _altitudeAngelService.IsSignedIn;
@@ -327,6 +331,7 @@ namespace AltitudeAngelWings.Plugin
             txt_FlightReportDescription.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             lbl_FlightReportDuration.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             txt_FlightReportDuration.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
+            chk_OverrideClientSettings.Enabled = _settings.CheckEnableAltitudeAngel;
             lbl_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings;
             txt_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings;
             lbl_OverrideClientSecret.Enabled = _settings.OverrideClientUrlSettings;
@@ -341,7 +346,6 @@ namespace AltitudeAngelWings.Plugin
             txt_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_SerialNumber.Checked;
             trk_AltitudeFilter.Enabled = _altitudeAngelService.IsSignedIn;
 
-            SetTabVisibility(tabPageAccount, _settings.CheckEnableAltitudeAngel);
             SetTabVisibility(tabPageMap, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn);
             SetTabVisibility(tabPageFlight, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked);
             ResumeLayout(true);
@@ -358,6 +362,11 @@ namespace AltitudeAngelWings.Plugin
             {
                 tabPages.TabPages.Remove(tabPage);
             }
+        }
+
+        private void web_About_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

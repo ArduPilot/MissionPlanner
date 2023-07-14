@@ -155,7 +155,7 @@ namespace AltitudeAngelWings.Service
 
         public string FlightReportDescription
         {
-            get => Get(nameof(FlightReportDescription), "Mission Planner flight report", s => s);
+            get => Get(nameof(FlightReportDescription), "Mission Planner flight plan", s => s);
             set => Set(nameof(FlightReportDescription), value);
         }
 

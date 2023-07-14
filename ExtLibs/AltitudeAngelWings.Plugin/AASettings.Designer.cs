@@ -34,6 +34,8 @@ namespace AltitudeAngelWings.Plugin
         {
             this.tabPages = new System.Windows.Forms.TabControl();
             this.tabPageAccount = new System.Windows.Forms.TabPage();
+            this.but_Disable = new MissionPlanner.Controls.MyButton();
+            this.but_Enable = new MissionPlanner.Controls.MyButton();
             this.lbl_UserDetails = new System.Windows.Forms.Label();
             this.lbl_OverrideClientSuffix = new System.Windows.Forms.Label();
             this.txt_OverrideUrlSuffix = new System.Windows.Forms.TextBox();
@@ -74,9 +76,6 @@ namespace AltitudeAngelWings.Plugin
             this.txt_FlightReportName = new System.Windows.Forms.TextBox();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.web_About = new System.Windows.Forms.WebBrowser();
-            this.but_Disable = new MissionPlanner.Controls.MyButton();
-            this.but_Enable = new MissionPlanner.Controls.MyButton();
-            this.pic_AboutLogo = new System.Windows.Forms.PictureBox();
             this.tabPages.SuspendLayout();
             this.tabPageAccount.SuspendLayout();
             this.tabPageMap.SuspendLayout();
@@ -84,7 +83,6 @@ namespace AltitudeAngelWings.Plugin
             ((System.ComponentModel.ISupportInitialize)(this.trk_OpacityAdjust)).BeginInit();
             this.tabPageFlight.SuspendLayout();
             this.tabPageAbout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_AboutLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // tabPages
@@ -101,6 +99,8 @@ namespace AltitudeAngelWings.Plugin
             // 
             // tabPageAccount
             // 
+            this.tabPageAccount.Controls.Add(this.but_Disable);
+            this.tabPageAccount.Controls.Add(this.but_Enable);
             this.tabPageAccount.Controls.Add(this.lbl_UserDetails);
             this.tabPageAccount.Controls.Add(this.lbl_OverrideClientSuffix);
             this.tabPageAccount.Controls.Add(this.txt_OverrideUrlSuffix);
@@ -116,10 +116,32 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageAccount.Location = new System.Drawing.Point(4, 22);
             this.tabPageAccount.Name = "tabPageAccount";
             this.tabPageAccount.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAccount.Size = new System.Drawing.Size(445, 258);
+            this.tabPageAccount.Size = new System.Drawing.Size(444, 258);
             this.tabPageAccount.TabIndex = 2;
             this.tabPageAccount.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsAccountTabText;
             this.tabPageAccount.UseVisualStyleBackColor = true;
+            // 
+            // but_Disable
+            // 
+            this.but_Disable.Location = new System.Drawing.Point(6, 229);
+            this.but_Disable.Name = "but_Disable";
+            this.but_Disable.Size = new System.Drawing.Size(75, 23);
+            this.but_Disable.TabIndex = 46;
+            this.but_Disable.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsDisableText;
+            this.but_Disable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_Disable.UseVisualStyleBackColor = true;
+            this.but_Disable.Click += new System.EventHandler(this.but_Disable_Click);
+            // 
+            // but_Enable
+            // 
+            this.but_Enable.Location = new System.Drawing.Point(6, 200);
+            this.but_Enable.Name = "but_Enable";
+            this.but_Enable.Size = new System.Drawing.Size(75, 23);
+            this.but_Enable.TabIndex = 45;
+            this.but_Enable.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsEnableText;
+            this.but_Enable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_Enable.UseVisualStyleBackColor = true;
+            this.but_Enable.Click += new System.EventHandler(this.but_Enable_Click);
             // 
             // lbl_UserDetails
             // 
@@ -373,7 +395,7 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageFlight.Location = new System.Drawing.Point(4, 22);
             this.tabPageFlight.Name = "tabPageFlight";
             this.tabPageFlight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFlight.Size = new System.Drawing.Size(445, 258);
+            this.tabPageFlight.Size = new System.Drawing.Size(444, 258);
             this.tabPageFlight.TabIndex = 1;
             this.tabPageFlight.Text = "Flight Plans";
             this.tabPageFlight.UseVisualStyleBackColor = true;
@@ -525,58 +547,26 @@ namespace AltitudeAngelWings.Plugin
             // tabPageAbout
             // 
             this.tabPageAbout.Controls.Add(this.web_About);
-            this.tabPageAbout.Controls.Add(this.but_Disable);
-            this.tabPageAbout.Controls.Add(this.but_Enable);
-            this.tabPageAbout.Controls.Add(this.pic_AboutLogo);
             this.tabPageAbout.Location = new System.Drawing.Point(4, 22);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Size = new System.Drawing.Size(445, 258);
+            this.tabPageAbout.Size = new System.Drawing.Size(444, 258);
             this.tabPageAbout.TabIndex = 3;
             this.tabPageAbout.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsAboutTabText;
             this.tabPageAbout.UseVisualStyleBackColor = true;
             // 
             // web_About
             // 
-            this.web_About.AllowNavigation = false;
             this.web_About.AllowWebBrowserDrop = false;
+            this.web_About.Dock = System.Windows.Forms.DockStyle.Fill;
             this.web_About.IsWebBrowserContextMenuEnabled = false;
-            this.web_About.Location = new System.Drawing.Point(3, 3);
+            this.web_About.Location = new System.Drawing.Point(0, 0);
             this.web_About.MinimumSize = new System.Drawing.Size(20, 20);
             this.web_About.Name = "web_About";
-            this.web_About.Size = new System.Drawing.Size(293, 250);
+            this.web_About.ScriptErrorsSuppressed = true;
+            this.web_About.Size = new System.Drawing.Size(444, 258);
             this.web_About.TabIndex = 45;
             this.web_About.WebBrowserShortcutsEnabled = false;
-            // 
-            // but_Disable
-            // 
-            this.but_Disable.Location = new System.Drawing.Point(334, 180);
-            this.but_Disable.Name = "but_Disable";
-            this.but_Disable.Size = new System.Drawing.Size(75, 23);
-            this.but_Disable.TabIndex = 44;
-            this.but_Disable.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsDisableText;
-            this.but_Disable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_Disable.UseVisualStyleBackColor = true;
-            this.but_Disable.Click += new System.EventHandler(this.but_Disable_Click);
-            // 
-            // but_Enable
-            // 
-            this.but_Enable.Location = new System.Drawing.Point(334, 151);
-            this.but_Enable.Name = "but_Enable";
-            this.but_Enable.Size = new System.Drawing.Size(75, 23);
-            this.but_Enable.TabIndex = 43;
-            this.but_Enable.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsEnableText;
-            this.but_Enable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_Enable.UseVisualStyleBackColor = true;
-            this.but_Enable.Click += new System.EventHandler(this.but_Enable_Click);
-            // 
-            // pic_AboutLogo
-            // 
-            this.pic_AboutLogo.Location = new System.Drawing.Point(302, 3);
-            this.pic_AboutLogo.Name = "pic_AboutLogo";
-            this.pic_AboutLogo.Size = new System.Drawing.Size(140, 100);
-            this.pic_AboutLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pic_AboutLogo.TabIndex = 40;
-            this.pic_AboutLogo.TabStop = false;
+            this.web_About.NewWindow += new System.ComponentModel.CancelEventHandler(this.web_About_NewWindow);
             // 
             // AASettings
             // 
@@ -598,7 +588,6 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageFlight.ResumeLayout(false);
             this.tabPageFlight.PerformLayout();
             this.tabPageAbout.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pic_AboutLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -631,9 +620,6 @@ namespace AltitudeAngelWings.Plugin
         private System.Windows.Forms.TrackBar trk_OpacityAdjust;
         private System.Windows.Forms.Label lbl_OpacityAdjust;
         private System.Windows.Forms.TabPage tabPageAbout;
-        private MyButton but_Enable;
-        private System.Windows.Forms.PictureBox pic_AboutLogo;
-        private MyButton but_Disable;
         private System.Windows.Forms.TreeView trv_MapLayers;
         private MyButton btn_DefaultLayers;
         private System.Windows.Forms.CheckBox chk_EnablePlanMap;
@@ -649,5 +635,7 @@ namespace AltitudeAngelWings.Plugin
         private Label lbl_AltitudeDisplay;
         private Label lbl_AltitudeFilter;
         private TrackBar trk_AltitudeFilter;
+        private MyButton but_Disable;
+        private MyButton but_Enable;
     }
 }

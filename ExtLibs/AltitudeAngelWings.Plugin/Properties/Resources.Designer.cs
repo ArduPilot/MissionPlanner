@@ -81,23 +81,26 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AALogo {
-            get {
-                object obj = ResourceManager.GetObject("AALogo", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;html&gt;
-        ///&lt;body&gt;
-        ///    &lt;h1&gt;Mission Planner&lt;/h1&gt;
-        ///    &lt;h2&gt;Altitude Angel&lt;/h2&gt;
-        ///    &lt;p&gt;These Mission Planner extensions enable use of Mission Planner with Altitude Angel&apos;s GuardianUTM platform.&lt;/p&gt;
-        ///&lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;MapInfoDockPanel&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;style&gt;
+        ///        body {
+        ///            margin: 0;
+        ///            padding: 0;
+        ///            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        ///            font-size: 10pt;
+        ///            font-weight: normal;
+        ///            color: #000;
+        ///            background-color: #fff;
+        ///            overflow-x: hidden;
+        ///        }
+        ///
+        ///        p {
+        ///            margin: 5px 0;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string About {
             get {
