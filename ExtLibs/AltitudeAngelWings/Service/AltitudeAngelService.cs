@@ -32,6 +32,7 @@ namespace AltitudeAngelWings.Service
         private readonly ITelemetryService _telemetryService;
         private readonly IFlightService _flightService;
         private readonly ISettings _settings;
+        private readonly SemaphoreSlim _signInLock = new SemaphoreSlim(1);
         private readonly SemaphoreSlim _processLock = new SemaphoreSlim(1);
 
         public ObservableProperty<bool> IsSignedIn { get; }
@@ -88,8 +89,10 @@ namespace AltitudeAngelWings.Service
             {
                 return;
             }
+
             try
             {
+                await _signInLock.WaitAsync();
                 try
                 {
                     // Load the user's profile, will trigger auth
@@ -103,6 +106,7 @@ namespace AltitudeAngelWings.Service
                     CurrentUser = await _client.GetUserProfile();
                     IsSignedIn.Value = true;
                 }
+
                 await UpdateMapData(_missionPlanner.FlightDataMap, CancellationToken.None);
                 await UpdateMapData(_missionPlanner.FlightPlanningMap, CancellationToken.None);
             }
@@ -110,6 +114,10 @@ namespace AltitudeAngelWings.Service
             {
                 await _messagesService.AddMessageAsync($"There was a problem signing you in. {ex.Message}");
                 _client.Disconnect(true);
+            }
+            finally
+            {
+                _signInLock.Release();
             }
         }
 

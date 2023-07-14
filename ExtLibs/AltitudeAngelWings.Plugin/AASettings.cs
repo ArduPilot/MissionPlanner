@@ -189,7 +189,6 @@ namespace AltitudeAngelWings.Plugin
         private void trk_AltitudeFilter_ValueChanged(object sender, EventArgs e)
         {
             _settings.AltitudeFilter = trk_AltitudeFilter.Value;
-            lbl_AltitudeDisplay.Text = $"{_settings.AltitudeFilter}m ({_settings.AltitudeFilter*3.28084:F0}ft) AGL";
             RefreshControlStates(processMap: true);
         }
 
@@ -317,6 +316,7 @@ namespace AltitudeAngelWings.Plugin
             trv_MapLayers.ExpandAll();
             trv_MapLayers.EndUpdate();
 
+
             but_SignIn.Enabled = _settings.CheckEnableAltitudeAngel && !_altitudeAngelService.IsSignedIn;
             but_SignOut.Enabled = _altitudeAngelService.IsSignedIn;
             trv_MapLayers.Enabled = _altitudeAngelService.IsSignedIn;
@@ -344,6 +344,7 @@ namespace AltitudeAngelWings.Plugin
             chk_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             txt_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_SerialNumber.Checked;
             trk_AltitudeFilter.Enabled = _altitudeAngelService.IsSignedIn;
+            lbl_AltitudeDisplay.Text = $"{_settings.AltitudeFilter}m ({_settings.AltitudeFilter*3.28084:F0}ft) AGL";
 
             SetTabVisibility(tabPageMap, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn);
             SetTabVisibility(tabPageFlight, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked);
