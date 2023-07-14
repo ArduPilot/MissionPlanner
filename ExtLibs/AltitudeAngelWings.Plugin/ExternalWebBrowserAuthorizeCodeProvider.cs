@@ -7,9 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
 using Newtonsoft.Json.Linq;
 
@@ -38,8 +36,6 @@ namespace AltitudeAngelWings.Plugin
 
         public Task<string> GetAuthorizeCode(Uri authorizeUri)
         {
-            // Display window with URL allowing copy of URL, and attempt to start a process using that URL
-            // TODO: Modal window or something with URL, copy and cancel button
             Process.Start(authorizeUri.ToString());
             return Task.FromResult(UiTask.ShowDialog(async cancellationToken =>
                 {

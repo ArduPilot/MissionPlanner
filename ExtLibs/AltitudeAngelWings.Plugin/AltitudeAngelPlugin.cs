@@ -18,7 +18,7 @@ namespace AltitudeAngelWings.Plugin
 
         private bool _enabled;
 
-        static internal AltitudeAngelPlugin Instance;
+        internal static AltitudeAngelPlugin Instance;
 
         public override bool Init()
         {
@@ -33,20 +33,29 @@ namespace AltitudeAngelWings.Plugin
 
         public override bool Loaded()
         {
-            ServiceLocator.Clear();
-            if (Host.config.ContainsKey("AA_CheckEnableAltitudeAngel"))
+            try
             {
-                _enabled = Host.config.GetBoolean("AA_CheckEnableAltitudeAngel");
+                ServiceLocator.Clear();
+                if (Host.config.ContainsKey("AA_CheckEnableAltitudeAngel"))
+                {
+                    _enabled = Host.config.GetBoolean("AA_CheckEnableAltitudeAngel");
+                }
+                else
+                {
+                    AskToEnableAltitudeAngel();
+                }
+                if (_enabled)
+                {
+                    EnableAltitudeAngel();
+                }
+                return true;
             }
-            else
+            catch (Exception e)
             {
-                AskToEnableAltitudeAngel();
+                Console.WriteLine(e);
             }
-            if (_enabled)
-            {
-                EnableAltitudeAngel();
-            }
-            return true;
+
+            return false;
         }
 
         public override bool Exit()
@@ -66,18 +75,24 @@ namespace AltitudeAngelWings.Plugin
                 text,
                 Resources.AskToEnableCaption,
                 CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
-            Host.config["AA_CheckEnableAltitudeAngel"] = (_enabled).ToString();
+            Host.config["AA_CheckEnableAltitudeAngel"] = _enabled.ToString();
             Host.config.Save();
         }
 
         private void EnableAltitudeAngel()
         {
+            ServiceLocator.Clear();
             ConfigureServiceLocator();
             var service = ServiceLocator.GetService<IAltitudeAngelService>();
-            if (!service.IsSignedIn)
+            Host.MainForm.Invoke(new Action(() =>
             {
+                // Wait for main form to be visible before trying to sign in
+                while (!Host.MainForm.Visible)
+                {
+                    Application.DoEvents();
+                }
                 service.SignInAsync();
-            }
+            }));
         }
 
         private ToolStripMenuItem CreateSettingsMenuItem()
@@ -106,7 +121,6 @@ namespace AltitudeAngelWings.Plugin
 
         private void ConfigureServiceLocator()
         {
-            ServiceLocator.Clear();
             ServiceLocator.Register(l => Host);
             ServiceLocator.ConfigureFromAssembly(Assembly.GetAssembly(typeof(AltitudeAngelPlugin)));
             ServiceLocator.ConfigureFromAssembly(Assembly.GetAssembly(typeof(IAltitudeAngelService)));
