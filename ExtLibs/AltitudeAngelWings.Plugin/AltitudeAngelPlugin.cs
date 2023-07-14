@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
+using MissionPlanner;
 
 namespace AltitudeAngelWings.Plugin
 {
@@ -84,15 +86,17 @@ namespace AltitudeAngelWings.Plugin
             ServiceLocator.Clear();
             ConfigureServiceLocator();
             var service = ServiceLocator.GetService<IAltitudeAngelService>();
-            Host.MainForm.Invoke(new Action(() =>
+            Task.Run(() =>
             {
-                // Wait for main form to be visible before trying to sign in
-                while (!Host.MainForm.Visible)
+                Host.MainForm.Invoke(new Action(() =>
                 {
-                    Application.DoEvents();
-                }
-                service.SignInAsync();
-            }));
+                    // Wait for splash screen to be closed before signing in
+                    Program.Splash.Closed += (sender, args) =>
+                    {
+                        service.SignInAsync();
+                    };
+                }));
+            });
         }
 
         private ToolStripMenuItem CreateSettingsMenuItem()
