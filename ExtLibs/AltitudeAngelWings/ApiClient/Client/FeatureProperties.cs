@@ -97,5 +97,8 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         [JsonProperty("utmStatus")]
         public UtmStatus UtmStatus { get; set; }
+
+        [JsonProperty("contact")]
+        public Contact Contact { get; set; }
     }
 }

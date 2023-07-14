@@ -5,70 +5,106 @@
     <meta charset="utf-8" />
     <style>
         body {
-            margin: 5px;
-            font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+            margin: 10px 5px;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
             font-weight: normal;
-            color: black;
-            background-color: white;
+            color: #000;
+            background-color: #fff;
         }
 
         p {
-            margin: 0.4em 0 0 0;
+            margin: 10px 0;
         }
 
-        div.displayInfo {
-            border-top: 1px solid black;
-            margin: 10px 5px;
-            padding: 5px;
-            font-size: 11pt;
+        a {
+            color: #000;
+            text-decoration: none;
         }
 
-        div.detailedCategory {
+        a:hover {
+            color: #fff;
+        }
+
+        a:visited {
+            color: #000;
+        }
+
+        div.feature {
+            padding: 0 2px 10px;
             font-size: 10pt;
+            color: #000;
         }
 
-        div.displayTitle, div.title {
+        div.header {
+            border: 1px solid #000;
+            margin: 10px 0 10px;
+            padding: 10px;
+        }
+
+        div.header div.title {
+            font-size: 14pt;
+        }
+
+        div.category {
+            display: inline;
+            text-transform: uppercase;
             font-weight: bold;
         }
 
+        div.detailedCategory {
+            display: inline;
+            text-transform: capitalize;
+        }
+
         div.utmStatus {
-            background-color: white;
-            padding: 5px;
+            border: 1px solid #3dbb4e;
+            margin-top: 10px;
+            padding: 0 10px;
         }
 
         div.utmStatus div.button {
             background-color: #3dbb4e;
-            color: black;
-            alignment: center;
-            margin: 10px 50px;
+            text-align: center;
+            margin: 0 50px 10px;
             padding: 10px 10px;
             font-weight: bold;
             font-size: 12pt;
-            -ms-border-radius: 10px;
-            border-radius: 10px;
         }
 
         div.utmStatus div.button:hover {
             background-color: #138f23;
-            color: white;
+            color: #fff;
         }
 
-        div.utmStatus div.button a {
-            text-decoration: none;
+        div.phoneNumber {
+            margin: 5px 0;
         }
 
-        div.utmStatus div.button a:visited {
-            color: black;
+        div.phoneNumber span {
+            padding: 10px 0;
+        }
+
+        div.phoneNumber span.number {
+            float: right;
+            background-color: #32c6e1;
+            padding: 10px;
+        }
+
+        div.phoneNumber span.number:hover {
+            background-color: #337ab7;
         }
 
         div.section {
-            background-color: lightgray;
-            margin: 5px 0px;
-            padding: 5px;
-            font-size: 9pt;
+            padding: 10px 0;
         }
 
-        div.section div.title, div.category {
+        div.section div.title {
+            border-bottom: 1px solid #000;
+            font-weight: bold;
+            padding: 5px 0;
+        }
+
+        div.section div.displayTitle {
             display: none;
         }
     </style>
