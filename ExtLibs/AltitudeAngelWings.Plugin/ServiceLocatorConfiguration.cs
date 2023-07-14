@@ -29,13 +29,15 @@ namespace AltitudeAngelWings.Plugin
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FDGMapControl.Parent,
                         l.Resolve<IUiThreadInvoke>()),
-                    l.Resolve<ISettings>()),
+                    l.Resolve<ISettings>(),
+                    false),
                 new MapAdapter(l.Resolve<PluginHost>().FPGMapControl,
                     () => l.Resolve<ISettings>().EnablePlanMap,
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FPGMapControl.Parent,
                         l.Resolve<IUiThreadInvoke>()),
-                    l.Resolve<ISettings>()),
+                    l.Resolve<ISettings>(),
+                    true),
                 () => GetCurrentFlightPlan(l.Resolve<PluginHost>().MainForm.FlightPlanner),
                 l.Resolve<ISettings>(),
                 l.Resolve<PluginHost>().MainForm.Text));

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -24,18 +25,21 @@ namespace AltitudeAngelWings.Plugin
         private readonly GMapControl _mapControl;
         private readonly Func<bool> _enabled;
         private readonly IMapInfoDockPanel _mapInfoDockPanel;
+        private readonly bool _ctrlForPanel;
         private CompositeDisposable _disposer = new CompositeDisposable();
         private readonly SynchronizationContext _context;
+        private Point? _mouseDown;
 
         public IObservable<Unit> MapChanged { get; }
         public ObservableProperty<Feature> FeatureClicked { get; } = new ObservableProperty<Feature>(0);
 
-        public MapAdapter(GMapControl mapControl, Func<bool> enabled, IMapInfoDockPanel mapInfoDockPanel, ISettings settings)
+        public MapAdapter(GMapControl mapControl, Func<bool> enabled, IMapInfoDockPanel mapInfoDockPanel, ISettings settings, bool ctrlForPanel)
         {
             _context = new WindowsFormsSynchronizationContext();
             _mapControl = mapControl;
             _enabled = enabled;
             _mapInfoDockPanel = mapInfoDockPanel;
+            _ctrlForPanel = ctrlForPanel;
 
             var positionChanged = Observable
                 .FromEvent<PositionChanged, PointLatLng>(
@@ -71,16 +75,31 @@ namespace AltitudeAngelWings.Plugin
                 .Where(i => settings.TokenResponse.IsValidForAuth())
                 .ObserveOn(ThreadPoolScheduler.Instance);
 
-            mapControl.MouseClick += OnMouseClick;
+            mapControl.MouseDown += OnMouseDown;
+            mapControl.MouseUp += OnMouseUp;
         }
 
-        public bool Enabled => _enabled();
-
-        private void OnMouseClick(object sender, MouseEventArgs e)
+        private void OnMouseDown(object s, MouseEventArgs e)
         {
-            if (_mapControl.Core.IsDragging) return;
+            if (e.Button == MouseButtons.Left && ((_ctrlForPanel && Control.ModifierKeys == Keys.Control) || !_ctrlForPanel))
+            {
+                _mouseDown = e.Location;
+                return;
+            }
+            _mouseDown = null;
+        }
 
-            var mapItems = GetMapItemsOnMouseClick(e);
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+            if (_mouseDown == null || e.Location != _mouseDown)
+            {
+                _mouseDown = null;
+                return;
+            }
+
+            var mapItems = GetMapItemsOnMouseClick(e.Location);
             if (mapItems.Length == 0)
             {
                 _mapInfoDockPanel.Hide();
@@ -93,14 +112,16 @@ namespace AltitudeAngelWings.Plugin
             }
         }
 
-        private Feature[] GetMapItemsOnMouseClick(MouseEventArgs e)
+        public bool Enabled => _enabled();
+
+        private Feature[] GetMapItemsOnMouseClick(Point point)
         {
             var mapItems = new List<Feature>();
 
             var polygons = _mapControl.Overlays
                 .SelectMany(o => o.Polygons)
                 .Where(p => p.IsVisible && p.IsHitTestVisible)
-                .Where(p => p.IsInside(_mapControl.FromLocalToLatLng(e.X, e.Y)))
+                .Where(p => p.IsInside(_mapControl.FromLocalToLatLng(point.X, point.Y)))
                 .Select(p=> (Feature)p.Tag);
             mapItems.AddRange(polygons);
 
@@ -109,7 +130,7 @@ namespace AltitudeAngelWings.Plugin
                 .Where(r => r.IsVisible && r.IsHitTestVisible)
                 .Where(r =>
                 {
-                    var rp = new GPoint(e.X, e.Y);
+                    var rp = new GPoint(point.X, point.Y);
                     rp.OffsetNegative(_mapControl.Core.renderOffset);
                     return r.IsInside((int)rp.X, (int)rp.Y);
                 })
