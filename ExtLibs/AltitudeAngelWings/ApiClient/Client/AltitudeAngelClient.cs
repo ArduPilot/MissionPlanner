@@ -84,6 +84,12 @@ namespace AltitudeAngelWings.ApiClient.Client
                     .WithClient(Client)
                     .GetJsonAsync<AAFeatureCollection>(cancellationToken));
 
+        public Task<RateCardDetail> GetRateCard(string rateCardId, CancellationToken cancellationToken)
+            => _asyncPolicy.ExecuteAsync(() => _settings.ApiUrl
+                .AppendPathSegments("v2", "mapdata", "rate-cards", rateCardId)
+                .WithClient(Client)
+                .GetJsonAsync<RateCardDetail>(cancellationToken));
+        
         /// <summary>
         ///     Get the weather for the specified location. Do not call this method often, typically only once per session.
         ///     Required scopes: talk_tower

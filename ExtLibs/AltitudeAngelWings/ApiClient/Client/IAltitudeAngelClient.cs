@@ -18,5 +18,6 @@ namespace AltitudeAngelWings.ApiClient.Client
         Task<CreateStrategicPlanResponse> CreateFlightPlan(FlightPlan flightPlan, UserProfileInfo currentUser);
         Task<StartFlightResponse> StartFlight(string flightPlanId);
         Task CancelFlightPlan(string flightPlanId);
+        Task<RateCardDetail> GetRateCard(string rateCardId, CancellationToken cancellationToken);
     }
 }

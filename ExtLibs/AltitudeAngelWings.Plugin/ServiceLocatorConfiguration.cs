@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
@@ -29,7 +30,8 @@ namespace AltitudeAngelWings.Plugin
                     () => l.Resolve<ISettings>().EnableDataMap,
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FDGMapControl.Parent,
-                        l.Resolve<IUiThreadInvoke>()),
+                        l.Resolve<IUiThreadInvoke>(),
+                         new Lazy<IAltitudeAngelClient>(l.Resolve<IAltitudeAngelClient>)),
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     false),
@@ -37,7 +39,8 @@ namespace AltitudeAngelWings.Plugin
                     () => l.Resolve<ISettings>().EnablePlanMap,
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FPGMapControl.Parent,
-                        l.Resolve<IUiThreadInvoke>()),
+                        l.Resolve<IUiThreadInvoke>(),
+                        new Lazy<IAltitudeAngelClient>(l.Resolve<IAltitudeAngelClient>)),
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     true),

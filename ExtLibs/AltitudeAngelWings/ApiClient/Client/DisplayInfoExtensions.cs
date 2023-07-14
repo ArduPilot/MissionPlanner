@@ -1,11 +1,14 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using MarkdownSharp;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
     public static class DisplayInfoExtensions
     {
-        public static string FormatAsHtml(this FeatureProperties featureProperties)
+        public static string FormatAsHtml(this FeatureProperties featureProperties,
+            IDictionary<string, RateCardDetail> rateCardDetails)
         {
             var builder = new StringBuilder();
             var markdown = new Markdown(new MarkdownOptions
@@ -17,8 +20,8 @@ namespace AltitudeAngelWings.ApiClient.Client
             });
             builder.Append("<div class=\"feature\">");
             builder.Append($"<div class=\"header\" style=\"background-color: {featureProperties.FillColor}\">");
-            builder.Append($"<div class=\"category\">{featureProperties.DisplayInfo.Category}</div> ");
-            builder.Append($"<div class=\"detailedCategory\">({featureProperties.DisplayInfo.DetailedCategory})</div>");
+            builder.Append($"<div class=\"category\">{featureProperties.DisplayInfo.Category}</div>");
+            builder.Append($"<div class=\"detailedCategory\"> : {featureProperties.DisplayInfo.DetailedCategory}</div>");
             builder.Append($"<div class=\"title\">{featureProperties.DisplayInfo.Title}</div>");
             builder.Append("</div>");
             if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
@@ -38,7 +41,28 @@ namespace AltitudeAngelWings.ApiClient.Client
                     builder.Append($"<div class=\"text\">{markdown.Transform(featureProperties.UtmStatus.Description)}</div>");
                 }
 
-                // TODO: Rate cards
+                foreach (var rateType in featureProperties.UtmStatus.RateTypes.Keys)
+                {
+                    builder.Append("<div class=\"rateType\">");
+                    builder.Append("<div class=\"section\">");
+                    builder.Append($"<div class=\"title\">{MapRateTypeToText(rateType)}</div>");
+                    foreach (var rateCard in featureProperties.UtmStatus.RateTypes[rateType].Select(c => rateCardDetails[c.Id]))
+                    {
+                        builder.Append("<div class=\"rateCard\">");
+                        builder.Append($"<p>{rateCard.ExplanatoryText}</p>");
+                        builder.Append("<ul>");
+                        foreach (var rate in rateCard.Rates.OrderBy(r => r.Ordinal))
+                        {
+                            builder.Append($"<li>{rate.Name} ({rate.Rate} {rateCard.Currency})</li>");
+                        }
+                        builder.Append("</ul>");
+                        builder.Append("<p>If you wish to operate here, depending on your flight plan, you may require their prior approval.</p>");
+                        builder.Append($"<p><a href=\"{rateCard.RateCardTerms}\">Terms and conditions</a></p>");
+                        builder.Append("</div>");
+                    }
+                    builder.Append("</div>");
+                    builder.Append("</div>");
+                }
 
                 if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.UtmDetails.ExternalUrl))
                 {
@@ -46,7 +70,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 }
                 builder.Append("</div>");
             }
-            if (featureProperties.Contact?.PhoneNumbers != null)
+            if (featureProperties.Contact?.PhoneNumbers != null && featureProperties.Contact.PhoneNumbers.Count > 0)
             {
                 if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
                 {
@@ -98,6 +122,17 @@ namespace AltitudeAngelWings.ApiClient.Client
             }
             builder.Append("</div>");
             return builder.ToString();
+        }
+
+        private static string MapRateTypeToText(string rateType)
+        {
+            switch (rateType)
+            {
+                case "flight-plan-approvals":
+                    return "APPROVAL SERVICES";
+                default:
+                    return rateType;
+            }
         }
     }
 }

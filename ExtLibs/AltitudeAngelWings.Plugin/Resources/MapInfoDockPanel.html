@@ -4,10 +4,12 @@
     <title>MapInfoDockPanel</title>
     <meta charset="utf-8" />
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap');
+
         body {
             margin: 0;
             padding: 0;
-            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-family: Red Hat Display, sans-serif;
             font-weight: normal;
             color: #000;
             background-color: #fff;
@@ -21,10 +23,11 @@
         a {
             color: #000;
             text-decoration: none;
+            font-weight: bold;
         }
 
         a:hover {
-            color: #fff;
+            text-decoration: underline;
         }
 
         a:visited {
@@ -36,7 +39,7 @@
         }
 
         div.feature {
-            font-size: 10pt;
+            font-size: 14px;
             color: #000;
             margin: 10px 0 20px;
         }
@@ -47,7 +50,7 @@
         }
 
         div.header div.title {
-            font-size: 14pt;
+            font-size: 24px;
         }
 
         div.category {
@@ -79,12 +82,7 @@
             margin: 0 50px 10px;
             padding: 10px 10px;
             font-weight: bold;
-            font-size: 12pt;
-        }
-
-        div.utmStatus div.button:hover {
-            background-color: #138f23;
-            color: #fff;
+            font-size: 14px;
         }
 
         div.phoneNumber {
@@ -93,11 +91,12 @@
 
         div.phoneNumber span {
             display: inline-block;
+            font-weight: normal;
         }
 
         div.phoneNumber span.location {
             font-weight: bold;
-            width: 150px;
+            width: 120px;
             overflow-wrap: break-word;
             padding: 10px 20px 10px 0;
         }
@@ -105,12 +104,14 @@
         div.phoneNumber span.number {
             background-color: #32c6e1;
             padding: 10px;
-            width: 100px;
+            width: 120px;
             text-align: center;
+            font-weight: normal;
         }
 
-        div.phoneNumber span.number:hover {
-            background-color: #337ab7;
+        div.phoneNumber span.number a {
+            background-color: #32c6e1;
+            font-weight: normal;
         }
 
         div.section {
