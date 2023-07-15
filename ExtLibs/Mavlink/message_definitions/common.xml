@@ -438,6 +438,57 @@
         <description>Gimbal device supports yawing/panning infinetely (e.g. using slip disk).</description>
       </entry>
     </enum>
+    <enum name="GIMBAL_MANAGER_CAP_FLAGS" bitmask="true">
+      <description>Gimbal manager high level capability flags (bitmap). The first 16 bits are identical to the GIMBAL_DEVICE_CAP_FLAGS. However, the gimbal manager does not need to copy the flags from the gimbal but can also enhance the capabilities and thus add flags.</description>
+      <entry value="1" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_RETRACT">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT.</description>
+      </entry>
+      <entry value="2" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_NEUTRAL">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL.</description>
+      </entry>
+      <entry value="4" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_ROLL_AXIS">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS.</description>
+      </entry>
+      <entry value="8" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_ROLL_FOLLOW">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW.</description>
+      </entry>
+      <entry value="16" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_ROLL_LOCK">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK.</description>
+      </entry>
+      <entry value="32" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_PITCH_AXIS">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS.</description>
+      </entry>
+      <entry value="64" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_PITCH_FOLLOW">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW.</description>
+      </entry>
+      <entry value="128" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_PITCH_LOCK">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK.</description>
+      </entry>
+      <entry value="256" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_YAW_AXIS">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS.</description>
+      </entry>
+      <entry value="512" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_YAW_FOLLOW">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW.</description>
+      </entry>
+      <entry value="1024" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_YAW_LOCK">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK.</description>
+      </entry>
+      <entry value="2048" name="GIMBAL_MANAGER_CAP_FLAGS_SUPPORTS_INFINITE_YAW">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW.</description>
+      </entry>
+      <entry value="4096" name="GIMBAL_MANAGER_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME.</description>
+      </entry>
+      <entry value="8192" name="GIMBAL_MANAGER_CAP_FLAGS_HAS_RC_INPUTS">
+        <description>Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS.</description>
+      </entry>
+      <entry value="65536" name="GIMBAL_MANAGER_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL">
+        <description>Gimbal manager supports to point to a local position.</description>
+      </entry>
+      <entry value="131072" name="GIMBAL_MANAGER_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL">
+        <description>Gimbal manager supports to point to a global latitude, longitude, altitude position.</description>
+      </entry>
+    </enum>
     <enum name="GIMBAL_DEVICE_FLAGS" bitmask="true">
       <description>Flags for gimbal device (lower level) operation.</description>
       <entry value="1" name="GIMBAL_DEVICE_FLAGS_RETRACT">
@@ -593,6 +644,36 @@
       </entry>
       <entry value="3" name="STORAGE_STATUS_NOT_SUPPORTED">
         <description>Camera does not supply storage status information. Capacity information in STORAGE_INFORMATION fields will be ignored.</description>
+      </entry>
+    </enum>
+    <enum name="STORAGE_TYPE">
+      <description>Flags to indicate the type of storage.</description>
+      <entry value="0" name="STORAGE_TYPE_UNKNOWN">
+        <description>Storage type is not known.</description>
+      </entry>
+      <entry value="1" name="STORAGE_TYPE_USB_STICK">
+        <description>Storage type is USB device.</description>
+      </entry>
+      <entry value="2" name="STORAGE_TYPE_SD">
+        <description>Storage type is SD card.</description>
+      </entry>
+      <entry value="3" name="STORAGE_TYPE_MICROSD">
+        <description>Storage type is microSD card.</description>
+      </entry>
+      <entry value="4" name="STORAGE_TYPE_CF">
+        <description>Storage type is CFast.</description>
+      </entry>
+      <entry value="5" name="STORAGE_TYPE_CFE">
+        <description>Storage type is CFexpress.</description>
+      </entry>
+      <entry value="6" name="STORAGE_TYPE_XQD">
+        <description>Storage type is XQD.</description>
+      </entry>
+      <entry value="7" name="STORAGE_TYPE_HD">
+        <description>Storage type is HD mass storage type.</description>
+      </entry>
+      <entry value="254" name="STORAGE_TYPE_OTHER">
+        <description>Storage type is other, not listed type.</description>
       </entry>
     </enum>
     <enum name="AUTOTUNE_AXIS" bitmask="true">
@@ -1541,6 +1622,16 @@
         <param index="5" label="Gimbal manager flags" enum="GIMBAL_MANAGER_FLAGS">Gimbal manager flags to use.</param>
         <param index="7" label="Gimbal device ID">Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).</param>
       </entry>
+      <entry value="1001" name="MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE" hasLocation="false" isDestination="false">
+        <wip/>
+        <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+        <description>Gimbal configuration to set which sysid/compid is in primary and secondary control.</description>
+        <param index="1" label="sysid primary control">Sysid for primary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).</param>
+        <param index="2" label="compid primary control">Compid for primary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).</param>
+        <param index="3" label="sysid secondary control">Sysid for secondary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).</param>
+        <param index="4" label="compid secondary control">Compid for secondary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).</param>
+        <param index="7" label="Gimbal device ID">Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).</param>
+      </entry>
       <entry value="2000" name="MAV_CMD_IMAGE_START_CAPTURE" hasLocation="false" isDestination="false">
         <description>Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.</description>
         <param index="1">Reserved (Set to 0)</param>
@@ -2035,36 +2126,6 @@
       </entry>
       <entry value="4" name="MAV_ROI_TARGET">
         <description>Point toward of given id.</description>
-      </entry>
-    </enum>
-    <enum name="MAV_CMD_ACK">
-      <description>ACK / NACK / ERROR values as a result of MAV_CMDs and for mission item transmission.</description>
-      <entry value="0" name="MAV_CMD_ACK_OK">
-        <description>Command / mission item is ok.</description>
-      </entry>
-      <entry value="1" name="MAV_CMD_ACK_ERR_FAIL">
-        <description>Generic error message if none of the other reasons fails or if no detailed error reporting is implemented.</description>
-      </entry>
-      <entry value="2" name="MAV_CMD_ACK_ERR_ACCESS_DENIED">
-        <description>The system is refusing to accept this command from this source / communication partner.</description>
-      </entry>
-      <entry value="3" name="MAV_CMD_ACK_ERR_NOT_SUPPORTED">
-        <description>Command or mission item is not supported, other commands would be accepted.</description>
-      </entry>
-      <entry value="4" name="MAV_CMD_ACK_ERR_COORDINATE_FRAME_NOT_SUPPORTED">
-        <description>The coordinate frame of this command / mission item is not supported.</description>
-      </entry>
-      <entry value="5" name="MAV_CMD_ACK_ERR_COORDINATES_OUT_OF_RANGE">
-        <description>The coordinate frame of this command is ok, but he coordinate values exceed the safety limits of this system. This is a generic error, please use the more specific error messages below if possible.</description>
-      </entry>
-      <entry value="6" name="MAV_CMD_ACK_ERR_X_LAT_OUT_OF_RANGE">
-        <description>The X or latitude value is out of range.</description>
-      </entry>
-      <entry value="7" name="MAV_CMD_ACK_ERR_Y_LON_OUT_OF_RANGE">
-        <description>The Y or longitude value is out of range.</description>
-      </entry>
-      <entry value="8" name="MAV_CMD_ACK_ERR_Z_ALT_OUT_OF_RANGE">
-        <description>The Z or altitude value is out of range.</description>
       </entry>
     </enum>
     <enum name="MAV_PARAM_TYPE">
@@ -3949,6 +4010,31 @@
         <description>Use a fixed wing approach before detransitioning and landing vertically.</description>
       </entry>
     </enum>
+    <enum name="MISSION_STATE">
+      <description>
+        States of the mission state machine.
+        Note that these states are independent of whether the mission is in a mode that can execute mission items or not (is suspended).
+        They may not all be relevant on all vehicles.
+      </description>
+      <entry value="0" name="MISSION_STATE_UNKNOWN">
+        <description>The mission status reporting is not supported.</description>
+      </entry>
+      <entry value="1" name="MISSION_STATE_NO_MISSION">
+        <description>No mission on the vehicle.</description>
+      </entry>
+      <entry value="2" name="MISSION_STATE_NOT_STARTED">
+        <description>Mission has not started. This is the case after a mission has uploaded but not yet started executing.</description>
+      </entry>
+      <entry value="3" name="MISSION_STATE_ACTIVE">
+        <description>Mission is active, and will execute mission items when in auto mode.</description>
+      </entry>
+      <entry value="4" name="MISSION_STATE_PAUSED">
+        <description>Mission is paused when in auto mode.</description>
+      </entry>
+      <entry value="5" name="MISSION_STATE_COMPLETE">
+        <description>Mission has executed all mission items.</description>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <message id="1" name="SYS_STATUS">
@@ -4267,6 +4353,10 @@
     <message id="42" name="MISSION_CURRENT">
       <description>Message that announces the sequence number of the current active mission item. The MAV will fly towards this mission item.</description>
       <field type="uint16_t" name="seq">Sequence</field>
+      <extensions/>
+      <field type="uint16_t" name="total" invalid="UINT16_MAX">Total number of mission items on vehicle (on last item, sequence == total). If the autopilot stores its home location as part of the mission this will be excluded from the total. 0: Not supported, UINT16_MAX if no mission is present on the vehicle.</field>
+      <field type="uint8_t" name="mission_state" enum="MISSION_STATE" invalid="0">Mission state machine state. MISSION_STATE_UNKNOWN if state reporting not supported.</field>
+      <field type="uint8_t" name="mission_mode" invalid="0">Vehicle is in a mode that can execute mission items or suspended. 0: Unknown, 1: In mission mode, 2: Suspended (not in mission mode).</field>
     </message>
     <message id="43" name="MISSION_REQUEST_LIST">
       <description>Request the overall list of mission items from the system/component.</description>
@@ -5268,7 +5358,7 @@
       <field type="uint32_t" name="flight_sw_version">Firmware version number</field>
       <field type="uint32_t" name="middleware_sw_version">Middleware version number</field>
       <field type="uint32_t" name="os_sw_version">Operating system version number</field>
-      <field type="uint32_t" name="board_version">HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt</field>
+      <field type="uint32_t" name="board_version">HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/ardupilot/ardupilot/blob/master/Tools/AP_Bootloader/board_types.txt</field>
       <field type="uint8_t[8]" name="flight_custom_version">Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.</field>
       <field type="uint8_t[8]" name="middleware_custom_version">Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.</field>
       <field type="uint8_t[8]" name="os_custom_version">Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.</field>
@@ -5621,24 +5711,24 @@
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="uint8_t[32]" name="vendor_name">Name of the camera vendor</field>
       <field type="uint8_t[32]" name="model_name">Name of the camera model</field>
-      <field type="uint32_t" name="firmware_version">Version of the camera firmware, encoded as: (Dev &amp; 0xff) &lt;&lt; 24 | (Patch &amp; 0xff) &lt;&lt; 16 | (Minor &amp; 0xff) &lt;&lt; 8 | (Major &amp; 0xff)</field>
-      <field type="float" name="focal_length" units="mm">Focal length</field>
-      <field type="float" name="sensor_size_h" units="mm">Image sensor size horizontal</field>
-      <field type="float" name="sensor_size_v" units="mm">Image sensor size vertical</field>
-      <field type="uint16_t" name="resolution_h" units="pix">Horizontal image resolution</field>
-      <field type="uint16_t" name="resolution_v" units="pix">Vertical image resolution</field>
-      <field type="uint8_t" name="lens_id">Reserved for a lens ID</field>
+      <field type="uint32_t" name="firmware_version" invalid="0">Version of the camera firmware, encoded as: (Dev &amp; 0xff) &lt;&lt; 24 | (Patch &amp; 0xff) &lt;&lt; 16 | (Minor &amp; 0xff) &lt;&lt; 8 | (Major &amp; 0xff). Use 0 if not known.</field>
+      <field type="float" name="focal_length" units="mm" invalid="NaN">Focal length. Use NaN if not known.</field>
+      <field type="float" name="sensor_size_h" units="mm" invalid="NaN">Image sensor size horizontal. Use NaN if not known.</field>
+      <field type="float" name="sensor_size_v" units="mm" invalid="NaN">Image sensor size vertical. Use NaN if not known.</field>
+      <field type="uint16_t" name="resolution_h" units="pix" invalid="0">Horizontal image resolution. Use 0 if not known.</field>
+      <field type="uint16_t" name="resolution_v" units="pix" invalid="0">Vertical image resolution. Use 0 if not known.</field>
+      <field type="uint8_t" name="lens_id" invalid="0">Reserved for a lens ID.  Use 0 if not known.</field>
       <field type="uint32_t" name="flags" enum="CAMERA_CAP_FLAGS" display="bitmask">Bitmap of camera capability flags.</field>
-      <field type="uint16_t" name="cam_definition_version">Camera definition version (iteration)</field>
-      <field type="char[140]" name="cam_definition_uri">Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).</field>
+      <field type="uint16_t" name="cam_definition_version">Camera definition version (iteration).  Use 0 if not known.</field>
+      <field type="char[140]" name="cam_definition_uri">Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol). The definition file may be xz compressed, which will be indicated by the file extension .xml.xz (a GCS that implements the protocol must support decompressing the file). The string needs to be zero terminated.  Use a zero-length string if not known.</field>
     </message>
     <message id="260" name="CAMERA_SETTINGS">
       <description>Settings of a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command.</description>
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="uint8_t" name="mode_id" enum="CAMERA_MODE">Camera mode</field>
       <extensions/>
-      <field type="float" name="zoomLevel">Current zoom level (0.0 to 100.0, NaN if not known)</field>
-      <field type="float" name="focusLevel">Current focus level (0.0 to 100.0, NaN if not known)</field>
+      <field type="float" name="zoomLevel" invalid="NaN">Current zoom level as a percentage of the full range (0.0 to 100.0, NaN if not known)</field>
+      <field type="float" name="focusLevel" invalid="NaN">Current focus level as a percentage of the full range (0.0 to 100.0, NaN if not known)</field>
     </message>
     <message id="261" name="STORAGE_INFORMATION">
       <description>Information about a storage medium. This message is sent in response to a request with MAV_CMD_REQUEST_MESSAGE and whenever the status of the storage changes (STORAGE_STATUS). Use MAV_CMD_REQUEST_MESSAGE.param2 to indicate the index/id of requested storage: 0 for all, 1 for first, 2 for second, etc.</description>
@@ -5788,6 +5878,32 @@
       <field type="float" name="hdg" units="rad" invalid="NaN">Heading in radians, in NED. NAN if unknown</field>
       <field type="float" name="hdg_acc" units="rad" invalid="NaN">Accuracy of heading, in NED. NAN if unknown</field>
     </message>
+    <message id="280" name="GIMBAL_MANAGER_INFORMATION">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Information about a high level gimbal manager. This message should be requested by a ground station using MAV_CMD_REQUEST_MESSAGE.</description>
+      <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint32_t" name="cap_flags" enum="GIMBAL_MANAGER_CAP_FLAGS" display="bitmask">Bitmap of gimbal capability flags.</field>
+      <field type="uint8_t" name="gimbal_device_id" instance="true">Gimbal device ID that this gimbal manager is responsible for.</field>
+      <field type="float" name="roll_min" units="rad">Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left)</field>
+      <field type="float" name="roll_max" units="rad">Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left)</field>
+      <field type="float" name="pitch_min" units="rad">Minimum pitch angle (positive: up, negative: down)</field>
+      <field type="float" name="pitch_max" units="rad">Maximum pitch angle (positive: up, negative: down)</field>
+      <field type="float" name="yaw_min" units="rad">Minimum yaw angle (positive: to the right, negative: to the left)</field>
+      <field type="float" name="yaw_max" units="rad">Maximum yaw angle (positive: to the right, negative: to the left)</field>
+    </message>
+    <message id="281" name="GIMBAL_MANAGER_STATUS">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Current status about a high level gimbal manager. This message should be broadcast at a low regular rate (e.g. 5Hz).</description>
+      <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint32_t" name="flags" enum="GIMBAL_MANAGER_FLAGS">High level gimbal manager flags currently applied.</field>
+      <field type="uint8_t" name="gimbal_device_id" instance="true">Gimbal device ID that this gimbal manager is responsible for.</field>
+      <field type="uint8_t" name="primary_control_sysid">System ID of MAVLink component with primary control, 0 for none.</field>
+      <field type="uint8_t" name="primary_control_compid">Component ID of MAVLink component with primary control, 0 for none.</field>
+      <field type="uint8_t" name="secondary_control_sysid">System ID of MAVLink component with secondary control, 0 for none.</field>
+      <field type="uint8_t" name="secondary_control_compid">Component ID of MAVLink component with secondary control, 0 for none.</field>
+    </message>
     <message id="283" name="GIMBAL_DEVICE_INFORMATION">
       <description>Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by software used are likely different/smaller and dependent on mode/settings/etc..</description>
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
@@ -5859,6 +5975,19 @@
       <field type="float" name="angular_velocity_x" units="rad/s" invalid="NaN">X component of angular velocity, positive is rolling to the right, NaN to be ignored.</field>
       <field type="float" name="angular_velocity_y" units="rad/s" invalid="NaN">Y component of angular velocity, positive is pitching up, NaN to be ignored.</field>
       <field type="float" name="angular_velocity_z" units="rad/s" invalid="NaN">Z component of angular velocity, positive is yawing to the right, NaN to be ignored.</field>
+    </message>
+    <message id="287" name="GIMBAL_MANAGER_SET_PITCHYAW">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>High level message to control a gimbal's pitch and yaw angles. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint32_t" name="flags" enum="GIMBAL_MANAGER_FLAGS">High level gimbal manager flags to use.</field>
+      <field type="uint8_t" name="gimbal_device_id" instance="true">Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).</field>
+      <field type="float" name="pitch" units="rad" invalid="NaN">Pitch angle (positive: up, negative: down, NaN to be ignored).</field>
+      <field type="float" name="yaw" units="rad" invalid="NaN">Yaw angle (positive: to the right, negative: to the left, NaN to be ignored).</field>
+      <field type="float" name="pitch_rate" units="rad/s" invalid="NaN">Pitch angular rate (positive: up, negative: down, NaN to be ignored).</field>
+      <field type="float" name="yaw_rate" units="rad/s" invalid="NaN">Yaw angular rate (positive: to the right, negative: to the left, NaN to be ignored).</field>
     </message>
     <message id="299" name="WIFI_CONFIG_AP">
       <description>Configure WiFi AP SSID, password, and mode. This message is re-emitted as an acknowledgement by the AP. The message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE</description>
@@ -5976,6 +6105,7 @@
       <extensions/>
       <field type="uint8_t" name="reset_counter">Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.</field>
       <field type="uint8_t" name="estimator_type" enum="MAV_ESTIMATOR_TYPE">Type of estimator that is providing the odometry.</field>
+      <field type="int8_t" name="quality" units="%" invalid="0">Optional odometry quality metric as a percentage. -1 = odometry has failed, 0 = unknown/unset quality, 1 = worst quality, 100 = best quality</field>
     </message>
     <message id="335" name="ISBD_LINK_STATUS">
       <description>Status of the Iridium SBD link.</description>
