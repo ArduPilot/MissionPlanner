@@ -9,7 +9,7 @@ namespace AltitudeAngelWings.ApiClient.Client
     {
         public static string[] AccessTokenScopes(this TokenResponse tokenResponse)
         {
-            if (!tokenResponse.IsValidForAuth())
+            if (!tokenResponse.HasAccessToken())
             {
                 return Array.Empty<string>();
             }
@@ -40,19 +40,27 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         public static bool IsValidForAuth(this TokenResponse tokenResponse)
         {
-            if (tokenResponse == null)
-            {
-                return false;
-            }
+            if (!tokenResponse.HasAccessToken()) return false;
 
-            if (string.IsNullOrEmpty(tokenResponse.AccessToken)
-                || tokenResponse.ExpiresIn <= 0)
+            var token = new JwtSecurityToken(tokenResponse.AccessToken);
+            if (token.Payload.Exp == null)
             {
                 return false;
             }
 
             // Only valid if >= 1 minute of expiry time left
-            return tokenResponse.ExpiresAt >= DateTimeOffset.UtcNow.Subtract(TimeSpan.FromMinutes(1));
+            var expires = DateTimeOffset.FromUnixTimeSeconds(token.Payload.Exp.Value);
+            return expires > DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(1));
+        }
+
+        private static bool HasAccessToken(this TokenResponse tokenResponse)
+        {
+            if (tokenResponse == null)
+            {
+                return false;
+            }
+
+            return !string.IsNullOrEmpty(tokenResponse.AccessToken);
         }
 
         public static bool CanBeRefreshed(this TokenResponse tokenResponse)

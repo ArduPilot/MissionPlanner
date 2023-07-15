@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace AltitudeAngelWings.ApiClient.Client
@@ -8,8 +7,6 @@ namespace AltitudeAngelWings.ApiClient.Client
     /// </summary>
     public class TokenResponse
     {
-        private int _expiresIn;
-
         /// <summary>
         /// The access token
         /// </summary>
@@ -26,26 +23,12 @@ namespace AltitudeAngelWings.ApiClient.Client
         /// the number of seconds that the Access Token expires in
         /// </summary>
         [JsonProperty("expires_in")]
-        public int ExpiresIn
-        {
-            get => _expiresIn;
-            set
-            {
-                _expiresIn = value;
-                ExpiresAt = DateTimeOffset.UtcNow.AddSeconds(_expiresIn);
-            }
-        }
+        public int ExpiresIn { get; set; }
 
         /// <summary>
         /// The type of access token, eg 'Bearer' or 'Basic'
         /// </summary>
         [JsonProperty("token_type")]
         public string TokenType { get; set; } = "";
-
-        /// <summary>
-        /// When the object was constructed
-        /// </summary>
-        [JsonProperty("expires_at")]
-        public DateTimeOffset ExpiresAt { get; private set; }
     }
 }

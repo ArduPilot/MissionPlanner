@@ -26,10 +26,10 @@ namespace AltitudeAngelWings
                     .TimeoutAsync(TimeSpan.FromSeconds(30)),
                 Policy
                     .Handle<FlurlHttpException>(e => e.StatusCode == 401)
-                    .RetryAsync(2, (exception, i) => l.Resolve<ISettings>().TokenResponse.AccessToken = ""),
+                    .RetryAsync(2, (e, i) => ResetAccessToken(l.Resolve<ISettings>())),
                 Policy
                     .Handle<FlurlHttpException>(e => e.StatusCode >= 500)
-                    .WaitAndRetryAsync(5,  i => TimeSpan.FromSeconds(Math.Pow(2, i) / 10)),
+                    .WaitAndRetryAsync(5,  i => TimeSpan.FromSeconds(Math.Pow(2, i) / 2)),
                 Policy
                     .TimeoutAsync(TimeSpan.FromSeconds(5))));
             ServiceLocator.Register<IEncryptionKeyGenerator>(l => new HmacKeyGenerator(
@@ -92,6 +92,13 @@ namespace AltitudeAngelWings
                 l.Resolve<IAltitudeAngelClient>(),
                 l.Resolve<ITelemetryService>(),
                 l.Resolve<IFlightService>()));
+        }
+
+        private static void ResetAccessToken(ISettings settings)
+        {
+            var token = settings.TokenResponse;
+            token.AccessToken = "";
+            settings.TokenResponse = token;
         }
     }
 }

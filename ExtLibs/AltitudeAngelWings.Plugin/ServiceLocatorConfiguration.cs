@@ -20,8 +20,18 @@ namespace AltitudeAngelWings.Plugin
         {
             ServiceLocator.Register<ISettings>(l => new Settings(
                 key => l.Resolve<PluginHost>().config.ContainsKey(key) ? l.Resolve<PluginHost>().config[key] : null,
-                key => l.Resolve<PluginHost>().config.Remove(key),
-                (key, data) => l.Resolve<PluginHost>().config[key] = data));
+                key =>
+                {
+                    var host = l.Resolve<PluginHost>();
+                    host.config.Remove(key);
+                    host.config.Save();
+                },
+                (key, data) =>
+                {
+                    var host = l.Resolve<PluginHost>();
+                    host.config[key] = data;
+                    host.config.Save();
+                }));
             ServiceLocator.Register<IUiThreadInvoke>(l => new UiThreadInvoke(
                 action => Task.Factory.FromAsync(l.Resolve<PluginHost>().MainForm.BeginInvoke(action), result => l.Resolve<PluginHost>().MainForm.EndInvoke(result))));
             ServiceLocator.Register<IMissionPlanner>(l => new MissionPlannerAdapter(
