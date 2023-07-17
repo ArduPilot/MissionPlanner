@@ -117,9 +117,12 @@ namespace AltitudeAngelWings.Plugin
             if (!_enabled)
             {
                 AskToEnableAltitudeAngel(true);
+                if (_enabled)
+                {
+                    EnableAltitudeAngel();
+                }
             }
             if (!_enabled) return;
-            EnableAltitudeAngel();
             new AASettings().Show(Host.MainForm);
         }
 
