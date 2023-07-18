@@ -618,6 +618,21 @@ namespace MissionPlanner.Utilities
                     };
 
                     logformat[lbl.Name] = lbl;
+
+                    if (!logformat.ContainsKey("FMT"))
+                    {
+                        // mod for custom logformat that hides the FMT key
+                        //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
+
+                        logformat["FMT"] = new Label()
+                        {
+                            Name = "FMT",
+                            Id = 0x80,
+                            Format = "BBnNZ",
+                            Length = 59,
+                            FieldNames = new List<string>() { "Type", "Length", "Name", "Format", "Columns" }
+                        };  
+                    }
                 }
             }
             catch

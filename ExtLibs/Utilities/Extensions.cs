@@ -191,6 +191,18 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<IEnumerable<T>> Windowed<T>(this IEnumerable<T> source, int chunksize, int divisorinc = 1)
+        {
+            int index = 0;
+            int cnt = source.Count();
+
+            while (index < cnt)
+            {
+                yield return source.Skip(index).Take(chunksize).ToArray();
+                index += chunksize / divisorinc;
+            }
+        }
+
         public static IEnumerable<T> ToEnumerable<T>(this IEnumerator enumerator)
         {
             while (enumerator.MoveNext())
