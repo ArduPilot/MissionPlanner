@@ -20,6 +20,17 @@ namespace AltitudeAngelWings.Models
         }
 
         public string Content { get; set; }
-        public TimeSpan TimeToLive { get; set; } = TimeSpan.FromSeconds(1);
+
+        /// <summary>
+        ///  Sets the Time To Live for a message that does not have an
+        ///  <see cref="OnClick"/> registered.
+        /// </summary>
+        public TimeSpan TimeToLive { get; set; } = TimeSpan.FromSeconds(3);
+
+        /// <summary>
+        ///  Sets an action to be performed when the message is clicked.
+        ///  Messages with this set will only disappear after clicked, not after <see cref="TimeToLive"/>.
+        /// </summary>
+        public Action OnClick { get; set; }
     }
 }

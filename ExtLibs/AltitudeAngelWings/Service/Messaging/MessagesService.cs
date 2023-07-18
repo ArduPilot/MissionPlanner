@@ -13,6 +13,7 @@ namespace AltitudeAngelWings.Service.Messaging
             Messages = new ObservableProperty<Message>(0);
             Messages
                 .Do(messageDisplay.AddMessage)
+                .Where(m => m.OnClick == null) // Messages with an OnClick get to stick around!
                 .Delay(m => Observable.Timer(m.TimeToLive))
                 .Subscribe(messageDisplay.RemoveMessage);
         }

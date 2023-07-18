@@ -1,8 +1,5 @@
-﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
+﻿using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using AltitudeAngelWings.Service.Messaging;
 using Message = AltitudeAngelWings.Models.Message;
@@ -11,85 +8,82 @@ namespace AltitudeAngelWings.Plugin
 {
     public class MessageDisplay : IMessageDisplay
     {
-        private readonly Label[] _messagesLabels;
-        private readonly IUiThreadInvoke _uiThreadInvoke;
-        private readonly List<Message> _messages = new List<Message>();
         private const int Offset = 5;
 
-        public MessageDisplay(IReadOnlyList<Control> parentControls, IUiThreadInvoke uiThreadInvoke)
+        private readonly Control _parent;
+        private readonly IUiThreadInvoke _uiThreadInvoke;
+
+        public MessageDisplay(Control parent, IUiThreadInvoke uiThreadInvoke)
         {
-            _messagesLabels = new Label[parentControls.Count];
-            for (var pos = 0; pos < _messagesLabels.Length; pos++)
-            {
-                _messagesLabels[pos] = new Label
-                {
-                    Name = "AA_MessageDisplay",
-                    AutoSize = true,
-                    ForeColor = Color.White,
-                    BackColor = Color.Transparent,
-                    Visible = false,
-                    Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
-                    TextAlign = ContentAlignment.MiddleLeft,
-                    Padding = new Padding(5, 2, 5, 2),
-                    Font = new Font("Microsoft Sans Serif", 9, FontStyle.Regular)
-                };
-            }
+            _parent = parent;
             _uiThreadInvoke = uiThreadInvoke;
-            _uiThreadInvoke.Invoke(() =>
-            {
-                for (var pos = 0; pos < _messagesLabels.Length; pos++)
-                {
-                    parentControls[pos].Controls.Add(_messagesLabels[pos]);
-                    _messagesLabels[pos].BringToFront();
-                }
-            });
         }
 
         public void AddMessage(Message message)
         {
-            _messages.Add(message);
-            var messages = FormatMessages();
+            var label = CreateLabel(message);
             _uiThreadInvoke.Invoke(() =>
             {
-                foreach (var messagesLabel in _messagesLabels)
-                {
-                    if (!messagesLabel.Parent.Visible) continue;
-                    messagesLabel.Parent.SuspendLayout();
-                    messagesLabel.Text = messages;
-                    messagesLabel.Visible = messages.Length > 0;
-                    messagesLabel.Location = new Point(Offset, messagesLabel.Parent.Height - messagesLabel.Height - Offset);
-                    messagesLabel.Parent.ResumeLayout();
-                }
+                if (!_parent.Visible) return;
+                _parent.SuspendLayout();
+                _parent.Controls.Add(label);
+                label.BringToFront();
+                LayoutLabels();
+                _parent.ResumeLayout();
             });
         }
 
         public void RemoveMessage(Message message)
         {
-            _messages.Remove(message);
-            var messages = FormatMessages();
             _uiThreadInvoke.Invoke(() =>
             {
-                foreach (var messagesLabel in _messagesLabels)
+                if (!_parent.Visible) return;
+                _parent.SuspendLayout();
+                foreach (var label in _parent.Controls.OfType<Label>().Where(l => l.Tag is Message))
                 {
-                    if (!messagesLabel.Parent.Visible) continue;
-                    messagesLabel.Parent.SuspendLayout();
-                    messagesLabel.Text = messages;
-                    messagesLabel.Visible = messages.Length > 0;
-                    messagesLabel.Location = new Point(Offset, messagesLabel.Parent.Height - messagesLabel.Height - Offset);
-                    messagesLabel.Parent.ResumeLayout();
+                    if (label.Tag != message) continue;
+                    _parent.Controls.Remove(label);
+                    label.Dispose();
+                    break;
                 }
+                LayoutLabels();
+                _parent.ResumeLayout();
             });
         }
 
-        private string FormatMessages()
+        private static Label CreateLabel(Message message)
         {
-            var builder = new StringBuilder();
-            foreach (var message in _messages.Select(m => m.Content).Distinct())
+            var label = new Label
             {
-                builder.AppendLine(message);
+                Tag = message,
+                Text = message.Content,
+                AutoSize = true,
+                ForeColor = Color.White,
+                BackColor = Color.Transparent,
+                Visible = true,
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(5, 2, 5, 2),
+                Font = new Font("Microsoft Sans Serif", 9, FontStyle.Regular)
+            };
+            if (message.OnClick != null)
+            {
+                label.Click += (sender, e) =>
+                {
+                    message.OnClick();
+                };
             }
+            return label;
+        }
 
-            return builder.ToString(0, Math.Max(0, builder.Length - Environment.NewLine.Length));
+        private void LayoutLabels()
+        {
+            var totalHeight = 0;
+            foreach (var label in _parent.Controls.OfType<Label>().Where(l => l.Tag is Message))
+            {
+                totalHeight += label.Height;
+                label.Location = new Point(Offset, _parent.Height - totalHeight - Offset);
+            }
         }
     }
 }
