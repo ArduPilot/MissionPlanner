@@ -59,6 +59,7 @@ namespace AltitudeAngelWings.Plugin
             var start = DateTimeOffset.UtcNow;
             var waitTime = waitToShow ? WaitToShowTime : TimeSpan.Zero;
             var task = runTask(cts.Token);
+            var ok = false;
             try
             {
                 do
@@ -76,21 +77,37 @@ namespace AltitudeAngelWings.Plugin
             catch (TaskCanceledException)
             {
                 // This is OK
+                return default;
             }
-            catch (AggregateException ae) when (ae.InnerExceptions.Any(e => e.GetType() == typeof(TaskCanceledException)))
+            catch (AggregateException ae) when (ae.InnerExceptions.OfType<TaskCanceledException>().Any())
             {
                 // This is OK
+                return default;
             }
             catch (Exception e)
             {
-                DisplayException(description, e);
+                if (panel == null)
+                {
+                    panel = ShowWaitPanel(parentControl, description, cts);
+                }
+                panel.BringToFront();
+                panel.OkClick += (sender, args) =>
+                {
+                    ok = true;
+                };
+                panel.Exception = e;
             }
             finally
             {
-                if (panel != null)
+                if (panel != null && panel.Exception == null)
                 {
                     HideWaitPanel(parentControl, panel);
                 }
+            }
+
+            while (!ok)
+            {
+                Application.DoEvents();
             }
 
             return default;
@@ -117,13 +134,13 @@ namespace AltitudeAngelWings.Plugin
                 {
                     // This is OK
                 }
-                catch (AggregateException ae) when (ae.InnerExceptions.Any(e => e.GetType() == typeof(TaskCanceledException)))
+                catch (AggregateException ae) when (ae.InnerExceptions.OfType<TaskCanceledException>().Any())
                 {
                     // This is OK
                 }
                 catch (Exception e)
                 {
-                    DisplayException(description, e);
+                    panel.Exception = e;
                 }
             };
             parentControl.ResumeLayout();
@@ -138,12 +155,6 @@ namespace AltitudeAngelWings.Plugin
             parentControl.Controls.Remove(panel);
             panel.Dispose();
             parentControl.ResumeLayout();
-        }
-
-        private static void DisplayException(string description, Exception exception)
-        {
-            var message = $"{exception.GetType().Name}: {exception.Message}";
-            CustomMessageBox.Show(message, description);
         }
     }
 }

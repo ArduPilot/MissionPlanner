@@ -90,6 +90,13 @@ namespace AltitudeAngelWings.Service
                 return;
             }
 
+            // Double check if it's possible to sign in
+            if (string.IsNullOrWhiteSpace(_settings.ClientId) || string.IsNullOrWhiteSpace(_settings.ClientSecret))
+            {
+                await _messagesService.AddMessageAsync("Not possible to sign in as client ID and secret are not set correctly.");
+                return;
+            }
+
             try
             {
                 await _signInLock.WaitAsync();
@@ -99,16 +106,43 @@ namespace AltitudeAngelWings.Service
                     CurrentUser = await _client.GetUserProfile();
                     IsSignedIn.Value = true;
                 }
+                catch (TaskCanceledException)
+                {
+                    // User cancelled
+                    throw;
+                }
                 catch (Exception)
                 {
-                    // Reset token and try again
-                    _client.Disconnect(true);
-                    CurrentUser = await _client.GetUserProfile();
-                    IsSignedIn.Value = true;
+                    try
+                    {
+                        // Reset token and try again
+                        await _messagesService.AddMessageAsync("Failed to sign in. Resetting token and trying again.");
+                        _client.Disconnect(true);
+                        CurrentUser = await _client.GetUserProfile();
+                        IsSignedIn.Value = true;
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // User cancelled
+                        throw;
+                    }
+                    catch (Exception)
+                    {
+                        // Give up and disable plugin
+                        await _messagesService.AddMessageAsync("Failed to sign in. Disabling plugin.");
+                        _settings.CheckEnableAltitudeAngel = false;
+                        _client.Disconnect(true);
+                        IsSignedIn.Value = false;
+                    }
                 }
 
                 await UpdateMapData(_missionPlanner.FlightDataMap, CancellationToken.None);
                 await UpdateMapData(_missionPlanner.FlightPlanningMap, CancellationToken.None);
+            }
+            catch (TaskCanceledException)
+            {
+                // User cancelled
+                _client.Disconnect(true);
             }
             catch (Exception ex)
             {
@@ -132,10 +166,9 @@ namespace AltitudeAngelWings.Service
 
         private async Task UpdateMapData(IMap map, CancellationToken cancellationToken)
         {
-            if (!IsSignedIn)
+            if (!(IsSignedIn || _settings.CheckEnableAltitudeAngel))
             {
                 MapFeatureCache.Clear();
-                await SignInAsync();
             }
 
             if (!map.Enabled)
@@ -195,7 +228,7 @@ namespace AltitudeAngelWings.Service
         public void ProcessAllFromCache(IMap map, bool resetFilters = false)
         {
             map.DeleteOverlay(MapOverlayName);
-            if (!IsSignedIn)
+            if (!(IsSignedIn || _settings.CheckEnableAltitudeAngel))
             {
                 MapFeatureCache.Clear();
             }

@@ -39,12 +39,17 @@ namespace AltitudeAngelWings.Plugin
 
         public Task<string> GetAuthorizeCode(Uri authorizeUri)
         {
-            Process.Start(authorizeUri.ToString());
-            return Task.FromResult(UiTask.ShowDialog(async cancellationToken =>
+            if (string.IsNullOrWhiteSpace(_settings.ClientId) || string.IsNullOrWhiteSpace(_settings.ClientSecret))
+            {
+                throw new InvalidOperationException("ClientId and ClientSecret not set correctly.");
+            }
+
+            var authorizeCode = UiTask.ShowDialog(async cancellationToken =>
                 {
                     using (var client = new HttpClient())
                     {
                         var token = await GetClientTokenForLoginPoll(client, cancellationToken);
+                        Process.Start(authorizeUri.ToString());
 
                         string code;
                         do
@@ -56,7 +61,12 @@ namespace AltitudeAngelWings.Plugin
                         return code;
                     }
                 },
-                "Opening a browser to login to Altitude Angel. Please login in the browser."));
+                "Opening a browser to login to Altitude Angel. Please login in the browser.");
+            if (authorizeCode == null)
+            {
+                throw new TaskCanceledException("User cancelled getting an authorize code.");
+            }
+            return Task.FromResult(authorizeCode);
         }
 
         private async Task<string> GetClientTokenForLoginPoll(HttpMessageInvoker client, CancellationToken cancellationToken)

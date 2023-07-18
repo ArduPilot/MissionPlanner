@@ -24,7 +24,10 @@ namespace AltitudeAngelWings.ApiClient.Client
             CancellationToken cancellationToken)
         {
             var accessToken = await _tokenProvider.GetToken(cancellationToken);
-            request.Headers.Authorization = new AuthenticationHeaderValue(BearerScheme, accessToken);
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(BearerScheme, accessToken);
+            }
             return await base.SendAsync(request, cancellationToken);
         }
     }

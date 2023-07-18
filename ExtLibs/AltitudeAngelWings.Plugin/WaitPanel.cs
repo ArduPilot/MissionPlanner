@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
+using Flurl.Http;
+using Exception = System.Exception;
 
 namespace AltitudeAngelWings.Plugin
 {
     internal partial class WaitPanel : UserControl
     {
+        private Exception _exception = null;
+
         public WaitPanel()
         {
             InitializeComponent();
@@ -13,6 +18,7 @@ namespace AltitudeAngelWings.Plugin
         }
 
         public event EventHandler<EventArgs> CancelClick;
+        public event EventHandler<EventArgs> OkClick;
 
         public string Operation
         {
@@ -31,9 +37,62 @@ namespace AltitudeAngelWings.Plugin
 
         private void _btnCancel_Click(object sender, EventArgs e)
         {
-            _btnCancel.Enabled = false;
-            _btnCancel.Text = "Cancelling...";
-            CancelClick?.Invoke(sender, e);
+            if (_exception == null)
+            {
+                _btnCancel.Enabled = false;
+                _btnCancel.Text = "Cancelling...";
+                CancelClick?.Invoke(sender, e);
+            }
+            else
+            {
+                OkClick?.Invoke(sender, e);
+            }
+        }
+
+        public Exception Exception
+        {
+            get => _exception;
+            set
+            {
+                _exception = value;
+                ShowException();
+            }
+        }
+
+        private void ShowException()
+        {
+            var builder = new StringBuilder();
+            if (_exception is AggregateException aggregate)
+            {
+                foreach (var inner in aggregate.InnerExceptions)
+                {
+                    builder.AppendLine(FormatException(inner));
+                }
+            }
+            else
+            {
+                builder.AppendLine(FormatException(_exception));
+            }
+
+            _picLogo.Visible = false;
+            _lblOperation.Top = _picLogo.Top;
+            _lblOperation.Text = builder.ToString();
+            _btnCancel.Text = "OK";
+            _btnCancel.DialogResult = DialogResult.OK;
+        }
+
+        private static string FormatException(Exception ex)
+        {
+            var message = $"{ex.GetType().Name}: {ex.Message}";
+            switch (ex)
+            {
+                case FlurlHttpException exception:
+                    var response = exception.GetResponseStringAsync().GetAwaiter().GetResult();
+                    return $"{message}: {response}";
+
+                default:
+                    return message;
+            }
         }
     }
 }
