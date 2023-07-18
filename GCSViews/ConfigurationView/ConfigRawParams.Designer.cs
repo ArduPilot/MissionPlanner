@@ -1,4 +1,4 @@
-﻿using MissionPlanner.Controls;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -241,6 +241,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.Params.AllowUserToAddRows = false;
             this.Params.AllowUserToDeleteRows = false;
+            this.Params.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -287,7 +288,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // Command
             // 
-            this.Command.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Command.FillWeight = 20F;
             resources.ApplyResources(this.Command, "Command");
             this.Command.Name = "Command";
@@ -295,12 +295,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // Value
             // 
+            this.Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Value.FillWeight = 11F;
             resources.ApplyResources(this.Value, "Value");
             this.Value.Name = "Value";
             // 
             // Default_value
             // 
+            this.Default_value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Default_value.FillWeight = 11F;
             resources.ApplyResources(this.Default_value, "Default_value");
             this.Default_value.Name = "Default_value";
@@ -308,7 +310,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // Units
             // 
-            this.Units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Units.FillWeight = 9F;
             resources.ApplyResources(this.Units, "Units");
             this.Units.Name = "Units";
@@ -316,6 +317,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // Options
             // 
+            this.Options.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Options.FillWeight = 28F;
             resources.ApplyResources(this.Options, "Options");
             this.Options.Name = "Options";
