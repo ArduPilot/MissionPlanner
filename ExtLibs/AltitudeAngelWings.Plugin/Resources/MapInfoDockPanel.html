@@ -9,6 +9,7 @@
         body {
             margin: 0;
             padding: 0;
+            padding-bottom: 10px;
             font-family: Red Hat Display, sans-serif;
             font-weight: normal;
             color: #000;
@@ -44,12 +45,19 @@
             margin: 10px 0 20px;
         }
 
+        div.highlight {
+            border: 1px solid #000;
+            border-bottom: 0;
+            height: 10px;
+        }
+
         div.header {
             border: 1px solid #000;
+            border-top: 0;
             padding: 10px;
         }
 
-        div.header div.title {
+        div.header div.displayTitle {
             font-size: 24px;
         }
 
@@ -87,6 +95,7 @@
 
         div.phoneNumber {
             margin: 5px 0;
+            padding-top: 10px;
         }
 
         div.phoneNumber span {
@@ -118,13 +127,13 @@
             padding: 10px 0 0;
         }
 
-        div.section div.title {
+        div.section div.displayTitle {
             border-bottom: 1px solid #000;
             font-weight: bold;
             padding: 5px 0;
         }
 
-        div.section div.displayTitle {
+        div.section div.title {
             display: none;
         }
     </style>

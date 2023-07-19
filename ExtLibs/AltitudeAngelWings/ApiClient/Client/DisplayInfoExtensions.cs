@@ -19,21 +19,22 @@ namespace AltitudeAngelWings.ApiClient.Client
                 EmptyElementSuffix = "/>"
             });
             builder.Append("<div class=\"feature\">");
-            builder.Append($"<div class=\"header\" style=\"background-color: {featureProperties.FillColor}\">");
+            builder.Append($"<div class=\"highlight\" style=\"background-color: {featureProperties.FillColor}\"></div>");
+            builder.Append($"<div class=\"header\">");
             builder.Append($"<div class=\"category\">{featureProperties.DisplayInfo.Category}</div>");
             builder.Append($"<div class=\"detailedCategory\"> : {featureProperties.DisplayInfo.DetailedCategory}</div>");
-            builder.Append($"<div class=\"title\">{featureProperties.DisplayInfo.Title}</div>");
+            builder.Append($"<div class=\"displayTitle\">{featureProperties.DisplayInfo.Title.ToUpper()}</div>");
             builder.Append("</div>");
             if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
             {
                 builder.Append("<div class=\"utmStatus\">");
                 builder.Append("<div class=\"section\">");
-                builder.Append("<div class=\"title\">FACILITY IS UTM READY</div>");
+                builder.Append("<div class=\"displayTitle\">FACILITY IS UTM READY</div>");
                 builder.Append("</div>");
 
                 if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Title))
                 {
-                    builder.Append($"<div class=\"title\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
+                    builder.Append($"<div class=\"displayTitle\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
                 }
 
                 if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Description))
@@ -45,7 +46,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 {
                     builder.Append("<div class=\"rateType\">");
                     builder.Append("<div class=\"section\">");
-                    builder.Append($"<div class=\"title\">{MapRateTypeToText(rateType)}</div>");
+                    builder.Append($"<div class=\"displayTitle\">{MapRateTypeToText(rateType)}</div>");
                     foreach (var rateCard in featureProperties.UtmStatus.RateTypes[rateType].Select(c => rateCardDetails[c.Id]))
                     {
                         builder.Append("<div class=\"rateCard\">");
@@ -76,13 +77,13 @@ namespace AltitudeAngelWings.ApiClient.Client
                 {
                     builder.Append("<div class=\"contact\">");
                     builder.Append("<div class=\"section\">");
-                    builder.Append("<div class=\"title\">Contacts</div>");
+                    builder.Append("<div class=\"displayTitle\">CONTACTS</div>");
                 }
                 else
                 {
                     builder.Append("<div class=\"noUtm\">");
                     builder.Append("<div class=\"section\">");
-                    builder.Append("<div class=\"title\">FACILITY IS NOT UTM READY</div>");
+                    builder.Append("<div class=\"displayTitle\">FACILITY IS NOT UTM READY</div>");
                     builder.Append("<div class=\"text\"><p>We can't submit a digital flight request to this facility as it isn't connected to Altitude Angel or has no compatible UTM service in operation. It may be possible to fly here, but you will have to contact the facility operator by phone to find out whether you can and what process to follow. According to our records, you can contact them on the number(s) below:</p></div>");
                 }
 
@@ -101,12 +102,12 @@ namespace AltitudeAngelWings.ApiClient.Client
                 builder.Append("<div class=\"section\">");
                 if (!string.IsNullOrWhiteSpace(section.Title))
                 {
-                    builder.Append($"<div class=\"title\">{section.Title}</div>");
+                    builder.Append($"<div class=\"title\">{section.Title.ToUpper()}</div>");
                 }
 
                 if (!string.IsNullOrWhiteSpace(section.DisplayTitle))
                 {
-                    builder.Append($"<div class=\"displayTitle\">{section.DisplayTitle}</div>");
+                    builder.Append($"<div class=\"displayTitle\">{section.DisplayTitle.ToUpper()}</div>");
                 }
 
                 if (!string.IsNullOrWhiteSpace(section.Text))
