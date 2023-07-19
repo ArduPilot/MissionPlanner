@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using MarkdownSharp;
@@ -7,6 +9,23 @@ namespace AltitudeAngelWings.ApiClient.Client
 {
     public static class DisplayInfoExtensions
     {
+        private static readonly IDictionary<string, CultureInfo> CurrencyLookup = CultureInfo.GetCultures(CultureTypes.AllCultures)
+            .Where(c => !c.IsNeutralCulture)
+            .Select(c =>
+            {
+                try
+                {
+                    return (c, new RegionInfo(c.Name) );
+                }
+                catch (Exception)
+                {
+                    return (c, null);
+                }
+            })
+            .Where(r => r.Item2 != null)
+            .GroupBy(r => r.Item2.ISOCurrencySymbol)
+            .ToDictionary(g => g.Key, g => g.First().c);
+
         public static string FormatAsHtml(this FeatureProperties featureProperties,
             IDictionary<string, RateCardDetail> rateCardDetails)
         {
@@ -29,13 +48,13 @@ namespace AltitudeAngelWings.ApiClient.Client
             {
                 builder.Append("<div class=\"utmStatus\">");
                 builder.Append("<div class=\"section\">");
-                builder.Append("<div class=\"displayTitle\">FACILITY IS UTM READY</div>");
-                builder.Append("</div>");
 
                 if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Title))
                 {
-                    builder.Append($"<div class=\"displayTitle\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
+                    builder.Append($"<div class=\"title\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
                 }
+
+                builder.Append("<div class=\"displayTitle\">FACILITY IS UTM READY</div>");
 
                 if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Description))
                 {
@@ -44,23 +63,43 @@ namespace AltitudeAngelWings.ApiClient.Client
 
                 foreach (var rateType in featureProperties.UtmStatus.RateTypes.Keys)
                 {
+                    var rateCard = featureProperties.UtmStatus.RateTypes[rateType]
+                        .Where(c =>
+                        {
+                            if (c.AppliesFrom == null) return false;
+                            var now = DateTimeOffset.UtcNow;
+                            if (c.AppliesFrom > now) return false;
+                            if (c.AppliesTo == null) return true;
+                            return c.AppliesTo >= now;
+                        })
+                        .OrderBy(c => c.AppliesFrom)
+                        .Select(c => rateCardDetails[c.Id])
+                        .FirstOrDefault();
+                    if (rateCard == null) continue;
                     builder.Append("<div class=\"rateType\">");
                     builder.Append("<div class=\"section\">");
                     builder.Append($"<div class=\"displayTitle\">{MapRateTypeToText(rateType)}</div>");
-                    foreach (var rateCard in featureProperties.UtmStatus.RateTypes[rateType].Select(c => rateCardDetails[c.Id]))
+                    builder.Append("<div class=\"rateCard\">");
+                    builder.Append($"<p>{featureProperties.DisplayInfo.Title.ToUpper()}</p>");
+                    builder.Append($"<p>{rateCard.ExplanatoryText}</p>");
+                    builder.Append("<ul>");
+                    foreach (var rate in rateCard.Rates.OrderBy(r => r.Ordinal))
                     {
-                        builder.Append("<div class=\"rateCard\">");
-                        builder.Append($"<p>{rateCard.ExplanatoryText}</p>");
-                        builder.Append("<ul>");
-                        foreach (var rate in rateCard.Rates.OrderBy(r => r.Ordinal))
-                        {
-                            builder.Append($"<li>{rate.Name} ({rate.Rate} {rateCard.Currency})</li>");
-                        }
-                        builder.Append("</ul>");
-                        builder.Append("<p>If you wish to operate here, depending on your flight plan, you may require their prior approval.</p>");
-                        builder.Append($"<p><a href=\"{rateCard.RateCardTerms}\">Terms and conditions</a></p>");
-                        builder.Append("</div>");
+                        builder.Append("<li>");
+                        builder.Append(rate.Name);
+                        builder.Append(" (");
+                        var total = rate.Rate + rateCard.StandingCharge;
+                        total += rateCard.TaxRate / 100 * total;
+                        builder.Append(CurrencyLookup.ContainsKey(rateCard.Currency)
+                            ? total.ToString("C", CurrencyLookup[rateCard.Currency])
+                            : $"{total} {rateCard.Currency}");
+
+                        builder.Append(")</li>");
                     }
+                    builder.Append("</ul>");
+                    builder.Append("<p>If you wish to operate here, depending on your flight plan, you may require their prior approval.</p>");
+                    builder.Append($"<p><a href=\"{rateCard.RateCardTerms}\">Terms and conditions</a></p>");
+                    builder.Append("</div>");
                     builder.Append("</div>");
                     builder.Append("</div>");
                 }
@@ -69,6 +108,8 @@ namespace AltitudeAngelWings.ApiClient.Client
                 {
                     builder.Append($"<div class=\"button\"><a href=\"{featureProperties.UtmStatus.UtmDetails.ExternalUrl}\">Request To Fly Here</a></div>");
                 }
+
+                builder.Append("</div>");
                 builder.Append("</div>");
             }
             if (featureProperties.Contact?.PhoneNumbers != null && featureProperties.Contact.PhoneNumbers.Count > 0)
