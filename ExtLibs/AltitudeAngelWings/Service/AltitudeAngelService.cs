@@ -210,7 +210,11 @@ namespace AltitudeAngelWings.Service
                 _settings.MapFilters = FilterInfoDisplay;
 
                 await _messagesService.AddMessageAsync(
-                    $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms");
+                    new Message(
+                        $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms")
+                    {
+                        TimeToLive = TimeSpan.FromSeconds(1)
+                    });
 
                 // add all items to cache
                 MapFeatureCache.Clear();
