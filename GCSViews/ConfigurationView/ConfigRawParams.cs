@@ -1170,16 +1170,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         void SuspendParamGridView()
         {
-            Params.SuspendLayout();
-            Params.Enabled = false;
+            Params.Visible = false;
             Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
         }
 
         void ResumeParamGridView()
         {
-            Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            Params.Enabled = true;
-            Params.ResumeLayout();
+            Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            Params.Visible = true;
         }
     }
 
