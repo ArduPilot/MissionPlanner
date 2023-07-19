@@ -699,7 +699,7 @@ namespace MissionPlanner.GCSViews
         public void loadTabControlActions()
         {
             //string tabs = Settings.Instance["tabcontrolactions"];
-            string tabs = "tabQuick;tabActions;tabCameracontrol;";
+            string tabs = "tabQuick;tabActions;tabCameracontrol;tabPagemessages;";
 
             if (String.IsNullOrEmpty(tabs) || TabListOriginal == null || TabListOriginal.Count == 0)
                 return;
@@ -2503,7 +2503,7 @@ namespace MissionPlanner.GCSViews
                 if (tabs == null)
                 {
                     saveTabControlActions();
-                    tabs = "tabQuick;tabActions;tabCameracontrol;";
+                    tabs = "tabQuick;tabActions;tabCameracontrol;tabPagemessages;";
                     //tabs = Settings.Instance["tabcontrolactions"];
                 }
 
@@ -2581,6 +2581,7 @@ namespace MissionPlanner.GCSViews
 
         private void dropOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
         }
 
         private void FlightData_FormClosing(object sender, FormClosingEventArgs e)
@@ -5248,8 +5249,7 @@ namespace MissionPlanner.GCSViews
                     }
                     else if (tabControlactions.SelectedTab == tabPayload)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(
-                            bindingSourcePayloadTab.UpdateDataSource(MainV2.comPort.MAV.cs));
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourcePayloadTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                 }
                 else
@@ -6457,7 +6457,7 @@ namespace MissionPlanner.GCSViews
                             (byte)MainV2.comPort.compidcurrent,
                             MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                             0, 13, 0, 0, 0, 0,
-                           0);
+                           0, false);
                     Thread.Sleep(500);
                     observationmode();
 

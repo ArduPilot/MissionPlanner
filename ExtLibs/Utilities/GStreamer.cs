@@ -941,8 +941,6 @@ namespace MissionPlanner.Utilities
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
 
-
-
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr raw, ulong timeout, int types);
 

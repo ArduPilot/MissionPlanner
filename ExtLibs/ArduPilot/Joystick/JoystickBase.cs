@@ -73,11 +73,11 @@ namespace MissionPlanner.Joystick
             //            MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
             //           0, 3, 0, 0, 0, 0,
             //           0);
-            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 3, 0, 0, 0, 0, 0);
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 3, 0, 0, 0, 0, 0, false);
         }
         private void gimbletrip2mavlin(float roll, float pitch)
         {
-            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 6, roll, pitch, 0, 0, 0,0);
+            Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 6, roll, pitch, 0, 0, 0,0, false);
             //MainV2.comPort.trip2doCommand((byte)MainV2.comPort.sysidcurrent,
             //            (byte)MainV2.comPort.compidcurrent,
             //            MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
@@ -99,30 +99,33 @@ namespace MissionPlanner.Joystick
         {
             Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                         6, 0, 0, 1, 0, 0,
-                       0);
+                       0, false);
             Thread.Sleep(100);
             Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                         6, 0, 0, 0, 0, 0,
-                       0);
+                       0, false);
 
         }
+
         private void trip2zoomout()
         {
             Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                         6, 0, 0, 2, 0, 0,
-                       0);
+                       0, false);
             Thread.Sleep(100);
             Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                         6, 0, 0, 0, 0, 0,
-                       0);
+                       0, false);
 
         }
+
         private void trip2zoomstop()
         {
             Interface.trip2doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
                         6, 0, 0, 0, 0, 0,
-                       0);
+                       0, false);
         }
+
         private Boolean camrolllstop = true;
         private Boolean campitchstop = true;
         private void trip2gimble(int type)
@@ -163,8 +166,6 @@ namespace MissionPlanner.Joystick
                 gimbletrip2mavlin(0, 0);
             }
         }
-
-
 
         static void crc_fly16()
         {
@@ -247,21 +248,21 @@ namespace MissionPlanner.Joystick
             Ctrstr = zoom_stop.ToArray();
             TCP_CMD();
         }
-        // run for right
+        //------------------ run for right ----------------------
         public void zoomCMD()
         {
             Ctrstr = zoom.ToArray();
             TCP_CMD();
            
         }
-        // run for right
+        //-------------- run for right -------------------------
         public void subzoomCMD()
         {
             Ctrstr = zoom_sub.ToArray();
             TCP_CMD();
             
         }
-        //-------------------------- end camera control
+        //-------------------------- end camera control------------
         public JoystickBase(Func<MAVLinkInterface> currentInterface)
         {
             this._Interface = currentInterface;
