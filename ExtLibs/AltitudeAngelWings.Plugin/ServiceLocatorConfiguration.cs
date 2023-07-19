@@ -66,10 +66,12 @@ namespace AltitudeAngelWings.Plugin
             ServiceLocator.Register<IMessageDisplay>(l => new MultipleMessageDisplay(
                 new MessageDisplay(
                     l.Resolve<PluginHost>().FDGMapControl.Parent,
-                    l.Resolve<IUiThreadInvoke>()),
+                    l.Resolve<IUiThreadInvoke>(),
+                    55),
                 new MessageDisplay(
                     l.Resolve<PluginHost>().FPGMapControl.Parent,
-                    l.Resolve<IUiThreadInvoke>())));
+                    l.Resolve<IUiThreadInvoke>(),
+                    10)));
         }
 
         private static IList<Locationwp> GetCurrentFlightPlan(FlightPlanner flightPlanner)
