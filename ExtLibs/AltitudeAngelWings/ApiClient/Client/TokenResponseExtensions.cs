@@ -7,6 +7,19 @@ namespace AltitudeAngelWings.ApiClient.Client
 {
     public static class TokenResponseExtensions
     {
+        private static JwtSecurityToken GetJwt(string accessToken)
+        {
+            try
+            {
+                return new JwtSecurityToken(accessToken);
+            }
+            catch (Exception)
+            {
+                // Ignore
+                return null;
+            }
+        }
+
         public static string[] AccessTokenScopes(this TokenResponse tokenResponse)
         {
             if (!tokenResponse.HasAccessToken())
@@ -14,8 +27,8 @@ namespace AltitudeAngelWings.ApiClient.Client
                 return Array.Empty<string>();
             }
 
-            var token = new JwtSecurityToken(tokenResponse.AccessToken);
-            if (!token.Payload.TryGetValue("urn:oauth:scope", out var value))
+            var token = GetJwt(tokenResponse.AccessToken);
+            if (token == null || !token.Payload.TryGetValue("urn:oauth:scope", out var value))
             {
                 return Array.Empty<string>();
             }
@@ -42,8 +55,8 @@ namespace AltitudeAngelWings.ApiClient.Client
         {
             if (!tokenResponse.HasAccessToken()) return false;
 
-            var token = new JwtSecurityToken(tokenResponse.AccessToken);
-            if (token.Payload.Exp == null)
+            var token = GetJwt(tokenResponse.AccessToken);
+            if (token?.Payload.Exp == null)
             {
                 return false;
             }
