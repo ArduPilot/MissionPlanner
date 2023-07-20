@@ -66,7 +66,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
                 {"Authorization", $"Bearer {_settings.TokenResponse.AccessToken}" }
             });
 
-            return _aaClientWebSocket.OpenAsync(new Uri(_settings.OutboundNotifsEndpointUrl));
+            return _aaClientWebSocket.OpenAsync(new Uri(_settings.OutboundNotificationsUrl));
         }
 
         private async Task OnMessage(byte[] bytes)
@@ -167,7 +167,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
         }
 
         private Task OnConnected()
-            => _messagesService.AddMessageAsync(new Message($"INFO: Notifications web socket connected to {_settings.OutboundNotifsEndpointUrl}."));
+            => _messagesService.AddMessageAsync(new Message($"INFO: Notifications web socket connected to {_settings.OutboundNotificationsUrl}."));
 
         private Task OnDisconnected()
             => _messagesService.AddMessageAsync(new Message("WARNING: Notifications web socket disconnected."));

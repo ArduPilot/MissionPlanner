@@ -1,3 +1,6 @@
+using AltitudeAngelWings.Models;
+using System.Collections.Generic;
+
 namespace AltitudeAngelWings.Extra
 {
     public interface IMissionPlannerState
@@ -10,5 +13,8 @@ namespace AltitudeAngelWings.Extra
         float GroundCourse { get; }
         bool IsConnected { get; }
         float VerticalSpeed { get; }
+        FlightCapability FlightCapability { get; }
+        IList<FlightPlanWaypoint> Waypoints { get; }
+        FlightPlanWaypoint HomeLocation { get; }
     }
 }

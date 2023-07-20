@@ -89,16 +89,16 @@ namespace AltitudeAngelWings.Service
             get => Get(nameof(OverrideUrlDomainSuffix), "altitudeangel.com", s => s);
             set => Set(nameof(OverrideUrlDomainSuffix), value);
         }
-        public string OutboundNotifsEndpointUrl
+        public string OutboundNotificationsUrl
         {
-            get => Get(nameof(OutboundNotifsEndpointUrl), null, s => s);
-            set => Set(nameof(OutboundNotifsEndpointUrl), value);
+            get => Get(nameof(OutboundNotificationsUrl), null, s => s);
+            set => Set(nameof(OutboundNotificationsUrl), value);
         }
 
-        public bool SendFlightTelemetry
+        public FlightTelemetry SendFlightTelemetry
         {
-            get => Get(nameof(SendFlightTelemetry), true, bool.Parse);
-            set => Set(nameof(SendFlightTelemetry), value);
+            get => Get(nameof(SendFlightTelemetry), FlightTelemetry.Surveillance, s => (FlightTelemetry)Enum.Parse(typeof(FlightTelemetry), s));
+            set => Set(nameof(SendFlightTelemetry), value, t => Enum.GetName(typeof(FlightTelemetry), t));
         }
 
         public TokenResponse TokenResponse
@@ -137,10 +137,10 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(ExistingFlightPlanId), value);
         }
 
-        public string CurrentFlightReportId
+        public string CurrentFlightPlanId
         {
-            get => Get(nameof(CurrentFlightReportId), null, s => s);
-            set => Set(nameof(CurrentFlightReportId), value);
+            get => Get(nameof(CurrentFlightPlanId), null, s => s);
+            set => Set(nameof(CurrentFlightPlanId), value);
         }
 
         public string CurrentFlightId
@@ -149,22 +149,22 @@ namespace AltitudeAngelWings.Service
             set => Set(nameof(CurrentFlightId), value);
         }
 
-        public string FlightReportName
+        public string FlightPlanName
         {
-            get => Get(nameof(FlightReportName), "Mission Planner", s => s);
-            set => Set(nameof(FlightReportName), value);
+            get => Get(nameof(FlightPlanName), "Mission Planner", s => s);
+            set => Set(nameof(FlightPlanName), value);
         }
 
-        public string FlightReportDescription
+        public string FlightPlanDescription
         {
-            get => Get(nameof(FlightReportDescription), "Mission Planner flight plan", s => s);
-            set => Set(nameof(FlightReportDescription), value);
+            get => Get(nameof(FlightPlanDescription), "Mission Planner flight plan", s => s);
+            set => Set(nameof(FlightPlanDescription), value);
         }
 
-        public TimeSpan FlightReportTimeSpan
+        public TimeSpan FlightPlanTimeSpan
         {
-            get => Get(nameof(FlightReportTimeSpan), TimeSpan.FromMinutes(60), TimeSpan.Parse);
-            set => Set(nameof(FlightReportTimeSpan), value);
+            get => Get(nameof(FlightPlanTimeSpan), TimeSpan.FromMinutes(60), TimeSpan.Parse);
+            set => Set(nameof(FlightPlanTimeSpan), value);
         }
 
         public string CurrentTelemetryId

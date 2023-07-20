@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-using AltitudeAngelWings.Plugin.Properties;
 using MissionPlanner.Controls;
 
 namespace AltitudeAngelWings.Plugin
@@ -34,6 +33,8 @@ namespace AltitudeAngelWings.Plugin
         {
             this.tabPages = new System.Windows.Forms.TabControl();
             this.tabPageAccount = new System.Windows.Forms.TabPage();
+            this.lst_FlightTelemetry = new System.Windows.Forms.ComboBox();
+            this.chk_FlightsEnable = new System.Windows.Forms.CheckBox();
             this.but_Disable = new MissionPlanner.Controls.MyButton();
             this.but_Enable = new MissionPlanner.Controls.MyButton();
             this.lbl_UserDetails = new System.Windows.Forms.Label();
@@ -44,8 +45,7 @@ namespace AltitudeAngelWings.Plugin
             this.lbl_OverrideClientId = new System.Windows.Forms.Label();
             this.txt_OverrideClientId = new System.Windows.Forms.TextBox();
             this.chk_OverrideClientSettings = new System.Windows.Forms.CheckBox();
-            this.lbl_FlightReportWhat = new System.Windows.Forms.LinkLabel();
-            this.chk_FlightReportEnable = new System.Windows.Forms.CheckBox();
+            this.chk_FlightPlansEnable = new System.Windows.Forms.CheckBox();
             this.but_SignOut = new MissionPlanner.Controls.MyButton();
             this.but_SignIn = new MissionPlanner.Controls.MyButton();
             this.tabPageMap = new System.Windows.Forms.TabPage();
@@ -59,8 +59,8 @@ namespace AltitudeAngelWings.Plugin
             this.lbl_OpacityAdjust = new System.Windows.Forms.Label();
             this.trk_OpacityAdjust = new System.Windows.Forms.TrackBar();
             this.tabPageFlight = new System.Windows.Forms.TabPage();
-            this.lbl_FlightReportDescription = new System.Windows.Forms.Label();
-            this.txt_FlightReportDescription = new System.Windows.Forms.TextBox();
+            this.lbl_FlightPlanDescription = new System.Windows.Forms.Label();
+            this.txt_FlightPlanDescription = new System.Windows.Forms.TextBox();
             this.txt_SerialNumber = new System.Windows.Forms.TextBox();
             this.txt_IcaoAddress = new System.Windows.Forms.TextBox();
             this.txt_ContactPhone = new System.Windows.Forms.TextBox();
@@ -69,11 +69,11 @@ namespace AltitudeAngelWings.Plugin
             this.chk_AllowSms = new System.Windows.Forms.CheckBox();
             this.chk_IcaoAddress = new System.Windows.Forms.CheckBox();
             this.chk_UseExistingFlightPlanId = new System.Windows.Forms.CheckBox();
-            this.lbl_FlightReportDuration = new System.Windows.Forms.Label();
-            this.txt_FlightReportDuration = new System.Windows.Forms.TextBox();
+            this.lbl_FlightPlanDuration = new System.Windows.Forms.Label();
+            this.txt_FlightPlanDuration = new System.Windows.Forms.TextBox();
             this.lbl_ContactPhoneNumber = new System.Windows.Forms.Label();
-            this.lbl_FlightReportName = new System.Windows.Forms.Label();
-            this.txt_FlightReportName = new System.Windows.Forms.TextBox();
+            this.lbl_FlightPlanName = new System.Windows.Forms.Label();
+            this.txt_FlightPlanName = new System.Windows.Forms.TextBox();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.web_About = new System.Windows.Forms.WebBrowser();
             this.tabPages.SuspendLayout();
@@ -99,6 +99,8 @@ namespace AltitudeAngelWings.Plugin
             // 
             // tabPageAccount
             // 
+            this.tabPageAccount.Controls.Add(this.lst_FlightTelemetry);
+            this.tabPageAccount.Controls.Add(this.chk_FlightsEnable);
             this.tabPageAccount.Controls.Add(this.but_Disable);
             this.tabPageAccount.Controls.Add(this.but_Enable);
             this.tabPageAccount.Controls.Add(this.lbl_UserDetails);
@@ -109,8 +111,7 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageAccount.Controls.Add(this.lbl_OverrideClientId);
             this.tabPageAccount.Controls.Add(this.txt_OverrideClientId);
             this.tabPageAccount.Controls.Add(this.chk_OverrideClientSettings);
-            this.tabPageAccount.Controls.Add(this.lbl_FlightReportWhat);
-            this.tabPageAccount.Controls.Add(this.chk_FlightReportEnable);
+            this.tabPageAccount.Controls.Add(this.chk_FlightPlansEnable);
             this.tabPageAccount.Controls.Add(this.but_SignOut);
             this.tabPageAccount.Controls.Add(this.but_SignIn);
             this.tabPageAccount.Location = new System.Drawing.Point(4, 22);
@@ -120,6 +121,32 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageAccount.TabIndex = 2;
             this.tabPageAccount.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsAccountTabText;
             this.tabPageAccount.UseVisualStyleBackColor = true;
+            // 
+            // lst_FlightTelemetry
+            // 
+            this.lst_FlightTelemetry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lst_FlightTelemetry.FormattingEnabled = true;
+            this.lst_FlightTelemetry.Items.AddRange(new object[] {
+            "Do not send flight telemetry",
+            "Use Telemetry (UDP)",
+            "Use Surveillance (HTTPS)"});
+            this.lst_FlightTelemetry.Location = new System.Drawing.Point(101, 59);
+            this.lst_FlightTelemetry.MaxDropDownItems = 3;
+            this.lst_FlightTelemetry.Name = "lst_FlightTelemetry";
+            this.lst_FlightTelemetry.Size = new System.Drawing.Size(192, 21);
+            this.lst_FlightTelemetry.TabIndex = 48;
+            this.lst_FlightTelemetry.SelectedIndexChanged += new System.EventHandler(this.lst_FlightTelemetry_SelectedIndexChanged);
+            // 
+            // chk_FlightsEnable
+            // 
+            this.chk_FlightsEnable.AutoSize = true;
+            this.chk_FlightsEnable.Location = new System.Drawing.Point(101, 35);
+            this.chk_FlightsEnable.Name = "chk_FlightsEnable";
+            this.chk_FlightsEnable.Size = new System.Drawing.Size(92, 17);
+            this.chk_FlightsEnable.TabIndex = 47;
+            this.chk_FlightsEnable.Text = "Enable Flights";
+            this.chk_FlightsEnable.UseVisualStyleBackColor = true;
+            this.chk_FlightsEnable.CheckedChanged += new System.EventHandler(this.chk_FlightsEnable_CheckedChanged);
             // 
             // but_Disable
             // 
@@ -153,7 +180,7 @@ namespace AltitudeAngelWings.Plugin
             // lbl_OverrideClientSuffix
             // 
             this.lbl_OverrideClientSuffix.AutoSize = true;
-            this.lbl_OverrideClientSuffix.Location = new System.Drawing.Point(98, 156);
+            this.lbl_OverrideClientSuffix.Location = new System.Drawing.Point(98, 206);
             this.lbl_OverrideClientSuffix.Name = "lbl_OverrideClientSuffix";
             this.lbl_OverrideClientSuffix.Size = new System.Drawing.Size(97, 13);
             this.lbl_OverrideClientSuffix.TabIndex = 38;
@@ -161,7 +188,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             // txt_OverrideClientSuffix
             // 
-            this.txt_OverrideClientSuffix.Location = new System.Drawing.Point(103, 172);
+            this.txt_OverrideClientSuffix.Location = new System.Drawing.Point(103, 222);
             this.txt_OverrideClientSuffix.Name = "txt_OverrideClientSuffix";
             this.txt_OverrideClientSuffix.Size = new System.Drawing.Size(190, 20);
             this.txt_OverrideClientSuffix.TabIndex = 37;
@@ -170,7 +197,7 @@ namespace AltitudeAngelWings.Plugin
             // lbl_OverrideClientSecret
             // 
             this.lbl_OverrideClientSecret.AutoSize = true;
-            this.lbl_OverrideClientSecret.Location = new System.Drawing.Point(98, 117);
+            this.lbl_OverrideClientSecret.Location = new System.Drawing.Point(98, 167);
             this.lbl_OverrideClientSecret.Name = "lbl_OverrideClientSecret";
             this.lbl_OverrideClientSecret.Size = new System.Drawing.Size(67, 13);
             this.lbl_OverrideClientSecret.TabIndex = 36;
@@ -178,7 +205,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             // txt_OverrideClientSecret
             // 
-            this.txt_OverrideClientSecret.Location = new System.Drawing.Point(103, 133);
+            this.txt_OverrideClientSecret.Location = new System.Drawing.Point(103, 183);
             this.txt_OverrideClientSecret.Name = "txt_OverrideClientSecret";
             this.txt_OverrideClientSecret.Size = new System.Drawing.Size(190, 20);
             this.txt_OverrideClientSecret.TabIndex = 35;
@@ -188,7 +215,7 @@ namespace AltitudeAngelWings.Plugin
             // lbl_OverrideClientId
             // 
             this.lbl_OverrideClientId.AutoSize = true;
-            this.lbl_OverrideClientId.Location = new System.Drawing.Point(98, 78);
+            this.lbl_OverrideClientId.Location = new System.Drawing.Point(98, 128);
             this.lbl_OverrideClientId.Name = "lbl_OverrideClientId";
             this.lbl_OverrideClientId.Size = new System.Drawing.Size(47, 13);
             this.lbl_OverrideClientId.TabIndex = 34;
@@ -196,7 +223,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             // txt_OverrideClientId
             // 
-            this.txt_OverrideClientId.Location = new System.Drawing.Point(103, 94);
+            this.txt_OverrideClientId.Location = new System.Drawing.Point(103, 144);
             this.txt_OverrideClientId.Name = "txt_OverrideClientId";
             this.txt_OverrideClientId.Size = new System.Drawing.Size(190, 20);
             this.txt_OverrideClientId.TabIndex = 33;
@@ -205,7 +232,7 @@ namespace AltitudeAngelWings.Plugin
             // chk_OverrideClientSettings
             // 
             this.chk_OverrideClientSettings.AutoSize = true;
-            this.chk_OverrideClientSettings.Location = new System.Drawing.Point(101, 58);
+            this.chk_OverrideClientSettings.Location = new System.Drawing.Point(101, 108);
             this.chk_OverrideClientSettings.Name = "chk_OverrideClientSettings";
             this.chk_OverrideClientSettings.Size = new System.Drawing.Size(136, 17);
             this.chk_OverrideClientSettings.TabIndex = 32;
@@ -213,27 +240,16 @@ namespace AltitudeAngelWings.Plugin
             this.chk_OverrideClientSettings.UseVisualStyleBackColor = true;
             this.chk_OverrideClientSettings.CheckedChanged += new System.EventHandler(this.chk_OverrideClientSettings_CheckedChanged);
             // 
-            // lbl_FlightReportWhat
+            // chk_FlightPlansEnable
             // 
-            this.lbl_FlightReportWhat.AutoSize = true;
-            this.lbl_FlightReportWhat.Location = new System.Drawing.Point(101, 30);
-            this.lbl_FlightReportWhat.Name = "lbl_FlightReportWhat";
-            this.lbl_FlightReportWhat.Size = new System.Drawing.Size(68, 13);
-            this.lbl_FlightReportWhat.TabIndex = 31;
-            this.lbl_FlightReportWhat.TabStop = true;
-            this.lbl_FlightReportWhat.Text = "What is this?";
-            this.lbl_FlightReportWhat.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_FlightReportWhat_LinkClicked);
-            // 
-            // chk_FlightReportEnable
-            // 
-            this.chk_FlightReportEnable.AutoSize = true;
-            this.chk_FlightReportEnable.Location = new System.Drawing.Point(101, 12);
-            this.chk_FlightReportEnable.Name = "chk_FlightReportEnable";
-            this.chk_FlightReportEnable.Size = new System.Drawing.Size(116, 17);
-            this.chk_FlightReportEnable.TabIndex = 30;
-            this.chk_FlightReportEnable.Text = "Enable Flight Plans";
-            this.chk_FlightReportEnable.UseVisualStyleBackColor = true;
-            this.chk_FlightReportEnable.CheckedChanged += new System.EventHandler(this.chk_FlightReportEnable_CheckedChanged);
+            this.chk_FlightPlansEnable.AutoSize = true;
+            this.chk_FlightPlansEnable.Location = new System.Drawing.Point(101, 12);
+            this.chk_FlightPlansEnable.Name = "chk_FlightPlansEnable";
+            this.chk_FlightPlansEnable.Size = new System.Drawing.Size(116, 17);
+            this.chk_FlightPlansEnable.TabIndex = 30;
+            this.chk_FlightPlansEnable.Text = "Enable Flight Plans";
+            this.chk_FlightPlansEnable.UseVisualStyleBackColor = true;
+            this.chk_FlightPlansEnable.CheckedChanged += new System.EventHandler(this.chk_FlightPlansEnable_CheckedChanged);
             // 
             // but_SignOut
             // 
@@ -377,8 +393,8 @@ namespace AltitudeAngelWings.Plugin
             // 
             // tabPageFlight
             // 
-            this.tabPageFlight.Controls.Add(this.lbl_FlightReportDescription);
-            this.tabPageFlight.Controls.Add(this.txt_FlightReportDescription);
+            this.tabPageFlight.Controls.Add(this.lbl_FlightPlanDescription);
+            this.tabPageFlight.Controls.Add(this.txt_FlightPlanDescription);
             this.tabPageFlight.Controls.Add(this.txt_SerialNumber);
             this.tabPageFlight.Controls.Add(this.txt_IcaoAddress);
             this.tabPageFlight.Controls.Add(this.txt_ContactPhone);
@@ -387,11 +403,11 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageFlight.Controls.Add(this.chk_AllowSms);
             this.tabPageFlight.Controls.Add(this.chk_IcaoAddress);
             this.tabPageFlight.Controls.Add(this.chk_UseExistingFlightPlanId);
-            this.tabPageFlight.Controls.Add(this.lbl_FlightReportDuration);
-            this.tabPageFlight.Controls.Add(this.txt_FlightReportDuration);
+            this.tabPageFlight.Controls.Add(this.lbl_FlightPlanDuration);
+            this.tabPageFlight.Controls.Add(this.txt_FlightPlanDuration);
             this.tabPageFlight.Controls.Add(this.lbl_ContactPhoneNumber);
-            this.tabPageFlight.Controls.Add(this.lbl_FlightReportName);
-            this.tabPageFlight.Controls.Add(this.txt_FlightReportName);
+            this.tabPageFlight.Controls.Add(this.lbl_FlightPlanName);
+            this.tabPageFlight.Controls.Add(this.txt_FlightPlanName);
             this.tabPageFlight.Location = new System.Drawing.Point(4, 22);
             this.tabPageFlight.Name = "tabPageFlight";
             this.tabPageFlight.Padding = new System.Windows.Forms.Padding(3);
@@ -400,22 +416,22 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageFlight.Text = "Flight Plans";
             this.tabPageFlight.UseVisualStyleBackColor = true;
             // 
-            // lbl_FlightReportDescription
+            // lbl_FlightPlanDescription
             // 
-            this.lbl_FlightReportDescription.AutoSize = true;
-            this.lbl_FlightReportDescription.Location = new System.Drawing.Point(4, 91);
-            this.lbl_FlightReportDescription.Name = "lbl_FlightReportDescription";
-            this.lbl_FlightReportDescription.Size = new System.Drawing.Size(112, 13);
-            this.lbl_FlightReportDescription.TabIndex = 34;
-            this.lbl_FlightReportDescription.Text = "Flight Plan Description";
+            this.lbl_FlightPlanDescription.AutoSize = true;
+            this.lbl_FlightPlanDescription.Location = new System.Drawing.Point(4, 91);
+            this.lbl_FlightPlanDescription.Name = "lbl_FlightPlanDescription";
+            this.lbl_FlightPlanDescription.Size = new System.Drawing.Size(112, 13);
+            this.lbl_FlightPlanDescription.TabIndex = 34;
+            this.lbl_FlightPlanDescription.Text = "Flight Plan Description";
             // 
-            // txt_FlightReportDescription
+            // txt_FlightPlanDescription
             // 
-            this.txt_FlightReportDescription.Location = new System.Drawing.Point(6, 110);
-            this.txt_FlightReportDescription.Name = "txt_FlightReportDescription";
-            this.txt_FlightReportDescription.Size = new System.Drawing.Size(172, 20);
-            this.txt_FlightReportDescription.TabIndex = 33;
-            this.txt_FlightReportDescription.TextChanged += new System.EventHandler(this.txt_FlightReportDescription_TextChanged);
+            this.txt_FlightPlanDescription.Location = new System.Drawing.Point(6, 110);
+            this.txt_FlightPlanDescription.Name = "txt_FlightPlanDescription";
+            this.txt_FlightPlanDescription.Size = new System.Drawing.Size(172, 20);
+            this.txt_FlightPlanDescription.TabIndex = 33;
+            this.txt_FlightPlanDescription.TextChanged += new System.EventHandler(this.txt_FlightPlanDescription_TextChanged);
             // 
             // txt_SerialNumber
             // 
@@ -501,22 +517,22 @@ namespace AltitudeAngelWings.Plugin
             this.chk_UseExistingFlightPlanId.UseVisualStyleBackColor = true;
             this.chk_UseExistingFlightPlanId.CheckedChanged += new System.EventHandler(this.chk_UseExistingFlightPlanId_CheckedChanged);
             // 
-            // lbl_FlightReportDuration
+            // lbl_FlightPlanDuration
             // 
-            this.lbl_FlightReportDuration.AutoSize = true;
-            this.lbl_FlightReportDuration.Location = new System.Drawing.Point(3, 133);
-            this.lbl_FlightReportDuration.Name = "lbl_FlightReportDuration";
-            this.lbl_FlightReportDuration.Size = new System.Drawing.Size(129, 13);
-            this.lbl_FlightReportDuration.TabIndex = 28;
-            this.lbl_FlightReportDuration.Text = "Flight Plan Duration (mins)";
+            this.lbl_FlightPlanDuration.AutoSize = true;
+            this.lbl_FlightPlanDuration.Location = new System.Drawing.Point(3, 133);
+            this.lbl_FlightPlanDuration.Name = "lbl_FlightPlanDuration";
+            this.lbl_FlightPlanDuration.Size = new System.Drawing.Size(144, 13);
+            this.lbl_FlightPlanDuration.TabIndex = 28;
+            this.lbl_FlightPlanDuration.Text = "Flight Plan Duration (minutes)";
             // 
-            // txt_FlightReportDuration
+            // txt_FlightPlanDuration
             // 
-            this.txt_FlightReportDuration.Location = new System.Drawing.Point(6, 149);
-            this.txt_FlightReportDuration.Name = "txt_FlightReportDuration";
-            this.txt_FlightReportDuration.Size = new System.Drawing.Size(172, 20);
-            this.txt_FlightReportDuration.TabIndex = 26;
-            this.txt_FlightReportDuration.TextChanged += new System.EventHandler(this.txt_FlightReportDuration_TextChanged);
+            this.txt_FlightPlanDuration.Location = new System.Drawing.Point(6, 149);
+            this.txt_FlightPlanDuration.Name = "txt_FlightPlanDuration";
+            this.txt_FlightPlanDuration.Size = new System.Drawing.Size(172, 20);
+            this.txt_FlightPlanDuration.TabIndex = 26;
+            this.txt_FlightPlanDuration.TextChanged += new System.EventHandler(this.txt_FlightPlanDuration_TextChanged);
             // 
             // lbl_ContactPhoneNumber
             // 
@@ -527,22 +543,22 @@ namespace AltitudeAngelWings.Plugin
             this.lbl_ContactPhoneNumber.TabIndex = 27;
             this.lbl_ContactPhoneNumber.Text = "Contact Phone Number";
             // 
-            // lbl_FlightReportName
+            // lbl_FlightPlanName
             // 
-            this.lbl_FlightReportName.AutoSize = true;
-            this.lbl_FlightReportName.Location = new System.Drawing.Point(3, 52);
-            this.lbl_FlightReportName.Name = "lbl_FlightReportName";
-            this.lbl_FlightReportName.Size = new System.Drawing.Size(87, 13);
-            this.lbl_FlightReportName.TabIndex = 27;
-            this.lbl_FlightReportName.Text = "Flight Plan Name";
+            this.lbl_FlightPlanName.AutoSize = true;
+            this.lbl_FlightPlanName.Location = new System.Drawing.Point(3, 52);
+            this.lbl_FlightPlanName.Name = "lbl_FlightPlanName";
+            this.lbl_FlightPlanName.Size = new System.Drawing.Size(87, 13);
+            this.lbl_FlightPlanName.TabIndex = 27;
+            this.lbl_FlightPlanName.Text = "Flight Plan Name";
             // 
-            // txt_FlightReportName
+            // txt_FlightPlanName
             // 
-            this.txt_FlightReportName.Location = new System.Drawing.Point(6, 68);
-            this.txt_FlightReportName.Name = "txt_FlightReportName";
-            this.txt_FlightReportName.Size = new System.Drawing.Size(172, 20);
-            this.txt_FlightReportName.TabIndex = 25;
-            this.txt_FlightReportName.TextChanged += new System.EventHandler(this.txt_FlightReportName_TextChanged);
+            this.txt_FlightPlanName.Location = new System.Drawing.Point(6, 68);
+            this.txt_FlightPlanName.Name = "txt_FlightPlanName";
+            this.txt_FlightPlanName.Size = new System.Drawing.Size(172, 20);
+            this.txt_FlightPlanName.TabIndex = 25;
+            this.txt_FlightPlanName.TextChanged += new System.EventHandler(this.txt_FlightPlanName_TextChanged);
             // 
             // tabPageAbout
             // 
@@ -598,17 +614,16 @@ namespace AltitudeAngelWings.Plugin
         private System.Windows.Forms.TabPage tabPageFlight;
         private System.Windows.Forms.TextBox txt_ExistingFlightPlanId;
         private System.Windows.Forms.CheckBox chk_UseExistingFlightPlanId;
-        private System.Windows.Forms.Label lbl_FlightReportDuration;
-        private System.Windows.Forms.TextBox txt_FlightReportDuration;
-        private System.Windows.Forms.Label lbl_FlightReportName;
-        private System.Windows.Forms.TextBox txt_FlightReportName;
+        private System.Windows.Forms.Label lbl_FlightPlanDuration;
+        private System.Windows.Forms.TextBox txt_FlightPlanDuration;
+        private System.Windows.Forms.Label lbl_FlightPlanName;
+        private System.Windows.Forms.TextBox txt_FlightPlanName;
         private System.Windows.Forms.TabPage tabPageAccount;
         private MyButton but_SignOut;
         private MyButton but_SignIn;
-        private System.Windows.Forms.LinkLabel lbl_FlightReportWhat;
-        private System.Windows.Forms.CheckBox chk_FlightReportEnable;
-        private System.Windows.Forms.Label lbl_FlightReportDescription;
-        private System.Windows.Forms.TextBox txt_FlightReportDescription;
+        private System.Windows.Forms.CheckBox chk_FlightPlansEnable;
+        private System.Windows.Forms.Label lbl_FlightPlanDescription;
+        private System.Windows.Forms.TextBox txt_FlightPlanDescription;
         private System.Windows.Forms.Label lbl_OverrideClientSuffix;
         private System.Windows.Forms.TextBox txt_OverrideClientSuffix;
         private System.Windows.Forms.Label lbl_OverrideClientSecret;
@@ -637,5 +652,7 @@ namespace AltitudeAngelWings.Plugin
         private TrackBar trk_AltitudeFilter;
         private MyButton but_Disable;
         private MyButton but_Enable;
+        private CheckBox chk_FlightsEnable;
+        private ComboBox lst_FlightTelemetry;
     }
 }

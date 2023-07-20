@@ -75,6 +75,7 @@ namespace AltitudeAngelWings
             ServiceLocator.Register<IFlightService>(l => new FlightService(
                 l.Resolve<IMessagesService>(),
                 l.Resolve<IMissionPlanner>(),
+                l.Resolve<IMissionPlannerState>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IFlightDataService>(),
                 l.Resolve<IAltitudeAngelClient>(),

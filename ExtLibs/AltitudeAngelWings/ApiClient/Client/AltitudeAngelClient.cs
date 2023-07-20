@@ -229,7 +229,7 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         private static CreateFlightPartRequest CreateFlightPartRequest(
             int id,
-            int highestAltitude,
+            double highestAltitude,
             Instant start,
             Instant end,
             Feature geography)

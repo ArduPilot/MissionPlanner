@@ -1,6 +1,5 @@
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using AltitudeAngelWings.Models;
 
 namespace AltitudeAngelWings.Extra
 {
@@ -8,7 +7,6 @@ namespace AltitudeAngelWings.Extra
     {
         IMap FlightPlanningMap { get; }
         IMap FlightDataMap { get; }
-        FlightPlan GetFlightPlan();
         Task CommandDroneToReturnToBase();
         Task CommandDroneToLoiter(
             float latitude,

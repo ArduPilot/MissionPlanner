@@ -11,6 +11,9 @@ using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
 using AltitudeAngelWings.Service.OutboundNotifs;
+using NetTopologySuite.Algorithm;
+using NetTopologySuite.Geometries;
+using NodaTime;
 
 namespace AltitudeAngelWings.Service.FlightService
 {
@@ -18,6 +21,7 @@ namespace AltitudeAngelWings.Service.FlightService
     {
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
+        private readonly IMissionPlannerState _missionPlannerState;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
         private readonly IAltitudeAngelClient _client;
         private readonly ISettings _settings;
@@ -26,6 +30,7 @@ namespace AltitudeAngelWings.Service.FlightService
         public FlightService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
+            IMissionPlannerState missionPlannerState,
             ISettings settings,
             IFlightDataService flightDataService,
             IAltitudeAngelClient client,
@@ -33,23 +38,25 @@ namespace AltitudeAngelWings.Service.FlightService
         {
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
+            _missionPlannerState = missionPlannerState;
             _settings = settings;
             _client = client;
             _notificationsService = notificationsService;
-            _settings.CurrentFlightReportId = null;
+            _settings.CurrentFlightPlanId = null;
             _settings.CurrentFlightId = null;
 
             if (_settings.UseFlightPlans && _settings.UseFlights)
             {
                 _disposer.Add(flightDataService.FlightArmed
-                    .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(_missionPlanner.GetFlightPlan(), ct)));
+                    .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(ct)));
                 _disposer.Add(flightDataService.FlightDisarmed
                     .SubscribeWithAsync((i, ct) => CompleteFlight(ct)));
             }
         }
 
-        private async Task StartTelemetryFlight(FlightPlan flightPlan, CancellationToken cancellationToken)
+        private async Task StartTelemetryFlight(CancellationToken cancellationToken)
         {
+            var flightPlan = GetFlightPlan();
             if (flightPlan == null)
             {
                 return;
@@ -93,7 +100,7 @@ namespace AltitudeAngelWings.Service.FlightService
                     await _missionPlanner.Disarm();
                     return;
                 }
-                _settings.CurrentFlightReportId = flightPlanId.ToString();
+                _settings.CurrentFlightPlanId = flightPlanId.ToString();
                 await _messagesService.AddMessageAsync(new Message($"Flight plan {flightPlanId} in use.")
                     { TimeToLive = TimeSpan.FromSeconds(10) });
 
@@ -106,7 +113,7 @@ namespace AltitudeAngelWings.Service.FlightService
                 var tacticalSettings = startFlightResponse.ServiceResponses.First();
 
                 var notificationSettings = (WebsocketNotificationProtocolConfiguration)tacticalSettings.Properties.NotificationProtocols.First();
-                _settings.OutboundNotifsEndpointUrl = notificationSettings.Properties.Endpoints.First();
+                _settings.OutboundNotificationsUrl = notificationSettings.Properties.Endpoints.First();
 
                 var telemetrySettings = (UdpTelemetryProtocolConfiguration)tacticalSettings.Properties.TelemetryProtocols.First();
                 _settings.CurrentTelemetryId = telemetrySettings.Id;
@@ -132,7 +139,7 @@ namespace AltitudeAngelWings.Service.FlightService
 
         private async Task CompleteFlight(CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(_settings.CurrentFlightId) || string.IsNullOrEmpty(_settings.CurrentFlightReportId))
+            if (string.IsNullOrEmpty(_settings.CurrentFlightId) || string.IsNullOrEmpty(_settings.CurrentFlightPlanId))
             {
                 return;
             }
@@ -143,18 +150,18 @@ namespace AltitudeAngelWings.Service.FlightService
                     { TimeToLive = TimeSpan.FromSeconds(10) });
 
                 //await _client.CancelFlightPlan(_settings.CurrentFlightReportId);
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightReportId} completed.")
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightPlanId} completed.")
                     { TimeToLive = TimeSpan.FromSeconds(10) });
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"ERROR: Failed to complete flight {_settings.CurrentFlightId} and plan {_settings.CurrentFlightReportId}:, {ex}"));
+                await _messagesService.AddMessageAsync(new Message($"ERROR: Failed to complete flight {_settings.CurrentFlightId} and plan {_settings.CurrentFlightPlanId}:, {ex}"));
             }
             finally
             {
                 await _notificationsService.StopWebSocket();
                 _settings.CurrentFlightId = null;
-                _settings.CurrentFlightReportId = null;
+                _settings.CurrentFlightPlanId = null;
             }
         }
 
@@ -176,6 +183,39 @@ namespace AltitudeAngelWings.Service.FlightService
             {
                 _disposer?.Dispose();
             }
+        }
+
+        public FlightPlan GetFlightPlan()
+        {
+            var waypoints = _missionPlannerState.Waypoints;
+            if (waypoints.Count == 0)
+            {
+                return null;
+            }
+
+            waypoints.Insert(0, _missionPlannerState.HomeLocation);
+            var envelope = GeometryFactory.Default.CreateMultiPoint(
+                    waypoints
+                        .Select(l => new Point(l.Longitude, l.Latitude))
+                        .ToArray())
+                .Envelope;
+            var center = envelope.Centroid;
+            var minimumBoundingCircle = new MinimumBoundingCircle(envelope);
+            return new FlightPlan(waypoints)
+            {
+                CenterLongitude = center.X,
+                CenterLatitude = center.Y,
+                BoundingRadius = (int)Math.Ceiling(minimumBoundingCircle.GetRadius()),
+                FlightCapability = _missionPlannerState.FlightCapability,
+                Summary =  _settings.FlightPlanName,
+                Description = _settings.FlightPlanDescription,
+                Duration = Duration.FromTimeSpan(_settings.FlightPlanTimeSpan),
+                UseLocalConflictScope = false,
+                AllowSmsContact = false,
+                SmsPhoneNumber = "",
+                DroneSerialNumber = "",
+                FlightOperationMode = FlightOperationMode.BVLOS
+            };
         }
     }
 }

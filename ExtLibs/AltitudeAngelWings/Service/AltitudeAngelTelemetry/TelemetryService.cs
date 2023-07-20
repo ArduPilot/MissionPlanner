@@ -33,7 +33,7 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             _client = client;
             _missionPlanner = missionPlanner;
 
-            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs))
+            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry > FlightTelemetry.None && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs))
             {
                 _disposer.Add(flightDataService.ArmedFlightData
                     .SubscribeWithAsync((i, ct) => SendTelemetry(i)));

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Accord.Diagnostics;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.GCSViews;
@@ -55,11 +56,12 @@ namespace AltitudeAngelWings.Plugin
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     true),
-                () => GetCurrentFlightPlan(l.Resolve<PluginHost>().MainForm.FlightPlanner),
                 l.Resolve<ISettings>(),
                 l.Resolve<PluginHost>().MainForm.Text));
             ServiceLocator.Register<IMissionPlannerState>(l => new MissionPlannerStateAdapter(
-                () => l.Resolve<PluginHost>().comPort.MAV.cs));
+                () => l.Resolve<PluginHost>().comPort.MAV.cs,
+                () => GetCurrentWaypoints(l.Resolve<PluginHost>().MainForm.FlightPlanner),
+                () => l.Resolve<PluginHost>().comPort.MAV.ToFlightCapability()));
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new ExternalWebBrowserAuthorizeCodeProvider(
                 l.Resolve<ISettings>(),
                 l.Resolve<IAsyncPolicy>(),
@@ -79,14 +81,19 @@ namespace AltitudeAngelWings.Plugin
                     10)));
         }
 
-        private static IList<Locationwp> GetCurrentFlightPlan(FlightPlanner flightPlanner)
+        private static IList<FlightPlanWaypoint> GetCurrentWaypoints(FlightPlanner flightPlanner)
         {
             if (flightPlanner == null)
             {
-                return new List<Locationwp>();
+                return new List<FlightPlanWaypoint>();
             }
             var getFlightPlanLocations = flightPlanner.GetType().GetMethod("GetFlightPlanLocations", BindingFlags.Instance | BindingFlags.NonPublic);
-            return (IList<Locationwp>)getFlightPlanLocations.Invoke(flightPlanner, new object[] { });
+            if (getFlightPlanLocations == null)
+            {
+                return new List<FlightPlanWaypoint>();
+            }
+            var locations = (IList<Locationwp>)getFlightPlanLocations.Invoke(flightPlanner, new object[] { });
+            return locations.ToWaypoints().ToList();
         }
     }
 }
