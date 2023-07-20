@@ -147,7 +147,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             this.lbl_UserDetails.Location = new System.Drawing.Point(299, 6);
             this.lbl_UserDetails.Name = "lbl_UserDetails";
-            this.lbl_UserDetails.Size = new System.Drawing.Size(140, 142);
+            this.lbl_UserDetails.Size = new System.Drawing.Size(140, 246);
             this.lbl_UserDetails.TabIndex = 40;
             // 
             // lbl_OverrideClientSuffix
@@ -163,7 +163,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             this.txt_OverrideClientSuffix.Location = new System.Drawing.Point(103, 172);
             this.txt_OverrideClientSuffix.Name = "txt_OverrideClientSuffix";
-            this.txt_OverrideClientSuffix.Size = new System.Drawing.Size(172, 20);
+            this.txt_OverrideClientSuffix.Size = new System.Drawing.Size(190, 20);
             this.txt_OverrideClientSuffix.TabIndex = 37;
             this.txt_OverrideClientSuffix.TextChanged += new System.EventHandler(this.txt_OverrideUrlSuffix_TextChanged);
             // 
@@ -180,7 +180,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             this.txt_OverrideClientSecret.Location = new System.Drawing.Point(103, 133);
             this.txt_OverrideClientSecret.Name = "txt_OverrideClientSecret";
-            this.txt_OverrideClientSecret.Size = new System.Drawing.Size(172, 20);
+            this.txt_OverrideClientSecret.Size = new System.Drawing.Size(190, 20);
             this.txt_OverrideClientSecret.TabIndex = 35;
             this.txt_OverrideClientSecret.UseSystemPasswordChar = true;
             this.txt_OverrideClientSecret.TextChanged += new System.EventHandler(this.txt_OverrideClientSecret_TextChanged);
@@ -198,7 +198,7 @@ namespace AltitudeAngelWings.Plugin
             // 
             this.txt_OverrideClientId.Location = new System.Drawing.Point(103, 94);
             this.txt_OverrideClientId.Name = "txt_OverrideClientId";
-            this.txt_OverrideClientId.Size = new System.Drawing.Size(172, 20);
+            this.txt_OverrideClientId.Size = new System.Drawing.Size(190, 20);
             this.txt_OverrideClientId.TabIndex = 33;
             this.txt_OverrideClientId.TextChanged += new System.EventHandler(this.txt_OverrideClientId_TextChanged);
             // 
