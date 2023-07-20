@@ -277,7 +277,7 @@ namespace AltitudeAngelWings.Plugin
 
         private async Task OnSignInChange(bool signedIn, CancellationToken cancellationToken)
         {
-            lbl_UserDetails.Text = "loading...";
+            lbl_UserDetails.Text = string.Empty;
             var user = await _altitudeAngelService.GetUserProfile(cancellationToken);
             lbl_UserDetails.Text = signedIn
                 ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}\r\n{string.Join("\r\n", _settings.TokenResponse.AccessTokenScopes())}"
