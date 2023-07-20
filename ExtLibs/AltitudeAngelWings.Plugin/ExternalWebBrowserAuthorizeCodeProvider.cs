@@ -8,7 +8,10 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
+using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
+using AltitudeAngelWings.Service.Messaging;
+using MissionPlanner.Plugin;
 using Newtonsoft.Json.Linq;
 using Polly;
 
@@ -18,13 +21,19 @@ namespace AltitudeAngelWings.Plugin
     {
         private readonly ISettings _settings;
         private readonly IAsyncPolicy _asyncPolicy;
+        private readonly IMessagesService _messages;
+        private readonly PluginHost _host;
+        private readonly IUiThreadInvoke _uiThreadInvoke;
         private readonly ProductInfoHeaderValue _version;
         private string _pollId;
 
-        public ExternalWebBrowserAuthorizeCodeProvider(ISettings settings, IAsyncPolicy asyncPolicy, ProductInfoHeaderValue version)
+        public ExternalWebBrowserAuthorizeCodeProvider(ISettings settings, IAsyncPolicy asyncPolicy, IMessagesService messages, PluginHost host, IUiThreadInvoke uiThreadInvoke, ProductInfoHeaderValue version)
         {
             _settings = settings;
             _asyncPolicy = asyncPolicy;
+            _messages = messages;
+            _host = host;
+            _uiThreadInvoke = uiThreadInvoke;
             _version = version;
         }
 
@@ -37,14 +46,21 @@ namespace AltitudeAngelWings.Plugin
             parameters.Add("poll_id", _pollId);
         }
 
-        public Task<string> GetAuthorizeCode(Uri authorizeUri)
+        public async Task<string> GetAuthorizeCode(Uri authorizeUri)
         {
             if (string.IsNullOrWhiteSpace(_settings.ClientId) || string.IsNullOrWhiteSpace(_settings.ClientSecret))
             {
-                throw new InvalidOperationException("ClientId and ClientSecret not set correctly.");
+                var message = new Message("Client ID and Client Secret are not set correctly. Click here to open settings.")
+                {
+                    Key = "BadClientCredentials",
+                    OnClick = () => AASettings.Instance.Show(_host.MainForm)
+                };
+                message.HasExpired = () => message.Clicked || _settings.TokenResponse.IsValidForAuth();
+                await _messages.AddMessageAsync(message);
+                return null;
             }
 
-            var authorizeCode = UiTask.ShowDialog(async cancellationToken =>
+            return await _uiThreadInvoke.Invoke(() => UiTask.ShowDialog(async cancellationToken =>
                 {
                     using (var client = new HttpClient())
                     {
@@ -61,12 +77,7 @@ namespace AltitudeAngelWings.Plugin
                         return code;
                     }
                 },
-                "Opening a browser to login to Altitude Angel. Please login in the browser.");
-            if (authorizeCode == null)
-            {
-                throw new TaskCanceledException("User cancelled getting an authorize code.");
-            }
-            return Task.FromResult(authorizeCode);
+                "Opening a browser to sign in to Altitude Angel. Please sign in using the browser."));
         }
 
         private async Task<string> GetClientTokenForLoginPoll(HttpMessageInvoker client, CancellationToken cancellationToken)

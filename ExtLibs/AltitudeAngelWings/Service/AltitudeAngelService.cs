@@ -37,8 +37,9 @@ namespace AltitudeAngelWings.Service
 
         public ObservableProperty<bool> IsSignedIn { get; }
         public ObservableProperty<WeatherInfo> WeatherReport { get; }
-        public UserProfileInfo CurrentUser { get; private set; }
         public IList<FilterInfoDisplay> FilterInfoDisplay { get; }
+
+        public bool SigningIn => _signInLock.CurrentCount == 0;
 
         public AltitudeAngelService(
             IMessagesService messagesService,
@@ -55,7 +56,7 @@ namespace AltitudeAngelWings.Service
             _telemetryService = telemetryService;
             _flightService = flightService;
 
-            IsSignedIn = new ObservableProperty<bool>(false);
+            IsSignedIn = new ObservableProperty<bool>(_settings.TokenResponse.IsValidForAuth());
             _disposer.Add(IsSignedIn);
             WeatherReport = new ObservableProperty<WeatherInfo>();
             _disposer.Add(WeatherReport);
@@ -83,75 +84,47 @@ namespace AltitudeAngelWings.Service
             }
         }
 
-        public async Task SignInAsync()
+        public async Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken)
+        {
+            return await _client.GetUserProfile(cancellationToken);
+        }
+
+        public async Task SignInAsync(CancellationToken cancellationToken = default)
         {
             if (!_settings.CheckEnableAltitudeAngel)
             {
                 return;
             }
 
-            // Double check if it's possible to sign in
-            if (string.IsNullOrWhiteSpace(_settings.ClientId) || string.IsNullOrWhiteSpace(_settings.ClientSecret))
-            {
-                await _messagesService.AddMessageAsync("Not possible to sign in as client ID and secret are not set correctly.");
-                return;
-            }
-
             try
             {
-                await _signInLock.WaitAsync();
-                try
-                {
-                    // Load the user's profile, will trigger auth
-                    CurrentUser = await _client.GetUserProfile();
-                    IsSignedIn.Value = true;
-                }
-                catch (TaskCanceledException)
-                {
-                    // User cancelled
-                    throw;
-                }
-                catch (Exception)
-                {
-                    try
-                    {
-                        // Reset token and try again
-                        await _messagesService.AddMessageAsync("Failed to sign in. Resetting token and trying again.");
-                        _client.Disconnect(true);
-                        CurrentUser = await _client.GetUserProfile();
-                        IsSignedIn.Value = true;
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // User cancelled
-                        throw;
-                    }
-                    catch (Exception)
-                    {
-                        // Give up and disable plugin
-                        await _messagesService.AddMessageAsync("Failed to sign in. Disabling plugin.");
-                        _settings.CheckEnableAltitudeAngel = false;
-                        _client.Disconnect(true);
-                        IsSignedIn.Value = false;
-                    }
-                }
-
-                await UpdateMapData(_missionPlanner.FlightDataMap, CancellationToken.None);
-                await UpdateMapData(_missionPlanner.FlightPlanningMap, CancellationToken.None);
+                await _signInLock.WaitAsync(cancellationToken);
+                // Load the user's profile, will trigger auth
+                await GetUserProfile(cancellationToken);
             }
-            catch (TaskCanceledException)
+            catch (FlurlHttpException ex) when (ex.StatusCode == 401)
             {
-                // User cancelled
-                _client.Disconnect(true);
+                // Ignore these as they'll be messaged by the sign in components
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync($"There was a problem signing you in. {ex.Message}");
+                await _messagesService.AddMessageAsync(new Message($"There was a problem signing you in to Altitude Angel.")
+                {
+                    Type = MessageType.Error,
+                    OnClick = () => _missionPlanner.ShowMessageBox(ex.ToString(), "Exception")
+                });
                 _client.Disconnect(true);
             }
             finally
             {
                 _signInLock.Release();
+            }
+
+            if (_settings.TokenResponse.IsValidForAuth())
+            {
+                IsSignedIn.Value = true;
+                await UpdateMapData(_missionPlanner.FlightDataMap, CancellationToken.None);
+                await UpdateMapData(_missionPlanner.FlightPlanningMap, CancellationToken.None);
             }
         }
 
@@ -166,7 +139,7 @@ namespace AltitudeAngelWings.Service
 
         private async Task UpdateMapData(IMap map, CancellationToken cancellationToken)
         {
-            if (!(IsSignedIn || _settings.CheckEnableAltitudeAngel))
+            if (!(IsSignedIn.Value || _settings.CheckEnableAltitudeAngel))
             {
                 MapFeatureCache.Clear();
             }
@@ -189,21 +162,24 @@ namespace AltitudeAngelWings.Service
                 foreach (var errorReason in mapData.ExcludedData.Select(e => e.ErrorReason).Distinct())
                 {
                     var reasons = mapData.ExcludedData.Where(e => e.ErrorReason == errorReason).ToList();
-                    if (reasons.Count > 0)
+                    if (reasons.Count <= 0) continue;
+                    string message;
+                    switch (errorReason)
                     {
-                        switch (errorReason)
-                        {
-                            case "QueryAreaTooLarge":
-                                await _messagesService.AddMessageAsync(
-                                    new Message($"Zoom in to see {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} from Altitude Angel") { TimeToLive = TimeSpan.FromSeconds(_settings.MapUpdateRefresh)});
-                                break;
+                        case "QueryAreaTooLarge":
+                            message = $"Zoom in to see {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} from Altitude Angel.";
+                            break;
 
-                            default:
-                                await _messagesService.AddMessageAsync(
-                                    new Message($"{errorReason}: {reasons.Select(d => $"[{d.Detail.DisplayName}] {d.Message}").AsReadableList()}"));
-                                break;
-                        }
+                        default:
+                            message = $"Warning: {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} have been excluded from the Altitude Angel data.";
+                            break;
                     }
+                    await _messagesService.AddMessageAsync(
+                        new Message(message)
+                        {
+                            Key = errorReason,
+                            TimeToLive = TimeSpan.FromSeconds(_settings.MapUpdateRefresh)
+                        });
                 }
 
                 mapData.Features.UpdateFilterInfo(FilterInfoDisplay);
@@ -213,6 +189,7 @@ namespace AltitudeAngelWings.Service
                     new Message(
                         $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms")
                     {
+                        Key = "UpdateMapData",
                         TimeToLive = TimeSpan.FromSeconds(1)
                     });
 
@@ -225,7 +202,12 @@ namespace AltitudeAngelWings.Service
             }
             catch (Exception ex) when (!(ex is FlurlHttpException) && !(ex.InnerException is TaskCanceledException))
             {
-                await _messagesService.AddMessageAsync($"Failed to update map data. {ex.Message}");
+                await _messagesService.AddMessageAsync(new Message($"Failed to update map data.")
+                {
+                    Key = "UpdateMapData",
+                    Type = MessageType.Error,
+                    OnClick = () => _missionPlanner.ShowMessageBox(ex.ToString(), "Exception")
+                });
             }
         }
 

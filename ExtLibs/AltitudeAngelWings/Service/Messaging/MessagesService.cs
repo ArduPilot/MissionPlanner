@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AltitudeAngelWings.Models;
@@ -13,21 +12,15 @@ namespace AltitudeAngelWings.Service.Messaging
             Messages = new ObservableProperty<Message>(0);
             Messages
                 .Do(messageDisplay.AddMessage)
-                .Where(m => m.OnClick == null) // Messages with an OnClick get to stick around!
-                .Delay(m => Observable.Timer(m.TimeToLive))
+                .SelectMany(m => Observable.Interval(TimeSpan.FromMilliseconds(100))
+                    .SkipWhile(i => !m.HasExpired())
+                    .Select(i => m))
                 .Subscribe(messageDisplay.RemoveMessage);
         }
 
         public ObservableProperty<Message> Messages { get; }
 
-        public Task AddMessageAsync(Message message)
-        {
-            Console.WriteLine(message.Content);
-#if DEBUG
-            Debug.WriteLine(message.Content);
-#endif
-            return Task.Factory.StartNew(() => Messages.Value = message);
-        }
+        public Task AddMessageAsync(Message message) => Task.Factory.StartNew(() => Messages.Value = message);
 
         public void Dispose()
         {

@@ -106,7 +106,8 @@ namespace AltitudeAngelWings.Plugin
                 Name = SettingsMenuItemName,
                 Text = Resources.SettingsMenuItemText,
                 Enabled = true,
-                Visible = true
+                Visible = true,
+                Image = Resources.AAIconBlack.ToBitmap()
             };
             menuItem.Click += OnSettingsClick;
             return menuItem;
@@ -123,7 +124,7 @@ namespace AltitudeAngelWings.Plugin
                 }
             }
             if (!_enabled) return;
-            new AASettings().Show(Host.MainForm);
+            AASettings.Instance.Show(Host.MainForm);
         }
 
         private void ConfigureServiceLocator()

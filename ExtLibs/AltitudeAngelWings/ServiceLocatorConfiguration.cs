@@ -23,10 +23,8 @@ namespace AltitudeAngelWings
         {
             ServiceLocator.Register<IAsyncPolicy>(l => Policy.WrapAsync(
                 Policy
-                    .TimeoutAsync(TimeSpan.FromSeconds(30)),
-                Policy
-                    .Handle<FlurlHttpException>(e => e.StatusCode == 401)
-                    .RetryAsync(2, (e, i) => ResetAccessToken(l.Resolve<ISettings>())),
+                    .Handle<FlurlHttpException>(e => e.StatusCode == 401 && !l.Resolve<IAltitudeAngelService>().SigningIn)
+                    .RetryAsync((e, i) => ResetAccessToken(l.Resolve<ISettings>())),
                 Policy
                     .Handle<FlurlHttpException>(e => e.StatusCode >= 500)
                     .WaitAndRetryAsync(5,  i => TimeSpan.FromSeconds(Math.Pow(2, i) / 2)),
@@ -51,6 +49,7 @@ namespace AltitudeAngelWings
                 l.Resolve<ISettings>(),
                 new DefaultHttpClientFactory(),
                 l.Resolve<IAsyncPolicy>(),
+                 new Lazy<IAltitudeAngelService>(l.Resolve<IAltitudeAngelService>),
                 l.Resolve<IAuthorizeCodeProvider>(),
                 l.Resolve<IMessagesService>(),
                 l.Resolve<IMissionPlanner>().VersionHeader));
@@ -96,6 +95,7 @@ namespace AltitudeAngelWings
 
         private static void ResetAccessToken(ISettings settings)
         {
+            if (settings.TokenResponse == null) return;
             var token = settings.TokenResponse;
             token.AccessToken = "";
             settings.TokenResponse = token;

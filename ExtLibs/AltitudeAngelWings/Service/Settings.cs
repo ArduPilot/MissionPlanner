@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Service.AltitudeAngelTelemetry.Encryption;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ namespace AltitudeAngelWings.Service
         private readonly Func<string, string> _loadSetting;
         private readonly Action<string> _clearSetting;
         private readonly Action<string, string> _saveSetting;
+        private readonly SemaphoreSlim _saveLock = new SemaphoreSlim(1);
 
         public Settings(Func<string, string> loadSetting, Action<string> clearSetting, Action<string, string> saveSetting)
         {
@@ -278,16 +280,25 @@ namespace AltitudeAngelWings.Service
         private void Set<T>(string settingName, T value, Func<T, string> setSetting = null)
         {
             settingName = CheckAndPrefixSettingName(settingName);
-            if (value == null)
-            {
-                _clearSetting(settingName);
-                return;
-            }
             if (setSetting == null)
             {
                 setSetting = v => v.ToString();
             }
-            _saveSetting(settingName, setSetting(value));
+
+            try
+            {
+                _saveLock.Wait();
+                if (value == null)
+                {
+                    _clearSetting(settingName);
+                    return;
+                }
+                _saveSetting(settingName, setSetting(value));
+            }
+            finally
+            {
+                _saveLock.Release();
+            }
         }
 
         private static string CheckAndPrefixSettingName(string settingName)

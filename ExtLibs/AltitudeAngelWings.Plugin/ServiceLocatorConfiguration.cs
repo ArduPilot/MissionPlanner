@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Accord.Diagnostics;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
@@ -62,13 +63,17 @@ namespace AltitudeAngelWings.Plugin
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new ExternalWebBrowserAuthorizeCodeProvider(
                 l.Resolve<ISettings>(),
                 l.Resolve<IAsyncPolicy>(),
+                l.Resolve<IMessagesService>(),
+                l.Resolve<PluginHost>(),
+                l.Resolve<IUiThreadInvoke>(),
                 l.Resolve<IMissionPlanner>().VersionHeader));
             ServiceLocator.Register<IMessageDisplay>(l => new MultipleMessageDisplay(
-                new MessageDisplay(
+                new TextWriterMessageDisplay(Console.Out),
+                new ControlOverlayMessageDisplay(
                     l.Resolve<PluginHost>().FDGMapControl.Parent,
                     l.Resolve<IUiThreadInvoke>(),
                     55),
-                new MessageDisplay(
+                new ControlOverlayMessageDisplay(
                     l.Resolve<PluginHost>().FPGMapControl.Parent,
                     l.Resolve<IUiThreadInvoke>(),
                     10)));

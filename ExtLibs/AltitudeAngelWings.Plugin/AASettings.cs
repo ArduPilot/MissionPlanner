@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Extra;
@@ -20,11 +22,29 @@ namespace AltitudeAngelWings.Plugin
         private readonly IAltitudeAngelService _altitudeAngelService;
         private readonly IMissionPlanner _missionPlanner;
 
-        public AASettings()
+        private static readonly object InstanceLock = new object();
+        private static AASettings _instance;
+
+        private AASettings()
             : this(ServiceLocator.GetService<ISettings>(),
                 ServiceLocator.GetService<IAltitudeAngelService>(),
                 ServiceLocator.GetService<IMissionPlanner>())
         {
+        }
+
+        public static AASettings Instance
+        {
+            get
+            {
+                lock (InstanceLock)
+                {
+                    if (_instance == null || _instance.IsDisposed)
+                    {
+                        _instance = new AASettings();
+                    }
+                }
+                return _instance;
+            }
         }
 
         private AASettings(ISettings settings, IAltitudeAngelService altitudeAngelService, IMissionPlanner missionPlanner)
@@ -33,12 +53,12 @@ namespace AltitudeAngelWings.Plugin
             _altitudeAngelService = altitudeAngelService;
             _missionPlanner = missionPlanner;
             InitializeComponent();
-            _altitudeAngelService.IsSignedIn.ObserveOn(MainV2.instance).Subscribe(OnSignInChange);
+            _altitudeAngelService.IsSignedIn.ObserveOn(MainV2.instance).SubscribeWithAsync(OnSignInChange);
             _missionPlanner.FlightDataMap.MapChanged.ObserveOn(MainV2.instance).Subscribe(OnMapChanged);
             _missionPlanner.FlightPlanningMap.MapChanged.ObserveOn(MainV2.instance).Subscribe(OnMapChanged);
 
             ThemeManager.ApplyThemeTo(this);
-            Icon = Resources.AAIcon;
+            Icon = Resources.AAIconBlack;
 
             // load settings
             chk_FlightReportEnable.Checked = _settings.UseFlightPlans;
@@ -47,12 +67,12 @@ namespace AltitudeAngelWings.Plugin
             txt_FlightReportName.Text = _settings.FlightReportName;
             txt_FlightReportDescription.Text = _settings.FlightReportDescription;
             txt_FlightReportDuration.Text = ((int)_settings.FlightReportTimeSpan.TotalMinutes).ToString();
-            but_SignIn.Enabled = !_altitudeAngelService.IsSignedIn;
-            but_SignOut.Enabled = _altitudeAngelService.IsSignedIn;
+            but_SignIn.Enabled = !_altitudeAngelService.IsSignedIn.Value;
+            but_SignOut.Enabled = _altitudeAngelService.IsSignedIn.Value;
             chk_OverrideClientSettings.Checked = _settings.OverrideClientUrlSettings;
             txt_OverrideClientId.Text = _settings.OverrideClientId;
             txt_OverrideClientSecret.Text = _settings.OverrideClientSecret;
-            txt_OverrideUrlSuffix.Text = _settings.OverrideUrlDomainSuffix;
+            txt_OverrideClientSuffix.Text = _settings.OverrideUrlDomainSuffix;
             var opacityAdjust = (int)_settings.MapOpacityAdjust * 100;
             if (opacityAdjust >= trk_OpacityAdjust.Minimum && opacityAdjust <= trk_OpacityAdjust.Maximum)
             {
@@ -154,25 +174,25 @@ namespace AltitudeAngelWings.Plugin
         private void chk_OverrideClientSettings_CheckedChanged(object sender, EventArgs e)
         {
             _settings.OverrideClientUrlSettings = chk_OverrideClientSettings.Checked;
-            RefreshControlStates(true);
+            RefreshControlStates();
         }
 
         private void txt_OverrideClientId_TextChanged(object sender, EventArgs e)
         {
             _settings.OverrideClientId = txt_OverrideClientId.Text;
-            RefreshControlStates(true);
+            RefreshControlStates();
         }
 
         private void txt_OverrideClientSecret_TextChanged(object sender, EventArgs e)
         {
             _settings.OverrideClientSecret = txt_OverrideClientSecret.Text;
-            RefreshControlStates(true);
+            RefreshControlStates();
         }
 
         private void txt_OverrideUrlSuffix_TextChanged(object sender, EventArgs e)
         {
-            _settings.OverrideUrlDomainSuffix = txt_OverrideUrlSuffix.Text;
-            RefreshControlStates(true);
+            _settings.OverrideUrlDomainSuffix = txt_OverrideClientSuffix.Text;
+            RefreshControlStates();
         }
 
         private void trk_OpacityAdjust_ValueChanged(object sender, EventArgs e)
@@ -255,11 +275,13 @@ namespace AltitudeAngelWings.Plugin
             RefreshControlStates();
         }
 
-        private void OnSignInChange(bool signedIn)
+        private async Task OnSignInChange(bool signedIn, CancellationToken cancellationToken)
         {
-            var user = _altitudeAngelService.CurrentUser;
+            lbl_UserDetails.Text = "loading...";
+            var user = await _altitudeAngelService.GetUserProfile(cancellationToken);
             lbl_UserDetails.Text = signedIn
-                ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}\r\n{string.Join("\r\n", _settings.TokenResponse.AccessTokenScopes())}": string.Empty;
+                ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}\r\n{string.Join("\r\n", _settings.TokenResponse.AccessTokenScopes())}"
+                : string.Empty;
             RefreshControlStates();
         }
 
@@ -274,7 +296,7 @@ namespace AltitudeAngelWings.Plugin
             _altitudeAngelService.ProcessAllFromCache(_missionPlanner.FlightPlanningMap, resetFilters);
         }
 
-        private void AddUpdateFilterInfoTree(TreeNode parent)
+        private void AddUpdateFilterInfoTree(TreeNode parent = null)
         {
             foreach (var item in _altitudeAngelService
                 .FilterInfoDisplay
@@ -308,10 +330,9 @@ namespace AltitudeAngelWings.Plugin
             }
 
             trv_MapLayers.BeginUpdate();
-            AddUpdateFilterInfoTree(null);
+            AddUpdateFilterInfoTree();
             trv_MapLayers.ExpandAll();
             trv_MapLayers.EndUpdate();
-
 
             but_SignIn.Enabled = _settings.CheckEnableAltitudeAngel && !_altitudeAngelService.IsSignedIn.Value;
             but_SignOut.Enabled = _altitudeAngelService.IsSignedIn.Value;
@@ -326,37 +347,38 @@ namespace AltitudeAngelWings.Plugin
             txt_FlightReportDescription.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             lbl_FlightReportDuration.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
             txt_FlightReportDuration.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            chk_OverrideClientSettings.Enabled = _settings.CheckEnableAltitudeAngel;
-            lbl_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings;
-            txt_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings;
-            lbl_OverrideClientSecret.Enabled = _settings.OverrideClientUrlSettings;
-            txt_OverrideClientSecret.Enabled = _settings.OverrideClientUrlSettings;
-            lbl_OverrideClientSuffix.Enabled = _settings.OverrideClientUrlSettings;
-            txt_OverrideUrlSuffix.Enabled = _settings.OverrideClientUrlSettings;
-            chk_AllowSms.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            txt_ContactPhone.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            chk_IcaoAddress.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            txt_IcaoAddress.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_IcaoAddress.Checked;
-            chk_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
-            txt_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_SerialNumber.Checked;
-            trk_AltitudeFilter.Enabled = _altitudeAngelService.IsSignedIn;
+            chk_OverrideClientSettings.Enabled = _settings.CheckEnableAltitudeAngel && !_altitudeAngelService.IsSignedIn.Value;
+            lbl_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings && !_altitudeAngelService.IsSignedIn.Value;
+            txt_OverrideClientId.Enabled = _settings.OverrideClientUrlSettings && !_altitudeAngelService.IsSignedIn.Value;
+            lbl_OverrideClientSecret.Enabled = _settings.OverrideClientUrlSettings && !_altitudeAngelService.IsSignedIn.Value;
+            txt_OverrideClientSecret.Enabled = _settings.OverrideClientUrlSettings && !_altitudeAngelService.IsSignedIn.Value;
+            lbl_OverrideClientSuffix.Enabled = _settings.OverrideClientUrlSettings && !_altitudeAngelService.IsSignedIn.Value;
+            txt_OverrideClientSuffix.Enabled = _settings.OverrideClientUrlSettings && !_altitudeAngelService.IsSignedIn.Value;
+            chk_AllowSms.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
+            txt_ContactPhone.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
+            chk_IcaoAddress.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
+            txt_IcaoAddress.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_IcaoAddress.Checked;
+            chk_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked;
+            txt_SerialNumber.Enabled = _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked && !chk_UseExistingFlightPlanId.Checked && chk_SerialNumber.Checked;
+            trk_AltitudeFilter.Enabled = _altitudeAngelService.IsSignedIn.Value;
             lbl_AltitudeDisplay.Text = $"{_settings.AltitudeFilter}m ({_settings.AltitudeFilter*3.28084:F0}ft) AGL";
 
-            SetTabVisibility(tabPageMap, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn);
-            SetTabVisibility(tabPageFlight, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn && chk_FlightReportEnable.Checked);
+            SetTabVisibility(tabPageMap, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn.Value);
+            SetTabVisibility(tabPageFlight, _settings.CheckEnableAltitudeAngel && _altitudeAngelService.IsSignedIn.Value && chk_FlightReportEnable.Checked);
             ResumeLayout(true);
         }
 
         private void SetTabVisibility(TabPage tabPage, bool visible)
         {
             var exists = tabPages.TabPages.Contains(tabPage);
-            if (visible && !exists)
+            switch (visible)
             {
-                tabPages.TabPages.Insert(tabPages.TabPages.IndexOf(tabPageAbout), tabPage);
-            }
-            if (!visible && exists)
-            {
-                tabPages.TabPages.Remove(tabPage);
+                case true when !exists:
+                    tabPages.TabPages.Insert(tabPages.TabPages.IndexOf(tabPageAbout), tabPage);
+                    break;
+                case false when exists:
+                    tabPages.TabPages.Remove(tabPage);
+                    break;
             }
         }
 

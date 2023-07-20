@@ -11,13 +11,13 @@ namespace AltitudeAngelWings.ApiClient.Client
     public interface IAltitudeAngelClient : IDisposable
     {
         void Disconnect(bool resetAuth = false);
-        Task<MapFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken);
+        Task<MapFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken = default);
         Task<WeatherInfo> GetWeather(LatLong latLong);
-        Task<UserProfileInfo> GetUserProfile();
+        Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken = default);
         Task CompleteFlight(string flightId);
         Task<CreateStrategicPlanResponse> CreateFlightPlan(FlightPlan flightPlan, UserProfileInfo currentUser);
         Task<StartFlightResponse> StartFlight(string flightPlanId);
         Task CancelFlightPlan(string flightPlanId);
-        Task<RateCardDetail> GetRateCard(string rateCardId, CancellationToken cancellationToken);
+        Task<RateCardDetail> GetRateCard(string rateCardId, CancellationToken cancellationToken = default);
     }
 }

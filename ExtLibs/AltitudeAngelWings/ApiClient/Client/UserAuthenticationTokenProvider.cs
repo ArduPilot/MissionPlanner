@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using Flurl.Http.Configuration;
@@ -19,16 +20,18 @@ namespace AltitudeAngelWings.ApiClient.Client
         private readonly ISettings _settings;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IAsyncPolicy _asyncPolicy;
+        private readonly Lazy<IAltitudeAngelService> _service;
         private readonly IAuthorizeCodeProvider _provider;
         private readonly IMessagesService _messagesService;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1);
         private readonly ProductInfoHeaderValue _version;
 
-        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAsyncPolicy asyncPolicy, IAuthorizeCodeProvider provider, IMessagesService messagesService, ProductInfoHeaderValue version)
+        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAsyncPolicy asyncPolicy, Lazy<IAltitudeAngelService> service, IAuthorizeCodeProvider provider, IMessagesService messagesService, ProductInfoHeaderValue version)
         {
             _settings = settings;
             _clientFactory = clientFactory;
             _asyncPolicy = asyncPolicy;
+            _service = service;
             _provider = provider;
             _messagesService = messagesService;
             _version = version;
@@ -48,7 +51,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 {
                     try
                     {
-                        await _messagesService.AddMessageAsync("Refreshing AA access token.");
+                        await _messagesService.AddMessageAsync("Refreshing Altitude Angel access token.");
                         return await RefreshAccessToken(cancellationToken);
                     }
                     catch (Exception)
@@ -57,8 +60,25 @@ namespace AltitudeAngelWings.ApiClient.Client
                     }
                 }
 
-                await _messagesService.AddMessageAsync("Asking user for AA access token.");
-                return await AskUserForAccessToken(cancellationToken);
+                //_settings.TokenResponse = null;
+                if (_service.Value.SigningIn)
+                {
+                    return await AskUserForAccessToken(cancellationToken);
+                }
+                else
+                {
+                    var message = new Message("You need to sign into Altitude Angel. Click here to sign in.")
+                    {
+                        Key = "AskToSignIn",
+                        OnClick = () =>
+                        {
+                            Task.Factory.StartNew(() => AskUserForAccessToken(CancellationToken.None), cancellationToken);
+                        }
+                    };
+                    message.HasExpired = () => message.Clicked || _settings.TokenResponse.IsValidForAuth();
+                    await _messagesService.AddMessageAsync(message);
+                    return null;
+                }
             }
             finally
             {
@@ -92,6 +112,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             _settings.TokenResponse = await MakeTokenRequest(
                 () => GetTokenRequestBody("authorization_code", "code", code),
                 cancellationToken);
+            _service.Value.IsSignedIn.Value = _settings.TokenResponse.IsValidForAuth();
             return _settings.TokenResponse.AccessToken;
         }
 

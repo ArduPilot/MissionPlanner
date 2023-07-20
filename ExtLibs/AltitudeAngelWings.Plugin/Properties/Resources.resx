@@ -249,8 +249,8 @@ For more information, privacy policy, and terms and conditions, visit: [link;htt
   <data name="LoginWindowTitleText" xml:space="preserve">
     <value>Altitude Angel Login</value>
   </data>
-  <data name="AAIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AAIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AAIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AAIconWhite.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AAAnimatedLogoWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AAAnimatedLogoWhite.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -260,5 +260,8 @@ For more information, privacy policy, and terms and conditions, visit: [link;htt
   </data>
   <data name="MessageCtrlClickPlannerMap" xml:space="preserve">
     <value>Use Ctrl + Click to show Altitude Angel map information on the flight planning map.</value>
+  </data>
+  <data name="AAIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AAIconBlack.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

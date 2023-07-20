@@ -2,12 +2,13 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.Messaging;
 using Message = AltitudeAngelWings.Models.Message;
 
 namespace AltitudeAngelWings.Plugin
 {
-    public class MessageDisplay : IMessageDisplay
+    public class ControlOverlayMessageDisplay : IMessageDisplay
     {
         private const int LeftOffset = 5;
 
@@ -15,7 +16,7 @@ namespace AltitudeAngelWings.Plugin
         private readonly IUiThreadInvoke _uiThreadInvoke;
         private readonly int _bottomOffset;
 
-        public MessageDisplay(Control parent, IUiThreadInvoke uiThreadInvoke, int bottomOffset)
+        public ControlOverlayMessageDisplay(Control parent, IUiThreadInvoke uiThreadInvoke, int bottomOffset)
         {
             _parent = parent;
             _uiThreadInvoke = uiThreadInvoke;
@@ -29,9 +30,21 @@ namespace AltitudeAngelWings.Plugin
             {
                 if (!_parent.Visible) return;
                 _parent.SuspendLayout();
+                var labels = GetMessageLabels();
+                if (!string.IsNullOrEmpty(message.Key))
+                {
+                    var matchingKeys = labels.Where(l => l.Name == message.Key).ToList();
+                    foreach (var remove in matchingKeys)
+                    {
+                        _parent.Controls.Remove(remove);
+                        labels.Remove(remove);
+                        remove.Dispose();
+                    }
+                }
                 _parent.Controls.Add(label);
                 label.BringToFront();
-                LayoutLabels(GetMessageLabels());
+                labels.Add(label);
+                LayoutLabels(labels);
                 _parent.ResumeLayout();
             });
         }
@@ -56,14 +69,15 @@ namespace AltitudeAngelWings.Plugin
             });
         }
 
-        private static Label CreateLabel(Message message)
+        private Label CreateLabel(Message message)
         {
             var label = new Label
             {
                 Tag = message,
                 Text = message.Content,
+                Name = message.Key ?? "",
                 AutoSize = true,
-                ForeColor = Color.White,
+                ForeColor = GetColorForMessage(message),
                 BackColor = Color.Transparent,
                 Visible = true,
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
@@ -71,14 +85,29 @@ namespace AltitudeAngelWings.Plugin
                 Padding = new Padding(5, 0, 5, 1),
                 Font = new Font("Microsoft Sans Serif", 9, FontStyle.Regular)
             };
-            if (message.OnClick != null)
+            if (message.OnClick == null)
             {
-                label.Click += (sender, e) =>
-                {
-                    message.OnClick();
-                };
+                return label;
             }
+
+            label.Cursor = Cursors.Hand;
+            label.Click += (sender, e) =>
+            {
+                message.OnClick();
+                RemoveMessage(message);
+            };
             return label;
+        }
+
+        private static Color GetColorForMessage(Message message)
+        {
+            switch (message.Type)
+            {
+                case MessageType.Error:
+                    return Color.Red;
+                default:
+                    return message.OnClick == null ? Color.White : Color.LawnGreen;
+            }
         }
 
         private void LayoutLabels(ICollection<Label> labels)

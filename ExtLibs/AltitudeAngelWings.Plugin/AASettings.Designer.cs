@@ -38,7 +38,7 @@ namespace AltitudeAngelWings.Plugin
             this.but_Enable = new MissionPlanner.Controls.MyButton();
             this.lbl_UserDetails = new System.Windows.Forms.Label();
             this.lbl_OverrideClientSuffix = new System.Windows.Forms.Label();
-            this.txt_OverrideUrlSuffix = new System.Windows.Forms.TextBox();
+            this.txt_OverrideClientSuffix = new System.Windows.Forms.TextBox();
             this.lbl_OverrideClientSecret = new System.Windows.Forms.Label();
             this.txt_OverrideClientSecret = new System.Windows.Forms.TextBox();
             this.lbl_OverrideClientId = new System.Windows.Forms.Label();
@@ -103,7 +103,7 @@ namespace AltitudeAngelWings.Plugin
             this.tabPageAccount.Controls.Add(this.but_Enable);
             this.tabPageAccount.Controls.Add(this.lbl_UserDetails);
             this.tabPageAccount.Controls.Add(this.lbl_OverrideClientSuffix);
-            this.tabPageAccount.Controls.Add(this.txt_OverrideUrlSuffix);
+            this.tabPageAccount.Controls.Add(this.txt_OverrideClientSuffix);
             this.tabPageAccount.Controls.Add(this.lbl_OverrideClientSecret);
             this.tabPageAccount.Controls.Add(this.txt_OverrideClientSecret);
             this.tabPageAccount.Controls.Add(this.lbl_OverrideClientId);
@@ -159,13 +159,13 @@ namespace AltitudeAngelWings.Plugin
             this.lbl_OverrideClientSuffix.TabIndex = 38;
             this.lbl_OverrideClientSuffix.Text = "URL Domain Suffix";
             // 
-            // txt_OverrideUrlSuffix
+            // txt_OverrideClientSuffix
             // 
-            this.txt_OverrideUrlSuffix.Location = new System.Drawing.Point(103, 172);
-            this.txt_OverrideUrlSuffix.Name = "txt_OverrideUrlSuffix";
-            this.txt_OverrideUrlSuffix.Size = new System.Drawing.Size(172, 20);
-            this.txt_OverrideUrlSuffix.TabIndex = 37;
-            this.txt_OverrideUrlSuffix.TextChanged += new System.EventHandler(this.txt_OverrideUrlSuffix_TextChanged);
+            this.txt_OverrideClientSuffix.Location = new System.Drawing.Point(103, 172);
+            this.txt_OverrideClientSuffix.Name = "txt_OverrideClientSuffix";
+            this.txt_OverrideClientSuffix.Size = new System.Drawing.Size(172, 20);
+            this.txt_OverrideClientSuffix.TabIndex = 37;
+            this.txt_OverrideClientSuffix.TextChanged += new System.EventHandler(this.txt_OverrideUrlSuffix_TextChanged);
             // 
             // lbl_OverrideClientSecret
             // 
@@ -610,7 +610,7 @@ namespace AltitudeAngelWings.Plugin
         private System.Windows.Forms.Label lbl_FlightReportDescription;
         private System.Windows.Forms.TextBox txt_FlightReportDescription;
         private System.Windows.Forms.Label lbl_OverrideClientSuffix;
-        private System.Windows.Forms.TextBox txt_OverrideUrlSuffix;
+        private System.Windows.Forms.TextBox txt_OverrideClientSuffix;
         private System.Windows.Forms.Label lbl_OverrideClientSecret;
         private System.Windows.Forms.TextBox txt_OverrideClientSecret;
         private System.Windows.Forms.Label lbl_OverrideClientId;

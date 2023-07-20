@@ -125,11 +125,11 @@ namespace AltitudeAngelWings.ApiClient.Client
         ///     Get the user profile for the current user. Must be using user auth. Required scopes: query_userinfo
         /// </summary>
         /// <returns>The user profile.</returns>
-        public Task<UserProfileInfo> GetUserProfile()
+        public Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken = default)
             =>_asyncPolicy.ExecuteAsync(() => _settings.AuthenticationUrl
                 .AppendPathSegment("userProfile")
                 .WithClient(Client)
-                .GetJsonAsync<UserProfileInfo>());
+                .GetJsonAsync<UserProfileInfo>(cancellationToken: cancellationToken));
 
         /// <summary>
         /// Creates a flight plan via FlightService API

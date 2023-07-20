@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
@@ -10,10 +11,11 @@ namespace AltitudeAngelWings.Service
     public interface IAltitudeAngelService : IDisposable
     {
         ObservableProperty<bool> IsSignedIn { get; }
+        bool SigningIn { get; }
         ObservableProperty<WeatherInfo> WeatherReport { get; }
-        UserProfileInfo CurrentUser { get; }
+        Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken = default);
         IList<FilterInfoDisplay> FilterInfoDisplay { get; }
-        Task SignInAsync();
+        Task SignInAsync(CancellationToken cancellationToken = default);
         Task DisconnectAsync();
         void ProcessAllFromCache(IMap map, bool resetFilters = false);
     }

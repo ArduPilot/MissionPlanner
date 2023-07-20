@@ -73,9 +73,19 @@ namespace AltitudeAngelWings.Plugin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon AAIcon {
+        internal static System.Drawing.Icon AAIconBlack {
             get {
-                object obj = ResourceManager.GetObject("AAIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("AAIconBlack", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon AAIconWhite {
+            get {
+                object obj = ResourceManager.GetObject("AAIconWhite", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -87,20 +97,17 @@ namespace AltitudeAngelWings.Plugin.Properties {
         ///    &lt;title&gt;MapInfoDockPanel&lt;/title&gt;
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;style&gt;
+        ///        @import url(&apos;https://fonts.googleapis.com/css2?family=Red+Hat+Display&amp;display=swap&apos;);
+        ///
         ///        body {
         ///            margin: 0;
-        ///            padding: 0;
-        ///            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        ///            padding: 5px;
+        ///            font-family: Red Hat Display, sans-serif;
         ///            font-size: 10pt;
         ///            font-weight: normal;
         ///            color: #000;
         ///            background-color: #fff;
-        ///            overflow-x: hidden;
-        ///        }
-        ///
-        ///        p {
-        ///            margin: 5px 0;
-        ///  [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string About {
             get {
@@ -159,22 +166,17 @@ namespace AltitudeAngelWings.Plugin.Properties {
         ///    &lt;title&gt;MapInfoDockPanel&lt;/title&gt;
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;style&gt;
+        ///        @import url(&apos;https://fonts.googleapis.com/css2?family=Red+Hat+Display&amp;display=swap&apos;);
+        ///
         ///        body {
         ///            margin: 0;
         ///            padding: 0;
-        ///            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        ///            padding-bottom: 10px;
+        ///            font-family: Red Hat Display, sans-serif;
         ///            font-weight: normal;
         ///            color: #000;
         ///            background-color: #fff;
-        ///            overflow-x: hidden;
-        ///        }
-        ///
-        ///        p {
-        ///            margin: 5px 0;
-        ///        }
-        ///
-        ///        a {
-        ///      [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MapInfoDockPanel {
             get {

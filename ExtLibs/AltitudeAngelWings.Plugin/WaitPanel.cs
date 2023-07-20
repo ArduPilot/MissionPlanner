@@ -66,32 +66,41 @@ namespace AltitudeAngelWings.Plugin
             {
                 foreach (var inner in aggregate.InnerExceptions)
                 {
-                    builder.AppendLine(FormatException(inner));
+                    FormatException(builder, inner);
                 }
             }
             else
             {
-                builder.AppendLine(FormatException(_exception));
+                FormatException(builder, _exception);
             }
 
             _picLogo.Visible = false;
             _lblOperation.Top = _picLogo.Top;
+            _lblOperation.Height = _btnCancel.Top;
             _lblOperation.Text = builder.ToString();
             _btnCancel.Text = "OK";
             _btnCancel.DialogResult = DialogResult.OK;
         }
 
-        private static string FormatException(Exception ex)
+        private static void FormatException(StringBuilder builder, Exception ex)
         {
             var message = $"{ex.GetType().Name}: {ex.Message}";
             switch (ex)
             {
                 case FlurlHttpException exception:
                     var response = exception.GetResponseStringAsync().GetAwaiter().GetResult();
-                    return $"{message}: {response}";
+                    builder.AppendLine($"{message}: {response}");
+                    break;
 
                 default:
-                    return message;
+                    builder.AppendLine(message);
+                    break;
+            }
+
+            if (ex.InnerException != null)
+            {
+                builder.AppendLine();
+                FormatException(builder, ex.InnerException);
             }
         }
     }
