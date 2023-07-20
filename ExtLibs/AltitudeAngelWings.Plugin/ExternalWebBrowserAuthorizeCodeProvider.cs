@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +9,8 @@ using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
+using Flurl;
+using Flurl.Http;
 using MissionPlanner.Plugin;
 using Newtonsoft.Json.Linq;
 using Polly;
@@ -62,7 +62,13 @@ namespace AltitudeAngelWings.Plugin
 
             return await _uiThreadInvoke.Invoke(() => UiTask.ShowDialog(async cancellationToken =>
                 {
-                    using (var client = new HttpClient())
+                    using (var client = new FlurlClient
+                           {
+                               Settings =
+                               {
+                                   BeforeCall = call => call.HttpRequestMessage.Headers.UserAgent.Add(_version)
+                               }
+                           })
                     {
                         var token = await GetClientTokenForLoginPoll(client, cancellationToken);
                         Process.Start(authorizeUri.ToString());
@@ -80,45 +86,39 @@ namespace AltitudeAngelWings.Plugin
                 "Opening a browser to sign in to Altitude Angel. Please sign in using the browser."));
         }
 
-        private async Task<string> GetClientTokenForLoginPoll(HttpMessageInvoker client, CancellationToken cancellationToken)
+        private async Task<string> GetClientTokenForLoginPoll(IFlurlClient client, CancellationToken cancellationToken)
         {
-            using (var response = await _asyncPolicy.ExecuteAsync(() => client.SendAsync(new HttpRequestMessage
-                   {
-                       Method = HttpMethod.Post,
-                       RequestUri = new Uri($"{_settings.AuthenticationUrl}/oauth/v2/token"),
-                       Headers = { UserAgent = { _version } },
-                       Content = new FormUrlEncodedContent(new[]
-                       {
-                           new KeyValuePair<string, string>("client_id", _settings.ClientId),
-                           new KeyValuePair<string, string>("client_secret", _settings.ClientSecret),
-                           new KeyValuePair<string, string>("grant_type", "client_credentials"),
-                           new KeyValuePair<string, string>("token_type", "jwt"),
-                       })
-                   }, cancellationToken)))
+            using (var response = await _asyncPolicy.ExecuteAsync(() =>
+                       _settings.AuthenticationUrl
+                           .AppendPathSegments("oauth", "v2", "token")
+                           .PostUrlEncodedAsync(new
+                           {
+                               client_id = _settings.ClientId,
+                               client_secret = _settings.ClientSecret,
+                               grant_type = "client_credentials",
+                               token_type = "jwt"
+                           }, cancellationToken)))
             {
-                response.EnsureSuccessStatusCode();
-                return (string)JObject.Parse(await response.Content.ReadAsStringAsync())["access_token"];
+                return (string)JObject.Parse(await response.GetStringAsync())["access_token"];
             };
         }
 
-        private async Task<string> PollForAuthenticationCode(HttpMessageInvoker client, string token, CancellationToken cancellationToken)
+        private async Task<string> PollForAuthenticationCode(IFlurlClient client, string token, CancellationToken cancellationToken)
         {
-            using (var response = await _asyncPolicy.ExecuteAsync(() => client.SendAsync(new HttpRequestMessage
-                   {
-                       Method = HttpMethod.Get,
-                       RequestUri = new Uri($"{_settings.AuthenticationUrl}/api/v1/security/get-login?id={_pollId}"),
-                       Headers =
-                       {
-                           Authorization = new AuthenticationHeaderValue("Bearer", token),
-                           UserAgent = { _version }
-                       }
-                   }, cancellationToken)))
+            using (var response = await _asyncPolicy.ExecuteAsync(() =>
+                       _settings.AuthenticationUrl
+                           .AppendPathSegments("api", "v1", "security", "get-login")
+                           .SetQueryParam("id", _pollId)
+                           .WithHeader("Authorization", $"Bearer {token}")
+                           .AllowHttpStatus(HttpStatusCode.NotFound)
+                           .GetAsync(cancellationToken)))
             {
-                if (response == null || response.StatusCode != HttpStatusCode.OK)
+                if (response.StatusCode != (int)HttpStatusCode.OK)
                 {
                     return null;
                 }
-                return (string)JObject.Parse(await response.Content.ReadAsStringAsync())["code"];
+
+                return (string)JObject.Parse(await response.GetStringAsync())["code"];
             }
         }
     }
