@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
@@ -588,9 +588,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             log.Info("about to add all");
 
-            Params.SuspendLayout();
+            SuspendParamGridView();
             Params.Visible = false;
-            Params.Enabled = false;
 
             Params.Rows.AddRange(rowlist.ToArray());
 
@@ -600,9 +599,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
 
-            Params.Enabled = true;
             Params.Visible = true;
-            Params.ResumeLayout();
+            ResumeParamGridView();
 
             if (splitContainer1.Panel1Collapsed == false)
             {
@@ -712,8 +710,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         void filterList(string searchfor)
         {
             DateTime start = DateTime.Now;
-            Params.SuspendLayout();
-            Params.Enabled = false;
+            SuspendParamGridView();
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
                 Regex filter = new Regex(searchfor.Replace("*", ".*").Replace("..*", ".*"), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
@@ -762,8 +759,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            Params.Enabled = true;
-            Params.ResumeLayout();
+            ResumeParamGridView();
 
             log.InfoFormat("Filter: {0}ms", (DateTime.Now - start).TotalMilliseconds);
         }
@@ -1170,6 +1166,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 optionsControlUpateBounds();
             }
+        }
+
+        void SuspendParamGridView()
+        {
+            Params.Visible = false;
+            Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        }
+
+        void ResumeParamGridView()
+        {
+            Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            Params.Visible = true;
         }
     }
 

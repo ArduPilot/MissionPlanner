@@ -22,22 +22,9 @@ namespace MissionPlanner.Controls
             set { numericUpDown1 = value; }
         }
 
-        public string DescriptionText
-        {
-            get { return label1.Text; }
-            set
-            {
-                //label1.MaximumSize = new Size(this.Width - 30, 0);
-                label1.Text = value;
-                //this.Height += label1.Height;
-            }
-        }
+        public string DescriptionText;
 
-        public string LabelText
-        {
-            get { return myLabel1.Text; }
-            set { myLabel1.Text = value; }
-        }
+        public string LabelText;
 
         public TrackBar TrackBarControl
         {
@@ -130,7 +117,6 @@ namespace MissionPlanner.Controls
                 delegate (object sender, MouseEventArgs args) { ((HandledMouseEventArgs)args).Handled = true; };
         }
 
-
         public RangeControl(string param, String Desc, string Label, float increment, float Displayscale, float minrange,
             float maxrange, string value)
         {
@@ -162,6 +148,9 @@ namespace MissionPlanner.Controls
 
         #endregion
 
+        Font FontLabel = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+
         #region Methods
 
         protected override void OnPaint(PaintEventArgs e)
@@ -172,6 +161,20 @@ namespace MissionPlanner.Controls
             if (!numericUpDown1.Visible)
                 numericUpDown1.Visible = true;
             base.OnPaint(e);
+
+            e.Graphics.DrawString(LabelText, FontLabel, new SolidBrush(this.Parent.ForeColor), 3, 0);
+
+            e.Graphics.DrawString(DescriptionText, this.Font, new SolidBrush(this.Parent.ForeColor),
+                new RectangleF(3, 15, this.Width, 39));
+            /*
+            e.Graphics.DrawString(LBL_min, this.Font, new SolidBrush(this.Parent.ForeColor),
+                new RectangleF(trackBar1.Left, trackBar1.Bottom - this.Font.Height, 100, this.Font.Height));
+
+            var size = e.Graphics.MeasureString(LBL_max, this.Font);
+            e.Graphics.DrawString(LBL_max, this.Font, new SolidBrush(this.Parent.ForeColor),
+                new RectangleF(trackBar1.Right - size.Width, trackBar1.Bottom - this.Font.Height, size.Width,
+                    this.Font.Height));
+            */
         }
 
         public void AttachEvents()

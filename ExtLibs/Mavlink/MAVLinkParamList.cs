@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 public partial class MAVLink
 {
     public class MAVLinkParamList : List<MAVLinkParam>, INotifyPropertyChanged
     {
-        object locker = new object();
+        ReaderWriterLock locker = new ReaderWriterLock();
 
         public int TotalReported { get; set; }
 
@@ -20,13 +21,19 @@ public partial class MAVLink
         {
             get
             {
-                lock (locker)
+                try
                 {
+                    locker.AcquireReaderLock(1000);
                     foreach (var item in this)
                     {
                         if (item.Name == name)
                             return item;
                     }
+                }
+                finally
+                {
+                    if (locker.IsReaderLockHeld)
+                        locker.ReleaseReaderLock();
                 }
 
                 return null;
@@ -35,8 +42,9 @@ public partial class MAVLink
             set
             {
                 int index = 0;
-                lock (locker)
+                try
                 {
+                    locker.AcquireWriterLock(1000);
                     foreach (var item in this)
                     {
                         if (item.Name == name)
@@ -50,6 +58,10 @@ public partial class MAVLink
                     }
 
                     base.Add(value);
+                }
+                finally
+                {
+                    locker.ReleaseWriterLock();
                 }
             }
         }
@@ -101,13 +113,19 @@ public partial class MAVLink
 
         public bool ContainsKey(string v)
         {
-            lock (locker)
+            try
             {
+                locker.AcquireReaderLock(1000);
                 foreach (MAVLinkParam item in this)
                 {
                     if (item.Name == v)
                         return true;
                 }
+            }
+            finally
+            {
+                if (locker.IsReaderLockHeld)
+                    locker.ReleaseReaderLock();
             }
 
             return false;
@@ -115,39 +133,60 @@ public partial class MAVLink
 
         public new void Clear()
         {
-            lock (locker)
+            try
             {
+                locker.AcquireWriterLock(1000);
                 TotalReported = 0;
                 base.Clear();
+            }
+            finally
+            {
+                locker.ReleaseWriterLock();
             }
         }
 
         public new void Add(MAVLinkParam item)
         {
-            lock (locker)
+            try
             {
+                locker.AcquireWriterLock(1000);
                 this[item.Name] = item;
+            }
+            finally
+            {
+                locker.ReleaseWriterLock();
             }
         }
 
         public new void AddRange(IEnumerable<MAVLinkParam> collection)
         {
-            lock (locker)
+            try
             {
+                locker.AcquireWriterLock(1000);
                 base.AddRange(collection);
                 OnPropertyChanged();
+            }
+            finally
+            {
+                locker.ReleaseWriterLock();
             }
         }
 
         public static implicit operator Dictionary<string, double>(MAVLinkParamList list)
         {
             var copy = new Dictionary<string, double>();
-            lock (list.locker)
+            try
             {
+                list.locker.AcquireReaderLock(1000);
                 foreach (MAVLinkParam item in list.ToArray())
                 {
                     copy[item.Name] = item.Value;
                 }
+            }
+            finally
+            {
+                if (list.locker.IsReaderLockHeld)
+                    list.locker.ReleaseReaderLock();
             }
 
             return copy;
