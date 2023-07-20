@@ -436,6 +436,17 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<T1> OrderedParallel<T, T1>(this IEnumerable<T> list, Func<T, T1> action)
+        {
+            var unorderedResult = new ConcurrentBag<(long, T1)>();
+            Parallel.ForEach(list, (o, state, i) =>
+            {
+                unorderedResult.Add((i, action.Invoke(o)));
+            });
+            var ordered = unorderedResult.OrderBy(o => o.Item1);
+            return ordered.Select(o => o.Item2);
+        }
+
         public static IEnumerable<TOut> Select<T,TOut>(this ReadOnlySpan<T> span, Func<T,TOut> action)
         {
             List<TOut> list = new List<TOut>();
