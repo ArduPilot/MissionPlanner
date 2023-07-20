@@ -83,7 +83,8 @@ namespace AltitudeAngelWings
                 l.Resolve<IMessagesService>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IFlightDataService>(),
-                l.Resolve<ITelemetryClient>()));
+                l.Resolve<ITelemetryClient>(),
+                l.Resolve<IMissionPlanner>()));
             ServiceLocator.Register<IAltitudeAngelService>(l => new AltitudeAngelService(
                 l.Resolve<IMessagesService>(),
                 l.Resolve<IMissionPlanner>(),

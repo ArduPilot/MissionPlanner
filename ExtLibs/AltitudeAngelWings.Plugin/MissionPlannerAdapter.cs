@@ -48,7 +48,7 @@ namespace AltitudeAngelWings.Plugin
             }
         }
 
-        public Task<FlightPlan> GetFlightPlan()
+        public FlightPlan GetFlightPlan()
         {
             var waypoints = _getFlightPlan().Where(IsValidWaypoint).ToList();
             if (waypoints.Count == 0)
@@ -69,7 +69,7 @@ namespace AltitudeAngelWings.Plugin
                 .Envelope;
             var center = envelope.Centroid;
             var minimumBoundingCircle = new MinimumBoundingCircle(envelope);
-            return Task.FromResult(new FlightPlan(waypoints.Select(f => new FlightPlanWaypoint
+            return new FlightPlan(waypoints.Select(f => new FlightPlanWaypoint
             {
                 Latitude = f.lat,
                 Longitude = f.lng,
@@ -88,7 +88,7 @@ namespace AltitudeAngelWings.Plugin
                 SmsPhoneNumber = "",
                 DroneSerialNumber = "",
                 FlightOperationMode = FlightOperationMode.BVLOS
-            });
+            };
         }
 
         public Task CommandDroneToReturnToBase()

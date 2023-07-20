@@ -7,6 +7,7 @@ using AltitudeAngelWings.Service.Messaging;
 using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
+using AltitudeAngelWings.Extra;
 
 namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
 {
@@ -15,6 +16,7 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
         private readonly IMessagesService _messagesService;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
         private readonly ITelemetryClient _client;
+        private readonly IMissionPlanner _missionPlanner;
         private readonly ISettings _settings;
 
         private int _sequenceNumber;
@@ -23,11 +25,13 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             IMessagesService messagesService,
             ISettings settings,
             IFlightDataService flightDataService,
-            ITelemetryClient client)
+            ITelemetryClient client,
+            IMissionPlanner missionPlanner)
         {
             _messagesService = messagesService;
             _settings = settings;
             _client = client;
+            _missionPlanner = missionPlanner;
 
             if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs))
             {
@@ -50,7 +54,10 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             if (_settings.CurrentFlightId == null)
             {
                 await _messagesService.AddMessageAsync(
-                    new Message("Not sending telemetry as no current flight ID is set."));
+                    new Message("Not sending telemetry as no current flight ID is set.")
+                    {
+                        Key = "Telemetry"
+                    });
                 return;
             }
             try
@@ -79,14 +86,21 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
                 var telemetry = new TelemetryEvent<UavPositionReport>(telemetryId, udpMessage) { SequenceNumber = _sequenceNumber };
 
                 var message = string.Format($"Sending Telemetry {flightData.CurrentPosition.Latitude}, {flightData.CurrentPosition.Longitude}, {flightData.CurrentPosition.Altitude}");
-                await _messagesService.AddMessageAsync(new Message(message));
+                await _messagesService.AddMessageAsync(new Message(message)
+                {
+                    Key = "Telemetry"
+                });
 
                 _client.SendTelemetry(telemetry, _settings.TelemetryHostName, _settings.TelemetryPortNumber, _settings.EncryptionKey);
                 _sequenceNumber += 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message("ERROR: Sending telemetry failed."));
+                await _messagesService.AddMessageAsync(new Message("ERROR: Sending telemetry failed.")
+                {
+                    Key = "Telemetry",
+                    OnClick = () => _missionPlanner.ShowMessageBox(ex.ToString(), "Exception")
+                });
             }
         }
 

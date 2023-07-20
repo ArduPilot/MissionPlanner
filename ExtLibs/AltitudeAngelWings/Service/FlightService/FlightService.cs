@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests.ProtocolConfiguration;
 using AltitudeAngelWings.ApiClient.Models.Strategic;
 using AltitudeAngelWings.Extra;
@@ -16,8 +16,6 @@ namespace AltitudeAngelWings.Service.FlightService
 {
     public class FlightService : IFlightService
     {
-        public UserProfileInfo CurrentUser { get; private set; }
-
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
@@ -44,18 +42,13 @@ namespace AltitudeAngelWings.Service.FlightService
             if (_settings.UseFlightPlans && _settings.UseFlights)
             {
                 _disposer.Add(flightDataService.FlightArmed
-                    .SubscribeWithAsync(async (i, ct) => await StartSurveillanceFlight(await _missionPlanner.GetFlightPlan())));
-            }
-            else
-            {
-                _disposer.Add(flightDataService.FlightArmed
-                    .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(await _missionPlanner.GetFlightPlan())));
+                    .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(_missionPlanner.GetFlightPlan(), ct)));
                 _disposer.Add(flightDataService.FlightDisarmed
-                    .SubscribeWithAsync((i, ct) => CompleteFlight()));
+                    .SubscribeWithAsync((i, ct) => CompleteFlight(ct)));
             }
         }
 
-        private async Task StartTelemetryFlight(FlightPlan flightPlan)
+        private async Task StartTelemetryFlight(FlightPlan flightPlan, CancellationToken cancellationToken)
         {
             if (flightPlan == null)
             {
@@ -64,14 +57,12 @@ namespace AltitudeAngelWings.Service.FlightService
             if (_settings.CurrentFlightId != null)
             {
                 // Complete flight if starting one before the previous ends.
-                await CompleteFlight();
+                await CompleteFlight(cancellationToken);
             }
 
             // TODO somehow prevent Arming of UAV until the following try statement has been completed, so telemetry isnt sent late. PBI 8490
             try
             {
-                CurrentUser = await _client.GetUserProfile();
-
                 Guid? flightPlanId;
                 if (_settings.UseExistingFlightPlanId)
                 {
@@ -81,7 +72,8 @@ namespace AltitudeAngelWings.Service.FlightService
                 {
                     await _messagesService.AddMessageAsync(new Message("Creating flight plan...")
                         { TimeToLive = TimeSpan.FromSeconds(10) });
-                    var createPlanResponse = await _client.CreateFlightPlan(flightPlan, CurrentUser);
+                    var profile = await _client.GetUserProfile(cancellationToken);
+                    var createPlanResponse = await _client.CreateFlightPlan(flightPlan, profile);
                     if (createPlanResponse.Outcome == StrategicSeverity.DirectConflict)
                     {
                         await _messagesService.AddMessageAsync(new Message("Conflict detected; flight cancelled.")
@@ -134,12 +126,11 @@ namespace AltitudeAngelWings.Service.FlightService
             }
             catch (Exception)
             {
-                await _missionPlanner.Disarm();
-                await _messagesService.AddMessageAsync(new Message($"Flight create failed."));
+                await _messagesService.AddMessageAsync(new Message("Flight create failed."));
             }
         }
 
-        private async Task CompleteFlight()
+        private async Task CompleteFlight(CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(_settings.CurrentFlightId) || string.IsNullOrEmpty(_settings.CurrentFlightReportId))
             {
@@ -167,10 +158,10 @@ namespace AltitudeAngelWings.Service.FlightService
             }
         }
 
-        private Task StartSurveillanceFlight(FlightPlan flightPlan)
+        private Task StartSurveillanceFlight(FlightPlan flightPlan, CancellationToken cancellationToken)
         {
             // TODO : Implement 8962   
-            return Task.Run(() => new NotImplementedException("Please implement the 8962"));
+            return Task.Run(() => new NotImplementedException("Please implement the 8962"), cancellationToken);
         }
 
         public void Dispose()

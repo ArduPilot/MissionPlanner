@@ -8,7 +8,7 @@ namespace AltitudeAngelWings.Extra
     {
         IMap FlightPlanningMap { get; }
         IMap FlightDataMap { get; }
-        Task<FlightPlan> GetFlightPlan();
+        FlightPlan GetFlightPlan();
         Task CommandDroneToReturnToBase();
         Task CommandDroneToLoiter(
             float latitude,
