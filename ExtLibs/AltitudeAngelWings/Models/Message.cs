@@ -1,4 +1,5 @@
 using System;
+using AltitudeAngelWings.Extra;
 
 namespace AltitudeAngelWings.Models
 {
@@ -8,21 +9,56 @@ namespace AltitudeAngelWings.Models
         private const int DefaultExpirySeconds = 3;
         private const int ClickExpirySeconds = 60;
 
-        public Message(string content)
-            : this(content, new object[] {})
+        public static Message ForInfo(string content, TimeSpan timeToLive = default) => ForInfo(null, content, timeToLive);
+
+        public static Message ForInfo(string key, string content, TimeSpan timeToLive = default)
         {
+            var message = new Message(content)
+            {
+                Key = key
+            };
+            if (timeToLive != default)
+            {
+                message.HasExpired = () => message.Clicked || DateTimeOffset.UtcNow.Subtract(message.Created) >= timeToLive;
+            }
+            return message;
         }
 
-        public Message(string content, params object[] data)
+        public static Message ForError(string content, Exception exception) => ForError(null, content, exception);
+
+        public static Message ForError(string key, string content, Exception exception)
+            => new Message(content)
+            {
+                Key = key,
+                Type = MessageType.Error,
+                OnClick = () => ServiceLocator.GetService<IMissionPlanner>().ShowMessageBox(exception.ToString(), "Exception")
+            };
+
+        public static Message ForAction(string content, Action action, Func<bool> condition = null) => ForAction(null, content, action, condition);
+
+        public static Message ForAction(string key, string content, Action action, Func<bool> condition = null)
         {
-            Content = string.Format(content, data);
+            var message = new Message(content)
+            {
+                Key = key,
+                OnClick = action
+            };
+            if (condition == null)
+            {
+                message.HasExpired = () => message.Clicked;
+            }
+            else
+            {
+                message.HasExpired = () => message.Clicked || condition();
+            }
+            return message;
+        }
+
+        private Message(string content)
+        {
+            Content = content;
             Created = DateTimeOffset.UtcNow;
             HasExpired = () => Clicked || DateTimeOffset.UtcNow.Subtract(Created) >= TimeSpan.FromSeconds(DefaultExpirySeconds);
-        }
-
-        public static implicit operator Message(string content)
-        {
-            return new Message(content);
         }
 
         /// <summary>
@@ -46,17 +82,6 @@ namespace AltitudeAngelWings.Models
         /// The content of the message.
         /// </summary>
         public string Content { get; set; }
-
-        /// <summary>
-        /// Set the time to live on the message.
-        /// </summary>
-        public TimeSpan TimeToLive
-        {
-            set
-            {
-                HasExpired = () => Clicked || DateTimeOffset.UtcNow.Subtract(Created) >= value;
-            }
-        }
 
         /// <summary>
         /// Sets the function to see if the message has expired or not.

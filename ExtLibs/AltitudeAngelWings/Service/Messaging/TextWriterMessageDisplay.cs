@@ -5,15 +5,20 @@ namespace AltitudeAngelWings.Service.Messaging
 {
     public class TextWriterMessageDisplay : IMessageDisplay
     {
-        private readonly TextWriter _writer;
+        private const string DefaultPrefix = "[AA] ";
 
-        public TextWriterMessageDisplay(TextWriter writer)
+        private readonly TextWriter _writer;
+        private readonly string _prefix;
+
+        public TextWriterMessageDisplay(TextWriter writer, string prefix = DefaultPrefix)
         {
             _writer = writer;
+            _prefix = prefix;
         }
 
         public void AddMessage(Message message)
         {
+            _writer.Write(_prefix);
             _writer.WriteLine(message.Content);
         }
 

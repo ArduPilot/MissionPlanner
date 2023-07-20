@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace AltitudeAngelWings.ApiClient.Models.OutboundNotifs
+namespace AltitudeAngelWings.ApiClient.Models.OutboundNotifications
 {
     /// <summary>
     /// A notification message issued to an <see cref="AA.OutboundNotifications.Api.Services.INotificationClient"/>

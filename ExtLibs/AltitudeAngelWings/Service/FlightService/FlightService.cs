@@ -10,7 +10,7 @@ using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
-using AltitudeAngelWings.Service.OutboundNotifs;
+using AltitudeAngelWings.Service.OutboundNotifications;
 using NetTopologySuite.Algorithm;
 using NetTopologySuite.Geometries;
 using NodaTime;
@@ -20,24 +20,21 @@ namespace AltitudeAngelWings.Service.FlightService
     public class FlightService : IFlightService
     {
         private readonly IMessagesService _messagesService;
-        private readonly IMissionPlanner _missionPlanner;
         private readonly IMissionPlannerState _missionPlannerState;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
         private readonly IAltitudeAngelClient _client;
         private readonly ISettings _settings;
-        private readonly IOutboundNotifsService _notificationsService;
+        private readonly IOutboundNotificationsService _notificationsService;
 
         public FlightService(
             IMessagesService messagesService,
-            IMissionPlanner missionPlanner,
             IMissionPlannerState missionPlannerState,
             ISettings settings,
             IFlightDataService flightDataService,
             IAltitudeAngelClient client,
-            IOutboundNotifsService notificationsService)
+            IOutboundNotificationsService notificationsService)
         {
             _messagesService = messagesService;
-            _missionPlanner = missionPlanner;
             _missionPlannerState = missionPlannerState;
             _settings = settings;
             _client = client;
@@ -45,7 +42,7 @@ namespace AltitudeAngelWings.Service.FlightService
             _settings.CurrentFlightPlanId = null;
             _settings.CurrentFlightId = null;
 
-            if (_settings.UseFlightPlans && _settings.UseFlights)
+            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs, Scopes.TacticalCrs))
             {
                 _disposer.Add(flightDataService.FlightArmed
                     .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(ct)));
@@ -77,15 +74,13 @@ namespace AltitudeAngelWings.Service.FlightService
                 }
                 else
                 {
-                    await _messagesService.AddMessageAsync(new Message("Creating flight plan...")
-                        { TimeToLive = TimeSpan.FromSeconds(10) });
+                    await _messagesService.AddMessageAsync(Message.ForInfo("Creating flight plan."));
                     var profile = await _client.GetUserProfile(cancellationToken);
                     var createPlanResponse = await _client.CreateFlightPlan(flightPlan, profile);
                     if (createPlanResponse.Outcome == StrategicSeverity.DirectConflict)
                     {
-                        await _messagesService.AddMessageAsync(new Message("Conflict detected; flight cancelled.")
-                            { TimeToLive = TimeSpan.FromSeconds(10) });
-                        await _missionPlanner.Disarm();
+                        await _messagesService.AddMessageAsync(Message.ForInfo("Conflict detected; flight cancelled.", TimeSpan.FromSeconds(10)));
+                        //await _missionPlanner.Disarm();
                         return;
                     }
 
@@ -95,18 +90,15 @@ namespace AltitudeAngelWings.Service.FlightService
                 // Check flight plan id is valid
                 if (flightPlanId == null || flightPlanId == Guid.Empty)
                 {
-                    await _messagesService.AddMessageAsync(new Message("Flight plan not available; flight cancelled.")
-                        { TimeToLive = TimeSpan.FromSeconds(10) });
-                    await _missionPlanner.Disarm();
+                    await _messagesService.AddMessageAsync(Message.ForInfo("Flight plan not available; flight cancelled.", TimeSpan.FromSeconds(10)));
+                    //await _missionPlanner.Disarm();
                     return;
                 }
                 _settings.CurrentFlightPlanId = flightPlanId.ToString();
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {flightPlanId} in use.")
-                    { TimeToLive = TimeSpan.FromSeconds(10) });
+                await _messagesService.AddMessageAsync(Message.ForInfo($"Flight plan {flightPlanId} in use.", TimeSpan.FromSeconds(10)));
 
                 // Flight being rejected will throw, and cause a disarm
-                await _messagesService.AddMessageAsync(new Message("Starting flight...")
-                    { TimeToLive = TimeSpan.FromSeconds(10) });
+                await _messagesService.AddMessageAsync(Message.ForInfo("Starting flight.", TimeSpan.FromSeconds(10)));
                 var startFlightResponse = await _client.StartFlight(flightPlanId.Value.ToString("D"));
 
                 _settings.CurrentFlightId = startFlightResponse.Id;
@@ -126,14 +118,12 @@ namespace AltitudeAngelWings.Service.FlightService
 
                 var task = _notificationsService.StartWebSocket();
 
-                await _messagesService.AddMessageAsync(new Message($"Flight {startFlightResponse.Id} approved and underway.")
-                    { TimeToLive = TimeSpan.FromSeconds(10) });
-
+                await _messagesService.AddMessageAsync(Message.ForInfo($"Flight {startFlightResponse.Id} approved and underway.", TimeSpan.FromSeconds(10)));
                 await task;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message("Flight create failed."));
+                await _messagesService.AddMessageAsync(Message.ForError("Flight create failed.", ex));
             }
         }
 
@@ -146,16 +136,14 @@ namespace AltitudeAngelWings.Service.FlightService
             try
             {
                 await _client.CompleteFlight(_settings.CurrentFlightId);
-                await _messagesService.AddMessageAsync(new Message($"Flight {_settings.CurrentFlightId} completed.")
-                    { TimeToLive = TimeSpan.FromSeconds(10) });
+                await _messagesService.AddMessageAsync(Message.ForInfo($"Flight {_settings.CurrentFlightId} completed.", TimeSpan.FromSeconds(10)));
 
                 //await _client.CancelFlightPlan(_settings.CurrentFlightReportId);
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightPlanId} completed.")
-                    { TimeToLive = TimeSpan.FromSeconds(10) });
+                await _messagesService.AddMessageAsync(Message.ForInfo($"Flight plan {_settings.CurrentFlightPlanId} completed.", TimeSpan.FromSeconds(10)));
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"ERROR: Failed to complete flight {_settings.CurrentFlightId} and plan {_settings.CurrentFlightPlanId}:, {ex}"));
+                await _messagesService.AddMessageAsync(Message.ForError($"ERROR: Failed to complete flight {_settings.CurrentFlightId} and plan {_settings.CurrentFlightPlanId}.", ex));
             }
             finally
             {

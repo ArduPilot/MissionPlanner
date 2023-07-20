@@ -1,4 +1,4 @@
-﻿namespace AltitudeAngelWings.ApiClient.Models.OutboundNotifs
+﻿namespace AltitudeAngelWings.ApiClient.Models.OutboundNotifications
 {
     public class PermissionNotificationProperties
     {

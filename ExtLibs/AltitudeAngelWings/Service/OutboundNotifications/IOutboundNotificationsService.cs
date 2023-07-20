@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace AltitudeAngelWings.Service.OutboundNotifs
+namespace AltitudeAngelWings.Service.OutboundNotifications
 {
-    public interface IOutboundNotifsService
+    public interface IOutboundNotificationsService
     {
         Task StartWebSocket();
 
         Task StopWebSocket();
-
     }
 }

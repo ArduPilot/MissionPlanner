@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client.FlightClient;
-using AltitudeAngelWings.ApiClient.Models.OutboundNotifs;
+using AltitudeAngelWings.ApiClient.Models.OutboundNotifications;
 using AltitudeAngelWings.Extra;
-using AltitudeAngelWings.Extra.OutboundNotifsWebSocket;
+using AltitudeAngelWings.Extra.WebSocket;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.Messaging;
 using Newtonsoft.Json;
 
-namespace AltitudeAngelWings.Service.OutboundNotifs
+namespace AltitudeAngelWings.Service.OutboundNotifications
 {
-    public class OutboundNotifsService : IOutboundNotifsService
+    public class OutboundNotificationsService : IOutboundNotificationsService
     {
         private readonly ISettings _settings;
         private readonly IMissionPlanner _missionPlanner;
@@ -21,7 +21,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
         private readonly IMissionPlannerState _missionPlannerState;
         private AaClientWebSocket _aaClientWebSocket;
 
-        public OutboundNotifsService(
+        public OutboundNotificationsService(
             IMissionPlanner missionPlanner,
             ISettings settings,
             IMessagesService messagesService,
@@ -71,7 +71,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
 
         private async Task OnMessage(byte[] bytes)
         {
-            await _messagesService.AddMessageAsync(new Message($"INFO: Received notification message of {bytes.Length} bytes."));
+            await _messagesService.AddMessageAsync(Message.ForInfo($"INFO: Received notification message of {bytes.Length} bytes."));
             var notification = new NotificationMessage();
             try
             {
@@ -84,43 +84,42 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
             }
             catch (Exception e)
             {
-                await _messagesService.AddMessageAsync(new Message($"ERROR: Failed to deserialize and acknowledge notification message. {e}"));
+                await _messagesService.AddMessageAsync(Message.ForError($"ERROR: Failed to deserialize and acknowledge notification message.", e));
             }
 
-            await _messagesService.AddMessageAsync(new Message($"INFO: Processing {notification.Type} notification message."));
+            await _messagesService.AddMessageAsync(Message.ForInfo($"INFO: Processing {notification.Type} notification message."));
 
             try
             {
                 switch (notification.Type)
                 {
-                    case OutboundNotifsCommands.Land:
+                    case OutboundNotificationsCommands.Land:
                         LandNotificationProperties landProps = notification.Properties.ToObject<LandNotificationProperties>();
                         await _missionPlanner.CommandDroneToLand((float)landProps.Latitude, (float)landProps.Longitude);
                         break;
-                    case OutboundNotifsCommands.Loiter:
+                    case OutboundNotificationsCommands.Loiter:
                         LoiterNotificationProperties loiterProps = notification.Properties.ToObject<LoiterNotificationProperties>();
                         await _missionPlanner.CommandDroneToLoiter((float)loiterProps.Latitude, (float)loiterProps.Longitude, (float)loiterProps.Altitude.Meters);
                         break;
-                    case OutboundNotifsCommands.AllClear:
+                    case OutboundNotificationsCommands.AllClear:
                         await _missionPlanner.CommandDroneAllClear();
                         break;
-                    case OutboundNotifsCommands.ReturnToBase:
+                    case OutboundNotificationsCommands.ReturnToBase:
                         await _missionPlanner.CommandDroneToReturnToBase();
                         break;
-                    case OutboundNotifsCommands.PermissionUpdate:
+                    case OutboundNotificationsCommands.PermissionUpdate:
                         var permissionProperties = notification.Properties.ToObject<PermissionNotificationProperties>();
-                        await _messagesService.AddMessageAsync(new Message($"Flight permissions updated: {permissionProperties.PermissionState}")
-                            { TimeToLive = TimeSpan.FromSeconds(10) });
+                        await _messagesService.AddMessageAsync(Message.ForInfo($"Flight permissions updated: {permissionProperties.PermissionState}", TimeSpan.FromSeconds(10)));
                         break;
-                    case OutboundNotifsCommands.ConflictInformation:
+                    case OutboundNotificationsCommands.ConflictInformation:
                         var conflictProperties = notification.Properties.ToObject<ConflictInformationProperties>();
                         await _missionPlanner.NotifyConflict(conflictProperties.Message);
                         break;
-                    case OutboundNotifsCommands.ConflictClearedInformation:
+                    case OutboundNotificationsCommands.ConflictClearedInformation:
                         var conflictClearedProperties = notification.Properties.ToObject<ConflictClearedNotificationProperties>();
                         await _missionPlanner.NotifyConflictResolved(conflictClearedProperties.Message);
                         break;
-                    case OutboundNotifsCommands.Instruction:
+                    case OutboundNotificationsCommands.Instruction:
                         var instructionProperties = notification.Properties.ToObject<InstructionNotificationProperties>();
                         if (await _missionPlanner.ShowYesNoMessageBox(
                             $"You have been sent the following instruction:\r\n\r\n\"{instructionProperties.Instruction}\"\r\n\r\nDo you wish to accept and follow the instruction?",
@@ -156,24 +155,24 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
                         }
                         break;
                     default:
-                        await _messagesService.AddMessageAsync(new Message($"WARN: Unknown notification message type '{notification.Type}'."));
+                        await _messagesService.AddMessageAsync(Message.ForInfo($"Warning: Unknown notification message type '{notification.Type}'."));
                         break;
                 }
             }
             catch (Exception e)
             {
-                await _messagesService.AddMessageAsync(new Message($"ERROR: Failed to process {notification.Type} notification message. {e}"));
+                await _messagesService.AddMessageAsync(Message.ForError($"ERROR: Failed to process {notification.Type} notification message.", e));
             }
         }
 
         private Task OnConnected()
-            => _messagesService.AddMessageAsync(new Message($"INFO: Notifications web socket connected to {_settings.OutboundNotificationsUrl}."));
+            => _messagesService.AddMessageAsync(Message.ForInfo($"INFO: Notifications web socket connected to {_settings.OutboundNotificationsUrl}."));
 
         private Task OnDisconnected()
-            => _messagesService.AddMessageAsync(new Message("WARNING: Notifications web socket disconnected."));
+            => _messagesService.AddMessageAsync(Message.ForInfo("WARNING: Notifications web socket disconnected."));
 
         private Task OnError(Exception e)
-            => _messagesService.AddMessageAsync(new Message($"ERROR: Notifications web socket error. {e}"));
+            => _messagesService.AddMessageAsync(Message.ForError($"ERROR: Notifications web socket error.", e));
 
         private async Task TearDownAaClientWebSocket()
         {
@@ -183,7 +182,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifs
 
         private async Task SendAck(AaWebSocket socket, string id)
         {
-            await _messagesService.AddMessageAsync(new Message($"INFO: Sending notification acknowledgement: {JsonConvert.SerializeObject(new CommandAcknowledgement { Id = id })}"));
+            await _messagesService.AddMessageAsync(Message.ForInfo($"INFO: Sending notification acknowledgement: {JsonConvert.SerializeObject(new CommandAcknowledgement { Id = id })}"));
             await socket.SendMessageAsync(
                 Encoding.UTF8.GetBytes(
                     JsonConvert.SerializeObject(

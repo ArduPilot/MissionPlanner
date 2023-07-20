@@ -1,6 +1,6 @@
-﻿namespace AltitudeAngelWings.ApiClient.Models.OutboundNotifs
+﻿namespace AltitudeAngelWings.ApiClient.Models.OutboundNotifications
 {
-    class LoiterNotificationProperties
+    public class LandNotificationProperties
     {
         public double Latitude
         {
@@ -9,12 +9,6 @@
         }
 
         public double Longitude
-        {
-            get;
-            set;
-        }
-
-        public Altitude Altitude
         {
             get;
             set;

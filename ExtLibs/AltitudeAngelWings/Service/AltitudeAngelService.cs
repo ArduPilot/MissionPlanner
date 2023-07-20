@@ -108,11 +108,8 @@ namespace AltitudeAngelWings.Service
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"There was a problem signing you in to Altitude Angel.")
-                {
-                    Type = MessageType.Error,
-                    OnClick = () => _missionPlanner.ShowMessageBox(ex.ToString(), "Exception")
-                });
+                await _messagesService.AddMessageAsync(
+                    Message.ForError("There was a problem signing you in to Altitude Angel.", ex));
                 _client.Disconnect(true);
             }
             finally
@@ -174,24 +171,16 @@ namespace AltitudeAngelWings.Service
                             message = $"Warning: {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} have been excluded from the Altitude Angel data.";
                             break;
                     }
-                    await _messagesService.AddMessageAsync(
-                        new Message(message)
-                        {
-                            Key = errorReason,
-                            TimeToLive = TimeSpan.FromSeconds(_settings.MapUpdateRefresh)
-                        });
+                    await _messagesService.AddMessageAsync(Message.ForInfo(errorReason, message, TimeSpan.FromSeconds(_settings.MapUpdateRefresh)));
                 }
 
                 mapData.Features.UpdateFilterInfo(FilterInfoDisplay);
                 _settings.MapFilters = FilterInfoDisplay;
 
-                await _messagesService.AddMessageAsync(
-                    new Message(
-                        $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms")
-                    {
-                        Key = "UpdateMapData",
-                        TimeToLive = TimeSpan.FromSeconds(1)
-                    });
+                await _messagesService.AddMessageAsync(Message.ForInfo(
+                    "UpdateMapData",
+                    $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms",
+                    TimeSpan.FromSeconds(1)));
 
                 // add all items to cache
                 MapFeatureCache.Clear();
@@ -202,12 +191,7 @@ namespace AltitudeAngelWings.Service
             }
             catch (Exception ex) when (!(ex is FlurlHttpException) && !(ex.InnerException is TaskCanceledException))
             {
-                await _messagesService.AddMessageAsync(new Message($"Failed to update map data.")
-                {
-                    Key = "UpdateMapData",
-                    Type = MessageType.Error,
-                    OnClick = () => _missionPlanner.ShowMessageBox(ex.ToString(), "Exception")
-                });
+                await _messagesService.AddMessageAsync(Message.ForError("UpdateMapData", "Failed to update map data.", ex));
             }
         }
 
@@ -381,8 +365,7 @@ namespace AltitudeAngelWings.Service
                 "Flight Plan")) return;
             _settings.ExistingFlightPlanId = Guid.Parse(feature.Id);
             _settings.UseExistingFlightPlanId = true;
-            await _messagesService.AddMessageAsync(new Message($"Current flight plan ID set to {feature.Id}")
-            { TimeToLive = TimeSpan.FromSeconds(10) });
+            await _messagesService.AddMessageAsync(Message.ForInfo($"Current flight plan ID set to {feature.Id}", TimeSpan.FromSeconds(10)));
         }
 
         public void Dispose()

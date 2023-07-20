@@ -99,7 +99,7 @@ namespace AltitudeAngelWings.Plugin
 
             if (_ctrlForPanel && Control.ModifierKeys == Keys.None && !_shownCtrlClickMessage)
             {
-                _messages.AddMessageAsync(new Message(Resources.MessageCtrlClickPlannerMap) { TimeToLive = TimeSpan.FromSeconds(30) });
+                _messages.AddMessageAsync(Message.ForInfo(Resources.MessageCtrlClickPlannerMap, TimeSpan.FromSeconds(30)));
                 _shownCtrlClickMessage = true;
                 return;
             }

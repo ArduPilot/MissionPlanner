@@ -10,7 +10,7 @@ using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.FlightData.Providers;
 using AltitudeAngelWings.Service.FlightService;
 using AltitudeAngelWings.Service.Messaging;
-using AltitudeAngelWings.Service.OutboundNotifs;
+using AltitudeAngelWings.Service.OutboundNotifications;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Polly;
@@ -66,7 +66,7 @@ namespace AltitudeAngelWings
                 l.Resolve<IHttpClientFactory>(),
                 l.Resolve<IAsyncPolicy>(),
                 l.Resolve<IMissionPlanner>().VersionHeader));
-            ServiceLocator.Register<IOutboundNotifsService>(l => new OutboundNotifsService(
+            ServiceLocator.Register<IOutboundNotificationsService>(l => new OutboundNotificationsService(
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IMessagesService>(),
@@ -74,18 +74,16 @@ namespace AltitudeAngelWings
                 l.Resolve<IMissionPlannerState>()));
             ServiceLocator.Register<IFlightService>(l => new FlightService(
                 l.Resolve<IMessagesService>(),
-                l.Resolve<IMissionPlanner>(),
                 l.Resolve<IMissionPlannerState>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IFlightDataService>(),
                 l.Resolve<IAltitudeAngelClient>(),
-                l.Resolve<IOutboundNotifsService>()));
+                l.Resolve<IOutboundNotificationsService>()));
             ServiceLocator.Register<ITelemetryService>(l => new TelemetryService(
                 l.Resolve<IMessagesService>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IFlightDataService>(),
-                l.Resolve<ITelemetryClient>(),
-                l.Resolve<IMissionPlanner>()));
+                l.Resolve<ITelemetryClient>()));
             ServiceLocator.Register<IAltitudeAngelService>(l => new AltitudeAngelService(
                 l.Resolve<IMessagesService>(),
                 l.Resolve<IMissionPlanner>(),

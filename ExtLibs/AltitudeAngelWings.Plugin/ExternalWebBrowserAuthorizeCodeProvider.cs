@@ -50,13 +50,11 @@ namespace AltitudeAngelWings.Plugin
         {
             if (string.IsNullOrWhiteSpace(_settings.ClientId) || string.IsNullOrWhiteSpace(_settings.ClientSecret))
             {
-                var message = new Message("Client ID and Client Secret are not set correctly. Click here to open settings.")
-                {
-                    Key = "BadClientCredentials",
-                    OnClick = () => AASettings.Instance.Show(_host.MainForm)
-                };
-                message.HasExpired = () => message.Clicked || _settings.TokenResponse.IsValidForAuth();
-                await _messages.AddMessageAsync(message);
+                await _messages.AddMessageAsync(Message.ForAction(
+                    "BadClientCredentials",
+                    "Client ID and Client Secret are not set correctly. Click here to open settings.",
+                    () => AASettings.Instance.Show(_host.MainForm),
+                    () => _settings.TokenResponse.IsValidForAuth()));
                 return null;
             }
 

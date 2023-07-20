@@ -1,9 +1,9 @@
-﻿namespace AltitudeAngelWings.Service.OutboundNotifs
+﻿namespace AltitudeAngelWings.Service.OutboundNotifications
 {
     /// <summary>
     /// List of valid Outbound Notifications commands
     /// </summary>
-    public static class OutboundNotifsCommands
+    public static class OutboundNotificationsCommands
     {
         /// <summary>
         /// UAV should land immediately.

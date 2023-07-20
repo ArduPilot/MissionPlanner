@@ -4,7 +4,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AltitudeAngelWings.Extra.OutboundNotifsWebSocket
+namespace AltitudeAngelWings.Extra.WebSocket
 {
     public class AaWebSocket
     {
@@ -70,6 +70,6 @@ namespace AltitudeAngelWings.Extra.OutboundNotifsWebSocket
 
         public Func<Exception, Task> OnError { get; set; }
 
-        protected WebSocket Socket { get; set; }
+        protected System.Net.WebSockets.WebSocket Socket { get; set; }
     }
 }

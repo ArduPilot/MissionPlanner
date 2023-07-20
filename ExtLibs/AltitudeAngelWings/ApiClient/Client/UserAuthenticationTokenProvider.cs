@@ -51,7 +51,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 {
                     try
                     {
-                        await _messagesService.AddMessageAsync("Refreshing Altitude Angel access token.");
+                        await _messagesService.AddMessageAsync(Message.ForInfo("Refreshing Altitude Angel access token."));
                         return await RefreshAccessToken(cancellationToken);
                     }
                     catch (Exception)
@@ -67,16 +67,11 @@ namespace AltitudeAngelWings.ApiClient.Client
                 }
                 else
                 {
-                    var message = new Message("You need to sign into Altitude Angel. Click here to sign in.")
-                    {
-                        Key = "AskToSignIn",
-                        OnClick = () =>
-                        {
-                            Task.Factory.StartNew(() => AskUserForAccessToken(CancellationToken.None), cancellationToken);
-                        }
-                    };
-                    message.HasExpired = () => message.Clicked || _settings.TokenResponse.IsValidForAuth();
-                    await _messagesService.AddMessageAsync(message);
+                    await _messagesService.AddMessageAsync(Message.ForAction(
+                        "AskToSignIn",
+                        "You need to sign into Altitude Angel. Click here to sign in.",
+                        () => Task.Factory.StartNew(() => AskUserForAccessToken(CancellationToken.None), cancellationToken),
+                        () => _settings.TokenResponse.IsValidForAuth()));
                     return null;
                 }
             }
