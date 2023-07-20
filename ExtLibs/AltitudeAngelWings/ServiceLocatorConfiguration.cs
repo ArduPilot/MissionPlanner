@@ -23,7 +23,7 @@ namespace AltitudeAngelWings
         {
             ServiceLocator.Register<IAsyncPolicy>(l => Policy.WrapAsync(
                 Policy
-                    .Handle<FlurlHttpException>(e => e.StatusCode == 401 && !l.Resolve<IAltitudeAngelService>().SigningIn)
+                    .Handle<FlurlHttpException>(e => e.StatusCode == 401 && !l.Resolve<IAltitudeAngelService>().SigningIn && l.Resolve<ISettings>().TokenResponse.CanBeRefreshed())
                     .RetryAsync((e, i) => ResetAccessToken(l.Resolve<ISettings>())),
                 Policy
                     .Handle<FlurlHttpException>(e => e.StatusCode >= 500)
