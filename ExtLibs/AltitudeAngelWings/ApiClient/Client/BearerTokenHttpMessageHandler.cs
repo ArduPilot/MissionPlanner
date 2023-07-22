@@ -11,10 +11,7 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         private readonly ITokenProvider _tokenProvider;
 
-        public BearerTokenHttpMessageHandler(
-            ITokenProvider tokenProvider,
-            HttpMessageHandler innerHandler)
-            : base(innerHandler)
+        public BearerTokenHttpMessageHandler(ITokenProvider tokenProvider)
         {
             _tokenProvider = tokenProvider;
         }

@@ -8,10 +8,10 @@ using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
+using Flurl.Http.Configuration;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
-using Polly;
 using Settings = AltitudeAngelWings.Service.Settings;
 
 namespace AltitudeAngelWings.Plugin
@@ -43,7 +43,7 @@ namespace AltitudeAngelWings.Plugin
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FDGMapControl.Parent,
                         l.Resolve<IUiThreadInvoke>(),
-                         new Lazy<IAltitudeAngelClient>(l.Resolve<IAltitudeAngelClient>)),
+                         new Lazy<IAltitudeAngelClient>(() => l.Resolve<IAltitudeAngelClient>())),
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     false),
@@ -52,7 +52,7 @@ namespace AltitudeAngelWings.Plugin
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FPGMapControl.Parent,
                         l.Resolve<IUiThreadInvoke>(),
-                        new Lazy<IAltitudeAngelClient>(l.Resolve<IAltitudeAngelClient>)),
+                        new Lazy<IAltitudeAngelClient>(() => l.Resolve<IAltitudeAngelClient>())),
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     true),
@@ -64,11 +64,10 @@ namespace AltitudeAngelWings.Plugin
                 () => l.Resolve<PluginHost>().comPort.MAV.ToFlightCapability()));
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new ExternalWebBrowserAuthorizeCodeProvider(
                 l.Resolve<ISettings>(),
-                l.Resolve<IAsyncPolicy>(),
+                l.Resolve<IHttpClientFactory>("Auth"),
                 l.Resolve<IMessagesService>(),
                 l.Resolve<PluginHost>(),
-                l.Resolve<IUiThreadInvoke>(),
-                l.Resolve<IMissionPlanner>().VersionHeader));
+                l.Resolve<IUiThreadInvoke>()));
             ServiceLocator.Register<IMessageDisplay>(l => new MultipleMessageDisplay(
                 new TextWriterMessageDisplay(Console.Out),
                 new ControlOverlayMessageDisplay(

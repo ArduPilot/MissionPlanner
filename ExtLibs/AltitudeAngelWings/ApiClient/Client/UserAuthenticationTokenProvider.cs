@@ -1,40 +1,39 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
+using Flurl;
+using Flurl.Http;
 using Flurl.Http.Configuration;
-using Newtonsoft.Json;
-using Polly;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
     public class UserAuthenticationTokenProvider : ITokenProvider
     {
         private readonly ISettings _settings;
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly IAsyncPolicy _asyncPolicy;
         private readonly Lazy<IAltitudeAngelService> _service;
         private readonly IAuthorizeCodeProvider _provider;
         private readonly IMessagesService _messagesService;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1);
-        private readonly ProductInfoHeaderValue _version;
+        private readonly FlurlClient _client;
 
-        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, IAsyncPolicy asyncPolicy, Lazy<IAltitudeAngelService> service, IAuthorizeCodeProvider provider, IMessagesService messagesService, ProductInfoHeaderValue version)
+        public UserAuthenticationTokenProvider(ISettings settings, IHttpClientFactory clientFactory, Lazy<IAltitudeAngelService> service, IAuthorizeCodeProvider provider, IMessagesService messagesService)
         {
             _settings = settings;
-            _clientFactory = clientFactory;
-            _asyncPolicy = asyncPolicy;
             _service = service;
             _provider = provider;
             _messagesService = messagesService;
-            _version = version;
+            _client = new FlurlClient
+            {
+                Settings =
+                {
+                    HttpClientFactory = clientFactory,
+                }
+            };
         }
 
         public async Task<string> GetToken(CancellationToken cancellationToken)
@@ -83,9 +82,21 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         private async Task<string> RefreshAccessToken(CancellationToken cancellationToken)
         {
-            _settings.TokenResponse = await MakeTokenRequest(
-                () => GetTokenRequestBody("refresh_token", "refresh_token", _settings.TokenResponse.RefreshToken),
-                cancellationToken);
+            _settings.TokenResponse = await _settings.AuthenticationUrl
+                .AppendPathSegments("oauth", "v2", "token")
+                .WithClient(_client)
+                .PostUrlEncodedAsync(
+                    new
+                    {
+                        client_id = _settings.ClientId,
+                        client_secret = _settings.ClientSecret,
+                        redirect_uri = _settings.RedirectUri,
+                        grant_type = "refresh_token",
+                        refresh_token = _settings.TokenResponse.RefreshToken,
+                        token_format = "jwt"
+                    },
+                    cancellationToken)
+                .ReceiveJson<TokenResponse>();
             return _settings.TokenResponse.AccessToken;
         }
 
@@ -100,51 +111,30 @@ namespace AltitudeAngelWings.ApiClient.Client
             parameters.Add("response_type", "code");
             _provider.GetAuthorizeParameters(parameters);
             
-            var code = await _provider.GetAuthorizeCode(
+            var authCode = await _provider.GetAuthorizeCode(
                 FormatCodeAuthorizeUri(
                     new Uri($"{_settings.AuthenticationUrl}/oauth/v2/authorize"),
                     parameters));
-            _settings.TokenResponse = await MakeTokenRequest(
-                () => GetTokenRequestBody("authorization_code", "code", code),
-                cancellationToken);
+
+            _settings.TokenResponse = await _settings.AuthenticationUrl
+                .AppendPathSegments("oauth", "v2", "token")
+                .WithClient(_client)
+                .PostUrlEncodedAsync(
+                    new
+                    {
+                        client_id = _settings.ClientId,
+                        client_secret = _settings.ClientSecret,
+                        redirect_uri = _settings.RedirectUri,
+                        grant_type = "authorization_code",
+                        code = authCode,
+                        token_format = "jwt"
+                    },
+                    cancellationToken)
+                .ReceiveJson<TokenResponse>();
+            
             _service.Value.IsSignedIn.Value = _settings.TokenResponse.IsValidForAuth();
             return _settings.TokenResponse.AccessToken;
         }
-
-        private async Task<TokenResponse> MakeTokenRequest(Func<HttpContent> postBody, CancellationToken cancellationToken)
-        {
-            var client = _clientFactory.CreateHttpClient(new HttpClientHandler());
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{_settings.AuthenticationUrl}/oauth/v2/token")
-            {
-                Content = postBody(),
-                Headers =
-                {
-                    UserAgent = { _version }
-                }
-            };
-            using (var response = await _asyncPolicy.ExecuteAsync(() => client.SendAsync(request, cancellationToken)))
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new InvalidOperationException(
-                        $"Failed to get authentication token. {response.StatusCode}: {content}");
-                }
-
-                return JsonConvert.DeserializeObject<TokenResponse>(content);
-            }
-        }
-
-        private HttpContent GetTokenRequestBody(string grantType, string tokenName, string tokenValue)
-            => new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                ["client_id"] = _settings.ClientId,
-                ["client_secret"] = _settings.ClientSecret,
-                ["redirect_uri"] = _settings.RedirectUri,
-                ["grant_type"] = grantType,
-                [tokenName] = tokenValue,
-                ["token_format"] = "jwt"
-            });
 
         private static Uri FormatCodeAuthorizeUri(Uri baseUri, NameValueCollection parameters)
         {

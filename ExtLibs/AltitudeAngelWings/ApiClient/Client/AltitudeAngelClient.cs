@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Models;
@@ -21,7 +20,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
-using Polly;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
@@ -29,20 +27,14 @@ namespace AltitudeAngelWings.ApiClient.Client
     {
         private FlurlClient _client;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IAsyncPolicy _asyncPolicy;
-        private readonly ProductInfoHeaderValue _version;
         private readonly ISettings _settings;
 
         public AltitudeAngelClient(
             ISettings settings,
-            IHttpClientFactory clientFactory,
-            IAsyncPolicy asyncPolicy,
-            ProductInfoHeaderValue version)
+            IHttpClientFactory clientFactory)
         {
             _settings = settings;
             _clientFactory = clientFactory;
-            _asyncPolicy = asyncPolicy;
-            _version = version;
         }
 
         protected FlurlClient Client
@@ -50,8 +42,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             {
                 Settings =
                 {
-                    HttpClientFactory = _clientFactory,
-                    BeforeCall = call => call.HttpRequestMessage.Headers.UserAgent.Add(_version)
+                    HttpClientFactory = _clientFactory
                 }
             });
 
@@ -69,26 +60,26 @@ namespace AltitudeAngelWings.ApiClient.Client
         }
 
         public Task<MapFeatureCollection> GetMapData(BoundingLatLong latLongBounds, CancellationToken cancellationToken)
-            => _asyncPolicy.ExecuteAsync(() => _settings.ApiUrl
-                    .AppendPathSegments("v2", "mapdata", "geojson")
-                    .SetQueryParams(new
-                    {
-                        n = latLongBounds.NorthEast.Latitude,
-                        e = latLongBounds.NorthEast.Longitude,
-                        s = latLongBounds.SouthWest.Latitude,
-                        w = latLongBounds.SouthWest.Longitude,
-                        isCompact = false,
-                        useNewFilters = true,
-                        include = "flight_report,flight_restrictions"
-                    })
-                    .WithClient(Client)
-                    .GetJsonAsync<MapFeatureCollection>(cancellationToken));
+            => _settings.ApiUrl
+                .AppendPathSegments("v2", "mapdata", "geojson")
+                .SetQueryParams(new
+                {
+                    n = latLongBounds.NorthEast.Latitude,
+                    e = latLongBounds.NorthEast.Longitude,
+                    s = latLongBounds.SouthWest.Latitude,
+                    w = latLongBounds.SouthWest.Longitude,
+                    isCompact = false,
+                    useNewFilters = true,
+                    include = "flight_report,flight_restrictions"
+                })
+                .WithClient(Client)
+                .GetJsonAsync<MapFeatureCollection>(cancellationToken);
 
         public Task<RateCardDetail> GetRateCard(string rateCardId, CancellationToken cancellationToken)
-            => _asyncPolicy.ExecuteAsync(() => _settings.ApiUrl
+            => _settings.ApiUrl
                 .AppendPathSegments("v2", "mapdata", "rate-cards", rateCardId)
                 .WithClient(Client)
-                .GetJsonAsync<RateCardDetail>(cancellationToken));
+                .GetJsonAsync<RateCardDetail>(cancellationToken);
         
         /// <summary>
         ///     Get the weather for the specified location. Do not call this method often, typically only once per session.
@@ -109,11 +100,11 @@ namespace AltitudeAngelWings.ApiClient.Client
             };
 
             // Load this as a JObject as reports are extensible
-            var reportResponse = await _asyncPolicy.ExecuteAsync(async () => await _settings.ApiUrl
+            var reportResponse = await _settings.ApiUrl
                 .AppendPathSegments("ops", "tower", "report")
                 .WithClient(Client)
                 .PostJsonAsync(new ReportRequest(aircraftInfo, flightInfo, "weather"))
-                .ReceiveJson<JObject>());
+                .ReceiveJson<JObject>();
 
             // Grab the weather for now if there is one and process it
             var currentWeather = reportResponse.SelectToken("weather.forecast.current")?.ToObject<WeatherInfo>();
@@ -126,10 +117,10 @@ namespace AltitudeAngelWings.ApiClient.Client
         /// </summary>
         /// <returns>The user profile.</returns>
         public Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken = default)
-            =>_asyncPolicy.ExecuteAsync(() => _settings.AuthenticationUrl
+            => _settings.AuthenticationUrl
                 .AppendPathSegment("userProfile")
                 .WithClient(Client)
-                .GetJsonAsync<UserProfileInfo>(cancellationToken: cancellationToken));
+                .GetJsonAsync<UserProfileInfo>(cancellationToken: cancellationToken);
 
         /// <summary>
         /// Creates a flight plan via FlightService API
@@ -161,7 +152,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 }
             };
 
-            return _asyncPolicy.ExecuteAsync(() => _settings.FlightServiceUrl
+            return _settings.FlightServiceUrl
                 .AppendPathSegments("flight", "v2", "flights")
                 .WithClient(Client)
                 .ConfigureRequest(settings =>
@@ -169,7 +160,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                     settings.JsonSerializer = CreateNewtonsoftJsonSerializer();
                 })
                 .PostJsonAsync(startFlightRequest)
-                .ReceiveJson<StartFlightResponse>());
+                .ReceiveJson<StartFlightResponse>();
         }
 
         /// <summary>
@@ -178,16 +169,16 @@ namespace AltitudeAngelWings.ApiClient.Client
         /// <param name="flightId"></param>
         /// <returns></returns>
         public Task CompleteFlight(string flightId)
-            => _asyncPolicy.ExecuteAsync(() => _settings.FlightServiceUrl
+            => _settings.FlightServiceUrl
                 .AppendPathSegments("flight", "v2", "flights", flightId)
                 .WithClient(Client)
-                .DeleteAsync());
+                .DeleteAsync();
 
         public Task CancelFlightPlan(string flightPlanId)
-            => _asyncPolicy.ExecuteAsync(() => _settings.FlightServiceUrl
+            => _settings.FlightServiceUrl
                 .AppendPathSegments("v1", "conflict-resolution", "strategic", "flight-plans", flightPlanId, "cancel")
                 .WithClient(Client)
-                .PostAsync());
+                .PostAsync();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -300,7 +291,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 }
             };
 
-            return await _asyncPolicy.ExecuteAsync(async () => await _settings.FlightServiceUrl
+            return await _settings.FlightServiceUrl
                 .AppendPathSegments("v1", "conflict-resolution", "strategic", "flight-plans")
                 .WithClient(Client)
                 .ConfigureRequest(settings =>
@@ -308,7 +299,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                     settings.JsonSerializer = CreateNewtonsoftJsonSerializer();
                 })
                 .PostJsonAsync(req)
-                .ReceiveJson<CreateStrategicPlanResponse>());
+                .ReceiveJson<CreateStrategicPlanResponse>();
         }
 
         private static StrategicAirframeType MapToAirFrame(FlightCapability flightCapability)

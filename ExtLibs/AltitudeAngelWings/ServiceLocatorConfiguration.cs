@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Net.Http;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Client.FlightClient;
 using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
@@ -46,26 +48,43 @@ namespace AltitudeAngelWings
                 l.Resolve<ISettings>().MinimumPollInterval,
                 l.Resolve<IFlightDataProvider>()));
             ServiceLocator.Register<ITokenProvider>(l => new UserAuthenticationTokenProvider(
-                l.Resolve<ISettings>(),
-                new DefaultHttpClientFactory(),
-                l.Resolve<IAsyncPolicy>(),
-                 new Lazy<IAltitudeAngelService>(l.Resolve<IAltitudeAngelService>),
+                l.Resolve<ISettings>(), 
+                l.Resolve<IHttpClientFactory>("Auth"),
+                new Lazy<IAltitudeAngelService>(() => l.Resolve<IAltitudeAngelService>()),
                 l.Resolve<IAuthorizeCodeProvider>(),
-                l.Resolve<IMessagesService>(),
-                l.Resolve<IMissionPlanner>().VersionHeader));
-            ServiceLocator.Register<IHttpClientFactory>(l => new AltitudeAngelHttpHandlerFactory(
-                l.Resolve<ITokenProvider>()));
+                l.Resolve<IMessagesService>()));
+            ServiceLocator.Register<IHttpClientFactory>("Auth",
+                l => new DelegatingHttpHandlerFactory(() => new PolicyHandler(l.Resolve<IAsyncPolicy>())
+                {
+                    InnerHandler = new UserAgentHandler(l.Resolve<IMissionPlanner>().VersionHeader)
+                    {
+                        InnerHandler = new HttpClientHandler
+                        {
+                            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                        }
+                    }
+                }));
+            ServiceLocator.Register<IHttpClientFactory>(
+                l => new DelegatingHttpHandlerFactory(() => new PolicyHandler(l.Resolve<IAsyncPolicy>())
+                {
+                    InnerHandler = new BearerTokenHttpMessageHandler(l.Resolve<ITokenProvider>())
+                    {
+                        InnerHandler = new UserAgentHandler(l.Resolve<IMissionPlanner>().VersionHeader)
+                        {
+                            InnerHandler = new HttpClientHandler
+                            {
+                                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                            }
+                        }
+                    }
+                }));
             ServiceLocator.Register<ITelemetryClient>(l => new TelemetryClient(l.Resolve<IAutpService>()));
             ServiceLocator.Register<IFlightClient>(l => new FlightClient(
                 l.Resolve<ISettings>().FlightServiceUrl,
-                l.Resolve<IHttpClientFactory>(),
-                l.Resolve<IAsyncPolicy>(),
-                l.Resolve<IMissionPlanner>().VersionHeader));
+                l.Resolve<IHttpClientFactory>()));
             ServiceLocator.Register<IAltitudeAngelClient>(l => new AltitudeAngelClient(
                 l.Resolve<ISettings>(),
-                l.Resolve<IHttpClientFactory>(),
-                l.Resolve<IAsyncPolicy>(),
-                l.Resolve<IMissionPlanner>().VersionHeader));
+                l.Resolve<IHttpClientFactory>()));
             ServiceLocator.Register<IOutboundNotificationsService>(l => new OutboundNotificationsService(
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),

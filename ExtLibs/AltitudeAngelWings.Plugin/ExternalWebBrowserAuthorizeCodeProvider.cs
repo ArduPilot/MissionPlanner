@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
@@ -11,30 +10,34 @@ using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using Flurl;
 using Flurl.Http;
+using Flurl.Http.Configuration;
 using MissionPlanner.Plugin;
 using Newtonsoft.Json.Linq;
-using Polly;
 
 namespace AltitudeAngelWings.Plugin
 {
     public class ExternalWebBrowserAuthorizeCodeProvider : IAuthorizeCodeProvider
     {
         private readonly ISettings _settings;
-        private readonly IAsyncPolicy _asyncPolicy;
         private readonly IMessagesService _messages;
         private readonly PluginHost _host;
         private readonly IUiThreadInvoke _uiThreadInvoke;
-        private readonly ProductInfoHeaderValue _version;
         private string _pollId;
+        private readonly FlurlClient _client;
 
-        public ExternalWebBrowserAuthorizeCodeProvider(ISettings settings, IAsyncPolicy asyncPolicy, IMessagesService messages, PluginHost host, IUiThreadInvoke uiThreadInvoke, ProductInfoHeaderValue version)
+        public ExternalWebBrowserAuthorizeCodeProvider(ISettings settings, IHttpClientFactory clientFactory, IMessagesService messages, PluginHost host, IUiThreadInvoke uiThreadInvoke)
         {
             _settings = settings;
-            _asyncPolicy = asyncPolicy;
             _messages = messages;
             _host = host;
             _uiThreadInvoke = uiThreadInvoke;
-            _version = version;
+            _client = new FlurlClient
+            {
+                Settings =
+                {
+                    HttpClientFactory = clientFactory,
+                }
+            };
         }
 
         public void GetAuthorizeParameters(NameValueCollection parameters)
@@ -60,42 +63,33 @@ namespace AltitudeAngelWings.Plugin
 
             return await _uiThreadInvoke.Invoke(() => UiTask.ShowDialog(async cancellationToken =>
                 {
-                    using (var client = new FlurlClient
-                           {
-                               Settings =
-                               {
-                                   BeforeCall = call => call.HttpRequestMessage.Headers.UserAgent.Add(_version)
-                               }
-                           })
+                    var token = await GetClientTokenForLoginPoll(_client, cancellationToken);
+                    Process.Start(authorizeUri.ToString());
+
+                    string code;
+                    do
                     {
-                        var token = await GetClientTokenForLoginPoll(client, cancellationToken);
-                        Process.Start(authorizeUri.ToString());
+                        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                        code = await PollForAuthenticationCode(_client, token, cancellationToken);
+                    } while (!cancellationToken.IsCancellationRequested && code == null);
 
-                        string code;
-                        do
-                        {
-                            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-                            code = await PollForAuthenticationCode(client, token, cancellationToken);
-                        } while (!cancellationToken.IsCancellationRequested && code == null);
-
-                        return code;
-                    }
+                    return code;
                 },
                 "Opening a browser to sign in to Altitude Angel. Please sign in using the browser."));
         }
 
         private async Task<string> GetClientTokenForLoginPoll(IFlurlClient client, CancellationToken cancellationToken)
         {
-            using (var response = await _asyncPolicy.ExecuteAsync(() =>
-                       _settings.AuthenticationUrl
+            using (var response = await _settings.AuthenticationUrl
                            .AppendPathSegments("oauth", "v2", "token")
+                           .WithClient(_client)
                            .PostUrlEncodedAsync(new
                            {
                                client_id = _settings.ClientId,
                                client_secret = _settings.ClientSecret,
                                grant_type = "client_credentials",
                                token_type = "jwt"
-                           }, cancellationToken)))
+                           }, cancellationToken))
             {
                 return (string)JObject.Parse(await response.GetStringAsync())["access_token"];
             };
@@ -103,13 +97,13 @@ namespace AltitudeAngelWings.Plugin
 
         private async Task<string> PollForAuthenticationCode(IFlurlClient client, string token, CancellationToken cancellationToken)
         {
-            using (var response = await _asyncPolicy.ExecuteAsync(() =>
-                       _settings.AuthenticationUrl
+            using (var response = await _settings.AuthenticationUrl
                            .AppendPathSegments("api", "v1", "security", "get-login")
                            .SetQueryParam("id", _pollId)
                            .WithHeader("Authorization", $"Bearer {token}")
                            .AllowHttpStatus(HttpStatusCode.NotFound)
-                           .GetAsync(cancellationToken)))
+                           .WithClient(_client)
+                           .GetAsync(cancellationToken))
             {
                 if (response.StatusCode != (int)HttpStatusCode.OK)
                 {
