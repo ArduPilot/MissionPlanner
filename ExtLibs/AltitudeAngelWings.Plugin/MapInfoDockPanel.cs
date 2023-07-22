@@ -18,13 +18,13 @@ namespace AltitudeAngelWings.Plugin
         private const string MapInfoDockPanelName = "###MapInfoDockPanel###";
         private readonly Control _parent;
         private readonly IUiThreadInvoke _uiThreadInvoke;
-        private readonly Lazy<IAltitudeAngelClient> _client;
+        private readonly Lazy<IApiClient> _apiClient;
 
-        public MapInfoDockPanel(Control parent, IUiThreadInvoke uiThreadInvoke, Lazy<IAltitudeAngelClient> client)
+        public MapInfoDockPanel(Control parent, IUiThreadInvoke uiThreadInvoke, Lazy<IApiClient> apiClient)
         {
             _parent = parent;
             _uiThreadInvoke = uiThreadInvoke;
-            _client = client;
+            _apiClient = apiClient;
         }
 
         public void Show(FeatureProperties[] featureProperties)
@@ -54,7 +54,7 @@ namespace AltitudeAngelWings.Plugin
                     browser.Visible = true;
                     rateCardLookup = UiTask.ShowWaitPanel(browser, async token =>
                         {
-                            var rateCardDetails = await Task.WhenAll(rateCards.Select(i => _client.Value.GetRateCard(i, token)));
+                            var rateCardDetails = await Task.WhenAll(rateCards.Select(i => _apiClient.Value.GetRateCard(i, token)));
                             return rateCardDetails.ToDictionary(d => d.Id);
                         },
                         "Getting rate cards");

@@ -4,6 +4,7 @@ using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
+using AltitudeAngelWings.ApiClient.Client.FlightClient;
 using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests.ProtocolConfiguration;
 using AltitudeAngelWings.ApiClient.Models.Strategic;
 using AltitudeAngelWings.Extra;
@@ -22,8 +23,9 @@ namespace AltitudeAngelWings.Service.FlightService
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlannerState _missionPlannerState;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
-        private readonly IAltitudeAngelClient _client;
+        private readonly IFlightClient _flightClient;
         private readonly ISettings _settings;
+        private readonly IAltitudeAngelClient _client;
         private readonly IOutboundNotificationsService _notificationsService;
 
         public FlightService(
@@ -32,27 +34,31 @@ namespace AltitudeAngelWings.Service.FlightService
             ISettings settings,
             IFlightDataService flightDataService,
             IAltitudeAngelClient client,
+            IFlightClient flightClient,
             IOutboundNotificationsService notificationsService)
         {
             _messagesService = messagesService;
             _missionPlannerState = missionPlannerState;
             _settings = settings;
             _client = client;
+            _flightClient = flightClient;
             _notificationsService = notificationsService;
             _settings.CurrentFlightPlanId = null;
             _settings.CurrentFlightId = null;
 
-            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs, Scopes.TacticalCrs))
-            {
-                _disposer.Add(flightDataService.FlightArmed
-                    .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(ct)));
-                _disposer.Add(flightDataService.FlightDisarmed
-                    .SubscribeWithAsync((i, ct) => CompleteFlight(ct)));
-            }
+            _disposer.Add(flightDataService.FlightArmed
+                .SubscribeWithAsync(async (i, ct) => await StartTelemetryFlight(ct)));
+            _disposer.Add(flightDataService.FlightDisarmed
+                .SubscribeWithAsync((i, ct) => CompleteFlight(ct)));
         }
 
         private async Task StartTelemetryFlight(CancellationToken cancellationToken)
         {
+            if (!(_settings.UseFlightPlans && _settings.UseFlights && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs, Scopes.TacticalCrs)))
+            {
+                return;
+            }
+
             var flightPlan = GetFlightPlan();
             if (flightPlan == null)
             {
@@ -76,7 +82,7 @@ namespace AltitudeAngelWings.Service.FlightService
                 {
                     await _messagesService.AddMessageAsync(Message.ForInfo("Creating flight plan."));
                     var profile = await _client.GetUserProfile(cancellationToken);
-                    var createPlanResponse = await _client.CreateFlightPlan(flightPlan, profile);
+                    var createPlanResponse = await _flightClient.CreateFlightPlan(flightPlan, profile);
                     if (createPlanResponse.Outcome == StrategicSeverity.DirectConflict)
                     {
                         await _messagesService.AddMessageAsync(Message.ForInfo("Conflict detected; flight cancelled.", TimeSpan.FromSeconds(10)));
@@ -99,7 +105,7 @@ namespace AltitudeAngelWings.Service.FlightService
 
                 // Flight being rejected will throw, and cause a disarm
                 await _messagesService.AddMessageAsync(Message.ForInfo("Starting flight.", TimeSpan.FromSeconds(10)));
-                var startFlightResponse = await _client.StartFlight(flightPlanId.Value.ToString("D"));
+                var startFlightResponse = await _flightClient.StartFlight(flightPlanId.Value.ToString("D"));
 
                 _settings.CurrentFlightId = startFlightResponse.Id;
                 var tacticalSettings = startFlightResponse.ServiceResponses.First();
@@ -129,13 +135,17 @@ namespace AltitudeAngelWings.Service.FlightService
 
         private async Task CompleteFlight(CancellationToken cancellationToken)
         {
+            if (!(_settings.UseFlightPlans && _settings.UseFlights && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs, Scopes.TacticalCrs)))
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(_settings.CurrentFlightId) || string.IsNullOrEmpty(_settings.CurrentFlightPlanId))
             {
                 return;
             }
             try
             {
-                await _client.CompleteFlight(_settings.CurrentFlightId);
+                await _flightClient.CompleteFlight(_settings.CurrentFlightId);
                 await _messagesService.AddMessageAsync(Message.ForInfo($"Flight {_settings.CurrentFlightId} completed.", TimeSpan.FromSeconds(10)));
 
                 //await _client.CancelFlightPlan(_settings.CurrentFlightReportId);

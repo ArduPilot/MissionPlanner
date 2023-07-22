@@ -43,7 +43,7 @@ namespace AltitudeAngelWings.Plugin
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FDGMapControl.Parent,
                         l.Resolve<IUiThreadInvoke>(),
-                         new Lazy<IAltitudeAngelClient>(() => l.Resolve<IAltitudeAngelClient>())),
+                         new Lazy<IApiClient>(() => l.Resolve<IApiClient>())),
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     false),
@@ -52,7 +52,7 @@ namespace AltitudeAngelWings.Plugin
                     new MapInfoDockPanel(
                         l.Resolve<PluginHost>().FPGMapControl.Parent,
                         l.Resolve<IUiThreadInvoke>(),
-                        new Lazy<IAltitudeAngelClient>(() => l.Resolve<IAltitudeAngelClient>())),
+                        new Lazy<IApiClient>(() => l.Resolve<IApiClient>())),
                     l.Resolve<ISettings>(),
                     l.Resolve<IMessagesService>(),
                     true),

@@ -29,6 +29,7 @@ namespace AltitudeAngelWings.Service
         private readonly IMissionPlanner _missionPlanner;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
         private readonly IAltitudeAngelClient _client;
+        private readonly IApiClient _apiClient;
         private readonly ITelemetryService _telemetryService;
         private readonly IFlightService _flightService;
         private readonly ISettings _settings;
@@ -46,6 +47,7 @@ namespace AltitudeAngelWings.Service
             IMissionPlanner missionPlanner,
             ISettings settings,
             IAltitudeAngelClient client,
+            IApiClient apiClient,
             ITelemetryService telemetryService,
             IFlightService flightService)
         {
@@ -53,6 +55,7 @@ namespace AltitudeAngelWings.Service
             _missionPlanner = missionPlanner;
             _settings = settings;
             _client = client;
+            _apiClient = apiClient;
             _telemetryService = telemetryService;
             _flightService = flightService;
 
@@ -68,20 +71,16 @@ namespace AltitudeAngelWings.Service
             _disposer.Add(_missionPlanner.FlightPlanningMap
                 .MapChanged
                 .SubscribeWithAsync((i, ct) => UpdateMapData(_missionPlanner.FlightPlanningMap, ct)));
-
-            if (_settings.UseFlightPlans && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs))
-            {
-                _disposer.Add(_missionPlanner.FlightDataMap
-                    .FeatureClicked
-                    .Select(f => new { Feature = f, Properties = f.GetFeatureProperties() })
-                    .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
-                    .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
-                _disposer.Add(_missionPlanner.FlightPlanningMap
-                    .FeatureClicked
-                    .Select(f => new { Feature = f, Properties = f.GetFeatureProperties() })
-                    .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
-                    .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
-            }
+            _disposer.Add(_missionPlanner.FlightDataMap
+                .FeatureClicked
+                .Select(f => new { Feature = f, Properties = f.GetFeatureProperties() })
+                .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
+                .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
+            _disposer.Add(_missionPlanner.FlightPlanningMap
+                .FeatureClicked
+                .Select(f => new { Feature = f, Properties = f.GetFeatureProperties() })
+                .Where(i => i.Properties.DetailedCategory == "user:flight_plan_report" && i.Properties.IsOwner)
+                .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
         }
 
         public async Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken)
@@ -153,7 +152,7 @@ namespace AltitudeAngelWings.Service
                 var area = map.GetViewArea().RoundExpand(4);
                 var sw = new Stopwatch();
                 sw.Start();
-                var mapData = await _client.GetMapData(area, cancellationToken);
+                var mapData = await _apiClient.GetMapData(area, cancellationToken);
                 sw.Stop();
 
                 foreach (var errorReason in mapData.ExcludedData.Select(e => e.ErrorReason).Distinct())
@@ -360,6 +359,11 @@ namespace AltitudeAngelWings.Service
 
         private async Task OnFlightReportClicked(Feature feature)
         {
+            if (!(_settings.UseFlightPlans && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs)))
+            {
+                return;
+            }
+
             if (!await _missionPlanner.ShowYesNoMessageBox(
                 $"You have clicked your flight plan '{feature.GetDisplayInfo().Title}'.{Environment.NewLine}Would you like to set the current flight plan to this one?",
                 "Flight Plan")) return;

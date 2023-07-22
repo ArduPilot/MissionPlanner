@@ -80,9 +80,12 @@ namespace AltitudeAngelWings
                 }));
             ServiceLocator.Register<ITelemetryClient>(l => new TelemetryClient(l.Resolve<IAutpService>()));
             ServiceLocator.Register<IFlightClient>(l => new FlightClient(
-                l.Resolve<ISettings>().FlightServiceUrl,
+                l.Resolve<ISettings>(),
                 l.Resolve<IHttpClientFactory>()));
             ServiceLocator.Register<IAltitudeAngelClient>(l => new AltitudeAngelClient(
+                l.Resolve<ISettings>(),
+                l.Resolve<IHttpClientFactory>()));
+            ServiceLocator.Register<IApiClient>(l => new ApiClient.Client.ApiClient(
                 l.Resolve<ISettings>(),
                 l.Resolve<IHttpClientFactory>()));
             ServiceLocator.Register<IOutboundNotificationsService>(l => new OutboundNotificationsService(
@@ -97,6 +100,7 @@ namespace AltitudeAngelWings
                 l.Resolve<ISettings>(),
                 l.Resolve<IFlightDataService>(),
                 l.Resolve<IAltitudeAngelClient>(),
+                l.Resolve<IFlightClient>(),
                 l.Resolve<IOutboundNotificationsService>()));
             ServiceLocator.Register<ITelemetryService>(l => new TelemetryService(
                 l.Resolve<IMessagesService>(),
@@ -108,6 +112,7 @@ namespace AltitudeAngelWings
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IAltitudeAngelClient>(),
+                    l.Resolve<IApiClient>(),
                 l.Resolve<ITelemetryService>(),
                 l.Resolve<IFlightService>()));
         }

@@ -29,14 +29,11 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             _settings = settings;
             _client = client;
 
-            if (_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry > FlightTelemetry.None && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs))
-            {
-                _disposer.Add(flightDataService.ArmedFlightData
-                    .SubscribeWithAsync((i, ct) => SendTelemetry(i)));
+            _disposer.Add(flightDataService.ArmedFlightData
+                .SubscribeWithAsync((i, ct) => SendTelemetry(i)));
 
-                _disposer.Add(flightDataService.FlightDisarmed
-                    .SubscribeWithAsync((i, ct) => FlightDisarmed(i)));
-            }
+            _disposer.Add(flightDataService.FlightDisarmed
+                .SubscribeWithAsync((i, ct) => FlightDisarmed(i)));
         }
 
         private Task FlightDisarmed(Models.FlightData flightData)
@@ -47,6 +44,11 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
 
         private async Task SendTelemetry(Models.FlightData flightData)
         {
+            if (!(_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry > FlightTelemetry.None && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs)))
+            {
+                return;
+            }
+
             if (_settings.CurrentFlightId == null)
             {
                 await _messagesService.AddMessageAsync(Message.ForInfo("Telemetry", "Not sending telemetry as no current flight ID is set."));
