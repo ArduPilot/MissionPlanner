@@ -1,6 +1,8 @@
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Service;
 using Flurl;
 using Flurl.Http;
@@ -13,14 +15,15 @@ namespace AltitudeAngelWings.ApiClient.Client
         private readonly ISettings _settings;
         private readonly IFlurlClient _client;
 
-        public AuthClient(ISettings settings, IHttpClientFactory clientFactory)
+        public AuthClient(ISettings settings, IHttpClientFactory clientFactory, ISerializer serializer)
         {
             _settings = settings;
             _client = new FlurlClient
             {
                 Settings =
                 {
-                    HttpClientFactory = clientFactory
+                    HttpClientFactory = clientFactory,
+                    JsonSerializer = serializer
                 }
             };
         }
@@ -79,7 +82,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             var response = await _settings.AuthenticationUrl
                 .AppendPathSegments("api", "v1", "security", "get-login")
                 .SetQueryParam("id", pollId)
-                .WithHeader("Authorization", $"Bearer {accessToken}")
+                .WithOAuthBearerToken(accessToken)
                 .AllowHttpStatus(HttpStatusCode.NotFound)
                 .WithClient(_client)
                 .GetAsync(cancellationToken);
@@ -91,6 +94,27 @@ namespace AltitudeAngelWings.ApiClient.Client
 
             var data = await response.GetJsonAsync();
             return data.code;
+        }
+
+        public Task<UserProfileInfo> GetUserProfile(string accessToken, CancellationToken cancellationToken)
+            => _settings.AuthenticationUrl
+                .AppendPathSegment("userProfile")
+                .WithOAuthBearerToken(accessToken)
+                .WithClient(_client)
+                .GetJsonAsync<UserProfileInfo>(cancellationToken);
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _client?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

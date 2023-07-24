@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace AltitudeAngelWings.ApiClient.Models.Strategic
 {
-    class CreateStrategicPlanRequest
+    public class CreateStrategicPlanRequest
     {
         public string Summary { get; set; }
 

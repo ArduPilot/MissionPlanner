@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Models;
@@ -14,14 +15,15 @@ namespace AltitudeAngelWings.ApiClient.Client
         private readonly ISettings _settings;
         private readonly IFlurlClient _client;
 
-        public ApiClient(ISettings settings, IHttpClientFactory clientFactory)
+        public ApiClient(ISettings settings, IHttpClientFactory clientFactory, ISerializer serializer)
         {
             _settings = settings;
             _client = new FlurlClient
             {
                 Settings =
                 {
-                    HttpClientFactory = clientFactory
+                    HttpClientFactory = clientFactory,
+                    JsonSerializer = serializer,
                 }
             };
         }
@@ -65,6 +67,20 @@ namespace AltitudeAngelWings.ApiClient.Client
                     "weather"))
                 .ReceiveJson<JObject>();
             return reportResponse.SelectToken("weather.forecast.current")?.ToObject<WeatherInfo>();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _client?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -13,7 +13,6 @@ namespace AltitudeAngelWings.Service
         ObservableProperty<bool> IsSignedIn { get; }
         bool SigningIn { get; }
         ObservableProperty<WeatherInfo> WeatherReport { get; }
-        Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken = default);
         IList<FilterInfoDisplay> FilterInfoDisplay { get; }
         Task SignInAsync(CancellationToken cancellationToken = default);
         Task DisconnectAsync();

@@ -31,7 +31,7 @@ namespace AltitudeAngelWings.Models
             {
                 Key = key,
                 Type = MessageType.Error,
-                OnClick = () => ServiceLocator.GetService<IMissionPlanner>().ShowMessageBox(exception.ToString(), "Exception")
+                OnClick = () => ServiceLocator.GetService<IMissionPlanner>().ShowMessageBox(exception.ToDisplayedException(), "Exception")
             };
 
         public static Message ForAction(string content, Action action, Func<bool> condition = null) => ForAction(null, content, action, condition);

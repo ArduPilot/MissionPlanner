@@ -51,7 +51,6 @@ namespace AltitudeAngelWings.ApiClient.Client
                     }
                 }
 
-                //_settings.TokenResponse = null;
                 if (_service.Value.SigningIn)
                 {
                     return await AskUserForAccessToken(cancellationToken);

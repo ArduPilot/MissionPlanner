@@ -21,6 +21,7 @@ namespace AltitudeAngelWings.Plugin
         private readonly ISettings _settings;
         private readonly IAltitudeAngelService _altitudeAngelService;
         private readonly IMissionPlanner _missionPlanner;
+        private readonly IAuthClient _authClient;
 
         private static readonly object InstanceLock = new object();
         private static AASettings _instance;
@@ -28,7 +29,8 @@ namespace AltitudeAngelWings.Plugin
         private AASettings()
             : this(ServiceLocator.GetService<ISettings>(),
                 ServiceLocator.GetService<IAltitudeAngelService>(),
-                ServiceLocator.GetService<IMissionPlanner>())
+                ServiceLocator.GetService<IMissionPlanner>(),
+                ServiceLocator.GetService<IAuthClient>())
         {
         }
 
@@ -47,11 +49,12 @@ namespace AltitudeAngelWings.Plugin
             }
         }
 
-        private AASettings(ISettings settings, IAltitudeAngelService altitudeAngelService, IMissionPlanner missionPlanner)
+        private AASettings(ISettings settings, IAltitudeAngelService altitudeAngelService, IMissionPlanner missionPlanner, IAuthClient authClient)
         {
             _settings = settings;
             _altitudeAngelService = altitudeAngelService;
             _missionPlanner = missionPlanner;
+            _authClient = authClient;
             InitializeComponent();
             _altitudeAngelService.IsSignedIn.ObserveOn(MainV2.instance).SubscribeWithAsync(OnSignInChange);
             _missionPlanner.FlightDataMap.MapChanged.ObserveOn(MainV2.instance).Subscribe(OnMapChanged);
@@ -287,10 +290,17 @@ namespace AltitudeAngelWings.Plugin
         private async Task OnSignInChange(bool signedIn, CancellationToken cancellationToken)
         {
             lbl_UserDetails.Text = string.Empty;
-            var user = await _altitudeAngelService.GetUserProfile(cancellationToken);
-            lbl_UserDetails.Text = signedIn
-                ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}\r\n{string.Join("\r\n", _settings.TokenResponse.AccessTokenScopes())}"
-                : string.Empty;
+            if (_settings.TokenResponse.IsValidForAuth())
+            {
+                var user = await _authClient.GetUserProfile(_settings.TokenResponse.AccessToken, cancellationToken);
+                if (user != null)
+                {
+                    lbl_UserDetails.Text = signedIn
+                        ? $"{user.FirstName} {user.LastName}\r\n{user.EmailAddress}\r\n{user.UserId}\r\n{string.Join("\r\n", _settings.TokenResponse.AccessTokenScopes())}"
+                        : string.Empty;
+                }
+            }
+
             RefreshControlStates();
         }
 

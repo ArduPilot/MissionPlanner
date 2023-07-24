@@ -4,6 +4,7 @@ using System.Net.Http;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Client.FlightClient;
 using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
+using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests.ProtocolConfiguration;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.AltitudeAngelTelemetry;
@@ -15,6 +16,10 @@ using AltitudeAngelWings.Service.Messaging;
 using AltitudeAngelWings.Service.OutboundNotifications;
 using Flurl.Http;
 using Flurl.Http.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using NodaTime;
+using NodaTime.Serialization.JsonNet;
 using Polly;
 
 namespace AltitudeAngelWings
@@ -79,18 +84,30 @@ namespace AltitudeAngelWings
                     }
                 }));
             ServiceLocator.Register<ITelemetryClient>(l => new TelemetryClient(l.Resolve<IAutpService>()));
+            ServiceLocator.Register<ISerializer>(l =>
+            {
+                var settings = new JsonSerializerSettings
+                {
+                    DateParseHandling = DateParseHandling.None
+                };
+                settings.Converters.Add(new BaseNotificationProtocolConfigurationConverter());
+                settings.Converters.Add(new BaseTelemetryProtocolConfigurationConverter());
+                settings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+                settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                return new NewtonsoftJsonSerializer(settings);
+            });
             ServiceLocator.Register<IFlightClient>(l => new FlightClient(
                 l.Resolve<ISettings>(),
-                l.Resolve<IHttpClientFactory>()));
-            ServiceLocator.Register<IAltitudeAngelClient>(l => new AltitudeAngelClient(
-                l.Resolve<ISettings>(),
-                l.Resolve<IHttpClientFactory>()));
+                l.Resolve<IHttpClientFactory>(),
+                l.Resolve<ISerializer>()));
             ServiceLocator.Register<IApiClient>(l => new ApiClient.Client.ApiClient(
                 l.Resolve<ISettings>(),
-                l.Resolve<IHttpClientFactory>()));
+                l.Resolve<IHttpClientFactory>(),
+                l.Resolve<ISerializer>()));
             ServiceLocator.Register<IAuthClient>(l => new AuthClient(
                 l.Resolve<ISettings>(),
-                l.Resolve<IHttpClientFactory>("Auth")));
+                l.Resolve<IHttpClientFactory>("Auth"),
+                l.Resolve<ISerializer>()));
             ServiceLocator.Register<IOutboundNotificationsService>(l => new OutboundNotificationsService(
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),
@@ -102,8 +119,8 @@ namespace AltitudeAngelWings
                 l.Resolve<IMissionPlannerState>(),
                 l.Resolve<ISettings>(),
                 l.Resolve<IFlightDataService>(),
-                l.Resolve<IAltitudeAngelClient>(),
                 l.Resolve<IFlightClient>(),
+                l.Resolve<IAuthClient>(),
                 l.Resolve<IOutboundNotificationsService>()));
             ServiceLocator.Register<ITelemetryService>(l => new TelemetryService(
                 l.Resolve<IMessagesService>(),
@@ -114,7 +131,7 @@ namespace AltitudeAngelWings
                 l.Resolve<IMessagesService>(),
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),
-                l.Resolve<IAltitudeAngelClient>(),
+                l.Resolve<ITokenProvider>(),
                     l.Resolve<IApiClient>(),
                 l.Resolve<ITelemetryService>(),
                 l.Resolve<IFlightService>()));

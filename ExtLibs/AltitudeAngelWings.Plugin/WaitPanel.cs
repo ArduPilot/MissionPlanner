@@ -61,47 +61,12 @@ namespace AltitudeAngelWings.Plugin
 
         private void ShowException()
         {
-            var builder = new StringBuilder();
-            if (_exception is AggregateException aggregate)
-            {
-                foreach (var inner in aggregate.InnerExceptions)
-                {
-                    FormatException(builder, inner);
-                }
-            }
-            else
-            {
-                FormatException(builder, _exception);
-            }
-
             _picLogo.Visible = false;
             _lblOperation.Top = _picLogo.Top;
             _lblOperation.Height = _btnCancel.Top;
-            _lblOperation.Text = builder.ToString();
+            _lblOperation.Text = _exception.ToString();
             _btnCancel.Text = "OK";
             _btnCancel.DialogResult = DialogResult.OK;
-        }
-
-        private static void FormatException(StringBuilder builder, Exception ex)
-        {
-            var message = $"{ex.GetType().Name}: {ex.Message}";
-            switch (ex)
-            {
-                case FlurlHttpException exception:
-                    var response = exception.GetResponseStringAsync().GetAwaiter().GetResult();
-                    builder.AppendLine($"{message}: {response}");
-                    break;
-
-                default:
-                    builder.AppendLine(message);
-                    break;
-            }
-
-            if (ex.InnerException != null)
-            {
-                builder.AppendLine();
-                FormatException(builder, ex.InnerException);
-            }
         }
     }
 }

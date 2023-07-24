@@ -28,11 +28,11 @@ namespace AltitudeAngelWings.Service
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
-        private readonly IAltitudeAngelClient _client;
         private readonly IApiClient _apiClient;
         private readonly ITelemetryService _telemetryService;
         private readonly IFlightService _flightService;
         private readonly ISettings _settings;
+        private readonly ITokenProvider _tokenProvider;
         private readonly SemaphoreSlim _signInLock = new SemaphoreSlim(1);
         private readonly SemaphoreSlim _processLock = new SemaphoreSlim(1);
 
@@ -46,7 +46,7 @@ namespace AltitudeAngelWings.Service
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
             ISettings settings,
-            IAltitudeAngelClient client,
+            ITokenProvider tokenProvider,
             IApiClient apiClient,
             ITelemetryService telemetryService,
             IFlightService flightService)
@@ -54,7 +54,7 @@ namespace AltitudeAngelWings.Service
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
             _settings = settings;
-            _client = client;
+            _tokenProvider = tokenProvider;
             _apiClient = apiClient;
             _telemetryService = telemetryService;
             _flightService = flightService;
@@ -83,11 +83,6 @@ namespace AltitudeAngelWings.Service
                 .SubscribeWithAsync((i, ct) => OnFlightReportClicked(i.Feature)));
         }
 
-        public async Task<UserProfileInfo> GetUserProfile(CancellationToken cancellationToken)
-        {
-            return await _client.GetUserProfile(cancellationToken);
-        }
-
         public async Task SignInAsync(CancellationToken cancellationToken = default)
         {
             if (!_settings.CheckEnableAltitudeAngel)
@@ -98,8 +93,9 @@ namespace AltitudeAngelWings.Service
             try
             {
                 await _signInLock.WaitAsync(cancellationToken);
-                // Load the user's profile, will trigger auth
-                await GetUserProfile(cancellationToken);
+                
+                // Attempt to get a token
+                var token = await _tokenProvider.GetToken(cancellationToken);
             }
             catch (FlurlHttpException ex) when (ex.StatusCode == 401)
             {
@@ -109,7 +105,7 @@ namespace AltitudeAngelWings.Service
             {
                 await _messagesService.AddMessageAsync(
                     Message.ForError("There was a problem signing you in to Altitude Angel.", ex));
-                _client.Disconnect(true);
+                _settings.TokenResponse = null;
             }
             finally
             {
@@ -126,7 +122,7 @@ namespace AltitudeAngelWings.Service
 
         public Task DisconnectAsync()
         {
-            _client.Disconnect(true);
+            _settings.TokenResponse = null;
             IsSignedIn.Value = false;
             ProcessAllFromCache(_missionPlanner.FlightDataMap);
             ProcessAllFromCache(_missionPlanner.FlightPlanningMap);
@@ -383,7 +379,6 @@ namespace AltitudeAngelWings.Service
             if (!isDisposing) return;
             _telemetryService.Dispose();
             _flightService.Dispose();
-            _client.Dispose();
             _disposer?.Dispose();
         }
     }
