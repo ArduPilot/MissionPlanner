@@ -102,7 +102,7 @@ namespace AltitudeAngelWings.Service.FlightService
                 // Check flight plan id is valid
                 if (flightPlanId == null || flightPlanId == Guid.Empty)
                 {
-                    await _messagesService.AddMessageAsync(Message.ForInfo("Flight", "Flight plan not available; flight cancelled.", TimeSpan.FromSeconds(10)));
+                    await _messagesService.AddMessageAsync(Message.ForInfo("Flight", "Flight plan not available.", TimeSpan.FromSeconds(10)));
                     return;
                 }
                 _settings.CurrentFlightPlanId = flightPlanId.ToString();
