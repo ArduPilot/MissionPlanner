@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.ApiClient.Models;
-using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Clients.Api.Model;
 
 namespace AltitudeAngelWings.Service
 {

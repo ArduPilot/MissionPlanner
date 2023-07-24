@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using AltitudeAngelWings.ApiClient.Client.FlightClient;
-using AltitudeAngelWings.ApiClient.Models.OutboundNotifications;
-using AltitudeAngelWings.Extra;
-using AltitudeAngelWings.Extra.WebSocket;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Clients.Flight;
+using AltitudeAngelWings.Clients.OutboundNotifications.Model;
+using AltitudeAngelWings.Model;
 using AltitudeAngelWings.Service.Messaging;
 using Newtonsoft.Json;
 
@@ -19,7 +18,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifications
         private readonly IMessagesService _messagesService;
         private readonly IFlightClient _flightServiceClient;
         private readonly IMissionPlannerState _missionPlannerState;
-        private AaClientWebSocket _aaClientWebSocket;
+        private ClientWebSocket _clientWebSocket;
 
         public OutboundNotificationsService(
             IMissionPlanner missionPlanner,
@@ -35,25 +34,25 @@ namespace AltitudeAngelWings.Service.OutboundNotifications
             _missionPlannerState = missionPlannerState;
         }
 
-        public async Task StartWebSocket()
+        public async Task StartWebSocket(CancellationToken cancellationToken = default)
         {
-            if (null == _aaClientWebSocket)
+            if (null == _clientWebSocket)
             {
-                await SetupAaClientWebSocket();
+                await SetupAaClientWebSocket(cancellationToken);
             }
         }
 
-        public async Task StopWebSocket()
+        public async Task StopWebSocket(CancellationToken cancellationToken = default)
         {
-            if (null != _aaClientWebSocket)
+            if (null != _clientWebSocket)
             {
-                await TearDownAaClientWebSocket();
+                await TearDownAaClientWebSocket(cancellationToken);
             }
         }
 
-        private Task SetupAaClientWebSocket()
+        private Task SetupAaClientWebSocket(CancellationToken cancellationToken)
         {
-            _aaClientWebSocket = new AaClientWebSocket
+            _clientWebSocket = new ClientWebSocket
             {
                 OnError = OnError,
                 OnDisconnected = OnDisconnected, // TODO: Always attempt to reconnect on disconnect
@@ -61,15 +60,15 @@ namespace AltitudeAngelWings.Service.OutboundNotifications
                 OnMessage = OnMessage
             };
 
-            _aaClientWebSocket.SetSocketHeaders(new Dictionary<string, string>
+            _clientWebSocket.SetSocketHeaders(new Dictionary<string, string>
             {
                 {"Authorization", $"Bearer {_settings.TokenResponse.AccessToken}" }
             });
 
-            return _aaClientWebSocket.OpenAsync(new Uri(_settings.OutboundNotificationsUrl));
+            return _clientWebSocket.OpenAsync(new Uri(_settings.OutboundNotificationsUrl), cancellationToken);
         }
 
-        private async Task OnMessage(byte[] bytes)
+        private async Task OnMessage(byte[] bytes, CancellationToken cancellationToken)
         {
             var notification = new NotificationMessage();
             try
@@ -78,7 +77,7 @@ namespace AltitudeAngelWings.Service.OutboundNotifications
                 notification = JsonConvert.DeserializeObject<NotificationMessage>(msg);
                 if (notification.Acknowledge)
                 {
-                    await SendAck(_aaClientWebSocket, notification.Id);
+                    await SendAck(_clientWebSocket, notification.Id);
                 }
             }
             catch (Exception e)
@@ -162,22 +161,22 @@ namespace AltitudeAngelWings.Service.OutboundNotifications
             }
         }
 
-        private Task OnConnected()
+        private Task OnConnected(CancellationToken cancellationToken = default)
             => _messagesService.AddMessageAsync(Message.ForInfo("WebSocket", "Notifications web socket connected."));
 
-        private Task OnDisconnected()
+        private Task OnDisconnected(CancellationToken cancellationToken = default)
             => _messagesService.AddMessageAsync(Message.ForInfo("WebSocket", "Notifications web socket disconnected."));
 
-        private Task OnError(Exception e)
+        private Task OnError(Exception e, CancellationToken cancellationToken = default)
             => _messagesService.AddMessageAsync(Message.ForError("WebSocket", "Notifications web socket error.", e));
 
-        private async Task TearDownAaClientWebSocket()
+        private async Task TearDownAaClientWebSocket(CancellationToken cancellationToken)
         {
-            await _aaClientWebSocket.CloseAsync();
-            _aaClientWebSocket = null;
+            await _clientWebSocket.CloseAsync(cancellationToken);
+            _clientWebSocket = null;
         }
 
-        private static async Task SendAck(AaWebSocket socket, string id)
+        private static async Task SendAck(WebSocket socket, string id)
             => await socket.SendMessageAsync(
                 Encoding.UTF8.GetBytes(
                     JsonConvert.SerializeObject(

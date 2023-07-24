@@ -1,16 +1,17 @@
-﻿using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
-using AltitudeAngelWings.Models;
-using AltitudeAngelWings.Service.AltitudeAngelTelemetry.TelemetryEvents;
+﻿using AltitudeAngelWings.Service.AltitudeAngelTelemetry.TelemetryEvents;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
 using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
+using AltitudeAngelWings.Clients;
+using AltitudeAngelWings.Clients.Auth.Model;
+using AltitudeAngelWings.Clients.Telemetry;
+using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
 {
-    public class TelemetryService: ITelemetryService
+    public class TelemetryService : ITelemetryService
     {
         private readonly IMessagesService _messagesService;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
@@ -36,13 +37,13 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
                 .SubscribeWithAsync((i, ct) => FlightDisarmed(i)));
         }
 
-        private Task FlightDisarmed(Models.FlightData flightData)
+        private Task FlightDisarmed(Model.FlightData flightData)
         {
             _sequenceNumber = 0;
             return Task.CompletedTask;
         }
 
-        private async Task SendTelemetry(Models.FlightData flightData)
+        private async Task SendTelemetry(Model.FlightData flightData)
         {
             if (!(_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry > FlightTelemetry.None && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs)))
             {

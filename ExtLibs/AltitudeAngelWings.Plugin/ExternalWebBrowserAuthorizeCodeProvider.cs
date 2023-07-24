@@ -2,8 +2,10 @@
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Clients;
+using AltitudeAngelWings.Clients.Auth;
+using AltitudeAngelWings.Clients.Auth.Model;
+using AltitudeAngelWings.Model;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.Plugin;

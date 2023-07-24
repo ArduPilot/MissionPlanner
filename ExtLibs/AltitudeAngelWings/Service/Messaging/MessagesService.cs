@@ -1,7 +1,7 @@
 using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.Messaging
 {

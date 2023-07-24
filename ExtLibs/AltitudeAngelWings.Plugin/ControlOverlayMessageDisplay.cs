@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Model;
 using AltitudeAngelWings.Service.Messaging;
-using Message = AltitudeAngelWings.Models.Message;
+using Message = AltitudeAngelWings.Model.Message;
 
 namespace AltitudeAngelWings.Plugin
 {

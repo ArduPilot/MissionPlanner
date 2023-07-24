@@ -1,17 +1,17 @@
 using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Model;
 using AltitudeAngelWings.Service.FlightData.Providers;
 
 namespace AltitudeAngelWings.Service.FlightData
 {
     public class FlightDataService : IFlightDataService
     {
-        public IObservable<Models.FlightData> FlightArmed { get; }
-        public IObservable<Models.FlightData> FlightDisarmed { get; }
-        public IObservable<Models.FlightData> ArmedFlightData { get; }
-        public IObservable<Models.FlightData> RawFlightData => _rawFlightData;
+        public IObservable<Model.FlightData> FlightArmed { get; }
+        public IObservable<Model.FlightData> FlightDisarmed { get; }
+        public IObservable<Model.FlightData> ArmedFlightData { get; }
+        public IObservable<Model.FlightData> RawFlightData => _rawFlightData;
 
         public FlightDataService(
             TimeSpan pollInterval,
@@ -24,7 +24,7 @@ namespace AltitudeAngelWings.Service.FlightData
             FlightArmed = _rawFlightData
                 .DistinctUntilChanged(i => i.Armed)
                 .Where(i => i.Armed)
-                .Select(flightData => new Models.FlightData(flightData) {HomePosition = flightData.CurrentPosition});
+                .Select(flightData => new Model.FlightData(flightData) {HomePosition = flightData.CurrentPosition});
 
             FlightDisarmed = _rawFlightData
                 .DistinctUntilChanged(i => i.Armed)
@@ -32,7 +32,7 @@ namespace AltitudeAngelWings.Service.FlightData
 
             ArmedFlightData = _rawFlightData
                 .Where(i => i.Armed)
-                .Select(flightData => new Models.FlightData(flightData) {HomePosition = _homePosition});
+                .Select(flightData => new Model.FlightData(flightData) {HomePosition = _homePosition});
 
             FlightArmed
                 .Subscribe(i => _homePosition = i.CurrentPosition);
@@ -55,7 +55,7 @@ namespace AltitudeAngelWings.Service.FlightData
             _rawFlightDataSubscription = null;
         }
 
-        private readonly IConnectableObservable<Models.FlightData> _rawFlightData;
+        private readonly IConnectableObservable<Model.FlightData> _rawFlightData;
         private FlightDataPosition _homePosition;
         private IDisposable _rawFlightDataSubscription;
     }

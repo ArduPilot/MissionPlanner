@@ -1,4 +1,4 @@
-﻿using AltitudeAngelWings.Models;
+﻿using AltitudeAngelWings.Clients.Flight.Model;
 using MissionPlanner;
 
 namespace AltitudeAngelWings.Plugin

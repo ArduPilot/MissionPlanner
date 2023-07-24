@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using AltitudeAngelWings.Extra;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Clients.Flight.Model;
+using AltitudeAngelWings.Model;
 using MissionPlanner;
 
 namespace AltitudeAngelWings.Plugin

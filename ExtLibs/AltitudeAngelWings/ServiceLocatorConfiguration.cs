@@ -1,12 +1,15 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.ApiClient.Client.FlightClient;
-using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
-using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests;
-using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests.ProtocolConfiguration;
-using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Clients;
+using AltitudeAngelWings.Clients.Api;
+using AltitudeAngelWings.Clients.Auth;
+using AltitudeAngelWings.Clients.Auth.Model;
+using AltitudeAngelWings.Clients.Flight;
+using AltitudeAngelWings.Clients.Flight.Model.ServiceRequests;
+using AltitudeAngelWings.Clients.Flight.Model.ServiceRequests.ProtocolConfiguration;
+using AltitudeAngelWings.Clients.Surveillance;
+using AltitudeAngelWings.Clients.Telemetry;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.AltitudeAngelTelemetry;
 using AltitudeAngelWings.Service.AltitudeAngelTelemetry.Encryption;
@@ -102,7 +105,11 @@ namespace AltitudeAngelWings
                 l.Resolve<ISettings>(),
                 l.Resolve<IHttpClientFactory>(),
                 l.Resolve<ISerializer>()));
-            ServiceLocator.Register<IApiClient>(l => new ApiClient.Client.ApiClient(
+            ServiceLocator.Register<ISurveillanceClient>(l => new SurveillanceClient(
+                l.Resolve<ISettings>(),
+                l.Resolve<IHttpClientFactory>(),
+                l.Resolve<ISerializer>()));
+            ServiceLocator.Register<IApiClient>(l => new ApiClient(
                 l.Resolve<ISettings>(),
                 l.Resolve<IHttpClientFactory>(),
                 l.Resolve<ISerializer>()));

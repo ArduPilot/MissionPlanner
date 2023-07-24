@@ -7,16 +7,14 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.ApiClient.Models;
-using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Clients.Api.Model;
 using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using Feature = GeoJSON.Net.Feature.Feature;
-using Message = AltitudeAngelWings.Models.Message;
+using Message = AltitudeAngelWings.Model.Message;
 using Unit = System.Reactive.Unit;
 
 namespace AltitudeAngelWings.Plugin

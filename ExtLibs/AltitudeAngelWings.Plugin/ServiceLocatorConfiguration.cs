@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.Extra;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Clients;
+using AltitudeAngelWings.Clients.Api;
+using AltitudeAngelWings.Clients.Auth;
+using AltitudeAngelWings.Model;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
-using Settings = AltitudeAngelWings.Service.Settings;
+using Settings = AltitudeAngelWings.Settings;
 
 namespace AltitudeAngelWings.Plugin
 {

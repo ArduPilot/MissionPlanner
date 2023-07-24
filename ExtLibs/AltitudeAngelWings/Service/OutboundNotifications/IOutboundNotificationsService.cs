@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace AltitudeAngelWings.Service.OutboundNotifications
 {
     public interface IOutboundNotificationsService
     {
-        Task StartWebSocket();
+        Task StartWebSocket(CancellationToken cancellationToken = default);
 
-        Task StopWebSocket();
+        Task StopWebSocket(CancellationToken cancellationToken = default);
     }
 }

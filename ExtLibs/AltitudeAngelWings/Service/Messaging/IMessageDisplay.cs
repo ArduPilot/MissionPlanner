@@ -1,4 +1,4 @@
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.Messaging
 {

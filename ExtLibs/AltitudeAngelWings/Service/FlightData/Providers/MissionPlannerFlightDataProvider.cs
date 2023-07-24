@@ -1,6 +1,5 @@
 using System;
-using AltitudeAngelWings.Extra;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.FlightData.Providers
 {
@@ -14,9 +13,9 @@ namespace AltitudeAngelWings.Service.FlightData.Providers
             _missionPlannerState = missionPlannerState;
         }
 
-        public Models.FlightData GetCurrentFlightData()
+        public Model.FlightData GetCurrentFlightData()
         {
-            return new Models.FlightData
+            return new Model.FlightData
             {
                 Armed = _missionPlannerState.IsArmed,
                 CurrentPosition = new FlightDataPosition
