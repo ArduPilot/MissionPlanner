@@ -1,29 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests;
+using Newtonsoft.Json;
 
 namespace AltitudeAngelWings.ApiClient.Models.FlightV2
 {
     public class StartFlightResponse
     {
         /// <summary>
-        ///The ID of the newly started flight.
+        ///     The ID of the newly started flight.
         /// </summary>
+        [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
-        /// The ID of the flight plan.
+        ///     The ID of the flight plan.
         /// </summary>
+        [JsonProperty("flightPlanId")]
         public string FlightPlanId { get; set; }
 
         /// <summary>
-        /// The date and time the flight was started, if it started successfully
+        ///     The version of the flight plan that was started
         /// </summary>
+        [JsonProperty("flightPlanVersion")]
+        public string FlightPlanVersion { get; set; }
+
+        /// <summary>
+        ///     The date and time the flight was started, if it started successfully
+        /// </summary>
+        [JsonProperty("started")]
         public DateTimeOffset? Started { get; set; }
 
         /// <summary>
-        /// A list of individual responses for each <see cref="FlightServiceRequest"/> issued
+        ///     A list of individual responses for each <see cref="FlightServiceRequest" /> issued
         /// </summary>
-        public List<TacticalDeconflictionFlightServiceResponse> ServiceResponses { get; set; }
+        [JsonProperty("serviceResponses")]
+        public List<IFlightServiceResponse> ServiceResponses { get; set; }
+
+        /// <summary>
+        ///     Contains various indicators of the state of the flight
+        /// </summary>
+        [JsonProperty("flightState")]
+        public FlightStates FlightState { get; set; }
+
+        /// <summary>
+        /// The priority level of the flight
+        /// </summary>       
+        [JsonProperty("priorityLevel")]
+        public FlightPriorityLevel PriorityLevel { get; set; }
     }
 }

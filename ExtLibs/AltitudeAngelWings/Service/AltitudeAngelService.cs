@@ -355,17 +355,21 @@ namespace AltitudeAngelWings.Service
 
         private async Task OnFlightReportClicked(Feature feature)
         {
-            if (!(_settings.UseFlightPlans && _settings.TokenResponse.HasScopes(Scopes.StrategicCrs)))
+            if (!(_settings.UseFlightPlans && _settings.TokenResponse.HasScopes(Scopes.ManageFlightReports)))
             {
                 return;
             }
 
-            if (!await _missionPlanner.ShowYesNoMessageBox(
-                $"You have clicked your flight plan '{feature.GetDisplayInfo().Title}'.{Environment.NewLine}Would you like to set the current flight plan to this one?",
-                "Flight Plan")) return;
-            _settings.ExistingFlightPlanId = Guid.Parse(feature.Id);
-            _settings.UseExistingFlightPlanId = true;
-            await _messagesService.AddMessageAsync(Message.ForInfo($"Current flight plan ID set to {feature.Id}", TimeSpan.FromSeconds(10)));
+            if (_settings.CurrentFlightPlanId == null && _settings.ExistingFlightPlanId != Guid.Parse(feature.Id))
+            {
+                if (!await _missionPlanner.ShowYesNoMessageBox(
+                        $"You have clicked your flight plan '{feature.GetDisplayInfo().Title}'.{Environment.NewLine}Would you like to use this flight plan when you arm your drone?",
+                        "Flight Plan")) return;
+                _settings.ExistingFlightPlanId = Guid.Parse(feature.Id);
+                _settings.UseExistingFlightPlanId = true;
+                await _messagesService.AddMessageAsync(
+                    Message.ForInfo($"Use existing flight plan ID set to {feature.Id}", TimeSpan.FromSeconds(10)));
+            }
         }
 
         public void Dispose()

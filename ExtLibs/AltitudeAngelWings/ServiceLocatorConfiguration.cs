@@ -4,6 +4,7 @@ using System.Net.Http;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Client.FlightClient;
 using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
+using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests;
 using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests.ProtocolConfiguration;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
@@ -36,7 +37,7 @@ namespace AltitudeAngelWings
                     .Handle<FlurlHttpException>(e => e.StatusCode >= 500)
                     .WaitAndRetryAsync(5,  i => TimeSpan.FromSeconds(Math.Pow(2, i) / 2)),
                 Policy
-                    .TimeoutAsync(TimeSpan.FromSeconds(5))));
+                    .TimeoutAsync(TimeSpan.FromSeconds(30))));
             ServiceLocator.Register<IEncryptionKeyGenerator>(l => new HmacKeyGenerator(
                 l.Resolve<ISettings>().EncryptionHashType,
                 l.Resolve<ISettings>().EncryptionKeySecret));
@@ -92,6 +93,7 @@ namespace AltitudeAngelWings
                 };
                 settings.Converters.Add(new BaseNotificationProtocolConfigurationConverter());
                 settings.Converters.Add(new BaseTelemetryProtocolConfigurationConverter());
+                settings.Converters.Add(new FlightServiceResponseConverter());
                 settings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
                 settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 return new NewtonsoftJsonSerializer(settings);

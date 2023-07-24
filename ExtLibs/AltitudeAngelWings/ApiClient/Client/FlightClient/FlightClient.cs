@@ -7,8 +7,8 @@ using Flurl.Http.Configuration;
 using AltitudeAngelWings.ApiClient.Models.FlightV2.ServiceRequests;
 using AltitudeAngelWings.ApiClient.Models.FlightV2;
 using AltitudeAngelWings.Service;
-using AltitudeAngelWings.ApiClient.Models.Strategic;
 using System.Threading;
+using AltitudeAngelWings.ApiClient.Models.Flight;
 
 namespace AltitudeAngelWings.ApiClient.Client.FlightClient
 {
@@ -30,37 +30,19 @@ namespace AltitudeAngelWings.ApiClient.Client.FlightClient
             };
         }
 
-        public Task<CreateStrategicPlanResponse> CreateFlightPlan(CreateStrategicPlanRequest flightPlan, CancellationToken cancellationToken = default)
+        public Task<CreateFlightPlanResponse> CreateFlightPlan(CreateFlightPlanRequest flightPlan, CancellationToken cancellationToken = default)
             => _settings.FlightServiceUrl
-                .AppendPathSegments("v1", "conflict-resolution", "strategic", "flight-plans")
+                .AppendPathSegments("flightapprovals")
                 .WithClient(_client)
                 .PostJsonAsync(flightPlan, cancellationToken)
-                .ReceiveJson<CreateStrategicPlanResponse>();
+                .ReceiveJson<CreateFlightPlanResponse>();
 
-        public Task<StartFlightResponse> StartFlight(string flightPlanId, CancellationToken cancellationToken = default)
-        {
-            var startFlightRequest = new StartFlightRequest
-            {
-                FlightPlanId = flightPlanId,
-                ServiceRequests = new List<IFlightServiceRequest>
-                {
-                    new TacticalDeconflictionFlightServiceRequest {Properties = new TacticalDeconflictionRequestProperties
-                    {
-                        Guidance = new List<string> {"vector"},
-                        NotificationProtocols = new List<object> {new {type = "Websocket"}},
-                        TelemetryProtocols = new List<object> {new {type = "Udp"}},
-                        Scope = "global",
-                        SurveillanceResolution = true
-                    }}
-                }
-            };
-
-            return _settings.FlightServiceUrl
+        public Task<StartFlightResponse> StartFlight(StartFlightRequest startFlightRequest, CancellationToken cancellationToken = default)
+            => _settings.FlightServiceUrl
                 .AppendPathSegments("flight", "v2", "flights")
                 .WithClient(_client)
                 .PostJsonAsync(startFlightRequest, cancellationToken)
                 .ReceiveJson<StartFlightResponse>();
-        }
 
         public Task CompleteFlight(string flightId, CancellationToken cancellationToken = default)
             => _settings.FlightServiceUrl
