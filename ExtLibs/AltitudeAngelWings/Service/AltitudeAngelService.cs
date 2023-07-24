@@ -207,7 +207,7 @@ namespace AltitudeAngelWings.Service
 
             if (resetFilters)
             {
-                MapFeatureCache.Values.UpdateFilterInfo(FilterInfoDisplay, resetFilters);
+                MapFeatureCache.Values.UpdateFilterInfo(FilterInfoDisplay, true);
             }
 
             ProcessFeatures(map, MapFeatureCache.Values);
