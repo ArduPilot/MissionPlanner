@@ -70,7 +70,7 @@ namespace AltitudeAngelWings.Service.FlightService
                 await CompleteFlight(cancellationToken);
             }
 
-            // TODO somehow prevent Arming of UAV until the following try statement has been completed, so telemetry isnt sent late. PBI 8490
+            // TODO somehow prevent Arming of UAV until the following try statement has been completed, so telemetry isn't sent late. PBI 8490
             try
             {
                 Guid? flightPlanId;
@@ -82,7 +82,7 @@ namespace AltitudeAngelWings.Service.FlightService
                 {
                     await _messagesService.AddMessageAsync(Message.ForInfo("Creating flight plan."));
                     var profile = await _client.GetUserProfile(cancellationToken);
-                    var createPlanResponse = await _flightClient.CreateFlightPlan(flightPlan, profile);
+                    var createPlanResponse = await _flightClient.CreateFlightPlan(flightPlan, profile, cancellationToken);
                     if (createPlanResponse.Outcome == StrategicSeverity.DirectConflict)
                     {
                         await _messagesService.AddMessageAsync(Message.ForInfo("Conflict detected; flight cancelled.", TimeSpan.FromSeconds(10)));
@@ -105,7 +105,7 @@ namespace AltitudeAngelWings.Service.FlightService
 
                 // Flight being rejected will throw, and cause a disarm
                 await _messagesService.AddMessageAsync(Message.ForInfo("Starting flight.", TimeSpan.FromSeconds(10)));
-                var startFlightResponse = await _flightClient.StartFlight(flightPlanId.Value.ToString("D"));
+                var startFlightResponse = await _flightClient.StartFlight(flightPlanId.Value.ToString("D"), cancellationToken);
 
                 _settings.CurrentFlightId = startFlightResponse.Id;
                 var tacticalSettings = startFlightResponse.ServiceResponses.First();
@@ -145,10 +145,10 @@ namespace AltitudeAngelWings.Service.FlightService
             }
             try
             {
-                await _flightClient.CompleteFlight(_settings.CurrentFlightId);
+                await _flightClient.CompleteFlight(_settings.CurrentFlightId, cancellationToken);
                 await _messagesService.AddMessageAsync(Message.ForInfo($"Flight {_settings.CurrentFlightId} completed.", TimeSpan.FromSeconds(10)));
 
-                //await _client.CancelFlightPlan(_settings.CurrentFlightReportId);
+                //await _flightClient.CompleteFlightPlan(_settings.CurrentFlightPlanId, cancellationToken);
                 await _messagesService.AddMessageAsync(Message.ForInfo($"Flight plan {_settings.CurrentFlightPlanId} completed.", TimeSpan.FromSeconds(10)));
             }
             catch (Exception ex)

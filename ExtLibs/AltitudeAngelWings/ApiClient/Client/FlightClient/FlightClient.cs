@@ -19,6 +19,7 @@ using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Models;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
+using System.Threading;
 
 namespace AltitudeAngelWings.ApiClient.Client.FlightClient
 {
@@ -39,7 +40,7 @@ namespace AltitudeAngelWings.ApiClient.Client.FlightClient
             };
         }
 
-        public Task<CreateStrategicPlanResponse> CreateFlightPlan(FlightPlan flightPlan, UserProfileInfo currentUser)
+        public Task<CreateStrategicPlanResponse> CreateFlightPlan(FlightPlan flightPlan, UserProfileInfo currentUser, CancellationToken cancellationToken = default)
         {
             var parts = CreateFlightPartsFromWaypoints(flightPlan.Waypoints, flightPlan.Duration);
             var sParts = parts.Select(p => new CreateStrategicPlanPartRequest
@@ -94,11 +95,11 @@ namespace AltitudeAngelWings.ApiClient.Client.FlightClient
                 {
                     settings.JsonSerializer = CreateNewtonsoftJsonSerializer();
                 })
-                .PostJsonAsync(req)
+                .PostJsonAsync(req, cancellationToken)
                 .ReceiveJson<CreateStrategicPlanResponse>();
         }
 
-        public Task<StartFlightResponse> StartFlight(string flightPlanId)
+        public Task<StartFlightResponse> StartFlight(string flightPlanId, CancellationToken cancellationToken = default)
         {
             var startFlightRequest = new StartFlightRequest
             {
@@ -123,31 +124,37 @@ namespace AltitudeAngelWings.ApiClient.Client.FlightClient
                 {
                     settings.JsonSerializer = CreateNewtonsoftJsonSerializer();
                 })
-                .PostJsonAsync(startFlightRequest)
+                .PostJsonAsync(startFlightRequest, cancellationToken)
                 .ReceiveJson<StartFlightResponse>();
         }
 
-        public Task CompleteFlight(string flightId)
+        public Task CompleteFlight(string flightId, CancellationToken cancellationToken = default)
             => _settings.FlightServiceUrl
                 .AppendPathSegments("flight", "v2", "flights", flightId)
                 .WithClient(_client)
-                .DeleteAsync();
+                .DeleteAsync(cancellationToken);
 
-        public Task CancelFlightPlan(string flightPlanId)
+        public Task CompleteFlightPlan(string flightPlanId, CancellationToken cancellationToken = default)
             => _settings.FlightServiceUrl
-                .AppendPathSegments("v1", "conflict-resolution", "strategic", "flight-plans", flightPlanId, "cancel")
+                .AppendPathSegments("flightapprovals", flightPlanId, "complete")
                 .WithClient(_client)
-                .PostAsync();
+                .PostAsync(cancellationToken: cancellationToken);
 
-        public Task AcceptInstruction(string instructionId) => ProcessInstruction(instructionId, true);
+        public Task CancelFlightPlan(string flightPlanId, CancellationToken cancellationToken = default)
+            => _settings.FlightServiceUrl
+                .AppendPathSegments("flightapprovals", flightPlanId, "cancel")
+                .WithClient(_client)
+                .PostAsync(cancellationToken: cancellationToken);
 
-        public Task RejectInstruction(string instructionId) => ProcessInstruction(instructionId, false);
+        public Task AcceptInstruction(string instructionId, CancellationToken cancellationToken = default) => ProcessInstruction(instructionId, true, cancellationToken);
 
-        private Task ProcessInstruction(string instructionId, bool accept)
+        public Task RejectInstruction(string instructionId, CancellationToken cancellationToken = default) => ProcessInstruction(instructionId, false, cancellationToken);
+
+        private Task ProcessInstruction(string instructionId, bool accept, CancellationToken cancellationToken = default)
             => _settings.FlightServiceUrl
                 .AppendPathSegments("flight", "v2", "instructions", instructionId, accept ? "accept" : "reject")
                 .WithClient(_client)
-                .PutAsync();
+                .PutAsync(cancellationToken: cancellationToken);
 
         protected virtual void Dispose(bool disposing)
         {

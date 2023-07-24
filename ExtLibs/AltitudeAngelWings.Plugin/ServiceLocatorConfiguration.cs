@@ -8,7 +8,6 @@ using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
-using Flurl.Http.Configuration;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
@@ -64,7 +63,7 @@ namespace AltitudeAngelWings.Plugin
                 () => l.Resolve<PluginHost>().comPort.MAV.ToFlightCapability()));
             ServiceLocator.Register<IAuthorizeCodeProvider>(l => new ExternalWebBrowserAuthorizeCodeProvider(
                 l.Resolve<ISettings>(),
-                l.Resolve<IHttpClientFactory>("Auth"),
+                l.Resolve<IAuthClient>(),
                 l.Resolve<IMessagesService>(),
                 l.Resolve<PluginHost>(),
                 l.Resolve<IUiThreadInvoke>()));

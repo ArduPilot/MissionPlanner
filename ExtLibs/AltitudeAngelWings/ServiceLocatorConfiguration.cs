@@ -49,7 +49,7 @@ namespace AltitudeAngelWings
                 l.Resolve<IFlightDataProvider>()));
             ServiceLocator.Register<ITokenProvider>(l => new UserAuthenticationTokenProvider(
                 l.Resolve<ISettings>(), 
-                l.Resolve<IHttpClientFactory>("Auth"),
+                l.Resolve<IAuthClient>(),
                 new Lazy<IAltitudeAngelService>(() => l.Resolve<IAltitudeAngelService>()),
                 l.Resolve<IAuthorizeCodeProvider>(),
                 l.Resolve<IMessagesService>()));
@@ -88,6 +88,9 @@ namespace AltitudeAngelWings
             ServiceLocator.Register<IApiClient>(l => new ApiClient.Client.ApiClient(
                 l.Resolve<ISettings>(),
                 l.Resolve<IHttpClientFactory>()));
+            ServiceLocator.Register<IAuthClient>(l => new AuthClient(
+                l.Resolve<ISettings>(),
+                l.Resolve<IHttpClientFactory>("Auth")));
             ServiceLocator.Register<IOutboundNotificationsService>(l => new OutboundNotificationsService(
                 l.Resolve<IMissionPlanner>(),
                 l.Resolve<ISettings>(),
