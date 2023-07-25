@@ -6,7 +6,6 @@ using AltitudeAngelWings.Clients;
 using AltitudeAngelWings.Clients.Auth;
 using AltitudeAngelWings.Clients.Auth.Model;
 using AltitudeAngelWings.Model;
-using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.Plugin;
 

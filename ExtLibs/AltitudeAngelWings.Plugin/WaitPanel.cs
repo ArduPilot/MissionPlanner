@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
-using Flurl.Http;
 using Exception = System.Exception;
 
 namespace AltitudeAngelWings.Plugin
@@ -64,9 +62,9 @@ namespace AltitudeAngelWings.Plugin
             _picLogo.Visible = false;
             _lblOperation.Top = _picLogo.Top;
             _lblOperation.Height = _btnCancel.Top;
-            _lblOperation.Text = _exception.ToString();
+            _lblOperation.Text = _exception.ToDisplayedException();
+            _btnCancel.Enabled = true;
             _btnCancel.Text = "OK";
-            _btnCancel.DialogResult = DialogResult.OK;
         }
     }
 }

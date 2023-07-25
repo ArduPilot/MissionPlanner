@@ -43,7 +43,6 @@ namespace AltitudeAngelWings.Plugin
                 {
                     if (!(sender is Form frm)) return;
                     result = ShowWaitPanel(frm, runTask, description, false);
-                    frm.DialogResult = DialogResult.OK;
                 };
                 form.ShowDialog(MainV2.instance);
             }
@@ -59,7 +58,6 @@ namespace AltitudeAngelWings.Plugin
             var start = DateTimeOffset.UtcNow;
             var waitTime = waitToShow ? WaitToShowTime : TimeSpan.Zero;
             var task = runTask(cts.Token);
-            var ok = false;
             try
             {
                 do
@@ -90,12 +88,12 @@ namespace AltitudeAngelWings.Plugin
                 {
                     panel = ShowWaitPanel(parentControl, description, cts);
                 }
+                panel.Exception = e;
                 panel.BringToFront();
                 panel.OkClick += (sender, args) =>
                 {
-                    ok = true;
+                    HideWaitPanel(parentControl, panel);
                 };
-                panel.Exception = e;
             }
             finally
             {
@@ -103,11 +101,6 @@ namespace AltitudeAngelWings.Plugin
                 {
                     HideWaitPanel(parentControl, panel);
                 }
-            }
-
-            while (!ok)
-            {
-                Application.DoEvents();
             }
 
             return default;
@@ -155,6 +148,10 @@ namespace AltitudeAngelWings.Plugin
             parentControl.Controls.Remove(panel);
             panel.Dispose();
             parentControl.ResumeLayout();
+            if (parentControl is Form form)
+            {
+                form.DialogResult = DialogResult.OK;
+            }
         }
     }
 }

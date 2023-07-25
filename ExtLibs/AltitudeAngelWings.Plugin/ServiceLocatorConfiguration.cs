@@ -7,12 +7,10 @@ using AltitudeAngelWings.Clients;
 using AltitudeAngelWings.Clients.Api;
 using AltitudeAngelWings.Clients.Auth;
 using AltitudeAngelWings.Model;
-using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
-using Settings = AltitudeAngelWings.Settings;
 
 namespace AltitudeAngelWings.Plugin
 {

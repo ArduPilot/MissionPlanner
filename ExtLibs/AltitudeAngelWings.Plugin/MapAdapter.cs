@@ -9,7 +9,6 @@ using System.Threading;
 using System.Windows.Forms;
 using AltitudeAngelWings.Clients.Api.Model;
 using AltitudeAngelWings.Plugin.Properties;
-using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.Messaging;
 using GMap.NET;
 using GMap.NET.WindowsForms;

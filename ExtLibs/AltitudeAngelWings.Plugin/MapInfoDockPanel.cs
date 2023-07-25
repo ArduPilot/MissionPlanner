@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using AltitudeAngelWings.Clients.Api;
 using AltitudeAngelWings.Clients.Api.Model;
 using AltitudeAngelWings.Plugin.Properties;
-using AltitudeAngelWings.Service;
 using WebBrowser = System.Windows.Forms.WebBrowser;
 
 namespace AltitudeAngelWings.Plugin

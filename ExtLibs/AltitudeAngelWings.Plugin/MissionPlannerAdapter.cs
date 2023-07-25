@@ -2,7 +2,6 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AltitudeAngelWings.Service;
 using MissionPlanner;
 using Resources = AltitudeAngelWings.Plugin.Properties.Resources;
 
