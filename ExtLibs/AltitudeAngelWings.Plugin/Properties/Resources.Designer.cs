@@ -185,7 +185,7 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Ctrl + Click to show Altitude Angel map information on the flight planning map..
+        ///   Looks up a localized string similar to Use Ctrl + Click to show and hide Altitude Angel map information on the flight planning map..
         /// </summary>
         internal static string MessageCtrlClickPlannerMap {
             get {

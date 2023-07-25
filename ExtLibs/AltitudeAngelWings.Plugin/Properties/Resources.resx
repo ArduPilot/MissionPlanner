@@ -259,7 +259,7 @@ For more information, privacy policy, and terms and conditions, visit: [link;htt
     <value>Altitude Angel</value>
   </data>
   <data name="MessageCtrlClickPlannerMap" xml:space="preserve">
-    <value>Use Ctrl + Click to show Altitude Angel map information on the flight planning map.</value>
+    <value>Use Ctrl + Click to show and hide Altitude Angel map information on the flight planning map.</value>
   </data>
   <data name="AAIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AAIconBlack.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

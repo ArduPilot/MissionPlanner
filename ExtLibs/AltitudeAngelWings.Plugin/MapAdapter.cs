@@ -20,6 +20,8 @@ namespace AltitudeAngelWings.Plugin
 {
     internal class MapAdapter : IMap, IDisposable
     {
+        private static readonly TimeSpan CtrlClickMessageInterval = TimeSpan.FromSeconds(30);
+
         private readonly GMapControl _mapControl;
         private readonly Func<bool> _enabled;
         private readonly IMapInfoDockPanel _mapInfoDockPanel;
@@ -28,7 +30,7 @@ namespace AltitudeAngelWings.Plugin
         private CompositeDisposable _disposer = new CompositeDisposable();
         private readonly SynchronizationContext _context;
         private Point? _mouseDown;
-        private bool _shownCtrlClickMessage = false;
+        private DateTimeOffset _lastShownCtrlClickMessage = DateTimeOffset.MinValue;
 
         public IObservable<Unit> MapChanged { get; }
         public ObservableProperty<Feature> FeatureClicked { get; } = new ObservableProperty<Feature>(0);
@@ -94,10 +96,13 @@ namespace AltitudeAngelWings.Plugin
                 return;
             }
 
-            if (_ctrlForPanel && Control.ModifierKeys == Keys.None && !_shownCtrlClickMessage)
+            if (_ctrlForPanel && Control.ModifierKeys == Keys.None)
             {
-                _messages.AddMessageAsync(Message.ForInfo(Resources.MessageCtrlClickPlannerMap, TimeSpan.FromSeconds(30)));
-                _shownCtrlClickMessage = true;
+                if (DateTimeOffset.UtcNow.Subtract(_lastShownCtrlClickMessage) >= CtrlClickMessageInterval)
+                {
+                    _messages.AddMessageAsync(Message.ForInfo(Resources.MessageCtrlClickPlannerMap, CtrlClickMessageInterval));
+                    _lastShownCtrlClickMessage = DateTimeOffset.UtcNow;
+                }
                 return;
             }
 
