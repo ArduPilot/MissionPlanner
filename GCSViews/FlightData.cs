@@ -5196,7 +5196,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                if (this.Visible)
+                if (this.Visible && !this.IsDisposed)
                 {
                     //Console.Write("bindingSource1 ");
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));
