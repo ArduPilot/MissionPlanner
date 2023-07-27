@@ -1254,7 +1254,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (baseposList.Count == 0)
                 return;
 
-            baseposList.RemoveAt(e.RowIndex);
+            if(e.RowIndex < baseposList.Count)
+                baseposList.RemoveAt(e.RowIndex);
 
             saveBasePosList();
         }
