@@ -149,7 +149,7 @@ namespace AltitudeAngelWings.Service.FlightService
                     _settings.TransmissionRateInMilliseconds =
                         telemetrySettings.Properties.TransmissionRateInMilliseconds;
 
-                    await _notificationsService.StartWebSocket();
+                    await _notificationsService.StartWebSocket(cancellationToken);
                 }
 
                 await _messagesService.AddMessageAsync(Message.ForInfo("Flight", $"Flight {startFlightResponse.Id} underway.", TimeSpan.FromSeconds(10)));
@@ -194,7 +194,7 @@ namespace AltitudeAngelWings.Service.FlightService
             }
             finally
             {
-                await _notificationsService.StopWebSocket();
+                await _notificationsService.StopWebSocket(cancellationToken);
                 _settings.CurrentFlightId = null;
                 _settings.CurrentFlightPlanId = null;
             }
