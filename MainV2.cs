@@ -1179,34 +1179,6 @@ namespace MissionPlanner
                     return;
                 }
             }
-
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke((MethodInvoker) delegate
-                {
-                    //enable the payload control page if a mavlink gimbal is detected
-                    if (instance.FlightData != null)
-                    {
-                        instance.FlightData.updatePayloadTabVisible();
-                    }
-
-                    instance.MyView.Reload();
-
-                    _connectionControl.UpdateSysIDS();
-                });
-            }
-            else
-            {
-                //enable the payload control page if a mavlink gimbal is detected
-                if (instance.FlightData != null)
-                {
-                    instance.FlightData.updatePayloadTabVisible();
-                }
-
-                instance.MyView.Reload();
-
-                _connectionControl.UpdateSysIDS();
-            }
         }
 #if !NETSTANDARD2_0
 #if !NETCOREAPP2_0
