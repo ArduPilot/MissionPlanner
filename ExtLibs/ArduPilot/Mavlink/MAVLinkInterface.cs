@@ -4491,28 +4491,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public void setMountControl(byte sysid, byte compid, double pa, double pb, double pc, bool islatlng)
         {
-            mavlink_mount_control_t req = new mavlink_mount_control_t
-            {
-                target_system = sysid,
-                target_component = compid
-            };
-
             if (!islatlng)
             {
-                req.input_a = (int) pa;
-                req.input_b = (int) pb;
-                req.input_c = (int) pc;
+                // pa is pitch, pb is roll, pc is yaw in centi-degrees.  convert to degrees
+                doCommand(sysid, compid, MAV_CMD.DO_MOUNT_CONTROL, (float)(pa * 0.01), (float)(pb * 0.01), (float)(pc * 0.01), 0, 0, 0, (float)MAV_MOUNT_MODE.MAVLINK_TARGETING, false);
             }
             else
             {
-                req.input_a = (int) (pa * 10000000.0);
-                req.input_b = (int) (pb * 10000000.0);
-                req.input_c = (int) (pc * 100.0);
+                // pa is lat in degrees, placed in param5 in deg * 10e7
+                // pb is lon in degrees, placed in param6 in deg * 10e7
+                // pc is alt in meters, placed in param5 in meters
+                doCommand(sysid, compid, MAV_CMD.DO_MOUNT_CONTROL, 0, 0, 0, (float)pc, (float)(pa * 10000000.0f), (float)(pb * 10000000.0f), (float)MAV_MOUNT_MODE.MAVLINK_TARGETING, false);
             }
-
-            generatePacket((byte) MAVLINK_MSG_ID.MOUNT_CONTROL, req);
-            Thread.Sleep(20);
-            generatePacket((byte) MAVLINK_MSG_ID.MOUNT_CONTROL, req);
         }
 
         [Obsolete]

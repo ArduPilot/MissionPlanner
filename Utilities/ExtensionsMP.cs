@@ -17,7 +17,8 @@ namespace MissionPlanner.Utilities
         {
             return obj =>
             {
-                ctl.DataSource = input;
+                if (ctl.DataSource != (object)input)
+                    ctl.DataSource = input;
                 ctl.ResetBindings(false);
             };
         }

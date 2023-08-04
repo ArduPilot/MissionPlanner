@@ -47,25 +47,6 @@ namespace MissionPlanner.Utilities
             public enum TypeEnum { Dir, File };
         }
 
-        static T GetObject<T>(Dictionary<string, object> dict)
-        {
-            Type type = typeof (T);
-            var obj = Activator.CreateInstance(type);
-
-            foreach (var kv in dict)
-            {
-                try
-                {
-                    if (type.GetField(kv.Key) != null)
-                        type.GetField(kv.Key).SetValue(obj, kv.Value);
-                    if (type.GetProperty(kv.Key) != null)
-                        type.GetProperty(kv.Key).SetValue(obj, kv.Value, null);
-                }
-                catch { }
-            }
-            return (T) obj;
-        }
-
         public static List<FileInfo> GetDirContent(string owner, string repo, string path, string filter = "")
         {
             if (path != "")
@@ -87,15 +68,10 @@ namespace MissionPlanner.Utilities
             client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
             string content = client.GetStringAsync(url).GetAwaiter().GetResult();
 
-            var output = JsonConvert.DeserializeObject<object[]>(content);
+            var output = JsonConvert.DeserializeObject<FileInfo[]>(content);
 
-            foreach (JObject itemjobject in output)
+            foreach (var fi in output)
             {
-                var item = itemjobject.ToObject<Dictionary<string, object>>();
-                FileInfo fi = (FileInfo) GetObject<FileInfo>(item);
-                //   string t1 = item["type"].ToString();
-                //   string t2 =item["path"].ToString();
-
                 if (fi.name.ToLower().Contains(filter.ToLower()))
                 {
                     answer.Add(fi);

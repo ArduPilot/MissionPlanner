@@ -3983,7 +3983,7 @@
     <value>63, 19</value>
   </data>
   <data name="trackBarRoll.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>Yes</value>
+    <value>No</value>
   </data>
   <data name="trackBarRoll.RightToLeftLayout" type="System.Boolean, mscorlib">
     <value>True</value>

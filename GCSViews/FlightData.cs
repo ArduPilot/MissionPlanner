@@ -703,35 +703,6 @@ namespace MissionPlanner.GCSViews
             ThemeManager.ApplyThemeTo(tabControlactions);
         }
 
-        //Updates the visibility of the payload control tab based on whether the payload target is available or not
-        public void updatePayloadTabVisible()
-        {
-            bool gimbalPresent = false;
-
-            //if the currently connected target is a flight controller check if there is an associated mavlink gimbal
-            if (MainV2.comPort.compidcurrent == 1)
-            {
-                foreach (var mav in MainV2.comPort.MAVlist)
-                {
-                    if (mav.sysid == MainV2.comPort.sysidcurrent &&
-                        mav.compid == (int) MAVLink.MAV_COMPONENT.MAV_COMP_ID_GIMBAL)
-                    {
-                        gimbalPresent = true;
-                        break;
-                    }
-                }
-            }
-
-            if (tabControlactions.TabPages.Contains(tabPayload) == true && gimbalPresent == false)
-            {
-                tabControlactions.TabPages.Remove(tabPayload);
-            }
-            else if (tabControlactions.TabPages.Contains(tabPayload) == false && gimbalPresent == true)
-            {
-                tabControlactions.TabPages.Add(tabPayload);
-            }
-        }
-
         internal void BUT_run_script_Click(object sender, EventArgs e)
         {
             if (File.Exists(selectedscript))
@@ -3794,13 +3765,13 @@ namespace MissionPlanner.GCSViews
                         //updateClearRoutesMarkers();
 
                         // add this after the mav icons are drawn
-                        if (MainV2.comPort.MAV.cs.MovingBase != null &&
-                            MainV2.comPort.MAV.cs.MovingBase != PointLatLngAlt.Zero)
+                        if (MainV2.comPort.MAV.cs.Base != null &&
+                            MainV2.comPort.MAV.cs.Base != PointLatLngAlt.Zero)
                         {
                             addMissionRouteMarker(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot)
                             {
-                                Position = MainV2.comPort.MAV.cs.MovingBase,
-                                ToolTipText = "Moving Base",
+                                Position = MainV2.comPort.MAV.cs.Base,
+                                ToolTipText = "Base",
                                 ToolTipMode = MarkerTooltipMode.OnMouseOver
                             });
                         }
@@ -5196,7 +5167,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                if (this.Visible)
+                if (this.Visible && !this.IsDisposed)
                 {
                     //Console.Write("bindingSource1 ");
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));
