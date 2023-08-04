@@ -80,7 +80,7 @@ namespace MissionPlanner
 
         private uint _mode = 99999;
 
-        private PointLatLngAlt _movingbase = new PointLatLngAlt();
+        private PointLatLngAlt _base = new PointLatLngAlt();
         private float _remotesnrdb;
 
         private float _sonarrange;
@@ -1382,17 +1382,17 @@ namespace MissionPlanner
         }
 
         [GroupText("Position")]
-        public PointLatLngAlt MovingBase
+        public PointLatLngAlt Base
         {
-            get => _movingbase;
+            get => _base;
             set
             {
                 if (value == null)
-                    _movingbase = new PointLatLngAlt();
+                    _base = new PointLatLngAlt();
 
-                if (_movingbase.Lat != value.Lat || _movingbase.Lng != value.Lng || _movingbase.Alt
+                if (_base.Lat != value.Lat || _base.Lng != value.Lng || _base.Alt
                     != value.Alt)
-                    _movingbase = value;
+                    _base = value;
             }
         }
 
@@ -1580,17 +1580,17 @@ namespace MissionPlanner
         {
             get
             {
-                if (lat == 0 && lng == 0 || MovingBase == null)
+                if (lat == 0 && lng == 0 || Base == null)
                     return 0;
 
                 // shrinking factor for longitude going to poles direction
-                var rads = Math.Abs(MovingBase.Lat) * 0.0174532925;
+                var rads = Math.Abs(Base.Lat) * 0.0174532925;
                 var scaleLongDown = Math.Cos(rads);
                 var scaleLongUp = 1.0f / Math.Cos(rads);
 
                 //DST to Home
-                var dstlat = Math.Abs(MovingBase.Lat - lat) * 111319.5;
-                var dstlon = Math.Abs(MovingBase.Lng - lng) * 111319.5 * scaleLongDown;
+                var dstlat = Math.Abs(Base.Lat - lat) * 111319.5;
+                var dstlon = Math.Abs(Base.Lng - lng) * 111319.5 * scaleLongDown;
                 return (float)Math.Sqrt(dstlat * dstlat + dstlon * dstlon) * multiplierdist;
             }
         }
