@@ -156,6 +156,11 @@ namespace MissionPlanner.GCSViews
                 
         public readonly List<TabPage> TabListOriginal = new List<TabPage>();
 
+        //List for setting colors of quick tab numbers
+        List<Color> listQuickView = new List<Color>();
+        //works well for dark background
+        Color[] colorsForDefaultQuickView = new Color[] { Color.Blue, Color.Yellow, Color.Pink, Color.LimeGreen, Color.Orange, Color.Aqua, Color.LightCoral, Color.LightSteelBlue, Color.DarkKhaki, Color.LightYellow, Color.Violet, Color.YellowGreen, Color.OrangeRed, Color.Tomato, Color.Teal, Color.CornflowerBlue };
+
         Thread thisthread;
 
         int tickStart;
@@ -4728,26 +4733,94 @@ namespace MissionPlanner.GCSViews
                     return default(TableLayoutPanelCellPosition);
                 }
             }).ToList();
-
+            //randomiser for colors
+            Random random = new Random();
+            var controlCount = tableLayoutPanelQuick.Controls;
+            ////if the amount on the quickView Tab decreases, clear the colors List
+            if ((controlCount.Count <= total || controlCount.Count >= total) && listQuickView.Count() % 16 == 0)
+            {
+                listQuickView.Clear();
+            }
             // add extra
             while (total > tableLayoutPanelQuick.Controls.Count)
             {
+                //Variable to Set the name of the quickView Control/s
+                var NameQuickView = $"quickView {(controlCount.Count + 1)}";
+
+                //if the 9 colors are equal in each list, then reset the colors in listQV
+                if ((listQuickView.ToList().OrderBy(x => Name) == colorsForDefaultQuickView.ToList().OrderBy(x => Name)) || (listQuickView.Count == colorsForDefaultQuickView.Length))
+                {
+                    listQuickView.Clear();
+                }
+
+                //Generate a random color
+                var randomColorQuickView = colorsForDefaultQuickView[random.Next(colorsForDefaultQuickView.Length)];
+
+                //If the list contains the random color and the listQV list contains more than one item, exclude the color from the next color to be chosen
+                if (listQuickView.Contains(randomColorQuickView) && listQuickView.ToList().Count() > 1)
+                {
+                    //Change random color to be the next available color
+                    var differentColorQuickView = colorsForDefaultQuickView[random.Next(colorsForDefaultQuickView.Length)];
+                    //Variable to find the items that are in colorsForDefault array, but are not in ListQV list                    
+                    var colorsRemaining = colorsForDefaultQuickView.Except(listQuickView);
+
+                    //if differentColor is the same as randomColor, then select the next item in the list of colors which are still available to be chosen from.
+                    if (randomColorQuickView == differentColorQuickView)
+                    {
+                        //make differentColor the next availaible color in the list of colors which are not yet in the listQV list
+                        differentColorQuickView = colorsRemaining.FirstOrDefault();
+                    }
+                    //if randomColor is not equal to differentColor, and check if either color is contained in the list of colors(listQV)
+                    if (randomColorQuickView != differentColorQuickView && (listQuickView.Contains(differentColorQuickView) || listQuickView.Contains(randomColorQuickView)))
+                    {
+                        //if differentColor and randomColor are both in the listQV list, then get the next color of remaining colors which have not yet been used
+                        if ((listQuickView.Contains(differentColorQuickView) && listQuickView.Contains(randomColorQuickView)))
+                        {
+                            //assign the next color available to the differentColorVariable
+                            differentColorQuickView = colorsRemaining.FirstOrDefault();
+                        }
+                        else
+                        {
+                            differentColorQuickView = colorsRemaining.FirstOrDefault();
+                        }
+                    }
+                    //assign the differentColor to randomColor
+                    randomColorQuickView = differentColorQuickView;
+                    //add the new randomColor into the list of colors(listQV)
+                    listQuickView.Add(randomColorQuickView);
+                    //if the list does not yet contain the randomColor, then add the random color into the list(listQV)
+                    if (!listQuickView.Contains(randomColorQuickView))
+                    {
+                        listQuickView.Add(randomColorQuickView);
+                    }
+                }
+                //if the random color is not in the list of Colors, then add it to the list
+                else if (!listQuickView.Contains(randomColorQuickView))
+                {
+                    //add the color to a list
+                    listQuickView.Add(randomColorQuickView);
+                }
+                //assigning the Name and NumberColor accordingly.
                 var QV = new QuickView()
                 {
-                    Name = "quickView" + (tableLayoutPanelQuick.Controls.Count + 1)
+                    Name = NameQuickView,
+                    numberColor = randomColorQuickView,
                 };
                 if (!MainV2.DisplayConfiguration.lockQuickView)
                     QV.DoubleClick += quickView_DoubleClick;
                 QV.ContextMenuStrip = contextMenuStripQuickView;
                 QV.Dock = DockStyle.Fill;
-                QV.numberColor = ThemeManager.getQvNumberColor();
                 QV.numberColorBackup = QV.numberColor;
                 QV.number = 0;
 
                 tableLayoutPanelQuick.Controls.Add(QV);
                 QV.Invalidate();
             }
-
+            //clear the listQV when the count of the list is divisible by 16
+            if (listQuickView.ToList().Count % 16 == 0)
+            {
+                listQuickView.Clear();
+            }
             for (int i = 0; i < tableLayoutPanelQuick.ColumnCount; i++)
             {
                 if (tableLayoutPanelQuick.ColumnStyles.Count <= i)
