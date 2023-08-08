@@ -310,7 +310,7 @@ namespace MissionPlanner.Controls
                     gotolocation.Alt = _gps_data.Alt; 
 
                     if (_host != null)
-                        _host.comPort.MAV.cs.MovingBase = gotolocation;
+                        _host.comPort.MAV.cs.Base = gotolocation;
 
                     myDID.operator_latitude = _gps_data.Lat;
                     myDID.operator_longitude = _gps_data.Lng;

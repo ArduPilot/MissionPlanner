@@ -661,7 +661,7 @@ namespace MissionPlanner.Log
             treeView1.ShowNodeToolTips = true;
             dataModifierHash = new Hashtable();
 
-            var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
+            var parmdata = logdata.GetEnumeratorType("PARM").Take(100000).Select(a =>
                 new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
                     MAVLink.MAV_PARAM_TYPE.REAL32));
             MainV2.comPort.MAV.param.Clear();
