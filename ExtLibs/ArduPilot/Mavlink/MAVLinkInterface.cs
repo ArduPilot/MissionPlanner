@@ -4469,18 +4469,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         [Obsolete]
         public void setMountConfigure(MAV_MOUNT_MODE mountmode, bool stabroll, bool stabpitch, bool stabyaw)
         {
-            mavlink_mount_configure_t req = new mavlink_mount_configure_t();
+            byte stab_roll = (stabroll == true) ? (byte) 1 : (byte) 0;
+            byte stab_pitch = (stabpitch == true) ? (byte) 1 : (byte) 0;
+            byte stab_yaw = (stabyaw == true) ? (byte) 1 : (byte) 0;
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
-            req.mount_mode = (byte) mountmode;
-            req.stab_pitch = (stabpitch == true) ? (byte) 1 : (byte) 0;
-            req.stab_roll = (stabroll == true) ? (byte) 1 : (byte) 0;
-            req.stab_yaw = (stabyaw == true) ? (byte) 1 : (byte) 0;
-
-            generatePacket((byte) MAVLINK_MSG_ID.MOUNT_CONFIGURE, req);
-            Thread.Sleep(20);
-            generatePacket((byte) MAVLINK_MSG_ID.MOUNT_CONFIGURE, req);
+            // p1 : mount mode
+            // p2, p3, p4 : stabilize roll, pitch, yaw
+            // p5, p6, p7 : empty
+            // no ack required
+            doCommand(MAV.sysid, MAV.compid, MAV_CMD.DO_MOUNT_CONFIGURE, (byte)mountmode, stab_roll, stab_pitch, stab_yaw, 0, 0, 0, false);
         }
 
         [Obsolete]
