@@ -4,9 +4,9 @@ namespace AltitudeAngelWings.Service.FlightData
 {
     public interface IFlightDataService : IDisposable
     {
-        IObservable<Models.FlightData> FlightArmed { get; }
-        IObservable<Models.FlightData> FlightDisarmed { get; }
-        IObservable<Models.FlightData> ArmedFlightData { get; }
-        IObservable<Models.FlightData> RawFlightData { get; }
+        IObservable<Model.FlightData> FlightArmed { get; }
+        IObservable<Model.FlightData> FlightDisarmed { get; }
+        IObservable<Model.FlightData> ArmedFlightData { get; }
+        IObservable<Model.FlightData> RawFlightData { get; }
     }
 }

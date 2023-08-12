@@ -27,9 +27,15 @@
     <NoWarn>1701;1702;NU1605</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DotSpatial.Topology" Version="1.9.0" />
-    <PackageReference Include="MP.DotSpatial.Positioning" Version="4.0.0" />
-    <PackageReference Include="MP.DotSpatial.Projections" Version="4.0.0" />
+    <COMReference Include="SHDocVw">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>1</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>eab22ac0-30c1-11cf-a7eb-0000c05bae0b</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
 	  <ProjectReference Include="..\..\MissionPlanner.csproj">
@@ -44,6 +50,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="WaitPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

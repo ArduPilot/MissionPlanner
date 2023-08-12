@@ -12,7 +12,7 @@ namespace AltitudeAngelWings
             _invokeOnUiThread = invokeOnUiThread;
         }
 
-        public void FireAndForget(Action action)
+        public void Invoke(Action action)
         {
             Invoke<object>(() =>
             {

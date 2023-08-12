@@ -1,8 +1,15 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using AltitudeAngelWings.ApiClient.Client;
+using AltitudeAngelWings.Clients.Api;
+using AltitudeAngelWings.Clients.Api.Model;
 using AltitudeAngelWings.Plugin.Properties;
-using AltitudeAngelWings.Service;
+using WebBrowser = System.Windows.Forms.WebBrowser;
 
 namespace AltitudeAngelWings.Plugin
 {
@@ -11,11 +18,13 @@ namespace AltitudeAngelWings.Plugin
         private const string MapInfoDockPanelName = "###MapInfoDockPanel###";
         private readonly Control _parent;
         private readonly IUiThreadInvoke _uiThreadInvoke;
+        private readonly Lazy<IApiClient> _apiClient;
 
-        public MapInfoDockPanel(Control parent, IUiThreadInvoke uiThreadInvoke)
+        public MapInfoDockPanel(Control parent, IUiThreadInvoke uiThreadInvoke, Lazy<IApiClient> apiClient)
         {
             _parent = parent;
             _uiThreadInvoke = uiThreadInvoke;
+            _apiClient = apiClient;
         }
 
         public void Show(FeatureProperties[] featureProperties)
@@ -26,17 +35,39 @@ namespace AltitudeAngelWings.Plugin
                 return;
             }
 
-            var builder = new StringBuilder();
-            foreach (var featureProperty in featureProperties)
-            {
-                builder.Append(featureProperty.FormatAsHtml());
-            }
-            
-            _uiThreadInvoke.FireAndForget(() =>
+            _uiThreadInvoke.Invoke(() =>
             {
                 _parent.SuspendLayout();
+
                 var browser = GetOrAddWebBrowser();
                 browser.BringToFront();
+                var rateCards = featureProperties
+                    .Where(f => f.UtmStatus?.RateTypes != null && f.UtmStatus.RateTypes.Keys.Count > 0)
+                    .SelectMany(f => f.UtmStatus.RateTypes.Values
+                        .SelectMany(c => c.Select(r => r.Id))
+                        .Distinct())
+                    .ToList();
+                IDictionary<string, RateCardDetail> rateCardLookup = new Dictionary<string, RateCardDetail>();
+                if (rateCards.Count > 0)
+                {
+                    browser.DocumentText = string.Empty;
+                    browser.Visible = true;
+                    rateCardLookup = UiTask.ShowWaitPanel(browser, async token =>
+                        {
+                            var rateCardDetails = await Task.WhenAll(rateCards.Select(i => _apiClient.Value.GetRateCard(i, token)));
+                            return rateCardDetails.ToDictionary(d => d.Id);
+                        },
+                        "Getting rate cards");
+                }
+
+                var builder = new StringBuilder();
+                builder.Append("<div class=\"panel\">");
+                foreach (var featureProperty in featureProperties)
+                {
+                    builder.Append(featureProperty.FormatAsHtml(rateCardLookup));
+                }
+                builder.Append("</div>");
+
                 browser.DocumentText = Resources.MapInfoDockPanel.Replace(
                     MapInfoDockPanelName,
                     builder.ToString());
@@ -47,7 +78,7 @@ namespace AltitudeAngelWings.Plugin
 
         public void Hide()
         {
-            _uiThreadInvoke.FireAndForget(() =>
+            _uiThreadInvoke.Invoke(() =>
             {
                 _parent.SuspendLayout();
                 GetOrAddWebBrowser().Visible = false;
@@ -59,22 +90,44 @@ namespace AltitudeAngelWings.Plugin
         {
             if (_parent.Controls.ContainsKey(MapInfoDockPanelName))
             {
-                return (WebBrowser)_parent.Controls[MapInfoDockPanelName];
+                var existing = (WebBrowser)_parent.Controls[MapInfoDockPanelName];
+                SetPanelLocation(existing);
+                return existing;
             }
 
             var browser = new WebBrowser
             {
                 Name = MapInfoDockPanelName,
-                Dock = DockStyle.Right,
                 WebBrowserShortcutsEnabled = false,
                 AllowWebBrowserDrop = false,
                 IsWebBrowserContextMenuEnabled = false,
                 ScriptErrorsSuppressed = true,
-                Width = 350,
+                AllowNavigation = true,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right,
                 Visible = false
             };
+            SetPanelLocation(browser);
+            browser.NewWindow += (sender, args) => args.Cancel = true;
+            ((SHDocVw.WebBrowser)browser.ActiveXInstance).NewWindow3 +=
+                (ref object o, ref bool b, uint u, string s, string url) =>
+                {
+                    Process.Start(url);
+                };
             _parent.Controls.Add(browser);
+            _parent.Resize += (sender, args) => SetPanelLocation(browser);
             return browser;
+        }
+
+        private void SetPanelLocation(Control browser)
+        {
+            const int width = 350;
+            const int topOffset = 30;
+            const int bottomOffset = 10;
+            var trackBar = _parent.Controls.OfType<TrackBar>().FirstOrDefault();
+            var zoomOffset = trackBar?.Width + bottomOffset ?? 60;
+            browser.Width = width;
+            browser.Height = _parent.Height - topOffset - bottomOffset;
+            browser.Location = new Point(_parent.Width - width - zoomOffset, topOffset);
         }
     }
 }
