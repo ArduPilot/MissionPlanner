@@ -478,6 +478,11 @@ namespace SkiaTest
                             {
                                 int x = XplatUI.driver.MousePosition.X, y = XplatUI.driver.MousePosition.Y;
 
+                                if (Application.OpenForms[cnt - 1].IsDisposed)
+                                {
+                                    cnt--;
+                                    continue;
+                                }
                                 var hwnd = Hwnd.ObjectFromHandle(Application.OpenForms[cnt - 1].Handle);
                                 if (x < hwnd.X || y < hwnd.Y || x > hwnd.x+hwnd.width || y > hwnd.y+hwnd.height)
                                 {
