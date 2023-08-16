@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sat Jul 15 2023";
+    public const string MAVLINK_BUILD_DATE = "Wed Aug 16 2023";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -227,7 +227,7 @@ public partial class MAVLink
         new message_info(256, "SETUP_SIGNING", 71, 42, 42, typeof( mavlink_setup_signing_t )),
         new message_info(257, "BUTTON_CHANGE", 131, 9, 9, typeof( mavlink_button_change_t )),
         new message_info(258, "PLAY_TUNE", 187, 32, 232, typeof( mavlink_play_tune_t )),
-        new message_info(259, "CAMERA_INFORMATION", 92, 235, 235, typeof( mavlink_camera_information_t )),
+        new message_info(259, "CAMERA_INFORMATION", 92, 235, 236, typeof( mavlink_camera_information_t )),
         new message_info(260, "CAMERA_SETTINGS", 146, 5, 13, typeof( mavlink_camera_settings_t )),
         new message_info(261, "STORAGE_INFORMATION", 179, 27, 60, typeof( mavlink_storage_information_t )),
         new message_info(262, "CAMERA_CAPTURE_STATUS", 12, 18, 22, typeof( mavlink_camera_capture_status_t )),
@@ -245,11 +245,12 @@ public partial class MAVLink
         new message_info(280, "GIMBAL_MANAGER_INFORMATION", 70, 33, 33, typeof( mavlink_gimbal_manager_information_t )),
         new message_info(281, "GIMBAL_MANAGER_STATUS", 48, 13, 13, typeof( mavlink_gimbal_manager_status_t )),
         new message_info(282, "GIMBAL_MANAGER_SET_ATTITUDE", 123, 35, 35, typeof( mavlink_gimbal_manager_set_attitude_t )),
-        new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 144, typeof( mavlink_gimbal_device_information_t )),
+        new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 145, typeof( mavlink_gimbal_device_information_t )),
         new message_info(284, "GIMBAL_DEVICE_SET_ATTITUDE", 99, 32, 32, typeof( mavlink_gimbal_device_set_attitude_t )),
-        new message_info(285, "GIMBAL_DEVICE_ATTITUDE_STATUS", 137, 40, 40, typeof( mavlink_gimbal_device_attitude_status_t )),
-        new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 210, 53, 53, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
+        new message_info(285, "GIMBAL_DEVICE_ATTITUDE_STATUS", 137, 40, 49, typeof( mavlink_gimbal_device_attitude_status_t )),
+        new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 210, 53, 57, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
         new message_info(287, "GIMBAL_MANAGER_SET_PITCHYAW", 1, 23, 23, typeof( mavlink_gimbal_manager_set_pitchyaw_t )),
+        new message_info(288, "GIMBAL_MANAGER_SET_MANUAL_CONTROL", 20, 23, 23, typeof( mavlink_gimbal_manager_set_manual_control_t )),
         new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
         new message_info(301, "AIS_VESSEL", 243, 58, 58, typeof( mavlink_ais_vessel_t )),
         new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
@@ -268,6 +269,7 @@ public partial class MAVLink
         new message_info(370, "SMART_BATTERY_INFO", 75, 87, 109, typeof( mavlink_smart_battery_info_t )),
         new message_info(373, "GENERATOR_STATUS", 117, 42, 42, typeof( mavlink_generator_status_t )),
         new message_info(375, "ACTUATOR_OUTPUT_STATUS", 251, 140, 140, typeof( mavlink_actuator_output_status_t )),
+        new message_info(376, "RELAY_STATUS", 199, 8, 8, typeof( mavlink_relay_status_t )),
         new message_info(385, "TUNNEL", 147, 133, 133, typeof( mavlink_tunnel_t )),
         new message_info(386, "CAN_FRAME", 132, 16, 16, typeof( mavlink_can_frame_t )),
         new message_info(387, "CANFD_FRAME", 4, 72, 72, typeof( mavlink_canfd_frame_t )),
@@ -324,6 +326,8 @@ public partial class MAVLink
         new message_info(50003, "HERELINK_TELEM", 62, 19, 19, typeof( mavlink_herelink_telem_t )),
         new message_info(50004, "CUBEPILOT_FIRMWARE_UPDATE_START", 240, 10, 10, typeof( mavlink_cubepilot_firmware_update_start_t )),
         new message_info(50005, "CUBEPILOT_FIRMWARE_UPDATE_RESP", 152, 6, 6, typeof( mavlink_cubepilot_firmware_update_resp_t )),
+        new message_info(52000, "AIRLINK_AUTH", 13, 100, 100, typeof( mavlink_airlink_auth_t )),
+        new message_info(52001, "AIRLINK_AUTH_RESPONSE", 239, 1, 1, typeof( mavlink_airlink_auth_response_t )),
         new message_info(26900, "VIDEO_STREAM_INFORMATION99", 222, 246, 246, typeof( mavlink_video_stream_information99_t )),
         new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
 
@@ -575,6 +579,7 @@ public partial class MAVLink
         GIMBAL_DEVICE_ATTITUDE_STATUS = 285,
         AUTOPILOT_STATE_FOR_GIMBAL_DEVICE = 286,
         GIMBAL_MANAGER_SET_PITCHYAW = 287,
+        GIMBAL_MANAGER_SET_MANUAL_CONTROL = 288,
         WIFI_CONFIG_AP = 299,
         AIS_VESSEL = 301,
         UAVCAN_NODE_STATUS = 310,
@@ -593,6 +598,7 @@ public partial class MAVLink
         SMART_BATTERY_INFO = 370,
         GENERATOR_STATUS = 373,
         ACTUATOR_OUTPUT_STATUS = 375,
+        RELAY_STATUS = 376,
         TUNNEL = 385,
         CAN_FRAME = 386,
         CANFD_FRAME = 387,
@@ -649,6 +655,8 @@ public partial class MAVLink
         HERELINK_TELEM = 50003,
         CUBEPILOT_FIRMWARE_UPDATE_START = 50004,
         CUBEPILOT_FIRMWARE_UPDATE_RESP = 50005,
+        AIRLINK_AUTH = 52000,
+        AIRLINK_AUTH_RESPONSE = 52001,
         VIDEO_STREAM_INFORMATION99 = 26900,
         HEARTBEAT = 0,
     }
@@ -1054,13 +1062,11 @@ public partial class MAVLink
         ///<summary> Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number. |Target tag to jump to.| Repeat count.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.")]
         DO_JUMP_TAG=601, 
-        ///<summary> High level setpoint to be sent to a gimbal manager to set a gimbal attitude. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: a gimbal is never to react to this command but only the gimbal manager. |Pitch angle (positive to pitch up, relative to vehicle for FOLLOW mode, relative to world horizon for LOCK mode).| Yaw angle (positive to yaw to the right, relative to vehicle for FOLLOW mode, absolute to North for LOCK mode).| Pitch rate (positive to pitch up).| Yaw rate (positive to yaw to the right).| Gimbal manager flags to use.| Reserved (default:0)| Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).|  </summary>
-        [Description("High level setpoint to be sent to a gimbal manager to set a gimbal attitude. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: a gimbal is never to react to this command but only the gimbal manager.")]
-        [Obsolete]
+        ///<summary> Set gimbal manager pitch/yaw setpoints (low rate command). It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: only the gimbal manager will react to this command - it will be ignored by a gimbal device. Use GIMBAL_MANAGER_SET_PITCHYAW if you need to stream pitch/yaw setpoints at higher rate.  |Pitch angle (positive to pitch up, relative to vehicle for FOLLOW mode, relative to world horizon for LOCK mode).| Yaw angle (positive to yaw to the right, relative to vehicle for FOLLOW mode, absolute to North for LOCK mode).| Pitch rate (positive to pitch up).| Yaw rate (positive to yaw to the right).| Gimbal manager flags to use.| Reserved (default:0)| Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).|  </summary>
+        [Description("Set gimbal manager pitch/yaw setpoints (low rate command). It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: only the gimbal manager will react to this command - it will be ignored by a gimbal device. Use GIMBAL_MANAGER_SET_PITCHYAW if you need to stream pitch/yaw setpoints at higher rate. ")]
         DO_GIMBAL_MANAGER_PITCHYAW=1000, 
         ///<summary> Gimbal configuration to set which sysid/compid is in primary and secondary control. |Sysid for primary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Compid for primary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Sysid for secondary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Compid for secondary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Reserved (default:0)| Reserved (default:0)| Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).|  </summary>
         [Description("Gimbal configuration to set which sysid/compid is in primary and secondary control.")]
-        [Obsolete]
         DO_GIMBAL_MANAGER_CONFIGURE=1001, 
         ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| Capture sequence number starting from 1. This is only valid for single-capture (param3 == 1), otherwise set to 0. Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
         [Description("Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.")]
@@ -2891,46 +2897,52 @@ public partial class MAVLink
         
     };
     
-    ///<summary> Gimbal device (low level) capability flags (bitmap) </summary>
+    ///<summary> Gimbal device (low level) capability flags (bitmap). </summary>
     [Flags]
 	public enum GIMBAL_DEVICE_CAP_FLAGS: ushort
     {
-        ///<summary> Gimbal device supports a retracted position | </summary>
-        [Description("Gimbal device supports a retracted position")]
+        ///<summary> Gimbal device supports a retracted position. | </summary>
+        [Description("Gimbal device supports a retracted position.")]
         HAS_RETRACT=1, 
-        ///<summary> Gimbal device supports a horizontal, forward looking position, stabilized | </summary>
-        [Description("Gimbal device supports a horizontal, forward looking position, stabilized")]
+        ///<summary> Gimbal device supports a horizontal, forward looking position, stabilized. | </summary>
+        [Description("Gimbal device supports a horizontal, forward looking position, stabilized.")]
         HAS_NEUTRAL=2, 
         ///<summary> Gimbal device supports rotating around roll axis. | </summary>
         [Description("Gimbal device supports rotating around roll axis.")]
         HAS_ROLL_AXIS=4, 
-        ///<summary> Gimbal device supports to follow a roll angle relative to the vehicle | </summary>
-        [Description("Gimbal device supports to follow a roll angle relative to the vehicle")]
+        ///<summary> Gimbal device supports to follow a roll angle relative to the vehicle. | </summary>
+        [Description("Gimbal device supports to follow a roll angle relative to the vehicle.")]
         HAS_ROLL_FOLLOW=8, 
-        ///<summary> Gimbal device supports locking to an roll angle (generally that's the default with roll stabilized) | </summary>
-        [Description("Gimbal device supports locking to an roll angle (generally that's the default with roll stabilized)")]
+        ///<summary> Gimbal device supports locking to a roll angle (generally that's the default with roll stabilized). | </summary>
+        [Description("Gimbal device supports locking to a roll angle (generally that's the default with roll stabilized).")]
         HAS_ROLL_LOCK=16, 
         ///<summary> Gimbal device supports rotating around pitch axis. | </summary>
         [Description("Gimbal device supports rotating around pitch axis.")]
         HAS_PITCH_AXIS=32, 
-        ///<summary> Gimbal device supports to follow a pitch angle relative to the vehicle | </summary>
-        [Description("Gimbal device supports to follow a pitch angle relative to the vehicle")]
+        ///<summary> Gimbal device supports to follow a pitch angle relative to the vehicle. | </summary>
+        [Description("Gimbal device supports to follow a pitch angle relative to the vehicle.")]
         HAS_PITCH_FOLLOW=64, 
-        ///<summary> Gimbal device supports locking to an pitch angle (generally that's the default with pitch stabilized) | </summary>
-        [Description("Gimbal device supports locking to an pitch angle (generally that's the default with pitch stabilized)")]
+        ///<summary> Gimbal device supports locking to a pitch angle (generally that's the default with pitch stabilized). | </summary>
+        [Description("Gimbal device supports locking to a pitch angle (generally that's the default with pitch stabilized).")]
         HAS_PITCH_LOCK=128, 
         ///<summary> Gimbal device supports rotating around yaw axis. | </summary>
         [Description("Gimbal device supports rotating around yaw axis.")]
         HAS_YAW_AXIS=256, 
-        ///<summary> Gimbal device supports to follow a yaw angle relative to the vehicle (generally that's the default) | </summary>
-        [Description("Gimbal device supports to follow a yaw angle relative to the vehicle (generally that's the default)")]
+        ///<summary> Gimbal device supports to follow a yaw angle relative to the vehicle (generally that's the default). | </summary>
+        [Description("Gimbal device supports to follow a yaw angle relative to the vehicle (generally that's the default).")]
         HAS_YAW_FOLLOW=512, 
-        ///<summary> Gimbal device supports locking to an absolute heading (often this is an option available) | </summary>
-        [Description("Gimbal device supports locking to an absolute heading (often this is an option available)")]
+        ///<summary> Gimbal device supports locking to an absolute heading, i.e., yaw angle relative to North (earth frame, often this is an option available). | </summary>
+        [Description("Gimbal device supports locking to an absolute heading, i.e., yaw angle relative to North (earth frame, often this is an option available).")]
         HAS_YAW_LOCK=1024, 
         ///<summary> Gimbal device supports yawing/panning infinetely (e.g. using slip disk). | </summary>
         [Description("Gimbal device supports yawing/panning infinetely (e.g. using slip disk).")]
         SUPPORTS_INFINITE_YAW=2048, 
+        ///<summary> Gimbal device supports yaw angles and angular velocities relative to North (earth frame). This usually requires support by an autopilot via AUTOPILOT_STATE_FOR_GIMBAL_DEVICE. Support can go on and off during runtime, which is reported by the flag GIMBAL_DEVICE_FLAGS_CAN_ACCEPT_YAW_IN_EARTH_FRAME. | </summary>
+        [Description("Gimbal device supports yaw angles and angular velocities relative to North (earth frame). This usually requires support by an autopilot via AUTOPILOT_STATE_FOR_GIMBAL_DEVICE. Support can go on and off during runtime, which is reported by the flag GIMBAL_DEVICE_FLAGS_CAN_ACCEPT_YAW_IN_EARTH_FRAME.")]
+        SUPPORTS_YAW_IN_EARTH_FRAME=4096, 
+        ///<summary> Gimbal device supports radio control inputs as an alternative input for controlling the gimbal orientation. | </summary>
+        [Description("Gimbal device supports radio control inputs as an alternative input for controlling the gimbal orientation.")]
+        HAS_RC_INPUTS=8192, 
         
     };
     
@@ -2996,18 +3008,33 @@ public partial class MAVLink
         ///<summary> Set to retracted safe position (no stabilization), takes presedence over all other flags. | </summary>
         [Description("Set to retracted safe position (no stabilization), takes presedence over all other flags.")]
         RETRACT=1, 
-        ///<summary> Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation. | </summary>
-        [Description("Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation.")]
+        ///<summary> Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (roll=pitch=yaw=0) but may be any orientation. | </summary>
+        [Description("Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (roll=pitch=yaw=0) but may be any orientation.")]
         NEUTRAL=2, 
-        ///<summary> Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal. | </summary>
-        [Description("Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal.")]
+        ///<summary> Lock roll angle to absolute angle relative to horizon (not relative to vehicle). This is generally the default with a stabilizing gimbal. | </summary>
+        [Description("Lock roll angle to absolute angle relative to horizon (not relative to vehicle). This is generally the default with a stabilizing gimbal.")]
         ROLL_LOCK=4, 
-        ///<summary> Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default. | </summary>
-        [Description("Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default.")]
+        ///<summary> Lock pitch angle to absolute angle relative to horizon (not relative to vehicle). This is generally the default with a stabilizing gimbal. | </summary>
+        [Description("Lock pitch angle to absolute angle relative to horizon (not relative to vehicle). This is generally the default with a stabilizing gimbal.")]
         PITCH_LOCK=8, 
-        ///<summary> Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle). | </summary>
-        [Description("Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle).")]
+        ///<summary> Lock yaw angle to absolute angle relative to North (not relative to vehicle). If this flag is set, the yaw angle and z component of angular velocity are relative to North (earth frame, x-axis pointing North), else they are relative to the vehicle heading (vehicle frame, earth frame rotated so that the x-axis is pointing forward). | </summary>
+        [Description("Lock yaw angle to absolute angle relative to North (not relative to vehicle). If this flag is set, the yaw angle and z component of angular velocity are relative to North (earth frame, x-axis pointing North), else they are relative to the vehicle heading (vehicle frame, earth frame rotated so that the x-axis is pointing forward).")]
         YAW_LOCK=16, 
+        ///<summary> Yaw angle and z component of angular velocity are relative to the vehicle heading (vehicle frame, earth frame rotated such that the x-axis is pointing forward). | </summary>
+        [Description("Yaw angle and z component of angular velocity are relative to the vehicle heading (vehicle frame, earth frame rotated such that the x-axis is pointing forward).")]
+        YAW_IN_VEHICLE_FRAME=32, 
+        ///<summary> Yaw angle and z component of angular velocity are relative to North (earth frame, x-axis is pointing North). | </summary>
+        [Description("Yaw angle and z component of angular velocity are relative to North (earth frame, x-axis is pointing North).")]
+        YAW_IN_EARTH_FRAME=64, 
+        ///<summary> Gimbal device can accept yaw angle inputs relative to North (earth frame). This flag is only for reporting (attempts to set this flag are ignored). | </summary>
+        [Description("Gimbal device can accept yaw angle inputs relative to North (earth frame). This flag is only for reporting (attempts to set this flag are ignored).")]
+        ACCEPTS_YAW_IN_EARTH_FRAME=128, 
+        ///<summary> The gimbal orientation is set exclusively by the RC signals feed to the gimbal's radio control inputs. MAVLink messages for setting the gimbal orientation (GIMBAL_DEVICE_SET_ATTITUDE) are ignored. | </summary>
+        [Description("The gimbal orientation is set exclusively by the RC signals feed to the gimbal's radio control inputs. MAVLink messages for setting the gimbal orientation (GIMBAL_DEVICE_SET_ATTITUDE) are ignored.")]
+        RC_EXCLUSIVE=256, 
+        ///<summary> The gimbal orientation is determined by combining/mixing the RC signals feed to the gimbal's radio control inputs and the MAVLink messages for setting the gimbal orientation (GIMBAL_DEVICE_SET_ATTITUDE). How these two controls are combined or mixed is not defined by the protocol but is up to the implementation. | </summary>
+        [Description("The gimbal orientation is determined by combining/mixing the RC signals feed to the gimbal's radio control inputs and the MAVLink messages for setting the gimbal orientation (GIMBAL_DEVICE_SET_ATTITUDE). How these two controls are combined or mixed is not defined by the protocol but is up to the implementation.")]
+        RC_MIXED=512, 
         
     };
     
@@ -3015,21 +3042,36 @@ public partial class MAVLink
     [Flags]
 	public enum GIMBAL_MANAGER_FLAGS: uint
     {
-        ///<summary> Based on GIMBAL_DEVICE_FLAGS_RETRACT | </summary>
-        [Description("Based on GIMBAL_DEVICE_FLAGS_RETRACT")]
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_RETRACT. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_RETRACT.")]
         RETRACT=1, 
-        ///<summary> Based on GIMBAL_DEVICE_FLAGS_NEUTRAL | </summary>
-        [Description("Based on GIMBAL_DEVICE_FLAGS_NEUTRAL")]
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_NEUTRAL. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_NEUTRAL.")]
         NEUTRAL=2, 
-        ///<summary> Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK | </summary>
-        [Description("Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK")]
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK.")]
         ROLL_LOCK=4, 
-        ///<summary> Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK | </summary>
-        [Description("Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK")]
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK.")]
         PITCH_LOCK=8, 
-        ///<summary> Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK | </summary>
-        [Description("Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK")]
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK.")]
         YAW_LOCK=16, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME.")]
+        YAW_IN_VEHICLE_FRAME=32, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME.")]
+        YAW_IN_EARTH_FRAME=64, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_ACCEPTS_YAW_IN_EARTH_FRAME. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_ACCEPTS_YAW_IN_EARTH_FRAME.")]
+        ACCEPTS_YAW_IN_EARTH_FRAME=128, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_RC_EXCLUSIVE. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_RC_EXCLUSIVE.")]
+        RC_EXCLUSIVE=256, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_RC_MIXED. | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_RC_MIXED.")]
+        RC_MIXED=512, 
         
     };
     
@@ -3052,8 +3094,8 @@ public partial class MAVLink
         ///<summary> There is an error with the gimbal power source. | </summary>
         [Description("There is an error with the gimbal power source.")]
         POWER_ERROR=16, 
-        ///<summary> There is an error with the gimbal motor's. | </summary>
-        [Description("There is an error with the gimbal motor's.")]
+        ///<summary> There is an error with the gimbal motors. | </summary>
+        [Description("There is an error with the gimbal motors.")]
         MOTOR_ERROR=32, 
         ///<summary> There is an error with the gimbal's software. | </summary>
         [Description("There is an error with the gimbal's software.")]
@@ -3061,9 +3103,12 @@ public partial class MAVLink
         ///<summary> There is an error with the gimbal's communication. | </summary>
         [Description("There is an error with the gimbal's communication.")]
         COMMS_ERROR=128, 
-        ///<summary> Gimbal is currently calibrating. | </summary>
-        [Description("Gimbal is currently calibrating.")]
+        ///<summary> Gimbal device is currently calibrating. | </summary>
+        [Description("Gimbal device is currently calibrating.")]
         CALIBRATION_RUNNING=256, 
+        ///<summary> Gimbal device is not assigned to a gimbal manager. | </summary>
+        [Description("Gimbal device is not assigned to a gimbal manager.")]
+        NO_MANAGER=512, 
         
     };
     
@@ -6150,6 +6195,19 @@ public partial class MAVLink
     };
     
     
+    
+    
+    ///<summary>  </summary>
+    public enum AIRLINK_AUTH_RESPONSE_TYPE: byte
+    {
+        ///<summary> Login or password error | </summary>
+        [Description("Login or password error")]
+        AIRLINK_ERROR_LOGIN_OR_PASS=0, 
+        ///<summary> Auth successful | </summary>
+        [Description("Auth successful")]
+        AIRLINK_AUTH_OK=1, 
+        
+    };
     
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
@@ -24978,13 +25036,13 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=235)]
+    /// extensions_start 13
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=236)]
     ///<summary> Information about a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command. </summary>
     public struct mavlink_camera_information_t
     {
         /// packet ordered constructor
-        public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,byte[] cam_definition_uri) 
+        public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,byte[] cam_definition_uri,byte gimbal_device_id) 
         {
             this.time_boot_ms = time_boot_ms;
             this.firmware_version = firmware_version;
@@ -24999,11 +25057,12 @@ public partial class MAVLink
             this.model_name = model_name;
             this.lens_id = lens_id;
             this.cam_definition_uri = cam_definition_uri;
+            this.gimbal_device_id = gimbal_device_id;
             
         }
         
         /// packet xml order
-        public static mavlink_camera_information_t PopulateXMLOrder(uint time_boot_ms,byte[] vendor_name,byte[] model_name,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,ushort resolution_h,ushort resolution_v,byte lens_id,/*CAMERA_CAP_FLAGS*/uint flags,ushort cam_definition_version,byte[] cam_definition_uri) 
+        public static mavlink_camera_information_t PopulateXMLOrder(uint time_boot_ms,byte[] vendor_name,byte[] model_name,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,ushort resolution_h,ushort resolution_v,byte lens_id,/*CAMERA_CAP_FLAGS*/uint flags,ushort cam_definition_version,byte[] cam_definition_uri,byte gimbal_device_id) 
         {
             var msg = new mavlink_camera_information_t();
 
@@ -25020,6 +25079,7 @@ public partial class MAVLink
             msg.flags = flags;
             msg.cam_definition_version = cam_definition_version;
             msg.cam_definition_uri = cam_definition_uri;
+            msg.gimbal_device_id = gimbal_device_id;
             
             return msg;
         }
@@ -25105,6 +25165,12 @@ public partial class MAVLink
         //[FieldOffset(95)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=140)]
 		public byte[] cam_definition_uri;
+
+        /// <summary>Gimbal id of a gimbal associated with this camera. This is the component id of the gimbal device, or 1-6 for non mavlink gimbals. Use 0 if no gimbal is associated with the camera.   </summary>
+        [Units("")]
+        [Description("Gimbal id of a gimbal associated with this camera. This is the component id of the gimbal device, or 1-6 for non mavlink gimbals. Use 0 if no gimbal is associated with the camera.")]
+        //[FieldOffset(235)]
+        public  byte gimbal_device_id;
     };
 
     
@@ -26317,7 +26383,7 @@ public partial class MAVLink
         public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
     ///<summary> Information about a high level gimbal manager. This message should be requested by a ground station using MAV_CMD_REQUEST_MESSAGE. </summary>
@@ -26405,14 +26471,14 @@ public partial class MAVLink
         //[FieldOffset(28)]
         public  float yaw_max;
 
-        /// <summary>Gimbal device ID that this gimbal manager is responsible for.   </summary>
+        /// <summary>Gimbal device ID that this gimbal manager is responsible for. Component ID of gimbal device (or 1-6 for non-MAVLink gimbal).   </summary>
         [Units("")]
-        [Description("Gimbal device ID that this gimbal manager is responsible for.")]
+        [Description("Gimbal device ID that this gimbal manager is responsible for. Component ID of gimbal device (or 1-6 for non-MAVLink gimbal).")]
         //[FieldOffset(32)]
         public  byte gimbal_device_id;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=13)]
     ///<summary> Current status about a high level gimbal manager. This message should be broadcast at a low regular rate (e.g. 5Hz). </summary>
@@ -26460,9 +26526,9 @@ public partial class MAVLink
         //[FieldOffset(4)]
         public  /*GIMBAL_MANAGER_FLAGS*/uint flags;
 
-        /// <summary>Gimbal device ID that this gimbal manager is responsible for.   </summary>
+        /// <summary>Gimbal device ID that this gimbal manager is responsible for. Component ID of gimbal device (or 1-6 for non-MAVLink gimbal).   </summary>
         [Units("")]
-        [Description("Gimbal device ID that this gimbal manager is responsible for.")]
+        [Description("Gimbal device ID that this gimbal manager is responsible for. Component ID of gimbal device (or 1-6 for non-MAVLink gimbal).")]
         //[FieldOffset(8)]
         public  byte gimbal_device_id;
 
@@ -26492,448 +26558,6 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=144)]
-    ///<summary> Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by software used are likely different/smaller and dependent on mode/settings/etc.. </summary>
-    public struct mavlink_gimbal_device_information_t
-    {
-        /// packet ordered constructor
-        public mavlink_gimbal_device_information_t(ulong uid,uint time_boot_ms,uint firmware_version,uint hardware_version,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max,/*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags,ushort custom_cap_flags,byte[] vendor_name,byte[] model_name,byte[] custom_name) 
-        {
-            this.uid = uid;
-            this.time_boot_ms = time_boot_ms;
-            this.firmware_version = firmware_version;
-            this.hardware_version = hardware_version;
-            this.roll_min = roll_min;
-            this.roll_max = roll_max;
-            this.pitch_min = pitch_min;
-            this.pitch_max = pitch_max;
-            this.yaw_min = yaw_min;
-            this.yaw_max = yaw_max;
-            this.cap_flags = cap_flags;
-            this.custom_cap_flags = custom_cap_flags;
-            this.vendor_name = vendor_name;
-            this.model_name = model_name;
-            this.custom_name = custom_name;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_gimbal_device_information_t PopulateXMLOrder(uint time_boot_ms,byte[] vendor_name,byte[] model_name,byte[] custom_name,uint firmware_version,uint hardware_version,ulong uid,/*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags,ushort custom_cap_flags,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max) 
-        {
-            var msg = new mavlink_gimbal_device_information_t();
-
-            msg.time_boot_ms = time_boot_ms;
-            msg.vendor_name = vendor_name;
-            msg.model_name = model_name;
-            msg.custom_name = custom_name;
-            msg.firmware_version = firmware_version;
-            msg.hardware_version = hardware_version;
-            msg.uid = uid;
-            msg.cap_flags = cap_flags;
-            msg.custom_cap_flags = custom_cap_flags;
-            msg.roll_min = roll_min;
-            msg.roll_max = roll_max;
-            msg.pitch_min = pitch_min;
-            msg.pitch_max = pitch_max;
-            msg.yaw_min = yaw_min;
-            msg.yaw_max = yaw_max;
-            
-            return msg;
-        }
-        
-
-        /// <summary>UID of gimbal hardware (0 if unknown).   </summary>
-        [Units("")]
-        [Description("UID of gimbal hardware (0 if unknown).")]
-        //[FieldOffset(0)]
-        public  ulong uid;
-
-        /// <summary>Timestamp (time since system boot).  [ms] </summary>
-        [Units("[ms]")]
-        [Description("Timestamp (time since system boot).")]
-        //[FieldOffset(8)]
-        public  uint time_boot_ms;
-
-        /// <summary>Version of the gimbal firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).   </summary>
-        [Units("")]
-        [Description("Version of the gimbal firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).")]
-        //[FieldOffset(12)]
-        public  uint firmware_version;
-
-        /// <summary>Version of the gimbal hardware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).   </summary>
-        [Units("")]
-        [Description("Version of the gimbal hardware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).")]
-        //[FieldOffset(16)]
-        public  uint hardware_version;
-
-        /// <summary>Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left)  [rad] </summary>
-        [Units("[rad]")]
-        [Description("Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left)")]
-        //[FieldOffset(20)]
-        public  float roll_min;
-
-        /// <summary>Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left)  [rad] </summary>
-        [Units("[rad]")]
-        [Description("Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left)")]
-        //[FieldOffset(24)]
-        public  float roll_max;
-
-        /// <summary>Minimum hardware pitch angle (positive: up, negative: down)  [rad] </summary>
-        [Units("[rad]")]
-        [Description("Minimum hardware pitch angle (positive: up, negative: down)")]
-        //[FieldOffset(28)]
-        public  float pitch_min;
-
-        /// <summary>Maximum hardware pitch angle (positive: up, negative: down)  [rad] </summary>
-        [Units("[rad]")]
-        [Description("Maximum hardware pitch angle (positive: up, negative: down)")]
-        //[FieldOffset(32)]
-        public  float pitch_max;
-
-        /// <summary>Minimum hardware yaw angle (positive: to the right, negative: to the left)  [rad] </summary>
-        [Units("[rad]")]
-        [Description("Minimum hardware yaw angle (positive: to the right, negative: to the left)")]
-        //[FieldOffset(36)]
-        public  float yaw_min;
-
-        /// <summary>Maximum hardware yaw angle (positive: to the right, negative: to the left)  [rad] </summary>
-        [Units("[rad]")]
-        [Description("Maximum hardware yaw angle (positive: to the right, negative: to the left)")]
-        //[FieldOffset(40)]
-        public  float yaw_max;
-
-        /// <summary>Bitmap of gimbal capability flags. GIMBAL_DEVICE_CAP_FLAGS  bitmask</summary>
-        [Units("")]
-        [Description("Bitmap of gimbal capability flags.")]
-        //[FieldOffset(44)]
-        public  /*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags;
-
-        /// <summary>Bitmap for use for gimbal-specific capability flags.   bitmask</summary>
-        [Units("")]
-        [Description("Bitmap for use for gimbal-specific capability flags.")]
-        //[FieldOffset(46)]
-        public  ushort custom_cap_flags;
-
-        /// <summary>Name of the gimbal vendor.   </summary>
-        [Units("")]
-        [Description("Name of the gimbal vendor.")]
-        //[FieldOffset(48)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public byte[] vendor_name;
-
-        /// <summary>Name of the gimbal model.   </summary>
-        [Units("")]
-        [Description("Name of the gimbal model.")]
-        //[FieldOffset(80)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public byte[] model_name;
-
-        /// <summary>Custom name of the gimbal given to it by the user.   </summary>
-        [Units("")]
-        [Description("Custom name of the gimbal given to it by the user.")]
-        //[FieldOffset(112)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public byte[] custom_name;
-    };
-
-    [Obsolete]
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
-    ///<summary> Low level message to control a gimbal device's attitude. This message is to be sent from the gimbal manager to the gimbal device component. Angles and rates can be set to NaN according to use case. </summary>
-    public struct mavlink_gimbal_device_set_attitude_t
-    {
-        /// packet ordered constructor
-        public mavlink_gimbal_device_set_attitude_t(float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
-        {
-            this.q = q;
-            this.angular_velocity_x = angular_velocity_x;
-            this.angular_velocity_y = angular_velocity_y;
-            this.angular_velocity_z = angular_velocity_z;
-            this.flags = flags;
-            this.target_system = target_system;
-            this.target_component = target_component;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_gimbal_device_set_attitude_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
-        {
-            var msg = new mavlink_gimbal_device_set_attitude_t();
-
-            msg.target_system = target_system;
-            msg.target_component = target_component;
-            msg.flags = flags;
-            msg.q = q;
-            msg.angular_velocity_x = angular_velocity_x;
-            msg.angular_velocity_y = angular_velocity_y;
-            msg.angular_velocity_z = angular_velocity_z;
-            
-            return msg;
-        }
-        
-
-        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)   </summary>
-        [Units("")]
-        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)")]
-        //[FieldOffset(0)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float[] q;
-
-        /// <summary>X component of angular velocity, positive is rolling to the right, NaN to be ignored.  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("X component of angular velocity, positive is rolling to the right, NaN to be ignored.")]
-        //[FieldOffset(16)]
-        public  float angular_velocity_x;
-
-        /// <summary>Y component of angular velocity, positive is pitching up, NaN to be ignored.  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("Y component of angular velocity, positive is pitching up, NaN to be ignored.")]
-        //[FieldOffset(20)]
-        public  float angular_velocity_y;
-
-        /// <summary>Z component of angular velocity, positive is yawing to the right, NaN to be ignored.  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("Z component of angular velocity, positive is yawing to the right, NaN to be ignored.")]
-        //[FieldOffset(24)]
-        public  float angular_velocity_z;
-
-        /// <summary>Low level gimbal flags. GIMBAL_DEVICE_FLAGS  bitmask</summary>
-        [Units("")]
-        [Description("Low level gimbal flags.")]
-        //[FieldOffset(28)]
-        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
-
-        /// <summary>System ID   </summary>
-        [Units("")]
-        [Description("System ID")]
-        //[FieldOffset(30)]
-        public  byte target_system;
-
-        /// <summary>Component ID   </summary>
-        [Units("")]
-        [Description("Component ID")]
-        //[FieldOffset(31)]
-        public  byte target_component;
-    };
-
-    [Obsolete]
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
-    ///<summary> Message reporting the status of a gimbal device. This message should be broadcasted by a gimbal device component. The angles encoded in the quaternion are relative to absolute North if the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set (roll: positive is rolling to the right, pitch: positive is pitching up, yaw is turn to the right) or relative to the vehicle heading if the flag is not set. This message should be broadcast at a low regular rate (e.g. 10Hz). </summary>
-    public struct mavlink_gimbal_device_attitude_status_t
-    {
-        /// packet ordered constructor
-        public mavlink_gimbal_device_attitude_status_t(uint time_boot_ms,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
-        {
-            this.time_boot_ms = time_boot_ms;
-            this.q = q;
-            this.angular_velocity_x = angular_velocity_x;
-            this.angular_velocity_y = angular_velocity_y;
-            this.angular_velocity_z = angular_velocity_z;
-            this.failure_flags = failure_flags;
-            this.flags = flags;
-            this.target_system = target_system;
-            this.target_component = target_component;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_gimbal_device_attitude_status_t PopulateXMLOrder(byte target_system,byte target_component,uint time_boot_ms,/*GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags) 
-        {
-            var msg = new mavlink_gimbal_device_attitude_status_t();
-
-            msg.target_system = target_system;
-            msg.target_component = target_component;
-            msg.time_boot_ms = time_boot_ms;
-            msg.flags = flags;
-            msg.q = q;
-            msg.angular_velocity_x = angular_velocity_x;
-            msg.angular_velocity_y = angular_velocity_y;
-            msg.angular_velocity_z = angular_velocity_z;
-            msg.failure_flags = failure_flags;
-            
-            return msg;
-        }
-        
-
-        /// <summary>Timestamp (time since system boot).  [ms] </summary>
-        [Units("[ms]")]
-        [Description("Timestamp (time since system boot).")]
-        //[FieldOffset(0)]
-        public  uint time_boot_ms;
-
-        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set)   </summary>
-        [Units("")]
-        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set)")]
-        //[FieldOffset(4)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float[] q;
-
-        /// <summary>X component of angular velocity (NaN if unknown)  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("X component of angular velocity (NaN if unknown)")]
-        //[FieldOffset(20)]
-        public  float angular_velocity_x;
-
-        /// <summary>Y component of angular velocity (NaN if unknown)  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("Y component of angular velocity (NaN if unknown)")]
-        //[FieldOffset(24)]
-        public  float angular_velocity_y;
-
-        /// <summary>Z component of angular velocity (NaN if unknown)  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("Z component of angular velocity (NaN if unknown)")]
-        //[FieldOffset(28)]
-        public  float angular_velocity_z;
-
-        /// <summary>Failure flags (0 for no failure) GIMBAL_DEVICE_ERROR_FLAGS  bitmask</summary>
-        [Units("")]
-        [Description("Failure flags (0 for no failure)")]
-        //[FieldOffset(32)]
-        public  /*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags;
-
-        /// <summary>Current gimbal flags set. GIMBAL_DEVICE_FLAGS  bitmask</summary>
-        [Units("")]
-        [Description("Current gimbal flags set.")]
-        //[FieldOffset(36)]
-        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
-
-        /// <summary>System ID   </summary>
-        [Units("")]
-        [Description("System ID")]
-        //[FieldOffset(38)]
-        public  byte target_system;
-
-        /// <summary>Component ID   </summary>
-        [Units("")]
-        [Description("Component ID")]
-        //[FieldOffset(39)]
-        public  byte target_component;
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=53)]
-    ///<summary> Low level message containing autopilot state relevant for a gimbal device. This message is to be sent from the gimbal manager to the gimbal device component. The data of this message server for the gimbal's estimator corrections in particular horizon compensation, as well as the autopilot's control intention e.g. feed forward angular control in z-axis. </summary>
-    public struct mavlink_autopilot_state_for_gimbal_device_t
-    {
-        /// packet ordered constructor
-        public mavlink_autopilot_state_for_gimbal_device_t(ulong time_boot_us,float[] q,uint q_estimated_delay_us,float vx,float vy,float vz,uint v_estimated_delay_us,float feed_forward_angular_velocity_z,/*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status,byte target_system,byte target_component,/*MAV_LANDED_STATE*/byte landed_state) 
-        {
-            this.time_boot_us = time_boot_us;
-            this.q = q;
-            this.q_estimated_delay_us = q_estimated_delay_us;
-            this.vx = vx;
-            this.vy = vy;
-            this.vz = vz;
-            this.v_estimated_delay_us = v_estimated_delay_us;
-            this.feed_forward_angular_velocity_z = feed_forward_angular_velocity_z;
-            this.estimator_status = estimator_status;
-            this.target_system = target_system;
-            this.target_component = target_component;
-            this.landed_state = landed_state;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_autopilot_state_for_gimbal_device_t PopulateXMLOrder(byte target_system,byte target_component,ulong time_boot_us,float[] q,uint q_estimated_delay_us,float vx,float vy,float vz,uint v_estimated_delay_us,float feed_forward_angular_velocity_z,/*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status,/*MAV_LANDED_STATE*/byte landed_state) 
-        {
-            var msg = new mavlink_autopilot_state_for_gimbal_device_t();
-
-            msg.target_system = target_system;
-            msg.target_component = target_component;
-            msg.time_boot_us = time_boot_us;
-            msg.q = q;
-            msg.q_estimated_delay_us = q_estimated_delay_us;
-            msg.vx = vx;
-            msg.vy = vy;
-            msg.vz = vz;
-            msg.v_estimated_delay_us = v_estimated_delay_us;
-            msg.feed_forward_angular_velocity_z = feed_forward_angular_velocity_z;
-            msg.estimator_status = estimator_status;
-            msg.landed_state = landed_state;
-            
-            return msg;
-        }
-        
-
-        /// <summary>Timestamp (time since system boot).  [us] </summary>
-        [Units("[us]")]
-        [Description("Timestamp (time since system boot).")]
-        //[FieldOffset(0)]
-        public  ulong time_boot_us;
-
-        /// <summary>Quaternion components of autopilot attitude: w, x, y, z (1 0 0 0 is the null-rotation, Hamilton convention).   </summary>
-        [Units("")]
-        [Description("Quaternion components of autopilot attitude: w, x, y, z (1 0 0 0 is the null-rotation, Hamilton convention).")]
-        //[FieldOffset(8)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float[] q;
-
-        /// <summary>Estimated delay of the attitude data.  [us] </summary>
-        [Units("[us]")]
-        [Description("Estimated delay of the attitude data.")]
-        //[FieldOffset(24)]
-        public  uint q_estimated_delay_us;
-
-        /// <summary>X Speed in NED (North, East, Down).  [m/s] </summary>
-        [Units("[m/s]")]
-        [Description("X Speed in NED (North, East, Down).")]
-        //[FieldOffset(28)]
-        public  float vx;
-
-        /// <summary>Y Speed in NED (North, East, Down).  [m/s] </summary>
-        [Units("[m/s]")]
-        [Description("Y Speed in NED (North, East, Down).")]
-        //[FieldOffset(32)]
-        public  float vy;
-
-        /// <summary>Z Speed in NED (North, East, Down).  [m/s] </summary>
-        [Units("[m/s]")]
-        [Description("Z Speed in NED (North, East, Down).")]
-        //[FieldOffset(36)]
-        public  float vz;
-
-        /// <summary>Estimated delay of the speed data.  [us] </summary>
-        [Units("[us]")]
-        [Description("Estimated delay of the speed data.")]
-        //[FieldOffset(40)]
-        public  uint v_estimated_delay_us;
-
-        /// <summary>Feed forward Z component of angular velocity, positive is yawing to the right, NaN to be ignored. This is to indicate if the autopilot is actively yawing.  [rad/s] </summary>
-        [Units("[rad/s]")]
-        [Description("Feed forward Z component of angular velocity, positive is yawing to the right, NaN to be ignored. This is to indicate if the autopilot is actively yawing.")]
-        //[FieldOffset(44)]
-        public  float feed_forward_angular_velocity_z;
-
-        /// <summary>Bitmap indicating which estimator outputs are valid. ESTIMATOR_STATUS_FLAGS  bitmask</summary>
-        [Units("")]
-        [Description("Bitmap indicating which estimator outputs are valid.")]
-        //[FieldOffset(48)]
-        public  /*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status;
-
-        /// <summary>System ID   </summary>
-        [Units("")]
-        [Description("System ID")]
-        //[FieldOffset(50)]
-        public  byte target_system;
-
-        /// <summary>Component ID   </summary>
-        [Units("")]
-        [Description("Component ID")]
-        //[FieldOffset(51)]
-        public  byte target_component;
-
-        /// <summary>The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE  </summary>
-        [Units("")]
-        [Description("The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.")]
-        //[FieldOffset(52)]
-        public  /*MAV_LANDED_STATE*/byte landed_state;
-    };
-
-    [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
     ///<summary> High level message to control a gimbal's attitude. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case. </summary>
@@ -27021,10 +26645,492 @@ public partial class MAVLink
         public  byte gimbal_device_id;
     };
 
-    [Obsolete]
+    
+    /// extensions_start 15
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=145)]
+    ///<summary> Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by software used are likely different/smaller and dependent on mode/settings/etc.. </summary>
+    public struct mavlink_gimbal_device_information_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_device_information_t(ulong uid,uint time_boot_ms,uint firmware_version,uint hardware_version,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max,/*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags,ushort custom_cap_flags,byte[] vendor_name,byte[] model_name,byte[] custom_name,byte gimbal_device_id) 
+        {
+            this.uid = uid;
+            this.time_boot_ms = time_boot_ms;
+            this.firmware_version = firmware_version;
+            this.hardware_version = hardware_version;
+            this.roll_min = roll_min;
+            this.roll_max = roll_max;
+            this.pitch_min = pitch_min;
+            this.pitch_max = pitch_max;
+            this.yaw_min = yaw_min;
+            this.yaw_max = yaw_max;
+            this.cap_flags = cap_flags;
+            this.custom_cap_flags = custom_cap_flags;
+            this.vendor_name = vendor_name;
+            this.model_name = model_name;
+            this.custom_name = custom_name;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_device_information_t PopulateXMLOrder(uint time_boot_ms,byte[] vendor_name,byte[] model_name,byte[] custom_name,uint firmware_version,uint hardware_version,ulong uid,/*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags,ushort custom_cap_flags,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max,byte gimbal_device_id) 
+        {
+            var msg = new mavlink_gimbal_device_information_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.vendor_name = vendor_name;
+            msg.model_name = model_name;
+            msg.custom_name = custom_name;
+            msg.firmware_version = firmware_version;
+            msg.hardware_version = hardware_version;
+            msg.uid = uid;
+            msg.cap_flags = cap_flags;
+            msg.custom_cap_flags = custom_cap_flags;
+            msg.roll_min = roll_min;
+            msg.roll_max = roll_max;
+            msg.pitch_min = pitch_min;
+            msg.pitch_max = pitch_max;
+            msg.yaw_min = yaw_min;
+            msg.yaw_max = yaw_max;
+            msg.gimbal_device_id = gimbal_device_id;
+            
+            return msg;
+        }
+        
+
+        /// <summary>UID of gimbal hardware (0 if unknown).   </summary>
+        [Units("")]
+        [Description("UID of gimbal hardware (0 if unknown).")]
+        //[FieldOffset(0)]
+        public  ulong uid;
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(8)]
+        public  uint time_boot_ms;
+
+        /// <summary>Version of the gimbal firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).   </summary>
+        [Units("")]
+        [Description("Version of the gimbal firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).")]
+        //[FieldOffset(12)]
+        public  uint firmware_version;
+
+        /// <summary>Version of the gimbal hardware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).   </summary>
+        [Units("")]
+        [Description("Version of the gimbal hardware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).")]
+        //[FieldOffset(16)]
+        public  uint hardware_version;
+
+        /// <summary>Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left). NAN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left). NAN if unknown.")]
+        //[FieldOffset(20)]
+        public  float roll_min;
+
+        /// <summary>Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left). NAN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left). NAN if unknown.")]
+        //[FieldOffset(24)]
+        public  float roll_max;
+
+        /// <summary>Minimum hardware pitch angle (positive: up, negative: down). NAN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Minimum hardware pitch angle (positive: up, negative: down). NAN if unknown.")]
+        //[FieldOffset(28)]
+        public  float pitch_min;
+
+        /// <summary>Maximum hardware pitch angle (positive: up, negative: down). NAN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Maximum hardware pitch angle (positive: up, negative: down). NAN if unknown.")]
+        //[FieldOffset(32)]
+        public  float pitch_max;
+
+        /// <summary>Minimum hardware yaw angle (positive: to the right, negative: to the left). NAN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Minimum hardware yaw angle (positive: to the right, negative: to the left). NAN if unknown.")]
+        //[FieldOffset(36)]
+        public  float yaw_min;
+
+        /// <summary>Maximum hardware yaw angle (positive: to the right, negative: to the left). NAN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Maximum hardware yaw angle (positive: to the right, negative: to the left). NAN if unknown.")]
+        //[FieldOffset(40)]
+        public  float yaw_max;
+
+        /// <summary>Bitmap of gimbal capability flags. GIMBAL_DEVICE_CAP_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Bitmap of gimbal capability flags.")]
+        //[FieldOffset(44)]
+        public  /*GIMBAL_DEVICE_CAP_FLAGS*/ushort cap_flags;
+
+        /// <summary>Bitmap for use for gimbal-specific capability flags.   bitmask</summary>
+        [Units("")]
+        [Description("Bitmap for use for gimbal-specific capability flags.")]
+        //[FieldOffset(46)]
+        public  ushort custom_cap_flags;
+
+        /// <summary>Name of the gimbal vendor.   </summary>
+        [Units("")]
+        [Description("Name of the gimbal vendor.")]
+        //[FieldOffset(48)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] vendor_name;
+
+        /// <summary>Name of the gimbal model.   </summary>
+        [Units("")]
+        [Description("Name of the gimbal model.")]
+        //[FieldOffset(80)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] model_name;
+
+        /// <summary>Custom name of the gimbal given to it by the user.   </summary>
+        [Units("")]
+        [Description("Custom name of the gimbal given to it by the user.")]
+        //[FieldOffset(112)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] custom_name;
+
+        /// <summary>This field is to be used if the gimbal manager and the gimbal device are the same component and hence have the same component ID. This field is then set to a number between 1-6. If the component ID is separate, this field is not required and must be set to 0.   </summary>
+        [Units("")]
+        [Description("This field is to be used if the gimbal manager and the gimbal device are the same component and hence have the same component ID. This field is then set to a number between 1-6. If the component ID is separate, this field is not required and must be set to 0.")]
+        //[FieldOffset(144)]
+        public  byte gimbal_device_id;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Low level message to control a gimbal device's attitude. 	  This message is to be sent from the gimbal manager to the gimbal device component. 	  The quaternion and angular velocities can be set to NaN according to use case. 	  For the angles encoded in the quaternion and the angular velocities holds: 	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME is set, then they are relative to the vehicle heading (vehicle frame). 	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is set, then they are relative to absolute North (earth frame). 	  If neither of these flags are set, then (for backwards compatibility) it holds: 	  If the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, then they are relative to absolute North (earth frame), 	  else they are relative to the vehicle heading (vehicle frame). 	  Setting both GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME and GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is not allowed. 	  These rules are to ensure backwards compatibility. 	  New implementations should always set either GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME or GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME. </summary>
+    public struct mavlink_gimbal_device_set_attitude_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_device_set_attitude_t(float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
+        {
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_device_set_attitude_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
+        {
+            var msg = new mavlink_gimbal_device_set_attitude_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation). The frame is described in the message description. Set fields to NaN to be ignored.   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation). The frame is described in the message description. Set fields to NaN to be ignored.")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity (positive: rolling to the right). The frame is described in the message description. NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity (positive: rolling to the right). The frame is described in the message description. NaN to be ignored.")]
+        //[FieldOffset(16)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity (positive: pitching up). The frame is described in the message description. NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity (positive: pitching up). The frame is described in the message description. NaN to be ignored.")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity (positive: yawing to the right). The frame is described in the message description. NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity (positive: yawing to the right). The frame is described in the message description. NaN to be ignored.")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_z;
+
+        /// <summary>Low level gimbal flags. GIMBAL_DEVICE_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Low level gimbal flags.")]
+        //[FieldOffset(28)]
+        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(30)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(31)]
+        public  byte target_component;
+    };
+
+    
+    /// extensions_start 9
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=49)]
+    ///<summary> Message reporting the status of a gimbal device. 	  This message should be broadcast by a gimbal device component at a low regular rate (e.g. 5 Hz). 	  For the angles encoded in the quaternion and the angular velocities holds: 	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME is set, then they are relative to the vehicle heading (vehicle frame). 	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is set, then they are relative to absolute North (earth frame). 	  If neither of these flags are set, then (for backwards compatibility) it holds: 	  If the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, then they are relative to absolute North (earth frame), 	  else they are relative to the vehicle heading (vehicle frame). 	  Other conditions of the flags are not allowed. 	  The quaternion and angular velocities in the other frame can be calculated from delta_yaw and delta_yaw_velocity as 	  q_earth = q_delta_yaw * q_vehicle and w_earth = w_delta_yaw_velocity + w_vehicle (if not NaN). 	  If neither the GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME nor the GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME flag is set, 	  then (for backwards compatibility) the data in the delta_yaw and delta_yaw_velocity fields are to be ignored. 	  New implementations should always set either GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME or GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME, 	  and always should set delta_yaw and delta_yaw_velocity either to the proper value or NaN. </summary>
+    public struct mavlink_gimbal_device_attitude_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_device_attitude_status_t(uint time_boot_ms,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component,float delta_yaw,float delta_yaw_velocity,byte gimbal_device_id) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.failure_flags = failure_flags;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.delta_yaw = delta_yaw;
+            this.delta_yaw_velocity = delta_yaw_velocity;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_device_attitude_status_t PopulateXMLOrder(byte target_system,byte target_component,uint time_boot_ms,/*GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags,float delta_yaw,float delta_yaw_velocity,byte gimbal_device_id) 
+        {
+            var msg = new mavlink_gimbal_device_attitude_status_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.time_boot_ms = time_boot_ms;
+            msg.flags = flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            msg.failure_flags = failure_flags;
+            msg.delta_yaw = delta_yaw;
+            msg.delta_yaw_velocity = delta_yaw_velocity;
+            msg.gimbal_device_id = gimbal_device_id;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation). The frame is described in the message description.   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation). The frame is described in the message description.")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity (positive: rolling to the right). The frame is described in the message description. NaN if unknown.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity (positive: rolling to the right). The frame is described in the message description. NaN if unknown.")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity (positive: pitching up). The frame is described in the message description. NaN if unknown.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity (positive: pitching up). The frame is described in the message description. NaN if unknown.")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity (positive: yawing to the right). The frame is described in the message description. NaN if unknown.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity (positive: yawing to the right). The frame is described in the message description. NaN if unknown.")]
+        //[FieldOffset(28)]
+        public  float angular_velocity_z;
+
+        /// <summary>Failure flags (0 for no failure) GIMBAL_DEVICE_ERROR_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Failure flags (0 for no failure)")]
+        //[FieldOffset(32)]
+        public  /*GIMBAL_DEVICE_ERROR_FLAGS*/uint failure_flags;
+
+        /// <summary>Current gimbal flags set. GIMBAL_DEVICE_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Current gimbal flags set.")]
+        //[FieldOffset(36)]
+        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(38)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(39)]
+        public  byte target_component;
+
+        /// <summary>Yaw angle relating the quaternions in earth and body frames (see message description). NaN if unknown.  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Yaw angle relating the quaternions in earth and body frames (see message description). NaN if unknown.")]
+        //[FieldOffset(40)]
+        public  float delta_yaw;
+
+        /// <summary>Yaw angular velocity relating the angular velocities in earth and body frames (see message description). NaN if unknown.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Yaw angular velocity relating the angular velocities in earth and body frames (see message description). NaN if unknown.")]
+        //[FieldOffset(44)]
+        public  float delta_yaw_velocity;
+
+        /// <summary>This field is to be used if the gimbal manager and the gimbal device are the same component and hence have the same component ID. This field is then set a number between 1-6. If the component ID is separate, this field is not required and must be set to 0.   </summary>
+        [Units("")]
+        [Description("This field is to be used if the gimbal manager and the gimbal device are the same component and hence have the same component ID. This field is then set a number between 1-6. If the component ID is separate, this field is not required and must be set to 0.")]
+        //[FieldOffset(48)]
+        public  byte gimbal_device_id;
+    };
+
+    
+    /// extensions_start 12
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=57)]
+    ///<summary> Low level message containing autopilot state relevant for a gimbal device. This message is to be sent from the autopilot to the gimbal device component. The data of this message are for the gimbal device's estimator corrections, in particular horizon compensation, as well as indicates autopilot control intentions, e.g. feed forward angular control in the z-axis. </summary>
+    public struct mavlink_autopilot_state_for_gimbal_device_t
+    {
+        /// packet ordered constructor
+        public mavlink_autopilot_state_for_gimbal_device_t(ulong time_boot_us,float[] q,uint q_estimated_delay_us,float vx,float vy,float vz,uint v_estimated_delay_us,float feed_forward_angular_velocity_z,/*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status,byte target_system,byte target_component,/*MAV_LANDED_STATE*/byte landed_state,float angular_velocity_z) 
+        {
+            this.time_boot_us = time_boot_us;
+            this.q = q;
+            this.q_estimated_delay_us = q_estimated_delay_us;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.v_estimated_delay_us = v_estimated_delay_us;
+            this.feed_forward_angular_velocity_z = feed_forward_angular_velocity_z;
+            this.estimator_status = estimator_status;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.landed_state = landed_state;
+            this.angular_velocity_z = angular_velocity_z;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_autopilot_state_for_gimbal_device_t PopulateXMLOrder(byte target_system,byte target_component,ulong time_boot_us,float[] q,uint q_estimated_delay_us,float vx,float vy,float vz,uint v_estimated_delay_us,float feed_forward_angular_velocity_z,/*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status,/*MAV_LANDED_STATE*/byte landed_state,float angular_velocity_z) 
+        {
+            var msg = new mavlink_autopilot_state_for_gimbal_device_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.time_boot_us = time_boot_us;
+            msg.q = q;
+            msg.q_estimated_delay_us = q_estimated_delay_us;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.v_estimated_delay_us = v_estimated_delay_us;
+            msg.feed_forward_angular_velocity_z = feed_forward_angular_velocity_z;
+            msg.estimator_status = estimator_status;
+            msg.landed_state = landed_state;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  ulong time_boot_us;
+
+        /// <summary>Quaternion components of autopilot attitude: w, x, y, z (1 0 0 0 is the null-rotation, Hamilton convention).   </summary>
+        [Units("")]
+        [Description("Quaternion components of autopilot attitude: w, x, y, z (1 0 0 0 is the null-rotation, Hamilton convention).")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>Estimated delay of the attitude data. 0 if unknown.  [us] </summary>
+        [Units("[us]")]
+        [Description("Estimated delay of the attitude data. 0 if unknown.")]
+        //[FieldOffset(24)]
+        public  uint q_estimated_delay_us;
+
+        /// <summary>X Speed in NED (North, East, Down). NAN if unknown.  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("X Speed in NED (North, East, Down). NAN if unknown.")]
+        //[FieldOffset(28)]
+        public  float vx;
+
+        /// <summary>Y Speed in NED (North, East, Down). NAN if unknown.  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Y Speed in NED (North, East, Down). NAN if unknown.")]
+        //[FieldOffset(32)]
+        public  float vy;
+
+        /// <summary>Z Speed in NED (North, East, Down). NAN if unknown.  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Z Speed in NED (North, East, Down). NAN if unknown.")]
+        //[FieldOffset(36)]
+        public  float vz;
+
+        /// <summary>Estimated delay of the speed data. 0 if unknown.  [us] </summary>
+        [Units("[us]")]
+        [Description("Estimated delay of the speed data. 0 if unknown.")]
+        //[FieldOffset(40)]
+        public  uint v_estimated_delay_us;
+
+        /// <summary>Feed forward Z component of angular velocity (positive: yawing to the right). NaN to be ignored. This is to indicate if the autopilot is actively yawing.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Feed forward Z component of angular velocity (positive: yawing to the right). NaN to be ignored. This is to indicate if the autopilot is actively yawing.")]
+        //[FieldOffset(44)]
+        public  float feed_forward_angular_velocity_z;
+
+        /// <summary>Bitmap indicating which estimator outputs are valid. ESTIMATOR_STATUS_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Bitmap indicating which estimator outputs are valid.")]
+        //[FieldOffset(48)]
+        public  /*ESTIMATOR_STATUS_FLAGS*/ushort estimator_status;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(50)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(51)]
+        public  byte target_component;
+
+        /// <summary>The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE  </summary>
+        [Units("")]
+        [Description("The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.")]
+        //[FieldOffset(52)]
+        public  /*MAV_LANDED_STATE*/byte landed_state;
+
+        /// <summary>Z component of angular velocity in NED (North, East, Down). NaN if unknown.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity in NED (North, East, Down). NaN if unknown.")]
+        //[FieldOffset(53)]
+        public  float angular_velocity_z;
+    };
+
+    
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=23)]
-    ///<summary> High level message to control a gimbal's pitch and yaw angles. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case. </summary>
+    ///<summary> Set gimbal manager pitch and yaw angles (high rate message). This message is to be sent to the gimbal manager (e.g. from a ground station) and will be ignored by gimbal devices. Angles and rates can be set to NaN according to use case. Use MAV_CMD_DO_GIMBAL_MANAGER_PITCHYAW for low-rate adjustments that require confirmation. </summary>
     public struct mavlink_gimbal_manager_set_pitchyaw_t
     {
         /// packet ordered constructor
@@ -27086,6 +27192,93 @@ public partial class MAVLink
         /// <summary>Yaw angular rate (positive: to the right, negative: to the left, NaN to be ignored).  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Yaw angular rate (positive: to the right, negative: to the left, NaN to be ignored).")]
+        //[FieldOffset(16)]
+        public  float yaw_rate;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(20)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(21)]
+        public  byte target_component;
+
+        /// <summary>Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).")]
+        //[FieldOffset(22)]
+        public  byte gimbal_device_id;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=23)]
+    ///<summary> High level message to control a gimbal manually. The angles or angular rates are unitless; the actual rates will depend on internal gimbal manager settings/configuration (e.g. set by parameters). This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_gimbal_manager_set_manual_control_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_manager_set_manual_control_t(/*GIMBAL_MANAGER_FLAGS*/uint flags,float pitch,float yaw,float pitch_rate,float yaw_rate,byte target_system,byte target_component,byte gimbal_device_id) 
+        {
+            this.flags = flags;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.pitch_rate = pitch_rate;
+            this.yaw_rate = yaw_rate;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_manager_set_manual_control_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_MANAGER_FLAGS*/uint flags,byte gimbal_device_id,float pitch,float yaw,float pitch_rate,float yaw_rate) 
+        {
+            var msg = new mavlink_gimbal_manager_set_manual_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.gimbal_device_id = gimbal_device_id;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.pitch_rate = pitch_rate;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
+
+        /// <summary>High level gimbal manager flags. GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("High level gimbal manager flags.")]
+        //[FieldOffset(0)]
+        public  /*GIMBAL_MANAGER_FLAGS*/uint flags;
+
+        /// <summary>Pitch angle unitless (-1..1, positive: up, negative: down, NaN to be ignored).   </summary>
+        [Units("")]
+        [Description("Pitch angle unitless (-1..1, positive: up, negative: down, NaN to be ignored).")]
+        //[FieldOffset(4)]
+        public  float pitch;
+
+        /// <summary>Yaw angle unitless (-1..1, positive: to the right, negative: to the left, NaN to be ignored).   </summary>
+        [Units("")]
+        [Description("Yaw angle unitless (-1..1, positive: to the right, negative: to the left, NaN to be ignored).")]
+        //[FieldOffset(8)]
+        public  float yaw;
+
+        /// <summary>Pitch angular rate unitless (-1..1, positive: up, negative: down, NaN to be ignored).   </summary>
+        [Units("")]
+        [Description("Pitch angular rate unitless (-1..1, positive: up, negative: down, NaN to be ignored).")]
+        //[FieldOffset(12)]
+        public  float pitch_rate;
+
+        /// <summary>Yaw angular rate unitless (-1..1, positive: to the right, negative: to the left, NaN to be ignored).   </summary>
+        [Units("")]
+        [Description("Yaw angular rate unitless (-1..1, positive: to the right, negative: to the left, NaN to be ignored).")]
         //[FieldOffset(16)]
         public  float yaw_rate;
 
@@ -28696,6 +28889,53 @@ public partial class MAVLink
         //[FieldOffset(12)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public float[] actuator;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
+    ///<summary> Reports the on/off state of relays, as controlled by MAV_CMD_DO_SET_RELAY. </summary>
+    public struct mavlink_relay_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_relay_status_t(uint time_boot_ms,ushort on,ushort present) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.on = on;
+            this.present = present;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_relay_status_t PopulateXMLOrder(uint time_boot_ms,ushort on,ushort present) 
+        {
+            var msg = new mavlink_relay_status_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.on = on;
+            msg.present = present;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Relay states.  Relay instance numbers are represented as individual bits in this mask by offset.   bitmask</summary>
+        [Units("")]
+        [Description("Relay states.  Relay instance numbers are represented as individual bits in this mask by offset.")]
+        //[FieldOffset(4)]
+        public  ushort on;
+
+        /// <summary>Relay present.  Relay instance numbers are represented as individual bits in this mask by offset.  Bits will be true if a relay instance is configured.   bitmask</summary>
+        [Units("")]
+        [Description("Relay present.  Relay instance numbers are represented as individual bits in this mask by offset.  Bits will be true if a relay instance is configured.")]
+        //[FieldOffset(6)]
+        public  ushort present;
     };
 
     
@@ -31161,6 +31401,78 @@ public partial class MAVLink
         [Description("Component ID.")]
         //[FieldOffset(5)]
         public  byte target_component;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=100)]
+    ///<summary> Authorization package </summary>
+    public struct mavlink_airlink_auth_t
+    {
+        /// packet ordered constructor
+        public mavlink_airlink_auth_t(byte[] login,byte[] password) 
+        {
+            this.login = login;
+            this.password = password;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_airlink_auth_t PopulateXMLOrder(byte[] login,byte[] password) 
+        {
+            var msg = new mavlink_airlink_auth_t();
+
+            msg.login = login;
+            msg.password = password;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Login   </summary>
+        [Units("")]
+        [Description("Login")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
+		public byte[] login;
+
+        /// <summary>Password   </summary>
+        [Units("")]
+        [Description("Password")]
+        //[FieldOffset(50)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
+		public byte[] password;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
+    ///<summary> Response to the authorization request </summary>
+    public struct mavlink_airlink_auth_response_t
+    {
+        /// packet ordered constructor
+        public mavlink_airlink_auth_response_t(/*AIRLINK_AUTH_RESPONSE_TYPE*/byte resp_type) 
+        {
+            this.resp_type = resp_type;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_airlink_auth_response_t PopulateXMLOrder(/*AIRLINK_AUTH_RESPONSE_TYPE*/byte resp_type) 
+        {
+            var msg = new mavlink_airlink_auth_response_t();
+
+            msg.resp_type = resp_type;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Response type AIRLINK_AUTH_RESPONSE_TYPE  </summary>
+        [Units("")]
+        [Description("Response type")]
+        //[FieldOffset(0)]
+        public  /*AIRLINK_AUTH_RESPONSE_TYPE*/byte resp_type;
     };
 
     
