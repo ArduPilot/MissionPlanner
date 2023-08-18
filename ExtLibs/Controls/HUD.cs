@@ -274,6 +274,30 @@ namespace MissionPlanner.Controls
             graphicsObjectGDIP = new GdiGraphics(Graphics.FromImage(objBitmap));
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            log.Info("HUD Dispose");
+
+            if (opengl)
+            {
+                foreach (character texid in _texture)
+                {
+                    if (texid != null && texid.gltextureid != 0)
+                        GL.DeleteTexture(texid.gltextureid);
+                }
+
+                this._texture = new character[_texture.Length];
+
+                foreach (character texid in charDict.Values)
+                {
+                    if (texid.gltextureid != 0)
+                        GL.DeleteTexture(texid.gltextureid);
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
         private float _roll = 0;
         private float _navroll = 0;
         private float _pitch = 0;
@@ -1781,8 +1805,6 @@ namespace MissionPlanner.Controls
                 float height = rectf.Height;
 
                 GL.Begin(PrimitiveType.TriangleFan);
-
-                GL.LineWidth(0);
 
                 if (((Type) brushh.GetType()) == typeof(LinearGradientBrush))
                 {
