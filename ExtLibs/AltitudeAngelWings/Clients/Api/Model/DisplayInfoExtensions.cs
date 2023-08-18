@@ -44,6 +44,11 @@ namespace AltitudeAngelWings.Clients.Api.Model
             builder.Append($"<div class=\"detailedCategory\"> : {featureProperties.DisplayInfo.DetailedCategory}</div>");
             builder.Append($"<div class=\"displayTitle\">{featureProperties.DisplayInfo.Title.ToUpper()}</div>");
             builder.Append("</div>");
+            /*
+             3 Star UTM Ready: utmStatus != null && utmStatus.enabled == true && utmStatus.utm != null && utmStatus.utm.id == "AA_GUARDIAN_UTM"
+             2 Star UTM Basic: utmStatus != null && utmStatus.enabled == true && utmStatus.utm != null && utmStatus.utm.id == "AA_UTM_READY"
+             1 Star Legacy: utmStatus != null && utmStatus.enabled == false
+            */
             if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
             {
                 builder.Append("<div class=\"utmStatus\">");
