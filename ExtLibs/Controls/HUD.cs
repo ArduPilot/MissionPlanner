@@ -1367,22 +1367,32 @@ namespace MissionPlanner.Controls
                 GL.LineWidth(penn.Width);
                 GL.Color4(penn.Color);
 
-                GL.Begin(PrimitiveType.LineStrip);
+                //GL.Begin(PrimitiveType.LineStrip);
 
                 start = 360 - start;
                 start -= 30;
 
+                var vertices = new float[(int)((degrees + 1) * 2)];
+
                 float x = 0, y = 0;
+                int length = 0;
                 for (float i = start; i <= start + degrees; i++)
                 {
                     x = (float) Math.Sin(i * deg2rad) * rect.Width / 2;
                     y = (float) Math.Cos(i * deg2rad) * rect.Height / 2;
                     x = x + rect.X + rect.Width / 2;
                     y = y + rect.Y + rect.Height / 2;
-                    GL.Vertex2(x, y);
+                    vertices[(int)((i - start) * 2)] = x;
+                    vertices[(int)((i - start) * 2 + 1)] = y;
+                    length += 2;
+                    //GL.Vertex2(x, y);
                 }
 
-                GL.End();
+                //GL.End();                
+                GL.VertexPointer(2, VertexPointerType.Float, 0, vertices);
+                GL.EnableClientState(ArrayCap.VertexArray);
+                GL.DrawArrays(PrimitiveType.LineStrip, 0, length/2);
+                GL.DisableClientState(ArrayCap.VertexArray);
             }
             else
             {
@@ -1397,18 +1407,29 @@ namespace MissionPlanner.Controls
                 GL.LineWidth(penn.Width);
                 GL.Color4(penn.Color);
 
-                GL.Begin(PrimitiveType.LineLoop);
+                //GL.Begin(PrimitiveType.LineLoop);
+
+                var vertices = new float[(int)(360 * 2)];
+
                 float x, y;
+                int length = 0;
                 for (float i = 0; i < 360; i += 1)
                 {
                     x = (float) Math.Sin(i * deg2rad) * rect.Width / 2;
                     y = (float) Math.Cos(i * deg2rad) * rect.Height / 2;
                     x = x + rect.X + rect.Width / 2;
                     y = y + rect.Y + rect.Height / 2;
-                    GL.Vertex2(x, y);
+                    vertices[(int)((i) * 2)] = x;
+                    vertices[(int)((i) * 2 + 1)] = y;
+                    length += 2;
+                    //GL.Vertex2(x, y);
                 }
 
-                GL.End();
+                //GL.End();                
+                GL.VertexPointer(2, VertexPointerType.Float, 0, vertices);
+                GL.EnableClientState(ArrayCap.VertexArray);
+                GL.DrawArrays(PrimitiveType.LineLoop, 0, length / 2);
+                GL.DisableClientState(ArrayCap.VertexArray);
             }
             else
             {
@@ -1526,6 +1547,8 @@ namespace MissionPlanner.Controls
                 GL.End();
 
                 GL.Disable(EnableCap.Texture2D);
+
+                GL.BindTexture(TextureTarget.Texture2D, 0);
 
                 if (polySmoothEnabled)
                     GL.Enable(EnableCap.PolygonSmooth);
@@ -1846,7 +1869,7 @@ namespace MissionPlanner.Controls
             DrawRectangle(penn, rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public void DrawRectangle(Pen penn, double x1, double y1, double width, double height)
+        public void DrawRectangle(Pen penn, float x1, float y1, float width, float height)
         {
 
             if (opengl)
@@ -1866,8 +1889,8 @@ namespace MissionPlanner.Controls
                 graphicsObjectGDIP.DrawRectangle(penn, (float) x1, (float) y1, (float) width, (float) height);
             }
         }
-
-        public void DrawLine(Pen penn, double x1, double y1, double x2, double y2)
+                
+        public void DrawLine(Pen penn, float x1, float y1, float x2, float y2)
         {
 
             if (opengl)
@@ -1875,14 +1898,19 @@ namespace MissionPlanner.Controls
                 GL.Color4(penn.Color);
                 GL.LineWidth(penn.Width);
 
-                GL.Begin(PrimitiveType.Lines);
-                GL.Vertex2(x1, y1);
-                GL.Vertex2(x2, y2);
-                GL.End();
+                //GL.Begin(PrimitiveType.Lines);
+                //GL.Vertex2(x1, y1);
+                //GL.Vertex2(x2, y2);
+                //GL.End();
+
+                GL.VertexPointer(2, VertexPointerType.Float, 0, new float[] { x1, y1, x2, y2 });
+                GL.EnableClientState(ArrayCap.VertexArray);
+                GL.DrawArrays(PrimitiveType.Lines, 0, 2);
+                GL.DisableClientState(ArrayCap.VertexArray);
             }
             else
             {
-                graphicsObjectGDIP.DrawLine(penn, (float) x1, (float) y1, (float) x2, (float) y2);
+                graphicsObjectGDIP.DrawLine(penn, (float)x1, (float)y1, (float)x2, (float)y2);
             }
         }
 
@@ -3366,6 +3394,8 @@ namespace MissionPlanner.Controls
             return n;
         }
 
+        readonly float[] texCoords = { 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f };
+
         void drawstring(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
         {
             if (!opengl)
@@ -3384,13 +3414,23 @@ namespace MissionPlanner.Controls
             GL.PopMatrix(); printer.End();
             */
 
+           
+            GL.Enable(EnableCap.Texture2D);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Color4(1f, 1, 1, 1);
+
+            GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, texCoords);
+            GL.EnableClientState(ArrayCap.TextureCoordArray);
+
+            GL.EnableClientState(ArrayCap.VertexArray);
+
             float maxy = 1;
 
             foreach (char cha in text)
             {
-                int charno = (int) cha;
+                int charno = (int)cha;
 
-                int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
+                int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
 
                 if (!charDict.ContainsKey(charid))
                 {
@@ -3401,7 +3441,7 @@ namespace MissionPlanner.Controls
                     var pth = new GraphicsPath();
 
                     if (text != null)
-                        pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
+                        pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int)0, (int)0),
                             StringFormat.GenericTypographic);
 
                     if (pth.PointCount > 0)
@@ -3416,13 +3456,13 @@ namespace MissionPlanner.Controls
                         }
                     }
 
-                    var larger = maxx > maxy ? (int) maxx + 1 : (int) maxy + 1;
+                    var larger = maxx > maxy ? (int)maxx + 1 : (int)maxy + 1;
 
                     charDict[charid] = new character()
                     {
                         bitmap = new Bitmap(NextPowerOf2(larger), NextPowerOf2(larger),
                             System.Drawing.Imaging.PixelFormat.Format32bppArgb),
-                        size = (int) fontsize,
+                        size = (int)fontsize,
                         pth = pth
                     };
 
@@ -3440,7 +3480,7 @@ namespace MissionPlanner.Controls
                         gfx.FillPath(brush, pth);
                     }
 
-                    charDict[charid].width = (int) (maxx + 2);
+                    charDict[charid].width = (int)(maxx + 2);
 
                     //charbitmaps[charid] = charbitmaps[charid].Clone(new RectangleF(0, 0, maxx + 2, maxy + 2), charbitmaps[charid].PixelFormat);
 
@@ -3449,7 +3489,7 @@ namespace MissionPlanner.Controls
                     // create texture
                     int textureId;
                     GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
-                        (float) TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
+                        (float)TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
 
                     Bitmap bitmap = charDict[charid].bitmap;
                     GL.GenTextures(1, out textureId);
@@ -3462,9 +3502,9 @@ namespace MissionPlanner.Controls
                         OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                        (int) TextureMinFilter.Linear);
+                        (int)TextureMinFilter.Linear);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                        (int) TextureMagFilter.Linear);
+                        (int)TextureMagFilter.Linear);
 
                     //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Nearest);
                     //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
@@ -3482,39 +3522,23 @@ namespace MissionPlanner.Controls
                 // dont draw spaces
                 if (cha != ' ')
                 {
-                    /*
-                    TranslateTransform(x, y);
-                    DrawPath(this._p, charDict[charid].pth);
+                    float[] vertices = {
+                        x, y+ charDict[charid].bitmap.Height * scale ,
+                        x + charDict[charid].bitmap.Width * scale, y+ charDict[charid].bitmap.Height * scale,
+                        x + charDict[charid].bitmap.Width * scale, y,
+                        x, y  }; 
 
-                    //Draw the face
-
-                    FillPath(brush, charDict[charid].pth);
-
-                    TranslateTransform(-x, -y);
-                    */
-                    //GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-
-                    GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
-
-                    GL.Begin(PrimitiveType.TriangleFan);
-                    GL.TexCoord2(0, 0);
-                    GL.Vertex2(x, y);
-                    GL.TexCoord2(1, 0);
-                    GL.Vertex2(x + charDict[charid].bitmap.Width * scale, y);
-                    GL.TexCoord2(1, 1);
-                    GL.Vertex2(x + charDict[charid].bitmap.Width * scale, y + charDict[charid].bitmap.Height * scale);
-                    GL.TexCoord2(0, 1);
-                    GL.Vertex2(x + 0, y + charDict[charid].bitmap.Height * scale);
-                    GL.End();
-
-                    //GL.Disable(EnableCap.Blend);
-                    GL.Disable(EnableCap.Texture2D);
+                    GL.VertexPointer(2, VertexPointerType.Float, 0, vertices);
+                    GL.DrawArrays(PrimitiveType.Quads, 0, 4);
                 }
 
                 x += charDict[charid].width * scale;
             }
+            GL.DisableClientState(ArrayCap.TextureCoordArray);
+            GL.DisableClientState(ArrayCap.VertexArray);
+            GL.Disable(EnableCap.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
         void drawstringGDI(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
