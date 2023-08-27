@@ -1606,7 +1606,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             Console.WriteLine("FromHwnd");
 
-            return new Graphics(SKSurface.CreateNull(1, 1));
+            if(HwndToGraphics == null)
+                return new Graphics(SKSurface.CreateNull(1, 1));
 
             //get client rect
             //hwnd to hdc

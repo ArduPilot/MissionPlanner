@@ -1778,8 +1778,103 @@ public enum StringName
     }
 
 
-
-
+    public enum TexCoordPointerType
+    {
+        //
+        // Summary:
+        //     Original was GL_SHORT = 0x1402
+        Short = 5122,
+        //
+        // Summary:
+        //     Original was GL_INT = 0x1404
+        Int = 5124,
+        //
+        // Summary:
+        //     Original was GL_FLOAT = 0x1406
+        Float = 5126,
+        //
+        // Summary:
+        //     Original was GL_DOUBLE = 0x140A
+        Double = 5130,
+        //
+        // Summary:
+        //     Original was GL_HALF_FLOAT = 0x140B
+        HalfFloat = 5131,
+        //
+        // Summary:
+        //     Original was GL_UNSIGNED_INT_2_10_10_10_REV = 0x8368
+        UnsignedInt2101010Rev = 33640,
+        //
+        // Summary:
+        //     Original was GL_INT_2_10_10_10_REV = 0x8D9F
+        Int2101010Rev = 36255
+    }
+    public enum ArrayCap
+    {
+        //
+        // Summary:
+        //     Original was GL_VERTEX_ARRAY = 0x8074
+        VertexArray = 32884,
+        //
+        // Summary:
+        //     Original was GL_NORMAL_ARRAY = 0x8075
+        NormalArray = 32885,
+        //
+        // Summary:
+        //     Original was GL_COLOR_ARRAY = 0x8076
+        ColorArray = 32886,
+        //
+        // Summary:
+        //     Original was GL_INDEX_ARRAY = 0x8077
+        IndexArray = 32887,
+        //
+        // Summary:
+        //     Original was GL_TEXTURE_COORD_ARRAY = 0x8078
+        TextureCoordArray = 32888,
+        //
+        // Summary:
+        //     Original was GL_EDGE_FLAG_ARRAY = 0x8079
+        EdgeFlagArray = 32889,
+        //
+        // Summary:
+        //     Original was GL_FOG_COORD_ARRAY = 0x8457
+        FogCoordArray = 33879,
+        //
+        // Summary:
+        //     Original was GL_SECONDARY_COLOR_ARRAY = 0x845E
+        SecondaryColorArray = 33886
+    }
+    public enum VertexPointerType
+    {
+        //
+        // Summary:
+        //     Original was GL_SHORT = 0x1402
+        Short = 5122,
+        //
+        // Summary:
+        //     Original was GL_INT = 0x1404
+        Int = 5124,
+        //
+        // Summary:
+        //     Original was GL_FLOAT = 0x1406
+        Float = 5126,
+        //
+        // Summary:
+        //     Original was GL_DOUBLE = 0x140A
+        Double = 5130,
+        //
+        // Summary:
+        //     Original was GL_HALF_FLOAT = 0x140B
+        HalfFloat = 5131,
+        //
+        // Summary:
+        //     Original was GL_UNSIGNED_INT_2_10_10_10_REV = 0x8368
+        UnsignedInt2101010Rev = 33640,
+        //
+        // Summary:
+        //     Original was GL_INT_2_10_10_10_REV = 0x8D9F
+        Int2101010Rev = 36255
+    }
     public static class GL
     {
 
@@ -2013,6 +2108,31 @@ public enum StringName
         }
 
         public static void Vertex3(Vector3 vec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TexCoordPointer(int v1, object @float, int v2, float[] texCoords)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void VertexPointer(int v1, object @float, int v2, float[] vertices)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DrawArrays(PrimitiveType quads, int v1, int v2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DisableClientState(object textureCoordArray)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void EnableClientState(ArrayCap textureCoordArray)
         {
             throw new NotImplementedException();
         }
