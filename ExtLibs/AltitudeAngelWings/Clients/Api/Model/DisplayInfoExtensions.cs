@@ -39,16 +39,31 @@ namespace AltitudeAngelWings.Clients.Api.Model
             });
             builder.Append("<div class=\"feature\">");
             builder.Append($"<div class=\"highlight\" style=\"background-color: {featureProperties.FillColor}\"></div>");
-            builder.Append($"<div class=\"header\">");
+            builder.Append("<div class=\"header\">");
             builder.Append($"<div class=\"category\">{featureProperties.DisplayInfo.Category}</div>");
             builder.Append($"<div class=\"detailedCategory\"> : {featureProperties.DisplayInfo.DetailedCategory}</div>");
             builder.Append($"<div class=\"displayTitle\">{featureProperties.DisplayInfo.Title.ToUpper()}</div>");
+            if (featureProperties.HasUtmStatus())
+            {
+                // TODO: Get base URL from domain suffix
+                builder.Append("<div class=\"utmBadge\"><img src=\"https://dronesafetymap.com/images/icons/");
+                if (featureProperties.IsUtmReady())
+                {
+                    builder.Append("utm-ready.png");
+                }
+                else if (featureProperties.IsUtmBasic())
+                {
+                    builder.Append("utm-basic.png");
+                }
+                else
+                {
+                    builder.Append("utm-legacy.png");
+                }
+                builder.Append("\"/></div>");
+            }
             builder.Append("</div>");
-            /*
-             3 Star UTM Ready: utmStatus != null && utmStatus.enabled == true && utmStatus.utm != null && utmStatus.utm.id == "AA_GUARDIAN_UTM"
-             2 Star UTM Basic: utmStatus != null && utmStatus.enabled == true && utmStatus.utm != null && utmStatus.utm.id == "AA_UTM_READY"
-             1 Star Legacy: utmStatus != null && utmStatus.enabled == false
-            */
+
+            // TODO: UTM Legacy/Basic/Ready display
             if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
             {
                 builder.Append("<div class=\"utmStatus\">");
