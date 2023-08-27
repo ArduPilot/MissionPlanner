@@ -29,6 +29,7 @@ namespace AltitudeAngelWings.Clients.Api.Model
         public static string FormatAsHtml(this FeatureProperties featureProperties,
             IDictionary<string, RateCardDetail> rateCardDetails)
         {
+            var settings = ServiceLocator.GetService<ISettings>();
             var builder = new StringBuilder();
             var markdown = new Markdown(new MarkdownOptions
             {
@@ -45,8 +46,7 @@ namespace AltitudeAngelWings.Clients.Api.Model
             builder.Append($"<div class=\"displayTitle\">{featureProperties.DisplayInfo.Title.ToUpper()}</div>");
             if (featureProperties.HasUtmStatus())
             {
-                // TODO: Get base URL from domain suffix
-                builder.Append("<div class=\"utmBadge\"><img src=\"https://dronesafetymap.com/images/icons/");
+                builder.Append($"<div class=\"utmBadge\"><img src=\"{settings.CdnUrl}/images/icons/");
                 if (featureProperties.IsUtmReady())
                 {
                     builder.Append("utm-ready.png");
@@ -110,8 +110,8 @@ namespace AltitudeAngelWings.Clients.Api.Model
                         builder.Append(" (");
                         var total = rate.Rate + rateCard.StandingCharge;
                         total += rateCard.TaxRate / 100 * total;
-                        builder.Append(CurrencyLookup.ContainsKey(rateCard.Currency)
-                            ? total.ToString("C", CurrencyLookup[rateCard.Currency])
+                        builder.Append(CurrencyLookup.TryGetValue(rateCard.Currency, out var value)
+                            ? total.ToString("C", value)
                             : $"{total} {rateCard.Currency}");
 
                         builder.Append(")</li>");
