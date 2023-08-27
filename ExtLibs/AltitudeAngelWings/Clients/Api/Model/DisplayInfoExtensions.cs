@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using MarkdownSharp;
+using Markdig;
 
 namespace AltitudeAngelWings.Clients.Api.Model
 {
@@ -31,13 +31,21 @@ namespace AltitudeAngelWings.Clients.Api.Model
         {
             var settings = ServiceLocator.GetService<ISettings>();
             var builder = new StringBuilder();
-            var markdown = new Markdown(new MarkdownOptions
-            {
-                AutoNewlines = false,
-                AutoHyperlink = false,
-                LinkEmails = false,
-                EmptyElementSuffix = "/>"
-            });
+            var pipeline = new MarkdownPipelineBuilder()
+                .UseAbbreviations()
+                .UseAutoIdentifiers()
+                .UseCitations()
+                .UseDefinitionLists()
+                .UseEmphasisExtras()
+                .UseFooters()
+                .UseFootnotes()
+                .UseGridTables()
+                .UsePipeTables()
+                .UseListExtras()
+                .UseTaskLists()
+                .DisableHtml()
+                .UseSmartyPants()
+                .Build();
             builder.Append("<div class=\"feature\">");
             builder.Append($"<div class=\"highlight\" style=\"background-color: {featureProperties.FillColor}\"></div>");
             builder.Append("<div class=\"header\">");
@@ -91,14 +99,14 @@ namespace AltitudeAngelWings.Clients.Api.Model
 
                     if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Title))
                     {
-                        builder.Append($"<div class=\"title\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
+                        builder.Append($"<div class=\"title\">{Markdown.ToHtml(featureProperties.UtmStatus.Title, pipeline)}</div>");
                     }
 
                     builder.Append($"<div class=\"displayTitle\">{(isReady ? "FACILITY IS UTM CONNECTED" : "NOTIFY FACILITY")}</div>");
 
                     if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Description))
                     {
-                        builder.Append($"<div class=\"text\">{markdown.Transform(featureProperties.UtmStatus.Description)}</div>");
+                        builder.Append($"<div class=\"text\">{Markdown.ToHtml(featureProperties.UtmStatus.Description, pipeline)}</div>");
                     }
                     else if (!isReady)
                     {
@@ -125,7 +133,7 @@ namespace AltitudeAngelWings.Clients.Api.Model
                         builder.Append($"<div class=\"displayTitle\">{MapRateTypeToText(rateType)}</div>");
                         builder.Append("<div class=\"rateCard\">");
                         builder.Append($"<p>{featureProperties.DisplayInfo.Title.ToUpper()}</p>");
-                        builder.Append($"<p>{rateCard.ExplanatoryText}</p>");
+                        builder.Append($"<p>{Markdown.ToHtml(rateCard.ExplanatoryText, pipeline)}</p>");
                         builder.Append("<ul>");
                         foreach (var rate in rateCard.Rates.OrderBy(r => r.Ordinal))
                         {
@@ -199,12 +207,12 @@ namespace AltitudeAngelWings.Clients.Api.Model
 
                 if (!string.IsNullOrWhiteSpace(section.Text))
                 {
-                    builder.Append($"<div class=\"text\">{markdown.Transform(section.Text)}</div>");
+                    builder.Append($"<div class=\"text\">{Markdown.ToHtml(section.Text, pipeline)}</div>");
                 }
 
                 if (!string.IsNullOrWhiteSpace(section.Disclaimer))
                 {
-                    builder.Append($"<div class=\"disclaimer\">{markdown.Transform(section.Disclaimer)}</div>");
+                    builder.Append($"<div class=\"disclaimer\">{Markdown.ToHtml(section.Disclaimer, pipeline)}</div>");
                 }
                 builder.Append("</div>");
             }
