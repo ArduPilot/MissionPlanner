@@ -72,17 +72,34 @@
             text-transform: capitalize;
         }
 
-        div.utmStatus {
+        div.utmReadyStatus {
             border: 1px solid #3dbb4e;
             margin-top: 10px;
             padding: 0 10px;
         }
 
-        div.utmStatus div.section div.title {
-            display: block;
-            text-align: center;
-            font-size: 18px;
-            padding: 5px;
+        div.utmBasicStatus {
+            border: 1px solid darkorange;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        div.utmReadyTitle {
+            background-color: #edf8ed;
+            margin: 8px 0;
+            padding: 8px;
+        }
+
+        div.utmBasicTitle {
+            background-color: #fcebb4;
+            margin: 8px 0;
+            padding: 8px;
+        }
+
+        div.utmLegacyTitle {
+            background-color: #fde5ee;
+            margin: 8px 0;
+            padding: 8px;
         }
 
         div.noUtm {
@@ -91,8 +108,17 @@
             padding: 0 10px;
         }
 
-        div.utmStatus div.button {
+        div.utmReadyStatus div.button {
             background-color: #3dbb4e;
+            text-align: center;
+            margin: 0 50px 10px;
+            padding: 10px 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        div.utmBasicStatus div.button {
+            background-color: #fb0;
             text-align: center;
             margin: 0 50px 10px;
             padding: 10px 10px;

@@ -63,78 +63,104 @@ namespace AltitudeAngelWings.Clients.Api.Model
             }
             builder.Append("</div>");
 
-            // TODO: UTM Legacy/Basic/Ready display
-            if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
+            if (featureProperties.HasUtmStatus())
             {
-                builder.Append("<div class=\"utmStatus\">");
                 builder.Append("<div class=\"section\">");
+                builder.Append("<div class=\"displayTitle\">APPROVAL REQUIRED</div>");
 
-                if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Title))
+                if (featureProperties.IsUtmReady())
                 {
-                    builder.Append($"<div class=\"title\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
+                    builder.Append("<div class=\"utmReadyTitle\">Online Approval</div>");
+
                 }
-
-                builder.Append("<div class=\"displayTitle\">FACILITY IS UTM READY</div>");
-
-                if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Description))
+                else if (featureProperties.IsUtmBasic())
                 {
-                    builder.Append($"<div class=\"text\">{markdown.Transform(featureProperties.UtmStatus.Description)}</div>");
+                    builder.Append("<div class=\"utmBasicTitle\">Notification Available</div>");
                 }
-
-                foreach (var rateType in featureProperties.UtmStatus.RateTypes.Keys)
+                else
                 {
-                    var rateCard = featureProperties.UtmStatus.RateTypes[rateType]
-                        .Where(c =>
-                        {
-                            if (c.AppliesFrom == null) return false;
-                            var now = DateTimeOffset.UtcNow;
-                            if (c.AppliesFrom > now) return false;
-                            if (c.AppliesTo == null) return true;
-                            return c.AppliesTo >= now;
-                        })
-                        .OrderBy(c => c.AppliesFrom)
-                        .Select(c => rateCardDetails[c.Id])
-                        .FirstOrDefault();
-                    if (rateCard == null) continue;
-                    builder.Append("<div class=\"rateType\">");
+                    builder.Append("<div class=\"utmLegacyTitle\">Not Connected</div>");
+                }
+                builder.Append("</div>");
+
+                if (featureProperties.IsUtmEnabled())
+                {
+                    var isReady = featureProperties.IsUtmReady();
+                    builder.Append($"<div class=\"{(isReady ? "utmReadyStatus" : "utmBasicStatus")}\">");
                     builder.Append("<div class=\"section\">");
-                    builder.Append($"<div class=\"displayTitle\">{MapRateTypeToText(rateType)}</div>");
-                    builder.Append("<div class=\"rateCard\">");
-                    builder.Append($"<p>{featureProperties.DisplayInfo.Title.ToUpper()}</p>");
-                    builder.Append($"<p>{rateCard.ExplanatoryText}</p>");
-                    builder.Append("<ul>");
-                    foreach (var rate in rateCard.Rates.OrderBy(r => r.Ordinal))
+
+                    if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Title))
                     {
-                        builder.Append("<li>");
-                        builder.Append(rate.Name);
-                        builder.Append(" (");
-                        var total = rate.Rate + rateCard.StandingCharge;
-                        total += rateCard.TaxRate / 100 * total;
-                        builder.Append(CurrencyLookup.TryGetValue(rateCard.Currency, out var value)
-                            ? total.ToString("C", value)
-                            : $"{total} {rateCard.Currency}");
-
-                        builder.Append(")</li>");
+                        builder.Append($"<div class=\"title\">{markdown.Transform(featureProperties.UtmStatus.Title)}</div>");
                     }
-                    builder.Append("</ul>");
-                    builder.Append("<p>If you wish to operate here, depending on your flight plan, you may require their prior approval.</p>");
-                    builder.Append($"<p><a href=\"{rateCard.RateCardTerms}\">Terms and conditions</a></p>");
-                    builder.Append("</div>");
+
+                    builder.Append($"<div class=\"displayTitle\">{(isReady ? "FACILITY IS UTM CONNECTED" : "NOTIFY FACILITY")}</div>");
+
+                    if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.Description))
+                    {
+                        builder.Append($"<div class=\"text\">{markdown.Transform(featureProperties.UtmStatus.Description)}</div>");
+                    }
+                    else if (!isReady)
+                    {
+                        builder.Append("<div class=\"text\"><p>This facility supports prior notification. Submitting your flight plan will begin the approval process with the facility.<ul><li>Prior Notification</li></ul></p></div>");
+                    }
+
+                    foreach (var rateType in featureProperties.UtmStatus.RateTypes.Keys)
+                    {
+                        var rateCard = featureProperties.UtmStatus.RateTypes[rateType]
+                            .Where(c =>
+                            {
+                                if (c.AppliesFrom == null) return false;
+                                var now = DateTimeOffset.UtcNow;
+                                if (c.AppliesFrom > now) return false;
+                                if (c.AppliesTo == null) return true;
+                                return c.AppliesTo >= now;
+                            })
+                            .OrderBy(c => c.AppliesFrom)
+                            .Select(c => rateCardDetails[c.Id])
+                            .FirstOrDefault();
+                        if (rateCard == null) continue;
+                        builder.Append("<div class=\"rateType\">");
+                        builder.Append("<div class=\"section\">");
+                        builder.Append($"<div class=\"displayTitle\">{MapRateTypeToText(rateType)}</div>");
+                        builder.Append("<div class=\"rateCard\">");
+                        builder.Append($"<p>{featureProperties.DisplayInfo.Title.ToUpper()}</p>");
+                        builder.Append($"<p>{rateCard.ExplanatoryText}</p>");
+                        builder.Append("<ul>");
+                        foreach (var rate in rateCard.Rates.OrderBy(r => r.Ordinal))
+                        {
+                            builder.Append("<li>");
+                            builder.Append(rate.Name);
+                            builder.Append(" (");
+                            var total = rate.Rate + rateCard.StandingCharge;
+                            total += rateCard.TaxRate / 100 * total;
+                            builder.Append(CurrencyLookup.TryGetValue(rateCard.Currency, out var value)
+                                ? total.ToString("C", value)
+                                : $"{total} {rateCard.Currency}");
+
+                            builder.Append(")</li>");
+                        }
+                        builder.Append("</ul>");
+                        builder.Append("<p>If you wish to operate here, depending on your flight plan, you may require their prior approval.</p>");
+                        builder.Append($"<p><a href=\"{rateCard.RateCardTerms}\">Terms and conditions</a></p>");
+                        builder.Append("</div>");
+                        builder.Append("</div>");
+                        builder.Append("</div>");
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.UtmDetails.ExternalUrl))
+                    {
+                        builder.Append($"<div class=\"button\"><a href=\"{featureProperties.UtmStatus.UtmDetails.ExternalUrl}\">{(isReady ? "Request To Fly Here" : "Notify Facility")}</a></div>");
+                    }
+
                     builder.Append("</div>");
                     builder.Append("</div>");
                 }
-
-                if (!string.IsNullOrWhiteSpace(featureProperties.UtmStatus.UtmDetails.ExternalUrl))
-                {
-                    builder.Append($"<div class=\"button\"><a href=\"{featureProperties.UtmStatus.UtmDetails.ExternalUrl}\">Request To Fly Here</a></div>");
-                }
-
-                builder.Append("</div>");
-                builder.Append("</div>");
             }
+
             if (featureProperties.Contact?.PhoneNumbers != null && featureProperties.Contact.PhoneNumbers.Count > 0)
             {
-                if (featureProperties.UtmStatus?.UtmDetails != null && featureProperties.UtmStatus.Enabled)
+                if (featureProperties.IsUtmEnabled())
                 {
                     builder.Append("<div class=\"contact\">");
                     builder.Append("<div class=\"section\">");
