@@ -20,6 +20,7 @@ using AltitudeAngelWings.Service.Messaging;
 using AltitudeAngelWings.Service.OutboundNotifications;
 using Flurl.Http;
 using Flurl.Http.Configuration;
+using Markdig;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NodaTime;
@@ -144,6 +145,21 @@ namespace AltitudeAngelWings
                     l.Resolve<IApiClient>(),
                 l.Resolve<ITelemetryService>(),
                 l.Resolve<IFlightService>()));
+            ServiceLocator.Register(l => new MarkdownPipelineBuilder()
+                    .UseAbbreviations()
+                    .UseAutoIdentifiers()
+                    .UseCitations()
+                    .UseDefinitionLists()
+                    .UseEmphasisExtras()
+                    .UseFooters()
+                    .UseFootnotes()
+                    .UseGridTables()
+                    .UsePipeTables()
+                    .UseListExtras()
+                    .UseTaskLists()
+                    .DisableHtml()
+                    .UseSmartyPants()
+                    .Build());
         }
 
         private static void ResetAccessToken(ISettings settings)

@@ -30,22 +30,8 @@ namespace AltitudeAngelWings.Clients.Api.Model
             IDictionary<string, RateCardDetail> rateCardDetails)
         {
             var settings = ServiceLocator.GetService<ISettings>();
+            var pipeline = ServiceLocator.GetService<MarkdownPipeline>();
             var builder = new StringBuilder();
-            var pipeline = new MarkdownPipelineBuilder()
-                .UseAbbreviations()
-                .UseAutoIdentifiers()
-                .UseCitations()
-                .UseDefinitionLists()
-                .UseEmphasisExtras()
-                .UseFooters()
-                .UseFootnotes()
-                .UseGridTables()
-                .UsePipeTables()
-                .UseListExtras()
-                .UseTaskLists()
-                .DisableHtml()
-                .UseSmartyPants()
-                .Build();
             builder.Append("<div class=\"feature\">");
             builder.Append($"<div class=\"highlight\" style=\"background-color: {featureProperties.FillColor}\"></div>");
             builder.Append("<div class=\"header\">");
