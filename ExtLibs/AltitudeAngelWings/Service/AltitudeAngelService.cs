@@ -97,6 +97,7 @@ namespace AltitudeAngelWings.Service
                 
                 // Attempt to get a token
                 var token = await _tokenProvider.GetToken(cancellationToken);
+                GC.KeepAlive(token);
             }
             catch (FlurlHttpException ex) when (ex.StatusCode == 401)
             {
@@ -183,7 +184,7 @@ namespace AltitudeAngelWings.Service
                 mapData.Features.ForEach(feature => MapFeatureCache[feature.Id] = feature);
 
                 // Only get the features that are enabled by default, and have not been filtered out
-                ProcessFeatures(map, mapData.Features);
+                ProcessFeatures(map);
             }
             catch (Exception ex) when (!(ex is FlurlHttpException) && !(ex.InnerException is TaskCanceledException))
             {
@@ -211,19 +212,20 @@ namespace AltitudeAngelWings.Service
                 MapFeatureCache.Values.UpdateFilterInfo(FilterInfoDisplay, true);
             }
 
-            ProcessFeatures(map, MapFeatureCache.Values);
+            ProcessFeatures(map);
             map.Invalidate();
         }
 
-        private void ProcessFeatures(IMap map, IEnumerable<Feature> features)
+        private void ProcessFeatures(IMap map)
         {
             try
             {
                 if (!_processLock.Wait(TimeSpan.FromSeconds(1))) return;
                 var overlay = map.GetOverlay(MapOverlayName, true);
-                var polygons = new List<string>();
-                var lines = new List<string>();
+                var features = new Feature[MapFeatureCache.Values.Count];
+                MapFeatureCache.Values.CopyTo(features, 0);
 
+                var overlayFeatures = new List<OverlayFeature>();
                 foreach (var feature in features)
                 {
                     if (!FilterInfoDisplay
@@ -263,12 +265,10 @@ namespace AltitudeAngelWings.Service
                             }
 
                             var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                            polygons.Add(feature.Id);
+                            overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Polygon, coordinates, colorInfo, feature));
+                            break;
                         }
-                            break;
-                        case GeoJSONObjectType.MultiPoint:
-                            break;
+
                         case GeoJSONObjectType.LineString:
                         {
                             var line = (LineString)feature.Geometry;
@@ -276,13 +276,10 @@ namespace AltitudeAngelWings.Service
                                 .Select(c => new LatLong(c.Latitude, c.Longitude))
                                 .ToList();
                             var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlay.AddOrUpdateLine(feature.Id, coordinates, colorInfo, feature);
-                            lines.Add(feature.Id);
+                            overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Line, coordinates, colorInfo, feature));
+                            break;
                         }
-                            break;
 
-                        case GeoJSONObjectType.MultiLineString:
-                            break;
                         case GeoJSONObjectType.Polygon:
                         {
                             var poly = (Polygon)feature.Geometry;
@@ -292,11 +289,12 @@ namespace AltitudeAngelWings.Service
                                     .ToList();
 
                             var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                            polygons.Add(feature.Id);
-                        }
+                            overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Polygon, coordinates, colorInfo, feature));
                             break;
+                        }
+
                         case GeoJSONObjectType.MultiPolygon:
+                            // TODO: This does not work for polygons with holes and just does the outer polygon
                             foreach (var poly in ((MultiPolygon)feature.Geometry).Coordinates)
                             {
                                 var coordinates =
@@ -305,24 +303,18 @@ namespace AltitudeAngelWings.Service
                                         .ToList();
 
                                 var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                                overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                                polygons.Add(feature.Id);
+                                overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Line, coordinates, colorInfo, feature));
                             }
 
                             break;
-                        case GeoJSONObjectType.GeometryCollection:
-                            break;
-                        case GeoJSONObjectType.Feature:
-                            break;
-                        case GeoJSONObjectType.FeatureCollection:
-                            break;
+
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            _messagesService.AddMessageAsync(Message.ForInfo($"GeoJSON object type {feature.Geometry.Type} cannot be handled in feature ID {feature.Id}."));
+                            break;
                     }
                 }
 
-                overlay.RemovePolygonsExcept(polygons);
-                overlay.RemoveLinesExcept(lines);
+                overlay.SetFeatures(overlayFeatures);
             }
             finally
             {
@@ -332,8 +324,8 @@ namespace AltitudeAngelWings.Service
 
         private static LatLong PositionFromBearingAndDistance(LatLong input, double bearing, double distance)
         {
-            const double rad2deg = 180 / Math.PI;
-            const double deg2rad = 1.0 / rad2deg;
+            const double radiansInDegrees = 180 / Math.PI;
+            const double degreesInRadians = 1.0 / radiansInDegrees;
 
             // '''extrapolate latitude/longitude given a heading and distance 
             //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
@@ -341,17 +333,17 @@ namespace AltitudeAngelWings.Service
             // from math import sin, asin, cos, atan2, radians, degrees
             var radiusOfEarth = 6378100.0;//# in meters
 
-            var lat1 = deg2rad * input.Latitude;
-            var lon1 = deg2rad * input.Longitude;
-            var brng = deg2rad * bearing;
+            var lat1 = degreesInRadians * input.Latitude;
+            var lon1 = degreesInRadians * input.Longitude;
+            var radBearing = degreesInRadians * bearing;
             var dr = distance / radiusOfEarth;
 
             var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
-                                 Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
-            var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
+                                 Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(radBearing));
+            var lon2 = lon1 + Math.Atan2(Math.Sin(radBearing) * Math.Sin(dr) * Math.Cos(lat1),
                                 Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
 
-            return new LatLong(rad2deg * lat2, rad2deg * lon2);
+            return new LatLong(radiansInDegrees * lat2, radiansInDegrees * lon2);
         }
 
         private async Task OnFlightReportClicked(Feature feature)
