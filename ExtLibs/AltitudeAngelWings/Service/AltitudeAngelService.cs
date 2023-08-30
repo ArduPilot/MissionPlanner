@@ -222,11 +222,8 @@ namespace AltitudeAngelWings.Service
             {
                 if (!_processLock.Wait(TimeSpan.FromSeconds(1))) return;
                 var overlay = map.GetOverlay(MapOverlayName, true);
-                var features = new Feature[MapFeatureCache.Values.Count];
-                MapFeatureCache.Values.CopyTo(features, 0);
-
                 var overlayFeatures = new List<OverlayFeature>();
-                foreach (var feature in features)
+                foreach (var feature in MapFeatureCache.Values)
                 {
                     if (!FilterInfoDisplay
                             .Intersect(feature.GetFilterInfo(), new FilterInfoDisplayEqualityComparer())
