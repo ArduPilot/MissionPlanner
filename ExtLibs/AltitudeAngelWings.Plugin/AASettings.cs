@@ -130,7 +130,10 @@ namespace AltitudeAngelWings.Plugin
         {
             var item = (FilterInfoDisplay)e.Node.Tag;
             item.Visible = e.Node.Checked;
-            ProcessMapsFromCache();
+            if (trv_MapLayers.Visible && trv_MapLayers.Focused)
+            {
+                ProcessMapsFromCache();
+            }
         }
 
         private void txt_FlightPlanName_TextChanged(object sender, EventArgs e)
