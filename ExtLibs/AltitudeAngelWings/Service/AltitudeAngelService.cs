@@ -24,7 +24,7 @@ namespace AltitudeAngelWings.Service
     public class AltitudeAngelService : IAltitudeAngelService
     {
         private const string MapOverlayName = "AAMapData";
-        private static readonly Dictionary<string, Feature> MapFeatureCache = new Dictionary<string, Feature>();
+        private static readonly List<Feature> MapFeatureCache = new List<Feature>();
 
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
@@ -181,7 +181,7 @@ namespace AltitudeAngelWings.Service
 
                 // add all items to cache
                 MapFeatureCache.Clear();
-                mapData.Features.ForEach(feature => MapFeatureCache[feature.Id] = feature);
+                MapFeatureCache.AddRange(mapData.Features);
 
                 // Only get the features that are enabled by default, and have not been filtered out
                 ProcessFeatures(map);
@@ -209,7 +209,7 @@ namespace AltitudeAngelWings.Service
 
             if (resetFilters)
             {
-                MapFeatureCache.Values.UpdateFilterInfo(FilterInfoDisplay, true);
+                MapFeatureCache.UpdateFilterInfo(FilterInfoDisplay, true);
             }
 
             ProcessFeatures(map);
@@ -223,7 +223,7 @@ namespace AltitudeAngelWings.Service
                 if (!_processLock.Wait(TimeSpan.FromSeconds(1))) return;
                 var overlay = map.GetOverlay(MapOverlayName, true);
                 var overlayFeatures = new List<OverlayFeature>();
-                foreach (var feature in MapFeatureCache.Values)
+                foreach (var feature in MapFeatureCache)
                 {
                     if (!FilterInfoDisplay
                             .Intersect(feature.GetFilterInfo(), new FilterInfoDisplayEqualityComparer())
