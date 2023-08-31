@@ -8,50 +8,8 @@ namespace AltitudeAngelWings.Clients.Api.Model
         [JsonProperty("detailedCategory")]
         public string DetailedCategory { get; set; }
 
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("fromUtc")]
-        public string FromUtc { get; set; }
-
-        [JsonProperty("toUtc")]
-        public string ToUtc { get; set; }
-
-        [JsonProperty("fromLocal")]
-        public string FromLocal { get; set; }
-
-        [JsonProperty("toLocal")]
-        public string ToLocal { get; set; }
-
-        [JsonProperty("timeZone")]
-        public string TimeZone { get; set; }
-
-        [JsonProperty("flightType")]
-        public string FlightType { get; set; }
-
-        [JsonProperty("radiusMeters")]
-        public string RadiusMeters { get; set; }
-
         [JsonProperty("isOwner")]
         public bool IsOwner { get; set; }
-
-        [JsonProperty("alertSummary")]
-        public string AlertSummary { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("state")]
-        public string State { get; set; }
-
-        [JsonProperty("iconUrl")]
-        public string IconUrl { get; set; }
-
-        [JsonProperty("hazardFactor")]
-        public string HazardFactor { get; set; }
-
-        [JsonProperty("hazardFactorName")]
-        public string HazardFactorName { get; set; }
 
         [JsonProperty("fillColor")]
         public string FillColor { get; set; }
@@ -68,32 +26,14 @@ namespace AltitudeAngelWings.Clients.Api.Model
         [JsonProperty("strokeWidth")]
         public string StrokeWidth { get; set; }
 
-        [JsonProperty("borderColor")]
-        public string BorderColor { get; set; }
-
-        [JsonProperty("borderOpacity")]
-        public string BorderOpacity { get; set; }
-
-        [JsonProperty("borderWidth")]
-        public string BorderWidth { get; set; }
-
-        [JsonProperty("category")]
-        public string Category { get; set; }
-
         [JsonProperty("radius")]
         public string Radius { get; set; }
-
-        [JsonProperty("filters")]
-        public IList<FilterInfo> Filters { get; set; }
 
         [JsonProperty("display")]
         public DisplayInfo DisplayInfo { get; set; }
 
         [JsonProperty("altitudeFloor")]
         public AltitudeProperty AltitudeFloor { get; set; }
-
-        [JsonProperty("altitudeCeiling")]
-        public AltitudeProperty AltitudeCeiling { get; set; }
 
         [JsonProperty("utmStatus")]
         public UtmStatus UtmStatus { get; set; }
