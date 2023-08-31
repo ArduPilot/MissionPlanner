@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AltitudeAngelWings.Clients.Api.Model
 {
     public static class FeatureExtensions
     {
-        private static readonly char[] DefaultWhitespaceChars = { ' ', '\r', '\n', '\t' };
-
         public static FeatureProperties GetFeatureProperties(this Feature feature)
-            => JsonConvert.DeserializeObject<FeatureProperties>(new JObject(feature.Properties.Select(p => new JProperty(p.Key, p.Value))).ToString());
+            => new JObject(feature.Properties.Select(p => new JProperty(p.Key, p.Value))).ToObject<FeatureProperties>();
 
         public static IEnumerable<FilterInfoDisplay> GetFilterInfo(this Feature feature)
         {
@@ -20,7 +17,7 @@ namespace AltitudeAngelWings.Clients.Api.Model
                 yield break;
             }
 
-            var filters = JsonConvert.DeserializeObject<List<FilterInfo>>(feature.Properties["filters"].ToString());
+            var filters = ((JArray)feature.Properties["filters"]).ToObject<IList<FilterInfo>>();
             var visible = filters.All(f => f.Active);
             foreach (var f in filters)
             {
@@ -68,8 +65,5 @@ namespace AltitudeAngelWings.Clients.Api.Model
                 }
             }
         }
-
-        public static DisplayInfo GetDisplayInfo(this Feature feature)
-            => JsonConvert.DeserializeObject<DisplayInfo>(feature.Properties["display"].ToString());
     }
 }

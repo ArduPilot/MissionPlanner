@@ -353,7 +353,7 @@ namespace AltitudeAngelWings.Service
             if (_settings.CurrentFlightPlanId == null && _settings.ExistingFlightPlanId != Guid.Parse(feature.Id))
             {
                 if (!await _missionPlanner.ShowYesNoMessageBox(
-                        $"You have clicked your flight plan '{feature.GetDisplayInfo().Title}'.{Environment.NewLine}Would you like to use this flight plan when you arm your drone?",
+                        $"You have clicked your flight plan '{feature.GetFeatureProperties().DisplayInfo.Title}'.{Environment.NewLine}Would you like to use this flight plan when you arm your drone?",
                         "Flight Plan")) return;
                 _settings.ExistingFlightPlanId = Guid.Parse(feature.Id);
                 _settings.UseExistingFlightPlanId = true;
