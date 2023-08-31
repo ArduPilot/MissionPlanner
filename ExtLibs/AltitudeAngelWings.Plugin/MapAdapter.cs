@@ -147,13 +147,6 @@ namespace AltitudeAngelWings.Plugin
             return mapItems.ToArray();
         }
 
-        public LatLong GetCenter()
-        {
-            var pointLatLng = default(PointLatLng);
-            _context.Send(_ => pointLatLng = _mapControl.Position, null);
-            return new LatLong(pointLatLng.Lat, pointLatLng.Lng);
-        }
-
         public BoundingLatLong GetViewArea()
         {
             var rectLatLng = default(RectLatLng);
@@ -169,9 +162,6 @@ namespace AltitudeAngelWings.Plugin
                 SouthWest = new LatLong(rectLatLng.Bottom, rectLatLng.Left)
             };
         }
-
-        public void AddOverlay(string name)
-            => _context.Send(state => _mapControl.Overlays.Add(new GMapOverlay(name)), null);
 
         public void DeleteOverlay(string name)
             => _context.Send(_ =>
@@ -192,10 +182,8 @@ namespace AltitudeAngelWings.Plugin
                 if (overlay == null)
                 {
                     if (!createIfNotExists) throw new ArgumentException($"Overlay {name} not found.");
-                    AddOverlay(name);
-                    result = GetOverlay(name);
-                    return;
-
+                    overlay = new GMapOverlay(name);
+                    _mapControl.Overlays.Add(overlay);
                 }
 
                 result = new OverlayAdapter(overlay);
@@ -208,7 +196,7 @@ namespace AltitudeAngelWings.Plugin
             _mapControl.Invalidate();
         }
 
-        protected void Dispose(bool isDisposing)
+        protected virtual void Dispose(bool isDisposing)
         {
             if (isDisposing)
             {

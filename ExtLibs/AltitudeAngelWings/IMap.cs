@@ -8,9 +8,7 @@ namespace AltitudeAngelWings
     public interface IMap
     {
         bool Enabled { get; }
-        LatLong GetCenter();
         BoundingLatLong GetViewArea();
-        void AddOverlay(string name);
         void DeleteOverlay(string name);
         IOverlay GetOverlay(string name, bool createIfNotExists = false);
         IObservable<Unit> MapChanged { get; }
