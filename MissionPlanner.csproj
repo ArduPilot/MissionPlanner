@@ -113,6 +113,9 @@
     <EmbeddedResource Include="Controls\PrearmStatus.resx">
       <DependentUpon>PrearmStatus.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListControl.resx">
+      <DependentUpon>CheckListControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PropagationSettings.uk.resx">
       <DependentUpon>PropagationSettings.cs</DependentUpon>
     </EmbeddedResource>
