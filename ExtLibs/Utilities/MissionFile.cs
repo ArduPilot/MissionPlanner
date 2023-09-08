@@ -243,8 +243,10 @@ namespace MissionPlanner.Utilities
             RootObject temp = new RootObject()
             {
                 groundStation = "MissionPlanner",
-                version = 1
+                version = 1,
+                mission = new Mission()
             };
+            temp.mission.items = new List<Item>();
 
             if (list.Count > 0)
                 temp.mission.plannedHomePosition =
