@@ -317,6 +317,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
                                 ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
                             }
+                            if (check_sendntripv1.Checked)
+                            {
+                                ((CommsNTRIP)comPort).ntrip_v1 = true;
+                            } else
+                            {
+                                ((CommsNTRIP)comPort).ntrip_v1 = false;
+                            }
 
                             chk_sendgga.Enabled = false;
                             chk_ubloxautoconfig.Checked = false;

@@ -27,6 +27,7 @@ namespace MissionPlanner.Comms
 
         public double lat = 0;
         public double lng = 0;
+        public bool ntrip_v1 = false;
         private IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private Uri remoteUri;
 
@@ -362,10 +363,15 @@ namespace MissionPlanner.Comms
                        + "User-Agent: NTRIP MissionPlanner/1.0\r\n"
                        + auth
                        + "Connection: close\r\n\r\n";
-
-            sw.Write(linev2);
-
-            log.Info(linev2);
+            if (ntrip_v1)
+            {
+                sw.Write(linev1);
+                log.Info(linev1);
+            } else
+            {
+                sw.Write(linev2);
+                log.Info(linev2);
+            }
 
             sw.Flush();
 
