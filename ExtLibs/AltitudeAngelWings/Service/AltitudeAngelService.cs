@@ -24,7 +24,7 @@ namespace AltitudeAngelWings.Service
     public class AltitudeAngelService : IAltitudeAngelService
     {
         private const string MapOverlayName = "AAMapData";
-        private static readonly Dictionary<string, Feature> MapFeatureCache = new Dictionary<string, Feature>();
+        private static readonly List<Feature> MapFeatureCache = new List<Feature>();
 
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
@@ -35,7 +35,7 @@ namespace AltitudeAngelWings.Service
         private readonly ISettings _settings;
         private readonly ITokenProvider _tokenProvider;
         private readonly SemaphoreSlim _signInLock = new SemaphoreSlim(1);
-        private readonly SemaphoreSlim _processLock = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _mapCacheLock = new SemaphoreSlim(1);
 
         public ObservableProperty<bool> IsSignedIn { get; }
         public ObservableProperty<WeatherInfo> WeatherReport { get; }
@@ -97,6 +97,7 @@ namespace AltitudeAngelWings.Service
                 
                 // Attempt to get a token
                 var token = await _tokenProvider.GetToken(cancellationToken);
+                GC.KeepAlive(token);
             }
             catch (FlurlHttpException ex) when (ex.StatusCode == 401)
             {
@@ -132,208 +133,204 @@ namespace AltitudeAngelWings.Service
 
         private async Task UpdateMapData(IMap map, CancellationToken cancellationToken)
         {
-            if (!(IsSignedIn.Value || _settings.CheckEnableAltitudeAngel))
-            {
-                MapFeatureCache.Clear();
-            }
-
-            if (!map.Enabled)
-            {
-                map.DeleteOverlay(MapOverlayName);
-                map.Invalidate();
-                return;
-            }
-
             try
             {
-                var area = map.GetViewArea().RoundExpand(4);
-                var sw = new Stopwatch();
-                sw.Start();
-                var mapData = await _apiClient.GetMapData(area, cancellationToken);
-                sw.Stop();
-
-                foreach (var errorReason in mapData.ExcludedData.Select(e => e.ErrorReason).Distinct())
+                if (!await _mapCacheLock.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken)) return;
+                if (!(IsSignedIn.Value || _settings.CheckEnableAltitudeAngel))
                 {
-                    var reasons = mapData.ExcludedData.Where(e => e.ErrorReason == errorReason).ToList();
-                    if (reasons.Count <= 0) continue;
-                    string message;
-                    switch (errorReason)
-                    {
-                        case "QueryAreaTooLarge":
-                            message = $"Zoom in to see {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} from Altitude Angel.";
-                            break;
-
-                        default:
-                            message = $"Warning: {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} have been excluded from the Altitude Angel data.";
-                            break;
-                    }
-                    await _messagesService.AddMessageAsync(Message.ForInfo(errorReason, message, TimeSpan.FromSeconds(_settings.MapUpdateRefresh)));
+                    MapFeatureCache.Clear();
                 }
 
-                mapData.Features.UpdateFilterInfo(FilterInfoDisplay);
-                _settings.MapFilters = FilterInfoDisplay;
+                if (!map.Enabled)
+                {
+                    map.DeleteOverlay(MapOverlayName);
+                    map.Invalidate();
+                    return;
+                }
 
-                await _messagesService.AddMessageAsync(Message.ForInfo(
-                    "UpdateMapData",
-                    $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms",
-                    TimeSpan.FromSeconds(1)));
+                try
+                {
+                    var area = map.GetViewArea().RoundExpand(4);
+                    var sw = new Stopwatch();
+                    sw.Start();
+                    var mapData = await _apiClient.GetMapData(area, cancellationToken);
+                    sw.Stop();
 
-                // add all items to cache
-                MapFeatureCache.Clear();
-                mapData.Features.ForEach(feature => MapFeatureCache[feature.Id] = feature);
+                    foreach (var errorReason in mapData.ExcludedData.Select(e => e.ErrorReason).Distinct())
+                    {
+                        var reasons = mapData.ExcludedData.Where(e => e.ErrorReason == errorReason).ToList();
+                        if (reasons.Count <= 0) continue;
+                        string message;
+                        switch (errorReason)
+                        {
+                            case "QueryAreaTooLarge":
+                                message = $"Zoom in to see {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} from Altitude Angel.";
+                                break;
 
-                // Only get the features that are enabled by default, and have not been filtered out
-                ProcessFeatures(map, mapData.Features);
+                            default:
+                                message = $"Warning: {reasons.Select(d => d.Detail.DisplayName).AsReadableList()} have been excluded from the Altitude Angel data.";
+                                break;
+                        }
+                        await _messagesService.AddMessageAsync(Message.ForInfo(errorReason, message, TimeSpan.FromSeconds(_settings.MapUpdateRefresh)));
+                    }
+
+                    mapData.Features.UpdateFilterInfo(FilterInfoDisplay);
+                    _settings.MapFilters = FilterInfoDisplay;
+
+                    await _messagesService.AddMessageAsync(Message.ForInfo(
+                        "UpdateMapData",
+                        $"Map area loaded {area.NorthEast.Latitude:F4}, {area.SouthWest.Latitude:F4}, {area.SouthWest.Longitude:F4}, {area.NorthEast.Longitude:F4} in {sw.Elapsed.TotalMilliseconds:N2}ms",
+                        TimeSpan.FromSeconds(1)));
+
+                    // add all items to cache
+                    MapFeatureCache.Clear();
+                    MapFeatureCache.AddRange(mapData.Features);
+
+                    // Only get the features that are enabled by default, and have not been filtered out
+                    ProcessFeatures(map);
+                }
+                catch (Exception ex) when (!(ex is FlurlHttpException) && !(ex.InnerException is TaskCanceledException))
+                {
+                    await _messagesService.AddMessageAsync(Message.ForError("UpdateMapData", "Failed to update map data.", ex));
+                }
             }
-            catch (Exception ex) when (!(ex is FlurlHttpException) && !(ex.InnerException is TaskCanceledException))
+            finally
             {
-                await _messagesService.AddMessageAsync(Message.ForError("UpdateMapData", "Failed to update map data.", ex));
+                _mapCacheLock.Release();
             }
         }
 
         public void ProcessAllFromCache(IMap map, bool resetFilters = false)
         {
             map.DeleteOverlay(MapOverlayName);
-            if (!(IsSignedIn || _settings.CheckEnableAltitudeAngel))
+            try
             {
-                MapFeatureCache.Clear();
-            }
+                _mapCacheLock.Wait();
+                if (!(IsSignedIn || _settings.CheckEnableAltitudeAngel))
+                {
+                    MapFeatureCache.Clear();
+                }
 
-            if (!map.Enabled)
+                if (!map.Enabled)
+                {
+                    map.DeleteOverlay(MapOverlayName);
+                    map.Invalidate();
+                    return;
+                }
+
+                if (resetFilters)
+                {
+                        MapFeatureCache.UpdateFilterInfo(FilterInfoDisplay, true);
+                }
+
+                ProcessFeatures(map);
+            }
+            finally
             {
-                map.DeleteOverlay(MapOverlayName);
-                map.Invalidate();
-                return;
+                _mapCacheLock.Release();
             }
-
-            if (resetFilters)
-            {
-                MapFeatureCache.Values.UpdateFilterInfo(FilterInfoDisplay, true);
-            }
-
-            ProcessFeatures(map, MapFeatureCache.Values);
             map.Invalidate();
         }
 
-        private void ProcessFeatures(IMap map, IEnumerable<Feature> features)
+        private void ProcessFeatures(IMap map)
         {
-            try
+            var overlay = map.GetOverlay(MapOverlayName, true);
+            var overlayFeatures = new List<OverlayFeature>();
+            foreach (var feature in MapFeatureCache)
             {
-                if (!_processLock.Wait(TimeSpan.FromSeconds(1))) return;
-                var overlay = map.GetOverlay(MapOverlayName, true);
-                var polygons = new List<string>();
-                var lines = new List<string>();
-
-                foreach (var feature in features)
+                if (!FilterInfoDisplay
+                        .Intersect(feature.GetFilterInfo(), new FilterInfoDisplayEqualityComparer())
+                        .Any(i => i.Visible))
                 {
-                    if (!FilterInfoDisplay
-                            .Intersect(feature.GetFilterInfo(), new FilterInfoDisplayEqualityComparer())
-                            .Any(i => i.Visible))
+                    continue;
+                }
+
+                var properties = feature.GetFeatureProperties();
+                if (properties.AltitudeFloor != null)
+                {
+                    // TODO: Ignoring datum for now
+                    if (properties.AltitudeFloor.Meters > _settings.AltitudeFilter)
                     {
                         continue;
                     }
+                }
 
-                    var properties = feature.GetFeatureProperties();
-                    if (properties.AltitudeFloor != null)
+                switch (feature.Geometry.Type)
+                {
+                    case GeoJSONObjectType.Point:
                     {
-                        // TODO: Ignoring datum for now
-                        if (properties.AltitudeFloor.Meters > _settings.AltitudeFilter)
+                        var pnt = (Point)feature.Geometry;
+
+                        var coordinates = new List<LatLong>();
+
+                        if (!string.IsNullOrEmpty(properties.Radius))
                         {
-                            continue;
+                            var rad = double.Parse(properties.Radius);
+                            for (var i = 0; i <= 360; i += 10)
+                            {
+                                coordinates.Add(
+                                    PositionFromBearingAndDistance(new LatLong(((Position)pnt.Coordinates).Latitude,
+                                        ((Position)pnt.Coordinates).Longitude), i, rad));
+                            }
                         }
+
+                        var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
+                        overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Polygon, coordinates, colorInfo, feature));
+                        break;
                     }
 
-                    switch (feature.Geometry.Type)
+                    case GeoJSONObjectType.LineString:
                     {
-                        case GeoJSONObjectType.Point:
-                        {
-                            var pnt = (Point)feature.Geometry;
+                        var line = (LineString)feature.Geometry;
+                        var coordinates = line.Coordinates.OfType<Position>()
+                            .Select(c => new LatLong(c.Latitude, c.Longitude))
+                            .ToList();
+                        var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
+                        overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Line, coordinates, colorInfo, feature));
+                        break;
+                    }
 
-                            var coordinates = new List<LatLong>();
-
-                            if (!string.IsNullOrEmpty(properties.Radius))
-                            {
-                                var rad = double.Parse(properties.Radius);
-                                for (var i = 0; i <= 360; i += 10)
-                                {
-                                    coordinates.Add(
-                                        PositionFromBearingAndDistance(new LatLong(((Position)pnt.Coordinates).Latitude,
-                                            ((Position)pnt.Coordinates).Longitude), i, rad));
-                                }
-                            }
-
-                            var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                            polygons.Add(feature.Id);
-                        }
-                            break;
-                        case GeoJSONObjectType.MultiPoint:
-                            break;
-                        case GeoJSONObjectType.LineString:
-                        {
-                            var line = (LineString)feature.Geometry;
-                            var coordinates = line.Coordinates.OfType<Position>()
+                    case GeoJSONObjectType.Polygon:
+                    {
+                        var poly = (Polygon)feature.Geometry;
+                        var coordinates =
+                            poly.Coordinates[0].Coordinates.OfType<Position>()
                                 .Select(c => new LatLong(c.Latitude, c.Longitude))
                                 .ToList();
-                            var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlay.AddOrUpdateLine(feature.Id, coordinates, colorInfo, feature);
-                            lines.Add(feature.Id);
-                        }
-                            break;
 
-                        case GeoJSONObjectType.MultiLineString:
-                            break;
-                        case GeoJSONObjectType.Polygon:
+                        var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
+                        overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Polygon, coordinates, colorInfo, feature));
+                        break;
+                    }
+
+                    case GeoJSONObjectType.MultiPolygon:
+                        // TODO: This does not work for polygons with holes and just does the outer polygon
+                        foreach (var poly in ((MultiPolygon)feature.Geometry).Coordinates)
                         {
-                            var poly = (Polygon)feature.Geometry;
                             var coordinates =
                                 poly.Coordinates[0].Coordinates.OfType<Position>()
                                     .Select(c => new LatLong(c.Latitude, c.Longitude))
                                     .ToList();
 
                             var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                            polygons.Add(feature.Id);
+                            overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Line, coordinates, colorInfo, feature));
                         }
-                            break;
-                        case GeoJSONObjectType.MultiPolygon:
-                            foreach (var poly in ((MultiPolygon)feature.Geometry).Coordinates)
-                            {
-                                var coordinates =
-                                    poly.Coordinates[0].Coordinates.OfType<Position>()
-                                        .Select(c => new LatLong(c.Latitude, c.Longitude))
-                                        .ToList();
 
-                                var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                                overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                                polygons.Add(feature.Id);
-                            }
+                        break;
 
-                            break;
-                        case GeoJSONObjectType.GeometryCollection:
-                            break;
-                        case GeoJSONObjectType.Feature:
-                            break;
-                        case GeoJSONObjectType.FeatureCollection:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                    default:
+                        _messagesService.AddMessageAsync(Message.ForInfo($"GeoJSON object type {feature.Geometry.Type} cannot be handled in feature ID {feature.Id}."));
+                        break;
                 }
+            }
 
-                overlay.RemovePolygonsExcept(polygons);
-                overlay.RemoveLinesExcept(lines);
-            }
-            finally
-            {
-                _processLock.Release();
-            }
+            overlay.SetFeatures(overlayFeatures);
         }
 
         private static LatLong PositionFromBearingAndDistance(LatLong input, double bearing, double distance)
         {
-            const double rad2deg = 180 / Math.PI;
-            const double deg2rad = 1.0 / rad2deg;
+            const double radiansInDegrees = 180 / Math.PI;
+            const double degreesInRadians = 1.0 / radiansInDegrees;
 
             // '''extrapolate latitude/longitude given a heading and distance 
             //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
@@ -341,17 +338,17 @@ namespace AltitudeAngelWings.Service
             // from math import sin, asin, cos, atan2, radians, degrees
             var radiusOfEarth = 6378100.0;//# in meters
 
-            var lat1 = deg2rad * input.Latitude;
-            var lon1 = deg2rad * input.Longitude;
-            var brng = deg2rad * bearing;
+            var lat1 = degreesInRadians * input.Latitude;
+            var lon1 = degreesInRadians * input.Longitude;
+            var radBearing = degreesInRadians * bearing;
             var dr = distance / radiusOfEarth;
 
             var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
-                                 Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
-            var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
+                                 Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(radBearing));
+            var lon2 = lon1 + Math.Atan2(Math.Sin(radBearing) * Math.Sin(dr) * Math.Cos(lat1),
                                 Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
 
-            return new LatLong(rad2deg * lat2, rad2deg * lon2);
+            return new LatLong(radiansInDegrees * lat2, radiansInDegrees * lon2);
         }
 
         private async Task OnFlightReportClicked(Feature feature)
@@ -364,7 +361,7 @@ namespace AltitudeAngelWings.Service
             if (_settings.CurrentFlightPlanId == null && _settings.ExistingFlightPlanId != Guid.Parse(feature.Id))
             {
                 if (!await _missionPlanner.ShowYesNoMessageBox(
-                        $"You have clicked your flight plan '{feature.GetDisplayInfo().Title}'.{Environment.NewLine}Would you like to use this flight plan when you arm your drone?",
+                        $"You have clicked your flight plan '{feature.GetFeatureProperties().DisplayInfo.Title}'.{Environment.NewLine}Would you like to use this flight plan when you arm your drone?",
                         "Flight Plan")) return;
                 _settings.ExistingFlightPlanId = Guid.Parse(feature.Id);
                 _settings.UseExistingFlightPlanId = true;
@@ -385,6 +382,8 @@ namespace AltitudeAngelWings.Service
             _telemetryService.Dispose();
             _flightService.Dispose();
             _disposer?.Dispose();
+            _signInLock?.Dispose();
+            _mapCacheLock?.Dispose();
         }
     }
 }
