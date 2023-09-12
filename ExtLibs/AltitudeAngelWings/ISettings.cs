@@ -56,5 +56,6 @@ namespace AltitudeAngelWings
         string FlightIdentifierSerialNumber { get; set; }
         int AltitudeFilter { get; set; }
         string SurveillanceUrl { get; }
+        string CdnUrl { get; }
     }
 }

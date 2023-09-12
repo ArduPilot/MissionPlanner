@@ -5,6 +5,52 @@ namespace AltitudeAngelWings.Clients.Api.Model
 {
     public static class FeaturePropertiesExtensions
     {
+        public static bool HasUtmStatus(this FeatureProperties properties)
+            => properties?.UtmStatus != null;
+
+        public static bool IsUtmEnabled(this FeatureProperties properties)
+            => properties?.UtmStatus != null && properties.UtmStatus.Enabled;
+
+        public static bool IsUtmLegacy(this FeatureProperties properties)
+        {
+            if (!properties.HasUtmStatus())
+            {
+                return false;
+            }
+
+            return !properties.IsUtmEnabled();
+        }
+
+        public static bool IsUtmBasic(this FeatureProperties properties)
+        {
+            if (!properties.IsUtmEnabled())
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(properties.UtmStatus.UtmDetails?.Id))
+            {
+                return false;
+            }
+
+            return properties.UtmStatus.UtmDetails.Id == "AA_UTM_READY";
+        }
+
+        public static bool IsUtmReady(this FeatureProperties properties)
+        {
+            if (!properties.IsUtmEnabled())
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(properties.UtmStatus.UtmDetails?.Id))
+            {
+                return false;
+            }
+
+            return properties.UtmStatus.UtmDetails.Id == "AA_GUARDIAN_UTM";
+        }
+
         public static ColorInfo ToColorInfo(this FeatureProperties properties, float opacityAdjust = 1f)
         {
             var fillColor = ToARGB(properties.FillColor, properties.FillOpacity, opacityAdjust);

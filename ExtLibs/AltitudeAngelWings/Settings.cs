@@ -69,7 +69,13 @@ namespace AltitudeAngelWings
 
         public string SurveillanceUrl => $"https://surveillance-api.{UrlDomainSuffix}";
 
-        public string UrlDomainSuffix => OverrideClientUrlSettings ? OverrideUrlDomainSuffix : "altitudeangel.com";
+        public string CdnUrl => UrlDomainSuffix == DefaultDomainSuffix
+            ? "https://dronesafetymap.com"
+            : $"https://map.{UrlDomainSuffix}";
+
+        private const string DefaultDomainSuffix = "altitudeangel.com";
+
+        public string UrlDomainSuffix => OverrideClientUrlSettings ? OverrideUrlDomainSuffix : DefaultDomainSuffix;
 
         public bool OverrideClientUrlSettings
         {
