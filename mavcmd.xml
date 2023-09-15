@@ -121,9 +121,9 @@
       <Z>Alt</Z>
     </SPLINE_WAYPOINT>
     <IMAGE_START_CAPTURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Id</P1>
+      <P2>Interval</P2>
+      <P3>Total Images</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
@@ -520,9 +520,9 @@
       <Z></Z>
     </DO_VTOL_TRANSITION>
     <IMAGE_START_CAPTURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Id</P1>
+      <P2>Interval</P2>
+      <P3>Total Images</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
@@ -919,9 +919,9 @@
       <Z></Z>
     </SET_YAW_SPEED>
     <IMAGE_START_CAPTURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Id</P1>
+      <P2>Interval</P2>
+      <P3>Total Images</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
