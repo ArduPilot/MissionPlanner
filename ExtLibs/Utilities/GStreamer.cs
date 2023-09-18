@@ -1,5 +1,7 @@
-﻿using log4net;
+﻿using GMap.NET;
+using log4net;
 using Org.BouncyCastle.Asn1.Cms;
+using SharpCompress.Common;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,9 @@ using System.Threading;
 using gsize = System.UInt64;
 using GstClockTime = System.UInt64;
 using guint = System.UInt32;
+//using AForge.Video;
+//using AForge.Video.DirectShow;
+
 
 namespace MissionPlanner.Utilities
 {
@@ -40,9 +45,12 @@ namespace MissionPlanner.Utilities
             add { _onNewImage += value; }
             remove { _onNewImage -= value; }
         }
-
+        public static int zoom { get; set; }
+        public static Boolean takeSS { get; set; }
+        public static Boolean recording { get; set; }
         public static class NativeMethods
         {
+
             public enum BackendEnum
             {
                 Windows,
@@ -1248,6 +1256,17 @@ namespace MissionPlanner.Utilities
             //th.Abort();
             return th;
         }
+        public static void ScreenshotA(string stringpipeline)
+        {
+            //record_run = true;
+            //var th = new Thread(ThreadRecord) { IsBackground = true, Name = "gstreamer_rec" };
+
+            //th.Start(stringpipeline);
+            takeSS = true;
+            //System.Threading.Thread.Sleep(5000);
+            //th.Abort();
+            //return th;
+        }
 
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
         static void ThreadRecord(object datao)
@@ -1450,10 +1469,41 @@ namespace MissionPlanner.Utilities
 
             log.Info("Gstreamer Recording Exit");
         }
+        
+        static Bitmap CropBitmap(Bitmap source, Rectangle cropRegion)
+        {
+            Bitmap croppedBitmap = new Bitmap(cropRegion.Width, cropRegion.Height);
 
+            using (Graphics g = Graphics.FromImage(croppedBitmap))
+            {
+                g.DrawImage(source, new Rectangle(0, 0, croppedBitmap.Width, croppedBitmap.Height),
+                    cropRegion, GraphicsUnit.Pixel);
+            }
+
+            return croppedBitmap;
+        }
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
         static void ThreadStart(object datao)
         {
+            zoom = 1;
+            takeSS = false;
+            Boolean recStart = false;
+            // ----------- SS directory
+            string winpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            String[] spearator = { "Desktop" };
+            Int32 count = 2;
+
+            // using the method
+            String[] strlist = winpath.Split(spearator, count,
+                   StringSplitOptions.RemoveEmptyEntries);
+            String[] spearator1 = { @"\", @"\\" };
+            Int32 count1 = 4;
+            String[] strlist2 = strlist[0].Split(spearator1, count1,
+                   StringSplitOptions.RemoveEmptyEntries);
+            string SSpath= strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_screenshot.jpg";
+            string Recpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_recording.mp4";
+
+            //------------
             string stringpipeline = (string)datao;
             int argc = 1;
             string[] argv = new string[] { "-vvv" };
@@ -1614,10 +1664,66 @@ namespace MissionPlanner.Utilities
                             var info = new GstMapInfo();
                             if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                             {
-                                var image = new Bitmap(Width, Height, 4 * Width, SkiaSharp.SKColorType.Bgra8888,
+                                var originalBitmap = new Bitmap(Width, Height, 4 * Width, SkiaSharp.SKColorType.Bgra8888,
                                     info.data);
+                                if (takeSS)
+                                {
+                                    takeSS=false;
+                                    originalBitmap.Save(SSpath);
+                                }
+                                //if(recording && !recStart)
+                                //{
+                                //    VideoFileWriter writer = new VideoFileWriter();
+                                //    writer.Open(Recpath, originalBitmap.Width, originalBitmap.Height, 30, VideoCodec.MPEG4);
+                                //}
+                                //int cropwidth = Width-(Width / zoom);
+                                //int cropheight=Height - (Height / zoom);
+                                //Bitmap croppedimage = CropBitmap(image, new Rectangle(cropwidth, cropheight, Width-cropwidth, Height-cropheight));
 
-                                _onNewImage?.Invoke(null, image);
+                                // Define the center of the zoom region
+                                int centerX = originalBitmap.Width / 2;
+                                int centerY = originalBitmap.Height / 2;
+
+                                // Define the zoom scale (e.g., 2 for 2x zoom)
+                                double zoomScale = zoom;
+
+                                // Calculate the zoomed region dimensions based on the zoom scale
+                                int zoomWidth = (int)(originalBitmap.Width / zoomScale);
+                                int zoomHeight = (int)(originalBitmap.Height / zoomScale);
+
+                                // Calculate the zoomed region's top-left corner
+                                int zoomX = centerX - zoomWidth / 2;
+                                int zoomY = centerY - zoomHeight / 2;
+
+                                // Create a new bitmap for the zoomed region
+                                Bitmap zoomedBitmap = new Bitmap(zoomWidth, zoomHeight);
+
+                                using (Graphics g = Graphics.FromImage(zoomedBitmap))
+                                {
+                                    // Draw the zoomed region onto the new bitmap
+                                    g.DrawImage(originalBitmap, new Rectangle(0, 0, zoomWidth, zoomHeight),
+                                        new Rectangle(zoomX, zoomY, zoomWidth, zoomHeight), GraphicsUnit.Pixel);
+                                }
+
+                                // Create a new bitmap for the scaled zoomed region
+                                int scaledWidth = (int)(zoomWidth * zoomScale);
+                                int scaledHeight = (int)(zoomHeight * zoomScale);
+                                Bitmap scaledZoomedBitmap = new Bitmap(scaledWidth, scaledHeight);
+                                
+                                using (Graphics g = Graphics.FromImage(scaledZoomedBitmap))
+                                {
+                                    // Set interpolation mode for better quality
+                                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+                                    // Draw the zoomed region onto the scaled bitmap
+                                    g.DrawImage(zoomedBitmap, new Rectangle(0, 0, scaledWidth, scaledHeight),
+                                        new Rectangle(0, 0, zoomWidth, zoomHeight), GraphicsUnit.Pixel);
+                                }
+
+
+                                // Display or save the scaled zoomed bitmap
+                                //scaledZoomedBitmap.Save("scaled_zoomed_image.jpg");
+                                _onNewImage?.Invoke(null, scaledZoomedBitmap);
                             }
 
                             NativeMethods.gst_buffer_unmap(buffer, out info);

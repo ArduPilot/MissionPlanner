@@ -66,7 +66,10 @@ namespace MissionPlanner.Utilities
                 lng = input.lon_int / 1e7,
                 alt = input.alt,
                 _seq = 0,
-                frame = input.coordinate_frame
+                frame = input.coordinate_frame,
+                Lat_DMS= (input.lat_int / 1e7).ToString(),
+                Lon_DMS= (input.lon_int / 1e7).ToString()
+
             };
 
             return temp;
@@ -85,7 +88,9 @@ namespace MissionPlanner.Utilities
                 lng = input.y,
                 alt = input.z,
                 _seq = input.seq,
-                frame = input.frame
+                frame = input.frame,
+                Lat_DMS = (input.x ).ToString(),
+                Lon_DMS = (input.y).ToString()
             };
 
             return temp;
@@ -110,7 +115,9 @@ namespace MissionPlanner.Utilities
                 lng = y,
                 alt = input.z,
                 _seq = input.seq,
-                frame = input.frame
+                frame = input.frame,
+                Lat_DMS = (x).ToString(),
+                Lon_DMS = (y).ToString()
             };
 
             return temp;
@@ -206,5 +213,7 @@ namespace MissionPlanner.Utilities
         public double lat;				// Lattitude * 10**7
         public double lng;				// Longitude * 10**7
         public float alt;				// Altitude in centimeters (meters * 100)
+        public string Lat_DMS;
+        public string Lon_DMS;
     };
 }

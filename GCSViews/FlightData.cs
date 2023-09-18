@@ -3620,7 +3620,7 @@ namespace MissionPlanner.GCSViews
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
                         {
-                            this.BeginInvoke((MethodInvoker)delegate { but_disablejoystick.Visible = true; });
+                            this.BeginInvoke((MethodInvoker)delegate { but_disablejoystick.Visible = true; Joysticktoggle.Text = "Disable Joystick"; });
                         }
 
                         adsb.CurrentPosition = MainV2.comPort.MAV.cs.HomeLocation;
@@ -6201,8 +6201,24 @@ namespace MissionPlanner.GCSViews
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
         private int selectedcam = 0;
+        private void cleanhud(Boolean val)
+        {
+            myhud.displayspeed = val;
+            myhud.displayalt = val;
+            myhud.displayAOASSA=val;
+            myhud.displayCellVoltage=val;
+           
+            myhud.displayekf = val;
+            myhud.displayheading = val;
+            myhud.displayicons=val;
+            myhud.displayprearm = val;
+            myhud.displayrollpitch = val;
+            myhud.displayxtrack= val;
+        }
+
         private void myButton4_Click(object sender, EventArgs e)
         {
+            cleanhud(false);
             if (selectedcam == 0)
             {
                 if (MainV2.MONO)
@@ -6229,9 +6245,12 @@ namespace MissionPlanner.GCSViews
                ? Settings.Instance["gstreamer_url"]
                : @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
 
-                if (DialogResult.OK == InputBox.Show("GStreamer url",
-                    "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
-                    ref url))
+                //if (DialogResult.OK == InputBox.Show("GStreamer url",
+                //    "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                //    ref url))
+                if (DialogResult.OK == InputBox.Show("RTSP url",
+                   "Enter the RTSP url , Ex- rtsp://192.168.2.108:8554/live0",
+                   ref url))
                 {
                     Settings.Instance["gstreamer_url"] = url;
 
@@ -6251,7 +6270,8 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        GStreamer.StartA(url);
+                        // GStreamer.StartA("rtspsrc location=" + url + " ! application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)H264 ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
+                        GStreamer.StartA("rtspsrc location=" + url + " latency=0 ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
                     }
                     catch (Exception ex)
                     {
@@ -6267,6 +6287,7 @@ namespace MissionPlanner.GCSViews
 
         private void myButton5_Click(object sender, EventArgs e)
         {
+            cleanhud(true);
             if (selectedcam == 0)
             {
                 if (MainV2.cam != null)
@@ -6306,12 +6327,13 @@ namespace MissionPlanner.GCSViews
         // start gstreamer recording 
         private void myButton6_Click(object sender, EventArgs e)
         {
+            //GStreamer.recording = true;
             rtsprecoding = true;
             string winpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             String[] spearator = { "Desktop" };
             Int32 count = 2;
 
-            // using the method
+             //using the method
             String[] strlist = winpath.Split(spearator, count,
                    StringSplitOptions.RemoveEmptyEntries);
             String[] spearator1 = { @"\", @"\\" };
@@ -6320,31 +6342,45 @@ namespace MissionPlanner.GCSViews
                    StringSplitOptions.RemoveEmptyEntries);
             winpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_rec.avi";
 
-            // winpath.Replace(@"\", @"/");
-            var url = " rtspsrc location=rtsp://192.168.144.108:554/stream=0  ! application/x-rtp, media=video, encoding-name=H264  ! queue ! rtph264depay ! h264parse ! matroskamux ! filesink location=" + winpath;
+            string url1 = Settings.Instance["gstreamer_url"] != null
+             ? Settings.Instance["gstreamer_url"]
+             : @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
 
-
-
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
-
-            if (!GStreamer.gstlaunchexists)
+            //if (DialogResult.OK == InputBox.Show("GStreamer url",
+            //    "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+            //    ref url))
+            if (DialogResult.OK == InputBox.Show("RTSP url",
+               "Enter the RTSP url , Ex- rtsp://192.168.2.108:8554/live0",
+               ref url1))
             {
-                GStreamerUI.DownloadGStreamer();
+                var url = " rtspsrc location=" + url1 + "  ! application/x-rtp, media=video, encoding-name=H264  ! queue ! rtph264depay ! h264parse ! matroskamux ! filesink location=" + winpath;
+
+
+
+                GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
                 if (!GStreamer.gstlaunchexists)
                 {
-                    return;
-                }
-            }
+                    GStreamerUI.DownloadGStreamer();
 
-            try
-            {
-                recthred = GStreamer.RecordA(url);
+                    if (!GStreamer.gstlaunchexists)
+                    {
+                        return;
+                    }
+                }
+
+                try
+                {
+                    recthred = GStreamer.RecordA(url);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
+
             }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
-            }
+                // winpath.Replace(@"\", @"/");
+            
 
 
         }
@@ -6498,6 +6534,7 @@ namespace MissionPlanner.GCSViews
         }
         private void myButton7_Click(object sender, EventArgs e)
         {
+            //GStreamer.recording = false;
             rtsprecoding = false;
             GStreamer.record_run = false;
             //recthred.Abort();
@@ -6825,11 +6862,6 @@ namespace MissionPlanner.GCSViews
         {
 
         }
-
-
-
-
-
         // gimble down clicked Down
         private void myButton9_MouseDown(object sender, MouseEventArgs e)
         {
@@ -6925,8 +6957,66 @@ namespace MissionPlanner.GCSViews
         // set home
         private void myButton14_Click(object sender, EventArgs e)
         {
-            cammove[0] = 0;
-            cammove[1] = 0;
+
+            //cammove[0] = 0;
+            //cammove[1] = 0;
+            //rtsprecoding = true;
+            //string winpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //String[] spearator = { "Desktop" };
+            //Int32 count = 2;
+
+            //// using the method
+            //String[] strlist = winpath.Split(spearator, count,
+            //       StringSplitOptions.RemoveEmptyEntries);
+            //String[] spearator1 = { @"\", @"\\" };
+            //Int32 count1 = 4;
+            //String[] strlist2 = strlist[0].Split(spearator1, count1,
+            //       StringSplitOptions.RemoveEmptyEntries);
+            //winpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_screenshot.jpg";
+
+            //string url1 = Settings.Instance["gstreamer_url"] != null
+            // ? Settings.Instance["gstreamer_url"]
+            // : @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
+
+            ////if (DialogResult.OK == InputBox.Show("GStreamer url",
+            ////    "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+            ////    ref url))
+            //if (DialogResult.OK == InputBox.Show("RTSP url",
+            //   "Enter the RTSP url for ScreenShot , Ex- rtsp://192.168.2.108:8554/live0",
+            //   ref url1))
+            //{
+            //    var url = "rtspsrc location=" + url1 + " latency=0  !  rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! jpegenc ! filesink location="+ winpath;
+            //    //var url = " rtspsrc location=" + url1 + "  ! application/x-rtp, media=video, encoding-name=H264  ! queue ! rtph264depay ! h264parse ! matroskamux ! filesink location=" + winpath;
+
+
+
+            //    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+            //    if (!GStreamer.gstlaunchexists)
+            //    {
+            //        GStreamerUI.DownloadGStreamer();
+
+            //        if (!GStreamer.gstlaunchexists)
+            //        {
+            //            return;
+            //        }
+            //    }
+
+            //    try
+            //    {
+            //        recthred = GStreamer.RecordA(url);
+            //        Thread.Sleep(1000);
+            //        rtsprecoding = true;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            //    }
+
+            //}
+            // winpath.Replace(@"\", @"/");
+            GStreamer.takeSS = true;
+
         }
 
         private string campyscript;
@@ -7208,6 +7298,99 @@ namespace MissionPlanner.GCSViews
         {
             // pressTimer.Start();
             //longPressTimer.Start();
+        }
+
+        private void guidedButton_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMode("GUIDED");
+        }
+
+        private void landButton_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMode("LAND");
+        }
+
+        private void digitalzoomIn_Click(object sender, EventArgs e)
+        {
+            if (GStreamer.zoom >= 1)
+            {
+                GStreamer.zoom += 1;
+            }
+            
+        }
+
+        private void digitalzoomOut_Click(object sender, EventArgs e)
+        {
+            
+            if (GStreamer.zoom >= 2)
+            {
+                GStreamer.zoom -= 1;
+            }
+        }
+
+        private void Joysticktoggle_Click(object sender, EventArgs e)
+        {
+            if (MainV2.joystick != null && MainV2.joystick.enabled)
+            {
+                MainV2.joystick.enabled = false;
+                Joysticktoggle.Text = "Enable Joystick";
+
+                MainV2.joystick.clearRCOverride();
+
+                but_disablejoystick.Visible = false;
+            }
+            else
+            {
+                new JoystickSetup().ShowUserControl();
+            }
+        }
+        private Boolean bulbstatus=false;
+        
+
+       
+
+        private void myButton17_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (bulbstatus)
+                {
+                    if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, 12, 1900, 0, 0,
+                   0, 0, 0))
+                    {
+                        myButton17.BackColor = Color.Red;
+                        myButton17.BGGradBot = Color.FromArgb(255, 128, 128);
+                        myButton17.BGGradTop = Color.Red;
+                        bulbstatus = false;
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    }
+                }
+                else
+                {
+                    if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, 12, 1100, 0, 0,
+                   0, 0, 0))
+                    {
+                        bulbstatus = true;
+                        myButton17.BackColor = Color.Green;
+                        myButton17.BGGradBot = Color.FromArgb(205, 226, 150);
+                        myButton17.BGGradTop = Color.Green;
+                        
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+            }
+            
         }
     }
 }

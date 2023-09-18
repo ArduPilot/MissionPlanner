@@ -45,6 +45,8 @@ namespace MissionPlanner.GCSViews
             this.quickView1 = new MissionPlanner.Controls.QuickView();
             this.tabActions = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.guidedButton = new MissionPlanner.Controls.MyButton();
+            this.landButton = new MissionPlanner.Controls.MyButton();
             this.hoverAlt = new MissionPlanner.Controls.MyButton();
             this.myButton12 = new MissionPlanner.Controls.MyButton();
             this.BUT_SendMSG = new MissionPlanner.Controls.MyButton();
@@ -72,6 +74,9 @@ namespace MissionPlanner.GCSViews
             this.BUT_setmode = new MissionPlanner.Controls.MyButton();
             this.tabCameracontrol = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.Joysticktoggle = new MissionPlanner.Controls.MyButton();
+            this.digitalzoomIn = new MissionPlanner.Controls.MyButton();
+            this.digitalzoomOut = new MissionPlanner.Controls.MyButton();
             this.Trip2setmode = new MissionPlanner.Controls.MyButton();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.focus_plus = new MissionPlanner.Controls.MyButton();
@@ -250,6 +255,7 @@ namespace MissionPlanner.GCSViews
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.myButton17 = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -732,6 +738,9 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.myButton17, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.guidedButton, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.landButton, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.hoverAlt, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.myButton12, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_SendMSG, 2, 4);
@@ -758,6 +767,30 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.BUT_quickauto, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUT_setmode, 1, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // guidedButton
+            // 
+            this.guidedButton.ColorMouseDown = System.Drawing.Color.Empty;
+            this.guidedButton.ColorMouseOver = System.Drawing.Color.Empty;
+            this.guidedButton.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.guidedButton, "guidedButton");
+            this.guidedButton.Name = "guidedButton";
+            this.guidedButton.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.guidedButton, resources.GetString("guidedButton.ToolTip"));
+            this.guidedButton.UseVisualStyleBackColor = true;
+            this.guidedButton.Click += new System.EventHandler(this.guidedButton_Click);
+            // 
+            // landButton
+            // 
+            this.landButton.ColorMouseDown = System.Drawing.Color.Empty;
+            this.landButton.ColorMouseOver = System.Drawing.Color.Empty;
+            this.landButton.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.landButton, "landButton");
+            this.landButton.Name = "landButton";
+            this.landButton.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.landButton, resources.GetString("landButton.ToolTip"));
+            this.landButton.UseVisualStyleBackColor = true;
+            this.landButton.Click += new System.EventHandler(this.landButton_Click);
             // 
             // hoverAlt
             // 
@@ -1105,6 +1138,9 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPanel3
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.Joysticktoggle, 0, 8);
+            this.tableLayoutPanel3.Controls.Add(this.digitalzoomIn, 0, 8);
+            this.tableLayoutPanel3.Controls.Add(this.digitalzoomOut, 0, 8);
             this.tableLayoutPanel3.Controls.Add(this.Trip2setmode, 1, 7);
             this.tableLayoutPanel3.Controls.Add(this.comboBox2, 0, 7);
             this.tableLayoutPanel3.Controls.Add(this.focus_plus, 0, 6);
@@ -1127,6 +1163,42 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel3.Controls.Add(this.richTextBox1, 0, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
+            // 
+            // Joysticktoggle
+            // 
+            this.Joysticktoggle.ColorMouseDown = System.Drawing.Color.Empty;
+            this.Joysticktoggle.ColorMouseOver = System.Drawing.Color.Empty;
+            this.Joysticktoggle.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.Joysticktoggle, "Joysticktoggle");
+            this.Joysticktoggle.Name = "Joysticktoggle";
+            this.Joysticktoggle.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.Joysticktoggle, resources.GetString("Joysticktoggle.ToolTip"));
+            this.Joysticktoggle.UseVisualStyleBackColor = true;
+            this.Joysticktoggle.Click += new System.EventHandler(this.Joysticktoggle_Click);
+            // 
+            // digitalzoomIn
+            // 
+            this.digitalzoomIn.ColorMouseDown = System.Drawing.Color.Empty;
+            this.digitalzoomIn.ColorMouseOver = System.Drawing.Color.Empty;
+            this.digitalzoomIn.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.digitalzoomIn, "digitalzoomIn");
+            this.digitalzoomIn.Name = "digitalzoomIn";
+            this.digitalzoomIn.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.digitalzoomIn, resources.GetString("digitalzoomIn.ToolTip"));
+            this.digitalzoomIn.UseVisualStyleBackColor = true;
+            this.digitalzoomIn.Click += new System.EventHandler(this.digitalzoomIn_Click);
+            // 
+            // digitalzoomOut
+            // 
+            this.digitalzoomOut.ColorMouseDown = System.Drawing.Color.Empty;
+            this.digitalzoomOut.ColorMouseOver = System.Drawing.Color.Empty;
+            this.digitalzoomOut.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.digitalzoomOut, "digitalzoomOut");
+            this.digitalzoomOut.Name = "digitalzoomOut";
+            this.digitalzoomOut.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.digitalzoomOut, resources.GetString("digitalzoomOut.ToolTip"));
+            this.digitalzoomOut.UseVisualStyleBackColor = true;
+            this.digitalzoomOut.Click += new System.EventHandler(this.digitalzoomOut_Click);
             // 
             // Trip2setmode
             // 
@@ -2874,7 +2946,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -3094,6 +3166,20 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // myButton17
+            // 
+            this.myButton17.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.myButton17.BGGradTop = System.Drawing.Color.Red;
+            this.myButton17.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton17.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton17.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton17, "myButton17");
+            this.myButton17.Name = "myButton17";
+            this.myButton17.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.myButton17, resources.GetString("myButton17.ToolTip"));
+            this.myButton17.UseVisualStyleBackColor = true;
+            this.myButton17.Click += new System.EventHandler(this.myButton17_Click);
             // 
             // FlightData
             // 
@@ -3421,6 +3507,12 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton hoverAlt;
         private Controls.MyButton Trip2setmode;
         private ComboBox comboBox2;
+        private Controls.MyButton guidedButton;
+        private Controls.MyButton landButton;
+        private Controls.MyButton digitalzoomIn;
+        private Controls.MyButton digitalzoomOut;
+        private Controls.MyButton Joysticktoggle;
+        private Controls.MyButton myButton17;
         //private TabPage tabPage1;
     }
 }

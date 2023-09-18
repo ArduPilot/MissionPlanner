@@ -31,7 +31,7 @@ namespace hudonoff
 
         public override string Author
         {
-            get { return "Michael Oborne"; }
+            get { return "Flaire Unmanned"; }
         }
 
         public override bool Init()

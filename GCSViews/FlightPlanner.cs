@@ -1099,6 +1099,13 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
+        static void DecimalToDMS(double coordinate, out int degrees, out int minutes, out double seconds)
+        {
+            degrees = (int)Math.Floor(coordinate);
+            double remainder = (coordinate - degrees) * 60;
+            minutes = (int)Math.Floor(remainder);
+            seconds = (remainder - minutes) * 60;
+        }
         public void setfromMap(double lat, double lng, int alt, double p1 = -1)
         {
             if (selectedrow > Commands.RowCount)
@@ -1151,7 +1158,24 @@ namespace MissionPlanner.GCSViews
                 cell.Value = lng.ToString("0.0000000");
                 cell.DataGridView.EndEdit();
             }
-
+            // --------------------------
+            int latDegrees, latMinutes, longDegrees, longMinutes;
+            double latSeconds, longSeconds;
+            DecimalToDMS(lng, out longDegrees, out longMinutes, out longSeconds);
+            if (Commands.Columns[Lon_DMS.Index].HeaderText.Equals("Lon (DMS)"))
+            {
+                cell = Commands.Rows[selectedrow].Cells[Lon_DMS.Index] as DataGridViewTextBoxCell;
+                cell.Value = longDegrees+ "° " + longMinutes+ "' " + longSeconds.ToString("0.0000000") + "\"";
+                cell.DataGridView.EndEdit();
+            }
+            // --------------------------
+            DecimalToDMS(lat, out latDegrees, out latMinutes, out latSeconds);
+            if (Commands.Columns[Lat_DMS.Index].HeaderText.Equals("Lat (DMS)"))
+            {
+                cell = Commands.Rows[selectedrow].Cells[Lat_DMS.Index] as DataGridViewTextBoxCell;
+                cell.Value = latDegrees+ "° " + latMinutes+ "' " + latSeconds.ToString("0.0000000") + "\"";
+                cell.DataGridView.EndEdit();
+            }
             if (alt != -1 && alt != -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
@@ -2277,7 +2301,20 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("Row error");
             }
         }
+        static double DMSToDecimal(int degrees, int minutes, double seconds)
+        {
+            return degrees + (minutes / 60.0) + (seconds / 3600.0);
+        }
+        static double ParseDMS(string dms)
+        {
+            string[] parts = dms.Split(new[] { '°', '\'', '\"' }, StringSplitOptions.RemoveEmptyEntries);
 
+            int degrees = int.Parse(parts[0]);
+            int minutes = int.Parse(parts[1]);
+            double seconds = double.Parse(parts[2]);
+
+            return DMSToDecimal(degrees, minutes, seconds);
+        }
         public void Commands_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             // we have modified a utm coords
@@ -2293,14 +2330,44 @@ namespace MissionPlanner.GCSViews
                 convertFromMGRS(e.RowIndex);
             }
 
-            // we have modified a ll coord
+            // we have modified all coord
+            if (e.ColumnIndex == Lat_DMS.Index ||
+                e.ColumnIndex == Lon_DMS.Index)
+            {
+                try
+                {
+                    var lat = ParseDMS(Commands.Rows[e.RowIndex].Cells[Lat_DMS.Index].Value.ToString());
+                    var lng = ParseDMS(Commands.Rows[e.RowIndex].Cells[Lon_DMS.Index].Value.ToString());
+                    Commands.Rows[e.RowIndex].Cells[Lat.Index].Value=lat.ToString("0.0000000");
+                    Commands.Rows[e.RowIndex].Cells[Lon.Index].Value = lng.ToString("0.0000000");
+
+                    convertFromGeographic(lat, lng);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Invalid DMS formate ex-\"37° 46' 29.64\\\"\", please fix", Strings.ERROR);
+                }
+            }
+
+            // we have modified all coord
             if (e.ColumnIndex == Lat.Index ||
                 e.ColumnIndex == Lon.Index)
             {
                 try
                 {
+
                     var lat = double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString());
                     var lng = double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString());
+                    int latDegrees, latMinutes, longDegrees, longMinutes;
+                    double latSeconds, longSeconds;
+                    DecimalToDMS(lng, out longDegrees, out longMinutes, out longSeconds);
+                    Commands.Rows[e.RowIndex].Cells[Lon_DMS.Index].Value= longDegrees + "° " + longMinutes + "' " + longSeconds.ToString("0.0000000") + "\"";
+                   
+                    // --------------------------
+                    DecimalToDMS(lat, out latDegrees, out latMinutes, out latSeconds);
+                    Commands.Rows[e.RowIndex].Cells[Lat_DMS.Index].Value= latDegrees + "° " + latMinutes + "' " + latSeconds.ToString("0.0000000") + "\"";
+                    
                     convertFromGeographic(lat, lng);
                 }
                 catch (Exception ex)
@@ -3073,6 +3140,8 @@ namespace MissionPlanner.GCSViews
                 temp.Tag = Commands.Rows[a].Cells[TagData.Index].Value;
 
                 temp.frame = (byte) (int) Commands.Rows[a].Cells[Frame.Index].Value;
+                //temp.Lat_DMS = "100";
+                //temp.Lon_DMS = "200";
 
                 return temp;
             }
@@ -7974,5 +8043,31 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             if (InputBox.Show("Opacity 0.0-1.0", "Enter opacity (0.0-1.0)", ref ans) == DialogResult.OK)
                 GDAL.GDALProvider.Instance.opacity = double.Parse(InputBox.value);
         }
+
+        private void customgdal_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (Directory.Exists(Settings.Instance["GDALImageDir"]))
+                fbd.SelectedPath = Settings.Instance["GDALImageDir"];
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                if (Directory.Exists(fbd.SelectedPath))
+                {
+                    Settings.Instance["GDALImageDir"] = fbd.SelectedPath;
+                    Utilities.GDAL.OnProgress += GDAL_OnProgress;
+                    Utilities.GDAL.ScanDirectory(fbd.SelectedPath);
+                    DTED.OnProgress += GDAL_OnProgress;
+                    DTED.AddCustomDirectory(fbd.SelectedPath);
+
+                    Loading.Close();
+                }
+            }
+        }
+        private void GDAL_OnProgress(double percent, string message)
+        {
+            Loading.ShowLoading((percent).ToString("0.0%") + " " + message, this);
+        }
     }
+
 }
