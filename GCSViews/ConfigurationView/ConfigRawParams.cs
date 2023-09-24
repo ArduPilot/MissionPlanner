@@ -996,8 +996,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     var mcb = new MavlinkCheckBoxBitMask();
                     var list = new MAVLink.MAVLinkParamList();
+
+                    // Try and get type so the correct bitmask to value convertion is done
+                    var type = MAVLink.MAV_PARAM_TYPE.INT32;
+                    if (MainV2.comPort.MAV.param.ContainsKey(param_name))
+                    {
+                        type = MainV2.comPort.MAV.param[param_name].TypeAP;
+                    }
+
                     list.Add(new MAVLink.MAVLinkParam(param_name, double.Parse(Params[Value.Index, e.RowIndex].Value.ToString(), CultureInfo.InvariantCulture),
-                        MAVLink.MAV_PARAM_TYPE.INT32));
+                        type));
                     mcb.setup(param_name, list);
                     mcb.ValueChanged += (o, x, value) =>
                     {
