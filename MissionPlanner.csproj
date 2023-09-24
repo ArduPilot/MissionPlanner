@@ -4919,6 +4919,9 @@
     <Content Include="FirmwareHistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="APMotorLayout.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="graphs\ekf3Graphs.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
