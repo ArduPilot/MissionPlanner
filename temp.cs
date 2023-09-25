@@ -1187,8 +1187,11 @@ namespace MissionPlanner
         {
             if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                 MainV2.comPort.setMode(
-                    new MAVLink.mavlink_set_mode_t() { custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control == true && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u },
-                    MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
+                    new MAVLink.mavlink_set_mode_t()
+                    {
+                        custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control == true && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u,
+                        target_system = (byte)MainV2.comPort.sysidcurrent
+                    }, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
         }
 
         private void but_hwids_Click(object sender, EventArgs e)
