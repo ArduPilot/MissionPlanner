@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MissionPlanner.Utilities.BoardDetection;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -534,7 +535,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     fw.Progress -= fw_ProgressPDR;
                     fw.Progress += fw_Progress1;
 
-                    var boardtype = BoardDetect.boards.none;
+                    var boardtype = Boards.none;
                     try
                     {
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
@@ -543,11 +544,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 CustomMessageBox.Show("Solo", "Is this a Solo?",
                                     CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
-                                boardtype = BoardDetect.boards.solo;
+                                boardtype = Boards.solo;
                             }
                             else
                             {
-                                boardtype = BoardDetect.boards.px4v3;
+                                boardtype = Boards.px4v3;
                             }
                         }
                         else
@@ -567,10 +568,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 }
                             }
 
-                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, ports);
+                            boardtype = BoardDetector.GetInstance().DetectBoard(MainV2.comPortName, ports);
                         }
 
-                        if (boardtype == BoardDetect.boards.none)
+                        if (boardtype == Boards.none)
                         {
                             CustomMessageBox.Show(Strings.CantDetectBoardVersion);
                             return;

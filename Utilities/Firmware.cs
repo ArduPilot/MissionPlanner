@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using MissionPlanner.Utilities.BoardDetection;
 
 namespace MissionPlanner.Utilities
 {
@@ -360,17 +361,18 @@ namespace MissionPlanner.Utilities
         /// <param name="relType"></param>
         public bool updateLegacy(string comport, software temp, string historyhash, List<DeviceInfo> ports)
         {
-            BoardDetect.boards board = BoardDetect.boards.none;
+            Boards board = Boards.none;
             string baseurl = "";
 
             try
             {
                 updateProgress(-1, Strings.DetectingBoardVersion);
 
-                if (board != BoardDetect.boards.pass)
-                    board = BoardDetect.DetectBoard(comport, ports);
+                var boardDetector = BoardDetector.GetInstance();
+                if (board != Boards.pass)
+                    board = boardDetector.DetectBoard(comport, ports);
 
-                if (board == BoardDetect.boards.none)
+                if (board == Boards.none)
                 {
                     CustomMessageBox.Show(Strings.CantDetectBoardVersion);
                     return false;
@@ -381,43 +383,43 @@ namespace MissionPlanner.Utilities
                 updateProgress(-1, Strings.DetectedA + board);
 
                 // modify board to update to new bootloader
-                if ((board == BoardDetect.boards.px4v2 || board == BoardDetect.boards.px4v3) && historyhash == "")
+                if ((board == Boards.px4v2 || board == Boards.px4v3) && historyhash == "")
                 {
                     //
                     if ((int)DialogResult.Yes ==
                         CustomMessageBox.Show("Is this a CubeBlack?", "CubeBlack", MessageBoxButtons.YesNo))
                     {
-                        BoardDetect.chbootloader = "CubeBlack";
-                        board = BoardDetect.boards.chbootloader;
+                        boardDetector.chbootloader = "CubeBlack";
+                        board = Boards.chbootloader;
                     }
                 }
 
-                if (board == BoardDetect.boards.b2560)
+                if (board == Boards.b2560)
                 {
                     baseurl = temp.url2560.ToString();
                 }
-                else if (board == BoardDetect.boards.b1280)
+                else if (board == Boards.b1280)
                 {
                     baseurl = temp.url.ToString();
                 }
-                else if (board == BoardDetect.boards.b2560v2)
+                else if (board == Boards.b2560v2)
                 {
                     baseurl = temp.url2560_2.ToString();
                 }
-                else if (board == BoardDetect.boards.px4)
+                else if (board == Boards.px4)
                 {
                     baseurl = temp.urlpx4v1.ToString();
                 }
-                else if (board == BoardDetect.boards.px4rl)
+                else if (board == Boards.px4rl)
                 {
                     baseurl = temp.urlpx4rl.ToString();
                 }
-                else if (board == BoardDetect.boards.px4v2)
+                else if (board == Boards.px4v2)
                 {
                     baseurl = temp.urlpx4v2.ToString();
                     baseurl = CheckChibiOS(baseurl, temp.urlfmuv2);
                 }
-                else if (board == BoardDetect.boards.px4v3)
+                else if (board == Boards.px4v3)
                 {
                     baseurl = temp.urlpx4v3.ToString();
 
@@ -428,78 +430,78 @@ namespace MissionPlanner.Utilities
 
                     baseurl = CheckChibiOS(baseurl, temp.urlfmuv3);
                 }
-                else if (board == BoardDetect.boards.px4v4)
+                else if (board == Boards.px4v4)
                 {
                     baseurl = temp.urlpx4v4.ToString();
                     baseurl = CheckChibiOS(baseurl, temp.urlfmuv4);
                 }
-                else if (board == BoardDetect.boards.fmuv5)
+                else if (board == Boards.fmuv5)
                 {
                     baseurl = temp.urlfmuv5;
                 }
-                else if (board == BoardDetect.boards.px4v4pro)
+                else if (board == Boards.px4v4pro)
                 {
                     baseurl = temp.urlpx4v4pro.ToString();
                 }
-                else if (board == BoardDetect.boards.vrbrainv40)
+                else if (board == Boards.vrbrainv40)
                 {
                     baseurl = temp.urlvrbrainv40.ToString();
                 }
-                else if (board == BoardDetect.boards.vrbrainv45)
+                else if (board == Boards.vrbrainv45)
                 {
                     baseurl = temp.urlvrbrainv45.ToString();
                 }
-                else if (board == BoardDetect.boards.vrbrainv50)
+                else if (board == Boards.vrbrainv50)
                 {
                     baseurl = temp.urlvrbrainv50.ToString();
                 }
-                else if (board == BoardDetect.boards.vrbrainv51)
+                else if (board == Boards.vrbrainv51)
                 {
                     baseurl = temp.urlvrbrainv51.ToString();
                 }
-                else if (board == BoardDetect.boards.vrbrainv52)
+                else if (board == Boards.vrbrainv52)
                 {
                     baseurl = temp.urlvrbrainv52.ToString();
                 }
-                else if (board == BoardDetect.boards.vrbrainv54)
+                else if (board == Boards.vrbrainv54)
                 {
                     baseurl = temp.urlvrbrainv54.ToString();
                 }
-                else if (board == BoardDetect.boards.vrcorev10)
+                else if (board == Boards.vrcorev10)
                 {
                     baseurl = temp.urlvrcorev10.ToString();
                 }
-                else if (board == BoardDetect.boards.vrubrainv51)
+                else if (board == Boards.vrubrainv51)
                 {
                     baseurl = temp.urlvrubrainv51.ToString();
                 }
-                else if (board == BoardDetect.boards.vrubrainv52)
+                else if (board == Boards.vrubrainv52)
                 {
                     baseurl = temp.urlvrubrainv52.ToString();
                 }
-                else if (board == BoardDetect.boards.bebop2)
+                else if (board == Boards.bebop2)
                 {
                     baseurl = temp.urlbebop2.ToString();
                 }
-                else if (board == BoardDetect.boards.disco)
+                else if (board == Boards.disco)
                 {
                     baseurl = temp.urldisco.ToString();
                 }
-                else if (board == BoardDetect.boards.revomini)
+                else if (board == Boards.revomini)
                 {
                     baseurl = temp.urlrevomini.ToString();
                 }
-                else if (board == BoardDetect.boards.mindpxv2)
+                else if (board == Boards.mindpxv2)
                 {
                     baseurl = temp.urlmindpxv2.ToString();
                 }
-                else if (board == BoardDetect.boards.nxpfmuk66)
+                else if (board == Boards.nxpfmuk66)
                 {
                     baseurl = temp.urlnxpfmuk66.ToString();
                 }
-                else if (board == BoardDetect.boards.chbootloader)
+                else if (board == Boards.chbootloader)
                 {
-                    baseurl = temp.urlfmuv2.Replace("fmuv2", BoardDetect.chbootloader);
+                    baseurl = temp.urlfmuv2.Replace("fmuv2", boardDetector.chbootloader);
 
                     if (String.IsNullOrEmpty(baseurl) || !Download.CheckHTTPFileExists(baseurl))
                     {
@@ -507,7 +509,7 @@ namespace MissionPlanner.Utilities
                         return false;
                     }
                 }
-                else if (board == BoardDetect.boards.pass)
+                else if (board == Boards.pass)
                 {
 
                 }
@@ -517,7 +519,7 @@ namespace MissionPlanner.Utilities
                     return false;
                 }
 
-                if (board < BoardDetect.boards.px4)
+                if (board < Boards.px4)
                 {
                     CustomMessageBox.Show(Strings.ThisBoardHasBeenRetired, Strings.Note);
                 }
@@ -588,7 +590,7 @@ namespace MissionPlanner.Utilities
         /// upload to px4 standalone
         /// </summary>
         /// <param name="filename"></param>
-        public bool UploadPX4(string filename, BoardDetect.boards board)
+        public bool UploadPX4(string filename, Boards board)
         {
             updateProgress(-1, "Reading Hex File");
             px4uploader.Firmware fw;
@@ -829,7 +831,7 @@ namespace MissionPlanner.Utilities
         /// upload to vrbrain standalone
         /// </summary>
         /// <param name="filename"></param>
-        public bool UploadVRBRAIN(string filename, BoardDetect.boards board)
+        public bool UploadVRBRAIN(string filename, Boards board)
         {
             px4uploader.Uploader up;
             updateProgress(0, "Reading Hex File");
@@ -856,7 +858,7 @@ namespace MissionPlanner.Utilities
                     MainV2.comPort.Close();
 
                     //specific action for VRBRAIN4 board that needs to be manually disconnected before uploading
-                    if (board == BoardDetect.boards.vrbrainv40)
+                    if (board == Boards.vrbrainv40)
                     {
                         CustomMessageBox.Show(
                             "VRBRAIN 4 detected. Please unplug the board, and then press OK and plug back in.\n");
@@ -976,7 +978,7 @@ namespace MissionPlanner.Utilities
         /// upload to Parrot boards
         /// </summary>
         /// <param name="filename"></param>
-        public bool UploadParrot(string filename, BoardDetect.boards board)
+        public bool UploadParrot(string filename, Boards board)
         {
             string vehicleName = board.ToString().Substring(0, 1).ToUpper() + board.ToString().Substring(1).ToLower();
             Ping ping = new Ping();
@@ -1025,7 +1027,7 @@ namespace MissionPlanner.Utilities
                 {
                     string ntimes = "four";
 
-                    if (board == BoardDetect.boards.disco)
+                    if (board == Boards.disco)
                     {
                         ntimes = "two";
                     }
@@ -1054,11 +1056,11 @@ namespace MissionPlanner.Utilities
                         using (FileStream stream = File.OpenRead(filename))
                         {
                             updateProgress(10, "Uploading software...");
-                            service.Push(stream, "/data/ftp/internal_000/APM/" + (board == BoardDetect.boards.disco ? "apm-plane-disco" : "arducopter"), 777, DateTime.Now, CancellationToken.None);
+                            service.Push(stream, "/data/ftp/internal_000/APM/" + (board == Boards.disco ? "apm-plane-disco" : "arducopter"), 777, DateTime.Now, CancellationToken.None);
                             updateProgress(50, "Software uploaded");
                         }
 
-                        if (board != BoardDetect.boards.disco)
+                        if (board != Boards.disco)
                         {
                             using (MemoryStream stream = new MemoryStream())
                             using (StreamReader sr = new StreamReader(stream))
@@ -1281,14 +1283,14 @@ namespace MissionPlanner.Utilities
         /// <param name="filename"></param>
         /// <param name="board"></param>
         /// <returns>pass/fail</returns>
-        public bool UploadFlash(string comport, string filename, BoardDetect.boards board)
+        public bool UploadFlash(string comport, string filename, Boards board)
         {
-            if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 ||
-                board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4 ||
-                board == BoardDetect.boards.px4v4pro || board == BoardDetect.boards.fmuv5 ||
-                board == BoardDetect.boards.revomini || board == BoardDetect.boards.mindpxv2 ||
-                board == BoardDetect.boards.minipix || board == BoardDetect.boards.chbootloader ||
-                board == BoardDetect.boards.pass || board == BoardDetect.boards.nxpfmuk66)
+            if (board == Boards.px4 || board == Boards.px4v2 ||
+                board == Boards.px4v3 || board == Boards.px4v4 ||
+                board == Boards.px4v4pro || board == Boards.fmuv5 ||
+                board == Boards.revomini || board == Boards.mindpxv2 ||
+                board == Boards.minipix || board == Boards.chbootloader ||
+                board == Boards.pass || board == Boards.nxpfmuk66)
             {
                 try
                 {
@@ -1301,21 +1303,21 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (board == BoardDetect.boards.vrbrainv40 || board == BoardDetect.boards.vrbrainv45 ||
-                board == BoardDetect.boards.vrbrainv50 || board == BoardDetect.boards.vrbrainv51 ||
-                board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrbrainv54 ||
-                board == BoardDetect.boards.vrcorev10 ||
-                board == BoardDetect.boards.vrubrainv51 || board == BoardDetect.boards.vrubrainv52)
+            if (board == Boards.vrbrainv40 || board == Boards.vrbrainv45 ||
+                board == Boards.vrbrainv50 || board == Boards.vrbrainv51 ||
+                board == Boards.vrbrainv52 || board == Boards.vrbrainv54 ||
+                board == Boards.vrcorev10 ||
+                board == Boards.vrubrainv51 || board == Boards.vrubrainv52)
             {
                 return UploadVRBRAIN(filename, board);
             }
 
-            if (board == BoardDetect.boards.bebop2)
+            if (board == Boards.bebop2)
             {
                 return UploadParrot(filename, board);
             }
 
-            if (board == BoardDetect.boards.solo)
+            if (board == Boards.solo)
             {
                 return UploadSolo(filename, board);
             }
@@ -1323,7 +1325,7 @@ namespace MissionPlanner.Utilities
             return UploadArduino(comport, filename, board);
         }
 
-        private bool UploadSolo(string filename, BoardDetect.boards board)
+        private bool UploadSolo(string filename, Boards board)
         {
             try
             {
@@ -1338,7 +1340,7 @@ namespace MissionPlanner.Utilities
             return true;
         }
 
-        public bool UploadArduino(string comport, string filename, BoardDetect.boards board)
+        public bool UploadArduino(string comport, string filename, Boards board)
         {
             byte[] FLASH = new byte[1];
             try
@@ -1358,7 +1360,7 @@ namespace MissionPlanner.Utilities
             }
             IArduinoComms port = new ArduinoSTK();
 
-            if (board == BoardDetect.boards.b1280)
+            if (board == Boards.b1280)
             {
                 if (FLASH.Length > 126976)
                 {
@@ -1368,7 +1370,7 @@ namespace MissionPlanner.Utilities
                 //port = new ArduinoSTK();
                 port.BaudRate = 57600;
             }
-            else if (board == BoardDetect.boards.b2560 || board == BoardDetect.boards.b2560v2)
+            else if (board == Boards.b2560 || board == Boards.b2560v2)
             {
                 port = new ArduinoSTKv2
                 {
