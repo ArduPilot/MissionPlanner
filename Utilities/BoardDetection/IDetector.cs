@@ -5,7 +5,7 @@ namespace MissionPlanner.Utilities.BoardDetection
 {
     public struct DetectResult
     {
-        public static readonly DetectResult None = new DetectResult(null, null);
+        public static readonly DetectResult Failed = new DetectResult(null, null);
 
         public Boards? board;
         public string chbootloader;

@@ -124,7 +124,7 @@ namespace MissionPlanner.Utilities.BoardDetection
             serialPort.Close();
             log.Warn("Not a 2560");
 
-            return DetectResult.None;
+            return DetectResult.Failed;
         }
         
         /// <summary>

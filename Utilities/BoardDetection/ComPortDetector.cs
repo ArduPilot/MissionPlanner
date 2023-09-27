@@ -137,7 +137,7 @@ namespace MissionPlanner.Utilities.BoardDetection
                 }
             }
 
-            return DetectResult.None;
+            return DetectResult.Failed;
         }
     }
 }

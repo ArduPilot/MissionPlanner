@@ -72,7 +72,7 @@ namespace MissionPlanner.Utilities.BoardDetection
                 }
             }
 
-            return DetectResult.None;
+            return DetectResult.Failed;
         }
 
         private static DetectResult Px4B2560(string port, IReadOnlyList<DeviceInfo> ports)

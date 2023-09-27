@@ -12,6 +12,27 @@ namespace MissionPlanner.Utilities.BoardDetection
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Win32USBDeviceDetector));
 
+        private static readonly Dictionary<string, DetectResult> ids2result = new Dictionary<string, DetectResult>
+        {
+            { @"USB\VID_26AC&PID_0010", new DetectResult(Boards.px4, null) },
+            { @"USB\VID_26AC&PID_0032", new DetectResult(Boards.chbootloader, "CUAVv5") },
+            { @"USB\VID_26AC&PID_0021", new DetectResult(Boards.px4v3, null) },
+            { @"USB\VID_26AC&PID_0012", new DetectResult(Boards.px4v4, null) },
+            { @"USB\VID_26AC&PID_0013", new DetectResult(Boards.px4v4pro, null) },
+            { @"USB\VID_26AC&PID_0001", new DetectResult(Boards.px4v2, null) },
+            { @"USB\VID_26AC&PID_0016", new DetectResult(Boards.px4rl, null) },
+            { @"USB\VID_27AC&PID_1140", new DetectResult(Boards.vrbrainv40, null) },
+            { @"USB\VID_27AC&PID_1145", new DetectResult(Boards.vrbrainv45, null) },
+            { @"USB\VID_27AC&PID_1150", new DetectResult(Boards.vrbrainv50, null) },
+            { @"USB\VID_27AC&PID_1151", new DetectResult(Boards.vrbrainv51, null) },
+            { @"USB\VID_27AC&PID_1152", new DetectResult(Boards.vrbrainv52, null) },
+            { @"USB\VID_27AC&PID_1154", new DetectResult(Boards.vrbrainv54, null) },
+            { @"USB\VID_27AC&PID_1910", new DetectResult(Boards.vrcorev10, null) },
+            { @"USB\VID_27AC&PID_1351", new DetectResult(Boards.vrubrainv51, null) },
+            { @"USB\VID_27AC&PID_1352", new DetectResult(Boards.vrubrainv52, null) },
+            { @"USB\VID_1FC9&PID_001C", new DetectResult(Boards.nxpfmuk66, null) }
+        };
+
         public DetectResult Detect(string port, IReadOnlyList<DeviceInfo> ports)
         {
             var query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
@@ -27,38 +48,23 @@ namespace MissionPlanner.Utilities.BoardDetection
                     log.InfoFormat("{0}: {1}", item.Name, item.Value);
                 }
 
+                var deviceId = obj2.Properties["PNPDeviceID"].Value.ToString();
+                var name = obj2.Properties["Name"].Value.ToString();
+                
                 // check vid and pid
-                if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_2341&PID_0010"))
+                if (deviceId.Contains(@"USB\VID_2341&PID_0010"))
                 {
                     // check port name as well
-                    if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(port.ToUpper()))
+                    if (name.ToUpper().Contains(port.ToUpper()))
                     {
                         log.Info("is a 2560-2");
                         return new DetectResult(Boards.b2560v2, null);
                     }
                 }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0010"))
-                {
-                    // check port name as well
-                    //if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
-                    {
-                        log.Info("is a px4");
-                        return new DetectResult(Boards.px4, null);
-                    }
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0032"))
-                {
-                    // check port name as well
-                    //if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
-                    {
-                        log.Info("is a CUAVv5");
-                        return new DetectResult(Boards.chbootloader, "CUAVv5");
-                    }
-                }
                 // chibios or normal px4
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_0483&PID_5740") ||
-                         obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011") ||
-                         obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_1209&PID_5740"))
+                else if (deviceId.Contains(@"USB\VID_0483&PID_5740") ||
+                         deviceId.Contains(@"USB\VID_26AC&PID_0011") ||
+                         deviceId.Contains(@"USB\VID_1209&PID_5740"))
                 {
                     CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 
@@ -106,85 +112,16 @@ namespace MissionPlanner.Utilities.BoardDetection
                     log.Info("Failed to detect px4 board type");
                     return new DetectResult(Boards.none, null);
                 }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0021"))
+                else
                 {
-                    log.Info("is a px4v3 X2.1");
-                    return new DetectResult(Boards.px4v3, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
-                {
-                    log.Info("is a px4v4 pixracer");
-                    return new DetectResult(Boards.px4v4, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013"))
-                {
-                    log.Info("is a px4v4pro pixhawk 3 pro");
-                    return new DetectResult(Boards.px4v4pro, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0001"))
-                {
-                    log.Info("is a px4v2 bootloader");
-                    return new DetectResult(Boards.px4v2, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
-                {
-                    return new DetectResult(Boards.px4rl, null);
-                }
-                //|| obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0014") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0015") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016")
-
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1140"))
-                {
-                    log.Info("is a vrbrain 4.0 bootloader");
-                    return new DetectResult(Boards.vrbrainv40, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1145"))
-                {
-                    log.Info("is a vrbrain 4.5 bootloader");
-                    return new DetectResult(Boards.vrbrainv45, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1150"))
-                {
-                    log.Info("is a vrbrain 5.0 bootloader");
-                    return new DetectResult(Boards.vrbrainv50, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1151"))
-                {
-                    log.Info("is a vrbrain 5.1 bootloader");
-                    return new DetectResult(Boards.vrbrainv51, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1152"))
-                {
-                    log.Info("is a vrbrain 5.2 bootloader");
-                    return new DetectResult(Boards.vrbrainv52, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1154"))
-                {
-                    log.Info("is a vrbrain 5.4 bootloader");
-                    return new DetectResult(Boards.vrbrainv54, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1910"))
-                {
-                    log.Info("is a vrbrain core 1.0 bootloader");
-                    return new DetectResult(Boards.vrcorev10, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1351"))
-                {
-                    log.Info("is a vrubrain 5.1 bootloader");
-                    return new DetectResult(Boards.vrubrainv51, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1352"))
-                {
-                    log.Info("is a vrubrain 5.2 bootloader");
-                    return new DetectResult(Boards.vrubrainv52, null);
-                }
-                else if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_1FC9&PID_001C"))
-                {
-                    log.Info("is a NXP RDDRONE-FMUK66");
-                    return new DetectResult(Boards.nxpfmuk66, null);
+                    if (ids2result.TryGetValue(deviceId, out var result))
+                    {
+                        return result;
+                    }
                 }
             }
 
-            return DetectResult.None;
+            return DetectResult.Failed;
         }
     }
 }
