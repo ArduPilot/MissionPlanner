@@ -1688,7 +1688,7 @@ namespace MissionPlanner.GCSViews
                     if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
                     {
                         var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
-                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode };
+                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = (byte)MainV2.comPort.sysidcurrent };
                         MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
                         ((Control)sender).Enabled = true;
                         return;
