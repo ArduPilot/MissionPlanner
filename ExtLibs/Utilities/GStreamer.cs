@@ -23,8 +23,8 @@ using System.Threading;
 using gsize = System.UInt64;
 using GstClockTime = System.UInt64;
 using guint = System.UInt32;
-//using AForge.Video;
-//using AForge.Video.DirectShow;
+using System.Drawing;
+
 
 
 namespace MissionPlanner.Utilities
@@ -1500,9 +1500,7 @@ namespace MissionPlanner.Utilities
             Int32 count1 = 4;
             String[] strlist2 = strlist[0].Split(spearator1, count1,
                    StringSplitOptions.RemoveEmptyEntries);
-            string SSpath= strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_screenshot.jpg";
-            string Recpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_recording.mp4";
-
+           
             //------------
             string stringpipeline = (string)datao;
             int argc = 1;
@@ -1642,8 +1640,11 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    string SSpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_screenshot.jpg";
+                    string Recpath = strlist2[0] + "/" + strlist2[1] + "/" + strlist2[2] + "/Pictures/" + DateTime.Now.ToString().Replace(" ", "").Replace(":", "_").Replace("-", "_") + "_recording.mp4";
+
                     //log.Info("gst_app_sink_try_pull_sample ");
-                        var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
+                    var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
                     if (sample != IntPtr.Zero)
                     {
                         trys = 0;
@@ -1661,6 +1662,7 @@ namespace MissionPlanner.Utilities
                         var buffer = NativeMethods.gst_sample_get_buffer(sample);
                         if (buffer != IntPtr.Zero)
                         {
+
                             var info = new GstMapInfo();
                             if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                             {

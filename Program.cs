@@ -31,6 +31,7 @@ using Newtonsoft.Json.Serialization;
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Trace = System.Diagnostics.Trace;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace MissionPlanner
 {
@@ -71,7 +72,7 @@ namespace MissionPlanner
 
         public static string[] names = new string[] {"VVVVZ"};
         public static bool MONO = false;
-
+        public static bool AdminC { get; set; }
         static Program()
         {
             AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
@@ -268,7 +269,23 @@ namespace MissionPlanner
                 Splash.BackgroundImage = SplashBG;
                 Splash.pictureBox1.Visible = false;
             }
+            var pw = "";
 
+            //Settings.Instance["admin_control1"] = false.ToString();
+            //Thread.Sleep(1000);
+            //bool v = Settings.Instance.GetBoolean("admin_password");
+            AdminC = false;
+            if (InputBox.Show("Admin Control", "Please enter your password or click on Cancel to continue", ref pw, true) ==
+                    System.Windows.Forms.DialogResult.OK)
+            {
+                bool ans = Password.customPasswordCheck(pw);
+
+                AdminC= ans;
+                //if (ans == false)
+                //{
+                //    CustomMessageBox.Show("Invalid password", "Click ok to Continue");
+                //}
+            }
             Console.WriteLine("IconFile");
             if (IconFile != null)
                 Splash.Icon = Icon.FromHandle(((Bitmap) IconFile).GetHicon());
@@ -455,7 +472,10 @@ namespace MissionPlanner
             {
                 Thread.CurrentThread.Name = "Base Thread";
                 Console.WriteLine("Application.Run(new MainV2())");
-                Application.Run(new MainV2());
+                var j = new MainV2();
+                j.admincontrolhandle(AdminC);
+                Application.Run(j);
+                
             }
             catch (Exception ex)
             {

@@ -48,6 +48,7 @@ namespace MissionPlanner.Utilities
 
         public string this[string key]
         {
+            
             get
             {
                 string value = null;
@@ -59,6 +60,7 @@ namespace MissionPlanner.Utilities
             {
                 config[key] = value;
             }
+            
         }
 
         public string this[string key, string defaultvalue]

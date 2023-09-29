@@ -155,6 +155,7 @@ namespace MissionPlanner.GCSViews
 
         Script script;
         CamControl camcontrol;
+        Cam20xControl Cam20xsend;
         //whether or not a script is running
         bool scriptrunning;
 
@@ -229,6 +230,9 @@ namespace MissionPlanner.GCSViews
 
             InitializeComponent();
             focus_minus.MouseUp += focus_minus_MouseUp;
+            focus_minus.MouseDown += focus_minus_MouseDown;
+            focus_plus.MouseUp += focus_plus_MouseUp;
+            focus_plus.MouseDown += focus_minus_MouseDown;
             myButton9.MouseUp += myButton9_MouseUp;
             myButton9.MouseDown += myButton9_MouseDown;
             myButton10.MouseUp += myButton10_MouseUp;
@@ -237,6 +241,10 @@ namespace MissionPlanner.GCSViews
             myButton11.MouseDown += myButton11_MouseDown;
             myButton8.MouseUp += myButton8_MouseUp;
             myButton8.MouseDown += myButton8_MouseDown;
+            myButton15.MouseDown += myButton15_MouseDown;
+            myButton15.MouseUp += myButton15_MouseUp;
+            myButton16.MouseDown += myButton16_MouseDown;
+            myButton16.MouseUp += myButton16_MouseUp;
             log.Info("Components Done");
 
             instance = this;
@@ -6542,6 +6550,8 @@ namespace MissionPlanner.GCSViews
         private Boolean mybutton10up = true;
         private Boolean mybutton11up = true;
         private Boolean mybutton8up = true;
+        private int meo_yaw = 0;
+        private int meo_pitch = 0;
         private void gimblestop()
         {
             try
@@ -6574,11 +6584,59 @@ namespace MissionPlanner.GCSViews
                 {
                     trip2gimble(5);
                 }
+                else if(controltype_ == 3)
+                {
+                    Cam20xsend.Cam20x("G0");
+                    
+                }
+                else if (controltype_ == 4)
+                {
+                    meo_pitch = meo_pitch;
+                    meo_yaw = meo_yaw;
+                }
+
             }
             catch
             {
 
             }
+        }
+        private void meo_gimble(string parm)
+        {
+            if (parm == "Down")
+            {
+                if (meo_pitch < 90)
+                {
+                    meo_pitch += 5;
+                   
+                }
+                
+            }
+            else if(parm == "Up")
+            {
+                if (meo_pitch > -90)
+                {
+                    meo_pitch -= 5;
+                    
+                }
+            }
+            else if (parm == "Right")
+            {
+                if (meo_yaw < 180)
+                {
+                    meo_yaw += 10;
+                }
+            }
+            else if (parm == "Left")
+            {
+                if(meo_yaw > -180)
+                {
+                    meo_yaw -= 10;
+                }
+            }
+            MainV2.comPort.setMountControl((float)meo_pitch * 100.0f, (float)0 * 100.0f,
+                           meo_yaw * 100.0f, false);
+            
         }
         private void gimbleup()
         {
@@ -6613,6 +6671,18 @@ namespace MissionPlanner.GCSViews
                     else if (controltype_ == 2)
                     {
                         trip2gimble(3);
+                    }
+                    else if(controltype_ == 3)
+                    {
+                        Cam20xsend.Cam20x("Up");
+                       
+                    }
+                    else if(controltype_ == 4)
+                    {
+                        meo_gimble("Up");
+                        Thread.Sleep(100);
+
+
                     }
                 }
                 catch
@@ -6660,6 +6730,17 @@ namespace MissionPlanner.GCSViews
                     else if (controltype_ == 2)
                     {
                         trip2gimble(4);
+                    }
+                    else if(controltype_ == 3)
+                    {
+                        Cam20xsend.Cam20x("Down");
+                       
+                    }
+                    else if (controltype_ == 4)
+                    {
+                        meo_gimble("Down");
+                        Thread.Sleep(100);
+
                     }
                 }
                 catch
@@ -6715,6 +6796,17 @@ namespace MissionPlanner.GCSViews
                     {
                         trip2gimble(1);
                     }
+                    else if (controltype_ == 3)
+                    {
+                        Cam20xsend.Cam20x("Left");
+                        
+                    }
+                    else if (controltype_ == 4)
+                    {
+                        meo_gimble("Left");
+                        Thread.Sleep(100);
+
+                    }
                 }
                 catch
                 {
@@ -6768,6 +6860,17 @@ namespace MissionPlanner.GCSViews
                     else if (controltype_ == 2)
                     {
                         trip2gimble(2);
+                    }
+                    else if (controltype_ == 3)
+                    {
+                        Cam20xsend.Cam20x("Right");
+                       
+                    }
+                    else if (controltype_ == 4)
+                    {
+                        meo_gimble("Right");
+                        Thread.Sleep(100);
+
                     }
                 }
                 catch
@@ -6950,6 +7053,11 @@ namespace MissionPlanner.GCSViews
                 {
                     trip2gimble(0);
                 }
+                else if (controltype_ == 4)
+                {
+                    MainV2.comPort.setMountControl((float)0 * 100.0f, (float)0 * 100.0f,
+                            0 * 100.0f, false);
+                }
             }
 
 
@@ -7083,6 +7191,26 @@ namespace MissionPlanner.GCSViews
                     camcontrol = new CamControl();
                     //}
                 }
+                else if(controltype_ == 3)
+                {
+                    if (MainV2.joystick != null)
+                    {
+                        MainV2.joystick.scriptcontrolenabled = true;
+                        MainV2.joystick.camtype = controltype_ + 1;
+                    }
+                    Cam20xsend =new Cam20xControl();
+                    
+                }
+                else if(controltype_ == 4)
+                {
+                    if (MainV2.joystick != null)
+                    {
+                        MainV2.joystick.scriptcontrolenabled = true;
+                        MainV2.joystick.camtype = controltype_ + 1;
+                    }
+                    MainV2.comPort.setMountControl((float)meo_pitch * 100.0f, (float)0 * 100.0f,
+                           meo_yaw * 100.0f, false);
+                }
             }
             catch
             {
@@ -7164,6 +7292,20 @@ namespace MissionPlanner.GCSViews
 
         }
         // zoom Plus
+        private void myButton16_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("ZIn");
+            }
+        }
+        private void myButton16_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("Z0");
+            }
+        }
         private void myButton16_Click(object sender, EventArgs e)
         {
             if (controltype_ == 1)
@@ -7188,6 +7330,20 @@ namespace MissionPlanner.GCSViews
 
         }
         // zoom sub
+        private void myButton15_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("ZOut");
+            }
+        }
+        private void myButton15_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("Z0");
+            }
+        }
         private void myButton15_Click(object sender, EventArgs e)
         {
             try
@@ -7294,11 +7450,11 @@ namespace MissionPlanner.GCSViews
         {
 
         }
-        private void focus_minus_MouseUp(object sender, MouseEventArgs e)
-        {
-            // pressTimer.Start();
-            //longPressTimer.Start();
-        }
+        //private void focus_minus_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    // pressTimer.Start();
+        //    //longPressTimer.Start();
+        //}
 
         private void guidedButton_Click(object sender, EventArgs e)
         {
@@ -7391,6 +7547,39 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
             }
             
+        }
+        // focus
+        private void focus_plus_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("F+");
+            }
+        }
+        private void focus_plus_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("F0");
+            }
+        }
+        private void focus_minus_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("F-");
+            }
+        }
+        private void focus_minus_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (controltype_ == 3)
+            {
+                Cam20xsend.Cam20x("F0");
+            }
+        }
+        private void focus_plus_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

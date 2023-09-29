@@ -63,8 +63,9 @@ namespace MissionPlanner
             public abstract Image disconnect { get; }
             public abstract Image bg { get; }
             public abstract Image wizard { get; }
+            
         }
-
+        public static bool AdminControl { get; set; }
 
         public class burntkermitmenuicons : menuicons
         {
@@ -559,11 +560,33 @@ namespace MissionPlanner
         public static ConnectionControl _connectionControl;
 
         public static bool TerminalTheming = true;
-
+        public void admincontrolhandle(bool AdminC)
+        {
+            AdminControl=AdminC;
+            if (AdminC)
+            {
+                MenuSimulation.Visible = true;
+                MenuConfigTune.Visible = true;
+                MenuInitConfig.Visible = true;
+            }
+            else
+            {
+                //MenuSimulation.Visible = false;
+                MenuConfigTune.Visible = false;
+                if (comPort.BaseStream.IsOpen)
+                {
+                    MenuInitConfig.Visible = true;
+                }
+                else
+                {
+                    MenuInitConfig.Visible = false;
+                }
+            }
+        }
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
-            //MenuSimulation.Visible = false;
+            admincontrolhandle(AdminControl);
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
             MenuHelp.Visible = false;
@@ -1406,6 +1429,7 @@ namespace MissionPlanner
 
         private void MenuFlightData_Click(object sender, EventArgs e)
         {
+            //admincontrolhandle(AdminControl);
             MyView.ShowScreen("FlightData");
 
             // save config
@@ -1454,6 +1478,9 @@ namespace MissionPlanner
 
         private void MenuTuning_Click(object sender, EventArgs e)
         {
+
+            //string v = Settings.Instance["admin_password"];
+            
             if (Settings.Instance.GetBoolean("password_protect") == false)
             {
                 MyView.ShowScreen("SWConfig");
@@ -1914,6 +1941,7 @@ namespace MissionPlanner
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
+
             Connect();
 
             // save config
@@ -1967,6 +1995,7 @@ namespace MissionPlanner
             _connectionControl.UpdateSysIDS();
 
             if (comPort.BaseStream.IsOpen)
+                
                 loadph_serial();
         }
 
@@ -2535,6 +2564,7 @@ namespace MissionPlanner
                 {
                     if (this.MenuConnect.Image == null || (string) this.MenuConnect.Image.Tag != "Disconnect")
                     {
+                        admincontrolhandle(AdminControl);
                         this.BeginInvoke((MethodInvoker) delegate
                         {
                             this.MenuConnect.Image = displayicons.disconnect;
@@ -2548,6 +2578,7 @@ namespace MissionPlanner
                 {
                     if (this.MenuConnect.Image != null && (string) this.MenuConnect.Image.Tag != "Connect")
                     {
+                        admincontrolhandle(AdminControl);
                         this.BeginInvoke((MethodInvoker) delegate
                         {
                             this.MenuConnect.Image = displayicons.connect;

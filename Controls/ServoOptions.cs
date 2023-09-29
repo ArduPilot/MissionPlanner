@@ -60,6 +60,7 @@ namespace MissionPlanner.Controls
             {
                 BUT_Low.Text = lowdesc;
             }
+            
         }
 
         private void BUT_Low_Click(object sender, EventArgs e)

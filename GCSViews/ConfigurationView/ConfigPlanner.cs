@@ -824,6 +824,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["password_protect"] = CHK_Password.Checked.ToString();
             if (CHK_Password.Checked)
             {
+               
                 // keep this one local
                 string pw = "";
 
@@ -831,6 +832,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Password.EnterPassword(pw);
             }
+           
         }
 
         private void CHK_speechlowspeed_CheckedChanged(object sender, EventArgs e)

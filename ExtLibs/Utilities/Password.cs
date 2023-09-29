@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,7 +16,12 @@ namespace MissionPlanner.Utilities
                 Convert.ToBase64String(Password.GenerateSaltedHash(UTF8Encoding.UTF8.GetBytes(pw),
                     new byte[] {(byte) 'M', (byte) 'P'}));
         }
-
+        public static bool customPasswordCheck(string pw)
+        {
+            List<string> passwordlist = new List<string>();
+            passwordlist = new List<string> {"Adtl@123" };
+            return passwordlist.Contains(pw);
+        }
         public static bool VerifyPassword(string pw)
         {
             //check if we have already entered the pw and its valid.

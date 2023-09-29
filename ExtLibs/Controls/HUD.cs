@@ -24,6 +24,8 @@ using MathHelper = MissionPlanner.Utilities.MathHelper;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp;
+using static MAVLink;
+using static alglib;
 
 
 // Control written by Michael Oborne 2011
@@ -1069,7 +1071,7 @@ namespace MissionPlanner.Controls
         protected override void OnLoad(EventArgs e)
         {
             log.Info("OnLoad Start");
-
+            rectangles = new List<Rectangle>();
             if (opengl && !DesignMode)
             {
                 try
@@ -1198,15 +1200,117 @@ namespace MissionPlanner.Controls
             {
                 Cursor.Current = Cursors.Hand;
             }
+            else if (drawing)
+            {
+                //endPoint = e.Location;
+                Cursor.Current = Cursors.Cross;
+                this.currentRectangle.Width = e.X - currentRectangle.Left;
+                this.currentRectangle.Height = e.Y - currentRectangle.Top;
+                this.Invalidate(); // Force a repaint
+            }
             else
             {
                 Cursor.Current = DefaultCursor;
             }
         }
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            //base.OnMouseDown(e);
+            if (e.Button == MouseButtons.Left)
+            {
 
+                this.currentRectangle = new Rectangle(e.Location, new Size());
+                this.drawing = true;
+            }
+        }
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            //base.OnMouseUp(e);
+            if (drawing && e.Button == MouseButtons.Left)
+            {
+                this.rectangles.Add(currentRectangle);
+                this.currentRectangle = Rectangle.Empty;
+                this.drawing = false;
+                this.Invalidate(); // Finalize the drawing
+            }
+        }
+        public void CameraTrack(double centerX, double centerY, double imageWidth, double imageHeight)
+        {
+            // Yaw tracking
+            double velocityYaw;
+            if (Math.Abs(centerX - imageWidth / 2) > imageWidth * 0.01)
+            {
+                velocityYaw = -1.0 * (centerX - imageWidth / 2) / 5000;
+                velocityYaw = Math.Max(-0.1, velocityYaw);
+                velocityYaw = Math.Min(0.1, velocityYaw);
+            }
+            else
+            {
+                velocityYaw = 0.0;
+            }
+
+            // Pitch tracking
+            double velocityPitch;
+            if (Math.Abs(centerY - imageHeight / 2) > imageHeight * 0.01)
+            {
+                velocityPitch = -1.0 * (centerY - imageHeight / 2) / 1250;
+                velocityPitch = Math.Max(-0.2, velocityPitch);
+                velocityPitch = Math.Min(0.2, velocityPitch);
+            }
+            else
+            {
+                velocityPitch = 0.0;
+            }
+
+            Console.WriteLine($"velocity yaw:{velocityYaw}, pitch:{velocityPitch}");
+
+            // Assuming 'cam' is your camera object with a 'SetGimble' method
+            SetGimble(roll: velocityYaw, pitch: velocityPitch);
+        }
+        public void SetGimble(double roll = 0, double pitch = 0)
+        {
+            // Assuming 'vehicle' is your MAVLink vehicle object
+            // Assuming 'mavutil' is your MAVLink mavutil object
+
+            // Roll and pitch values should be scaled from -1 to 1 to the desired range
+            double scaledRoll = roll * 1000; // Scale to -1000 to 1000
+            double scaledPitch = pitch * 1000; // Scale to -1000 to 1000
+
+            // Send the MAVLink command
+            //vehicle.SendMavCommandLong(
+            //    0, // target_system
+            //    0, // target_component
+            //    MavCmd.MAV_CMD_DO_DIGICAM_CONTROL,
+            //    0, // confirmation
+            //    6, // param1 (OSD_CMD_NX)
+            //    scaledRoll, // param2 (OS_Param_1)
+            //    scaledPitch, // param3 (OS_Param_2)
+            //    0, // param4 (OS_Param_3)
+            //    0, // param5 (OS_Param_4)
+            //    0, // param6 (OS_Param_5)
+            //    0 // param7 (OS_Param_6)
+            //);
+            //MainV2.comPort.trip2doCommand(
+            //    (byte)MainV2.comPort.sysidcurrent,
+            //    (byte)MainV2.comPort.compidcurrent,
+            //    MAVLink.MAV_CMD.DO_DIGICAM_CONTROL,
+            //    0, 
+            //    6, 
+            //    scaledRoll, 
+            //    scaledPitch, 
+            //    0, 
+            //    0,
+            //    0);
+            
+        }
+
+        private Point startPoint;
+        private Point endPoint;
+        bool drawing=false;
         bool inOnPaint = false;
         string otherthread = "";
-
+        private List<Rectangle> rectangles;
+        private Rectangle currentRectangle;
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -1215,7 +1319,10 @@ namespace MissionPlanner.Controls
             // Console.WriteLine("hud paint");
 
             // Console.WriteLine("hud ms " + (DateTime.Now.Millisecond));
+            //base.OnPaint(e);
 
+            // Create a Graphics object from the form
+            
             if (this.DesignMode)
             {
                 e.Graphics.Clear(this.BackColor);
@@ -1299,7 +1406,7 @@ namespace MissionPlanner.Controls
 
             count++;
 
-            huddrawtime += (int) (DateTime.Now - starttime).TotalMilliseconds;
+            huddrawtime += (int)(DateTime.Now - starttime).TotalMilliseconds;
 
             if (DateTime.Now.Second != countdate.Second)
             {
@@ -1311,7 +1418,19 @@ namespace MissionPlanner.Controls
                 count = 0;
                 huddrawtime = 0;
             }
+            Graphics g = e.Graphics;
 
+
+
+            // Draw the current rectangle if it's being drawn
+            if (drawing)
+            {
+                //g.Clear(Color.White);
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    g.DrawRectangle(pen, currentRectangle);
+                }
+            }
             lock (this)
             {
                 inOnPaint = false;

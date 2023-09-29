@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,4 +73,142 @@ namespace MissionPlanner
         //    upCMD();
         //}
     }
+
+    public class Cam20xControl
+    {
+        // Zoom commands
+        public const string ZoomOut = "#TPUM2wZMC01";
+        public const string ZoomIn = "#TPUM2wZMC02";
+        public const string ZoomStop = "#TPUM2wZMC00";
+
+        // Gimbal commands
+        public const string GimbalStop = "#TPUG2wPTZ00";
+        public const string GimbalUp = "#TPUG2wPTZ01";
+        public const string GimbalDown = "#TPUG2wPTZ02";
+        public const string GimbalLeft = "#TPUG2wPTZ03";
+        public const string GimbalRight = "#TPUG2wPTZ04";
+        public const string GimbalHome = "#TPUG2wPTZ05";
+        public const string GimbalYawVelocity = "#TPUG2wGSY";
+        public const string GimbalPitchVelocity = "#TPUG2wGSP";
+        public const string GimbalYawPitchVelocity = "#tpUG4wGSM";
+
+        // Camera Focus Control
+        public const string FocusStop = "#TPUM2wFCC00";
+        public const string FocusPlus = "#TPUM2wFCC01";
+        public const string FocusMinus = "#TPUM2wFCC02";
+        private UdpClient udpClient;
+        public const string ipAddress = "192.168.144.108";
+        public const int port = 9003;
+        public bool connect=false;
+        public string parmDecode(string parm)
+        {
+
+
+            if (parm == "G0")
+            {
+                return GimbalStop;
+            }
+            else if (parm == "Z0")
+            {
+                return ZoomStop;
+            }
+            else if (parm == "F0")
+            {
+                return FocusStop;
+            }
+            else if (parm == "Up")
+            {
+                return GimbalUp;
+            }
+            else if (parm == "Down")
+            {
+                return GimbalDown;
+            }
+            else if (parm == "Right")
+            {
+                return GimbalRight;
+            }
+            else if (parm == "Left")
+            {
+                return GimbalLeft;
+            }
+            else if (parm == "F+")
+            {
+                return FocusPlus;
+            }
+            else if (parm == "F-")
+            {
+                return FocusMinus;
+
+            }
+            else if (parm == "ZIn")
+            {
+                return ZoomIn;
+            }
+            else if (parm == "ZOut")
+            {
+                return ZoomOut;
+            }
+            return null;
+        }
+        public void Cam20x(string parm)
+        {
+            if (!connect)
+            {
+                udpClient = new UdpClient();
+
+                // Set SO_REUSEADDR equivalent option (SO_REUSEPORT) for socket reuse
+                udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                connect = true;
+            }
+            var Camcommand = parmDecode(parm);
+
+            udpClient.Connect(IPAddress.Parse(ipAddress), port);
+            byte[] data = GetActualCommand(Camcommand);
+            using (UdpClient udpClient = new UdpClient())
+            {
+                // Send the data to the target IP address and port
+                udpClient.Send(data, data.Length, ipAddress, port);
+            }
+            if (parm == "G0" || parm == "Z0" || parm == "F0")
+            {
+                connect = false;
+                udpClient.Close();
+
+            }
+
+
+        }
+        public Cam20xControl()
+        {
+
+            
+
+        }
+        public static string CalculateCRC8(string data)
+        {
+            int crc = 0;
+            foreach (char c in data)
+            {
+                crc += (int)c;
+            }
+            crc %= 256;
+            string hexstr = crc.ToString("X2");
+            return hexstr;
+        }
+
+        public static byte[] GetActualCommand(string cmd)
+        {
+            string crcstr = CalculateCRC8(cmd);
+            foreach (char c in crcstr)
+            {
+                cmd += c;
+            }
+
+            return Encoding.UTF8.GetBytes(cmd);
+        }
+
+
+    }
+
 }
