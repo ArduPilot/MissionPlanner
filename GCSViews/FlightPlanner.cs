@@ -1,4 +1,4 @@
-using DotSpatial.Data;
+﻿using DotSpatial.Data;
 using DotSpatial.Projections;
 using GeoUtility.GeoSystem;
 using GeoUtility.GeoSystem.Base;
@@ -741,7 +741,7 @@ namespace MissionPlanner.GCSViews
             {
                 // auto update home alt
                 updateUndoBuffer(true);
-                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt).ToString();
+                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt).ToString("0.00");
 
                 TXT_homelat.Text = lat.ToString();
                 TXT_homelng.Text = lng.ToString();
@@ -4238,7 +4238,7 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.lat != 0)
             {
-                TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0");
+                TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0.00");
                 TXT_homelat.Text = MainV2.comPort.MAV.cs.lat.ToString();
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.lng.ToString();
 
@@ -6245,7 +6245,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             TXT_homealt.Text =
                 (srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt * CurrentState.multiplieralt)
-                .ToString("0");
+                .ToString("0.00");
             TXT_homelat.Text = MouseDownStart.Lat.ToString();
             TXT_homelng.Text = MouseDownStart.Lng.ToString();
         }
@@ -6788,7 +6788,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
+                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString("0.00");
 
                 writeKML();
             }
@@ -6799,7 +6799,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt.ToString();
+                TXT_homealt.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt.ToString("0.00");
 
                 writeKML();
             }
