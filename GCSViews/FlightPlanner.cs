@@ -1,4 +1,4 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using DotSpatial.Projections;
 using GeoUtility.GeoSystem;
 using GeoUtility.GeoSystem.Base;
@@ -5300,8 +5300,7 @@ namespace MissionPlanner.GCSViews
                                 cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                                 TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                                 cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                                TXT_homealt.Text =
-                                    (double.Parse(cellhome.Value.ToString()) * CurrentState.multiplieralt).ToString();
+                                TXT_homealt.Text = double.Parse(cellhome.Value.ToString()).ToString("0.00");
                             }
                         }
                     }
@@ -5739,7 +5738,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                          "\t" +
                                          double.Parse(TXT_homelng.Text).ToString("0.0000000", new CultureInfo("en-US")) +
                                          "\t" +
-                                         double.Parse(TXT_homealt.Text).ToString("0.000000", new CultureInfo("en-US")) +
+                                         (double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt).ToString("0.000000", new CultureInfo("en-US")) +
                                          "\t1");
                         }
                         catch (Exception ex)
