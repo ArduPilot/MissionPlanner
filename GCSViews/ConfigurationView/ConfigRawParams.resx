@@ -638,7 +638,7 @@ format with no scaling</value>
     <value>50</value>
   </data>
   <data name="Command.Width" type="System.Int32, mscorlib">
-    <value>126</value>
+    <value>130</value>
   </data>
   <metadata name="Value.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -650,7 +650,7 @@ format with no scaling</value>
     <value>50</value>
   </data>
   <data name="Value.Width" type="System.Int32, mscorlib">
-    <value>69</value>
+    <value>70</value>
   </data>
   <metadata name="Default_value.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -665,7 +665,7 @@ format with no scaling</value>
     <value>False</value>
   </data>
   <data name="Default_value.Width" type="System.Int32, mscorlib">
-    <value>69</value>
+    <value>70</value>
   </data>
   <metadata name="Units.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -677,7 +677,7 @@ format with no scaling</value>
     <value>50</value>
   </data>
   <data name="Units.Width" type="System.Int32, mscorlib">
-    <value>56</value>
+    <value>60</value>
   </data>
   <metadata name="Options.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -689,7 +689,7 @@ format with no scaling</value>
     <value>50</value>
   </data>
   <data name="Options.Width" type="System.Int32, mscorlib">
-    <value>175</value>
+    <value>150</value>
   </data>
   <metadata name="Desc.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -728,7 +728,7 @@ format with no scaling</value>
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8474.23142, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8674.15835, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
