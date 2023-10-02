@@ -213,7 +213,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.Params.AllowUserToAddRows = false;
             this.Params.AllowUserToDeleteRows = false;
-            this.Params.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -267,14 +266,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // Value
             // 
-            this.Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Value.FillWeight = 11F;
             resources.ApplyResources(this.Value, "Value");
             this.Value.Name = "Value";
             // 
             // Default_value
             // 
-            this.Default_value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Default_value.FillWeight = 11F;
             resources.ApplyResources(this.Default_value, "Default_value");
             this.Default_value.Name = "Default_value";
@@ -289,7 +286,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // Options
             // 
-            this.Options.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Options.FillWeight = 28F;
             resources.ApplyResources(this.Options, "Options");
             this.Options.Name = "Options";
@@ -311,7 +307,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Fav.FillWeight = 4F;
             resources.ApplyResources(this.Fav, "Fav");
             this.Fav.Name = "Fav";
-            this.Fav.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Fav.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // but_collapse
             // 

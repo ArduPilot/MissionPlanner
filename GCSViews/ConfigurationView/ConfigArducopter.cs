@@ -1,4 +1,4 @@
-﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
@@ -77,35 +77,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RATE_PIT_P.setup(0, 0, 1, 0.001f, new[] { "RATE_PIT_P", "ATC_RAT_PIT_P", "Q_A_RAT_PIT_P" }, MainV2.comPort.MAV.param);
             RATE_PIT_I.setup(0, 0, 1, 0.001f, new[] { "RATE_PIT_I", "ATC_RAT_PIT_I", "Q_A_RAT_PIT_I" }, MainV2.comPort.MAV.param);
             RATE_PIT_D.setup(0, 0, 1, 0.0001f, new[] {"RATE_PIT_D", "ATC_RAT_PIT_D", "Q_A_RAT_PIT_D"}, MainV2.comPort.MAV.param);
-            if (MainV2.comPort.MAV.param.ContainsKey("ATC_RAT_PIT_IMAX")) // 3.4 changes scaling
+            if (MainV2.comPort.MAV.param.ContainsKey("ATC_RAT_PIT_IMAX") || MainV2.comPort.MAV.param.ContainsKey("Q_A_RAT_PIT_IMAX")) // 3.4 changes scaling
                 RATE_PIT_IMAX.setup(0, 0, 1, 1f, new[] {"ATC_RAT_PIT_IMAX", "Q_A_RAT_PIT_IMAX"},  MainV2.comPort.MAV.param);
             else
                 RATE_PIT_IMAX.setup(0, 0, 10, 1f, new[] {"RATE_PIT_IMAX", "RATE_PIT_IMAX"}, MainV2.comPort.MAV.param);
             RATE_PIT_FILT.setup(0, 0, 1, 0.001f, new[] {"RATE_PIT_FILT", "ATC_RAT_PIT_FILT", "ATC_RAT_PIT_FLTE", "Q_A_RAT_PIT_FLTE"}, MainV2.comPort.MAV.param);
-            ATC_RAT_PIT_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_PIT_FLTD", "ATC_RAT_PIT_FLTD" }, MainV2.comPort.MAV.param);
-            ATC_RAT_PIT_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_PIT_FLTT", "ATC_RAT_PIT_FLTT" }, MainV2.comPort.MAV.param);
+            ATC_RAT_PIT_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_PIT_FLTD", "Q_A_RAT_PIT_FLTD" }, MainV2.comPort.MAV.param);
+            ATC_RAT_PIT_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_PIT_FLTT", "Q_A_RAT_PIT_FLTT" }, MainV2.comPort.MAV.param);
 
             RATE_RLL_P.setup(0, 0, 1, 0.001f, new[] { "RATE_RLL_P", "ATC_RAT_RLL_P", "Q_A_RAT_RLL_P" }, MainV2.comPort.MAV.param);
             RATE_RLL_I.setup(0, 0, 1, 0.001f, new[] { "RATE_RLL_I", "ATC_RAT_RLL_I", "Q_A_RAT_RLL_I" }, MainV2.comPort.MAV.param);
             RATE_RLL_D.setup(0, 0, 1, 0.0001f, new[] {"RATE_RLL_D", "ATC_RAT_RLL_D", "Q_A_RAT_RLL_D"}, MainV2.comPort.MAV.param);
-            if (MainV2.comPort.MAV.param.ContainsKey("ATC_RAT_RLL_IMAX")) // 3.4 changes scaling
+            if (MainV2.comPort.MAV.param.ContainsKey("ATC_RAT_RLL_IMAX") || MainV2.comPort.MAV.param.ContainsKey("Q_A_RAT_RLL_IMAX")) // 3.4 changes scaling
                 RATE_RLL_IMAX.setup(0, 0, 1, 1f, new[] {"ATC_RAT_RLL_IMAX", "Q_A_RAT_RLL_IMAX"}, MainV2.comPort.MAV.param);
             else
                 RATE_RLL_IMAX.setup(0, 0, 10, 1f, new[] {"RATE_RLL_IMAX"}, MainV2.comPort.MAV.param);
             RATE_RLL_FILT.setup(0, 0, 1, 0.001f, new[] {"RATE_RLL_FILT", "ATC_RAT_RLL_FILT", "ATC_RAT_RLL_FLTE", "Q_A_RAT_RLL_FLTE"}, MainV2.comPort.MAV.param);
-            ATC_RAT_RLL_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTD" }, MainV2.comPort.MAV.param);
-            ATC_RAT_RLL_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTT" }, MainV2.comPort.MAV.param);
+            ATC_RAT_RLL_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTD", "Q_A_RAT_RLL_FLTD" }, MainV2.comPort.MAV.param);
+            ATC_RAT_RLL_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTT", "Q_A_RAT_RLL_FLTT" }, MainV2.comPort.MAV.param);
 
             RATE_YAW_P.setup(0, 0, 1, 0.001f, new[] { "RATE_YAW_P", "ATC_RAT_YAW_P", "Q_A_RAT_YAW_P" }, MainV2.comPort.MAV.param);
             RATE_YAW_I.setup(0, 0, 1, 0.001f, new[] { "RATE_YAW_I", "ATC_RAT_YAW_I", "Q_A_RAT_YAW_I" }, MainV2.comPort.MAV.param);
             RATE_YAW_D.setup(0, 0, 1, 0.0001f, new[] {"RATE_YAW_D", "ATC_RAT_YAW_D", "Q_A_RAT_YAW_D"}, MainV2.comPort.MAV.param);
-            if (MainV2.comPort.MAV.param.ContainsKey("ATC_RAT_YAW_IMAX")) // 3.4 changes scaling
+            if (MainV2.comPort.MAV.param.ContainsKey("ATC_RAT_YAW_IMAX") || MainV2.comPort.MAV.param.ContainsKey("Q_A_RAT_YAW_IMAX")) // 3.4 changes scaling
                 RATE_YAW_IMAX.setup(0, 0, 1, 1f, new[] {"ATC_RAT_YAW_IMAX", "Q_A_RAT_YAW_IMAX"}, MainV2.comPort.MAV.param);
             else
                 RATE_YAW_IMAX.setup(0, 0, 10, 1f, new[] {"RATE_YAW_IMAX"}, MainV2.comPort.MAV.param);
             RATE_YAW_FILT.setup(0, 0, 1, 0.001f, new[] {"RATE_YAW_FILT", "ATC_RAT_YAW_FILT", "ATC_RAT_YAW_FLTE", "Q_A_RAT_YAW_FLTE"}, MainV2.comPort.MAV.param);
-            ATC_RAT_YAW_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTD" }, MainV2.comPort.MAV.param);
-            ATC_RAT_YAW_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTT" }, MainV2.comPort.MAV.param);
+            ATC_RAT_YAW_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTD", "Q_A_RAT_YAW_FLTD" }, MainV2.comPort.MAV.param);
+            ATC_RAT_YAW_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTT", "Q_A_RAT_YAW_FLTT" }, MainV2.comPort.MAV.param);
 
             STB_PIT_P.setup(0, 0, 1, 0.001f, new[] {"STB_PIT_P", "ATC_ANG_PIT_P", "Q_A_ANG_PIT_P"},
                 MainV2.comPort.MAV.param);

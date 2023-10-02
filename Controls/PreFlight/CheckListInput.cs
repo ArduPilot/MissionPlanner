@@ -234,15 +234,16 @@ namespace MissionPlanner.Controls.PreFlight
 
         private void but_remove_Click(object sender, EventArgs e)
         {
-            lock (_parent.CheckListItems)
-            {
-                _parent.CheckListItems.Remove(CheckListItem);
-
-                foreach (var item in _parent.CheckListItems)
-                {
-                    removewarning(item, CheckListItem);
-                }
-            }
+            // Commented out the below, as a quicker remove method has been added into the ChecklistEditor.cs file
+            //lock (_parent.CheckListItems)
+            //{
+            //    //_parent.CheckListItems.Remove(CheckListItem);
+                        
+            //    foreach (var item in _parent.CheckListItems)
+            //    {
+            //        removewarning(item, CheckListItem);
+            //    }
+            //}
 
             if (ReloadList != null)
                 ReloadList(this, null);
