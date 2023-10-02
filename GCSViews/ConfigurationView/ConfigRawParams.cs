@@ -66,9 +66,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_widthpercent"]))
+                // Don't need to size a fill column
+                if (col.AutoSizeMode == DataGridViewAutoSizeColumnMode.Fill) continue;
+
+                // Don't need to size a column that can't be resized
+                if (col.Resizable == DataGridViewTriState.False) continue;
+
+                if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_width"]))
                 {
-                    col.Width = (int)((Math.Max(5, Settings.Instance.GetInt32("rawparam_" + col.Name + "_widthpercent")) / 100.0) * Params.Width);
+                    col.Width = (int)Math.Max(5, Settings.Instance.GetInt32("rawparam_" + col.Name + "_width"));
                     log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }
@@ -91,7 +97,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                Settings.Instance["rawparam_" + col.Name + "_widthpercent"] = ((col.Width / (double)Params.Width) * 100.0).ToString("0", CultureInfo.InvariantCulture);
+                // Don't need to save the width of a fill column
+                if (col.AutoSizeMode == DataGridViewAutoSizeColumnMode.Fill) continue;
+
+                // Don't need to save the width of a column that can't be resized
+                if (col.Resizable == DataGridViewTriState.False) continue;
+
+                Settings.Instance["rawparam_" + col.Name + "_width"] = col.Width.ToString("0", CultureInfo.InvariantCulture);
             }
 
             Settings.Instance["rawparam_splitterdistance"] = splitContainer1.SplitterDistance.ToString();
@@ -588,7 +600,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             log.Info("about to add all");
 
-            SuspendParamGridView();
             Params.Visible = false;
 
             Params.Rows.AddRange(rowlist.ToArray());
@@ -600,7 +611,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
 
             Params.Visible = true;
-            ResumeParamGridView();
 
             if (splitContainer1.Panel1Collapsed == false)
             {
@@ -710,7 +720,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         void filterList(string searchfor)
         {
             DateTime start = DateTime.Now;
-            SuspendParamGridView();
+            Params.Visible = false;
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
                 Regex filter = new Regex(searchfor.Replace("*", ".*").Replace("..*", ".*"), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
@@ -759,7 +769,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            ResumeParamGridView();
+            Params.Visible = true;
 
             log.InfoFormat("Filter: {0}ms", (DateTime.Now - start).TotalMilliseconds);
         }
@@ -1166,18 +1176,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 optionsControlUpateBounds();
             }
-        }
-
-        void SuspendParamGridView()
-        {
-            Params.Visible = false;
-            Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        }
-
-        void ResumeParamGridView()
-        {
-            Params.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            Params.Visible = true;
         }
     }
 
