@@ -54,8 +54,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.chk_none_default = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.but_collapse = new MissionPlanner.Controls.MyButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,12 +62,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.but_collapse = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_compare
@@ -209,34 +209,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.treeView1.Name = "treeView1";
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
-            // but_collapse
-            // 
-            resources.ApplyResources(this.but_collapse, "but_collapse");
-            this.but_collapse.Name = "but_collapse";
-            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_collapse.UseVisualStyleBackColor = true;
-            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 11);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable, 0, 16);
-            this.tableLayoutPanel1.Controls.Add(this.chk_none_default, 0, 14);
-            this.tableLayoutPanel1.Controls.Add(this.txt_search, 0, 12);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_load, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_save, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
             // Params
             // 
             this.Params.AllowUserToAddRows = false;
@@ -337,6 +309,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Fav.Name = "Fav";
             this.Fav.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // but_collapse
+            // 
+            resources.ApplyResources(this.but_collapse, "but_collapse");
+            this.but_collapse.Name = "but_collapse";
+            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_collapse.UseVisualStyleBackColor = true;
+            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.chk_none_default, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.txt_search, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_load, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_save, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
             // ConfigRawParams
             // 
             this.Controls.Add(this.splitContainer1);
@@ -347,9 +347,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
 
         }
