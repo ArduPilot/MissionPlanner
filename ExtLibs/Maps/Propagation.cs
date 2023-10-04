@@ -77,6 +77,11 @@ namespace MissionPlanner.Maps
             get => Settings.Instance.GetBoolean("Propagation_Termap");
             set => Settings.Instance["Propagation_Termap"] = value.ToString();
         }
+        public static bool set_alt_min_max
+        {
+            get => Settings.Instance.GetBoolean("Propagation_Setalt");
+            set => Settings.Instance["Propagation_Setalt"] = value.ToString();
+        }
 
         //thread run
         public bool ele_enabled { get; set; }
@@ -199,6 +204,12 @@ namespace MissionPlanner.Maps
                                 ParallelOptions po = new ParallelOptions();
                                 po.CancellationToken = cts.Token;
 
+                                if (set_alt_min_max)
+                                {
+                                    min_alt = Settings.Instance.GetFloat("Propagation_Minalt");
+                                    max_alt = Settings.Instance.GetFloat("Propagation_Maxalt");
+                                }
+
                                 Parallel.ForEach(
                                     Extensions.SteppedRange(res / 2, height + extend + 1 - res, res), po, y =>
                                     {
@@ -220,7 +231,7 @@ namespace MissionPlanner.Maps
                                             {
                                                 alts[x, y] = altresponce.alt;
 
-                                                if (ter_run)
+                                                if (!set_alt_min_max && ter_run)
                                                 {
                                                     if (max_alt < altresponce.alt) max_alt = altresponce.alt;
 
