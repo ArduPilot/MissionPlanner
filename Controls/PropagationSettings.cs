@@ -28,6 +28,12 @@ namespace MissionPlanner.Controls
         private NumericUpDown NUM_height;
         private Label label114;
         private NumericUpDown Tolerance;
+        private NumericUpDown NUM_max;
+        private Label label2;
+        private NumericUpDown NUM_min;
+        private Label label1;
+        private CheckBox chk_setalt;
+        private Label label3;
         private CheckBox chk_ele;
 
         public PropagationSettings()
@@ -43,12 +49,15 @@ namespace MissionPlanner.Controls
             NUM_range.Value = (decimal)Settings.Instance.GetFloat("Propagation_Range", 2.0f);
             NUM_height.Value = (decimal)Settings.Instance.GetFloat("Propagation_Height", 2.0f);
             Tolerance.Value = (decimal)Settings.Instance.GetFloat("Propagation_Tolerance", 0.8f);
+            NUM_min.Value = (decimal)Settings.Instance.GetFloat("Propagation_Minalt", 100.0f);
+            NUM_max.Value = (decimal)Settings.Instance.GetFloat("Propagation_Maxalt", 400.0f);
 
             chk_ele.Checked = Maps.Propagation.ele_run;
             chk_terrain.Checked = Maps.Propagation.ter_run;
             chk_rf.Checked = Maps.Propagation.rf_run;
             chk_homedist.Checked = Maps.Propagation.home_kmleft;
             chk_dronedist.Checked = Maps.Propagation.drone_kmleft;
+            chk_setalt.Checked = Maps.Propagation.set_alt_min_max;
         }
 
         private void InitializeComponent()
@@ -60,6 +69,10 @@ namespace MissionPlanner.Controls
             this.chk_dronedist = new System.Windows.Forms.CheckBox();
             this.chk_homedist = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.NUM_max = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.NUM_min = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.label91 = new System.Windows.Forms.Label();
             this.label89 = new System.Windows.Forms.Label();
             this.Clearance = new System.Windows.Forms.NumericUpDown();
@@ -77,7 +90,11 @@ namespace MissionPlanner.Controls
             this.NUM_height = new System.Windows.Forms.NumericUpDown();
             this.label114 = new System.Windows.Forms.Label();
             this.Tolerance = new System.Windows.Forms.NumericUpDown();
+            this.chk_setalt = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_max)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).BeginInit();
@@ -131,11 +148,16 @@ namespace MissionPlanner.Controls
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.NUM_max);
             this.groupBox1.Controls.Add(this.label91);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label89);
             this.groupBox1.Controls.Add(this.Clearance);
+            this.groupBox1.Controls.Add(this.NUM_min);
             this.groupBox1.Controls.Add(this.label100);
             this.groupBox1.Controls.Add(this.label113);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label109);
             this.groupBox1.Controls.Add(this.CMB_Rotational);
             this.groupBox1.Controls.Add(this.label90);
@@ -151,6 +173,50 @@ namespace MissionPlanner.Controls
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // NUM_max
+            // 
+            this.NUM_max.DecimalPlaces = 1;
+            this.NUM_max.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.NUM_max, "NUM_max");
+            this.NUM_max.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.NUM_max.Name = "NUM_max";
+            this.NUM_max.ValueChanged += new System.EventHandler(this.NUM_max_ValueChanged);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // NUM_min
+            // 
+            this.NUM_min.DecimalPlaces = 1;
+            this.NUM_min.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.NUM_min, "NUM_min");
+            this.NUM_min.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.NUM_min.Name = "NUM_min";
+            this.NUM_min.ValueChanged += new System.EventHandler(this.NUM_min_ValueChanged);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // label91
             // 
@@ -312,9 +378,24 @@ namespace MissionPlanner.Controls
             this.Tolerance.Name = "Tolerance";
             this.Tolerance.ValueChanged += new System.EventHandler(this.Tolerance_ValueChanged);
             // 
+            // chk_setalt
+            // 
+            resources.ApplyResources(this.chk_setalt, "chk_setalt");
+            this.chk_setalt.Checked = true;
+            this.chk_setalt.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chk_setalt.Name = "chk_setalt";
+            this.chk_setalt.UseVisualStyleBackColor = true;
+            this.chk_setalt.CheckedChanged += new System.EventHandler(this.chk_setalt_CheckedChanged);
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
             // PropagationSettings
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.chk_setalt);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.chk_homedist);
             this.Controls.Add(this.chk_dronedist);
@@ -324,6 +405,8 @@ namespace MissionPlanner.Controls
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PropagationSettings";
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_max)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).EndInit();
@@ -391,6 +474,21 @@ namespace MissionPlanner.Controls
         private void Tolerance_ValueChanged(object sender, EventArgs e)
         {
             Settings.Instance["Propagation_Tolerance"] = Tolerance.Value.ToString();
+        }
+
+        private void NUM_min_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Propagation_Minalt"] = NUM_min.Value.ToString();
+        }
+
+        private void NUM_max_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Propagation_Maxalt"] = NUM_max.Value.ToString();
+        }
+
+        private void chk_setalt_CheckedChanged(object sender, EventArgs e)
+        {
+            Maps.Propagation.set_alt_min_max = chk_setalt.Checked;
         }
     }
 }
