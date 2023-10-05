@@ -321,7 +321,7 @@ namespace MissionPlanner.ArduPilot
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
                         null, Color.Orange, 0, MAVLink.MAV_MISSION_TYPE.FENCE);
                 }
-                else if (command >= (ushort)MAVLink.MAV_CMD.RALLY_POINT) // rally
+                else if (command == (ushort)MAVLink.MAV_CMD.RALLY_POINT) // rally
                 {
                     pointlist.Add(new PointLatLngAlt(item.lat, item.lng, 0, (a + 1).ToString()));
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
