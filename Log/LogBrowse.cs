@@ -3802,7 +3802,7 @@ main()
                         var name = file.GetRaw<string>("FileName");
                         var offset = file.GetRaw<uint>("Offset");
                         var length = file.GetRaw<byte>("Length");
-                        var data = file.GetRaw<string>("Data");
+                        var data = file.GetRaw<byte[]>("Data");
 
                         var path = Path.Combine(dir, name);
 
@@ -3813,10 +3813,11 @@ main()
                         {
                             f = File.OpenWrite(path);
                             filehandles.Add(name, f);
+                            f.SetLength(0);
                         }
 
                         f.Seek(offset, SeekOrigin.Begin);
-                        var data2 = data.Select(a => (byte) a).ToArray().MakeSize(length);
+                        var data2 = data.MakeSize(length);
                         f.Write(data2, 0, length);
                     }
 

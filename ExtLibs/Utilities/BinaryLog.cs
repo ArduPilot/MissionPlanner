@@ -545,7 +545,7 @@ namespace MissionPlanner.Utilities
                     return (mode, 1);
 
                 case 'Z':
-                    return (Encoding.ASCII.GetString(message, offset, 64).Trim('\0'), 64);
+                    return (new ReadOnlySpan<byte>(message, offset, 64).ToArray(), 64);
 
                 case 'a':
                     return (new UnionArray(new ReadOnlySpan<byte>(message, offset, 64).ToArray()), 2 * 32);
