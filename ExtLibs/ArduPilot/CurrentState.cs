@@ -1653,10 +1653,17 @@ namespace MissionPlanner
         [DisplayText("Sonar Voltage (Volt)")][GroupText("Sensor")] public float sonarvoltage { get; set; }
 
         [DisplayText("RangeFinder1 (cm)")][GroupText("Sensor")] public uint rangefinder1 { get; set; }
-
         [DisplayText("RangeFinder2 (cm)")][GroupText("Sensor")] public uint rangefinder2 { get; set; }
-
         [DisplayText("RangeFinder3 (cm)")][GroupText("Sensor")] public uint rangefinder3 { get; set; }
+        [DisplayText("RangeFinder4 (cm)")][GroupText("Sensor")] public uint rangefinder4 { get; set; }
+        [DisplayText("RangeFinder5 (cm)")][GroupText("Sensor")] public uint rangefinder5 { get; set; }
+        [DisplayText("RangeFinder6 (cm)")][GroupText("Sensor")] public uint rangefinder6 { get; set; }
+        [DisplayText("RangeFinder7 (cm)")][GroupText("Sensor")] public uint rangefinder7 { get; set; }
+        [DisplayText("RangeFinder8 (cm)")][GroupText("Sensor")] public uint rangefinder8 { get; set; }
+        [DisplayText("RangeFinder9 (cm)")][GroupText("Sensor")] public uint rangefinder9 { get; set; }
+        [DisplayText("RangeFinder10 (cm)")][GroupText("Sensor")] public uint rangefinder10 { get; set; }
+
+
         [GroupText("Software")]
         public float freemem { get; set; }
         [GroupText("Software")] public float load { get; set; }
@@ -2476,11 +2483,16 @@ namespace MissionPlanner
 
                         {
                             var sonar = mavLinkMessage.ToStructure<MAVLink.mavlink_distance_sensor_t>();
-                            if (sonar.id == 0)
-                                rangefinder1 = sonar.current_distance;
-                            else if (sonar.id == 1)
-                                rangefinder2 = sonar.current_distance;
+                            if (sonar.id == 0) rangefinder1 = sonar.current_distance;
+                            else if (sonar.id == 1) rangefinder2 = sonar.current_distance;
                             else if (sonar.id == 2) rangefinder3 = sonar.current_distance;
+                            else if (sonar.id == 3) rangefinder4 = sonar.current_distance;
+                            else if (sonar.id == 4) rangefinder5 = sonar.current_distance;
+                            else if (sonar.id == 5) rangefinder6 = sonar.current_distance;
+                            else if (sonar.id == 6) rangefinder7 = sonar.current_distance;
+                            else if (sonar.id == 7) rangefinder8 = sonar.current_distance;
+                            else if (sonar.id == 8) rangefinder9 = sonar.current_distance;
+                            else if (sonar.id == 9) rangefinder10 = sonar.current_distance;
                         }
 
                         break;
