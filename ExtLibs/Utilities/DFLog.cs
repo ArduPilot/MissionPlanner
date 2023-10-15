@@ -88,7 +88,8 @@ namespace MissionPlanner.Utilities
                             if (a.IsNumber())
                                 return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
                             else
-                                return a?.ToString();
+                                if (a is System.Byte[]) return (System.Text.Encoding.ASCII.GetString(a as byte[]).Trim('\0'));
+                                else return a?.ToString();
                         }).ToArray();
                     }
                     return _items;
