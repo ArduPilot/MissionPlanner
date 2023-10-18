@@ -4745,7 +4745,7 @@ namespace MissionPlanner.GCSViews
             while (total > tableLayoutPanelQuick.Controls.Count)
             {
                 //Variable to Set the name of the quickView Control/s
-                var NameQuickView = $"quickView {(controlCount.Count + 1)}";
+                var NameQuickView = "quickView" +  (controlCount.Count + 1);
 
                 //if the 9 colors are equal in each list, then reset the colors in listQV
                 if ((listQuickView.ToList().OrderBy(x => Name) == colorsForDefaultQuickView.ToList().OrderBy(x => Name)) || (listQuickView.Count == colorsForDefaultQuickView.Length))
