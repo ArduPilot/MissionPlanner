@@ -10,13 +10,17 @@ namespace MissionPlanner
         public static extern int FindWindow(string szClass, string szTitle);
 
         [DllImport("user32.dll")]
-        public static extern int ShowWindow(int Handle, int showState);
+        public static extern bool ShowWindow(IntPtr Handle, int showState);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr RegisterDeviceNotification
         (IntPtr hRecipient,
             IntPtr NotificationFilter,
             Int32 Flags);
+
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetConsoleWindow();
 
         // Import SetThreadExecutionState Win32 API and necessary flags
 
