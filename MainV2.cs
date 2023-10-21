@@ -879,8 +879,8 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    int win = NativeMethods.FindWindow("ConsoleWindowClass", null);
-                    NativeMethods.ShowWindow(win, NativeMethods.SW_HIDE); // hide window
+                    NativeMethods.ShowWindow(NativeMethods.GetConsoleWindow(), NativeMethods.SW_HIDE);
+
                 }
 
                 // prevent system from sleeping while mp open
