@@ -376,6 +376,15 @@
       <Y></Y>
       <Z></Z>
     </SCRIPT_TIME>
+    <DO_SEND_SCRIPT_MESSAGE>
+      <P1>ID</P1>
+      <P2>P1</P2>
+      <P3>P2</P3>
+      <P4>P3</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SEND_SCRIPT_MESSAGE>
     <DO_VTOL_TRANSITION>
       <P1>mode (3=mc/4=plane)</P1>
       <P2></P2>
