@@ -812,6 +812,13 @@ namespace MissionPlanner.Utilities
                             }
                             catch { }
 
+                            ushort squawk = 0;
+                            try
+                            {
+                                squawk = ushort.Parse(strArray[17]); // Squawk transponder code
+                            }
+                            catch { }
+
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
 
                             if (Planes[hex_ident] == null)
@@ -827,7 +834,8 @@ namespace MissionPlanner.Utilities
                                 double METERS_PER_FOOT = 3.28;
                                 PointLatLngAltHdg plln = new PointLatLngAltHdg(lat, lon, altitude / METERS_PER_FOOT, (float)plane.heading, plane.ground_speed, hex_ident, DateTime.Now)
                                 {
-                                    CallSign = plane.CallSign
+                                    CallSign = plane.CallSign,
+                                    Squawk = squawk
                                 };
                                 UpdatePlanePosition(null, plln);
                             }
