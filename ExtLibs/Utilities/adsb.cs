@@ -823,7 +823,14 @@ namespace MissionPlanner.Utilities
                                 continue;
 
                             if (UpdatePlanePosition != null && plane != null)
-                                UpdatePlanePosition(null, new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, -1 , hex_ident, DateTime.Now));
+                            {
+                                double METERS_PER_FOOT = 3.28;
+                                PointLatLngAltHdg plln = new PointLatLngAltHdg(lat, lon, altitude / METERS_PER_FOOT, (float)plane.heading, plane.ground_speed, hex_ident, DateTime.Now)
+                                {
+                                    CallSign = plane.CallSign
+                                };
+                                UpdatePlanePosition(null, plln);
+                            }
                         }
                         else if (strArray[1] == "4")
                         {
