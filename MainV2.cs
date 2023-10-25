@@ -38,6 +38,10 @@ using System.Linq;
 using MissionPlanner.Joystick;
 using System.Net;
 using Newtonsoft.Json;
+using MissionPlanner;
+using Flurl.Util;
+using Org.BouncyCastle.Bcpg;
+using log4net.Repository.Hierarchy;
 
 namespace MissionPlanner
 {
@@ -511,6 +515,8 @@ namespace MissionPlanner
 
         bool joystickthreadrun = false;
 
+        bool adsbThread = false;
+
         Thread httpthread;
         Thread pluginthread;
 
@@ -518,6 +524,16 @@ namespace MissionPlanner
         /// track the last heartbeat sent
         /// </summary>
         private DateTime heatbeatSend = DateTime.Now;
+
+        /// <summary>
+        /// track the last ads-b send time
+        /// </summary>
+        private DateTime adsbSend = DateTime.Now;
+        /// <summary>
+        /// track the adsb plane index we're round-robin sending
+        /// starts at -1 because it'll get incremented before sending
+        /// </summary>
+        private int adsbIndex = -1;
 
         /// <summary>
         /// used to call anything as needed.
@@ -1262,6 +1278,7 @@ namespace MissionPlanner
                     ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Squawk = adsb.Squawk;
                     ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Raw = adsb.Raw;
                     ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Speed = adsb.Speed;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Source = sender;
                 }
                 else
                 {
@@ -1270,37 +1287,8 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender};
                 }
-            }
-
-            try
-            {
-                // dont rebroadcast something that came from the drone
-                if (sender != null && sender is MAVLinkInterface)
-                    return;
-
-                MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
-
-                packet.altitude = (int) (adsb.Alt * 1000);
-                packet.altitude_type = (byte) MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
-                packet.callsign = adsb.CallSign.MakeBytes();
-                packet.squawk = adsb.Squawk;
-                packet.emitter_type = (byte) MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
-                packet.heading = (ushort) (adsb.Heading * 100);
-                packet.lat = (int) (adsb.Lat * 1e7);
-                packet.lon = (int) (adsb.Lng * 1e7);
-                packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
-
-                packet.flags = (ushort) (MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
-                                            MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
-
-                //send to current connected
-                MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-            }
-            catch
-            {
-
             }
         }
 
@@ -2130,6 +2118,10 @@ namespace MissionPlanner
             log.Info("closing serialthread");
 
             serialThread = false;
+
+            log.Info("closing adsbthread");
+
+            adsbThread = false;
 
             log.Info("closing joystickthread");
 
@@ -3122,7 +3114,66 @@ namespace MissionPlanner
             SerialThreadrunner.Set();
         }
 
-        protected override void OnLoad(EventArgs e)
+        ManualResetEvent ADSBThreadRunner = new ManualResetEvent(false);
+
+        /// <summary>
+        /// adsb periodic send thread
+        /// TODO: Set distance, delay & num planes in settings
+
+        /// </summary>
+        private async void ADSBRunner()
+        {
+            if (adsbThread)
+                return;
+            adsbThread = true;
+            ADSBThreadRunner.Reset();
+            while (adsbThread)
+            {
+                await Task.Delay(1000).ConfigureAwait(false); // run every 1000 mss
+                PointLatLngAlt ourLocation = comPort.MAV.cs.Location;
+                // Get only close planes, sorted by distance
+                var relevantPlanes = MainV2.instance.adsbPlanes.Select(v => new { v, Distance = v.Value.GetDistance(ourLocation) })
+                    .Where(v => v.Distance < 15000)
+                    .Where(v => !(v.v.Value.Source is MAVLinkInterface))
+                    .OrderBy(v => v.Distance)
+                    //.Select(v => v.v.Value)
+                    .Take(10)
+                    .ToList();
+                log.InfoFormat("Evalulating {0} top planes from {1} known...\n", relevantPlanes.Count, MainV2.instance.adsbPlanes.Count);
+
+                // this can be cleaned up dramatically when we no longer want to debug print distances
+                adsbIndex = (++adsbIndex % 10);
+                var adsbWhole = relevantPlanes.ElementAtOrDefault(adsbIndex);
+                if (adsbWhole == null)
+                {
+                    continue;
+                }
+                var adsb = adsbWhole.v.Value;
+
+                log.InfoFormat("Sending ADSB plane at index {0}: {1} {2} meters away\n", adsbIndex, adsb.CallSign, adsbWhole.Distance);
+
+                MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
+                packet.altitude = (int)(adsb.Alt * 1000);
+                packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
+                packet.callsign = adsb.CallSign.MakeBytes();
+                packet.squawk = adsb.Squawk;
+                packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.heading = (ushort)(adsb.Heading * 100);
+                packet.lat = (int)(adsb.Lat * 1e7);
+                packet.lon = (int)(adsb.Lng * 1e7);
+                packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
+
+                packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                                            MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+
+                //send to current connected
+                MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+            }
+            
+        }
+
+
+protected override void OnLoad(EventArgs e)
         {
             // check if its defined, and force to show it if not known about
             if (Settings.Instance["menu_autohide"] == null)
@@ -3218,6 +3269,16 @@ namespace MissionPlanner
             {
                 // setup main serial reader
                 SerialReader();
+            }
+            catch (NotSupportedException ex)
+            {
+                log.Error(ex);
+            }
+
+            log.Info("start adsbsender");
+            try
+            {
+                ADSBRunner();
             }
             catch (NotSupportedException ex)
             {

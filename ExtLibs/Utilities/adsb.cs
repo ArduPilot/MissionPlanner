@@ -1199,6 +1199,7 @@ namespace MissionPlanner.Utilities
             
             public double Speed { get; set; }
             public object Raw { get; set; }
+            public object Source { get; set; }
         }
     }
 }
