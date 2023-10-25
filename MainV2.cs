@@ -3141,8 +3141,8 @@ namespace MissionPlanner
                     .ToList();
                 log.InfoFormat("Evalulating {0} top planes from {1} known...\n", relevantPlanes.Count, MainV2.instance.adsbPlanes.Count);
 
-                // this can be cleaned up dramatically when we no longer want to debug print distances
-                adsbIndex = (++adsbIndex % 10);
+                adsbIndex = (++adsbIndex % Math.Max(1, Math.Min(relevantPlanes.Count, 10)));
+                // this can be cleaned up dramatically when we no longer want to debug print distances; uncomment select above
                 var adsbWhole = relevantPlanes.ElementAtOrDefault(adsbIndex);
                 if (adsbWhole == null)
                 {
