@@ -63,6 +63,10 @@ namespace MissionPlanner.GCSViews
         NumericUpDown FuelTankSize = new NumericUpDown { Visible = false };
         //Button to set the fuel tank size
         MyButton FuelTankSizeButton = new MyButton { Visible = false };
+        //variable for setting fuel density of the fuel used - used in calculation for the fuel consumption in mililitres
+        decimal EFIFuelDensity = 0;
+        //Button to set the fuel density
+        MyButton EFIFuelDensityButton = new MyButton { Visible = false };        
         //Vertical progress bar used for the fuel gauge
         VerticalProgressBar2 FuelGaugeBar = new VerticalProgressBar2 { Visible = false, Enabled = false, BackgroundColor = Color.DarkSlateGray, Text = string.Empty, ValueColor = Color.DarkSlateGray };
         //Tooltip for Fuel Gauge
@@ -85,7 +89,12 @@ namespace MissionPlanner.GCSViews
         decimal MillilitresOfFuelRemaining = 0;
         //Variable count for displaying/hiding the fuel bar only
         int displayFuelBar = 0;
-
+        //Input Field for the fuel density value
+        NumericUpDown FuelDensityInput = new NumericUpDown();
+        //Button for the fuel density form
+        Button SetDensityButton = new Button();
+        //Bool for Fuel Density
+        bool FuelDensityClicked = false;
         //Dropout HUD Form
         Form dropoutHUDForm = new Form();
 
@@ -2658,6 +2667,8 @@ namespace MissionPlanner.GCSViews
             hud1.doResize();
             //Tool strip menu item click event handler for Fuel Gauge
             FuelGaugeToolStripMenuItem.Click += new EventHandler(FuelGaugeContextMenuStripItem_Click);
+            //Fuel density button eventhandler
+            EFIFuelDensityButton.Click += new EventHandler(SetFuelDensity_Click);
             prop = new Propagation(gMapControl1);
 
             splitContainer1.Panel1Collapsed = true;
@@ -5940,6 +5951,10 @@ namespace MissionPlanner.GCSViews
             //Set location and size for fuel gauge button
             FuelGaugeButton.Location = new Point(FuelTankSizeButton.Location.X, FuelTankSizeButton.Bottom + 2);
             FuelGaugeButton.Size = FuelTankSizeButton.Size;
+            //Size and location for the fuel density button
+            var fuelDensityButtonLocationX = FuelTankSizeButton.Location.X - (int)(FuelTankSizeButton.Width*0.8) - 3;
+            EFIFuelDensityButton.Location = new Point((int)(fuelDensityButtonLocationX), (int)(3));
+            EFIFuelDensityButton.Size = new Size((int)(0.8 * FuelTankSizeButton.Width),(int)(FuelTankSizeButton.Height));
         }
         private void PersistentPanelFuelGaugeControls_Resize(object sender, EventArgs e)
         {
@@ -5957,6 +5972,7 @@ namespace MissionPlanner.GCSViews
             FuelGaugeBar.Update();
             FuelGaugeBar.Invalidate();
             FuelGaugeBar.Visible = false;
+            EFIFuelDensityButton.Visible = false;
             //Set the display fuel bar int value to 0 when hiding the fuel gauge - this is to ensure when the button to display the fuel gauge is clicked, the ShowFuelGauge() method will be used.
             displayFuelBar = 0;
             //Set the back colour of the strip menu item for when the Fuel Gaugeis no displaying
@@ -5965,8 +5981,12 @@ namespace MissionPlanner.GCSViews
         private void DisArmedStatusFuelGauge()
         {
             //Enable controls
-            FuelTankSizeButton.Enabled = true;
-            FuelTankSize.Enabled = true;
+            if (FuelDensityClicked == true)
+            {
+                FuelTankSizeButton.Enabled = true;
+                FuelTankSize.Enabled = true;
+            }
+            EFIFuelDensityButton.Enabled = true;
         }
         private void ArmedStatusFuelGauge()
         {
@@ -5974,6 +5994,7 @@ namespace MissionPlanner.GCSViews
             FuelTankSizeButton.Enabled = false;
             FuelTankSize.Enabled = false;
             FuelInTank.Enabled = false;
+            EFIFuelDensityButton.Enabled = false;
             //Keep the Fuel gauge button enabled so the user will be able to show/hide the bar on the hud while the vehicle is armed
             FuelGaugeButton.Enabled = true;
         }
@@ -5994,8 +6015,17 @@ namespace MissionPlanner.GCSViews
             var isitarmed = MainV2.comPort.MAV.cs.armed;
             if (!isitarmed)
             {
-                FuelTankSizeButton.Enabled = true;
-                FuelTankSize.Enabled = true;
+                //If the fuel density button has been clicked, then can make the tank size controls enabled to use
+                if (FuelDensityClicked)
+                {
+                    FuelTankSizeButton.Enabled = true;
+                    FuelTankSize.Enabled = true;
+                }
+                else
+                {
+                    FuelTankSizeButton.Enabled = false;
+                    FuelTankSize.Enabled = false;
+                }
             }
             else if (isitarmed)
             {
@@ -6015,11 +6045,17 @@ namespace MissionPlanner.GCSViews
             //Set the fuel in tank input to false and display the field
             FuelInTank.Enabled = false;
             FuelInTank.Visible = true;
+            //Setup fuel density button
+            EFIFuelDensityButton.Enabled = true;
+            EFIFuelDensityButton.Visible = true;
+            EFIFuelDensityButton.Text = "Set Fuel Density";
+            EFIFuelDensityButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 6);
             //Set Tool Tips for the controls on the persistent panel
             FuelGaugeToolTip.SetToolTip(FuelGaugeButton, "Fuel set in milliliters");
             FuelGaugeToolTip.SetToolTip(FuelTankSizeButton, "Fuel set in milliliters");
             FuelGaugeToolTip.SetToolTip(FuelTankSize, "Fuel set in milliliters");
             FuelGaugeToolTip.SetToolTip(FuelInTank, "Fuel set in milliliters");
+            FuelGaugeToolTip.SetToolTip(EFIFuelDensityButton, "Set fuel Density (g)");
             //Display and add the controls to the persistent panel
             FuelInTank.Show();
             FuelInTank.BringToFront();
@@ -6036,11 +6072,16 @@ namespace MissionPlanner.GCSViews
             FuelTankSize.Show();
             FuelTankSize.BringToFront();
             FuelTankSize.Update();
-            FuelTankSize.Invalidate();
+            FuelTankSize.Invalidate();            
+            EFIFuelDensityButton.Show();
+            EFIFuelDensityButton.BringToFront();
+            EFIFuelDensityButton.Update();
+            EFIFuelDensityButton.Invalidate();            
             MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelInTank);
             MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelGaugeButton);
             MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelTankSize);
             MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelTankSizeButton);
+            MainV2.instance.FlightData.panel_persistent.Controls.Add(EFIFuelDensityButton);
         }
         private void UpdateTenPercentLine()
         {
@@ -6325,7 +6366,7 @@ namespace MissionPlanner.GCSViews
             var dataSource = MainV2.comPort.MAV.cs.efi_fuelconsumed;
             decimal value = Convert.ToDecimal(dataSource);
             //Variable for the Ratio conversion: grams/Litre 1000/736
-            decimal ratioValue = Convert.ToDecimal(1.358695652173913);
+            decimal ratioValue = Math.Round(Convert.ToDecimal(Math.Round(Convert.ToDecimal(1000),2) / Math.Round(Convert.ToDecimal(EFIFuelDensity),2)),15);
             //Formula to calculate the amount of litres that the data source is from (efi_fuelconsumed)
             decimal millilitresOfFuelConsumed = Math.Round(Convert.ToDecimal((value * ratioValue)), 2);
             //Total fuel input capacity below is the value of the input field value of fuel added into the fuel tank
@@ -6477,6 +6518,77 @@ namespace MissionPlanner.GCSViews
                 DisArmedStatusFuelGauge();
             }
         }
+        //Function: Set the Fuel Density Value in grams into the EFI Fuel Density variable
+        private void SetFuelDensityValue()
+        {
+            //Set the fuel density input variable
+            EFIFuelDensity = (FuelDensityInput.Value);
+            FuelDensityClicked = true;
+            FuelGaugeToolTip.SetToolTip(EFIFuelDensityButton, "Fuel density set to: " + EFIFuelDensity + " grams");
+            return;
+        }        
+        private void SetDensityValueGrams(object sender, EventArgs e)
+        {
+            SetFuelDensityValue();
+        }
+        private void FuelDensity_ValueChanged(object sender, EventArgs e)
+        {
+            //Enable the button if the density input value is greater than 0
+            if (FuelDensityInput.Value<=0)
+            {
+                SetDensityButton.Enabled = false;                
+            }
+            else if (FuelDensityInput.Value>0)
+            {
+                SetDensityButton.Enabled = true;
+            }
+        }
+        private void FuelDensity_KeyDown(object sender, KeyEventArgs k)
+        {
+            //If the enter button is pressed, make the fuel in tank maximum value equal to the fuelTankSize value
+            if (k.KeyValue == (char)Keys.Enter)
+            {
+                SetFuelDensityValue();
+                return;
+            }
+        }
+        private void SetFuelDensity_Click(object sender, EventArgs e)
+        {
+            //Setup the Fuel Density form
+            Form DensityForm = new Form();
+            DensityForm.Name = $"Fuel Density";
+            DensityForm.Text = DensityForm.Name;
+            DensityForm.Size = new System.Drawing.Size(315, 170);
+            DensityForm.MinimumSize = DensityForm.Size;
+            DensityForm.MaximumSize = DensityForm.Size;
+            //DensityForm.MaximumSize = DensityForm.Size;
+            //Setup the label text for the form
+            RichTextBox rtxFuelDensity = new RichTextBox();
+            rtxFuelDensity.Text = "Set the weight per litre of the fuel being used, in grams, for the fuel consumption calculation.\n(This will be the same value as the EFI_FUEL_DENS parameter set in the configuration settings)\nThis value only needs to be reset when Mission Planner is reopened.";
+            //lblFuelDensity.ForeColor = Color.Black;
+            rtxFuelDensity.SelectionColor = Color.Black;
+            rtxFuelDensity.Font = new Font(rtxFuelDensity.Font.FontFamily, 9);
+            rtxFuelDensity.Location = new Point(2, 1);
+            rtxFuelDensity.Size = new Size(DensityForm.Width-21,90);
+            rtxFuelDensity.ReadOnly = true;
+            //Setup the input - fuel density field
+            FuelDensityInput.Size = new System.Drawing.Size(80, 20);
+            FuelDensityInput.Location = new System.Drawing.Point(75, 100);
+            FuelDensityInput.Maximum = 10000;            
+            //Setup the Button - set the fuel density
+            SetDensityButton.AutoSize = true;
+            SetDensityButton.Text = $"Set";
+            SetDensityButton.Enabled = true;
+            var locationButton = new System.Drawing.Point((int)(FuelDensityInput.Location.X + FuelDensityInput.Width+5), (int)(100));
+            SetDensityButton.Location = locationButton;
+            SetDensityButton.Size = FuelDensityInput.Size;
+            //Add controls to the Fue Density Form
+            DensityForm.Controls.Add(FuelDensityInput);
+            DensityForm.Controls.Add(SetDensityButton);
+            DensityForm.Controls.Add(rtxFuelDensity);            
+            DensityForm.ShowDialog();
+            return;
+        }
         private void FuelGaugeContextMenuStripItem_Click(object sender, EventArgs e)
         {
             //Make the presistent panel visible
@@ -6503,6 +6615,11 @@ namespace MissionPlanner.GCSViews
             }
             //Display the controls on the persistent panel for the fuel gauge
             ControlDimensions();
+            //Value Change EventHandler
+            FuelDensityInput.ValueChanged += new EventHandler(FuelDensity_ValueChanged);
+            //Fuel Density button click event handler
+            SetDensityButton.Click += new EventHandler(SetDensityValueGrams);
+            FuelDensityInput.KeyDown += new KeyEventHandler(FuelDensity_KeyDown);
             //Fuel tank size and fuel in tank inputs value changed event handlers
             FuelInTank.ValueChanged += new EventHandler(FuelinTank_ValueChanged);
             FuelTankSize.ValueChanged += new EventHandler(FuelTankSize_ValueChanged);
@@ -6536,6 +6653,7 @@ namespace MissionPlanner.GCSViews
             FuelGaugeMessageBoxTimer.Tick += new EventHandler(MessageBoxTimer_Tick);
             //Minimum size of the persistent panel
             MainV2.instance.FlightData.panel_persistent.MinimumSize = new System.Drawing.Size(0, 35);
+            return;
         }
         private void hud1_Load(object sender, EventArgs e)
         {
