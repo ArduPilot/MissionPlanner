@@ -890,7 +890,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var server = "127.0.0.1";
                 if (Settings.Instance["adsbserver"] != null)
                     server = Settings.Instance["adsbserver"];
-                if (DialogResult.Cancel == InputBox.Show("Server", "Server IP?", ref server))
+                if (DialogResult.Cancel == InputBox.Show("Server", "Server IP? (Empty if using built-in ADSB API)", ref server))
                     return;
                 Settings.Instance["adsbserver"] = server;
 

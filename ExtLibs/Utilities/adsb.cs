@@ -10,6 +10,7 @@ using log4net;
 using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static MissionPlanner.Utilities.rtcm3;
 
 
 namespace MissionPlanner.Utilities
@@ -40,6 +41,23 @@ namespace MissionPlanner.Utilities
         public static int serverport = 0;
 
         private static int adsbexchangerange = 100;
+
+        /// <summary>
+        /// Multiplication constant to convert knots to cm/s
+        /// </summary>
+        private const double KNOTS_TO_CMS = 51.444;
+        /// <summary>
+        /// Multiplication constant to convert feet to meters
+        /// </summary>
+        private const double FEET_TO_METERS = 1.0d / 3.28d;
+        /// <summary>
+        /// Multiplication constant to convert feet/mim to cm/s
+        /// </summary>
+        private const double FTM_TO_CMS = 1.0d / 1.968d;
+        /// <summary>
+        /// Timeout in milliseconds for ADS-B connections to default endpoints
+        /// </summary>
+        private const int CONNECT_TIMEOUT_MILLISECONDS = 50;
 
         public adsb()
         {
@@ -100,7 +118,7 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-
+                        cl.ReceiveTimeout = 1000;
                         cl.Connect(System.Net.IPAddress.Loopback, 30003);
 
                         log.Info("Connected loopback:30003");
@@ -115,7 +133,7 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-
+                        cl.ReceiveTimeout = 1000;
                         cl.Connect(System.Net.IPAddress.Loopback, 30002);
 
                         log.Info("Connected loopback:30002");
@@ -131,7 +149,7 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-
+                        cl.ReceiveTimeout = 1000;
                         cl.Connect(System.Net.IPAddress.Loopback, 31004);
 
                         log.Info("Connected loopback:31004");
@@ -146,7 +164,7 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-
+                        cl.ReceiveTimeout = 1000;
                         cl.Connect(System.Net.IPAddress.Loopback, 31001);
 
                         log.Info("Connected loopback:31001");
@@ -162,7 +180,7 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-
+                        cl.ReceiveTimeout = 1000;
                         cl.Connect(System.Net.IPAddress.Loopback, 47806);
 
                         log.Info("Connected loopback:47806");
@@ -175,41 +193,55 @@ namespace MissionPlanner.Utilities
                 // adsbexchange
                 try
                 {
-
                     if (CurrentPosition != PointLatLngAlt.Zero)
                     {
-                        string url =
-                            "http://public-api.adsbexchange.com/VirtualRadar/AircraftList.json?lat={0}&lng={1}&fDstL=0&fDstU={2}";
-                        string path = Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "adsb.json";
-                        var ans = Download.getFilefromNet(String.Format(url, CurrentPosition.Lat, CurrentPosition.Lng, adsbexchangerange),
-                            path);
+                        string url = "https://api.adsb.one/v2/point/{0}/{1}/{2}";
+                        var t = Download.GetAsync(String.Format(url, CurrentPosition.Lat, CurrentPosition.Lng, adsbexchangerange));
+                        t.Wait();
 
-                        if (ans)
+                        if (!t.IsFaulted)
                         {
-                            var result = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(path));
+                            var result = JsonConvert.DeserializeObject<RootObject>(t.Result);
 
-                            if (result.acList.Count < 1)
-                                adsbexchangerange = Math.Min(adsbexchangerange + 10, 400);
+                            if (result.ac.Count < 1)
+                                adsbexchangerange = Math.Min(adsbexchangerange + 10, 250);
 
-                            foreach (var acList in result.acList)
+                            foreach (var ac in result.ac)
                             {
-                                var plane = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(acList.Lat, acList.Long,
-                                    acList.Alt * 0.3048,
-                                    (float) acList.Trak, acList.Spd, acList.Icao, DateTime.Now);
+                                // The API sometimes sets this value to either the string "ground" or a JSON Number. This handles that.
+                                int alt = 0;
+                                if (ac.alt_baro is long intValue)
+                                {
+                                    alt = (int)intValue;
+                                }
+                                var plane = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(ac.lat,
+                                    ac.lon,
+                                    alt * FEET_TO_METERS,
+                                    (float)ac.track,
+                                    ac.gs * KNOTS_TO_CMS,
+                                    ac.hex.Trim().ToUpper(),
+                                    DateTime.Now)
+                                {
+                                    VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
+                                    CallSign = (ac.flight ?? "").Trim().ToUpper(),
+                                    Squawk = Convert.ToUInt16(ac.squawk)
+                                };
 
                                 UpdatePlanePosition(null, plane);
                             }
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    log.Warn(e);
+                    throw e;
 
                 }
 
                 // cleanup any sockets that might be outstanding.
                 GC.Collect();
-                System.Threading.Thread.Sleep(5000);
+                System.Threading.Thread.Sleep(2500);
             }
 
             log.Info("adsb thread exit");
@@ -222,78 +254,62 @@ namespace MissionPlanner.Utilities
             public bool polarPlot { get; set; }
         }
 
-        public class AcList
+        public class Ac
         {
-            public int Id { get; set; }
-            public int Rcvr { get; set; }
-            public bool HasSig { get; set; }
-            public int Sig { get; set; }
-            public string Icao { get; set; }
-            public bool Bad { get; set; }
-            public string Reg { get; set; }
-            public string FSeen { get; set; }
-            public int TSecs { get; set; }
-            public int CMsgs { get; set; }
-            public int Alt { get; set; }
-            public int GAlt { get; set; }
-            public double InHg { get; set; }
-            public int AltT { get; set; }
-            public string Call { get; set; }
-            public double Lat { get; set; }
-            public double Long { get; set; }
-            public string PosTime { get; set; }
-            public bool Mlat { get; set; }
-            public bool Tisb { get; set; }
-            public double Spd { get; set; }
-            public double Trak { get; set; }
-            public bool TrkH { get; set; }
-            public string Type { get; set; }
-            public string Mdl { get; set; }
-            public string Man { get; set; }
-            public string CNum { get; set; }
-            public string Op { get; set; }
-            public string OpIcao { get; set; }
-            public string Sqk { get; set; }
-            public int Vsi { get; set; }
-            public int VsiT { get; set; }
-            public double Dst { get; set; }
-            public double Brng { get; set; }
-            public int WTC { get; set; }
-            public int Species { get; set; }
-            public string Engines { get; set; }
-            public int EngType { get; set; }
-            public int EngMount { get; set; }
-            public bool Mil { get; set; }
-            public string Cou { get; set; }
-            public bool HasPic { get; set; }
-            public bool Interested { get; set; }
-            public int FlightsCount { get; set; }
-            public bool Gnd { get; set; }
-            public int SpdTyp { get; set; }
-            public bool CallSus { get; set; }
-            public int Trt { get; set; }
-            public string Year { get; set; }
-            public string From { get; set; }
-            public string To { get; set; }
-            public bool? Help { get; set; }
+            public string hex { get; set; }
+            public string type { get; set; }
+            public string r { get; set; }
+            public string t { get; set; }
+            public string desc { get; set; }
+            public string ownOp { get; set; }
+            public string year { get; set; }
+            public object alt_baro { get; set; }
+            public double gs { get; set; }
+            public double track { get; set; }
+            public int baro_rate { get; set; }
+            public string squawk { get; set; }
+            public string category { get; set; }
+            public double lat { get; set; }
+            public double lon { get; set; }
+            public int nic { get; set; }
+            public int rc { get; set; }
+            public double seen_pos { get; set; }
+            public int version { get; set; }
+            public int nic_baro { get; set; }
+            public int nac_p { get; set; }
+            public int nac_v { get; set; }
+            public int sil { get; set; }
+            public string sil_type { get; set; }
+            public List<object> mlat { get; set; }
+            public List<object> tisb { get; set; }
+            public int messages { get; set; }
+            public double seen { get; set; }
+            public double rssi { get; set; }
+            public double dst { get; set; }
+            public double dir { get; set; }
+            public string flight { get; set; }
+            public int? alt_geom { get; set; }
+            public string emergency { get; set; }
+            public double? nav_qnh { get; set; }
+            public int? nav_altitude_mcp { get; set; }
+            public double? nav_heading { get; set; }
+            public int? gva { get; set; }
+            public int? sda { get; set; }
+            public int? alert { get; set; }
+            public int? spi { get; set; }
+            public int? geom_rate { get; set; }
         }
 
         public class RootObject
         {
-            public int src { get; set; }
-            public List<Feed> feeds { get; set; }
-            public int srcFeed { get; set; }
-            public bool showSil { get; set; }
-            public bool showFlg { get; set; }
-            public bool showPic { get; set; }
-            public int flgH { get; set; }
-            public int flgW { get; set; }
-            public List<AcList> acList { get; set; }
-            public int totalAc { get; set; }
-            public string lastDv { get; set; }
-            public int shtTrlSec { get; set; }
-            public long stm { get; set; }
+            public List<Ac> ac { get; set; }
+            public string msg { get; set; }
+            public long now { get; set; }
+            public int total { get; set; }
+            public long ctime { get; set; }
+            public int ptime { get; set; }
         }
+
 
         static Hashtable Planes = new Hashtable();
 
@@ -314,7 +330,9 @@ namespace MissionPlanner.Utilities
             double reflat = -34.988;
             double reflng = 117.8574;
 
+            // Heading in degrees, 0 is north
             public double heading = 0;
+            // Horizontal ground speed in cm/s
             internal int ground_speed;
 
             public Plane()
@@ -762,7 +780,7 @@ namespace MissionPlanner.Utilities
                             PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
                             plla.Heading = (float)plane.heading;
                             if (plane.CallSign != null) plla.CallSign = plane.CallSign;
-                            plla.Speed = (float)plane.ground_speed;
+                            plla.Speed = (float)plane.ground_speed * KNOTS_TO_CMS;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
@@ -796,6 +814,7 @@ namespace MissionPlanner.Utilities
                             {
                                 // H = HAE
                                 altitude = (int)double.Parse(strArray[11].TrimEnd('H','h'), CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
+                                altitude = (int)((double)altitude * FEET_TO_METERS);
                             }
                             catch { }
                            
@@ -809,6 +828,12 @@ namespace MissionPlanner.Utilities
                             try
                             {
                                 lon = double.Parse(strArray[15], CultureInfo.InvariantCulture);//Float. Longitude 
+                            }
+                            catch { }
+                            int vspeed = 0;
+                            try
+                            {
+                                vspeed = (int)(int.Parse(strArray[16]) * FTM_TO_CMS);
                             }
                             catch { }
 
@@ -831,11 +856,11 @@ namespace MissionPlanner.Utilities
 
                             if (UpdatePlanePosition != null && plane != null)
                             {
-                                double METERS_PER_FOOT = 3.28;
-                                PointLatLngAltHdg plln = new PointLatLngAltHdg(lat, lon, altitude / METERS_PER_FOOT, (float)plane.heading, plane.ground_speed, hex_ident, DateTime.Now)
+                                PointLatLngAltHdg plln = new PointLatLngAltHdg(lat, lon, altitude, (float)plane.heading, plane.ground_speed, hex_ident, DateTime.Now)
                                 {
                                     CallSign = plane.CallSign,
-                                    Squawk = squawk
+                                    Squawk = squawk,
+                                    VerticalSpeed = vspeed
                                 };
                                 UpdatePlanePosition(null, plln);
                             }
@@ -858,12 +883,12 @@ namespace MissionPlanner.Utilities
                             {
                                 int ground_speed = (int)double.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
 
-                                ((Plane)Planes[hex_ident]).ground_speed = ground_speed;//Integer. Ground track angle. 
+                                ((Plane)Planes[hex_ident]).ground_speed = (int)((double)ground_speed * KNOTS_TO_CMS); // knots -> cm/s
                             }
                             catch { }
                             try
                             {
-                                ((Plane)Planes[hex_ident]).heading = (int)double.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
+                                ((Plane)Planes[hex_ident]).heading = (int)double.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer degrees, 0 = N. Ground track angle. 
                             }
                             catch { }
 
@@ -1133,7 +1158,7 @@ namespace MissionPlanner.Utilities
                         Console.WriteLine("vel " + ewvel + " " + nsvel + " " + cog + " gs " + _gs);
 
                         ((Plane)Planes[adsbmess.AA.ToString("X5")]).heading = (cog + 360) % 360;
-                        ((Plane)Planes[adsbmess.AA.ToString("X5")]).ground_speed = (int) _gs;
+                        ((Plane)Planes[adsbmess.AA.ToString("X5")]).ground_speed = (int)(_gs * KNOTS_TO_CMS);
 
                         break;
                 }
@@ -1185,6 +1210,9 @@ namespace MissionPlanner.Utilities
                 this.Speed = speed;
             }
 
+            /// <summary>
+            /// Heading in degrees, 0 = north
+            /// </summary>
             public float Heading { get; set; }
 
             public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel { get; set; }
@@ -1196,8 +1224,15 @@ namespace MissionPlanner.Utilities
             public string CallSign { get; set; } = "";
 
             public ushort Squawk { get; set; }
-            
+
+            /// <summary>
+            /// Horizontal ground speed in cm/s
+            /// </summary>
             public double Speed { get; set; }
+            /// <summary>
+            /// Vertical speed in cm/s, positive = ascent
+            /// </summary>
+            public double VerticalSpeed { get; set; }
             public object Raw { get; set; }
             public object Source { get; set; }
         }

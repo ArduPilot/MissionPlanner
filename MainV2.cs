@@ -42,6 +42,9 @@ using MissionPlanner;
 using Flurl.Util;
 using Org.BouncyCastle.Bcpg;
 using log4net.Repository.Hierarchy;
+using System.Numerics;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using static MAVLink;
 
 namespace MissionPlanner
 {
@@ -1268,17 +1271,26 @@ namespace MissionPlanner
 
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
+                    var plane = (adsb.PointLatLngAltHdg)instance.adsbPlanes[id];
+                    if (plane.Source == null && sender != null)
+                    {
+                        log.InfoFormat("Ingoring UpdatePlanePosition for {0}", adsb.CallSign);
+                        return;
+                    }
+
                     // update existing
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lat = adsb.Lat;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lng = adsb.Lng;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Alt = adsb.Alt;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Heading = adsb.Heading;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Time = DateTime.Now;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).CallSign = adsb.CallSign;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Squawk = adsb.Squawk;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Raw = adsb.Raw;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Speed = adsb.Speed;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Source = sender;
+                    plane.Lat = adsb.Lat;
+                    plane.Lng = adsb.Lng;
+                    plane.Alt = adsb.Alt;
+                    plane.Heading = adsb.Heading;
+                    plane.Time = DateTime.Now;
+                    plane.CallSign = adsb.CallSign;
+                    plane.Squawk = adsb.Squawk;
+                    plane.Raw = adsb.Raw;
+                    plane.Speed = adsb.Speed;
+                    plane.VerticalSpeed = adsb.VerticalSpeed;
+                    plane.Source = sender;
+                    instance.adsbPlanes[id] = plane;
                 }
                 else
                 {
@@ -3132,8 +3144,9 @@ namespace MissionPlanner
                 await Task.Delay(1000).ConfigureAwait(false); // run every 1000 mss
                 PointLatLngAlt ourLocation = comPort.MAV.cs.Location;
                 // Get only close planes, sorted by distance
-                var relevantPlanes = MainV2.instance.adsbPlanes.Select(v => new { v, Distance = v.Value.GetDistance(ourLocation) })
-                    .Where(v => v.Distance < 15000)
+                var relevantPlanes = MainV2.instance.adsbPlanes
+                    .Select(v => new { v, Distance = v.Value.GetDistance(ourLocation) })
+                    .Where(v => v.Distance <= 10000)
                     .Where(v => !(v.v.Value.Source is MAVLinkInterface))
                     .OrderBy(v => v.Distance)
                     //.Select(v => v.v.Value)
@@ -3161,13 +3174,23 @@ namespace MissionPlanner
                 packet.heading = (ushort)(adsb.Heading * 100);
                 packet.lat = (int)(adsb.Lat * 1e7);
                 packet.lon = (int)(adsb.Lng * 1e7);
-                packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
-
+                packet.hor_velocity = (ushort)(adsb.Speed);
+                packet.ver_velocity = (short)(adsb.VerticalSpeed);
+                try
+                {
+                    packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
+                }
+                catch
+                {
+                    log.WarnFormat("invalid icao address: {0}", adsb.Tag);
+                    packet.ICAO_address = 0;
+                }
                 packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
-                                            MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+                                          MAVLink.ADSB_FLAGS.VALID_VELOCITY | MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+
             }
             
         }
