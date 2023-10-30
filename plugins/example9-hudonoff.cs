@@ -57,6 +57,7 @@ namespace hudonoff
                 {"displayrollpitch", "Roll/Pitch"},
                 {"displaygps", "GPS"},
                 {"batteryon", "Battery"},
+                {"batteryon2", "Battery2"},
                 {"displayekf", "EKF"},
                 {"displayvibe", "Vibe"},
                 {"displayprearm", "Prearm Status"},

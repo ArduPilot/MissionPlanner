@@ -224,7 +224,7 @@ namespace MissionPlanner.Controls
                         {
                         }
 
-                        MainV2.comPort.MAV.cs.MovingBase = gotolocation;
+                        MainV2.comPort.MAV.cs.Base = gotolocation;
 
                         // plane only
                         if (updaterallypnt && DateTime.Now > nextrallypntupdate)

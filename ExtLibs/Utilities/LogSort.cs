@@ -68,6 +68,7 @@ namespace MissionPlanner.Log
                     bool issitl = false;
                     var sysid = 0;
                     var compid = 0;
+                    var brdsernum = 0;
                     var aptype = MAVLink.MAV_TYPE.GENERIC;
                     var packetsseen = 0;
 
@@ -78,8 +79,10 @@ namespace MissionPlanner.Log
                         //PARM, 68613507, SYSID_THISMAV, 1
 
                         var sysidlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "SYSID_THISMAV");
+                        var brdsernumlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "BRD_SERIAL_NUM");
 
                         sysid = int.Parse(sysidlist.First()["Value"].ToString());
+                        brdsernum = int.Parse(brdsernumlist.First()["Value"].ToString());
 
                         //logBuffer.dflog
 
@@ -91,6 +94,12 @@ namespace MissionPlanner.Log
                                                         + "SITL" + Path.DirectorySeparatorChar
                                                         + aptype.ToString() + Path.DirectorySeparatorChar
                                                         + sysid + Path.DirectorySeparatorChar;
+                            
+                            // add on board serial number parameter if different than default value 0
+                            if (brdsernum != 0)
+                            {
+                                destdir += brdsernum + Path.DirectorySeparatorChar;
+                            }
 
 
                             if (!Directory.Exists(destdir))
@@ -111,7 +120,7 @@ namespace MissionPlanner.Log
                     {
                         var midpoint = binfile.Length / 8;
 
-                        binfile.Seek(midpoint, SeekOrigin.Begin);
+                        binfile.Seek(0, SeekOrigin.Begin);
 
                         MAVLink.MAVLinkMessage packet;
 
@@ -144,6 +153,13 @@ namespace MissionPlanner.Log
 
                                     if (hblist.Count > 10)
                                         break;
+                                }
+                                else if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.PARAM_VALUE)
+                                {
+                                    packetsseen++;
+                                    var parampkt = (MAVLink.mavlink_param_value_t)packet.data;
+                                    if (System.Text.Encoding.ASCII.GetString(parampkt.param_id) == "BRD_SERIAL_NUM")
+                                        brdsernum = (int)parampkt.param_value;
                                 }
                                 else if (packet != MAVLink.MAVLinkMessage.Invalid)
                                 {
@@ -194,16 +210,20 @@ namespace MissionPlanner.Log
 
                         binfile.Close();
 
-                        string destdir = masterdestdir + Path.DirectorySeparatorChar
-                                                       + aptype.ToString() + Path.DirectorySeparatorChar
-                                                       + sysid + Path.DirectorySeparatorChar;
+                        string destdir = masterdestdir + Path.DirectorySeparatorChar;
 
                         if (issitl)
                         {
-                            destdir = masterdestdir + Path.DirectorySeparatorChar
-                                                    + "SITL" + Path.DirectorySeparatorChar
-                                                    + aptype.ToString() + Path.DirectorySeparatorChar
-                                                    + sysid + Path.DirectorySeparatorChar;
+                            destdir += "SITL" + Path.DirectorySeparatorChar;
+                        }
+
+                        destdir += aptype.ToString() + Path.DirectorySeparatorChar
+                                   + sysid + Path.DirectorySeparatorChar;
+
+                        if (brdsernum != 0)
+                        {
+                            Console.WriteLine("found a BRD_SERIAL_NUM");
+                            destdir += brdsernum + Path.DirectorySeparatorChar;
                         }
 
                         if (!Directory.Exists(destdir))

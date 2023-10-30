@@ -201,7 +201,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_RebootAPM_Click(object sender, EventArgs e)
+        private void BUT_REPLStart_Click(object sender, EventArgs e)
         {
             TXT_terminal.ReadOnly = false;
             TXT_terminal.Clear();
@@ -217,7 +217,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_disconnect_Click(object sender, EventArgs e)
+        private void BUT_REPLStop_Click(object sender, EventArgs e)
         {
             try
             {

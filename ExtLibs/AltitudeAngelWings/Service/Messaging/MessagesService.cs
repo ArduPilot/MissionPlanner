@@ -1,32 +1,30 @@
 using System;
-using System.Diagnostics;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.Messaging
 {
     public class MessagesService : IMessagesService, IDisposable
     {
+        private readonly CompositeDisposable _disposer = new CompositeDisposable();
+
         public MessagesService(IMessageDisplay messageDisplay)
         {
             Messages = new ObservableProperty<Message>(0);
-            Messages
+            _disposer.Add(Messages);
+            _disposer.Add(Messages
                 .Do(messageDisplay.AddMessage)
-                .Delay(m => Observable.Timer(m.TimeToLive))
-                .Subscribe(messageDisplay.RemoveMessage);
+                .SelectMany(m => Observable.Interval(TimeSpan.FromMilliseconds(100))
+                    .SkipWhile(i => !m.HasExpired())
+                    .Select(i => m))
+                .Subscribe(messageDisplay.RemoveMessage));
         }
 
         public ObservableProperty<Message> Messages { get; }
 
-        public Task AddMessageAsync(Message message)
-        {
-            Console.WriteLine(message.Content);
-#if DEBUG
-            Debug.WriteLine(message.Content);
-#endif
-            return Task.Factory.StartNew(() => Messages.Value = message);
-        }
+        public Task AddMessageAsync(Message message) => Task.Factory.StartNew(() => Messages.Value = message);
 
         public void Dispose()
         {
@@ -38,7 +36,7 @@ namespace AltitudeAngelWings.Service.Messaging
         {
             if (disposing)
             {
-                Messages?.Dispose();
+                _disposer?.Dispose();
             }
         }
     }

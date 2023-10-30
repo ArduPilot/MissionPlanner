@@ -20,11 +20,14 @@ namespace DroneCAN
             message
         }
 
-        public CANFrame(byte[] packet_data, bool extended = true)
+        public CANFrame(byte[] packet_data, bool extended = true, bool fdcan = false)
         {
             this.packet_data = packet_data;
             Extended = extended;
+            this.FDCan = fdcan;
         }
+
+        public bool FDCan { get; set; }
 
         //[JsonConverter(typeof(StringEnumConverter))]
         public FrameType TransferType

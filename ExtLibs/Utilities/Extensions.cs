@@ -191,6 +191,18 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<IEnumerable<T>> Windowed<T>(this IEnumerable<T> source, int chunksize, int divisorinc = 1)
+        {
+            int index = 0;
+            int cnt = source.Count();
+
+            while (index < cnt)
+            {
+                yield return source.Skip(index).Take(chunksize).ToArray();
+                index += chunksize / divisorinc;
+            }
+        }
+
         public static IEnumerable<T> ToEnumerable<T>(this IEnumerator enumerator)
         {
             while (enumerator.MoveNext())
@@ -422,6 +434,17 @@ namespace MissionPlanner.Utilities
             {
                 action(enumerator.Current);
             }
+        }
+
+        public static IEnumerable<T1> OrderedParallel<T, T1>(this IEnumerable<T> list, Func<T, T1> action)
+        {
+            var unorderedResult = new ConcurrentBag<(long, T1)>();
+            Parallel.ForEach(list, (o, state, i) =>
+            {
+                unorderedResult.Add((i, action.Invoke(o)));
+            });
+            var ordered = unorderedResult.OrderBy(o => o.Item1);
+            return ordered.Select(o => o.Item2);
         }
 
         public static IEnumerable<TOut> Select<T,TOut>(this ReadOnlySpan<T> span, Func<T,TOut> action)

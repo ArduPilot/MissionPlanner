@@ -402,19 +402,63 @@
 
    <Compile Include="ExtLibs\Comms\System.IO.Ports\WinSerialStream.cs" />
 
+   <Compile Include="plugins\example-watchbutton.cs" />
+
+   <Compile Include="plugins\example.cs" />
+
+   <Compile Include="plugins\example10-canlogfile.cs" />
+
+   <Compile Include="plugins\example11-trace.cs" />
+
+   <Compile Include="plugins\example12-forwarding.cs" />
+
+   <Compile Include="plugins\example13-herelink2.cs" />
+
+   <Compile Include="plugins\example14-mass.cs" />
+
    <Compile Include="plugins\example15-leds.cs" />
 
    <Compile Include="plugins\example16-donate.cs" />
 
+   <Compile Include="plugins\example17-menuremove.cs" />
+
    <Compile Include="plugins\example18-externalapi.cs" />
+
+   <Compile Include="plugins\example19-multiforward.cs" />
+
+   <Compile Include="plugins\example2-menu.cs" />
+
+   <Compile Include="plugins\example2.cs" />
+
+   <Compile Include="plugins\example20-multiplepositions.cs" />
+
+   <Compile Include="plugins\example21-persistentsimple.cs" />
+
+   <Compile Include="plugins\example22-fontsize.cs" />
 
    <Compile Include="plugins\example3-fencedist.cs" />
 
+   <Compile Include="plugins\example3.cs" />
+
    <Compile Include="plugins\example4-herelink.cs" />
+
+   <Compile Include="plugins\example4.cs" />
+
+   <Compile Include="plugins\example5-latencytracker.cs" />
+
+   <Compile Include="plugins\example5.cs" />
 
    <Compile Include="plugins\example6-mapicondesc.cs" />
 
+   <Compile Include="plugins\example6.cs" />
+
    <Compile Include="plugins\example7-canrtcm.cs" />
+
+   <Compile Include="plugins\example7.cs" />
+
+   <Compile Include="plugins\example8-modechange.cs" />
+
+   <Compile Include="plugins\example8.cs" />
 
    <Compile Include="plugins\example9-hudonoff.cs" />
 
@@ -608,6 +652,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="version.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="APMotorLayout.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -4,6 +4,9 @@
 # discouraged to use it for anything else, because persistent ordering is not guaranteed.
 #
 
+# implementors may choose to make parameter set operations be immediately persistent, or can choose
+# to make them temporary, requiring a ExecuteOpcode with OPCODE_SAVE to put into persistent storage
+
 #
 # Index of the parameter starting from 0; ignored if name is nonempty.
 # Use index only to retrieve the list of parameters.

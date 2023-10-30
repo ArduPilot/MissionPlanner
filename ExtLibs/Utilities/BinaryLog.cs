@@ -157,6 +157,8 @@ namespace MissionPlanner.Utilities
                                               {
                                                   if (a.IsNumber())
                                                       return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
+                                                  else if (a is System.Byte[])
+                                                      return System.Text.Encoding.ASCII.GetString(a as byte[]).Trim('\0');
                                                   else
                                                       return a?.ToString();
                                               })) + "\r\n";
@@ -545,7 +547,7 @@ namespace MissionPlanner.Utilities
                     return (mode, 1);
 
                 case 'Z':
-                    return (Encoding.ASCII.GetString(message, offset, 64).Trim('\0'), 64);
+                    return (new ReadOnlySpan<byte>(message, offset, 64).ToArray(), 64);
 
                 case 'a':
                     return (new UnionArray(new ReadOnlySpan<byte>(message, offset, 64).ToArray()), 2 * 32);

@@ -233,6 +233,9 @@
   <data name="S" xml:space="preserve">
     <value>S</value>
   </data>
+  <data name="SAFE" xml:space="preserve">
+    <value>SAFE</value>
+  </data>
   <data name="SE" xml:space="preserve">
     <value>SE</value>
   </data>

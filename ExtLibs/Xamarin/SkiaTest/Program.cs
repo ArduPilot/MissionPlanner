@@ -389,177 +389,6 @@ namespace SkiaTest
 
         public sealed class SkiaWindow : SkiaWindowBase
         {
-
-
-            private SKPaint paint = new SKPaint() {FilterQuality = SKFilterQuality.Low};
-
-            private bool DrawOntoCanvas(IntPtr handle, SKCanvas Canvas, TreeNode tree, bool forcerender = false)
-            {
-                var hwnd = Hwnd.ObjectFromHandle(handle);
-
-                var x = 0;
-                var y = 0;
-                var wasdrawn = false;
-
-                XplatUI.driver.ClientToScreen(hwnd.client_window, ref x, ref y);
-
-                var width = 0;
-                var height = 0;
-                var client_width = 0;
-                var client_height = 0;
-
-
-                if (hwnd.hwndbmp != null && hwnd.Mapped && hwnd.Visible && !hwnd.zombie)
-                {
-                    // setup clip
-                    var parent = hwnd;
-                  /*  Canvas.ClipRect(
-                        SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width * 2,
-                            Screen.PrimaryScreen.Bounds.Height * 2), (SKClipOperation) 5);
-                  */
-                    while (parent != null)
-                    {
-                        var xp = 0;
-                        var yp = 0;
-                        XplatUI.driver.ClientToScreen(parent.client_window, ref xp, ref yp);
-                        /*
-                        Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
-                            SKClipOperation.Intersect);
-                        */
-                        parent = parent.parent;
-                    }
-
-                    Monitor.Enter(XplatUIMine.paintlock);
-
-                    if (hwnd.ClientWindow != hwnd.WholeWindow)
-                    {
-                        var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
-
-                        Hwnd.Borders borders = new Hwnd.Borders();
-
-                        if (frm != null)
-                        {
-                            borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
-                            /*
-                            Canvas.ClipRect(
-                                SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width * 2,
-                                    Screen.PrimaryScreen.Bounds.Height * 2), (SKClipOperation) 5);*/
-                        }
-
-                        if (Canvas.DeviceClipBounds.Width > 0 &&
-                            Canvas.DeviceClipBounds.Height > 0)
-                        {
-                            if (hwnd.DrawNeeded || forcerender)
-                            {
-                                if (hwnd.hwndbmpNC != null)
-                                    Canvas.DrawImage(hwnd.hwndbmpNC,
-                                        new SKPoint(x - borders.left, y - borders.top), new SKPaint()
-                                        {
-                                            ColorFilter =
-                                                SKColorFilter.CreateColorMatrix(new float[]
-                                                {
-                                                    0.75f, 0.25f, 0.025f, 0, 0,
-                                                    0.25f, 0.75f, 0.25f, 0, 0,
-                                                    0.25f, 0.25f, 0.75f, 0, 0,
-                                                    0, 0, 0, 1, 0
-                                                })
-                                        });
-
-                                /*Canvas.ClipRect(
-                                    SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
-                                        hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
-                                */
-                                Canvas.DrawDrawable(hwnd.hwndbmp,
-                                    new SKPoint(x, y));
-
-                                wasdrawn = true;
-                            }
-
-                            hwnd.DrawNeeded = false;
-                        }
-                        else
-                        {
-                            Monitor.Exit(XplatUIMine.paintlock);
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (Canvas.DeviceClipBounds.Width > 0 &&
-                            Canvas.DeviceClipBounds.Height > 0)
-                        {
-                            if (hwnd.DrawNeeded || forcerender)
-                            {
-                                Canvas.DrawDrawable(hwnd.hwndbmp,
-                                    new SKPoint(x + 0, y + 0));
-
-                                wasdrawn = true;
-                            }
-
-                            hwnd.DrawNeeded = false;
-/*
-                        surface.Canvas.DrawText(Control.FromHandle(hwnd.ClientWindow).Name,
-                            new SKPoint(x, y + 15),
-                            new SKPaint() {Color = SKColor.Parse("55ffff00")});
-                        /*surface.Canvas.DrawText(hwnd.ClientWindow.ToString(), new SKPoint(x,y+15),
-                            new SKPaint() {Color = SKColor.Parse("ffff00")});*/
-
-                        }
-                        else
-                        {
-                            Monitor.Exit(XplatUIMine.paintlock);
-                            return true;
-                        }
-                    }
-
-                    Monitor.Exit(XplatUIMine.paintlock);
-                }
-
-                var ctrl = Control.FromHandle(hwnd.ClientWindow);
-
-                Canvas.DrawText(x + " " + y + " " + ctrl.Name + " " + hwnd.width + " " + hwnd.Height, x, y + 10,
-                    new SKPaint() {Color = SKColors.Red});
-
-                if (hwnd.Mapped && hwnd.Visible)
-                {
-                    IEnumerable<Hwnd> children;
-                    children = tree.FindID(hwnd.Handle.ToInt32())?.Children.Select(a => (Hwnd)a.Value);
-                   /* children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
-                         .Where(hwnd2 =>
-                        {
-                            var Key = (IntPtr) hwnd2.Key;
-                            var Value = (Hwnd) hwnd2.Value;
-                            if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
-                                Value.Mapped && !Value.zombie)
-                                return true;
-                            return false;
-                        }).Select(a => (Hwnd) a.Value).ToArray();
-                    */
-                    if (children != null)
-                    {
-                        children = children.OrderBy((hwnd2) =>
-                        {
-                            var info = XplatUIMine.GetInstance().GetZOrder(hwnd2.client_window);
-                            if (info.top)
-                                return 1000;
-                            if (info.bottom)
-                                return 0;
-                            return 500;
-
-                        });
-
-                        foreach (var child in children)
-                        {
-                            DrawOntoCanvas(child.ClientWindow, Canvas, tree, true);
-                        }
-                    }
-                }
-
-                return true;
-            }
-
-
-
             protected override void OnSkiaPaint(SKSurface e)
             {
                 try
@@ -595,7 +424,7 @@ namespace SkiaTest
 
                             try
                             {
-                                DrawOntoCanvas(form.Handle, canvas, newtree, true);
+                                FormsRender.DrawOntoCanvas(form.Handle, canvas, true);
                             }
                             catch (Exception ex)
                             {
@@ -612,7 +441,7 @@ namespace SkiaTest
                     {
                         var ctlmenu = Control.FromHandle(hw.ClientWindow);
                         if (ctlmenu != null)
-                            DrawOntoCanvas(hw.ClientWindow, canvas, newtree, true);
+                            FormsRender.DrawOntoCanvas(hw.ClientWindow, canvas, true);
                     }
 
                     canvas.Restore();
@@ -649,6 +478,11 @@ namespace SkiaTest
                             {
                                 int x = XplatUI.driver.MousePosition.X, y = XplatUI.driver.MousePosition.Y;
 
+                                if (Application.OpenForms[cnt - 1].IsDisposed)
+                                {
+                                    cnt--;
+                                    continue;
+                                }
                                 var hwnd = Hwnd.ObjectFromHandle(Application.OpenForms[cnt - 1].Handle);
                                 if (x < hwnd.X || y < hwnd.Y || x > hwnd.x+hwnd.width || y > hwnd.y+hwnd.height)
                                 {

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sun Apr 02 2023";
+    public const string MAVLINK_BUILD_DATE = "Sat Jul 15 2023";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -66,7 +66,7 @@ public partial class MAVLink
         new message_info(39, "MISSION_ITEM", 254, 37, 38, typeof( mavlink_mission_item_t )),
         new message_info(40, "MISSION_REQUEST", 230, 4, 5, typeof( mavlink_mission_request_t )),
         new message_info(41, "MISSION_SET_CURRENT", 28, 4, 4, typeof( mavlink_mission_set_current_t )),
-        new message_info(42, "MISSION_CURRENT", 28, 2, 2, typeof( mavlink_mission_current_t )),
+        new message_info(42, "MISSION_CURRENT", 28, 2, 6, typeof( mavlink_mission_current_t )),
         new message_info(43, "MISSION_REQUEST_LIST", 132, 2, 3, typeof( mavlink_mission_request_list_t )),
         new message_info(44, "MISSION_COUNT", 221, 4, 5, typeof( mavlink_mission_count_t )),
         new message_info(45, "MISSION_CLEAR_ALL", 232, 2, 3, typeof( mavlink_mission_clear_all_t )),
@@ -242,11 +242,14 @@ public partial class MAVLink
         new message_info(271, "CAMERA_FOV_STATUS", 22, 52, 52, typeof( mavlink_camera_fov_status_t )),
         new message_info(275, "CAMERA_TRACKING_IMAGE_STATUS", 126, 31, 31, typeof( mavlink_camera_tracking_image_status_t )),
         new message_info(276, "CAMERA_TRACKING_GEO_STATUS", 18, 49, 49, typeof( mavlink_camera_tracking_geo_status_t )),
+        new message_info(280, "GIMBAL_MANAGER_INFORMATION", 70, 33, 33, typeof( mavlink_gimbal_manager_information_t )),
+        new message_info(281, "GIMBAL_MANAGER_STATUS", 48, 13, 13, typeof( mavlink_gimbal_manager_status_t )),
         new message_info(282, "GIMBAL_MANAGER_SET_ATTITUDE", 123, 35, 35, typeof( mavlink_gimbal_manager_set_attitude_t )),
         new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 144, typeof( mavlink_gimbal_device_information_t )),
         new message_info(284, "GIMBAL_DEVICE_SET_ATTITUDE", 99, 32, 32, typeof( mavlink_gimbal_device_set_attitude_t )),
         new message_info(285, "GIMBAL_DEVICE_ATTITUDE_STATUS", 137, 40, 40, typeof( mavlink_gimbal_device_attitude_status_t )),
         new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 210, 53, 53, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
+        new message_info(287, "GIMBAL_MANAGER_SET_PITCHYAW", 1, 23, 23, typeof( mavlink_gimbal_manager_set_pitchyaw_t )),
         new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
         new message_info(301, "AIS_VESSEL", 243, 58, 58, typeof( mavlink_ais_vessel_t )),
         new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
@@ -257,7 +260,7 @@ public partial class MAVLink
         new message_info(323, "PARAM_EXT_SET", 78, 147, 147, typeof( mavlink_param_ext_set_t )),
         new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
         new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 167, typeof( mavlink_obstacle_distance_t )),
-        new message_info(331, "ODOMETRY", 91, 230, 232, typeof( mavlink_odometry_t )),
+        new message_info(331, "ODOMETRY", 91, 230, 233, typeof( mavlink_odometry_t )),
         new message_info(335, "ISBD_LINK_STATUS", 225, 24, 24, typeof( mavlink_isbd_link_status_t )),
         new message_info(339, "RAW_RPM", 199, 5, 5, typeof( mavlink_raw_rpm_t )),
         new message_info(340, "UTM_GLOBAL_POSITION", 99, 70, 70, typeof( mavlink_utm_global_position_t )),
@@ -564,11 +567,14 @@ public partial class MAVLink
         CAMERA_FOV_STATUS = 271,
         CAMERA_TRACKING_IMAGE_STATUS = 275,
         CAMERA_TRACKING_GEO_STATUS = 276,
+        GIMBAL_MANAGER_INFORMATION = 280,
+        GIMBAL_MANAGER_STATUS = 281,
         GIMBAL_MANAGER_SET_ATTITUDE = 282,
         GIMBAL_DEVICE_INFORMATION = 283,
         GIMBAL_DEVICE_SET_ATTITUDE = 284,
         GIMBAL_DEVICE_ATTITUDE_STATUS = 285,
         AUTOPILOT_STATE_FOR_GIMBAL_DEVICE = 286,
+        GIMBAL_MANAGER_SET_PITCHYAW = 287,
         WIFI_CONFIG_AP = 299,
         AIS_VESSEL = 301,
         UAVCAN_NODE_STATUS = 310,
@@ -1052,6 +1058,10 @@ public partial class MAVLink
         [Description("High level setpoint to be sent to a gimbal manager to set a gimbal attitude. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: a gimbal is never to react to this command but only the gimbal manager.")]
         [Obsolete]
         DO_GIMBAL_MANAGER_PITCHYAW=1000, 
+        ///<summary> Gimbal configuration to set which sysid/compid is in primary and secondary control. |Sysid for primary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Compid for primary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Sysid for secondary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Compid for secondary control (0: no one in control, -1: leave unchanged, -2: set itself in control (for missions where the own sysid is still unknown), -3: remove control if currently in control).| Reserved (default:0)| Reserved (default:0)| Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).|  </summary>
+        [Description("Gimbal configuration to set which sysid/compid is in primary and secondary control.")]
+        [Obsolete]
+        DO_GIMBAL_MANAGER_CONFIGURE=1001, 
         ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| Capture sequence number starting from 1. This is only valid for single-capture (param3 == 1), otherwise set to 0. Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
         [Description("Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.")]
         IMAGE_START_CAPTURE=2000, 
@@ -1301,6 +1311,10 @@ public partial class MAVLink
         ///<summary> Change to target heading at a given rate, overriding previous heading/s. This slews the vehicle at a controllable rate between it's previous heading and the new one. (affects GUIDED only. Exiting GUIDED returns aircraft to normal behaviour defined elsewhere. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.) |course-over-ground or raw vehicle heading.| Target heading.| Maximum centripetal accelearation, ie rate of change,  toward new heading.| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change to target heading at a given rate, overriding previous heading/s. This slews the vehicle at a controllable rate between it's previous heading and the new one. (affects GUIDED only. Exiting GUIDED returns aircraft to normal behaviour defined elsewhere. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)")]
         GUIDED_CHANGE_HEADING=43002, 
+        ///<summary> Provide an external position estimate for use when dead-reckoning. This is meant to be used for occasional position resets that may be provided by a external system such as a remote pilot using landmarks over a video link. |Timestamp that this message was sent as a time in the transmitters time domain. The sender should wrap this time back to zero based on required timing accuracy for the application and the limitations of a 32 bit float. For example, wrapping at 10 hours would give approximately 1ms accuracy. Recipient must handle time wrap in any timing jitter correction applied to this field. Wrap rollover time should not be at not more than 250 seconds, which would give approximately 10 microsecond accuracy.| The time spent in processing the sensor data that is the basis for this position. The recipient can use this to improve time alignment of the data. Set to zero if not known.| estimated one standard deviation accuracy of the measurement. Set to NaN if not known.| Empty| Latitude| Longitude| Altitude, not used. Should be sent as NaN. May be supported in a future version of this message.|  </summary>
+        [Description("Provide an external position estimate for use when dead-reckoning. This is meant to be used for occasional position resets that may be provided by a external system such as a remote pilot using landmarks over a video link.")]
+        [hasLocation()]
+        EXTERNAL_POSITION_ESTIMATE=43003, 
         
     };
     
@@ -2920,6 +2934,61 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Gimbal manager high level capability flags (bitmap). The first 16 bits are identical to the GIMBAL_DEVICE_CAP_FLAGS. However, the gimbal manager does not need to copy the flags from the gimbal but can also enhance the capabilities and thus add flags. </summary>
+    [Flags]
+	public enum GIMBAL_MANAGER_CAP_FLAGS: uint
+    {
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT.")]
+        HAS_RETRACT=1, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL.")]
+        HAS_NEUTRAL=2, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS.")]
+        HAS_ROLL_AXIS=4, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW.")]
+        HAS_ROLL_FOLLOW=8, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK.")]
+        HAS_ROLL_LOCK=16, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS.")]
+        HAS_PITCH_AXIS=32, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW.")]
+        HAS_PITCH_FOLLOW=64, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK.")]
+        HAS_PITCH_LOCK=128, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS.")]
+        HAS_YAW_AXIS=256, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW.")]
+        HAS_YAW_FOLLOW=512, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK.")]
+        HAS_YAW_LOCK=1024, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW.")]
+        SUPPORTS_INFINITE_YAW=2048, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME.")]
+        SUPPORTS_YAW_IN_EARTH_FRAME=4096, 
+        ///<summary> Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS. | </summary>
+        [Description("Based on GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS.")]
+        HAS_RC_INPUTS=8192, 
+        ///<summary> Gimbal manager supports to point to a local position. | </summary>
+        [Description("Gimbal manager supports to point to a local position.")]
+        CAN_POINT_LOCATION_LOCAL=65536, 
+        ///<summary> Gimbal manager supports to point to a global latitude, longitude, altitude position. | </summary>
+        [Description("Gimbal manager supports to point to a global latitude, longitude, altitude position.")]
+        CAN_POINT_LOCATION_GLOBAL=131072, 
+        
+    };
+    
     ///<summary> Flags for gimbal device (lower level) operation. </summary>
     [Flags]
 	public enum GIMBAL_DEVICE_FLAGS: ushort
@@ -3100,6 +3169,39 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Flags to indicate the type of storage. </summary>
+    public enum STORAGE_TYPE: byte
+    {
+        ///<summary> Storage type is not known. | </summary>
+        [Description("Storage type is not known.")]
+        UNKNOWN=0, 
+        ///<summary> Storage type is USB device. | </summary>
+        [Description("Storage type is USB device.")]
+        USB_STICK=1, 
+        ///<summary> Storage type is SD card. | </summary>
+        [Description("Storage type is SD card.")]
+        SD=2, 
+        ///<summary> Storage type is microSD card. | </summary>
+        [Description("Storage type is microSD card.")]
+        MICROSD=3, 
+        ///<summary> Storage type is CFast. | </summary>
+        [Description("Storage type is CFast.")]
+        CF=4, 
+        ///<summary> Storage type is CFexpress. | </summary>
+        [Description("Storage type is CFexpress.")]
+        CFE=5, 
+        ///<summary> Storage type is XQD. | </summary>
+        [Description("Storage type is XQD.")]
+        XQD=6, 
+        ///<summary> Storage type is HD mass storage type. | </summary>
+        [Description("Storage type is HD mass storage type.")]
+        HD=7, 
+        ///<summary> Storage type is other, not listed type. | </summary>
+        [Description("Storage type is other, not listed type.")]
+        OTHER=254, 
+        
+    };
+    
     ///<summary> Enable axes that will be tuned via autotuning. Used in MAV_CMD_DO_AUTOTUNE_ENABLE. </summary>
     public enum AUTOTUNE_AXIS: int /*default*/
     {
@@ -3169,39 +3271,6 @@ public partial class MAVLink
         ///<summary> Point toward of given id. | </summary>
         [Description("Point toward of given id.")]
         TARGET=4, 
-        
-    };
-    
-    ///<summary> ACK / NACK / ERROR values as a result of MAV_CMDs and for mission item transmission. </summary>
-    public enum MAV_CMD_ACK: int /*default*/
-    {
-        ///<summary> Command / mission item is ok. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("Command / mission item is ok.")]
-        OK=0, 
-        ///<summary> Generic error message if none of the other reasons fails or if no detailed error reporting is implemented. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("Generic error message if none of the other reasons fails or if no detailed error reporting is implemented.")]
-        ERR_FAIL=1, 
-        ///<summary> The system is refusing to accept this command from this source / communication partner. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("The system is refusing to accept this command from this source / communication partner.")]
-        ERR_ACCESS_DENIED=2, 
-        ///<summary> Command or mission item is not supported, other commands would be accepted. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("Command or mission item is not supported, other commands would be accepted.")]
-        ERR_NOT_SUPPORTED=3, 
-        ///<summary> The coordinate frame of this command / mission item is not supported. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("The coordinate frame of this command / mission item is not supported.")]
-        ERR_COORDINATE_FRAME_NOT_SUPPORTED=4, 
-        ///<summary> The coordinate frame of this command is ok, but he coordinate values exceed the safety limits of this system. This is a generic error, please use the more specific error messages below if possible. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("The coordinate frame of this command is ok, but he coordinate values exceed the safety limits of this system. This is a generic error, please use the more specific error messages below if possible.")]
-        ERR_COORDINATES_OUT_OF_RANGE=5, 
-        ///<summary> The X or latitude value is out of range. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("The X or latitude value is out of range.")]
-        ERR_X_LAT_OUT_OF_RANGE=6, 
-        ///<summary> The Y or longitude value is out of range. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("The Y or longitude value is out of range.")]
-        ERR_Y_LON_OUT_OF_RANGE=7, 
-        ///<summary> The Z or altitude value is out of range. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
-        [Description("The Z or altitude value is out of range.")]
-        ERR_Z_ALT_OUT_OF_RANGE=8, 
         
     };
     
@@ -5649,6 +5718,30 @@ public partial class MAVLink
         ///<summary> Use a fixed wing approach before detransitioning and landing vertically. | </summary>
         [Description("Use a fixed wing approach before detransitioning and landing vertically.")]
         VTOL_LAND_OPTIONS_FW_APPROACH=2, 
+        
+    };
+    
+    ///<summary>          States of the mission state machine.         Note that these states are independent of whether the mission is in a mode that can execute mission items or not (is suspended).         They may not all be relevant on all vehicles.        </summary>
+    public enum MISSION_STATE: byte
+    {
+        ///<summary> The mission status reporting is not supported. | </summary>
+        [Description("The mission status reporting is not supported.")]
+        UNKNOWN=0, 
+        ///<summary> No mission on the vehicle. | </summary>
+        [Description("No mission on the vehicle.")]
+        NO_MISSION=1, 
+        ///<summary> Mission has not started. This is the case after a mission has uploaded but not yet started executing. | </summary>
+        [Description("Mission has not started. This is the case after a mission has uploaded but not yet started executing.")]
+        NOT_STARTED=2, 
+        ///<summary> Mission is active, and will execute mission items when in auto mode. | </summary>
+        [Description("Mission is active, and will execute mission items when in auto mode.")]
+        ACTIVE=3, 
+        ///<summary> Mission is paused when in auto mode. | </summary>
+        [Description("Mission is paused when in auto mode.")]
+        PAUSED=4, 
+        ///<summary> Mission has executed all mission items. | </summary>
+        [Description("Mission has executed all mission items.")]
+        COMPLETE=5, 
         
     };
     
@@ -14480,24 +14573,30 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
+    /// extensions_start 1
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Message that announces the sequence number of the current active mission item. The MAV will fly towards this mission item. </summary>
     public struct mavlink_mission_current_t
     {
         /// packet ordered constructor
-        public mavlink_mission_current_t(ushort seq) 
+        public mavlink_mission_current_t(ushort seq,ushort total,/*MISSION_STATE*/byte mission_state,byte mission_mode) 
         {
             this.seq = seq;
+            this.total = total;
+            this.mission_state = mission_state;
+            this.mission_mode = mission_mode;
             
         }
         
         /// packet xml order
-        public static mavlink_mission_current_t PopulateXMLOrder(ushort seq) 
+        public static mavlink_mission_current_t PopulateXMLOrder(ushort seq,ushort total,/*MISSION_STATE*/byte mission_state,byte mission_mode) 
         {
             var msg = new mavlink_mission_current_t();
 
             msg.seq = seq;
+            msg.total = total;
+            msg.mission_state = mission_state;
+            msg.mission_mode = mission_mode;
             
             return msg;
         }
@@ -14508,6 +14607,24 @@ public partial class MAVLink
         [Description("Sequence")]
         //[FieldOffset(0)]
         public  ushort seq;
+
+        /// <summary>Total number of mission items on vehicle (on last item, sequence == total). If the autopilot stores its home location as part of the mission this will be excluded from the total. 0: Not supported, UINT16_MAX if no mission is present on the vehicle.   </summary>
+        [Units("")]
+        [Description("Total number of mission items on vehicle (on last item, sequence == total). If the autopilot stores its home location as part of the mission this will be excluded from the total. 0: Not supported, UINT16_MAX if no mission is present on the vehicle.")]
+        //[FieldOffset(2)]
+        public  ushort total;
+
+        /// <summary>Mission state machine state. MISSION_STATE_UNKNOWN if state reporting not supported. MISSION_STATE  </summary>
+        [Units("")]
+        [Description("Mission state machine state. MISSION_STATE_UNKNOWN if state reporting not supported.")]
+        //[FieldOffset(4)]
+        public  /*MISSION_STATE*/byte mission_state;
+
+        /// <summary>Vehicle is in a mode that can execute mission items or suspended. 0: Unknown, 1: In mission mode, 2: Suspended (not in mission mode).   </summary>
+        [Units("")]
+        [Description("Vehicle is in a mode that can execute mission items or suspended. 0: Unknown, 1: In mission mode, 2: Suspended (not in mission mode).")]
+        //[FieldOffset(5)]
+        public  byte mission_mode;
     };
 
     
@@ -22258,9 +22375,9 @@ public partial class MAVLink
         //[FieldOffset(24)]
         public  uint os_sw_version;
 
-        /// <summary>HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt   </summary>
+        /// <summary>HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/ardupilot/ardupilot/blob/master/Tools/AP_Bootloader/board_types.txt   </summary>
         [Units("")]
-        [Description("HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt")]
+        [Description("HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/ardupilot/ardupilot/blob/master/Tools/AP_Bootloader/board_types.txt")]
         //[FieldOffset(28)]
         public  uint board_version;
 
@@ -24914,27 +25031,27 @@ public partial class MAVLink
         //[FieldOffset(0)]
         public  uint time_boot_ms;
 
-        /// <summary>Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff)   </summary>
+        /// <summary>Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff). Use 0 if not known.   </summary>
         [Units("")]
-        [Description("Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff)")]
+        [Description("Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff). Use 0 if not known.")]
         //[FieldOffset(4)]
         public  uint firmware_version;
 
-        /// <summary>Focal length  [mm] </summary>
+        /// <summary>Focal length. Use NaN if not known.  [mm] </summary>
         [Units("[mm]")]
-        [Description("Focal length")]
+        [Description("Focal length. Use NaN if not known.")]
         //[FieldOffset(8)]
         public  float focal_length;
 
-        /// <summary>Image sensor size horizontal  [mm] </summary>
+        /// <summary>Image sensor size horizontal. Use NaN if not known.  [mm] </summary>
         [Units("[mm]")]
-        [Description("Image sensor size horizontal")]
+        [Description("Image sensor size horizontal. Use NaN if not known.")]
         //[FieldOffset(12)]
         public  float sensor_size_h;
 
-        /// <summary>Image sensor size vertical  [mm] </summary>
+        /// <summary>Image sensor size vertical. Use NaN if not known.  [mm] </summary>
         [Units("[mm]")]
-        [Description("Image sensor size vertical")]
+        [Description("Image sensor size vertical. Use NaN if not known.")]
         //[FieldOffset(16)]
         public  float sensor_size_v;
 
@@ -24944,21 +25061,21 @@ public partial class MAVLink
         //[FieldOffset(20)]
         public  /*CAMERA_CAP_FLAGS*/uint flags;
 
-        /// <summary>Horizontal image resolution  [pix] </summary>
+        /// <summary>Horizontal image resolution. Use 0 if not known.  [pix] </summary>
         [Units("[pix]")]
-        [Description("Horizontal image resolution")]
+        [Description("Horizontal image resolution. Use 0 if not known.")]
         //[FieldOffset(24)]
         public  ushort resolution_h;
 
-        /// <summary>Vertical image resolution  [pix] </summary>
+        /// <summary>Vertical image resolution. Use 0 if not known.  [pix] </summary>
         [Units("[pix]")]
-        [Description("Vertical image resolution")]
+        [Description("Vertical image resolution. Use 0 if not known.")]
         //[FieldOffset(26)]
         public  ushort resolution_v;
 
-        /// <summary>Camera definition version (iteration)   </summary>
+        /// <summary>Camera definition version (iteration).  Use 0 if not known.   </summary>
         [Units("")]
-        [Description("Camera definition version (iteration)")]
+        [Description("Camera definition version (iteration).  Use 0 if not known.")]
         //[FieldOffset(28)]
         public  ushort cam_definition_version;
 
@@ -24976,15 +25093,15 @@ public partial class MAVLink
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] model_name;
 
-        /// <summary>Reserved for a lens ID   </summary>
+        /// <summary>Reserved for a lens ID.  Use 0 if not known.   </summary>
         [Units("")]
-        [Description("Reserved for a lens ID")]
+        [Description("Reserved for a lens ID.  Use 0 if not known.")]
         //[FieldOffset(94)]
         public  byte lens_id;
 
-        /// <summary>Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).   </summary>
+        /// <summary>Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol). The definition file may be xz compressed, which will be indicated by the file extension .xml.xz (a GCS that implements the protocol must support decompressing the file). The string needs to be zero terminated.  Use a zero-length string if not known.   </summary>
         [Units("")]
-        [Description("Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).")]
+        [Description("Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol). The definition file may be xz compressed, which will be indicated by the file extension .xml.xz (a GCS that implements the protocol must support decompressing the file). The string needs to be zero terminated.  Use a zero-length string if not known.")]
         //[FieldOffset(95)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=140)]
 		public byte[] cam_definition_uri;
@@ -25032,15 +25149,15 @@ public partial class MAVLink
         //[FieldOffset(4)]
         public  /*CAMERA_MODE*/byte mode_id;
 
-        /// <summary>Current zoom level (0.0 to 100.0, NaN if not known)   </summary>
+        /// <summary>Current zoom level as a percentage of the full range (0.0 to 100.0, NaN if not known)   </summary>
         [Units("")]
-        [Description("Current zoom level (0.0 to 100.0, NaN if not known)")]
+        [Description("Current zoom level as a percentage of the full range (0.0 to 100.0, NaN if not known)")]
         //[FieldOffset(5)]
         public  float zoomLevel;
 
-        /// <summary>Current focus level (0.0 to 100.0, NaN if not known)   </summary>
+        /// <summary>Current focus level as a percentage of the full range (0.0 to 100.0, NaN if not known)   </summary>
         [Units("")]
-        [Description("Current focus level (0.0 to 100.0, NaN if not known)")]
+        [Description("Current focus level as a percentage of the full range (0.0 to 100.0, NaN if not known)")]
         //[FieldOffset(9)]
         public  float focusLevel;
     };
@@ -26200,6 +26317,180 @@ public partial class MAVLink
         public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
     };
 
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
+    ///<summary> Information about a high level gimbal manager. This message should be requested by a ground station using MAV_CMD_REQUEST_MESSAGE. </summary>
+    public struct mavlink_gimbal_manager_information_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_manager_information_t(uint time_boot_ms,/*GIMBAL_MANAGER_CAP_FLAGS*/uint cap_flags,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max,byte gimbal_device_id) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.cap_flags = cap_flags;
+            this.roll_min = roll_min;
+            this.roll_max = roll_max;
+            this.pitch_min = pitch_min;
+            this.pitch_max = pitch_max;
+            this.yaw_min = yaw_min;
+            this.yaw_max = yaw_max;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_manager_information_t PopulateXMLOrder(uint time_boot_ms,/*GIMBAL_MANAGER_CAP_FLAGS*/uint cap_flags,byte gimbal_device_id,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max) 
+        {
+            var msg = new mavlink_gimbal_manager_information_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.cap_flags = cap_flags;
+            msg.gimbal_device_id = gimbal_device_id;
+            msg.roll_min = roll_min;
+            msg.roll_max = roll_max;
+            msg.pitch_min = pitch_min;
+            msg.pitch_max = pitch_max;
+            msg.yaw_min = yaw_min;
+            msg.yaw_max = yaw_max;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Bitmap of gimbal capability flags. GIMBAL_MANAGER_CAP_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Bitmap of gimbal capability flags.")]
+        //[FieldOffset(4)]
+        public  /*GIMBAL_MANAGER_CAP_FLAGS*/uint cap_flags;
+
+        /// <summary>Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left)  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Minimum hardware roll angle (positive: rolling to the right, negative: rolling to the left)")]
+        //[FieldOffset(8)]
+        public  float roll_min;
+
+        /// <summary>Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left)  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Maximum hardware roll angle (positive: rolling to the right, negative: rolling to the left)")]
+        //[FieldOffset(12)]
+        public  float roll_max;
+
+        /// <summary>Minimum pitch angle (positive: up, negative: down)  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Minimum pitch angle (positive: up, negative: down)")]
+        //[FieldOffset(16)]
+        public  float pitch_min;
+
+        /// <summary>Maximum pitch angle (positive: up, negative: down)  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Maximum pitch angle (positive: up, negative: down)")]
+        //[FieldOffset(20)]
+        public  float pitch_max;
+
+        /// <summary>Minimum yaw angle (positive: to the right, negative: to the left)  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Minimum yaw angle (positive: to the right, negative: to the left)")]
+        //[FieldOffset(24)]
+        public  float yaw_min;
+
+        /// <summary>Maximum yaw angle (positive: to the right, negative: to the left)  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Maximum yaw angle (positive: to the right, negative: to the left)")]
+        //[FieldOffset(28)]
+        public  float yaw_max;
+
+        /// <summary>Gimbal device ID that this gimbal manager is responsible for.   </summary>
+        [Units("")]
+        [Description("Gimbal device ID that this gimbal manager is responsible for.")]
+        //[FieldOffset(32)]
+        public  byte gimbal_device_id;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=13)]
+    ///<summary> Current status about a high level gimbal manager. This message should be broadcast at a low regular rate (e.g. 5Hz). </summary>
+    public struct mavlink_gimbal_manager_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_manager_status_t(uint time_boot_ms,/*GIMBAL_MANAGER_FLAGS*/uint flags,byte gimbal_device_id,byte primary_control_sysid,byte primary_control_compid,byte secondary_control_sysid,byte secondary_control_compid) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.flags = flags;
+            this.gimbal_device_id = gimbal_device_id;
+            this.primary_control_sysid = primary_control_sysid;
+            this.primary_control_compid = primary_control_compid;
+            this.secondary_control_sysid = secondary_control_sysid;
+            this.secondary_control_compid = secondary_control_compid;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_manager_status_t PopulateXMLOrder(uint time_boot_ms,/*GIMBAL_MANAGER_FLAGS*/uint flags,byte gimbal_device_id,byte primary_control_sysid,byte primary_control_compid,byte secondary_control_sysid,byte secondary_control_compid) 
+        {
+            var msg = new mavlink_gimbal_manager_status_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.flags = flags;
+            msg.gimbal_device_id = gimbal_device_id;
+            msg.primary_control_sysid = primary_control_sysid;
+            msg.primary_control_compid = primary_control_compid;
+            msg.secondary_control_sysid = secondary_control_sysid;
+            msg.secondary_control_compid = secondary_control_compid;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>High level gimbal manager flags currently applied. GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("High level gimbal manager flags currently applied.")]
+        //[FieldOffset(4)]
+        public  /*GIMBAL_MANAGER_FLAGS*/uint flags;
+
+        /// <summary>Gimbal device ID that this gimbal manager is responsible for.   </summary>
+        [Units("")]
+        [Description("Gimbal device ID that this gimbal manager is responsible for.")]
+        //[FieldOffset(8)]
+        public  byte gimbal_device_id;
+
+        /// <summary>System ID of MAVLink component with primary control, 0 for none.   </summary>
+        [Units("")]
+        [Description("System ID of MAVLink component with primary control, 0 for none.")]
+        //[FieldOffset(9)]
+        public  byte primary_control_sysid;
+
+        /// <summary>Component ID of MAVLink component with primary control, 0 for none.   </summary>
+        [Units("")]
+        [Description("Component ID of MAVLink component with primary control, 0 for none.")]
+        //[FieldOffset(10)]
+        public  byte primary_control_compid;
+
+        /// <summary>System ID of MAVLink component with secondary control, 0 for none.   </summary>
+        [Units("")]
+        [Description("System ID of MAVLink component with secondary control, 0 for none.")]
+        //[FieldOffset(11)]
+        public  byte secondary_control_sysid;
+
+        /// <summary>Component ID of MAVLink component with secondary control, 0 for none.   </summary>
+        [Units("")]
+        [Description("Component ID of MAVLink component with secondary control, 0 for none.")]
+        //[FieldOffset(12)]
+        public  byte secondary_control_compid;
+    };
+
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=144)]
@@ -26727,6 +27018,93 @@ public partial class MAVLink
         [Units("")]
         [Description("Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).")]
         //[FieldOffset(34)]
+        public  byte gimbal_device_id;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=23)]
+    ///<summary> High level message to control a gimbal's pitch and yaw angles. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_gimbal_manager_set_pitchyaw_t
+    {
+        /// packet ordered constructor
+        public mavlink_gimbal_manager_set_pitchyaw_t(/*GIMBAL_MANAGER_FLAGS*/uint flags,float pitch,float yaw,float pitch_rate,float yaw_rate,byte target_system,byte target_component,byte gimbal_device_id) 
+        {
+            this.flags = flags;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.pitch_rate = pitch_rate;
+            this.yaw_rate = yaw_rate;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_device_id = gimbal_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gimbal_manager_set_pitchyaw_t PopulateXMLOrder(byte target_system,byte target_component,/*GIMBAL_MANAGER_FLAGS*/uint flags,byte gimbal_device_id,float pitch,float yaw,float pitch_rate,float yaw_rate) 
+        {
+            var msg = new mavlink_gimbal_manager_set_pitchyaw_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.gimbal_device_id = gimbal_device_id;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.pitch_rate = pitch_rate;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
+
+        /// <summary>High level gimbal manager flags to use. GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("High level gimbal manager flags to use.")]
+        //[FieldOffset(0)]
+        public  /*GIMBAL_MANAGER_FLAGS*/uint flags;
+
+        /// <summary>Pitch angle (positive: up, negative: down, NaN to be ignored).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Pitch angle (positive: up, negative: down, NaN to be ignored).")]
+        //[FieldOffset(4)]
+        public  float pitch;
+
+        /// <summary>Yaw angle (positive: to the right, negative: to the left, NaN to be ignored).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Yaw angle (positive: to the right, negative: to the left, NaN to be ignored).")]
+        //[FieldOffset(8)]
+        public  float yaw;
+
+        /// <summary>Pitch angular rate (positive: up, negative: down, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Pitch angular rate (positive: up, negative: down, NaN to be ignored).")]
+        //[FieldOffset(12)]
+        public  float pitch_rate;
+
+        /// <summary>Yaw angular rate (positive: to the right, negative: to the left, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Yaw angular rate (positive: to the right, negative: to the left, NaN to be ignored).")]
+        //[FieldOffset(16)]
+        public  float yaw_rate;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(20)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(21)]
+        public  byte target_component;
+
+        /// <summary>Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).")]
+        //[FieldOffset(22)]
         public  byte gimbal_device_id;
     };
 
@@ -27480,12 +27858,12 @@ public partial class MAVLink
 
     
     /// extensions_start 15
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=232)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=233)]
     ///<summary> Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for aerial vehicles (http://www.ros.org/reps/rep-0147.html). </summary>
     public struct mavlink_odometry_t
     {
         /// packet ordered constructor
-        public mavlink_odometry_t(ulong time_usec,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
+        public mavlink_odometry_t(ulong time_usec,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type,sbyte quality) 
         {
             this.time_usec = time_usec;
             this.x = x;
@@ -27504,11 +27882,12 @@ public partial class MAVLink
             this.child_frame_id = child_frame_id;
             this.reset_counter = reset_counter;
             this.estimator_type = estimator_type;
+            this.quality = quality;
             
         }
         
         /// packet xml order
-        public static mavlink_odometry_t PopulateXMLOrder(ulong time_usec,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
+        public static mavlink_odometry_t PopulateXMLOrder(ulong time_usec,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type,sbyte quality) 
         {
             var msg = new mavlink_odometry_t();
 
@@ -27529,6 +27908,7 @@ public partial class MAVLink
             msg.velocity_covariance = velocity_covariance;
             msg.reset_counter = reset_counter;
             msg.estimator_type = estimator_type;
+            msg.quality = quality;
             
             return msg;
         }
@@ -27638,6 +28018,12 @@ public partial class MAVLink
         [Description("Type of estimator that is providing the odometry.")]
         //[FieldOffset(231)]
         public  /*MAV_ESTIMATOR_TYPE*/byte estimator_type;
+
+        /// <summary>Optional odometry quality metric as a percentage. -1 = odometry has failed, 0 = unknown/unset quality, 1 = worst quality, 100 = best quality  [%] </summary>
+        [Units("[%]")]
+        [Description("Optional odometry quality metric as a percentage. -1 = odometry has failed, 0 = unknown/unset quality, 1 = worst quality, 100 = best quality")]
+        //[FieldOffset(232)]
+        public  sbyte quality;
     };
 
     

@@ -113,6 +113,9 @@
     <EmbeddedResource Include="Controls\PrearmStatus.resx">
       <DependentUpon>PrearmStatus.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListControl.resx">
+      <DependentUpon>CheckListControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PropagationSettings.uk.resx">
       <DependentUpon>PropagationSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -262,9 +265,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.uk.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.uk.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigREPL.uk.resx">
       <DependentUpon>ConfigREPL.cs</DependentUpon>
@@ -611,8 +611,8 @@
       <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
-    <PackageReference Include="IronPython" version="2.7.8.1" targetFramework="net462" />
-    <PackageReference Include="IronPython.StdLib" version="2.7.8.1" targetFramework="net462" />
+    <PackageReference Include="IronPython" version="3.4.1" targetFramework="net462" />
+    <PackageReference Include="IronPython.StdLib" version="3.4.1" targetFramework="net462" />
     <PackageReference Include="JetBrains.Profiler.SelfApi">
       <Version>2.0.2</Version>
     </PackageReference>
@@ -1508,9 +1508,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigRawParams.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigRawParamsTree.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1848,9 +1845,6 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigRawParams.Designer.cs">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigRawParamsTree.Designer.cs">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.Designer.cs">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
@@ -4335,51 +4329,6 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.zh-TW.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ar.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.az-Latn-AZ.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.de-DE.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.fr.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.id-ID.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.it-IT.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ja-JP.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ko-KR.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.pt.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ru-KZ.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.tr.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-Hans.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-Hant.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-TW.resx">
-      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
@@ -4971,6 +4920,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FirmwareHistory.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="APMotorLayout.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="graphs\ekf3Graphs.xml">

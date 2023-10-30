@@ -169,4 +169,7 @@
   <data name="ReadyToArm" xml:space="preserve">
     <value>准备解锁</value>
   </data>
+  <data name="SAFE" xml:space="preserve">
+    <value>安全</value>
+  </data>
 </root>

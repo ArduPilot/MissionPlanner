@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -59,10 +60,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
                 y = 10;
-                tableLayoutPanel1.Enabled = false;
-                tableLayoutPanel1.SuspendLayout();
+                flowLayoutPanel1.Enabled = false;
+                flowLayoutPanel1.SuspendLayout();
 
-                foreach (Control ctl in tableLayoutPanel1.Controls)
+                foreach (Control ctl in flowLayoutPanel1.Controls)
                 {
                     if (ctl.GetType() == typeof(RangeControl))
                     {
@@ -111,8 +112,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
-                tableLayoutPanel1.ResumeLayout();
-                tableLayoutPanel1.Enabled = true;
+                flowLayoutPanel1.ResumeLayout();
+                flowLayoutPanel1.Enabled = true;
             }
         }
 
@@ -145,7 +146,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFriendlyParams()
         {
             InitializeComponent();
-            tableLayoutPanel1.Height = Height;
+            flowLayoutPanel1.Height = Height;
 
             Resize += this_Resize;
 
@@ -241,7 +242,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
         protected void this_Resize(object sender, EventArgs e)
         {
-            tableLayoutPanel1.Height = Height - 50;
+            flowLayoutPanel1.Height = Height - 50;
         }
 
         /// <summary>
@@ -258,16 +259,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Console.WriteLine("Activate Done " + DateTime.Now.ToString("ss.fff"));
         }
 
-        /// <summary>
-        ///     Handles the ParamListChanged event of the comPort control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
-        protected void comPort_ParamListChanged(object sender, EventArgs e)
-        {
-            SortParamList();
-        }
-
         #endregion
 
         #region Methods
@@ -275,13 +266,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <summary>
         ///     Sorts the param list.
         /// </summary>
-        private void SortParamList()
+        private void FilterParamList()
         {
             // Clear list
             _params.Clear();
+            var locker = new object();
 
             // When the parameter list is changed, re sort the list for our View's purposes
-            MainV2.comPort.MAV.param.Keys.ForEach(x =>
+            Parallel.ForEach(MainV2.comPort.MAV.param.Keys, x =>
             {
                 var displayName = ParameterMetaDataRepository.GetParameterMetaData(x.ToString(),
                     ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString());
@@ -295,10 +287,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                      // The user type is empty and this is in Advanced mode
                      string.IsNullOrEmpty(parameterMode) && ParameterMode == ParameterMetaDataConstants.Advanced))
                 {
-                    _params.Add(x.ToString(), displayName);
+                    lock (locker)
+                        _params.Add(x.ToString(), displayName);
                 }
             });
-            _params = _params.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
 
         /// <summary>
@@ -306,75 +298,45 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         private void BindParamList()
         {
-            //this.Visible = true;
-
-            // fix memory leak
-            foreach (Control ctl in tableLayoutPanel1.Controls)
-            {
-                // ctl.Visible = true;
-                //   ctl.Dispose();
-            }
-
-            Console.WriteLine("Disposed " + DateTime.Now.ToString("ss.fff"));
-
-            // tableLayoutPanel1.Controls.Clear();
-
+            Console.WriteLine("BindParamList " + DateTime.Now.ToString("ss.fff"));
 
             try
             {
-                SortParamList();
+                FilterParamList();
                 Console.WriteLine("Sorted " + DateTime.Now.ToString("ss.fff"));
             }
             catch
             {
             }
 
-            // get the params if nothing exists already
-            if (_params != null && _params.Count == 0)
-            {
-                try
-                {
-                    //Utilities.ParameterMetaDataParser.GetParameterInformation();
-                    //ParameterMetaDataRepository.Reload();
-                    //SortParamList();
-                }
-                catch (Exception exp)
-                {
-                    log.Error(exp);
-                } // just to cleanup any errors
-            }
-
-            Console.WriteLine("next " + DateTime.Now.ToString("ss.fff"));
-
-            tableLayoutPanel1.VerticalScroll.Value = 0;
-
-            SuspendLayout();
+            flowLayoutPanel1.VerticalScroll.Value = 0;
 
             var toadd = new List<Control>();
 
-            var list = Settings.Instance.GetList("fav_params");
+            var favlist = Settings.Instance.GetList("fav_params");
 
-            _params.OrderBy(x =>
+            Parallel.ForEach(_params, x =>
             {
-                if (list.Contains(x.Key))
-                    return "0" + x.Key;
-                return x.Key;
-            }).ForEach(x =>
-            {
-                AddControl(x, toadd); //,ref ypos);
+                AddControl(x, toadd);
                 Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("ss.fff"));
             });
-            
-            tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel1.Visible = false;
-            tableLayoutPanel1.Controls.AddRange(toadd.ToArray());
-            tableLayoutPanel1.Visible = true;
-            tableLayoutPanel1.ResumeLayout();
+
+            // sort and favs
+            toadd = toadd.OrderBy(x =>
+            {
+                if (favlist.Contains(x.Name))
+                    return "0" + x.Name;
+                return x.Name;
+            }).ToList();
+
+            flowLayoutPanel1.Visible = false;
+            flowLayoutPanel1.Controls.AddRange(toadd.ToArray());
+            flowLayoutPanel1.Visible = true;
 
             Console.WriteLine("Add done" + DateTime.Now.ToString("ss.fff"));
-
-            ResumeLayout(false);
         }
+
+        private object locker = new object();
 
         private void AddControl(KeyValuePair<string, string> x, List<Control> toadd) //, ref int ypos)
         {
@@ -386,7 +348,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     var value = (MainV2.comPort.MAV.param[x.Key].Value).ToString("0.###");
 
-                    var items = tableLayoutPanel1.Controls.Find(x.Key, false);
+                    var items = flowLayoutPanel1.Controls.Find(x.Key, false);
                     if (items.Length > 0)
                     {
                         if (items[0].GetType() == typeof(RangeControl))
@@ -463,12 +425,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 //  increment /= 100;
                             }
 
-                            var desc = FitDescriptionText(units, description, tableLayoutPanel1.Width);
+                            var desc = FitDescriptionText(units, description, flowLayoutPanel1.Width);
 
                             var rangeControl = new RangeControl(x.Key, desc, displayName, increment, displayscale,
                                 lowerRange, upperRange, value);
 
-                            rangeControl.Width = tableLayoutPanel1.Width - 50;
+                            rangeControl.Width = flowLayoutPanel1.Width - 50;
 
                             //Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
 
@@ -487,7 +449,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             // set pos
                          //   rangeControl.Location = new Point(0, y);
                             // add control - let it autosize height
-                            toadd.Add(rangeControl);
+                            lock(locker)
+                                toadd.Add(rangeControl);
                             // add height for next control
                             y += rangeControl.Height;
 
@@ -507,15 +470,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
                             bitmask.myLabel1.Text = displayName;
-                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width - 50);
-                            bitmask.Width = tableLayoutPanel1.Width - 50;
+                            bitmask.label1.Text = FitDescriptionText(units, description, flowLayoutPanel1.Width - 50);
+                            bitmask.Width = flowLayoutPanel1.Width - 50;
 
                             ThemeManager.ApplyThemeTo(bitmask);
 
                             // set pos
                             //bitmask.Location = new Point(0, y);
                             // add control - let it autosize height
-                            toadd.Add(bitmask);
+                            lock (locker)
+                                toadd.Add(bitmask);
                             // add height for next control
                             y += bitmask.Height;
 
@@ -536,10 +500,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             if (availableValues.Any())
                             {
                                 var valueControl = new ValuesControl();
-                                valueControl.Width = tableLayoutPanel1.Width - 50;
+                                valueControl.Width = flowLayoutPanel1.Width - 50;
                                 valueControl.Name = x.Key;
                                 valueControl.DescriptionText = FitDescriptionText(units, description,
-                                    tableLayoutPanel1.Width);
+                                    flowLayoutPanel1.Width);
                                 valueControl.LabelText = displayName;
 
                                 ThemeManager.ApplyThemeTo(valueControl);
@@ -563,7 +527,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 // set pos
                                 //valueControl.Location = new Point(0, y);
                                 // add control - let it autosize height
-                                toadd.Add(valueControl);
+                                lock (locker)
+                                    toadd.Add(valueControl);
                                 // add height for next control
                                 y += valueControl.Height;
                             }

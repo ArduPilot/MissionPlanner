@@ -11,6 +11,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+
 namespace MissionPlanner.Utilities
 {
     public class adsb
@@ -760,19 +761,21 @@ namespace MissionPlanner.Utilities
                         {
                             PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
                             plla.Heading = (float)plane.heading;
+                            if (plane.CallSign != null) plla.CallSign = plane.CallSign;
+                            plla.Speed = (float)plane.ground_speed;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
                                 UpdatePlanePosition(null, plla);
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
-                            Console.WriteLine(plane.ID + " " + plla);
+                            Console.WriteLine("AVR ADSB: " + plane.ID + " " + plla + " CS: " + plla.CallSign);
                         }
                     }
                 }
                 else if ((by == 'M' || by == 'S' || by == 'A' || by == 'I' || by == 'C') && !binary) // msg clk sta air id sel
                 {
                     string line = ((char)by) +ReadLine(st1);
-
+                    //Console.WriteLine("ADSB: " +  line);
                     if (line.StartsWith("MSG"))
                     {
                         string[] strArray = line.Split(new char[] { ',' });
@@ -909,10 +912,12 @@ namespace MissionPlanner.Utilities
                                 if (plla.Lat == 0 && plla.Lng == 0)
                                     continue;
                                 plla.Heading = (float)plane.heading;
+                                if (plane.CallSign != null) plla.CallSign = plane.CallSign;
+                                plla.Speed = plane.ground_speed;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(null, plla);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
-                                Console.WriteLine(plla);
+                                //Console.WriteLine(plla);
                             }
                             break;
                         default:
@@ -1068,6 +1073,9 @@ namespace MissionPlanner.Utilities
                 }
 
                 adsbmess.Ident = builder.ToString();
+
+                ((Plane)Planes[adsbmess.AA.ToString("X5")]).CallSign = adsbmess.Ident;
+                
                 //Console.WriteLine("Ident " + builder.ToString());
             } 
             else if (adsbmess.DF == 17 && adsbmess.TypeCode == 0x13) // velocity
@@ -1105,10 +1113,12 @@ namespace MissionPlanner.Utilities
                             nsvel *= -1;
 
                         double cog = (Math.Atan2(ewvel, nsvel) * (180 / Math.PI));
+                        double _gs = Math.Sqrt(ewvel * ewvel + nsvel * nsvel) ;
 
-                        Console.WriteLine("vel " + ewvel + " " + nsvel + " " + cog);
+                        Console.WriteLine("vel " + ewvel + " " + nsvel + " " + cog + " gs " + _gs);
 
                         ((Plane)Planes[adsbmess.AA.ToString("X5")]).heading = (cog + 360) % 360;
+                        ((Plane)Planes[adsbmess.AA.ToString("X5")]).ground_speed = (int) _gs;
 
                         break;
                 }

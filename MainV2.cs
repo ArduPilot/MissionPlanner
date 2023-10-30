@@ -879,8 +879,8 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    int win = NativeMethods.FindWindow("ConsoleWindowClass", null);
-                    NativeMethods.ShowWindow(win, NativeMethods.SW_HIDE); // hide window
+                    NativeMethods.ShowWindow(NativeMethods.GetConsoleWindow(), NativeMethods.SW_HIDE);
+
                 }
 
                 // prevent system from sleeping while mp open
@@ -1179,34 +1179,6 @@ namespace MissionPlanner
                     return;
                 }
             }
-
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke((MethodInvoker) delegate
-                {
-                    //enable the payload control page if a mavlink gimbal is detected
-                    if (instance.FlightData != null)
-                    {
-                        instance.FlightData.updatePayloadTabVisible();
-                    }
-
-                    instance.MyView.Reload();
-
-                    _connectionControl.UpdateSysIDS();
-                });
-            }
-            else
-            {
-                //enable the payload control page if a mavlink gimbal is detected
-                if (instance.FlightData != null)
-                {
-                    instance.FlightData.updatePayloadTabVisible();
-                }
-
-                instance.MyView.Reload();
-
-                _connectionControl.UpdateSysIDS();
-            }
         }
 #if !NETSTANDARD2_0
 #if !NETCOREAPP2_0
@@ -1300,35 +1272,35 @@ namespace MissionPlanner
                                 DateTime.Now)
                             {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw};
                 }
+            }
 
-                try
-                {
-                    // dont rebroadcast something that came from the drone
-                    if (sender != null && sender is MAVLinkInterface)
-                        return;
+            try
+            {
+                // dont rebroadcast something that came from the drone
+                if (sender != null && sender is MAVLinkInterface)
+                    return;
 
-                    MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
+                MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
-                    packet.altitude = (int) (MainV2.instance.adsbPlanes[id].Alt * 1000);
-                    packet.altitude_type = (byte) MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
-                    packet.callsign = adsb.CallSign.MakeBytes();
-                    packet.squawk = adsb.Squawk;
-                    packet.emitter_type = (byte) MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
-                    packet.heading = (ushort) (MainV2.instance.adsbPlanes[id].Heading * 100);
-                    packet.lat = (int) (MainV2.instance.adsbPlanes[id].Lat * 1e7);
-                    packet.lon = (int) (MainV2.instance.adsbPlanes[id].Lng * 1e7);
-                    packet.ICAO_address = uint.Parse(id, NumberStyles.HexNumber);
+                packet.altitude = (int) (adsb.Alt * 1000);
+                packet.altitude_type = (byte) MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
+                packet.callsign = adsb.CallSign.MakeBytes();
+                packet.squawk = adsb.Squawk;
+                packet.emitter_type = (byte) MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.heading = (ushort) (adsb.Heading * 100);
+                packet.lat = (int) (adsb.Lat * 1e7);
+                packet.lon = (int) (adsb.Lng * 1e7);
+                packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
 
-                    packet.flags = (ushort) (MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
-                                             MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+                packet.flags = (ushort) (MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                                            MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
 
-                    //send to current connected
-                    MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-                }
-                catch
-                {
+                //send to current connected
+                MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+            }
+            catch
+            {
 
-                }
             }
         }
 

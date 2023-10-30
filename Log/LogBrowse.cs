@@ -661,7 +661,7 @@ namespace MissionPlanner.Log
             treeView1.ShowNodeToolTips = true;
             dataModifierHash = new Hashtable();
 
-            var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
+            var parmdata = logdata.GetEnumeratorType("PARM").Take(100000).Select(a =>
                 new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
                     MAVLink.MAV_PARAM_TYPE.REAL32));
             MainV2.comPort.MAV.param.Clear();
@@ -3765,7 +3765,7 @@ main()
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(newparamdata);
 
-            var frm = new ConfigRawParamsTree().ShowUserControl();
+            var frm = new ConfigRawParams().ShowUserControl();
         }
 
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
@@ -3802,7 +3802,7 @@ main()
                         var name = file.GetRaw<string>("FileName");
                         var offset = file.GetRaw<uint>("Offset");
                         var length = file.GetRaw<byte>("Length");
-                        var data = file.GetRaw<string>("Data");
+                        var data = file.GetRaw<byte[]>("Data");
 
                         var path = Path.Combine(dir, name);
 
@@ -3813,10 +3813,11 @@ main()
                         {
                             f = File.OpenWrite(path);
                             filehandles.Add(name, f);
+                            f.SetLength(0);
                         }
 
                         f.Seek(offset, SeekOrigin.Begin);
-                        var data2 = data.Select(a => (byte) a).ToArray().MakeSize(length);
+                        var data2 = data.MakeSize(length);
                         f.Write(data2, 0, length);
                     }
 

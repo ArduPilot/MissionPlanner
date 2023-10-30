@@ -115,7 +115,7 @@ namespace MissionPlanner.Controls
             //
             textBox.Size = new Size(372, 20);
             textBox.Text = value;
-            textBox.TextChanged += textBox_TextChanged;
+            textBox.TextChanged += TextBox_TextChanged;
 
             if (multiline)
             {
@@ -164,9 +164,8 @@ namespace MissionPlanner.Controls
             // Increase the size of the form.
             form.ClientSize = new Size(396, y + buttonOk.Height + yMargin);
 
-            if (ApplyTheme != null)
-                ApplyTheme(form);
-            
+            ApplyTheme?.Invoke(form);
+
 
             Console.WriteLine("Input Box " + System.Threading.Thread.CurrentThread.Name);
 
@@ -199,10 +198,9 @@ namespace MissionPlanner.Controls
             return dialogResult;
         }
 
-        static void textBox_TextChanged(object sender, EventArgs e)
+        static void TextBox_TextChanged(object sender, EventArgs e)
         {
-            if (TextChanged != null)
-                TextChanged(sender, e);
+            TextChanged?.Invoke(sender, e);
         }
     }
 }

@@ -1,15 +1,17 @@
-﻿using AltitudeAngelWings.ApiClient.Client.TelemetryClient;
-using AltitudeAngelWings.Models;
-using AltitudeAngelWings.Service.AltitudeAngelTelemetry.TelemetryEvents;
+﻿using AltitudeAngelWings.Service.AltitudeAngelTelemetry.TelemetryEvents;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
 using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
+using AltitudeAngelWings.Clients;
+using AltitudeAngelWings.Clients.Auth.Model;
+using AltitudeAngelWings.Clients.Telemetry;
+using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
 {
-    public class TelemetryService: ITelemetryService
+    public class TelemetryService : ITelemetryService
     {
         private readonly IMessagesService _messagesService;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
@@ -28,7 +30,6 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
             _settings = settings;
             _client = client;
 
-            if (_settings.DisableTelemetrySending) return;
             _disposer.Add(flightDataService.ArmedFlightData
                 .SubscribeWithAsync((i, ct) => SendTelemetry(i)));
 
@@ -36,18 +37,22 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
                 .SubscribeWithAsync((i, ct) => FlightDisarmed(i)));
         }
 
-        private Task FlightDisarmed(Models.FlightData flightData)
+        private Task FlightDisarmed(Model.FlightData flightData)
         {
             _sequenceNumber = 0;
             return Task.CompletedTask;
         }
 
-        private async Task SendTelemetry(Models.FlightData flightData)
+        private async Task SendTelemetry(Model.FlightData flightData)
         {
+            if (!(_settings.UseFlightPlans && _settings.UseFlights && _settings.SendFlightTelemetry > FlightTelemetry.None && _settings.TokenResponse.HasScopes(Scopes.TacticalCrs)))
+            {
+                return;
+            }
+
             if (_settings.CurrentFlightId == null)
             {
-                await _messagesService.AddMessageAsync(
-                    new Message("Not sending telemetry as no current flight ID is set."));
+                await _messagesService.AddMessageAsync(Message.ForInfo("Telemetry", "Not sending telemetry as no current flight ID is set."));
                 return;
             }
             try
@@ -76,14 +81,14 @@ namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry
                 var telemetry = new TelemetryEvent<UavPositionReport>(telemetryId, udpMessage) { SequenceNumber = _sequenceNumber };
 
                 var message = string.Format($"Sending Telemetry {flightData.CurrentPosition.Latitude}, {flightData.CurrentPosition.Longitude}, {flightData.CurrentPosition.Altitude}");
-                await _messagesService.AddMessageAsync(new Message(message));
+                await _messagesService.AddMessageAsync(Message.ForInfo("Telemetry", message));
 
                 _client.SendTelemetry(telemetry, _settings.TelemetryHostName, _settings.TelemetryPortNumber, _settings.EncryptionKey);
                 _sequenceNumber += 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message("ERROR: Sending telemetry failed."));
+                await _messagesService.AddMessageAsync(Message.ForError("Sending telemetry failed.", ex));
             }
         }
 
