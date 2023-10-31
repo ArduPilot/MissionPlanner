@@ -3995,8 +3995,12 @@ namespace MissionPlanner.GCSViews
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "Heading: " + pllau.Heading.ToString("0") + "°";
+                                    // Add distance
                                     if (MainV2.comPort.MAV.cs.Location.Lat != 0 && MainV2.comPort.MAV.cs.Location.Lng != 0)
                                         adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
+                                    // Add collision threat level
+                                    if (pllau.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH ? "Low" : "High");
                                     adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                     adsbplane.Position = pllau;
                                     adsbplane.heading = pllau.Heading;
