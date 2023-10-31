@@ -3146,7 +3146,15 @@ namespace MissionPlanner
             ADSBThreadRunner.Reset();
             while (adsbThread)
             {
-                await Task.Delay(1000).ConfigureAwait(false); // run every 1000 mss
+                await Task.Delay(1000).ConfigureAwait(false); // run every 1000 ms
+                // Clean up old planes
+                HashSet<string> planesToClean = new HashSet<string>();
+                lock(adsblock)
+                {
+                    MainV2.instance.adsbPlanes.Where(a => a.Value.Time < DateTime.Now.AddSeconds(-30)).ForEach(a => planesToClean.Add(a.Key));
+                    planesToClean.ForEach(a => MainV2.instance.adsbPlanes.TryRemove(a, out _));
+
+                }
                 PointLatLngAlt ourLocation = comPort.MAV.cs.Location;
                 // Get only close planes, sorted by distance
                 var relevantPlanes = MainV2.instance.adsbPlanes
