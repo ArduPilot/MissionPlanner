@@ -4000,7 +4000,7 @@ namespace MissionPlanner.GCSViews
                                         adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
                                     // Add collision threat level
                                     if (pllau.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
-                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH ? "Low" : "High");
+                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH ? "Warning" : "Danger");
                                     adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                     adsbplane.Position = pllau;
                                     adsbplane.heading = pllau.Heading;
