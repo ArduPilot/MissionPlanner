@@ -227,7 +227,7 @@ namespace MissionPlanner.Utilities
                                     Squawk = Convert.ToUInt16(ac.squawk)
                                 };
 
-                                UpdatePlanePosition(null, plane);
+                                UpdatePlanePosition(this, plane);
                             }
                         }
                     }
@@ -235,8 +235,6 @@ namespace MissionPlanner.Utilities
                 catch (Exception e)
                 {
                     log.Warn(e);
-                    throw e;
-
                 }
 
                 // cleanup any sockets that might be outstanding.
@@ -750,7 +748,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public static void ReadMessage(Stream st1)
+        public void ReadMessage(Stream st1)
         {
             bool avr = false;
             bool binary = false;
@@ -784,7 +782,7 @@ namespace MissionPlanner.Utilities
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
-                                UpdatePlanePosition(null, plla);
+                                UpdatePlanePosition(this, plla);
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
                             Console.WriteLine("AVR ADSB: " + plane.ID + " " + plla + " CS: " + plla.CallSign);
                         }
@@ -862,7 +860,7 @@ namespace MissionPlanner.Utilities
                                     Squawk = squawk,
                                     VerticalSpeed = vspeed
                                 };
-                                UpdatePlanePosition(null, plln);
+                                UpdatePlanePosition(this, plln);
                             }
                         }
                         else if (strArray[1] == "4")
@@ -955,7 +953,7 @@ namespace MissionPlanner.Utilities
                                 if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                                 plla.Speed = plane.ground_speed;
                                 if (UpdatePlanePosition != null && plla != null)
-                                    UpdatePlanePosition(null, plla);
+                                    UpdatePlanePosition(this, plla);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
                                 //Console.WriteLine(plla);
                             }
