@@ -1275,11 +1275,6 @@ namespace MissionPlanner
                     if (plane.Source == null && sender != null)
                     {
                         log.DebugFormat("Ignoring MAVLink-sourced ADSB_VEHICLE for locally-known aircraft {0}", adsb.Tag);
-                        // Still update the threat level from the MAV
-                        if (adsb.ThreatLevel != plane.ThreatLevel)
-                        {
-                            instance.adsbPlanes[id].ThreatLevel = adsb.ThreatLevel;
-                        }
                         return;
                     }
 
