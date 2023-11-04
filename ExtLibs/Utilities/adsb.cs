@@ -55,9 +55,10 @@ namespace MissionPlanner.Utilities
         /// </summary>
         private const double FTM_TO_CMS = 1.0d / 1.968d;
         /// <summary>
-        /// Timeout in milliseconds for ADS-B connections to default endpoints
+        /// Timeout in milliseconds for ADS-B connections to default endpoints.
+        /// These are all localhost, so we can be pretty short.
         /// </summary>
-        private const int CONNECT_TIMEOUT_MILLISECONDS = 50;
+        private const int CONNECT_TIMEOUT_MILLISECONDS = 25;
 
         public adsb()
         {
@@ -118,12 +119,17 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-                        cl.ReceiveTimeout = 1000;
-                        cl.Connect(System.Net.IPAddress.Loopback, 30003);
-
-                        log.Info("Connected loopback:30003");
-
-                        ReadMessage(cl.GetStream());
+                        var result = cl.BeginConnect(System.Net.IPAddress.Loopback, 30003, null, null);
+                        result.AsyncWaitHandle.WaitOne(CONNECT_TIMEOUT_MILLISECONDS);
+                        if (cl.Connected)
+                        {
+                            log.Info("Connected loopback:30003");
+                            ReadMessage(cl.GetStream());
+                        }
+                        else
+                        {
+                            cl.Close();
+                        }
                     }
                 }
                 catch (Exception) {  }
@@ -133,12 +139,17 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-                        cl.ReceiveTimeout = 1000;
-                        cl.Connect(System.Net.IPAddress.Loopback, 30002);
-
-                        log.Info("Connected loopback:30002");
-
-                        ReadMessage(cl.GetStream());
+                        var result = cl.BeginConnect(System.Net.IPAddress.Loopback, 30002, null, null);
+                        result.AsyncWaitHandle.WaitOne(CONNECT_TIMEOUT_MILLISECONDS);
+                        if (cl.Connected)
+                        {
+                            log.Info("Connected loopback:30002");
+                            ReadMessage(cl.GetStream());
+                        }
+                        else
+                        {
+                            cl.Close();
+                        }
                     }
                 }
                 catch (Exception) {  }
@@ -149,12 +160,17 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-                        cl.ReceiveTimeout = 1000;
-                        cl.Connect(System.Net.IPAddress.Loopback, 31004);
-
-                        log.Info("Connected loopback:31004");
-
-                        ReadMessage(cl.GetStream());
+                        var result = cl.BeginConnect(System.Net.IPAddress.Loopback, 31004, null, null);
+                        result.AsyncWaitHandle.WaitOne(CONNECT_TIMEOUT_MILLISECONDS);
+                        if (cl.Connected)
+                        {
+                            log.Info("Connected loopback:31004");
+                            ReadMessage(cl.GetStream());
+                        }
+                        else
+                        {
+                            cl.Close();
+                        }
                     }
                 }
                 catch (Exception) { }
@@ -164,12 +180,17 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-                        cl.ReceiveTimeout = 1000;
-                        cl.Connect(System.Net.IPAddress.Loopback, 31001);
-
-                        log.Info("Connected loopback:31001");
-
-                        ReadMessage(cl.GetStream());
+                        var result = cl.BeginConnect(System.Net.IPAddress.Loopback, 31001, null, null);
+                        result.AsyncWaitHandle.WaitOne(CONNECT_TIMEOUT_MILLISECONDS);
+                        if (cl.Connected)
+                        {
+                            log.Info("Connected loopback:31001");
+                            ReadMessage(cl.GetStream());
+                        }
+                        else
+                        {
+                            cl.Close();
+                        }
                     }
                 }
                 catch (Exception) {  }
@@ -180,12 +201,17 @@ namespace MissionPlanner.Utilities
                 {
                     using (TcpClient cl = new TcpClient())
                     {
-                        cl.ReceiveTimeout = 1000;
-                        cl.Connect(System.Net.IPAddress.Loopback, 47806);
-
-                        log.Info("Connected loopback:47806");
-
-                        ReadMessage(cl.GetStream());
+                        var result = cl.BeginConnect(System.Net.IPAddress.Loopback, 47806, null, null);
+                        result.AsyncWaitHandle.WaitOne(CONNECT_TIMEOUT_MILLISECONDS);
+                        if (cl.Connected)
+                        {
+                            log.Info("Connected loopback:47806");
+                            ReadMessage(cl.GetStream());
+                        }
+                        else
+                        {
+                            cl.Close();
+                        }
                     }
                 }
                 catch (Exception) {  }
@@ -203,7 +229,8 @@ namespace MissionPlanner.Utilities
                         {
                             var result = JsonConvert.DeserializeObject<RootObject>(t.Result);
 
-                            if (result.ac.Count < 1)
+                            // Increase range if we don't see many planes
+                            if (result.ac.Count < 10)
                                 adsbexchangerange = Math.Min(adsbexchangerange + 10, 250);
 
                             foreach (var ac in result.ac)
@@ -214,7 +241,7 @@ namespace MissionPlanner.Utilities
                                 {
                                     alt = (int)intValue;
                                 }
-                                var plane = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(ac.lat,
+                                PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
                                     ac.lon,
                                     alt * FEET_TO_METERS,
                                     (float)ac.track,

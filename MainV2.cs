@@ -3157,40 +3157,38 @@ namespace MissionPlanner
                     .Where(v => v.Distance <= 10000)
                     .Where(v => !(v.v.Value.Source is MAVLinkInterface))
                     .OrderBy(v => v.Distance)
-                    //.Select(v => v.v.Value)
+                    .Select(v => v.v.Value)
                     .Take(10)
                     .ToList();
                 log.InfoFormat("Evalulating {0} top planes from {1} known...\n", relevantPlanes.Count, MainV2.instance.adsbPlanes.Count);
 
                 adsbIndex = (++adsbIndex % Math.Max(1, Math.Min(relevantPlanes.Count, 10)));
-                // this can be cleaned up dramatically when we no longer want to debug print distances; uncomment select above
-                var adsbWhole = relevantPlanes.ElementAtOrDefault(adsbIndex);
-                if (adsbWhole == null)
+                var currentPlane = relevantPlanes.ElementAtOrDefault(adsbIndex);
+                if (currentPlane == null)
                 {
                     continue;
                 }
-                var adsb = adsbWhole.v.Value;
 
-                log.InfoFormat("Sending ADSB plane at index {0}: {1} {2} meters away\n", adsbIndex, adsb.CallSign, adsbWhole.Distance);
+                log.InfoFormat("Sending ADSB plane at index {0}: {1} {2} meters away\n", adsbIndex, currentPlane.CallSign, adsbWhole.Distance);
 
                 MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
-                packet.altitude = (int)(adsb.Alt * 1000);
+                packet.altitude = (int)(currentPlane.Alt * 1000);
                 packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
-                packet.callsign = adsb.CallSign.MakeBytes();
-                packet.squawk = adsb.Squawk;
+                packet.callsign = currentPlane.CallSign.MakeBytes();
+                packet.squawk = currentPlane.Squawk;
                 packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
-                packet.heading = (ushort)(adsb.Heading * 100);
-                packet.lat = (int)(adsb.Lat * 1e7);
-                packet.lon = (int)(adsb.Lng * 1e7);
-                packet.hor_velocity = (ushort)(adsb.Speed);
-                packet.ver_velocity = (short)(adsb.VerticalSpeed);
+                packet.heading = (ushort)(currentPlane.Heading * 100);
+                packet.lat = (int)(currentPlane.Lat * 1e7);
+                packet.lon = (int)(currentPlane.Lng * 1e7);
+                packet.hor_velocity = (ushort)(currentPlane.Speed);
+                packet.ver_velocity = (short)(currentPlane.VerticalSpeed);
                 try
                 {
-                    packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
+                    packet.ICAO_address = uint.Parse(currentPlane.Tag, NumberStyles.HexNumber);
                 }
                 catch
                 {
-                    log.WarnFormat("invalid icao address: {0}", adsb.Tag);
+                    log.WarnFormat("invalid icao address: {0}", currentPlane.Tag);
                     packet.ICAO_address = 0;
                 }
                 packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |

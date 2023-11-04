@@ -3578,10 +3578,13 @@ namespace MissionPlanner.GCSViews
                             this.BeginInvoke((MethodInvoker) delegate { but_disablejoystick.Visible = true; });
                         }
 
-                        adsb.CurrentPosition = gMapControl1.Position;
-                        if (MainV2.comPort.MAV.cs.HomeLocation != PointLatLngAlt.Zero)
+                        if (MainV2.comPort.MAV.cs.Location != PointLatLngAlt.Zero)
                         {
-                            adsb.CurrentPosition = MainV2.comPort.MAV.cs.HomeLocation;
+                            adsb.CurrentPosition = MainV2.comPort.MAV.cs.Location;
+                        }
+                        else
+                        {
+                            adsb.CurrentPosition = gMapControl1.Position;
                         }
 
                         // show proximity screen
