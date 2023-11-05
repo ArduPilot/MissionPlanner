@@ -3160,17 +3160,12 @@ namespace MissionPlanner
                     .Select(v => v.v.Value)
                     .Take(10)
                     .ToList();
-                log.InfoFormat("Evalulating {0} top planes from {1} known...\n", relevantPlanes.Count, MainV2.instance.adsbPlanes.Count);
-
                 adsbIndex = (++adsbIndex % Math.Max(1, Math.Min(relevantPlanes.Count, 10)));
                 var currentPlane = relevantPlanes.ElementAtOrDefault(adsbIndex);
                 if (currentPlane == null)
                 {
                     continue;
                 }
-
-                log.InfoFormat("Sending ADSB plane at index {0}: {1} {2} meters away\n", adsbIndex, currentPlane.CallSign, adsbWhole.Distance);
-
                 MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
                 packet.altitude = (int)(currentPlane.Alt * 1000);
                 packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
