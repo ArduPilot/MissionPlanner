@@ -2028,7 +2028,11 @@ namespace MissionPlanner
         {
             if (mavLinkMessage.sysid == parent.sysid && mavLinkMessage.compid == parent.compid
                 || mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.RADIO // propagate the RADIO/RADIO_STATUS message across all devices on this link
-                || mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS)
+                || mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS
+                || ( mavLinkMessage.sysid == parent.sysid                      // Propagate NAMED_VALUE_FLOAT messages across all components within the same device
+                     && mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_FLOAT 
+                     && Settings.Instance.GetBoolean("propagateNamedFloats", true)) )
+                     
             {
                 switch (mavLinkMessage.msgid)
                 {
