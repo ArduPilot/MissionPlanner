@@ -193,7 +193,8 @@ namespace MissionPlanner.ArduPilot
                                 if (dist > this_loiterradius)
                                 {
                                     route.Add(pointlist[pointlist.Count - 1]);
-                                    var offset = from.newpos(bearing - loiterdirection*90, this_loiterradius);
+                                    var theta = Math.Acos(this_loiterradius / dist) * MathHelper.rad2deg;
+                                    var offset = from.newpos(bearing - loiterdirection*theta, this_loiterradius);
                                     route.Add(offset);
                                 }
                                 else
