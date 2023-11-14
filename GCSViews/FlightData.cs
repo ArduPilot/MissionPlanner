@@ -4013,9 +4013,6 @@ namespace MissionPlanner.GCSViews
                                     {
                                         adsbplane.IsVisible = true;
 
-                                        if (pllau.DisplayICAO)
-                                            adsbplane.ToolTipMode = MarkerTooltipMode.Always;
-
                                         switch (pllau.ThreatLevel)
                                         {
                                             case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
