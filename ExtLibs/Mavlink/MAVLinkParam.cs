@@ -82,11 +82,12 @@ public partial class MAVLink
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="wiretype"></param>
-        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype)
+        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype, decimal? _default_value = null)
         {
             Name = name;
             Type = wiretype;
             Value = value;
+            default_value = _default_value;
         }
 
         /// <summary>
