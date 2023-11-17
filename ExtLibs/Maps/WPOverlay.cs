@@ -72,7 +72,7 @@ namespace MissionPlanner.ArduPilot
                     || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI || command == (ushort)MAVLink.MAV_CMD.DO_LAND_START)
                 {
                     // land can be 0,0 or a lat,lng
-                    if (command == (ushort) MAVLink.MAV_CMD.LAND && item.lat == 0 && item.lng == 0)
+                    if ((command == (ushort)MAVLink.MAV_CMD.LAND || command == (ushort)MAVLink.MAV_CMD.VTOL_LAND) && item.lat == 0 && item.lng == 0)
                     {
                         continue;
                     }
@@ -96,7 +96,7 @@ namespace MissionPlanner.ArduPilot
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
                             item.alt * altunitmultiplier, null, wpradius);
                     } 
-                    else if (command == (ushort) MAVLink.MAV_CMD.LAND && item.lat != 0 && item.lng != 0)
+                    else if ((command == (ushort) MAVLink.MAV_CMD.LAND || command == (ushort) MAVLink.MAV_CMD.VTOL_LAND) && item.lat != 0 && item.lng != 0)
                     {
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
                             item.alt + gethomealt((MAVLink.MAV_FRAME) item.frame, item.lat, item.lng),
