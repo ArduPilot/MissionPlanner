@@ -1,13 +1,8 @@
-﻿using DirectShowLib;
-using Dowding.Model;
-using IronPython.Runtime.Exceptions;
-using MissionPlanner.ArduPilot;
+﻿using MissionPlanner.ArduPilot;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
-using NetTopologySuite.Triangulate;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto.Modes.Gcm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using static IronPython.Modules._ast;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
