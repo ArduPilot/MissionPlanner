@@ -95,6 +95,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayParachute { get; set; }
         public Boolean displayEsp { get; set; }
         public Boolean displayAntennaTracker { get; set; }
+        public Boolean displaySerialPorts { get; set; }
 
 
         //config tuning
@@ -189,6 +190,7 @@ namespace MissionPlanner.Utilities
             displayAntennaTracker = true;
             displayRTKInject = true;
             displayJoystick = true;
+            displaySerialPorts = true;
 
 
             //config tuning
