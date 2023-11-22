@@ -6180,7 +6180,14 @@ namespace MissionPlanner.GCSViews
                 if (!Squawk_nud.Focused)
                 {
                     Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
-                    Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.xpdr_mode_A_squawk_code;
+                    try
+                    {
+                        Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.xpdr_mode_A_squawk_code;
+                        // if the value is bad, we need to be able to reset it, so silent fail
+                    }
+                    catch
+                    {
+                    }
                     Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
                 }
 
