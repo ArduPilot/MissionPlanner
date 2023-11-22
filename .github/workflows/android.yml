@@ -46,6 +46,8 @@ jobs:
           
           $manifest.Save($current.Path + "\ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml")
 
+          choco install microsoft-openjdk
+
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
           
           del ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.aab
