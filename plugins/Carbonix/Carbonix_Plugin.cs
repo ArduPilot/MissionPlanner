@@ -1,5 +1,5 @@
 ﻿using log4net;
-﻿using MissionPlanner.Plugin;
+using MissionPlanner.Plugin;
 using System.Reflection;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -36,6 +36,9 @@ namespace Carbonix
 
             // Add custom actions/data tabs and panel
             LoadTabs();
+
+            // Change HUD bottom color to a lighter brown color than stock
+            Host.MainForm.FlightData.Load += new EventHandler(ForceHUD);
 
             // Refresh the waypoints after refreshing params
             Host.comPort.ParamListChanged += Refresh_CS_WPs;
@@ -95,6 +98,22 @@ namespace Carbonix
 
             // This addition makes us tight on space. Make the tabs smaller.
             Host.MainForm.FlightData.tabControlactions.ItemSize = new System.Drawing.Size(Host.MainForm.FlightData.tabControlactions.ItemSize.Width, 20);
+        }
+
+        void ForceHUD(object sender, EventArgs e)
+        {
+            try
+            {
+                MissionPlanner.GCSViews.FlightData.myhud.groundColor1 = System.Drawing.ColorTranslator.FromHtml(settings["hud_groundcolor1"]);
+                MissionPlanner.GCSViews.FlightData.myhud.groundColor2 = System.Drawing.ColorTranslator.FromHtml(settings["hud_groundcolor2"]);
+            }
+            catch
+            {
+                // ignore any parsing errors
+            }
+
+            // Remove the ground color option from the right-click menu
+            Host.FDMenuHud.Items.RemoveByKey("groundColorToolStripMenuItem");
         }
 
         void Refresh_CS_WPs(object sender, EventArgs e)

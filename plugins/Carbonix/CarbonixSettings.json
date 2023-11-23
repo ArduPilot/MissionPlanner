@@ -6,5 +6,7 @@
   "loitradius_min": 120,
   "loitradius_max": 3000,
   "climbrate_min": 0.5,
-  "climbrate_max": 3.1
+  "climbrate_max": 3.1,
+  "hud_groundcolor1": "#b3772c",
+  "hud_groundcolor2": "#80551f"
 }
