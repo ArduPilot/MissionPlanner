@@ -19,6 +19,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CarbonixSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="CarbonixSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
       <Aliases>Drawing</Aliases>
       <Private>false</Private>
