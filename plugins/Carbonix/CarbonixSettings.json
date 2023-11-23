@@ -1,0 +1,10 @@
+{
+  "settings_version": 2,
+  "velz_unit": "m/s",
+  "guidedalt_min": -600,
+  "guidedalt_max": 4500,
+  "loitradius_min": 120,
+  "loitradius_max": 3000,
+  "climbrate_min": 0.5,
+  "climbrate_max": 3.1
+}
