@@ -37,6 +37,9 @@ namespace Carbonix
             // Add custom actions/data tabs and panel
             LoadTabs();
 
+            // Refresh the waypoints after refreshing params
+            Host.comPort.ParamListChanged += Refresh_CS_WPs;
+
             return true;
         }
 
@@ -94,5 +97,50 @@ namespace Carbonix
             Host.MainForm.FlightData.tabControlactions.ItemSize = new System.Drawing.Size(Host.MainForm.FlightData.tabControlactions.ItemSize.Width, 20);
         }
 
+        void Refresh_CS_WPs(object sender, EventArgs e)
+        {
+            if (!Host.comPort.BaseStream.IsOpen || (Host.cs.capabilities & (int)MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) == 0)
+                return;
+
+            // If we haven't read params yet, don't read the mission
+            if (Host.comPort.MAV.param.Count < 100)
+                return;
+
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+                Text = "Receiving WP's"
+            };
+
+            frmProgressReporter.DoWork += GetWPs;
+            frmProgressReporter.UpdateProgressAndStatus(-1, "Receiving WP's");
+
+            ThemeManager.ApplyThemeTo(frmProgressReporter);
+
+            frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
+        }
+
+        private void GetWPs(IProgressReporterDialogue sender)
+        {
+            try
+            {
+                var paramfileTask = Task.Run<MemoryStream>(() =>
+                {
+                    var ftp = new MAVFtp(Host.comPort, Host.comPort.MAV.sysid, Host.comPort.MAV.compid);
+                    ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), status); };
+                    return ftp.GetFile("@MISSION/mission.dat", null, true, 80);
+                });
+                var (wps, _, _) = missionpck.unpack(paramfileTask.GetAwaiter().GetResult().ToArray());
+                Host.comPort.MAV.wps.Clear();
+                wps.ForEach(wp => Host.comPort.MAV.wps[wp.seq] = wp);
+                return;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
     }
 }
