@@ -1,5 +1,8 @@
 ﻿using log4net;
 using MissionPlanner.Plugin;
+using MissionPlanner.ArduPilot.Mavlink;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Joystick;
 using System.Reflection;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -9,8 +12,6 @@ using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using System.Threading.Tasks;
-using MissionPlanner.ArduPilot.Mavlink;
-using MissionPlanner.ArduPilot;
 
 namespace Carbonix
 {
@@ -27,6 +28,12 @@ namespace Carbonix
         // Must be incremented any time a field is added to the settings
         public int settings_version = 2;
 
+        // Reference to controller menu button so text can be changed to indicate connection status
+        ToolStripButton controllerMenu;
+
+        // Time to attempt autoconnect of joystick, 5 seconds after plugin load
+        DateTime controller_autoconnect_time = DateTime.MaxValue;
+
         public override bool Init() { return true; }
 
         public override bool Loaded()
@@ -37,17 +44,101 @@ namespace Carbonix
             // Add custom actions/data tabs and panel
             LoadTabs();
 
+            // Add custom controller menu button to the main menu
+            if (settings.ContainsKey("controller") && settings["controller"] != "")
+            {
+                SetupController();
+
+                // Can't autoconnect in SetupController() because it causes a deadlock for some reason
+                // TODO: Figure out why, and fix that instead of this hack
+                controller_autoconnect_time = DateTime.Now + TimeSpan.FromSeconds(5);
+            }
+
             // Change HUD bottom color to a lighter brown color than stock
             Host.MainForm.FlightData.Load += new EventHandler(ForceHUD);
 
             // Refresh the waypoints after refreshing params
             Host.comPort.ParamListChanged += Refresh_CS_WPs;
 
+            loopratehz = 1;
+
             return true;
         }
 
         public override bool Exit() { return true; }
-        
+
+        bool last_controller_state = false; // Used to detect change in controller connection
+        DateTime last_rchealthy = DateTime.MinValue; // Used to detect long periods of bad RC Receiver health
+        DateTime last_rcwarning = DateTime.MinValue;
+
+        public override bool Loop()
+        {
+            // See if it's time to autoconnect the joystick
+            bool controller_state = (MissionPlanner.MainV2.joystick?.enabled == true);
+            if (DateTime.Now > controller_autoconnect_time)
+            {
+                controller_autoconnect_time = DateTime.MaxValue;
+                if (!controller_state)
+                {
+                    var joy = JoystickBase.Create(() => Host.comPort);
+
+                    if (joy.start(settings["controller"]))
+                    {
+                        MissionPlanner.MainV2.joystick = joy;
+                        MissionPlanner.MainV2.joystick.enabled = true;
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Failed to start " + settings["controller"]);
+                    }
+                }
+            }
+
+            if (bool.Parse(Settings.Instance["norcreceiver", "false"]))
+            {
+                // Check for RC Receiver health
+                // If RC shows unhealthy for 5 seconds straight, or if the joystick is disconnected, then trigger a warning
+                if (Host.comPort.BaseStream.IsOpen && !Host.cs.sensors_health.rc_receiver && Host.cs.sensors_enabled.rc_receiver && Host.cs.sensors_present.rc_receiver)
+                {
+                    if (DateTime.UtcNow - last_rchealthy > TimeSpan.FromSeconds(5) || !controller_state)
+                    {
+                        // Trigger a warning every 10 seconds
+                        if (DateTime.UtcNow - last_rcwarning > TimeSpan.FromSeconds(10))
+                        {
+                            last_rcwarning = DateTime.UtcNow;
+                            Host.cs.messageHigh = "No Controller";
+                        }
+                    }
+                }
+                else
+                {
+                    last_rchealthy = DateTime.UtcNow;
+                }
+            }
+
+            // Update the controller menu button text to indicate whether the controller is connected
+            if (!last_controller_state && controller_state)
+            {
+                Host.MainForm.MainMenu.Invoke((MethodInvoker)delegate
+                {
+                    controllerMenu.Text = "Controller\nConnected";
+                    controllerMenu.Invalidate();
+                });
+                last_controller_state = true;
+            }
+            else if (last_controller_state && !controller_state)
+            {
+                Host.MainForm.MainMenu.Invoke((MethodInvoker)delegate
+                {
+                    controllerMenu.Text = "Controller\nDisconnected";
+                    controllerMenu.Invalidate();
+                });
+                last_controller_state = false;
+            }
+
+            return true;
+        }
+
         private void LoadSettings()
         {
             string settings_file = Path.Combine(Settings.GetUserDataDirectory(), "CarbonixSettings.json");
@@ -98,6 +189,37 @@ namespace Carbonix
 
             // This addition makes us tight on space. Make the tabs smaller.
             Host.MainForm.FlightData.tabControlactions.ItemSize = new System.Drawing.Size(Host.MainForm.FlightData.tabControlactions.ItemSize.Width, 20);
+        }
+
+        private void SetupController()
+        {
+            // Add controller menu button to top menu
+            controllerMenu = new ToolStripButton("Controller\nDisconnected");
+            controllerMenu.Click += (s, e) =>
+            {
+                new JoystickSetup().ShowUserControl();
+            };
+            controllerMenu.Font = new System.Drawing.Font(controllerMenu.Font.FontFamily, 12);
+            controllerMenu.AutoSize = false;
+            controllerMenu.Height = Host.MainForm.MainMenu.Height;
+            controllerMenu.Width = 120;
+            ThemeManager.ApplyThemeTo(controllerMenu);
+
+            Host.MainForm.MainMenu.Items.Add(controllerMenu);
+
+            // Use some hacky BS to hide the "disable joystick" button
+            // This stupid button pops up under the wind indicator, and simply hiding it is unreliable,
+            // because it gets unhidden when you enter and leave the embedded FlightPlanView from the
+            // right-click menu. This button really should get removed from stock Mission Planner.
+            var but_disablejoystick = Host.MainForm.FlightData.GetType().GetField("but_disablejoystick", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (but_disablejoystick?.GetValue(Host.MainForm.FlightData) is MyButton button)
+            {
+                button.Width = 0;
+            }
+
+            // Disable No RC Receiver messages when using joystick
+            // We will do some additional handling of that message ourselves
+            Host.config["norcreceiver"] = "true";
         }
 
         void ForceHUD(object sender, EventArgs e)
