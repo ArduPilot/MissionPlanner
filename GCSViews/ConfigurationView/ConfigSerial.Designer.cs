@@ -39,11 +39,11 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 104F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 99F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 183F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 249F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 307F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel1.Controls.Add(this.myLabel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLabel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLabel3, 2, 0);
@@ -64,13 +64,13 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(692, 497);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(789, 497);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // myLabel1
             // 
             this.myLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel1.Location = new System.Drawing.Point(14, 9);
+            this.myLabel1.Location = new System.Drawing.Point(38, 9);
             this.myLabel1.Name = "myLabel1";
             this.myLabel1.resize = false;
             this.myLabel1.Size = new System.Drawing.Size(75, 23);
@@ -80,7 +80,7 @@
             // myLabel2
             // 
             this.myLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel2.Location = new System.Drawing.Point(116, 9);
+            this.myLabel2.Location = new System.Drawing.Point(171, 9);
             this.myLabel2.Name = "myLabel2";
             this.myLabel2.resize = false;
             this.myLabel2.Size = new System.Drawing.Size(75, 23);
@@ -90,7 +90,7 @@
             // myLabel3
             // 
             this.myLabel3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel3.Location = new System.Drawing.Point(257, 9);
+            this.myLabel3.Location = new System.Drawing.Point(294, 9);
             this.myLabel3.Name = "myLabel3";
             this.myLabel3.resize = false;
             this.myLabel3.Size = new System.Drawing.Size(75, 23);
@@ -100,7 +100,7 @@
             // myLabel4
             // 
             this.myLabel4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel4.Location = new System.Drawing.Point(473, 9);
+            this.myLabel4.Location = new System.Drawing.Point(514, 9);
             this.myLabel4.Name = "myLabel4";
             this.myLabel4.resize = false;
             this.myLabel4.Size = new System.Drawing.Size(75, 23);
@@ -114,7 +114,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ConfigSerial";
-            this.Size = new System.Drawing.Size(715, 519);
+            this.Size = new System.Drawing.Size(812, 519);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

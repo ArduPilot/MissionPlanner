@@ -192,6 +192,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     uartName = _uartNames[i];
                 }
 
+                //Get the RTS/CTS options if there is any
+                string ctsrtsParamName = "BRD_SER" +i.ToString() + "_RTSCTS";
+                if (MainV2.comPort.MAV.param.ContainsKey(ctsrtsParamName))
+                {
+                    var ctsValue = MainV2.comPort.MAV.param[ctsrtsParamName].Value;
+                    if (ctsValue == 1)
+                    {
+                        uartName = uartName + " (RTS/CTS)";
+                    }
+                    if (ctsValue == 2)
+                    {
+                        uartName = uartName + " (RTS/CTS Auto)";
+                    }
+                }
                 //Port Name Label
                 Label label = new Label();
                 label.Text = "SERIAL PORT " + i.ToString() + "\n" + uartName;
@@ -288,7 +302,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     Anchor = AnchorStyles.None,
                     Dock = DockStyle.Fill,
                     AutoSize = true,
-                    MaximumSize = new Size(200, 200),
+                    MaximumSize = new Size(300, 200),
                     Location = new Point(0, 0),
                     Size = new Size(100, 20),
                     TextAlign = ContentAlignment.MiddleLeft
