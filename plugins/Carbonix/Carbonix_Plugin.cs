@@ -12,6 +12,7 @@ using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Carbonix
 {
@@ -60,6 +61,9 @@ namespace Carbonix
                 controller_autoconnect_time = DateTime.Now + TimeSpan.FromSeconds(5);
             }
 
+            // Remove unnecessary UI Elements
+            CleanUI();
+            
             // Add extra options to FlightPlanner (like landing planner)
             AddPlanningOptions();
 
@@ -314,6 +318,134 @@ namespace Carbonix
             Host.config["norcreceiver"] = "true";
         }
 
+        private void CleanUI()
+        {
+            // ---------------------
+            // Clean FlightData menu
+            // ---------------------
+            Host.FDGMapControl.BeginInvokeIfRequired(() =>
+            {
+                string[] allowlist = settings["fdmap_menu_allow"].Split(',');
+
+                PruneMenu(Host.FDMenuMap.Items, allowlist);
+            });
+
+            // ------------------------
+            // Clean FlightPlanner Menu
+            // ------------------------
+            Host.FPGMapControl.BeginInvokeIfRequired(() =>
+            {
+                var items = Host.FPMenuMap.Items;
+
+                // Prune the map context menu
+                string[] allowlist = settings["fpmap_menu_allow"].Split(',');
+                PruneMenu(Host.FPMenuMap.Items, allowlist);
+
+                // Add another separator before Clear Mission
+                Host.FPMenuMap.Items.Insert(Host.FPMenuMap.Items.IndexOfKey("clearMissionToolStripMenuItem"), new ToolStripSeparator());
+
+                // Prune the Auto WP sub-menu
+                allowlist = settings["fpmap_menu_autowp_allow"].Split(',');
+                PruneMenu(
+                    ((ToolStripMenuItem)Host.FPMenuMap.Items["autoWPToolStripMenuItem"]).DropDownItems,
+                    allowlist
+                );
+
+                // Prune the Map Tool sub-menu
+                allowlist = settings["fpmap_menu_maptool_allow"].Split(',');
+                PruneMenu(
+                    ((ToolStripMenuItem)Host.FPMenuMap.Items["mapToolToolStripMenuItem"]).DropDownItems,
+                    allowlist
+                );
+
+                // Replace Clear Mission handler to ask for confirmation
+                Host.FPMenuMap.Items["clearMissionToolStripMenuItem"].Click -= Host.MainForm.FlightPlanner.clearMissionToolStripMenuItem_Click;
+                ((ToolStripMenuItem)Host.FPMenuMap.Items["clearMissionToolStripMenuItem"]).Click += (s, e) =>
+                {
+                    if (CustomMessageBox.Show("Are you sure you want to clear the mission?", "Clear Mission", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                    {
+                        Host.MainForm.FlightPlanner.clearMissionToolStripMenuItem_Click(s, e);
+                    }
+                };
+
+            });
+            // Rename some Loiter right-click entries
+            // Rename "Forever" to "Unlimited"
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["loiterToolStripMenuItem"]).DropDownItems["loiterForeverToolStripMenuItem"].Text = "Unlimited";
+            // Rename "Circles to "Turns"
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["loiterToolStripMenuItem"]).DropDownItems["loitercirclesToolStripMenuItem"].Text = "Turns";
+            // Rebind the handler for "Time" to a better popup
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["loiterToolStripMenuItem"]).DropDownItems["loitertimeToolStripMenuItem"].Click -= Host.MainForm.FlightPlanner.loitertimeToolStripMenuItem_Click;
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["loiterToolStripMenuItem"]).DropDownItems["loitertimeToolStripMenuItem"].Click += (o, e) =>
+            {
+                LoiterTimeDialog dialog = new LoiterTimeDialog();
+
+                // Show the form and wait for the user to click OK
+                var response = dialog.ShowDialog();
+                // Add the loiter command to the mission
+                if (response == DialogResult.OK)
+                {
+                    PointLatLngAlt pnt = Host.FPMenuMapPosition;
+                    pnt.Alt = double.Parse(Host.MainForm.FlightPlanner.TXT_DefaultAlt.Text);
+                    double seconds = (dialog.dateTimePicker1.Value - dialog.dateTimePicker1.MinDate).TotalSeconds;
+                    Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TIME, seconds, 0, 0, 0, pnt.Lng, pnt.Lat, pnt.Alt);
+                }
+            };
+            // Move click handler from jump to wp to the jump menu item
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["jumpToolStripMenuItem"]).Click += Host.MainForm.FlightPlanner.jumpwPToolStripMenuItem_Click;
+            // Clear all subitems from jump
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["jumpToolStripMenuItem"]).DropDownItems.Clear();
+            // Clear all subitems from insert
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["insertWpToolStripMenuItem"]).DropDownItems.Clear();
+
+            // -------------------------
+            // Remove write-fast button
+            // -------------------------
+            Host.MainForm.FlightData.BeginInvokeIfRequired(() =>
+            {
+                Host.MainForm.FlightPlanner.but_writewpfast.Visible = false;
+            });
+            // Shrink the panel containing the write-fast button
+            Host.MainForm.FlightData.BeginInvokeIfRequired(() =>
+            {
+                Host.MainForm.FlightPlanner.but_writewpfast.Parent.Height -= Host.MainForm.FlightPlanner.but_writewpfast.Height + 5;
+            });
+
+            // ------------------------------------
+            // Remove WP progress bar on FlightData
+            // ------------------------------------
+            // Hacky, but gets the job done
+            // (the control is private, and seems to resist attempts to set Visible to false)
+            foreach (Control c in Host.FDGMapControl.Parent.Controls)
+            {
+                if (c.Name == "distanceBar1")
+                {
+                    c.Size = new System.Drawing.Size(0, 0);
+                    break;
+                }
+            }
+
+            // -----------------------------
+            // Remove buttons on top menu bar
+            // ------------------------------
+            Host.MainForm.MainMenu.Items.RemoveByKey("MenuSimulation");
+            Host.MainForm.MainMenu.Items.RemoveByKey("MenuHelp");
+
+        }
+
+        private void PruneMenu(ToolStripItemCollection collection, string[] allowlist)
+        {
+            // Loop over the collection and remove any items not in the allowlist.
+            // Doing this backward so we can remove items without messing up the index.
+            for (int i = collection.Count - 1; i >= 0; i--)
+            {
+                if (!allowlist.Contains(collection[i].Name))
+                {
+                    collection.RemoveAt(i);
+                }
+            }
+        }
+
         // Add additional options to the FlightPlanner context menu.
         // For example, the landing planner and loiter-to-alt
         private void AddPlanningOptions()
@@ -383,7 +515,6 @@ namespace Carbonix
             // Insert the new entry at the top of the loiter submenu
             ((ToolStripMenuItem)Host.FPMenuMap.Items["loiterToolStripMenuItem"]).DropDownItems.Insert(0, landitem);
         }
-
 
         void ForceHUD(object sender, EventArgs e)
         {
