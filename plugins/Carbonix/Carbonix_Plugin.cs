@@ -60,6 +60,9 @@ namespace Carbonix
                 controller_autoconnect_time = DateTime.Now + TimeSpan.FromSeconds(5);
             }
 
+            // Add extra options to FlightPlanner (like landing planner)
+            AddPlanningOptions();
+
             // Change HUD bottom color to a lighter brown color than stock
             Host.MainForm.FlightData.Load += new EventHandler(ForceHUD);
 
@@ -310,6 +313,77 @@ namespace Carbonix
             // We will do some additional handling of that message ourselves
             Host.config["norcreceiver"] = "true";
         }
+
+        // Add additional options to the FlightPlanner context menu.
+        // For example, the landing planner and loiter-to-alt
+        private void AddPlanningOptions()
+        {
+            // Add a takeoff command to the context menu
+            var takeoffitem = new ToolStripMenuItem("Takeoff");
+            takeoffitem.Click += (o, e) =>
+            {
+                // Prompt user for altitude
+                int altitude = MissionPlanner.CurrentState.AltUnit == "m" ? 30 : 100;
+                var result = InputBox.Show("Takeoff", "Enter takeoff altitude in " + MissionPlanner.CurrentState.AltUnit, ref altitude);
+                if (result != DialogResult.OK)
+                {
+                    return;
+                }
+                // Prompt user for direction
+                int direction = 90;
+                result = InputBox.Show("Takeoff", "Enter takeoff direction in degrees", ref direction);
+                // Add the takeoff command to the mission
+                if (result == DialogResult.OK)
+                {
+                    PointLatLngAlt pnt = new PointLatLngAlt(0, 0, altitude);
+                    Host.AddWPtoList(MAVLink.MAV_CMD.VTOL_TAKEOFF, 0, 0, 0, 0, pnt.Lng, pnt.Lat, altitude);
+                    pnt = Host.cs.PlannedHomeLocation;
+                    pnt.Alt = altitude;
+                    // Add a little extra altitude during the transition
+                    pnt.Alt += MissionPlanner.CurrentState.AltUnit == "m" ? 10 : 30;
+                    // Give 500m to transition
+                    pnt = pnt.newpos(direction, 500);
+                    Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, pnt.Lng, pnt.Lat, altitude);
+                }
+
+            };
+
+            // Create a LandingPlanUI object and add it to the FlightPlanner's context menu
+            var landitem = new ToolStripMenuItem("Land");
+            landitem.Click += (o, e) =>
+            {
+                using (Form landing_form = new LandingPlanForm(this, "VolantiLanding.json"))
+                {
+                    ThemeManager.ApplyThemeTo(landing_form);
+                    landing_form.ShowDialog();
+                }
+            };
+            // Insert the takeoff and landing items after the Jump submenu
+            ToolStripItemCollection items = Host.FPMenuMap.Items;
+            int index = items.Count;
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].Name == "jumpToolStripMenuItem")
+                {
+                    index = i + 1;
+                    break;
+                }
+            }
+            items.Insert(index, landitem);
+            items.Insert(index, takeoffitem);
+
+            // Add Loiter-to-Alt
+            landitem = new ToolStripMenuItem("To Altitude");
+            landitem.Click += (o, e) =>
+            {
+                PointLatLngAlt pnt = Host.FPMenuMapPosition;
+                pnt.Alt = double.Parse(Host.MainForm.FlightPlanner.TXT_DefaultAlt.Text);
+                Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TO_ALT, 0, 0, 0, 0, pnt.Lng, pnt.Lat, pnt.Alt);
+            };
+            // Insert the new entry at the top of the loiter submenu
+            ((ToolStripMenuItem)Host.FPMenuMap.Items["loiterToolStripMenuItem"]).DropDownItems.Insert(0, landitem);
+        }
+
 
         void ForceHUD(object sender, EventArgs e)
         {

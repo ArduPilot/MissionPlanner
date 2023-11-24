@@ -1,0 +1,21 @@
+{
+  "min_vtol_altitude": 20,
+  "max_vtol_altitude": 90,
+  "min_loiter_radius": 120,
+  "max_descent_grade": 0.08,
+  "cruise_speed": 21.0,
+  "approach": {
+    "points": [
+      {
+        "dist": 250,
+        "alt": 40
+      },
+      {
+        "dist": 600,
+        "alt": 60
+      }
+    ],
+    "loiter_radius": 120,
+    "loiter_time_minutes": 0
+  }
+}
