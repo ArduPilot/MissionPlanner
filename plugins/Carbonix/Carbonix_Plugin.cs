@@ -189,6 +189,19 @@ namespace Carbonix
 
             // This addition makes us tight on space. Make the tabs smaller.
             Host.MainForm.FlightData.tabControlactions.ItemSize = new System.Drawing.Size(Host.MainForm.FlightData.tabControlactions.ItemSize.Width, 20);
+
+            // Add takeoff/land tab
+            TabPage tabPageTakeoff = new TabPage
+            {
+                Text = "Takeoff/Land",
+                Name = "tabTakeoff"
+            };
+            TakeoffTab tabTakeoff = new TakeoffTab(Host, settings) { Dock = DockStyle.Fill };
+            tabPageTakeoff.Controls.Add(tabTakeoff);
+            Host.MainForm.FlightData.TabListOriginal.Insert(1, tabPageTakeoff);
+
+            // refilter the display list based on user selection
+            Host.MainForm.FlightData.loadTabControlActions();
         }
 
         private void SetupController()
