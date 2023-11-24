@@ -28,6 +28,12 @@ namespace Carbonix
         // Must be incremented any time a field is added to the settings
         public int settings_version = 2;
 
+        // Reference to Records tab, so its data can be accessed by Loop()
+        public RecordsTab tabRecords;
+
+        // List of pilots for the dropdowns on the Records tab
+        public List<string> pilots = new List<string>();
+
         // Reference to controller menu button so text can be changed to indicate connection status
         ToolStripButton controllerMenu;
 
@@ -67,6 +73,7 @@ namespace Carbonix
 
         public override bool Exit() { return true; }
 
+        bool last_arm_state = false; // Used to detect rising edge from disarm to arm
         bool last_controller_state = false; // Used to detect change in controller connection
         DateTime last_rchealthy = DateTime.MinValue; // Used to detect long periods of bad RC Receiver health
         DateTime last_rcwarning = DateTime.MinValue;
@@ -136,6 +143,33 @@ namespace Carbonix
                 last_controller_state = false;
             }
 
+            // If the aircraft has just been armed, send a message to the autopilot to
+            // capture the pilots and battery set in the log.
+            if (Host.comPort.BaseStream.IsOpen && Host.cs.armed && !last_arm_state)
+            {
+                string pic = "";
+                string gso = "";
+                int avionics_batid = 0;
+                int vtol_batid = 0;
+                tabRecords.Invoke((MethodInvoker)delegate
+                {
+                    pic = tabRecords.cmb_pic.Text;
+                    gso = tabRecords.cmb_gso.Text;
+                    avionics_batid = (int)tabRecords.num_avbatid.Value;
+                    vtol_batid = (int)tabRecords.num_vtolbatid.Value;
+
+                });
+                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "PIC: " + pic);
+                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "GSO: " + gso);
+                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "AVBAT: " + avionics_batid.ToString());
+                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "VTOLBAT: " + vtol_batid.ToString());
+                last_arm_state = true;
+            }
+            else if (!Host.comPort.BaseStream.IsOpen)
+            {
+                last_arm_state = false;
+            }
+
             return true;
         }
 
@@ -143,6 +177,7 @@ namespace Carbonix
         {
             string settings_file = Path.Combine(Settings.GetUserDataDirectory(), "CarbonixSettings.json");
             bool needs_new_file = true;
+            bool overwrite_pilots_file = false;
             if (File.Exists(settings_file))
             {
                 settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(settings_file));
@@ -164,6 +199,7 @@ namespace Carbonix
             // For debugging, always load settings from embedded file
             // This is so the json file in the git repo always matches what I am testing
             needs_new_file = true;
+            overwrite_pilots_file = true;
 #endif
 
             if (needs_new_file)
@@ -176,6 +212,26 @@ namespace Carbonix
                     settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(s);
                     File.WriteAllText(settings_file, s);
                 }
+            }
+
+            string pilots_file = Path.Combine(Settings.GetUserDataDirectory(), "pilots.json");
+            if (!File.Exists(pilots_file) || overwrite_pilots_file)
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                using (Stream stream = assembly.GetManifestResourceStream("Carbonix.VolantiPilots.json"))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string s = reader.ReadToEnd();
+                    File.WriteAllText(pilots_file, s);
+                }
+            }
+            try
+            {
+                pilots = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(pilots_file));
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Error reading pilots.json: " + ex.Message);
             }
         }
 
@@ -199,6 +255,16 @@ namespace Carbonix
             TakeoffTab tabTakeoff = new TakeoffTab(Host, settings) { Dock = DockStyle.Fill };
             tabPageTakeoff.Controls.Add(tabTakeoff);
             Host.MainForm.FlightData.TabListOriginal.Insert(1, tabPageTakeoff);
+
+            // Add "records" tab, to record the current operators and batteries
+            TabPage tabPageRecords = new TabPage
+            {
+                Text = "Records",
+                Name = "tabRecords"
+            };
+            tabRecords = new RecordsTab(Host, pilots) { Dock = DockStyle.Fill };
+            tabPageRecords.Controls.Add(tabRecords);
+            Host.MainForm.FlightData.TabListOriginal.Insert(2, tabPageRecords);
 
             // refilter the display list based on user selection
             Host.MainForm.FlightData.loadTabControlActions();

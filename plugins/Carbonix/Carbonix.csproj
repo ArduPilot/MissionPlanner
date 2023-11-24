@@ -20,10 +20,12 @@
 
   <ItemGroup>
     <None Remove="CarbonixSettings.json" />
+    <None Remove="VolantiPilots.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="CarbonixSettings.json" />
+    <EmbeddedResource Include="VolantiPilots.json" />
   </ItemGroup>
 
   <ItemGroup>
