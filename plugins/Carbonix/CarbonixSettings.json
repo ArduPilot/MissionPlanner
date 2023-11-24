@@ -25,5 +25,6 @@
   "nv4_charwidth": 5,
   "hud_groundcolor1": "#b3772c",
   "hud_groundcolor2": "#80551f",
+  "TECS_SPDWEIGHT": 1.0,
   "controller": "vJoy Device"
 }

@@ -266,6 +266,16 @@ namespace Carbonix
             tabPageRecords.Controls.Add(tabRecords);
             Host.MainForm.FlightData.TabListOriginal.Insert(2, tabPageRecords);
 
+            // Add emergencies tab, to access dangerous modes and settings in emergency
+            TabPage tabPageEmergency = new TabPage
+            {
+                Text = "Emergency",
+                Name = "tabEmergency"
+            };
+            EmergencyTab tabEmergency = new EmergencyTab(Host, settings) { Dock = DockStyle.Fill };
+            tabPageEmergency.Controls.Add(tabEmergency);
+            Host.MainForm.FlightData.TabListOriginal.Insert(3, tabPageEmergency);
+
             // refilter the display list based on user selection
             Host.MainForm.FlightData.loadTabControlActions();
         }
