@@ -124,5 +124,52 @@ namespace Carbonix
             // Send aux function of 11:FENCE to high
             Host.comPort.doCommand(MAVLink.MAV_CMD.DO_AUX_FUNCTION, 11, 2, 0, 0, 0, 0, 0);
         }
+
+        private void but_arm_Click(object sender, EventArgs e)
+        {
+            arm_disarm(true);
+        }
+        private void but_disarm_Click(object sender, EventArgs e)
+        {
+            arm_disarm(false);
+        }
+
+        private void arm_disarm(bool arm)
+        {
+            if (!Host.comPort.BaseStream.IsOpen)
+                return;
+
+            // arm the MAV
+            try
+            {
+                var action = arm ? "Arm" : "Disarm";
+                
+                if (CustomMessageBox.Show("Are you sure you want to " + action, action, CustomMessageBox.MessageBoxButtons.YesNo) 
+                        != CustomMessageBox.DialogResult.Yes)
+                    return;
+
+                bool ans = MainV2.comPort.doARM(arm);
+                if (ans == false)
+                {
+                    if (CustomMessageBox.Show(
+                            action + " failed.\n\nForce " + action +
+                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
+                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
+                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                        CustomMessageBox.DialogResult.Yes)
+                    {
+                        ans = MainV2.comPort.doARM(arm, true);
+                        if (ans == false)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+            }
+        }
     }
 }

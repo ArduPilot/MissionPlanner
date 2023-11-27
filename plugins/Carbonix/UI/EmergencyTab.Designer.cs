@@ -42,7 +42,10 @@ namespace Carbonix
             this.but_asdisable = new MissionPlanner.Controls.MyButton();
             this.but_qstab = new MissionPlanner.Controls.MyButton();
             this.but_qhover = new MissionPlanner.Controls.MyButton();
+            this.but_disarm = new MissionPlanner.Controls.MyButton();
+            this.but_arm = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanelOuter = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.grp_modes = new System.Windows.Forms.GroupBox();
@@ -50,6 +53,7 @@ namespace Carbonix
             this.grp_qassist = new System.Windows.Forms.GroupBox();
             this.grp_airspeed = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelOuter.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grp_modes.SuspendLayout();
             this.table_modes.SuspendLayout();
@@ -197,12 +201,37 @@ namespace Carbonix
             this.but_qhover.UseVisualStyleBackColor = true;
             this.but_qhover.Click += new System.EventHandler(this.but_mode_Click);
             // 
+            // but_disarm
+            // 
+            this.but_disarm.Location = new System.Drawing.Point(87, 19);
+            this.but_disarm.Name = "but_disarm";
+            this.but_disarm.Size = new System.Drawing.Size(75, 23);
+            this.but_disarm.TabIndex = 1;
+            this.but_disarm.Text = "DISARM";
+            this.but_disarm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.but_disarm, "Disarm aircraft");
+            this.but_disarm.UseVisualStyleBackColor = true;
+            this.but_disarm.Click += new System.EventHandler(this.but_disarm_Click);
+            // 
+            // but_arm
+            // 
+            this.but_arm.Location = new System.Drawing.Point(6, 19);
+            this.but_arm.Name = "but_arm";
+            this.but_arm.Size = new System.Drawing.Size(75, 23);
+            this.but_arm.TabIndex = 0;
+            this.but_arm.Text = "ARM";
+            this.but_arm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.but_arm, "Arm aircraft (with force-arm option)");
+            this.but_arm.UseVisualStyleBackColor = true;
+            this.but_arm.Click += new System.EventHandler(this.but_arm_Click);
+            // 
             // tableLayoutPanelOuter
             // 
             this.tableLayoutPanelOuter.ColumnCount = 1;
             this.tableLayoutPanelOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelOuter.Controls.Add(this.groupBox1, 0, 4);
             this.tableLayoutPanelOuter.Controls.Add(this.groupBox2, 0, 3);
-            this.tableLayoutPanelOuter.Controls.Add(this.txt_messagebox, 0, 4);
+            this.tableLayoutPanelOuter.Controls.Add(this.txt_messagebox, 0, 5);
             this.tableLayoutPanelOuter.Controls.Add(this.grp_modes, 0, 0);
             this.tableLayoutPanelOuter.Controls.Add(this.grp_qassist, 0, 2);
             this.tableLayoutPanelOuter.Controls.Add(this.grp_airspeed, 0, 1);
@@ -210,15 +239,29 @@ namespace Carbonix
             this.tableLayoutPanelOuter.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelOuter.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanelOuter.Name = "tableLayoutPanelOuter";
-            this.tableLayoutPanelOuter.RowCount = 5;
+            this.tableLayoutPanelOuter.RowCount = 6;
+            this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelOuter.Size = new System.Drawing.Size(300, 367);
             this.tableLayoutPanelOuter.TabIndex = 79;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.but_disarm);
+            this.groupBox1.Controls.Add(this.but_arm);
+            this.groupBox1.Location = new System.Drawing.Point(3, 243);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(294, 54);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Arm/Disarm";
             // 
             // groupBox2
             // 
@@ -237,13 +280,13 @@ namespace Carbonix
             // txt_messagebox
             // 
             this.txt_messagebox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txt_messagebox.Location = new System.Drawing.Point(2, 242);
+            this.txt_messagebox.Location = new System.Drawing.Point(2, 302);
             this.txt_messagebox.Margin = new System.Windows.Forms.Padding(2);
             this.txt_messagebox.Multiline = true;
             this.txt_messagebox.Name = "txt_messagebox";
             this.txt_messagebox.ReadOnly = true;
             this.txt_messagebox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_messagebox.Size = new System.Drawing.Size(296, 123);
+            this.txt_messagebox.Size = new System.Drawing.Size(296, 63);
             this.txt_messagebox.TabIndex = 2;
             this.txt_messagebox.Text = "Transition complete\r\nTransition airspeed wait\r\nAirspeed calibration complete\r\nAir" +
     "speed sensor calibration started";
@@ -321,6 +364,7 @@ namespace Carbonix
             this.VisibleChanged += new System.EventHandler(this.EmergencyTab_VisibleChanged);
             this.tableLayoutPanelOuter.ResumeLayout(false);
             this.tableLayoutPanelOuter.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.grp_modes.ResumeLayout(false);
             this.table_modes.ResumeLayout(false);
@@ -350,5 +394,8 @@ namespace Carbonix
         private MissionPlanner.Controls.MyButton but_qhover;
         private MissionPlanner.Controls.MyButton but_qstab;
         private System.Windows.Forms.TableLayoutPanel table_modes;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private MissionPlanner.Controls.MyButton but_disarm;
+        private MissionPlanner.Controls.MyButton but_arm;
     }
 }
