@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner;
-using MissionPlanner.Controls;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
-using Xamarin.Essentials;
 
 namespace Carbonix
 {
     public partial class EmergencyTab : UserControl
     {
         private readonly PluginHost Host;
-        private readonly Dictionary<string, string> settings;
 
         private readonly Timer messageBoxTimer = new Timer();
         
-        public EmergencyTab(PluginHost Host, Dictionary<string, string> settings)
+        public EmergencyTab(PluginHost Host)
         {
             this.Host = Host;
-            this.settings = settings;
 
             InitializeComponent();
 
@@ -66,23 +60,6 @@ namespace Carbonix
             messageBoxTimer.Enabled = true;
             messageBoxTimer.Interval = 200;
             messageBoxTimer.Start();
-        }
-
-        private void but_glide_Click(object sender, EventArgs e)
-        {
-            // Set TECS_SPDWEIGHT to 2
-            Host.comPort.setParam((byte)Host.comPort.sysidcurrent, (byte)Host.comPort.compidcurrent, "TECS_SPDWEIGHT", 2);
-        }
-
-        private void but_noglide_Click(object sender, EventArgs e)
-        {
-            // Restore TECS_SPDWEIGHT
-            double spdweight = 1.0;
-            if (settings.ContainsKey("TECS_SPDWEIGHT"))
-            {
-                double.TryParse(settings["TECS_SPDWEIGHT"], NumberStyles.Any, CultureInfo.InvariantCulture, out spdweight);
-            }
-            Host.comPort.setParam((byte)Host.comPort.sysidcurrent, (byte)Host.comPort.compidcurrent, "TECS_SPDWEIGHT", spdweight);
         }
 
         private void but_mode_Click(object sender, EventArgs e)

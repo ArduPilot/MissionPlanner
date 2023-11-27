@@ -25,7 +25,6 @@
   "nv4_charwidth": 5,
   "hud_groundcolor1": "#b3772c",
   "hud_groundcolor2": "#80551f",
-  "TECS_SPDWEIGHT": 1.0,
   "fdmap_menu_allow": "goHereToolStripMenuItem,flyToCoordsToolStripMenuItem,flightPlannerToolStripMenuItem",
   "fpmap_menu_allow": "deleteWPToolStripMenuItem,insertWpToolStripMenuItem,loiterToolStripMenuItem,jumpToolStripMenuItem,clearMissionToolStripMenuItem,toolStripSeparator1,autoWPToolStripMenuItem,mapToolToolStripMenuItem,modifyAltToolStripMenuItem",
   "fpmap_menu_autowp_allow": "createWpCircleToolStripMenuItem,surveyGridToolStripMenuItem",

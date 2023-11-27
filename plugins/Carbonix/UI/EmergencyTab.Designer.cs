@@ -33,8 +33,6 @@ namespace Carbonix
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.but_fenceenable = new MissionPlanner.Controls.MyButton();
             this.but_fencedisable = new MissionPlanner.Controls.MyButton();
-            this.but_noglide = new MissionPlanner.Controls.MyButton();
-            this.but_glide = new MissionPlanner.Controls.MyButton();
             this.but_manual = new MissionPlanner.Controls.MyButton();
             this.but_fbwa = new MissionPlanner.Controls.MyButton();
             this.but_qaforce = new MissionPlanner.Controls.MyButton();
@@ -47,18 +45,16 @@ namespace Carbonix
             this.tableLayoutPanelOuter = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txt_messagebox = new System.Windows.Forms.TextBox();
-            this.grp_engineout = new System.Windows.Forms.GroupBox();
             this.grp_modes = new System.Windows.Forms.GroupBox();
+            this.table_modes = new System.Windows.Forms.TableLayoutPanel();
             this.grp_qassist = new System.Windows.Forms.GroupBox();
             this.grp_airspeed = new System.Windows.Forms.GroupBox();
-            this.table_modes = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelOuter.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.grp_engineout.SuspendLayout();
             this.grp_modes.SuspendLayout();
+            this.table_modes.SuspendLayout();
             this.grp_qassist.SuspendLayout();
             this.grp_airspeed.SuspendLayout();
-            this.table_modes.SuspendLayout();
             this.SuspendLayout();
             // 
             // but_fenceenable
@@ -84,31 +80,6 @@ namespace Carbonix
             this.toolTip1.SetToolTip(this.but_fencedisable, "Disable all fences");
             this.but_fencedisable.UseVisualStyleBackColor = true;
             this.but_fencedisable.Click += new System.EventHandler(this.but_fencedisable_Click);
-            // 
-            // but_noglide
-            // 
-            this.but_noglide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.but_noglide.Location = new System.Drawing.Point(213, 19);
-            this.but_noglide.Name = "but_noglide";
-            this.but_noglide.Size = new System.Drawing.Size(75, 23);
-            this.but_noglide.TabIndex = 1;
-            this.but_noglide.Text = "Normal";
-            this.but_noglide.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.but_noglide, "Restore airspeed/alt priority");
-            this.but_noglide.UseVisualStyleBackColor = true;
-            this.but_noglide.Click += new System.EventHandler(this.but_noglide_Click);
-            // 
-            // but_glide
-            // 
-            this.but_glide.Location = new System.Drawing.Point(6, 19);
-            this.but_glide.Name = "but_glide";
-            this.but_glide.Size = new System.Drawing.Size(75, 23);
-            this.but_glide.TabIndex = 0;
-            this.but_glide.Text = "Glide";
-            this.but_glide.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.but_glide, "Set airspeed to full priority");
-            this.but_glide.UseVisualStyleBackColor = true;
-            this.but_glide.Click += new System.EventHandler(this.but_glide_Click);
             // 
             // but_manual
             // 
@@ -230,23 +201,22 @@ namespace Carbonix
             // 
             this.tableLayoutPanelOuter.ColumnCount = 1;
             this.tableLayoutPanelOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelOuter.Controls.Add(this.groupBox2, 0, 4);
-            this.tableLayoutPanelOuter.Controls.Add(this.txt_messagebox, 0, 5);
-            this.tableLayoutPanelOuter.Controls.Add(this.grp_engineout, 0, 0);
-            this.tableLayoutPanelOuter.Controls.Add(this.grp_modes, 0, 1);
-            this.tableLayoutPanelOuter.Controls.Add(this.grp_qassist, 0, 3);
-            this.tableLayoutPanelOuter.Controls.Add(this.grp_airspeed, 0, 2);
+            this.tableLayoutPanelOuter.Controls.Add(this.groupBox2, 0, 3);
+            this.tableLayoutPanelOuter.Controls.Add(this.txt_messagebox, 0, 4);
+            this.tableLayoutPanelOuter.Controls.Add(this.grp_modes, 0, 0);
+            this.tableLayoutPanelOuter.Controls.Add(this.grp_qassist, 0, 2);
+            this.tableLayoutPanelOuter.Controls.Add(this.grp_airspeed, 0, 1);
             this.tableLayoutPanelOuter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelOuter.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelOuter.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanelOuter.Name = "tableLayoutPanelOuter";
-            this.tableLayoutPanelOuter.RowCount = 6;
-            this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanelOuter.RowCount = 5;
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelOuter.Size = new System.Drawing.Size(300, 367);
             this.tableLayoutPanelOuter.TabIndex = 79;
             // 
@@ -257,7 +227,7 @@ namespace Carbonix
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.but_fenceenable);
             this.groupBox2.Controls.Add(this.but_fencedisable);
-            this.groupBox2.Location = new System.Drawing.Point(3, 243);
+            this.groupBox2.Location = new System.Drawing.Point(3, 183);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(294, 54);
             this.groupBox2.TabIndex = 7;
@@ -267,30 +237,16 @@ namespace Carbonix
             // txt_messagebox
             // 
             this.txt_messagebox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txt_messagebox.Location = new System.Drawing.Point(2, 302);
+            this.txt_messagebox.Location = new System.Drawing.Point(2, 242);
             this.txt_messagebox.Margin = new System.Windows.Forms.Padding(2);
             this.txt_messagebox.Multiline = true;
             this.txt_messagebox.Name = "txt_messagebox";
             this.txt_messagebox.ReadOnly = true;
             this.txt_messagebox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_messagebox.Size = new System.Drawing.Size(296, 63);
+            this.txt_messagebox.Size = new System.Drawing.Size(296, 123);
             this.txt_messagebox.TabIndex = 2;
             this.txt_messagebox.Text = "Transition complete\r\nTransition airspeed wait\r\nAirspeed calibration complete\r\nAir" +
     "speed sensor calibration started";
-            // 
-            // grp_engineout
-            // 
-            this.grp_engineout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grp_engineout.Controls.Add(this.but_noglide);
-            this.grp_engineout.Controls.Add(this.but_glide);
-            this.grp_engineout.Location = new System.Drawing.Point(3, 3);
-            this.grp_engineout.Name = "grp_engineout";
-            this.grp_engineout.Size = new System.Drawing.Size(294, 54);
-            this.grp_engineout.TabIndex = 3;
-            this.grp_engineout.TabStop = false;
-            this.grp_engineout.Text = "Engine Out";
             // 
             // grp_modes
             // 
@@ -298,41 +254,12 @@ namespace Carbonix
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grp_modes.Controls.Add(this.table_modes);
-            this.grp_modes.Location = new System.Drawing.Point(3, 63);
+            this.grp_modes.Location = new System.Drawing.Point(3, 3);
             this.grp_modes.Name = "grp_modes";
             this.grp_modes.Size = new System.Drawing.Size(294, 54);
             this.grp_modes.TabIndex = 4;
             this.grp_modes.TabStop = false;
             this.grp_modes.Text = "Modes";
-            // 
-            // grp_qassist
-            // 
-            this.grp_qassist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grp_qassist.Controls.Add(this.but_qaforce);
-            this.grp_qassist.Controls.Add(this.but_qaenable);
-            this.grp_qassist.Controls.Add(this.but_qadisable);
-            this.grp_qassist.Location = new System.Drawing.Point(3, 183);
-            this.grp_qassist.Name = "grp_qassist";
-            this.grp_qassist.Size = new System.Drawing.Size(294, 54);
-            this.grp_qassist.TabIndex = 5;
-            this.grp_qassist.TabStop = false;
-            this.grp_qassist.Text = "QASSIST";
-            // 
-            // grp_airspeed
-            // 
-            this.grp_airspeed.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grp_airspeed.Controls.Add(this.but_asenable);
-            this.grp_airspeed.Controls.Add(this.but_asdisable);
-            this.grp_airspeed.Location = new System.Drawing.Point(3, 123);
-            this.grp_airspeed.Name = "grp_airspeed";
-            this.grp_airspeed.Size = new System.Drawing.Size(294, 54);
-            this.grp_airspeed.TabIndex = 6;
-            this.grp_airspeed.TabStop = false;
-            this.grp_airspeed.Text = "Airspeed";
             // 
             // table_modes
             // 
@@ -351,9 +278,38 @@ namespace Carbonix
             this.table_modes.Name = "table_modes";
             this.table_modes.RowCount = 1;
             this.table_modes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_modes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.table_modes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.table_modes.Size = new System.Drawing.Size(288, 35);
             this.table_modes.TabIndex = 0;
+            // 
+            // grp_qassist
+            // 
+            this.grp_qassist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grp_qassist.Controls.Add(this.but_qaforce);
+            this.grp_qassist.Controls.Add(this.but_qaenable);
+            this.grp_qassist.Controls.Add(this.but_qadisable);
+            this.grp_qassist.Location = new System.Drawing.Point(3, 123);
+            this.grp_qassist.Name = "grp_qassist";
+            this.grp_qassist.Size = new System.Drawing.Size(294, 54);
+            this.grp_qassist.TabIndex = 5;
+            this.grp_qassist.TabStop = false;
+            this.grp_qassist.Text = "QASSIST";
+            // 
+            // grp_airspeed
+            // 
+            this.grp_airspeed.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grp_airspeed.Controls.Add(this.but_asenable);
+            this.grp_airspeed.Controls.Add(this.but_asdisable);
+            this.grp_airspeed.Location = new System.Drawing.Point(3, 63);
+            this.grp_airspeed.Name = "grp_airspeed";
+            this.grp_airspeed.Size = new System.Drawing.Size(294, 54);
+            this.grp_airspeed.TabIndex = 6;
+            this.grp_airspeed.TabStop = false;
+            this.grp_airspeed.Text = "Airspeed";
             // 
             // EmergencyTab
             // 
@@ -366,11 +322,10 @@ namespace Carbonix
             this.tableLayoutPanelOuter.ResumeLayout(false);
             this.tableLayoutPanelOuter.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.grp_engineout.ResumeLayout(false);
             this.grp_modes.ResumeLayout(false);
+            this.table_modes.ResumeLayout(false);
             this.grp_qassist.ResumeLayout(false);
             this.grp_airspeed.ResumeLayout(false);
-            this.table_modes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -381,9 +336,6 @@ namespace Carbonix
         private System.Windows.Forms.GroupBox groupBox2;
         private MissionPlanner.Controls.MyButton but_fenceenable;
         private MissionPlanner.Controls.MyButton but_fencedisable;
-        private System.Windows.Forms.GroupBox grp_engineout;
-        private MissionPlanner.Controls.MyButton but_noglide;
-        private MissionPlanner.Controls.MyButton but_glide;
         private System.Windows.Forms.GroupBox grp_modes;
         private MissionPlanner.Controls.MyButton but_manual;
         private MissionPlanner.Controls.MyButton but_fbwa;

@@ -279,7 +279,7 @@ namespace Carbonix
                 Text = "Emergency",
                 Name = "tabEmergency"
             };
-            EmergencyTab tabEmergency = new EmergencyTab(Host, settings) { Dock = DockStyle.Fill };
+            EmergencyTab tabEmergency = new EmergencyTab(Host) { Dock = DockStyle.Fill };
             tabPageEmergency.Controls.Add(tabEmergency);
             Host.MainForm.FlightData.TabListOriginal.Insert(3, tabPageEmergency);
 
