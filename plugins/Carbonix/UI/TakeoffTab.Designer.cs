@@ -38,11 +38,12 @@
             this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tableLayoutActions = new System.Windows.Forms.TableLayoutPanel();
             this.table_numberViews = new System.Windows.Forms.TableLayoutPanel();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.but_safety = new MissionPlanner.Controls.MyButton();
             this.numberView4 = new Carbonix.NumberView();
             this.numberView3 = new Carbonix.NumberView();
             this.numberView2 = new Carbonix.NumberView();
             this.numberView1 = new Carbonix.NumberView();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanelOuter.SuspendLayout();
             this.tableLayoutActions.SuspendLayout();
             this.table_numberViews.SuspendLayout();
@@ -58,10 +59,10 @@
             this.but_arm.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_arm.ColorNotEnabled = System.Drawing.Color.Empty;
             this.but_arm.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.but_arm.Location = new System.Drawing.Point(90, 32);
+            this.but_arm.Location = new System.Drawing.Point(86, 62);
             this.but_arm.Margin = new System.Windows.Forms.Padding(2);
             this.but_arm.Name = "but_arm";
-            this.but_arm.Size = new System.Drawing.Size(84, 26);
+            this.but_arm.Size = new System.Drawing.Size(80, 26);
             this.but_arm.TabIndex = 77;
             this.but_arm.Text = "Arm / Disarm";
             this.but_arm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -81,7 +82,7 @@
             this.but_manual.Location = new System.Drawing.Point(2, 32);
             this.but_manual.Margin = new System.Windows.Forms.Padding(2);
             this.but_manual.Name = "but_manual";
-            this.but_manual.Size = new System.Drawing.Size(84, 26);
+            this.but_manual.Size = new System.Drawing.Size(80, 26);
             this.but_manual.TabIndex = 78;
             this.but_manual.Text = "Manual";
             this.but_manual.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -101,7 +102,7 @@
             this.but_calibrate.Location = new System.Drawing.Point(2, 2);
             this.but_calibrate.Margin = new System.Windows.Forms.Padding(2);
             this.but_calibrate.Name = "but_calibrate";
-            this.but_calibrate.Size = new System.Drawing.Size(84, 26);
+            this.but_calibrate.Size = new System.Drawing.Size(80, 26);
             this.but_calibrate.TabIndex = 80;
             this.but_calibrate.Text = "Calibrate Plane";
             this.but_calibrate.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -118,10 +119,10 @@
             this.but_landfinal.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_landfinal.ColorNotEnabled = System.Drawing.Color.Empty;
             this.but_landfinal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.but_landfinal.Location = new System.Drawing.Point(90, 2);
+            this.but_landfinal.Location = new System.Drawing.Point(86, 2);
             this.but_landfinal.Margin = new System.Windows.Forms.Padding(2);
             this.but_landfinal.Name = "but_landfinal";
-            this.but_landfinal.Size = new System.Drawing.Size(84, 26);
+            this.but_landfinal.Size = new System.Drawing.Size(80, 26);
             this.but_landfinal.TabIndex = 94;
             this.but_landfinal.Text = "Cleared to Land";
             this.but_landfinal.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -141,7 +142,7 @@
             this.tableLayoutPanelOuter.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanelOuter.Name = "tableLayoutPanelOuter";
             this.tableLayoutPanelOuter.RowCount = 3;
-            this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 92F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanelOuter.Size = new System.Drawing.Size(300, 367);
@@ -168,21 +169,22 @@
             this.tableLayoutActions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
             this.tableLayoutActions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.tableLayoutActions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutActions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutActions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutActions.Controls.Add(this.but_calibrate, 0, 0);
             this.tableLayoutActions.Controls.Add(this.but_landfinal, 1, 0);
+            this.tableLayoutActions.Controls.Add(this.but_arm, 1, 2);
+            this.tableLayoutActions.Controls.Add(this.but_safety, 0, 2);
             this.tableLayoutActions.Controls.Add(this.but_manual, 0, 1);
-            this.tableLayoutActions.Controls.Add(this.but_arm, 1, 1);
             this.tableLayoutActions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutActions.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutActions.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutActions.Name = "tableLayoutActions";
-            this.tableLayoutActions.RowCount = 3;
-            this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutActions.RowCount = 4;
+            this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1F));
-            this.tableLayoutActions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutActions.Size = new System.Drawing.Size(300, 61);
+            this.tableLayoutActions.Size = new System.Drawing.Size(300, 92);
             this.tableLayoutActions.TabIndex = 0;
             // 
             // table_numberViews
@@ -197,14 +199,38 @@
             this.table_numberViews.Controls.Add(this.numberView2, 1, 0);
             this.table_numberViews.Controls.Add(this.numberView1, 0, 0);
             this.table_numberViews.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_numberViews.Location = new System.Drawing.Point(3, 64);
+            this.table_numberViews.Location = new System.Drawing.Point(3, 95);
             this.table_numberViews.Name = "table_numberViews";
             this.table_numberViews.RowCount = 2;
             this.table_numberViews.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.table_numberViews.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.table_numberViews.Size = new System.Drawing.Size(294, 205);
+            this.table_numberViews.Size = new System.Drawing.Size(294, 174);
             this.table_numberViews.TabIndex = 3;
             this.table_numberViews.Resize += new System.EventHandler(this.table_numberViews_Resize);
+            // 
+            // bindingSource1
+            // 
+            this.bindingSource1.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // but_safety
+            // 
+            this.but_safety.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.but_safety.ColorMouseDown = System.Drawing.Color.Empty;
+            this.but_safety.ColorMouseOver = System.Drawing.Color.Empty;
+            this.but_safety.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.but_safety.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_safety.Location = new System.Drawing.Point(2, 62);
+            this.but_safety.Margin = new System.Windows.Forms.Padding(2);
+            this.but_safety.Name = "but_safety";
+            this.but_safety.Size = new System.Drawing.Size(80, 26);
+            this.but_safety.TabIndex = 95;
+            this.but_safety.Text = "Engage Safety";
+            this.but_safety.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.but_safety, "Change mode to manual");
+            this.but_safety.UseVisualStyleBackColor = true;
+            this.but_safety.Click += new System.EventHandler(this.but_safety_Click);
             // 
             // numberView4
             // 
@@ -217,7 +243,7 @@
             this.numberView4.numberColor = System.Drawing.Color.Empty;
             this.numberView4.numberColorBackup = System.Drawing.Color.Empty;
             this.numberView4.numberformat = "0.00";
-            this.numberView4.Size = new System.Drawing.Size(69, 96);
+            this.numberView4.Size = new System.Drawing.Size(69, 81);
             this.numberView4.TabIndex = 3;
             this.numberView4.Text = "numberView4";
             // 
@@ -232,7 +258,7 @@
             this.numberView3.numberColor = System.Drawing.Color.Empty;
             this.numberView3.numberColorBackup = System.Drawing.Color.Empty;
             this.numberView3.numberformat = "0.00";
-            this.numberView3.Size = new System.Drawing.Size(67, 96);
+            this.numberView3.Size = new System.Drawing.Size(67, 81);
             this.numberView3.TabIndex = 2;
             this.numberView3.Text = "numberView3";
             // 
@@ -247,7 +273,7 @@
             this.numberView2.numberColor = System.Drawing.Color.Empty;
             this.numberView2.numberColorBackup = System.Drawing.Color.Empty;
             this.numberView2.numberformat = "0.00";
-            this.numberView2.Size = new System.Drawing.Size(67, 96);
+            this.numberView2.Size = new System.Drawing.Size(67, 81);
             this.numberView2.TabIndex = 1;
             this.numberView2.Text = "numberView2";
             // 
@@ -262,13 +288,9 @@
             this.numberView1.numberColor = System.Drawing.Color.Empty;
             this.numberView1.numberColorBackup = System.Drawing.Color.Empty;
             this.numberView1.numberformat = "0.00";
-            this.numberView1.Size = new System.Drawing.Size(67, 96);
+            this.numberView1.Size = new System.Drawing.Size(67, 81);
             this.numberView1.TabIndex = 0;
             this.numberView1.Text = "numberView1";
-            // 
-            // bindingSource1
-            // 
-            this.bindingSource1.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // TakeoffTab
             // 
@@ -302,5 +324,6 @@
         private MissionPlanner.Controls.MyButton but_landfinal;
         private System.Windows.Forms.BindingSource bindingSource1;
         private NumberView numberView1;
+        private MissionPlanner.Controls.MyButton but_safety;
     }
 }

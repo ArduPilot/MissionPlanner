@@ -155,6 +155,12 @@ namespace Carbonix
 
             // Disable preflight cal button when armed
             but_calibrate.Enabled = !Host.cs.armed;
+
+            // Disable the safety switch button when armed
+            but_safety.Enabled = !Host.cs.armed;
+
+            // Change the text of the safety button toggle based on safety state
+            but_safety.Text = Host.cs.safetyactive ? "Disable Safety" : "Engage Safety";
     
             // Disable the manual mode button if we are likely flying
             but_manual.Enabled = !(Host.cs.armed && (CurrentState.fromSpeedDisplayUnit(Host.cs.groundspeed) > 3 || Host.cs.ch3percent > 12));
@@ -406,6 +412,27 @@ namespace Carbonix
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
+        }
+
+        private void but_safety_Click(object sender, EventArgs e)
+        {
+            // Do not allow the user to enable safety while armed
+            // (even though we disable the button, this is a good check)
+            if (Host.cs.armed)
+                return;
+
+            // Disable the button while we send the message
+            ((Control)sender).Enabled = false;
+
+            set_safety_switch(!Host.cs.safetyactive);
+        }
+
+        private void set_safety_switch(bool enable)
+        {
+            // Setting custom_mode to 1 forces the safety state to ON, setting to zero forces it OFF
+            var custom_mode = enable ? 1u : 0u;
+            var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = (byte)Host.comPort.sysidcurrent };
+            MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
         }
     }
 }
