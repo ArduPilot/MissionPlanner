@@ -1,0 +1,22 @@
+{
+  "1": {
+    "PresetBaudRate": 115,
+    "PresetOptionsByte": 0,
+    "Comment": "If connecting a Mavlink sensor, consider setting 'Do not forward Mavlink to/from'"
+  },
+  "2": {
+    "PresetBaudRate": -1,
+    "PresetOptionsByte": 0,
+    "Comment": "If connecting a Mavlink sensor, consider setting 'Do not forward Mavlink to/from'"
+  },
+  "10": {
+    "PresetBaudRate": -1,
+    "PresetOptionsByte": 7,
+    "Comment": "If not using inverter, remove 'Half Duplex' if not a H7 board remove 'invert Tx/RX' and add 'Pullup' if neccessary"
+  },
+  "23": {
+    "PresetBaudRate": -1,
+    "PresetOptionsByte": 7,
+    "Comment": "If not using inverter, remove 'Half Duplex' if not a H7 board remove 'invert Tx/RX' and add 'Pullup' if neccessary"
+  }
+}
