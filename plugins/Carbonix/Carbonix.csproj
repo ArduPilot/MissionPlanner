@@ -19,18 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="CarbonixSettings.json" />
-    <None Remove="VolantiLanding.json" />
-    <None Remove="VolantiPilots.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="CarbonixSettings.json" />
-    <EmbeddedResource Include="VolantiLanding.json" />
-    <EmbeddedResource Include="VolantiPilots.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
       <Aliases>Drawing</Aliases>
       <Private>false</Private>

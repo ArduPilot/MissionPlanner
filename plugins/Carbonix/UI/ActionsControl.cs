@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using MissionPlanner;
+using MissionPlanner.HIL;
 using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
 
@@ -21,7 +22,7 @@ namespace Carbonix
         // Used to prevent change handlers from running with programatic updates
         private bool freeze_handlers = true;
 
-        public ActionsControl(PluginHost Host, Dictionary<string, string> settings)
+        public ActionsControl(PluginHost Host, GeneralSettings settings, AircraftSettings aircraft_settings)
         {
             this.Host = Host;
             
@@ -33,8 +34,8 @@ namespace Carbonix
 
             // Set up guided altitude control
             NUM_guidedalt.Increment = CurrentState.AltUnit == "m" ? 10 : 50;
-            NUM_guidedalt.Minimum = (decimal)CurrentState.toAltDisplayUnit(double.Parse(settings["guidedalt_min"], CultureInfo.InvariantCulture));
-            NUM_guidedalt.Maximum = (decimal)CurrentState.toAltDisplayUnit(double.Parse(settings["guidedalt_max"], CultureInfo.InvariantCulture));
+            NUM_guidedalt.Minimum = (decimal)CurrentState.toAltDisplayUnit(aircraft_settings.guidedalt_min);
+            NUM_guidedalt.Maximum = (decimal)CurrentState.toAltDisplayUnit(aircraft_settings.guidedalt_max);
             // Round to nearest 10 increments
             NUM_guidedalt.Minimum = Math.Round(NUM_guidedalt.Minimum / NUM_guidedalt.Increment / 10) * NUM_guidedalt.Increment * 10;
             NUM_guidedalt.Maximum = Math.Round(NUM_guidedalt.Maximum / NUM_guidedalt.Increment / 10) * NUM_guidedalt.Increment * 10;
@@ -48,8 +49,8 @@ namespace Carbonix
 
             // Set up loiter radius control
             NUM_loitradius.Increment = CurrentState.AltUnit == "m" ? 25 : 100;
-            NUM_loitradius.Minimum = (decimal)CurrentState.toDistDisplayUnit(double.Parse(settings["loitradius_min"], CultureInfo.InvariantCulture));
-            NUM_loitradius.Maximum = (decimal)CurrentState.toDistDisplayUnit(double.Parse(settings["loitradius_max"], CultureInfo.InvariantCulture));
+            NUM_loitradius.Minimum = (decimal)CurrentState.toDistDisplayUnit(aircraft_settings.loitradius_min);
+            NUM_loitradius.Maximum = (decimal)CurrentState.toDistDisplayUnit(aircraft_settings.loitradius_max);
             // Round to nearest increment, ceiling rounding the minimum
             NUM_loitradius.Minimum = Math.Ceiling(NUM_loitradius.Minimum / NUM_loitradius.Increment) * NUM_loitradius.Increment;
             NUM_loitradius.Maximum = Math.Round(NUM_loitradius.Maximum / NUM_loitradius.Increment) * NUM_loitradius.Increment;
@@ -59,23 +60,23 @@ namespace Carbonix
             LBL_loitradiusunits.Text = CurrentState.DistanceUnit;
 
             // Set up climb rate control
-            velz_unit = settings["velz_unit"];
-            switch(velz_unit)
+            switch(settings.velz_unit)
             {
-                case "ft/min":
-                    multipliervelz = 25000.0 / 127.0; // Exact conversion
-                    NUM_climbrate.Increment = 20;
-                    NUM_climbrate.DecimalPlaces = 0;
-                    break;
-                case "m/s":
-                default:
-                    multipliervelz = 1.0;
-                    NUM_climbrate.Increment = 0.1m;
-                    NUM_climbrate.DecimalPlaces = 1;
-                    break;
+            case VelZUnits.feet_per_minute:
+                multipliervelz = 25000.0 / 127.0; // Exact conversion
+                NUM_climbrate.Increment = 20;
+                NUM_climbrate.DecimalPlaces = 0;
+                break;
+            case VelZUnits.meters_per_second:
+                multipliervelz = 1.0;
+                NUM_climbrate.Increment = 0.1m;
+                NUM_climbrate.DecimalPlaces = 1;
+                break;
+            default:
+                    throw new Exception("Unknown VelZUnits: " + settings.velz_unit.ToString());
             }
-            NUM_climbrate.Minimum = (decimal)ToVelZDisplayUnit(double.Parse(settings["climbrate_min"], CultureInfo.InvariantCulture));
-            NUM_climbrate.Maximum = (decimal)ToVelZDisplayUnit(double.Parse(settings["climbrate_max"], CultureInfo.InvariantCulture));
+            NUM_climbrate.Minimum = (decimal)ToVelZDisplayUnit(aircraft_settings.climbrate_min);
+            NUM_climbrate.Maximum = (decimal)ToVelZDisplayUnit(aircraft_settings.climbrate_max);
             NUM_climbrate.Value = NUM_climbrate.Maximum;
             NUM_climbrate.Enabled = false;
             LBL_climbunits.Text = velz_unit;

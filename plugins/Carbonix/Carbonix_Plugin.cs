@@ -24,16 +24,12 @@ namespace Carbonix
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Dictionary<string, string> settings;
-        // Used to remove old settings json files automatically
-        // Must be incremented any time a field is added to the settings
-        public int settings_version = 2;
+        GeneralSettings settings;
+        AircraftSettings aircraft_settings;
+        Aircraft selected_aircraft;
 
         // Reference to Records tab, so its data can be accessed by Loop()
         public RecordsTab tabRecords;
-
-        // List of pilots for the dropdowns on the Records tab
-        public List<string> pilots = new List<string>();
 
         // Reference to controller menu button so text can be changed to indicate connection status
         ToolStripButton controllerMenu;
@@ -45,14 +41,14 @@ namespace Carbonix
 
         public override bool Loaded()
         {
-            // Load settings dictionary json file
+            // Load settings json files
             LoadSettings();
 
             // Add custom actions/data tabs and panel
             LoadTabs();
 
             // Add custom controller menu button to the main menu
-            if (settings.ContainsKey("controller") && settings["controller"] != "")
+            if (aircraft_settings.use_joystick)
             {
                 SetupController();
 
@@ -96,14 +92,14 @@ namespace Carbonix
                 {
                     var joy = JoystickBase.Create(() => Host.comPort);
 
-                    if (joy.start(settings["controller"]))
+                    if (joy.start(settings.controller))
                     {
                         MissionPlanner.MainV2.joystick = joy;
                         MissionPlanner.MainV2.joystick.enabled = true;
                     }
                     else
                     {
-                        CustomMessageBox.Show("Failed to start " + settings["controller"]);
+                        CustomMessageBox.Show("Failed to start " + settings.controller);
                     }
                 }
             }
@@ -182,70 +178,68 @@ namespace Carbonix
 
         private void LoadSettings()
         {
+            // Load the general settings
             string settings_file = Path.Combine(Settings.GetUserDataDirectory(), "CarbonixSettings.json");
-            bool needs_new_file = true;
-            bool overwrite_pilots_file = false;
-            if (File.Exists(settings_file))
+            if (!GetSettingsFromFile(settings_file, ref settings))
             {
-                settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(settings_file));
-                needs_new_file = Convert.ToInt32(settings["settings_version"]) < settings_version;
-                if (needs_new_file)
+                // Construct the default settings and dump the file out
+                settings = new GeneralSettings();
+                using (StreamWriter file = File.CreateText(settings_file))
                 {
+                    file.Write(JsonConvert.SerializeObject(settings, Formatting.Indented));
+                }
+            }
+
+            // Get the selected aircraft from the host config.xml
+            selected_aircraft = (Aircraft)Enum.Parse(typeof(Aircraft), Host.config["cbx_selected_aircraft", "Volanti"]);
+
+            // Load the aircraft settings
+            string aircraft_file = Path.Combine(Settings.GetUserDataDirectory(), selected_aircraft.ToString() + ".json");
+            if (!GetSettingsFromFile(aircraft_file, ref aircraft_settings))
+            {
+                // Construct the default settings and dump the file out
+                aircraft_settings = new AircraftSettings(selected_aircraft);
+                using (StreamWriter file = File.CreateText(aircraft_file))
+                {
+                    file.Write(JsonConvert.SerializeObject(aircraft_settings, Formatting.Indented));
+                }
+            }
+        }
+
+        private bool GetSettingsFromFile<T>(string filename, ref T outobj)
+        {
+            // For debugging, always load default settings
+            // This is so the settings in the git repo always match what I am testing
+#if !DEBUG
+            if (File.Exists(filename))
+            {
+                try
+                {
+                    outobj = JsonConvert.DeserializeObject<T>(File.ReadAllText(filename));
+                    return true;
+                }
+                catch
+                {
+                    // Something went wrong importing this file, save a backup of it and we'll create a new one
                     int i = 1;
                     string newFilename;
                     do
                     {
-                        newFilename = settings_file + "." + i + ".bak";
+                        newFilename = filename + "." + i + ".bak";
                         i++;
                     } while (File.Exists(newFilename));
-                    File.Move(settings_file, newFilename);
+                    File.Move(filename, newFilename);
                 }
             }
-
-#if DEBUG
-            // For debugging, always load settings from embedded file
-            // This is so the json file in the git repo always matches what I am testing
-            needs_new_file = true;
-            overwrite_pilots_file = true;
 #endif
 
-            if (needs_new_file)
-            {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                using (Stream stream = assembly.GetManifestResourceStream("Carbonix.CarbonixSettings.json"))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string s = reader.ReadToEnd();
-                    settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(s);
-                    File.WriteAllText(settings_file, s);
-                }
-            }
-
-            string pilots_file = Path.Combine(Settings.GetUserDataDirectory(), "pilots.json");
-            if (!File.Exists(pilots_file) || overwrite_pilots_file)
-            {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                using (Stream stream = assembly.GetManifestResourceStream("Carbonix.VolantiPilots.json"))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string s = reader.ReadToEnd();
-                    File.WriteAllText(pilots_file, s);
-                }
-            }
-            try
-            {
-                pilots = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(pilots_file));
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Error reading pilots.json: " + ex.Message);
-            }
+            return false;
         }
 
         private void LoadTabs()
         {
             // Add persistant actions panel
-            ActionsControl actionsPanel = new ActionsControl(Host, settings);
+            ActionsControl actionsPanel = new ActionsControl(Host, settings, aircraft_settings);
             Host.MainForm.FlightData.panel_persistent.Controls.Add(actionsPanel);
             actionsPanel.Size = Host.MainForm.FlightData.panel_persistent.Size;
             actionsPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -259,7 +253,7 @@ namespace Carbonix
                 Text = "Takeoff/Land",
                 Name = "tabTakeoff"
             };
-            TakeoffTab tabTakeoff = new TakeoffTab(Host, settings) { Dock = DockStyle.Fill };
+            TakeoffTab tabTakeoff = new TakeoffTab(Host, aircraft_settings) { Dock = DockStyle.Fill };
             tabPageTakeoff.Controls.Add(tabTakeoff);
             Host.MainForm.FlightData.TabListOriginal.Insert(1, tabPageTakeoff);
 
@@ -269,7 +263,7 @@ namespace Carbonix
                 Text = "Records",
                 Name = "tabRecords"
             };
-            tabRecords = new RecordsTab(Host, pilots) { Dock = DockStyle.Fill };
+            tabRecords = new RecordsTab(Host, aircraft_settings.pilots) { Dock = DockStyle.Fill };
             tabPageRecords.Controls.Add(tabRecords);
             Host.MainForm.FlightData.TabListOriginal.Insert(2, tabPageRecords);
 
@@ -325,9 +319,7 @@ namespace Carbonix
             // ---------------------
             Host.FDGMapControl.BeginInvokeIfRequired(() =>
             {
-                string[] allowlist = settings["fdmap_menu_allow"].Split(',');
-
-                PruneMenu(Host.FDMenuMap.Items, allowlist);
+                PruneMenu(Host.FDMenuMap.Items, settings.fdmap_menu_allow);
             });
 
             // ------------------------
@@ -338,24 +330,21 @@ namespace Carbonix
                 var items = Host.FPMenuMap.Items;
 
                 // Prune the map context menu
-                string[] allowlist = settings["fpmap_menu_allow"].Split(',');
-                PruneMenu(Host.FPMenuMap.Items, allowlist);
+                PruneMenu(Host.FPMenuMap.Items, settings.fpmap_menu_allow);
 
                 // Add another separator before Clear Mission
                 Host.FPMenuMap.Items.Insert(Host.FPMenuMap.Items.IndexOfKey("clearMissionToolStripMenuItem"), new ToolStripSeparator());
 
                 // Prune the Auto WP sub-menu
-                allowlist = settings["fpmap_menu_autowp_allow"].Split(',');
                 PruneMenu(
                     ((ToolStripMenuItem)Host.FPMenuMap.Items["autoWPToolStripMenuItem"]).DropDownItems,
-                    allowlist
+                    settings.fpmap_menu_autowp_allow
                 );
 
                 // Prune the Map Tool sub-menu
-                allowlist = settings["fpmap_menu_maptool_allow"].Split(',');
                 PruneMenu(
                     ((ToolStripMenuItem)Host.FPMenuMap.Items["mapToolToolStripMenuItem"]).DropDownItems,
-                    allowlist
+                    settings.fpmap_menu_maptool_allow
                 );
 
                 // Replace Clear Mission handler to ask for confirmation
@@ -433,7 +422,7 @@ namespace Carbonix
 
         }
 
-        private void PruneMenu(ToolStripItemCollection collection, string[] allowlist)
+        private void PruneMenu(ToolStripItemCollection collection, List<string> allowlist)
         {
             // Loop over the collection and remove any items not in the allowlist.
             // Doing this backward so we can remove items without messing up the index.
@@ -484,7 +473,7 @@ namespace Carbonix
             var landitem = new ToolStripMenuItem("Land");
             landitem.Click += (o, e) =>
             {
-                using (Form landing_form = new LandingPlanForm(this, "VolantiLanding.json"))
+                using (Form landing_form = new LandingPlanForm(this, aircraft_settings))
                 {
                     ThemeManager.ApplyThemeTo(landing_form);
                     landing_form.ShowDialog();
@@ -520,8 +509,8 @@ namespace Carbonix
         {
             try
             {
-                MissionPlanner.GCSViews.FlightData.myhud.groundColor1 = System.Drawing.ColorTranslator.FromHtml(settings["hud_groundcolor1"]);
-                MissionPlanner.GCSViews.FlightData.myhud.groundColor2 = System.Drawing.ColorTranslator.FromHtml(settings["hud_groundcolor2"]);
+                MissionPlanner.GCSViews.FlightData.myhud.groundColor1 = settings.hud_groundcolor1;
+                MissionPlanner.GCSViews.FlightData.myhud.groundColor2 = settings.hud_groundcolor2;
             }
             catch
             {

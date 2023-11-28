@@ -29,9 +29,9 @@ namespace Carbonix
         // Prevent control change handlers from running when we are updating the UI
         private bool freeze_handlers = true;
 
-        readonly private string settings_file;
-        private AircraftSettings aircraft;
-        private LandApproach approach = new LandApproach();
+        private readonly AircraftSettings aircraft_settings;
+        private double loiter_radius;
+        private List<AircraftSettings.Point> approach_points;
         private double wind_direction;
         private double loit_exit_dist;
         private double min_exit_dist;
@@ -44,7 +44,7 @@ namespace Carbonix
         GMapMarker land_marker;
         GMapMarker loiter_marker;
         GMapMarkerRect loiter_circle;
-        public LandingPlanForm(CarbonixPlugin plugin, string settings_file)
+        public LandingPlanForm(CarbonixPlugin plugin, AircraftSettings aircraft_settings)
         {
             this.plugin = plugin;
 
@@ -54,8 +54,7 @@ namespace Carbonix
             // keep the click and drag from feeling too "choppy"
             wind_direction = (double)num_winddir.Value;
 
-            // Get full path to aircraft settings file from user directory
-            this.settings_file = Path.Combine(Settings.GetUserDataDirectory(), settings_file);
+            this.aircraft_settings = aircraft_settings;
 
             map.MapProvider = plugin.Host.FDMapType;
 
@@ -82,74 +81,23 @@ namespace Carbonix
             num_transit_alt.Increment = (CurrentState.AltUnit == "ft") ? 100 : 50;
         }
 
-        // Class for holding all the settings for different aircraft.
-        // This gets loaded from a JSON file, and is the basis for how 
-        // we will handle rapid development for new aircraft types 
-        public class AircraftSettings
-        {
-            public double min_vtol_altitude = 22.9;
-            public double max_vtol_altitude = 91.4;
-            public double min_loiter_radius = 152.4;
-            public double max_descent_grade = 0.08; // 8%
-            public double cruise_speed = 21.0;
-            public LandApproach approach;
-        }
-
-        // Settings for different types of landing approaches. The idea here
-        // was that aircraft may have different approach types depending on the
-        // situation, and may want to use multiple waypoints along the landing
-        // strip for two-or-more-stage descent rates. Currently, I find two
-        // points work fine, and we have enough control to make a single type
-        // work for basically everything, but I am leaving this in for now.
-        public class LandApproach
-        {
-            public struct Point
-            {
-                public double dist;
-                public double alt;
-            }
-            public List<Point> points = new List<Point>();
-            public double loiter_radius = 152.4;
-            public int loiter_time_minutes = 20;
-
-            public LandApproach Copy()
-            {
-                return (LandApproach)MemberwiseClone();
-            }
-        }
-
         void loadsettings()
         {
-            // Check if aircraft settings file exists. Create default file if not
-            if (!File.Exists(settings_file))
-            {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                using (Stream stream = assembly.GetManifestResourceStream("Carbonix.VolantiLanding.json"))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string s = reader.ReadToEnd();
-                    File.WriteAllText(settings_file, s);
-                }
-            }
-
-            // Load settings_file into AircraftSettings object
-            aircraft = JsonConvert.DeserializeObject<AircraftSettings>(File.ReadAllText(settings_file));
-
             // Get min/max VTOL altitude
-            num_vtolalt.Minimum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(aircraft.min_vtol_altitude), 0);
-            num_vtolalt.Maximum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(aircraft.max_vtol_altitude), 0);
+            num_vtolalt.Minimum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(aircraft_settings.min_vtol_altitude), 0);
+            num_vtolalt.Maximum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(aircraft_settings.max_vtol_altitude), 0);
 
             // Get minimum loiter radius
-            num_loitrad.Minimum = (decimal)Math.Round(CurrentState.toDistDisplayUnit(aircraft.min_loiter_radius), 0);
+            num_loitrad.Minimum = (decimal)Math.Round(CurrentState.toDistDisplayUnit(aircraft_settings.loitradius_min), 0);
             // Set maximum loiter radius to 2550m (ArduPilot limit)
-            num_loitrad.Maximum = (decimal)Math.Round(CurrentState.toDistDisplayUnit(2550), 0);
+            num_loitrad.Maximum = (decimal)Math.Round(CurrentState.toDistDisplayUnit(Math.Min(aircraft_settings.loitradius_max, 2550)), 0);
 
             // Get default transit altitude
             decimal default_alt = Math.Round(decimal.Parse(plugin.Host.MainForm.FlightPlanner.TXT_DefaultAlt.Text, CultureInfo.InvariantCulture), 0);
             num_transit_alt.Value = Math.Max(default_alt, num_transit_alt.Minimum);
 
             // Get default loiter time
-            num_loitertimemin.Value = aircraft.approach.loiter_time_minutes;
+            num_loitertimemin.Value = aircraft_settings.landing_hold_minutes;
 
             // This will load the default approach settings into the relevant
             // controls and then unfreeze the handlers for the first time
@@ -182,7 +130,7 @@ namespace Carbonix
             loiter_circle = new GMapMarkerRect(loiter_point)
             {
                 InnerMarker = loiter_marker,
-                wprad = approach.loiter_radius
+                wprad = loiter_radius
             };
 
             layer_route.Markers.Add(land_marker);
@@ -204,7 +152,7 @@ namespace Carbonix
         void RecalculateMarkers()
         {
             // Recalculate loiter point location to keep same exit point
-            var dist = rad_loitcw.Checked ? approach.loiter_radius : -approach.loiter_radius;
+            var dist = rad_loitcw.Checked ? loiter_radius : -loiter_radius;
             loiter_point = land_point.newpos(wind_direction, -loit_exit_dist).newpos(wind_direction + 90, dist);
 
             DrawLanding();
@@ -225,7 +173,7 @@ namespace Carbonix
             if (isMouseDraging)
             {
                 // Calculate difference between bearing of loiter-to-landing and wind angle
-                double dtheta = Math.Atan2(approach.loiter_radius, loit_exit_dist) * rad2deg;
+                double dtheta = Math.Atan2(loiter_radius, loit_exit_dist) * rad2deg;
                 // If the turn is clockwise, we add dtheta to loiter-to-landing bearing to get wind angle,
                 // otherwise we subtract it
                 if (rad_loitccw.Checked) dtheta *= -1;
@@ -238,7 +186,7 @@ namespace Carbonix
                 num_winddir.Value = (decimal)Wrap360(Math.Round(wind_direction, num_winddir.DecimalPlaces));
             }
 
-            var N = approach.points.Count;
+            var N = approach_points.Count;
 
             // Recalculate the exit point parameters
             // Only recalculate the exit dist if we are dragging. (this prevents numerical 
@@ -246,14 +194,14 @@ namespace Carbonix
             if (isMouseDraging)
             {
                 // Calculate exit point parameters
-                loit_exit_dist = Math.Sqrt(dist * dist - approach.loiter_radius * approach.loiter_radius);
+                loit_exit_dist = Math.Sqrt(dist * dist - loiter_radius * loiter_radius);
 
                 // Prevent moving the loiter circle too close
                 if (double.IsNaN(loit_exit_dist) || loit_exit_dist < min_exit_dist)
                 {
                     loit_exit_dist = min_exit_dist;
                     // recalculate position of loiter_point
-                    var radius = rad_loitcw.Checked ? approach.loiter_radius : -approach.loiter_radius;
+                    var radius = rad_loitcw.Checked ? loiter_radius : -loiter_radius;
                     loiter_point = land_point.newpos(wind_direction, -loit_exit_dist).newpos(wind_direction + 90, radius);
                 }
             }
@@ -261,25 +209,25 @@ namespace Carbonix
             // (ArduPilot skips heading check if next WP is within 105%)
             // (the latter check is equivalent to checking if the normalized distance
             //  between exit and next WP is less than ~0.46)
-            if ((loit_exit_dist - min_exit_dist) / approach.loiter_radius < 0.46)
+            if ((loit_exit_dist - min_exit_dist) / loiter_radius < 0.46)
             {
-                approach.points[N - 2] = new LandApproach.Point() { dist = loit_exit_dist, alt = approach.points[N - 2].alt };
+                approach_points[N - 2] = new AircraftSettings.Point() { dist = loit_exit_dist, alt = approach_points[N - 2].alt };
             }
             else
             {
-                approach.points[N - 2] = new LandApproach.Point() { dist = min_exit_dist, alt = approach.points[N - 2].alt };
+                approach_points[N - 2] = new AircraftSettings.Point() { dist = min_exit_dist, alt = approach_points[N - 2].alt };
             }
 
             // Calculate loit_exit_alt from grade
-            loit_exit_alt = (loit_exit_dist - approach.points[N - 2].dist) * grade + approach.points[N - 2].alt;
+            loit_exit_alt = (loit_exit_dist - approach_points[N - 2].dist) * grade + approach_points[N - 2].alt;
 
             // Update last approach point
-            approach.points[N - 1] = new LandApproach.Point() { dist = loit_exit_dist, alt = loit_exit_alt };
+            approach_points[N - 1] = new AircraftSettings.Point() { dist = loit_exit_dist, alt = loit_exit_alt };
 
             // Update the loiter altitude control
-            double loit_exit_max_alt = (loit_exit_dist - approach.points[N - 2].dist) * aircraft.max_descent_grade + approach.points[N - 2].alt;
+            double loit_exit_max_alt = (loit_exit_dist - approach_points[N - 2].dist) * aircraft_settings.max_descent_grade + approach_points[N - 2].alt;
             num_exitalt.Maximum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(loit_exit_max_alt + alt_offset));
-            num_exitalt.Minimum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(approach.points[N - 2].alt + alt_offset));
+            num_exitalt.Minimum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(approach_points[N - 2].alt + alt_offset));
             num_exitalt.Value = (decimal)Math.Round(CurrentState.toAltDisplayUnit(loit_exit_alt + alt_offset));
             num_exitalt.Enabled = (num_exitalt.Minimum != num_exitalt.Maximum); // Disable if can't change
 
@@ -303,13 +251,13 @@ namespace Carbonix
             // Draw tooltip over invisible marker on circle to indicate transit altitude
             var angle = wind_direction + 90;
             if (rad_loitcw.Checked) angle += 180;
-            var pt_lla = loiter_point.newpos(angle, -approach.loiter_radius);
+            var pt_lla = loiter_point.newpos(angle, -loiter_radius);
             pt_lla.Alt = (float)num_transit_alt.Value / CurrentState.multiplieralt;
             AddApproachMarker(pt_lla, angle, false);
 
             // Draw small markers and tooltips for each approach point
             angle += 180; // Flip the tooltips the other way for the others
-            foreach (var pt in approach.points)
+            foreach (var pt in approach_points)
             {
                 pt_lla = land_point.newpos(wind_direction, -pt.dist);
                 pt_lla.Alt = pt.alt + alt_offset;
@@ -319,7 +267,7 @@ namespace Carbonix
             // Update markers
             loiter_marker.Position = loiter_point;
             loiter_circle.Position = loiter_point;
-            loiter_circle.wprad = (float)approach.loiter_radius;
+            loiter_circle.wprad = (float)loiter_radius;
             land_marker.Position = land_point;
 
             // Free the handlers to run again
@@ -403,7 +351,7 @@ namespace Carbonix
             // of the definition of Zoom because none of the built-in functions do exactly what we want.
             // Note, this is an approximation; the actual zoom level depends on map projection and "other factors"
             // We zoom out a little bit more as a buffer.
-            var dlat = land_point.newpos(0, loit_exit_dist + approach.loiter_radius).Lat - land_point.Lat;
+            var dlat = land_point.newpos(0, loit_exit_dist + loiter_radius).Lat - land_point.Lat;
             var zoom = Math.Log(Math.Min(map.Height, map.Width) / 256, 2) - Math.Log(dlat / 180, 2) - 0.5;
             if (zoom < 1) zoom = 1;
             map.Zoom = zoom;
@@ -533,33 +481,33 @@ namespace Carbonix
             freeze_handlers = true;
 
             // Copy settings from this approach type into current approach
-            approach = aircraft.approach.Copy();
-            approach.points = approach.points.ToList();
+            loiter_radius = aircraft_settings.loitradius_default;
+            approach_points = aircraft_settings.approach_points.ToList();
 
-            var N = approach.points.Count;
+            var N = approach_points.Count;
 
             // The distance of the second-to-last point is the minimum exit distance
-            min_exit_dist = approach.points[N - 2].dist;
+            min_exit_dist = approach_points[N - 2].dist;
             // Set the current distance to the last point in the approach points
-            loit_exit_dist = approach.points.Last().dist;
+            loit_exit_dist = approach_points.Last().dist;
 
             // Calculate grade from last two points
-            grade = (approach.points[N - 1].alt - approach.points[N - 2].alt) / (approach.points[N - 1].dist - approach.points[N - 2].dist);
+            grade = (approach_points[N - 1].alt - approach_points[N - 2].alt) / (approach_points[N - 1].dist - approach_points[N - 2].dist);
             // Set the loiter exit limits and value
-            double loit_exit_max_alt = (approach.points[N - 1].dist - approach.points[N - 2].dist) * aircraft.max_descent_grade + approach.points[N - 2].alt;
+            double loit_exit_max_alt = (approach_points[N - 1].dist - approach_points[N - 2].dist) * aircraft_settings.max_descent_grade + approach_points[N - 2].alt;
             num_exitalt.Maximum = (decimal)Math.Floor(CurrentState.toAltDisplayUnit(loit_exit_max_alt + alt_offset));
-            num_exitalt.Minimum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(approach.points[N - 2].alt + alt_offset), 0);
-            num_exitalt.Value = (decimal)Math.Floor(CurrentState.toAltDisplayUnit(approach.points.Last().alt));
+            num_exitalt.Minimum = (decimal)Math.Round(CurrentState.toAltDisplayUnit(approach_points[N - 2].alt + alt_offset), 0);
+            num_exitalt.Value = (decimal)Math.Floor(CurrentState.toAltDisplayUnit(approach_points.Last().alt));
 
             // Set the default loiter radius
-            num_loitrad.Value = (decimal)Math.Round(CurrentState.toDistDisplayUnit(approach.loiter_radius), num_loitrad.DecimalPlaces);
+            num_loitrad.Value = (decimal)Math.Round(CurrentState.toDistDisplayUnit(loiter_radius), num_loitrad.DecimalPlaces);
 
             // Set the minimum transit altitude to final loiter altitude
             num_transit_alt.Minimum = num_exitalt.Value;
 
             // Set the vtol altitude to the first point in the approach
             alt_offset = 0;
-            num_vtolalt.Value = (decimal)Math.Round(CurrentState.toAltDisplayUnit(approach.points.First().alt), num_vtolalt.DecimalPlaces);
+            num_vtolalt.Value = (decimal)Math.Round(CurrentState.toAltDisplayUnit(approach_points.First().alt), num_vtolalt.DecimalPlaces);
 
             // Release the handlers
             freeze_handlers = false;
@@ -593,8 +541,8 @@ namespace Carbonix
             if (freeze_handlers) return;
 
             // Round loiter radius to 10m (ArduPilot limitation)
-            approach.loiter_radius = Math.Round(CurrentState.fromDistDisplayUnit((double)num_loitrad.Value) / 10, 0) * 10;
-            loiter_circle.wprad = approach.loiter_radius;
+            loiter_radius = Math.Round(CurrentState.fromDistDisplayUnit((double)num_loitrad.Value) / 10, 0) * 10;
+            loiter_circle.wprad = loiter_radius;
             RecalculateMarkers();
         }
 
@@ -645,33 +593,33 @@ namespace Carbonix
             if (Math.Abs(num_exitalt.Value - num_transit_alt.Value) > (decimal)CurrentState.toDistDisplayUnit(5))
             {
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, loiter_point.Lng, loiter_point.Lat, (double)num_transit_alt.Value);
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TO_ALT, 0, sign * approach.loiter_radius, 0, 0, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach.points.Last().alt + alt_offset)));
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TO_ALT, 0, sign * loiter_radius, 0, 0, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
             }
 
             if (num_loitertimemin.Value > 0)
             {
-                double minutes_per_turn = (2 * Math.PI * approach.loiter_radius) / aircraft.cruise_speed / 60;
+                double minutes_per_turn = (2 * Math.PI * loiter_radius) / aircraft_settings.cruise_speed / 60;
                 int loiter_turns = (int)Math.Round((double)num_loitertimemin.Value / minutes_per_turn);
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, loiter_turns, 0, sign * approach.loiter_radius, 0, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach.points.Last().alt + alt_offset)));
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, loiter_turns, 0, sign * loiter_radius, 0, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
                 // Add 0-turn loiter. This will waypoint will be jumped to when the operators command the aircraft onto final.
                 // This makes sure that no matter when that button is clicked, it won't exit until it's pointing the right way.
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, 0, 0, sign * approach.loiter_radius, 1, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach.points.Last().alt + alt_offset)));
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, 0, 0, sign * loiter_radius, 1, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
             }
             else // Throw in a single loiter turn
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, 1, 0, sign * approach.loiter_radius, 1, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach.points.Last().alt + alt_offset)));
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, 1, 0, sign * loiter_radius, 1, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
             }
 
-            // Loop backward through approach.points starting with second-to-last and add waypoints
-            for (int i = approach.points.Count - 2; i >= 0; i--)
+            // Loop backward through approach_points starting with second-to-last and add waypoints
+            for (int i = approach_points.Count - 2; i >= 0; i--)
             {
                 // Skip if this waypoint is on top of the last one (when the user drags the sequence to the minimum distance)
-                if (Math.Abs(approach.points[i].dist - approach.points[i + 1].dist) < 1)
+                if (Math.Abs(approach_points[i].dist - approach_points[i + 1].dist) < 1)
                 {
                     continue;
                 }
-                var point = land_point.newpos(wind_direction, -approach.points[i].dist);
-                point.Alt = approach.points[i].alt;
+                var point = land_point.newpos(wind_direction, -approach_points[i].dist);
+                point.Alt = approach_points[i].alt;
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, point.Lng, point.Lat, Math.Round(CurrentState.toAltDisplayUnit(point.Alt + alt_offset)));
             }
 
@@ -693,10 +641,10 @@ namespace Carbonix
             if (freeze_handlers) return;
 
             // Recalculate grade
-            var N = approach.points.Count;
-            grade = ((double)num_exitalt.Value / CurrentState.multiplieralt - alt_offset - approach.points[N - 2].alt) / (approach.points[N - 1].dist - approach.points[N - 2].dist);
+            var N = approach_points.Count;
+            grade = ((double)num_exitalt.Value / CurrentState.multiplieralt - alt_offset - approach_points[N - 2].alt) / (approach_points[N - 1].dist - approach_points[N - 2].dist);
             // Clamp to max_grade (because of above rounding, it can slightly exceed)
-            grade = Math.Min(grade, aircraft.max_descent_grade);
+            grade = Math.Min(grade, aircraft_settings.max_descent_grade);
 
             // Only bother redrawing if we have altitudes displayed
             if (chk_showalt.Checked)
@@ -709,7 +657,7 @@ namespace Carbonix
         {
             if (freeze_handlers) return;
 
-            alt_offset = (double)num_vtolalt.Value / CurrentState.multiplieralt - approach.points[0].alt;
+            alt_offset = (double)num_vtolalt.Value / CurrentState.multiplieralt - approach_points[0].alt;
 
             // Only bother redrawing if we have altitudes displayed
             if (chk_showalt.Checked)

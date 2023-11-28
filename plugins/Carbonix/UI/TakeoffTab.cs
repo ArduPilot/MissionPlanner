@@ -30,7 +30,7 @@ namespace Carbonix
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public TakeoffTab(PluginHost Host, Dictionary<string, string> settings)
+        public TakeoffTab(PluginHost Host, AircraftSettings aircraft_settings)
         {
             this.Host = Host;
 
@@ -52,31 +52,31 @@ namespace Carbonix
 
             numberView1.numberColor = nvColor;
             numberView1.numberColorBackup = nvColor;
-            numberView1.numberformat = settings["nv1_numberformat"];
-            numberView1.desc = settings["nv1_desc"];
-            numberView1.charWidth = int.Parse(settings["nv1_charwidth"]);
-            AddBinding(numberView1, settings["nv1_variable"]);
+            numberView1.numberformat = aircraft_settings.takeofftab_displays[0].numberformat;
+            numberView1.desc = aircraft_settings.takeofftab_displays[0].description;
+            numberView1.charWidth = aircraft_settings.takeofftab_displays[0].charwidth;
+            AddBinding(numberView1, aircraft_settings.takeofftab_displays[0].variable);
 
             numberView2.numberColor = nvColor;
             numberView2.numberColorBackup = nvColor;
-            numberView2.numberformat = settings["nv2_numberformat"];
-            numberView2.desc = settings["nv2_desc"];
-            numberView2.charWidth = int.Parse(settings["nv2_charwidth"]);
-            AddBinding(numberView2, settings["nv2_variable"]);
+            numberView2.numberformat = aircraft_settings.takeofftab_displays[1].numberformat;
+            numberView2.desc = aircraft_settings.takeofftab_displays[1].description;
+            numberView2.charWidth = aircraft_settings.takeofftab_displays[1].charwidth;
+            AddBinding(numberView2, aircraft_settings.takeofftab_displays[1].variable);
 
             numberView3.numberColor = nvColor;
             numberView3.numberColorBackup = nvColor;
-            numberView3.numberformat = settings["nv3_numberformat"];
-            numberView3.desc = settings["nv3_desc"];
-            numberView3.charWidth = int.Parse(settings["nv3_charwidth"]);
-            AddBinding(numberView3, settings["nv3_variable"]);
+            numberView3.numberformat = aircraft_settings.takeofftab_displays[2].numberformat;
+            numberView3.desc = aircraft_settings.takeofftab_displays[2].description;
+            numberView3.charWidth = aircraft_settings.takeofftab_displays[2].charwidth;
+            AddBinding(numberView3, aircraft_settings.takeofftab_displays[2].variable);
 
             numberView4.numberColor = nvColor;
             numberView4.numberColorBackup = nvColor;
-            numberView4.numberformat = settings["nv4_numberformat"];
-            numberView4.desc = settings["nv4_desc"];
-            numberView4.charWidth = int.Parse(settings["nv4_charwidth"]);
-            AddBinding(numberView4, settings["nv4_variable"]);
+            numberView4.numberformat = aircraft_settings.takeofftab_displays[3].numberformat;
+            numberView4.desc = aircraft_settings.takeofftab_displays[3].description;
+            numberView4.charWidth = aircraft_settings.takeofftab_displays[3].charwidth;
+            AddBinding(numberView4, aircraft_settings.takeofftab_displays[3].variable);
 
             // Trigger table_numberViews handler
             table_numberViews_Resize(null, null);
