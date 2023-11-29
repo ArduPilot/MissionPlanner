@@ -12,7 +12,7 @@ using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using System.Threading.Tasks;
-using System.Linq;
+using System.Drawing;
 
 namespace Carbonix
 {
@@ -59,7 +59,10 @@ namespace Carbonix
 
             // Remove unnecessary UI Elements
             CleanUI();
-            
+
+            // Repurpose the ArduPilot button for aircraft platform indication and selection
+            SetupArduPilotButton();
+
             // Add extra options to FlightPlanner (like landing planner)
             AddPlanningOptions();
 
@@ -421,6 +424,92 @@ namespace Carbonix
             Host.MainForm.MainMenu.Items.RemoveByKey("MenuHelp");
 
         }
+
+        private void SetupArduPilotButton()
+        {
+            // Remove the click handler from MenuArduPilot using reflection. Can't use -= because MenuArduPilot_Click is private
+            try
+            {
+                var eventField = typeof(ToolStripItem).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
+                var eventClick = eventField.GetValue(Host.MainForm.MenuArduPilot);
+                var clickProperty = typeof(Control).GetProperty("Events", BindingFlags.NonPublic | BindingFlags.Instance);
+                var clickList = clickProperty.GetValue(Host.MainForm.MenuArduPilot, null) as System.ComponentModel.EventHandlerList;
+                clickList.RemoveHandler(eventClick, clickList[eventClick]);
+
+                // Add our own click handler
+                Host.MainForm.MenuArduPilot.Click += MenuArduPilot_Click;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: could not remove MenuArduPilot click handler\n\n" + e.ToString());
+            }
+
+            // Change the image for this button to match the currently-selected aircraft
+            string image_name = selected_aircraft.ToString().ToLower();
+            if(ThemeManager.thmColor.iconSet == ThemeColorTable.IconSet.BurnKermitIconSet)
+            {
+                image_name += "_light";
+            }
+            else
+            {
+                image_name += "_dark";
+            }
+            // Get the image by name from Resources
+            Host.MainForm.MenuArduPilot.Image = Resources.ResourceManager.GetObject(image_name) as Image;
+        }
+
+        // We reuse the ArduPilot button to launch the aircraft selection dialog
+        // Pop up a form with a dropdown list of all aircraft in the Aircraft enum
+        // Then update the Host.config["cbx_selected_aircraft"] setting
+        private void MenuArduPilot_Click(object sender, EventArgs e)
+        {
+            var dialog = new Form
+            {
+                Text = "Select Aircraft",
+                Size = new Size(200, 80),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ShowIcon = false,
+                ShowInTaskbar = false,
+                TopMost = true
+            };
+
+            var comboBox = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Location = new Point(10, 10),
+                Size = new Size(100, 20)
+            };
+            comboBox.Items.AddRange(Enum.GetNames(typeof(Aircraft)));
+            comboBox.SelectedIndex = (int)selected_aircraft;
+            dialog.Controls.Add(comboBox);
+
+            var button = new MyButton
+            {
+                Text = "OK",
+                Location = new Point(120, 10),
+                Size = new Size(60, 20),
+                DialogResult = DialogResult.OK
+            };
+            button.Click += (s, ev) =>
+            {
+                if(selected_aircraft == (Aircraft)comboBox.SelectedIndex)
+                {
+                    return;
+                }
+                selected_aircraft = (Aircraft)comboBox.SelectedIndex;
+                Host.config["cbx_selected_aircraft"] = selected_aircraft.ToString();
+                dialog.Close();
+                CustomMessageBox.Show("Restart Mission Planner to apply changes", "Aircraft Selection");
+            };
+            dialog.Controls.Add(button);
+
+            dialog.ShowDialog();
+        }
+
+
 
         private void PruneMenu(ToolStripItemCollection collection, List<string> allowlist)
         {
