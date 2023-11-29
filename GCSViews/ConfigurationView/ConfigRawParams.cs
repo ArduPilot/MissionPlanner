@@ -1002,7 +1002,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // Create and place the relevant control in the options column when a row is entered
         private void Params_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 1)
+            if (e.RowIndex < 0)
                 return;
             
             if (optionsControl != null)
