@@ -644,10 +644,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             treeView1.Nodes.Clear();
             var currentNode = treeView1.Nodes.Add("All");
             string currentPrefix = "";
-            DataGridViewRowCollection rows = Params.Rows;
-            for (int i = 0; i < rows.Count; i++)
+
+            // Get command names from the gridview
+            List<string> commands = new List<string>();
+            foreach (DataGridViewRow row in Params.Rows)
             {
-                string param = rows[i].Cells[Command.Index].Value.ToString();
+                string command = row.Cells[Command.Index].Value.ToString();
+                if (!commands.Contains(command))
+                {
+                    commands.Add(command);
+                }
+            }
+
+            // Sort them again (because of the favorites, they may be out of order)
+            commands.Sort();
+
+            for (int i = 0; i < commands.Count; i++)
+            {
+                string param = commands[i];
 
                 // While param does not start with currentPrefix, step up a layer in the tree
                 while (!param.StartsWith(currentPrefix))
@@ -657,13 +671,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 // If this is the last parameter, add it
-                if (i == rows.Count - 1)
+                if (i == commands.Count - 1)
                 {
                     currentNode.Nodes.Add(param);
                     break;
                 }
 
-                string next_param = rows[i + 1].Cells[Command.Index].Value.ToString();
+                string next_param = commands[i + 1];
                 // While the next parameter has a common prefix with this, add branch nodes
                 string nodeToAdd = param.Substring(currentPrefix.Length).Split('_')[0] + "_";
                 while (nodeToAdd.Length > 1 // While the currentPrefix is smaller than param
