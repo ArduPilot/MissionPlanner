@@ -72,6 +72,9 @@ namespace Carbonix
             // Refresh the waypoints after refreshing params
             Host.comPort.ParamListChanged += Refresh_CS_WPs;
 
+            // Force aircraft type to plane
+            Host.config["APMFirmware"] = "ArduPlane";
+
             loopratehz = 1;
 
             return true;
