@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -6,6 +8,7 @@ namespace Carbonix
 {
     public class GeneralSettings
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public VelZUnits velz_unit;
         public Color hud_groundcolor1;
         public Color hud_groundcolor2;
