@@ -227,6 +227,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlannerTests", "Miss
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carbonix", "plugins\Carbonix\Carbonix.csproj", "{B31E31DB-F30B-4B2E-9FD2-0E80CB10EC83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedundantLinkManager", "plugins\RedundantLinkManager\RedundantLinkManager.csproj", "{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -901,6 +903,14 @@ Global
 		{B31E31DB-F30B-4B2E-9FD2-0E80CB10EC83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B31E31DB-F30B-4B2E-9FD2-0E80CB10EC83}.Release|x86.ActiveCfg = Release|Any CPU
 		{B31E31DB-F30B-4B2E-9FD2-0E80CB10EC83}.Release|x86.Build.0 = Release|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -987,6 +997,7 @@ Global
 		{FBE658B3-684D-46E6-8668-50DEF0778538} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 		{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{B31E31DB-F30B-4B2E-9FD2-0E80CB10EC83} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
+		{6B6AF209-F65C-41A5-8B70-A60067EF9AF3} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}

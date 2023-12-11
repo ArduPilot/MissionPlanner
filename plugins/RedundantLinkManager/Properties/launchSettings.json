@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Start": {
+      "commandName": "Executable",
+      "executablePath": "..\\MissionPlanner.exe"
+    }
+  }
+}
