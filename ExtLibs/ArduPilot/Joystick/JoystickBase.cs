@@ -229,6 +229,11 @@ namespace MissionPlanner.Joystick
             JoyChannels[channel].axis = axis;
         }
 
+        public void setExpo(int channel, int expo)
+        {
+            JoyChannels[channel].expo = expo;
+        }
+
         public void setChannel(int channel, joystickaxis axis, bool reverse, int expo)
         {
             JoyChannel joy = new JoyChannel();
