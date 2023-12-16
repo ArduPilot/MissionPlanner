@@ -5276,25 +5276,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         bool printit = false;
 
-                        // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
-                        // copter 3.4+
-                        // plane 3.4+
                         MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
-                        if (MAVlist[sysid, compidcurrent].cs.version.Major > 0 ||
-                            MAVlist[sysid, compidcurrent].cs.version.Minor >= 4)
+                        if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
                         {
-                            if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
-                            {
-                                printit = true;
-                                mavsev = (MAV_SEVERITY)sev;
-                            }
-                        }
-                        else
-                        {
-                            if (sev >= 3)
-                            {
-                                printit = true;
-                            }
+                            printit = true;
+                            mavsev = (MAV_SEVERITY)sev;
                         }
 
                         if (logdata.StartsWith("Tuning:") || logdata.StartsWith("PreArm:") ||
