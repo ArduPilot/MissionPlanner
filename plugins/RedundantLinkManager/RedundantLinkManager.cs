@@ -34,6 +34,11 @@ namespace RedundantLinkManager
             initializing = false;
         }
 
+        /// <summary>
+        /// Forces names to be unique
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void grid_links_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             if (e.ColumnIndex == LinkName.Index)
@@ -48,6 +53,11 @@ namespace RedundantLinkManager
             }
         }
 
+        /// <summary>
+        /// Load the selected preset. If the "New..." preset is selected, create a new preset.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmb_presets_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Skip this during initialization
@@ -60,33 +70,42 @@ namespace RedundantLinkManager
             {
                 // Prompt user for name
                 var newPresetName = "NewPreset";
-                bool retry = false;
-                do
+                // We loop until the user enters a valid name or cancels
+                while(true)
                 {
                     var result = InputBox.Show("New Preset", "Enter a name for the new preset", ref newPresetName);
+                    // Cancelled
                     if (result != DialogResult.OK)
                     {
                         cmb_presets.Text = Plugin.SelectedPreset;
                         return;
                     }
 
-                    // Check valid name
+                    // Check the validity of the name
                     if (newPresetName == "")
                     {
                         CustomMessageBox.Show("Invalid name");
-                        retry = true;
+                        continue;
                     }
-                    else if (Plugin.Presets.ContainsKey(newPresetName))
+                    // Check if this name exists and prompt for overwrite
+                    if (Plugin.Presets.ContainsKey(newPresetName))
                     {
-                        retry = CustomMessageBox.Show("Overwrite existing preset?", MessageBoxButtons: MessageBoxButtons.YesNo) != (int)DialogResult.Yes;
-                        if (!retry)
+                        result = (DialogResult)CustomMessageBox.Show("Overwrite existing preset?", MessageBoxButtons: MessageBoxButtons.YesNo);
+                        if (result != DialogResult.Yes)
                         {
-                            // Delete the preset from the combobox
-                            cmb_presets.Items.Remove(newPresetName);
+                            // Retry the naming
+                            continue;
+                        }
+                        else
+                        {
+                            // Overwrite
+                            break;
                         }
                     }
 
-                } while (retry);
+                    // If we get here, the name is valid
+                    break;
+                }
 
                 // Copy the current link list into Presets
                 Plugin.SavePreset(newPresetName);
@@ -102,20 +121,18 @@ namespace RedundantLinkManager
                 grid_links.Refresh();
                 initializing = false;
             }
+            // Select an existing preset
             else
             {
+                // Check and warn if there are unsaved changes
                 if (Plugin.Presets.ContainsKey(Plugin.SelectedPreset) &&
                     !Plugin.Presets[Plugin.SelectedPreset].SequenceEqual(Plugin.Links))
                 {
                     var result = CustomMessageBox.Show("You have unsaved changes. Do you want to save them?", MessageBoxButtons: MessageBoxButtons.YesNo);
                     if (result == (int)DialogResult.Yes)
                     {
-                        // Save these settings
-                        Plugin.SavePreset(Plugin.SelectedPreset);
-                        if (Plugin.Links.Count == 0)
-                        {
-                            cmb_presets.Items.Remove(cmb_presets.SelectedItem);
-                        }
+                        // Trigger the save click handler
+                        but_save_Click(null, null);
                     }
                 }
 
@@ -125,6 +142,12 @@ namespace RedundantLinkManager
             }
         }
 
+        /// <summary>
+        /// Check for unsaved changes while closing, and ask if they want to save. If not, these
+        /// settings will continue being used, but they won't be saved.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RedundantLinkManager_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!Plugin.Presets[Plugin.SelectedPreset].SequenceEqual(Plugin.Links))
@@ -137,9 +160,13 @@ namespace RedundantLinkManager
             }
         }
 
+        /// <summary>
+        /// Generate a name, [prefix][number], e.g. "LinkName1", that has not been used yet
+        /// </summary>
+        /// <param name="prefix">Starting portion of the unique name</param>
+        /// <returns>The unique name</returns>
         private string FirstUniqueName(string prefix)
         {
-            // Generate a unique name like "LinkName1" with the lowest unused number
             var i = 1;
             while (Plugin.Links.Where(r => r.Name == prefix + i.ToString()).Count() > 0)
             {
@@ -148,6 +175,11 @@ namespace RedundantLinkManager
             return prefix + i.ToString();
         }
 
+        /// <summary>
+        /// When a new row is added, fill in default values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void grid_links_UserAddedRow(object sender, DataGridViewRowEventArgs e)
         {
             Console.WriteLine("grid_links_UserAddedRow");
@@ -181,6 +213,13 @@ namespace RedundantLinkManager
             grid_links.Refresh();
         }
 
+        /// <summary>
+        /// Prevent editing of certain cells.
+        /// For the blank new row, only the type dropdown is editable.
+        /// For UDP rows, the host cell is not editable.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void grid_links_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             // Make all cells except the type dropdown uneditable for the new row
@@ -200,6 +239,11 @@ namespace RedundantLinkManager
             }
         }
 
+        /// <summary>
+        /// Save these links into the current preset. If the links are empty, the preset is deleted.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void but_save_Click(object sender, EventArgs e)
         {
             Plugin.SavePreset(cmb_presets.Text);
@@ -209,6 +253,11 @@ namespace RedundantLinkManager
             }
         }
 
+        /// <summary>
+        /// Click handler for the sort and delete buttons
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void grid_links_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (grid_links.Columns[e.ColumnIndex] == Up)

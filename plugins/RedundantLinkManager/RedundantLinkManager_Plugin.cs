@@ -346,7 +346,8 @@ namespace RedundantLinkManager
     }
 
     /// <summary>
-    /// Options/Settings and MAVLinkInterface for a single link
+    /// Options/Settings and MAVLinkInterface for a single link. When the settings are changed, the MAVLinkInterface
+    /// is disposed so that it can be reconnected by the autoconnect thread.
     /// </summary>
     public class Link : ICloneable, IDisposable, IEquatable<Link>
     {
