@@ -19,6 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ExtLibs\LEDBulb\Bulb\Bulb.csproj">
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
       <Aliases>Drawing</Aliases>
       <Private>false</Private>
@@ -29,6 +32,12 @@
     <ProjectReference Include="..\..\MissionPlanner.csproj">
       <Private>false</Private>
     </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Bulb">
+      <HintPath>..\..\ExtLibs\LEDBulb\Bulb\obj\x86\Debug\Bulb.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

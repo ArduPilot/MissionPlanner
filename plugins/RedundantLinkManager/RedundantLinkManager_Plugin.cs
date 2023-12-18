@@ -23,6 +23,9 @@ namespace RedundantLinkManager
         public string SelectedPreset;
         public BindingList<Link> Links = new BindingList<Link>();
 
+        // Link status indicator
+        public readonly LinkStatus linkStatus;
+
         // Link manager form
         public RedundantLinkManager linkManager = null;
 
@@ -37,7 +40,7 @@ namespace RedundantLinkManager
         public bool showConnectionUI = true;
 
         /// <summary>
-        /// Initializes the readonly Presets dictionary
+        /// Initializes the readonly Presets dictionary and the link status indicator
         /// </summary>
         public RedundantLinkManager_Plugin()
         {
@@ -64,6 +67,9 @@ namespace RedundantLinkManager
                 string json = System.IO.File.ReadAllText(filename);
                 Presets = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<Link>>>(json);
             }
+
+            // Initialize the link status indicator
+            linkStatus = new LinkStatus(this);
         }
 
         public override bool Init() { return true; }
@@ -79,12 +85,12 @@ namespace RedundantLinkManager
             //Host.MainForm.MainMenu.Items.RemoveByKey("MenuConnect");
 
             // Add the link manager button
-            System.Windows.Forms.ToolStripButton linkManagerButton = new System.Windows.Forms.ToolStripButton
+            ToolStripButton linkManagerButton = new ToolStripButton
             {
                 Name = "toolStripLinkManager",
                 Size = new System.Drawing.Size(180, 22),
                 Text = "Manage\nLinks",
-                Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+                Alignment = ToolStripItemAlignment.Right
             };
             linkManagerButton.Click += new EventHandler(linkManagerButton_Click);
 
@@ -94,6 +100,11 @@ namespace RedundantLinkManager
             SelectedPreset = Host.config["RedundantLinkManager_SelectedPreset", Presets.Keys.First()];
             LoadPreset(SelectedPreset);
             
+            // Add the link status indicator to the top menu
+            var thing = new ToolStripControlHost(linkStatus) { Alignment = ToolStripItemAlignment.Right };
+            ThemeManager.ApplyThemeTo(thing);
+            Host.MainForm.MainMenu.Items.Insert(1, thing);
+
             loopratehz = 1;
 
             return true;
@@ -112,6 +123,8 @@ namespace RedundantLinkManager
                 // Closed ports get cleaned up and removed from MainV2.Comports automatically
                 link.BaseStream.Close();
             }
+
+            linkStatus.BeginInvoke((Action)(() => linkStatus.UpdateStatus()));
 
             AutoConnect();
 
