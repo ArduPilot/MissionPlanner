@@ -5013,40 +5013,41 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     // check if we lost pacakets based on seqno
                     int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1) % 0x100);
 
+                    // the second part is to work around a 3dr radio bug sending dup seqno's
+                    if (packetSeqNo != expectedPacketSeqNo &&
+                        packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
                     {
-                        // the second part is to work around a 3dr radio bug sending dup seqno's
-                        if (packetSeqNo != expectedPacketSeqNo &&
-                            packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
+                        MAVlist[sysid, compid].synclost++; // actual sync loss's
+                        int numLost = (0x100 + packetSeqNo - expectedPacketSeqNo) % 0x100;
+
+                        // Tolerate a small amount of packet order shuffling. This can happen on UDP
+                        if (numLost >= 252)
                         {
-                            MAVlist[sysid, compid].synclost++; // actual sync loss's
-                            int numLost = 0;
+                            if (!logreadmode)
+                                log.Info($"mav {sysid}-{compid} seqno {packetSeqNo} exp {expectedPacketSeqNo} shuffle detected");
 
-                            if (packetSeqNo < ((MAVlist[sysid, compid].recvpacketcount + 1)))
-                                // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
-                            {
-                                numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
-                            }
-                            else
-                            {
-                                numLost = packetSeqNo - expectedPacketSeqNo;
-                            }
+                            // We have found a packet we previously marked missed, adjust accordingly
+                            MAVlist[sysid, compid].packetslost--;
+                            WhenPacketLost.OnNext(-1);
 
+                            // We set this to prevent recvpacketcount from rolling back
+                            packetSeqNo = (byte)(MAVlist[sysid, compid].recvpacketcount);
+                        }
+                        else
+                        {
                             MAVlist[sysid, compid].packetslost += numLost;
                             WhenPacketLost.OnNext(numLost);
 
                             if (!logreadmode)
-                                log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
-                                    numLost,
-                                    sysid,
-                                    expectedPacketSeqNo, compid);
+                                log.Info($"mav {sysid}-{compid} seqno {packetSeqNo} exp {expectedPacketSeqNo} pkts lost {numLost}");
                         }
-
-                        MAVlist[sysid, compid].packetsnotlost++;
-
-                        //Console.WriteLine("{0} {1}", sysid, packetSeqNo);
-
-                        MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                     }
+
+                    MAVlist[sysid, compid].packetsnotlost++;
+
+                    //Console.WriteLine("{0} {1}", sysid, packetSeqNo);
+
+                    MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                     WhenPacketReceived.OnNext(1);
 
                     // packet stats per mav
