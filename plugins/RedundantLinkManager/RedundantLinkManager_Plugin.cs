@@ -315,6 +315,8 @@ namespace RedundantLinkManager
         /// <param name="to_link">MAVLinkInterface of the link that is being switched to</param>
         public void CopyLinkData(MAVLinkInterface from_link, MAVLinkInterface to_link)
         {
+            if (from_link == null || to_link == null) return;
+
             // Don't copy to self
             if (from_link == to_link)
             {
