@@ -1,12 +1,7 @@
 ﻿using Bulb;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RedundantLinkManager
@@ -16,6 +11,9 @@ namespace RedundantLinkManager
         private readonly List<Label> LinkNames = new List<Label>();
         private readonly List<LedBulb> Bulbs = new List<LedBulb>();
         private readonly List<RadioButton> RadioButtons = new List<RadioButton>();
+
+        // Prevents programatic changes from triggering events
+        private bool SuppressEvents = false;
 
         private readonly RedundantLinkManager_Plugin Plugin;
 
@@ -32,6 +30,7 @@ namespace RedundantLinkManager
             InitializeComponent();
 
             Plugin = plugin;
+            chk_autoswitch.Checked = bool.Parse(Plugin.Host.config["RedundantLinkManager_AutoSwitch", "true"]);
         }
 
         public void UpdateStatus()
@@ -48,15 +47,46 @@ namespace RedundantLinkManager
                 RebuildLayout();
             }
 
+            // Track indices and qualities for auto switching
+            int firstBest = 0;  // Index of the first link with the best quality
+            int selected = 0;   // Index of the currently selected link
+            Link.Quality bestQuality = Link.Quality.Off;  // Quality of the best link
+            Link.Quality selectedQuality = Link.Quality.Off;  // Quality of the selected link
+
             // Update the status of each link
             for (int i = 0; i < Plugin.Links.Count; i++)
             {
                 var link = Plugin.Links[i];
                 LinkNames[i].Text = link.Name;
                 var linkQuality = link.GetQuality();
-                Bulbs[i].Color = QualityColors[linkQuality];
-                Bulbs[i].On = linkQuality != Link.Quality.Off;
-                RadioButtons[i].Checked = link.comPort == Plugin.Host.comPort;
+                Bulbs[i].Color = QualityColors[linkQuality.CurrentQuality];
+                Bulbs[i].On = linkQuality.CurrentQuality != Link.Quality.Off;
+
+                if (link.comPort == Plugin.Host.comPort)
+                {
+                    SuppressEvents = true;
+                    RadioButtons[i].Checked = true;
+                    SuppressEvents = false;
+                    selected = i;
+                    selectedQuality = linkQuality.CurrentQuality;
+                }
+
+                if(linkQuality.CurrentQuality > bestQuality)
+                {
+                    firstBest = i;
+                    bestQuality = linkQuality.CurrentQuality;
+                }
+
+                // Update the tooltip
+                toolTip1.SetToolTip(LinkNames[i], linkQuality.Reasons);
+                toolTip1.SetToolTip(Bulbs[i], linkQuality.Reasons);
+                toolTip1.SetToolTip(RadioButtons[i], linkQuality.Reasons);
+            }
+
+            // Autoswitch
+            if (chk_autoswitch.Checked && bestQuality > selectedQuality)
+            {
+                RadioButtons[firstBest].Checked = true;
             }
         }
 
@@ -124,7 +154,22 @@ namespace RedundantLinkManager
 
         private void Rad_CheckedChanged(object sender, EventArgs e)
         {
-            // throw new NotImplementedException();
+            if (SuppressEvents) return;
+            
+            // Do nothing when "unchecking"
+            var sender_rad = sender as RadioButton;
+            var index = RadioButtons.IndexOf(sender_rad);
+            if (!sender_rad.Checked) return;
+
+            if(index >= 0)
+            {
+                Plugin.SwitchLink(index);
+            }
+        }
+
+        private void chk_autoswitch_CheckedChanged(object sender, EventArgs e)
+        {
+            Plugin.Host.config["RedundantLinkManager_AutoSwitch"] = ((CheckBox)sender).Checked.ToString();
         }
     }
 }

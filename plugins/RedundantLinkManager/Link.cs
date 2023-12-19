@@ -1,12 +1,7 @@
 ﻿using MissionPlanner;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static IronPython.Modules._ast;
 
 namespace RedundantLinkManager
 {
@@ -97,36 +92,60 @@ namespace RedundantLinkManager
             } },
         };
 
-        public Quality GetQuality()
+        public QualityResult GetQuality()
         {
+            if (!Enabled)
+            {
+                return new QualityResult() { CurrentQuality = Quality.Off, Reasons = "User Disabled" };
+            }
             if (comPort?.MAV?.cs == null || !(comPort?.BaseStream?.IsOpen ?? false))
             {
-                return Quality.Off;
+                return new QualityResult() { CurrentQuality = Quality.Off, Reasons = "Disconnected" };
             }
 
-            Quality currentQuality = Quality.Off;
+            QualityResult currentQuality = new QualityResult() { CurrentQuality = Quality.Off };
+
             foreach (Quality quality in Enum.GetValues(typeof(Quality)))
             {
-                if (AreAllConditionsMet(quality))
+                var reasons = new List<string>();
+                if (AreAllConditionsMet(quality, reasons))
                 {
-                    currentQuality = quality;
+                    currentQuality.CurrentQuality = quality;
                 }
                 else
                 {
+                    currentQuality.Reasons = string.Join("\r\n", reasons);
                     break;
                 }
             }
             return currentQuality;
         }
 
-        private bool AreAllConditionsMet(Quality quality)
+        private bool AreAllConditionsMet(Quality quality, List<string> reasons = null)
         {
+            // If there are no conditions for this quality, then it is always met
             if (!Conditions.ContainsKey(quality))
             {
                 return true;
             }
 
-            return Conditions[quality].All(condition => condition.IsMet(this));
+            // Loop through all conditions for this quality and return true if all are met
+            // If we are collecting reasons, then do not short-circuit
+            bool allMet = true;
+            foreach (var condition in Conditions[quality])
+            {
+                if (!condition.IsMet(this, reasons))
+                {
+                    allMet = false;
+
+                    // If not collecting reasons, no need to continue checking
+                    if (reasons == null)
+                    {
+                        break;
+                    }
+                }
+            }
+            return allMet;
         }
 
         public void Dispose()
@@ -157,17 +176,26 @@ namespace RedundantLinkManager
         }
     }
 
+    public class QualityResult
+    {
+        public Link.Quality CurrentQuality;
+        public string Reasons;
+    }
+
     public interface ILinkCondition
     {
-        bool IsMet(Link link);
-        int DelaySeconds { get; set; }        
+        bool IsMet(Link link, List<string> reasons);
+        int DelaySeconds { get; set; }
+        string Reason { get; set; }
     }
 
     public abstract class LinkConditionBase : ILinkCondition
     {
         public int DelaySeconds { get; set; }
 
-        public bool IsMet(Link link)
+        public string Reason { get; set; }
+
+        public bool IsMet(Link link, List<string> reasons = null)
         {
             if (IsMetNow(link))
             {
@@ -188,10 +216,16 @@ namespace RedundantLinkManager
                 timeMetFirst = null;
             }
 
+            if (reasons != null && Reason != null)
+            {
+                reasons.Add(Reason + (timeMetFirst.HasValue ? $" {(DateTime.Now - timeMetFirst.Value).TotalSeconds:0}s ago" : ""));
+            }
+
             return false;
         }
 
-        protected DateTime? timeMetFirst = null;
+        // Initialize to MinValue to skip the wait the first time the condition is met
+        protected DateTime? timeMetFirst = DateTime.MinValue;
         protected abstract bool IsMetNow(Link link);
     }
 
@@ -204,11 +238,17 @@ namespace RedundantLinkManager
         {
             if (link?.comPort?.MAV?.lastvalidpacket == null)
             {
+                Reason = "No valid packets";
                 return false;
             }
 
             var lastPacketAge = (DateTime.Now - link.comPort.MAV.lastvalidpacket).TotalSeconds;
-            return lastPacketAge <= ThresholdSeconds;
+            if(lastPacketAge > ThresholdSeconds)
+            {
+                Reason = $"{lastPacketAge:0}s dropout";
+                return false;
+            }
+            return true;
         }
     }
 
@@ -220,10 +260,16 @@ namespace RedundantLinkManager
         {
             if (link?.comPort?.MAV?.cs == null)
             {
+                Reason = "No link quality";
                 return false;
             }
 
-            return link?.comPort.MAV.cs.linkqualitygcs >= ThresholdPercent;
+            if(link?.comPort.MAV.cs.linkqualitygcs < ThresholdPercent)
+            {
+                Reason = $"Link quality {link?.comPort.MAV.cs.linkqualitygcs:0} < {ThresholdPercent:0}";
+                return false;
+            }
+            return true;
         }
     }
 
@@ -237,6 +283,7 @@ namespace RedundantLinkManager
         {
             if (link?.comPort?.MAV?.cs == null)
             {
+                Reason = "No state object";
                 return false;
             }
 
@@ -245,7 +292,17 @@ namespace RedundantLinkManager
             try
             {
                 double value = Convert.ToDouble(propertyInfo.GetValue(link?.comPort.MAV.cs));
-                return value >= MinValue && value <= MaxValue;
+                if (value < MinValue)
+                {
+                    Reason = $"{StateName} {value:0.00} < {MinValue:0.00}";
+                    return false;
+                }
+                if (value > MaxValue)
+                {
+                    Reason = $"{StateName} {value:0.00} > {MaxValue:0.00}";
+                    return false;
+                }
+                return true;
             }
             catch (InvalidCastException)
             {

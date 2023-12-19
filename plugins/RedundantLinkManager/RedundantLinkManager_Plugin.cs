@@ -25,7 +25,7 @@ namespace RedundantLinkManager
         public BindingList<Link> Links = new BindingList<Link>();
 
         // Link status indicator
-        public readonly LinkStatus linkStatus;
+        public LinkStatus linkStatus;
 
         // Link manager form
         public RedundantLinkManager linkManager = null;
@@ -65,9 +65,6 @@ namespace RedundantLinkManager
                 string json = System.IO.File.ReadAllText(filename);
                 Presets = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<Link>>>(json);
             }
-
-            // Initialize the link status indicator
-            linkStatus = new LinkStatus(this);
         }
 
         public override bool Init() { return true; }
@@ -79,8 +76,8 @@ namespace RedundantLinkManager
         public override bool Loaded()
         {
             // Remove the stock connection control
-            //Host.MainForm.MainMenu.Items.RemoveByKey("toolStripConnectionControl");
-            //Host.MainForm.MainMenu.Items.RemoveByKey("MenuConnect");
+            Host.MainForm.MainMenu.Items.RemoveByKey("toolStripConnectionControl");
+            Host.MainForm.MainMenu.Items.RemoveByKey("MenuConnect");
 
             // Add the link manager button
             ToolStripButton linkManagerButton = new ToolStripButton
@@ -99,9 +96,10 @@ namespace RedundantLinkManager
             LoadPreset(SelectedPreset);
 
             // Add the link status indicator to the top menu
-            var thing = new ToolStripControlHost(linkStatus) { Alignment = ToolStripItemAlignment.Right };
-            ThemeManager.ApplyThemeTo(thing);
-            Host.MainForm.MainMenu.Items.Insert(1, thing);
+            linkStatus = new LinkStatus(this);
+            var controlHost = new ToolStripControlHost(linkStatus) { Alignment = ToolStripItemAlignment.Right };
+            ThemeManager.ApplyThemeTo(controlHost);
+            Host.MainForm.MainMenu.Items.Insert(1, controlHost);
 
             loopratehz = 1;
 
@@ -164,6 +162,20 @@ namespace RedundantLinkManager
                 Presets[presetName] = new List<Link>(Links.Select(l => l.Clone() as Link));
             }
             SaveSettings();
+        }
+
+        public void SwitchLink(int index)
+        {
+            if (index < 0 || index >= Links.Count ||
+                Host.comPort == Links[index].comPort)
+            {
+                return;
+            }
+
+            CopyLinkData(Host.comPort, Links[index].comPort);
+            // Switch the link over
+            // Can't use Host.comPort because it has no setter function
+            MainV2.comPort = Links[index].comPort;
         }
 
         /// <summary>

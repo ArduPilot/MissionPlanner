@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbl_links = new System.Windows.Forms.TableLayoutPanel();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.ledBulb1 = new Bulb.LedBulb();
             this.label1 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chk_autoswitch = new System.Windows.Forms.CheckBox();
             this.tbl_outer = new System.Windows.Forms.TableLayoutPanel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tbl_links.SuspendLayout();
             this.tbl_outer.SuspendLayout();
             this.SuspendLayout();
@@ -99,16 +101,17 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "label1";
             // 
-            // checkBox1
+            // chk_autoswitch
             // 
-            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(101, 8);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(58, 30);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Auto\r\nSwitch";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chk_autoswitch.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.chk_autoswitch.AutoSize = true;
+            this.chk_autoswitch.Location = new System.Drawing.Point(101, 8);
+            this.chk_autoswitch.Name = "chk_autoswitch";
+            this.chk_autoswitch.Size = new System.Drawing.Size(58, 30);
+            this.chk_autoswitch.TabIndex = 1;
+            this.chk_autoswitch.Text = "Auto\r\nSwitch";
+            this.chk_autoswitch.UseVisualStyleBackColor = true;
+            this.chk_autoswitch.CheckedChanged += new System.EventHandler(this.chk_autoswitch_CheckedChanged);
             // 
             // tbl_outer
             // 
@@ -119,8 +122,8 @@
             this.tbl_outer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tbl_outer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tbl_outer.Controls.Add(this.tbl_links, 0, 0);
-            this.tbl_outer.Controls.Add(this.checkBox1, 1, 0);
-            this.tbl_outer.Location = new System.Drawing.Point(0, 0);
+            this.tbl_outer.Controls.Add(this.chk_autoswitch, 1, 0);
+            this.tbl_outer.Location = new System.Drawing.Point(5, 0);
             this.tbl_outer.Margin = new System.Windows.Forms.Padding(0);
             this.tbl_outer.Name = "tbl_outer";
             this.tbl_outer.RowCount = 1;
@@ -137,7 +140,8 @@
             this.Controls.Add(this.tbl_outer);
             this.MinimumSize = new System.Drawing.Size(45, 45);
             this.Name = "LinkStatus";
-            this.Size = new System.Drawing.Size(163, 47);
+            this.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.Size = new System.Drawing.Size(168, 47);
             this.tbl_links.ResumeLayout(false);
             this.tbl_outer.ResumeLayout(false);
             this.tbl_outer.PerformLayout();
@@ -149,10 +153,11 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tbl_links;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chk_autoswitch;
         private System.Windows.Forms.RadioButton radioButton1;
         private Bulb.LedBulb ledBulb1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tbl_outer;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
