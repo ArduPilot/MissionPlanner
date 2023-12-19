@@ -36,9 +36,6 @@ namespace RedundantLinkManager
         // (initialized to -1 because we increment it before using it)
         public int autoConnectIndex = -1;
 
-        // We show the connection UI for the first link, and hide it for the rest
-        public bool showConnectionUI = true;
-
         /// <summary>
         /// Initializes the readonly Presets dictionary and the link status indicator
         /// </summary>
@@ -174,12 +171,6 @@ namespace RedundantLinkManager
         /// </summary>
         public void AutoConnect()
         {
-            // If no links are connected, show the UI for the next connection
-            if (!(Host.comPort?.BaseStream?.IsOpen ?? false) && !showConnectionUI)
-            {
-                showConnectionUI = true;
-            }
-
             // If all enabled links are connected, do nothing
             if (Links.Where(l => l.Enabled).All(l => l.comPort?.BaseStream?.IsOpen ?? false))
             {
@@ -243,13 +234,16 @@ namespace RedundantLinkManager
             // If we have data, attempt to connect
             if (link.comPort.BaseStream.BytesToRead > 0)
             {
-                MainV2.Comports.Add(link.comPort);
-                MainV2.instance.doConnect(link.comPort, "preset", "", getparams: showConnectionUI, showui: showConnectionUI);
+                // If no links are connected, show the UI for the next connection
+                var has_existing_connection = Host.comPort?.BaseStream?.IsOpen ?? false;
 
-                // After the first successful connection, don't show the UI anymore
-                if (link.comPort.BaseStream.IsOpen)
+                MainV2.Comports.Add(link.comPort);
+                MainV2.instance.doConnect(link.comPort, "preset", "", getparams: !has_existing_connection, showui: !has_existing_connection);
+
+                // Copy over the params if we have another connection
+                if(has_existing_connection)
                 {
-                    showConnectionUI = false;
+                    CopyLinkData(Host.comPort, link.comPort);
                 }
             }
             // If we don't have data dispose and try again later
@@ -308,26 +302,35 @@ namespace RedundantLinkManager
         /// <param name="to_link">MAVLinkInterface of the link that is being switched to</param>
         public void CopyLinkData(MAVLinkInterface from_link, MAVLinkInterface to_link)
         {
-            to_link.MAV.param.Clear();
-            to_link.MAV.param.AddRange(from_link.MAV.param);
-            to_link.MAV.wps.Clear();
-            foreach (var wp in from_link.MAV.wps)
+            // Don't copy to self
+            if (from_link == to_link)
             {
-                to_link.MAV.wps.TryAdd(wp.Key, wp.Value);
+                return;
             }
-            to_link.MAV.rallypoints.Clear();
-            foreach (var rp in from_link.MAV.rallypoints)
+
+            foreach (var mav in from_link.MAVlist)
             {
-                to_link.MAV.rallypoints.TryAdd(rp.Key, rp.Value);
+                to_link.MAVlist[mav.sysid, mav.compid].param.Clear();
+                to_link.MAVlist[mav.sysid, mav.compid].param.AddRange(mav.param);
+                to_link.MAVlist[mav.sysid, mav.compid].wps.Clear();
+                foreach (var wp in mav.wps)
+                {
+                    to_link.MAVlist[mav.sysid, mav.compid].wps.TryAdd(wp.Key, wp.Value);
             }
-            to_link.MAV.fencepoints.Clear();
-            foreach (var fp in from_link.MAV.fencepoints)
+                to_link.MAVlist[mav.sysid, mav.compid].rallypoints.Clear();
+                foreach (var rp in mav.rallypoints)
             {
-                to_link.MAV.fencepoints.TryAdd(fp.Key, fp.Value);
+                    to_link.MAVlist[mav.sysid, mav.compid].rallypoints.TryAdd(rp.Key, rp.Value);
             }
-            to_link.MAV.camerapoints.Clear();
-            to_link.MAV.camerapoints.AddRange(from_link.MAV.camerapoints);
-            to_link.MAV.GuidedMode = from_link.MAV.GuidedMode;
+                to_link.MAVlist[mav.sysid, mav.compid].fencepoints.Clear();
+                foreach (var fp in mav.fencepoints)
+                {
+                    to_link.MAVlist[mav.sysid, mav.compid].fencepoints.TryAdd(fp.Key, fp.Value);
+        }
+                to_link.MAVlist[mav.sysid, mav.compid].camerapoints.Clear();
+                to_link.MAVlist[mav.sysid, mav.compid].camerapoints.AddRange(mav.camerapoints);
+                to_link.MAVlist[mav.sysid, mav.compid].GuidedMode = mav.GuidedMode;
+            }
         }
 
         /// <summary>
