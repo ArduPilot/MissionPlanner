@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace RedundantLinkManager
 {
@@ -96,7 +97,7 @@ namespace RedundantLinkManager
 
             SelectedPreset = Host.config["RedundantLinkManager_SelectedPreset", Presets.Keys.First()];
             LoadPreset(SelectedPreset);
-            
+
             // Add the link status indicator to the top menu
             var thing = new ToolStripControlHost(linkStatus) { Alignment = ToolStripItemAlignment.Right };
             ThemeManager.ApplyThemeTo(thing);
@@ -316,17 +317,17 @@ namespace RedundantLinkManager
                 foreach (var wp in mav.wps)
                 {
                     to_link.MAVlist[mav.sysid, mav.compid].wps.TryAdd(wp.Key, wp.Value);
-            }
+                }
                 to_link.MAVlist[mav.sysid, mav.compid].rallypoints.Clear();
                 foreach (var rp in mav.rallypoints)
-            {
+                {
                     to_link.MAVlist[mav.sysid, mav.compid].rallypoints.TryAdd(rp.Key, rp.Value);
-            }
+                }
                 to_link.MAVlist[mav.sysid, mav.compid].fencepoints.Clear();
                 foreach (var fp in mav.fencepoints)
                 {
                     to_link.MAVlist[mav.sysid, mav.compid].fencepoints.TryAdd(fp.Key, fp.Value);
-        }
+                }
                 to_link.MAVlist[mav.sysid, mav.compid].camerapoints.Clear();
                 to_link.MAVlist[mav.sysid, mav.compid].camerapoints.AddRange(mav.camerapoints);
                 to_link.MAVlist[mav.sysid, mav.compid].GuidedMode = mav.GuidedMode;
@@ -358,93 +359,6 @@ namespace RedundantLinkManager
             }
 
             linkManager.BringToFront();
-        }
-    }
-
-    /// <summary>
-    /// Options/Settings and MAVLinkInterface for a single link. When the settings are changed, the MAVLinkInterface
-    /// is disposed so that it can be reconnected by the autoconnect thread.
-    /// </summary>
-    public class Link : ICloneable, IDisposable, IEquatable<Link>
-    {
-        private bool _enabled;
-        public bool Enabled
-        {
-            get { return _enabled; }
-            set
-            {
-                if (_enabled == value) return;
-                _enabled = value;
-                Dispose();
-            }
-        }
-        
-        private string _type;
-        public string Type
-        {
-            get { return _type; }
-            set
-            {
-                if (_type == value) return;
-                _type = value;
-                Dispose();
-            }
-        }
-        
-        private string _hostOrCom;
-        public string HostOrCom
-        {
-            get { return _hostOrCom; }
-            set
-            {
-                if (_hostOrCom == value) return;
-                _hostOrCom = value;
-                Dispose();
-            }
-        }
-        
-        private string _portOrBaud;
-        public string PortOrBaud
-        {
-            get { return _portOrBaud; }
-            set
-            {
-                if (_portOrBaud == value) return;
-                _portOrBaud = value;
-                Dispose();
-            }
-        }
-
-        public string Name { get; set; }
-
-        [Newtonsoft.Json.JsonIgnore]
-        public MAVLinkInterface comPort = null;
-
-        public void Dispose()
-        {
-            comPort?.Dispose();
-            comPort = null;
-        }
-        
-        public object Clone()
-        {
-            return new Link()
-            {
-                _enabled = Enabled,
-                _type = Type,
-                _hostOrCom = HostOrCom,
-                _portOrBaud = PortOrBaud,
-                Name = Name
-            };
-        }
-
-        public bool Equals(Link other)
-        {
-            return Enabled == other.Enabled &&
-                Type == other.Type &&
-                HostOrCom == other.HostOrCom &&
-                PortOrBaud == other.PortOrBaud &&
-                Name == other.Name;
         }
     }
 }

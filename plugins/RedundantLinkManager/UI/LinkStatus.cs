@@ -13,11 +13,19 @@ namespace RedundantLinkManager
 {
     public partial class LinkStatus : UserControl
     {
-        private List<Label> LinkNames = new List<Label>();
-        private List<LedBulb> Bulbs = new List<LedBulb>();
-        private List<RadioButton> RadioButtons = new List<RadioButton>();
+        private readonly List<Label> LinkNames = new List<Label>();
+        private readonly List<LedBulb> Bulbs = new List<LedBulb>();
+        private readonly List<RadioButton> RadioButtons = new List<RadioButton>();
 
-        private RedundantLinkManager_Plugin Plugin;
+        private readonly RedundantLinkManager_Plugin Plugin;
+
+        private readonly Dictionary<Link.Quality, Color> QualityColors = new Dictionary<Link.Quality, Color>()
+        {
+            { Link.Quality.Good, Color.LightGreen },
+            { Link.Quality.Marginal, Color.Yellow },
+            { Link.Quality.Critical, Color.Red },
+            { Link.Quality.Off, Color.Gray },
+        };
 
         public LinkStatus(RedundantLinkManager_Plugin plugin)
         {
@@ -45,8 +53,9 @@ namespace RedundantLinkManager
             {
                 var link = Plugin.Links[i];
                 LinkNames[i].Text = link.Name;
-                Bulbs[i].Color = (link.comPort?.BaseStream?.IsOpen ?? false) ? Color.LightGreen : Color.Red;
-                Bulbs[i].On = true;
+                var linkQuality = link.GetQuality();
+                Bulbs[i].Color = QualityColors[linkQuality];
+                Bulbs[i].On = linkQuality != Link.Quality.Off;
                 RadioButtons[i].Checked = link.comPort == Plugin.Host.comPort;
             }
         }
@@ -115,7 +124,7 @@ namespace RedundantLinkManager
 
         private void Rad_CheckedChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }
