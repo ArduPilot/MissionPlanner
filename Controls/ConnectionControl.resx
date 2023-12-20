@@ -192,7 +192,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmb_Baud.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="cmb_Connection.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -216,7 +216,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmb_Connection.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -246,7 +246,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
     <value>102, 27</value>
@@ -267,6 +267,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmb_sysid.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chk_RTS.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_RTS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 30</value>
+  </data>
+  <data name="chk_RTS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 17</value>
+  </data>
+  <data name="chk_RTS.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chk_RTS.Text" xml:space="preserve">
+    <value>RTS</value>
+  </data>
+  <data name="&gt;&gt;chk_RTS.Name" xml:space="preserve">
+    <value>chk_RTS</value>
+  </data>
+  <data name="&gt;&gt;chk_RTS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_RTS.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chk_RTS.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
