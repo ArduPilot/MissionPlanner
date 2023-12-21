@@ -82,7 +82,7 @@ namespace MissionPlanner.Maps
             // anti NaN
             try
             {
-                if (DisplayHeading)
+                if (DisplayHeading && IsActive)
                     g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f,
                         (float) Math.Cos((heading - 90) * MathHelper.deg2rad) * length,
                         (float) Math.Sin((heading - 90) * MathHelper.deg2rad) * length);
@@ -91,22 +91,22 @@ namespace MissionPlanner.Maps
             {
             }
 
-            if (DisplayNavBearing)
+            if (DisplayNavBearing && IsActive)
                 g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f,
                     (float) Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length,
                     (float) Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
-            if (DisplayCOG)
+            if (DisplayCOG && IsActive)
                 g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f,
                     (float) Math.Cos((cog - 90) * MathHelper.deg2rad) * length,
                     (float) Math.Sin((cog - 90) * MathHelper.deg2rad) * length);
-            if (DisplayTarget)
+            if (DisplayTarget && IsActive)
                 g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f,
                     (float) Math.Cos((target - 90) * MathHelper.deg2rad) * length,
                     (float) Math.Sin((target - 90) * MathHelper.deg2rad) * length);
             // anti NaN
             try
             {
-                if (DisplayRadius)
+                if (DisplayRadius && IsActive)
                 {
                     float desired_lead_dist = 100;
 
@@ -165,20 +165,30 @@ namespace MissionPlanner.Maps
             // the plane
             g.TranslateTransform(-2, -2);
 
+            var fill_color = Color.White;
             if (which % 7 == 0)
-                g.FillPolygon(Brushes.Red, plane);
+                fill_color = Color.Red;
             if (which % 7 == 1)
-                g.FillPolygon(Brushes.Black, plane);
+                fill_color = Color.Black;
             if (which % 7 == 2)
-                g.FillPolygon(Brushes.Blue, plane);
+                fill_color = Color.Blue;
             if (which % 7 == 3)
-                g.FillPolygon(Brushes.LimeGreen, plane);
+                fill_color = Color.LimeGreen;
             if (which % 7 == 4)
-                g.FillPolygon(Brushes.Yellow, plane);
+                fill_color = Color.Yellow;
             if (which % 7 == 5)
-                g.FillPolygon(Brushes.Orange, plane);
+                fill_color = Color.Orange;
             if (which % 7 == 6)
-                g.FillPolygon(Brushes.Pink, plane);
+                fill_color = Color.Pink;
+            
+            if (!IsActive)
+            {
+                fill_color = Color.FromArgb(100, fill_color);
+            }
+
+            var brush = new SolidBrush(fill_color);
+
+            g.FillPolygon(brush, plane);
 
             g.Transform = temp;
         }

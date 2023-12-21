@@ -16,6 +16,8 @@ namespace MissionPlanner.Maps
         public static bool DisplayTarget = true;
         public static int length = 500;
 
+        public bool IsActive = true;
+
         public GMapMarkerBase(PointLatLng pos):base(pos)
         {
         }

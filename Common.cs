@@ -43,6 +43,7 @@ namespace MissionPlanner
                         itemp.Target = MAV.cs.target_bearing;
                         itemp.Nav_bearing = MAV.cs.nav_bearing;
                         itemp.Radius = MAV.cs.radius * CurrentState.multiplierdist;
+                        itemp.IsActive = MainV2.comPort.MAV == MAV;
                         return null;
                     }
                     else if (item is GMapMarkerQuad)
@@ -53,6 +54,7 @@ namespace MissionPlanner
                         itemq.Cog = MAV.cs.groundcourse;
                         itemq.Target = MAV.cs.nav_bearing;
                         itemq.Sysid = MAV.sysid;
+                        itemq.IsActive = MainV2.comPort.MAV == MAV;
                         return null;
                     }
                     else if (item is GMapMarkerRover)
@@ -63,6 +65,7 @@ namespace MissionPlanner
                         itemr.Cog = MAV.cs.groundcourse;
                         itemr.Target = MAV.cs.target_bearing;
                         itemr.Nav_bearing = MAV.cs.nav_bearing;
+                        itemr.IsActive = MainV2.comPort.MAV == MAV;
                         return null;
                     }
                     else
@@ -76,8 +79,9 @@ namespace MissionPlanner
             {
                 return (new GMapMarkerPlane(MAV.sysid - 1, portlocation, MAV.cs.yaw,
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing,
-                    MAV.cs.radius * CurrentState.multiplierdist)
+                    (float)CurrentState.fromDistDisplayUnit(MAV.cs.radius))
                 {
+                    IsActive = MainV2.comPort.MAV == MAV,
                     ToolTipText = ArduPilot.Common.speechConversion(MAV, "" + Settings.Instance["mapicondesc"]),
                     ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always,
                     Tag = MAV
@@ -88,6 +92,7 @@ namespace MissionPlanner
                 return (new GMapMarkerRover(portlocation, MAV.cs.yaw,
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
                 {
+                    IsActive = MainV2.comPort.MAV == MAV,
                     ToolTipText = MAV.cs.alt.ToString("0") + "\n" + MAV.sysid.ToString("sysid: 0"),
                     ToolTipMode = MarkerTooltipMode.Always,
                     Tag = MAV
@@ -96,17 +101,29 @@ namespace MissionPlanner
             else if (MAV.aptype == MAVLink.MAV_TYPE.SURFACE_BOAT)
             {
                 return (new GMapMarkerBoat(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing){  Tag = MAV});
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
+                {
+                    IsActive = MainV2.comPort.MAV == MAV,
+                    Tag = MAV
+                });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.SUBMARINE)
             {
                 return (new GMapMarkerSub(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing){ Tag = MAV});
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
+                {
+                    IsActive = MainV2.comPort.MAV == MAV,
+                    Tag = MAV
+                });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
             {
                 return (new GMapMarkerHeli(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing){ Tag = MAV});
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing)
+                {
+                    IsActive = MainV2.comPort.MAV == MAV,
+                    Tag = MAV
+                });
             }
             else if (MAV.cs.firmware == Firmwares.ArduTracker)
             {
@@ -117,7 +134,10 @@ namespace MissionPlanner
             {
                 return (new GMapMarkerSingle(portlocation, MAV.cs.yaw,
                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
-                { Tag = MAV });
+                {
+                    IsActive = MainV2.comPort.MAV == MAV,
+                    Tag = MAV
+                });
             }
             else if (MAV.cs.firmware == Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
             {
@@ -128,6 +148,7 @@ namespace MissionPlanner
                     return (new GMapMarkerQuad(portlocation, MAV.cs.yaw,
                         MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
                     {
+                        IsActive = MainV2.comPort.MAV == MAV,
                         danger = (int)f,
                         warn = (int)w,
                         Tag = MAV
@@ -137,6 +158,7 @@ namespace MissionPlanner
                 return (new GMapMarkerQuad(portlocation, MAV.cs.yaw,
                         MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
                 {
+                    IsActive = MainV2.comPort.MAV == MAV,
                     ToolTipText = ArduPilot.Common.speechConversion(MAV, "" + Settings.Instance["mapicondesc"]),
                     ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always,
                     Tag = MAV

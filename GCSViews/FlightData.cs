@@ -4043,6 +4043,10 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
+                                    if (MAV == MainV2.comPort.MAV)
+                                    {
+                                        continue; // Will draw last
+                                    }
                                     this.BeginInvokeIfRequired(() =>
                                     {
                                         var marker = Common.getMAVMarker(MAV, routes);
@@ -4054,6 +4058,16 @@ namespace MissionPlanner.GCSViews
                                     });
                                 }
                             }
+                            // Draw the main
+                            this.BeginInvokeIfRequired(() =>
+                            {
+                                var marker = Common.getMAVMarker(MainV2.comPort.MAV, routes);
+
+                                if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
+                                    return;
+
+                                addMissionRouteMarker(marker);
+                            });
 
                             if (route.Points.Count == 0 || route.Points[route.Points.Count - 1].Lat != 0 &&
                                 (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.Checked)
