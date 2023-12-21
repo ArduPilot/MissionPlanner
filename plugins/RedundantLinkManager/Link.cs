@@ -78,17 +78,18 @@ namespace RedundantLinkManager
             { Quality.Critical, new List<ILinkCondition>()
             {
                 new LastValidPacketCondition() { DelaySeconds = 0, ThresholdSeconds = 20 },
-                new LinkQualityCondition() { DelaySeconds = 5, ThresholdPercent = 10 }
+                new LinkQualityCondition() { DelaySeconds = 0, ThresholdPercent = 10 }
             } },
             { Quality.Marginal, new List<ILinkCondition>()
             {
-                new LastValidPacketCondition() { DelaySeconds = 5, ThresholdSeconds = 5 },
-                new LinkQualityCondition() { DelaySeconds = 5, ThresholdPercent = 85 }
+                new LastValidPacketCondition() { DelaySeconds = 10, ThresholdSeconds = 5 },
+                new LinkQualityCondition() { DelaySeconds = 0, ThresholdPercent = 80 }
             } },
             { Quality.Good, new List<ILinkCondition>()
             {
-                new LastValidPacketCondition() { DelaySeconds = 5, ThresholdSeconds = 1 },
-                new LinkQualityCondition() { DelaySeconds = 5, ThresholdPercent = 95 }
+                new LastValidPacketCondition() { DelaySeconds = 10, ThresholdSeconds = 1 },
+                new SatcomCondition(),
+                new LinkQualityCondition() { DelaySeconds = 0, ThresholdPercent = 90 }
             } },
         };
 
@@ -267,6 +268,22 @@ namespace RedundantLinkManager
             if(link?.comPort.MAV.cs.linkqualitygcs < ThresholdPercent)
             {
                 Reason = $"Link quality {link?.comPort.MAV.cs.linkqualitygcs:0} < {ThresholdPercent:0}";
+                return false;
+            }
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Prevents 
+    /// </summary>
+    public class SatcomCondition : LinkConditionBase
+    {
+        protected override bool IsMetNow(Link link)
+        {
+            if (link.Name.ToLower().StartsWith("satcom"))
+            {
+                Reason = "High latency SatCom";
                 return false;
             }
             return true;
