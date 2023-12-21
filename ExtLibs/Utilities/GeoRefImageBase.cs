@@ -356,6 +356,7 @@ namespace MissionPlanner.GeoRef
                 using (var sr = new DFLogBuffer(File.OpenRead(fn)))
                 {
                     //FMT, 146, 43, CAM, QIHLLeeeccC, TimeUS,GPSTime,GPSWeek,Lat,Lng,Alt,RelAlt,GPSAlt,Roll,Pitch,Yaw
+                    //        "CAM", "QBHIHLLeeeccC","TimeUS,I,Img,GPSTime,GPSWeek,Lat,Lng,Alt,RelAlt,GPSAlt,R,P,Y
                     //FMT, 198, 17, RFND, QCBCB, TimeUS,Dist1,Orient1,Dist2,Orient2
                     foreach (var item in sr.GetEnumeratorType(new string[] { "CAM", "RFND" }))
                     {
@@ -370,6 +371,13 @@ namespace MissionPlanner.GeoRef
                             int rindex = sr.dflog.FindMessageOffset("CAM", "Roll");
                             int pindex = sr.dflog.FindMessageOffset("CAM", "Pitch");
                             int yindex = sr.dflog.FindMessageOffset("CAM", "Yaw");
+
+                            if (rindex == -1)
+                                rindex = sr.dflog.FindMessageOffset("CAM", "R");
+                            if (pindex == -1)
+                                pindex = sr.dflog.FindMessageOffset("CAM", "P");
+                            if (yindex == -1)
+                                yindex = sr.dflog.FindMessageOffset("CAM", "Y");
 
                             int gtimeindex = sr.dflog.FindMessageOffset("CAM", "GPSTime");
                             int gweekindex = sr.dflog.FindMessageOffset("CAM", "GPSWeek");
@@ -765,22 +773,19 @@ namespace MissionPlanner.GeoRef
             
             AppendText("Log Read with - " + camLocations.Count + " - CAM Messages found\n");
 
-            camLocations = camLocations.Take(camLocations.Count/* - dropend*/).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
+            camLocations = camLocations.Take(camLocations.Count - dropend).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
 
             var deltalistv = camLocations
                 .PrevNowNext(InvalidValue: new KeyValuePair<long, VehicleLocation>(0,
                     new VehicleLocation() { Time = DateTime.MinValue }))
                 .Select(d => ((d.Item3.Value.Time - d.Item2.Value.Time), d.Item2)).ToList();
-
-            if (deltalistv.Any(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < minshutter))
+            
+            // Find and remove all CAM messages with shutter speed less than minshutter
+            foreach (var delta in deltalistv.Where(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < minshutter))
             {
-                AppendText("Possible Shutter speed issue - " +
-                           deltalistv.Min(a => a.Item1.TotalSeconds > 0 ? a.Item1.TotalSeconds : 9999) + "s\n");
+                AppendText("Possible Shutter speed issue - " + delta.Item1.TotalSeconds + "s\n");
 
-                var minitem = deltalistv.Where(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < 0.5).First()
-                    .Item2;
-
-                camLocations.Remove(minitem.Key);
+                camLocations.Remove(delta.Item2.Key);
             }
 
             AppendText("Filtered - " + camLocations.Count + " - CAM Messages found\n");

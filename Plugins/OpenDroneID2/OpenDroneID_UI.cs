@@ -270,10 +270,9 @@ namespace MissionPlanner.Controls
             if (_uas_id && CMB_uas_id_type.SelectedIndex > 0 && CMB_uas_type.SelectedIndex > 0)
             {
                 myDID.UAS_ID = TXT_UAS_ID.Text;
-                
-                myDID.UA_type = (MAVLink.MAV_ODID_ID_TYPE) CMB_uas_id_type.SelectedIndex;
-                myDID.UAS_ID_type = (MAVLink.MAV_ODID_UA_TYPE) CMB_uas_type.SelectedIndex;
 
+                myDID.UA_type = (MAVLink.MAV_ODID_UA_TYPE) CMB_uas_type.SelectedIndex;
+                myDID.UAS_ID_type = (MAVLink.MAV_ODID_ID_TYPE) CMB_uas_id_type.SelectedIndex;
             }
 
             if (TXT_self_id_TXT.Text.Length > 0)
@@ -311,7 +310,7 @@ namespace MissionPlanner.Controls
                     gotolocation.Alt = _gps_data.Alt; 
 
                     if (_host != null)
-                        _host.comPort.MAV.cs.MovingBase = gotolocation;
+                        _host.comPort.MAV.cs.Base = gotolocation;
 
                     myDID.operator_latitude = _gps_data.Lat;
                     myDID.operator_longitude = _gps_data.Lng;

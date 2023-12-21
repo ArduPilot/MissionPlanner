@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
+using MissionPlanner;
 
 namespace AltitudeAngelWings.Plugin
 {
@@ -17,7 +20,7 @@ namespace AltitudeAngelWings.Plugin
 
         private bool _enabled;
 
-        static internal AltitudeAngelPlugin Instance;
+        internal static AltitudeAngelPlugin Instance;
 
         public override bool Init()
         {
@@ -32,20 +35,29 @@ namespace AltitudeAngelWings.Plugin
 
         public override bool Loaded()
         {
-            ServiceLocator.Clear();
-            if (Host.config.ContainsKey("AA_CheckEnableAltitudeAngel"))
+            try
             {
-                _enabled = Host.config.GetBoolean("AA_CheckEnableAltitudeAngel");
+                ServiceLocator.Clear();
+                if (Host.config.ContainsKey("AA_CheckEnableAltitudeAngel"))
+                {
+                    _enabled = Host.config.GetBoolean("AA_CheckEnableAltitudeAngel");
+                }
+                else
+                {
+                    AskToEnableAltitudeAngel();
+                }
+                if (_enabled)
+                {
+                    EnableAltitudeAngel();
+                }
+                return true;
             }
-            else
+            catch (Exception e)
             {
-                AskToEnableAltitudeAngel();
+                Console.WriteLine(e);
             }
-            if (_enabled)
-            {
-                EnableAltitudeAngel();
-            }
-            return true;
+
+            return false;
         }
 
         public override bool Exit()
@@ -65,18 +77,26 @@ namespace AltitudeAngelWings.Plugin
                 text,
                 Resources.AskToEnableCaption,
                 CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
-            Host.config["AA_CheckEnableAltitudeAngel"] = (_enabled).ToString();
+            Host.config["AA_CheckEnableAltitudeAngel"] = _enabled.ToString();
             Host.config.Save();
         }
 
         private void EnableAltitudeAngel()
         {
+            ServiceLocator.Clear();
             ConfigureServiceLocator();
             var service = ServiceLocator.GetService<IAltitudeAngelService>();
-            if (!service.IsSignedIn)
+            Task.Run(() =>
             {
-                service.SignInAsync();
-            }
+                Host.MainForm.Invoke(new Action(() =>
+                {
+                    // Wait for splash screen to be closed before signing in
+                    Program.Splash.Closed += (sender, args) =>
+                    {
+                        service.SignInAsync();
+                    };
+                }));
+            });
         }
 
         private ToolStripMenuItem CreateSettingsMenuItem()
@@ -86,7 +106,8 @@ namespace AltitudeAngelWings.Plugin
                 Name = SettingsMenuItemName,
                 Text = Resources.SettingsMenuItemText,
                 Enabled = true,
-                Visible = true
+                Visible = true,
+                Image = Resources.AAIconBlack.ToBitmap()
             };
             menuItem.Click += OnSettingsClick;
             return menuItem;
@@ -97,17 +118,20 @@ namespace AltitudeAngelWings.Plugin
             if (!_enabled)
             {
                 AskToEnableAltitudeAngel(true);
+                if (_enabled)
+                {
+                    EnableAltitudeAngel();
+                }
             }
             if (!_enabled) return;
-            EnableAltitudeAngel();
-            new AASettings().Show(Host.MainForm);
+            AASettings.Instance.Show(Host.MainForm);
         }
 
         private void ConfigureServiceLocator()
         {
-            ServiceLocator.Clear();
             ServiceLocator.Register(l => Host);
-            ServiceLocator.Configure();
+            ServiceLocator.ConfigureFromAssembly(Assembly.GetAssembly(typeof(AltitudeAngelPlugin)));
+            ServiceLocator.ConfigureFromAssembly(Assembly.GetAssembly(typeof(IAltitudeAngelService)));
         }
     }
 }

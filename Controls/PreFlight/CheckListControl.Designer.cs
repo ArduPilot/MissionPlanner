@@ -42,6 +42,7 @@
             this.BUT_edit.Size = new System.Drawing.Size(34, 23);
             this.BUT_edit.TabIndex = 0;
             this.BUT_edit.Text = "Edit";
+            this.BUT_edit.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_edit.UseVisualStyleBackColor = true;
             this.BUT_edit.Click += new System.EventHandler(this.BUT_edit_Click);
             // 
@@ -68,6 +69,7 @@
             this.DoubleBuffered = true;
             this.Name = "CheckListControl";
             this.Size = new System.Drawing.Size(268, 179);
+            this.Load += new System.EventHandler(this.CheckListControl_Load);
             this.ResumeLayout(false);
 
         }

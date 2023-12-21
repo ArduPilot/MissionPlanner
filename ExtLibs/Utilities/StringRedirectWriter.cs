@@ -1,10 +1,26 @@
 ﻿using System;
 using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace MissionPlanner.Utilities
 {
     public delegate void StringWrittenEvent(object sender, string writtenString);
+
+    public class StringRedirectStream : MemoryStream
+    {
+        public StringRedirectStream(StringRedirectWriter outputWriter)
+        {
+            OutputWriter = outputWriter;
+        }
+
+        public StringRedirectWriter OutputWriter { get; set; }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            OutputWriter.Write(buffer.Select(a=>(char)a).ToArray(), offset, count);
+        }
+    }
 
     /// <summary>
     /// This class only pretends to be a string writer

@@ -149,6 +149,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    var vechileKey = vechileType + ":" + nodeKey;
                     foreach (var paramfile in _parameterMetaDataXML[vechileType].Element("paramfile").Elements())
                     {
                         foreach (var parameters in paramfile.Elements())
@@ -157,7 +158,7 @@ namespace MissionPlanner.Utilities
                             {
                                 foreach (var param in parameters.Elements())
                                 {
-                                    if (param.Attribute("name").Value == (vechileType + ":" + nodeKey) ||
+                                    if (param.Attribute("name").Value == vechileKey ||
                                         param.Attribute("name").Value == nodeKey)
                                     {
                                         if (param.Attribute(metaKey) != null)

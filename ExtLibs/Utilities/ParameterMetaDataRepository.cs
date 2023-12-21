@@ -142,11 +142,11 @@ namespace MissionPlanner.Utilities
             string[] rangeParts = rangeRaw.Split(new[] {' '});
             if (rangeParts.Count() == 2)
             {
-                float lowerRange;
-                if (float.TryParse(rangeParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out lowerRange))
+                double lowerRange;
+                if (double.TryParse(rangeParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out lowerRange))
                 {
-                    float upperRange;
-                    if (float.TryParse(rangeParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out upperRange))
+                    double upperRange;
+                    if (double.TryParse(rangeParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out upperRange))
                     {
                         min = lowerRange;
                         max = upperRange;

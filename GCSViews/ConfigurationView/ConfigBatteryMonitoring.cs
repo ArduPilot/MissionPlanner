@@ -485,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            var selection = int.Parse(CMB_HWVersion.Text.Substring(0, 1));
+            var selection = int.Parse(CMB_HWVersion.Text.Substring(0, 2).Replace(":", ""));
 
             try
             {

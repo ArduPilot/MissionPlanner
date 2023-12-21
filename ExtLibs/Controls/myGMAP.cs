@@ -153,7 +153,7 @@ namespace MissionPlanner.Controls
         private Point second_point = new Point();
         PointLatLng first_pointLL = new PointLatLng();
         PointLatLng second_pointLL = new PointLatLng();
-        private int iArguments = 0;
+        private Int64 iArguments = 0;
         private const Int64 ULL_ARGUMENTS_BIT_MASK = 0xFFFFFFFFL;
         private const int WM_GESTURENOTIFY = 0x11A;
         private const int WM_GESTURE = 0x119;
@@ -292,7 +292,7 @@ namespace MissionPlanner.Controls
                         {
                             case GF_BEGIN:
                                 {
-                                    iArguments = System.Convert.ToInt32(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK);
+                                    iArguments = System.Convert.ToInt64(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK);
                                     first_point.X = gi.ptsLocation.x;
                                     first_point.Y = gi.ptsLocation.y;
                                     first_pointLL = FromLocalToLatLng(PointToClient(first_point));
@@ -304,7 +304,7 @@ namespace MissionPlanner.Controls
                                     second_point.X = gi.ptsLocation.x;
                                     second_point.Y = gi.ptsLocation.y;
                                     second_pointLL = FromLocalToLatLng(PointToClient(second_point));
-                                    GestureHappened?.Invoke(this, new GestureEventArgs() { Operation = Gestures.Zoom, DistanceBetweenStart = iArguments, DistanceBetweenNow = System.Convert.ToInt32(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK), FirstPoint = first_point, SecondPoint = second_point, FirstPointLL = first_pointLL, SecondPointLL = second_pointLL });
+                                    GestureHappened?.Invoke(this, new GestureEventArgs() { Operation = Gestures.Zoom, DistanceBetweenStart = (int)iArguments, DistanceBetweenNow = System.Convert.ToInt32(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK), FirstPoint = first_point, SecondPoint = second_point, FirstPointLL = first_pointLL, SecondPointLL = second_pointLL });
                                     break;
                                 }
                         }

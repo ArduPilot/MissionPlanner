@@ -118,14 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AskToEnableAltitudeAngel" xml:space="preserve">
-    <value>Do you wish to enable Altitude Angel airspace management data?
-For more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]</value>
+    <value>Do you wish to enable the Altitude Angel plugin?
+
+Clicking "Yes" will provide you with Altitude Angel's airspace and ground hazard data directly on the Mission Planner maps,
+making it easier to discover where you can and cannot fly, and plan for safer flights. You will be asked to login with your
+Altitude Angel account, or register for a new account if you don't have one.
+
+You can always access the settings for this plugin by right-clicking the map and choosing "Altitude Angel Settings".
+
+For more information, privacy policy, and terms and conditions, visit: [link;https://www.altitudeangel.com;www.altitudeangel.com]</value>
   </data>
   <data name="ExplicitClickPrefix" xml:space="preserve">
     <value>Altitude Angel is currently disabled. </value>
   </data>
   <data name="AskToEnableCaption" xml:space="preserve">
-    <value>Altitude Angel - Enable</value>
+    <value>Altitude Angel Plugin</value>
   </data>
   <data name="SettingsMenuItemText" xml:space="preserve">
     <value>Altitude Angel Settings</value>
@@ -233,13 +240,28 @@ For more information visit [link;http://www.altitudeangel.com;www.altitudeangel.
     <value>Message</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AALogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AALogo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="About" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\About.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="MapInfoDockPanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MapInfoDockPanel.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LoginWindowTitleText" xml:space="preserve">
+    <value>Altitude Angel Login</value>
+  </data>
+  <data name="AAIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AAIconWhite.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AAAnimatedLogoWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AAAnimatedLogoWhite.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaitWindowTitle" xml:space="preserve">
+    <value>Altitude Angel</value>
+  </data>
+  <data name="MessageCtrlClickPlannerMap" xml:space="preserve">
+    <value>Use Ctrl + Click to show and hide Altitude Angel map information on the flight planning map.</value>
+  </data>
+  <data name="AAIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AAIconBlack.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

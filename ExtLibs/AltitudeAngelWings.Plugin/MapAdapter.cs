@@ -1,41 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngelWings.ApiClient.Client;
-using AltitudeAngelWings.ApiClient.Models;
-using AltitudeAngelWings.Extra;
-using AltitudeAngelWings.Service;
+using AltitudeAngelWings.Clients.Api.Model;
+using AltitudeAngelWings.Plugin.Properties;
+using AltitudeAngelWings.Service.Messaging;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using Feature = GeoJSON.Net.Feature.Feature;
+using Message = AltitudeAngelWings.Model.Message;
 using Unit = System.Reactive.Unit;
 
 namespace AltitudeAngelWings.Plugin
 {
     internal class MapAdapter : IMap, IDisposable
     {
-        private const int MinimumZoomLevelFilter = 10;
+        private static readonly TimeSpan CtrlClickMessageInterval = TimeSpan.FromSeconds(30);
 
         private readonly GMapControl _mapControl;
         private readonly Func<bool> _enabled;
         private readonly IMapInfoDockPanel _mapInfoDockPanel;
+        private readonly IMessagesService _messages;
+        private readonly bool _ctrlForPanel;
         private CompositeDisposable _disposer = new CompositeDisposable();
         private readonly SynchronizationContext _context;
+        private Point? _mouseDown;
+        private DateTimeOffset _lastShownCtrlClickMessage = DateTimeOffset.MinValue;
 
         public IObservable<Unit> MapChanged { get; }
         public ObservableProperty<Feature> FeatureClicked { get; } = new ObservableProperty<Feature>(0);
 
-        public MapAdapter(GMapControl mapControl, Func<bool> enabled, IMapInfoDockPanel mapInfoDockPanel, ISettings settings)
+        public MapAdapter(GMapControl mapControl, Func<bool> enabled, IMapInfoDockPanel mapInfoDockPanel, ISettings settings, IMessagesService messages, bool ctrlForPanel)
         {
             _context = new WindowsFormsSynchronizationContext();
             _mapControl = mapControl;
             _enabled = enabled;
             _mapInfoDockPanel = mapInfoDockPanel;
+            _messages = messages;
+            _ctrlForPanel = ctrlForPanel;
 
             var positionChanged = Observable
                 .FromEvent<PositionChanged, PointLatLng>(
@@ -67,20 +74,39 @@ namespace AltitudeAngelWings.Plugin
                 .Merge(interval)
                 .Merge(mapZoom)
                 .Throttle(TimeSpan.FromSeconds(settings.MapUpdateThrottle))
-                .Where(i => _mapControl.Visible && _mapControl.Zoom >= MinimumZoomLevelFilter)
-                .Where(i => settings.TokenResponse.IsValidForAuth())
+                .Where(i => _mapControl.Visible)
                 .ObserveOn(ThreadPoolScheduler.Instance);
 
-            mapControl.MouseClick += OnMouseClick;
+            mapControl.MouseDown += OnMouseDown;
+            mapControl.MouseUp += OnMouseUp;
         }
 
-        public bool Enabled => _enabled();
+        private void OnMouseDown(object s, MouseEventArgs e) => _mouseDown = e.Button == MouseButtons.Left ? e.Location : (Point?)null;
 
-        private void OnMouseClick(object sender, MouseEventArgs e)
+        private void OnMouseUp(object sender, MouseEventArgs e)
         {
-            if (_mapControl.Core.IsDragging) return;
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
 
-            var mapItems = GetMapItemsOnMouseClick(e);
+            if (e.Location != _mouseDown)
+            {
+                _mouseDown = null;
+                return;
+            }
+
+            if (_ctrlForPanel && Control.ModifierKeys == Keys.None)
+            {
+                if (DateTimeOffset.UtcNow.Subtract(_lastShownCtrlClickMessage) >= CtrlClickMessageInterval)
+                {
+                    _messages.AddMessageAsync(Message.ForInfo(Resources.MessageCtrlClickPlannerMap, CtrlClickMessageInterval));
+                    _lastShownCtrlClickMessage = DateTimeOffset.UtcNow;
+                }
+                return;
+            }
+
+            var mapItems = GetMapItemsOnMouseClick(e.Location);
             if (mapItems.Length == 0)
             {
                 _mapInfoDockPanel.Hide();
@@ -93,14 +119,16 @@ namespace AltitudeAngelWings.Plugin
             }
         }
 
-        private Feature[] GetMapItemsOnMouseClick(MouseEventArgs e)
+        public bool Enabled => _enabled();
+
+        private Feature[] GetMapItemsOnMouseClick(Point point)
         {
             var mapItems = new List<Feature>();
 
             var polygons = _mapControl.Overlays
                 .SelectMany(o => o.Polygons)
                 .Where(p => p.IsVisible && p.IsHitTestVisible)
-                .Where(p => p.IsInside(_mapControl.FromLocalToLatLng(e.X, e.Y)))
+                .Where(p => p.IsInside(_mapControl.FromLocalToLatLng(point.X, point.Y)))
                 .Select(p=> (Feature)p.Tag);
             mapItems.AddRange(polygons);
 
@@ -109,7 +137,7 @@ namespace AltitudeAngelWings.Plugin
                 .Where(r => r.IsVisible && r.IsHitTestVisible)
                 .Where(r =>
                 {
-                    var rp = new GPoint(e.X, e.Y);
+                    var rp = new GPoint(point.X, point.Y);
                     rp.OffsetNegative(_mapControl.Core.renderOffset);
                     return r.IsInside((int)rp.X, (int)rp.Y);
                 })
@@ -117,13 +145,6 @@ namespace AltitudeAngelWings.Plugin
             mapItems.AddRange(routes);
 
             return mapItems.ToArray();
-        }
-
-        public LatLong GetCenter()
-        {
-            var pointLatLng = default(PointLatLng);
-            _context.Send(_ => pointLatLng = _mapControl.Position, null);
-            return new LatLong(pointLatLng.Lat, pointLatLng.Lng);
         }
 
         public BoundingLatLong GetViewArea()
@@ -141,9 +162,6 @@ namespace AltitudeAngelWings.Plugin
                 SouthWest = new LatLong(rectLatLng.Bottom, rectLatLng.Left)
             };
         }
-
-        public void AddOverlay(string name)
-            => _context.Send(state => _mapControl.Overlays.Add(new GMapOverlay(name)), null);
 
         public void DeleteOverlay(string name)
             => _context.Send(_ =>
@@ -164,10 +182,8 @@ namespace AltitudeAngelWings.Plugin
                 if (overlay == null)
                 {
                     if (!createIfNotExists) throw new ArgumentException($"Overlay {name} not found.");
-                    AddOverlay(name);
-                    result = GetOverlay(name);
-                    return;
-
+                    overlay = new GMapOverlay(name);
+                    _mapControl.Overlays.Add(overlay);
                 }
 
                 result = new OverlayAdapter(overlay);
@@ -180,7 +196,7 @@ namespace AltitudeAngelWings.Plugin
             _mapControl.Invalidate();
         }
 
-        protected void Dispose(bool isDisposing)
+        protected virtual void Dispose(bool isDisposing)
         {
             if (isDisposing)
             {

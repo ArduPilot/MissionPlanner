@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MissionPlanner.ArduPilot.Mavlink;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot
 {
@@ -63,10 +64,12 @@ namespace MissionPlanner.ArduPilot
                 }
 
                 _timer = new Timer(state =>
-                {
-                    _semaphore.Wait();
+                {                
                     try
                     {
+                        _timer.Stop();
+                        _semaphore.Wait();    
+                        _timer.Start(1000);
                         if (!_active)
                             return;
 
@@ -86,6 +89,10 @@ namespace MissionPlanner.ArduPilot
                         }
 
                         _mavftp.kCmdTerminateSession();
+                    } 
+                    catch
+                    {
+                        
                     }
                     finally
                     {

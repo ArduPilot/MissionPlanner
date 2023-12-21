@@ -59,9 +59,13 @@ namespace MissionPlanner.Controls
             "ACC1",
             "ACC2",
             "ACC3",
+            "ACC4",
+            "ACC5",
             "GYR1",
             "GYR2",
-            "GYR3"});
+            "GYR3",
+            "GYR4",
+            "GYR5"});
             this.cmb_sensor.Location = new System.Drawing.Point(96, 6);
             this.cmb_sensor.Name = "cmb_sensor";
             this.cmb_sensor.Size = new System.Drawing.Size(93, 21);

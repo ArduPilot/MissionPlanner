@@ -59,7 +59,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(200, -14);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 13);
+            this.label4.Size = new System.Drawing.Size(37, 16);
             this.label4.TabIndex = 5;
             this.label4.Text = "Field";
             // 
@@ -70,6 +70,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.BUT_Add.Size = new System.Drawing.Size(75, 23);
             this.BUT_Add.TabIndex = 1;
             this.BUT_Add.Text = "+";
+            this.BUT_Add.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Add.UseVisualStyleBackColor = true;
             this.BUT_Add.Click += new System.EventHandler(this.BUT_Add_Click);
             // 
@@ -80,6 +81,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.BUT_save.Size = new System.Drawing.Size(75, 23);
             this.BUT_save.TabIndex = 2;
             this.BUT_save.Text = "Save";
+            this.BUT_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -88,7 +90,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(7, 39);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.Size = new System.Drawing.Size(37, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Field";
             // 
@@ -97,7 +99,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(131, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 13);
+            this.label2.Size = new System.Drawing.Size(80, 16);
             this.label2.TabIndex = 3;
             this.label2.Text = "Comparison";
             // 
@@ -106,7 +108,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(199, 39);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.Size = new System.Drawing.Size(51, 16);
             this.label3.TabIndex = 4;
             this.label3.Text = "Trigger";
             // 
@@ -115,7 +117,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(501, 39);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.Size = new System.Drawing.Size(70, 16);
             this.label5.TabIndex = 6;
             this.label5.Text = "Color True";
             // 
@@ -124,7 +126,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(271, 39);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 13);
+            this.label6.Size = new System.Drawing.Size(116, 16);
             this.label6.TabIndex = 7;
             this.label6.Text = "Desciption / Value";
             // 
@@ -133,14 +135,12 @@ namespace MissionPlanner.Controls.PreFlight
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(572, 39);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 13);
+            this.label7.Size = new System.Drawing.Size(76, 16);
             this.label7.TabIndex = 8;
             this.label7.Text = "Color False";
             // 
             // CheckListEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            
             this.ClientSize = new System.Drawing.Size(751, 238);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -153,6 +153,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.Controls.Add(this.panel1);
             this.Name = "CheckListEditor";
             this.Text = "PreFlight CheckListEditor";
+            this.Load += new System.EventHandler(this.CheckListEditor_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

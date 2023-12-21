@@ -83,6 +83,7 @@
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.check_sendntripv1 = new System.Windows.Forms.CheckBox();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -218,6 +219,7 @@
             // 
             resources.ApplyResources(this.but_restartsvin, "but_restartsvin");
             this.but_restartsvin.Name = "but_restartsvin";
+            this.but_restartsvin.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.but_restartsvin, resources.GetString("but_restartsvin.ToolTip"));
             this.but_restartsvin.UseVisualStyleBackColor = true;
             this.but_restartsvin.Click += new System.EventHandler(this.but_restartsvin_Click);
@@ -234,6 +236,7 @@
             // 
             resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
             this.but_save_basepos.Name = "but_save_basepos";
+            this.but_save_basepos.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.but_save_basepos, resources.GetString("but_save_basepos.ToolTip"));
             this.but_save_basepos.UseVisualStyleBackColor = true;
             this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
@@ -323,6 +326,7 @@
             // 
             resources.ApplyResources(this.BUT_connect, "BUT_connect");
             this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
@@ -499,8 +503,16 @@
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             // 
+            // check_sendntripv1
+            // 
+            resources.ApplyResources(this.check_sendntripv1, "check_sendntripv1");
+            this.check_sendntripv1.Name = "check_sendntripv1";
+            this.toolTip1.SetToolTip(this.check_sendntripv1, resources.GetString("check_sendntripv1.ToolTip"));
+            this.check_sendntripv1.UseVisualStyleBackColor = true;
+            // 
             // ConfigSerialInjectGPS
             // 
+            this.Controls.Add(this.check_sendntripv1);
             this.Controls.Add(this.chk_sendgga);
             this.Controls.Add(this.myGMAP1);
             this.Controls.Add(this.groupBox3);
@@ -586,5 +598,6 @@
         private System.Windows.Forms.Label label16;
         private Controls.myGMAP myGMAP1;
         private System.Windows.Forms.CheckBox chk_sendgga;
+        private System.Windows.Forms.CheckBox check_sendntripv1;
     }
 }

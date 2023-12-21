@@ -3,9 +3,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngelWings.ApiClient.Models;
-using AltitudeAngelWings.Extra;
-using GeoJSON.Net.Feature;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 
@@ -22,99 +19,87 @@ namespace AltitudeAngelWings.Plugin
             _overlay = overlay;
         }
 
-        public bool IsVisible
-        {
-            get
-            {
-                var value = false;
-                _context.Send(state =>
-                {
-                    value = _overlay.IsVisibile;
-                }, null);
-                return value;
-            }
-            set
-            {
-                _context.Send(state =>
-                {
-                    _overlay.IsVisibile = value;
-                }, null);
-            }
-        }
-
-        public void AddOrUpdatePolygon(string name, List<LatLong> points, ColorInfo colorInfo, Feature featureInfo)
+        public void SetFeatures(IReadOnlyList<OverlayFeature> features)
         {
             _context.Send(_ =>
             {
-                var polygon = _overlay.Polygons.FirstOrDefault(p => p.Name == name);
-                if (polygon == null)
+                var existing = _overlay.Polygons.Union(_overlay.Routes.Cast<MapRoute>()).ToDictionary(i => i.Name, i => i);
+                var index = features.ToDictionary(f => f.Name, f => f);
+
+                // Remove polygons and routes not in features
+                foreach (var remove in existing.Keys.Except(index.Keys))
                 {
-                    polygon = new GMapPolygon(points.ConvertAll(p => new PointLatLng(p.Latitude, p.Longitude)), name);
-                    _overlay.Polygons.Add(polygon);
+                    var item = existing[remove];
+                    switch (item)
+                    {
+                        case GMapPolygon polygon:
+                            _overlay.Polygons.Remove(polygon);
+                            break;
+                        case GMapRoute route:
+                            _overlay.Routes.Remove(route);
+                            break;
+                    }
                 }
-                polygon.Fill = new SolidBrush(Color.FromArgb((int)colorInfo.FillColor));
-                polygon.Stroke = new Pen(Color.FromArgb((int)colorInfo.StrokeColor), colorInfo.StrokeWidth);
-                polygon.IsHitTestVisible = true;
-                polygon.Tag = featureInfo;
-            }, null);
-        }
 
-        public void RemovePolygonsExcept(List<string> names)
-        {
-            _context.Send(_ =>
-            {
-                var remove = _overlay.Polygons
-                    .Where(p => !names.Contains(p.Name))
-                    .ToArray();
-                foreach (var polygon in remove)
+                // Update polygons and routes already in features and remove from index as updated
+                foreach (var update in existing.Keys.Intersect(index.Keys))
                 {
-                    _overlay.Polygons.Remove(polygon);
+                    var item = existing[update];
+                    var feature = index[update];
+                    switch (item)
+                    {
+                        case GMapPolygon polygon:
+                            polygon.Points.Clear();
+                            polygon.Points.AddRange(feature.Points.Select(p => new PointLatLng(p.Latitude, p.Longitude)));
+                            SetPolygon(polygon, feature);
+                            break;
+                        case GMapRoute route:
+                            route.Points.Clear();
+                            route.Points.AddRange(feature.Points.Select(p => new PointLatLng(p.Latitude, p.Longitude)));
+                            SetRoute(route, feature);
+                            break;
+                    }
+
+                    index.Remove(update);
                 }
-            }, null);
-        }
 
-        public bool PolygonExists(string name)
-        {
-            var polygonExists = false;
-            _context.Send(_ => polygonExists = _overlay.Polygons.Any(i => i.Name == name), null);
-            return polygonExists;
-        }
-
-        public void AddOrUpdateLine(string name, List<LatLong> points, ColorInfo colorInfo, Feature featureInfo)
-        {
-            _context.Send(_ =>
-            {
-                var route = _overlay.Routes.FirstOrDefault(r => r.Name == name);
-                if (route == null)
+                // Add polygons and routes that are left in the index
+                foreach (var item in index.Values)
                 {
-                    route = new GMapRoute(points.ConvertAll(p => new PointLatLng(p.Latitude, p.Longitude)), name);
-                    _overlay.Routes.Add(route);
-                }
-                route.Stroke = new Pen(Color.FromArgb((int)colorInfo.StrokeColor), colorInfo.StrokeWidth + 2);
-                route.IsHitTestVisible = true;
-                route.Tag = featureInfo;
-            }, null);
-        }
-
-        public void RemoveLinesExcept(List<string> names)
-        {
-            _context.Send(_ =>
-            {
-                var remove = _overlay.Routes
-                    .Where(p => !names.Contains(p.Name))
-                    .ToArray();
-                foreach (var route in remove)
-                {
-                    _overlay.Routes.Remove(route);
+                    switch (item.Type)
+                    {
+                        case OverlayFeatureType.Polygon:
+                            var polygon = new GMapPolygon(
+                                    item.Points.Select(p => new PointLatLng(p.Latitude, p.Longitude)).ToList(),
+                                    item.Name);
+                            SetPolygon(polygon, item);
+                            _overlay.Polygons.Add(polygon);
+                            break;
+                        case OverlayFeatureType.Line:
+                            var route = new GMapRoute(
+                                item.Points.Select(p => new PointLatLng(p.Latitude, p.Longitude)).ToList(),
+                                item.Name);
+                            SetRoute(route, item);
+                            _overlay.Routes.Add(route);
+                            break;
+                    }
                 }
             }, null);
         }
 
-        public bool LineExists(string name)
+        private static void SetRoute(GMapRoute route, OverlayFeature feature)
         {
-            var exists = false;
-            _context.Send(_ => exists = _overlay.Routes.Any(i => i.Name == name), null);
-            return exists;
+            route.Stroke = new Pen(Color.FromArgb((int)feature.ColorInfo.StrokeColor), feature.ColorInfo.StrokeWidth);
+            route.IsHitTestVisible = true;
+            route.Tag = feature.FeatureInfo;
+        }
+
+        private static void SetPolygon(GMapPolygon polygon, OverlayFeature feature)
+        {
+            polygon.Fill = new SolidBrush(Color.FromArgb((int)feature.ColorInfo.FillColor));
+            polygon.Stroke = new Pen(Color.FromArgb((int)feature.ColorInfo.StrokeColor), feature.ColorInfo.StrokeWidth);
+            polygon.IsHitTestVisible = true;
+            polygon.Tag = feature.FeatureInfo;
         }
     }
 }

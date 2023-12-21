@@ -4,47 +4,175 @@
     <title>MapInfoDockPanel</title>
     <meta charset="utf-8" />
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap');
+
         body {
-            margin: 5px;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 10px;
+            font-family: Red Hat Display, sans-serif;
             font-weight: normal;
-            color: black;
-            background-color: white;
+            color: #000;
+            background-color: #fff;
+            overflow-x: hidden;
         }
 
         p {
-            margin: 0.4em 0 0 0;
+            margin: 5px 0;
         }
 
-        div.displayInfo {
-            border-top: 1px solid black;
-            margin: 10px 5px;
-            padding: 5px;
-            font-size: 11pt;
-        }
-
-        div.detailedCategory {
-            font-size: 10pt;
-        }
-
-        div.displayTitle, div.title {
+        a {
+            color: #000;
+            text-decoration: none;
             font-weight: bold;
         }
 
-        div.section {
-            background-color: lightgray;
-            margin: 5px 0px;
-            padding: 5px;
-            font-size: 9pt;
+        a:hover {
+            text-decoration: underline;
         }
 
-        div.section div.title, div.category {
+        a:visited {
+            color: #000;
+        }
+
+        div.panel {
+            margin: 5px 10px;
+        }
+
+        div.feature {
+            font-size: 14px;
+            color: #000;
+            margin: 10px 0 20px;
+        }
+
+        div.highlight {
+            border: 1px solid #000;
+            border-bottom: 0;
+            height: 10px;
+        }
+
+        div.header {
+            border: 1px solid #000;
+            border-top: 0;
+            padding: 10px;
+        }
+
+        div.header div.displayTitle {
+            font-size: 24px;
+        }
+
+        div.category {
+            display: inline;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        div.detailedCategory {
+            display: inline;
+            text-transform: capitalize;
+        }
+
+        div.utmReadyStatus {
+            border: 1px solid #3dbb4e;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        div.utmBasicStatus {
+            border: 1px solid darkorange;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        div.utmReadyTitle {
+            background-color: #edf8ed;
+            margin: 8px 0;
+            padding: 8px;
+        }
+
+        div.utmBasicTitle {
+            background-color: #fcebb4;
+            margin: 8px 0;
+            padding: 8px;
+        }
+
+        div.utmLegacyTitle {
+            background-color: #fde5ee;
+            margin: 8px 0;
+            padding: 8px;
+        }
+
+        div.noUtm {
+            border: 1px solid #d9534f;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        div.utmReadyStatus div.button {
+            background-color: #3dbb4e;
+            text-align: center;
+            margin: 0 50px 10px;
+            padding: 10px 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        div.utmBasicStatus div.button {
+            background-color: #fb0;
+            text-align: center;
+            margin: 0 50px 10px;
+            padding: 10px 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        div.phoneNumber {
+            margin: 5px 0;
+            padding-top: 10px;
+        }
+
+        div.phoneNumber span {
+            display: inline-block;
+            font-weight: normal;
+        }
+
+        div.phoneNumber span.location {
+            font-weight: bold;
+            width: 120px;
+            overflow-wrap: break-word;
+            padding: 10px 20px 10px 0;
+        }
+
+        div.phoneNumber span.number {
+            background-color: #32c6e1;
+            padding: 10px;
+            width: 120px;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        div.phoneNumber span.number a {
+            background-color: #32c6e1;
+            font-weight: normal;
+        }
+
+        div.section {
+            padding: 10px 0 0;
+        }
+
+        div.section div.displayTitle {
+            border-bottom: 1px solid #000;
+            font-weight: bold;
+            padding: 5px 0;
+        }
+
+        div.section div.title {
             display: none;
         }
     </style>
     <base target="_blank">
 </head>
 <body>
-###MapInfoDockPanel###
+    ###MapInfoDockPanel###
 </body>
 </html>

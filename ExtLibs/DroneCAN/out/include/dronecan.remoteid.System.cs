@@ -1,4 +1,3 @@
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -56,20 +55,20 @@ namespace DroneCAN
             public Single operator_altitude_geo = new Single();
             public uint32_t timestamp = new uint32_t();
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_dronecan_remoteid_System(this, chunk_cb, ctx);
+                encode_dronecan_remoteid_System(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_dronecan_remoteid_System(transfer, this);
+                decode_dronecan_remoteid_System(transfer, this, fdcan);
             }
 
-            public static dronecan_remoteid_System ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static dronecan_remoteid_System ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new dronecan_remoteid_System();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }
