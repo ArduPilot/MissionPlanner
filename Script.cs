@@ -53,16 +53,16 @@ namespace MissionPlanner
             scope.SetVariable("mavutil", this);
             scope.SetVariable("Joystick", MainV2.joystick);
 
-            engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
-            engine.CreateScriptSourceFromString("print cs.roll").Execute(scope);
+            engine.CreateScriptSourceFromString("print('hello world from python')").Execute(scope);
+            engine.CreateScriptSourceFromString("print(cs.roll)").Execute(scope);
 
             if (redirectOutput)
             {
                 //Redirect output through this writer
                 //this writer will not actually write to the memorystreams
                 OutputWriter = new Utilities.StringRedirectWriter();
-                engine.Runtime.IO.SetErrorOutput(new MemoryStream(), OutputWriter);
-                engine.Runtime.IO.SetOutput(new MemoryStream(), OutputWriter);
+                engine.Runtime.IO.SetErrorOutput(new StringRedirectStream(OutputWriter), OutputWriter);
+                engine.Runtime.IO.SetOutput(new StringRedirectStream(OutputWriter), OutputWriter);
             }
             else
                 OutputWriter = null;

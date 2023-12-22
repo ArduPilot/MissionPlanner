@@ -122,7 +122,7 @@
     <value>3, 3</value>
   </data>
   <data name="CMB_serialport.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>121, 24</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CMB_serialport.TabIndex" type="System.Int32, mscorlib">
@@ -138,7 +138,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_serialport.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="CMB_baudrate.Items" xml:space="preserve">
     <value>2400</value>
@@ -183,7 +183,7 @@
     <value>3, 30</value>
   </data>
   <data name="CMB_baudrate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>121, 24</value>
   </data>
   <data name="CMB_baudrate.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -198,7 +198,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_baudrate.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="lbl_status1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -211,7 +211,7 @@
     <value>93, 13</value>
   </data>
   <data name="lbl_status1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 13</value>
+    <value>61, 16</value>
   </data>
   <data name="lbl_status1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -232,7 +232,7 @@
     <value>1</value>
   </data>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>12, 17</value>
   </metadata>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>104, 17</value>
@@ -247,7 +247,7 @@
     <value>3, 57</value>
   </data>
   <data name="chk_rtcmmsg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 17</value>
+    <value>125, 20</value>
   </data>
   <data name="chk_rtcmmsg.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -271,7 +271,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_rtcmmsg.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="lbl_svin.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -325,7 +325,7 @@ Acc: current accuracy of our survey in point
     <value>3, 132</value>
   </data>
   <data name="chk_ubloxautoconfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 17</value>
+    <value>185, 20</value>
   </data>
   <data name="chk_ubloxautoconfig.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -346,7 +346,7 @@ Acc: current accuracy of our survey in point
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_ubloxautoconfig.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
@@ -685,7 +685,7 @@ Acc: current accuracy of our survey in point
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7829.30222, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8654.33854, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -802,7 +802,7 @@ Acc: current accuracy of our survey in point
     <value>3, 3</value>
   </data>
   <data name="chk_m8p_130p.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 17</value>
+    <value>127, 20</value>
   </data>
   <data name="chk_m8p_130p.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -886,7 +886,7 @@ Acc: current accuracy of our survey in point
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7829.30222, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8654.33854, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -946,7 +946,7 @@ Acc: current accuracy of our survey in point
     <value>137, 29</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
+    <value>53, 16</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -970,7 +970,7 @@ Acc: current accuracy of our survey in point
     <value>94, 25</value>
   </data>
   <data name="txt_surveyinAcc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>37, 22</value>
   </data>
   <data name="txt_surveyinAcc.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -1003,7 +1003,7 @@ Acc: current accuracy of our survey in point
     <value>3, 29</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 13</value>
+    <value>104, 16</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1031,7 +1031,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>184, 25</value>
   </data>
   <data name="txt_surveyinDur.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>37, 22</value>
   </data>
   <data name="txt_surveyinDur.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1109,7 +1109,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>104, 17</value>
@@ -1124,7 +1124,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>3, 80</value>
   </data>
   <data name="chk_sendgga.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 17</value>
+    <value>219, 20</value>
   </data>
   <data name="chk_sendgga.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -1145,7 +1145,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_sendgga.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lbl_status2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1157,7 +1157,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>255, 13</value>
   </data>
   <data name="lbl_status2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>14, 16</value>
   </data>
   <data name="lbl_status2.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -1187,7 +1187,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>93, 40</value>
   </data>
   <data name="lbl_status3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 13</value>
+    <value>278, 16</value>
   </data>
   <data name="lbl_status3.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1217,7 +1217,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>6, 13</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 13</value>
+    <value>91, 16</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -1247,7 +1247,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>165, 13</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 13</value>
+    <value>101, 16</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -1277,7 +1277,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>6, 40</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 13</value>
+    <value>84, 16</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -1307,7 +1307,7 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>6, 31</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 13</value>
+    <value>106, 16</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -1410,7 +1410,7 @@ rtcm0000</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1422,7 +1422,7 @@ rtcm0000</value>
     <value>6, 20</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+    <value>39, 16</value>
   </data>
   <data name="label11.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1452,7 +1452,7 @@ rtcm0000</value>
     <value>69, 20</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 13</value>
+    <value>32, 16</value>
   </data>
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -1482,7 +1482,7 @@ rtcm0000</value>
     <value>127, 20</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 13</value>
+    <value>57, 16</value>
   </data>
   <data name="label13.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>
@@ -1608,7 +1608,7 @@ rtcm0000</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="labelGall.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1644,7 +1644,7 @@ rtcm0000</value>
     <value>278, 20</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>50, 16</value>
   </data>
   <data name="label16.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -1698,7 +1698,7 @@ rtcm0000</value>
     <value>204, 20</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 13</value>
+    <value>50, 16</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>33</value>
@@ -1812,7 +1812,7 @@ rtcm0000</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="myGMAP1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1836,7 +1836,40 @@ rtcm0000</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;myGMAP1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
+  </data>
+  <data name="check_sendntripv1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_sendntripv1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_sendntripv1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 106</value>
+  </data>
+  <data name="check_sendntripv1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 20</value>
+  </data>
+  <data name="check_sendntripv1.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="check_sendntripv1.Text" xml:space="preserve">
+    <value>Send NTRIP protocol v1.0 ?</value>
+  </data>
+  <data name="check_sendntripv1.ToolTip" xml:space="preserve">
+    <value>Some older NTRIP casters, such as RTKLIB, don't allow NTRIP protocol v2.0. Check the box to get back on Protocol v1.0</value>
+  </data>
+  <data name="&gt;&gt;check_sendntripv1.Name" xml:space="preserve">
+    <value>check_sendntripv1</value>
+  </data>
+  <data name="&gt;&gt;check_sendntripv1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_sendntripv1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;check_sendntripv1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -5,7 +5,7 @@ namespace AltitudeAngelWings
 {
     public interface IUiThreadInvoke
     {
-        void FireAndForget(Action action);
+        void Invoke(Action action);
         Task<T> Invoke<T>(Func<T> action);
     }
 }

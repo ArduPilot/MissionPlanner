@@ -10,10 +10,13 @@ namespace OSDConfigurator.GUI
     {
         private Size charSizePix= new Size(24, 36);
         private readonly Size fontCharSizePix = new Size(12, 18); 
-        private readonly Size screenSizeChar = new Size(30, 16); 
+        private Size screenSizeChar = new Size(30, 16); 
         private readonly int NtscRows = 13;
+        private readonly int DJICols = 50;
+        private readonly int DJIRows = 18;
         private readonly IItemCaptionProvider captionProvider;
-        private static Font noteFont = new Font("Arial", 6, FontStyle.Regular);
+        private static Font sdNoteFont = new Font("Arial", 6, FontStyle.Regular);
+        private static Font hdNoteFont = new Font("Arial", 8, FontStyle.Regular);
 
         private static List<Bitmap> font;
         
@@ -30,6 +33,11 @@ namespace OSDConfigurator.GUI
             return new Size(charSizePix.Width * screenSizeChar.Width, charSizePix.Height * screenSizeChar.Height);
         }
 
+        public void SetScreenSizeChar(Size screenSize)
+        {
+            screenSizeChar = screenSize;
+        }
+        
         public Point ToOSDLocation(Point screenPoint)
         {
             screenPoint.X = screenPoint.X < 0 ? 0 : screenPoint.X;
@@ -108,11 +116,18 @@ namespace OSDConfigurator.GUI
             return ToScreenRectangle(item).Contains(point);
         }
 
-        internal void DrawBackground(Graphics g)
+        internal void DrawSDBackground(Graphics g)
         {
             g.DrawLine(Pens.DimGray, 0, charSizePix.Height * NtscRows, charSizePix.Width * screenSizeChar.Width, charSizePix.Height * NtscRows);
-            g.DrawString("NTSC", noteFont, Brushes.Black, noteFont.Size, charSizePix.Height * NtscRows - noteFont.Size * 2);
-            g.DrawString("PAL", noteFont, Brushes.Black, noteFont.Size, charSizePix.Height * NtscRows + noteFont.Size * 1.5f);
+            g.DrawString("NTSC", sdNoteFont, Brushes.Black, sdNoteFont.Size, charSizePix.Height * NtscRows - sdNoteFont.Size * 2);
+            g.DrawString("PAL", sdNoteFont, Brushes.Black, sdNoteFont.Size, charSizePix.Height * NtscRows + sdNoteFont.Size * 1.5f);
+        }
+        internal void DrawHDBackground(Graphics g)
+        {
+            g.DrawLine(Pens.DimGray, 0, charSizePix.Height * DJIRows, charSizePix.Width * DJICols, charSizePix.Height * DJIRows);
+            g.DrawLine(Pens.DimGray, charSizePix.Width * DJICols, charSizePix.Height * DJIRows, charSizePix.Width * DJICols, 0);
+            g.DrawString("50x18", hdNoteFont, Brushes.Black, charSizePix.Width * DJICols - 4.5f * hdNoteFont.Size, charSizePix.Height * DJIRows - hdNoteFont.Size * 2);
+            g.DrawString("60x22", hdNoteFont, Brushes.Black, charSizePix.Width * screenSizeChar.Width - 4.5f * hdNoteFont.Size, charSizePix.Height * screenSizeChar.Height - hdNoteFont.Size * 2);
         }
     }
 }

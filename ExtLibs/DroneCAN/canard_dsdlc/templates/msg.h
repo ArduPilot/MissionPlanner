@@ -1,5 +1,9 @@
 @{from canard_dsdlc_helpers import *}@
-
+@{ 
+for field in msg_fields :
+    if field.name == "interface" :
+        field.name = "@" + field.name
+}@
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -71,20 +75,20 @@ for field in msg_fields:
 @[    end for]@
 @[  end if]@
 
-            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool fdcan = false)
             {
-                encode_@(msg_c_type)(this, chunk_cb, ctx);
+                encode_@(msg_c_type)(this, chunk_cb, ctx, fdcan);
             }
 
-            public void decode(CanardRxTransfer transfer)
+            public void decode(CanardRxTransfer transfer, bool fdcan = false)
             {
-                decode_@(msg_c_type)(transfer, this);
+                decode_@(msg_c_type)(transfer, this, fdcan);
             }
 
-            public static @(msg_c_type) ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            public static @(msg_c_type) ByteArrayToDroneCANMsg(byte[] transfer, int startoffset, bool fdcan = false)
             {
                 var ans = new @(msg_c_type)();
-                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()), fdcan);
                 return ans;
             }
         }

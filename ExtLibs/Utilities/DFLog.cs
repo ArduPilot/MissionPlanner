@@ -44,7 +44,7 @@ namespace MissionPlanner.Utilities
                 get
                 {
                     // always return a time relative to the gps start time
-                    var time = parent.gpsstarttime.AddMilliseconds(timems - parent.msoffset);
+                    var time = parent.gpsstarttime.AddTicks((Int64)((timems - parent.msoffset) * 10000));
                     parent.lasttime = time;
                     return time;
                 }
@@ -88,15 +88,16 @@ namespace MissionPlanner.Utilities
                             if (a.IsNumber())
                                 return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
                             else
-                                return a?.ToString();
+                                if (a is System.Byte[]) return (System.Text.Encoding.ASCII.GetString(a as byte[]).Trim('\0'));
+                                else return a?.ToString();
                         }).ToArray();
                     }
                     return _items;
                 }
             }
 
-            int _timems;
-            public int timems
+            double _timems;
+            public double timems
             {
                 get
                 {
@@ -116,7 +117,7 @@ namespace MissionPlanner.Utilities
                         index = parent.FindMessageOffset(msgtype, "TimeUS");
                         if (index >= 0)
                         {
-                            _timems = (int)(long.Parse(raw[index].ToString()) / 1000);
+                            _timems = (long.Parse(raw[index].ToString()) / 1000.0);
                             return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "T");
@@ -618,6 +619,21 @@ namespace MissionPlanner.Utilities
                     };
 
                     logformat[lbl.Name] = lbl;
+
+                    if (!logformat.ContainsKey("FMT"))
+                    {
+                        // mod for custom logformat that hides the FMT key
+                        //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
+
+                        logformat["FMT"] = new Label()
+                        {
+                            Name = "FMT",
+                            Id = 0x80,
+                            Format = "BBnNZ",
+                            Length = 59,
+                            FieldNames = new List<string>() { "Type", "Length", "Name", "Format", "Columns" }
+                        };  
+                    }
                 }
             }
             catch

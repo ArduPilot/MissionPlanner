@@ -1,6 +1,8 @@
-﻿using MissionPlanner.Comms;
+﻿using Microsoft.Scripting.Utils;
+using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.CoT;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Globalization;
 using System.IO;
@@ -17,44 +19,22 @@ namespace MissionPlanner.Controls
     {
         static TcpListener listener;
         static ICommsSerial CoTStream = new SerialPort();
-        static double updaterate = 1;
+        static int updaterate_ms = 10*1000;
         System.Threading.Thread t12;
         static bool threadrun = false;
-        static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
-        static object[,] tabledata;
+        private bool indent;
 
         public SerialOutputCoT()
         {
             InitializeComponent();
 
-            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            CMB_serialport.Items.Add("TAK Multicast");
             CMB_serialport.Items.Add("TCP Host - 14551");
             CMB_serialport.Items.Add("TCP Client");
             CMB_serialport.Items.Add("UDP Host - 14551");
             CMB_serialport.Items.Add("UDP Client");
-
-            CMB_serialport.Items.Add("ATAK MC");
-
-            CMB_updaterate.Text = updaterate + "Hz";
-
-            if (threadrun)
-            {
-                BUT_connect.Text = Strings.Stop;
-            }
-
+            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
-        }
-
-        private void CMB_updaterate_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR);
-            }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
@@ -102,8 +82,8 @@ namespace MissionPlanner.Controls
                         CoTStream = new UdpSerialConnect();
                         CMB_baudrate.SelectedIndex = 0;
                         break;
-                    case "ATAK MC":
-                        CoTStream = new UdpSerialConnect() { ConfigRef = "ATAK" };
+                    case "TAK Multicast":
+                        CoTStream = new UdpSerialConnect() { ConfigRef = "TAK_Multicast" };
                         ((UdpSerialConnect)CoTStream).Open("239.2.3.1", "6969");
                         CMB_baudrate.SelectedIndex = 0;
                         break;
@@ -113,11 +93,22 @@ namespace MissionPlanner.Controls
                         break;
                 }
             }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                // if we're trying to open a port but another app, like WinTAK, is already running and using the port then our open-port attempt will fail.
+                // expected error string: "Only one usage of each socket address (protocol/network address/port) is normally permitted"
+                if (ex.Message.StartsWith("Only one usage"))
+                    CustomMessageBox.Show("TAK IP Port in use. Is another app on this system already using it?");
+                else
+                    CustomMessageBox.Show(Strings.InvalidPortName);
+                return;
+            }
             catch
             {
                 CustomMessageBox.Show(Strings.InvalidPortName);
                 return;
             }
+
             try
             {
                 CoTStream.BaudRate = int.Parse(CMB_baudrate.Text);
@@ -180,7 +171,7 @@ namespace MissionPlanner.Controls
 
                             if (CoTStream != null && CoTStream.IsOpen)
                             {
-                                CoTStream.WriteLine(xmlStr);
+                                CoTStream.WriteLine(xmlStr.Replace("\r", ""));
                             }
                         });
                     });
@@ -191,16 +182,12 @@ namespace MissionPlanner.Controls
                             TB_output.Text = view;
                         }); 
 
-                    var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
-                    var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
-                    Thread.Sleep(sleepfor);
+                    Thread.Sleep(updaterate_ms);
                     counter++;
-
-                        
                 }
                 catch
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(1000);
                 }
             }
         }
@@ -268,6 +255,11 @@ namespace MissionPlanner.Controls
             return "NOsysid" + sysid;
         }
 
+        bool isValidStr(object obj)
+        {
+            return (obj != null && obj.ToString().Length > 0);
+        }
+
         String getXmlString(String uid, String type, String how, double lat, double lng, double alt, double course = -1, double speed = -1)
         {
             // Cursor-on-Target spec
@@ -286,12 +278,14 @@ namespace MissionPlanner.Controls
             CultureInfo culture = new CultureInfo("en-US");
             culture.NumberFormat.NumberGroupSeparator = "";
 
+            string datetimeformat = "yyyy-MM-ddTHH:mm:ss.ffK";
+
             DateTime time = DateTime.UtcNow;
 
             var cotevent = new @event()
             {
-                uid = uid, type = type, time = time.ToString("o"), start = time.AddSeconds(-5).ToString("o"),
-                stale = time.AddSeconds(5).ToString("o"), how = how,
+                uid = uid, type = type, time = time.ToString(datetimeformat), start = time.AddSeconds(-5).ToString(datetimeformat),
+                stale = time.AddSeconds(120).ToString(datetimeformat), how = how,
                 detail = new detail()
                 {
                     track = new track()
@@ -309,30 +303,40 @@ namespace MissionPlanner.Controls
             int row = FindRowviaUID(uid);
             if (row >= 0 && CB_advancedMode.Checked)
             {
+                var takv = myDataGridView1[this.takv.Index, row].Value;
+                if (takv != null && Convert.ToBoolean(takv) == true)
+                {
+                    cotevent.detail.takv = new takv();
+                }
+
                 var callsign = myDataGridView1[this.ContactCallsign.Index, row].Value;
                 var endpoint = myDataGridView1[this.ContactEndPointIP.Index, row].Value;
-                if (callsign != null && callsign.ToString().Length > 0 && endpoint != null && endpoint.ToString().Length > 0)
+                if (isValidStr(callsign))
                 {
-                    cotevent.detail.contact = new contact();
+                    if (cotevent.detail.contact == null) cotevent.detail.contact = new contact();
                     cotevent.detail.contact.callsign = callsign.ToString();
+                }
+                if (isValidStr(endpoint))
+                {
+                    if (cotevent.detail.contact == null) cotevent.detail.contact = new contact();
                     cotevent.detail.contact.endpoint = endpoint.ToString();
                 }
 
                 var uid_vmf = myDataGridView1[this.VMF.Index, row].Value;
-                if (uid_vmf != null && uid_vmf.ToString().Length > 0)
+                if (isValidStr(uid_vmf))
                 {
                     cotevent.detail.uid = new uid();
                     cotevent.detail.uid.vmf = uid_vmf.ToString();
                 }
             }
 
-            using(StringWriter textWriter = new Utf8StringWriter())
+            using (StringWriter textWriter = new Utf8StringWriter())
             {
                 XmlWriterSettings xws = new XmlWriterSettings();
-                xws.OmitXmlDeclaration = false;
-                xws.Indent = true;
+                xws.OmitXmlDeclaration = true;
+                xws.Indent = indent;
                 xws.Encoding = Encoding.UTF8;
-                xws.NewLineOnAttributes = true;
+                xws.NewLineOnAttributes = indent;
 
                 //Create our own namespaces for the output
                 XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
@@ -347,9 +351,9 @@ namespace MissionPlanner.Controls
 
                 xtw.WriteStartDocument(true);          
        
-                serializer.Serialize(xtw, cotevent, ns);      
+                serializer.Serialize(xtw, cotevent, ns);
 
-                var ans = textWriter.ToString();
+                var ans = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n" + textWriter.ToString();
 
                 return ans;
             }
@@ -367,12 +371,37 @@ namespace MissionPlanner.Controls
                 // this can crash if you're connecting as you're loading the screen so the row count may change as you're populating it.
                 myDataGridView1.Deserialize(Settings.Instance["CoTUID"]);
             } catch { }
+
+
+            updateRate_numericUpDown.Value = Settings.Instance.GetDecimal("CoT_updateRate", 10);
+            CMB_serialport.SelectedIndex = Settings.Instance.GetInt32("CoT_CMB_serialport", 0);
+            CMB_baudrate.SelectedIndex = Settings.Instance.GetInt32("CoT_CMB_baudrate", 0);
+            CB_advancedMode.Checked = Settings.Instance.GetBoolean("CoT_CB_advancedMode", true);
+            chk_indent.Checked = Settings.Instance.GetBoolean("CoT_chk_indent", true);
+
             CB_advancedMode_CheckedChanged(null, null);
+            chk_indent_CheckedChanged(null, null);
+            updateRate_numericUpDown_ValueChanged(null, null);
+            CMB_serialport_SelectedIndexChanged(null, null);
+
+            if (threadrun)
+            {
+                // stop
+                BUT_connect_Click(null, null);
+
+                // restart
+                BUT_connect_Click(null, null);
+            }
+
         }
 
         private void SerialOutputCoT_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            Settings.Instance["CoT_updateRate"] = updateRate_numericUpDown.Value.ToString();
+            Settings.Instance["CoT_CMB_serialport"] = CMB_serialport.SelectedIndex.ToString();
+            Settings.Instance["CoT_CMB_baudrate"] = CMB_baudrate.SelectedIndex.ToString();
+            Settings.Instance["CoT_CB_advancedMode"] = CB_advancedMode.Checked.ToString();
+            Settings.Instance["CoT_chk_indent"] = chk_indent.Checked.ToString();
         }
 
         private void myDataGridView1_RowValidated(object sender, DataGridViewCellEventArgs e)
@@ -398,6 +427,31 @@ namespace MissionPlanner.Controls
                 CMB_baudrate.Enabled = false;
             else
                 CMB_baudrate.Enabled = true;
+        }
+
+        private void chk_indent_CheckedChanged(object sender, EventArgs e)
+        {
+            indent = chk_indent.Checked;
+        }
+
+        private void myDataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // End of edition on each click on column of checkbox
+            if (e.ColumnIndex == this.takv.Index && e.RowIndex != -1)
+            {
+                // refresh
+                myDataGridView1.EndEdit();
+            }
+        }
+
+        private void myDataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            myDataGridView1.EndEdit();
+        }
+
+        private void updateRate_numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            updaterate_ms = (int)(updateRate_numericUpDown.Value * 1000);
         }
     }
 

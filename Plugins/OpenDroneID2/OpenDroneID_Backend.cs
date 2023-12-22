@@ -23,9 +23,9 @@ namespace MissionPlanner
 
         private long _gps_timeout_ms = 5000;
 
-        public MAVLink.MAV_ODID_UA_TYPE UAS_ID_type { get; set; } = 0;
+        public MAVLink.MAV_ODID_ID_TYPE UAS_ID_type { get; set; } = 0;
         public string UAS_ID { get; set; } = "";
-        public MAVLink.MAV_ODID_ID_TYPE UA_type { get; set; } = 0;
+        public MAVLink.MAV_ODID_UA_TYPE UA_type { get; set; } = 0;
         public MAVLink.MAV_ODID_DESC_TYPE description_type { get; set; } = 0;
         public string description { get; set; } = "";
         public byte area_count { get; set; } = 1;

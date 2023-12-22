@@ -49,14 +49,14 @@
             resources.ApplyResources(this.BUT_Connect, "BUT_Connect");
             this.BUT_Connect.Name = "BUT_Connect";
             this.BUT_Connect.UseVisualStyleBackColor = true;
-            this.BUT_Connect.Click += new System.EventHandler(this.BUT_RebootAPM_Click);
+            this.BUT_Connect.Click += new System.EventHandler(this.BUT_REPLStart_Click);
             // 
             // BUT_disconnect
             // 
             resources.ApplyResources(this.BUT_disconnect, "BUT_disconnect");
             this.BUT_disconnect.Name = "BUT_disconnect";
             this.BUT_disconnect.UseVisualStyleBackColor = true;
-            this.BUT_disconnect.Click += new System.EventHandler(this.BUT_disconnect_Click);
+            this.BUT_disconnect.Click += new System.EventHandler(this.BUT_REPLStop_Click);
             // 
             // ConfigREPL
             // 

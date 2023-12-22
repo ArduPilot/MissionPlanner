@@ -94,7 +94,7 @@ namespace MissionPlanner.plugins
                         try
                         {
                             var read = dtlstx.Receive(buf, 0, buf.Length, 1000);
-                            lock (MainV2.comPort.objlock)
+                            lock (MainV2.comPort.writelock)
                             {
                                 if (MainV2.comPort.BaseStream.IsOpen)
                                     MainV2.comPort.BaseStream.Write(buf, 0, read);

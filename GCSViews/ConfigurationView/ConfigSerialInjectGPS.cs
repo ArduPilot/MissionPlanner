@@ -317,6 +317,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
                                 ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
                             }
+                            if (check_sendntripv1.Checked)
+                            {
+                                ((CommsNTRIP)comPort).ntrip_v1 = true;
+                            } else
+                            {
+                                ((CommsNTRIP)comPort).ntrip_v1 = false;
+                            }
 
                             chk_sendgga.Enabled = false;
                             chk_ubloxautoconfig.Checked = false;
@@ -787,7 +794,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_nav_pvt>(6);
                     if (pvt.fix_type >= 0x3 && (pvt.flags & 1) > 0)
                     {
-                        MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
+                        MainV2.comPort.MAV.cs.Base = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
                     }
                     ubxpvt = pvt;
                 }
@@ -954,7 +961,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D,
+                    MainV2.comPort.MAV.cs.Base = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D,
                         baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
 
                     status_line3 =
@@ -975,7 +982,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D,
+                    MainV2.comPort.MAV.cs.Base = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D,
                         baseposllh[2]);
 
                     status_line3 =
@@ -1064,18 +1071,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 myGMAP1.Overlays.Clear();
             if(myGMAP1.Overlays.Count == 0)
                 myGMAP1.Overlays.Add(new GMapOverlay("base"));
-            if (MainV2.comPort.MAV.cs.MovingBase != PointLatLng.Empty)
+            if (MainV2.comPort.MAV.cs.Base != PointLatLng.Empty)
             {
                 if (myGMAP1.Overlays[0].Markers.Count == 0)
                 {
                     myGMAP1.Overlays[0].Markers
-                        .Add(new GMarkerGoogle(MainV2.comPort.MAV.cs.MovingBase, GMarkerGoogleType.yellow_dot));
+                        .Add(new GMarkerGoogle(MainV2.comPort.MAV.cs.Base, GMarkerGoogleType.yellow_dot));
                     myGMAP1.ZoomAndCenterMarkers("base");
                 }
 
-                if (MainV2.comPort.MAV.cs.MovingBase != myGMAP1.Overlays[0].Markers[0].Position)
+                if (MainV2.comPort.MAV.cs.Base != myGMAP1.Overlays[0].Markers[0].Position)
                 {
-                    myGMAP1.Overlays[0].Markers[0].Position = MainV2.comPort.MAV.cs.MovingBase;
+                    myGMAP1.Overlays[0].Markers[0].Position = MainV2.comPort.MAV.cs.Base;
                     myGMAP1.ZoomAndCenterMarkers("base");
                 }
             }
@@ -1139,7 +1146,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_save_basepos_Click(object sender, EventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.MovingBase == null)
+            if (MainV2.comPort.MAV.cs.Base == null)
             {
                 CustomMessageBox.Show("No valid base position determined by gps yet", Strings.ERROR);
                 return;
@@ -1149,7 +1156,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (InputBox.Show("Enter Location", "Enter a friendly name for this location.", ref location) ==
                 DialogResult.OK)
             {
-                var basepos = MainV2.comPort.MAV.cs.MovingBase;
+                var basepos = MainV2.comPort.MAV.cs.Base;
                 Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat.ToString(CultureInfo.InvariantCulture), basepos.Lng.ToString(CultureInfo.InvariantCulture), basepos.Alt.ToString(CultureInfo.InvariantCulture),
                     location);
 
@@ -1254,7 +1261,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (baseposList.Count == 0)
                 return;
 
-            baseposList.RemoveAt(e.RowIndex);
+            if(e.RowIndex < baseposList.Count)
+                baseposList.RemoveAt(e.RowIndex);
 
             saveBasePosList();
         }

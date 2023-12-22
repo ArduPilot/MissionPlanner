@@ -61,23 +61,53 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static byte[] AALogo {
+        internal static System.Drawing.Bitmap AAAnimatedLogoWhite {
             get {
-                object obj = ResourceManager.GetObject("AALogo", resourceCulture);
-                return ((byte[])(obj));
+                object obj = ResourceManager.GetObject("AAAnimatedLogoWhite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;html&gt;
-        ///&lt;body&gt;
-        ///    &lt;h1&gt;Mission Planner&lt;/h1&gt;
-        ///    &lt;h2&gt;Altitude Angel&lt;/h2&gt;
-        ///    &lt;p&gt;These Mission Planner extensions enable use of Mission Planner with Altitude Angel&apos;s GuardianUTM platform.&lt;/p&gt;
-        ///&lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon AAIconBlack {
+            get {
+                object obj = ResourceManager.GetObject("AAIconBlack", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon AAIconWhite {
+            get {
+                object obj = ResourceManager.GetObject("AAIconWhite", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;MapInfoDockPanel&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;style&gt;
+        ///        @import url(&apos;https://fonts.googleapis.com/css2?family=Red+Hat+Display&amp;display=swap&apos;);
+        ///
+        ///        body {
+        ///            margin: 0;
+        ///            padding: 5px;
+        ///            font-family: Red Hat Display, sans-serif;
+        ///            font-size: 10pt;
+        ///            font-weight: normal;
+        ///            color: #000;
+        ///            background-color: #fff;
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string About {
             get {
@@ -86,8 +116,15 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you wish to enable Altitude Angel airspace management data?
-        ///For more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com].
+        ///   Looks up a localized string similar to Do you wish to enable the Altitude Angel plugin?
+        ///
+        ///Clicking &quot;Yes&quot; will provide you with Altitude Angel&apos;s airspace and ground hazard data directly on the Mission Planner maps,
+        ///making it easier to discover where you can and cannot fly, and plan for safer flights. You will be asked to login with your
+        ///Altitude Angel account, or register for a new account if you don&apos;t have one.
+        ///
+        ///You can always access the settings for this plugin by right-clicking the map and choosing &quot;Altitude Angel Settings&quot;.
+        ///
+        ///For more i [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AskToEnableAltitudeAngel {
             get {
@@ -96,7 +133,7 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Altitude Angel - Enable.
+        ///   Looks up a localized string similar to Altitude Angel Plugin.
         /// </summary>
         internal static string AskToEnableCaption {
             get {
@@ -114,31 +151,45 @@ namespace AltitudeAngelWings.Plugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Altitude Angel Login.
+        /// </summary>
+        internal static string LoginWindowTitleText {
+            get {
+                return ResourceManager.GetString("LoginWindowTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;MapInfoDockPanel&lt;/title&gt;
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;style&gt;
+        ///        @import url(&apos;https://fonts.googleapis.com/css2?family=Red+Hat+Display&amp;display=swap&apos;);
+        ///
         ///        body {
-        ///            margin: 5px;
-        ///            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        ///            margin: 0;
+        ///            padding: 0;
+        ///            padding-bottom: 10px;
+        ///            font-family: Red Hat Display, sans-serif;
         ///            font-weight: normal;
-        ///            color: black;
-        ///            background-color: white;
-        ///        }
-        ///
-        ///        p {
-        ///            margin: 0.4em 0 0 0;
-        ///        }
-        ///
-        ///        div.displayInfo {
-        ///            border-top: 1px solid black;
-        ///       [rest of string was truncated]&quot;;.
+        ///            color: #000;
+        ///            background-color: #fff;
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MapInfoDockPanel {
             get {
                 return ResourceManager.GetString("MapInfoDockPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Ctrl + Click to show and hide Altitude Angel map information on the flight planning map..
+        /// </summary>
+        internal static string MessageCtrlClickPlannerMap {
+            get {
+                return ResourceManager.GetString("MessageCtrlClickPlannerMap", resourceCulture);
             }
         }
         
@@ -454,6 +505,15 @@ namespace AltitudeAngelWings.Plugin.Properties {
         internal static string SettingsWindowTitleText {
             get {
                 return ResourceManager.GetString("SettingsWindowTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Altitude Angel.
+        /// </summary>
+        internal static string WaitWindowTitle {
+            get {
+                return ResourceManager.GetString("WaitWindowTitle", resourceCulture);
             }
         }
     }

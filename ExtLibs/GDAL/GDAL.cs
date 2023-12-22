@@ -21,9 +21,30 @@ namespace GDAL
 
         static List<GeoBitmap> _cache = new List<GeoBitmap>();
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern bool SetDllDirectory(string lpPathName);
+
         static GDAL()
         {
             log.InfoFormat("GDAL static ctor");
+            try
+            {
+                string executingAssemblyFile = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase).LocalPath;
+                string executingDirectory = Path.GetDirectoryName(executingAssemblyFile);
+                string gdalPath = Path.Combine(executingDirectory, "gdal");
+                string nativePath = "";
+                if (Environment.Is64BitProcess)
+                    nativePath = Path.Combine(gdalPath, "x64");
+                else
+                    nativePath = Path.Combine(gdalPath, "x86");
+                
+                SetDllDirectory(nativePath);
+            }
+            catch(Exception ex)
+            {
+                log.Error(ex);
+            }
+
             try
             {
                 GdalConfiguration.ConfigureGdal();

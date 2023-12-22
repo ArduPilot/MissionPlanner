@@ -108,12 +108,27 @@ namespace MissionPlanner.Utilities
 
                     linestartoffset.Add((uint)(ans.Item2));
                     lineCount++;
+
+                    if (lineCount % 1000000 == 0)
+                        Console.WriteLine("reading lines " + lineCount + " " + ((basestream.Position / (double)length) * 100.0));
                 }
                 
                 _count = lineCount;
 
                 // build fmt line database to pre seed the FMT message
                 messageindexline[128].ForEach(a => dflog.FMTLine(this[(int) a]));
+
+                try
+                {
+                    foreach (var item in dflog.logformat)
+                    {
+                        var id = item.Value.Id;
+                        var type = item.Value.Name;
+                        if(messageindex[id].Count != 0)
+                            Console.WriteLine("Seen " + type + " count " + messageindex[id].Count);
+                    }
+                }
+                catch { }
             }
             else
             {
@@ -250,6 +265,7 @@ namespace MissionPlanner.Utilities
 
             BuildUnitMultiList();
 
+            int limitcount = 0;
             // used to set the firmware type
             foreach (var item in GetEnumeratorType(new[]
             {
@@ -259,6 +275,9 @@ namespace MissionPlanner.Utilities
                 // must be the string version to do the firmware type detection - binarylog
                 var line = this[(int) item.lineno];
                 //Console.WriteLine();
+                limitcount++;
+                if (limitcount > 100000)
+                    break;
             }
 
             // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime

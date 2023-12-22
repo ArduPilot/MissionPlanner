@@ -1,0 +1,2815 @@
+{
+	"Version": "AP_Motors library test ver 1.1",
+	"layouts": [
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 0,
+			"TypeName": "PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 1,
+			"TypeName": "X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 2,
+			"TypeName": "V",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 3,
+			"TypeName": "H",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 6,
+			"TypeName": "PLUSREV",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 12,
+			"TypeName": "BF_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 13,
+			"TypeName": "DJI_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 14,
+			"TypeName": "CW_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 16,
+			"TypeName": "NYT_PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "?",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 4,
+					"Rotation": "?",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 1,
+					"Rotation": "?",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "?",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 17,
+			"TypeName": "NYT_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "?",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 3,
+					"Rotation": "?",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 4,
+					"Rotation": "?",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 2,
+					"Rotation": "?",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 1,
+			"ClassName": "QUAD",
+			"Type": 18,
+			"TypeName": "X_REV",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 2,
+			"ClassName": "HEXA",
+			"Type": 0,
+			"TypeName": "PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.2500
+				},
+				{
+					"Number": 4,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 5,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.2500
+				}
+			]
+		},
+		{
+			"Class": 2,
+			"ClassName": "HEXA",
+			"Type": 1,
+			"TypeName": "X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 2,
+			"ClassName": "HEXA",
+			"Type": 3,
+			"TypeName": "H",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.0000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 2,
+			"ClassName": "HEXA",
+			"Type": 13,
+			"TypeName": "DJI_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				}
+			]
+		},
+		{
+			"Class": 2,
+			"ClassName": "HEXA",
+			"Type": 14,
+			"TypeName": "CW_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 0,
+			"TypeName": "PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.3535,
+					"Pitch": 0.3535
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.3535,
+					"Pitch": -0.3535
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.3535,
+					"Pitch": 0.3535
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.3535,
+					"Pitch": -0.3535
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 1,
+			"TypeName": "X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.2071,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.2071,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2071
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.2071,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.2071,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.2071
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2071
+				},
+				{
+					"Number": 8,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.2071
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 2,
+			"TypeName": "V",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.4150,
+					"Pitch": 0.1700
+				},
+				{
+					"Number": 2,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.3350,
+					"Pitch": -0.1600
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.3350,
+					"Pitch": -0.1600
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.4150,
+					"Pitch": 0.1700
+				},
+				{
+					"Number": 7,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 3,
+			"TypeName": "H",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.1665
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.1665
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.1665
+				},
+				{
+					"Number": 8,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.1665
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 13,
+			"TypeName": "DJI_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.2071,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.2071,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2071
+				},
+				{
+					"Number": 4,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.2071
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.2071,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.2071,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.2071
+				},
+				{
+					"Number": 8,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2071
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 14,
+			"TypeName": "CW_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.2071,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2071
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.2071
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.2071,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.2071,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.2071
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2071
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.2071,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 3,
+			"ClassName": "OCTA",
+			"Type": 15,
+			"TypeName": "I",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.1665,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.1665,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.1665,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.1665,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 0,
+			"TypeName": "PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 1,
+			"TypeName": "X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 2,
+			"TypeName": "V",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 3,
+			"TypeName": "H",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 12,
+			"TypeName": "BF_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 14,
+			"TypeName": "CW_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 4,
+			"ClassName": "OCTAQUAD",
+			"Type": 18,
+			"TypeName": "X_REV",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 0,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 1,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 2,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 3,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 6,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 7,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 8,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 9,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 10,
+			"TypeName": "Y6B",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 11,
+			"TypeName": "Y6F",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 3,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 12,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 13,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 14,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 15,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 16,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 17,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 5,
+			"ClassName": "Y6",
+			"Type": 18,
+			"TypeName": "default",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 2,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 2,
+					"TestOrder": 5,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 3,
+					"TestOrder": 6,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 1,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2498
+				},
+				{
+					"Number": 6,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				}
+			]
+		},
+		{
+			"Class": 12,
+			"ClassName": "DODECAHEXA",
+			"Type": 0,
+			"TypeName": "PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.2500
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.2500
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 9,
+					"TestOrder": 9,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.2500
+				},
+				{
+					"Number": 10,
+					"TestOrder": 10,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.2500
+				},
+				{
+					"Number": 11,
+					"TestOrder": 11,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				},
+				{
+					"Number": 12,
+					"TestOrder": 12,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.2500
+				}
+			]
+		},
+		{
+			"Class": 12,
+			"ClassName": "DODECAHEXA",
+			"Type": 1,
+			"TypeName": "X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": -0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": -0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CCW",
+					"Roll": 0.2500,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 9,
+					"TestOrder": 9,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 10,
+					"TestOrder": 10,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 11,
+					"TestOrder": 11,
+					"Rotation": "CW",
+					"Roll": 0.2500,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 12,
+					"TestOrder": 12,
+					"Rotation": "CCW",
+					"Roll": 0.2500,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 14,
+			"ClassName": "DECA",
+			"Type": 0,
+			"TypeName": "PLUS",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.0000,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.3090,
+					"Pitch": 0.4045
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": 0.1545
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.5000,
+					"Pitch": -0.1545
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": -0.3090,
+					"Pitch": -0.4045
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.0000,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.3090,
+					"Pitch": -0.4045
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.1545
+				},
+				{
+					"Number": 9,
+					"TestOrder": 9,
+					"Rotation": "CCW",
+					"Roll": 0.5000,
+					"Pitch": 0.1545
+				},
+				{
+					"Number": 10,
+					"TestOrder": 10,
+					"Rotation": "CW",
+					"Roll": 0.3090,
+					"Pitch": 0.4045
+				}
+			]
+		},
+		{
+			"Class": 14,
+			"ClassName": "DECA",
+			"Type": 1,
+			"TypeName": "X/CW_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.1545,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.4045,
+					"Pitch": 0.3090
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.4045,
+					"Pitch": -0.3090
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": -0.1545,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.1545,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.4045,
+					"Pitch": -0.3090
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 9,
+					"TestOrder": 9,
+					"Rotation": "CCW",
+					"Roll": 0.4045,
+					"Pitch": 0.3090
+				},
+				{
+					"Number": 10,
+					"TestOrder": 10,
+					"Rotation": "CW",
+					"Roll": 0.1545,
+					"Pitch": 0.5000
+				}
+			]
+		},
+		{
+			"Class": 14,
+			"ClassName": "DECA",
+			"Type": 14,
+			"TypeName": "X/CW_X",
+			"motors": [
+				{
+					"Number": 1,
+					"TestOrder": 1,
+					"Rotation": "CCW",
+					"Roll": -0.1545,
+					"Pitch": 0.5000
+				},
+				{
+					"Number": 2,
+					"TestOrder": 2,
+					"Rotation": "CW",
+					"Roll": -0.4045,
+					"Pitch": 0.3090
+				},
+				{
+					"Number": 3,
+					"TestOrder": 3,
+					"Rotation": "CCW",
+					"Roll": -0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 4,
+					"TestOrder": 4,
+					"Rotation": "CW",
+					"Roll": -0.4045,
+					"Pitch": -0.3090
+				},
+				{
+					"Number": 5,
+					"TestOrder": 5,
+					"Rotation": "CCW",
+					"Roll": -0.1545,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 6,
+					"TestOrder": 6,
+					"Rotation": "CW",
+					"Roll": 0.1545,
+					"Pitch": -0.5000
+				},
+				{
+					"Number": 7,
+					"TestOrder": 7,
+					"Rotation": "CCW",
+					"Roll": 0.4045,
+					"Pitch": -0.3090
+				},
+				{
+					"Number": 8,
+					"TestOrder": 8,
+					"Rotation": "CW",
+					"Roll": 0.5000,
+					"Pitch": -0.0000
+				},
+				{
+					"Number": 9,
+					"TestOrder": 9,
+					"Rotation": "CCW",
+					"Roll": 0.4045,
+					"Pitch": 0.3090
+				},
+				{
+					"Number": 10,
+					"TestOrder": 10,
+					"Rotation": "CW",
+					"Roll": 0.1545,
+					"Pitch": 0.5000
+				}
+			]
+		}
+	]
+}

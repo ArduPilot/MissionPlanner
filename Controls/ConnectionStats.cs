@@ -36,6 +36,16 @@ namespace MissionPlanner.Controls
         {
             _subscriptionsDisposable = new CompositeDisposable();
 
+            txt_BytesPerSecondRx.Text = "";
+            txt_BytesPerSecondSent.Text = "";
+            txt_BytesReceived.Text = "";
+            txt_BytesSent.Text = "";
+            txt_LinkQuality.Text = "";
+            txt_MaxPacketInterval.Text = "";
+            txt_PacketsLost.Text = "";
+            txt_PacketsPerSecond.Text = "";
+            txt_PacketsRx.Text = "";
+
             var packetsReceivedCount = _mavlink.WhenPacketReceived.Scan(0, (x, y) => x + y);
             var packetsLostCount = _mavlink.WhenPacketLost.Scan(0, (x, y) => x + y);
 
