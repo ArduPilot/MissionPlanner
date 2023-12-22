@@ -327,6 +327,11 @@ namespace RedundantLinkManager
             {
                 to_link.MAVlist[mav.sysid, mav.compid].param.Clear();
                 to_link.MAVlist[mav.sysid, mav.compid].param.AddRange(mav.param);
+                to_link.MAVlist[mav.sysid, mav.compid].param_types.Clear();
+                foreach (var pt in mav.param_types)
+                {
+                    to_link.MAVlist[mav.sysid, mav.compid].param_types.TryAdd(pt.Key, pt.Value);
+                }
                 to_link.MAVlist[mav.sysid, mav.compid].wps.Clear();
                 foreach (var wp in mav.wps)
                 {
