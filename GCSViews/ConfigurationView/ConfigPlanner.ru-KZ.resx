@@ -117,50 +117,57 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>Карта след. за БПЛА</value>
+  <data name="label33.Text" xml:space="preserve">
+    <value>Датч.</value>
   </data>
-  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
-    <value>Пред.Выс.</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 13</value>
   </data>
-  <data name="BUT_videostop.Text" xml:space="preserve">
-    <value>Стоп</value>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Формат видео</value>
   </data>
-  <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>Пред.батареи</value>
+  <data name="CHK_GDIPlus.Text" xml:space="preserve">
+    <value>GDI + (старый тип)</value>
   </data>
-  <data name="CHK_enablespeech.Text" xml:space="preserve">
-    <value>Включить речь</value>
-  </data>
-  <data name="CHK_Password.Text" xml:space="preserve">
-    <value>Защита паролем</value>
-  </data>
-  <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
-    <value>Автоматически фиксировать Параметры</value>
-  </data>
-  <data name="chk_analytics.Text" xml:space="preserve">
-    <value>Стат. OptOut Anon</value>
-  </data>
-  <data name="chk_norcreceiver.Text" xml:space="preserve">
-    <value>Нет RC-приемника</value>
-  </data>
-  <data name="label23.Text" xml:space="preserve">
-    <value>Длина трека</value>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
     <value>Маршрут.точ.</value>
   </data>
-  <data name="CHK_speechcustom.Text" xml:space="preserve">
-    <value>Инт. 30 с</value>
+  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
+    <value>Загр. МТ при подключении.</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Раст. до Дома</value>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 13</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Путевой журнал</value>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Длина трека</value>
   </data>
-  <data name="label26.Text" xml:space="preserve">
-    <value>Формат видео</value>
+  <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
+    <value>Пред.Выс.</value>
+  </data>
+  <data name="label108.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="label108.Text" xml:space="preserve">
+    <value>Сброс APM</value>
+  </data>
+  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
+    <value>Сброс через USB</value>
+  </data>
+  <data name="CHK_mavdebug.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 621</value>
+  </data>
+  <data name="CHK_mavdebug.Text" xml:space="preserve">
+    <value>Отл. сообщ. Mavlink</value>
+  </data>
+  <data name="label104.Text" xml:space="preserve">
+    <value>Реж/Сост</value>
   </data>
   <data name="label103.Text" xml:space="preserve">
     <value>Поз.</value>
@@ -168,97 +175,187 @@
   <data name="label102.Text" xml:space="preserve">
     <value>Пол.</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Карта двигаться</value>
+  <data name="label99.Text" xml:space="preserve">
+    <value>Вкладка «Конфигурация» НЕ отображает эти ед., так как это необр. значения.</value>
   </data>
-  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
-    <value>Низкая скорость</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Выс. изм.</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Тема</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Отображение</value>
-  </data>
-  <data name="label104.Text" xml:space="preserve">
-    <value>Реж/Сост</value>
-  </data>
-  <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>Включить наложение HUD</value>
-  </data>
-  <data name="label108.Text" xml:space="preserve">
-    <value>Сброс APM</value>
-  </data>
-  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
-    <value>Загр. МТ при подключении.</value>
-  </data>
-  <data name="CHK_beta.Text" xml:space="preserve">
-    <value>Бета-обновление</value>
+  <data name="label98.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
   </data>
   <data name="label98.Text" xml:space="preserve">
     <value>Ед. Скорости</value>
   </data>
-  <data name="CHK_speechwaypoint.Text" xml:space="preserve">
-    <value>Марш.точ.</value>
-  </data>
-  <data name="label99.Text" xml:space="preserve">
-    <value>Вкладка «Конфигурация» НЕ отображает эти ед., так как это необр. значения.</value>
-  </data>
-  <data name="label92.Text" xml:space="preserve">
-    <value>Видеоустройство</value>
-  </data>
-  <data name="label93.Text" xml:space="preserve">
-    <value>Язык интерфейса</value>
-  </data>
-  <data name="label96.Text" xml:space="preserve">
-    <value>Джойстик</value>
-  </data>
-  <data name="CHK_GDIPlus.Text" xml:space="preserve">
-    <value>GDI + (старый тип)</value>
-  </data>
-  <data name="label94.Text" xml:space="preserve">
-    <value>Цвет OSD</value>
-  </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>Датч.</value>
+  <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 13</value>
   </data>
   <data name="label97.Text" xml:space="preserve">
     <value>Ед. измерения</value>
   </data>
-  <data name="CHK_showairports.Text" xml:space="preserve">
-    <value>Показ. аэропорт.</value>
+  <data name="label96.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 13</value>
   </data>
-  <data name="BUT_themecustom.Text" xml:space="preserve">
-    <value>Своя</value>
+  <data name="label96.Text" xml:space="preserve">
+    <value>Джойстик</value>
+  </data>
+  <data name="label95.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
     <value>Речь</value>
   </data>
-  <data name="BUT_Joystick.Text" xml:space="preserve">
-    <value>Настройка джойстика</value>
+  <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 17</value>
   </data>
-  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
-    <value>Пок. в Пол. данн.</value>
+  <data name="CHK_speechbattery.Text" xml:space="preserve">
+    <value>Пред.батареи</value>
   </data>
-  <data name="CHK_mavdebug.Text" xml:space="preserve">
-    <value>Отл. сообщ. Mavlink</value>
+  <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 17</value>
   </data>
-  <data name="chk_temp.Text" xml:space="preserve">
-    <value>Экран тестирования</value>
+  <data name="CHK_speechcustom.Text" xml:space="preserve">
+    <value>Инт. 30 с</value>
   </data>
-  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>Сброс через USB</value>
+  <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>Режим</value>
   </data>
-  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
-    <value>Просмотр</value>
+  <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 17</value>
+  </data>
+  <data name="CHK_speechwaypoint.Text" xml:space="preserve">
+    <value>Марш.точ.</value>
+  </data>
+  <data name="label94.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label94.Text" xml:space="preserve">
+    <value>Цвет OSD</value>
+  </data>
+  <data name="label93.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 13</value>
+  </data>
+  <data name="label93.Text" xml:space="preserve">
+    <value>Язык интерфейса</value>
+  </data>
+  <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 17</value>
+  </data>
+  <data name="CHK_enablespeech.Text" xml:space="preserve">
+    <value>Включить речь</value>
+  </data>
+  <data name="CHK_hudshow.Text" xml:space="preserve">
+    <value>Включить наложение HUD</value>
+  </data>
+  <data name="label92.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 13</value>
+  </data>
+  <data name="label92.Text" xml:space="preserve">
+    <value>Видеоустройство</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Карта двигаться</value>
+  </data>
+  <data name="CHK_maprotation.Text" xml:space="preserve">
+    <value>Карта след. за БПЛА</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Раст. до Дома</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
+    <value>Пок. в Пол. данн.</value>
+  </data>
+  <data name="BUT_Joystick.Text" xml:space="preserve">
+    <value>Настройка джойстика</value>
+  </data>
+  <data name="BUT_videostop.Text" xml:space="preserve">
+    <value>Стоп</value>
   </data>
   <data name="BUT_videostart.Text" xml:space="preserve">
     <value>Начать</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Путевой журнал</value>
+  </data>
+  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="BUT_themecustom.Text" xml:space="preserve">
+    <value>Своя</value>
+  </data>
+  <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 17</value>
+  </data>
+  <data name="chk_analytics.Text" xml:space="preserve">
+    <value>Стат. OptOut Anon</value>
+  </data>
+  <data name="CHK_beta.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 17</value>
+  </data>
+  <data name="CHK_beta.Text" xml:space="preserve">
+    <value>Бета-обновление</value>
+  </data>
+  <data name="CHK_Password.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 17</value>
+  </data>
+  <data name="CHK_Password.Text" xml:space="preserve">
+    <value>Защита паролем</value>
+  </data>
+  <data name="CHK_speechlowspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 17</value>
+  </data>
+  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
+    <value>Низкая скорость</value>
+  </data>
+  <data name="CHK_showairports.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 17</value>
+  </data>
+  <data name="CHK_showairports.Text" xml:space="preserve">
+    <value>Показ. аэропорт.</value>
+  </data>
+  <data name="chk_temp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 621</value>
+  </data>
+  <data name="chk_temp.Text" xml:space="preserve">
+    <value>Экран тестирования</value>
+  </data>
+  <data name="chk_norcreceiver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 17</value>
+  </data>
+  <data name="chk_norcreceiver.Text" xml:space="preserve">
+    <value>Нет RC-приемника</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 13</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Отображение</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>236, 17</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
+    <value>Автоматически фиксировать Параметры</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Выс. изм.</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>982, 641</value>
   </data>
 </root>
