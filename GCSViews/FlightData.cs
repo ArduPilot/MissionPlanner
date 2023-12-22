@@ -931,6 +931,19 @@ namespace MissionPlanner.GCSViews
             BeginInvoke((Action) delegate { photosoverlay.Markers.Add(marker); });
         }
 
+        private void addMAVMarker(MAVState MAV)
+        {
+            this.BeginInvokeIfRequired(() =>
+            {
+                var marker = Common.getMAVMarker(MAV, routes);
+
+                if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
+                    return;
+
+                addMissionRouteMarker(marker);
+            });
+        }
+
         private void addMissionRouteMarker(GMapMarker marker)
         {
             if (marker == null) return;
@@ -4106,17 +4119,17 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    this.BeginInvokeIfRequired(() =>
+                                    if (MAV == MainV2.comPort?.MAV)
                                     {
-                                        var marker = Common.getMAVMarker(MAV, routes);
-
-                                        if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
-                                            return;
-
-                                        addMissionRouteMarker(marker);
-                                    });
+                                        // We will draw this last
+                                        continue;
+                                    }
+                                    addMAVMarker(MAV);
                                 }
                             }
+
+                            // Draw the active aircraft
+                            addMAVMarker(MainV2.comPort.MAV);
 
                             if (route.Points.Count == 0 || route.Points[route.Points.Count - 1].Lat != 0 &&
                                 (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.Checked)

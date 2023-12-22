@@ -3849,11 +3849,16 @@ namespace MissionPlanner
             }
 
             GMapMarkerBase.length = Settings.Instance.GetInt32("GMapMarkerBase_length", 500);
-            GMapMarkerBase.DisplayCOG = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayCOG", true);
-            GMapMarkerBase.DisplayHeading = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayHeading", true);
-            GMapMarkerBase.DisplayNavBearing = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
-            GMapMarkerBase.DisplayRadius = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
-            GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+            GMapMarkerBase.DisplayCOGSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayCOG", true);
+            GMapMarkerBase.DisplayHeadingSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayHeading", true);
+            GMapMarkerBase.DisplayNavBearingSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
+            GMapMarkerBase.DisplayRadiusSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
+            GMapMarkerBase.DisplayTargetSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+            var inactiveDisplayStyle = GMapMarkerBase.InactiveDisplayStyleEnum.Normal;
+            string inactiveDisplayStyleStr = Settings.Instance.GetString("GMapMarkerBase_InactiveDisplayStyle", inactiveDisplayStyle.ToString());
+            Enum.TryParse(inactiveDisplayStyleStr, out inactiveDisplayStyle);
+            GMapMarkerBase.InactiveDisplayStyle = inactiveDisplayStyle;
+            Settings.Instance["GMapMarkerBase_InactiveDisplayStyle"] = inactiveDisplayStyle.ToString();
         }
 
         private void BGLogMessagesMetaData(object nothing)
