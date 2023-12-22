@@ -172,6 +172,11 @@ namespace RedundantLinkManager
                 return;
             }
 
+            if (Links[index].comPort == null)
+            {
+                Links[index].comPort = new MAVLinkInterface();
+            }
+
             CopyLinkData(Host.comPort, Links[index].comPort);
             // Switch the link over
             // Can't use Host.comPort because it has no setter function
@@ -226,6 +231,7 @@ namespace RedundantLinkManager
         private async Task ConnectLinkAsync(Link link)
         {
             link.Dispose();
+            // Suppress simplicifcation suggestion. We need make_base
             link.comPort = new MAVLinkInterface()
             {
                 BaseStream = make_basestream(link),
@@ -275,34 +281,41 @@ namespace RedundantLinkManager
         /// <exception cref="Exception">most ICommsSerial.Open implementations can throw generic exceptions for a variety of reasons</exception>
         private ICommsSerial make_basestream(Link link)
         {
-            ICommsSerial basestream;
-            switch (link.Type)
+            ICommsSerial basestream = null;
+            try
             {
-            case "Serial":
-                basestream = new SerialPort(link.HostOrCom, int.Parse(link.PortOrBaud));
-                basestream.Open();
-                break;
-            case "TCP":
-                basestream = new TcpSerial() { Host = link.HostOrCom, Port = link.PortOrBaud };
-                basestream.Open();
-                break;
-            case "UDP":
-                basestream = new UdpSerial(new System.Net.Sockets.UdpClient(int.Parse(link.PortOrBaud)));
-                basestream.Open();
-                break;
-            case "UDPCl":
-                var temp_udpcl = new UdpSerialConnect();
-                temp_udpcl.Open(link.HostOrCom, link.PortOrBaud);
-                basestream = temp_udpcl;
-                break;
-            // Websocket is currently not possible to open without popups
-            //case "WS":
-            //    var temp_ws = new WebSocket();
-            //    temp_ws.Open(host);
-            //    basestream = temp_ws;
-            //    break;
-            default:
-                throw new ArgumentException("Invalid port type selection");
+                switch (link.Type)
+                {
+                case "Serial":
+                    basestream = new SerialPort(link.HostOrCom, int.Parse(link.PortOrBaud));
+                    basestream.Open();
+                    break;
+                case "TCP":
+                    basestream = new TcpSerial() { Host = link.HostOrCom, Port = link.PortOrBaud };
+                    basestream.Open();
+                    break;
+                case "UDP":
+                    basestream = new UdpSerial(new System.Net.Sockets.UdpClient(int.Parse(link.PortOrBaud)));
+                    basestream.Open();
+                    break;
+                case "UDPCl":
+                    var temp_udpcl = new UdpSerialConnect();
+                    temp_udpcl.Open(link.HostOrCom, link.PortOrBaud);
+                    basestream = temp_udpcl;
+                    break;
+                // Websocket is currently not possible to open without popups
+                //case "WS":
+                //    var temp_ws = new WebSocket();
+                //    temp_ws.Open(host);
+                //    basestream = temp_ws;
+                //    break;
+                default:
+                    throw new ArgumentException("Invalid port type selection");
+                }
+            }
+            catch(Exception e)
+            {
+                log.Error(e.Message, e);
             }
 
             return basestream;
