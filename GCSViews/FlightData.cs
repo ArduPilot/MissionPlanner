@@ -3588,8 +3588,16 @@ namespace MissionPlanner.GCSViews
 
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
-                            // dont holdinvalidation here
+                            ////Check if we have more than one vehicle connected and disable CHK_maprotation if so
+                            if (MainV2.comPort.MAVlist.Count > 1)
+                            {
+                                Settings.Instance["CHK_maprotation"] = "false";
+                                //And set maprotation to zero
+                                BeginInvoke((Action)delegate { gMapControl1.Bearing = 0; });
+                            }
+                            //gMapControl1.HoldInvalidation = true;
                             setMapBearing();
+
                         }
 
                         if (route == null)
