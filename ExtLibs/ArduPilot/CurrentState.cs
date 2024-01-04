@@ -186,6 +186,9 @@ namespace MissionPlanner
         /// </summary>
         private double Wn_fgo;
 
+        //It is true when we got a VFR_HUD message, so it can be used to get climbrate, instead of calculating it from time and alt change.
+        private bool gotVFR = false;
+
         static CurrentState()
         {
             // set default telemrates
@@ -313,7 +316,11 @@ namespace MissionPlanner
 
                 if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
                 {
-                    climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                    //Don't update climbrate if we got a VFR_HUD message, because it is more accurate
+                    if (!gotVFR)
+                    {
+                        climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                    }
                     verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
                     if (float.IsInfinity(_verticalspeed))
                         _verticalspeed = 0;
@@ -3498,25 +3505,16 @@ namespace MissionPlanner
                             var vfr = mavLinkMessage.ToStructure<MAVLink.mavlink_vfr_hud_t>();
 
                             groundspeed = vfr.groundspeed;
-
                             airspeed = vfr.airspeed;
-
-                            //alt = vfr.alt; // this might include baro
-
                             ch3percent = vfr.throttle;
 
                             if (sensors_present.revthrottle && sensors_enabled.revthrottle && sensors_health.revthrottle)
                                 if (ch3percent > 0)
                                     ch3percent *= -1;
 
-                            //Console.WriteLine(alt);
-
-                            //climbrate = vfr.climb;
-
-                            // heading = vfr.heading;
-
-
-                            //MAVLink.packets[(byte)MAVLink.MSG_NAMES.VFR_HUD);
+                            //This comes from the EKF, so it supposed to be correct
+                            climbrate = vfr.climb;
+                            gotVFR = true; // we have a vfr packet
                         }
 
                         break;
