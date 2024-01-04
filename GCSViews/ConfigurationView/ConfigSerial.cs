@@ -20,6 +20,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private bool _gotUARTNames = false;
         private bool _gotOptionRules = false;
+        private int serialPorts = 0; 
         private Dictionary<int, string> _uartNames = new Dictionary<int, string>();
         private Dictionary<int,SerialOptionRuleItem> _optionRules = new Dictionary<int, SerialOptionRuleItem>();
 
@@ -160,7 +161,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             //find the largest numbered serialx_baud param
-            int serialPorts = 0;
+            serialPorts = 0;
             foreach (var param in MainV2.comPort.MAV.param.Keys)
             {
                 if (param.StartsWith("SERIAL") && param.EndsWith("_BAUD"))
@@ -408,7 +409,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //But this includes the USB port, so we can only have 4 ports set to mavlink
 
             int mavlinkPorts = 0;
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= serialPorts; i++)
             {
                 string protParamName = "SERIAL" + i.ToString() + "_PROTOCOL";
                 if (MainV2.comPort.MAV.param[protParamName].Value.ToString() == "1"
