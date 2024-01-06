@@ -263,12 +263,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             bool enable = temp.Any(a => a.EndsWith("_ENABLE"));
 
-            if (enable)
-            {
-                CustomMessageBox.Show(
-                    "You have changed an Enable parameter. You may need to do a full param refresh to show all params",
-                    "Params");
-            }
+            //if (enable)
+            //{
+            //    CustomMessageBox.Show(
+            //        "You have changed an Enable parameter. You may need to do a full param refresh to show all params",
+            //        "Params");
+            //}
 
             int error = 0;
 
@@ -325,6 +325,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
             else
                 CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+
+
+            if (MainV2.comPort.MAV.param.TotalReceived != MainV2.comPort.MAV.param.TotalReported)
+            {
+                CustomMessageBox.Show("The number of available parameters changed. A full param refresh will be done to show all params.", "Params");
+                //Click on refresh button
+                BUT_rerequestparams_Click(BUT_rerequestparams, null);
+
+            }
 
         }
 
