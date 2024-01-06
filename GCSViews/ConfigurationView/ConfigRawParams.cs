@@ -271,7 +271,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //}
 
             int error = 0;
-
+            bool reboot = false;
             foreach (string value in temp)
             {
                 try
@@ -283,7 +283,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     MainV2.comPort.setParam(value, (double)_changes[value]);
-
+                    //check if reboot required
+                    if (ParameterMetaDataRepository.GetParameterRebootRequired(value, MainV2.comPort.MAV.cs.firmware.ToString()))
+                    {
+                        reboot = true;
+                    }
                     try
                     {
                         // set control as well
@@ -325,14 +329,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
             else
                 CustomMessageBox.Show("Parameters successfully saved.", "Saved");
-
+            //Check if reboot is required
+            if (reboot)
+            {
+               CustomMessageBox.Show("Reboot is required for some parameters to take effect.", "Reboot Required");
+            }
 
             if (MainV2.comPort.MAV.param.TotalReceived != MainV2.comPort.MAV.param.TotalReported)
             {
                 CustomMessageBox.Show("The number of available parameters changed. A full param refresh will be done to show all params.", "Params");
                 //Click on refresh button
                 BUT_rerequestparams_Click(BUT_rerequestparams, null);
-
             }
 
         }
