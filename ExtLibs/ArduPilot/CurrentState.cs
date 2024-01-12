@@ -1054,7 +1054,7 @@ namespace MissionPlanner
             get
             {
                 if (_groundspeed <= 1) return 0;
-                return (float)(groundspeed * groundspeed / (9.80665 * Math.Tan(roll * MathHelper.deg2rad)));
+                return (float)toDistDisplayUnit(_groundspeed * _groundspeed / (9.80665 * Math.Tan(roll * MathHelper.deg2rad)));
             }
         }
         [GroupText("Position")]
