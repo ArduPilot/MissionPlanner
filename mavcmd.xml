@@ -193,7 +193,7 @@
       <Z></Z>
     </DO_AUX_FUNCTION>
     <DO_CHANGE_SPEED>
-      <P1>Type</P1>
+      <P1>Type (0:horiz,2:up,3:down)</P1>
       <P2>Speed m/s</P2>
       <P3></P3>
       <P4></P4>
