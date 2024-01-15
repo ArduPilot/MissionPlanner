@@ -974,6 +974,10 @@ namespace MissionPlanner
                 try
                 {
                     DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+                    //Force new view in case of saved view in config.xml 
+                    DisplayConfiguration.displayAdvancedParams = false;
+                    DisplayConfiguration.displayStandardParams = false;
+                    DisplayConfiguration.displayFullParamList = true;
                 }
                 catch
                 {

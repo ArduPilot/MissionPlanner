@@ -1,4 +1,5 @@
-﻿using System;
+﻿using org.mariuszgromada.math.mxparser.mathcollection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -196,10 +197,10 @@ namespace MissionPlanner.Utilities
             //config tuning
             displayBasicTuning = true;
             displayExtendedTuning = true;
-            displayStandardParams = true;
+            displayStandardParams = false;
             displayAdvancedParams = false;
-            displayFullParamList = false;
-            displayFullParamTree = false;
+            displayFullParamList = true;
+            displayFullParamTree = true;
             displayParamCommitButton = false;
             displayBaudCMB = true;
             standardFlightModesOnly = false;
@@ -322,10 +323,10 @@ namespace MissionPlanner.Utilities
                  //config tuning
                 displayBasicTuning = true,
                 displayExtendedTuning = true,
-                displayStandardParams = true,
+                displayStandardParams = false,
                 displayAdvancedParams = false,
-                displayFullParamList = false,
-                displayFullParamTree = false,
+                displayFullParamList = true,
+                displayFullParamTree = true,
                 displayParamCommitButton = false,
                 displayBaudCMB = true,
                 displaySerialPortCMB = true,
@@ -404,8 +405,8 @@ namespace MissionPlanner.Utilities
                 //config tuning
                 displayBasicTuning = true,
                 displayExtendedTuning = true,
-                displayStandardParams = true,
-                displayAdvancedParams = true,
+                displayStandardParams = false,
+                displayAdvancedParams = false,
                 displayFullParamList = true,
                 displayFullParamTree = true,
                 displayParamCommitButton = false,
