@@ -127,7 +127,25 @@ namespace RedundantLinkManager
             return true;
         }
 
-        public override bool Exit() { return true; }
+        public override bool Exit()
+        {
+            // Kill the autoconnect thread
+            if (connectTask != null && !connectTask.IsCompleted)
+            {
+                connectTask.Dispose();
+            }
+
+            // Disconnect all links
+            foreach (var link in Links)
+            {
+                if (link.comPort != null && link.comPort.BaseStream.IsOpen)
+                {
+                    link.comPort.BaseStream.Close();
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Load or reload a preset
