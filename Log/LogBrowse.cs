@@ -3763,8 +3763,8 @@ main()
             foreach (var msg in logdata.GetEnumeratorType("PARM"))
             {
                 double value = double.Parse(msg["Value"], CultureInfo.InvariantCulture);
-                decimal tmp;
-                decimal? default_value = has_defaults && decimal.TryParse(msg["Default"], out tmp) ? (decimal?)tmp : null;
+                double tmp;
+                double? default_value = has_defaults && double.TryParse(msg["Default"], out tmp) ? (double?)tmp : null;
                 MAVLink.MAVLinkParam sourceItem = new MAVLink.MAVLinkParam(msg["Name"], value, MAVLink.MAV_PARAM_TYPE.REAL32, default_value);
 
                 // Lookup the next item in the target list
