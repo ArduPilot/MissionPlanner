@@ -47,7 +47,15 @@ namespace RedundantLinkManager
             // If the file doesn't exist, create a default one
             if (!System.IO.File.Exists(filename))
             {
-                Link link = new Link
+                Link disabledlink = new Link
+                {
+                    Enabled = false,
+                    Type = "UDP",
+                    HostOrCom = "",
+                    PortOrBaud = "14550",
+                    Name = "Disabled",
+                };
+                Link defaultlink = new Link
                 {
                     Enabled = true,
                     Type = "UDP",
@@ -57,7 +65,8 @@ namespace RedundantLinkManager
                 };
                 Presets = new Dictionary<string, List<Link>>
                 {
-                    { "Default", new List<Link> { link } }
+                    { "Disabled", new List<Link> { disabledlink } },
+                    { "Default", new List<Link> { defaultlink } }
                 };
             }
             else

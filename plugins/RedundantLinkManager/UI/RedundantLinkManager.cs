@@ -23,7 +23,8 @@ namespace RedundantLinkManager
             grid_links.AutoGenerateColumns = false;
 
             // Populate the preset dropdown
-            cmb_presets.Items.AddRange(Plugin.Presets.Keys.OrderBy(r => r).ToArray());
+            // Sort the presets alphabetically, but make sure "Disabled" is always first
+            cmb_presets.Items.AddRange(Plugin.Presets.Keys.OrderBy(r => r == "Disabled" ? "" : r).ToArray());
             cmb_presets.Items.Add("New...");
 
             // Bind the plugin links to the grid
