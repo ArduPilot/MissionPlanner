@@ -1022,7 +1022,11 @@
     <Compile Include="SikRadio\ISikRadioForm.cs" />
     <Compile Include="SikRadio\RFD900.cs" />
     <Compile Include="SikRadio\RFDLib\Array.cs" />
+    <Compile Include="SikRadio\RFDLib\Collections.cs" />
     <Compile Include="SikRadio\RFDLib\Text.cs" />
+    <Compile Include="SikRadio\RFDLib\GUI\Settings.cs" />
+    <Compile Include="SikRadio\RFDLib\IO\SerialPort\SerialPort.cs" />
+    <Compile Include="SikRadio\RFDLib\IO\ATCommand.cs" />
     <Compile Include="Splash.Designer.cs">
       <SubType>Form</SubType>
       <DependentUpon>Splash.cs</DependentUpon>
@@ -1576,6 +1580,7 @@
     <Compile Include="Plugin\PluginUI.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Radio\ComPort.cs" />
     <Compile Include="Radio\IHex.cs" />
     <Compile Include="Radio\Sikradio.cs">
       <SubType>UserControl</SubType>
