@@ -366,6 +366,7 @@ namespace Carbonix
             if(!ushort.TryParse(wpno_str, out ushort wpno))
             {
                 CustomMessageBox.Show("Invalid number format");
+                return;
             }
 
             if (wpno > wpCount)
