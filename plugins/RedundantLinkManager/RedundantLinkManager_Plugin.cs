@@ -138,22 +138,26 @@ namespace RedundantLinkManager
 
         public override bool Exit()
         {
+            CleanUp();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Kill any running autoconnect task and dispose of links
+        /// </summary>
+        private void CleanUp()
+        {
             // Kill the autoconnect thread
             if (connectTask != null && !connectTask.IsCompleted)
             {
                 connectTask.Dispose();
             }
 
-            // Disconnect all links
-            foreach (var link in Links)
-            {
-                if (link.comPort != null && link.comPort.BaseStream.IsOpen)
-                {
-                    link.comPort.BaseStream.Close();
-                }
-            }
+            // Dispose of all the Links
+            Links.ForEach(l => l.Dispose());
+            Links.Clear();
 
-            return true;
         }
 
         /// <summary>
@@ -162,9 +166,10 @@ namespace RedundantLinkManager
         /// <param name="presetName">Name of the preset to load</param>
         public void LoadPreset(string presetName)
         {
+            // Kill any running autoconnect task and dispose of links
+            CleanUp();
+
             SelectedPreset = presetName;
-            Links.ForEach(l => l.Dispose());
-            Links.Clear();
             foreach (var link in Presets[presetName])
             {
                 Links.Add(link.Clone() as Link);
@@ -191,6 +196,10 @@ namespace RedundantLinkManager
             SaveSettings();
         }
 
+        /// <summary>
+        /// Switch active connection to another link
+        /// </summary>
+        /// <param name="index">index of the link in the list</param>
         public void SwitchLink(int index)
         {
             if (index < 0 || index >= Links.Count ||
@@ -314,18 +323,34 @@ namespace RedundantLinkManager
                 switch (link.Type)
                 {
                 case "Serial":
+                    if (link.HostOrCom == "" || link.PortOrBaud == "")
+                    {
+                        throw new ArgumentException("Serial requires port name and baud to be specified");
+                    }
                     basestream = new SerialPort(link.HostOrCom, int.Parse(link.PortOrBaud));
                     basestream.Open();
                     break;
                 case "TCP":
+                    if(link.HostOrCom == "" || link.PortOrBaud == "" )
+                    {
+                        throw new ArgumentException("TCP requires host and port to be specified");
+                    }
                     basestream = new TcpSerial() { Host = link.HostOrCom, Port = link.PortOrBaud };
                     basestream.Open();
                     break;
                 case "UDP":
+                    if (link.PortOrBaud == "")
+                    {
+                        throw new ArgumentException("UDP requires port to be specified");
+                    }
                     basestream = new UdpSerial(new System.Net.Sockets.UdpClient(int.Parse(link.PortOrBaud)));
                     basestream.Open();
                     break;
                 case "UDPCl":
+                    if (link.HostOrCom == "" || link.PortOrBaud == "")
+                    {
+                        throw new ArgumentException("UDPCl requires host and port to be specified");
+                    }
                     var temp_udpcl = new UdpSerialConnect();
                     temp_udpcl.Open(link.HostOrCom, link.PortOrBaud);
                     basestream = temp_udpcl;
