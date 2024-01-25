@@ -135,7 +135,7 @@ jobs:
           ForEach($i in $apks) {
             echo $i.FullName
             Move-Item -path $i.FullName temp.apk
-            C:\Android\android-sdk\build-tools\29.0.3\zipalign.exe -p -f -v 4 temp.apk $i.FullName
+            C:\Android\android-sdk\build-tools\31.0.0\zipalign.exe -p -f -v 4 temp.apk $i.FullName
             Remove-Item temp.apk
           }
 
@@ -149,6 +149,8 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "31.0.0"
 
       - uses: actions/upload-artifact@v2
         with:
