@@ -40,15 +40,21 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         {
                             Task.Run(async () =>
                             {
-                                if ((CameraInformation.flags & (int) MAVLink.CAMERA_CAP_FLAGS.CAPTURE_IMAGE) > 0)
+                                if ((CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.CAPTURE_IMAGE) > 0)
+                                {
                                     await parent.parent.doCommandAsync(parent.sysid, parent.compid,
-                                        MAVLink.MAV_CMD.REQUEST_CAMERA_SETTINGS, 0, 0, 0, 0, 0, 0, 0).ConfigureAwait(false);
-                                if ((CameraInformation.flags & (int) MAVLink.CAMERA_CAP_FLAGS.CAPTURE_VIDEO) > 0)
+                                        MAVLink.MAV_CMD.REQUEST_MESSAGE, (int)MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS, 0, 0, 0, 0, 0, 0).ConfigureAwait(false);
+                                }
+                                if ((CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.CAPTURE_VIDEO) > 0)
+                                {
                                     await parent.parent.doCommandAsync(parent.sysid, parent.compid,
-                                        MAVLink.MAV_CMD.REQUEST_VIDEO_STREAM_INFORMATION, 0, 0, 0, 0, 0, 0, 0).ConfigureAwait(false);
-                                if ((CameraInformation.flags & (int) MAVLink.CAMERA_CAP_FLAGS.CAPTURE_VIDEO) > 0)
+                                     MAVLink.MAV_CMD.REQUEST_MESSAGE, (int)MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION, 0, 0, 0, 0, 0, 0).ConfigureAwait(false);
+                                }
+                                if ((CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.CAPTURE_VIDEO) > 0)
+                                {
                                     await parent.parent.doCommandAsync(parent.sysid, parent.compid,
-                                        MAVLink.MAV_CMD.REQUEST_STORAGE_INFORMATION, 0, 0, 0, 0, 0, 0, 0).ConfigureAwait(false);
+                                        MAVLink.MAV_CMD.REQUEST_MESSAGE, (int)MAVLink.MAVLINK_MSG_ID.STORAGE_INFORMATION, 0, 0, 0, 0, 0, 0).ConfigureAwait(false);
+                                }
                             });
                         }
                         catch (Exception ex)
@@ -100,7 +106,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             try
             {
                 var resp = await parent.parent.doCommandAsync(parent.sysid, parent.compid,
-                    MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION, 0, 0, 0, 0, 0, 0, 0);
+                    MAVLink.MAV_CMD.REQUEST_MESSAGE, (int)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION, 0, 0, 0, 0, 0, 0);
                 if (resp)
                 {
                     // no use
