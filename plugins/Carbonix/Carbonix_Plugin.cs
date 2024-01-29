@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using MissionPlanner.Controls;
 using System.Threading.Tasks;
 using System.Drawing;
+using MissionPlanner.GCSViews.ConfigurationView;
 
 namespace Carbonix
 {
@@ -59,6 +60,9 @@ namespace Carbonix
 
             // Remove unnecessary UI Elements
             CleanUI();
+
+            // Add option to FlightData right-click menu to launch a parameter editor
+            AddParamEditor();
 
             // Repurpose the ArduPilot button for aircraft platform indication and selection
             SetupArduPilotButton();
@@ -426,6 +430,17 @@ namespace Carbonix
             Host.MainForm.MainMenu.Items.RemoveByKey("MenuSimulation");
             Host.MainForm.MainMenu.Items.RemoveByKey("MenuHelp");
 
+        }
+
+        private void AddParamEditor()
+        {
+            // Create button on FD context menu to launch a new ConfigRawParams window
+            ToolStripMenuItem item = new ToolStripMenuItem("Edit Parameters");
+            Host.FDMenuMap.Items.Add(item);
+            item.Click += (s, e) =>
+            {
+                var configRawParams = new ConfigRawParams().ShowUserControl();
+            };
         }
 
         private void SetupArduPilotButton()
