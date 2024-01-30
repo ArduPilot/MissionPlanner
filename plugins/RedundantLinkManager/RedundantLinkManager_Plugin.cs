@@ -267,7 +267,6 @@ namespace RedundantLinkManager
         private async Task ConnectLinkAsync(Link link)
         {
             link.Dispose();
-            // Suppress simplicifcation suggestion. We need make_base
             link.comPort = new MAVLinkInterface()
             {
                 BaseStream = make_basestream(link),
@@ -354,6 +353,8 @@ namespace RedundantLinkManager
                     var temp_udpcl = new UdpSerialConnect();
                     temp_udpcl.Open(link.HostOrCom, link.PortOrBaud);
                     basestream = temp_udpcl;
+                    // Write a byte to trigger the other end to start sending to us
+                    basestream.Write("F");
                     break;
                 // Websocket is currently not possible to open without popups
                 //case "WS":
