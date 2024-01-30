@@ -73,13 +73,5 @@
       }
     });
 
-    serial.getPorts().then(ports => {
-      if (ports.length == 0) {
-        t.io.println('No devices found.');
-      } else {
-        port = ports[0];
-        connect();
-      }
-    });
   });
 })();
