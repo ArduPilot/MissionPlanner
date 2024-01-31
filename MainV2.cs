@@ -3309,36 +3309,39 @@ namespace MissionPlanner
             };
             AutoConnect.NewVideoStream += (sender, gststring) =>
             {
-                try
+                MainV2.instance.BeginInvoke((Action)delegate
                 {
-                    log.Info("AutoConnect.NewVideoStream " + gststring);
-                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
-
-                    if (!GStreamer.gstlaunchexists)
+                    try
                     {
-                        if (CustomMessageBox.Show(
-                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
-                                "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                            (int) System.Windows.Forms.DialogResult.Yes)
+                        log.Info("AutoConnect.NewVideoStream " + gststring);
+                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                        if (!GStreamer.gstlaunchexists)
                         {
-                            GStreamerUI.DownloadGStreamer();
-                            if (!GStreamer.gstlaunchexists)
+                            if (CustomMessageBox.Show(
+                                    "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                    "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                                (int)System.Windows.Forms.DialogResult.Yes)
+                            {
+                                GStreamerUI.DownloadGStreamer();
+                                if (!GStreamer.gstlaunchexists)
+                                {
+                                    return;
+                                }
+                            }
+                            else
                             {
                                 return;
                             }
                         }
-                        else
-                        {
-                            return;
-                        }
-                    }
 
-                    GStreamer.StartA(gststring);
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
+                        GStreamer.StartA(gststring);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                });
             };
             AutoConnect.Start();
 
@@ -3354,22 +3357,32 @@ namespace MissionPlanner
                     return;
                 }
 
-                if (!videourlseen.Contains(s) && videodetect.Wait(0))
+                MainV2.instance.BeginInvoke((Action)delegate
                 {
-                    videourlseen.Add(s);
-                    if (CustomMessageBox.Show(
-                            "A video stream has been detected, Do you want to connect to it? " + s,
-                            "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                        (int) System.Windows.Forms.DialogResult.Yes)
+                    try
                     {
-                        AutoConnect.RaiseNewVideoStream(sender,
-                            String.Format(
-                                "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
-                                s));
-                    }
+                        if (!videourlseen.Contains(s) && videodetect.Wait(0))
+                        {
+                            videourlseen.Add(s);
+                            if (CustomMessageBox.Show(
+                                    "A video stream has been detected, Do you want to connect to it? " + s,
+                                    "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                                (int)System.Windows.Forms.DialogResult.Yes)
+                            {
+                                AutoConnect.RaiseNewVideoStream(sender,
+                                    String.Format(
+                                        "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
+                                        s));
+                            }
 
-                    videodetect.Release();
-                }
+                            videodetect.Release();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                });
             };
 
 
