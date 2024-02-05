@@ -3644,6 +3644,16 @@ namespace MissionPlanner
 
                         }
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_DEVICE_ATTITUDE_STATUS:
+                        {
+                            var status = mavLinkMessage.ToStructure<MAVLink.mavlink_gimbal_device_attitude_status_t>();
+                            Quaternion q = new Quaternion(status.q[0], status.q[1], status.q[2], status.q[3]);
+                            campointa = (float)(q.get_euler_pitch() * (180.0 / Math.PI));
+                            campointb = (float)(q.get_euler_roll() * (180.0 / Math.PI)); 
+                            campointc = (float)(q.get_euler_yaw() * (180.0 / Math.PI));
+                            if (campointc < 0) campointc += 360; //normalization
+                        }
+                        break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS:
                         {
                             var status = mavLinkMessage.ToStructure<MAVLink.mavlink_uavionix_adsb_out_status_t>();
