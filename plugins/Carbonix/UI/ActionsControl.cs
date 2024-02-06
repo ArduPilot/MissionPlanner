@@ -64,16 +64,18 @@ namespace Carbonix
             {
             case VelZUnits.feet_per_minute:
                 multipliervelz = 25000.0 / 127.0; // Exact conversion
+                velz_unit = "ft/min";
                 NUM_climbrate.Increment = 20;
                 NUM_climbrate.DecimalPlaces = 0;
                 break;
             case VelZUnits.meters_per_second:
                 multipliervelz = 1.0;
+                velz_unit = "m/s";
                 NUM_climbrate.Increment = 0.1m;
                 NUM_climbrate.DecimalPlaces = 1;
                 break;
             default:
-                    throw new Exception("Unknown VelZUnits: " + settings.velz_unit.ToString());
+                throw new Exception("Unknown VelZUnits: " + settings.velz_unit.ToString());
             }
             NUM_climbrate.Minimum = (decimal)ToVelZDisplayUnit(aircraft_settings.climbrate_min);
             NUM_climbrate.Maximum = (decimal)ToVelZDisplayUnit(aircraft_settings.climbrate_max);
