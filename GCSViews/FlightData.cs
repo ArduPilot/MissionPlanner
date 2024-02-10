@@ -4340,14 +4340,15 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 50,
-                Height = 50,
+                Width = MainV2.instance.Width - 100,
+                Height = MainV2.instance.Height - 100,
                 Text = "Display This",
-                AutoSize = true,
+                AutoSize = false,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
                 MinimizeBox = false,
-                AutoScroll = true
+                AutoScroll = true,
+                FormBorderStyle = FormBorderStyle.FixedDialog
 
             };
             ThemeManager.ApplyThemeTo(selectform);
