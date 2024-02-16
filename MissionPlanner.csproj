@@ -4864,6 +4864,11 @@
     <Content Include="quaternion.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\25694.png" />
+    <None Include="Resources\metrostation-home-icon-png-clipart-thumbnail.jpg" />
+    <None Include="Resources\53ed647188d7d23da029ecb160d02ea1.jpg" />
+    <None Include="Resources\Untitled.jpg" />
+    <None Include="Resources\Untitled.png" />
     <Content Include="rotmat.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

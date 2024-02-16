@@ -2040,7 +2040,8 @@ namespace MissionPlanner.Controls
                     if (bg.Height != 0)
                     {
                         using (LinearGradientBrush linearBrush = new LinearGradientBrush(
-                            bg, _skyColor1, _skyColor2, LinearGradientMode.Vertical))
+                            bg,Color.MediumPurple,Color.MediumSlateBlue, //_skyColor1, _skyColor2,
+                            LinearGradientMode.Vertical))
                         {
                             graphicsObject.FillRectangle(linearBrush, bg);
                         }
@@ -2053,7 +2054,7 @@ namespace MissionPlanner.Controls
                     {
                         using (
                             LinearGradientBrush linearBrush = new LinearGradientBrush(
-                                bg, _groundColor1, _groundColor2,
+                                bg,Color.Yellow,Color.LightYellow, //_groundColor1, _groundColor2,
                                 LinearGradientMode.Vertical))
                         {
                             graphicsObject.FillRectangle(linearBrush, bg);
