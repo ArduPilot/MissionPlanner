@@ -11,7 +11,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MissionPlanner.Utilities.rtcm3;
-
+using Flurl.Http;
 
 namespace MissionPlanner.Utilities
 {
@@ -59,6 +59,10 @@ namespace MissionPlanner.Utilities
         /// These are all localhost, so we can be pretty short.
         /// </summary>
         private const int CONNECT_TIMEOUT_MILLISECONDS = 25;
+        /// <summary>
+        /// Application version string for user agents - set by MainV2.cs
+        /// </summary>
+        public static string ApplicationVersion { get; set; }
 
         public adsb()
         {
@@ -222,6 +226,10 @@ namespace MissionPlanner.Utilities
                     if (CurrentPosition != PointLatLngAlt.Zero)
                     {
                         string url = "https://api.adsb.one/v2/point/{0}/{1}/{2}";
+                        Download.RequestModification += (u, request) => {
+                            request.Headers.Add("X-API-Auth", server);
+                            request.SetHeader("User-Agent", "Mission-Planner/" + ApplicationVersion);
+                        };
                         var t = Download.GetAsync(String.Format(url, CurrentPosition.Lat, CurrentPosition.Lng, adsbexchangerange));
                         t.Wait();
 
@@ -251,7 +259,7 @@ namespace MissionPlanner.Utilities
                                 {
                                     VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
                                     CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                    Squawk = Convert.ToUInt16(ac.squawk)
+                                    Squawk = Convert.ToUInt16(ac.squawk, 16) // Convert the hex value back to a raw uint16
                                 };
 
                                 UpdatePlanePosition(this, plane);
@@ -270,6 +278,11 @@ namespace MissionPlanner.Utilities
             }
 
             log.Info("adsb thread exit");
+        }
+
+        private void Download_RequestModification(object sender, System.Net.Http.HttpRequestMessage e)
+        {
+            throw new NotImplementedException();
         }
 
         public class Feed
@@ -865,7 +878,7 @@ namespace MissionPlanner.Utilities
                             ushort squawk = 0;
                             try
                             {
-                                squawk = ushort.Parse(strArray[17]); // Squawk transponder code
+                                squawk = Convert.ToUInt16(strArray[17], 16); // Convert the hex value back to a raw uint16
                             }
                             catch { }
 
