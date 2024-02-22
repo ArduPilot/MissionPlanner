@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
@@ -21,23 +22,23 @@ namespace MissionPlanner.Utilities
         public DFLog dflog { get; }
 
         Stream basestream;
-        private int _count;
-        List<uint> linestartoffset = new List<uint>();
+        private long _count;
+        List<long> linestartoffset = new List<long>();
 
         /// <summary>
         /// Type and offsets
         /// </summary>
-        List<uint>[] messageindex = new List<uint>[256];
+        List<long>[] messageindex = new List<long>[256];
         /// <summary>
         /// Type and line numbers
         /// </summary>
-        List<uint>[] messageindexline = new List<uint>[256];
+        List<long>[] messageindexline = new List<long>[256];
 
         bool binary = false;
 
         object locker = new object();
 
-        int indexcachelineno = -1;
+        long indexcachelineno = -1;
         String currentindexcache = null;
 
         public DFLogBuffer(string filename) : this(File.Open(filename,FileMode.Open,FileAccess.Read,FileShare.Read))
@@ -49,8 +50,8 @@ namespace MissionPlanner.Utilities
             dflog = new DFLog(this);
             for (int a = 0; a < messageindex.Length; a++)
             {
-                messageindex[a] = new List<uint>();
-                messageindexline[a] = new List<uint>();
+                messageindex[a] = new List<long>();
+                messageindexline[a] = new List<long>();
             }
             
             if (instream.CanSeek)
@@ -90,7 +91,7 @@ namespace MissionPlanner.Utilities
 
             byte[] buffer = new byte[1024*1024];
 
-            var lineCount = 0;
+            var lineCount = 0l;
 
             if (binary)
             {
@@ -103,10 +104,10 @@ namespace MissionPlanner.Utilities
                         continue;
 
                     byte type = ans.Item1;
-                    messageindex[type].Add((uint)(ans.Item2));
-                    messageindexline[type].Add((uint) lineCount);
+                    messageindex[type].Add(ans.Item2);
+                    messageindexline[type].Add(lineCount);
 
-                    linestartoffset.Add((uint)(ans.Item2));
+                    linestartoffset.Add(ans.Item2);
                     lineCount++;
 
                     if (lineCount % 1000000 == 0)
@@ -359,6 +360,9 @@ namespace MissionPlanner.Utilities
         {
             get
             {
+                if (indexin > int.MaxValue)
+                    throw new Exception("index too large");
+
                 var index = (int)indexin;
 
                 long startoffset = linestartoffset[index];
@@ -464,7 +468,7 @@ namespace MissionPlanner.Utilities
 
         public int Count
         {
-            get { return _count; }
+            get { if (_count > int.MaxValue) Console.WriteLine("log line count is too large");  return (int)_count; }
         }
 
         public bool IsReadOnly
@@ -549,6 +553,8 @@ namespace MissionPlanner.Utilities
                     progress = DateTime.Now.Second;
                 }
                 var ans = this[(long) l];
+                if (!instances.ContainsKey(ans.msgtype))
+                    continue;
                 var inst = instances[ans.msgtype];
                 // instance was requested, and its not a match
                 //if (inst != "" && ans.instance != inst)
@@ -604,11 +610,6 @@ namespace MissionPlanner.Utilities
 
                 return messagetypes;
             }
-        }
-
-        public String ReadLine()
-        {
-            return this[indexcachelineno+1];
         }
 
         public Tuple<string,double> GetUnit(string type, string header)
