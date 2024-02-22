@@ -3649,9 +3649,19 @@ main()
                     }
                     else
                     {
+                        dataGridView1.Visible = false;
                         dataGridView1.VirtualMode = true;
                         dataGridView1.ColumnCount = colcount;
+                        for(int u=0;u < dataGridView1.ColumnCount; u++)
+                        {
+                            dataGridView1.Columns[u].Visible = false;
+                        }
                         dataGridView1.RowCount = logdata.Count;
+                        for (int u = 0; u < dataGridView1.ColumnCount; u++)
+                        {
+                            dataGridView1.Columns[u].Visible = true;
+                        }
+                        dataGridView1.Visible = true;
                         log.Info("datagrid size set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
                     }
 
