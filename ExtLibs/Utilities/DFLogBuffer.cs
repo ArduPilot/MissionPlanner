@@ -43,10 +43,14 @@ namespace MissionPlanner.Utilities
 
         public DFLogBuffer(string filename) : this(File.Open(filename,FileMode.Open,FileAccess.Read,FileShare.Read))
         {
+            _filename = filename;
         }
 
         public DFLogBuffer(Stream instream)
         {
+            if (instream is FileStream)
+                _filename = ((FileStream)instream).Name;
+
             dflog = new DFLog(this);
             for (int a = 0; a < messageindex.Length; a++)
             {
@@ -117,7 +121,7 @@ namespace MissionPlanner.Utilities
                 _count = lineCount;
 
                 // build fmt line database to pre seed the FMT message
-                messageindexline[128].ForEach(a => dflog.FMTLine(this[(int) a]));
+                messageindexline[128].ForEach(a => dflog.FMTLine(this[(int)a]));
 
                 try
                 {
@@ -303,6 +307,89 @@ namespace MissionPlanner.Utilities
 
             indexcachelineno = -1;
         }
+        
+        public void SplitLog(int pieces = 0)
+        {
+            long length = basestream.Length;
+
+            if (pieces > 0)
+            { 
+                long sizeofpiece = length / pieces;
+
+                for(int i = 0; i < pieces; i++)
+                {
+                    long start = i * sizeofpiece;
+                    long end = start + sizeofpiece;
+
+                    using (var file = File.OpenWrite(_filename + "_split" + i + ".bin")) 
+                    {
+                        var type = dflog.logformat["FMT"];
+
+                        var buffer = new byte[1024*256];
+
+                        // fmt from entire file
+                        messageindex[type.Id].ForEach(a => {
+                            basestream.Seek(a, SeekOrigin.Begin);
+                            int read = basestream.Read(buffer, 0, type.Length);
+                            file.Write(buffer, 0, read);
+                        });
+
+                        type = dflog.logformat["FMTU"];
+
+                        messageindex[type.Id].ForEach(a => {
+                            basestream.Seek(a, SeekOrigin.Begin);
+                            int read = basestream.Read(buffer, 0, type.Length);
+                            file.Write(buffer, 0, read);
+                        });
+
+                        type = dflog.logformat["UNIT"];
+
+                        messageindex[type.Id].ForEach(a => {
+                            basestream.Seek(a, SeekOrigin.Begin);
+                            int read = basestream.Read(buffer, 0, type.Length);
+                            file.Write(buffer, 0, read);
+                        });
+
+                        type = dflog.logformat["MULT"];
+
+                        messageindex[type.Id].ForEach(a => {
+                            basestream.Seek(a, SeekOrigin.Begin);
+                            int read = basestream.Read(buffer, 0, type.Length);
+                            file.Write(buffer, 0, read);
+                        });
+
+
+
+                        var min = long.MaxValue;
+                        var max = long.MinValue;
+
+                        // got min and max valid
+                        linestartoffset.ForEach(a => 
+                        {
+                            if (a >= start && a < end)
+                            {
+                                min = Math.Min(min, a);
+                                max = Math.Max(max, a);
+                            }
+                        });
+
+                        basestream.Seek(min, SeekOrigin.Begin);
+
+                        while (basestream.Position < max)
+                        {
+                            int readsize = (int)Math.Min((end - basestream.Position), buffer.Length);
+                            int read = basestream.Read(buffer, 0, readsize);
+                            file.Write(buffer, 0, read);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid pieces parameters");
+            }
+        }
+
         private void BuildUnitMultiList()
         {
             foreach (var msgtype in FMT)
@@ -348,6 +435,7 @@ namespace MissionPlanner.Utilities
 
         public List<Tuple<string,string,string,double>> UnitMultiList = new List<Tuple<string, string, string, double>>();
         public Dictionary<int, (int index, List<string> value)> InstanceType = new Dictionary<int, (int index, List<string> value)>();
+        private string _filename;
 
         public Dictionary<int, (int length, string name, string format, string columns)> FMT { get; set; } =
             new Dictionary<int, (int, string, string, string)>();
