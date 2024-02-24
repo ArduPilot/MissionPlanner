@@ -23,10 +23,12 @@ namespace MissionPlanner.Utilities
             out List<(double timeus, double[] value)> allfftdata, string type = "ACC1", string field = "AccX",
             string timeus = "TimeUS", int min = -80, int max = -20)
         {
+            Console.WriteLine("GenerateImage " + type + " " + field);
             allfftdata = new List<(double timeus, double[] value)>();
 
             if (cb.SeenMessageTypes.Contains("ISBH"))
             {
+                Console.WriteLine("GenerateImage seen ISBH");
                 int sensorno = (type.Contains("1") ? 0 : (type.Contains("2") ? 1 : 2));
                 int sensor = type.Contains("ACC") ? 0 : 1;
                 int Ns = -1;
@@ -117,6 +119,8 @@ namespace MissionPlanner.Utilities
                 int done = 0;
                 // 50% overlap
                 int divisor = 4;
+                if (count > 2048)
+                    divisor = 1;
                 count *= divisor;
                 var img = new Image<Rgba32>(count, freqt.Length);
                 log.Debug("done and count ");
@@ -183,7 +187,10 @@ namespace MissionPlanner.Utilities
                 double timedelta = 0;
                 // 50% overlap
                 int divisor = 4;
+                if (count > 2048)
+                    divisor = 1;
                 count *= divisor;
+                Console.WriteLine("Image Size " + count + " " + N / 2);
                 var img = new Image<Rgba32>(count, N / 2);
                 log.Debug("done and count ");
 
