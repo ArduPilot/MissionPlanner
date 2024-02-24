@@ -196,10 +196,33 @@ namespace MissionPlanner.Utilities
             int index = 0;
             int cnt = source.Count();
 
-            while (index < cnt)
+            if (source is Array)
             {
-                yield return source.Skip(index).Take(chunksize).ToArray();
-                index += chunksize / divisorinc;
+                T[] data = (T[])source;
+                while (index < cnt)
+                {
+                    chunksize = Math.Min(chunksize, cnt - index);
+                    yield return new Span<T>(data, index, chunksize).ToArray();
+                    index += chunksize / divisorinc;
+                }
+            }
+            else if (source is List<T>)
+            {
+                List<T> data = ((List<T>)source);
+                while (index < cnt)
+                {
+                    chunksize = Math.Min(chunksize, cnt - index);
+                    yield return data.AsSpan().Slice(index, chunksize).ToArray();
+                    index += chunksize / divisorinc;
+                }
+            }
+            else
+            {
+                while (index < cnt)
+                {
+                    yield return source.Skip(index).Take(chunksize).ToArray();
+                    index += chunksize / divisorinc;
+                }
             }
         }
 
