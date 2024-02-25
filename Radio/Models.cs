@@ -37,6 +37,7 @@ namespace MissionPlanner.Radio
         LabelComboBoxPair TXENCAP;
         LabelComboBoxPair RXENCAP;
         LabelComboBoxPair MAX_DATA;
+        LabelComboBoxPair MAX_RETRIES;
         IEnumerable<Control> Others;
         bool Remote;
 
@@ -45,6 +46,7 @@ namespace MissionPlanner.Radio
             Label lblTXENCAP, ComboBox cmbTXENCAP,
             Label lblRXENCAP, ComboBox cmbRXENCAP,
             Label lblMAX_DATA, ComboBox cmbMAX_DATA,
+            Label lblMAX_RETRIES, ComboBox cmbMAX_RETRIES,
             Control[] Others, bool Remote)
         {
             NodeID = new LabelComboBoxPair(lblNodeID, cmbNodeID);
@@ -52,12 +54,25 @@ namespace MissionPlanner.Radio
             TXENCAP = new LabelComboBoxPair(lblTXENCAP, cmbTXENCAP);
             RXENCAP = new LabelComboBoxPair(lblRXENCAP, cmbRXENCAP);
             MAX_DATA = new LabelComboBoxPair(lblMAX_DATA, cmbMAX_DATA);
+            MAX_RETRIES = new LabelComboBoxPair(lblMAX_RETRIES, cmbMAX_RETRIES);
             this.Others = Others;
             this.Remote = Remote;
         }
 
-        public void SetModel(Model M)
+        /// <summary>
+        /// Reconfigure the GUI for the given modem firmware type
+        /// </summary>
+        /// <param name="M">The modem firmware type.</param>
+        /// <param name="Settings">The settings retrieved from the modem.  Must not be null.</param>
+        public void SetModel(Model M, Dictionary<string, RFD.RFD900.TBaseSetting> Settings)
         {
+            NodeID.Reset();
+            DestID.Reset();
+            TXENCAP.Reset();
+            RXENCAP.Reset();
+            MAX_DATA.Reset();
+            MAX_RETRIES.Reset();
+
             string Prefix = Remote ? "R" : "";
 
             switch (M)
@@ -73,7 +88,7 @@ namespace MissionPlanner.Radio
                         RXENCAP.ComboBox.Name = Prefix + "NODECOUNT";
                         RXENCAP.Label.Text = "Node Count";
                         NodeID.ComboBox.DataSource = Sikradio.Range(0, 1, 29);
-                        var Temp = (List<int>)Sikradio.Range(0, 1, 29);
+                        var Temp = new List<int>(Sikradio.Range(0, 1, 29));
                         Temp.Add(65535);
                         DestID.ComboBox.DataSource = Temp;
                         TXENCAP.ComboBox.DataSource = Sikradio.Range(0, 1, 1);
@@ -103,14 +118,27 @@ namespace MissionPlanner.Radio
                 case Model.MULTIPOINT_X:
                     {
                         DestID.ComboBox.Name = Prefix + "NODEDESTINATION";
-                        TXENCAP.ComboBox.Name = Prefix + "NODECOUNT";
-                        TXENCAP.Label.Text = "Node Count";
+                        if (Settings.ContainsKey("NETCOUNT"))
+                        {
+                            TXENCAP.ComboBox.Name = Prefix + "NETCOUNT";
+                            TXENCAP.Label.Text = "Net Count";
+                        }
+                        else
+                        {
+                            TXENCAP.ComboBox.Name = Prefix + "NODECOUNT";
+                            TXENCAP.Label.Text = "Node Count";
+                        }
                         RXENCAP.ComboBox.Name = Prefix + "SERBREAKMS10";
                         RXENCAP.Label.Text = "Ser. brk. x10ms";
-                        MAX_DATA.ComboBox.Name = "GPO1_3STATLED";
-                        MAX_DATA.Label.Text = "GPO1_\n3STATLED";
+                        if (Settings.ContainsKey("MASTERBACKUP"))
+                        {
+                            MAX_DATA.ComboBox.Name = Prefix + "MASTERBACKUP";
+                            MAX_DATA.Label.Text = "Master Bckp";
+                        }
+                        MAX_RETRIES.ComboBox.Name = Prefix + "RXFRAME";
+                        MAX_RETRIES.Label.Text = "Rx Frame";
                         NodeID.ComboBox.DataSource = Sikradio.Range(0, 1, 29);
-                        var Temp = (List<int>)Sikradio.Range(0, 1, 29);
+                        var Temp = new List<int>(Sikradio.Range(0, 1, 29));
                         Temp.Add(65535);
                         DestID.ComboBox.DataSource = Temp;
                         TXENCAP.ComboBox.DataSource = Sikradio.Range(0, 1, 1);
@@ -121,7 +149,14 @@ namespace MissionPlanner.Radio
                         DestID.Visible = true;
                         TXENCAP.Visible = true;
                         RXENCAP.Visible = true;
-                        MAX_DATA.Visible = true;
+                        if (Settings.ContainsKey("MASTERBACKUP"))
+                        { 
+                            MAX_DATA.Visible = true;
+                        }
+                        if (Settings.ContainsKey("RXFRAME"))
+                        {
+                            MAX_RETRIES.Visible = true;
+                        }
                     }
                     break;
             }
@@ -134,6 +169,7 @@ namespace MissionPlanner.Radio
             TXENCAP.Visible = V;
             RXENCAP.Visible = V;
             MAX_DATA.Visible = V;
+            MAX_RETRIES.Visible = V;
             foreach (var x in Others)
             {
                 x.Visible = V;
@@ -145,11 +181,15 @@ namespace MissionPlanner.Radio
     {
         public readonly Label Label;
         public readonly ComboBox ComboBox;
+        public readonly string OrigName;
+        public readonly string OrigLabel;
 
         public LabelComboBoxPair(Label L, ComboBox C)
         {
             this.Label = L;
             this.ComboBox = C;
+            OrigName = C.Name;
+            OrigLabel = L.Text;
         }
 
         public bool Visible
@@ -163,6 +203,12 @@ namespace MissionPlanner.Radio
                 Label.Visible = value;
                 ComboBox.Visible = value;
             }
+        }
+
+        public void Reset()
+        {
+            Label.Text = OrigLabel;
+            ComboBox.Name = OrigName;
         }
     }
 }

@@ -61,6 +61,16 @@ namespace SikRadio.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] RFDSiK_V3_00_rfd900x {
+            get {
+                object obj = ResourceManager.GetObject("RFDSiK_V3_00_rfd900x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap sik {
