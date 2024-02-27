@@ -39,7 +39,6 @@ namespace MissionPlanner.GCSViews
             this.quickView6 = new MissionPlanner.Controls.QuickView();
             this.contextMenuStripQuickView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setViewCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
             this.quickView5 = new MissionPlanner.Controls.QuickView();
             this.quickView4 = new MissionPlanner.Controls.QuickView();
@@ -196,6 +195,7 @@ namespace MissionPlanner.GCSViews
             this.PointCameraCoordsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flightPlannerDropoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setEKFHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -289,6 +289,7 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.MainH, "MainH");
             this.MainH.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.MainH.Name = "MainH";
+            MainH.VisibleChanged += MainH_VisibleChanged;
             // 
             // MainH.Panel1
             // 
@@ -572,6 +573,10 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.SelectedIndex = 0;
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControlactions.DoubleClick += TabControlactions_DoubleClick;
+            this.tabControlactions.ControlAdded += TabControlactions_ControlAdded;
+            this.tabControlactions.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.tabControlactions.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // contextMenuStripactionstab
             // 
@@ -628,8 +633,7 @@ namespace MissionPlanner.GCSViews
             // contextMenuStripQuickView
             // 
             this.contextMenuStripQuickView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setViewCountToolStripMenuItem,
-            this.undockToolStripMenuItem});
+            this.setViewCountToolStripMenuItem});
             this.contextMenuStripQuickView.Name = "contextMenuStripQuickView";
             resources.ApplyResources(this.contextMenuStripQuickView, "contextMenuStripQuickView");
             // 
@@ -638,12 +642,6 @@ namespace MissionPlanner.GCSViews
             this.setViewCountToolStripMenuItem.Name = "setViewCountToolStripMenuItem";
             resources.ApplyResources(this.setViewCountToolStripMenuItem, "setViewCountToolStripMenuItem");
             this.setViewCountToolStripMenuItem.Click += new System.EventHandler(this.setViewCountToolStripMenuItem_Click);
-            // 
-            // undockToolStripMenuItem
-            // 
-            this.undockToolStripMenuItem.Name = "undockToolStripMenuItem";
-            resources.ApplyResources(this.undockToolStripMenuItem, "undockToolStripMenuItem");
-            this.undockToolStripMenuItem.Click += new System.EventHandler(this.undockDockToolStripMenuItem_Click);
             // 
             // bindingSourceQuickTab
             // 
@@ -2389,6 +2387,7 @@ namespace MissionPlanner.GCSViews
             this.PointCameraCoordsToolStripMenuItem1,
             this.triggerCameraToolStripMenuItem,
             this.flightPlannerToolStripMenuItem,
+            this.flightPlannerDropoutToolStripMenuItem,
             this.setHomeHereToolStripMenuItem,
             this.takeOffToolStripMenuItem,
             this.onOffCameraOverlapToolStripMenuItem,
@@ -2472,6 +2471,13 @@ namespace MissionPlanner.GCSViews
             this.flightPlannerToolStripMenuItem.Name = "flightPlannerToolStripMenuItem";
             resources.ApplyResources(this.flightPlannerToolStripMenuItem, "flightPlannerToolStripMenuItem");
             this.flightPlannerToolStripMenuItem.Click += new System.EventHandler(this.flightPlannerToolStripMenuItem_Click);
+            // 
+            // flightPlannerDropoutToolStripMenuItem
+            // 
+            this.flightPlannerDropoutToolStripMenuItem.Name = "flightPlannerDropoutToolStripMenuItem";
+            this.flightPlannerDropoutToolStripMenuItem.Text = "Flight Planner (dropout)";
+            resources.ApplyResources(this.flightPlannerDropoutToolStripMenuItem, "flightPlannerDropoutToolStripMenuItem");
+            this.flightPlannerDropoutToolStripMenuItem.Click += new System.EventHandler(this.flightPlannerDropoutToolStripMenuItem_Click);
             // 
             // setHomeHereToolStripMenuItem
             // 
@@ -2875,6 +2881,7 @@ namespace MissionPlanner.GCSViews
         private Controls.QuickView quickView4;
         private System.Windows.Forms.ToolStripMenuItem flyToHereAltToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flightPlannerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flightPlannerDropoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userItemsToolStripMenuItem;
         //private Crom.Controls.Docking.DockContainer dockContainer1;
         private Controls.MyButton BUT_ARM;
@@ -3005,7 +3012,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem setBatteryCellCountToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undockToolStripMenuItem;
         private System.Windows.Forms.Button ALT_btn;
         private System.Windows.Forms.Button STBY_btn;
         private System.Windows.Forms.Button ON_btn;

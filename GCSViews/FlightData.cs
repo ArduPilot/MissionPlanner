@@ -1019,30 +1019,6 @@ namespace MissionPlanner.GCSViews
                 MainV2.comPort.MAV.camerapoints.Clear();
         }
 
-        void but_Click(object sender, EventArgs e)
-        {
-            foreach (MainSwitcher.Screen sc in MainV2.View.screens)
-            {
-                if (sc.Name == "FlightPlanner")
-                {
-                    splitContainer1.Panel2.Controls.Remove(sc.Control);
-                    splitContainer1.Panel2.Controls.Remove((Control) sender);
-                    sc.Control.Visible = false;
-
-                    if (sc.Control is IDeactivate)
-                    {
-                        ((IDeactivate) (sc.Control)).Deactivate();
-                    }
-
-                    break;
-                }
-            }
-
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
-            {
-                ctl.Visible = true;
-            }
-        }
 
         private void but_dflogtokml_Click(object sender, EventArgs e)
         {
@@ -2502,17 +2478,6 @@ namespace MissionPlanner.GCSViews
             POI.POIDelete((GMapMarkerPOI) CurrentGMapMarker);
         }
 
-        void dropout_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            (sender as Form).SaveStartupLocation();
-            //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
-            ((sender as Form).Tag as Control).Controls.Add(hud1);
-            //SubMainLeft.Panel1.Controls.Add(hud1);
-            if (hud1.Parent == SubMainLeft.Panel1)
-                SubMainLeft.Panel1Collapsed = false;
-            huddropout = false;
-        }
-
         void dropout_Resize(object sender, EventArgs e)
         {
             if (huddropoutresize)
@@ -2725,39 +2690,131 @@ namespace MissionPlanner.GCSViews
 
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+
+            // Close dropout window (if there is one)
+            if (flightPlannerScreen.Control.ParentForm != null)
+                flightPlannerScreen.Control.ParentForm.Close();
+
+            // Hide flight data map
             foreach (Control ctl in splitContainer1.Panel2.Controls)
-            {
                 ctl.Visible = false;
-            }
 
-            foreach (MainSwitcher.Screen sc in MainV2.View.screens)
+            // Add close button
+            MyButton but = new MyButton
             {
-                if (sc.Name == "FlightPlanner")
-                {
-                    MyButton but = new MyButton
-                    {
-                        Location = new Point(splitContainer1.Panel2.Width / 2, 0),
-                        Text = "Close"
-                    };
-                    but.Click += but_Click;
+                Location = new Point(splitContainer1.Panel2.Width / 2, 0),
+                Text = "Close"
+            };
+            but.Click += but_Click;
 
-                    splitContainer1.Panel2.Controls.Add(but);
-                    splitContainer1.Panel2.Controls.Add(sc.Control);
-                    ThemeManager.ApplyThemeTo(sc.Control);
-                    ThemeManager.ApplyThemeTo(this);
+            // Add flight planner controls
+            splitContainer1.Panel2.Controls.Add(but);
+            splitContainer1.Panel2.Controls.Add(flightPlannerScreen.Control);
+            ThemeManager.ApplyThemeTo(flightPlannerScreen.Control);
+            ThemeManager.ApplyThemeTo(this);
 
-                    sc.Control.Dock = DockStyle.Fill;
-                    sc.Control.Visible = true;
+            // Set appearance
+            flightPlannerScreen.Control.Dock = DockStyle.Fill;
+            flightPlannerScreen.Control.Visible = true;
 
-                    if (sc.Control is IActivate)
-                    {
-                        ((IActivate) (sc.Control)).Activate();
-                    }
+            // Activate flight planner
+            if (flightPlannerScreen.Control is IActivate)
+                ((IActivate)(flightPlannerScreen.Control)).Activate();
 
-                    but.BringToFront();
-                    break;
-                }
+            // Show close button
+            but.BringToFront();
+        }
+
+        void but_Click(object sender, EventArgs e)
+        {
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+
+            // Remove flight planner controls
+            splitContainer1.Panel2.Controls.Remove(flightPlannerScreen.Control);
+            splitContainer1.Panel2.Controls.Remove((Control)sender);
+            flightPlannerScreen.Control.Visible = false;
+
+            // Deactivate flight planner
+            if (flightPlannerScreen.Control is IDeactivate)
+                ((IDeactivate)(flightPlannerScreen.Control)).Deactivate();
+
+            // Show flight data map
+            foreach (Control ctl in splitContainer1.Panel2.Controls)
+                ctl.Visible = true;
+        }
+
+        /// <summary>
+        /// Use FlightPlannerForm property instead
+        /// </summary>
+        private Form flightPlannerForm = null;
+
+        /// <summary>
+        /// Presistent form for Flight Planner
+        /// </summary>
+        public Form FlightPlannerForm
+        {
+            get
+            {
+                if (flightPlannerForm == null) flightPlannerForm = new Form();
+                return flightPlannerForm;
             }
+        }
+
+        private void flightPlannerDropoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form flightPlannerDropout = FlightPlannerForm;
+            flightPlannerDropout.Text = "Flight Planner";
+            flightPlannerDropout.FormBorderStyle = FormBorderStyle.Sizable;
+            flightPlannerDropout.FormClosing += FlightPlannerDropout_FormClosing;
+            flightPlannerDropout.FormClosed += FilghtPlannerDropout_FormClosed;
+            flightPlannerDropout.ResizeEnd += (s2, e2) => flightPlannerDropout.SaveStartupLocation();
+            flightPlannerDropout.LocationChanged += (s3, e3) => flightPlannerDropout.SaveStartupLocation();
+            flightPlannerDropout.RestoreStartupLocation();
+
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+            flightPlannerDropout.Controls.Add(flightPlannerScreen.Control);
+            flightPlannerScreen.Control.Dock = DockStyle.Fill;
+            flightPlannerScreen.Control.Visible = true;
+
+            ThemeManager.ApplyThemeTo(flightPlannerScreen.Control);
+            ThemeManager.ApplyThemeTo(flightPlannerDropout);
+            ThemeManager.ApplyThemeTo(this);
+
+            if (flightPlannerScreen.Control is IActivate)
+                ((IActivate)(flightPlannerScreen.Control)).Activate();
+
+            if (flightPlannerDropout != null)
+            {
+                flightPlannerDropout.Show();
+                flightPlannerDropout.BringToFront();
+                SetDropoutsState("FlightPlanner", true);
+            }
+        }
+
+        // Catch Flight Planner dropout closing, and only hide it
+        private void FlightPlannerDropout_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                (sender as Form).Hide();
+                FilghtPlannerDropout_FormClosed(sender, FormClosedEventArgs.Empty as FormClosedEventArgs);
+            }
+        }
+
+        private void FilghtPlannerDropout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form flightPlannerDropout = sender as Form;
+            flightPlannerDropout.SaveStartupLocation();
+
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+            flightPlannerScreen.Control.Visible = false;
+
+            if (flightPlannerScreen.Control is IDeactivate)
+                ((IDeactivate)(flightPlannerScreen.Control)).Deactivate();
+
+            SetDropoutsState("FlightPlanner", false);
         }
 
         private void flyToHereAltToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3130,9 +3187,25 @@ namespace MissionPlanner.GCSViews
             dropout.Controls.Add(hud1);
             dropout.Resize += dropout_Resize;
             dropout.FormClosed += dropout_FormClosed;
+            dropout.ResizeEnd += (s2, e2) => dropout.SaveStartupLocation();
+            dropout.LocationChanged += (s3, e3) => dropout.SaveStartupLocation();
             dropout.RestoreStartupLocation();
             dropout.Show();
+            dropout.BringToFront();
             huddropout = true;
+            SetDropoutsState(hud1.Name, true);
+        }
+
+        void dropout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            (sender as Form).SaveStartupLocation();
+            //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
+            ((sender as Form).Tag as Control).Controls.Add(hud1);
+            //SubMainLeft.Panel1.Controls.Add(hud1);
+            if (hud1.Parent == SubMainLeft.Panel1)
+                SubMainLeft.Panel1Collapsed = false;
+            huddropout = false;
+            SetDropoutsState(hud1.Name, false);
         }
 
         private void hud1_ekfclick(object sender, EventArgs e)
@@ -5011,6 +5084,77 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Drops out the active tab into a seperate form
+        /// </summary>
+        private void TabControlactions_DoubleClick(object sender, System.EventArgs e)
+        {
+            Form dropoutForm = new Form();
+            TabControl sourceTC = sender as TabControl;
+            TabPage sourceTP = sourceTC.SelectedTab;
+            TabControl dropoutTab = new TabControl();
+
+            dropoutForm.Text = $"{sourceTP.Text} Tab Dropout";
+            dropoutForm.FormClosed += DropoutForm_FormClosed;
+            dropoutForm.ResizeEnd += (s2, e2) => dropoutForm.SaveStartupLocation();
+            dropoutForm.LocationChanged += (s3, e3) => dropoutForm.SaveStartupLocation();
+            dropoutForm.FormBorderStyle = FormBorderStyle.Sizable;
+            dropoutForm.Size = new Size(sourceTP.Width, sourceTP.Width);
+            dropoutForm.RestoreStartupLocation();
+            sourceTP.Tag = sourceTC.SelectedIndex;
+
+            dropoutTab.Appearance = TabAppearance.FlatButtons;
+            dropoutTab.ItemSize = new Size(0, 0);
+            dropoutTab.SizeMode = TabSizeMode.Fixed;
+            dropoutTab.Size = new Size(dropoutForm.ClientSize.Width, dropoutForm.ClientSize.Height + 22);
+            dropoutTab.Location = new Point(0, -22);
+            dropoutTab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControlactions.Controls.Remove(sourceTP);
+            dropoutTab.Controls.Add(sourceTP);
+            sourceTP.BorderStyle = BorderStyle.Fixed3D;
+            dropoutForm.Controls.Add(dropoutTab);
+
+            isDropperdOut.Add(dropoutForm);
+            SetDropoutsState(sourceTP.Name, true);
+            dropoutForm.Show();
+            dropoutForm.BringToFront();
+        }
+
+        private void DropoutForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form dropoutForm = sender as Form;
+            TabControl sourceTC = dropoutForm.Controls[0] as TabControl;
+            TabPage dropoutTP = sourceTC.TabPages[0];
+            dropoutForm.SaveStartupLocation();
+            SetDropoutsState(dropoutTP.Name, false);
+            isDropperdOut.Remove(dropoutForm);
+            tabControlactions.Controls.Add(dropoutTP);
+        }
+
+        /// <summary>
+        /// This is to prevent an infinite recursive loop call of TabControlactions_ControlAdded
+        /// </summary>
+        private bool tabInserting = false;
+
+        /// <summary>
+        /// Tries to use tabpage tag as insertion index
+        /// </summary>
+        private void TabControlactions_ControlAdded(object sender, ControlEventArgs e)
+        {
+            TabControl tc = sender as TabControl;
+            TabPage tp = e.Control as TabPage;
+
+            if (!tabInserting && tp.Tag != null && int.TryParse(tp.Tag.ToString(), out int tabIndex))
+            {
+                tabInserting = true;
+                tc.Controls.Remove(tp);
+                if (tabIndex > tc.TabPages.Count) tabIndex = tc.TabPages.Count;
+                tc.TabPages.Insert(tabIndex, tp);
+                tc.SelectedTab = tp;
+                tabInserting = false;
+            }
+        }
+
         private void tabPage1_Resize(object sender, EventArgs e)
         {
             int mywidth, myheight;
@@ -5213,6 +5357,121 @@ namespace MissionPlanner.GCSViews
             txt_messagebox.ScrollToCaret();
         }
 
+        /// <summary>
+        /// A Control name paired with its droppped out state
+        /// </summary>
+        private class DropoutsStateItem
+        {
+            public string Name { get; set; }
+            public bool Dropped { get; set; }
+        }
+
+        /// <summary>
+        /// List of Control names and their droppped out state
+        /// </summary>
+        private List<DropoutsStateItem> DropoutsState = new List<DropoutsStateItem>();
+
+        /// <summary>
+        /// Changes the dropout state of a Control
+        /// </summary>
+        /// <param name="Name">Name of Control</param>
+        /// <param name="Dropped">Desired dropout state of Control</param>
+        public void SetDropoutsState(string Name, bool Dropped)
+        {
+            // if the control dropout state is being followed and has to be changed
+            if (DropoutsState.Select(DS => DS.Name).Contains(Name) &&
+                DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped != Dropped)
+            {
+                // Change the dropout state
+                DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped = Dropped;
+
+                // Save the dropout state
+                if (Dropped) // Add new item
+                    Settings.Instance.SetList("DropoutState", DropoutsState.Where(DS => DS.Dropped).Select(DS => DS.Name).ToList<string>());
+                else if (DropoutsState.Where(DS => DS.Dropped).Count() > 0) // Remove one item
+                    Settings.Instance.RemoveList("DropoutState", Name);
+                else // Remove last item
+                    Settings.Instance.Remove("DropoutState");
+            }
+        }
+
+        /// <summary>
+        /// Loads the dropout state list and drops out the Controls into their Forms (if needed)
+        /// </summary>
+        public void LoadDropoutsState()
+        {
+            // Initialize list with default values
+            DropoutsState = new List<DropoutsStateItem> // Individual Control items
+            {
+                new DropoutsStateItem {Name = myhud.Name, Dropped = false},
+                new DropoutsStateItem {Name = "FlightPlanner", Dropped = false},
+                new DropoutsStateItem {Name = "ConnectionStats", Dropped = false}
+            };
+            foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
+                DropoutsState.Add(new DropoutsStateItem {Name = item.Name, Dropped = false});
+
+            // Load list and flip Dropped to true where needed
+            if (Settings.Instance.ContainsKey("DropoutState"))
+                DropoutsState
+                    .Where(DS => (Settings.Instance.GetList("DropoutState").ToList<string>()).Contains(DS.Name))
+                    .ForEach(DS => DS.Dropped = true);
+
+            // Execute Form opening functions
+            foreach (var item in DropoutsState)
+            {
+                if (item.Dropped)
+                {
+                    if (item.Name == myhud.Name) // HUD
+                    {
+                        hud1_DoubleClick(null, EventArgs.Empty);
+                    }
+                    if (tabControlactions.TabPages.Select(TP => (TP as TabPage).Name).Contains(item.Name)) // One of the tabpages
+                    {
+                        tabControlactions.SelectTab(item.Name);
+                        TabControlactions_DoubleClick(tabControlactions, EventArgs.Empty);
+                    }
+                    if (item.Name == "FlightPlanner")
+                    {
+                        flightPlannerToolStripMenuItem_Click(null, EventArgs.Empty);
+                    }
+                    if (item.Name == "ConnectionStats")
+                    {
+                        // trigger MainV2._connectionControl.ShowLinkStats event
+                        MainV2.instance.ShowConnectionStatsForm();
+                    }
+                    //if (item.Name == "whatever")
+                    //{
+                    //    // call Form opening function(s)
+                    //}
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the dropout Form configuration
+        /// </summary>
+        public void ResetDropoutsStates()
+        {
+            DropoutsState.Where(DS => DS.Dropped).ForEach(DS => SetDropoutsState(DS.Name, false));
+        }
+
+        /// <summary>
+        /// Helper bool for MainH_VisibleChanged
+        /// </summary>
+        private bool programStarted = false;
+
+        /// <summary>
+        /// Load dropout window names from config.xml
+        /// </summary>
+        private void MainH_VisibleChanged(object sender, System.EventArgs e)
+        {
+            if (!programStarted && Visible && !Disposing)
+            {
+                LoadDropoutsState();
+                programStarted = true;
+            }
+        }
+
         private void updateBindingSource()
         {
             //  run at 10 hz.
@@ -5249,6 +5508,11 @@ namespace MissionPlanner.GCSViews
                 });
             }
         }
+
+        /// <summary>
+        /// Forms to update the data bindings for regularly
+        /// </summary>
+        private List<Form> isDropperdOut = new List<Form>();
 
         private void updateBindingSourceWork()
         {
@@ -5296,8 +5560,10 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                         bindingSourceHud.UpdateDataSource(MainV2.comPort.MAV.cs));
                 }
-                //if the tab detached wi have to update it 
-                if (tabQuickDetached) MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
+
+                // if any tabs are dropped out, we have to update them
+                foreach (Form form in isDropperdOut)
+                    updateFirstBindingSource(form);
 
                 lastscreenupdate = DateTime.Now;
             }
@@ -5305,6 +5571,25 @@ namespace MissionPlanner.GCSViews
             {
                 log.Error(ex);
                 Tracking.AddException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Find and update binding for first child control (that has one) recursively
+        /// </summary>
+        /// <param name="startingControl">Control to start the recursive search from</param>
+        private void updateFirstBindingSource(Control startingControl)
+        {
+            if (startingControl.DataBindings.Count > 0)
+            {
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings((startingControl.DataBindings[0].DataSource as BindingSource).UpdateDataSource(MainV2.comPort.MAV.cs));
+            }
+            else if (startingControl.Controls.Count > 0)
+            {
+                foreach (Control childControl in startingControl.Controls)
+                {
+                    updateFirstBindingSource(childControl);
+                }
             }
         }
 
@@ -5919,46 +6204,7 @@ namespace MissionPlanner.GCSViews
             hud1.displayCellVoltage = true;
             hud1.batterycellcount = iCellCount;
         }
-        private bool tabQuickDetached = false;
         private bool tuningwasrightclick;
-
-        private void undockDockToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            Form dropout = new Form();
-            TabControl tab = new TabControl();
-            dropout.FormBorderStyle = FormBorderStyle.Sizable;
-            dropout.ShowInTaskbar = false;
-            dropout.Size = new Size(300, 450);
-            tabQuickDetached = true;
-            tab.Appearance = TabAppearance.FlatButtons;
-            tab.ItemSize = new Size(0, 0);
-            tab.SizeMode = TabSizeMode.Fixed;
-            tab.Size = new Size(dropout.ClientSize.Width, dropout.ClientSize.Height + 22);
-            tab.Location = new Point(0, -22);
-
-            tab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
-            dropout.Text = "Flight DATA";
-            tabControlactions.Controls.Remove(tabQuick);
-            tab.Controls.Add(tabQuick);
-            tabQuick.BorderStyle = BorderStyle.Fixed3D;
-            dropout.FormClosed += dropoutQuick_FormClosed;
-            dropout.Controls.Add(tab);
-            dropout.RestoreStartupLocation();
-            dropout.Show();
-            tabQuickDetached = true;
-            (sender as ToolStripMenuItem).Visible = false;
-        }
-
-        void dropoutQuick_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            (sender as Form).SaveStartupLocation();
-            tabControlactions.Controls.Add(tabQuick);
-            tabControlactions.SelectedTab = tabQuick;
-            tabQuickDetached = false;
-            contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
-        }
 
         private void IDENT_btn_Click(object sender, EventArgs e)
         {

@@ -553,7 +553,7 @@ namespace MissionPlanner
 
         /// <summary>
         /// This 'Control' is the toolstrip control that holds the comport combo, baudrate combo etc
-        /// Otiginally seperate controls, each hosted in a toolstip sqaure, combined into this custom
+        /// Originally seperate controls, each hosted in a toolstip sqaure, combined into this custom
         /// control for layout reasons.
         /// </summary>
         public static ConnectionControl _connectionControl;
@@ -1324,7 +1324,7 @@ namespace MissionPlanner
             }
         }
 
-        private void ShowConnectionStatsForm()
+        public void ShowConnectionStatsForm()
         {
             if (this.connectionStatsForm == null || this.connectionStatsForm.IsDisposed)
             {
@@ -1346,8 +1346,20 @@ namespace MissionPlanner
                 this.connectionStatsForm.Width = _connectionStats.Width;
             }
 
+            this.connectionStatsForm.RestoreStartupLocation();
+            this.connectionStatsForm.FormClosed += ConnectionStatsForm_FormClosed;
+            this.connectionStatsForm.ResizeEnd += (s1, e1) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.LocationChanged += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
             this.connectionStatsForm.Show();
+            this.connectionStatsForm.BringToFront();
+            FlightData.SetDropoutsState("ConnectionStats", true);
             ThemeManager.ApplyThemeTo(this.connectionStatsForm);
+        }
+
+        private void ConnectionStatsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.connectionStatsForm.SaveStartupLocation();
+            FlightData.SetDropoutsState("ConnectionStats", false);
         }
 
         private void CMB_serialport_Click(object sender, EventArgs e)
@@ -1381,6 +1393,12 @@ namespace MissionPlanner
 
         private void MenuFlightPlanner_Click(object sender, EventArgs e)
         {
+            // Close dropout window (if there is one)
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+            if (flightPlannerScreen.Control.ParentForm != null && flightPlannerScreen.Control.ParentForm != this)
+                flightPlannerScreen.Control.ParentForm.Close();
+            
+            // Show flight planner screen
             MyView.ShowScreen("FlightPlanner");
 
             // save config
