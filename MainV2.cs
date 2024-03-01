@@ -39,7 +39,6 @@ using MissionPlanner.Joystick;
 using System.Net;
 using Newtonsoft.Json;
 using DroneCAN;
-using Accord.Math;
 
 namespace MissionPlanner
 {
