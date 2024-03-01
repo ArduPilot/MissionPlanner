@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Org.BouncyCastle.Utilities.Encoders;
 
-//loadassembly: BouncyCastle
+//loadassembly: BouncyCastle.Cryptography
 
 namespace MissionPlanner.plugins
 {
