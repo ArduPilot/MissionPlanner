@@ -1425,7 +1425,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+            if (!NativeMethods.gst_app_sink_is_eos(appsink))
+                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
             NativeMethods.gst_buffer_unref(bus);
 
             //callbackhandle.Free();
