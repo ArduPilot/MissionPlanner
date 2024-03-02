@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
@@ -150,7 +150,7 @@ namespace MissionPlanner.GCSViews
             this.labelScriptStatus = new System.Windows.Forms.Label();
             this.BUT_select_script = new MissionPlanner.Controls.MyButton();
             this.tabPayload = new System.Windows.Forms.TabPage();
-            this.BUT_PayloadFolder = new MissionPlanner.Controls.MyButton();
+            this.BUT_GimbalVideo = new MissionPlanner.Controls.MyButton();
             this.groupBoxRoll = new System.Windows.Forms.GroupBox();
             this.TXT_gimbalRollPos = new System.Windows.Forms.TextBox();
             this.bindingSourcePayloadTab = new System.Windows.Forms.BindingSource(this.components);
@@ -2057,7 +2057,7 @@ namespace MissionPlanner.GCSViews
             // 
             // tabPayload
             // 
-            this.tabPayload.Controls.Add(this.BUT_PayloadFolder);
+            this.tabPayload.Controls.Add(this.BUT_GimbalVideo);
             this.tabPayload.Controls.Add(this.groupBoxRoll);
             this.tabPayload.Controls.Add(this.groupBoxYaw);
             this.tabPayload.Controls.Add(this.BUT_resetGimbalPos);
@@ -2066,11 +2066,12 @@ namespace MissionPlanner.GCSViews
             this.tabPayload.Name = "tabPayload";
             this.tabPayload.UseVisualStyleBackColor = true;
             // 
-            // BUT_PayloadFolder
+            // BUT_GimbalVideo
             // 
-            resources.ApplyResources(this.BUT_PayloadFolder, "BUT_PayloadFolder");
-            this.BUT_PayloadFolder.Name = "BUT_PayloadFolder";
-            this.BUT_PayloadFolder.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.BUT_GimbalVideo, "BUT_GimbalVideo");
+            this.BUT_GimbalVideo.Name = "BUT_GimbalVideo";
+            this.BUT_GimbalVideo.UseVisualStyleBackColor = true;
+            this.BUT_GimbalVideo.Click += new System.EventHandler(this.BUT_GimbalVideo_Click);
             // 
             // groupBoxRoll
             // 
@@ -3066,7 +3067,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.GroupBox groupBoxRoll;
         private System.Windows.Forms.GroupBox groupBoxYaw;
         private System.Windows.Forms.GroupBox groupBoxPitch;
-        private Controls.MyButton BUT_PayloadFolder;
+        private Controls.MyButton BUT_GimbalVideo;
         private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem groundColorToolStripMenuItem;
         private Controls.RelayOptions relayOptions1;

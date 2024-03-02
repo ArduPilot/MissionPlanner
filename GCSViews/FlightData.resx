@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -4135,34 +4135,31 @@
   <data name="&gt;&gt;tabScripts.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="BUT_PayloadFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="BUT_GimbalVideo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="BUT_PayloadFolder.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="BUT_GimbalVideo.Location" type="System.Drawing.Point, System.Drawing">
     <value>73, 134</value>
   </data>
-  <data name="BUT_PayloadFolder.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="BUT_GimbalVideo.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 23</value>
   </data>
-  <data name="BUT_PayloadFolder.TabIndex" type="System.Int32, mscorlib">
+  <data name="BUT_GimbalVideo.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="BUT_PayloadFolder.Text" xml:space="preserve">
-    <value>Payload Files</value>
+  <data name="BUT_GimbalVideo.Text" xml:space="preserve">
+    <value>Video Control</value>
   </data>
-  <data name="BUT_PayloadFolder.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;BUT_GimbalVideo.Name" xml:space="preserve">
+    <value>BUT_GimbalVideo</value>
   </data>
-  <data name="&gt;&gt;BUT_PayloadFolder.Name" xml:space="preserve">
-    <value>BUT_PayloadFolder</value>
-  </data>
-  <data name="&gt;&gt;BUT_PayloadFolder.Type" xml:space="preserve">
+  <data name="&gt;&gt;BUT_GimbalVideo.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;BUT_PayloadFolder.Parent" xml:space="preserve">
+  <data name="&gt;&gt;BUT_GimbalVideo.Parent" xml:space="preserve">
     <value>tabPayload</value>
   </data>
-  <data name="&gt;&gt;BUT_PayloadFolder.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;BUT_GimbalVideo.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="bindingSourcePayloadTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
