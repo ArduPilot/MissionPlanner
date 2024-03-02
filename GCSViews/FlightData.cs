@@ -6357,5 +6357,20 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
             }
         }
+
+        private void BUT_GimbalVideo_Click(object sender, EventArgs e)
+        {
+            var form = new Form()
+            {
+                Text = "Gimbal Control",
+                Size = new Size(600, 400),
+                StartPosition = FormStartPosition.CenterParent
+            };
+            form.Controls.Add(new GimbalVideoControl()
+            {
+                Dock = DockStyle.Fill
+            });
+            form.Show();
+        }
     }
 }
