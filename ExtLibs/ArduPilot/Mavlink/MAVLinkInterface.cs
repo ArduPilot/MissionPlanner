@@ -501,8 +501,9 @@ namespace MissionPlanner
         {
 
             // check for a camera
-            if (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
-                tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
+            if (tuple.Item2 == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 ||
+                    (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
+                    tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6))
             {
                 MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
                 Task.Run(async () =>
