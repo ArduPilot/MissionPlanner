@@ -3368,47 +3368,6 @@ namespace MissionPlanner
             };
             AutoConnect.Start();
 
-            // debound based on url
-            List<string> videourlseen = new List<string>();
-            // prevent spaming the ui
-            SemaphoreSlim videodetect = new SemaphoreSlim(1);
-
-            CameraProtocol.OnRTSPDetected += (sender, s) =>
-            {
-                if (isHerelink)
-                {
-                    return;
-                }
-
-                MainV2.instance.BeginInvoke((Action)delegate
-                {
-                    try
-                    {
-                        if (!videourlseen.Contains(s) && videodetect.Wait(0))
-                        {
-                            videourlseen.Add(s);
-                            if (CustomMessageBox.Show(
-                                    "A video stream has been detected, Do you want to connect to it? " + s,
-                                    "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                                (int)System.Windows.Forms.DialogResult.Yes)
-                            {
-                                AutoConnect.RaiseNewVideoStream(sender,
-                                    String.Format(
-                                        "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
-                                        s));
-                            }
-
-                            videodetect.Release();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-                });
-            };
-
-
             BinaryLog.onFlightMode += (firmware, modeno) =>
             {
                 try
