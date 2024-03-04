@@ -100,12 +100,12 @@ namespace MissionPlanner.ArduPilot
                 Array.Copy(data, dataPointer, vdata, 0, mapped.type_len);
                 dataPointer += mapped.type_len;
 
-                decimal? default_value = null;
+                double? default_value = null;
                 if (with_defaults) {
                     if ((flags & 1U) == 0) {
-                        default_value = Convert.ToDecimal(v);
+                        default_value = Convert.ToDouble(v);
                     } else {
-                        default_value = Convert.ToDecimal(decode_value(mapped.type_format, data, dataPointer));
+                        default_value = Convert.ToDouble(decode_value(mapped.type_format, data, dataPointer));
                         dataPointer += mapped.type_len;
                     }
                 }

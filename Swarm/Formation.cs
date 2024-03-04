@@ -191,7 +191,7 @@ namespace MissionPlanner.Swarm
 
                             if (true)
                             {
-                                var leaderturnrad = Leader.cs.radius;
+                                var leaderturnrad = CurrentState.fromDistDisplayUnit(Leader.cs.radius);
                                 var mavturnradius = leaderturnrad - x;
 
                                 {

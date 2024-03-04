@@ -118,6 +118,7 @@
       <Link>Linked\XModem.cs</Link>
     </Compile>
     <Compile Include="Common.cs" />
+    <Compile Include="ComPort.cs" />
     <Compile Include="Config.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +134,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RFD900.cs" />
     <Compile Include="RFDLib\Array.cs" />
+    <Compile Include="RFDLib\Collections.cs" />
+    <Compile Include="RFDLib\GUI\Settings.cs" />
+    <Compile Include="RFDLib\IO\ATCommand.cs" />
+    <Compile Include="RFDLib\IO\SerialPort\SerialPort.cs" />
+    <Compile Include="RFDLib\RFDLib.cs" />
     <Compile Include="RFDLib\Text.cs" />
     <Compile Include="Rssi.cs">
       <SubType>UserControl</SubType>
@@ -228,6 +234,9 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="Resources\RFDSiK V3.00 rfd900x.bin" />
+    <EmbeddedResource Include="Resources\RFDSiK V3.01 rfd900x.bin" />
+    <EmbeddedResource Include="Resources\RFDSiK V3.08 rfd900ux.bin" />
     <None Include="Resources\Sik.psd" />
   </ItemGroup>
   <ItemGroup>

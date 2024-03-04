@@ -87,6 +87,7 @@
                 Raw MAVLink website url (wss:// for https)<br />
                 <input type="text" id="wsuri" @bind="wsuri" style="width: 350px;" /><br />
                 <button @onclick="wsconnect">Connect</button>
+                <button @onclick="serialconnect">Serial Port</button>
             </div>
         </div>
     </div>
@@ -120,7 +121,7 @@
                 }
             </tbody>
         }
-    </table>
+    </table>  
 </div>
 
 @functions {
@@ -184,6 +185,7 @@
     string wsuri { get; set; } = "ws://localhost:56781/websocket/raw";
     bool pageloadvisible = true;
 
+    static Websocket Instance;
 
     private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
 
@@ -194,6 +196,8 @@
 
         init = false;
 
+        Instance = this;
+
         Console.WriteLine("OnInitialized  Done");
     }
 
@@ -201,11 +205,42 @@
 
     //protected WebSocketHelper WebSocketHelper1;
 
+    public async Task serialconnect()
+    {
+        pageloadvisible = false;
+        running = false;
+        StateHasChanged();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
+serial.requestPort()
+    .then(port => { 
+        port.connect().then(()=>{
+        console.log('connected');
+        window.serialport = port;
+        port.onReceive = (data) => { DotNet.invokeMethodAsync('wasm', 'ProcessPacketStatic', '', data);}
+        });     
+    });
+" }).ConfigureAwait(false);
+
+        mavbasestream.ReadBufferUpdate += (sender, i) => { };
+        mavbasestream.WriteCallback += async (sender, bytes) =>
+        {
+            if (bytes.Count() == 0)
+                return;
+            await JS.InvokeAsync<string>("window.serialport.send", bytes.ToArray());
+        };
+
+
+        JSRuntime.InvokeAsync<object>("startChart");
+
+        StateHasChanged();
+    }
+
     public async Task wsconnect()
     {
-        
-                ClientWebSocket webSocket = new ClientWebSocket();
-                Console.WriteLine(wsuri);
+
+        ClientWebSocket webSocket = new ClientWebSocket();
+        Console.WriteLine(wsuri);
         await webSocket.ConnectAsync(new Uri(wsuri), CancellationToken.None).ContinueWith(async (a) =>
     {
         pageloadvisible = false;
@@ -213,22 +248,22 @@
         ArraySegment<byte>
             bytesReceived = new ArraySegment<byte>
                 (new byte[1024]);
-                Toaster.Info(webSocket.State.ToString());
+        Toaster.Info(webSocket.State.ToString());
         while (webSocket.State == WebSocketState.Open)
         {
             //Console.WriteLine("webSocket.ReceiveAsync");
             await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
 
-            ProcessPacket("", bytesReceived.Array.ToArray());
+            this.ProcessPacket("", bytesReceived.Array.ToArray());
         }
     });
 
 
-                        mavbasestream.ReadBufferUpdate += (sender, i) => { };
-                        mavbasestream.WriteCallback += async (sender, bytes) => {  await webSocket.SendAsync(new ArraySegment<byte>
-                            (bytes.ToArray()), WebSocketMessageType.Binary, true, CancellationToken.None); };
+        mavbasestream.ReadBufferUpdate += (sender, i) => { };
+        mavbasestream.WriteCallback += async (sender, bytes) => {  await webSocket.SendAsync(new ArraySegment<byte>
+            (bytes.ToArray()), WebSocketMessageType.Binary, true, CancellationToken.None); };
 
-                            
+
         //JSRuntime.InvokeAsync<object>("initWebSocket", wsuri);
 
         JSRuntime.InvokeAsync<object>("startChart");
@@ -239,30 +274,30 @@
         /*
     private void WsOnError(string obj)
     {
-        SpeechSynthesis.Speak(obj);
-        Toaster.Error(obj);
-        StateHasChanged();
+    SpeechSynthesis.Speak(obj);
+    Toaster.Error(obj);
+    StateHasChanged();
     }
 
     private void WsOnMessage(BwsMessage obj)
     {
-        ProcessPacket("", obj.MessageBinary);
+    ProcessPacket("", obj.MessageBinary);
     }
 
     private void WsOnStateChange(short obj)
     {
-        if (WebSocketHelper1.bwsState == BwsState.Open)
-        {
-            pageloadvisible = false;
-        }
-        else
+    if (WebSocketHelper1.bwsState == BwsState.Open)
+    {
+    pageloadvisible = false;
+    }
+    else
         {
 
-            pageloadvisible = true;
-        }
-        SpeechSynthesis.Speak(WebSocketHelper1.bwsState.ToString());
-        Toaster.Info(WebSocketHelper1.bwsState.ToString());
-        StateHasChanged();
+    pageloadvisible = true;
+    }
+    SpeechSynthesis.Speak(WebSocketHelper1.bwsState.ToString());
+    Toaster.Info(WebSocketHelper1.bwsState.ToString());
+    StateHasChanged();
     }
     */
 
@@ -270,12 +305,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Log("OnAfterRenderAsync");
-
         if (init)
             return;
 
-
+        Log("OnAfterRenderAsync");
 
         init = true;
 
@@ -297,6 +330,7 @@
             _hud.Height = (int)_canvasReference.Height;
         }
     }
+
     protected BECanvasComponent _canvasReference;
 
     protected override void OnParametersSet()
@@ -314,9 +348,13 @@
 
     }
 
+    [JSInvokable]
+    public static async void ProcessPacketStatic(string json, byte[] data = null)
+    {
+        Instance.ProcessPacket(json, data);
+    }
 
 
-    //[JSInvokable]
     public async void ProcessPacket(string json, byte[] data = null)
     {
         //Console.WriteLine(DateTime.Now + " JS to C# " + json.ToArray().Length);
@@ -363,7 +401,7 @@
 
         mavbasestream.AppendBuffer(data);
 
-        /*
+                                                    /*
                                                     var pos = mav.logplaybackfile.BaseStream.Position;
 
                                                     mav.logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
@@ -379,7 +417,7 @@
                                                     mav.logplaybackfile.BaseStream.Seek(pos, SeekOrigin.Begin);
 
                                                     mav.logreadmode = true;
-                                                    */
+        */
         //Console.WriteLine("open {0} btr {1} type {2} type {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
 
         var check1 = DateTime.Now;
@@ -575,8 +613,11 @@
         // once a second
         if (second != DateTime.Now.Second)
         {
-            second = DateTime.Now.Second;
-            StateHasChanged();
+            if (mode == modes.map)
+            {
+                second = DateTime.Now.Second;
+                StateHasChanged();
+            }
         }
 
         return true;

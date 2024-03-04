@@ -33,7 +33,7 @@ public partial class MAVLink
         /// <summary>
         /// Default value of parameter as a double, readonly, NaN if not available
         /// </summary>
-        public readonly decimal? default_value = null;
+        public readonly double? default_value = null;
 
         private MAV_PARAM_TYPE _typeap = 0;
         public MAV_PARAM_TYPE TypeAP {
@@ -82,7 +82,7 @@ public partial class MAVLink
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="wiretype"></param>
-        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype, decimal? _default_value = null)
+        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype, double? _default_value = null)
         {
             Name = name;
             Type = wiretype;
@@ -97,7 +97,7 @@ public partial class MAVLink
         /// <param name="inputwire"></param>
         /// <param name="wiretype"></param>
         /// <param name="typeap"></param>
-        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap, decimal? _default_value = null)
+        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap, double? _default_value = null)
         {
             Name = name;
             Type = wiretype;
@@ -137,7 +137,7 @@ item.float_value
                         }
                         catch
                         {
-                            return (double)float_value;
+                            return Math.Round((double)float_value, 7);
                         }
                     }
             }
