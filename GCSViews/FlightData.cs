@@ -3102,13 +3102,13 @@ namespace MissionPlanner.GCSViews
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
@@ -4725,13 +4725,13 @@ namespace MissionPlanner.GCSViews
 
                 GStreamer.StopAll();
 
-                GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     GStreamerUI.DownloadGStreamer();
 
-                    if (!GStreamer.gstlaunchexists)
+                    if (!GStreamer.GstLaunchExists)
                     {
                         return;
                     }
@@ -4748,7 +4748,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                GStreamer.Stop(null);
+                GStreamer.StopAll();
             }
         }
 
