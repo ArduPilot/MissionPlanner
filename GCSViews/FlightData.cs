@@ -42,6 +42,7 @@ namespace MissionPlanner.GCSViews
         public static FlightData instance;
         public static GMapOverlay kmlpolygons;
         public static HUD myhud;
+        public static readonly GStreamer hudGStreamer = new GStreamer();
         public static myGMAP mymap;
         public static bool threadrun;
         public SplitContainer MainHcopy;
@@ -3082,12 +3083,12 @@ namespace MissionPlanner.GCSViews
 
         private void GStreamerStopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            hudGStreamer.Stop();
         }
 
         private void HereLinkVideoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            hudGStreamer.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -3114,7 +3115,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            GStreamer.StartA(url);
+            GCSViews.FlightData.hudGStreamer.StartA(url);
         }
 
         private void hud_UserItem(object sender, EventArgs e)
@@ -4723,7 +4724,7 @@ namespace MissionPlanner.GCSViews
             {
                 Settings.Instance["gstreamer_url"] = url;
 
-                GStreamer.StopAll();
+                hudGStreamer.Stop();
 
                 GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
@@ -4739,7 +4740,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    GStreamer.StartA(url);
+                    hudGStreamer.StartA(url);
                 }
                 catch (Exception ex)
                 {
@@ -4748,7 +4749,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                GStreamer.StopAll();
+                hudGStreamer.Stop();
             }
         }
 
