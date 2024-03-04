@@ -1,4 +1,4 @@
-﻿#if !LIB
+#if !LIB
 // XXX: We need both the System.Drawing.Bitmap from System.Drawing and MissionPlanner.Drawing
 extern alias Drawing;
 using MPBitmap = Drawing::System.Drawing.Bitmap;
@@ -82,10 +82,25 @@ namespace MissionPlanner
             }
         }
 
-        private void GimbalVideoControl_Disposed(object sender, System.EventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            _stream.OnNewImage -= RenderFrame;
-            _stream.Stop();
+            if (disposing)
+            {
+                _stream.OnNewImage -= RenderFrame;
+                _stream.Stop();
+
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        private void videoStreamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //_stream.Start("rtspsrc location=rtsp://192.168.144.25:8554/main.264 latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
+            _stream.Start("videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
         }
     }
 
