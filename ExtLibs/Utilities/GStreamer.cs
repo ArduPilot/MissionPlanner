@@ -30,6 +30,9 @@ namespace MissionPlanner.Utilities
             remove { _onNewImage -= value; }
         }
 
+        private bool threadShouldRun = true;
+        private Thread _backgroundWorker;
+
 #pragma warning disable IDE1006 // Naming Styles
 
         public static class NativeMethods
@@ -1161,13 +1164,13 @@ namespace MissionPlanner.Utilities
         }
 
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
-        public Thread StartA(string stringpipeline)
+        public Thread Start(string stringpipeline)
         {
-            var th = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
+            Stop();
+            _backgroundWorker = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
+            _backgroundWorker.Start(stringpipeline);
 
-            th.Start(stringpipeline);
-
-            return th;
+            return _backgroundWorker;
         }
 
 
@@ -1256,7 +1259,7 @@ namespace MissionPlanner.Utilities
             int trys = 0;
             GstAppSinkCallbacks callbacks2 = callbacks;
 
-            run = true;
+            threadShouldRun = true;
 
             // not using appsink
             if (appsink == IntPtr.Zero && running)
@@ -1264,18 +1267,18 @@ namespace MissionPlanner.Utilities
                 /* Wait until error or EOS */
                 NativeMethods.gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE,
                     (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
-                run = false;
+                threadShouldRun = false;
 
             }
             else {
                 var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, 0,
                      (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
                 if (msg != IntPtr.Zero)
-                    run = false;
+                    threadShouldRun = false;
             }
 
             log.Info("start frame loop gst_app_sink_is_eos");
-            while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
+            while (threadShouldRun && !NativeMethods.gst_app_sink_is_eos(appsink))
             {
                 try
                 {
@@ -1469,11 +1472,10 @@ namespace MissionPlanner.Utilities
         public static string BundledPath { get; set; }
         public static bool Android { get; set; }
 
-        private bool run = true;
         public void Stop()
         {
-            run = false;
-            Thread.Sleep(50);
+            threadShouldRun = false;
+            _backgroundWorker?.Join();
         }
 
         public static void DownloadGStreamer(Action<int, string> status = null)
