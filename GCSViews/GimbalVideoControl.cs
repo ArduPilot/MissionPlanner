@@ -24,7 +24,7 @@ namespace MissionPlanner
         {
             InitializeComponent();
 
-            GStreamer.onNewImage += RenderFrame;
+            GStreamer.OnNewImage += RenderFrame;
 
             loadPreferences();
         }
@@ -78,7 +78,7 @@ namespace MissionPlanner
 
         private void GimbalVideoControl_Disposed(object sender, System.EventArgs e)
         {
-            MissionPlanner.Utilities.GStreamer.onNewImage -= RenderFrame;
+            MissionPlanner.Utilities.GStreamer.OnNewImage -= RenderFrame;
         }
     }
 
