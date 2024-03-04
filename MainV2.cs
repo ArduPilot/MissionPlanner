@@ -1,4 +1,4 @@
-﻿#if !LIB
+#if !LIB
 extern alias Drawing;
 #endif
 
@@ -3332,22 +3332,22 @@ namespace MissionPlanner
             };
             AutoConnect.NewVideoStream += (sender, gststring) =>
             {
-                MainV2.instance.BeginInvoke((Action)delegate
+                MainV2.instance.BeginInvoke((Action) delegate
                 {
                     try
                     {
                         log.Info("AutoConnect.NewVideoStream " + gststring);
-                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                        GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                        if (!GStreamer.gstlaunchexists)
+                        if (!GStreamer.GstLaunchExists)
                         {
                             if (CustomMessageBox.Show(
                                     "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
                                     "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                                (int)System.Windows.Forms.DialogResult.Yes)
+                                (int) System.Windows.Forms.DialogResult.Yes)
                             {
                                 GStreamerUI.DownloadGStreamer();
-                                if (!GStreamer.gstlaunchexists)
+                                if (!GStreamer.GstLaunchExists)
                                 {
                                     return;
                                 }
@@ -3395,7 +3395,7 @@ namespace MissionPlanner
                 }
             };
 
-            GStreamer.onNewImage += (sender, image) =>
+            GStreamer.OnNewImage += (sender, image) =>
             {
                 try
                 {
@@ -3753,9 +3753,9 @@ namespace MissionPlanner
 
                 if (cmds.ContainsKey("gstream"))
                 {
-                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                    GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                    if (!GStreamer.gstlaunchexists)
+                    if (!GStreamer.GstLaunchExists)
                     {
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
