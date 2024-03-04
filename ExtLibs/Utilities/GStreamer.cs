@@ -23,8 +23,8 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static event EventHandler<Bitmap> _onNewImage;
-        public static event EventHandler<Bitmap> OnNewImage
+        private event EventHandler<Bitmap> _onNewImage;
+        public event EventHandler<Bitmap> OnNewImage
         {
             add { _onNewImage += value; }
             remove { _onNewImage -= value; }
@@ -1161,7 +1161,7 @@ namespace MissionPlanner.Utilities
         }
 
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
-        public static Thread StartA(string stringpipeline)
+        public Thread StartA(string stringpipeline)
         {
             var th = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
 
@@ -1172,7 +1172,7 @@ namespace MissionPlanner.Utilities
 
 
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
-        static void ThreadStart(object datao)
+        void ThreadStart(object datao)
         {
             string stringpipeline = (string)datao;
             int argc = 1;
@@ -1331,18 +1331,14 @@ namespace MissionPlanner.Utilities
 
         ~GStreamer()
         {
-            StopAll();
+            Stop();
         }
 
         static GStreamer()
         {
-            UdpPort = 5600;
-            OutputPort = 1235;
-
             var dataDirectory = Settings.GetDataDirectory();
             var gstdir = Path.Combine(dataDirectory, @"gstreamer\1.0\x86_64\bin\libgstreamer-1.0-0.dll");
 
-       
             SetGSTPath(gstdir);
         }
 
@@ -1469,16 +1465,12 @@ namespace MissionPlanner.Utilities
             return "";
         }
 
-        public static int UdpPort { get; set; }
-
-        public static int OutputPort { get; set; }
-
         // custom search path for .so
         public static string BundledPath { get; set; }
         public static bool Android { get; set; }
 
-        private static bool run = true;
-        public static void StopAll()
+        private bool run = true;
+        public void Stop()
         {
             run = false;
             Thread.Sleep(50);
