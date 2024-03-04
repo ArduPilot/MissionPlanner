@@ -49,7 +49,7 @@ namespace MissionPlanner.Controls
                                     but.Size = TextRenderer.MeasureText(but.Text + "   ", but.Font);
                                     but.Click += delegate (object o, EventArgs args)
                                     {
-                                        stream.StartA(String.Format(
+                                        stream.Start(String.Format(
                                             "rtspsrc location=rtsp://{0}:{1}{2}?width={3}&height={4} ! application/x-rtp ! rtpjpegdepay ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                                             zeroconfHost.IPAddress, service.Value.Port, service.Value.PTR, width,
                                             height));
