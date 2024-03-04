@@ -3469,7 +3469,7 @@ protected override void OnLoad(EventArgs e)
                             }
                         }
 
-                        GCSViews.FlightData.hudGStreamer.StartA(gststring);
+                        GCSViews.FlightData.hudGStreamer.Start(gststring);
                     }
                     catch (Exception ex)
                     {
@@ -3876,7 +3876,7 @@ protected override void OnLoad(EventArgs e)
                                 {
                                     try
                                     {
-                                        var st = GCSViews.FlightData.hudGStreamer.StartA(cmds["gstream"]);
+                                        var st = GCSViews.FlightData.hudGStreamer.Start(cmds["gstream"]);
                                         if (st == null)
                                         {
                                             // prevent spam
