@@ -5095,6 +5095,36 @@
   <data name="splitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
+  <data name="BTN_tunning_dropout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BTN_tunning_dropout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="BTN_tunning_dropout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 17</value>
+  </data>
+  <data name="BTN_tunning_dropout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BTN_tunning_dropout.Text" xml:space="preserve">
+    <value>Pop Out</value>
+  </data>
+  <data name="BTN_tunning_dropout.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;BTN_tunning_dropout.Name" xml:space="preserve">
+    <value>BTN_tunning_dropout</value>
+  </data>
+  <data name="&gt;&gt;BTN_tunning_dropout.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BTN_tunning_dropout.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BTN_tunning_dropout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="zg1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -5120,7 +5150,7 @@
     <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;zg1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
