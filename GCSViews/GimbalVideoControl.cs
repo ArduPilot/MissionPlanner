@@ -20,11 +20,13 @@ namespace MissionPlanner
 
         private GimbalControlPreferences preferences = new GimbalControlPreferences();
 
+        private readonly GStreamer _stream = new GStreamer();
+
         public GimbalVideoControl()
         {
             InitializeComponent();
 
-            GStreamer.OnNewImage += RenderFrame;
+            _stream.OnNewImage += RenderFrame;
 
             loadPreferences();
         }
@@ -78,7 +80,8 @@ namespace MissionPlanner
 
         private void GimbalVideoControl_Disposed(object sender, System.EventArgs e)
         {
-            MissionPlanner.Utilities.GStreamer.OnNewImage -= RenderFrame;
+            _stream.OnNewImage -= RenderFrame;
+            _stream.Stop();
         }
     }
 

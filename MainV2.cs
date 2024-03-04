@@ -2149,7 +2149,7 @@ namespace MissionPlanner
             Warnings.WarningEngine.Stop();
 
             log.Info("stop GStreamer");
-            GStreamer.StopAll();
+            GCSViews.FlightData.hudGStreamer.Stop();
 
             log.Info("closing vlcrender");
             try
@@ -3469,7 +3469,7 @@ protected override void OnLoad(EventArgs e)
                             }
                         }
 
-                        GStreamer.StartA(gststring);
+                        GCSViews.FlightData.hudGStreamer.StartA(gststring);
                     }
                     catch (Exception ex)
                     {
@@ -3506,7 +3506,7 @@ protected override void OnLoad(EventArgs e)
                 }
             };
 
-            GStreamer.OnNewImage += (sender, image) =>
+            GCSViews.FlightData.hudGStreamer.OnNewImage += (sender, image) =>
             {
                 try
                 {
@@ -3876,7 +3876,7 @@ protected override void OnLoad(EventArgs e)
                                 {
                                     try
                                     {
-                                        var st = GStreamer.StartA(cmds["gstream"]);
+                                        var st = GCSViews.FlightData.hudGStreamer.StartA(cmds["gstream"]);
                                         if (st == null)
                                         {
                                             // prevent spam
