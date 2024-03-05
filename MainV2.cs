@@ -1831,7 +1831,7 @@ namespace MissionPlanner
 
                                     can.NodeAdded += (id, status) =>
                                     {
-                                        Console.WriteLine(id + " Node status seen");
+                                        Console.WriteLine(id + " Node status seen - request Node Info");
                                         // get node info
                                         DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
 
@@ -1861,6 +1861,8 @@ namespace MissionPlanner
                                         var devicename = can.GetNodeName((byte)node.Key);
                                         var githash = can.NodeInfo[node.Key].software_version.vcs_commit.ToString("X");
                                         //Version and githash
+
+                                        log.Info(node.ToJSON());
 
                                         var option = APFirmware.Manifest.Firmware.Where(a =>
                                             a.MavFirmwareVersionType == APFirmware.RELEASE_TYPES.OFFICIAL.ToString() &&
