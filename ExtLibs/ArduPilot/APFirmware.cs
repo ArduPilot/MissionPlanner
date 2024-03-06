@@ -189,6 +189,7 @@ namespace MissionPlanner.ArduPilot
             // match the board description
             var ans = Manifest.Firmware.Where(a => (
                 a.Platform?.ToLower() == device.board?.ToLower() ||
+                a.Platform?.ToLower().Replace("primary", "secondary") == device.board?.ToLower() ||
                 a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())));
 
             if (boardidcheck)
