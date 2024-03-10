@@ -382,7 +382,11 @@ namespace MissionPlanner
 
             // generic status report screen
             MAVLinkInterface.CreateIProgressReporterDialogue += title =>
-                new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+            {
+                var ret = new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+                ThemeManager.ApplyThemeTo(ret);
+                return ret;
+            };
 
             Console.WriteLine("Setup proxy");
             try
