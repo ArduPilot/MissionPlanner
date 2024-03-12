@@ -1405,8 +1405,11 @@ namespace MissionPlanner.GCSViews
                 {
                     if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
                     wpRadius = double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt;
-                    if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
-                    loiterRadius = double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt;
+                    if (TXT_loiterrad.Visible)
+                    {
+                        if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
+                        loiterRadius = double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt;
+                    }
                 }
                 catch (FormatException)
                 {
@@ -6339,18 +6342,21 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 try
                 {
-                    TXT_loiterrad.Enabled = false;
+                    TXT_loiterrad.Visible = false;
+                    label5.Visible = false;
                     if (param.ContainsKey("LOITER_RADIUS"))
                     {
                         TXT_loiterrad.Text =
                             (((double) param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
-                        TXT_loiterrad.Enabled = true;
+                        TXT_loiterrad.Visible = true;
+                        label5.Visible = true;
                     }
                     else if (param.ContainsKey("WP_LOITER_RAD"))
                     {
                         TXT_loiterrad.Text =
                             (((double) param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
-                        TXT_loiterrad.Enabled = true;
+                        TXT_loiterrad.Visible = true;
+                        label5.Visible = true;
                     }
 
                     log.Info("param LOITER_RADIUS " + TXT_loiterrad.Text);
