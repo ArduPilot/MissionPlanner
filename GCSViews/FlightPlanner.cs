@@ -109,6 +109,9 @@ namespace MissionPlanner.GCSViews
         private bool grid;
         private List<int> groupmarkers = new List<int>();
         private List<List<Locationwp>> history = new List<List<Locationwp>>();
+        private List<Locationwp> wpCommandList = new List<Locationwp>();
+        private List<Locationwp> fenceCommandList = new List<Locationwp>();
+        private List<Locationwp> rallyCommandList = new List<Locationwp>();
         private bool isMouseClickOffMenu;
         private bool isMouseDown;
         private bool isMouseDraging;
@@ -1419,15 +1422,26 @@ namespace MissionPlanner.GCSViews
             }
             try
             {
+                var commandlist = GetCommandList();
                 if (isEditable)
                 {
-                    var commandlist = GetCommandList();
-                    overlay.CreateOverlay(home, commandlist, wpRadius, loiterRadius, CurrentState.multiplieralt);
+                    // Store command list for waypoints, fences, and rally points
+                    if (overlayId == "wp") wpCommandList = commandlist;
+                    else if (overlayId == "fence") fenceCommandList = commandlist;
+                    else if (overlayId == "rally") rallyCommandList = commandlist;
                 }
                 else
                 {
-                    overlay.CreateOverlay(home, points.Select(a => (Locationwp)a).ToList(), wpRadius, loiterRadius, CurrentState.multiplieralt);
+                    if (MainV2.comPort.BaseStream.IsOpen) commandlist = points.Select(a => (Locationwp)a).ToList();
+                    else
+                    {
+                        // Use the stored command list if not connected to vehicle
+                        if (overlayId == "wp") commandlist = wpCommandList;
+                        else if (overlayId == "fence") commandlist = fenceCommandList;
+                        else if (overlayId == "rally") commandlist = rallyCommandList;
+                    }
                 }
+                overlay.CreateOverlay(home, commandlist, wpRadius, loiterRadius, CurrentState.multiplieralt);
             }
             catch (FormatException)
             {
@@ -2103,16 +2117,22 @@ namespace MissionPlanner.GCSViews
             if (rally.Count() > 0) MainMap.Overlays.Remove(rally.First());
 
             // update the displayed items
+            // if connected to a vehicle, display the vehicle's items; otherwise, display local items
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
                 BUT_Add.Visible = false;
-                processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp) a.Value).ToList());
-
+                if (MainV2.comPort.BaseStream.IsOpen)
+                    processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp) a.Value).ToList());
+                else
+                    processToScreen(rallyCommandList);
             }
             else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
                 BUT_Add.Visible = false;
-                processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp) a.Value).ToList());
+                if (MainV2.comPort.BaseStream.IsOpen)
+                    processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp) a.Value).ToList());
+                else
+                    processToScreen(fenceCommandList);
 
                 Common.MessageShowAgain("FlightPlan Fence", "Please use the Polygon drawing tool to draw " +
                                                             "Inclusion and Exclusion areas (round circle to the left)," +
@@ -2122,7 +2142,16 @@ namespace MissionPlanner.GCSViews
             else
             {
                 BUT_Add.Visible = true;
-                processToScreen(MainV2.comPort.MAV.wps.Select(a => (Locationwp) a.Value).ToList());
+                if (MainV2.comPort.BaseStream.IsOpen)
+                    processToScreen(MainV2.comPort.MAV.wps.Select(a => (Locationwp) a.Value).ToList());
+                else
+                {
+                    if (wpCommandList.Count > 0)
+                        // insert a dummy home point
+                        wpCommandList.Insert(0, new Locationwp().Set(0, 0, 0, 0));
+
+                    processToScreen(wpCommandList);
+                }
             }
 
             writeKML();
