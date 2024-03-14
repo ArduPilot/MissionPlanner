@@ -1,43 +1,32 @@
 using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AltitudeAngelWings.Model;
 
 namespace AltitudeAngelWings.Service.Messaging
 {
-    public class MessagesService : IMessagesService, IDisposable
+    public class MessagesService : IMessagesService
     {
-        private readonly CompositeDisposable _disposer = new CompositeDisposable();
+        private readonly IMessageDisplay _messageDisplay;
 
         public MessagesService(IMessageDisplay messageDisplay)
         {
-            Messages = new ObservableProperty<Message>(0);
-            _disposer.Add(Messages);
-            _disposer.Add(Messages
-                .Do(messageDisplay.AddMessage)
-                .SelectMany(m => Observable.Interval(TimeSpan.FromMilliseconds(100))
-                    .SkipWhile(i => !m.HasExpired())
-                    .Select(i => m))
-                .Subscribe(messageDisplay.RemoveMessage));
+            _messageDisplay = messageDisplay;
         }
 
-        public ObservableProperty<Message> Messages { get; }
-
-        public Task AddMessageAsync(Message message) => Task.Factory.StartNew(() => Messages.Value = message);
-
-        public void Dispose()
+        public Task AddMessageAsync(Message message) => Task.Factory.StartNew(async () =>
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
+            try
             {
-                _disposer?.Dispose();
+                _messageDisplay.AddMessage(message);
+                do
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
+                } while (!message.HasExpired());
             }
-        }
+            finally
+            {
+                _messageDisplay.RemoveMessage(message);
+            }
+        });
     }
 }

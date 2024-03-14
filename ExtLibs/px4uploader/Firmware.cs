@@ -178,12 +178,8 @@ namespace px4uploader
 
         public int extf_crc(int padlen)
         {
-            uint state = __crc32(extf_imagebyte, 0);
+            uint state = __crc32(extf_imagebyte.Take(padlen).ToArray(), 0);
 
-            for (int i = extf_imagebyte.Length; i < (padlen - 1); i += 4)
-            {
-                state = __crc32(crcpad, state);
-            }
             return (int)state;
         }
     }

@@ -173,7 +173,6 @@ namespace MissionPlanner.GCSViews
                     AddBackstageViewPage(typeof(ConfigHWCompass), rm.GetString("backstageViewPagecompass.Text"),
                         isConnected && gotAllParams, mand);
             }
-
             if (MainV2.DisplayConfiguration.displayRadioCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigRadioInput), rm.GetString("backstageViewPageradio.Text"), isConnected && gotAllParams, mand);
@@ -182,6 +181,10 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigRadioOutput), "Servo Output", isConnected && gotAllParams, mand);
 
+            }
+            if (MainV2.DisplayConfiguration.displaySerialPorts)
+            {
+                AddBackstageViewPage(typeof(ConfigSerial), rm.GetString("backstageViewPageSerial.Text"), isConnected && gotAllParams, mand);
             }
             if (MainV2.DisplayConfiguration.displayEscCalibration)
             {

@@ -56,15 +56,22 @@ namespace AltitudeAngelWings.Plugin
                 if (!_parent.Visible) return;
                 _parent.SuspendLayout();
                 var labels = GetMessageLabels();
+                var removed = false;
                 foreach (var label in labels)
                 {
                     if (label.Tag != message) continue;
                     _parent.Controls.Remove(label);
                     labels.Remove(label);
                     label.Dispose();
+                    removed = true;
                     break;
                 }
-                LayoutLabels(labels);
+
+                if (removed)
+                {
+                    LayoutLabels(labels);
+                }
+
                 _parent.ResumeLayout();
             });
         }
@@ -110,7 +117,7 @@ namespace AltitudeAngelWings.Plugin
             }
         }
 
-        private void LayoutLabels(ICollection<Label> labels)
+        private void LayoutLabels(IEnumerable<Label> labels)
         {
             var totalHeight = 0;
             foreach (var label in labels)

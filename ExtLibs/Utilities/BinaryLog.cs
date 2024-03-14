@@ -7,6 +7,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 using uint8_t = System.Byte;
+using System.Diagnostics;
 
 namespace MissionPlanner.Utilities
 {
@@ -157,6 +158,19 @@ namespace MissionPlanner.Utilities
                                               {
                                                   if (a.IsNumber())
                                                       return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
+                                                  else if (a is System.Byte[])
+                                                  {
+                                                      var str = Encoding.ASCII.GetString(a as byte[]).Trim('\0');
+                                                      // Escape \ as \\
+                                                      str = str.Replace("\\", "\\\\");
+                                                      // Escape certain whitespace characters
+                                                      str = str.Replace("\n", "\\n");
+                                                      str = str.Replace("\r", "\\r");
+                                                      str = str.Replace("\t", "\\t");
+                                                      // Escape all other non-printable characters
+                                                      str = str.Select(c => (c < 32 || c > 127) ? $"\\x{Convert.ToByte(c):X2}" : $"{c}").Aggregate((x, y) => $"{x}{y}");
+                                                      return str;
+                                                  }
                                                   else
                                                       return a?.ToString();
                                               })) + "\r\n";

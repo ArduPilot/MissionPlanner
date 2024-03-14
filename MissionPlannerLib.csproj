@@ -471,6 +471,11 @@
    <Compile Include="SikRadio\ISikRadioForm.cs" />
    <Compile Include="SikRadio\RFD900.cs" />
    <Compile Include="SikRadio\RFDLib\Array.cs" />
+   <Compile Include="SikRadio\RFDLib\Collections.cs" />
+   <Compile Include="SikRadio\RFDLib\GUI\Settings.cs" />
+   <Compile Include="SikRadio\RFDLib\IO\ATCommand.cs" />
+   <Compile Include="SikRadio\RFDLib\IO\SerialPort\SerialPort.cs" />
+   <Compile Include="SikRadio\RFDLib\RFDLib.cs" />
    <Compile Include="SikRadio\RFDLib\Text.cs" />
  </ItemGroup>
 
@@ -545,7 +550,6 @@
    <ProjectReference Include="ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
    <ProjectReference Include="ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
    <ProjectReference Include="ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
-   <ProjectReference Include="ExtLibs\NetDFULib\NetDFULib.csproj" />
    <ProjectReference Include="ExtLibs\netDxf\netDxf.csproj" />
    <ProjectReference Include="ExtLibs\OSDConfigurator\OSDConfigurator.csproj" />
    <ProjectReference Include="ExtLibs\ProjNet\ProjNET.csproj" />

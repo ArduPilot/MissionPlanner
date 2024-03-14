@@ -1736,8 +1736,13 @@ namespace MissionPlanner.GCSViews
                     }
                     if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
                     {
+                        var target_system = (byte)MainV2.comPort.sysidcurrent;
+                        if (target_system == 0) {
+                            log.Info("Not toggling safety on sysid 0");
+                            return;
+                        }
                         var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
-                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = (byte)MainV2.comPort.sysidcurrent };
+                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = target_system };
                         MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
                         ((Control)sender).Enabled = true;
                         return;
@@ -3717,8 +3722,16 @@ namespace MissionPlanner.GCSViews
 
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
-                            // dont holdinvalidation here
+                            ////Check if we have more than one vehicle connected and disable CHK_maprotation if so
+                            if (MainV2.comPort.MAVlist.Count > 1)
+                            {
+                                Settings.Instance["CHK_maprotation"] = "false";
+                                //And set maprotation to zero
+                                BeginInvoke((Action)delegate { gMapControl1.Bearing = 0; });
+                            }
+                            //gMapControl1.HoldInvalidation = true;
                             setMapBearing();
+
                         }
 
                         if (route == null)
@@ -4469,14 +4482,15 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 50,
-                Height = 50,
+                Width = MainV2.instance.Width - 100,
+                Height = MainV2.instance.Height - 100,
                 Text = "Display This",
-                AutoSize = true,
+                AutoSize = false,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
                 MinimizeBox = false,
-                AutoScroll = true
+                AutoScroll = true,
+                FormBorderStyle = FormBorderStyle.FixedDialog
 
             };
             ThemeManager.ApplyThemeTo(selectform);
@@ -7031,7 +7045,14 @@ namespace MissionPlanner.GCSViews
                 if (!Squawk_nud.Focused)
                 {
                     Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
-                    Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.xpdr_mode_A_squawk_code;
+                    try
+                    {
+                        Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.xpdr_mode_A_squawk_code;
+                        // if the value is bad, we need to be able to reset it, so silent fail
+                    }
+                    catch
+                    {
+                    }
                     Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
                 }
 

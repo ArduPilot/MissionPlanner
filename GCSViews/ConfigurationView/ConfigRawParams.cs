@@ -263,14 +263,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             bool enable = temp.Any(a => a.EndsWith("_ENABLE"));
 
-            if (enable)
-            {
-                CustomMessageBox.Show(
-                    "You have changed an Enable parameter. You may need to do a full param refresh to show all params",
-                    "Params");
-            }
-
             int error = 0;
+            bool reboot = false;
 
             foreach (string value in temp)
             {
@@ -283,7 +277,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     MainV2.comPort.setParam(value, (double)_changes[value]);
-
+                    //check if reboot required
+                    if (ParameterMetaDataRepository.GetParameterRebootRequired(value, MainV2.comPort.MAV.cs.firmware.ToString()))
+                    {
+                        reboot = true;
+                    }
                     try
                     {
                         // set control as well
@@ -326,6 +324,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
                 CustomMessageBox.Show("Parameters successfully saved.", "Saved");
 
+            //Check if reboot is required
+            if (reboot)
+            {
+               CustomMessageBox.Show("Reboot is required for some parameters to take effect.", "Reboot Required");
+            }
+
+            if (MainV2.comPort.MAV.param.TotalReceived != MainV2.comPort.MAV.param.TotalReported )
+            {
+                if (MainV2.comPort.MAV.cs.armed)
+                {
+                    CustomMessageBox.Show("The number of available parameters changed, until full param refresh is done, some parameters will not be available.", "Params");
+                    //Hack the number of reported params to keep params list available
+                    MainV2.comPort.MAV.param.TotalReported = MainV2.comPort.MAV.param.TotalReceived;
+                }
+                else
+                {
+                    CustomMessageBox.Show("The number of available parameters changed. A full param refresh will be done to show all params.", "Params");
+                    //Click on refresh button
+                    BUT_rerequestparams_Click(BUT_rerequestparams, null);
+                }
+            }
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)

@@ -22,6 +22,11 @@ namespace SikRadio
         {
             InitializeComponent();
 
+            SetupStreamWriter();
+        }
+
+        public static void SetupStreamWriter()
+        {
             if (sw == null)
                 sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
         }
@@ -79,13 +84,22 @@ namespace SikRadio
         {
             if (!_RunRxThread)
             {
-                var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
-                Session.PutIntoATCommandMode();
-                Session.Dispose();
-
-                _RunRxThread = true;
-                _RxThread = new Thread(RxWorker);
-                _RxThread.Start();
+                if (RFDLib.Utils.Retry(() =>
+                {
+                    var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
+                    var Result = Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND;
+                    Session.Dispose();
+                    return Result;
+                }, 3))
+                {
+                    _RunRxThread = true;
+                    _RxThread = new Thread(RxWorker);
+                    _RxThread.Start();
+                }
+                else
+                {
+                    MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to enter AT command mode.");
+                }
             }
         }
 
@@ -285,6 +299,14 @@ namespace SikRadio
             else
             {
                 cmd.Append(e.KeyChar);
+            }
+        }
+
+        public string Header
+        {
+            get
+            {
+                return "Terminal";
             }
         }
     }

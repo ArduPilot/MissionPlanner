@@ -42,7 +42,7 @@ namespace MissionPlanner
                         itemp.Cog = MAV.cs.groundcourse;
                         itemp.Target = MAV.cs.target_bearing;
                         itemp.Nav_bearing = MAV.cs.nav_bearing;
-                        itemp.Radius = MAV.cs.radius * CurrentState.multiplierdist;
+                        itemp.Radius = (float)CurrentState.fromDistDisplayUnit(MAV.cs.radius);
                         return null;
                     }
                     else if (item is GMapMarkerQuad)
@@ -76,7 +76,7 @@ namespace MissionPlanner
             {
                 return (new GMapMarkerPlane(MAV.sysid - 1, portlocation, MAV.cs.yaw,
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing,
-                    MAV.cs.radius * CurrentState.multiplierdist)
+                    (float)CurrentState.toDistDisplayUnit(MAV.cs.radius))
                 {
                     ToolTipText = ArduPilot.Common.speechConversion(MAV, "" + Settings.Instance["mapicondesc"]),
                     ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always,

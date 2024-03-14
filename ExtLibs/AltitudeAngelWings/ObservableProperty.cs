@@ -7,7 +7,7 @@ namespace AltitudeAngelWings
 {
     public class ObservableProperty<T> : INotifyPropertyChanged, IObservable<T>, IDisposable
     {
-        private readonly ISubject<T> _subject;
+        private readonly ReplaySubject<T> _subject;
         private T _value;
 
         public ObservableProperty()
@@ -68,7 +68,7 @@ namespace AltitudeAngelWings
         {
             if (disposing)
             {
-                ((IDisposable)_subject)?.Dispose();
+                _subject?.Dispose();
             }
         }
 

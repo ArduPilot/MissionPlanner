@@ -720,6 +720,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
             Settings.Instance["CHK_maprotation"] = CHK_maprotation.Checked.ToString();
+            if (CHK_maprotation.Checked)
+            {
+                chk_shownofly.Checked = false;
+            }
             FlightData.instance.gMapControl1.Bearing = 0;
         }
 
@@ -987,6 +991,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+            if (chk_shownofly.Checked)
+            {
+                CHK_maprotation.Checked = false;
+            }
         }
 
         private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)

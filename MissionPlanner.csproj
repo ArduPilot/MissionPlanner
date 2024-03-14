@@ -276,6 +276,9 @@
       <DependentUpon>ConfigSecureAP.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSerial.resx">
+      <DependentUpon>ConfigSerial.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.uk.resx">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
     </EmbeddedResource>
@@ -868,6 +871,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigSecureAP.Designer.cs">
       <DependentUpon>ConfigSecureAP.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSerial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSerial.Designer.cs">
+      <DependentUpon>ConfigSerial.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.Designer.cs">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
     </Compile>
@@ -1013,7 +1022,11 @@
     <Compile Include="SikRadio\ISikRadioForm.cs" />
     <Compile Include="SikRadio\RFD900.cs" />
     <Compile Include="SikRadio\RFDLib\Array.cs" />
+    <Compile Include="SikRadio\RFDLib\Collections.cs" />
     <Compile Include="SikRadio\RFDLib\Text.cs" />
+    <Compile Include="SikRadio\RFDLib\GUI\Settings.cs" />
+    <Compile Include="SikRadio\RFDLib\IO\SerialPort\SerialPort.cs" />
+    <Compile Include="SikRadio\RFDLib\IO\ATCommand.cs" />
     <Compile Include="Splash.Designer.cs">
       <SubType>Form</SubType>
       <DependentUpon>Splash.cs</DependentUpon>
@@ -1567,6 +1580,7 @@
     <Compile Include="Plugin\PluginUI.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Radio\ComPort.cs" />
     <Compile Include="Radio\IHex.cs" />
     <Compile Include="Radio\Sikradio.cs">
       <SubType>UserControl</SubType>
@@ -5189,6 +5203,9 @@
     <None Include="Scripts\TAKEOFF.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SerialOptionRules.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -5242,6 +5259,6 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\ExtLibs\System.IO.Compression.dll $(ProjectDir)$(OutDir)</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)ExtLibs\System.IO.Compression.dll" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

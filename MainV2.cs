@@ -38,6 +38,7 @@ using System.Linq;
 using MissionPlanner.Joystick;
 using System.Net;
 using Newtonsoft.Json;
+using DroneCAN;
 
 namespace MissionPlanner
 {
@@ -974,6 +975,10 @@ namespace MissionPlanner
                 try
                 {
                     DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+                    //Force new view in case of saved view in config.xml 
+                    DisplayConfiguration.displayAdvancedParams = false;
+                    DisplayConfiguration.displayStandardParams = false;
+                    DisplayConfiguration.displayFullParamList = true;
                 }
                 catch
                 {
@@ -1754,6 +1759,130 @@ namespace MissionPlanner
 
                                 // check the first hit only
                                 break;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    });
+
+                // check for newer firmware - can peripheral
+                if (showui)
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            List<int> buses = new List<int> { 1, 2 };
+                            foreach (var bus in buses)
+                            {
+                                using (var port = new CommsInjection())
+                                {
+                                    var can = new DroneCAN.DroneCAN();
+                                    can.SourceNode = 127;
+
+                                    port.ReadBufferUpdate += (o, i) => { };
+                                    port.WriteCallback += (o, bytes) =>
+                                    {
+                                        var lines = ASCIIEncoding.ASCII.GetString(bytes.ToArray())
+                                            .Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                        foreach (var line in lines)
+                                        {
+                                            can.ReadMessageSLCAN(line);
+
+                                        }
+
+                                    };
+
+                                    // mavlink to slcan
+                                    var canref = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAN_FRAME, (m) =>
+                                    {
+                                        if (m.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME)
+                                        {
+                                            var canfd = false;
+                                            var pkt = (MAVLink.mavlink_can_frame_t)m.data;
+                                            var cf = new CANFrame(BitConverter.GetBytes(pkt.id));
+                                            var length = pkt.len;
+                                            var payload = new CANPayload(pkt.data);
+
+                                            var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
+                                                , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
+
+                                            port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
+                                        }
+                                        else if (m.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CANFD_FRAME)
+                                        {
+                                            var canfd = true;
+                                            var pkt = (MAVLink.mavlink_canfd_frame_t)m.data;
+                                            var cf = new CANFrame(BitConverter.GetBytes(pkt.id));
+                                            var length = pkt.len;
+                                            var payload = new CANPayload(pkt.data);
+
+                                            var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
+                                                , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
+
+                                            port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
+                                        }
+
+                                        return true;
+                                    }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+
+                                    can.NodeAdded += (id, status) =>
+                                    {
+                                        Console.WriteLine(id + " Node status seen - request Node Info");
+                                        // get node info
+                                        DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
+
+                                        var slcan = can.PackageMessageSLCAN((byte)id, 30, 0, gnireq);
+
+                                        can.WriteToStreamSLCAN(slcan);
+                                    };
+                                                       
+                                    // be invisible
+                                    can.NodeStatus = false;
+                                    can.StartSLCAN(port.BaseStream);
+
+                                    //start on bus
+                                    var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                                     (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0,
+                                     false);                                    
+
+                                    Thread.Sleep(5000);
+
+                                    // stop
+                                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                                     (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, 0, 0, 0, 0, 0, 0, 0,
+                                     false);
+
+                                    foreach (var node in can.NodeInfo)
+                                    {
+                                        var devicename = can.GetNodeName((byte)node.Key);
+                                        var githash = can.NodeInfo[node.Key].software_version.vcs_commit.ToString("X");
+                                        //Version and githash
+
+                                        log.Info(node.ToJSON());
+
+                                        var option = APFirmware.Manifest.Firmware.Where(a =>
+                                            a.MavFirmwareVersionType == APFirmware.RELEASE_TYPES.OFFICIAL.ToString() &&
+                                            a.VehicleType == "AP_Periph" &&
+                                            a.Format == "bin" &&
+                                            a.MavType == "CAN_PERIPHERAL" &&
+                                            a.MavFirmwareVersionMajor >= node.Value.software_version.major &&
+                                            a.MavFirmwareVersionMinor >= node.Value.software_version.minor &&
+                                            node.Value.software_version.major != 0 &&
+                                            node.Value.software_version.minor != 0 &&
+                                            devicename.EndsWith(a.Platform) &&
+                                            !a.GitSha.StartsWith(githash, StringComparison.InvariantCultureIgnoreCase)
+                                        ).FirstOrDefault();
+                                        if (option != default(APFirmware.FirmwareInfo))
+                                        {
+                                            Common.MessageShowAgain("New firmware", "New firmware for " + devicename + " " + option.MavFirmwareVersion + " " + option.GitSha + "\nUpdate via the dronecan screen");
+                                        }
+                                    }
+
+                                    MainV2.comPort.UnSubscribeToPacketType(canref);
                                 }
                             }
                         }
@@ -3309,36 +3438,39 @@ namespace MissionPlanner
             };
             AutoConnect.NewVideoStream += (sender, gststring) =>
             {
-                try
+                MainV2.instance.BeginInvoke((Action)delegate
                 {
-                    log.Info("AutoConnect.NewVideoStream " + gststring);
-                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
-
-                    if (!GStreamer.gstlaunchexists)
+                    try
                     {
-                        if (CustomMessageBox.Show(
-                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
-                                "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                            (int) System.Windows.Forms.DialogResult.Yes)
+                        log.Info("AutoConnect.NewVideoStream " + gststring);
+                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                        if (!GStreamer.gstlaunchexists)
                         {
-                            GStreamerUI.DownloadGStreamer();
-                            if (!GStreamer.gstlaunchexists)
+                            if (CustomMessageBox.Show(
+                                    "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                    "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                                (int)System.Windows.Forms.DialogResult.Yes)
+                            {
+                                GStreamerUI.DownloadGStreamer();
+                                if (!GStreamer.gstlaunchexists)
+                                {
+                                    return;
+                                }
+                            }
+                            else
                             {
                                 return;
                             }
                         }
-                        else
-                        {
-                            return;
-                        }
-                    }
 
-                    GStreamer.StartA(gststring);
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
+                        GStreamer.StartA(gststring);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                });
             };
             AutoConnect.Start();
 
@@ -3354,22 +3486,32 @@ namespace MissionPlanner
                     return;
                 }
 
-                if (!videourlseen.Contains(s) && videodetect.Wait(0))
+                MainV2.instance.BeginInvoke((Action)delegate
                 {
-                    videourlseen.Add(s);
-                    if (CustomMessageBox.Show(
-                            "A video stream has been detected, Do you want to connect to it? " + s,
-                            "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                        (int) System.Windows.Forms.DialogResult.Yes)
+                    try
                     {
-                        AutoConnect.RaiseNewVideoStream(sender,
-                            String.Format(
-                                "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
-                                s));
-                    }
+                        if (!videourlseen.Contains(s) && videodetect.Wait(0))
+                        {
+                            videourlseen.Add(s);
+                            if (CustomMessageBox.Show(
+                                    "A video stream has been detected, Do you want to connect to it? " + s,
+                                    "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                                (int)System.Windows.Forms.DialogResult.Yes)
+                            {
+                                AutoConnect.RaiseNewVideoStream(sender,
+                                    String.Format(
+                                        "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
+                                        s));
+                            }
 
-                    videodetect.Release();
-                }
+                            videodetect.Release();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                });
             };
 
 
