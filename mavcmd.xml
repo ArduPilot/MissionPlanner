@@ -165,6 +165,15 @@
       <Y></Y>
       <Z></Z>
     </SET_CAMERA_FOCUS>
+    <SET_CAMERA_SOURCE>
+      <P1>Id</P1>
+      <P2>Primary(1:RGB,2:IR,3:NDVI,4:Wide)</P2>
+      <P3>Secondary(1:RGB,2:IR,3:NDVI,4:Wide)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_SOURCE>
     <VIDEO_START_CAPTURE>
       <P1>StreamId</P1>
       <P2></P2>
@@ -591,6 +600,15 @@
       <Y></Y>
       <Z></Z>
     </SET_CAMERA_FOCUS>
+    <SET_CAMERA_SOURCE>
+      <P1>Id</P1>
+      <P2>Primary(1:RGB,2:IR,3:NDVI,4:Wide)</P2>
+      <P3>Secondary(1:RGB,2:IR,3:NDVI,4:Wide)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_SOURCE>
     <VIDEO_START_CAPTURE>
       <P1>StreamId</P1>
       <P2></P2>
@@ -1008,6 +1026,15 @@
       <Y></Y>
       <Z></Z>
     </SET_CAMERA_FOCUS>
+    <SET_CAMERA_SOURCE>
+      <P1>Id</P1>
+      <P2>Primary(1:RGB,2:IR,3:NDVI,4:Wide)</P2>
+      <P3>Secondary(1:RGB,2:IR,3:NDVI,4:Wide)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_SOURCE>
     <VIDEO_START_CAPTURE>
       <P1>StreamId</P1>
       <P2></P2>
