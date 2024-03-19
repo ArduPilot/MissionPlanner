@@ -35,6 +35,8 @@ namespace Mock
                     }
                 }
 
+                ipEP = new IPEndPoint(IPAddress.Parse("192.168.144.11"), 14553);
+
                 if (ipEP.Address == IPAddress.Any)
                 {
                     Thread.Sleep(100);
@@ -49,52 +51,77 @@ namespace Mock
                         system_status = (byte)MAVLink.MAV_STATE.ACTIVE,
                         type = (byte)MAVLink.MAV_TYPE.QUADROTOR
                     }, false, 1, 1, seqno++);
-                mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
+                //mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
 
                 sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_BASIC_ID,
                     new MAVLink.mavlink_open_drone_id_basic_id_t()
                     {
+                        target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL,
+                        target_system = 42,
+                        id_or_mac = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, (byte)DateTime.Now.Second },
+                        id_type = (byte)MAVLink.MAV_ODID_ID_TYPE.SERIAL_NUMBER,
+                        ua_type = (byte)MAVLink.MAV_ODID_UA_TYPE.HELICOPTER_OR_MULTIROTOR,
+                
+                    
 
-                    }, false, 1, 1, seqno++);
+
+                    }, false, 255, 190, seqno++);
                 mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
 
                 sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_LOCATION,
                     new MAVLink.mavlink_open_drone_id_location_t()
                     {
+                        target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL,
+                        target_system = 42,
+                        latitude = (int)(47.3980398 * 1e7),
+                        longitude = (int)(8.5455728 * 1e7),
+                        altitude_barometric = 100,
+                        altitude_geodetic = 100,
+                        height = 100,
+                        timestamp = (float)DateTime.UtcNow.Second
 
-                    }, false, 1, 1, seqno++);
+
+                    }, false, 255, 190, seqno++);
                 mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
-              
+
 
                 sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SELF_ID,
         new MAVLink.mavlink_open_drone_id_self_id_t()
         {
+            target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL,
+            target_system = 42,
 
-        }, false, 1, 1, seqno++);
+        }, false, 255, 190, seqno++);
                 mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
                 sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SYSTEM,
         new MAVLink.mavlink_open_drone_id_system_t()
         {
+            target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL,
+            target_system = 42,
 
-        }, false, 1, 1, seqno++);
+        }, false, 255, 190, seqno++);
                 mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
                 sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SYSTEM_UPDATE,
         new MAVLink.mavlink_open_drone_id_system_update_t()
         {
+            target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1,
+            target_system = 42,
 
-        }, false, 1, 1, seqno++);
+        }, false, 255, 190, seqno++);
                 mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
                 sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_OPERATOR_ID,
       new MAVLink.mavlink_open_drone_id_operator_id_t()
       {
+          target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL,
+          target_system = 42,
 
-      }, false, 1, 1, seqno++);
+      }, false, 255, 190, seqno++);
                 mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
 
                 Thread.Sleep(1000);
