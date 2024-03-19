@@ -190,7 +190,7 @@ namespace Dowding
                             BUT_connect.Text = Strings.Stop;
                             break;
                         case "TCP Client":
-                            ATStream = new TcpSerial() {retrys = 999999, autoReconnect = true};
+                            ATStream = new TcpSerial() {retrys = 999999, autoReconnect = true, ConfigRef = "DowdingATTCP" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14551":
@@ -471,7 +471,7 @@ namespace Dowding
                             listenerCoT.BeginAcceptTcpClient(new AsyncCallback(DoAcceptCoTTcpClientCallback), listenerCoT);
                             break;
                         case "TCP Client":
-                            CoTStream = new TcpSerial() {retrys = 999999, autoReconnect = true};
+                            CoTStream = new TcpSerial() {retrys = 999999, autoReconnect = true, ConfigRef = "DowdingCoTTCP" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14551":

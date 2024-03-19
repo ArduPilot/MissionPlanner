@@ -77,7 +77,7 @@ namespace MissionPlanner.Controls
 
                         case "TCP Client":
 
-                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true, ConfigRef = "SerialOutputPassTCP" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14550":
@@ -208,7 +208,7 @@ namespace MissionPlanner.Controls
                         }
                         else if (direction == "Outbound")
                         {
-                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true, Host = extra, Port = port };
+                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true, Host = extra, Port = port, ConfigRef = "SerialOutputPassTCP" };
                             CMB_baudrate.SelectedIndex = 0;
                             MainV2.comPort.MirrorStream.Open();
                         }

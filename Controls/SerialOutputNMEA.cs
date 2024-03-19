@@ -67,7 +67,7 @@ namespace MissionPlanner.Controls
                             BUT_connect.Text = Strings.Stop;
                             break;
                         case "TCP Client":
-                            NmeaStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                            NmeaStream = new TcpSerial() { retrys = 999999, autoReconnect = true, ConfigRef = "SerialOutputNMEATCP" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14551":
