@@ -223,6 +223,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bulb", "ExtLibs\LEDBulb\Bul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlannerTests", "MissionPlannerTests\MissionPlannerTests.csproj", "{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDroneID", "ExtLibs\MockDroneID\MockDroneID.csproj", "{6D39C141-733B-4C4A-87AB-974637952D1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -550,6 +552,10 @@ Global
 		{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B99EBF2-B964-4AAC-9EC5-76353610AAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D39C141-733B-4C4A-87AB-974637952D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D39C141-733B-4C4A-87AB-974637952D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D39C141-733B-4C4A-87AB-974637952D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D39C141-733B-4C4A-87AB-974637952D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -634,6 +640,7 @@ Global
 		{DED183CA-5591-4CE5-A89D-987035BAC553} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 		{FBE658B3-684D-46E6-8668-50DEF0778538} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 		{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{6D39C141-733B-4C4A-87AB-974637952D1B} = {0371886E-5A61-4626-B9E0-50A837ECE2DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD2C9507-1A09-4F5B-98AB-B6B194A4B260}
