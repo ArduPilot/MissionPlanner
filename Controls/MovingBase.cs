@@ -74,7 +74,7 @@ namespace MissionPlanner.Controls
                             BUT_connect.Text = Strings.Stop;
                             break;
                         case "TCP Client":
-                            comPort = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                            comPort = new TcpSerial() { retrys = 999999, autoReconnect = true, ConfigRef = "MovingBaseTCP" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14551":

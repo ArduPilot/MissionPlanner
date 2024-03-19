@@ -17,12 +17,15 @@ namespace MissionPlanner.Comms
         public bool autoReconnect;
         public TcpClient client = new TcpClient();
         private bool inOpen;
+        private bool closed;
         private DateTime lastReconnectTime = DateTime.MinValue;
 
         private bool reconnectnoprompt;
         private IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         public int retrys = 3;
+
+        public string ConfigRef { get; set; } = "";
 
         public TcpSerial()
         {
@@ -80,7 +83,7 @@ namespace MissionPlanner.Comms
                     if (client == null) return false;
                     if (client.Client == null) return false;
 
-                    if (autoReconnect && client.Client.Connected == false && !inOpen)
+                    if (autoReconnect && client.Client.Connected == false && !inOpen && !closed)
                         doAutoReconnect();
 
                     return client.Client.Connected;
@@ -100,6 +103,7 @@ namespace MissionPlanner.Comms
             try
             {
                 inOpen = true;
+                closed = false;
 
                 if (client.Client.Connected)
                 {
@@ -112,9 +116,9 @@ namespace MissionPlanner.Comms
 
                 if (Host == "")
                 {
-                    dest = OnSettings("TCP_port", dest);
+                    dest = OnSettings("TCP_port" + ConfigRef, dest);
 
-                    host = OnSettings("TCP_host", host);
+                    host = OnSettings("TCP_host" + ConfigRef, host);
 
                     if (!reconnectnoprompt)
                     {
@@ -124,7 +128,7 @@ namespace MissionPlanner.Comms
                         if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
                             throw new Exception("Canceled by request");
                     }
-
+                    Host = host;
                 }
                 else
                 {
@@ -133,12 +137,12 @@ namespace MissionPlanner.Comms
 
                 Port = dest;
 
-                log.InfoFormat("TCP Open {0} {1}", host, Port);
+                log.InfoFormat("TCP Open {0} {1}", Host, Port);
 
-                OnSettings("TCP_port", Port, true);
-                OnSettings("TCP_host", host, true);
+                OnSettings("TCP_port" + ConfigRef, Port, true);
+                OnSettings("TCP_host" + ConfigRef, Host, true);
 
-                InitTCPClient(host, Port);
+                InitTCPClient(Host, Port);
             }
             catch
             {
@@ -292,6 +296,7 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
+            log.InfoFormat("TCP Close {0} {1}", Host, Port);
             try
             {
                 if (client.Client != null && client.Client.Connected)
@@ -311,7 +316,7 @@ namespace MissionPlanner.Comms
             catch
             {
             }
-
+            closed = true;
             client = new TcpClient();
             Host = "";
         }
@@ -340,8 +345,8 @@ namespace MissionPlanner.Comms
 
                     client = new TcpClient();
 
-                    var host = OnSettings("TCP_host", "");
-                    var port = int.Parse(OnSettings("TCP_port", ""));
+                    var host = OnSettings("TCP_host" + ConfigRef, "");
+                    var port = int.Parse(OnSettings("TCP_port" + ConfigRef, ""));
 
                     log.InfoFormat("doAutoReconnect {0} {1}", host, port);
 
@@ -372,7 +377,7 @@ namespace MissionPlanner.Comms
                 {
                     log.Info("tcp reconnect");
                     client = new TcpClient();
-                    client.Connect(OnSettings("TCP_host", ""), int.Parse(OnSettings("TCP_port", "")));
+                    client.Connect(OnSettings("TCP_host" + ConfigRef, ""), int.Parse(OnSettings("TCP_port" + ConfigRef, "")));
                     retrys--;
                 }
 
