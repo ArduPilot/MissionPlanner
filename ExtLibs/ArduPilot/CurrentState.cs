@@ -174,6 +174,8 @@ namespace MissionPlanner
             get => connected && (sensors_health.prearm || !sensors_enabled.prearm);
         }
 
+        private DateTime last_good_prearm = DateTime.MaxValue;
+
         private bool useLocation;
 
         /// <summary>
@@ -1105,10 +1107,10 @@ namespace MissionPlanner
                 if (value == null || value == "")
                     return;
                 // check against get
+                _messageHighTime = DateTime.Now;
                 if (messageHigh == value)
                     return;
                 log.Info("messageHigh " + value);
-                _messageHighTime = DateTime.Now;
                 _messagehigh = value;
                 messageHighSeverity = MAVLink.MAV_SEVERITY.EMERGENCY;
             }
@@ -2687,12 +2689,7 @@ namespace MissionPlanner
                                 messageHigh = "InternalError 0x" + (errors_count1 + (errors_count2 << 16)).ToString("X");
                             }
 
-                            if (!sensors_health.prearm && sensors_enabled.prearm && sensors_present.prearm)
-                            {
-                                messageHigh = messages.LastOrDefault(a => a.message.ToLower().Contains("prearm")).message
-                                    ?.ToString();
-                            }
-                            else if (!sensors_health.gps && sensors_enabled.gps && sensors_present.gps)
+                            if (!sensors_health.gps && sensors_enabled.gps && sensors_present.gps)
                             {
                                 messageHigh = Strings.BadGPSHealth;
                             }
@@ -2767,6 +2764,16 @@ namespace MissionPlanner
                             else if (!sensors_health.differential_pressure && sensors_enabled.differential_pressure && sensors_present.differential_pressure)
                             {
                                 messageHigh = Strings.BadAirspeed;
+                            }
+                            else if (!sensors_health.prearm && sensors_enabled.prearm && sensors_present.prearm)
+                            {
+                                messageHigh = messages.LastOrDefault(a =>
+                                        a.message.ToLower().Contains("prearm") &&
+                                        a.time > last_good_prearm).message?.ToString();
+                            }
+                            if (last_good_prearm > DateTime.Now || sensors_health.prearm || !sensors_enabled.prearm || !sensors_present.prearm)
+                            {
+                                last_good_prearm = DateTime.Now;
                             }
                         }
 
