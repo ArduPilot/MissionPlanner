@@ -54,6 +54,50 @@ namespace MissionPlanner.GCSViews
 
         internal PointLatLng MouseDownStart;
 
+        //Fuel Gauge
+        //Input field for amount of fuel added into fuel tank
+        NumericUpDown FuelInTank = new NumericUpDown { Visible = false };
+        //Button to add/hide the fuel gauge to the screen
+        MyButton FuelGaugeButton = new MyButton { Visible = false };
+        //Input field for setting the size of the fuel tank
+        NumericUpDown FuelTankSize = new NumericUpDown { Visible = false };
+        //Button to set the fuel tank size
+        MyButton FuelTankSizeButton = new MyButton { Visible = false };
+        //variable for setting fuel density of the fuel used - used in calculation for the fuel consumption in mililitres
+        decimal EFIFuelDensity = 0;
+        //Button to set the fuel density
+        MyButton EFIFuelDensityButton = new MyButton { Visible = false };        
+        //Vertical progress bar used for the fuel gauge
+        VerticalProgressBar2 FuelGaugeBar = new VerticalProgressBar2 { Visible = false, Enabled = false, BackgroundColor = Color.DarkSlateGray, Text = string.Empty, ValueColor = Color.DarkSlateGray };
+        //Tooltip for Fuel Gauge
+        ToolTip FuelGaugeToolTip = new ToolTip();
+        //Initialize timers
+        //Fuel Gauge Timer
+        System.Windows.Forms.Timer FuelGaugeTimer = new System.Windows.Forms.Timer();
+        //Fuel Gauge MessageBox Timer
+        System.Windows.Forms.Timer FuelGaugeMessageBoxTimer = new System.Windows.Forms.Timer();
+        //Arm/disarm status timer
+        System.Windows.Forms.Timer ArmStatusTimer = new System.Windows.Forms.Timer();
+        //Variables for displaying Message boxes for zero and 15 percent fuel remaining in tank 
+        int ZeroPercentFuelCount = 0;
+        int FifteenPercentFuelCount = 0;
+        //Variable for displaying and hiding the fuel gauge controls
+        int displayFuelGaugeControls = 0;
+        //Variable for 10 percnt of fuel in tank - used with the colours of the fuel gauge
+        int TenPercentFuelTankSize = 0;
+        //Variable for the remaining fuel in vehicle
+        decimal MillilitresOfFuelRemaining = 0;
+        //Variable count for displaying/hiding the fuel bar only
+        int displayFuelBar = 0;
+        //Input Field for the fuel density value
+        NumericUpDown FuelDensityInput = new NumericUpDown();
+        //Button for the fuel density form
+        Button SetDensityButton = new Button();
+        //Bool for Fuel Density
+        bool FuelDensityClicked = false;
+        //Dropout HUD Form
+        Form dropoutHUDForm = new Form();
+
         //The file path of the selected script
         internal string selectedscript = "";
 
@@ -2504,38 +2548,50 @@ namespace MissionPlanner.GCSViews
 
         void dropout_FormClosed(object sender, FormClosedEventArgs e)
         {
-            (sender as Form).SaveStartupLocation();
+            dropoutHUDForm.SaveStartupLocation();
             //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
-            ((sender as Form).Tag as Control).Controls.Add(hud1);
+            (dropoutHUDForm.Tag as Control).Controls.Add(hud1);
             //SubMainLeft.Panel1.Controls.Add(hud1);
             if (hud1.Parent == SubMainLeft.Panel1)
                 SubMainLeft.Panel1Collapsed = false;
             huddropout = false;
+            //Add the fuel Gauge back to the correct spot on the HUD once the dropout form has closed
+            ShowFuelGauge();
         }
 
         void dropout_Resize(object sender, EventArgs e)
         {
+            //Variables for the width and the height of the form
+            int height = 0;
+            int width = 0;
+            //Variable for the sender object as a form
+            var form = (sender as Form);
             if (huddropoutresize)
                 return;
 
             huddropoutresize = true;
 
             int hudh = hud1.Height;
-            int formh = ((Form) sender).Height - 30;
+            int formh = (form).Height - 30;
 
-            if (((Form) sender).Height < hudh)
+            if (form.Height < hudh)
             {
-                if (((Form) sender).WindowState == FormWindowState.Maximized)
+                if (form.WindowState == FormWindowState.Maximized)
                 {
-                    Point tl = ((Form) sender).DesktopLocation;
-                    ((Form) sender).WindowState = FormWindowState.Normal;
-                    ((Form) sender).Location = tl;
+                    Point tl = (form).DesktopLocation;
+                    form.WindowState = FormWindowState.Normal;
+                    form.Location = tl;
                 }
-
-                ((Form) sender).Width = (int) (formh * (hud1.SixteenXNine ? 1.777f : 1.333f));
-                ((Form) sender).Height = formh + 20;
             }
-
+            //Set the width and height variables to be the same as the form's width and height
+            width = form.Width = (int)(formh * (hud1.SixteenXNine ? 1.777f : 1.333f));
+            height = form.Height = formh + 20;
+            //If the hud dropout is displaying, change the dimensions of the fuel gauge
+            if (huddropout)
+            {
+                //Resize the fuel gauge bar on the hud dropout correctly
+                FuelGaugeHUDDropoutDimensions(width, height);
+            }
             hud1.Refresh();
             huddropoutresize = false;
         }
@@ -2614,7 +2670,10 @@ namespace MissionPlanner.GCSViews
             groundColorToolStripMenuItem_Click(null, null);
 
             hud1.doResize();
-
+            //Tool strip menu item click event handler for Fuel Gauge
+            FuelGaugeToolStripMenuItem.Click += new EventHandler(FuelGaugeContextMenuStripItem_Click);
+            //Fuel density button eventhandler
+            EFIFuelDensityButton.Click += new EventHandler(SetFuelDensity_Click);
             prop = new Propagation(gMapControl1);
 
             splitContainer1.Panel1Collapsed = true;
@@ -3122,19 +3181,89 @@ namespace MissionPlanner.GCSViews
 
             if(hud1.Parent == SubMainLeft.Panel1)
                 SubMainLeft.Panel1Collapsed = true;
-            Form dropout = new Form();
+            Form dropout = new Form();            
             dropout.Text = "HUD Dropout";
             dropout.Size = new Size(hud1.Width, hud1.Height + 20);
             dropout.Tag = hud1.Parent;
             SubMainLeft.Panel1.Controls.Remove(hud1);
             dropout.Controls.Add(hud1);
+            //Assign the Form to the dropoutHUDForm
+            dropoutHUDForm = dropout;
             dropout.Resize += dropout_Resize;
+            //Added - load event handler for the dropoutHUD form
+            dropout.Load += new EventHandler(HUD1Dropout_Load); 
+            //Set the Tool Tip for the fuel gauge bar.
+            FuelGaugeToolTip.SetToolTip(FuelGaugeBar, $"Fuel remaining: {MillilitresOfFuelRemaining} ml");
             dropout.FormClosed += dropout_FormClosed;
             dropout.RestoreStartupLocation();
             dropout.Show();
-            huddropout = true;
+            huddropout = true;            
         }
 
+        private void HUD1Dropout_Load(object sender, EventArgs e)
+        {
+            //Variable for the form from the sender object
+            var form = sender as Form;
+            //If the fuel gauge bar is visible from the original HUD
+            if (displayFuelBar % 2 != 0)
+            {
+                //Set the width and height variables to be the same as the form's width and height
+                int width = form.Width;
+                int height = form.Height;
+                //Set the dimensions for the Fuel Gauge
+                FuelGaugeHUDDropoutDimensions(width, height);
+            }
+        }
+        private void FuelGaugeHUDDropoutDimensions(int width, int height)
+        {
+            //Try block for the fuel gauge on the HUD dropout form
+            try
+            {
+                //Make the fuel gauge visible every second button click on the "FuelGaugeButton" button
+                //if the displayFuelBar variable is divisible by 2, then the fuel gauge bar will not show on the HUD dropout 
+                if (displayFuelBar % 2 == 0)
+                {
+                    FuelGaugeBar.Visible = false;
+                }
+                //if the displayFuelBar int variable value is divisible by 2 or the fuelgauge bar is already visible, then the fuel gauge bar will not show on the HUD dropout 
+                else if (this.FuelGaugeBar.Visible == true || displayFuelBar % 2 != 0)
+                {
+                    FuelGaugeBar.Visible = false;
+                    //If statement to make the Fuel Gauge Bar display in the correct area of the dropout hud according to the width of the dropout hud
+                    if (width >= 610)
+                    {
+                        //Location of the Fuel Gauge
+                        FuelGaugeBar.Location = new Point((int)((0.81) * width), (int)(0.235 * height));
+                        //Size of the Fuel Gauge
+                        FuelGaugeBar.Size = new Size((int)((0.04) * width), (int)(0.2 * height));
+                    }
+                    else if (width < 610 && width >= 350)
+                    {
+                        //Location of the Fuel Gauge
+                        FuelGaugeBar.Location = new Point((int)((0.8) * width), (int)(0.22 * height));
+                        //Size of the Fuel Gauge
+                        FuelGaugeBar.Size = new Size((int)((0.04) * width), (int)(0.2 * height));
+                    }
+                    else if (width < 350)
+                    {
+                        //Location of the Fuel Gauge
+                        this.FuelGaugeBar.Location = new Point((int)((0.78) * width), (int)(0.23 * height));
+                        //Size of the Fuel Gauge
+                        this.FuelGaugeBar.Size = new Size((int)((0.035) * width), (int)(0.2 * height));
+                    }
+                    //Display the fuel gauge bar
+                    this.FuelGaugeBar.Show();
+                    this.FuelGaugeBar.BringToFront();
+                    this.FuelGaugeBar.Update();
+                    this.FuelGaugeBar.Invalidate();
+                    this.FuelGaugeBar.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message);
+            }
+        }
         private void hud1_ekfclick(object sender, EventArgs e)
         {
             EKFStatus frm = new EKFStatus();
@@ -5817,7 +5946,729 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
             }
         }
+        private void ControlDimensions()
+        {
+            //Variable for positioning the controls on the Persistant Panel
+            var panelPositionInputLocationX = MainV2.instance.FlightData.panel_persistent.Width - (MainV2.instance.FlightData.panel_persistent.Width * 0.21);
+            //Size and location for the input fuel field
+            FuelTankSize.Location = new Point((int)(panelPositionInputLocationX), (int)(4));
+            FuelTankSize.Size = new Size((int)(MainV2.instance.FlightData.panel_persistent.Width * 0.18), (int)(MainV2.instance.FlightData.panel_persistent.Height * 0.85));
+            //Set the size of the FuelTankSize button
+            FuelTankSizeButton.Size = FuelTankSize.Size;
+            //Variable for X location of the Fuel tank size button
+            var locationX = FuelTankSize.Location.X - FuelTankSize.Width;
+            //Location of the FuelTankSize button
+            FuelTankSizeButton.Location = new Point((int)(locationX - 3), (int)(3));
+            //Set location and size for FuelinTank input field
+            FuelInTank.Location = new Point(FuelTankSize.Location.X, FuelTankSize.Bottom + 2);
+            FuelInTank.Size = FuelTankSize.Size;
+            //Set location and size for fuel gauge button
+            FuelGaugeButton.Location = new Point(FuelTankSizeButton.Location.X, FuelTankSizeButton.Bottom + 2);
+            FuelGaugeButton.Size = FuelTankSizeButton.Size;
+            //Size and location for the fuel density button
+            var fuelDensityButtonLocationX = FuelTankSizeButton.Location.X - (int)(FuelTankSizeButton.Width*0.8) - 3;
+            EFIFuelDensityButton.Location = new Point((int)(fuelDensityButtonLocationX), (int)(3));
+            EFIFuelDensityButton.Size = new Size((int)(0.8 * FuelTankSizeButton.Width),(int)(FuelTankSizeButton.Height));
+        }
+        private void PersistentPanelFuelGaugeControls_Resize(object sender, EventArgs e)
+        {
+            //Set the Control dimensions to the starting dimentions of the controls when resizing
+            ControlDimensions();
+        }
+        private void FuelGaugeControls_Hide()
+        {
+            //All of the Controls visiblity set to false
+            FuelGaugeButton.Visible = false;
+            FuelTankSizeButton.Visible = false;
+            FuelInTank.Visible = false;
+            FuelTankSize.Visible = false;
+            FuelGaugeBar.Hide();
+            FuelGaugeBar.Update();
+            FuelGaugeBar.Invalidate();
+            FuelGaugeBar.Visible = false;
+            EFIFuelDensityButton.Visible = false;
+            //Set the display fuel bar int value to 0 when hiding the fuel gauge - this is to ensure when the button to display the fuel gauge is clicked, the ShowFuelGauge() method will be used.
+            displayFuelBar = 0;
+            //Set the back colour of the strip menu item for when the Fuel Gaugeis no displaying
+            FuelGaugeToolStripMenuItem.BackColor = System.Drawing.Color.Empty;
+        }
+        private void DisArmedStatusFuelGauge()
+        {
+            //Enable controls
+            if (FuelDensityClicked == true)
+            {
+                FuelTankSizeButton.Enabled = true;
+                FuelTankSize.Enabled = true;
+            }
+            EFIFuelDensityButton.Enabled = true;
+        }
+        private void ArmedStatusFuelGauge()
+        {
+            //Disable controls
+            FuelTankSizeButton.Enabled = false;
+            FuelTankSize.Enabled = false;
+            FuelInTank.Enabled = false;
+            EFIFuelDensityButton.Enabled = false;
+            //Keep the Fuel gauge button enabled so the user will be able to show/hide the bar on the hud while the vehicle is armed
+            FuelGaugeButton.Enabled = true;
+        }
+        private void FuelGaugeControls_Load()
+        {
+            //Change the colour of the Fuel Gauge menu strip item for when the Fuel Gauge is active
+            FuelGaugeToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(255, 240, 240, 240);
+            //Fuel Gauge Button Visible
+            FuelGaugeButton.Visible = true;
+            FuelGaugeButton.Enabled = false;
+            //Name of Fuel Gauge button
+            FuelGaugeButton.Text = "Set Fuel Amount (ml)";
+            //Set the font size
+            FuelGaugeButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 6);
+            //Fuel tank size button visible and enabled
+            FuelTankSizeButton.Visible = true;
+            //If disarmed then can set the values and use the controls
+            var isitarmed = MainV2.comPort.MAV.cs.armed;
+            if (!isitarmed)
+            {
+                //If the fuel density button has been clicked, then can make the tank size controls enabled to use
+                if (FuelDensityClicked)
+                {
+                    FuelTankSizeButton.Enabled = true;
+                    FuelTankSize.Enabled = true;
+                }
+                else
+                {
+                    FuelTankSizeButton.Enabled = false;
+                    FuelTankSize.Enabled = false;
+                }
+            }
+            else if (isitarmed)
+            {
+                FuelTankSizeButton.Enabled = false;
+                FuelTankSize.Enabled = false;
+            }
+            //Name of Fuel Gauge button and font
+            FuelTankSizeButton.Text = "Set Tank Size (ml)";
+            FuelTankSizeButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 7);
+            //Set minimum and maximum value for the fuel tank size input
+            FuelTankSize.Minimum = 0;
+            FuelTankSize.Maximum = 10000000000;
+            //Make the input field visible
+            FuelTankSize.Visible = true;
+            //Set the minimum value for the fuel added into tank input
+            FuelInTank.Minimum = 0;
+            //Set the fuel in tank input to false and display the field
+            FuelInTank.Enabled = false;
+            FuelInTank.Visible = true;
+            //Setup fuel density button
+            EFIFuelDensityButton.Enabled = true;
+            EFIFuelDensityButton.Visible = true;
+            EFIFuelDensityButton.Text = "Set Fuel Density";
+            EFIFuelDensityButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 6);
+            //Set Tool Tips for the controls on the persistent panel
+            FuelGaugeToolTip.SetToolTip(FuelGaugeButton, "Fuel set in milliliters");
+            FuelGaugeToolTip.SetToolTip(FuelTankSizeButton, "Fuel set in milliliters");
+            FuelGaugeToolTip.SetToolTip(FuelTankSize, "Fuel set in milliliters");
+            FuelGaugeToolTip.SetToolTip(FuelInTank, "Fuel set in milliliters");
+            FuelGaugeToolTip.SetToolTip(EFIFuelDensityButton, "Set fuel Density (g)");
+            //Display and add the controls to the persistent panel
+            FuelInTank.Show();
+            FuelInTank.BringToFront();
+            FuelInTank.Update();
+            FuelInTank.Invalidate();
+            FuelGaugeButton.Show();
+            FuelGaugeButton.BringToFront();
+            FuelGaugeButton.Update();
+            FuelGaugeButton.Invalidate();
+            FuelTankSizeButton.Show();
+            FuelTankSizeButton.BringToFront();
+            FuelTankSizeButton.Update();
+            FuelTankSizeButton.Invalidate();
+            FuelTankSize.Show();
+            FuelTankSize.BringToFront();
+            FuelTankSize.Update();
+            FuelTankSize.Invalidate();            
+            EFIFuelDensityButton.Show();
+            EFIFuelDensityButton.BringToFront();
+            EFIFuelDensityButton.Update();
+            EFIFuelDensityButton.Invalidate();            
+            MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelInTank);
+            MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelGaugeButton);
+            MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelTankSize);
+            MainV2.instance.FlightData.panel_persistent.Controls.Add(FuelTankSizeButton);
+            MainV2.instance.FlightData.panel_persistent.Controls.Add(EFIFuelDensityButton);
+        }
+        private void UpdateTenPercentLine()
+        {
+            //Ten percent of the fuel tank size
+            var tenPercent = (decimal)(0.1) * (decimal)(this.FuelTankSize.Value);
+            //Set the variable to the int ten percent fuel in tank
+            TenPercentFuelTankSize = (int)(tenPercent);
+        }
+        //Method for changing the value of input field
+        private void FuelTankSize_ValueChanged(object sender, EventArgs e)
+        {
+            //Checks to see if the fuel tank size input value is greater than 0 or if it is equal to 0 in order to either enable or keep the buttons disabled.
+            if (Convert.ToDecimal(this.FuelTankSize.Value) == 0)
+            {
+                FuelGaugeButton.Enabled = false;
+                FuelTankSizeButton.Enabled = false;
+            }
+            else if (Convert.ToDecimal(this.FuelTankSize.Value) > 0)
+            {
+                //If disarmed then can set the values and use the controls
+                var isitarmed = MainV2.comPort.MAV.cs.armed;
+                if (!isitarmed)
+                {
+                    //The fuel amount added input and button are only enabled once the set fuel tank size button is clicked
+                    FuelGaugeButton.Enabled = false;
+                    FuelInTank.Enabled = false;
+                    //Fuel tank size button is enabled
+                    FuelTankSizeButton.Enabled = true;
+                }
+            }
+        }
+        private void FuelinTank_ValueChanged(object sender, EventArgs e)
+        {
+            //Stop the message box timer
+            FuelGaugeMessageBoxTimer.Stop();
+            //Checks to see if the fuel in the tank input value is greater than 0 or if it is equal to 0 in order to either enable or keep the button disabled.
+            if (Convert.ToDecimal(this.FuelInTank.Value) == 0)
+            {
+                FuelGaugeButton.Enabled = false;
+            }
+            else if (Convert.ToDecimal(this.FuelInTank.Value) > 0)
+            {
+                //Enable both fuel buttons when the value has changed
+                FuelGaugeButton.Enabled = true;
+                FuelTankSizeButton.Enabled = true;
+            }
+        }
+        //FUNCTION: Colour of the chart
+        private Color ChartColour()
+        {
+            //Variable for the fuel gauge bar value
+            var fuelBarValue = MillilitresOfFuelRemaining;
+            //Variable for the COlor of the fuel gauge bar
+            var fuelBarColour = Color.Empty;
+            //Percentage variable for selecting correct color of the fuel gauge bar
+            //30 Percent of fuel tank size
+            var thirtyPercRemaining = Math.Round(Convert.ToDecimal(0.3), 2) * Math.Round(Convert.ToDecimal(this.FuelTankSize.Value), 2);
+            //15 Percent of fuel tank size
+            var fifteenPercRemaining = Math.Round(Convert.ToDecimal(0.15), 2) * Math.Round(Convert.ToDecimal(this.FuelTankSize.Value), 2);
+            //Change the colour based on the amount remaining in the tank
+            //Above 30% = Lime
+            if (Convert.ToInt32(fuelBarValue) > thirtyPercRemaining)
+            {
+                fuelBarColour = Color.Lime;
+                this.FuelGaugeBar.ValueColor = Color.Transparent;
 
+            } // Above 15% and Below 30% = Orange
+            else if (Convert.ToInt32(fuelBarValue) <= thirtyPercRemaining && Convert.ToInt32(fuelBarValue) > fifteenPercRemaining)
+            {
+                fuelBarColour = Color.Orange;
+                this.FuelGaugeBar.ValueColor = Color.Transparent;
+            } //Above 0% and below 15% = Red
+            else if (Convert.ToInt32(fuelBarValue) <= fifteenPercRemaining && Convert.ToInt32(fuelBarValue) > 0)
+            {
+                fuelBarColour = Color.Red;
+                this.FuelGaugeBar.ValueColor = Color.Transparent;
+            } //0% = White
+            else if (Convert.ToInt32(fuelBarValue) == 0)
+            {
+                fuelBarColour = Color.White;
+                this.FuelGaugeBar.ValueColor = Color.Transparent;
+            }
+            return fuelBarColour;
+        }
+        //FuelTankSize input - Enter button
+        private void FuelTankSize_KeyDown(object sender, KeyEventArgs k)
+        {
+            //If the enter button is pressed, make the fuel in tank maximum value equal to the fuelTankSize value
+            if (k.KeyValue == (char)Keys.Enter)
+            {
+                //Assign the fuel tank value to the decimal variable
+                decimal amountOfFuelInTank = Convert.ToDecimal(FuelTankSize.Value);
+                //Maximum value for the progress bar
+                this.FuelGaugeBar.Maximum = (int)(amountOfFuelInTank);
+                //Update the 10 percent line when the Fuel value changes
+                UpdateTenPercentLine();
+                //Set the Maximum value of the fuelinTank input value to be the fuel tank size value and enable the input field
+                FuelInTank.Maximum = FuelTankSize.Value;
+                FuelInTank.Enabled = true;
+                //Enable the Fuel gauge button and set the message box int counts to 0
+                FuelGaugeButton.Enabled = true;
+                FifteenPercentFuelCount = 0;
+                ZeroPercentFuelCount = 0;
+                return;
+            }
+        }
+        //FuelinTank input - Enter button
+        private void FuelinTank_KeyDown(object sender, KeyEventArgs k)
+        {
+            //If the Enter button is pressed, then display the Fuel Gauge bar
+            if (k.KeyValue == (char)Keys.Enter)
+            {                
+                //Load the fuel gauge bar and set the message box int counts to 0
+                LoadFuelGauge(sender, k);
+                FifteenPercentFuelCount = 0;
+                ZeroPercentFuelCount = 0;
+                return;
+            }
+        }
+        private void FuelGauge_Resize(object sender, EventArgs e)
+        {
+            try
+            {
+                //Only resize when displayed
+                if (displayFuelBar % 2 != 0) 
+                {
+                    //Fuel gauge bar set to invisible when starting resizing
+                    FuelGaugeBar.Visible = false;
+                    //Set the fuel gauge size and Location
+                    //Variables for the sizes of the FlightData Screen Controls: MainHCopy, Persistent Panel, tab control actions
+                    var mainHCopySize = MainV2.instance.FlightData.MainHcopy.Size;
+                    var panelPersistentSize = MainV2.instance.FlightData.panel_persistent.Size;
+                    var tabQuickSize = MainV2.instance.FlightData.tabControlactions.Size;
+                    //Width of the map and the Zoom Bar on the right side of the screen
+                    var mapAndZoomBarWidth = MainV2.instance.FlightData.gMapControl1.Size.Width + 56;
+                    //Width size difference between the full size of screen that Mission Planner takes up and the size of the map on Mission Planner
+                    var hUDWidth = mainHCopySize.Width - mapAndZoomBarWidth;
+                    //Calculate approximate HUD Height from teh other controls on the left side of the screen (including the panel persistant and the MainMenu tab at the top of the screen)
+                    var finalHeihgt = mainHCopySize.Height - tabQuickSize.Height - panelPersistentSize.Height;
+                    //Location of the fuel gauge bar
+                    FuelGaugeBar.Location = new Point((int)((0.825) * hUDWidth), (int)(0.25 * finalHeihgt));
+                    //Size of the fuel gauge bar
+                    FuelGaugeBar.Size = new Size((int)((0.04) * hUDWidth), (int)(0.2 * finalHeihgt));
+                    //Display the fuel gauge bar
+                    FuelGaugeBar.Show();
+                    FuelGaugeBar.BringToFront();
+                    FuelGaugeBar.Update();
+                    FuelGaugeBar.Invalidate();
+                    FuelGaugeBar.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message);
+                FuelGaugeBar.Visible = true;
+            }
+        }
+        private void ShowFuelGauge()
+        {
+            //Display the fuel bar
+            try
+            {
+                //When the display fuel bar variable is not divisible by 2, then display the fuel gauge bar
+                if (displayFuelBar % 2 != 0)
+                {
+                    //Variables for the FlightData Controls
+                    var mainHCopySize = MainV2.instance.FlightData.MainHcopy.Size;
+                    var panelPersistentSize = MainV2.instance.FlightData.panel_persistent.Size;
+                    var tabQuickSize = MainV2.instance.FlightData.tabControlactions.Size;
+                    //Width of ther map and the Zoom Bar on the right side of the screen
+                    var mapAndZoomBarWidth = MainV2.instance.FlightData.gMapControl1.Size.Width + 56;
+                    //Width size difference between the full size of screen that Mission Planner takes up and the size of the map on mission Planner
+                    var hUDWidth = mainHCopySize.Width - mapAndZoomBarWidth;
+                    //Calculate approximate HUD Height from teh other controls on the left side of the screen (including the panel persistant and the MainMenu tab at the top of the screen)
+                    var finalHeihgt = mainHCopySize.Height - tabQuickSize.Height - panelPersistentSize.Height;
+                    //Location of the fuel gauge bar
+                    FuelGaugeBar.Location = new Point((int)((0.825) * hUDWidth), (int)(0.25 * finalHeihgt));
+                    //Size of the fuel gauge bar
+                    FuelGaugeBar.Size = new Size((int)((0.04) * hUDWidth), (int)(0.2 * finalHeihgt));
+                    //Set the bar color
+                    FuelGaugeBar.ValueColor = ChartColour();
+                    //Assign the fuel tank input value to a decimal variable
+                    decimal amountOfFuelInTank = Convert.ToDecimal(FuelInTank.Value);
+                    //Set the fuel gauge bar value as the amount specified in the FuelinTank input value
+                    FuelGaugeBar.Value = (int)(amountOfFuelInTank);
+                    //Make the bar visible
+                    FuelGaugeBar.Visible = true;
+                    //Enable the bar
+                    FuelGaugeBar.Enabled = true;
+                    //Tool Tip to let user know that the fuel is displayed in millilitres
+                    FuelGaugeToolTip.SetToolTip(FuelGaugeButton, "Fuel set in milliliters");
+                    FuelGaugeToolTip.SetToolTip(FuelTankSizeButton, "Fuel set in milliliters");
+                    FuelGaugeToolTip.SetToolTip(FuelTankSize, "Fuel set in milliliters");
+                    FuelGaugeToolTip.SetToolTip(FuelInTank, "Fuel set in milliliters");
+                    //Display and update the bar
+                    FuelGaugeBar.Show();
+                    FuelGaugeBar.BringToFront();
+                    FuelGaugeBar.Update();
+                    FuelGaugeBar.Invalidate();
+                    //Name of Fuel Gauge button
+                    FuelGaugeButton.Text = "Hide Fuel Gauge";
+                    //Font and font size for the Fuel Gauge Button
+                    FuelGaugeButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 6);
+                }
+                else if (displayFuelBar % 2 == 0)
+                {
+                    //Name of Fuel Gauge button and set font and font size
+                    FuelGaugeButton.Text = "Show Fuel Gauge";
+                    FuelGaugeButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 7);
+                    //Make the Bar invisible and disabled
+                    FuelGaugeBar.Visible = false;
+                    FuelGaugeBar.Enabled = false;
+                    FuelGaugeBar.Hide();
+                    //Update/display the progress bar                
+                    FuelGaugeBar.Update();
+                    FuelGaugeBar.Invalidate();
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message);
+            }
+        }
+        private void SetFuelTankSize_Click(object sender, EventArgs e)
+        {
+            //Assign the fuel tank value to the decimal variable
+            decimal amountOfFuelInTank = Convert.ToDecimal(FuelTankSize.Value);
+            //Maximum value for the bar
+            FuelGaugeBar.Maximum = (int)(amountOfFuelInTank);
+            //Enable the fuel in tank input and button and set the message box int counts to 0
+            //Only can enable when armed
+            FuelInTank.Enabled = true;
+            FuelGaugeButton.Enabled = true;
+            FifteenPercentFuelCount = 0;
+            ZeroPercentFuelCount = 0;
+            //Fuel in tank maximum value set to the fuel tank size value
+            FuelInTank.Maximum = FuelTankSize.Value;
+            //Set the 10% value of the tank
+            UpdateTenPercentLine();
+        }
+        public void LoadFuelGauge(object sender, EventArgs e)
+        {
+            //Add 1 to the display fuel bar count
+            displayFuelBar += 1;
+            //Start the fuel gauge bar timer 
+            FuelGaugeTimer.Start();
+            //If the count above is odd, then display the bar
+            if (displayFuelBar % 2 != 0)
+            {
+                //Display the fuel gauge bar and then set the messagebox int counts to 0
+                ShowFuelGauge();
+                FifteenPercentFuelCount = 0;
+                ZeroPercentFuelCount = 0;
+                //If the Hud Dropout is visible, then the fuel gauge dimensions need to be set for the dropout HUD
+                if (huddropout)
+                {
+                    //Set the width and height variables to be the same as the Hud Dropout form's width and height
+                    int width = dropoutHUDForm.Width;
+                    int height = dropoutHUDForm.Height;
+                    //Resize the fuel gauge bar on the hud dropout correctly
+                    FuelGaugeHUDDropoutDimensions(width, height);
+                }
+            }
+            //Else if the count for displaying the fuel gauge bar is a number divisible by 2, then hide the bar
+            else if (displayFuelBar % 2 == 0)
+            {
+                //Rename fuel gauge button and reset the font size
+                FuelGaugeButton.Text = "Show Fuel Gauge";
+                FuelGaugeButton.Font = new Font(FuelGaugeButton.Font.FontFamily, 7);
+                //Hide the fuel gauge
+                FuelGaugeBar.Visible = false;
+                FuelGaugeBar.Hide();
+                FuelGaugeBar.Update();
+                FuelGaugeBar.Invalidate();
+                //Reset the display fuel gauge variable to 0 so that the next time the button is pressed, the fuel gauge will be shown.
+                displayFuelBar = 0;
+            }            
+        }
+        private decimal LitresOfFuel()
+        {
+            //Variable for the efi_fuelconsumed from MAVlink (in grams) and convert to decimals
+            var dataSource = MainV2.comPort.MAV.cs.efi_fuelconsumed;
+            decimal value = Convert.ToDecimal(dataSource);
+            //Variable for the Ratio conversion: grams/Litre 1000/736
+            decimal ratioValue = Math.Round(Convert.ToDecimal(Math.Round(Convert.ToDecimal(1000),2) / Math.Round(Convert.ToDecimal(EFIFuelDensity),2)),15);
+            //Formula to calculate the amount of litres that the data source is from (efi_fuelconsumed)
+            decimal millilitresOfFuelConsumed = Math.Round(Convert.ToDecimal((value * ratioValue)), 2);
+            //Total fuel input capacity below is the value of the input field value of fuel added into the fuel tank
+            //Total fuel input available
+            decimal totalFuelInputCapacity = Math.Round(Convert.ToDecimal(this.FuelInTank.Value), 2);
+            //Total fuel left in Millilitres
+            MillilitresOfFuelRemaining = totalFuelInputCapacity - millilitresOfFuelConsumed;
+            return MillilitresOfFuelRemaining;
+        }
+        private void MessageBoxTimer_Tick(object sender, EventArgs e)
+        {
+            //Variable for the percentage of the fuel used
+            var percentageFuelUsed = 1 - (MillilitresOfFuelRemaining / FuelTankSize.Value);
+            //If the percentage ratio is greater than 0 and less than 1, display message box for the user to inform the user that the fuel is below 15%
+            if (percentageFuelUsed > 0 && percentageFuelUsed < 1)
+            {
+                //If message box timer is ticking,  display the message box and stop the message box timer
+                if (FuelGaugeMessageBoxTimer.Enabled)
+                {
+                    //Disable the messagebox timer
+                    FuelGaugeMessageBoxTimer.Enabled = false;
+                    //Stop the Timer
+                    FuelGaugeMessageBoxTimer.Stop();
+                    //Show a customMessageBox
+                    CustomMessageBox.Show("The fuel level of the vehicle is below 15%", $"{(CustomMessageBox.MessageBoxIcon.Warning, "Fuel below 15%")}");
+                }
+                else if (FuelGaugeMessageBoxTimer.Enabled != true)
+                {
+                    //Disable the messagebox timer
+                    FuelGaugeMessageBoxTimer.Enabled = false;
+                    //Stop the Timer
+                    FuelGaugeMessageBoxTimer.Stop();
+                    return;
+                }
+            }
+            //Else if the percentage ratio is greater or equal to 1, display message box for the user to inform the user that the fuel is depleted
+            else if (percentageFuelUsed >= 1)
+            {
+                //If message box timer is ticking,  display the message box and stop the message box timer
+                if (FuelGaugeMessageBoxTimer.Enabled)
+                {
+                    //Disable the message box timer
+                    FuelGaugeMessageBoxTimer.Enabled = false;
+                    //Stop the Timer
+                    FuelGaugeMessageBoxTimer.Stop();
+                    //Show a custom message box
+                    CustomMessageBox.Show("The fuel for the vehicle has depleted", $"{(CustomMessageBox.MessageBoxIcon.Warning, "No Fuel")}");
+                }
+                else if (FuelGaugeMessageBoxTimer.Enabled != true)
+                {
+                    //Disable the messagebox timer
+                    FuelGaugeMessageBoxTimer.Enabled = false;
+                    //Stop the Timer
+                    FuelGaugeMessageBoxTimer.Stop();
+                    return;
+                }
+            }
+        }
+        private void FuelGaugeTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                //Set the amount of Milliliters
+                LitresOfFuel();
+                //Percentage variable for colors of fuel gauge
+                //30 Percent
+                var thirtyPercRemaining = Math.Round(Convert.ToDecimal(0.3), 2) * Math.Round(Convert.ToDecimal(this.FuelTankSize.Value), 2);
+                //15 Percent
+                var fifteenPercRemaining = Math.Round(Convert.ToDecimal(0.15), 2) * Math.Round(Convert.ToDecimal(this.FuelTankSize.Value), 2);
+                //Variable for the Chart Color
+                var barColour = ChartColour();
+                //Change the colour based on the amount of fuel remaining
+                if (Convert.ToInt32(MillilitresOfFuelRemaining) > thirtyPercRemaining)
+                {
+                    FuelGaugeBar.ForeColor = Color.Transparent;
+                    FuelGaugeBar.ValueColor = barColour;
+                }
+                else if (Convert.ToInt32(MillilitresOfFuelRemaining) <= thirtyPercRemaining && Convert.ToInt32(MillilitresOfFuelRemaining) > fifteenPercRemaining)
+                {
+                    FuelGaugeBar.ForeColor = Color.Transparent;
+                    FuelGaugeBar.ValueColor = barColour;
+                }
+                else if (Convert.ToInt32(MillilitresOfFuelRemaining) <= fifteenPercRemaining && Convert.ToInt32(MillilitresOfFuelRemaining) > 0)
+                {
+                    FuelGaugeBar.ForeColor = Color.Transparent;
+                    FuelGaugeBar.ValueColor = barColour;
+                    if (FifteenPercentFuelCount == 0)
+                    {
+                        //If the vehicle is armed start the message box timer to display the message box
+                        var isitarmed = MainV2.comPort.MAV.cs.armed;
+                        if (isitarmed)
+                        {
+                            //Set the timer interval
+                            FuelGaugeMessageBoxTimer.Interval = 100;
+                            //Start the timer for the message box to display - below 15% remaining
+                            FuelGaugeMessageBoxTimer.Start();
+                            FifteenPercentFuelCount = 1;
+                        }
+                    }
+                    //If the amount in the tank is under 10%, show one color, else show another color
+                    if (MillilitresOfFuelRemaining < (decimal)(TenPercentFuelTankSize))
+                    {
+                        FuelGaugeBar.BackColor = System.Drawing.Color.White;
+                    }
+                    else
+                    {
+                        FuelGaugeBar.BackColor = System.Drawing.Color.DarkGray;
+                    }
+                }
+                else if (Convert.ToInt32(MillilitresOfFuelRemaining) <= 0)
+                {
+                    if (ZeroPercentFuelCount == 0)
+                    {
+                        //If the vehicle is armed start the message box timer to display the message box
+                        var isitarmed = MainV2.comPort.MAV.cs.armed;
+                        if (isitarmed)
+                        {
+                            //Set the timer interval
+                            FuelGaugeMessageBoxTimer.Interval = 100;
+                            //Start the timer for the message box to display - fuel depleted
+                            FuelGaugeMessageBoxTimer.Start();
+                            ZeroPercentFuelCount = 1;
+                        }
+                    }
+                }
+                //Set the value of the bar chart to be the estimated calculated Milliliters remaining in the tank
+                FuelGaugeBar.Value = Convert.ToInt32(MillilitresOfFuelRemaining);
+                //Add the tooltip to the fuel gauge bar - constantly updated in the timer tick function
+                FuelGaugeToolTip.SetToolTip(FuelGaugeBar, $"Fuel remaining: {MillilitresOfFuelRemaining} ml");
+                //Update the Fuel Gauge
+                FuelGaugeBar.Update();
+                FuelGaugeBar.Invalidate();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message);
+            }
+        }
+        private void ArmStatus_Timer(object sender, EventArgs e)
+        {
+            //Enable/disable the fuel gauge controls if the vehicle is disarmed/armed, respectively
+            var isitarmed = MainV2.comPort.MAV.cs.armed;
+            if (isitarmed == true)
+            {
+                ArmedStatusFuelGauge();
+            }
+            else if (isitarmed == false)
+            {
+                DisArmedStatusFuelGauge();
+            }
+        }
+        //Function: Set the Fuel Density Value in grams into the EFI Fuel Density variable
+        private void SetFuelDensityValue()
+        {
+            //Set the fuel density input variable
+            EFIFuelDensity = (FuelDensityInput.Value);
+            FuelDensityClicked = true;
+            FuelGaugeToolTip.SetToolTip(EFIFuelDensityButton, "Fuel density set to: " + EFIFuelDensity + " grams");
+            return;
+        }        
+        private void SetDensityValueGrams(object sender, EventArgs e)
+        {
+            SetFuelDensityValue();
+        }
+        private void FuelDensity_ValueChanged(object sender, EventArgs e)
+        {
+            //Enable the button if the density input value is greater than 0
+            if (FuelDensityInput.Value<=0)
+            {
+                SetDensityButton.Enabled = false;                
+            }
+            else if (FuelDensityInput.Value>0)
+            {
+                SetDensityButton.Enabled = true;
+            }
+        }
+        private void FuelDensity_KeyDown(object sender, KeyEventArgs k)
+        {
+            //If the enter button is pressed, make the fuel in tank maximum value equal to the fuelTankSize value
+            if (k.KeyValue == (char)Keys.Enter)
+            {
+                SetFuelDensityValue();
+                return;
+            }
+        }
+        private void SetFuelDensity_Click(object sender, EventArgs e)
+        {
+            //Setup the Fuel Density form
+            Form DensityForm = new Form();
+            DensityForm.Name = $"Fuel Density";
+            DensityForm.Text = DensityForm.Name;
+            DensityForm.Size = new System.Drawing.Size(315, 170);
+            DensityForm.MinimumSize = DensityForm.Size;
+            DensityForm.MaximumSize = DensityForm.Size;
+            //DensityForm.MaximumSize = DensityForm.Size;
+            //Setup the label text for the form
+            RichTextBox rtxFuelDensity = new RichTextBox();
+            rtxFuelDensity.Text = "Set the weight per litre of the fuel being used, in grams, for the fuel consumption calculation.\n(This will be the same value as the EFI_FUEL_DENS parameter set in the configuration settings)\nThis value only needs to be reset when Mission Planner is reopened.";
+            //lblFuelDensity.ForeColor = Color.Black;
+            rtxFuelDensity.SelectionColor = Color.Black;
+            rtxFuelDensity.Font = new Font(rtxFuelDensity.Font.FontFamily, 9);
+            rtxFuelDensity.Location = new Point(2, 1);
+            rtxFuelDensity.Size = new Size(DensityForm.Width-21,90);
+            rtxFuelDensity.ReadOnly = true;
+            //Setup the input - fuel density field
+            FuelDensityInput.Size = new System.Drawing.Size(80, 20);
+            FuelDensityInput.Location = new System.Drawing.Point(75, 100);
+            FuelDensityInput.Maximum = 10000;            
+            //Setup the Button - set the fuel density
+            SetDensityButton.AutoSize = true;
+            SetDensityButton.Text = $"Set";
+            SetDensityButton.Enabled = true;
+            var locationButton = new System.Drawing.Point((int)(FuelDensityInput.Location.X + FuelDensityInput.Width+5), (int)(100));
+            SetDensityButton.Location = locationButton;
+            SetDensityButton.Size = FuelDensityInput.Size;
+            //Add controls to the Fue Density Form
+            DensityForm.Controls.Add(FuelDensityInput);
+            DensityForm.Controls.Add(SetDensityButton);
+            DensityForm.Controls.Add(rtxFuelDensity);            
+            DensityForm.ShowDialog();
+            return;
+        }
+        private void FuelGaugeContextMenuStripItem_Click(object sender, EventArgs e)
+        {
+            //Make the presistent panel visible
+            MainV2.instance.FlightData.panel_persistent.Visible = true;
+            //Set the arm status timer interval to 3.5 seconds
+            ArmStatusTimer.Interval = 3500;
+            //Check the arm status and keep the buttons armed/disarmed accordingly
+            ArmStatusTimer.Tick += new EventHandler(ArmStatus_Timer);
+            //Add 1 to the display controls int.
+            displayFuelGaugeControls += 1;
+            if (displayFuelGaugeControls % 2 != 0)
+            {
+                //Start the Arm status timer
+                ArmStatusTimer.Start();
+                //Load the fuel gauge controls when the strip menu item for the fuel gauge is clicked every second time
+                FuelGaugeControls_Load();
+            }
+            else if (displayFuelGaugeControls % 2 == 0)
+            {
+                //Stop the Arm Status timer
+                ArmStatusTimer.Stop();
+                //Hide all of the fuel gauge controls when the strip menu item is clicked every second click
+                FuelGaugeControls_Hide();
+            }
+            //Display the controls on the persistent panel for the fuel gauge
+            ControlDimensions();
+            //Value Change EventHandler
+            FuelDensityInput.ValueChanged += new EventHandler(FuelDensity_ValueChanged);
+            //Fuel Density button click event handler
+            SetDensityButton.Click += new EventHandler(SetDensityValueGrams);
+            FuelDensityInput.KeyDown += new KeyEventHandler(FuelDensity_KeyDown);
+            //Fuel tank size and fuel in tank inputs value changed event handlers
+            FuelInTank.ValueChanged += new EventHandler(FuelinTank_ValueChanged);
+            FuelTankSize.ValueChanged += new EventHandler(FuelTankSize_ValueChanged);
+            //Fuel tank size and fuel in tank inputs key down event handlers            
+            FuelTankSize.KeyDown += new KeyEventHandler(FuelTankSize_KeyDown);
+            FuelInTank.KeyDown += new KeyEventHandler(FuelinTank_KeyDown);
+            //Fuel gauge button event handler
+            FuelGaugeButton.Click += new EventHandler(LoadFuelGauge);
+            //Fuel tank size button eventhandler
+            FuelTankSizeButton.Click += new EventHandler(SetFuelTankSize_Click);
+            //The following two resize event handlers are to resize the controls on the persistent panel and resize the fuel gauge bar, respectively.
+            MainV2.instance.FlightData.panel_persistent.Resize += new EventHandler(PersistentPanelFuelGaugeControls_Resize);
+            MainV2.instance.FlightData.gMapControl1.Resize += new EventHandler(FuelGauge_Resize);
+            //Set the back color of the bar
+            FuelGaugeBar.BackColor = System.Drawing.Color.DarkGray;
+            //Set the value color of the fuel bar
+            FuelGaugeBar.ValueColor = ChartColour();
+            //Set the Border color of the bar
+            FuelGaugeBar.BorderColor = Color.Transparent;
+            //Set the Color for the bar at the start
+            FuelGaugeBar.ForeColor = Color.Lime;
+            //Add the bar control to the HUD
+            hud1.Controls.Add(FuelGaugeBar);
+            //Set the 10% for the fuel gauge
+            UpdateTenPercentLine();
+            //Time interval for the timer
+            FuelGaugeTimer.Interval = 1000;
+            //Timer event handler
+            FuelGaugeTimer.Tick += new EventHandler(FuelGaugeTimer_Tick);
+            //Message box timer event handler
+            FuelGaugeMessageBoxTimer.Tick += new EventHandler(MessageBoxTimer_Tick);
+            //Minimum size of the persistent panel
+            MainV2.instance.FlightData.panel_persistent.MinimumSize = new System.Drawing.Size(0, 35);
+            return;
+        }
         private void hud1_Load(object sender, EventArgs e)
         {
 
