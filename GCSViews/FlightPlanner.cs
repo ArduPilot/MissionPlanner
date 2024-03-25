@@ -30,7 +30,7 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
@@ -295,7 +295,7 @@ namespace MissionPlanner.GCSViews
             timer1.Start();
 
             // hide altmode if old copter version
-            if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
+            if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
                 MainV2.comPort.MAV.cs.version < new Version(3, 3))
             {
                 CMB_altmode.Visible = false;
@@ -2221,7 +2221,8 @@ namespace MissionPlanner.GCSViews
                 }
 
                 MainMap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
-                FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
+                if(FlightData.mymap != null)
+                    FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
                 Settings.Instance["MapType"] = comboBoxMapType.Text;
             }
             catch (Exception ex)
@@ -3533,7 +3534,7 @@ namespace MissionPlanner.GCSViews
                         string path = Path.GetDirectoryName(file);
                         foreach (var feature in fs.Features)
                         {
-                            foreach (var point in feature.Coordinates)
+                            foreach (var point in feature.Geometry.Coordinates)
                             {
                                 if (reproject)
                                 {
@@ -3542,7 +3543,12 @@ namespace MissionPlanner.GCSViews
                                     Reproject.ReprojectPoints(xyarray, zarray, pStart, pESRIEnd, 0, 1);
                                     point.X = xyarray[0];
                                     point.Y = xyarray[1];
-                                    point.Z = zarray[0];
+                                    try
+                                    {
+                                        if (zarray[0] != double.NaN)
+                                            point.Z = zarray[0];
+                                    }
+                                    catch { }
                                 }
 
                                 drawnpolygon.Points.Add(new PointLatLng(point.Y, point.X));
@@ -3956,6 +3962,8 @@ namespace MissionPlanner.GCSViews
                         return null;
                     });
                     var values = missionpck.unpack(paramfileTask.GetAwaiter().GetResult().ToArray());
+                    MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid].wps.Clear();
+                    values.wps.ForEach(wp => MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid].wps[wp.seq] = wp);
                     WPtoScreen(values.wps.Select(a => (Locationwp)a).ToList());
                     return;
                 }
@@ -7761,18 +7769,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        private XmlDocument MakeRequest(string requestUrl)
+        public XmlDocument MakeRequest(string requestUrl)
         {
             try
             {
-                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest) request).UserAgent = Settings.Instance.UserAgent;
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                client.Timeout = System.TimeSpan.FromSeconds(30);
 
 
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(response.GetResponseStream());
+                xmlDoc.Load(client.GetStreamAsync(requestUrl).GetAwaiter().GetResult());
                 return (xmlDoc);
             }
             catch (Exception e)
@@ -7911,7 +7918,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             string place = "Perth Airport, Australia";
             if (DialogResult.OK == InputBox.Show("Location", "Enter your location", ref place))
             {
+                // Create a backup of the map provider
+                var provider = MainMap.MapProvider;
+                // Set map provider to OpenStreetMap
+                MainMap.MapProvider = GMapProviders.OpenStreetMap;
+                // Zoom to the region specified
                 GeoCoderStatusCode status = MainMap.SetPositionByKeywords(place);
+                // Restore the map provider
+                MainMap.MapProvider = provider;
                 if (status != GeoCoderStatusCode.G_GEO_SUCCESS)
                 {
                     CustomMessageBox.Show("Google Maps Geocoder can't find: '" + place + "', reason: " + status,
@@ -7952,6 +7966,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void chk_usemavftp_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["UseMissionMAVFTP"] = chk_usemavftp.Checked.ToString();
+        }
+
+        private void gDALOpacityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ans = GDAL.GDALProvider.Instance.opacity;
+            if (InputBox.Show("Opacity 0.0-1.0", "Enter opacity (0.0-1.0)", ref ans) == DialogResult.OK)
+                GDAL.GDALProvider.Instance.opacity = double.Parse(InputBox.value);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -1059,15 +1060,14 @@ namespace DroneCAN
 
                 var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##", CultureInfo.InvariantCulture), "firmware.bin");
                 Console.WriteLine("LookForUpdate at " + url);
-                var req = WebRequest.Create(url);
-                ((HttpWebRequest)req).UserAgent = Assembly.GetExecutingAssembly().GetName().Name;
-                req.Timeout = 4000; // miliseconds
-                req.Method = "HEAD";
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Assembly.GetExecutingAssembly().GetName().Name);
+                client.Timeout = TimeSpan.FromSeconds(30);
+                var req = client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)).Result;
 
                 try
                 {
-                    var res = (HttpWebResponse)req.GetResponse();
-                    if (res.StatusCode == HttpStatusCode.OK)
+                    if (req.StatusCode == HttpStatusCode.OK)
                     {
                         Console.WriteLine("LookForUpdate valid url " + url);
                         return url;

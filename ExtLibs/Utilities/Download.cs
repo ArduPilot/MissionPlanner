@@ -14,6 +14,24 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
+    public static class DownloadExt
+    {
+        public static DateTime LastModified(this HttpContentHeaders headers)
+        {
+            if (headers.Any(h => h.Key.Equals("Last-Modified")))
+                return DateTime.Parse(headers.First(h => h.Key.Equals("Last-Modified")).Value.First());
+            return DateTime.MinValue;
+        }
+
+        public static int ContentLength(this HttpContentHeaders headers)
+        {
+            if (headers.Any(h => h.Key.Equals("Content-Length")))
+                return int.Parse(headers.First(h => h.Key.Equals("Content-Length")).Value.First());
+            return -1;
+        }
+    }
+
+
     public class DownloadStream : Stream
     {
         private long _length;
@@ -418,43 +436,39 @@ namespace MissionPlanner.Utilities
             {
                 lock (log)
                     log.Info(url);
-                // Create a request using a URL that can receive a post. 
-                WebRequest request = WebRequest.Create(url);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                request.Timeout = 10000;
-                // Set the Method property of the request to POST.
-                request.Method = "GET";
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                client.Timeout = TimeSpan.FromSeconds(30);
+
                 // Get the response.
-                WebResponse response = request.GetResponse();
+                var response = client.GetAsync(url).Result;
                 // Display the status.
                 lock (log)
-                    log.Info(((HttpWebResponse)response).StatusDescription);
-                if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
+                    log.Info(response.ReasonPhrase);
+                if (!response.IsSuccessStatusCode)
                     return false;
 
                 if (File.Exists(saveto))
                 {
                     DateTime lastfilewrite = new FileInfo(saveto).LastWriteTime;
-                    DateTime lasthttpmod = ((HttpWebResponse)response).LastModified;
+                    DateTime lasthttpmod = response.Content.Headers.LastModified();
 
                     if (lasthttpmod < lastfilewrite)
                     {
-                        if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
+                        if (response.Content.Headers.ContentLength() == new FileInfo(saveto).Length)
                         {
                             lock (log)
-                                log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
+                                log.Info("got LastModified " + saveto + " " + (response.Content.Headers).LastModified() +
                                      " vs " + new FileInfo(saveto).LastWriteTime);
-                            response.Close();
                             return true;
                         }
                     }
                 }
 
                 // Get the stream containing content returned by the server.
-                Stream dataStream = response.GetResponseStream();
+                Stream dataStream = response.Content.ReadAsStreamAsync().Result;
 
-                long bytes = response.ContentLength;
+                long bytes = response.Content.Headers.ContentLength();
                 long contlen = bytes;
 
                 byte[] buf1 = new byte[1024];
@@ -493,7 +507,6 @@ namespace MissionPlanner.Utilities
 
                 fs.Close();
                 dataStream.Close();
-                response.Close();
 
                 if (File.Exists(saveto))
                 {
@@ -528,34 +541,16 @@ namespace MissionPlanner.Utilities
             if (url == null || url == "" || uri == null)
                 return false;
 
-            WebRequest webRequest = WebRequest.Create(url);
-            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-               ((HttpWebRequest)webRequest).UserAgent = Settings.Instance.UserAgent;
-            webRequest.Timeout = 10000; // miliseconds
-            webRequest.Method = "HEAD";
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            client.Timeout = TimeSpan.FromSeconds(30);
+            var resp = client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)).Result;
+            return resp.IsSuccessStatusCode;
 
-            HttpWebResponse response = null;
-
-            try
-            {
-                response = (HttpWebResponse)webRequest.GetResponse();
-                result = true;
-            }
-            catch
-            {
-            }
-            finally
-            {
-                if (response != null)
-                {
-                    response.Close();
-                }
-            }
-
-            return result;
         }
 
         //https://stackoverflow.com/questions/13606523/retrieving-partial-content-using-multiple-http-requsets-to-fetch-data-via-parlle
+        [Obsolete]
         public static void ParallelDownloadFile(string uri, string filePath, int chunkSize = 0, Action<int,string> status = null)
         {
             if (uri == null)
@@ -653,14 +648,10 @@ namespace MissionPlanner.Utilities
                 if (fileSizeCache.ContainsKey(uri) && fileSizeCache[uri] > 0)
                     return fileSizeCache[uri];
 
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(uri);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest) request).UserAgent = Settings.Instance.UserAgent;
-                request.Method = "GET";
-                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
-                var len = response.ContentLength;
-                response.Close();
+                var responce = client.GetAsync(uri);
+                var len = responce.GetAwaiter().GetResult().Content.Headers.ContentLength();
                 fileSizeCache[uri] = len;
+                responce.Result.Dispose();
                 return len;
             }
         }

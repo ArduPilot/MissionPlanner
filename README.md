@@ -38,15 +38,17 @@ Currently VSCode with C# plugin is able to parse the code but cannot build.
 #### 2. Get the code
 
 If you get Visual Studio Community, you should be able to use Git from the IDE. 
-Just clone `https://github.com/ArduPilot/MissionPlanner.git` to get the full code.
+Clone `https://github.com/ArduPilot/MissionPlanner.git` to get the full code.
 
 In case you didn't install an IDE, you will need to manually install Git. Please follow instruction in https://ardupilot.org/dev/docs/where-to-get-the-code.html#downloading-the-code-using-git
+
+Open a git bash terminal in the MissionPlanner directory and type, "git submodule update --init" to download all submodules
 
 #### 3. Build
 
 To build the code:
 - Open MissionPlanner.sln with Visual Studio
-- Compile just the MissionPlanner project
+- From the Build menu, select "Build MissionPlanner"
 
 ### On other systems
 Building Mission Planner on other systems isn't support currently.
@@ -62,12 +64,9 @@ For MacOS users it is recommended to use Mission Planner for Windows via Boot Ca
 
 #### Requirements
 
-Those instructions were tested on Ubuntu 18.04.
+Those instructions were tested on Ubuntu 20.04.
 Please install Mono, either :
-- ` sudo apt install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms4.0-cil libmono-corlib4.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil`
-
-or full Mono :
-- `sudo apt install mono-complete`
+- `sudo apt install mono-complete mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms4.0-cil libmono-corlib4.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil`
 
 #### Launching
 
@@ -111,6 +110,8 @@ You can debug Mission Planner on Mono with `MONO_LOG_LEVEL=debug mono MissionPla
 | C:\ProgramData\Mission Planner\\*.pdef.xml | Parameter cache | yes |
 | C:\ProgramData\Mission Planner\LogMessages*.xml | DF Log metadata cache | yes |
 
+on linux this is in /home/<user>/.local/share/Mission Planner/
+
 ### Offline Data Supported
 #### Elevation
 * SRTM Cache
@@ -129,6 +130,8 @@ You can debug Mission Planner on Mono with `MONO_LOG_LEVEL=debug mono MissionPla
 |---|---|
 | C:\ProgramData\Mission Planner | All cross user content |
 | C:\Users\USERNAME\Documents\Mission Planner | All per user content |
+
+on linux this is in /home/<user>/.local/share/Mission Planner/
 
 ### CA Cert
 A CA cert is installed to the root store and used to sign the windows serial port drivers, and is installed as part of the MSI install.

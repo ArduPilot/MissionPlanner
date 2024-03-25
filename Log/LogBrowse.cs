@@ -72,6 +72,8 @@ namespace MissionPlanner.Log
             public double offset = 0;
             public double scalar = 1;
             public bool doOffsetFirst = false;
+            public bool isMask = false;
+            public uint mask = 0;
 
             public DataModifer()
             {
@@ -81,8 +83,16 @@ namespace MissionPlanner.Log
 
             public DataModifer(string _commandString)
             {
-                this.commandString = _commandString;
+                this.commandString = _commandString.Trim();
                 this.isValid = ParseCommandString(_commandString);
+            }
+
+            public DataModifer(uint _mask)
+            {
+                this.commandString = "";
+                this.isValid = true;
+                this.isMask = true;
+                this.mask = _mask;
             }
 
             private bool ParseCommandString(string _commandString)
@@ -138,6 +148,15 @@ namespace MissionPlanner.Log
                         case '-':
                             this.doOffsetFirst = (i == 0);
                             this.offset = -value;
+                            break;
+
+                        case '&':
+                            if (value < 0)
+                            {
+                                return false;
+                            }
+                            this.isMask = true;
+                            this.mask = (uint)value;
                             break;
 
                         default:
@@ -619,6 +638,23 @@ namespace MissionPlanner.Log
             return "";
         }
 
+        private void add_field_node(ref TreeNode root_node, string LogMSG, string instance, string VehicleType)
+        {
+            var new_node = root_node.Nodes.Add(instance);
+            new_node.ToolTipText = get_extra_info(LogMSG, instance, VehicleType);
+
+            // if bitmask add sub nodes, look up in metadata
+            if (LogMetaData.MetaData.ContainsKey(LogMSG) && LogMetaData.MetaData[LogMSG].ContainsKey(instance) && LogMetaData.MetaData[LogMSG][instance].bitmask != null)
+            {
+                foreach(var bit in LogMetaData.MetaData[LogMSG][instance].bitmask)
+                {
+                    var new_bit_node = new_node.Nodes.Add(bit.name);
+                    new_bit_node.ToolTipText = bit.description;
+                    new_bit_node.Tag = "bitmask";
+                }
+            }
+        }
+
         private void ResetTreeView(List<string> seenmessagetypes, string VehicleType)
         {
             treeView1.Nodes.Clear();
@@ -649,8 +685,7 @@ namespace MissionPlanner.Log
                             instNode.ToolTipText = get_instance_info(item.Name, instanceinfo, VehicleType);
                             foreach (var item1 in item.FieldNames)
                             {
-                                var new_node = instNode.Nodes.Add(item1);
-                                new_node.ToolTipText = get_extra_info(item.Name, item1, VehicleType);
+                                add_field_node(ref instNode, item.Name, item1, VehicleType);
                             }
                         }
                     }
@@ -659,8 +694,7 @@ namespace MissionPlanner.Log
                         // no instance add the fields
                         foreach (var item1 in item.FieldNames)
                         {
-                            var new_node = msgNode.Nodes.Add(item1);
-                            new_node.ToolTipText = get_extra_info(item.Name, item1, VehicleType);
+                            add_field_node(ref msgNode, item.Name, item1, VehicleType);
                         }
                     }
                     treeView1.Nodes.Add(msgNode);
@@ -1032,11 +1066,12 @@ namespace MissionPlanner.Log
         }
 
         void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
-            bool isexpression = false, string instance = "")
+            bool isexpression = false, string instance = "", string bitmask = null)
         {
             log.InfoFormat("GraphItem: {0} {1} {2}", type, fieldname, instance);
             DataModifer dataModifier = new DataModifer();
-            string nodeName = DataModifer.GetNodeName(type, instance != "" ? int.Parse(instance) : -1, fieldname);
+            int instance_int;
+            string nodeName = DataModifer.GetNodeName(type, int.TryParse(instance, out instance_int) ? instance_int : -1, fieldname);
 
             foreach (var curve in zg1.GraphPane.CurveList)
             {
@@ -1050,7 +1085,7 @@ namespace MissionPlanner.Log
                     return;
             }
 
-            if (dataModifierHash.ContainsKey(nodeName))
+            if (dataModifierHash.ContainsKey(nodeName) && (bitmask == null))
             {
                 dataModifier = (DataModifer)dataModifierHash[nodeName];
             }
@@ -1071,6 +1106,54 @@ namespace MissionPlanner.Log
                                 {
                                     if (subsubnode.Text == fieldname)
                                     {
+                                        if (bitmask == null)
+                                        {
+                                            if (subsubnode.Checked != true)
+                                            {
+                                                subsubnode.Checked = true;
+                                            }
+                                            extra_label = " " + subsubnode.ToolTipText;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            foreach (TreeNode subsubsubnode in subsubnode.Nodes)
+                                            {
+                                                if (subsubsubnode.Text == bitmask)
+                                                {
+                                                    if (subsubsubnode.Checked != true)
+                                                    {
+                                                        subsubsubnode.Checked = true;
+                                                    }
+                                                    extra_label = " " + subsubsubnode.ToolTipText;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (bitmask == null)
+                            {
+                                if (subnode.Text == fieldname)
+                                {
+                                    if (subnode.Checked != true)
+                                    {
+                                        subnode.Checked = true;
+                                    }
+                                    extra_label = " " + subnode.ToolTipText;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                foreach (TreeNode subsubnode in subnode.Nodes)
+                                {
+                                    if (subsubnode.Text == bitmask)
+                                    {
                                         if (subsubnode.Checked != true)
                                         {
                                             subsubnode.Checked = true;
@@ -1081,18 +1164,24 @@ namespace MissionPlanner.Log
                                 }
                             }
                         }
-                        else
-                        {
-                            if (subnode.Text == fieldname)
-                            {
-                                if (subnode.Checked != true)
-                                {
-                                    subnode.Checked = true;
-                                }
-                                extra_label = " " + subnode.ToolTipText;
-                                break;
-                            }
-                        }
+                    }
+                }
+            }
+
+            if (dataModifier.IsValid())
+            {
+                extra_label = dataModifier.commandString + extra_label;
+            }
+
+            if (bitmask != null)
+            {
+                foreach (var bitmask_item in LogMetaData.MetaData[type][fieldname].bitmask)
+                {
+                    if (bitmask_item.name == bitmask)
+                    {
+                        extra_label = "." + bitmask + extra_label;
+                        dataModifier = new DataModifer(bitmask_item.mask);
+                        break;
                     }
                 }
             }
@@ -1354,7 +1443,6 @@ main()
             double a = 0; // row counter
             double b = 0;
             DateTime screenupdate = DateTime.MinValue;
-            double value_prev = 0;
 
             foreach (var item in logdata.GetEnumeratorType(type))
             {
@@ -1374,24 +1462,20 @@ main()
                         double value = double.Parse(item.items[col],
                             System.Globalization.CultureInfo.InvariantCulture);
 
-                        // abandon realy bad data
-                        if (Math.Abs(value) > 9.15e8)
-                        {
-                            a++;
-                            continue;
-                        }
-
                         if (dataModifier.IsValid())
                         {
-                            if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                            if (dataModifier.isMask)
                             {
-                                // there is a glitch in the data, reject it by replacing it with the previous value
-                                value = value_prev;
+                                int shift;
+                                for (shift = 0; shift < 32; shift++)
+                                { 
+                                    if (((dataModifier.mask >> shift) & 1) != 0) {
+                                        break;
+                                    }
+                                }
+                                value = ((uint)value & dataModifier.mask) >> shift;
                             }
-
-                            value_prev = value;
-
-                            if (dataModifier.doOffsetFirst)
+                            else if (dataModifier.doOffsetFirst)
                             {
                                 value += dataModifier.offset;
                                 value *= dataModifier.scalar;
@@ -2942,28 +3026,32 @@ main()
 
                 if (e.Node.Checked)
                 {
-                    if (wasrightclick)
-                    {
-                        if (parts.Length == 3)
-                            GraphItem(parts[0], parts[2], false, true, false, parts[1]);
+                    if (parts.Length == 4)
+                        GraphItem(parts[0], parts[2], !wasrightclick, true, false, parts[1], parts[3]);
+
+                    else if (parts.Length == 3)
+                        if ((e.Node.Tag != null) && (e.Node.Tag.ToString() == "bitmask"))
+                            GraphItem(parts[0], parts[1], !wasrightclick, true, false, "", parts[2]);
                         else
-                            GraphItem(parts[0], parts[1], false);
-                    }
-                    else
-                    {
-                        if (parts.Length == 3)
-                            GraphItem(parts[0], parts[2], true, true, false, parts[1]);
-                        else
-                            GraphItem(parts[0], parts[1], true);
-                    }
+                            GraphItem(parts[0], parts[2], !wasrightclick, true, false, parts[1]);
+                     else
+                        GraphItem(parts[0], parts[1], !wasrightclick, true, false, "");
                 }
                 else
                 {
                     List<CurveItem> removeitems = new List<CurveItem>();
 
-                    var name = parts.Length == 3
-                        ? parts[0] + "[" + parts[1] + "]." + parts[2]
-                        : parts[0] + "." + parts[1];
+                    string name;
+                    if (parts.Length == 4)
+                        name = parts[0] + "[" + parts[1] + "]." + parts[2] + "." + parts[3];
+
+                    else if (parts.Length == 3)
+                        if ((e.Node.Tag != null) && (e.Node.Tag.ToString() == "bitmask"))
+                            name = parts[0] + "." + parts[1] + "." + parts[2];
+                        else
+                            name = parts[0] + "[" + parts[1] + "]." + parts[2];
+                    else
+                        name = parts[0] + "." + parts[1];
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
@@ -3626,18 +3714,18 @@ main()
                 if (items.Length >= 2 && LogMetaData.MetaData.ContainsKey(items[0]) &&
                     LogMetaData.MetaData[items[0]].ContainsKey(items[items.Length - 1]))
                 {
-                    var desc = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
+                    var feild = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
                     pos.Y -= 30;
                     pos.X += 30;
-                    txt_info.Text = desc;
+                    txt_info.Text = feild.description;
                     //toolTip1.Show(desc, treeView1, pos, 2000);
                 } else if (items.Length == 1 && LogMetaData.MetaData.ContainsKey(items[0]) &&
                            LogMetaData.MetaData[items[0]].ContainsKey("description"))
                 {
-                    var desc = LogMetaData.MetaData[items[0]]["description"];
+                    var feild = LogMetaData.MetaData[items[0]]["description"];
                     pos.Y -= 30;
                     pos.X += 30;
-                    txt_info.Text = desc;
+                    txt_info.Text = feild.description;
                     //toolTip1.Show(desc, treeView1, pos, 2000);
                 }
             }

@@ -160,6 +160,11 @@ namespace MissionPlanner
         public Mavlink_Sensors sensors_health = new Mavlink_Sensors();
         public Mavlink_Sensors sensors_present = new Mavlink_Sensors();
 
+        public bool prearmstatus
+        {
+            get => connected && (sensors_health.prearm || !sensors_enabled.prearm);
+        }
+
         private bool useLocation;
 
         /// <summary>
@@ -204,6 +209,9 @@ namespace MissionPlanner
 
             var t = Type.GetType("Mono.Runtime");
             MONO = t != null;
+
+            // Initialize firmware type from settings file
+            Enum.TryParse(Settings.Instance.APMFirmware, out firmware);
         }
 
         // propery name, Name   Name starts with MAV_ will link to named_value_float messages
@@ -1932,6 +1940,9 @@ namespace MissionPlanner
         [GroupText("EFI")]
         [DisplayText("EFI Fuel Consumed (g)")]
         public float efi_fuelconsumed { get; private set; }
+        [GroupText("EFI")]
+        [DisplayText("EFI Fuel Pressure (kPa)")]
+        public float efi_fuelpressure { get; private set; }
 
         [GroupText("Transponder Status")]
         [DisplayText("Transponder 1090ES Tx Enabled")]
@@ -2480,6 +2491,15 @@ namespace MissionPlanner
                                 efi_rpm = efi.rpm;
                                 efi_fuelflow = efi.fuel_flow;
                                 efi_fuelconsumed = efi.fuel_consumed;
+                                // A value of exactly zero indicates that fuel pressure is not supported
+                                if (efi.fuel_pressure == 0)
+                                {
+                                    efi_fuelpressure = -1;
+                                }
+                                else
+                                {
+                                    efi_fuelpressure = efi.fuel_pressure;
+                                }
                             }
                         }
                         break;

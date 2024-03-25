@@ -16,7 +16,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
           key: ${{ runner.os }}-buildIOS
 
       - name: Build
@@ -41,12 +41,18 @@ jobs:
         with:
           submodules: true
           fetch-depth: 10
+          
+      - name: Set default Xcode 14.0.1
+        run: |
+          XCODE_ROOT=/Applications/Xcode_14.0.1.app
+          echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
+          sudo xcode-select -s $XCODE_ROOT
 
       - name: Cache multiple paths
         uses: actions/cache@v2
         with:
           path: |
-            **/obj
+            **/obj/**
           key: ${{ runner.os }}-buildOSX
 
       - name: Build

@@ -20,12 +20,12 @@ namespace OpenDroneID_Plugin
 
         public override string Version
         {
-            get { return "0.04"; }
+            get { return "0.05"; }
         }
 
         public override string Author
         {
-            get { return "Steven Borenstein"; }
+            get { return "Steven Borenstein, updated by BlueMark Innovations BV"; }
         }
 
         public override bool Init()

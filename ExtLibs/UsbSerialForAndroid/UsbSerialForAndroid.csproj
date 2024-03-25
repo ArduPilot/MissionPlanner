@@ -10,7 +10,7 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <AssemblyName>UsbSerialForAndroid</AssemblyName>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <ReleaseVersion>0.2.3</ReleaseVersion>
     <AndroidClassParser>class-parse</AndroidClassParser>
   </PropertyGroup>

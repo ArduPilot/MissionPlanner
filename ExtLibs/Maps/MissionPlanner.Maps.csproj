@@ -1,24 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
     <OutputTypeEx>library</OutputTypeEx>
     <AssemblyName>MissionPlanner.Maps</AssemblyName>
     <RootNamespace>MissionPlanner.Maps</RootNamespace>
 
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BruTile" Version="4.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.2" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
     <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
 
       <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
@@ -27,7 +27,7 @@
       <Aliases>Interface</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
-    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'net461'">
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'net472'">
       <Aliases>ignore</Aliases>
     </ProjectReference>
 

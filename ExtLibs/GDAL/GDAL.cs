@@ -32,6 +32,26 @@ namespace GDAL
             {
                 log.Error(ex);
             }
+
+            try
+            {
+                GdalConfiguration.ConfigureOgr();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
+            try
+            {
+                log.InfoFormat("GDAL static ctor - SpatialReference");
+                WGS84srs = new SpatialReference(null);
+                WGS84srs.ImportFromEPSG(4326);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         public delegate void Progress(double percent, string message);
@@ -142,10 +162,11 @@ namespace GDAL
                 log.InfoFormat("  Center (" + GDALInfoGetPosition(ds, ds.RasterXSize / 2, ds.RasterYSize / 2) + ")");
                 log.InfoFormat("");
 
+                SpatialReference srs = null;
                 string projection = ds.GetProjectionRef();
                 if (projection != null)
                 {
-                    SpatialReference srs = new SpatialReference(null);
+                    srs = new SpatialReference(null);
                     if (srs.ImportFromWkt(ref projection) == 0)
                     {
                         string wkt;
@@ -179,7 +200,7 @@ namespace GDAL
                     for (int i = 0; i < 6; i++)
                         log.InfoFormat("t[" + i + "] = " + transform[i].ToString());
                     log.InfoFormat("");
-                }
+                }               
 
                 var TL = GDALInfoGetPositionDouble(ds, 0.0, 0.0);
                 var BR = GDALInfoGetPositionDouble(ds, ds.RasterXSize, ds.RasterYSize);
@@ -188,11 +209,29 @@ namespace GDAL
                 if (resolution == 1)
                     throw new Exception("Invalid coords");
 
+                if (srs != null && projection != null)
+                {
+                    if (srs.IsGeographic() != 1)
+                    {
+                        var wkt = "LINESTRING EMPTY";
+                        var points = Ogr.CreateGeometryFromWkt(ref wkt, srs);
+                        points.AddPoint(TL[0], TL[1], 0);
+                        points.AddPoint(BR[0], BR[1], 0);
+                        //points.AssignSpatialReference(srs);
+                        points.TransformTo(WGS84srs);
+
+                        points.GetPoint(0, TL);
+                        points.GetPoint(1, BR);
+                    }
+                }
+
                 return new GeoBitmap(file, resolution, ds.RasterXSize, ds.RasterYSize, TL[0], TL[1], BR[0], BR[1]);
             }
         }
 
         static object locker = new object();
+
+        public static SpatialReference WGS84srs { get; }
 
         public static Bitmap GetBitmap(double lng1, double lat1, double lng2, double lat2, long width, long height)
         {

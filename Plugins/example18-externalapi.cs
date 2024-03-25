@@ -1,15 +1,17 @@
 ﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
-using Org.BouncyCastle.Crypto.Tls;
+using Org.BouncyCastle.Tls;
+using Org.BouncyCastle.Tls.Crypto.Impl.BC;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Org.BouncyCastle.Utilities.Encoders;
+
 //loadassembly: BouncyCastle
 
 namespace MissionPlanner.plugins
@@ -27,8 +29,8 @@ namespace MissionPlanner.plugins
             return true;
         }
 
-        public string address = Settings.Instance.GetString("ex_api_address");
-        public int port = Settings.Instance.GetInt32("ex_api_port");
+        public string address = Settings.Instance.GetString("ex_api_address", "droneshare.cubepilot.org");
+        public int port = Settings.Instance.GetInt32("ex_api_port", 8042);
 
         public override bool Init()
         {
@@ -61,20 +63,28 @@ namespace MissionPlanner.plugins
             Settings.Instance["ex_api_username"] = username;
             Settings.Instance["ex_api_psk"] = token;
 
+            var psk = new BasicTlsPskIdentity(username, token.MakeBytes());
+            var pskclient = new DTLSPsk(psk);
+
             Task.Run(() =>
             {
                 try
                 {
-                    var psk = new BasicTlsPskIdentity(username, token.MakeBytes());
-                    var pskclient = new DTLSPsk(psk);
 
-                    DtlsClientProtocol client = new DtlsClientProtocol(new Org.BouncyCastle.Security.SecureRandom());
+
+                    DtlsClientProtocol client = new DtlsClientProtocol();
                     DatagramTransport transport = new UDPTransport(address, port);
                     var dtlstx = client.Connect(pskclient, transport);
 
                     MainV2.comPort.OnPacketReceived += (sender, message) =>
                     {
-                        dtlstx.Send(message.buffer, 0, message.buffer.Length);
+                        try
+                        {
+                            dtlstx.Send(message.buffer, 0, message.buffer.Length);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     };
 
                     var buf = new byte[dtlstx.GetReceiveLimit()];
@@ -90,9 +100,13 @@ namespace MissionPlanner.plugins
                                     MainV2.comPort.BaseStream.Write(buf, 0, read);
                             }
                         }
-                        catch (Exception ex) { }
+                        catch (Exception ex)
+                        {
+                        }
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     CustomMessageBox.Show(Strings.ERROR, ex.ToString());
                 }
             });
@@ -106,7 +120,8 @@ namespace MissionPlanner.plugins
 
     internal class DTLSPsk : PskTlsClient
     {
-        public DTLSPsk(TlsPskIdentity pskIdentity) : base(pskIdentity)
+        public DTLSPsk(TlsPskIdentity pskIdentity) : base(new BcTlsCrypto(new Org.BouncyCastle.Security.SecureRandom()),
+            pskIdentity)
         {
         }
 
@@ -114,24 +129,128 @@ namespace MissionPlanner.plugins
         {
             return new int[]
             {
-                CipherSuite.TLS_PSK_WITH_AES_128_GCM_SHA256,
-                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CCM
-                //Cipher Suite: TLS_PSK_WITH_AES_128_GCM_SHA256 (0x00a8)
+                CipherSuite.TLS_ECDHE_PSK_WITH_CHACHA20_POLY1305_SHA256,
+                CipherSuite.TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA,
+                CipherSuite.TLS_DHE_PSK_WITH_CHACHA20_POLY1305_SHA256,
+                CipherSuite.TLS_DHE_PSK_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_DHE_PSK_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_DHE_PSK_WITH_AES_128_CBC_SHA,
+                CipherSuite.TLS_PSK_WITH_AES_128_GCM_SHA256
             };
         }
 
-        public override ProtocolVersion MinimumVersion
+        public override void NotifyAlertRaised(short alertLevel, short alertDescription, string message,
+            Exception cause)
         {
-            get { return ProtocolVersion.DTLSv10; }
+            TextWriter output = (alertLevel == AlertLevel.fatal) ? Console.Error : Console.Out;
+            output.WriteLine("DTLS client raised alert: " + AlertLevel.GetText(alertLevel)
+                                                          + ", " + AlertDescription.GetText(alertDescription));
+            if (message != null)
+            {
+                output.WriteLine("> " + message);
+            }
+
+            if (cause != null)
+            {
+                output.WriteLine(cause);
+            }
+        }
+
+        public override void NotifyAlertReceived(short alertLevel, short alertDescription)
+        {
+            TextWriter output = (alertLevel == AlertLevel.fatal) ? Console.Error : Console.Out;
+            output.WriteLine("DTLS client received alert: " + AlertLevel.GetText(alertLevel)
+                                                            + ", " + AlertDescription.GetText(alertDescription));
+        }
+
+        public override void NotifyServerVersion(ProtocolVersion serverVersion)
+        {
+            base.NotifyServerVersion(serverVersion);
+
+            Console.WriteLine("DTLS client negotiated " + serverVersion);
+        }
+
+        public override TlsAuthentication GetAuthentication()
+        {
+            return base.GetAuthentication();
         }
 
         public override void NotifySecureRenegotiation(bool secureRenegotiation)
         {
-
+            // this is psk, not needed
+            //base.NotifySecureRenegotiation(secureRenegotiation);
         }
 
-        public override ProtocolVersion ClientVersion => ProtocolVersion.DTLSv12;
+        public override void NotifyHandshakeComplete()
+        {
+            base.NotifyHandshakeComplete();
+
+            ProtocolName protocolName = m_context.SecurityParameters.ApplicationProtocol;
+            if (protocolName != null)
+            {
+                Console.WriteLine("Client ALPN: " + protocolName.GetUtf8Decoding());
+            }
+
+            TlsSession newSession = m_context.Session;
+            if (newSession != null)
+            {
+                if (newSession.IsResumable)
+                {
+                    byte[] newSessionID = newSession.SessionID;
+                    string hex = ToHexString(newSessionID);
+                    /*
+                    if (base.m_session != null && Arrays.AreEqual(base.m_session.SessionID, newSessionID))
+                    {
+                        Console.WriteLine("Client resumed session: " + hex);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Client established session: " + hex);
+                    }
+
+                    this.m_session = newSession;
+                    */
+
+                    Console.WriteLine("Client established session: " + hex);
+                }
+
+                byte[] tlsServerEndPoint = m_context.ExportChannelBinding(ChannelBinding.tls_server_end_point);
+                if (null != tlsServerEndPoint)
+                {
+                    Console.WriteLine("Client 'tls-server-end-point': " + ToHexString(tlsServerEndPoint));
+                }
+
+                byte[] tlsUnique = m_context.ExportChannelBinding(ChannelBinding.tls_unique);
+                Console.WriteLine("Client 'tls-unique': " + ToHexString(tlsUnique));
+            }
+        }
+
+        public override IDictionary<int, byte[]> GetClientExtensions()
+        {
+            if (m_context.SecurityParameters.ClientRandom == null)
+                throw new TlsFatalAlert(AlertDescription.internal_error);
+
+            return base.GetClientExtensions();
+        }
+
+        public override void ProcessServerExtensions(IDictionary<int, byte[]> serverExtensions)
+        {
+            if (m_context.SecurityParameters.ServerRandom == null)
+                throw new TlsFatalAlert(AlertDescription.internal_error);
+
+            base.ProcessServerExtensions(serverExtensions);
+        }
+
+        protected virtual string ToHexString(byte[] data)
+        {
+            return data == null ? "(null)" : Hex.ToHexString(data);
+        }
+
+        protected override ProtocolVersion[] GetSupportedVersions()
+        {
+            return ProtocolVersion.DTLSv12.Only();
+        }
     }
 
     public class UDPTransport : DatagramTransport
@@ -147,12 +266,12 @@ namespace MissionPlanner.plugins
             this.address = address;
             this.port = port;
 
-            _udpclient = new UdpClient(address, port);            
+            _udpclient = new UdpClient(address, port);
         }
 
         public void Close()
         {
-           _udpclient.Close();
+            _udpclient.Close();
         }
 
         public int GetReceiveLimit()
@@ -168,7 +287,7 @@ namespace MissionPlanner.plugins
         public int Receive(byte[] buf, int off, int len, int waitMillis)
         {
             var endtime = DateTime.Now.AddMilliseconds(waitMillis);
-            while(mRecordQueue.Available < len && endtime > DateTime.Now)
+            while (mRecordQueue.Available < len && endtime > DateTime.Now)
             {
                 if (_udpclient.Available > 0)
                 {

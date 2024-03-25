@@ -1247,6 +1247,8 @@ namespace MissionPlanner.Utilities
             int argc = 1;
             string[] argv = new string[] { "-vvv" };
 
+            Environment.SetEnvironmentVariable("GST_DEBUG", "*:4");
+
             try
             {
                 
@@ -1346,11 +1348,12 @@ namespace MissionPlanner.Utilities
             log.Info("set playing ");
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
+                      
 
             int Width = 0;
             int Height = 0;
-            int trys = 0;
             // prevent it falling out of scope
+            int trys = 0;
             GstAppSinkCallbacks callbacks2 = callbacks;
 
             run = true;
@@ -1363,6 +1366,12 @@ namespace MissionPlanner.Utilities
                     (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
                 run = false;
 
+            }
+            else {
+                var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, 0,
+                     (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+                if (msg != IntPtr.Zero)
+                    run = false;
             }
 
             log.Info("start frame loop gst_app_sink_is_eos");

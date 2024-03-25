@@ -211,11 +211,39 @@ namespace MissionPlanner.Utilities
             // utm position list
             List<utmpos> utmpositions = utmpos.ToList(PointLatLngAlt.ToUTM(utmzone, polygon), utmzone);
 
-            // close the loop if its not already
-            if (utmpositions[0] != utmpositions[utmpositions.Count - 1])
-                utmpositions.Add(utmpositions[0]); // make a full loop
+            // get mins/maxs of coverage area
+            Rect area = getPolyMinMax(utmpositions);
 
             var maxlane = laps;// (Centroid(utmpositions).GetDistance(utmpositions[0]) / distance);
+
+            // pick start positon based on initial point rectangle
+            utmpos startposutm;
+
+            switch (startpos)
+            {
+                default:
+                case StartPosition.Home:
+                    startposutm = new utmpos(HomeLocation);
+                    break;
+                case StartPosition.BottomLeft:
+                    startposutm = new utmpos(area.Left, area.Bottom, utmzone);
+                    break;
+                case StartPosition.BottomRight:
+                    startposutm = new utmpos(area.Right, area.Bottom, utmzone);
+                    break;
+                case StartPosition.TopLeft:
+                    startposutm = new utmpos(area.Left, area.Top, utmzone);
+                    break;
+                case StartPosition.TopRight:
+                    startposutm = new utmpos(area.Right, area.Top, utmzone);
+                    break;
+                case StartPosition.Point:
+                    startposutm = new utmpos(StartPointLatLngAlt);
+                    break;
+            }
+
+            // find the closes polygon point based from our startpos selection
+            startposutm = findClosestPoint(startposutm, utmpositions);
 
             ClipperLib.ClipperOffset clipperOffset = new ClipperLib.ClipperOffset();
 
@@ -240,7 +268,18 @@ namespace MissionPlanner.Utilities
                 {
                     ans1 = treeChild.Contour.Select(a => new utmpos(a.X / 1000.0, a.Y / 1000.0, utmzone))
                         .ToList();
+                    // rotate points so the start point is close to the previous                    
+                    {
+                        startposutm = findClosestPoint(startposutm, ans1);
 
+                        var startidx = ans1.IndexOf(startposutm);
+
+                        var firsthalf = ans1.GetRange(startidx, ans1.Count - startidx);
+                        var secondhalf = ans1.GetRange(0, startidx);
+
+                        ans1 = firsthalf;
+                        ans1.AddRange(secondhalf);
+                    }
                     if (lane == 0 && clockwise_laps != 1 && match_spiral_perimeter)
                     {
                         ans1.Insert(0, ans1.Last<utmpos>());   // start at the last point of the first calculated lap

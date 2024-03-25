@@ -57,7 +57,33 @@ using Stream = Android.Media.Stream;
 [assembly: UsesFeature(GLESVersion = 0x00030000, Required = true)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
-//[assembly: UsesPermission("android.permission.MANAGE_EXTERNAL_STORAGE")]
+[assembly: UsesPermission("android.permission.BLUETOOTH")]
+[assembly: UsesPermission("android.permission.BLUETOOTH_CONNECT")]
+[assembly: UsesPermission("android.permission.BLUETOOTH_ADMIN")]
+[assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
+[assembly: UsesFeature("android.hardware.bluetooth_le", Required = false)]
+[assembly: UsesPermission("android.permission.ACCESS_FINE_LOCATION")]
+[assembly: UsesPermission("android.permission.ACCESS_COARSE_LOCATION")]
+[assembly: UsesPermission("android.permission.INTERNET")]
+[assembly: UsesPermission("android.permission.LOCATION_HARDWARE")]
+[assembly: UsesPermission("android.permission.WAKE_LOCK")]
+[assembly: UsesPermission("android.permission.WRITE_EXTERNAL_STORAGE")]
+[assembly: UsesPermission("android.permission.READ_EXTERNAL_STORAGE")]
+[assembly: UsesPermission("android.permission.CHANGE_NETWORK_STATE")]
+[assembly: UsesPermission("android.permission.CHANGE_WIFI_MULTICAST_STATE")]
+[assembly: UsesPermission("android.permission.CHANGE_WIFI_STATE")]
+[assembly: UsesPermission("android.permission.ACCESS_NETWORK_STATE")]
+[assembly: UsesPermission("android.permission.ACCESS_WIFI_STATE")]
+[assembly: UsesPermission("android.permission.RECEIVE_BOOT_COMPLETED")]
+[assembly: UsesPermission("android.permission.BLUETOOTH")]
+[assembly: UsesPermission("android.permission.USB_PERMISSION")]
+[assembly: UsesPermission("android.permission.BATTERY_STATS")]
+[assembly: UsesFeature("android.hardware.usb.accessory", Required = false)]
+[assembly: UsesFeature("android.hardware.touchscreen" , Required = false)]
+[assembly: UsesFeature("android.hardware.location" , Required = false)]
+[assembly: UsesFeature("android.hardware.telephony", Required = false)]
+[assembly: UsesFeature("android.hardware.faketouch" , Required = true)]
+
 
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
@@ -69,7 +95,7 @@ namespace Xamarin.Droid
     [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.tlog", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })]
     [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.bin", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })] 
     [MetaData("android.hardware.usb.action.USB_DEVICE_ATTACHED", Resource = "@xml/device_filter")]
-    [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(Label = "Mission Planner", Exported = true, ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
         MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true, LaunchMode = LaunchMode.SingleInstance)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

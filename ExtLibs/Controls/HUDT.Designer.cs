@@ -373,11 +373,49 @@ namespace MissionPlanner.Controls {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Ready to Arm.
+        /// </summary>
+        public static string NotReadyToArm {
+            get {
+                return ResourceManager.GetString("NotReadyToArm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NW.
         /// </summary>
         public static string NW {
             get {
                 return ResourceManager.GetString("NW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap prearm_green {
+            get {
+                object obj = ResourceManager.GetObject("prearm_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap prearm_red {
+            get {
+                object obj = ResourceManager.GetObject("prearm_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready to Arm.
+        /// </summary>
+        public static string ReadyToArm {
+            get {
+                return ResourceManager.GetString("ReadyToArm", resourceCulture);
             }
         }
         

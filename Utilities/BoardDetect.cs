@@ -140,7 +140,12 @@ namespace MissionPlanner.Utilities
                                 log.Info("is a px4v4 pixracer");
                                 return boards.px4v4;
                             }
-                            else if (item.board == "PX4 FMU v2.x")
+                            else if (item.board == "PX4 FMU v1.x")
+                            {
+                                log.Info("is a px4v1");
+                                return boards.px4;
+                            }
+                            else if (item.board == "PX4 FMU v2.x" || item.board == "PX4 FMU v3.x")
                             {
                                 CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 

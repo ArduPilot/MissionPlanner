@@ -77,6 +77,7 @@
     "Microsoft.VisualStudio.Component.VSSDK",
     "Microsoft.VisualStudio.ComponentGroup.VisualStudioExtension.Prerequisites",
     "Microsoft.VisualStudio.Workload.VisualStudioExtension",
+    "Microsoft.NetCore.Component.Runtime.3.1",
     "Microsoft.Net.Component.4.6.1.TargetingPack"
   ]
 }

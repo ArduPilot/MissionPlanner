@@ -109,12 +109,10 @@ namespace MissionPlanner.Comms
                     }
                 });
                 log.Info($"UdpSerialConnect default endpoint {hostEndPoint}");
-                client.Connect(hostEndPoint);
             }
             else
             {
                 client = new UdpClient();
-                client.Connect(hostEndPoint);
             }
 
             IsOpen = true;
@@ -124,7 +122,7 @@ namespace MissionPlanner.Comms
 
         public void Open()
         {
-            if (client.Client.Connected)
+            if (IsOpen)
             {
                 log.Warn("UdpSerialConnect socket already open");
                 return;
@@ -350,27 +348,7 @@ namespace MissionPlanner.Comms
 
         private void VerifyConnected()
         {
-            if (!IsOpen)
-            {
-                try
-                {
-                    client.Dispose();
-                }
-                catch
-                {
-                }
 
-                // this should only happen if we have established a connection in the first place
-                if (client != null && retrys > 0)
-                {
-                    log.Info("udp reconnect");
-                    client = new UdpClient();
-                    client.Connect(OnSettings("UDP_host", ""), int.Parse(OnSettings("UDP_port", "")));
-                    retrys--;
-                }
-
-                throw new Exception("The UdpSerialConnect is closed");
-            }
         }
 
         protected virtual void Dispose(bool disposing)

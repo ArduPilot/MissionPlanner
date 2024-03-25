@@ -209,8 +209,20 @@
   <data name="nogps_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\nogps_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="NotReadyToArm" xml:space="preserve">
+    <value>Not Ready to Arm</value>
+  </data>
   <data name="NW" xml:space="preserve">
     <value>NW</value>
+  </data>
+  <data name="prearm_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\prearm_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="prearm_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\prearm_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReadyToArm" xml:space="preserve">
+    <value>Ready to Arm</value>
   </data>
   <data name="rtkfixed_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\rtkfixed_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

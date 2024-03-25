@@ -117,6 +117,9 @@ namespace OSDConfigurator.GUI
 
         private void Draw(object sender, PaintEventArgs e)
         {
+            if (DesignMode)
+                return;
+
             Visualizer.DrawBackground(e.Graphics);
 
             if (items != null)

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
@@ -201,13 +202,12 @@ namespace MissionPlanner.Utilities
                     XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
 
                     log.Info("url: " + url);
-                    WebRequest request = WebRequest.Create(url);
-                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                        ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                    request.Timeout = 10000;
+                    var client = new HttpClient();
+                    client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                    client.Timeout = TimeSpan.FromSeconds(30);
 
-                    using (WebResponse response = request.GetResponse())
-                    using (XmlReader xmlreader = XmlReader.Create(response.GetResponseStream()))
+                    using (var response = client.GetAsync(url))
+                    using (XmlReader xmlreader = XmlReader.Create(response.Result.Content.ReadAsStreamAsync().Result))
                     {
                         options = (optionsObject)xms.Deserialize(xmlreader);
                     }
@@ -303,7 +303,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        private string GetAPMVERSIONFile(Uri url)
+        public string GetAPMVERSIONFile(Uri url)
         {
             lock (urlcachelock)
                 if (!urlcacheSem.ContainsKey(url.AbsoluteUri))
@@ -320,12 +320,12 @@ namespace MissionPlanner.Utilities
                         return urlcache[url.AbsoluteUri];
                     }
 
-                WebRequest wr = WebRequest.Create(url);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)wr).UserAgent = Settings.Instance.UserAgent;
-                wr.Timeout = 10000;
-                using (WebResponse wresp = wr.GetResponse())
-                using (StreamReader sr = new StreamReader(wresp.GetResponseStream()))
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+                client.Timeout = TimeSpan.FromSeconds(30);
+
+                using (var response = client.GetAsync(url))
+                using (StreamReader sr = new StreamReader(response.GetAwaiter().GetResult().Content.ReadAsStreamAsync().GetAwaiter().GetResult()))
                 {
                     while (!sr.EndOfStream)
                     {
@@ -530,61 +530,9 @@ namespace MissionPlanner.Utilities
 
                 var starttime = DateTime.Now;
 
-                // Create a request using a URL that can receive a post. 
-                WebRequest request = WebRequest.Create(baseurl);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                request.Timeout = 10000;
-                // Set the Method property of the request to POST.
-                request.Method = "GET";
-                // Get the request stream.
-                Stream dataStream; //= request.GetRequestStream();
-                // Get the response (using statement is exception safe)
-                using (WebResponse response = request.GetResponse())
-                {
-                    // Display the status.
-                    log.Info(((HttpWebResponse)response).StatusDescription);
-                    // Get the stream containing content returned by the server.
-                    using (dataStream = response.GetResponseStream())
-                    {
-                        long bytes = response.ContentLength;
-                        long contlen = bytes;
-
-                        byte[] buf1 = new byte[1024];
-
-                        using (FileStream fs = new FileStream(
-                                Settings.GetUserDataDirectory() +
-                                @"firmware.hex", FileMode.Create))
-                        {
-                            updateProgress(0, Strings.DownloadingFromInternet);
-
-                            long length = response.ContentLength;
-                            long progress = 0;
-                            dataStream.ReadTimeout = 30000;
-
-                            while (dataStream.CanRead)
-                            {
-                                try
-                                {
-                                    updateProgress(length == 0 ? 50 : (int)((progress * 100) / length), Strings.DownloadingFromInternet);
-                                }
-                                catch
-                                {
-                                }
-                                int len = dataStream.Read(buf1, 0, 1024);
-                                if (len == 0)
-                                    break;
-                                progress += len;
-                                bytes -= len;
-                                fs.Write(buf1, 0, len);
-                            }
-
-                            fs.Close();
-                        }
-                        dataStream.Close();
-                    }
-                    response.Close();
-                }
+                Download.getFilefromNet(baseurl, Settings.GetUserDataDirectory() +
+                                                 @"firmware.hex",
+                    (i, s) => updateProgress(i, s));
 
                 var timetook = (DateTime.Now - starttime).TotalMilliseconds;
 

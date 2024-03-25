@@ -383,6 +383,16 @@ namespace MissionPlanner.Utilities
             return msg.ToJSON(Formatting.Indented);
         }
 
+        public static void SaveJSON<T>(this T obj, string path)
+        {
+            File.WriteAllText(path, obj.ToJSON());
+        }
+
+        public static T LoadJSON<T>(string path)
+        {
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+        }
+
         public static string ToJSON(this System.Type a_Type)
         {
             var TypeBlob = a_Type.GetFields().ToDictionary(x => x.Name, x => x.GetValue(null));

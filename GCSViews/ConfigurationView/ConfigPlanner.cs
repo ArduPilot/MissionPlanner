@@ -30,6 +30,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             txt_log_dir.TextChanged += OnLogDirTextChanged;
 
+            CMB_severity.Items.Add(SeverityLevel.Emergency);
+            CMB_severity.Items.Add(SeverityLevel.Alert);
+            CMB_severity.Items.Add(SeverityLevel.Critical);
+            CMB_severity.Items.Add(SeverityLevel.Error);
+            CMB_severity.Items.Add(SeverityLevel.Warning);
+            CMB_severity.Items.Add(SeverityLevel.Notice);
+            CMB_severity.Items.Add(SeverityLevel.Info);
+            CMB_severity.Items.Add(SeverityLevel.Debug);
         }
 
 
@@ -72,6 +80,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_theme.Text = ThemeManager.thmColor.strThemeName;
 
             num_gcsid.Value = MAVLinkInterface.gcssysid;
+
+            // setup severity selection
+            if (Settings.Instance["severity"] != null)
+            {
+                CMB_severity.SelectedIndex = Settings.Instance.GetInt32("severity");
+            }
+            else
+            {
+                CMB_severity.SelectedIndex = 4;  // SeverityLevel.Warning
+                Settings.Instance["severity"] = CMB_severity.SelectedIndex.ToString();
+            }
 
             // setup language selection
             var cultureCodes = new[]
@@ -358,6 +377,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speecharmdisarm.Visible = false;
                 CHK_speechlowspeed.Visible = false;
             }
+        }
+
+        private void CMB_severity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["severity"] = CMB_severity.SelectedIndex.ToString();
         }
 
         private void CMB_language_SelectedIndexChanged(object sender, EventArgs e)

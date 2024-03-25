@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -19,6 +20,7 @@ using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using SharpKml.Base;
 using SharpKml.Dom;
+using Document = SharpKml.Dom.Document;
 
 namespace MissionPlanner.GeoRef
 {
@@ -40,6 +42,9 @@ namespace MissionPlanner.GeoRef
         public List<int> JXL_StationIDs = new List<int>();
         public bool useAMSLAlt;
         public int millisShutterLag = 0;
+
+        public Dictionary<long, VehicleLocation> camLocations { get; private set; }
+        public double minshutter { get; set; } = 0.5;
 
         /// <summary>
         /// Get a photos shutter time
@@ -220,7 +225,7 @@ namespace MissionPlanner.GeoRef
 
                             try
                             {
-                                location.Time = item.time;
+                                location.Time = item.time.ToUniversalTime();
 
                                 if (statusindex != -1)
                                 {
@@ -492,9 +497,10 @@ namespace MissionPlanner.GeoRef
         {
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
             {
+                camLocations = readCAMMsgInLog(logFile);
                 if (usecam)
-                {
-                    vehicleLocations = readCAMMsgInLog(logFile);
+                {                    
+                    vehicleLocations = camLocations;
                 }
                 else
                 {
@@ -517,11 +523,17 @@ namespace MissionPlanner.GeoRef
             if (files == null || files.Length == 0)
                 return -1;
 
+            // load all image info
+            Parallel.ForEach(files, filename => { getPhotoTime(filename); });
+
+            // sort
             Array.Sort(files, compareFileByPhotoTime);
 
             double ans = 0;
 
-            for (int a = 0; a < 4; a++)
+            int[] itemstocheck = new int[] { 0, 1, 2, 3, files.Length - 3, files.Length - 2, files.Length - 1 };
+
+            foreach (int a in itemstocheck)
             {
                 // First Photo time
                 string firstPhoto = files[a];
@@ -555,12 +567,8 @@ namespace MissionPlanner.GeoRef
         {
             long time = ToMilliseconds(t);
 
-            // Time at which the GPS position is actually search and found
-            long actualTime = time;
-            int millisSTEP = 1;
-
             // 2 seconds (2000 ms) in the log as absolute maximum
-            int maxIteration = offsettime;
+            int maxIteration = offsettime / 2;
 
             bool found = false;
             int iteration = 0;
@@ -568,14 +576,18 @@ namespace MissionPlanner.GeoRef
 
             while (!found && iteration < maxIteration)
             {
-                found = listLocations.ContainsKey(actualTime);
+                found = listLocations.ContainsKey(time + iteration);
                 if (found)
                 {
-                    location = listLocations[actualTime];
+                    location = listLocations[time + iteration];
                 }
                 else
                 {
-                    actualTime += millisSTEP;
+                    found = listLocations.ContainsKey(time - iteration);
+                    if (found)
+                    {
+                        location = listLocations[time - iteration];
+                    }
                     iteration++;
                 }
             }
@@ -597,11 +609,12 @@ namespace MissionPlanner.GeoRef
             // Read Vehicle Locations from log. GPS Messages. Will have to do it anyway
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
             {
+                AppendText("Reading log for CAM Messages\n");
+                camLocations = readCAMMsgInLog(logFile);
+
                 if (usecam)
                 {
-                    AppendText("Reading log for CAM Messages\n");
-
-                    vehicleLocations = readCAMMsgInLog(logFile);
+                    vehicleLocations = camLocations;
                 }
                 else
                 {
@@ -742,19 +755,35 @@ namespace MissionPlanner.GeoRef
 
             AppendText("Reading log for CAM Messages\n");
 
-            var list = readCAMMsgInLog(logFile);
+            camLocations = readCAMMsgInLog(logFile);
 
-            if (list == null)
+            if (camLocations == null)
             {
                 AppendText("Log file problem. No CAM messages. Aborting....\n");
                 return null;
             }
+            
+            AppendText("Log Read with - " + camLocations.Count + " - CAM Messages found\n");
 
-            AppendText("Log Read with - " + list.Count + " - CAM Messages found\n");
+            camLocations = camLocations.Take(camLocations.Count/* - dropend*/).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
 
-            list = list.Take(list.Count - dropend).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
+            var deltalistv = camLocations
+                .PrevNowNext(InvalidValue: new KeyValuePair<long, VehicleLocation>(0,
+                    new VehicleLocation() { Time = DateTime.MinValue }))
+                .Select(d => ((d.Item3.Value.Time - d.Item2.Value.Time), d.Item2)).ToList();
 
-            AppendText("Filtered - " + list.Count + " - CAM Messages found\n");
+            if (deltalistv.Any(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < minshutter))
+            {
+                AppendText("Possible Shutter speed issue - " +
+                           deltalistv.Min(a => a.Item1.TotalSeconds > 0 ? a.Item1.TotalSeconds : 9999) + "s\n");
+
+                var minitem = deltalistv.Where(a => a.Item1.TotalSeconds > 0 && a.Item1.TotalSeconds < 0.5).First()
+                    .Item2;
+
+                camLocations.Remove(minitem.Key);
+            }
+
+            AppendText("Filtered - " + camLocations.Count + " - CAM Messages found\n");
 
             AppendText("Read images\n");
 
@@ -764,21 +793,29 @@ namespace MissionPlanner.GeoRef
             AppendText("Images read : " + files.Count + "\n");
 
             // Check that we have same number of CAMs than files
-            if (files.Count != list.Count)
+            if (files.Count != camLocations.Count)
             {
-                AppendText(string.Format("CAM Msgs and Files discrepancy. Check it! files: {0} vs CAM msg: {1}\n",files.Count,list.Count));
-                return null;
+                AppendText(string.Format("CAM Msgs and Files discrepancy. Check it! files: {0} vs CAM msg: {1}\n",files.Count,camLocations.Count));
+                //return null;
             }
 
+            // load all image info
+            Parallel.ForEach(files, filename => { getPhotoTime(filename); });
+
+            // sort
             files.Sort(compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
             int i = -1;
-            foreach (var currentCAM in list.Values)
+            foreach (var currentCAM in camLocations.Values)
             {
                 i++;
                 PictureInformation p = new PictureInformation();
+
+                if(files.Count <= i)
+                    continue;
+                
 
                 // Fill shot time in Picture
                 p.ShotTimeReportedByCamera = getPhotoTime(files[i]);
@@ -958,6 +995,10 @@ namespace MissionPlanner.GeoRef
                 return null;
             }
 
+            // load all image info
+            Parallel.ForEach(files, filename => { getPhotoTime(filename); });
+
+            // sort
             files.Sort(compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
@@ -1210,6 +1251,8 @@ namespace MissionPlanner.GeoRef
             using (
                 StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
             using (
+            StreamWriter swlocgeo = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.geo"))
+            using (
                 StreamWriter swloctel = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.tel"))
             using (
                 XmlTextWriter swloctrim = new XmlTextWriter(
@@ -1353,6 +1396,8 @@ namespace MissionPlanner.GeoRef
 
                 swloctxt.WriteLine("#name latitude/Y longitude/X height/Z yaw pitch roll SAlt");
 
+                swlocgeo.WriteLine("EPSG:4326");
+
                 AppendText?.Invoke("Start Processing\n");
 
                 // Dont know why but it was 10 in the past so let it be. Used to generate jxl file simulating x100 from trimble
@@ -1468,6 +1513,8 @@ namespace MissionPlanner.GeoRef
                                        picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt, usegpsalt));
                     swloctel.Flush();
                     swloctxt.Flush();
+
+                    swlocgeo.WriteLine($"{filename} {picInfo.Lon.ToString(CultureInfo.InvariantCulture)} {picInfo.Lat.ToString(CultureInfo.InvariantCulture)} {picInfo.getAltitude(useAMSLAlt, usegpsalt).ToString(CultureInfo.InvariantCulture)} 0 0 0 10 10");
 
                     lastRecordN = GenPhotoStationRecord(swloctrim, picInfo.Path, picInfo.Lat, picInfo.Lon,
                         picInfo.getAltitude(useAMSLAlt, usegpsalt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);

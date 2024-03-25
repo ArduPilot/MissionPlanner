@@ -120,6 +120,51 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </SPLINE_WAYPOINT>
+    <IMAGE_START_CAPTURE>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </IMAGE_START_CAPTURE>
+    <SET_CAMERA_ZOOM>
+      <P1>Type</P1>
+      <P2>Value</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_ZOOM>
+    <SET_CAMERA_FOCUS>
+      <P1>Type</P1>
+      <P2>Value</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_FOCUS>
+    <VIDEO_START_CAPTURE>
+      <P1>StreamId</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </VIDEO_START_CAPTURE>
+    <VIDEO_STOP_CAPTURE>
+      <P1>StreamId</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </VIDEO_STOP_CAPTURE>
     <DO_AUX_FUNCTION>
       <P1>AuxFunction</P1>
       <P2>SwitchPosition</P2>
@@ -329,9 +374,9 @@
     </CONDITION_DISTANCE>
     <CONDITION_YAW>
       <P1>Deg</P1>
-      <P2>Sec</P2>
+      <P2>Speed deg/s</P2>
       <P3>Dir 1=CW</P3>
-      <P4>rel/abs</P4>
+      <P4>0=Abs,1=Rel</P4>
       <X></X>
       <Y></Y>
       <Z></Z>
@@ -429,6 +474,15 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </VTOL_LAND>
+    <PAYLOAD_PLACE>
+      <P1>max descent</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </PAYLOAD_PLACE>
     <SCRIPT_TIME>
       <P1>commandId</P1>
       <P2>timeout</P2>
@@ -447,6 +501,51 @@
       <Y></Y>
       <Z></Z>
     </DO_VTOL_TRANSITION>
+    <IMAGE_START_CAPTURE>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </IMAGE_START_CAPTURE>
+    <SET_CAMERA_ZOOM>
+      <P1>Type</P1>
+      <P2>Value</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_ZOOM>
+    <SET_CAMERA_FOCUS>
+      <P1>Type</P1>
+      <P2>Value</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_FOCUS>
+    <VIDEO_START_CAPTURE>
+      <P1>StreamId</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </VIDEO_START_CAPTURE>
+    <VIDEO_STOP_CAPTURE>
+      <P1>StreamId</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </VIDEO_STOP_CAPTURE>
     <DO_AUX_FUNCTION>
       <P1>AuxFunction</P1>
       <P2>SwitchPosition</P2>
@@ -501,6 +600,15 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
+    <DO_GRIPPER>
+      <P1>Gripper No</P1>
+      <P2>drop(0)/grab(1)</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_GRIPPER>
     <DO_LAND_START>
       <P1></P1>
       <P2></P2>
@@ -765,6 +873,51 @@
       <Y></Y>
       <Z></Z>
     </SET_YAW_SPEED>
+    <IMAGE_START_CAPTURE>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </IMAGE_START_CAPTURE>
+    <SET_CAMERA_ZOOM>
+      <P1>Type</P1>
+      <P2>Value</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_ZOOM>
+    <SET_CAMERA_FOCUS>
+      <P1>Type</P1>
+      <P2>Value</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_FOCUS>
+    <VIDEO_START_CAPTURE>
+      <P1>StreamId</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </VIDEO_START_CAPTURE>
+    <VIDEO_STOP_CAPTURE>
+      <P1>StreamId</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </VIDEO_STOP_CAPTURE>
     <DO_AUX_FUNCTION>
       <P1>AuxFunction</P1>
       <P2>SwitchPosition</P2>

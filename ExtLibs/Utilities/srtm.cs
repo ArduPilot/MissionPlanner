@@ -598,7 +598,7 @@ namespace MissionPlanner.Utilities
             List<string> list = new List<string>();
 
             // load 1 arc seconds first
-            list.AddRange(await getListing(baseurl1sec).ConfigureAwait(false));
+            list.Add(baseurl1sec);
             log.Info("srtm1sec " + list.Count);
             // load 3 arc second
             list.AddRange(await getListing(baseurl).ConfigureAwait(false));
@@ -623,18 +623,18 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            // if there are no http exceptions, and the list is >= 20, then everything above is valid
-            // 15760 is all srtm3 and srtm1
-            if (list.Count >= 21 && checkednames > 15000 && !oceantile.Contains((string) name))
+            // if there are no http exceptions, and the list is >= 9, then everything above is valid
+            // 38581 is all srtm3 and srtm1
+            if (list.Count >= 9 && checkednames > 38000 && !oceantile.Contains((string) name))
             {
                 // we must be an ocean tile - no matchs
                 oceantile.Add((string) name);
             }
         }
 
-        public static string baseurl1sec { get; set; }= "https://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
+        public static string baseurl1sec { get; set; }= "https://terrain.ardupilot.org/SRTM1/";
 
-        public static string baseurl { get; set; }= "https://firmware.ardupilot.org/SRTM/";
+        public static string baseurl { get; set; }= "https://terrain.ardupilot.org/SRTM3/";
 
         static HttpClient client = new HttpClient();
 

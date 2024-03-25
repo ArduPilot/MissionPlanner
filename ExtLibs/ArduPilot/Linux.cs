@@ -16,7 +16,10 @@ namespace MissionPlanner.Utilities
 
 
             try
-            {  
+            {
+                if (!File.Exists("/usr/bin/bash"))
+                    return ans;
+
                 var proc = System.Diagnostics.Process.Start("/usr/bin/bash", @"-c ""/usr/bin/find /sys/bus/usb/devices/usb*/ -name dev | /usr/bin/grep tty > /tmp/usb.list""");
                 proc.WaitForExit();              
 

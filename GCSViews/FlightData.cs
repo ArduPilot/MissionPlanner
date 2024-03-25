@@ -180,7 +180,9 @@ namespace MissionPlanner.GCSViews
             Battery_Reset,
             ADSB_Out_Ident,
             Scripting_cmd_stop_and_restart,
-            Scripting_cmd_stop
+            Scripting_cmd_stop,
+            HighLatency_Enable,
+            HighLatency_Disable
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
@@ -1686,6 +1688,18 @@ namespace MissionPlanner.GCSViews
                         ((Control) sender).Enabled = true;
                         return;
                     }
+                    if (CMB_action.Text == actions.HighLatency_Enable.ToString())
+                    {
+                        MainV2.comPort.doHighLatency(true);
+                        ((Control)sender).Enabled = true;
+                        return;
+                    }
+                    if (CMB_action.Text == actions.HighLatency_Disable.ToString())
+                    {
+                        MainV2.comPort.doHighLatency(false);
+                        ((Control)sender).Enabled = true;
+                        return;
+                    }
 
                     if (CMB_action.Text == actions.Battery_Reset.ToString())
                     {
@@ -2539,8 +2553,6 @@ namespace MissionPlanner.GCSViews
         {
             POI.POIModified += POI_POIModified;
 
-            tfr.GotTFRs += tfr_GotTFRs;
-
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
                 NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
@@ -3241,6 +3253,15 @@ namespace MissionPlanner.GCSViews
         private void hud1_vibeclick(object sender, EventArgs e)
         {
             Vibration frm = new Vibration();
+            frm.RestoreStartupLocation();
+            frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
+            frm.TopMost = true;
+            frm.Show();
+        }
+
+        private void hud1_prearmclick(object sender, EventArgs e)
+        {
+            PrearmStatus frm = new PrearmStatus();
             frm.RestoreStartupLocation();
             frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
@@ -5176,28 +5197,6 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
-        }
-
-        void tfr_GotTFRs(object sender, EventArgs e)
-        {
-            BeginInvoke((Action) delegate
-            {
-                foreach (var item in tfr.tfrs)
-                {
-                    List<List<PointLatLng>> points = item.GetPaths();
-
-                    foreach (var list in points)
-                    {
-                        GMapPolygon poly = new GMapPolygon(list, item.NAME);
-
-                        poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
-
-                        tfrpolygons.Polygons.Add(poly);
-                    }
-                }
-
-                tfrpolygons.IsVisibile = MainV2.ShowTFR;
-            });
         }
 
         private void ZedGraphTimer_Tick(object sender, EventArgs e)

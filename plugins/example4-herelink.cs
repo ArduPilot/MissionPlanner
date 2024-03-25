@@ -85,6 +85,36 @@ namespace CameraControl
             but.Click += but9_Click;
             rootbut.DropDownItems.Add(but);
 
+            but = new ToolStripMenuItem("Dump Info");
+            but.Click += but_Click;
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Capture Start");
+            but.Click += (s, e) =>
+            {
+                var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
+                    a.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
+
+                if (mav == null)
+                    return;
+
+                mav.parent.doCommand(mav.sysid, mav.compid, MAV_CMD_VIDEO_START_CAPTURE, 0, 0, 0, 0, 0, 0, 0);
+            };
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Capture Stop");
+            but.Click += (s, e) =>
+            {
+                var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
+                    a.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
+
+                if (mav == null)
+                    return;
+
+                mav.parent.doCommand(mav.sysid, mav.compid, MAV_CMD_VIDEO_STOP_CAPTURE, 0, 0, 0, 0, 0, 0, 0);
+            };
+            rootbut.DropDownItems.Add(but);
+
             return true;
         }
 
@@ -154,11 +184,15 @@ namespace CameraControl
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.SET_CAMERA_MODE, 0, 1, 0, 0, 0, 0, 0);  // p2 = 1 for recording hint
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_STORAGE_INFORMATION, 0, 0, 0, 0, 0, 0, 0);
 
+
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.IMAGE_START_CAPTURE, 0, 0, 0, 0, 0, 0, 0);
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.REQUEST_CAMERA_CAPTURE_STATUS, 0, 0, 0, 0, 0, 0,
                 0, false);
 
         }
+
+        private const MAVLink.MAV_CMD MAV_CMD_VIDEO_START_CAPTURE = (MAVLink.MAV_CMD)2500;
+        private const MAVLink.MAV_CMD MAV_CMD_VIDEO_STOP_CAPTURE = (MAVLink.MAV_CMD)2501;
 
         private void but2_Click(object sender, EventArgs e)
         {

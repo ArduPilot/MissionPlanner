@@ -395,6 +395,9 @@ namespace MissionPlanner.Utilities
                 */
                 int done = 0;
 
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+
                 Parallel.ForEach(tasklist, opt, task =>
                 //foreach (var task in tasklist)
                 {
@@ -436,7 +439,7 @@ namespace MissionPlanner.Utilities
                             else
                             {
                                 GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir,
-                                    Path.GetFileName(file));
+                                    Path.GetFileName(file), client);
                             }
 
                             // check the new downloaded file matchs hash
@@ -568,7 +571,8 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
+        static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir,
+            string file, HttpClient httpClient)
         {
             // create dest dir
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
@@ -595,28 +599,16 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     string url = baseurl + file + "?" + new Random().Next();
-                    // Create a request using a URL that can receive a post. 
-                    WebRequest request = WebRequest.Create(url);
-                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                        ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                    log.Info("GetNewFile " + url);
-                    // Set the Method property of the request to GET.
-                    request.Method = "GET";
-                    // Allow compressed content
-                    ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip |
-                                                                        DecompressionMethods.Deflate;
-                    // tell server we allow compress content
-                    request.Headers.Add("Accept-Encoding", "gzip,deflate");
                     // Get the response.
-                    using (WebResponse response = request.GetResponse())
+                    using (var response = client.GetAsync(url).GetAwaiter().GetResult())
                     {
                         // Display the status.
-                        log.Info(((HttpWebResponse)response).StatusDescription);
+                        log.Info(response.ReasonPhrase);
                         // Get the stream containing content returned by the server.
-                        Stream dataStream = response.GetResponseStream();
+                        Stream dataStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
 
                         // from head
-                        long bytes = response.ContentLength;
+                        long bytes = response.Content.Headers.ContentLength();
 
                         long contlen = bytes;
 

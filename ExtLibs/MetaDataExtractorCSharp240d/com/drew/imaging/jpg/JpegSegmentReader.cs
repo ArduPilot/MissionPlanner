@@ -333,7 +333,7 @@ namespace com.drew.imaging.jpg
             {
                 lcInputStream = new MemoryStream(this.data);
             }
-            return new BufferedStream(lcInputStream);
+            return new BufferedStream(lcInputStream, 1024 * 50);
         }
 
         /// <summary>
