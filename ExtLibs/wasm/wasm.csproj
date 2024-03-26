@@ -36,9 +36,11 @@
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.1.0-preview3" />
+    <PackageReference Include="Blazor.Extensions.WebUSB" Version="1.1.0-preview1" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="Excubo.Blazor.Canvas" Version="3.2.40" />
     <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" />
