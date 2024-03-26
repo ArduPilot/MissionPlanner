@@ -17,9 +17,14 @@ namespace MissionPlanner.Controls.PreFlight
         private List<TextBox> wrnctlDescList = new List<TextBox>();
         //Initialize List of Controls' text textboxes
         private List<TextBox> wrnctlTextList = new List<TextBox>();
-
-        //bool to see if the item has been removed
+        //List of Items, description and text boxes after the selected item
+        private List<Control> AfterSelectedItemList = new List<Control>();
+        private List<TextBox> AfterSelectedItemDescList = new List<TextBox>();
+        private List<TextBox> AfterSelectedItemTextList = new List<TextBox>();
+        //bools to see if the item has been removed, added or is an entirely new item added
         private bool removed = false;
+        private bool added = false;
+        private bool newItemAdded = false;
         //List for Panel1 controls - used to distinguish between the PArent and Child checklistItems (Parent Items being the items with visible textboxes, Child Items are the items with textboxes not showing)
         List<object> PanelOneControls = new List<object>();
         List<object> PanelOneChildControls = new List<object>();
@@ -43,7 +48,7 @@ namespace MissionPlanner.Controls.PreFlight
             {
                 _parent.CheckListItems.Add(new CheckListItem() { Description = "desc", Name = "name", Text = "text" });
             }
-
+                        
             reload();
         }
 
@@ -53,7 +58,8 @@ namespace MissionPlanner.Controls.PreFlight
             {
                 //Initialize the y for the new checklist item.
                 int y = 0;
-
+                //Set the newItemAdded bool to true
+                newItemAdded = true;
                 lock (_parent.CheckListItems)
                 {
                     //Variable for the last item in the checklist items list.
@@ -62,14 +68,53 @@ namespace MissionPlanner.Controls.PreFlight
                     y = panel1.Controls[panel1.Controls.Count - 1].Bottom;
                     //Set the input using the lastItem variable.
                     wrnctl = addwarningcontrol(5, y, lastItem);
-                    wrnctl.Visible = false;
+                    //set the newItemAdded bool to false
+                    newItemAdded = false;
+                    wrnctl.Refresh();                    
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }        
+        CheckListInput addNewChecklistInput(int a, int x, int y, CheckListItem checklistItem, CheckListInput checklistInput)
+        {
+            wrnctl = new CheckListInput(_parent, checklistItem);
+            wrnctl.ReloadList += wrnctl_ChildAdd;
+            wrnctl.TXT_text.Visible = false;
+            wrnctl.TXT_desc.Visible = false;
+            wrnctl.CMB_colour1.Visible = false;
+            wrnctl.CMB_colour2.Visible = false;
+            wrnctl.Location = new Point(x + 5, y);
 
+            //Add the new control to the panel1 controls
+            panel1.Controls.Add(wrnctl);            
+            //Add the wrnctl's desc textbox to the list of desc textboxes.
+            wrnctlDescList.Add(wrnctl.TXT_desc);
+            //Add the wrnctl's text textbox to the list of text textboxes.
+            wrnctlTextList.Add(wrnctl.TXT_text);
+            return wrnctl;
+        }
+
+        private void AddedSelectedItem(int a, int b, Control _ChecklistControl, CheckListInput _ChecklistInputItem, CheckListItem _ChecklistItemSelected)
+        {
+            added = true;
+            try
+            {
+                //Set the Y for the checklist item as the bottom of the previous input.
+                int y = panel1.Controls[a].Bottom;
+                int x = panel1.Controls[a].Location.X;
+                //Add the new Chcklist Item Input to the panel1 cotrols in the correct location
+                wrnctl = addNewChecklistInput(a, x, y, _ChecklistItemSelected.Child, _ChecklistInputItem);
+                wrnctl.Refresh();
+                //Make the wrnctl checklistInput visible
+                wrnctl.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message);
+            }
         }
         public void reload()
         {
@@ -112,26 +157,37 @@ namespace MissionPlanner.Controls.PreFlight
                 wrnctl.CMB_colour1.Visible = false;
                 wrnctl.CMB_colour2.Visible = false;
             }
-
+            //if a new item is being added, make the wrnctl invisible at this point.
+            if (newItemAdded == true)
+            {
+                wrnctl.Visible = false;
+            }
             panel1.Controls.Add(wrnctl);
             //Add the wrnctl's desc textbox to the list of desc textboxes.
             wrnctlDescList.Add(wrnctl.TXT_desc);
             //Add the wrnctl's text textbox to the list of text textboxes.
             wrnctlTextList.Add(wrnctl.TXT_text);
-
             //If the add button was clicked, then add PlaceHolder text for both the desc and text textboxes for the wrnctl input.
             if (addButtonClick == true)
             {
                 //set the text for the textboxes accordingly.
                 wrnctl.TXT_desc.Text = "add description";
                 wrnctl.TXT_text.Text = "add value";
+                //Set the itm's child to null if the Add button has been clicked
+                item.Child = null;
             }
             y = wrnctl.Bottom;
 
             //used for when there is a secondary + button click
             if (item.Child != null)
             {
+                //make the "+" button invisible
+                wrnctl.Controls[4].Visible = false;
                 wrnctl = addwarningcontrol(x += 5, y, item.Child, true);
+            }
+            else if (item.Child == null)
+            {
+                wrnctl.Controls[4].Visible = true;
             }
             return wrnctl;
         }
@@ -289,11 +345,21 @@ namespace MissionPlanner.Controls.PreFlight
                             }
                             //If the last Item is being looped
                             //, then make the currentChild Item, the selected checklist Item and the previousItemBefore_ChecklistItemNeeded.Child set to null
-                            if (p == (panel1.Controls.Count - 1))
+                            //varaible for the item above the selected item
+                            var checklistInputItemAtp = EditorChecklistInputList[p - 1];                            
+                            //if p is not the first item in the list, nor the last
+                            if (p > 0 && p < panel1.Controls.Count - 1)
+                            {
+                                //make the + button visible for the item at position p-1
+                                checklistInputItemAtp.Controls[4].Visible = true;
+                            }
+                            else if (p == (panel1.Controls.Count - 1))
                             {
                                 currentChildItem = null;
                                 _ChecklistItemSelected = null;
                                 previousItemBefore_ChecklistItemSelected.Child = null;
+                                //make the + button visible next to the last item of the panel1.controls
+                                panel1.Controls[p].Controls[4].Visible = true;
                             }
                             break;
                         }
@@ -338,6 +404,9 @@ namespace MissionPlanner.Controls.PreFlight
             //List for panel1Controls
             int k = 0;
             int i = 0;
+            int a = 0;
+            int b = 0;
+            int y = 0;
             if (ChecklistInputText == "-" || (secondaryAddButton == true && ChecklistInputText == "-"))
             {
                 //For the controls on the Panel One Controls list
@@ -383,14 +452,89 @@ namespace MissionPlanner.Controls.PreFlight
                 //When the + button is clicked, the secondary Addbutton bool is set to true - used for removal function above.
                 secondaryAddButton = true;
                 //The original reload method is used for the secondary Add Button.
-                reload();
+                
+                //For the controls on the Panel One Controls list
+                for (a = 0; a <= panel1.Controls.Count - 1; a++)
+                {
+                    try
+                    {
+                        if (panel1.Controls[a] == ChecklistControl)
+                        {
+                            b = a;
+                            //Make the Add button invisible for the item that was selected
+                            panel1.Controls[a].Controls[4].Visible = false;
+                            //EditorChecklistInputList[a].Controls[4].Visible = false;
+                            //Add all that are after into a new list
+                            for (b = a + 1; b <= panel1.Controls.Count; b++)
+                            {
+                                //add the items into a new list
+                                if (b < panel1.Controls.Count)
+                                {
+                                    //Add the items after the selected item into a new list
+                                    AfterSelectedItemList.Add(panel1.Controls[b]);
+                                    //Remove the item at position b
+                                    panel1.Controls.RemoveAt(b);
+                                    
+                                    AfterSelectedItemDescList.Add(wrnctlDescList[b]);
+                                    wrnctlDescList.RemoveAt(b);
+
+                                    AfterSelectedItemTextList.Add(wrnctlTextList[b]);
+                                    wrnctlTextList.RemoveAt(b);
+                                }
+                                //else if b is the last item in the list of panel1.controls
+                                else if (b == panel1.Controls.Count)
+                                {
+                                    break;
+                                }
+                                b -= 1;
+                            }
+                            AddedSelectedItem(a, b, ChecklistControl, ChecklistInputItem, ChecklistItemSelected);
+                            panel1.Refresh();
+                                                       
+                            int yWrnctl = wrnctl.Bottom;
+                            for (int c = 0; c < (AfterSelectedItemList.Count); c++)
+                            {
+                                //for the items in the after selected list, change the location based on the wrnctl item recently added
+                                AfterSelectedItemList[c].Location = new Point(AfterSelectedItemList[c].Location.X, yWrnctl);
+                                yWrnctl = AfterSelectedItemList[c].Bottom;
+                                
+                                panel1.Controls.Add(AfterSelectedItemList[c]);                                
+                            }
+                            panel1.Refresh();                                  
+                            break;
+                        }                                         
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(ex.Message);
+                    }
+                }
             }
+            foreach (var afterSelectedDescItem in AfterSelectedItemDescList)
+            {
+                //add the text to the new text list
+                wrnctlDescList.Add(afterSelectedDescItem);
+            }
+            foreach (var afterSelectedTextItem in AfterSelectedItemTextList)
+            {
+                //add the text to the new text list
+                wrnctlTextList.Add(afterSelectedTextItem);
+            }
+            //Function that clears the lists necessary
+            ClearLists();
+            //ClearPlaceholder text method.
+            ClearPlaceHolderText();
+        }
+
+        private void ClearLists() 
+        {
             //Clear the lists necessary: containing the Panel One Controls.
             PanelOneControls.Clear();
             PanelOneChildControls.Clear();
             EditorChecklistInputList.Clear();
-            //ClearPlaceholder text method.
-            ClearPlaceHolderText();
+            AfterSelectedItemList.Clear();
+            AfterSelectedItemDescList.Clear();
+            AfterSelectedItemTextList.Clear();            
         }
 
         private void BUT_Add_Click(object sender, EventArgs e)
@@ -428,7 +572,7 @@ namespace MissionPlanner.Controls.PreFlight
                 itemClickedText = string.Empty;
             }
             //loop until the textbox which was clicked on is reached.
-            for (int i = 0; i < wrnctlDescList.Count; i++)
+            for (int i = wrnctlDescList.Count-1; i > 0; i--)
             {
                 if ((sender as TextBox) == wrnctlDescList[i])
                 {
@@ -448,7 +592,8 @@ namespace MissionPlanner.Controls.PreFlight
                 itemClickedText = string.Empty;
             }
             //loop until the textbox which was clicked on is reached.
-            for (int i = 0; i < wrnctlDescList.Count; i++)
+            //Updated: loops through the wrnctlTextList List 
+            for (int i = wrnctlTextList.Count - 1; i > 0; i--)
             {
                 if ((sender as TextBox) == wrnctlTextList[i])
                 {
@@ -463,7 +608,8 @@ namespace MissionPlanner.Controls.PreFlight
         {
             //Eventhandlers for the desc and text texboxes are added when entering the text boxes
             //checks if the PlaceHolder text is in the textboxes for all checklist inputs
-            for (int i = 0; i < wrnctlDescList.Count; i++)
+            //Updated: loops through the panel's controls'
+            for (int i = 0; i < panel1.Controls.Count; i++)
             {
                 //if the place holder text is the text in the textboxes, then the relevant event handlers are used.
                 if (wrnctlDescList[i].Text == "add description")
