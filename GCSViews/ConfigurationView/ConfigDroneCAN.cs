@@ -31,7 +31,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             uAVCANModelBindingSource.DataSource = allnodes;
 
             if (MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
-                this.Enabled = false;
+                but_slcanmode1.Enabled = false;
         }
 
         List<DroneCANModel> allnodes = new List<DroneCANModel>();
@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             if (MainV2.comPort.MAV.param.Count > 5 && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
-                this.Enabled = false;
+                but_slcanmode1.Enabled = false;
 
             timer = new Timer();
             timer.Interval = 1000;
