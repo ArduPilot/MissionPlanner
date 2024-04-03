@@ -123,7 +123,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
       (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
                 Thread.Sleep(1000);
-                sender.UpdateProgressAndStatus((int)(progress * 100), "Updating " + offset + " " + seenresp);
+                sender.UpdateProgressAndStatus((int)(progress * 100), "Updating " + offset + " Seen HW: " + seenresp);
 
                 if (!seenresp)
                     continue;
