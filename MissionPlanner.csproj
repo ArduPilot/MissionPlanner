@@ -1038,6 +1038,16 @@
     <Compile Include="test\FirmwareSelection.xaml.cs">
       <DependentUpon>FirmwareSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\BoardDetection\BoardDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\Boards.cs" />
+    <Compile Include="Utilities\BoardDetection\ByRuntimeDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\ComPortDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\CompositeDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\FuncDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\IDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\MonoRuntimeDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\SerialPortDetector.cs" />
+    <Compile Include="Utilities\BoardDetection\Win32USBDeviceDetector.cs" />
     <Compile Include="Utilities\ImageMatch.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\OsdTuningSlotProvider.cs" />
@@ -1620,7 +1630,6 @@
     <Compile Include="Swarm\WaypointLeader\WPControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="Utilities\CircleSurveyMission.cs" />
     <Compile Include="Utilities\ExtensionsMP.cs" />
     <Compile Include="Controls\fftui.cs">
@@ -5256,7 +5265,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)ExtLibs\System.IO.Compression.dll" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
