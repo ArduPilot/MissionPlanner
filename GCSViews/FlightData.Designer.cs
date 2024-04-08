@@ -182,6 +182,7 @@ namespace MissionPlanner.GCSViews
             this.panel_persistent = new System.Windows.Forms.Panel();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.BTN_tunning_dropout = new MissionPlanner.Controls.MyButton();
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2348,6 +2349,7 @@ namespace MissionPlanner.GCSViews
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.BTN_tunning_dropout);
             this.splitContainer1.Panel1.Controls.Add(this.zg1);
             // 
             // splitContainer1.Panel2
@@ -2364,6 +2366,17 @@ namespace MissionPlanner.GCSViews
             this.splitContainer1.Panel2.Controls.Add(this.lbl_sats);
             this.splitContainer1.Panel2.Controls.Add(this.gMapControl1);
             this.splitContainer1.Panel2.Controls.Add(this.TRK_zoom);
+            // 
+            // BTN_tunning_dropout
+            // 
+            this.BTN_tunning_dropout.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BTN_tunning_dropout.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BTN_tunning_dropout.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BTN_tunning_dropout, "BTN_tunning_dropout");
+            this.BTN_tunning_dropout.Name = "BTN_tunning_dropout";
+            this.BTN_tunning_dropout.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BTN_tunning_dropout.UseVisualStyleBackColor = true;
+            this.BTN_tunning_dropout.Click += new System.EventHandler(this.BTN_tunning_dropout_Click);
             // 
             // zg1
             // 
@@ -3036,5 +3049,6 @@ namespace MissionPlanner.GCSViews
         private Controls.AuxOptions auxOptions6;
         private Controls.AuxOptions auxOptions7;
         private ToolStripMenuItem jumpToTagToolStripMenuItem;
+        private Controls.MyButton BTN_tunning_dropout;
     }
 }
