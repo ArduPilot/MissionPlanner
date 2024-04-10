@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Installer</RootNamespace>
     <AssemblyName>Installer</AssemblyName>
-   <TargetFramework>net461</TargetFramework>
+   <TargetFramework>net472</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <ApplicationIcon />
