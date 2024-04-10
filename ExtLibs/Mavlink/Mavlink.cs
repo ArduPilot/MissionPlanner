@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Jan 17 2024";
+    public const string MAVLINK_BUILD_DATE = "Wed Apr 10 2024";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -845,6 +845,11 @@ public partial class MAVLink
         ///<summary> Change altitude set point. |Altitude.| Frame of new altitude.| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change altitude set point.")]
         DO_CHANGE_ALTITUDE=186, 
+        ///<summary> Mission item to specify the start of a failsafe/landing return-path segment (the end of the segment is the next MAV_CMD_DO_LAND_START item).           A vehicle that is using missions for landing (e.g. in a return mode) will join the mission on the closest path of the return-path segment (instead of MAV_CMD_DO_LAND_START or the nearest waypoint).           The main use case is to minimize the failsafe flight path in corridor missions, where the inbound/outbound paths are constrained (by geofences) to the same particular path.           The MAV_CMD_NAV_RETURN_PATH_START would be placed at the start of the return path.           If a failsafe occurs on the outbound path the vehicle will move to the nearest point on the return path (which is parallel for this kind of mission), effectively turning round and following the shortest path to landing.           If a failsafe occurs on the inbound path the vehicle is already on the return segment and will continue to landing.           The Latitude/Longitude/Altitude are optional, and may be set to 0 if not needed.           If specified, the item defines the waypoint at which the return segment starts.           If sent using as a command, the vehicle will perform a mission landing (using the land segment if defined) or reject the command if mission landings are not supported, or no mission landing is defined. When used as a command any position information in the command is ignored.          |Empty| Empty| Empty| Empty| Latitudee. 0: not used.| Longitudee. 0: not used.| Altitudee. 0: not used.|  </summary>
+        [Description("Mission item to specify the start of a failsafe/landing return-path segment (the end of the segment is the next MAV_CMD_DO_LAND_START item).           A vehicle that is using missions for landing (e.g. in a return mode) will join the mission on the closest path of the return-path segment (instead of MAV_CMD_DO_LAND_START or the nearest waypoint).           The main use case is to minimize the failsafe flight path in corridor missions, where the inbound/outbound paths are constrained (by geofences) to the same particular path.           The MAV_CMD_NAV_RETURN_PATH_START would be placed at the start of the return path.           If a failsafe occurs on the outbound path the vehicle will move to the nearest point on the return path (which is parallel for this kind of mission), effectively turning round and following the shortest path to landing.           If a failsafe occurs on the inbound path the vehicle is already on the return segment and will continue to landing.           The Latitude/Longitude/Altitude are optional, and may be set to 0 if not needed.           If specified, the item defines the waypoint at which the return segment starts.           If sent using as a command, the vehicle will perform a mission landing (using the land segment if defined) or reject the command if mission landings are not supported, or no mission landing is defined. When used as a command any position information in the command is ignored.         ")]
+        [hasLocation()]
+        [Obsolete]
+        DO_RETURN_PATH_START=188, 
         ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. 	  It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. 	  The Latitude/Longitude/Altitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. 	 |Empty| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
         [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. 	  It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. 	  The Latitude/Longitude/Altitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. 	")]
         [hasLocation()]
@@ -901,7 +906,7 @@ public partial class MAVLink
         ///<summary> Mission command to set camera trigger distance for this flight. The camera is triggered each time this distance is exceeded. This command can also be used to set the shutter integration time for the camera. |Camera trigger distance. 0 to stop triggering.| Camera shutter integration time. -1 or 0 to ignore| Trigger camera once immediately. (0 = no trigger, 1 = trigger)| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to set camera trigger distance for this flight. The camera is triggered each time this distance is exceeded. This command can also be used to set the shutter integration time for the camera.")]
         DO_SET_CAM_TRIGG_DIST=206, 
-        ///<summary> Mission command to enable the geofence |enable? (0=disable, 1=enable, 2=disable_floor_only)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to enable the geofence |enable? (0=disable, 1=enable, 2=disable_floor_only)| Fence types to enable or disable as a bitmask. A value of 0 indicates that all fences should be enabled or disabled. This parameter is ignored if param 1 has the value 2| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to enable the geofence")]
         DO_FENCE_ENABLE=207, 
         ///<summary> Mission item/command to release a parachute or enable/disable auto release. |Action| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1044,6 +1049,12 @@ public partial class MAVLink
         ///<summary> Set camera focus. Camera must respond with a CAMERA_SETTINGS message (on success). |Focus type| Focus value| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
         [Description("Set camera focus. Camera must respond with a CAMERA_SETTINGS message (on success).")]
         SET_CAMERA_FOCUS=532, 
+        ///<summary> Set that a particular storage is the preferred location for saving photos, videos, and/or other media (e.g. to set that an SD card is used for storing videos).           There can only be one preferred save location for each particular media type: setting a media usage flag will clear/reset that same flag if set on any other storage.           If no flag is set the system should use its default storage.           A target system can choose to always use default storage, in which case it should ACK the command with MAV_RESULT_UNSUPPORTED.           A target system can choose to not allow a particular storage to be set as preferred storage, in which case it should ACK the command with MAV_RESULT_DENIED. |Storage ID (1 for first, 2 for second, etc.)| Usage flags| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Set that a particular storage is the preferred location for saving photos, videos, and/or other media (e.g. to set that an SD card is used for storing videos).           There can only be one preferred save location for each particular media type: setting a media usage flag will clear/reset that same flag if set on any other storage.           If no flag is set the system should use its default storage.           A target system can choose to always use default storage, in which case it should ACK the command with MAV_RESULT_UNSUPPORTED.           A target system can choose to not allow a particular storage to be set as preferred storage, in which case it should ACK the command with MAV_RESULT_DENIED.")]
+        SET_STORAGE_USAGE=533, 
+        ///<summary> Set camera source. Changes the camera's active sources on cameras with multiple image sensors. |Component Id of camera to address or 1-6 for non-MAVLink cameras, 0 for all cameras.| Primary Source| Secondary Source. If non-zero the second source will be displayed as picture-in-picture.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Set camera source. Changes the camera's active sources on cameras with multiple image sensors.")]
+        SET_CAMERA_SOURCE=534, 
         ///<summary> Tagged jump target. Can be jumped to with MAV_CMD_DO_JUMP_TAG. |Tag.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Tagged jump target. Can be jumped to with MAV_CMD_DO_JUMP_TAG.")]
         JUMP_TAG=600, 
@@ -1149,6 +1160,9 @@ public partial class MAVLink
         ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
+        ///<summary> Change state of safety switch. |New safety switch state.| Empty.| Empty.| Empty| Empty.| Empty.| Empty.|  </summary>
+        [Description("Change state of safety switch.")]
+        DO_SET_SAFETY_SWITCH_STATE=5300, 
         ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec.")]
         DO_ADSB_OUT_IDENT=10001, 
@@ -1409,6 +1423,12 @@ public partial class MAVLink
         ///<summary> Flag set when plane is to immediately descend to break altitude and land without GCS intervention. Flag not set when plane is to loiter at Rally point until commanded to land. | </summary>
         [Description("Flag set when plane is to immediately descend to break altitude and land without GCS intervention. Flag not set when plane is to loiter at Rally point until commanded to land.")]
         LAND_IMMEDIATELY=2, 
+        ///<summary> True if the following altitude frame value is valid. | </summary>
+        [Description("True if the following altitude frame value is valid.")]
+        ALT_FRAME_VALID=4, 
+        ///<summary> 2 bit value representing altitude frame. 0: absolute, 1: relative home, 2: relative origin, 3: relative terrain | </summary>
+        [Description("2 bit value representing altitude frame. 0: absolute, 1: relative home, 2: relative origin, 3: relative terrain")]
+        ALT_FRAME=24, 
         
     };
     
@@ -2702,8 +2722,8 @@ public partial class MAVLink
     ///<summary> Co-ordinate frames used by MAVLink. Not all frames are supported by all commands, messages, or vehicles.              Global frames use the following naming conventions:       - 'GLOBAL': Global co-ordinate frame with WGS84 latitude/longitude and altitude positive over mean sea level (MSL) by default.          The following modifiers may be used with 'GLOBAL':         - 'RELATIVE_ALT': Altitude is relative to the vehicle home position rather than MSL.         - 'TERRAIN_ALT': Altitude is relative to ground level rather than MSL.         - 'INT': Latitude/longitude (in degrees) are scaled by multiplying by 1E7.        Local frames use the following naming conventions:       - 'LOCAL': Origin of local frame is fixed relative to earth. Unless otherwise specified this origin is the origin of the vehicle position-estimator ('EKF').       - 'BODY': Origin of local frame travels with the vehicle. NOTE, 'BODY' does NOT indicate alignment of frame axis with vehicle attitude.       - 'OFFSET': Deprecated synonym for 'BODY' (origin travels with the vehicle). Not to be used for new frames.        Some deprecated frames do not follow these conventions (e.g. MAV_FRAME_BODY_NED and MAV_FRAME_BODY_OFFSET_NED).   </summary>
     public enum MAV_FRAME: byte
     {
-        ///<summary> Global (WGS84) coordinate frame + MSL altitude. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL). | </summary>
-        [Description("Global (WGS84) coordinate frame + MSL altitude. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL).")]
+        ///<summary> Global (WGS84) coordinate frame + altitude relative to mean sea level (MSL). | </summary>
+        [Description("Global (WGS84) coordinate frame + altitude relative to mean sea level (MSL).")]
         GLOBAL=0, 
         ///<summary> NED local tangent frame (x: North, y: East, z: Down) with origin fixed relative to earth. | </summary>
         [Description("NED local tangent frame (x: North, y: East, z: Down) with origin fixed relative to earth.")]
@@ -2711,17 +2731,19 @@ public partial class MAVLink
         ///<summary> NOT a coordinate frame, indicates a mission command. | </summary>
         [Description("NOT a coordinate frame, indicates a mission command.")]
         MISSION=2, 
-        ///<summary> Global (WGS84) coordinate frame + altitude relative to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
-        [Description("Global (WGS84) coordinate frame + altitude relative to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location.")]
+        ///<summary>            Global (WGS84) coordinate frame + altitude relative to the home position.          | </summary>
+        [Description("           Global (WGS84) coordinate frame + altitude relative to the home position.         ")]
         GLOBAL_RELATIVE_ALT=3, 
         ///<summary> ENU local tangent frame (x: East, y: North, z: Up) with origin fixed relative to earth. | </summary>
         [Description("ENU local tangent frame (x: East, y: North, z: Up) with origin fixed relative to earth.")]
         LOCAL_ENU=4, 
-        ///<summary> Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude over mean sea level (MSL). | </summary>
-        [Description("Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude over mean sea level (MSL).")]
+        ///<summary> Global (WGS84) coordinate frame (scaled) + altitude relative to mean sea level (MSL). | </summary>
+        [Description("Global (WGS84) coordinate frame (scaled) + altitude relative to mean sea level (MSL).")]
+        [Obsolete]
         GLOBAL_INT=5, 
-        ///<summary> Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
-        [Description("Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude with 0 being at the altitude of the home location.")]
+        ///<summary> Global (WGS84) coordinate frame (scaled) + altitude relative to the home position.  | </summary>
+        [Description("Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. ")]
+        [Obsolete]
         GLOBAL_RELATIVE_ALT_INT=6, 
         ///<summary> NED local tangent frame (x: North, y: East, z: Down) with origin that travels with the vehicle. | </summary>
         [Description("NED local tangent frame (x: North, y: East, z: Down) with origin that travels with the vehicle.")]
@@ -2734,11 +2756,12 @@ public partial class MAVLink
         [Description("This is the same as MAV_FRAME_BODY_FRD.")]
         [Obsolete]
         BODY_OFFSET_NED=9, 
-        ///<summary> Global (WGS84) coordinate frame with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees, second value / y: longitude in degrees, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
-        [Description("Global (WGS84) coordinate frame with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees, second value / y: longitude in degrees, third value / z: positive altitude in meters with 0 being at ground level in terrain model.")]
+        ///<summary> Global (WGS84) coordinate frame with AGL altitude (altitude at ground level). | </summary>
+        [Description("Global (WGS84) coordinate frame with AGL altitude (altitude at ground level).")]
         GLOBAL_TERRAIN_ALT=10, 
-        ///<summary> Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
-        [Description("Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude in meters with 0 being at ground level in terrain model.")]
+        ///<summary> Global (WGS84) coordinate frame (scaled) with AGL altitude (altitude at ground level). | </summary>
+        [Description("Global (WGS84) coordinate frame (scaled) with AGL altitude (altitude at ground level).")]
+        [Obsolete]
         GLOBAL_TERRAIN_ALT_INT=11, 
         ///<summary> FRD local tangent frame (x: Forward, y: Right, z: Down) with origin that travels with vehicle. The forward axis is aligned to the front of the vehicle in the horizontal plane. | </summary>
         [Description("FRD local tangent frame (x: Forward, y: Right, z: Down) with origin that travels with vehicle. The forward axis is aligned to the front of the vehicle in the horizontal plane.")]
@@ -2855,6 +2878,27 @@ public partial class MAVLink
         ///<summary> Velocity limiting active to prevent breach | </summary>
         [Description("Velocity limiting active to prevent breach")]
         VEL_LIMIT=2, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum FENCE_TYPE: int /*default*/
+    {
+        ///<summary> All fence types | </summary>
+        [Description("All fence types")]
+        ALL=0, 
+        ///<summary> Maximum altitude fence | </summary>
+        [Description("Maximum altitude fence")]
+        ALT_MAX=1, 
+        ///<summary> Circle fence | </summary>
+        [Description("Circle fence")]
+        CIRCLE=2, 
+        ///<summary> Polygon fence | </summary>
+        [Description("Polygon fence")]
+        POLYGON=4, 
+        ///<summary> Minimum altitude fence | </summary>
+        [Description("Minimum altitude fence")]
+        ALT_MIN=8, 
         
     };
     
@@ -3232,6 +3276,24 @@ public partial class MAVLink
         ///<summary> Storage type is other, not listed type. | </summary>
         [Description("Storage type is other, not listed type.")]
         OTHER=254, 
+        
+    };
+    
+    ///<summary> Flags to indicate usage for a particular storage (see STORAGE_INFORMATION.storage_usage and MAV_CMD_SET_STORAGE_USAGE). </summary>
+    public enum STORAGE_USAGE_FLAG: int /*default*/
+    {
+        ///<summary> Always set to 1 (indicates STORAGE_INFORMATION.storage_usage is supported). | </summary>
+        [Description("Always set to 1 (indicates STORAGE_INFORMATION.storage_usage is supported).")]
+        SET=1, 
+        ///<summary> Storage for saving photos. | </summary>
+        [Description("Storage for saving photos.")]
+        PHOTO=2, 
+        ///<summary> Storage for saving videos. | </summary>
+        [Description("Storage for saving videos.")]
+        VIDEO=4, 
+        ///<summary> Storage for saving logs. | </summary>
+        [Description("Storage for saving logs.")]
+        LOGS=8, 
         
     };
     
@@ -4651,6 +4713,24 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Camera sources for MAV_CMD_SET_CAMERA_SOURCE </summary>
+    public enum CAMERA_SOURCE: int /*default*/
+    {
+        ///<summary> Default camera source. | </summary>
+        [Description("Default camera source.")]
+        DEFAULT=0, 
+        ///<summary> RGB camera source. | </summary>
+        [Description("RGB camera source.")]
+        RGB=1, 
+        ///<summary> IR camera source. | </summary>
+        [Description("IR camera source.")]
+        IR=2, 
+        ///<summary> NDVI camera source. | </summary>
+        [Description("NDVI camera source.")]
+        NDVI=3, 
+        
+    };
+    
     ///<summary> Result from PARAM_EXT_SET message (or a PARAM_SET within a transaction). </summary>
     public enum PARAM_ACK: byte
     {
@@ -5808,6 +5888,18 @@ public partial class MAVLink
         ///<summary> Mission has executed all mission items. | </summary>
         [Description("Mission has executed all mission items.")]
         COMPLETE=5, 
+        
+    };
+    
+    ///<summary>  	Possible safety switch states.        </summary>
+    public enum SAFETY_SWITCH_STATE: int /*default*/
+    {
+        ///<summary> Safety switch is engaged and vehicle should be safe to approach. | </summary>
+        [Description("Safety switch is engaged and vehicle should be safe to approach.")]
+        SAFE=0, 
+        ///<summary> Safety switch is NOT engaged and motors, propellers and other actuators should be considered active. | </summary>
+        [Description("Safety switch is NOT engaged and motors, propellers and other actuators should be considered active.")]
+        DANGEROUS=1, 
         
     };
     
@@ -17527,15 +17619,15 @@ public partial class MAVLink
         //[FieldOffset(0)]
         public  uint time_boot_ms;
 
-        /// <summary>X Position in WGS84 frame  [degE7] </summary>
+        /// <summary>Latitude in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
-        [Description("X Position in WGS84 frame")]
+        [Description("Latitude in WGS84 frame")]
         //[FieldOffset(4)]
         public  int lat_int;
 
-        /// <summary>Y Position in WGS84 frame  [degE7] </summary>
+        /// <summary>Longitude in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
-        [Description("Y Position in WGS84 frame")]
+        [Description("Longitude in WGS84 frame")]
         //[FieldOffset(8)]
         public  int lon_int;
 
@@ -17611,9 +17703,9 @@ public partial class MAVLink
         //[FieldOffset(51)]
         public  byte target_component;
 
-        /// <summary>Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11 MAV_FRAME  </summary>
+        /// <summary>Valid options are: MAV_FRAME_GLOBAL = 0, MAV_FRAME_GLOBAL_RELATIVE_ALT = 3, MAV_FRAME_GLOBAL_TERRAIN_ALT = 10 (MAV_FRAME_GLOBAL_INT, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT are allowed synonyms, but have been deprecated) MAV_FRAME  </summary>
         [Units("")]
-        [Description("Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11")]
+        [Description("Valid options are: MAV_FRAME_GLOBAL = 0, MAV_FRAME_GLOBAL_RELATIVE_ALT = 3, MAV_FRAME_GLOBAL_TERRAIN_ALT = 10 (MAV_FRAME_GLOBAL_INT, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT are allowed synonyms, but have been deprecated)")]
         //[FieldOffset(52)]
         public  /*MAV_FRAME*/byte coordinate_frame;
     };
@@ -17674,15 +17766,15 @@ public partial class MAVLink
         //[FieldOffset(0)]
         public  uint time_boot_ms;
 
-        /// <summary>X Position in WGS84 frame  [degE7] </summary>
+        /// <summary>Latitude in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
-        [Description("X Position in WGS84 frame")]
+        [Description("Latitude in WGS84 frame")]
         //[FieldOffset(4)]
         public  int lat_int;
 
-        /// <summary>Y Position in WGS84 frame  [degE7] </summary>
+        /// <summary>Longitude in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
-        [Description("Y Position in WGS84 frame")]
+        [Description("Longitude in WGS84 frame")]
         //[FieldOffset(8)]
         public  int lon_int;
 
@@ -17746,9 +17838,9 @@ public partial class MAVLink
         //[FieldOffset(48)]
         public  /*POSITION_TARGET_TYPEMASK*/ushort type_mask;
 
-        /// <summary>Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11 MAV_FRAME  </summary>
+        /// <summary>Valid options are: MAV_FRAME_GLOBAL = 0, MAV_FRAME_GLOBAL_RELATIVE_ALT = 3, MAV_FRAME_GLOBAL_TERRAIN_ALT = 10 (MAV_FRAME_GLOBAL_INT, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT are allowed synonyms, but have been deprecated) MAV_FRAME  </summary>
         [Units("")]
-        [Description("Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11")]
+        [Description("Valid options are: MAV_FRAME_GLOBAL = 0, MAV_FRAME_GLOBAL_RELATIVE_ALT = 3, MAV_FRAME_GLOBAL_TERRAIN_ALT = 10 (MAV_FRAME_GLOBAL_INT, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT are allowed synonyms, but have been deprecated)")]
         //[FieldOffset(50)]
         public  /*MAV_FRAME*/byte coordinate_frame;
     };
