@@ -9,7 +9,7 @@
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
     <Description>Mission Planner ground control station for ardupilot</Description>
-    <Copyright>Copyright © Michael Oborne 2010-2018</Copyright>
+    <Copyright>Copyright © Michael Oborne 2010-2024</Copyright>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
@@ -32,17 +32,21 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<Deterministic>False</Deterministic>
+		<PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>bin\Debug\net461\</OutputPath>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <WarningsAsErrors>$(WarningsAsErrors);</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\net461\</OutputPath>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <WarningsAsErrors>$(WarningsAsErrors);</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
