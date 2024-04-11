@@ -300,10 +300,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public async void BUT_connect_Click(object sender, EventArgs e)
         {
-            if (!InvokeRequired)
-            {
-                log.Info("We're running on the UI thread");
-            }
             threadrun = false;
             if (comPort.IsOpen)
             {
@@ -501,10 +497,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bytes = 0;
             invalidateRTCMStatus();
             panel1.Controls.Clear();
-            if (!InvokeRequired)
-            {
-                log.Info("We're running on the UI thread");
-            }
         }
 
         /// <summary>
@@ -538,7 +530,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Septentrio fixed base position is invalid.");
             }
             
-            CMB_baudrate.Text = $"{Utilities.Septentrio.DefaultBaudrate}";
+            this.BeginInvokeIfRequired(new Action(() => CMB_baudrate.Text = $"{Utilities.Septentrio.DefaultBaudrate}"));
         }
 
         void invalidateRTCMStatus()
@@ -1415,7 +1407,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // Use Click event because we aren't interested in code changes to the value, only user changes
         private async void chk_septentriofixedposition_Click(object sender, EventArgs e)
         {
-            button_septentriosetposition.Enabled = chk_septentriofixedposition.Checked;
+            this.BeginInvokeIfRequired(new Action(() => button_septentriosetposition.Enabled = chk_septentriofixedposition.Checked));
 
             try
             {
