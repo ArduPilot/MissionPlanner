@@ -482,7 +482,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             } 
             else if (chk_autoconfig.Checked && comboBoxConfigType.Text == "Septentrio")
             {
-                await ConfigureSeptentrioReceiver();
+                BUT_connect.Enabled = false;
+                try
+                {
+                    await ConfigureSeptentrioReceiver();
+                } catch (Exception ex)
+                {
+                    throw ex;
+                } finally { BUT_connect.Enabled = true; }
             }
             t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
             {
