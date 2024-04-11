@@ -320,6 +320,7 @@ namespace MissionPlanner.GCSViews
             // 
             // SubMainLeft.Panel2
             // 
+            this.SubMainLeft.Panel2.ContextMenuStrip = this.contextMenuStripactionstab;
             this.SubMainLeft.Panel2.Controls.Add(this.tabControlactions);
             this.SubMainLeft.Panel2.Controls.Add(this.panel_persistent);
             // 
@@ -3054,7 +3055,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem setViewCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setGStreamerSourceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setEKFHomeHereToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabPayload;
+        public System.Windows.Forms.TabPage tabPayload;
         private System.Windows.Forms.BindingSource bindingSourcePayloadTab;
         private System.Windows.Forms.TrackBar trackBarYaw;
         private System.Windows.Forms.TrackBar trackBarRoll;
@@ -3106,7 +3107,7 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem multiLineToolStripMenuItem;
         private Controls.MyButton BUT_SendMSG;
         public Panel panel_persistent;
-        private TabPage tabAuxFunction;
+        public System.Windows.Forms.TabPage tabAuxFunction;
         private FlowLayoutPanel flowLayoutPanel1;
         private Controls.AuxOptions auxOptions1;
         private Controls.AuxOptions auxOptions2;

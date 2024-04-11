@@ -298,9 +298,15 @@ namespace MissionPlanner.GCSViews
             {
                 var adv = AddBackstageViewPage(typeof(ConfigAdvanced), "Advanced");
 
-                AddBackstageViewPage(typeof(ConfigTerminal), "Terminal", true, adv);
+                if (MainV2.DisplayConfiguration.displayTerminal)
+                {
+                    AddBackstageViewPage(typeof(ConfigTerminal), "Terminal", true, adv);
+                }
 
-                AddBackstageViewPage(typeof(ConfigREPL), "Script REPL", isConnected, adv);
+                if (MainV2.DisplayConfiguration.displayREPL)
+                {
+                    AddBackstageViewPage(typeof(ConfigREPL), "Script REPL", isConnected, adv);
+                }
             }
 
             // remeber last page accessed

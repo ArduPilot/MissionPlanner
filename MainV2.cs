@@ -686,6 +686,33 @@ namespace MissionPlanner
                     t.TabPages.Remove(FlightData.tabPagemessages);
                 }
 
+                if (DisplayConfiguration.displayTransponderTab && !t.TabPages.Contains(FlightData.tabTransponder))
+                {
+                    t.TabPages.Add(FlightData.tabTransponder);
+                }
+                else if (!DisplayConfiguration.displayTransponderTab && t.TabPages.Contains(FlightData.tabTransponder))
+                {
+                    t.TabPages.Remove(FlightData.tabTransponder);
+                }
+
+                if (DisplayConfiguration.displayAuxFunctionTab && !t.TabPages.Contains(FlightData.tabAuxFunction))
+                {
+                    t.TabPages.Add(FlightData.tabAuxFunction);
+                }
+                else if (!DisplayConfiguration.displayAuxFunctionTab && t.TabPages.Contains(FlightData.tabAuxFunction))
+                {
+                    t.TabPages.Remove(FlightData.tabAuxFunction);
+                }
+
+                if (DisplayConfiguration.displayPayloadTab && !t.TabPages.Contains(FlightData.tabPayload))
+                {
+                    t.TabPages.Add(FlightData.tabPayload);
+                }
+                else if (!DisplayConfiguration.displayPayloadTab && t.TabPages.Contains(FlightData.tabPayload))
+                {
+                    t.TabPages.Remove(FlightData.tabPayload);
+                }
+
                 t.SelectedIndex = 0;
 
                 MainV2.instance.FlightData.loadTabControlActions();
