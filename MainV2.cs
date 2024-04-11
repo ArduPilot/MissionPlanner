@@ -3857,7 +3857,7 @@ namespace MissionPlanner
                                 nt.lat = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat;
                                 nt.lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
                                 nt.alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
-                                this.BeginInvokeIfRequired(() => { inject.DoConnect(); });
+                                this.BeginInvokeIfRequired(() => { inject.DoConnect().RunSynchronously(); });
                             }
                             catch (Exception ex)
                             {
