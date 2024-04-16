@@ -6876,7 +6876,7 @@ this ensures you wont lose radio link</value>
     <value>85</value>
   </data>
   <data name="BUT_loadcustom.Text" xml:space="preserve">
-    <value>Upload Firmware</value>
+    <value>Upload Firmware (custom)</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Name" xml:space="preserve">
     <value>BUT_loadcustom</value>
@@ -7020,7 +7020,7 @@ this ensures you wont lose radio link</value>
     <value>0</value>
   </data>
   <data name="BUT_upload.Text" xml:space="preserve">
-    <value>Upload Firmware (Local)</value>
+    <value>Upload Firmware (standard)</value>
   </data>
   <data name="BUT_upload.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
