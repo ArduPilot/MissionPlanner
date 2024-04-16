@@ -97,7 +97,7 @@ namespace Carbonix
                 guidedalt_max = 4500;
                 loitradius_min = 120;
                 loitradius_max = 3000;
-                loitradius_default = 120;
+                loitradius_default = 150;
                 climbrate_min = 0.5;
                 climbrate_max = 3.1;
                 min_vtol_altitude = 20;
@@ -108,8 +108,8 @@ namespace Carbonix
 
                 approach_points = new List<Point>()
                 {
-                    new Point() { dist = 250, alt = 40 },
-                    new Point() { dist = 600, alt = 60 },
+                    new Point() { dist = 400, alt = 40 },
+                    new Point() { dist = 550, alt = 50 },
                 };
 
                 takeofftab_displays = new List<NumberViewSettings>()
@@ -131,27 +131,27 @@ namespace Carbonix
             case Aircraft.Ottano:
                 guidedalt_min = -600;
                 guidedalt_max = 4500;
-                loitradius_min = 120;
+                loitradius_min = 150;
                 loitradius_max = 3000;
-                loitradius_default = 120;
+                loitradius_default = 200;
                 climbrate_min = 0.5;
-                climbrate_max = 3.1;
+                climbrate_max = 4.5;
                 min_vtol_altitude = 20;
                 max_vtol_altitude = 90;
                 max_descent_grade = 0.08;
-                cruise_speed = 21.0;
+                cruise_speed = 24.0;
                 landing_hold_minutes = 0;
 
                 approach_points = new List<Point>()
                 {
-                    new Point() { dist = 250, alt = 40 },
-                    new Point() { dist = 600, alt = 60 },
+                    new Point() { dist = 560, alt = 40 },
+                    new Point() { dist = 700, alt = 50 },
                 };
 
                 takeofftab_displays = new List<NumberViewSettings>()
                 {
                     new NumberViewSettings() { variable = "efi_rpm", description = "RPM", numberformat = "0", charwidth = 5 },
-                    new NumberViewSettings() { variable = "efi_fuelpress", description = "Fuel Pressure (kPa)", numberformat = "0", charwidth = 5 },
+                    new NumberViewSettings() { variable = "efi_fuelconsumed", description = "Fuel Consumed(g)", numberformat = "0", charwidth = 5 },
                     new NumberViewSettings() { variable = "efi_headtemp", description = "CHT1", numberformat = "0", charwidth = 5 },
                     new NumberViewSettings() { variable = "MAV_CHT2", description = "CHT2", numberformat = "0", charwidth = 5 },
                 };
