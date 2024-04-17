@@ -78,10 +78,16 @@ namespace MissionPlanner.ArduPilot
                     }
 
                     if (command == (ushort) MAVLink.MAV_CMD.DO_LAND_START && item.lat != 0 && item.lng != 0)
-                    {     
+                    {
+                        // AgTS: we add this tag to filter it out in the elevation profile. We are
+                        // abusing a DO_LAND_START with a high altitude to mark the start of a final
+                        // leg to get around the issue that commanding a wp index change within a landing
+                        // sequence clears the flag that tracks that we are still within a landing sequence.
+                        // This is a temporary workaround that works perfectly, but it plays havoc with the
+                        // elevation profile. Remove this junk when a better "land final" solution is found.
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
                             item.alt + gethomealt((MAVLink.MAV_FRAME) item.frame, item.lat, item.lng),
-                            (a + 1).ToString()));
+                            "DLS" + (a + 1).ToString()));
                         route.Add(pointlist[pointlist.Count - 1]);
 
                         dolandstart = a;

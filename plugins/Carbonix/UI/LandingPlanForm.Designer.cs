@@ -129,14 +129,10 @@
             0,
             0});
             this.num_loitertimemin.Name = "num_loitertimemin";
+            this.num_loitertimemin.ReadOnly = true;
             this.num_loitertimemin.Size = new System.Drawing.Size(52, 20);
             this.num_loitertimemin.TabIndex = 27;
             this.num_loitertimemin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.num_loitertimemin.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
             // 
             // label7
             // 

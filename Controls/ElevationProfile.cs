@@ -34,7 +34,13 @@ namespace MissionPlanner.Controls
 
             for (int a = 0; a < planlocs.Count; a++)
             {
-                if (planlocs[a] == null || planlocs[a].Tag != null && planlocs[a].Tag.Contains("ROI"))
+                // AgTS: we filter out all DO_LAND_STARTS from the elevation profile. We are
+                // abusing a DO_LAND_START with a high altitude to mark the start of a final
+                // leg to get around the issue that commanding a wp index change within a landing
+                // sequence clears the flag that tracks that we are still within a landing sequence.
+                // This is a temporary workaround that works perfectly, but it plays havoc with the
+                // elevation profile. Remove this junk when a better "land final" solution is found.
+                if (planlocs[a] == null || planlocs[a].Tag != null && (planlocs[a].Tag.Contains("ROI") || planlocs[a].Tag.Contains("DLS")))
                 {
                     planlocs.RemoveAt(a);
                     a--;

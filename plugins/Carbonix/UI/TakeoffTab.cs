@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -166,7 +166,7 @@ namespace Carbonix
             but_manual.Enabled = !(Host.cs.armed && (CurrentState.fromSpeedDisplayUnit(Host.cs.groundspeed) > 3 || Host.cs.ch3percent > 12));
 
             // Disable final button when not at the correct waypoint
-            but_landfinal.Enabled = final_wps.Contains((int)Host.cs.wpno);
+            but_landfinal.Enabled = final_wps.Contains((int)Host.cs.wpno + 1);
 
         }
         
@@ -181,8 +181,8 @@ namespace Carbonix
             var wps = Host.comPort.MAV.wps;
 
             var final_wps = new HashSet<int>();
-            
-            // This flag tracks whether we are searching for a VTOL_LAND or a LOITER_TURNS
+
+            // This flag tracks whether we are searching for a VTOL_LAND or a final marker
             bool looking_for_land = false;
             // Loop backwards through the waypoints
             for(int i = wps.Count - 1; i > 1; i--)
@@ -193,16 +193,34 @@ namespace Carbonix
                     looking_for_land = false;
                     continue;
                 }
-                if (!looking_for_land && wps[i].command == (ushort)MAVLink.MAV_CMD.LOITER_TURNS)
+
+                if (looking_for_land)
                 {
-                    // We want to see if we have a zero-turn loiter right after a non-zero-turn loiter
-                    if (wps[i].param1==0 && wps[i-1].command == (ushort)MAVLink.MAV_CMD.LOITER_TURNS && wps[i-1].param1!=0)
-                    {
-                        looking_for_land = true;
-                        i--;
-                        final_wps.Add(i);
-                    }
                     continue;
+                }
+
+                // The final leg is marked by a DO_LAND_START with a very high altitude, or by a zero-turn
+                // loiter. The latter is the old way of doing it. I am including it in case someone loads
+                // an old mission (I went back and forth on whether I should allow this).
+                bool final_wp_candidate = false;
+                if (wps[i].command == (ushort)MAVLink.MAV_CMD.DO_LAND_START && wps[i].z > 9000)
+                {
+                    final_wp_candidate = true;
+                }
+                else if (wps[i].command == (ushort)MAVLink.MAV_CMD.LOITER_TURNS && wps[i].param1 == 0)
+                {
+                    final_wp_candidate = true;
+                }
+
+                // Make sure the waypoint before is a non-zero-turn loiter
+                if (final_wp_candidate)
+                {
+                    if (wps[i - 1].command == (ushort)MAVLink.MAV_CMD.LOITER_TURNS && wps[i - 1].param1 != 0)
+                    {
+                        final_wps.Add(i);
+                        looking_for_land = true;
+                        continue;
+                    }
                 }
             }
 
@@ -397,7 +415,7 @@ namespace Carbonix
             // Double check that we are in a correct waypoint for this
             // Just in case there is a really off-chance race condition
             int wpno = (int)Host.cs.wpno;
-            if(final_wps.Contains(wpno))
+            if (final_wps.Contains(wpno + 1))
             {
                 byte sysid = (byte)Host.comPort.sysidcurrent;
                 byte compid = (byte)Host.comPort.compidcurrent;

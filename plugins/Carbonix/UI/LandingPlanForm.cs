@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -601,11 +601,15 @@ namespace Carbonix
                 double minutes_per_turn = (2 * Math.PI * loiter_radius) / aircraft_settings.cruise_speed / 60;
                 int loiter_turns = (int)Math.Round((double)num_loitertimemin.Value / minutes_per_turn);
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, loiter_turns, 0, sign * loiter_radius, 0, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
-                // Add 0-turn loiter. This will waypoint will be jumped to when the operators command the aircraft onto final.
-                // This makes sure that no matter when that button is clicked, it won't exit until it's pointing the right way.
+                // Add a DO_LAND_START with an absurd altitude. This guarantees it will never be selected as the closest
+                // landing sequence, but still serves to mark that we are in a landing sequence. This will waypoint will
+                // manualy jumped to when the operators command the aircraft onto its final approach.
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_LAND_START, 0, 0, 0, 0, loiter_point.Lng, loiter_point.Lat, 60000); // meters or feet, this is many times higher than we're capable of flying. 
+                // Add 0-turn loiter. This makes sure that no matter when that button is clicked, it won't exit until
+                // it's pointing the right way.
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, 0, 0, sign * loiter_radius, 1, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
             }
-            else // Throw in a single loiter turn
+            else // Otherwise throw in a single loiter turn
             {
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LOITER_TURNS, 1, 0, sign * loiter_radius, 1, loiter_point.Lng, loiter_point.Lat, Math.Round(CurrentState.toAltDisplayUnit(approach_points.Last().alt + alt_offset)));
             }
