@@ -47,8 +47,8 @@ namespace MissionPlanner.Maps
         {
             var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-            // set centerpoint as 0,0
             g.TranslateTransform(-Offset.X, -Offset.Y);
+            g.RotateTransform(-Overlay.Control.Bearing);
 
             // anti NaN
             try

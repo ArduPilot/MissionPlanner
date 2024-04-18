@@ -89,13 +89,13 @@ namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
   //global::Android.Content.Intent.CategoryHome,
     [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged ,
-        global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached, 
-        global::Android.Bluetooth.BluetoothDevice.ActionFound, global::Android.Bluetooth.BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached}, 
-        Categories = new []{ global::Android.Content.Intent.CategoryLauncher})]
+        global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached,
+        global::Android.Bluetooth.BluetoothDevice.ActionFound, global::Android.Bluetooth.BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached},
+        Categories = new[] { global::Android.Content.Intent.CategoryLauncher })]
     [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.tlog", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })]
-    [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.bin", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })] 
+    [IntentFilter(actions: new[] { global::Android.Content.Intent.ActionView }, Categories = new[] { global::Android.Content.Intent.CategoryBrowsable, global::Android.Content.Intent.ActionDefault, global::Android.Content.Intent.CategoryOpenable }, DataHost = "*", DataPathPattern = ".*\\.bin", DataMimeType = "*/*", DataSchemes = new[] { "file", "http", "https", "content" })]
     [MetaData("android.hardware.usb.action.USB_DEVICE_ATTACHED", Resource = "@xml/device_filter")]
-    [Activity(Label = "Mission Planner", Exported = true, ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(Label = "Mission Planner", Exported = true, ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme",
         MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true, LaunchMode = LaunchMode.SingleInstance)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -141,7 +141,7 @@ namespace Xamarin.Droid
                 var query = this.ContentResolver.Query(docUriTree, null, null,
                     null, null);
                 query.MoveToFirst();
-                var filePath = query.GetString(0); 
+                var filePath = query.GetString(0);
                 query.Close();
 
                 pref.Edit().PutString("Directory", filePath).Commit();
@@ -173,7 +173,7 @@ namespace Xamarin.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            SetSupportActionBar((Toolbar) FindViewById(ToolbarResource));
+            SetSupportActionBar((Toolbar)FindViewById(ToolbarResource));
 
             this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn |
                                  WindowManagerFlags.HardwareAccelerated);
@@ -304,11 +304,11 @@ namespace Xamarin.Droid
 
             {
                 if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) !=
-                    (int) Permission.Granted ||
+                    (int)Permission.Granted ||
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
-                    (int) Permission.Granted ||
+                    (int)Permission.Granted ||
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) !=
-                    (int) Permission.Granted)
+                    (int)Permission.Granted)
                 {
                     ActivityCompat.RequestPermissions(this,
                         new String[]
@@ -318,15 +318,7 @@ namespace Xamarin.Droid
                             Manifest.Permission.Bluetooth
                         }, 1);
                 }
-
-                while (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
-                       (int) Permission.Granted)
-                {
-                    Thread.Sleep(1000);
-                    var text = "Checking Permissions - " + DateTime.Now.ToString("T");
-
-                    //DoToastMessage(text);
-                }
+                
             }
 
             try {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="107288" android:versionName="107288" package="com.michaeloborne.MissionPlanner" android:installLocation="preferExternal">
 	<supports-screens android:smallScreens="false" android:normalScreens="true" android:largeScreens="true" />
-	<application android:label="Mission Planner" android:requestLegacyExternalStorage="false" android:hardwareAccelerated="true" android:extractNativeLibs="true" android:killAfterRestore="true" android:hasFragileUserData="true" android:icon="@mipmap/icon" />
+	<application android:label="Mission Planner" android:requestLegacyExternalStorage="false" android:hardwareAccelerated="true" android:extractNativeLibs="true" android:killAfterRestore="true" android:hasFragileUserData="true" android:usesCleartextTraffic="true" android:icon="@mipmap/icon" />
 	<queries>
 		<intent>
 			<action android:name="android.intent.action.TTS_SERVICE" />

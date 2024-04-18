@@ -1439,7 +1439,6 @@ namespace GMap.NET.WindowsForms
         {
             {
                 e.Clear(EmptyMapBackground);
-
 #if !PocketPC
                 if (MapRenderTransform.HasValue)
                 {
@@ -1507,8 +1506,9 @@ namespace GMap.NET.WindowsForms
                         }
 #endif
                         DrawMap(e);
-                        OnPaintOverlays(e);
                     }
+                    OnPaintOverlays(e);
+
                 }
             }
 

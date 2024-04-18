@@ -719,101 +719,18 @@ namespace MissionPlanner
 
         private void myButton1_Click_2(object sender, EventArgs e)
         {
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-2.8.1/ArduCopter/Parameters.pde"
-                , "ArduCopter2.8.1.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-2.9.1/ArduCopter/Parameters.pde"
-                , "ArduCopter2.9.1.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-3.0/ArduCopter/Parameters.pde"
-                , "ArduCopter3.0.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-3.1.5/ArduCopter/Parameters.pde"
-                , "ArduCopter3.1.5.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-3.2.1/ArduCopter/Parameters.pde"
-                , "ArduCopter3.2.1.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.3.2/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.3.2.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.3/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.3.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.4.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4.6/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.4.6.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5.0/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.5.0.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5.2/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.5.2.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5.4/ArduCopter/Parameters.cpp"
-                , "ArduCopter3.5.4.xml");
-
-
-
-            // plane
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.8.3/ArduPlane/Parameters.cpp"
-                , "ArduPlane3.8.3.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.1/ArduPlane/Parameters.cpp"
-                , "ArduPlane3.7.1.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.0/ArduPlane/Parameters.cpp"
-                , "ArduPlane3.7.0.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.6.0/ArduPlane/Parameters.cpp"
-                , "ArduPlane3.6.0.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.5.2/ArduPlane/Parameters.cpp"
-                , "ArduPlane3.5.2.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.3.0/ArduPlane/Parameters.pde"
-                , "ArduPlane3.3.0.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.2.2/ArduPlane/Parameters.pde"
-                , "ArduPlane3.2.2.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.1.0/ArduPlane/Parameters.pde"
-                , "ArduPlane3.1.0.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.0.3/ArduPlane/Parameters.pde"
-                , "ArduPlane3.0.3.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-2.78b/ArduPlane/Parameters.pde"
-                , "ArduPlane2.78b.xml");
-
-            ParameterMetaDataParser.GetParameterInformation(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-2.75/ArduPlane/Parameters.pde"
-                , "ArduPlane2.75.xml");
+            
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Log Files|*.log;*.bin;*.BIN;*.LOG";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.Multiselect = true;
+            openFileDialog1.InitialDirectory =  Settings.Instance.LogDir;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                int a = 10;
+                InputBox.Show("How Many", "Enter how many pieces to split into", ref a);
+                new DFLogBuffer(openFileDialog1.FileName).SplitLog(a);
+            }            
         }
 
         private void but_signkey_Click(object sender, EventArgs e)

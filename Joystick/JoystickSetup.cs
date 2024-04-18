@@ -95,6 +95,13 @@ namespace MissionPlanner.Joystick
                     return (short)MainV2.comPort.MAV.cs.GetType().GetField("rcoverridech" + ax.ChannelNo)
                         .GetValue(MainV2.comPort.MAV.cs);
                 };
+                ax.Expo = () =>
+                {
+                    if (int.TryParse(ax.ExpoValue, out int expoValue))
+                    {
+                        MainV2.joystick?.setExpo(ax.ChannelNo, expoValue);
+                    }
+                };
 
                 Controls.Add(ax);
 

@@ -71,7 +71,7 @@ namespace MissionPlanner.Controls
                         BUT_connect.Text = Strings.Stop;
                         break;
                     case "TCP Client":
-                        CoTStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                        CoTStream = new TcpSerial() { retrys = 999999, autoReconnect = true, ConfigRef = "SerialOutputCoTTCP" };
                         CMB_baudrate.SelectedIndex = 0;
                         break;
                     case "UDP Host - 14551":

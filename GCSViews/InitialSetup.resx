@@ -948,4 +948,7 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="backstageViewPageSerial.Text" xml:space="preserve">
+    <value>Serial Ports</value>
+  </data>
 </root>

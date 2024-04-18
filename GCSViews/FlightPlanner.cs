@@ -51,6 +51,7 @@ using Point = System.Drawing.Point;
 using Resources = MissionPlanner.Properties.Resources;
 using Newtonsoft.Json;
 using MissionPlanner.ArduPilot.Mavlink;
+using SharpKml.Engine;
 
 namespace MissionPlanner.GCSViews
 {
@@ -4100,9 +4101,12 @@ namespace MissionPlanner.GCSViews
                 {
                     kmlpolygonsoverlay.Polygons.Clear();
                     kmlpolygonsoverlay.Routes.Clear();
+                    kmlpolygonsoverlay.Markers.Clear();
 
                     FlightData.kmlpolygons.Routes.Clear();
                     FlightData.kmlpolygons.Polygons.Clear();
+                    FlightData.kmlpolygons.Markers.Clear();
+
                     if (file.ToLower().EndsWith("gpkg"))
                     {
 #if !LIB
@@ -4198,8 +4202,11 @@ namespace MissionPlanner.GCSViews
 
                             var parser = new Parser();
 
-                            parser.ElementAdded += parser_ElementAdded;
                             parser.ParseString(kml, false);
+
+                            Kml rootnode = parser.Root as Kml;
+
+                            processKML(rootnode.Feature);
 
                             if ((int) DialogResult.Yes ==
                                 CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen,
@@ -4925,16 +4932,6 @@ namespace MissionPlanner.GCSViews
             label11.Location = new Point(panelMap.Size.Width - 50, label11.Location.Y);
         }
 
-        private void panelWaypoints_ExpandClick(object sender, EventArgs e)
-        {
-            Commands.AutoResizeColumns();
-        }
-
-        private void parser_ElementAdded(object sender, ElementEventArgs e)
-        {
-            processKML(e.Element);
-        }
-
         public void Planner_Resize(object sender, EventArgs e)
         {
             MainMap.Zoom = trackBar1.Value;
@@ -5047,68 +5044,105 @@ namespace MissionPlanner.GCSViews
             FetchPath();
         }
 
-        private void processKML(Element Element)
+        private void processKML(Element Element, Document root = null)
         {
-            Document doc = Element as Document;
-            Placemark pm = Element as Placemark;
-            Folder folder = Element as Folder;
-            Polygon polygon = Element as Polygon;
-            LineString ls = Element as LineString;
-            MultipleGeometry geom = Element as MultipleGeometry;
-
-            if (doc != null)
+            if (Element is Document)
             {
-                foreach (var feat in doc.Features)
+                foreach (var feat in ((Document)Element).Features)
                 {
-                    //Console.WriteLine("feat " + feat.GetType());
-                    //processKML((Element)feat);
-                }
-            }
-            else if (folder != null)
-            {
-                foreach (Feature feat in folder.Features)
-                {
-                    //Console.WriteLine("feat "+feat.GetType());
-                    //processKML(feat);
-                }
-            }
-            else if (pm != null)
-            {
-            }
-            else if (polygon != null)
-            {
-                GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
-
-                kmlpolygon.Stroke.Color = Color.Purple;
-                kmlpolygon.Fill = Brushes.Transparent;
-
-                foreach (var loc in polygon.OuterBoundary.LinearRing.Coordinates)
-                {
-                    kmlpolygon.Points.Add(new PointLatLng(loc.Latitude, loc.Longitude));
+                    processKML(feat, (Document)Element);
                 }
 
-                kmlpolygonsoverlay.Polygons.Add(kmlpolygon);
-            }
-            else if (ls != null)
+                return;
+            } 
+            else if (Element is Folder)
             {
-                GMapRoute kmlroute = new GMapRoute(new List<PointLatLng>(), "kmlroute");
-
-                kmlroute.Stroke.Color = Color.Purple;
-
-                foreach (var loc in ls.Coordinates)
+                foreach (var feat in ((Folder)Element).Features)
                 {
-                    kmlroute.Points.Add(new PointLatLng(loc.Latitude, loc.Longitude));
-                }
-
-                kmlpolygonsoverlay.Routes.Add(kmlroute);
-            }
-            else if (geom != null)
-            {
-                foreach (var geometry in geom.Geometry)
-                {
-                    processKML(geometry);
+                    processKML(feat, root);
                 }
             }
+            else if (Element is Placemark)
+            {
+                var styleurl = ((Placemark)Element).StyleUrl;
+
+                if (((Placemark)Element).Geometry != null)
+                {
+                    var Element2 = ((Placemark)Element).Geometry;
+                    if (Element2 is Polygon)
+                    {
+                        GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
+
+                        var colorwidth = GetKMLLineColor(styleurl.OriginalString.TrimStart('#'), root);
+                        kmlpolygon.Stroke = new Pen(colorwidth.Item1, colorwidth.Item2);
+                        kmlpolygon.Fill = Brushes.Transparent;
+
+                        foreach (var loc in ((Polygon)Element2).OuterBoundary.LinearRing.Coordinates)
+                        {
+                            kmlpolygon.Points.Add(new PointLatLng(loc.Latitude, loc.Longitude));
+                        }
+
+                        kmlpolygonsoverlay.Polygons.Add(kmlpolygon);
+                    }
+                    else if (Element2 is LineString)
+                    {
+                        GMapRoute kmlroute = new GMapRoute(new List<PointLatLng>(), "kmlroute");
+
+                        var colorwidth = GetKMLLineColor(styleurl.OriginalString.TrimStart('#'), root);
+                        kmlroute.Stroke = new Pen(colorwidth.Item1, colorwidth.Item2);
+
+                        foreach (var loc in ((LineString)Element2).Coordinates)
+                        {
+                            kmlroute.Points.Add(new PointLatLng(loc.Latitude, loc.Longitude));
+                        }
+
+                        kmlpolygonsoverlay.Routes.Add(kmlroute);
+                    }
+                    else if (Element2 is MultipleGeometry)
+                    {
+                        foreach (var geometry in ((MultipleGeometry)Element2).Geometry)
+                        {
+                            processKML(new Placemark() { Geometry = geometry, StyleUrl = ((Placemark)Element).StyleUrl }, root);
+                        }
+                    }
+                    else if (Element2 is SharpKml.Dom.Point)
+                    {
+
+                        // its a label
+                        var placemark = (Placemark)Element;
+                        var text = placemark.Name;
+                        var lookat = placemark.CalculateLookAt();
+
+                        kmlpolygonsoverlay.Markers.Add(new GMapMarkerKMLLabel(new PointLatLng(lookat.Latitude.Value, lookat.Longitude.Value), text));
+
+                    }
+                }
+            }
+        }
+
+        private (Color,int) GetKMLLineColor(string styleurl, Document root)
+        {
+            var style2 = root.Styles.Where(a => a.Id == styleurl.TrimStart('#')).First();
+
+            if (style2 is StyleMapCollection)
+            {
+                var styleurl2 = ((StyleMapCollection)(style2)).First().StyleUrl;
+
+                var style = root.Styles.Where(a => a.Id == styleurl2.OriginalString.TrimStart('#')).First();
+                if (style != null)
+                {
+                    if (((Style)style).Line != null)
+                    {
+                        int color = ((Style)style).Line.Color.Value.Abgr;
+                        // convert color from ABGR to ARGB
+                        color = (int)((color & 0xFF00FF00) | ((color & 0x00FF0000) >> 16) | ((color & 0x000000FF) << 16));
+                        
+                        // ABGR
+                        return (Color.FromArgb(color), (int)((Style)style).Line.Width.Value);
+                    }                    
+                }
+            }
+            return (Color.White, 2);
         }
 
         private void processKMLMission(object sender, ElementEventArgs e)

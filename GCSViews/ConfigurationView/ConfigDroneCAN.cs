@@ -18,6 +18,7 @@ using Timer = System.Windows.Forms.Timer;
 using static DroneCAN.DroneCAN;
 using System.ComponentModel;
 using System.Drawing;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -30,7 +31,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             uAVCANModelBindingSource.DataSource = allnodes;
 
             if (MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
-                this.Enabled = false;
+                but_slcanmode1.Enabled = false;
         }
 
         List<DroneCANModel> allnodes = new List<DroneCANModel>();
@@ -38,7 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             if (MainV2.comPort.MAV.param.Count > 5 && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
-                this.Enabled = false;
+                but_slcanmode1.Enabled = false;
 
             timer = new Timer();
             timer.Interval = 1000;
@@ -495,6 +496,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 var url = can.LookForUpdate(devicename, hwversion, beta);
 
+                if (url == string.Empty)
+                    url = APFirmware.Manifest.Firmware.Where(a => a.MavFirmwareVersionType == (beta ? APFirmware.RELEASE_TYPES.BETA.ToString() : APFirmware.RELEASE_TYPES.OFFICIAL.ToString()) &&
+                    a.VehicleType == "AP_Periph" && a.Format == "bin" &&
+                    a.MavType == "CAN_PERIPHERAL" &&
+                    devicename.EndsWith(a.Platform)).First()?.Url.ToString();
+
                 if (url != string.Empty)
                 {
                     try
@@ -557,7 +564,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 FileDialog fd = new OpenFileDialog();
                 fd.RestoreDirectory = true;
-                fd.Filter = "*.bin|*.bin|*.*|*.*";
+                fd.Filter = "*.bin;*.apj|*.bin;*.apj";
                 var dia = fd.ShowDialog();
 
                 if (fd.CheckFileExists && dia == DialogResult.OK)
@@ -575,6 +582,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     try
                     {
+                        if (fd.FileName.ToLower().EndsWith(".apj"))
+                        {
+                            var fw = px4uploader.Firmware.ProcessFirmware(fd.FileName);
+                            var tmp = Path.GetTempFileName();
+                            File.WriteAllBytes(tmp, fw.imagebyte);
+                            fd.FileName = tmp;
+                        }
+
                         var cancel = new CancellationTokenSource();
 
                         prd.DoWork += dialogue =>

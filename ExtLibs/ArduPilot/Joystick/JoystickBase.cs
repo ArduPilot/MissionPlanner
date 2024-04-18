@@ -42,11 +42,19 @@ namespace MissionPlanner.Joystick
 
         private Func<MAVLinkInterface> _Interface;
 
+        private Action _LostAction;
+
         protected SynchronizationContext _context;
 
         protected MAVLinkInterface Interface
         {
             get { return _Interface(); }
+        }
+
+        public Action LostAction
+        {
+            get { if(_LostAction != null) return _LostAction; return delegate () { }; }
+            set { _LostAction = value; }
         }
 
         public JoystickBase(Func<MAVLinkInterface> currentInterface)
@@ -84,6 +92,14 @@ namespace MissionPlanner.Joystick
             {
                 loadconfig();
             }
+
+            _LostAction = new Action(delegate
+            {
+                _context.Send(delegate
+                {
+                    CustomMessageBox.Show("Lost Joystick", "Lost Joystick");
+                }, null);
+            });
         }
 
         public void loadconfig(string joystickconfigbuttonin = "joystickbuttons.xml",
@@ -211,6 +227,11 @@ namespace MissionPlanner.Joystick
         public void setAxis(int channel, joystickaxis axis)
         {
             JoyChannels[channel].axis = axis;
+        }
+
+        public void setExpo(int channel, int expo)
+        {
+            JoyChannels[channel].expo = expo;
         }
 
         public void setChannel(int channel, joystickaxis axis, bool reverse, int expo)
@@ -1113,8 +1134,7 @@ namespace MissionPlanner.Joystick
                 {
                     log.Error(ex);
                     clearRCOverride();
-                    _context.Send(
-                        delegate { CustomMessageBox.Show("Lost Joystick", "Lost Joystick"); }, null);
+                    LostAction();
                     return;
                 }
                 catch (Exception ex)

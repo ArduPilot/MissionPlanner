@@ -64,7 +64,7 @@ namespace SikRadio
 
             var form = new Sikradio();
             form.Enabled = false;
-            form.GetCommsSerialAlt = () => SikRadio.Config.comPort;
+            form.DoDisconnectReconnect += DoDisconnectReconnect;
 
             panel1.Controls.Add(form);
 
@@ -113,6 +113,15 @@ namespace SikRadio
             return form;
         }
 
+        void DoDisconnectReconnect()
+        {
+            if (_Connected)
+            {
+                Disconnect();
+                Connect();
+            }
+        }
+
         private void CMB_SerialPort_SelectedIndexChanged(object sender, EventArgs e)
         {
             MainV2.comPort.BaseStream.PortName = CMB_SerialPort.Text;
@@ -152,6 +161,7 @@ namespace SikRadio
             }
             _CurrentForm = Constructor();
             _CurrentForm.Enabled = _Connected;
+            groupBox2.Text = _CurrentForm.Header;
             _CurrentForm.Show();
             if (_Connected)
             {
@@ -174,53 +184,9 @@ namespace SikRadio
             ShowForm(loadRssi);
         }
 
-        void getTelemPortWithRadio(ref ICommsSerial comPort)
-        {
-            // try telem1
-
-            comPort = new MAVLinkSerialPort(MainV2.comPort, (int)MAVLink.SERIAL_CONTROL_DEV.TELEM1);
-
-            comPort.ReadTimeout = 4000;
-
-            comPort.Open();
-        }
-
         bool Connect()
         {
-            try
-            {
-                if (MainV2.comPort.BaseStream.PortName.Contains("TCP"))
-                {
-                    _comPort = new TcpSerial();
-                    _comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                    _comPort.ReadTimeout = 4000;
-                    _comPort.Open();
-                }
-                else
-                {
-                    _comPort = new SerialPort();
-
-                    if (MainV2.comPort.BaseStream.IsOpen)
-                    {
-                        getTelemPortWithRadio(ref _comPort);
-                    }
-                    else
-                    {
-                        _comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                        _comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                    }
-
-                    _comPort.ReadTimeout = 4000;
-
-                    _comPort.Open();
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return Sikradio.Connect(ref _comPort);
         }
 
         bool Disconnect()

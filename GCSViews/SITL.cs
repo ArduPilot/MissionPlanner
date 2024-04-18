@@ -851,7 +851,7 @@ namespace MissionPlanner.GCSViews
 
             for (int a = (int)max; a >= 0; a--)
             {
-                var extra = " --disable-fgview ";
+                var extra = " ";
 
                 if (!string.IsNullOrEmpty(config))
                     extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
@@ -900,6 +900,9 @@ SIM_DRIFT_TIME=0
                 exestart.WorkingDirectory = simdir;
                 exestart.WindowStyle = ProcessWindowStyle.Minimized;
                 exestart.UseShellExecute = true;
+
+                log.InfoFormat("sitl: {0} {1} {2}", exestart.WorkingDirectory, exestart.FileName,
+                                       exestart.Arguments);
 
                 simulator.Add(System.Diagnostics.Process.Start(exestart));
 
@@ -994,7 +997,7 @@ SIM_DRIFT_TIME=0
 
             for (int a = (int)max; a >= 0; a--)
             {
-                var extra = " --disable-fgview ";
+                var extra = " ";
 
                 if (!string.IsNullOrEmpty(config))
                     extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";

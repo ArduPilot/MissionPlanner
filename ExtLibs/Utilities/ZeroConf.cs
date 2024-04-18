@@ -18,8 +18,7 @@ namespace MissionPlanner.Utilities
 
         public static void ProbeForRTSP()
         {
-            if(!System.Diagnostics.Debugger.IsAttached)
-                resolverAsync();
+            resolverAsync();
         }
 
         private static async Task resolverAsync()
@@ -60,8 +59,7 @@ namespace MissionPlanner.Utilities
 
         public static void ProbeForMavlink()
         {
-            if (!System.Diagnostics.Debugger.IsAttached)
-                resolverMavlinkAsync();
+            resolverMavlinkAsync();
         }
 
         private static async Task resolverMavlinkAsync()

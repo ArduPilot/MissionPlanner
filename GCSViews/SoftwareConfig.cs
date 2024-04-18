@@ -94,7 +94,7 @@ namespace MissionPlanner.GCSViews
                             start = AddBackstageViewPage(typeof(ConfigAntennaTracker), Strings.ExtendedTuning);
                         }
 
-                        if (MainV2.DisplayConfiguration.displayBasicTuning)
+                        if (MainV2.DisplayConfiguration.displayStandardParams)
                         {
                             AddBackstageViewPage(typeof(ConfigFriendlyParams), Strings.StandardParams);
                         }
@@ -122,7 +122,7 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.DisplayConfiguration.displayFullParamList)
                 {
                     if(!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
-                        AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList, null, true);
+                        AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList, null, false);
                 }
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {

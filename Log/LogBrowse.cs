@@ -316,7 +316,42 @@ namespace MissionPlanner.Log
                 ThreadPool.QueueUserWorkItem(o => LoadLog(logfilename));
             }
 
+            zg1.ContextMenuBuilder += Zg1_ContextMenuBuilder;
+
             log.Info("LogBrowse_Load Done");
+        }
+
+        private void Zg1_ContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
+        {
+            menuStrip.Items.Add(new ToolStripMenuItem("Properties MasterPane", null, (c, e) =>
+            {               
+                    var propertyGrid1 = new PropertyGrid();
+                    propertyGrid1.Width = 500;
+                    propertyGrid1.Height = 800;
+                    propertyGrid1.SelectedObject = zg1.MasterPane;
+
+                    propertyGrid1.ShowUserControl();                
+            }));
+
+            menuStrip.Items.Add(new ToolStripMenuItem("Properties YAxis", null, (c, e) =>
+            {
+                var propertyGrid1 = new PropertyGrid();
+                propertyGrid1.Width = 500;
+                propertyGrid1.Height = 800;
+                propertyGrid1.SelectedObject = zg1.GraphPane.YAxis.Scale;
+
+                propertyGrid1.ShowUserControl();
+            }));
+
+            menuStrip.Items.Add(new ToolStripMenuItem("Properties YAxis2", null, (c, e) =>
+            {
+                var propertyGrid1 = new PropertyGrid();
+                propertyGrid1.Width = 500;
+                propertyGrid1.Height = 800;
+                propertyGrid1.SelectedObject = zg1.GraphPane.Y2Axis.Scale;
+
+                propertyGrid1.ShowUserControl();
+            }));  
         }
 
         public void LoadLog(string FileName)
@@ -666,6 +701,26 @@ namespace MissionPlanner.Log
                     MAVLink.MAV_PARAM_TYPE.REAL32));
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(parmdata);
+
+            // If we are not currently connected to a vehicle, then use VehicleType to set CurrentState firmware
+            // (we probably aren't connected to a vehicle when reviewing a log, but if we are, we don't want to override this)
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                var firmware_lookup = new Dictionary<string, Firmwares>()
+                                {
+                                    {"ArduPlane", Firmwares.ArduPlane},
+                                    {"ArduCopter", Firmwares.ArduCopter2},
+                                    {"Blimp", Firmwares.ArduCopter2},
+                                    {"ArduRover",Firmwares.ArduRover},
+                                    {"ArduSub",Firmwares.ArduSub},
+                                    {"AntennaTracker", Firmwares.ArduTracker}
+                                };
+                var match = firmware_lookup.Where(d => VehicleType.StartsWith(d.Key)).ToArray();
+                if (match.Count() == 1)
+                {
+                    MainV2.comPort.MAV.cs.firmware = match[0].Value;
+                }
+            }
 
             var sorted = new SortedList(dflog.logformat);
             // go through all fmt's
@@ -3629,9 +3684,19 @@ main()
                     }
                     else
                     {
+                        dataGridView1.Visible = false;
                         dataGridView1.VirtualMode = true;
                         dataGridView1.ColumnCount = colcount;
+                        for(int u=0;u < dataGridView1.ColumnCount; u++)
+                        {
+                            dataGridView1.Columns[u].Visible = false;
+                        }
                         dataGridView1.RowCount = logdata.Count;
+                        for (int u = 0; u < dataGridView1.ColumnCount; u++)
+                        {
+                            dataGridView1.Columns[u].Visible = true;
+                        }
+                        dataGridView1.Visible = true;
                         log.Info("datagrid size set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
                     }
 
@@ -3738,32 +3803,33 @@ main()
 
             chk_params.Checked = false;
 
-            var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
-                new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
-                    MAVLink.MAV_PARAM_TYPE.REAL32));
-
-            //Check the list for duplicates and use the latest occurence for value
-            MAVLink.MAVLinkParamList newparamdata = new MAVLink.MAVLinkParamList();
-            foreach (MAVLink.MAVLinkParam sourceItem in parmdata)
+            MAVLink.MAVLinkParamList paramdata = new MAVLink.MAVLinkParamList();
+            bool has_defaults = logdata.dflog.logformat["PARM"].FieldNames.Contains("Default");
+            foreach (var msg in logdata.GetEnumeratorType("PARM"))
             {
-                //Lookup the next item in the target list
-                for (var idx_target = 0; idx_target < newparamdata.Count(); idx_target++)
+                double value = double.Parse(msg["Value"], CultureInfo.InvariantCulture);
+                double tmp;
+                double? default_value = has_defaults && double.TryParse(msg["Default"], out tmp) ? (double?)tmp : null;
+                MAVLink.MAVLinkParam sourceItem = new MAVLink.MAVLinkParam(msg["Name"], value, MAVLink.MAV_PARAM_TYPE.REAL32, default_value);
+
+                // Lookup the next item in the target list
+                for (var idx_target = 0; idx_target < paramdata.Count(); idx_target++)
                 {
-                    if (sourceItem.Name == newparamdata[idx_target].Name)
+                    if (sourceItem.Name == paramdata[idx_target].Name)
                     {
-                        //This item is already in the parameters, since source is in time order, it means the value changed
-                        //We can replace the item in the output with this new value
-                        Console.WriteLine("Duplicated item Name:{0} Prev:{1} New:{2}", sourceItem.Name, newparamdata[idx_target].Value, sourceItem.Value);
-                        newparamdata[idx_target] = sourceItem;
+                        // This item is already in the parameters, since source is in time order, it means the value changed.
+                        // We can replace the item in the output with this new value
+                        Console.WriteLine("Duplicated item Name:{0} Prev:{1} New:{2}", sourceItem.Name, paramdata[idx_target].Value, sourceItem.Value);
+                        paramdata[idx_target] = sourceItem;
                         break;
                     }
                 }
-                //item is not in target list, we can add it
-                newparamdata.Add(sourceItem);
+                // The item is not in target list, we can add it
+                paramdata.Add(sourceItem);
             }
 
             MainV2.comPort.MAV.param.Clear();
-            MainV2.comPort.MAV.param.AddRange(newparamdata);
+            MainV2.comPort.MAV.param.AddRange(paramdata);
 
             var frm = new ConfigRawParams().ShowUserControl();
         }
@@ -3824,6 +3890,12 @@ main()
                     filehandles.ForEach(a => a.Value.Close());
                 }
             }
+        }
+
+        private class MetaData
+        {
+            public double Min;
+            public double Max;
         }
     }
 }

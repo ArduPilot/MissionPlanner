@@ -24,6 +24,9 @@ namespace MissionPlanner.Radio
             DEVICE_ID_RFD900U = 0X80 | 0x01,
             DEVICE_ID_RFD900P = 0x80 | 0x02,
             DEVICE_ID_RFD900X = 0x80 | 0x03,
+            DEVICE_ID_RFD900X2 = 0x80 | 0x04,
+            DEVICE_ID_RFD900UX2 = 0x80 | 0x05,
+
             DEVICE_ID_RFD900UX = 0x80 | 0x08,
 
             FAILED = 0x11

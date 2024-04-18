@@ -124,6 +124,52 @@ namespace MissionPlanner.ArduPilot
                     Manifest = JsonConvert.DeserializeObject<ManifestRoot>(manifest);
 
                     log.Info(Manifest.Firmware?.Length);
+
+                    APFirmware.GetListAppend("https://raw.githubusercontent.com/CubePilot/periph-manifest/main/manifest.json");
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+        }
+
+        public static void GetListAppend(string url, bool force = false)
+        {
+            lock (getListlock)
+            {
+                try
+                {
+                    log.Info(url);
+
+                    var client = new HttpClient();
+
+                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                        client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+
+                    var manifestgz = client.GetByteArrayAsync(url).GetAwaiter().GetResult();
+                    var mssrc = new MemoryStream(manifestgz);
+                    var msdest = new MemoryStream();
+                    if (url.EndsWith(".gz"))
+                    {
+                        GZipStream gz = new GZipStream(mssrc, CompressionMode.Decompress);
+                        gz.CopyTo(msdest);
+                        msdest.Position = 0;
+                    }
+                    else
+                    {
+                        mssrc.CopyTo(msdest);
+                        msdest.Position = 0;
+                    }
+                    var manifest = new StreamReader(msdest).ReadToEnd();
+
+                    var Manifest2 = JsonConvert.DeserializeObject<ManifestRoot>(manifest);
+
+                    var list = Manifest.Firmware.ToList();
+                    list.AddRange(Manifest2.Firmware);
+                    Manifest.Firmware = list.ToArray();
+
+                    log.Info(Manifest.Firmware?.Length);
                 }
                 catch (Exception ex)
                 {
@@ -143,6 +189,7 @@ namespace MissionPlanner.ArduPilot
             // match the board description
             var ans = Manifest.Firmware.Where(a => (
                 a.Platform?.ToLower() == device.board?.ToLower() ||
+                a.Platform?.ToLower().Replace("primary", "secondary") == device.board?.ToLower() ||
                 a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())));
 
             if (boardidcheck)
