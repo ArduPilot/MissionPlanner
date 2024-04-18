@@ -882,13 +882,6 @@ namespace MissionPlanner.Utilities
                             }
                             catch { }
 
-                            ushort squawk = 0;
-                            try
-                            {
-                                squawk = ushort.Parse(strArray[17]); // Squawk transponder code
-                            }
-                            catch { }
-
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
 
                             if (Planes[hex_ident] == null)
