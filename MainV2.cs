@@ -60,20 +60,20 @@ namespace MissionPlanner
 
         private GridUI gridUI; // Assuming GridUI instance is accessible from MainV2.cs
 
-
         public class PopupForm : Form
         {
-            // Label for user input description
-            private Label lblUserInput;
+            // Labels for user input descriptions
+            private Label lblDetectorSensitivity1;
+            private Label lblDetectorSensitivity2;
+            private Label lblThreshold;
 
-            // TextBox to enter the value
-            private TextBox txtValue;
+            // TextBoxes for user input (made public)
+            public TextBox txtDetectorSensitivity1;
+            public TextBox txtDetectorSensitivity2;
+            public TextBox txtThreshold;
 
             // Button to submit the value
             private Button btnSubmit;
-
-            // Public property to get the entered value
-            public string Value => txtValue.Text;
 
             public PopupForm()
             {
@@ -83,22 +83,44 @@ namespace MissionPlanner
 
             private void InitializeComponent()
             {
-                // Label for user input description (styled for placement to the left of the textbox)
-                lblUserInput = new Label();
-                lblUserInput.Text = "Detector sensitivity:";
-                lblUserInput.AutoSize = true; // Allow automatic sizing
-                lblUserInput.Anchor = (AnchorStyles.Left | AnchorStyles.Top); // Anchor to top-left corner
+                // Labels for user input descriptions
+                lblDetectorSensitivity1 = new Label();
+                lblDetectorSensitivity1.Text = "Detector sensitivity 1:";
+                lblDetectorSensitivity1.AutoSize = true; // Allow automatic sizing
+                lblDetectorSensitivity1.Anchor = (AnchorStyles.Left | AnchorStyles.Top); // Anchor to top-left corner
 
-                // TextBox for user input
-                txtValue = new TextBox();
-                txtValue.Dock = DockStyle.Top; // Position at the top of the form
+                lblDetectorSensitivity2 = new Label();
+                lblDetectorSensitivity2.Text = "Detector sensitivity 2:";
+                lblDetectorSensitivity2.AutoSize = true;
+                lblDetectorSensitivity2.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
 
-                // Arrange controls in a horizontal layout (using a FlowLayoutPanel)
-                FlowLayoutPanel panel = new FlowLayoutPanel();
-                panel.Dock = DockStyle.Top; // Position at the top of the form
-                panel.AutoSize = true; // Allow automatic sizing
-                panel.Controls.Add(lblUserInput); // Add label first
-                panel.Controls.Add(txtValue); // Add textbox next
+                lblThreshold = new Label();
+                lblThreshold.Text = "Threshold:";
+                lblThreshold.AutoSize = true;
+                lblThreshold.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+
+                // TextBoxes for user input
+                txtDetectorSensitivity1 = new TextBox();
+                txtDetectorSensitivity1.Dock = DockStyle.Top; // Position at the top of the form
+
+                txtDetectorSensitivity2 = new TextBox();
+                txtDetectorSensitivity2.Dock = DockStyle.Top;
+
+                txtThreshold = new TextBox();
+                txtThreshold.Dock = DockStyle.Top;
+
+                // Arrange controls in a vertical layout (using a TableLayoutPanel)
+                TableLayoutPanel panel = new TableLayoutPanel();
+                panel.Dock = DockStyle.Fill; // Fill the entire form
+                panel.AutoSize = true; // Allow automatic sizing for the panel
+                panel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Labels
+                panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100)); // TextBoxes (flexible space)
+                panel.Controls.Add(lblDetectorSensitivity1, 0, 0);
+                panel.Controls.Add(txtDetectorSensitivity1, 1, 0);
+                panel.Controls.Add(lblDetectorSensitivity2, 0, 1);
+                panel.Controls.Add(txtDetectorSensitivity2, 1, 1);
+                panel.Controls.Add(lblThreshold, 0, 2);
+                panel.Controls.Add(txtThreshold, 1, 2);
 
                 Controls.Add(panel); // Add the panel to the form
 
@@ -110,7 +132,7 @@ namespace MissionPlanner
                 Controls.Add(btnSubmit);
 
                 // Reduce the form height (adjust as needed)
-                this.ClientSize = new System.Drawing.Size(300, 75); // Example size
+                this.ClientSize = new System.Drawing.Size(300, 125); // Example size
 
                 // Other form properties and settings can be configured here
                 this.Text = "Detector Parameters";
@@ -118,11 +140,17 @@ namespace MissionPlanner
 
             private void BtnSubmit_Click(object sender, EventArgs e)
             {
-                // Close the form and return DialogResult.OK
+                // Retrieve user input from TextBoxes
+                string detectorSensitivity1 = txtDetectorSensitivity1.Text;
+                string detectorSensitivity2 = txtDetectorSensitivity2.Text;
+                string threshold = txtThreshold.Text;
+
+                // Close the form and return DialogResult.OK (or handle errors)
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }
+
 
         //#pop-up
 
@@ -130,29 +158,25 @@ namespace MissionPlanner
         {
 
         }
-
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             // Create an instance of the pop-up form
             PopupForm popup = new PopupForm();
 
-            // Optionally, set any properties or customize the pop-up form here
+            // Optionally, set any properties or customize the form here
 
             // Show the pop-up form as a dialog
             if (popup.ShowDialog() == DialogResult.OK)
             {
-                // Retrieve the value entered by the user
-                string hValue = popup.Value;
-
-                // Update the menu item text with the entered value
-                toolStripMenuItem5.Text = hValue + " nSv/h";
+                // Update menu item text with specific user input (assuming they exist)
+                toolStripMenuItem5.Text = $"Detector Sensitivity 1: {popup.txtDetectorSensitivity1.Text}\n" +
+                                          $"Detector Sensitivity 2: {popup.txtDetectorSensitivity2.Text}\n" +
+                                          $"Threshold: {popup.txtThreshold.Text}";
             }
 
             // Dispose of the pop-up form after use
             popup.Dispose();
         }
-
-
 
 
 
