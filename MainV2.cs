@@ -42,8 +42,105 @@ using DroneCAN;
 
 namespace MissionPlanner
 {
-    public partial class MainV2 : Form
+
+    public partial class MainV2 : Form// Assuming this is part of a Windows Form class
     {
+        private System.Windows.Forms.Timer nsv;
+
+
+        //DYNAMIC UPDATE OF sensordata
+
+        private void toolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            // Existing code to get airspeed and update menu text
+
+            // Create and start the timer for dynamic updates
+            nsv = new System.Windows.Forms.Timer();
+            nsv.Interval = 1; // Update every 1 second
+            nsv.Tick += nsvUpdateTimer_Tick;
+            nsv.Start();
+        }
+
+
+
+
+        private void airspeedUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+            {
+                string message = MainV2.comPort.MAV.cs.message;
+                toolStripMenuItem1.Text = "nsv/h: " + message;
+
+            }
+            else
+            {
+                // Handle case where data is unavailable
+            }
+        }
+
+
+
+
+        //extract data code
+        private void nsvUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+            {
+                string message = MainV2.comPort.MAV.cs.message;
+
+                //string pattern = @"^GMs\s(\d{5})";
+                string pattern = @"^GMs\s\d(\d{4})";
+
+                Match match = Regex.Match(message, pattern);
+                if (match.Success)
+                {
+                    // Extract the first three digits after "GMs"
+                    string extractedValue = match.Groups[1].Value;
+                    //Console.WriteLine("Filtered GMs message: GMs " + extractedValue);
+                    toolStripMenuItem1.Text = "nsv/h: " + extractedValue;
+                }
+                else
+                {
+                    toolStripMenuItem1.Text = "nsv/h: " + message;
+                }
+            }
+            else
+            {
+                // Handle case where data is unavailable
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -4914,5 +5011,7 @@ namespace MissionPlanner
                 }
             }
         }
+
+       
     }
 }
