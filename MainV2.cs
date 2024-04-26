@@ -62,8 +62,6 @@ namespace MissionPlanner
         }
 
 
-
-
         private void airspeedUpdateTimer_Tick(object sender, EventArgs e)
         {
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
@@ -77,8 +75,6 @@ namespace MissionPlanner
                 // Handle case where data is unavailable
             }
         }
-
-
 
 
         //extract data code
@@ -5012,6 +5008,9 @@ namespace MissionPlanner
             }
         }
 
-       
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
