@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner
 {
@@ -48,11 +49,15 @@ namespace MissionPlanner
             this.MenuInitConfig = new System.Windows.Forms.ToolStripButton();
             this.MenuConfigTune = new System.Windows.Forms.ToolStripButton();
             this.MenuSimulation = new System.Windows.Forms.ToolStripButton();
-            this.MenuHelp = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
-            this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
-            this.menu = new MissionPlanner.Controls.MyButton();
+            this.speedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.batteryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ESTIMATEDTIMEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.status1 = new MissionPlanner.Controls.Status();
             this.MainMenu.SuspendLayout();
@@ -63,6 +68,7 @@ namespace MissionPlanner
             // MainMenu
             // 
             resources.ApplyResources(this.MainMenu, "MainMenu");
+            this.MainMenu.BackColor = System.Drawing.Color.LightGray;
             this.MainMenu.ContextMenuStrip = this.CTX_mainmenu;
             this.MainMenu.GripMargin = new System.Windows.Forms.Padding(0);
             this.MainMenu.ImageScalingSize = new System.Drawing.Size(45, 39);
@@ -72,10 +78,15 @@ namespace MissionPlanner
             this.MenuInitConfig,
             this.MenuConfigTune,
             this.MenuSimulation,
-            this.MenuHelp,
             this.MenuConnect,
             this.toolStripConnectionControl,
-            this.MenuArduPilot});
+            this.speedToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.batteryToolStripMenuItem,
+            this.toolStripMenuItem5,
+            this.ESTIMATEDTIMEToolStripMenuItem});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
@@ -83,6 +94,7 @@ namespace MissionPlanner
             // 
             // CTX_mainmenu
             // 
+            this.CTX_mainmenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.CTX_mainmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.autoHideToolStripMenuItem,
             this.fullScreenToolStripMenuItem,
@@ -165,14 +177,6 @@ namespace MissionPlanner
             this.MenuSimulation.Name = "MenuSimulation";
             this.MenuSimulation.Click += new System.EventHandler(this.MenuSimulation_Click);
             // 
-            // MenuHelp
-            // 
-            this.MenuHelp.ForeColor = System.Drawing.SystemColors.ControlLight;
-            resources.ApplyResources(this.MenuHelp, "MenuHelp");
-            this.MenuHelp.Margin = new System.Windows.Forms.Padding(0);
-            this.MenuHelp.Name = "MenuHelp";
-            this.MenuHelp.Click += new System.EventHandler(this.MenuHelp_Click);
-            // 
             // MenuConnect
             // 
             this.MenuConnect.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -186,29 +190,53 @@ namespace MissionPlanner
             // 
             this.toolStripConnectionControl.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             resources.ApplyResources(this.toolStripConnectionControl, "toolStripConnectionControl");
-            this.toolStripConnectionControl.ForeColor = System.Drawing.Color.Black;
+            this.toolStripConnectionControl.ForeColor = System.Drawing.Color.LightGray;
             this.toolStripConnectionControl.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripConnectionControl.Name = "toolStripConnectionControl";
             this.toolStripConnectionControl.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
-            // MenuArduPilot
+            // speedToolStripMenuItem
             // 
-            this.MenuArduPilot.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            resources.ApplyResources(this.MenuArduPilot, "MenuArduPilot");
-            this.MenuArduPilot.BackColor = System.Drawing.Color.Transparent;
-            this.MenuArduPilot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MenuArduPilot.ForeColor = System.Drawing.Color.White;
-            this.MenuArduPilot.Image = global::MissionPlanner.Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70;
-            this.MenuArduPilot.Margin = new System.Windows.Forms.Padding(0);
-            this.MenuArduPilot.Name = "MenuArduPilot";
-            this.MenuArduPilot.Click += new System.EventHandler(this.MenuArduPilot_Click);
+            this.speedToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.speedToolStripMenuItem.Name = "speedToolStripMenuItem";
+            resources.ApplyResources(this.speedToolStripMenuItem, "speedToolStripMenuItem");
+            this.speedToolStripMenuItem.Click += new System.EventHandler(this.speedToolStripMenuItem_Click);
             // 
-            // menu
+            // toolStripMenuItem1
             // 
-            resources.ApplyResources(this.menu, "menu");
-            this.menu.Name = "menu";
-            this.menu.UseVisualStyleBackColor = true;
-            this.menu.MouseEnter += new System.EventHandler(this.menu_MouseEnter);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click_1);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // batteryToolStripMenuItem
+            // 
+            this.batteryToolStripMenuItem.Name = "batteryToolStripMenuItem";
+            resources.ApplyResources(this.batteryToolStripMenuItem, "batteryToolStripMenuItem");
+            this.batteryToolStripMenuItem.Click += new System.EventHandler(this.batteryToolStripMenuItem_Click_1);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+            // 
+            // ESTIMATEDTIMEToolStripMenuItem
+            // 
+            this.ESTIMATEDTIMEToolStripMenuItem.Name = "ESTIMATEDTIMEToolStripMenuItem";
+            resources.ApplyResources(this.ESTIMATEDTIMEToolStripMenuItem, "ESTIMATEDTIMEToolStripMenuItem");
+            this.ESTIMATEDTIMEToolStripMenuItem.Click += new System.EventHandler(this.ESTIMATEDTIMEToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -229,10 +257,10 @@ namespace MissionPlanner
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menu);
             this.KeyPreview = true;
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainV2";
+            this.Load += new System.EventHandler(this.MainV2_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainV2_KeyDown);
             this.Resize += new System.EventHandler(this.MainV2_Resize);
             this.MainMenu.ResumeLayout(false);
@@ -261,8 +289,15 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectionOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectionListToolStripMenuItem;
-        public System.Windows.Forms.ToolStripButton MenuHelp;
-        public System.Windows.Forms.ToolStripButton MenuArduPilot;
         public Controls.Status status1;
+        private System.Windows.Forms.ToolStripMenuItem speedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem batteryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem ESTIMATEDTIMEToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+
+        public MyButton Menu1 { get => menu; set => menu = value; }
     }
 }
