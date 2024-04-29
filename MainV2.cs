@@ -58,6 +58,8 @@ namespace MissionPlanner
         private string lastMatchingMessage;
         private double count = 0;
 
+        private string userEnteredThreshold;
+
         private GridUI gridUI; // Assuming GridUI instance is accessible from MainV2.cs
 
         public class PopupForm : Form
@@ -158,12 +160,10 @@ namespace MissionPlanner
         {
 
         }
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+       /* private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             // Create an instance of the pop-up form
             PopupForm popup = new PopupForm();
-
-            // Optionally, set any properties or customize the form here
 
             // Show the pop-up form as a dialog
             if (popup.ShowDialog() == DialogResult.OK)
@@ -172,82 +172,133 @@ namespace MissionPlanner
                 toolStripMenuItem5.Text = $"Detector Sensitivity 1: {popup.txtDetectorSensitivity1.Text}\n" +
                                           $"Detector Sensitivity 2: {popup.txtDetectorSensitivity2.Text}\n" +
                                           $"Threshold: {popup.txtThreshold.Text}";
+
+                // Update userEnteredThreshold with the entered threshold value
+                userEnteredThreshold = popup.txtThreshold.Text;
+
+                // Dispose of the pop-up form after use
+                popup.Dispose();
             }
-
-            // Dispose of the pop-up form after use
-            popup.Dispose();
-        }
+        }*/
 
 
 
+        float userThreshold;
+        float userDetSense1;
+        float userDetSense2;
 
-
-
-
+        float GMone;
+        float GMtwo;
+        private System.Windows.Forms.Timer tickFunc;
+        //double gridyui = new Grid.GridUI();
 
 
         // Constructor and other members...
 
         // Event handler for ESTIMATEDTIMEToolStripMenuItem click event
         private void ESTIMATEDTIMEToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Existing logic to get initial estimated time (if any)
-            /* string initialTime = GetInitialEstimatedTime(); // Replace with your logic
+     {
+            PopupForm popup = new PopupForm();
 
-            if (!string.IsNullOrEmpty(initialTime))
+            if (popup.ShowDialog() == DialogResult.OK)
             {
-              estimatedTimeToolStripMenuItem.Text = "Estimated Time: " + initialTime;
-            }*/
+                // Update user variables with specific user input 
 
-            // Create and start the timer for dynamic updates
-            estimatedTimeUpdateTimer = new System.Windows.Forms.Timer();
-            estimatedTimeUpdateTimer.Interval = 1000; // Update every 1 second
-            estimatedTimeUpdateTimer.Tick += estimatedTimeUpdateTimer_Tick;
-            estimatedTimeUpdateTimer.Start();
+                userThreshold = float.Parse(popup.txtThreshold.Text);
+                userDetSense1 = float.Parse(popup.txtDetectorSensitivity1.Text);
+                userDetSense2 = float.Parse(popup.txtDetectorSensitivity2.Text);
+
+            }
+
+            popup.Dispose(); 
+
+            tickFunc = new System.Windows.Forms.Timer();
+            tickFunc.Interval = 1;
+            tickFunc.Tick += RadiationDetection;
+            tickFunc.Start();
+
+
+
         }
 
-        private void estimatedTimeUpdateTimer_Tick(object sender, EventArgs e)
+
+        /*public void GridPlugin(object sender, EventArgs e)
         {
-            // Removed redundant null checks
 
-            string message = MainV2.comPort.MAV.cs.message;
-
-            // Check for matching message and handle potential null message scenario
-            if (Regex.IsMatch(message, @"SIM Hit ground at 0\.([0-9.]+) m/s") && message != null)
+            GridPlugin gridPlugin = new GridPlugin();
+            using (var gridui = new GridUI(gridPlugin))
             {
-                if (message != lastMatchingMessage) // Check if message changed
-                {
-                    // Reset count for new message
-                    count = 0;
 
-                    // Capture the numeric part after 0. (using double backslash for literal .)
-                    Match match = Regex.Match(message, @"SIM Hit ground at 0\.([0-9.]+) m/s");
-
-                    // Check if there's a match and a captured group
-                    if (match.Success && match.Groups.Count > 1)
-                    {
-                        string numberString = match.Groups[1].Value;
-
-                        // Extract only the first four numeric digits (using substring)
-                        string limitedNumberString = numberString.Substring(0, Math.Min(numberString.Length, 4));
-
-                        // Display the limited number string in the menu bar
-                        ESTIMATEDTIMEToolStripMenuItem.Text = limitedNumberString + 100;
-
-                        lastMatchingMessage = message; // Update stored message for comparison
-                    }
-                }
             }
-            else
+        }*/
+
+        private void RadiationDetection(object sender, EventArgs e)
+        {
+
+            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
-                // No matching message found (optional)
-                // You can set a default text here if desired
+
+                //float displayValue;
+                //float GMone;
+                //float GMtwo;
+
+                string message = MainV2.comPort.MAV.cs.message;
+                string pattern1 = @"^GMs\s\d(\d{4})";
+                //string pattern2 = @"^GMe\s\d(\d{4})";
+                //string pattern2 = @"^GMs\s\d\d\d\d\d\s\d(\d{4})";
+                string pattern2 = @"^GMs\s\d\d\d\d\d\s\d\d\d\d\d\s\d(\d{4})";
+
+                Match match1 = Regex.Match(message, pattern1);
+                if (match1.Success)
+                {
+                    // Extract the second to fifth digits after "GMs"
+                    string extractedValue1 = match1.Groups[1].Value;
+                    float GM1 = float.Parse(extractedValue1);
+                    GMone = GM1;
+                    //float finalValue = GM1 / userDetSense1;
+                    //toolStripMenuItem2.Text = "nsv/h: " + finalValue;
+                }
+                else
+                {
+                    //toolStripMenuItem2.Text = "nsv/h: " + message;
+                }
+
+
+                Match match2 = Regex.Match(message, pattern2);
+                if (match2.Success)
+                {
+                    // Extract the second to fifth digits after "GMs"
+                    string extractedValue2 = match2.Groups[1].Value;
+                    float GM2 = float.Parse(extractedValue2);
+                    GMtwo = GM2;
+                    //float finalValue = GM2 / userDetSense2;
+                    //toolStripMenuItem2.Text = "nsv/h: " + finalValue;
+                }
+                else
+                {
+                    //toolStripMenuItem2.Text = "nsv/h: " + message;
+                }
+
+                if (userThreshold < GMtwo)
+                {
+                    float finalValue1 = GMtwo / userDetSense2;
+                    ESTIMATEDTIMEToolStripMenuItem.Text = "nsv/h :"+ finalValue1 ;
+                    //Text = finalValue1 + " nsv/h ";
+                }
+                else
+                {
+                    float finalValue2 = GMone / userDetSense1;
+                    ESTIMATEDTIMEToolStripMenuItem.Text = finalValue2 + "nsv";
+                }
+
+
+                //toolStripMenuItem2.Text = $"airspeed and threshold: {finalValue}\n" +
+                //$"Threshold: {userThreshold}";
             }
         }
 
 
         //                                                                           DYNAMIC UPDATE OF AIRSPEED
-
         private void speedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Existing code to get airspeed and update menu text
@@ -264,13 +315,35 @@ namespace MissionPlanner
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
                 float groundspeed = MainV2.comPort.MAV.cs.airspeed;
-                speedToolStripMenuItem.Text = "Speed: " + groundspeed.ToString("0.00") + " m/s";
+
+                // Check if user entered a threshold value
+                if (!string.IsNullOrEmpty(userEnteredThreshold))
+                {
+                    // Convert threshold string to float
+                    float threshold;
+                    if (float.TryParse(userEnteredThreshold, out threshold))
+                    {
+                        // Add threshold to airspeed for display
+                        float displayedAirspeed = groundspeed + threshold;
+                        speedToolStripMenuItem.Text = "Speed: " + displayedAirspeed.ToString("0.00") + " m/s";
+                    }
+                    else
+                    {
+                        // Handle invalid threshold input (optional: show error message)
+                    }
+                }
+                else
+                {
+                    // Display airspeed without modification (default behavior)
+                    speedToolStripMenuItem.Text = "Speed: " + groundspeed.ToString("0.00") + " m/s";
+                }
             }
             else
             {
                 // Handle case where data is unavailable
             }
         }
+
 
         //                                                                               DYNAMIC UPDATE OF ALTITUDE
 
@@ -383,7 +456,7 @@ namespace MissionPlanner
 
 
         //                                                                      DYNAMIC UPDATE OF BATTERY
-
+        
 
 
         private void batteryToolStripMenuItem_Click_1(object sender, EventArgs e)
