@@ -122,6 +122,16 @@ namespace MissionPlanner.GCSViews
             this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions7 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions8 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions9 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions10 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions11 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions12 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions13 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions14 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions15 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions16 = new MissionPlanner.Controls.RelayOptions();
             this.tabAuxFunction = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.auxOptions1 = new MissionPlanner.Controls.AuxOptions();
@@ -1739,6 +1749,16 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions4);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions5);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions6);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions7);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions8);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions9);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions10);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions11);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions12);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions13);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions14);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions15);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions16);
             this.flowLayoutPanelServos.Name = "flowLayoutPanelServos";
             // 
             // servoOptions1
@@ -1848,6 +1868,66 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.relayOptions6, "relayOptions6");
             this.relayOptions6.Name = "relayOptions6";
             this.relayOptions6.thisrelay = 5;
+            // 
+            // relayOptions7
+            // 
+            resources.ApplyResources(this.relayOptions7, "relayOptions7");
+            this.relayOptions7.Name = "relayOptions7";
+            this.relayOptions7.thisrelay = 6;
+            // 
+            // relayOptions8
+            // 
+            resources.ApplyResources(this.relayOptions8, "relayOptions8");
+            this.relayOptions8.Name = "relayOptions8";
+            this.relayOptions8.thisrelay = 7;
+            // 
+            // relayOptions9
+            // 
+            resources.ApplyResources(this.relayOptions9, "relayOptions9");
+            this.relayOptions9.Name = "relayOptions9";
+            this.relayOptions9.thisrelay = 8;
+            // 
+            // relayOptions10
+            // 
+            resources.ApplyResources(this.relayOptions10, "relayOptions10");
+            this.relayOptions10.Name = "relayOptions10";
+            this.relayOptions10.thisrelay = 9;
+            // 
+            // relayOptions11
+            // 
+            resources.ApplyResources(this.relayOptions11, "relayOptions11");
+            this.relayOptions11.Name = "relayOptions11";
+            this.relayOptions11.thisrelay = 10;
+            // 
+            // relayOptions12
+            // 
+            resources.ApplyResources(this.relayOptions12, "relayOptions12");
+            this.relayOptions12.Name = "relayOptions12";
+            this.relayOptions12.thisrelay = 11;
+            // 
+            // relayOptions13
+            // 
+            resources.ApplyResources(this.relayOptions13, "relayOptions13");
+            this.relayOptions13.Name = "relayOptions13";
+            this.relayOptions13.thisrelay = 12;
+            // 
+            // relayOptions14
+            // 
+            resources.ApplyResources(this.relayOptions14, "relayOptions14");
+            this.relayOptions14.Name = "relayOptions14";
+            this.relayOptions14.thisrelay = 13;
+            // 
+            // relayOptions15
+            // 
+            resources.ApplyResources(this.relayOptions15, "relayOptions15");
+            this.relayOptions15.Name = "relayOptions15";
+            this.relayOptions15.thisrelay = 14;
+            // 
+            // relayOptions16
+            // 
+            resources.ApplyResources(this.relayOptions16, "relayOptions16");
+            this.relayOptions16.Name = "relayOptions16";
+            this.relayOptions16.thisrelay = 15;
             // 
             // tabAuxFunction
             // 
@@ -3036,5 +3116,15 @@ namespace MissionPlanner.GCSViews
         private Controls.AuxOptions auxOptions6;
         private Controls.AuxOptions auxOptions7;
         private ToolStripMenuItem jumpToTagToolStripMenuItem;
+        private Controls.RelayOptions relayOptions7;
+        private Controls.RelayOptions relayOptions8;
+        private Controls.RelayOptions relayOptions9;
+        private Controls.RelayOptions relayOptions10;
+        private Controls.RelayOptions relayOptions11;
+        private Controls.RelayOptions relayOptions12;
+        private Controls.RelayOptions relayOptions13;
+        private Controls.RelayOptions relayOptions14;
+        private Controls.RelayOptions relayOptions15;
+        private Controls.RelayOptions relayOptions16;
     }
 }
