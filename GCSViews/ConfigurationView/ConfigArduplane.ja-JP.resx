@@ -117,140 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>最大上昇速度 (m/s)</value>
-  </data>
-  <data name="label49.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>期間</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>ピッチ 減衰</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>最小降下速度 (m/s)</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>定時</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>最大降下速度 (m/s)</value>
-  </data>
-  <data name="label83.Text" xml:space="preserve">
-    <value>P to T</value>
-  </data>
-  <data name="label56.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>FBW最大</value>
-  </data>
-  <data name="label54.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>FBW最小</value>
-  </data>
-  <data name="groupBox8.Text" xml:space="preserve">
-    <value>ロール サーボ PID</value>
-  </data>
-  <data name="label57.Text" xml:space="preserve">
-    <value>積分 Max</value>
-  </data>
-  <data name="groupBox9.Text" xml:space="preserve">
-    <value>ピッチ サーボ PID</value>
-  </data>
-  <data name="label52.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>レシオ</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>スルーレート</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>最大</value>
   </data>
-  <data name="label55.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label50.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
   <data name="label7.Text" xml:space="preserve">
     <value>最小</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>L1 コントロール - 旋回コントロール</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>クルーズ</value>
-  </data>
-  <data name="label53.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>TECS</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>スルーレート</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>ナビゲーション角度</value>
-  </data>
-  <data name="label51.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>スロットル 0-100%</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>クルーズ</value>
   </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>スロットル 0-100%</value>
+  </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>対気速度 m/s</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>ダンピング</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>レシオ</value>
   </data>
-  <data name="label58.Text" xml:space="preserve">
-    <value>減衰</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>最大</value>
   </data>
-  <data name="label65.Text" xml:space="preserve">
-    <value>INT_MAX</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>最小</value>
   </data>
-  <data name="label59.Text" xml:space="preserve">
-    <value>積分</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>クルーズ</value>
   </data>
-  <data name="label66.Text" xml:space="preserve">
-    <value>D</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>ナビゲーション角度</value>
   </data>
-  <data name="label67.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label60.Text" xml:space="preserve">
-    <value>ヨー2ロール</value>
-  </data>
-  <data name="groupBox16.Text" xml:space="preserve">
-    <value>他のミキシング</value>
-  </data>
-  <data name="groupBox14.Text" xml:space="preserve">
-    <value>エナジー/高度 PID</value>
-  </data>
-  <data name="groupBox12.Text" xml:space="preserve">
-    <value>ナビ ピッチ AS PID</value>
-  </data>
-  <data name="label68.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label69.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
-  <data name="groupBox10.Text" xml:space="preserve">
-    <value>ヨー サーボ</value>
-  </data>
-  <data name="groupBox13.Text" xml:space="preserve">
-    <value>ナビ ピッチ Alt PID</value>
+  <data name="label39.Text" xml:space="preserve">
+    <value>ピッチMin</value>
   </data>
   <data name="label38.Text" xml:space="preserve">
     <value>ピッチMax</value>
@@ -258,40 +159,73 @@
   <data name="label37.Text" xml:space="preserve">
     <value>バンクMax</value>
   </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>ピッチMin</value>
-  </data>
-  <data name="label74.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label76.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label75.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label70.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label72.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label71.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label73.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
-  <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>パラメータ書込</value>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>他のミキシング</value>
   </data>
   <data name="label78.Text" xml:space="preserve">
     <value>ラダー ミキシング</value>
   </data>
-  <data name="BUT_refreshpart.Text" xml:space="preserve">
-    <value>画面リフレッシュ</value>
+  <data name="groupBox14.Text" xml:space="preserve">
+    <value>エナジー/高度 PID</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>ナビ ピッチ Alt PID</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>ナビ ピッチ AS PID</value>
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>ヨー サーボ</value>
+  </data>
+  <data name="label57.Text" xml:space="preserve">
+    <value>積分 Max</value>
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>減衰</value>
+  </data>
+  <data name="label59.Text" xml:space="preserve">
+    <value>積分</value>
+  </data>
+  <data name="label60.Text" xml:space="preserve">
+    <value>ヨー2ロール</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>ピッチ サーボ PID</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>ロール サーボ PID</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>パラメータ書込</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>パラメータ リフレッシュ</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>L1 コントロール - 旋回コントロール</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>ダンピング</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>期間</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>最大降下速度 (m/s)</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>定時</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>ピッチ 減衰</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>最小降下速度 (m/s)</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>最大上昇速度 (m/s)</value>
+  </data>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>画面リフレッシュ</value>
   </data>
 </root>
