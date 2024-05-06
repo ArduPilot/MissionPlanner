@@ -392,6 +392,22 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float gpsyaw { get; private set; }
 
+        [DisplayText("GPS System Errors")]
+        [GroupText("Position")]
+        public uint gpssystem_errors { get; private set; }
+
+        [DisplayText("GPS Authentication Status")]
+        [GroupText("Position")]
+        public byte gpsauthentication_state { get; private set; }
+
+        [DisplayText("GPS Jamming Status")]
+        [GroupText("Position")]
+        public byte gpsjamming_state { get; private set; }
+
+        [DisplayText("GPS Spoofing Status")]
+        [GroupText("Position")]
+        public byte gpsspoofing_state { get; private set; }
+
         [DisplayText("Latitude2 (dd)")]
         [GroupText("Position")]
         public double lat2 { get; set; }
@@ -3048,6 +3064,11 @@ namespace MissionPlanner
                                 gpshdg_acc = -1;
                                 gpsyaw = -1;
                             }
+
+                            gpssystem_errors = gps.system_errors;
+                            gpsauthentication_state = gps.authentication_state;
+                            gpsjamming_state = gps.jamming_state;
+                            gpsspoofing_state = gps.spoofing_state;
 
                             //MAVLink.packets[(byte)MAVLink.MSG_NAMES.GPS_RAW);
                         }

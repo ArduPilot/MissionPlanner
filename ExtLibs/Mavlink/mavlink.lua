@@ -20,6 +20,7 @@ protocolVersions = {
 }
 
 messageName = {
+    [26900] = 'VIDEO_STREAM_INFORMATION99',
     [150] = 'SENSOR_OFFSETS',
     [151] = 'SET_MAG_OFFSETS',
     [152] = 'MEMINFO',
@@ -92,7 +93,6 @@ messageName = {
     [11042] = 'ESC_TELEMETRY_21_TO_24',
     [11043] = 'ESC_TELEMETRY_25_TO_28',
     [11044] = 'ESC_TELEMETRY_29_TO_32',
-    [26900] = 'VIDEO_STREAM_INFORMATION99',
     [1] = 'SYS_STATUS',
     [2] = 'SYSTEM_TIME',
     [4] = 'PING',
@@ -2003,6 +2003,34 @@ local enumEntryName = {
         [4] = "MISSION_STATE_PAUSED",
         [5] = "MISSION_STATE_COMPLETE",
     },
+    ["GPS_SYSTEM_ERROR_FLAGS"] = {
+        [0] = "GPS_SYSTEM_ERROR_NONE",
+        [1] = "GPS_SYSTEM_ERROR_INCOMING_CORRECTIONS",
+        [2] = "GPS_SYSTEM_ERROR_CONFIGURATION",
+        [4] = "GPS_SYSTEM_ERROR_SOFTWARE",
+        [8] = "GPS_SYSTEM_ERROR_ANTENNA",
+        [16] = "GPS_SYSTEM_ERROR_EVENT_CONGESTION",
+        [32] = "GPS_SYSTEM_ERROR_CPU_OVERLOAD",
+        [64] = "GPS_SYSTEM_ERROR_OUTPUT_CONGESTION",
+    },
+    ["GPS_AUTHENTICATION_STATE"] = {
+        [0] = "GPS_AUTHENTICATION_STATE_UNKNOWN",
+        [1] = "GPS_AUTHENTICATION_STATE_INITIALIZING",
+        [2] = "GPS_AUTHENTICATION_STATE_ERROR",
+        [3] = "GPS_AUTHENTICATION_STATE_OK",
+        [4] = "GPS_AUTHENTICATION_STATE_DISABLED",
+    },
+    ["GPS_JAMMING_STATE"] = {
+        [0] = "GPS_JAMMING_STATE_UNKNOWN",
+        [1] = "GPS_JAMMING_STATE_OK",
+        [2] = "GPS_JAMMING_STATE_DETECTED",
+    },
+    ["GPS_SPOOFING_STATE"] = {
+        [0] = "GPS_SPOOFING_STATE_UNKNOWN",
+        [1] = "GPS_SPOOFING_STATE_OK",
+        [2] = "GPS_SPOOFING_STATE_DETECTED",
+        [3] = "GPS_SPOOFING_STATE_MITIGATED",
+    },
     ["UAVIONIX_ADSB_OUT_DYNAMIC_STATE"] = {
         [1] = "UAVIONIX_ADSB_OUT_DYNAMIC_STATE_INTENT_CHANGE",
         [2] = "UAVIONIX_ADSB_OUT_DYNAMIC_STATE_AUTOPILOT_ENABLED",
@@ -3061,6 +3089,15 @@ f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param5 = ProtoField.new("param5: Latitu
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param7", ftypes.FLOAT, nil)
 
+
+f.VIDEO_STREAM_INFORMATION99_camera_id = ProtoField.new("camera_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_camera_id", ftypes.UINT8, nil)
+f.VIDEO_STREAM_INFORMATION99_status = ProtoField.new("status (uint8_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_status", ftypes.UINT8, nil)
+f.VIDEO_STREAM_INFORMATION99_framerate = ProtoField.new("framerate (float)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_framerate", ftypes.FLOAT, nil)
+f.VIDEO_STREAM_INFORMATION99_resolution_h = ProtoField.new("resolution_h (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_resolution_h", ftypes.UINT16, nil)
+f.VIDEO_STREAM_INFORMATION99_resolution_v = ProtoField.new("resolution_v (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_resolution_v", ftypes.UINT16, nil)
+f.VIDEO_STREAM_INFORMATION99_bitrate = ProtoField.new("bitrate (uint32_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_bitrate", ftypes.UINT32, nil)
+f.VIDEO_STREAM_INFORMATION99_rotation = ProtoField.new("rotation (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_rotation", ftypes.UINT16, nil)
+f.VIDEO_STREAM_INFORMATION99_uri = ProtoField.new("uri (char)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_uri", ftypes.STRING, nil)
 
 f.SENSOR_OFFSETS_mag_ofs_x = ProtoField.new("mag_ofs_x (int16_t)", "mavlink_proto.SENSOR_OFFSETS_mag_ofs_x", ftypes.INT16, nil)
 f.SENSOR_OFFSETS_mag_ofs_y = ProtoField.new("mag_ofs_y (int16_t)", "mavlink_proto.SENSOR_OFFSETS_mag_ofs_y", ftypes.INT16, nil)
@@ -4887,15 +4924,6 @@ f.ESC_TELEMETRY_29_TO_32_count_1 = ProtoField.new("count[1] (uint16_t)", "mavlin
 f.ESC_TELEMETRY_29_TO_32_count_2 = ProtoField.new("count[2] (uint16_t)", "mavlink_proto.ESC_TELEMETRY_29_TO_32_count_2", ftypes.UINT16, nil)
 f.ESC_TELEMETRY_29_TO_32_count_3 = ProtoField.new("count[3] (uint16_t)", "mavlink_proto.ESC_TELEMETRY_29_TO_32_count_3", ftypes.UINT16, nil)
 
-f.VIDEO_STREAM_INFORMATION99_camera_id = ProtoField.new("camera_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_camera_id", ftypes.UINT8, nil)
-f.VIDEO_STREAM_INFORMATION99_status = ProtoField.new("status (uint8_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_status", ftypes.UINT8, nil)
-f.VIDEO_STREAM_INFORMATION99_framerate = ProtoField.new("framerate (float)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_framerate", ftypes.FLOAT, nil)
-f.VIDEO_STREAM_INFORMATION99_resolution_h = ProtoField.new("resolution_h (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_resolution_h", ftypes.UINT16, nil)
-f.VIDEO_STREAM_INFORMATION99_resolution_v = ProtoField.new("resolution_v (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_resolution_v", ftypes.UINT16, nil)
-f.VIDEO_STREAM_INFORMATION99_bitrate = ProtoField.new("bitrate (uint32_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_bitrate", ftypes.UINT32, nil)
-f.VIDEO_STREAM_INFORMATION99_rotation = ProtoField.new("rotation (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_rotation", ftypes.UINT16, nil)
-f.VIDEO_STREAM_INFORMATION99_uri = ProtoField.new("uri (char)", "mavlink_proto.VIDEO_STREAM_INFORMATION99_uri", ftypes.STRING, nil)
-
 f.SYS_STATUS_onboard_control_sensors_present = ProtoField.new("onboard_control_sensors_present (MAV_SYS_STATUS_SENSOR)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_present", ftypes.UINT32, nil)
 f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 31, nil, 1)
 f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 31, nil, 2)
@@ -5062,6 +5090,17 @@ f.GPS_RAW_INT_v_acc = ProtoField.new("v_acc (uint32_t)", "mavlink_proto.GPS_RAW_
 f.GPS_RAW_INT_vel_acc = ProtoField.new("vel_acc (uint32_t)", "mavlink_proto.GPS_RAW_INT_vel_acc", ftypes.UINT32, nil)
 f.GPS_RAW_INT_hdg_acc = ProtoField.new("hdg_acc (uint32_t)", "mavlink_proto.GPS_RAW_INT_hdg_acc", ftypes.UINT32, nil)
 f.GPS_RAW_INT_yaw = ProtoField.new("yaw (uint16_t)", "mavlink_proto.GPS_RAW_INT_yaw", ftypes.UINT16, nil)
+f.GPS_RAW_INT_system_errors = ProtoField.new("system_errors (GPS_SYSTEM_ERROR_FLAGS)", "mavlink_proto.GPS_RAW_INT_system_errors", ftypes.UINT32, nil)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_INCOMING_CORRECTIONS = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_INCOMING_CORRECTIONS", "GPS_SYSTEM_ERROR_INCOMING_CORRECTIONS", 7, nil, 1)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_CONFIGURATION = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_CONFIGURATION", "GPS_SYSTEM_ERROR_CONFIGURATION", 7, nil, 2)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_SOFTWARE = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_SOFTWARE", "GPS_SYSTEM_ERROR_SOFTWARE", 7, nil, 4)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_ANTENNA = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_ANTENNA", "GPS_SYSTEM_ERROR_ANTENNA", 7, nil, 8)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_EVENT_CONGESTION = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_EVENT_CONGESTION", "GPS_SYSTEM_ERROR_EVENT_CONGESTION", 7, nil, 16)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_CPU_OVERLOAD = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_CPU_OVERLOAD", "GPS_SYSTEM_ERROR_CPU_OVERLOAD", 7, nil, 32)
+f.GPS_RAW_INT_system_errors_flagGPS_SYSTEM_ERROR_OUTPUT_CONGESTION = ProtoField.bool("mavlink_proto.GPS_RAW_INT_system_errors.GPS_SYSTEM_ERROR_OUTPUT_CONGESTION", "GPS_SYSTEM_ERROR_OUTPUT_CONGESTION", 7, nil, 64)
+f.GPS_RAW_INT_authentication_state = ProtoField.new("authentication_state (GPS_AUTHENTICATION_STATE)", "mavlink_proto.GPS_RAW_INT_authentication_state", ftypes.UINT8, enumEntryName.GPS_AUTHENTICATION_STATE)
+f.GPS_RAW_INT_jamming_state = ProtoField.new("jamming_state (GPS_JAMMING_STATE)", "mavlink_proto.GPS_RAW_INT_jamming_state", ftypes.UINT8, enumEntryName.GPS_JAMMING_STATE)
+f.GPS_RAW_INT_spoofing_state = ProtoField.new("spoofing_state (GPS_SPOOFING_STATE)", "mavlink_proto.GPS_RAW_INT_spoofing_state", ftypes.UINT8, enumEntryName.GPS_SPOOFING_STATE)
 
 f.GPS_STATUS_satellites_visible = ProtoField.new("satellites_visible (uint8_t)", "mavlink_proto.GPS_STATUS_satellites_visible", ftypes.UINT8, nil)
 f.GPS_STATUS_satellite_prn_0 = ProtoField.new("satellite_prn[0] (uint8_t)", "mavlink_proto.GPS_STATUS_satellite_prn_0", ftypes.UINT8, nil)
@@ -11093,6 +11132,16 @@ function dissect_flags_MAV_WINCH_STATUS_FLAG(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_WINCH_STATUS_CLUTCH_ENGAGED"], tvbrange, value)
 end
 -- dissect flag field
+function dissect_flags_GPS_SYSTEM_ERROR_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_INCOMING_CORRECTIONS"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_CONFIGURATION"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_SOFTWARE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_ANTENNA"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_EVENT_CONGESTION"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_CPU_OVERLOAD"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_OUTPUT_CONGESTION"], tvbrange, value)
+end
+-- dissect flag field
 function dissect_flags_UAVIONIX_ADSB_OUT_DYNAMIC_STATE(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagUAVIONIX_ADSB_OUT_DYNAMIC_STATE_INTENT_CHANGE"], tvbrange, value)
     tree:add_le(f[name .. "_flagUAVIONIX_ADSB_OUT_DYNAMIC_STATE_AUTOPILOT_ENABLED"], tvbrange, value)
@@ -11165,6 +11214,41 @@ function dissect_flags_MAV_MODE_FLAG_DECODE_POSITION(tree, name, tvbrange, value
     tree:add_le(f[name .. "_flagMAV_MODE_FLAG_DECODE_POSITION_HIL"], tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_MODE_FLAG_DECODE_POSITION_MANUAL"], tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_MODE_FLAG_DECODE_POSITION_SAFETY"], tvbrange, value)
+end
+-- dissect payload of message type VIDEO_STREAM_INFORMATION99
+function payload_fns.payload_26900(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 246 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 246)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 14, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_camera_id, tvbrange, value)
+    tvbrange = padded(offset + 15, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_status, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_framerate, tvbrange, value)
+    tvbrange = padded(offset + 8, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_resolution_h, tvbrange, value)
+    tvbrange = padded(offset + 10, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_resolution_v, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_bitrate, tvbrange, value)
+    tvbrange = padded(offset + 12, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_rotation, tvbrange, value)
+    tvbrange = padded(offset + 16, 230)
+    value = tvbrange:string()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_uri, tvbrange, value)
 end
 -- dissect payload of message type SENSOR_OFFSETS
 function payload_fns.payload_150(buffer, tree, msgid, offset, limit, pinfo)
@@ -17151,41 +17235,6 @@ function payload_fns.payload_11044(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.ESC_TELEMETRY_29_TO_32_count_3, tvbrange, value)
 end
--- dissect payload of message type VIDEO_STREAM_INFORMATION99
-function payload_fns.payload_26900(buffer, tree, msgid, offset, limit, pinfo)
-    local padded, field_offset, value, subtree, tvbrange
-    if (offset + 246 > limit) then
-        padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 246)
-        padded = padded:tvb("Untruncated payload")
-    else
-        padded = buffer
-    end
-    tvbrange = padded(offset + 14, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_camera_id, tvbrange, value)
-    tvbrange = padded(offset + 15, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_status, tvbrange, value)
-    tvbrange = padded(offset + 0, 4)
-    value = tvbrange:le_float()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_framerate, tvbrange, value)
-    tvbrange = padded(offset + 8, 2)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_resolution_h, tvbrange, value)
-    tvbrange = padded(offset + 10, 2)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_resolution_v, tvbrange, value)
-    tvbrange = padded(offset + 4, 4)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_bitrate, tvbrange, value)
-    tvbrange = padded(offset + 12, 2)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_rotation, tvbrange, value)
-    tvbrange = padded(offset + 16, 230)
-    value = tvbrange:string()
-    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION99_uri, tvbrange, value)
-end
 -- dissect payload of message type SYS_STATUS
 function payload_fns.payload_1(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -17451,9 +17500,9 @@ end
 -- dissect payload of message type GPS_RAW_INT
 function payload_fns.payload_24(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 52 > limit) then
+    if (offset + 59 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 52)
+        padded:set_size(offset + 59)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -17506,6 +17555,19 @@ function payload_fns.payload_24(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 50, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.GPS_RAW_INT_yaw, tvbrange, value)
+    tvbrange = padded(offset + 52, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GPS_RAW_INT_system_errors, tvbrange, value)
+    dissect_flags_GPS_SYSTEM_ERROR_FLAGS(subtree, "GPS_RAW_INT_system_errors", tvbrange, value)
+    tvbrange = padded(offset + 56, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GPS_RAW_INT_authentication_state, tvbrange, value)
+    tvbrange = padded(offset + 57, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GPS_RAW_INT_jamming_state, tvbrange, value)
+    tvbrange = padded(offset + 58, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GPS_RAW_INT_spoofing_state, tvbrange, value)
 end
 -- dissect payload of message type GPS_STATUS
 function payload_fns.payload_25(buffer, tree, msgid, offset, limit, pinfo)

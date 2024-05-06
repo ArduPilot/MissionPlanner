@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Jan 17 2024";
+    public const string MAVLINK_BUILD_DATE = "Thu May 02 2024";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -37,6 +37,7 @@ public partial class MAVLink
         
     // msgid, name, crc, minlength, length, type
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
+        new message_info(26900, "VIDEO_STREAM_INFORMATION99", 222, 246, 246, typeof( mavlink_video_stream_information99_t )),
         new message_info(1, "SYS_STATUS", 124, 31, 31, typeof( mavlink_sys_status_t )),
         new message_info(2, "SYSTEM_TIME", 137, 12, 12, typeof( mavlink_system_time_t )),
         new message_info(4, "PING", 237, 14, 14, typeof( mavlink_ping_t )),
@@ -48,7 +49,7 @@ public partial class MAVLink
         new message_info(21, "PARAM_REQUEST_LIST", 159, 2, 2, typeof( mavlink_param_request_list_t )),
         new message_info(22, "PARAM_VALUE", 220, 25, 25, typeof( mavlink_param_value_t )),
         new message_info(23, "PARAM_SET", 168, 23, 23, typeof( mavlink_param_set_t )),
-        new message_info(24, "GPS_RAW_INT", 24, 30, 52, typeof( mavlink_gps_raw_int_t )),
+        new message_info(24, "GPS_RAW_INT", 24, 30, 59, typeof( mavlink_gps_raw_int_t )),
         new message_info(25, "GPS_STATUS", 23, 101, 101, typeof( mavlink_gps_status_t )),
         new message_info(26, "SCALED_IMU", 170, 22, 24, typeof( mavlink_scaled_imu_t )),
         new message_info(27, "RAW_IMU", 144, 26, 29, typeof( mavlink_raw_imu_t )),
@@ -328,12 +329,11 @@ public partial class MAVLink
         new message_info(50005, "CUBEPILOT_FIRMWARE_UPDATE_RESP", 152, 6, 6, typeof( mavlink_cubepilot_firmware_update_resp_t )),
         new message_info(52000, "AIRLINK_AUTH", 13, 100, 100, typeof( mavlink_airlink_auth_t )),
         new message_info(52001, "AIRLINK_AUTH_RESPONSE", 239, 1, 1, typeof( mavlink_airlink_auth_response_t )),
-        new message_info(26900, "VIDEO_STREAM_INFORMATION99", 222, 246, 246, typeof( mavlink_video_stream_information99_t )),
         new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
 
     };
 
-    public const byte MAVLINK_VERSION = 2;
+    public const byte MAVLINK_VERSION = 3;
 
     public const byte MAVLINK_IFLAG_SIGNED=  0x01;
     public const byte MAVLINK_IFLAG_MASK   = 0x01;
@@ -366,6 +366,7 @@ public partial class MAVLink
     public enum MAVLINK_MSG_ID 
     {
 
+        VIDEO_STREAM_INFORMATION99 = 26900,
         SYS_STATUS = 1,
         SYSTEM_TIME = 2,
         PING = 4,
@@ -657,9 +658,9 @@ public partial class MAVLink
         CUBEPILOT_FIRMWARE_UPDATE_RESP = 50005,
         AIRLINK_AUTH = 52000,
         AIRLINK_AUTH_RESPONSE = 52001,
-        VIDEO_STREAM_INFORMATION99 = 26900,
         HEARTBEAT = 0,
     }
+    
     
     
     ///<summary>  </summary>
@@ -2471,7 +2472,6 @@ public partial class MAVLink
         OSD_PARAM_INVALID_PARAMETER=3, 
         
     };
-    
     
     
     ///<summary> These values define the type of firmware release.  These values indicate the first version or release of this type.  For example the first alpha release would be 64, the second would be 65. </summary>
@@ -5811,6 +5811,91 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Flags indicating errors in a GPS receiver. </summary>
+    [Flags]
+	public enum GPS_SYSTEM_ERROR_FLAGS: uint
+    {
+        ///<summary> There are no errors in the GPS receiver. | </summary>
+        [Description("There are no errors in the GPS receiver.")]
+        GPS_SYSTEM_ERROR_NONE=0, 
+        ///<summary> There are problems with incoming correction streams. | </summary>
+        [Description("There are problems with incoming correction streams.")]
+        GPS_SYSTEM_ERROR_INCOMING_CORRECTIONS=1, 
+        ///<summary> There are problems with the configuration. | </summary>
+        [Description("There are problems with the configuration.")]
+        GPS_SYSTEM_ERROR_CONFIGURATION=2, 
+        ///<summary> There are problems with the software on the GPS receiver. | </summary>
+        [Description("There are problems with the software on the GPS receiver.")]
+        GPS_SYSTEM_ERROR_SOFTWARE=4, 
+        ///<summary> There are problems with an antenna connected to the GPS receiver. | </summary>
+        [Description("There are problems with an antenna connected to the GPS receiver.")]
+        GPS_SYSTEM_ERROR_ANTENNA=8, 
+        ///<summary> There are problems handling all incoming events. | </summary>
+        [Description("There are problems handling all incoming events.")]
+        GPS_SYSTEM_ERROR_EVENT_CONGESTION=16, 
+        ///<summary> The GPS receiver CPU is overloaded. | </summary>
+        [Description("The GPS receiver CPU is overloaded.")]
+        GPS_SYSTEM_ERROR_CPU_OVERLOAD=32, 
+        ///<summary> The GPS receiver is experiencing output congestion. | </summary>
+        [Description("The GPS receiver is experiencing output congestion.")]
+        GPS_SYSTEM_ERROR_OUTPUT_CONGESTION=64, 
+        
+    };
+    
+    ///<summary> Signal authentication state in a GPS receiver. </summary>
+    public enum GPS_AUTHENTICATION_STATE: byte
+    {
+        ///<summary> The GPS receiver does not provide GPS signal authentication info. | </summary>
+        [Description("The GPS receiver does not provide GPS signal authentication info.")]
+        UNKNOWN=0, 
+        ///<summary> The GPS receiver is initializing signal authentication. | </summary>
+        [Description("The GPS receiver is initializing signal authentication.")]
+        INITIALIZING=1, 
+        ///<summary> The GPS receiver encountered an error while initializing signal authentication. | </summary>
+        [Description("The GPS receiver encountered an error while initializing signal authentication.")]
+        ERROR=2, 
+        ///<summary> The GPS receiver has correctly authenticated all signals. | </summary>
+        [Description("The GPS receiver has correctly authenticated all signals.")]
+        OK=3, 
+        ///<summary> GPS signal authentication is disabled on the receiver. | </summary>
+        [Description("GPS signal authentication is disabled on the receiver.")]
+        DISABLED=4, 
+        
+    };
+    
+    ///<summary> Signal jamming state in a GPS receiver. </summary>
+    public enum GPS_JAMMING_STATE: byte
+    {
+        ///<summary> The GPS receiver does not provide GPS signal jamming info. | </summary>
+        [Description("The GPS receiver does not provide GPS signal jamming info.")]
+        UNKNOWN=0, 
+        ///<summary> The GPS receiver detected no signal jamming. | </summary>
+        [Description("The GPS receiver detected no signal jamming.")]
+        OK=1, 
+        ///<summary> The GPS receiver detected signal jamming. | </summary>
+        [Description("The GPS receiver detected signal jamming.")]
+        DETECTED=2, 
+        
+    };
+    
+    ///<summary> Signal spoofing state in a GPS receiver. </summary>
+    public enum GPS_SPOOFING_STATE: byte
+    {
+        ///<summary> The GPS receiver does not provide GPS signal spoofing info. | </summary>
+        [Description("The GPS receiver does not provide GPS signal spoofing info.")]
+        UNKNOWN=0, 
+        ///<summary> The GPS receiver detected no signal spoofing. | </summary>
+        [Description("The GPS receiver detected no signal spoofing.")]
+        OK=1, 
+        ///<summary> The GPS receiver detected signal spoofing. | </summary>
+        [Description("The GPS receiver detected signal spoofing.")]
+        DETECTED=2, 
+        ///<summary> The GPS receiver detected and mitigated signal spoofing. | </summary>
+        [Description("The GPS receiver detected and mitigated signal spoofing.")]
+        MITIGATED=3, 
+        
+    };
+    
     
     ///<summary> State flags for ADS-B transponder dynamic report </summary>
     public enum UAVIONIX_ADSB_OUT_DYNAMIC_STATE: ushort
@@ -6938,6 +7023,94 @@ public partial class MAVLink
         
     };
     
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
+    ///<summary> Information about video stream </summary>
+    public struct mavlink_video_stream_information99_t
+    {
+        /// packet ordered constructor
+        public mavlink_video_stream_information99_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
+        {
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.camera_id = camera_id;
+            this.status = status;
+            this.uri = uri;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_video_stream_information99_t PopulateXMLOrder(byte camera_id,byte status,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,byte[] uri) 
+        {
+            var msg = new mavlink_video_stream_information99_t();
+
+            msg.camera_id = camera_id;
+            msg.status = status;
+            msg.framerate = framerate;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.bitrate = bitrate;
+            msg.rotation = rotation;
+            msg.uri = uri;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Frame rate.  [Hz] </summary>
+        [Units("[Hz]")]
+        [Description("Frame rate.")]
+        //[FieldOffset(0)]
+        public  float framerate;
+
+        /// <summary>Bit rate.  [bits/s] </summary>
+        [Units("[bits/s]")]
+        [Description("Bit rate.")]
+        //[FieldOffset(4)]
+        public  uint bitrate;
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Horizontal resolution.")]
+        //[FieldOffset(8)]
+        public  ushort resolution_h;
+
+        /// <summary>Vertical resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Vertical resolution.")]
+        //[FieldOffset(10)]
+        public  ushort resolution_v;
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Video image rotation clockwise.")]
+        //[FieldOffset(12)]
+        public  ushort rotation;
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        [Units("")]
+        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(14)]
+        public  byte camera_id;
+
+        /// <summary>Number of streams available.   </summary>
+        [Units("")]
+        [Description("Number of streams available.")]
+        //[FieldOffset(15)]
+        public  byte status;
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+        [Units("")]
+        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
+		public byte[] uri;
+    };
+
     [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
@@ -12245,94 +12418,6 @@ public partial class MAVLink
 		public byte[] temperature;
     };
 
-    [Obsolete]
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
-    ///<summary> Information about video stream </summary>
-    public struct mavlink_video_stream_information99_t
-    {
-        /// packet ordered constructor
-        public mavlink_video_stream_information99_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
-        {
-            this.framerate = framerate;
-            this.bitrate = bitrate;
-            this.resolution_h = resolution_h;
-            this.resolution_v = resolution_v;
-            this.rotation = rotation;
-            this.camera_id = camera_id;
-            this.status = status;
-            this.uri = uri;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_video_stream_information99_t PopulateXMLOrder(byte camera_id,byte status,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,byte[] uri) 
-        {
-            var msg = new mavlink_video_stream_information99_t();
-
-            msg.camera_id = camera_id;
-            msg.status = status;
-            msg.framerate = framerate;
-            msg.resolution_h = resolution_h;
-            msg.resolution_v = resolution_v;
-            msg.bitrate = bitrate;
-            msg.rotation = rotation;
-            msg.uri = uri;
-            
-            return msg;
-        }
-        
-
-        /// <summary>Frame rate.  [Hz] </summary>
-        [Units("[Hz]")]
-        [Description("Frame rate.")]
-        //[FieldOffset(0)]
-        public  float framerate;
-
-        /// <summary>Bit rate.  [bits/s] </summary>
-        [Units("[bits/s]")]
-        [Description("Bit rate.")]
-        //[FieldOffset(4)]
-        public  uint bitrate;
-
-        /// <summary>Horizontal resolution.  [pix] </summary>
-        [Units("[pix]")]
-        [Description("Horizontal resolution.")]
-        //[FieldOffset(8)]
-        public  ushort resolution_h;
-
-        /// <summary>Vertical resolution.  [pix] </summary>
-        [Units("[pix]")]
-        [Description("Vertical resolution.")]
-        //[FieldOffset(10)]
-        public  ushort resolution_v;
-
-        /// <summary>Video image rotation clockwise.  [deg] </summary>
-        [Units("[deg]")]
-        [Description("Video image rotation clockwise.")]
-        //[FieldOffset(12)]
-        public  ushort rotation;
-
-        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
-        [Units("")]
-        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
-        //[FieldOffset(14)]
-        public  byte camera_id;
-
-        /// <summary>Number of streams available.   </summary>
-        [Units("")]
-        [Description("Number of streams available.")]
-        //[FieldOffset(15)]
-        public  byte status;
-
-        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
-        [Units("")]
-        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
-        //[FieldOffset(16)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
-		public byte[] uri;
-    };
-
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=31)]
@@ -12961,12 +13046,12 @@ public partial class MAVLink
 
     
     /// extensions_start 10
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=52)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=59)]
     ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                 NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_gps_raw_int_t
     {
         /// packet ordered constructor
-        public mavlink_gps_raw_int_t(ulong time_usec,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw) 
+        public mavlink_gps_raw_int_t(ulong time_usec,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw,/*GPS_SYSTEM_ERROR_FLAGS*/uint system_errors,/*GPS_AUTHENTICATION_STATE*/byte authentication_state,/*GPS_JAMMING_STATE*/byte jamming_state,/*GPS_SPOOFING_STATE*/byte spoofing_state) 
         {
             this.time_usec = time_usec;
             this.lat = lat;
@@ -12984,11 +13069,15 @@ public partial class MAVLink
             this.vel_acc = vel_acc;
             this.hdg_acc = hdg_acc;
             this.yaw = yaw;
+            this.system_errors = system_errors;
+            this.authentication_state = authentication_state;
+            this.jamming_state = jamming_state;
+            this.spoofing_state = spoofing_state;
             
         }
         
         /// packet xml order
-        public static mavlink_gps_raw_int_t PopulateXMLOrder(ulong time_usec,/*GPS_FIX_TYPE*/byte fix_type,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw) 
+        public static mavlink_gps_raw_int_t PopulateXMLOrder(ulong time_usec,/*GPS_FIX_TYPE*/byte fix_type,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw,/*GPS_SYSTEM_ERROR_FLAGS*/uint system_errors,/*GPS_AUTHENTICATION_STATE*/byte authentication_state,/*GPS_JAMMING_STATE*/byte jamming_state,/*GPS_SPOOFING_STATE*/byte spoofing_state) 
         {
             var msg = new mavlink_gps_raw_int_t();
 
@@ -13008,6 +13097,10 @@ public partial class MAVLink
             msg.vel_acc = vel_acc;
             msg.hdg_acc = hdg_acc;
             msg.yaw = yaw;
+            msg.system_errors = system_errors;
+            msg.authentication_state = authentication_state;
+            msg.jamming_state = jamming_state;
+            msg.spoofing_state = spoofing_state;
             
             return msg;
         }
@@ -13108,6 +13201,30 @@ public partial class MAVLink
         [Description("Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.")]
         //[FieldOffset(50)]
         public  ushort yaw;
+
+        /// <summary>Errors in the GPS system GPS_SYSTEM_ERROR_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Errors in the GPS system")]
+        //[FieldOffset(52)]
+        public  /*GPS_SYSTEM_ERROR_FLAGS*/uint system_errors;
+
+        /// <summary>Signal authentication state of the GPS system GPS_AUTHENTICATION_STATE  </summary>
+        [Units("")]
+        [Description("Signal authentication state of the GPS system")]
+        //[FieldOffset(56)]
+        public  /*GPS_AUTHENTICATION_STATE*/byte authentication_state;
+
+        /// <summary>Signal jamming state of the GPS system GPS_JAMMING_STATE  </summary>
+        [Units("")]
+        [Description("Signal jamming state of the GPS system")]
+        //[FieldOffset(57)]
+        public  /*GPS_JAMMING_STATE*/byte jamming_state;
+
+        /// <summary>Signal spoofing state of the GPS system GPS_SPOOFING_STATE  </summary>
+        [Units("")]
+        [Description("Signal spoofing state of the GPS system")]
+        //[FieldOffset(58)]
+        public  /*GPS_SPOOFING_STATE*/byte spoofing_state;
     };
 
     
