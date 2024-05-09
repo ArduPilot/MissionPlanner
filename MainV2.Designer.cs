@@ -56,10 +56,11 @@ namespace MissionPlanner
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.batteryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.ESTIMATEDTIMEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.status1 = new MissionPlanner.Controls.Status();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -85,8 +86,9 @@ namespace MissionPlanner
             this.toolStripMenuItem2,
             this.toolStripMenuItem3,
             this.batteryToolStripMenuItem,
+            this.ESTIMATEDTIMEToolStripMenuItem,
             this.toolStripMenuItem5,
-            this.ESTIMATEDTIMEToolStripMenuItem});
+            this.toolStripMenuItem4});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
@@ -226,17 +228,17 @@ namespace MissionPlanner
             resources.ApplyResources(this.batteryToolStripMenuItem, "batteryToolStripMenuItem");
             this.batteryToolStripMenuItem.Click += new System.EventHandler(this.batteryToolStripMenuItem_Click_1);
             // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
-            //this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-            // 
             // ESTIMATEDTIMEToolStripMenuItem
             // 
             this.ESTIMATEDTIMEToolStripMenuItem.Name = "ESTIMATEDTIMEToolStripMenuItem";
             resources.ApplyResources(this.ESTIMATEDTIMEToolStripMenuItem, "ESTIMATEDTIMEToolStripMenuItem");
             this.ESTIMATEDTIMEToolStripMenuItem.Click += new System.EventHandler(this.ESTIMATEDTIMEToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
             // 
             // panel1
             // 
@@ -251,6 +253,12 @@ namespace MissionPlanner
             resources.ApplyResources(this.status1, "status1");
             this.status1.Name = "status1";
             this.status1.Percent = 0D;
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // MainV2
             // 
@@ -296,6 +304,7 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem ESTIMATEDTIMEToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
 
         public MyButton Menu1 { get => menu; set => menu = value; }

@@ -62,6 +62,8 @@ namespace MissionPlanner
 
         private GridUI gridUI; // Assuming GridUI instance is accessible from MainV2.cs
 
+        private System.Windows.Forms.Timer statusTimer;
+
         public class PopupForm : Form
         {
             // Labels for user input descriptions
@@ -198,25 +200,20 @@ namespace MissionPlanner
         // Event handler for ESTIMATEDTIMEToolStripMenuItem click event
         private void ESTIMATEDTIMEToolStripMenuItem_Click(object sender, EventArgs e)
      {
-            PopupForm popup = new PopupForm();
-
-            if (popup.ShowDialog() == DialogResult.OK)
             {
-                // Update user variables with specific user input 
+                {
+                    using (ChartPopupForm chartPopup = new ChartPopupForm())
+                    {
+                        if (chartPopup.ShowDialog() == DialogResult.None)
+                        {
+                            chartPopup.ShowDialog();
+                            chartPopup.DialogResult = DialogResult.OK;
+                        }
 
-                userThreshold = float.Parse(popup.txtThreshold.Text);
-                userDetSense1 = float.Parse(popup.txtDetectorSensitivity1.Text);
-                userDetSense2 = float.Parse(popup.txtDetectorSensitivity2.Text);
 
+                    }
+                }
             }
-
-            popup.Dispose(); 
-
-            tickFunc = new System.Windows.Forms.Timer();
-            tickFunc.Interval = 1;
-            tickFunc.Tick += RadiationDetection;
-            tickFunc.Start();
-
 
 
         }
@@ -529,6 +526,47 @@ namespace MissionPlanner
         }
 
 
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+
+        {
+
+            statusTimer = new System.Windows.Forms.Timer();
+            statusTimer.Interval = 1;
+            statusTimer.Tick += findstatus;
+            statusTimer.Start();
+
+        }
+
+
+        private void findstatus(object sender, EventArgs e)
+        {
+            //string statusMessage = MainV2.comPort.MAV.cs.message;
+            //toolStripMenuItem3.Text = statusMessage;
+
+            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+            {
+
+                string statusMessage = MainV2.comPort.MAV.cs.message;
+                string pattern1 = @"^GMs\s\d(\d{4})";
+                Match match1 = Regex.Match(statusMessage, pattern1);
+
+                if (match1.Success)
+                {
+                    // Extract the second to fifth digits after "GMs"
+                    string extractedValue = match1.Groups[1].Value;
+                    //toolStripMenuItem4.Text = extractedValue;
+                    toolStripMenuItem4.Text = "Connected";
+                    toolStripMenuItem4.ForeColor = Color.Green;
+
+                }
+                else
+                {
+                    toolStripMenuItem4.Text = "Disconnected";
+                    toolStripMenuItem4.ForeColor = Color.Red;
+                }
+            }
+        }
+            
 
 
 
@@ -5396,6 +5434,29 @@ namespace MissionPlanner
                 }
             }
         }
+
+        private System.Windows.Forms.Timer modeTimer;
+
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+
+            modeTimer = new System.Windows.Forms.Timer();
+            modeTimer.Interval = 1;
+            modeTimer.Tick += findMode;
+            modeTimer.Start();
+
+        }
+
+
+        private void findMode(object sender, EventArgs e)
+        {
+            string modeMessage = MainV2.comPort.MAV.cs.mode;
+            toolStripMenuItem5.Text = modeMessage;
+        }
+
+
+
 
 
         /* private void altitudeToolStripMenuItem_Click(object sender, EventArgs e)
