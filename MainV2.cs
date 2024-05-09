@@ -41,6 +41,7 @@ using Newtonsoft.Json;
 using DroneCAN;
 using MissionPlanner.Grid;
 using static IronPython.Modules.PythonIterTools;
+using ExifLibrary;
 
 namespace MissionPlanner
 {
@@ -162,26 +163,26 @@ namespace MissionPlanner
         {
 
         }
-       /* private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            // Create an instance of the pop-up form
-            PopupForm popup = new PopupForm();
+        /* private void toolStripMenuItem5_Click(object sender, EventArgs e)
+         {
+             // Create an instance of the pop-up form
+             PopupForm popup = new PopupForm();
 
-            // Show the pop-up form as a dialog
-            if (popup.ShowDialog() == DialogResult.OK)
-            {
-                // Update menu item text with specific user input (assuming they exist)
-                toolStripMenuItem5.Text = $"Detector Sensitivity 1: {popup.txtDetectorSensitivity1.Text}\n" +
-                                          $"Detector Sensitivity 2: {popup.txtDetectorSensitivity2.Text}\n" +
-                                          $"Threshold: {popup.txtThreshold.Text}";
+             // Show the pop-up form as a dialog
+             if (popup.ShowDialog() == DialogResult.OK)
+             {
+                 // Update menu item text with specific user input (assuming they exist)
+                 toolStripMenuItem5.Text = $"Detector Sensitivity 1: {popup.txtDetectorSensitivity1.Text}\n" +
+                                           $"Detector Sensitivity 2: {popup.txtDetectorSensitivity2.Text}\n" +
+                                           $"Threshold: {popup.txtThreshold.Text}";
 
-                // Update userEnteredThreshold with the entered threshold value
-                userEnteredThreshold = popup.txtThreshold.Text;
+                 // Update userEnteredThreshold with the entered threshold value
+                 userEnteredThreshold = popup.txtThreshold.Text;
 
-                // Dispose of the pop-up form after use
-                popup.Dispose();
-            }
-        }*/
+                 // Dispose of the pop-up form after use
+                 popup.Dispose();
+             }
+         }*/
 
 
 
@@ -199,21 +200,26 @@ namespace MissionPlanner
 
         // Event handler for ESTIMATEDTIMEToolStripMenuItem click event
         private void ESTIMATEDTIMEToolStripMenuItem_Click(object sender, EventArgs e)
-     {
+        {
+            PopupForm popup = new PopupForm();
+
+            if (popup.ShowDialog() == DialogResult.OK)
             {
-                {
-                    using (ChartPopupForm chartPopup = new ChartPopupForm())
-                    {
-                        if (chartPopup.ShowDialog() == DialogResult.None)
-                        {
-                            chartPopup.ShowDialog();
-                            chartPopup.DialogResult = DialogResult.OK;
-                        }
+                // Update user variables with specific user input 
 
+                userThreshold = float.Parse(popup.txtThreshold.Text);
+                userDetSense1 = float.Parse(popup.txtDetectorSensitivity1.Text);
+                userDetSense2 = float.Parse(popup.txtDetectorSensitivity2.Text);
 
-                    }
-                }
             }
+
+            popup.Dispose();
+
+            tickFunc = new System.Windows.Forms.Timer();
+            tickFunc.Interval = 1;
+            tickFunc.Tick += RadiationDetection;
+            tickFunc.Start();
+
 
 
         }
@@ -279,7 +285,7 @@ namespace MissionPlanner
                 if (userThreshold < GMtwo)
                 {
                     float finalValue1 = GMtwo / userDetSense2;
-                    ESTIMATEDTIMEToolStripMenuItem.Text = "nsv/h :"+ finalValue1 ;
+                    ESTIMATEDTIMEToolStripMenuItem.Text = "nsv/h :" + finalValue1;
                     //Text = finalValue1 + " nsv/h ";
                 }
                 else
@@ -307,38 +313,44 @@ namespace MissionPlanner
             airspeedUpdateTimer.Start();
         }
 
+        private float lastSpeed = float.NaN;
+        private DateTime lastSpeedUpdateTime = DateTime.MinValue;
+
+
         private void airspeedUpdateTimer_Tick(object sender, EventArgs e)
         {
+
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
-                float groundspeed = MainV2.comPort.MAV.cs.airspeed;
-
-                // Check if user entered a threshold value
-                if (!string.IsNullOrEmpty(userEnteredThreshold))
+                float speed = MainV2.comPort.MAV.cs.airspeed;
+                //speedToolStripMenuItem.Text = "Speed: " + "\n" + speed.ToString("0.00") + " m/s";
+                // Check if altitude has changed
+                if (speed != lastSpeed)
                 {
-                    // Convert threshold string to float
-                    float threshold;
-                    if (float.TryParse(userEnteredThreshold, out threshold))
-                    {
-                        // Add threshold to airspeed for display
-                        float displayedAirspeed = groundspeed + threshold;
-                        speedToolStripMenuItem.Text = "Speed: " + displayedAirspeed.ToString("0.00") + " m/s";
-                    }
-                    else
-                    {
-                        // Handle invalid threshold input (optional: show error message)
-                    }
+                    lastSpeed = speed;
+                    lastSpeedUpdateTime = DateTime.Now;
                 }
                 else
                 {
-                    // Display airspeed without modification (default behavior)
-                    speedToolStripMenuItem.Text = "Speed: " + groundspeed.ToString("0.00") + " m/s";
+                    // Calculate the time elapsed since the last altitude update
+                    TimeSpan elapsedTime = DateTime.Now - lastSpeedUpdateTime;
+
+                    // If more than 10 seconds have elapsed and altitude hasn't changed, display 0.00m
+                    if (elapsedTime.TotalSeconds >= 10)
+                    {
+                        speedToolStripMenuItem.Text = "speed : 0.00m";
+                        return; // Exit the method early to avoid setting the same value multiple times
+                    }
                 }
+
+                speedToolStripMenuItem.Text = "Speed: " + speed.ToString("0.00") + " m/s";
             }
+
             else
             {
-                // Handle case where data is unavailable
+                speedToolStripMenuItem.Text = "Speed: N/A";
             }
+
         }
 
 
@@ -355,18 +367,73 @@ namespace MissionPlanner
             altitudeUpdateTimer.Start();
         }
 
+
+        //working altitude code 
+
+        /*
+       private void altitudeUpdateTimer_Tick(object sender, EventArgs e)
+{
+    if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+    {
+        float altitude = MainV2.comPort.MAV.cs.alt;
+
+        // Assuming -1 is the sentinel value representing null-like state
+        if (altitude != -1)
+        {
+            toolStripMenuItem1.Text = "Alt: " + altitude.ToString() + "m";
+        }
+        else
+        {
+            toolStripMenuItem1.Text = "Alt: N/A"; // Or any other appropriate message
+        }
+    }
+    else
+    {
+        toolStripMenuItem1.Text = "Alt: N/A"; // Or any other appropriate message
+    }
+}
+        */
+
+
+        private float lastAltitude = float.NaN;
+        private DateTime lastAltitudeUpdateTime = DateTime.MinValue;
+
+
+
         private void altitudeUpdateTimer_Tick(object sender, EventArgs e)
         {
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
                 float altitude = MainV2.comPort.MAV.cs.alt;
-                toolStripMenuItem1.Text = "Alt: " + altitude.ToString("0.00") + "m";
+
+                // Check if altitude has changed
+                if (altitude != lastAltitude)
+                {
+                    lastAltitude = altitude;
+                    lastAltitudeUpdateTime = DateTime.Now;
+                }
+                else
+                {
+                    // Calculate the time elapsed since the last altitude update
+                    TimeSpan elapsedTime = DateTime.Now - lastAltitudeUpdateTime;
+
+                    // If more than 10 seconds have elapsed and altitude hasn't changed, display 0.00m
+                    if (elapsedTime.TotalSeconds >= 10)
+                    {
+                        toolStripMenuItem1.Text = "Alt: 0.00m";
+                        return; // Exit the method early to avoid setting the same value multiple times
+                    }
+                }
+
+                toolStripMenuItem1.Text = "Alt: " + altitude.ToString() + "m";
             }
             else
             {
-                // Handle case where data is unavailable
+                toolStripMenuItem1.Text = "Alt: N/A"; // Or any other appropriate message
             }
         }
+
+
 
 
         //                                                                           DYNAMIC UPDATE OF GPS STATUS
@@ -386,42 +453,42 @@ namespace MissionPlanner
             }
         }
 
-        /* private void gpsUpdateTimer_Tick(object sender, EventArgs e)
-         {
-             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
-             {
-                 // Assuming 'gpsstatus' provides access to GPS information
-                 var gpsStatus = MainV2.comPort.MAV.cs.gpsstatus; // Assuming gpsstatus property
 
-                 if (gpsStatus != null) // Check if gpsStatus is not null (might be safer)
-                 {
-                     // Assuming gpsstatus is a class or struct containing GPS information
-                     if (gpsStatus.fix_type > 0)
-                     {
-                         string gpsStatusText = $"Fix: {gpsStatus.fix_type_string}, Sats: {gpsStatus.satellites_visible}";
-                         toolStripMenuItem2.Text = "GPS Status: " + gpsStatusText;
-                     }
-                     else
-                     {
-                         toolStripMenuItem2.Text = "GPS Status: No Fix";
-                     }
-                 }
-                 else
-                 {
-                     // Handle case where gpsstatus is null (optional: display error message)
-                 }
-             }*/
+        private float lastgpsStatus = float.NaN;
+        private DateTime lastgpsUpdateTime = DateTime.MinValue;
 
         private void gpsUpdateTimer_Tick(object sender, EventArgs e)
         {
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
                 float gpsStatus = MainV2.comPort.MAV.cs.gpsstatus;
-                toolStripMenuItem2.Text = "GPS: " + gpsStatus.ToString("0.00") + "";
+
+
+
+                // Check if altitude has changed
+                if (gpsStatus != lastgpsStatus)
+                {
+                    lastgpsStatus = gpsStatus;
+                    lastgpsUpdateTime = DateTime.Now;
+                }
+                else
+                {
+                    // Calculate the time elapsed since the last altitude update
+                    TimeSpan elapsedTime = DateTime.Now - lastgpsUpdateTime;
+
+                    // If more than 10 seconds have elapsed and altitude hasn't changed, display 0.00m
+                    if (elapsedTime.TotalSeconds >= 10)
+                    {
+                        toolStripMenuItem2.Text = "GPS: 0.00m";
+                        return; // Exit the method early to avoid setting the same value multiple times
+                    }
+                }
+
+                toolStripMenuItem2.Text = "GPS: " + gpsStatus.ToString() + "m";
             }
             else
             {
-                // Handle case where data is unavailable
+                toolStripMenuItem2.Text = " GPS :N?A";
             }
         }
 
@@ -453,7 +520,7 @@ namespace MissionPlanner
 
 
         //                                                                      DYNAMIC UPDATE OF BATTERY
-        
+
 
 
         private void batteryToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -499,6 +566,12 @@ namespace MissionPlanner
             {
                 // Assuming 'battery_remaining' is a property of 'cs'
                 float battery = MainV2.comPort.MAV.cs.load;
+
+
+                if (battery == null)
+                {
+                    batteryToolStripMenuItem.Text = "Battery: " + battery.ToString("0.00") + "%";
+                }
 
                 // Update menu item text with battery value
                 batteryToolStripMenuItem.Text = "Battery: " + battery.ToString("0.00") + "%";
@@ -566,16 +639,6 @@ namespace MissionPlanner
                 }
             }
         }
-            
-
-
-
-
-
-
-
-
-
 
 
 
@@ -5455,176 +5518,20 @@ namespace MissionPlanner
             toolStripMenuItem5.Text = modeMessage;
         }
 
-
-
-
-
-        /* private void altitudeToolStripMenuItem_Click(object sender, EventArgs e)
-         {
-             // Assuming MyView is an instance of a class that handles displaying screens
-             // Show "Altitude" screen
-             // MyView.ShowScreen("Altitude");
-
-             // Assuming MainV2 is an instance of a class containing comPort
-             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
-             {
-                 // Assuming 'altitude' is a property of 'cs'
-                 float altitude = MainV2.comPort.MAV.cs.alt;
-
-                 // Update menu item text with altitude value
-                 altitudeToolStripMenuItem.Text = "Altitude: " + altitude.ToString("0.00") + " m";
-             }
-             else
-             {
-                 // Handle the case when the objects are not initialized properly or data is not available
-                 // For example, show an error message
-                 MessageBox.Show("Altitude data is not available.");
-             }
-         }
-         */
-
-
-
-
-
-        /*  private Timer airspeedUpdateTimer;
-
-          private void speedToolStripMenuItem_Click(object sender, EventArgs e)
-          {
-              // Existing code to get airspeed and update menu text
-
-              // Create and start the timer for dynamic updates
-              airspeedUpdateTimer = new Timer();
-              airspeedUpdateTimer.Interval = 1000; // Update every 1 second
-              airspeedUpdateTimer.Tick += airspeedUpdateTimer_Tick;
-              airspeedUpdateTimer.Start();
-          }
-
-          private void airspeedUpdateTimer_Tick(object sender, EventArgs e)
-          {
-              if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
-              {
-                  float airspeed = MainV2.comPort.MAV.cs.airspeed;
-                  speedToolStripMenuItem.Text = "Speed: " + airspeed.ToString("0.00") + " m/s";
-              }
-              else
-              {
-                  // Handle case where data is unavailable
-              }
-          }
-          **/
-
-
-        /*private void BatteryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
-            // Assuming MyView is an instance of a class that handles displaying screens
-            // Show "Simulation" screen
-            //MyView.ShowScreen("Simulation");
-
-            // Assuming MainV2 is an instance of a class containing comPort
-            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
-                // Assuming 'airspeed' is a property of 'cs'
-                float airspeed = MainV2.comPort.MAV.cs.airspeed;
-
-                // Update menu item text with airspeed value
-                speedToolStripMenuItem.Text = "Speed: " + airspeed.ToString("0.00") + " m/s";
-            }
-            else
-            {
-                // Handle the case when the objects are not initialized properly or data is not available
-                // For example, show an error message
-                MessageBox.Show("Airspeed data is not available.");
-            }
-        }*/
-
-        /* private void batteryToolStripMenuItem_Click_1(object sender, EventArgs e)
-         {
-
-
-
-                 // Assuming MyView is an instance of a class that handles displaying screens
-                 // Show "Simulation" screen
-                 //MyView.ShowScreen("Simulation");
-
-                 // Assuming MainV2 is an instance of a class containing comPort
-                 if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
-                 {
-                     // Assuming 'airspeed' is a property of 'cs'
-                     float battery = MainV2.comPort.MAV.cs.battery_remaining;
-
-                     // Update menu item text with airspeed value
-                     batteryToolStripMenuItem.Text = "Battery: " + battery.ToString("0.00") + "%";
-                 }
-                 else
-                 {
-                     // Handle the case when the objects are not initialized properly or data is not available
-                     // For example, show an error message
-                     MessageBox.Show("BatteryStatus is not available.");
-                 }
-
-
-         }**/
-
-        /* private void toolStripMenuItem1_Click_1(object sender, EventArgs e)
-        {
-
-            
-                // Assuming MyView is an instance of a class that handles displaying screens
-                // Show "Simulation" screen
-                //MyView.ShowScreen("Simulation");
-
-                // Assuming MainV2 is an instance of a class containing comPort
-                if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+                using (ChartPopupForm chartPopup = new ChartPopupForm())
                 {
-                    // Assuming 'airspeed' is a property of 'cs'
-                    float altitude = MainV2.comPort.MAV.cs.alt;
+                    if (chartPopup.ShowDialog() == DialogResult.None)
+                    {
+                        chartPopup.ShowDialog();
+                        chartPopup.DialogResult = DialogResult.OK;
+                    }
 
-                    // Update menu item text with airspeed value
-                    toolStripMenuItem1.Text = "Alt: " + altitude.ToString("0.00") + "m";
+
                 }
-                else
-                {
-                    // Handle the case when the objects are not initialized properly or data is not available
-                    // For example, show an error message
-                    MessageBox.Show("Altitude is not available.");
-                }
-            
-        }**/
-
-        /*private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            // Assuming MyView is an instance of a class that handles displaying screens
-            // Show "Simulation" screen
-            //MyView.ShowScreen("Simulation");
-
-            // Assuming MainV2 is an instance of a class containing comPort
-            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
-            {
-                // Assuming 'airspeed' is a property of 'cs'
-                float gps = MainV2.comPort.MAV.cs.gpsstatus;
-
-                // Update menu item text with airspeed value
-                toolStripMenuItem2.Text = "GPS Status: " + gps.ToString("0.00") + "";
-            }
-            else
-            {
-                // Handle the case when the objects are not initialized properly or data is not available
-                // For example, show an error message
-                MessageBox.Show("GPS Status is not available.");
             }
         }
-        **/
-        /* private void toolStripMenuItem3_Click(object sender, EventArgs e)
-         {
-
-             DateTime time = DateTime.Now;
-
-             Label mylab = new Label();
-
-             // Update menu item text with airspeed value
-             toolStripMenuItem3.Text = "Time:" + time.ToString("h:mm:ss");
-
-         }**/
     }
 }
