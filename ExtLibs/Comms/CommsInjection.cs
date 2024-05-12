@@ -60,7 +60,7 @@ namespace MissionPlanner.Comms
             {
                 Thread.Sleep(1);
                 if (counttimeout > ReadTimeout)
-                    throw new Exception("CommsInjection Timeout on read");
+                    throw new TimeoutException("CommsInjection Timeout on read");
                 counttimeout++;
             }
 
