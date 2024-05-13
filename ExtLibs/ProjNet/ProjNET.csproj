@@ -68,6 +68,7 @@
 
   <ItemGroup>
     <PackageReference Include="GeoAPI.CoordinateSystems" Version="1.7.5" />
+    <PackageReference Include="log4net" Version="2.0.17" />
   </ItemGroup>
 
   <ItemGroup>

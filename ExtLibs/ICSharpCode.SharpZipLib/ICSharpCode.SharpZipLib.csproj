@@ -45,4 +45,8 @@ Please see https://github.com/icsharpcode/SharpZipLib/wiki/Release-1.0 for more 
     <DocumentationFile>bin\Release\net45\ICSharpCode.SharpZipLib.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
+  </ItemGroup>
+
 </Project>

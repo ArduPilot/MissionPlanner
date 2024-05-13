@@ -5,6 +5,9 @@
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />

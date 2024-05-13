@@ -27,6 +27,7 @@
     <Compile Update="PlatformRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
   </ItemGroup>
 </Project>

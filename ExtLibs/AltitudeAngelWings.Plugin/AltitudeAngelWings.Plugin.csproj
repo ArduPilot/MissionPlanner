@@ -38,6 +38,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
+  </ItemGroup>
+  <ItemGroup>
 	  <ProjectReference Include="..\..\MissionPlanner.csproj">
 		  <Project>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</Project>
 		  <Name>MissionPlanner</Name>

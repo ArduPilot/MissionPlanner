@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Font" Version="0.3.0.3" />
+    <PackageReference Include="log4net" Version="2.0.17" />
   </ItemGroup>
 
 

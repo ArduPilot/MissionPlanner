@@ -142,6 +142,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="MQTTnet" Version="3.0.8" />
   </ItemGroup>
   <ItemGroup>

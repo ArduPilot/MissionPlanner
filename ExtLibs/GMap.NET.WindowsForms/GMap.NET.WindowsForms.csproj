@@ -16,5 +16,7 @@
     <Reference Include="System.Windows.Forms" Condition="'$(TargetFramework)' == 'net461'" />
   </ItemGroup>  <ItemGroup>
     <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
-  </ItemGroup>
+  </ItemGroup>  <ItemGroup>
+  <PackageReference Include="log4net" Version="2.0.17" />
+</ItemGroup>
 </Project>

@@ -72,6 +72,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net">
+      <Version>2.0.17</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.TestPlatform">
       <Version>17.3.2</Version>
     </PackageReference>

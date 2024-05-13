@@ -199,6 +199,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Update="System.Runtime.Serialization">
       <Private>false</Private>
     </Reference>

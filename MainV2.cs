@@ -44,6 +44,81 @@ namespace MissionPlanner
 {
     public partial class MainV2 : Form
     {
+
+
+
+
+
+        // Suriya was here
+        // Displaying Airspeed on Menu Strip
+
+        private AirspeedUpdater airspeedUpdater = new AirspeedUpdater();
+        private void sPEEDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            airspeedUpdater.showSpeed((ToolStripMenuItem)sender);
+        }
+
+        // Displaying Altitude on Menu Strip
+
+        private AltitudeUpdater altitudeUpdater = new AltitudeUpdater();
+        private void aLTITUDEToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            altitudeUpdater.showAltitude((ToolStripMenuItem)sender);
+        }
+
+        // Displaying GPS status on Menu Strip
+
+        private GPSUpdater gpsUpdater = new GPSUpdater();
+        private void gPSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gpsUpdater.showGPS((ToolStripMenuItem)sender);
+        }
+
+        // Displaying Time on Menu Strip
+
+        private TimeUpdater timeUpdater = new TimeUpdater();
+        private void tIMEToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timeUpdater.StartTimer((ToolStripMenuItem)sender);
+        }
+
+        // Displaying Battery on Menu Strip
+
+        private BatteryUpdater batteryUpdater = new BatteryUpdater();
+        private void bATTERYToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            batteryUpdater.showBattery((ToolStripMenuItem)sender);
+        }
+
+        // Display Dose rate on Menu Strip
+
+        private DoseRateUpdater doserateUpdater = new DoseRateUpdater();
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            doserateUpdater.showDoseRate((ToolStripMenuItem)sender);
+        }
+
+        // Displaying Mode on Menu Strip
+
+        private ModeUpdater modeUpdater = new ModeUpdater();
+        private void toolStripMenuItem1_Click_2(object sender, EventArgs e)
+        {
+            modeUpdater.showMode((ToolStripMenuItem)sender);
+        }
+
+        // Displaying Status on Menu Strip
+
+        private StatusUpdater statusUpdater = new StatusUpdater();
+        private void sTATUSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            statusUpdater.showStatus((ToolStripMenuItem)sender);
+        }
+
+
+
+
+
+
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -564,7 +639,7 @@ namespace MissionPlanner
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
-            MenuHelp.Visible = DisplayConfiguration.displayHelp;
+            //MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
             // force autohide on
@@ -1141,15 +1216,7 @@ namespace MissionPlanner
             {
                 this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
             }
-
-            MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
-                (int) (200), 31);
-            MenuArduPilot.Width = MenuArduPilot.Image.Width;
-
-            if (Program.Logo2 != null)
-                MenuArduPilot.Image = Program.Logo2;
-
-            Application.DoEvents();
+            
 
             Comports.Add(comPort);
 
@@ -1237,7 +1304,7 @@ namespace MissionPlanner
             MenuSimulation.Image = displayicons.sim;
             MenuConfigTune.Image = displayicons.config_tuning;
             MenuConnect.Image = displayicons.connect;
-            MenuHelp.Image = displayicons.help;
+            //MenuHelp.Image = displayicons.help;
 
 
             MenuFlightData.ForeColor = ThemeManager.TextColor;
@@ -1246,7 +1313,7 @@ namespace MissionPlanner
             MenuSimulation.ForeColor = ThemeManager.TextColor;
             MenuConfigTune.ForeColor = ThemeManager.TextColor;
             MenuConnect.ForeColor = ThemeManager.TextColor;
-            MenuHelp.ForeColor = ThemeManager.TextColor;
+            //MenuHelp.ForeColor = ThemeManager.TextColor;
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
@@ -4914,5 +4981,7 @@ namespace MissionPlanner
                 }
             }
         }
+
+
     }
 }

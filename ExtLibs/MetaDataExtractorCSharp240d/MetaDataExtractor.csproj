@@ -53,6 +53,10 @@
     <EmbeddedResource Include="resources\PentaxMarkernote.txt" />
     <EmbeddedResource Include="resources\SonyMarkernote.txt" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
+  </ItemGroup>
   <ItemGroup>
     <None Update="exif.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

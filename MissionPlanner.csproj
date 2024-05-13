@@ -616,7 +616,7 @@
     <PackageReference Include="JetBrains.Profiler.SelfApi">
       <Version>2.0.2</Version>
     </PackageReference>
-    <PackageReference Include="log4net" version="2.0.13" targetFramework="net462" />
+    <PackageReference Include="log4net" version="2.0.17" targetFramework="net462" />
     <PackageReference Include="Meziantou.Analyzer">
       <Version>1.0.663</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -677,7 +677,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AirspeedUpdater.cs" />
+    <Compile Include="AltitudeUpdater.cs" />
     <Compile Include="Antenna\TrackerGeneric.cs" />
+    <Compile Include="BatteryUpdater.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Controls\DroneCANSubscriber.cs">
       <SubType>UserControl</SubType>
@@ -793,6 +796,7 @@
     <Compile Include="Controls\FollowMe.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DoseRateUpdater.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigADSB.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -908,6 +912,7 @@
     <Compile Include="GCSViews\ConfigurationView\DroneCANModel.cs" />
     <Compile Include="GCSViews\ConfigurationView\uitype.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GPSUpdater.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -919,6 +924,7 @@
       <SubType>Form</SubType>
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModeUpdater.cs" />
     <Compile Include="NativeMethods.cs" />
     <None Include="Drivers\cubeorangeplus.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -959,6 +965,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example20-multiplepositions.cs" />
+    <Compile Include="StatusUpdater.cs" />
+    <Compile Include="TimeUpdater.cs" />
     <Compile Include="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -4860,9 +4868,12 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="disconnect.png" />
     <Content Include="Drivers\CubeOrangePlus.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="drone_payload_connected.ico" />
+    <Content Include="drone_payload_disconnected.ico" />
     <Content Include="mavutil.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
