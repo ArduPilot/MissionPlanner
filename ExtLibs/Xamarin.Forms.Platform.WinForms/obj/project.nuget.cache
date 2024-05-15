@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "HjrtcYCxOvvm1mtATzkvqzXoa4KdEcUqzphg2rqXIQ7ZzhoPzL4G1zELxIhcJaqPAisJ5V57/Uj7fTsY3jBQuQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Xamarin.Forms.Platform.WinForms\\Xamarin.Forms.Platform.WinForms.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\xamarin.forms\\5.0.0.2012\\xamarin.forms.5.0.0.2012.nupkg.sha512"
+  ],
+  "logs": []
+}

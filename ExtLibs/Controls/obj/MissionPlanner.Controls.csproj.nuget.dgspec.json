@@ -1,0 +1,2195 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Controls\\MissionPlanner.Controls.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\alglibnet\\alglibnet.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\alglibnet\\alglibnet.csproj",
+        "projectName": "alglibnet",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\alglibnet\\alglibnet.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\alglibnet\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj",
+        "projectName": "BSE.Windows.Forms",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461",
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "targetAlias": "net461",
+            "projectReferences": {}
+          },
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "targetAlias": "net461",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "System.Resources.Extensions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "System.Resources.ResourceManager": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        },
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Resources.Extensions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "System.Resources.ResourceManager": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Comms\\MissionPlanner.Comms.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Comms\\MissionPlanner.Comms.csproj",
+        "projectName": "MissionPlanner.Comms",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Comms\\MissionPlanner.Comms.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Comms\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Microsoft.CodeAnalysis.NetAnalyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.Win32.Registry": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "SocketIOClient": {
+              "target": "Package",
+              "version": "[2.0.2.1, )"
+            },
+            "System.AppContext": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.Ports": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Net.NameResolution": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Net.Security": {
+              "target": "Package",
+              "version": "[4.3.2, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.13, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Controls\\MissionPlanner.Controls.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Controls\\MissionPlanner.Controls.csproj",
+        "projectName": "MissionPlanner.Controls",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Controls\\MissionPlanner.Controls.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Controls\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472",
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "targetAlias": "net472",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj"
+              }
+            }
+          },
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\BSE.Windows.Forms\\BSE.Windows.Forms.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "OpenTK.GLControl": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "SkiaSharp.Views.Desktop.Common": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.13, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        },
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "SkiaSharp.Views.Desktop.Common": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.13, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj",
+        "projectName": "GeoUtility",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj",
+        "projectName": "GMap.NET.Core",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "BouncyCastle.Cryptography": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj",
+        "projectName": "GMap.NET.Drawing",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461",
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "targetAlias": "net461",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj"
+              }
+            }
+          },
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "targetAlias": "net461",
+          "dependencies": {
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.7.2, )"
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        },
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj",
+        "projectName": "GMap.NET.WindowsForms",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\GMap.NET.WindowsForms.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.WindowsForms\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461",
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "targetAlias": "net461",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj"
+              }
+            }
+          },
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Drawing\\GMap.NET.Drawing.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "targetAlias": "net461",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        },
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\ICSharpCode.SharpZipLib.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\ICSharpCode.SharpZipLib.csproj",
+        "projectName": "SharpZipLib",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\ICSharpCode.SharpZipLib.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj",
+        "projectName": "Interfaces",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\KMLib\\KMLib.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\KMLib\\KMLib.csproj",
+        "projectName": "KMLib",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\KMLib\\KMLib.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\KMLib\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibTessDotNet\\LibTessDotNet.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibTessDotNet\\LibTessDotNet.csproj",
+        "projectName": "LibTessDotNet",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibTessDotNet\\LibTessDotNet.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibTessDotNet\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibVLC.NET\\LibVLC.NET.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibVLC.NET\\LibVLC.NET.csproj",
+        "projectName": "LibVLC.NET",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibVLC.NET\\LibVLC.NET.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibVLC.NET\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Mavlink\\MAVLink.csproj": {
+      "version": "1.0.7",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Mavlink\\MAVLink.csproj",
+        "projectName": "MAVLink",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Mavlink\\MAVLink.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Mavlink\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.2, )"
+            },
+            "System.Runtime.CompilerServices.Unsafe": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\MetaDataExtractor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\MetaDataExtractor.csproj",
+        "projectName": "MetaDataExtractor",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\MetaDataExtractor.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj",
+        "projectName": "MissionPlanner.Drawing.Common",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\MissionPlanner.Drawing.Common.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj",
+        "projectName": "MissionPlanner.Drawing",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\netDxf\\netDxf.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\netDxf\\netDxf.csproj",
+        "projectName": "netDxf",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\netDxf\\netDxf.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\netDxf\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Font": {
+              "target": "Package",
+              "version": "[0.3.0.3, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ProjNet\\ProjNET.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ProjNet\\ProjNET.csproj",
+        "projectName": "ProjNET",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ProjNet\\ProjNET.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ProjNet\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "GeoAPI.CoordinateSystems": {
+              "target": "Package",
+              "version": "[1.7.5, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpKml\\SharpKml.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpKml\\SharpKml.csproj",
+        "projectName": "SharpKml",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpKml\\SharpKml.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpKml\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "DotNetZip": {
+              "target": "Package",
+              "version": "[1.16.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Text.Encoding.CodePages": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj",
+        "projectName": "SvgNet",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\SvgNet.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SvgNet\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibTessDotNet\\LibTessDotNet.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibTessDotNet\\LibTessDotNet.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.7.2, )"
+            },
+            "System.Runtime.Caching": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj",
+        "projectName": "MissionPlanner.Utilities",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\MissionPlanner.Utilities.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Utilities\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\alglibnet\\alglibnet.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\alglibnet\\alglibnet.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Comms\\MissionPlanner.Comms.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Comms\\MissionPlanner.Comms.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GMap.NET.Core\\GMap.NET.Core.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\ICSharpCode.SharpZipLib.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\ICSharpCode.SharpZipLib.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Interfaces\\Interfaces.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\KMLib\\KMLib.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\KMLib\\KMLib.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibVLC.NET\\LibVLC.NET.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\LibVLC.NET\\LibVLC.NET.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Mavlink\\MAVLink.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Mavlink\\MAVLink.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\MetaDataExtractor.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\MetaDataExtractor.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MissionPlanner.Drawing\\MissionPlanner.Drawing.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\netDxf\\netDxf.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\netDxf\\netDxf.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ProjNet\\ProjNET.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ProjNet\\ProjNET.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpKml\\SharpKml.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpKml\\SharpKml.csproj"
+              },
+              "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Zeroconf\\Zeroconf\\Zeroconf.csproj": {
+                "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Zeroconf\\Zeroconf\\Zeroconf.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "AsyncFixer": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.5.1, )"
+            },
+            "Asyncify": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
+            "BitMiracle.LibTiff.NET": {
+              "target": "Package",
+              "version": "[2.4.584.1, )"
+            },
+            "DotNetZip": {
+              "target": "Package",
+              "version": "[1.16.0, )"
+            },
+            "ExifLibNet": {
+              "target": "Package",
+              "version": "[2.1.3, )"
+            },
+            "Flurl": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "Flurl.Http": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "GeoJSON.Net": {
+              "target": "Package",
+              "version": "[1.1.64, )"
+            },
+            "LibUsbDfu": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "MP.DotSpatial.Projections": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+            },
+            "MathParser.org-mXparser": {
+              "target": "Package",
+              "version": "[4.3.3, )"
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Microsoft.CodeAnalysis.CSharp": {
+              "target": "Package",
+              "version": "[3.9.0, )"
+            },
+            "Microsoft.Extensions.Caching.Memory": {
+              "target": "Package",
+              "version": "[3.1.13, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.2, )"
+            },
+            "SharpCompress": {
+              "target": "Package",
+              "version": "[0.29.0, )"
+            },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[2.80.2, )"
+            },
+            "System.CodeDom": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.ComponentModel": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.ComponentModel.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Drawing.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Memory": {
+              "target": "Package",
+              "version": "[4.5.4, )"
+            },
+            "System.Runtime.Loader": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "WebSocket4Net": {
+              "target": "Package",
+              "version": "[0.15.2, )"
+            },
+            "csmatio": {
+              "target": "Package",
+              "version": "[1.0.20, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.13, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Zeroconf\\Zeroconf\\Zeroconf.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Zeroconf\\Zeroconf\\Zeroconf.csproj",
+        "projectName": "Zeroconf",
+        "projectPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Zeroconf\\Zeroconf\\Zeroconf.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Zeroconf\\Zeroconf\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\.nuget\\NuGet.Config",
+          "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "AsyncFixer": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.5.1, )"
+            },
+            "Asyncify": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Reactive": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

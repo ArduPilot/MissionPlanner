@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\bin\Debug\netstandard2.0\alglibnet.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\bin\Debug\netstandard2.0\alglibnet.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\bin\Debug\netstandard2.0\alglibnet.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\obj\Debug\netstandard2.0\alglibnet.pdb

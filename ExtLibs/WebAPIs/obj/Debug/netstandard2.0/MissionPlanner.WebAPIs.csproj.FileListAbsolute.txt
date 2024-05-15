@@ -1,0 +1,13 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\bin\Debug\netstandard2.0\MissionPlanner.WebAPIs.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\bin\Debug\netstandard2.0\MissionPlanner.WebAPIs.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\bin\Debug\netstandard2.0\MissionPlanner.WebAPIs.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\bin\Debug\netstandard2.0\WebSocket4Net.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionP.81B70F8A.Up2Date
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\obj\Debug\netstandard2.0\MissionPlanner.WebAPIs.pdb

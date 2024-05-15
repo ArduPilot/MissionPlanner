@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\bin\Debug\netstandard2.0\DirectShowLib.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\bin\Debug\netstandard2.0\DirectShowLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\bin\Debug\netstandard2.0\DirectShowLib.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\obj\Debug\netstandard2.0\DirectShowLib.pdb

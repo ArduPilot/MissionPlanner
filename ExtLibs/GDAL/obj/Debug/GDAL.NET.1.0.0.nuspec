@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>GDAL.NET</id>
+    <version>1.0.0</version>
+    <authors>Michael Oborne</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="4603b80155d00d7684c01bc44abe1b1c81417ee9" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="GMap.NET.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="GMap.NET.Drawing" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="MissionPlanner.Drawing" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="MissionPlanner.Utilities" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="GDAL" version="2.3.2" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Common" version="4.7.2" exclude="Build,Analyzers" />
+        <dependency id="log4net" version="2.0.13" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.AppContext" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Collections.Specialized" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.ComponentModel.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Drawing.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Linq" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.NameResolution" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.Security" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.Sockets" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.WebSockets.Client" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.WebSockets" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.Extensions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.InteropServices" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Algorithms" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Encoding" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.X509Certificates" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Text.RegularExpressions" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GDAL\bin\Debug\net472\GDAL.NET.dll" target="lib\net472\GDAL.NET.dll" />
+  </files>
+</package>

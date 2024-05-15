@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\bin\Debug\netstandard2.0\SharpAdbClient.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\bin\Debug\netstandard2.0\SharpAdbClient.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\bin\Debug\netstandard2.0\SharpAdbClient.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpAdbClient\obj\Debug\netstandard2.0\SharpAdbClient.pdb

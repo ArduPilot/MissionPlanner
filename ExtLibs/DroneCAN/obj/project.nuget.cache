@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "wL++aemwu++WUGSKygdPr1UsSdZoodfqtjazAtfmF0bNKD6qYGEzC3q+Zy0oJyV28c7Wb1WkCpfckPg4LVF/Rw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\DroneCAN\\DroneCAN.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

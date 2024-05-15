@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\bin\Debug\netstandard2.0\DroneCAN.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\bin\Debug\netstandard2.0\DroneCAN.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\bin\Debug\netstandard2.0\DroneCAN.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DroneCAN\obj\Debug\netstandard2.0\DroneCAN.pdb

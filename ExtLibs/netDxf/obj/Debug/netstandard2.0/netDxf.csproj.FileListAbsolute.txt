@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\bin\Debug\netstandard2.0\netDxf.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\bin\Debug\netstandard2.0\netDxf.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\bin\Debug\netstandard2.0\netDxf.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\netDxf\obj\Debug\netstandard2.0\netDxf.pdb

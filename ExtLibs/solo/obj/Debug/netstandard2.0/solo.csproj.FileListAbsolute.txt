@@ -1,0 +1,12 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\bin\Debug\netstandard2.0\solo.dll.config
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\bin\Debug\netstandard2.0\solo.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\bin\Debug\netstandard2.0\solo.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\bin\Debug\netstandard2.0\solo.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\solo\obj\Debug\netstandard2.0\solo.pdb

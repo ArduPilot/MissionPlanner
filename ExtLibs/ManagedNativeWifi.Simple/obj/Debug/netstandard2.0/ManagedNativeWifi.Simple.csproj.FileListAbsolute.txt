@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\bin\Debug\netstandard2.0\ManagedNativeWifi.Simple.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\bin\Debug\netstandard2.0\ManagedNativeWifi.Simple.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\bin\Debug\netstandard2.0\ManagedNativeWifi.Simple.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ManagedNativeWifi.Simple\obj\Debug\netstandard2.0\ManagedNativeWifi.Simple.pdb

@@ -1,0 +1,915 @@
+{
+  "version": 2,
+  "dgSpecHash": "QY0vqWG9FkggD17szlDvudGVUIRr9ItRjCWgsNBxyazKlVpYiD68g7FzNePDmiHwgRWAoFAiNOUd2BeJL1EOPg==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\WindowsStore\\WindowsStore.wapproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\accord.imaging\\3.8.0\\accord.imaging.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\accord.machinelearning\\3.8.0\\accord.machinelearning.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\accord.math\\3.8.0\\accord.math.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\accord.statistics\\3.8.0\\accord.statistics.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\accord.video\\3.8.0\\accord.video.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\accord.vision\\3.8.0\\accord.vision.3.8.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\asyncify\\0.9.7\\asyncify.0.9.7.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\bezier\\0.9.3.5\\bezier.0.9.3.5.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\bitmiracle.libtiff.net\\2.4.584.1\\bitmiracle.libtiff.net.2.4.584.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\bouncycastle.cryptography\\2.0.0\\bouncycastle.cryptography.2.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\brutile\\4.0.0\\brutile.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\crc32.net\\1.2.0\\crc32.net.1.2.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\csmatio\\1.0.20\\csmatio.1.0.20.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\deviceprogramming\\1.0.3\\deviceprogramming.1.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\dotnetzip\\1.16.0\\dotnetzip.1.16.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\dynamiclanguageruntime\\1.3.4\\dynamiclanguageruntime.1.3.4.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\exiflibnet\\2.1.3\\exiflibnet.2.1.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\flurl\\3.0.2\\flurl.3.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\flurl.http\\3.2.0\\flurl.http.3.2.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\font\\0.3.0.3\\font.0.3.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\gdal\\2.3.2\\gdal.2.3.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\gdal.native\\2.3.2\\gdal.native.2.3.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\geoapi.coordinatesystems\\1.7.5\\geoapi.coordinatesystems.1.7.5.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\geoapi.core\\1.7.5\\geoapi.core.1.7.5.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\geoidheightsdotnet\\1.0.1\\geoidheightsdotnet.1.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\geojson.net\\1.1.64\\geojson.net.1.1.64.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\ironpython\\3.4.1\\ironpython.3.4.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\ironpython.stdlib\\3.4.1\\ironpython.stdlib.3.4.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\jetbrains.profiler.api\\1.1.7\\jetbrains.profiler.api.1.1.7.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\jetbrains.profiler.selfapi\\2.0.2\\jetbrains.profiler.selfapi.2.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\libusbdfu\\1.0.0\\libusbdfu.1.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\libusbdotnet\\2.2.29\\libusbdotnet.2.2.29.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\log4net\\2.0.13\\log4net.2.0.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mathparser.org-mxparser\\4.3.3\\mathparser.org-mxparser.4.3.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.0.0\\microsoft.codeanalysis.analyzers.3.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.codeanalysis.common\\3.9.0\\microsoft.codeanalysis.common.3.9.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.codeanalysis.csharp\\3.9.0\\microsoft.codeanalysis.csharp.3.9.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.diagnostics.runtime\\1.1.127808\\microsoft.diagnostics.runtime.1.1.127808.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\3.1.13\\microsoft.extensions.caching.abstractions.3.1.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.caching.memory\\3.1.13\\microsoft.extensions.caching.memory.3.1.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.13\\microsoft.extensions.dependencyinjection.abstractions.3.1.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.13\\microsoft.extensions.logging.abstractions.3.1.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.options\\3.1.13\\microsoft.extensions.options.3.1.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.13\\microsoft.extensions.primitives.3.1.13.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.net.native.compiler\\1.7.3\\microsoft.net.native.compiler.1.7.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.net.native.sharedlibrary-arm\\1.7.0\\microsoft.net.native.sharedlibrary-arm.1.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.net.native.sharedlibrary-x64\\1.7.0\\microsoft.net.native.sharedlibrary-x64.1.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.net.native.sharedlibrary-x86\\1.7.0\\microsoft.net.native.sharedlibrary-x86.1.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore\\5.0.2\\microsoft.netcore.5.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.jit\\1.0.3\\microsoft.netcore.jit.1.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.4\\microsoft.netcore.platforms.3.1.4.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.portable.compatibility\\1.0.2\\microsoft.netcore.portable.compatibility.1.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.runtime.coreclr\\1.0.3\\microsoft.netcore.runtime.coreclr.1.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.universalwindowsplatform\\6.0.8\\microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.windows.apisets\\1.0.1\\microsoft.netcore.windows.apisets.1.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.ui.xaml\\2.1.190606001\\microsoft.ui.xaml.2.1.190606001.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.visualbasic\\10.0.1\\microsoft.visualbasic.10.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mono.posix.netstandard\\1.0.0\\mono.posix.netstandard.1.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mono.unix\\7.1.0-final.1.21458.1\\mono.unix.7.1.0-final.1.21458.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mp.dotspatial.data\\4.0.0\\mp.dotspatial.data.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mp.dotspatial.ntsextension\\4.0.0\\mp.dotspatial.ntsextension.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mp.dotspatial.projections\\4.0.0\\mp.dotspatial.projections.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mp.dotspatial.serialization\\4.0.0\\mp.dotspatial.serialization.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\nettopologysuite\\2.4.0\\nettopologysuite.2.4.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\onvif.core\\2.2.2\\onvif.core.2.2.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\opentk\\3.1.0\\opentk.3.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\opentk.glcontrol\\3.1.0\\opentk.glcontrol.3.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\restsharp\\106.12.0\\restsharp.106.12.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.collections\\4.3.0\\runtime.any.system.collections.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.diagnostics.tools\\4.3.0\\runtime.any.system.diagnostics.tools.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.diagnostics.tracing\\4.3.0\\runtime.any.system.diagnostics.tracing.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.globalization\\4.3.0\\runtime.any.system.globalization.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.globalization.calendars\\4.3.0\\runtime.any.system.globalization.calendars.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.io\\4.3.0\\runtime.any.system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.reflection\\4.3.0\\runtime.any.system.reflection.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.reflection.extensions\\4.3.0\\runtime.any.system.reflection.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.reflection.primitives\\4.3.0\\runtime.any.system.reflection.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.resources.resourcemanager\\4.3.0\\runtime.any.system.resources.resourcemanager.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.runtime\\4.3.0\\runtime.any.system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.runtime.handles\\4.3.0\\runtime.any.system.runtime.handles.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.runtime.interopservices\\4.3.0\\runtime.any.system.runtime.interopservices.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.text.encoding\\4.3.0\\runtime.any.system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.text.encoding.extensions\\4.3.0\\runtime.any.system.text.encoding.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.threading.tasks\\4.3.0\\runtime.any.system.threading.tasks.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.any.system.threading.timer\\4.3.0\\runtime.any.system.threading.timer.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.collections\\4.3.0\\runtime.aot.system.collections.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.diagnostics.tools\\4.3.0\\runtime.aot.system.diagnostics.tools.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.diagnostics.tracing\\4.3.0\\runtime.aot.system.diagnostics.tracing.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.globalization\\4.3.0\\runtime.aot.system.globalization.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.globalization.calendars\\4.3.0\\runtime.aot.system.globalization.calendars.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.io\\4.3.0\\runtime.aot.system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.reflection\\4.3.0\\runtime.aot.system.reflection.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.reflection.extensions\\4.3.0\\runtime.aot.system.reflection.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.reflection.primitives\\4.3.0\\runtime.aot.system.reflection.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.resources.resourcemanager\\4.3.0\\runtime.aot.system.resources.resourcemanager.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.runtime\\4.3.0\\runtime.aot.system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.runtime.handles\\4.3.0\\runtime.aot.system.runtime.handles.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.runtime.interopservices\\4.3.0\\runtime.aot.system.runtime.interopservices.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.text.encoding\\4.3.0\\runtime.aot.system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.text.encoding.extensions\\4.3.0\\runtime.aot.system.text.encoding.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.threading.tasks\\4.3.0\\runtime.aot.system.threading.tasks.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.aot.system.threading.timer\\4.3.0\\runtime.aot.system.threading.timer.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\4.7.0\\runtime.linux-arm.runtime.native.system.io.ports.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\4.7.0\\runtime.linux-arm64.runtime.native.system.io.ports.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\4.7.0\\runtime.linux-x64.runtime.native.system.io.ports.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.native.system\\4.0.0\\runtime.native.system.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.native.system.io.compression\\4.3.0\\runtime.native.system.io.compression.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.native.system.io.ports\\4.7.0\\runtime.native.system.io.ports.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\4.7.0\\runtime.osx-x64.runtime.native.system.io.ports.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.microsoft.win32.primitives\\4.3.0\\runtime.win.microsoft.win32.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.system.console\\4.3.0\\runtime.win.system.console.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.system.diagnostics.debug\\4.3.0\\runtime.win.system.diagnostics.debug.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.system.io.filesystem\\4.3.0\\runtime.win.system.io.filesystem.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.system.net.primitives\\4.3.0\\runtime.win.system.net.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.system.net.sockets\\4.3.0\\runtime.win.system.net.sockets.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win.system.runtime.extensions\\4.3.0\\runtime.win.system.runtime.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-arm-aot.microsoft.netcore.universalwindowsplatform\\6.0.8\\runtime.win10-arm-aot.microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-arm-aot.runtime.native.system.io.compression\\4.0.1\\runtime.win10-arm-aot.runtime.native.system.io.compression.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-arm.microsoft.netcore.universalwindowsplatform\\6.0.8\\runtime.win10-arm.microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-arm64.runtime.native.system.io.compression\\4.3.0\\runtime.win10-arm64.runtime.native.system.io.compression.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-x64-aot.microsoft.netcore.universalwindowsplatform\\6.0.8\\runtime.win10-x64-aot.microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-x64-aot.runtime.native.system.io.compression\\4.0.1\\runtime.win10-x64-aot.runtime.native.system.io.compression.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-x64.microsoft.netcore.universalwindowsplatform\\6.0.8\\runtime.win10-x64.microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-x86-aot.microsoft.netcore.universalwindowsplatform\\6.0.8\\runtime.win10-x86-aot.microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-x86-aot.runtime.native.system.io.compression\\4.0.1\\runtime.win10-x86-aot.runtime.native.system.io.compression.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\\6.0.8\\runtime.win10-x86.microsoft.netcore.universalwindowsplatform.6.0.8.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7-x64.microsoft.netcore.jit\\1.0.3\\runtime.win7-x64.microsoft.netcore.jit.1.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7-x64.microsoft.netcore.runtime.coreclr\\1.0.2\\runtime.win7-x64.microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7-x64.runtime.native.system.io.compression\\4.3.0\\runtime.win7-x64.runtime.native.system.io.compression.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7-x86.microsoft.netcore.jit\\1.0.3\\runtime.win7-x86.microsoft.netcore.jit.1.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7-x86.microsoft.netcore.runtime.coreclr\\1.0.2\\runtime.win7-x86.microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7-x86.runtime.native.system.io.compression\\4.3.0\\runtime.win7-x86.runtime.native.system.io.compression.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win7.system.private.uri\\4.3.0\\runtime.win7.system.private.uri.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win8-arm.microsoft.netcore.runtime.coreclr\\1.0.2\\runtime.win8-arm.microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\runtime.win8-arm.runtime.native.system.io.compression\\4.3.0\\runtime.win8-arm.runtime.native.system.io.compression.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\sharpcompress\\0.29.0\\sharpcompress.0.29.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\sharpdx\\4.1.0\\sharpdx.4.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\sharpdx.directinput\\4.1.0\\sharpdx.directinput.4.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\sixlabors.imagesharp\\1.0.3\\sixlabors.imagesharp.1.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\skiasharp\\2.80.2\\skiasharp.2.80.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\skiasharp.nativeassets.linux.nodependencies\\2.80.3\\skiasharp.nativeassets.linux.nodependencies.2.80.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\skiasharp.views\\2.80.2\\skiasharp.views.2.80.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\skiasharp.views.desktop.common\\2.80.2\\skiasharp.views.desktop.common.2.80.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\socketioclient\\2.0.2.1\\socketioclient.2.0.2.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\ssh.net\\2020.0.2\\ssh.net.2020.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\sshnet.security.cryptography\\1.3.0\\sshnet.security.cryptography.1.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\supersocket.clientengine.core\\0.10.0\\supersocket.clientengine.core.0.10.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.collections.concurrent\\4.3.0\\system.collections.concurrent.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.collections.specialized\\4.3.0\\system.collections.specialized.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.componentmodel\\4.3.0\\system.componentmodel.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.componentmodel.annotations\\4.1.0\\system.componentmodel.annotations.4.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.componentmodel.composition\\4.7.0\\system.componentmodel.composition.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.componentmodel.eventbasedasync\\4.3.0\\system.componentmodel.eventbasedasync.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.componentmodel.primitives\\4.3.0\\system.componentmodel.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.componentmodel.typeconverter\\4.3.0\\system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.data.common\\4.1.0\\system.data.common.4.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.data.oledb\\4.7.0\\system.data.oledb.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.contracts\\4.3.0\\system.diagnostics.contracts.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.3.0\\system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.performancecounter\\4.7.0\\system.diagnostics.performancecounter.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.process\\4.1.0\\system.diagnostics.process.4.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.stacktrace\\4.0.2\\system.diagnostics.stacktrace.4.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.tracesource\\4.0.0\\system.diagnostics.tracesource.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.tracing\\4.3.0\\system.diagnostics.tracing.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.drawing.common\\4.7.2\\system.drawing.common.4.7.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.drawing.primitives\\4.3.0\\system.drawing.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.dynamic.runtime\\4.3.0\\system.dynamic.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.globalization.calendars\\4.3.0\\system.globalization.calendars.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.globalization.extensions\\4.3.0\\system.globalization.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.compression\\4.3.0\\system.io.compression.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.compression.zipfile\\4.3.0\\system.io.compression.zipfile.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.filesystem.watcher\\4.0.0\\system.io.filesystem.watcher.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.isolatedstorage\\4.0.1\\system.io.isolatedstorage.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.ports\\4.7.0\\system.io.ports.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.io.unmanagedmemorystream\\4.3.0\\system.io.unmanagedmemorystream.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.linq.parallel\\4.0.1\\system.linq.parallel.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.linq.queryable\\4.3.0\\system.linq.queryable.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.http\\4.3.4\\system.net.http.4.3.4.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.http.rtc\\4.0.1\\system.net.http.rtc.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.nameresolution\\4.3.0\\system.net.nameresolution.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.networkinformation\\4.1.0\\system.net.networkinformation.4.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.primitives\\4.3.0\\system.net.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.requests\\4.0.11\\system.net.requests.4.0.11.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.security\\4.3.2\\system.net.security.4.3.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.sockets\\4.3.0\\system.net.sockets.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.webheadercollection\\4.3.0\\system.net.webheadercollection.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.websockets\\4.3.0\\system.net.websockets.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.net.websockets.client\\4.3.2\\system.net.websockets.client.4.3.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.numerics.vectors.windowsruntime\\4.0.1\\system.numerics.vectors.windowsruntime.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.objectmodel\\4.3.0\\system.objectmodel.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.private.datacontractserialization\\4.3.0\\system.private.datacontractserialization.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.private.servicemodel\\4.5.3\\system.private.servicemodel.4.5.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.private.uri\\4.3.0\\system.private.uri.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reactive\\4.0.0\\system.reactive.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reactive.core\\4.0.0\\system.reactive.core.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reactive.linq\\4.0.0\\system.reactive.linq.4.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.context\\4.0.1\\system.reflection.context.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.dispatchproxy\\4.4.0\\system.reflection.dispatchproxy.4.4.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.emit\\4.3.0\\system.reflection.emit.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.7.0\\system.reflection.emit.ilgeneration.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.emit.lightweight\\4.7.0\\system.reflection.emit.lightweight.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.extensions\\4.3.0\\system.reflection.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.metadata\\5.0.0\\system.reflection.metadata.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.reflection.typeextensions\\4.7.0\\system.reflection.typeextensions.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.resources.extensions\\6.0.0\\system.resources.extensions.6.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.caching\\5.0.0\\system.runtime.caching.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.extensions\\4.3.0\\system.runtime.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.handles\\4.3.0\\system.runtime.handles.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.interopservices\\4.3.0\\system.runtime.interopservices.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.interopservices.runtimeinformation\\4.3.0\\system.runtime.interopservices.runtimeinformation.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.interopservices.windowsruntime\\4.3.0\\system.runtime.interopservices.windowsruntime.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.loader\\4.3.0\\system.runtime.loader.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.numerics\\4.3.0\\system.runtime.numerics.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.serialization.formatters\\4.3.0\\system.runtime.serialization.formatters.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.serialization.json\\4.0.3\\system.runtime.serialization.json.4.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.serialization.primitives\\4.3.0\\system.runtime.serialization.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.serialization.xml\\4.3.0\\system.runtime.serialization.xml.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.windowsruntime\\4.3.0\\system.runtime.windowsruntime.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.runtime.windowsruntime.ui.xaml\\4.0.1\\system.runtime.windowsruntime.ui.xaml.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.claims\\4.3.0\\system.security.claims.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.cryptography.algorithms\\4.3.0\\system.security.cryptography.algorithms.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.cryptography.cng\\4.3.0\\system.security.cryptography.cng.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.cryptography.encoding\\4.3.0\\system.security.cryptography.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.cryptography.primitives\\4.3.0\\system.security.cryptography.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.cryptography.protecteddata\\5.0.0\\system.security.cryptography.protecteddata.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.cryptography.x509certificates\\4.3.0\\system.security.cryptography.x509certificates.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.permissions\\5.0.0\\system.security.permissions.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.principal\\4.3.0\\system.security.principal.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.servicemodel.duplex\\4.8.1\\system.servicemodel.duplex.4.8.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.servicemodel.http\\4.8.1\\system.servicemodel.http.4.8.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.servicemodel.nettcp\\4.8.1\\system.servicemodel.nettcp.4.8.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.servicemodel.primitives\\4.5.3\\system.servicemodel.primitives.4.5.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.servicemodel.security\\4.8.1\\system.servicemodel.security.4.8.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.text.encoding.codepages\\5.0.0\\system.text.encoding.codepages.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.text.encoding.extensions\\4.3.0\\system.text.encoding.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.text.regularexpressions\\4.3.0\\system.text.regularexpressions.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.overlapped\\4.0.1\\system.threading.overlapped.4.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.overlapped\\4.3.0\\system.threading.overlapped.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.tasks.dataflow\\4.6.0\\system.threading.tasks.dataflow.4.6.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.tasks.parallel\\4.3.0\\system.threading.tasks.parallel.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.thread\\4.3.0\\system.threading.thread.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\unofficial.objectlistview\\2.6.0\\unofficial.objectlistview.2.6.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\websocket4net\\0.15.2\\websocket4net.0.15.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\win2d.uwp\\1.20.0\\win2d.uwp.1.20.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\xamarin.essentials\\1.6.1\\xamarin.essentials.1.6.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\xamarin.forms\\5.0.0.2012\\xamarin.forms.5.0.0.2012.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\zlib.net\\1.0.4\\zlib.net.1.0.4.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\mono\\mcs\\class\\System.Windows.Forms\\System.Windows.Forms-net_4_x.csproj",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393",
+        "UAP,Version=v10.0.14393/win10-arm",
+        "UAP,Version=v10.0.14393/win10-arm-aot",
+        "UAP,Version=v10.0.14393/win10-arm64-aot",
+        "UAP,Version=v10.0.14393/win10-x64",
+        "UAP,Version=v10.0.14393/win10-x64-aot",
+        "UAP,Version=v10.0.14393/win10-x86",
+        "UAP,Version=v10.0.14393/win10-x86-aot"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Accord.Imaging 3.8.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Accord.Imaging",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Accord.Video 3.8.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Accord.Video",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Accord.Vision 3.8.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Accord.Vision",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'BouncyCastle.Cryptography 2.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "BouncyCastle.Cryptography",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'BruTile 4.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "BruTile",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'csmatio 1.0.20' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "csmatio",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'DeviceProgramming 1.0.3' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "DeviceProgramming",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'DotNetZip 1.16.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "DotNetZip",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'DynamicLanguageRuntime 1.3.4' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "DynamicLanguageRuntime",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Flurl 3.0.2' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Flurl",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Flurl.Http 3.2.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Flurl.Http",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'GDAL.Native 2.3.2' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "GDAL.Native",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'GeoidHeightsDotNet 1.0.1' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "GeoidHeightsDotNet",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'IronPython 3.4.1' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "IronPython",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'JetBrains.Profiler.SelfApi 2.0.2' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "JetBrains.Profiler.SelfApi",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'LibUsbDfu 1.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "LibUsbDfu",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'LibUsbDotNet 2.2.29' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "LibUsbDotNet",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.CodeAnalysis.Common 3.9.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.CodeAnalysis.Common",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.CodeAnalysis.CSharp 3.9.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.CodeAnalysis.CSharp",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Diagnostics.Runtime 1.1.127808' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Diagnostics.Runtime",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Extensions.Caching.Abstractions 3.1.13' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Extensions.Caching.Abstractions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Extensions.Caching.Memory 3.1.13' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Extensions.Caching.Memory",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Extensions.DependencyInjection.Abstractions 3.1.13' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Extensions.Logging.Abstractions 3.1.13' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Extensions.Logging.Abstractions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Extensions.Options 3.1.13' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Extensions.Options",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Extensions.Primitives 3.1.13' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Extensions.Primitives",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Win32.SystemEvents 4.7.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Win32.SystemEvents",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Mono.Posix.NETStandard 1.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Mono.Posix.NETStandard",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MP.DotSpatial.Data 4.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "MP.DotSpatial.Data",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MP.DotSpatial.NTSExtension 4.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "MP.DotSpatial.NTSExtension",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MP.DotSpatial.Projections 4.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "MP.DotSpatial.Projections",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MP.DotSpatial.Serialization 4.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "MP.DotSpatial.Serialization",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'NetTopologySuite 2.4.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "NetTopologySuite",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Onvif.Core 2.2.2' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Onvif.Core",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'OpenTK 3.1.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "OpenTK",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'OpenTK.GLControl 3.1.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "OpenTK.GLControl",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'RestSharp 106.12.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "RestSharp",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'SharpCompress 0.29.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "SharpCompress",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'SkiaSharp.Views.Desktop.Common 2.80.2' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "SkiaSharp.Views.Desktop.Common",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'SocketIOClient 2.0.2.1' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "SocketIOClient",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.CodeDom 4.7.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.CodeDom",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.ComponentModel.Composition 4.7.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.ComponentModel.Composition",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Configuration.ConfigurationManager 5.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Configuration.ConfigurationManager",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Data.DataSetExtensions 4.5.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Data.DataSetExtensions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Data.OleDb 4.7.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Data.OleDb",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Diagnostics.PerformanceCounter 4.7.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Diagnostics.PerformanceCounter",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Drawing.Common 4.7.2' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Drawing.Common",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.IO.Ports 4.7.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.IO.Ports",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Resources.Extensions 6.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Resources.Extensions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Runtime.Caching 5.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Runtime.Caching",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Runtime.Loader 4.3.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Runtime.Loader",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Security.Permissions 5.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Security.Permissions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Windows.Extensions 5.0.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Windows.Extensions",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Unofficial.ObjectListView 2.6.0' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "Unofficial.ObjectListView",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'zlib.net 1.0.4' was restored using '.NETCoreApp,Version=v3.1, .NETCoreApp,Version=v3.0, .NETCoreApp,Version=v2.0, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, net8.0-windows10.0.17134' instead of the project target framework 'UAP,Version=v10.0.14393'. This package may not be fully compatible with your project.",
+      "libraryId": "zlib.net",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: SkiaSharp from 2.80.3 to 2.80.2. Reference the package directly from the project to select a different version. \r\n WindowsStore -> MissionPlanner -> SkiaSharp.NativeAssets.Linux.NoDependencies 2.80.3 -> SkiaSharp (>= 2.80.3) \r\n WindowsStore -> MissionPlanner -> SkiaSharp (>= 2.80.2)",
+      "libraryId": "SkiaSharp",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393",
+        "UAP,Version=v10.0.14393/win10-arm",
+        "UAP,Version=v10.0.14393/win10-arm-aot",
+        "UAP,Version=v10.0.14393/win10-arm64-aot",
+        "UAP,Version=v10.0.14393/win10-x64",
+        "UAP,Version=v10.0.14393/win10-x64-aot",
+        "UAP,Version=v10.0.14393/win10-x86",
+        "UAP,Version=v10.0.14393/win10-x86-aot"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: System.Drawing.Common from 5.0.0 to 4.7.2. Reference the package directly from the project to select a different version. \r\n WindowsStore -> MissionPlanner -> SvgNet -> System.Runtime.Caching 5.0.0 -> System.Configuration.ConfigurationManager 5.0.0 -> System.Security.Permissions 5.0.0 -> System.Windows.Extensions 5.0.0 -> System.Drawing.Common (>= 5.0.0) \r\n WindowsStore -> MissionPlanner -> System.Drawing.Common (>= 4.7.2)",
+      "libraryId": "System.Drawing.Common",
+      "targetGraphs": [
+        "UAP,Version=v10.0.14393",
+        "UAP,Version=v10.0.14393/win10-arm",
+        "UAP,Version=v10.0.14393/win10-arm-aot",
+        "UAP,Version=v10.0.14393/win10-arm64-aot",
+        "UAP,Version=v10.0.14393/win10-x64",
+        "UAP,Version=v10.0.14393/win10-x64-aot",
+        "UAP,Version=v10.0.14393/win10-x86",
+        "UAP,Version=v10.0.14393/win10-x86-aot"
+      ]
+    }
+  ]
+}

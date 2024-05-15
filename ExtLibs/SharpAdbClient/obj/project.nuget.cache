@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "oasPTUdfow1f8XCuFS/8sFW3P9h4IZW+ovFdTngZ3bqRc6CzZ5+jbLSHPtN8NaKPk5lEf4NQyWvqaozH7BhzIA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\SharpAdbClient\\SharpAdbClient.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\mono.posix.netstandard\\1.0.0\\mono.posix.netstandard.1.0.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

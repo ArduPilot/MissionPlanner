@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)netstandard.library\2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('$(NuGetPackageRoot)netstandard.library\2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+    <Import Project="$(NuGetPackageRoot)xamarin.forms\5.0.0.2012\buildTransitive\Xamarin.Forms.targets" Condition="Exists('$(NuGetPackageRoot)xamarin.forms\5.0.0.2012\buildTransitive\Xamarin.Forms.targets')" />
+    <Import Project="$(NuGetPackageRoot)system.resources.extensions\6.0.0\buildTransitive\net461\System.Resources.Extensions.targets" Condition="Exists('$(NuGetPackageRoot)system.resources.extensions\6.0.0\buildTransitive\net461\System.Resources.Extensions.targets')" />
+    <Import Project="$(NuGetPackageRoot)skiasharp\2.80.2\buildTransitive\net462\SkiaSharp.targets" Condition="Exists('$(NuGetPackageRoot)skiasharp\2.80.2\buildTransitive\net462\SkiaSharp.targets')" />
+    <Import Project="$(NuGetPackageRoot)skiasharp.nativeassets.linux.nodependencies\2.80.3\buildTransitive\net462\SkiaSharp.NativeAssets.Linux.NoDependencies.targets" Condition="Exists('$(NuGetPackageRoot)skiasharp.nativeassets.linux.nodependencies\2.80.3\buildTransitive\net462\SkiaSharp.NativeAssets.Linux.NoDependencies.targets')" />
+  </ImportGroup>
+</Project>

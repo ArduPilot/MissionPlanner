@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "N0jkSewUGV5QBp2YEifr8sxPtPrmZEW9gzVIx8xrSqroKId0kxYBzuTX/SF05I/QkKWkSS8CIbD5HyB+++HiNA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\DriverCleanup\\DriverCleanup.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net472\\1.0.2\\microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

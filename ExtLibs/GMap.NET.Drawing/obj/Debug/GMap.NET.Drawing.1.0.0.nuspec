@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>GMap.NET.Drawing</id>
+    <version>1.0.0</version>
+    <authors>Michael Oborne</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="4603b80155d00d7684c01bc44abe1b1c81417ee9" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="GMap.NET.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Interfaces" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="SvgNet" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Common" version="4.7.2" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="GMap.NET.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Interfaces" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="MissionPlanner.Drawing.Common" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Drawing\bin\Debug\net461\GMap.NET.Drawing.dll" target="lib\net461\GMap.NET.Drawing.dll" />
+    <file src="C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Drawing\bin\Debug\netstandard2.0\GMap.NET.Drawing.dll" target="lib\netstandard2.0\GMap.NET.Drawing.dll" />
+  </files>
+</package>

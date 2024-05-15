@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "nOLw7+/oMB7CILBDfC2BDFlVmIdZkpqJF4hJJuV7ErU1Su/M7wM5LeZts2gSdw80BtFDCZo7IW6iCPPLWVUdvw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\MetaDataExtractorCSharp240d\\MetaDataExtractor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

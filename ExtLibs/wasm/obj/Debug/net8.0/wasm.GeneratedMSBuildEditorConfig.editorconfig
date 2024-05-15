@@ -1,0 +1,67 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = wasm
+build_property.RootNamespace = wasm
+build_property.ProjectDir = C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\wasm\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 3.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\wasm
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/DataFlash.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGF0YUZsYXNoLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/Filetest.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmlsZXRlc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/Firmware.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmlybXdhcmUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/Tlog.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/Websocket.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2Vic29ja2V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Pages/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/source/repos/MissionPlanner_Test-4/ExtLibs/wasm/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = GDAL
+build_property.ProjectDir = C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GDAL\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = Onvif
+build_property.ProjectDir = C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Onvif\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

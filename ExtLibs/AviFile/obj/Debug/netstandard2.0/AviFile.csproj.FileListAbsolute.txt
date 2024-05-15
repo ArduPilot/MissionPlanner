@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\bin\Debug\netstandard2.0\AviFile.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\bin\Debug\netstandard2.0\AviFile.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\bin\Debug\netstandard2.0\AviFile.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\AviFile\obj\Debug\netstandard2.0\AviFile.pdb

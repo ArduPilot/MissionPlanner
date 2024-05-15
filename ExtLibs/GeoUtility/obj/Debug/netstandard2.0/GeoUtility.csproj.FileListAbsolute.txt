@@ -1,0 +1,13 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\bin\Debug\netstandard2.0\GeoUtility.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\bin\Debug\netstandard2.0\GeoUtility.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\bin\Debug\netstandard2.0\GeoUtility.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.Properties.Resources.resources
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.csproj.GenerateResource.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GeoUtility\obj\Debug\netstandard2.0\GeoUtility.pdb

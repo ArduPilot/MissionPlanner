@@ -1,0 +1,14 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\bin\Debug\netstandard2.0\KMLib.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\bin\Debug\netstandard2.0\KMLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\bin\Debug\netstandard2.0\KMLib.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\bin\Debug\netstandard2.0\Core.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\bin\Debug\netstandard2.0\Core.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.csproj.Up2Date
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\KMLib\obj\Debug\netstandard2.0\KMLib.pdb

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "bEDyKppkgDxa5WGlslyyYsA31Eyvl7dp3L10OTz879GzUYnL0g6eoSE6gRtaK+COe5abRFB1R4Smygsjj17mag==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\AviFile\\AviFile.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\system.drawing.common\\4.7.2\\system.drawing.common.4.7.2.nupkg.sha512"
+  ],
+  "logs": []
+}

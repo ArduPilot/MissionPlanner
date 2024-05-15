@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = DirectShowLib
+build_property.ProjectDir = C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DirectShowLib\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

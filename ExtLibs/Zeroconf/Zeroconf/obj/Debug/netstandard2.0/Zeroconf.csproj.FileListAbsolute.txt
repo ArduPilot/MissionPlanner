@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\bin\Debug\netstandard2.0\Zeroconf.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\bin\Debug\netstandard2.0\Zeroconf.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\bin\Debug\netstandard2.0\Zeroconf.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Zeroconf\Zeroconf\obj\Debug\netstandard2.0\Zeroconf.pdb

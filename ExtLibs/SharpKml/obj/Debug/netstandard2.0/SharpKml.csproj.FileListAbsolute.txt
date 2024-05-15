@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\bin\Debug\netstandard2.0\SharpKml.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\bin\Debug\netstandard2.0\SharpKml.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\bin\Debug\netstandard2.0\SharpKml.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\SharpKml\obj\Debug\netstandard2.0\SharpKml.pdb

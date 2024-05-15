@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "8TzalKmzXBL4N5vHz2Au45p3pXpIoEM5f5gJuVDb15g1b4Bnm6x4AGcb9VEdJdsU4EYyqoDtgzlKlsMMjehz1w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\GeoUtility\\GeoUtility.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

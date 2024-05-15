@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "hsN5ef8mL9yvOKM6bLPWNjewlJivVtexI8DazPiY587B0QY26HDGp2hT44M7AsQx9JFKFuwQQ+uP6jwMuj2X5Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\Core\\Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "dxIhsEuRA15PQbhgx7y8FXgqmY+hpGpsEOEQzKmRVOcuRc9fvzdYl2z0RJE0c5mBOi6yoaNqI9iJZGtKRUKFRQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ICSharpCode.SharpZipLib\\ICSharpCode.SharpZipLib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

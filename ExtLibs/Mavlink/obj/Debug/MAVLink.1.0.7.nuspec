@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MAVLink</id>
+    <version>1.0.7</version>
+    <authors>Michael Oborne</authors>
+    <description>MAVLink 1/2 for Ardupilot</description>
+    <copyright>Michael Oborne</copyright>
+    <repository type="Git" url="https://github.com/ArduPilot/MissionPlanner/tree/master/ExtLibs/Mavlink" commit="4603b80155d00d7684c01bc44abe1b1c81417ee9" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Mavlink\bin\Debug\netstandard2.0\MAVLink.dll" target="lib\netstandard2.0\MAVLink.dll" />
+  </files>
+</package>

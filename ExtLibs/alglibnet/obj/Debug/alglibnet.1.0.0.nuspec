@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>alglibnet</id>
+    <version>1.0.0</version>
+    <authors>alglibnet</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="4603b80155d00d7684c01bc44abe1b1c81417ee9" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\alglibnet\bin\Debug\netstandard2.0\alglibnet.dll" target="lib\netstandard2.0\alglibnet.dll" />
+  </files>
+</package>

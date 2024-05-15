@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\bin\Debug\netstandard2.0\LibVLC.NET.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\bin\Debug\netstandard2.0\LibVLC.NET.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\bin\Debug\netstandard2.0\LibVLC.NET.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibVLC.NET\obj\Debug\netstandard2.0\LibVLC.NET.pdb

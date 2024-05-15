@@ -1,0 +1,16 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\bin\Debug\netstandard2.0\MissionPlanner.Drawing.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\bin\Debug\netstandard2.0\MissionPlanner.Drawing.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\bin\Debug\netstandard2.0\MissionPlanner.Drawing.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\bin\Debug\netstandard2.0\Interfaces.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\bin\Debug\netstandard2.0\Interfaces.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\System.Drawing.Resource.resources
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.csproj.GenerateResource.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionP.08246401.Up2Date
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MissionPlanner.Drawing\obj\Debug\netstandard2.0\MissionPlanner.Drawing.pdb

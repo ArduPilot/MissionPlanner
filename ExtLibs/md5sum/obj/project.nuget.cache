@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "nuPM1uHggAHCsNSeGcpFW7AH6UX/jsY0aD7fjVUD8tLPGJd9p3isbNZNoe4yzwtwHdeAUv0VahL4CIcRbwIe4A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\md5sum\\md5sum.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net472\\1.0.2\\microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

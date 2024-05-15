@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "GiJ7OmrxTEq7e2ModxDEMx8TStK6vGXH2ELWH4eAfxkNgLfekWmAMzuRj8AA3wPvUV54l4x/P8wBevw8gzwu2g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\MissionPlanner_Test-4\\ExtLibs\\ManagedNativeWifi.Simple\\ManagedNativeWifi.Simple.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

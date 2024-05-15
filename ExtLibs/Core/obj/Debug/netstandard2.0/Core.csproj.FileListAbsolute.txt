@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\bin\Debug\netstandard2.0\Core.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\bin\Debug\netstandard2.0\Core.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\bin\Debug\netstandard2.0\Core.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Core\obj\Debug\netstandard2.0\Core.pdb

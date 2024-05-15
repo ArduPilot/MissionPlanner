@@ -1,0 +1,19 @@
+{
+  "name": "icm 20948",
+  "scan": [
+    {
+      "name": "gyro",
+      "device": "icm20948",
+      "query": "0x0000",
+      "length": 1,
+      "responce": [ "0xea" ]
+    },
+    {
+      "name": "gyro",
+      "device": "icm20948_ext",
+      "query": "0x0000",
+      "length": 1,
+      "responce": [ "0xea" ]
+    }
+  ]
+}

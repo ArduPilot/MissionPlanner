@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\bin\Debug\netstandard2.0\Interfaces.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\bin\Debug\netstandard2.0\Interfaces.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\bin\Debug\netstandard2.0\Interfaces.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Interfaces\obj\Debug\netstandard2.0\Interfaces.pdb

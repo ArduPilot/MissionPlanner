@@ -1,0 +1,14 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\bin\Debug\netstandard2.0\WebCamService.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\bin\Debug\netstandard2.0\WebCamService.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\bin\Debug\netstandard2.0\WebCamService.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\bin\Debug\netstandard2.0\DirectShowLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\bin\Debug\netstandard2.0\DirectShowLib.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamSe.6871B1D6.Up2Date
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebCamService\obj\Debug\netstandard2.0\WebCamService.pdb

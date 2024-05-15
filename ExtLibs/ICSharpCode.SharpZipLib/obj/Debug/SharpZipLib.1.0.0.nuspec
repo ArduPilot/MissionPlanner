@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>SharpZipLib</id>
+    <version>1.0.0</version>
+    <authors>ICSharpCode</authors>
+    <licenseUrl>https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/icsharpcode/SharpZipLib</projectUrl>
+    <description>SharpZipLib (#ziplib, formerly NZipLib) is a compression library for Zip, GZip, BZip2, and Tar written entirely in C# for .NET. It is implemented as an assembly (installable in the GAC), and thus can easily be incorporated into other projects (in any .NET language)</description>
+    <releaseNotes>This is the first stable release for v1.0
+
+Please see https://github.com/icsharpcode/SharpZipLib/wiki/Release-1.0 for more information.</releaseNotes>
+    <copyright>Copyright © 2000-2018 SharpZipLib Contributors</copyright>
+    <tags>Compression Library Zip GZip BZip2 LZW Tar</tags>
+    <repository type="git" url="https://github.com/icsharpcode/SharpZipLib" commit="4603b80155d00d7684c01bc44abe1b1c81417ee9" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\bin\Debug\netstandard2.0\ICSharpCode.SharpZipLib.dll" target="lib\netstandard2.0\ICSharpCode.SharpZipLib.dll" />
+  </files>
+</package>

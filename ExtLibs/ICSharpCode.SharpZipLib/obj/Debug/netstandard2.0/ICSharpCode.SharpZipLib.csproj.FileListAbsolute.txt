@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\bin\Debug\netstandard2.0\ICSharpCode.SharpZipLib.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\bin\Debug\netstandard2.0\ICSharpCode.SharpZipLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\bin\Debug\netstandard2.0\ICSharpCode.SharpZipLib.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\ICSharpCode.SharpZipLib\obj\Debug\netstandard2.0\ICSharpCode.SharpZipLib.pdb

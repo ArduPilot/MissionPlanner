@@ -1,0 +1,76 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "MissionPlanner.Strings/1.0.0": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "MissionPlanner.Strings.dll": {}
+        },
+        "resources": {
+          "az-Latn-AZ/MissionPlanner.Strings.resources.dll": {
+            "locale": "az-Latn-AZ"
+          },
+          "de-DE/MissionPlanner.Strings.resources.dll": {
+            "locale": "de-DE"
+          },
+          "id-ID/MissionPlanner.Strings.resources.dll": {
+            "locale": "id-ID"
+          },
+          "ja-JP/MissionPlanner.Strings.resources.dll": {
+            "locale": "ja-JP"
+          },
+          "ko-KR/MissionPlanner.Strings.resources.dll": {
+            "locale": "ko-KR"
+          },
+          "pt/MissionPlanner.Strings.resources.dll": {
+            "locale": "pt"
+          },
+          "ru-KZ/MissionPlanner.Strings.resources.dll": {
+            "locale": "ru-KZ"
+          },
+          "tr/MissionPlanner.Strings.resources.dll": {
+            "locale": "tr"
+          },
+          "zh-Hans/MissionPlanner.Strings.resources.dll": {
+            "locale": "zh-Hans"
+          }
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "NETStandard.Library/2.0.3": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MissionPlanner.Strings/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    }
+  }
+}

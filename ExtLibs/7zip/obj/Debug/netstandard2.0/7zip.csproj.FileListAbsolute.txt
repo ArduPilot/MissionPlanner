@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\bin\Debug\netstandard2.0\7zip.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\bin\Debug\netstandard2.0\7zip.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\bin\Debug\netstandard2.0\7zip.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\7zip\obj\Debug\netstandard2.0\7zip.pdb

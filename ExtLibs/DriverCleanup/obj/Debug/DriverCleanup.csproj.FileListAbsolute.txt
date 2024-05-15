@@ -1,0 +1,9 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\Drivers\DriverCleanup.exe.config
+C:\Users\user\source\repos\MissionPlanner_Test-4\Drivers\DriverCleanup.exe
+C:\Users\user\source\repos\MissionPlanner_Test-4\Drivers\DriverCleanup.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DriverCleanup\obj\Debug\DriverCleanup.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DriverCleanup\obj\Debug\DriverCleanup.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DriverCleanup\obj\Debug\DriverCleanup.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DriverCleanup\obj\Debug\DriverCleanup.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DriverCleanup\obj\Debug\DriverCleanup.exe
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\DriverCleanup\obj\Debug\DriverCleanup.pdb

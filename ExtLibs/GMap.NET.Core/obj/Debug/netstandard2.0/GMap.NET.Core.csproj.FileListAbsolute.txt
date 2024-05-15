@@ -1,0 +1,16 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\bin\Debug\netstandard2.0\GMap.NET.Core.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\bin\Debug\netstandard2.0\GMap.NET.Core.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\bin\Debug\netstandard2.0\GMap.NET.Core.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\bin\Debug\netstandard2.0\zh-Hans\GMap.NET.Core.resources.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.Resources.Strings.resources
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.Resources.Strings.zh-Hans.resources
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.csproj.GenerateResource.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\zh-Hans\GMap.NET.Core.resources.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\GMap.NET.Core\obj\Debug\netstandard2.0\GMap.NET.Core.pdb

@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\bin\Debug\netstandard2.0\LibTessDotNet.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\bin\Debug\netstandard2.0\LibTessDotNet.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\bin\Debug\netstandard2.0\LibTessDotNet.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\LibTessDotNet\obj\Debug\netstandard2.0\LibTessDotNet.pdb

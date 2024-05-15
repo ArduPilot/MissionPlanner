@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = MissionPlanner.WebAPIs
+build_property.ProjectDir = C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\WebAPIs\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -1,0 +1,14 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\bin\Debug\netstandard2.0\MissionPlanner.Comms.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\bin\Debug\netstandard2.0\MissionPlanner.Comms.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\bin\Debug\netstandard2.0\MissionPlanner.Comms.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\bin\Debug\netstandard2.0\Interfaces.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\bin\Debug\netstandard2.0\Interfaces.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionP.D747121F.Up2Date
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Comms\obj\Debug\netstandard2.0\MissionPlanner.Comms.pdb

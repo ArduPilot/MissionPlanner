@@ -1,0 +1,14 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\bin\Debug\netstandard2.0\exif.xslt
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\bin\Debug\netstandard2.0\MetadataExtractor.dtd
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\bin\Debug\netstandard2.0\MetadataExtractorNew.dtd
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\bin\Debug\netstandard2.0\MetaDataExtractor.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\bin\Debug\netstandard2.0\MetaDataExtractor.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\bin\Debug\netstandard2.0\MetaDataExtractor.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\MetaDataExtractorCSharp240d\obj\Debug\netstandard2.0\MetaDataExtractor.pdb

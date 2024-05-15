@@ -1,0 +1,16 @@
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\Arduino.deps.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\Arduino.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\Arduino.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\Interfaces.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\MissionPlanner.Comms.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\MissionPlanner.Comms.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\bin\Debug\netstandard2.0\Interfaces.pdb
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.AssemblyInfo.cs
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.sourcelink.json
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.csproj.Up2Date
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.dll
+C:\Users\user\source\repos\MissionPlanner_Test-4\ExtLibs\Arduino\obj\Debug\netstandard2.0\Arduino.pdb
