@@ -3260,8 +3260,6 @@ namespace MissionPlanner
 
         /// <summary>
         /// adsb periodic send thread
-        /// TODO: Set distance, delay & num planes in settings
-
         /// </summary>
         private async void ADSBRunner()
         {

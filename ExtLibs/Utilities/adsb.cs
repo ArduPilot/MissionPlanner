@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MissionPlanner.Utilities.rtcm3;
 using Flurl.Http;
+using System.Diagnostics;
 
 namespace MissionPlanner.Utilities
 {
@@ -37,10 +38,18 @@ namespace MissionPlanner.Utilities
         static bool run = false;
         static Thread thisthread;
 
+        /// <summary>
+        /// The server to connect to for ADS-B data. If this is set to a URL, the API will be used, otherwise if it's an IP or hostname, a direct connection will be attempted.
+        /// </summary>
         public static string server = "";
+        /// <summary>
+        /// The port to connect to for ADS-B data. If server is a URL, this is ignored.
+        /// </summary>
         public static int serverport = 0;
-
-        private static int adsbexchangerange = 100;
+        /// <summary>
+        /// Radius in nm to request planes from the API
+        /// </summary>
+        private static int httpRequestRadius = 100;
 
         /// <summary>
         /// Multiplication constant to convert knots to cm/s
@@ -59,15 +68,24 @@ namespace MissionPlanner.Utilities
         /// These are all localhost, so we can be pretty short.
         /// </summary>
         private const int CONNECT_TIMEOUT_MILLISECONDS = 25;
+
         /// <summary>
-        /// Application version string for user agents - set by MainV2.cs
+        /// Loop delay in milliseconds for ADS-B connections to HTTP API endpoints.
+        /// </summary>
+        private const int API_LOOP_DELAY_MILLISECONDS = 1000;
+
+        /// <summary>
+        /// Maximum loop delay in milliseconds for ADS-B connections to HTTP API endpoints.
+        /// </summary>
+        private const int API_LOOP_DELAY_MAX_MILLISECONDS = 10000;
+
+        /// <summary>
+        /// Application version string for HTTP user agents - set by MainV2.cs
         /// </summary>
         public static string ApplicationVersion { get; set; }
 
         public adsb()
         {
-            log.Info("adsb ctor");
-
             thisthread = new Thread(TryConnect);
 
             thisthread.Name = "ADSB reader thread";
@@ -100,11 +118,10 @@ namespace MissionPlanner.Utilities
 
             while (run)
             {
-                log.Info("adsb connect loop");
-                //custom
                 try
                 {
-                    if (!String.IsNullOrEmpty(server))
+                    // if we have a server string that's not an HTTP(S) URL, try to connect to it
+                    if (!String.IsNullOrEmpty(server) && !server.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                     {
                         using (TcpClient cl = new TcpClient())
                         {
@@ -117,6 +134,96 @@ namespace MissionPlanner.Utilities
                     }
                 }
                 catch (Exception ex) { log.Error(ex); }
+
+                // HTTP API
+                try
+                {
+                    if (!String.IsNullOrEmpty(server) && server.StartsWith("http", StringComparison.InvariantCultureIgnoreCase) && CurrentPosition != PointLatLngAlt.Zero)
+                    {
+                        // ADSB Exchange API format - see https://api.adsb.lol/docs
+                        string url = "{0}/v2/point/{1}/{2}/{3}";
+                        Download.RequestModification += (u, request) => {
+                            // for future use if necessary: request.Headers.Add("X-API-Auth", "example");
+                            request.SetHeader("User-Agent", "Mission-Planner/" + ApplicationVersion);
+                        };
+                        var delay = API_LOOP_DELAY_MILLISECONDS;
+
+                        while (true)
+                        {
+                            // Store start time
+                            var timer = Stopwatch.StartNew();
+
+                            string formattedUrl = string.Format(url, server, CurrentPosition.Lat, CurrentPosition.Lng, httpRequestRadius);
+                            var t = Download.GetAsyncWithStatus(formattedUrl);
+                            t.Wait();
+
+                            // Check for long running requests
+                            if (timer.ElapsedMilliseconds > 5000)
+                            {
+                                log.Warn("Long running request: " + formattedUrl + " took " + timer.ElapsedMilliseconds + "ms");
+                            }
+
+                            if (!t.IsFaulted && t.Result.status == System.Net.HttpStatusCode.OK)
+                            {
+                                var result = JsonConvert.DeserializeObject<RootObject>(t.Result.content);
+
+                                // Increase range if we don't see many planes
+                                if (result.ac.Count < 10)
+                                    httpRequestRadius = Math.Min(httpRequestRadius + 10, 250);
+
+                                foreach (var ac in result.ac)
+                                {
+                                    // The API sometimes sets this value to either the string "ground" or a JSON Number. This handles that.
+                                    int alt = 0;
+                                    if (ac.alt_baro is long intValue)
+                                    {
+                                        alt = (int)intValue;
+                                    }
+                                    PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
+                                        ac.lon,
+                                        alt * FEET_TO_METERS,
+                                        (float)ac.track,
+                                        ac.gs * KNOTS_TO_CMS,
+                                        ac.hex.Trim().ToUpper(),
+                                        DateTime.Now)
+                                    {
+                                        VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
+                                        CallSign = (ac.flight ?? "").Trim().ToUpper(),
+                                        Squawk = Convert.ToUInt16(ac.squawk, 16) // Convert the hex value back to a raw uint16
+                                    };
+
+                                    UpdatePlanePosition(this, plane);
+                                }
+                            }
+                            // Check HTTP response code for rate limiting
+                            if (!t.IsFaulted && (int)t.Result.status == 429)
+                            {
+                                delay = Math.Min(delay * 2, API_LOOP_DELAY_MAX_MILLISECONDS);
+                                log.Info("Rate limited, increasing delay to " + delay + "ms");
+                            }
+                            else
+                            {
+                                // Check HTTP response code for bad requests, etc.
+                                if (!t.IsFaulted && (int)t.Result.status != 200)
+                                {
+                                    delay = Math.Min(delay * 2, API_LOOP_DELAY_MAX_MILLISECONDS);
+                                    log.Warn("HTTP request to " + formattedUrl + " failed: " + t.Result.status + " " + t.Result.content);
+                                }
+                            }
+
+                            // Sleep for the remainder of the loop delay
+                            var elapsed = timer.ElapsedMilliseconds;
+                            if (elapsed < delay)
+                            {
+                                Thread.Sleep(delay - (int)elapsed);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    log.Warn(e);
+                }
 
                 // dump1090 sbs
                 try
@@ -220,57 +327,6 @@ namespace MissionPlanner.Utilities
                 }
                 catch (Exception) {  }
 
-                // adsbexchange
-                try
-                {
-                    if (CurrentPosition != PointLatLngAlt.Zero)
-                    {
-                        string url = "https://api.adsb.one/v2/point/{0}/{1}/{2}";
-                        Download.RequestModification += (u, request) => {
-                            request.Headers.Add("X-API-Auth", server);
-                            request.SetHeader("User-Agent", "Mission-Planner/" + ApplicationVersion);
-                        };
-                        var t = Download.GetAsync(String.Format(url, CurrentPosition.Lat, CurrentPosition.Lng, adsbexchangerange));
-                        t.Wait();
-
-                        if (!t.IsFaulted)
-                        {
-                            var result = JsonConvert.DeserializeObject<RootObject>(t.Result);
-
-                            // Increase range if we don't see many planes
-                            if (result.ac.Count < 10)
-                                adsbexchangerange = Math.Min(adsbexchangerange + 10, 250);
-
-                            foreach (var ac in result.ac)
-                            {
-                                // The API sometimes sets this value to either the string "ground" or a JSON Number. This handles that.
-                                int alt = 0;
-                                if (ac.alt_baro is long intValue)
-                                {
-                                    alt = (int)intValue;
-                                }
-                                PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
-                                    ac.lon,
-                                    alt * FEET_TO_METERS,
-                                    (float)ac.track,
-                                    ac.gs * KNOTS_TO_CMS,
-                                    ac.hex.Trim().ToUpper(),
-                                    DateTime.Now)
-                                {
-                                    VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
-                                    CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                    Squawk = Convert.ToUInt16(ac.squawk, 16) // Convert the hex value back to a raw uint16
-                                };
-
-                                UpdatePlanePosition(this, plane);
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    log.Warn(e);
-                }
 
                 // cleanup any sockets that might be outstanding.
                 GC.Collect();
@@ -279,19 +335,6 @@ namespace MissionPlanner.Utilities
 
             log.Info("adsb thread exit");
         }
-
-        private void Download_RequestModification(object sender, System.Net.Http.HttpRequestMessage e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public class Feed
-        {
-            public int id { get; set; }
-            public string name { get; set; }
-            public bool polarPlot { get; set; }
-        }
-
         public class Ac
         {
             public string hex { get; set; }
@@ -348,7 +391,9 @@ namespace MissionPlanner.Utilities
             public int ptime { get; set; }
         }
 
-
+        /// <summary>
+        /// Our table of planes currently being tracked
+        /// </summary>
         static Hashtable Planes = new Hashtable();
 
         public class Plane
