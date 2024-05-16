@@ -59,6 +59,9 @@ namespace MissionPlanner.Utilities
         public Boolean displayTelemetryTab { get; set; }
         public Boolean displayDataflashTab { get; set; }
         public Boolean displayMessagesTab { get; set; }
+        public Boolean displayTransponderTab { get; set; }
+        public Boolean displayAuxFunctionTab { get; set; }
+        public Boolean displayPayloadTab { get; set; }
 
         //flight plan
         public Boolean displayRallyPointsMenu { get; set; }
@@ -100,10 +103,12 @@ namespace MissionPlanner.Utilities
 
 
         //config tuning
+        public Boolean displayGeoFence { get; set; }
         public Boolean displayBasicTuning { get; set; }
         public Boolean displayExtendedTuning { get; set; }
         public Boolean displayStandardParams { get; set; }
         public Boolean displayAdvancedParams { get; set; }
+        public Boolean displayMavFTP { get; set; }
         public Boolean displayFullParamList { get; set; }
         public Boolean displayFullParamTree { get; set; }
         public Boolean displayParamCommitButton { get; set; }
@@ -113,6 +118,7 @@ namespace MissionPlanner.Utilities
         public Boolean autoHideMenuForce { get; set; }
         public Boolean displayInitialParams { get; set; }
         public bool isAdvancedMode { get; set; }
+        public Boolean displayREPL { get; set; }
         public bool displayServoOutput { get; set; } = true;
         public bool displayJoystick { get; set; } = true;
         public bool displayOSD { get; set; } = true;
@@ -129,11 +135,9 @@ namespace MissionPlanner.Utilities
             // default to basic.
             //also when a new field is added/created this defines the template for missing options
             displayName = DisplayNames.Basic;
-            
 
             //MainV2 buttons
             displaySimulation = false;
-            displayTerminal = false;
             displayDonate = true;
             displayHelp = true;
 
@@ -150,6 +154,9 @@ namespace MissionPlanner.Utilities
             displayTelemetryTab = true;
             displayDataflashTab = true;
             displayMessagesTab = true;
+            displayTransponderTab = true;
+            displayAuxFunctionTab = true;
+            displayPayloadTab = true;
 
             //flight plan
             displayRallyPointsMenu = true;
@@ -192,13 +199,16 @@ namespace MissionPlanner.Utilities
             displayRTKInject = true;
             displayJoystick = true;
             displaySerialPorts = true;
-
+            displayREPL = true;
+            displayTerminal = true;
 
             //config tuning
+            displayGeoFence = true;
             displayBasicTuning = true;
             displayExtendedTuning = true;
             displayStandardParams = false;
             displayAdvancedParams = false;
+            displayMavFTP = true;
             displayFullParamList = true;
             displayFullParamTree = true;
             displayParamCommitButton = false;
@@ -261,7 +271,6 @@ namespace MissionPlanner.Utilities
                 displayName = DisplayNames.Basic,
                 //MainV2 buttons
                 displaySimulation = true,
-                displayTerminal = false,
                 displayDonate = true,
                 displayHelp = true,
 
@@ -278,13 +287,16 @@ namespace MissionPlanner.Utilities
                 displayTelemetryTab = true,
                 displayDataflashTab = true,
                 displayMessagesTab = true,
+                displayTransponderTab = true,
+                displayAuxFunctionTab = true,
+                displayPayloadTab = true,
 
                 //flight plan
                 displayRallyPointsMenu = true,
                 displayGeoFenceMenu = true,
                 displaySplineCircleAutoWp = true,
-                displayCircleSurveyAutoWp = true,
                 displayTextAutoWp = true,
+                displayCircleSurveyAutoWp = true,
                 displayPoiMenu = true,
                 displayTrackerHomeMenu = true,
                 displayCheckHeightBox = true,
@@ -318,13 +330,16 @@ namespace MissionPlanner.Utilities
                 displayAntennaTracker = true,
                 displayRTKInject = true,
                 displayJoystick = true,
+                displayREPL = true,
+                displayTerminal = false,
 
-
-                 //config tuning
+                //config tuning
+                displayGeoFence = true,
                 displayBasicTuning = true,
                 displayExtendedTuning = true,
                 displayStandardParams = false,
                 displayAdvancedParams = false,
+                displayMavFTP = true,
                 displayFullParamList = true,
                 displayFullParamTree = true,
                 displayParamCommitButton = false,
@@ -343,7 +358,6 @@ namespace MissionPlanner.Utilities
                 displayName = DisplayNames.Advanced,
                 //MainV2 buttons
                 displaySimulation = true,
-                displayTerminal = true,
                 displayDonate = true,
                 displayHelp = true,
 
@@ -360,6 +374,9 @@ namespace MissionPlanner.Utilities
                 displayTelemetryTab = true,
                 displayDataflashTab = true,
                 displayMessagesTab = true,
+                displayTransponderTab = true,
+                displayAuxFunctionTab = true,
+                displayPayloadTab = true,
 
                 //flight plan
                 displayRallyPointsMenu = true,
@@ -400,19 +417,22 @@ namespace MissionPlanner.Utilities
                 displayAntennaTracker = true,
                 displayRTKInject = true,
                 displayJoystick = true,
-
+                displayREPL = true,
+                displayTerminal = true,
 
                 //config tuning
+                displayGeoFence = true,
                 displayBasicTuning = true,
                 displayExtendedTuning = true,
                 displayStandardParams = false,
                 displayAdvancedParams = false,
+                displayMavFTP = true,
                 displayFullParamList = true,
                 displayFullParamTree = true,
                 displayParamCommitButton = false,
                 displayBaudCMB = true,
                 displaySerialPortCMB = true,
-                standardFlightModesOnly =  false,
+                standardFlightModesOnly = false,
                 displayOSD = true,
                 autoHideMenuForce = false,
                 isAdvancedMode = true

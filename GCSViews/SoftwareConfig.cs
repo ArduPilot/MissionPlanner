@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
@@ -63,7 +63,12 @@ namespace MissionPlanner.GCSViews
                     if (MainV2.comPort.BaseStream.IsOpen)
                     {
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                            AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
+                        {
+                            if (MainV2.DisplayConfiguration.displayGeoFence)
+                            {
+                                AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
+                            }
+                        }
 
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                         {
@@ -80,8 +85,15 @@ namespace MissionPlanner.GCSViews
 
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                         {
-                            start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
-                            AddBackstageViewPage(typeof(ConfigArducopter), "QP " + Strings.ExtendedTuning);
+                            if (MainV2.DisplayConfiguration.displayBasicTuning)
+                            {
+                                start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
+                            }
+
+                            if (MainV2.DisplayConfiguration.displayExtendedTuning)
+                            {
+                                AddBackstageViewPage(typeof(ConfigArducopter), "QP " + Strings.ExtendedTuning);
+                            }
                         }
 
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
@@ -109,8 +121,13 @@ namespace MissionPlanner.GCSViews
                             AddBackstageViewPage(typeof(ConfigOSD), Strings.OnboardOSD);
                         }
 
-                        if ((MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
-                            AddBackstageViewPage(typeof(MavFTPUI), Strings.MAVFtp);
+                        if (MainV2.DisplayConfiguration.displayMavFTP)
+                        {
+                            if ((MainV2.comPort.MAV.cs.capabilities & (int)MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+                            {
+                                AddBackstageViewPage(typeof(MavFTPUI), Strings.MAVFtp);
+                            }
+                        }
 
                         if (MainV2.DisplayConfiguration.displayUserParam)
                         {

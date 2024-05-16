@@ -736,12 +736,28 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     var buffer = getHeartBeat();
                     if (buffer.Length > 0)
                     {
-                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
-
-                        // no GCS's and no broadcast compid's (ping adsb)
-                        if (hb.type != (byte) MAV_TYPE.GCS && buffer.compid != 0)
+                        if (buffer.msgid == (ulong)MAVLINK_MSG_ID.HEARTBEAT)
                         {
-                            hbhistory.Add(buffer);
+                            mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
+
+                            // no GCS's and no broadcast compid's (ping adsb)
+                            if (hb.type != (byte)MAV_TYPE.GCS && buffer.compid != 0)
+                            {
+                                hbhistory.Add(buffer);
+                            }
+                        }
+                        else if (buffer.msgid == (ulong)MAVLINK_MSG_ID.HIGH_LATENCY2)
+                        {
+                            mavlink_high_latency2_t hl = buffer.ToStructure<mavlink_high_latency2_t>();
+                            // no GCS's and no broadcast compid's (ping adsb)
+                            if (hl.type != (byte)MAV_TYPE.GCS && buffer.compid != 0)
+                            {
+                                hbhistory.Add(buffer);
+                            }
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
 
@@ -788,7 +804,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             // preference compid of 1, failover to anything that we have seen 4 times
                             if (seentimes >= 2 && msg.compid == 1 || seentimes >= 4)
                             {
-                                SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
+                                if (msg.msgid == (ulong)MAVLINK_MSG_ID.HEARTBEAT)
+                                    SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
+                                if (msg.msgid == (ulong)MAVLINK_MSG_ID.HIGH_LATENCY2)
+                                    SetupMavConnect(msg, (mavlink_high_latency2_t)msg.data);
                                 sysidcurrent = msg.sysid;
                                 compidcurrent = msg.compid;
                                 log.Info($"HB Selection {sysidcurrent}-{compidcurrent} seen {seentimes}");

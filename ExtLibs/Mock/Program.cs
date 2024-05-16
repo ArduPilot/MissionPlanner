@@ -47,15 +47,32 @@ namespace Mock
                     continue;
                 }
 
-                var sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT,
-                    new MAVLink.mavlink_heartbeat_t()
-                    {
-                        autopilot = (byte) MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA,
-                        base_mode = (byte) MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED,
-                        system_status = (byte) MAVLink.MAV_STATE.ACTIVE,
-                        type = (byte) MAVLink.MAV_TYPE.QUADROTOR
-                    }, false, 1, 1, seqno++);
-                mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
+                byte[] sendpacket;
+
+                if (!HighLatency)
+                {
+
+                    sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT,
+                        new MAVLink.mavlink_heartbeat_t()
+                        {
+                            autopilot = (byte)MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA,
+                            base_mode = (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED,
+                            system_status = (byte)MAVLink.MAV_STATE.ACTIVE,
+                            type = (byte)MAVLink.MAV_TYPE.QUADROTOR
+                        }, false, 1, 1, seqno++);
+                    mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
+                }
+                else
+                {
+                    sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY2,
+                        new MAVLink.mavlink_high_latency2_t()
+                        {
+                            autopilot = (byte)MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA, custom_mode = 0,
+                            latitude = (int)(-35 * 1e7),
+                            type = (byte)MAVLink.MAV_TYPE.QUADROTOR
+                        }, false, 1, 1, seqno++);
+                    mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
+                }
 
                 //sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION,new MAVLink.mavlink_autopilot_version_t(){ }, false, 1, 1, seqno++);
                 //mavlinkudp.Send(sendpacket, sendpacket.Length, ipEP);
@@ -91,6 +108,8 @@ namespace Mock
                 Thread.Sleep(100);
             }
         }
+
+        public static bool HighLatency { get; set; } = false;
     }
 
     internal struct mavlink_vfr_hud_EDIT_t

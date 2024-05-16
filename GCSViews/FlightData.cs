@@ -155,6 +155,7 @@ namespace MissionPlanner.GCSViews
         Thread scriptthread;
                 
         public readonly List<TabPage> TabListOriginal = new List<TabPage>();
+        public Dictionary<string,bool> TabListDisplay = new Dictionary<string, bool>();
 
         //List for setting colors of quick tab numbers
         List<Color> listQuickView = new List<Color>();
@@ -250,9 +251,6 @@ namespace MissionPlanner.GCSViews
 
             // populate the unmodified base list
             tabControlactions.TabPages.ForEach(i => { TabListOriginal.Add((TabPage) i); });
-
-            // update tabs displayed
-            loadTabControlActions();
 
             //  mymap.Manager.UseMemoryCache = false;
 
@@ -529,6 +527,9 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            // update tabs displayed
+            updateDisplayView();
+
             hud1.doResize();
         }
 
@@ -676,7 +677,40 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        public void loadTabControlActions()
+        private void updateDisplayTabControlActions()
+        {
+            TabListDisplay.Clear();
+
+            TabListDisplay.Add(tabQuick.Name, MainV2.DisplayConfiguration.displayQuickTab);
+
+            TabListDisplay.Add(tabPagePreFlight.Name, MainV2.DisplayConfiguration.displayPreFlightTab);
+
+            TabListDisplay.Add(tabActions.Name, MainV2.DisplayConfiguration.displayAdvActionsTab);
+
+            TabListDisplay.Add(tabActionsSimple.Name, MainV2.DisplayConfiguration.displaySimpleActionsTab);
+
+            TabListDisplay.Add(tabGauges.Name, MainV2.DisplayConfiguration.displayGaugesTab);
+
+            TabListDisplay.Add(tabStatus.Name, MainV2.DisplayConfiguration.displayStatusTab);
+
+            TabListDisplay.Add(tabServo.Name, MainV2.DisplayConfiguration.displayServoTab);
+
+            TabListDisplay.Add(tabScripts.Name, MainV2.DisplayConfiguration.displayScriptsTab);
+
+            TabListDisplay.Add(tabTLogs.Name, MainV2.DisplayConfiguration.displayTelemetryTab);
+
+            TabListDisplay.Add(tablogbrowse.Name, MainV2.DisplayConfiguration.displayDataflashTab);
+
+            TabListDisplay.Add(tabPagemessages.Name, MainV2.DisplayConfiguration.displayMessagesTab);
+
+            TabListDisplay.Add(tabTransponder.Name, MainV2.DisplayConfiguration.displayTransponderTab);
+
+            TabListDisplay.Add(tabAuxFunction.Name, MainV2.DisplayConfiguration.displayAuxFunctionTab);
+
+            TabListDisplay.Add(tabPayload.Name, MainV2.DisplayConfiguration.displayPayloadTab);
+        }
+
+        private void loadTabControlActions()
         {
             string tabs = Settings.Instance["tabcontrolactions"];
 
@@ -692,20 +726,33 @@ namespace MissionPlanner.GCSViews
 
             foreach (var tabname in tabarray)
             {
-                int a = 0;
                 foreach (TabPage tabPage in TabListOriginal)
                 {
-                    if (tabPage.Name == tabname)
+                    if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
                         tabControlactions.TabPages.Add(tabPage);
                         break;
                     }
-
-                    a++;
                 }
+            }
+        }
+
+        public void updateDisplayView()
+        {
+            updateDisplayTabControlActions();
+
+            loadTabControlActions();
+
+            //we want to at least have one tabpage
+            if (tabControlactions.TabPages.Count == 0)
+            {
+                tabControlactions.TabPages.Add(tabQuick);
+                tabControlactions.SelectedIndex = 0;
             }
 
             ThemeManager.ApplyThemeTo(tabControlactions);
+
+            saveTabControlActions();
         }
 
         internal void BUT_run_script_Click(object sender, EventArgs e)
@@ -2472,10 +2519,13 @@ namespace MissionPlanner.GCSViews
 
                 foreach (TabPage tabPage in TabListOriginal)
                 {
-                    if (tabarray.Contains(tabPage.Name))
-                        left.Items.Add(tabPage.Name, true);
-                    else
-                        left.Items.Add(tabPage.Name, false);
+                    if((TabListDisplay.ContainsKey(tabPage.Name) && TabListDisplay[tabPage.Name] == true) || !TabListDisplay.ContainsKey(tabPage.Name))
+                    {
+                        if (tabarray.Contains(tabPage.Name))
+                            left.Items.Add(tabPage.Name, true);
+                        else
+                            left.Items.Add(tabPage.Name, false);
+                    }
                 }
 
                 ThemeManager.ApplyThemeTo(customForm);
@@ -2490,7 +2540,7 @@ namespace MissionPlanner.GCSViews
 
                 Settings.Instance["tabcontrolactions"] = answer;
 
-                loadTabControlActions();
+                updateDisplayView();
             }
         }
 
