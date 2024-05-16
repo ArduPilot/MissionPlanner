@@ -1610,7 +1610,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     MainV2.comPort.doCommandInt(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.SCRIPTING, (int)MAVLink.SCRIPTING_CMD.STOP_AND_RESTART, 0, 0, 0, 0, 0, 0);
-                    return; 
+                    return;
                 }
                 catch
                 {
@@ -1641,7 +1641,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     MainV2.comPort.sendPacket(
-                        new MAVLink.mavlink_system_time_t() {time_unix_usec = time_unix_us, time_boot_ms = 0},
+                        new MAVLink.mavlink_system_time_t() { time_unix_usec = time_unix_us, time_boot_ms = 0 },
                         MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
                 }
                 catch
@@ -1654,11 +1654,11 @@ namespace MissionPlanner.GCSViews
 
             if (
                 CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
-                    MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
+                    MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
                 {
-                    ((Control) sender).Enabled = false;
+                    ((Control)sender).Enabled = false;
 
                     int param1 = 0;
                     int param2 = 0;
@@ -1675,7 +1675,7 @@ namespace MissionPlanner.GCSViews
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
                         MainV2.comPort.doReboot();
-                        ((Control) sender).Enabled = true;
+                        ((Control)sender).Enabled = true;
                         return;
                     }
                     if (CMB_action.Text == actions.HighLatency_Enable.ToString())
@@ -1690,10 +1690,63 @@ namespace MissionPlanner.GCSViews
                         ((Control)sender).Enabled = true;
                         return;
                     }
+
+                    //
+
+
+
+
+
+
+
+                    if (CMB_action.Text == actions.Mission_Start.ToString())
+                    {
+                        // Prompt the user to enter a file name
+                        string fileName = PromptForFileName();
+
+                        // Check if the user entered a file name
+                        if (!string.IsNullOrEmpty(fileName))
+                        {
+                            // Perform action related to Mission_Start with the entered file name
+                            // For demonstration, let's just display a message with the file name
+                            MessageBox.Show("File will be saved as: " + fileName);
+
+                            // Save a file with the entered file name
+                            try
+                            {
+                                // For demonstration purposes, let's write some text to the file
+                                System.IO.File.WriteAllText(fileName, "Mission Start data");
+
+                                // Display a message indicating the file has been saved
+                                MessageBox.Show("File saved successfully as: " + fileName);
+                            }
+                            catch (Exception ex)
+                            {
+                                // Handle any errors that occur during file saving
+                                MessageBox.Show("Error saving file: " + ex.Message);
+                            }
+
+                            // Here you can proceed with the logic for Mission_Start using the fileName
+                            // For example, you can pass it to a method or use it in some way
+                        }
+                        else
+                        {
+                            // Handle case where user cancels or provides empty file name
+                            MessageBox.Show("No file name provided.");
+                        }
+
+                        // Enable the control
+                        ((Control)sender).Enabled = true;
+
+                        // Exit the method
+                        return;
+                    }
+
                     if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
                     {
                         var target_system = (byte)MainV2.comPort.sysidcurrent;
-                        if (target_system == 0) {
+                        if (target_system == 0)
+                        {
                             log.Info("Not toggling safety on sysid 0");
                             return;
                         }
@@ -1703,6 +1756,7 @@ namespace MissionPlanner.GCSViews
                         ((Control)sender).Enabled = true;
                         return;
                     }
+
 
                     if (CMB_action.Text == actions.Battery_Reset.ToString())
                     {
@@ -1714,11 +1768,11 @@ namespace MissionPlanner.GCSViews
                     MAVLink.MAV_CMD cmd;
                     try
                     {
-                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
+                        cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
                     }
                     catch (ArgumentException ex)
                     {
-                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
+                        cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD),
                             "DO_START_" + CMB_action.Text.ToUpper());
                     }
 
@@ -1736,7 +1790,32 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
 
-                ((Control) sender).Enabled = true;
+((Control)sender).Enabled = true;
+            }
+        }
+
+        private static string PromptForFileName()
+        {
+            // Generate a timestamp in the format "hh:mm:ss_dd-mm-yy"
+            string timestamp = DateTime.Now.ToString("HH_mm_ss_dd-MM-yy");
+
+            // Display a dialog box for the user to enter a file name
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Enter File Name";
+            saveFileDialog.Filter = "All Files (*.*)|*.*";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog.FileName = $"survey_{timestamp}"; // Set default file name with timestamp
+
+            // Show the dialog and check if the user clicked OK
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Return the selected file name
+                return saveFileDialog.FileName;
+            }
+            else
+            {
+                // User canceled the operation or closed the dialog
+                return null;
             }
         }
 

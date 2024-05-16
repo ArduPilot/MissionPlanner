@@ -61,6 +61,8 @@ namespace MissionPlanner
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.status1 = new MissionPlanner.Controls.Status();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -86,6 +88,8 @@ namespace MissionPlanner
             this.tIMEToolStripMenuItem,
             this.bATTERYToolStripMenuItem,
             this.toolStripMenuItem2,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem4,
             this.toolStripMenuItem1,
             this.sTATUSToolStripMenuItem});
             this.MainMenu.Name = "MainMenu";
@@ -198,44 +202,44 @@ namespace MissionPlanner
             // 
             // sPEEDToolStripMenuItem
             // 
-            this.sPEEDToolStripMenuItem.Name = "sPEEDToolStripMenuItem";
             resources.ApplyResources(this.sPEEDToolStripMenuItem, "sPEEDToolStripMenuItem");
+            this.sPEEDToolStripMenuItem.Name = "sPEEDToolStripMenuItem";
             this.sPEEDToolStripMenuItem.Click += new System.EventHandler(this.sPEEDToolStripMenuItem_Click);
             // 
             // aLTITUDEToolStripMenuItem
             // 
-            this.aLTITUDEToolStripMenuItem.Name = "aLTITUDEToolStripMenuItem";
             resources.ApplyResources(this.aLTITUDEToolStripMenuItem, "aLTITUDEToolStripMenuItem");
+            this.aLTITUDEToolStripMenuItem.Name = "aLTITUDEToolStripMenuItem";
             this.aLTITUDEToolStripMenuItem.Click += new System.EventHandler(this.aLTITUDEToolStripMenuItem_Click);
             // 
             // gPSToolStripMenuItem
             // 
-            this.gPSToolStripMenuItem.Name = "gPSToolStripMenuItem";
             resources.ApplyResources(this.gPSToolStripMenuItem, "gPSToolStripMenuItem");
+            this.gPSToolStripMenuItem.Name = "gPSToolStripMenuItem";
             this.gPSToolStripMenuItem.Click += new System.EventHandler(this.gPSToolStripMenuItem_Click);
             // 
             // tIMEToolStripMenuItem
             // 
-            this.tIMEToolStripMenuItem.Name = "tIMEToolStripMenuItem";
             resources.ApplyResources(this.tIMEToolStripMenuItem, "tIMEToolStripMenuItem");
+            this.tIMEToolStripMenuItem.Name = "tIMEToolStripMenuItem";
             this.tIMEToolStripMenuItem.Click += new System.EventHandler(this.tIMEToolStripMenuItem_Click);
             // 
             // bATTERYToolStripMenuItem
             // 
-            this.bATTERYToolStripMenuItem.Name = "bATTERYToolStripMenuItem";
             resources.ApplyResources(this.bATTERYToolStripMenuItem, "bATTERYToolStripMenuItem");
+            this.bATTERYToolStripMenuItem.Name = "bATTERYToolStripMenuItem";
             this.bATTERYToolStripMenuItem.Click += new System.EventHandler(this.bATTERYToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem1
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click_2);
             // 
             // sTATUSToolStripMenuItem
@@ -265,6 +269,18 @@ namespace MissionPlanner
             resources.ApplyResources(this.status1, "status1");
             this.status1.Name = "status1";
             this.status1.Percent = 0D;
+            // 
+            // toolStripMenuItem4
+            // 
+            resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // MainV2
             // 
@@ -312,5 +328,7 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem sTATUSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
     }
 }

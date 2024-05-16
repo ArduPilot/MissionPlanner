@@ -47,7 +47,7 @@ namespace MissionPlanner
 
                 else
                 {
-                    toolStripMenuItem.Text = "Alt: " + altitude.ToString("0.00") + "m";
+                    toolStripMenuItem.Text = "Alt: " + "\n" + altitude.ToString("0.00") + "m";
                 }
 
             }

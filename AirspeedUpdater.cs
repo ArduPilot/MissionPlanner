@@ -45,7 +45,7 @@ namespace MissionPlanner
                 var checkTime = MainV2.comPort.MAV.cs.datetime;
                 if (airspeed != null)
                 {
-                    toolStripMenuItem.Text = "Speed: " + airspeed.ToString("0.00") +" m/s";
+                    toolStripMenuItem.Text = "Speed: " + "\n" + airspeed.ToString("0.00") +" m/s";
 
                 }
                 else

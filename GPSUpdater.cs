@@ -38,7 +38,7 @@ namespace MissionPlanner
                 float gpsStatus = MainV2.comPort.MAV.cs.gpsstatus;
                 if (gpsStatus != null)
                 {
-                    toolStripMenuItem.Text = "GPS: " + gpsStatus.ToString("0.00");
+                    toolStripMenuItem.Text = "GPS: " + "\n" + gpsStatus.ToString("0.00");
                 }
 
                 else

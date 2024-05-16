@@ -42,7 +42,7 @@ namespace MissionPlanner
                 if (battery != null)
                 {
 
-                    toolStripMenuItem.Text = "Battery: " + battery + "%";
+                    toolStripMenuItem.Text = "Battery: " + "\n" + battery + "%";
 
                     if (battery > 20)
                     {

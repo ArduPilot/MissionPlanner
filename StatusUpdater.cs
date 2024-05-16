@@ -48,7 +48,7 @@ namespace MissionPlanner
                 {
                     toolStripMenuItem.Text = "Disconnected";
                     toolStripMenuItem.ForeColor = Color.Red;
-                    toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
+                   // toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
 
                 }
 
@@ -65,21 +65,21 @@ namespace MissionPlanner
 
                             toolStripMenuItem.Text = "Connected";
                             toolStripMenuItem.ForeColor = Color.Green;
-                            toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_disconnect_icon;
+                            //toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_disconnect_icon;
 
                         }
                         else
                         {
                             toolStripMenuItem.Text = "Disconnected";
                             toolStripMenuItem.ForeColor = Color.Red;
-                            toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
+                           // toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
                         }
                     }
                     else
                     {
                         toolStripMenuItem.Text = "Disconnected";
                         toolStripMenuItem.ForeColor = Color.Red;
-                        toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
+                       // toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
                     }
 
                 }
@@ -90,7 +90,7 @@ namespace MissionPlanner
             {
                 toolStripMenuItem.Text = "Disconnected";
                 toolStripMenuItem.ForeColor = Color.Red;
-                toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
+                //toolStripMenuItem.Image = MissionPlanner.Properties.Resources.dark_connect_icon;
             }
 
         }

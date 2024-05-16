@@ -577,6 +577,7 @@ namespace MissionPlanner
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
         public static WebCamService.Capture cam { get; set; }
+        public object CMB_action { get; private set; }
 
         /// <summary>
         /// controls the main serial reader thread
@@ -4982,6 +4983,144 @@ namespace MissionPlanner
             }
         }
 
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+          /*  try
+            {
+                if (CMB_action.Text == actions.Mission_Start.ToString())
+                {
+                    // Prompt the user to enter a file name
+                    string fileName = PromptForFileName();
 
+                    // Check if the user entered a file name
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        // Perform action related to Mission_Start with the entered file name
+                        // For demonstration, let's just display a message with the file name
+                        MessageBox.Show("File will be saved as: " + fileName);
+
+                        // Save a file with the entered file name
+                        try
+                        {
+                            // For demonstration purposes, let's write some text to the file
+                            System.IO.File.WriteAllText(fileName, "Mission Start data");
+
+                            // Display a message indicating the file has been saved
+                            MessageBox.Show("File saved successfully as: " + fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle any errors that occur during file saving
+                            MessageBox.Show("Error saving file: " + ex.Message);
+                        }
+
+                        // Here you can proceed with the logic for Mission_Start using the fileName
+                        // For example, you can pass it to a method or use it in some way
+                    }
+                    else
+                    {
+                        // Handle case where user cancels or provides empty file name
+                        MessageBox.Show("No file name provided.");
+                    }
+
+                    // Enable the control
+                    ((Control)sender).Enabled = true;
+
+                    // Exit the method
+                    return;
+                }
+
+                if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
+                {
+                    var target_system = (byte)MainV2.comPort.sysidcurrent;
+                    if (target_system == 0)
+                    {
+                        log.Info("Not toggling safety on sysid 0");
+                        return;
+                    }
+                    var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
+                    var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = target_system };
+                    MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
+                    ((Control)sender).Enabled = true;
+                    return;
+                }
+
+                if (CMB_action.Text == actions.Battery_Reset.ToString())
+                {
+                    param1 = 0xff; // batt 1
+                    param2 = 100; // 100%
+                    param3 = 0;
+                }
+
+                MAVLink.MAV_CMD cmd;
+                try
+                {
+                    cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
+                }
+                catch (ArgumentException ex)
+                {
+                    cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD),
+                        "DO_START_" + CMB_action.Text.ToUpper());
+                }
+
+                if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
+                {
+
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + " " + cmd, Strings.ERROR);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
+
+    ((Control)sender).Enabled = true;
+
+        }
+
+        private static string PromptForFileName()
+        {
+            // Generate a timestamp in the format "hh:mm:ss_dd-mm-yy"
+            string timestamp = DateTime.Now.ToString("HH_mm_ss_dd-MM-yy");
+
+            // Display a dialog box for the user to enter a file name
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Enter File Name";
+            saveFileDialog.Filter = "All Files (*.*)|*.*";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog.FileName = $"survey_{timestamp}"; // Set default file name with timestamp
+
+            // Show the dialog and check if the user clicked OK
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Return the selected file name
+                return saveFileDialog.FileName;
+            }
+            else
+            {
+                // User canceled the operation or closed the dialog
+                return null;
+            }
+          */
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            using (ChartPopupForm chartPopup = new ChartPopupForm())
+            {
+                if (chartPopup.ShowDialog() == DialogResult.None)
+                {
+                    chartPopup.ShowDialog();
+                    chartPopup.DialogResult = DialogResult.OK;
+                }
+
+
+            }
+
+
+        }
     }
 }
