@@ -2163,26 +2163,34 @@ namespace MissionPlanner.Utilities
 
 
             status?.Invoke(0, "Downloading..");
+            int retry = 3;
 
-            try
+            while (retry > 0)
             {
-                Download.getFilefromNet(url, output, status: status);
-
-                status?.Invoke(50, "Extracting..");
-                ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
-                status?.Invoke(100, "Done.");
-            }
-            catch (WebException ex)
-            {
-                status?.Invoke(-1, "Error downloading file " + ex.ToString());
                 try
                 {
-                    if (File.Exists(output))
-                        File.Delete(output);
+                    Download.getFilefromNet(url, output, status: status);
+
+                    status?.Invoke(50, "Extracting..");
+                    ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
+                    status?.Invoke(100, "Done.");
+
+                    break;
                 }
-                catch
+                catch (Exception ex)
                 {
-                }
+                    status?.Invoke(-1, "Error downloading file " + ex.ToString());
+                    try
+                    {
+                        if (File.Exists(output))
+                            File.Delete(output);
+                    }
+                    catch
+                    {
+                    }
+                    status?.Invoke(-1, "Retry");
+                } 
+                retry--;
             }
         }
     }
