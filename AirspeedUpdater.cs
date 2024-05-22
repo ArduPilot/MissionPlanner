@@ -36,6 +36,11 @@ namespace MissionPlanner
 
         }
 
+        internal void showSpeed(ToolStripButton menuConnect)
+        {
+            throw new NotImplementedException();
+        }
+
         private void airspeedUpdateTimer_Tick(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
         {
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
@@ -43,24 +48,30 @@ namespace MissionPlanner
                 float airspeed = MainV2.comPort.MAV.cs.airspeed;
                 var speedUnit = MainV2.comPort.MAV.cs.GetNameandUnit("speed");
                 var checkTime = MainV2.comPort.MAV.cs.datetime;
+
                 if (airspeed != null)
                 {
-                    toolStripMenuItem.Text = "Speed: " + "\n" + airspeed.ToString("0.00") +" m/s";
+                    // Set a fixed width for the label and align the text to center
+                    toolStripMenuItem.AutoSize = false;
+                    toolStripMenuItem.Width = 80; // Adjust the width as needed
+                    toolStripMenuItem.TextAlign = ContentAlignment.MiddleCenter;
 
+                    // Format the text with a fixed number of decimal places
+                    toolStripMenuItem.Text = "Speed: " + "\n" + airspeed.ToString("0.00") + " m/s";
                 }
                 else
                 {
+                    // Reset label properties and display default text
+                    toolStripMenuItem.AutoSize = true;
                     toolStripMenuItem.Text = "Speed: 0.00 m/s";
-
                 }
-
             }
             else
             {
+                // Reset label properties and display default text
+                toolStripMenuItem.AutoSize = true;
                 toolStripMenuItem.Text = "Speed: 0.00 m/s";
-
             }
         }
-
     }
 }

@@ -39,12 +39,77 @@ using MissionPlanner.Joystick;
 using System.Net;
 using Newtonsoft.Json;
 using DroneCAN;
+using static IronPython.Modules.PythonCsvModule;
+
+using System.Threading;
+
+// Define the PluginThreadrunner variable at the class level
+
+
+
 
 namespace MissionPlanner
 {
     public partial class MainV2 : Form
     {
 
+        /*private ManualResetEvent PluginThreadrunner = new ManualResetEvent(false);
+
+        private AirspeedUpdater airspeedUpdater = new AirspeedUpdater();
+
+        private void UpdateConnectIcon()
+        {
+            if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
+            {
+                if (comPort.BaseStream.IsOpen)
+                {
+                    if (this.MenuConnect.Image == null || (string)this.MenuConnect.Image.Tag != "Disconnect")
+                    {
+                        this.BeginInvoke((MethodInvoker)delegate
+                        {
+                            this.MenuConnect.Image = displayicons.disconnect;
+                            this.MenuConnect.Image.Tag = "Disconnect";
+                            this.MenuConnect.Text = Strings.DISCONNECTc;
+                            _connectionControl.IsConnected(true);
+                            airspeedUpdater.showSpeed(this.MenuConnect); // Pass MenuConnect to airspeedUpdater.showSpeed
+                        });
+                    }
+                }
+                else
+                {
+                    if (this.MenuConnect.Image != null && (string)this.MenuConnect.Image.Tag != "Connect")
+                    {
+                        this.BeginInvoke((MethodInvoker)delegate
+                        {
+                            this.MenuConnect.Image = displayicons.connect;
+                            this.MenuConnect.Image.Tag = "Connect";
+                            this.MenuConnect.Text = Strings.CONNECTc;
+                            _connectionControl.IsConnected(false);
+                            if (_connectionStats != null)
+                            {
+                                _connectionStats.StopUpdates();
+                            }
+                        });
+                    }
+
+                    if (comPort.logreadmode)
+                    {
+                        this.BeginInvoke((MethodInvoker)delegate { _connectionControl.IsConnected(true); });
+                    }
+                }
+
+                connectButtonUpdate = DateTime.Now;
+            }
+        }
+
+        */
+
+
+
+
+
+
+        //
 
 
 
@@ -57,6 +122,7 @@ namespace MissionPlanner
         {
             airspeedUpdater.showSpeed((ToolStripMenuItem)sender);
         }
+
 
         // Displaying Altitude on Menu Strip
 
@@ -124,7 +190,7 @@ namespace MissionPlanner
 
         public static menuicons displayicons; //do not initialize to allow update of custom icons
         public static string running_directory = Settings.GetRunningDirectory();
-        
+
         public abstract class menuicons
         {
             public abstract Image fd { get; }
@@ -280,7 +346,7 @@ namespace MissionPlanner
         public class highcontrastmenuicons : menuicons
         {
             private string running_directory = Settings.GetRunningDirectory();
-            
+
             public override Image fd
             {
                 get
@@ -379,6 +445,7 @@ namespace MissionPlanner
                         return global::MissionPlanner.Properties.Resources.dark_connect_icon;
                 }
             }
+
 
             public override Image disconnect
             {
@@ -817,12 +884,12 @@ namespace MissionPlanner
                     if (MainV2.instance.adsbPlanes.ContainsKey(tuple.id))
                     {
                         // update existing
-                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
+                        ((adsb.PointLatLngAltHdg)instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
                     }
                 }
             };
 
-            MAVLinkInterface.gcssysid = (byte) Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
+            MAVLinkInterface.gcssysid = (byte)Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
 
             Form splash = Program.Splash;
 
@@ -1097,7 +1164,7 @@ namespace MissionPlanner
                 if (Settings.Instance["MainMaximised"] != null)
                 {
                     this.WindowState =
-                        (FormWindowState) Enum.Parse(typeof(FormWindowState), Settings.Instance["MainMaximised"]);
+                        (FormWindowState)Enum.Parse(typeof(FormWindowState), Settings.Instance["MainMaximised"]);
                     // dont allow minimised start state
                     if (this.WindowState == FormWindowState.Minimized)
                     {
@@ -1215,9 +1282,9 @@ namespace MissionPlanner
 
             if (Program.IconFile != null)
             {
-                this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
+                this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
-            
+
 
             Comports.Add(comPort);
 
@@ -1246,7 +1313,7 @@ namespace MissionPlanner
             if (instance.MyView.current.Control != null &&
                 instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup))
             {
-                var page = ((GCSViews.InitialSetup) instance.MyView.current.Control).backstageView.SelectedPage;
+                var page = ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage;
                 if (page != null && page.Text.Contains("Install Firmware"))
                 {
                     return;
@@ -1326,15 +1393,15 @@ namespace MissionPlanner
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
                     // update existing
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lat = adsb.Lat;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lng = adsb.Lng;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Alt = adsb.Alt;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Heading = adsb.Heading;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Time = DateTime.Now;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).CallSign = adsb.CallSign;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Squawk = adsb.Squawk;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Raw = adsb.Raw;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Speed = adsb.Speed;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Lat = adsb.Lat;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Lng = adsb.Lng;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Alt = adsb.Alt;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Heading = adsb.Heading;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Time = DateTime.Now;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).CallSign = adsb.CallSign;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Squawk = adsb.Squawk;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Raw = adsb.Raw;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Speed = adsb.Speed;
                 }
                 else
                 {
@@ -1343,7 +1410,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw};
+                        { CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw };
                 }
             }
 
@@ -1355,17 +1422,17 @@ namespace MissionPlanner
 
                 MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
-                packet.altitude = (int) (adsb.Alt * 1000);
-                packet.altitude_type = (byte) MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
+                packet.altitude = (int)(adsb.Alt * 1000);
+                packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
                 packet.callsign = adsb.CallSign.MakeBytes();
                 packet.squawk = adsb.Squawk;
-                packet.emitter_type = (byte) MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
-                packet.heading = (ushort) (adsb.Heading * 100);
-                packet.lat = (int) (adsb.Lat * 1e7);
-                packet.lon = (int) (adsb.Lng * 1e7);
+                packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.heading = (ushort)(adsb.Heading * 100);
+                packet.lat = (int)(adsb.Lat * 1e7);
+                packet.lon = (int)(adsb.Lng * 1e7);
                 packet.ICAO_address = uint.Parse(adsb.Tag, NumberStyles.HexNumber);
 
-                packet.flags = (ushort) (MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
                                             MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
 
                 //send to current connected
@@ -1529,6 +1596,7 @@ namespace MissionPlanner
                     speechEngine.SpeakAsyncCancelAll();
 
                 comPort.BaseStream.DtrEnable = false;
+
                 comPort.Close();
             }
             catch (Exception ex)
@@ -1543,7 +1611,7 @@ namespace MissionPlanner
             {
                 // if terminal is used, then closed using this button.... exception
                 if (this.connectionStatsForm != null)
-                    ((ConnectionStats) this.connectionStatsForm.Controls[0]).StopUpdates();
+                    ((ConnectionStats)this.connectionStatsForm.Controls[0]).StopUpdates();
             }
             catch
             {
@@ -1560,7 +1628,7 @@ namespace MissionPlanner
 
             try
             {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
                     {
                         try
                         {
@@ -1811,8 +1879,8 @@ namespace MissionPlanner
 
                             foreach (var item in softwares)
                             {
-                            // check primare firmware type. ie arudplane, arducopter
-                            if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
+                                // check primare firmware type. ie arudplane, arducopter
+                                if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
                                 {
                                     Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
                                     Version ver2 = item.MavFirmwareVersion;
@@ -1825,8 +1893,8 @@ namespace MissionPlanner
                                         break;
                                     }
 
-                                // check the first hit only
-                                break;
+                                    // check the first hit only
+                                    break;
                                 }
                             }
                         }
@@ -1907,7 +1975,7 @@ namespace MissionPlanner
 
                                         can.WriteToStreamSLCAN(slcan);
                                     };
-                                                       
+
                                     // be invisible
                                     can.NodeStatus = false;
                                     can.StartSLCAN(port.BaseStream);
@@ -1915,7 +1983,7 @@ namespace MissionPlanner
                                     //start on bus
                                     var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
                                      (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0,
-                                     false);                                    
+                                     false);
 
                                     Thread.Sleep(5000);
 
@@ -1967,7 +2035,7 @@ namespace MissionPlanner
                     FlightData.CheckBatteryShow();
 
                     // save the baudrate for this port
-                    Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ","_") + "_BAUD"] =
+                    Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ", "_") + "_BAUD"] =
                         _connectionControl.CMB_baudrate.Text;
 
                     this.Text = titlebar + " " + comPort.MAV.VersionString;
@@ -2072,6 +2140,17 @@ namespace MissionPlanner
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
         private void MenuConnect_Click(object sender, EventArgs e)
         {
             Connect();
@@ -2086,10 +2165,11 @@ namespace MissionPlanner
 
             log.Info("MenuConnect Start");
 
+
             // sanity check
             if (comPort.BaseStream.IsOpen && comPort.MAV.cs.groundspeed > 4)
             {
-                if ((int) DialogResult.No ==
+                if ((int)DialogResult.No ==
                     CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
                 {
                     return;
@@ -2115,6 +2195,9 @@ namespace MissionPlanner
             comPort.rawlogfile = null;
 
             // decide if this is a connect or disconnect
+
+
+
             if (comPort.BaseStream.IsOpen)
             {
                 doDisconnect(comPort);
@@ -2128,7 +2211,47 @@ namespace MissionPlanner
 
             if (comPort.BaseStream.IsOpen)
                 loadph_serial();
+
+
+
+
+            
+
+
+            // Call aLTITUDEToolStripMenuItem_Click when connection is established
+            aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
+
+            //GPS Toolstrip
+            gPSToolStripMenuItem_Click(gPSToolStripMenuItem, EventArgs.Empty);
+
+            //time 
+
+            tIMEToolStripMenuItem_Click(tIMEToolStripMenuItem, EventArgs.Empty);
+
+            //speed
+            sPEEDToolStripMenuItem_Click(sPEEDToolStripMenuItem, EventArgs.Empty);
+
+            //battery
+            bATTERYToolStripMenuItem_Click(bATTERYToolStripMenuItem, EventArgs.Empty);
+
+            //mode
+
+            toolStripMenuItem1_Click_2(toolStripMenuItem1, EventArgs.Empty);
+
+
+            //stz
+
+            sTATUSToolStripMenuItem_Click(sTATUSToolStripMenuItem, EventArgs.Empty);
+
+
         }
+
+
+
+
+
+
+    
 
         void loadph_serial()
         {
@@ -2391,7 +2514,7 @@ namespace MissionPlanner
             try
             {
                 if (comPort.BaseStream.IsOpen)
-                    comPort.Close();
+                   comPort.Close();
             }
             catch
             {
@@ -2423,13 +2546,14 @@ namespace MissionPlanner
 
             if (joystick != null)
             {
+              
                 while (!joysendThreadExited)
                     Thread.Sleep(10);
 
                 joystick.Dispose(); //proper clean up of joystick.
             }
         }
-
+       
         private void LoadConfig()
         {
             try
@@ -2732,7 +2856,7 @@ namespace MissionPlanner
         }
 
         ManualResetEvent PluginThreadrunner = new ManualResetEvent(false);
-
+        
         private void PluginThread()
         {
             Hashtable nextrun = new Hashtable();
@@ -3306,6 +3430,7 @@ namespace MissionPlanner
                     log.Error("Serial Reader fail :" + e.ToString());
                     try
                     {
+                       
                         comPort.Close();
                     }
                     catch (Exception ex)
@@ -3796,6 +3921,7 @@ namespace MissionPlanner
 
             this.ResumeLayout();
 
+           
             Program.Splash?.Close();
 
             log.Info("appload time");
@@ -5031,6 +5157,13 @@ namespace MissionPlanner
             }
         }
 
+
+        /*
+        // Place this at the class level in MainV2.cs
+        private static bool isArchivingActive = false;
+        private System.Timers.Timer autoModeTimer = null;
+        private string timestampFilePath = string.Empty;
+
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             try
@@ -5047,22 +5180,25 @@ namespace MissionPlanner
                     if (menuItem.Text == "Auto")
                     {
                         // Show save file dialog
-                        SaveFileDialog saveFileDialog = new SaveFileDialog();
-                        saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-                        saveFileDialog.FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.txt";
+                        SaveFileDialog saveFileDialog = new SaveFileDialog
+                        {
+                            Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+                            FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.txt"
+                        };
 
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
                             // Save the file
-                            System.IO.File.WriteAllText(saveFileDialog.FileName, "Survey data content here...");
-                            string timestampFilePath = saveFileDialog.FileName;
+                            File.WriteAllText(saveFileDialog.FileName, "Survey data content here...");
+                            timestampFilePath = saveFileDialog.FileName;
 
                             // Switch to auto mode
                             MainV2.comPort.setMode("Auto");
 
                             // Initialize and start the timer to save timestamps
-                            System.Timers.Timer autoModeTimer = new System.Timers.Timer(1000);
-                            autoModeTimer.Elapsed += (s, args) => {
+                            autoModeTimer = new System.Timers.Timer(1000);
+                            autoModeTimer.Elapsed += (s, args) =>
+                            {
                                 File.AppendAllText(timestampFilePath, $"{DateTime.Now:MM_dd_HH_mm_ss}\n");
                             };
                             autoModeTimer.Start();
@@ -5070,22 +5206,17 @@ namespace MissionPlanner
                             // Change menu item text to "Stop Archiving"
                             menuItem.Text = "Stop Archiving";
 
-                            // Store the timer in the menu item tag for later retrieval
-                            menuItem.Tag = autoModeTimer;
+                            // Set archiving active flag
+                            isArchivingActive = true;
+
+                            // Subscribe to the FormClosing event if not already subscribed
+                            this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
+                            this.FindForm().FormClosing += MainForm_FormClosing;
                         }
                     }
                     else if (menuItem.Text == "Stop Archiving")
                     {
-                        // Retrieve and stop the timer
-                        System.Timers.Timer autoModeTimer = menuItem.Tag as System.Timers.Timer;
-                        if (autoModeTimer != null)
-                        {
-                            autoModeTimer.Stop();
-                            autoModeTimer.Dispose();
-                        }
-
-                        // Switch off auto mode (assuming there's a method for it)
-                        MainV2.comPort.setMode("Manual"); // or the appropriate method to stop auto mode
+                        StopArchiving();
 
                         // Change menu item text back to "Auto"
                         menuItem.Text = "Auto";
@@ -5101,8 +5232,41 @@ namespace MissionPlanner
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-
         }
+
+        private void StopArchiving()
+        {
+            if (autoModeTimer != null)
+            {
+                autoModeTimer.Stop();
+                autoModeTimer.Dispose();
+                autoModeTimer = null;
+            }
+
+            // Switch off auto mode
+            MainV2.comPort.setMode("Manual");
+
+            // Reset archiving active flag
+            isArchivingActive = false;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isArchivingActive)
+            {
+                // Cancel the form closing event to prevent the application from closing
+                e.Cancel = true;
+
+                // Show warning message asynchronously to keep UI responsive
+                Task.Run(() =>
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        MessageBox.Show("Please stop archiving before closing the application.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                });
+            }
+        }*/
 
         private void MainV2_Load(object sender, EventArgs e)
         {
@@ -5120,6 +5284,115 @@ namespace MissionPlanner
                 }
 
 
+            }
+        }
+
+        // Place this at the class level in MainV2.cs
+        private static bool isArchivingActive = false;
+        private System.Timers.Timer autoModeTimer = null;
+        private string timestampFilePath = string.Empty;
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+                if (menuItem != null)
+                {
+                    Control parentControl = menuItem.Owner as Control;
+                    if (parentControl != null)
+                    {
+                        parentControl.Enabled = false;
+                    }
+
+                    if (menuItem.Text == "Auto")
+                    {
+                        // Show save file dialog
+                        SaveFileDialog saveFileDialog = new SaveFileDialog
+                        {
+                            Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+                            FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.txt"
+                        };
+
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            // Save the file
+                            File.WriteAllText(saveFileDialog.FileName, "Survey data content here...");
+                            timestampFilePath = saveFileDialog.FileName;
+
+                            // Switch to auto mode
+                            MainV2.comPort.setMode("Auto");
+
+                            // Initialize and start the timer to save timestamps
+                            autoModeTimer = new System.Timers.Timer(1000);
+                            autoModeTimer.Elapsed += (s, args) =>
+                            {
+                                File.AppendAllText(timestampFilePath, $"{DateTime.Now:MM_dd_HH_mm_ss}\n");
+                            };
+                            autoModeTimer.Start();
+
+                            // Change menu item text to "Stop Archiving"
+                            menuItem.Text = "Stop Archiving";
+
+                            // Set archiving active flag
+                            isArchivingActive = true;
+
+                            // Subscribe to the FormClosing event if not already subscribed
+                            this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
+                            this.FindForm().FormClosing += MainForm_FormClosing;
+                        }
+                    }
+                    else if (menuItem.Text == "Stop Archiving")
+                    {
+                        StopArchiving();
+
+                        // Change menu item text back to "Auto"
+                        menuItem.Text = "Auto";
+                    }
+
+                    if (parentControl != null)
+                    {
+                        parentControl.Enabled = true;
+                    }
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
+        }
+
+        private void StopArchiving()
+        {
+            if (autoModeTimer != null)
+            {
+                autoModeTimer.Stop();
+                autoModeTimer.Dispose();
+                autoModeTimer = null;
+            }
+
+            // Switch off auto mode
+            MainV2.comPort.setMode("Manual");
+
+            // Reset archiving active flag
+            isArchivingActive = false;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isArchivingActive)
+            {
+                // Cancel the form closing event to prevent the application from closing
+                e.Cancel = true;
+
+                // Show warning message asynchronously to keep UI responsive
+                Task.Run(() =>
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        MessageBox.Show("Please stop archiving before closing the application.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                });
             }
         }
     }

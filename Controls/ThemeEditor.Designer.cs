@@ -166,7 +166,7 @@
             this.btnRestore.TabIndex = 14;
             this.btnRestore.Text = "Restore Theme";
             this.btnRestore.UseVisualStyleBackColor = true;
-            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
+           // this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // cbIconSet
             // 

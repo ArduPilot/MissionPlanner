@@ -3208,7 +3208,7 @@ namespace MissionPlanner.GCSViews
             SubMainLeft.Panel1.Controls.Remove(hud1);
             dropout.Controls.Add(hud1);
             dropout.Resize += dropout_Resize;
-            dropout.FormClosed += dropout_FormClosed;
+           // dropout.FormClosed += dropout_FormClosed;
             dropout.RestoreStartupLocation();
             dropout.Show();
             huddropout = true;

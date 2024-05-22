@@ -616,10 +616,10 @@
     <value>Magenta</value>
   </data>
   <data name="MenuSimulation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 72</value>
+    <value>49, 72</value>
   </data>
   <data name="MenuSimulation.Text" xml:space="preserve">
-    <value>SIMULATION</value>
+    <value>SIM</value>
   </data>
   <data name="MenuSimulation.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -844,64 +844,61 @@
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="sPEEDToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 72</value>
+    <value>92, 72</value>
   </data>
   <data name="sPEEDToolStripMenuItem.Text" xml:space="preserve">
-    <value>Spd</value>
+    <value>SPEED</value>
   </data>
   <data name="aLTITUDEToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="aLTITUDEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 72</value>
+    <value>122, 72</value>
   </data>
   <data name="aLTITUDEToolStripMenuItem.Text" xml:space="preserve">
-    <value>Alt</value>
+    <value>ALTITUDE</value>
   </data>
   <data name="gPSToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="gPSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 72</value>
+    <value>67, 72</value>
   </data>
   <data name="gPSToolStripMenuItem.Text" xml:space="preserve">
-    <value>gps</value>
+    <value>GPS</value>
   </data>
   <data name="tIMEToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="tIMEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 72</value>
+    <value>72, 72</value>
   </data>
   <data name="tIMEToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ti</value>
+    <value>TIME</value>
   </data>
   <data name="bATTERYToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="bATTERYToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 72</value>
+    <value>118, 72</value>
   </data>
   <data name="bATTERYToolStripMenuItem.Text" xml:space="preserve">
-    <value>Bat</value>
+    <value>BATTERY</value>
   </data>
   <data name="toolStripMenuItem2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 72</value>
+    <value>79, 72</value>
   </data>
   <data name="toolStripMenuItem2.Text" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="toolStripMenuItem5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9pt, style=Bold</value>
+    <value>DATA</value>
   </data>
   <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 72</value>
+    <value>169, 72</value>
   </data>
   <data name="toolStripMenuItem5.Text" xml:space="preserve">
-    <value>Auto</value>
+    <value>toolStripMenuItem5</value>
   </data>
   <data name="toolStripMenuItem4.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
@@ -910,34 +907,37 @@
     <value>False</value>
   </data>
   <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 72</value>
+    <value>148, 72</value>
   </data>
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
-    <value>arm</value>
+    <value>ARM/DISARM</value>
   </data>
   <data name="toolStripMenuItem1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 72</value>
+    <value>83, 72</value>
   </data>
   <data name="toolStripMenuItem1.Text" xml:space="preserve">
-    <value>Mode</value>
+    <value>MODE</value>
   </data>
   <data name="sTATUSToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="sTATUSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 72</value>
+    <value>105, 72</value>
   </data>
   <data name="sTATUSToolStripMenuItem.Text" xml:space="preserve">
-    <value>Sta</value>
+    <value>STATUS</value>
+  </data>
+  <data name="toolStripMenuItem3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 72</value>
+    <value>95, 72</value>
   </data>
   <data name="toolStripMenuItem3.Text" xml:space="preserve">
-    <value>gu</value>
+    <value>GRAPH</value>
   </data>
   <data name="MainMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -1018,7 +1018,7 @@
     <value>status1</value>
   </data>
   <data name="&gt;&gt;status1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.8904.29591, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.8908.31989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;status1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -2797,7 +2797,7 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.8904.29591, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.8908.31989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sPEEDToolStripMenuItem.Name" xml:space="preserve">
     <value>sPEEDToolStripMenuItem</value>
@@ -2835,12 +2835,6 @@
   <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem5.Name" xml:space="preserve">
-    <value>toolStripMenuItem5</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;toolStripMenuItem4.Name" xml:space="preserve">
     <value>toolStripMenuItem4</value>
   </data>
@@ -2863,6 +2857,12 @@
     <value>toolStripMenuItem3</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem5.Name" xml:space="preserve">
+    <value>toolStripMenuItem5</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem5.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
