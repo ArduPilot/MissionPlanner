@@ -1,0 +1,10 @@
+1.Menu font -- Microsoft Sans Serif ,bold ,fontsize : 9
+
+2.when click the connect button auto refresh the menu strips
+
+3.last value is update in the data TAB
+
+4.GUI fix the size and minimize 
+
+5.Remove the Theme change pannel
+
