@@ -127,17 +127,23 @@
   <data name="CMB_ratesensors.Location" type="System.Drawing.Point, System.Drawing">
     <value>545, 253</value>
   </data>
+  <data name="CMB_ratesensors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
+  </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label26.Text" xml:space="preserve">
     <value>영상 형식</value>
+  </data>
+  <data name="CMB_videoresolutions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 21</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 352</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 16</value>
+    <value>84, 13</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
     <value>투영 영상(HUD)</value>
@@ -152,7 +158,7 @@
     <value>9, 329</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
     <value>경로 지점</value>
@@ -167,7 +173,7 @@
     <value>9, 303</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
     <value>트랙 길이</value>
@@ -175,11 +181,14 @@
   <data name="NUM_tracklength.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 302</value>
   </data>
+  <data name="NUM_tracklength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 20</value>
+  </data>
   <data name="CHK_speechaltwarning.Location" type="System.Drawing.Point, System.Drawing">
     <value>592, 90</value>
   </data>
   <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
+    <value>73, 17</value>
   </data>
   <data name="CHK_speechaltwarning.Text" xml:space="preserve">
     <value>고도 경고</value>
@@ -188,7 +197,7 @@
     <value>9, 280</value>
   </data>
   <data name="label108.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 16</value>
+    <value>65, 13</value>
   </data>
   <data name="label108.Text" xml:space="preserve">
     <value>연결 재설정</value>
@@ -216,6 +225,9 @@
   </data>
   <data name="CMB_raterc.Location" type="System.Drawing.Point, System.Drawing">
     <value>450, 253</value>
+  </data>
+  <data name="CMB_raterc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
   </data>
   <data name="label104.Location" type="System.Drawing.Point, System.Drawing">
     <value>301, 256</value>
@@ -248,7 +260,7 @@
     <value>9, 256</value>
   </data>
   <data name="label101.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 16</value>
+    <value>79, 13</value>
   </data>
   <data name="label101.Text" xml:space="preserve">
     <value>원격 측정 속도</value>
@@ -256,11 +268,20 @@
   <data name="CMB_ratestatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>376, 253</value>
   </data>
+  <data name="CMB_ratestatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
+  </data>
   <data name="CMB_rateposition.Location" type="System.Drawing.Point, System.Drawing">
     <value>255, 253</value>
   </data>
+  <data name="CMB_rateposition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
+  </data>
   <data name="CMB_rateattitude.Location" type="System.Drawing.Point, System.Drawing">
     <value>153, 253</value>
+  </data>
+  <data name="CMB_rateattitude.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
   </data>
   <data name="label99.Location" type="System.Drawing.Point, System.Drawing">
     <value>480, 200</value>
@@ -273,7 +294,7 @@
     <value>9, 227</value>
   </data>
   <data name="label98.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label98.Text" xml:space="preserve">
     <value>속력 단위</value>
@@ -282,7 +303,7 @@
     <value>9, 200</value>
   </data>
   <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label97.Text" xml:space="preserve">
     <value>거리 단위</value>
@@ -290,17 +311,26 @@
   <data name="CMB_speedunits.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 224</value>
   </data>
+  <data name="CMB_speedunits.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
+  </data>
   <data name="CMB_distunits.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 197</value>
+  </data>
+  <data name="CMB_distunits.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
   </data>
   <data name="label96.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 173</value>
   </data>
   <data name="label96.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 16</value>
+    <value>51, 13</value>
   </data>
   <data name="label96.Text" xml:space="preserve">
     <value>조이스틱</value>
+  </data>
+  <data name="label95.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 13</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
     <value>음성 안내</value>
@@ -309,7 +339,7 @@
     <value>489, 90</value>
   </data>
   <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 20</value>
+    <value>84, 17</value>
   </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
     <value>배터리 경고</value>
@@ -318,7 +348,7 @@
     <value>409, 90</value>
   </data>
   <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 20</value>
+    <value>74, 17</value>
   </data>
   <data name="CHK_speechcustom.Text" xml:space="preserve">
     <value>30초 간격</value>
@@ -327,7 +357,7 @@
     <value>343, 89</value>
   </data>
   <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+    <value>51, 17</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>모드 </value>
@@ -336,34 +366,43 @@
     <value>207, 89</value>
   </data>
   <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
+    <value>73, 17</value>
   </data>
   <data name="CHK_speechwaypoint.Text" xml:space="preserve">
     <value>경로 지점</value>
   </data>
   <data name="label94.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 16</value>
+    <value>55, 13</value>
   </data>
   <data name="label94.Text" xml:space="preserve">
     <value>OSD 색상</value>
   </data>
+  <data name="CMB_osdcolor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
+  </data>
   <data name="CMB_severity.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 108</value>
   </data>
+  <data name="CMB_severity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
+  </data>
   <data name="CMB_language.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 138</value>
+  </data>
+  <data name="CMB_language.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
   </data>
   <data name="label93.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 141</value>
   </data>
   <data name="label93.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
+    <value>87, 13</value>
   </data>
   <data name="label93.Text" xml:space="preserve">
     <value>인터페이스 언어</value>
   </data>
   <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 20</value>
+    <value>98, 17</value>
   </data>
   <data name="CHK_enablespeech.Text" xml:space="preserve">
     <value>음성 안내 활성</value>
@@ -375,13 +414,19 @@
     <value>투영 영상(HUD) 오버레이</value>
   </data>
   <data name="label92.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label92.Text" xml:space="preserve">
     <value>영상 장치</value>
   </data>
+  <data name="CMB_videosources.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 21</value>
+  </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 375</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>지도 따라가기</value>
@@ -420,13 +465,16 @@
     <value>9, 400</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 16</value>
+    <value>79, 13</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>로그 저장 경로</value>
   </data>
   <data name="txt_log_dir.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 397</value>
+  </data>
+  <data name="txt_log_dir.Size" type="System.Drawing.Size, System.Drawing">
+    <value>386, 20</value>
   </data>
   <data name="BUT_logdirbrowse.Location" type="System.Drawing.Point, System.Drawing">
     <value>496, 395</value>
@@ -438,13 +486,10 @@
     <value>9, 426</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 16</value>
+    <value>29, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>테마</value>
-  </data>
-  <data name="CMB_theme.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 423</value>
   </data>
   <data name="BUT_themecustom.Location" type="System.Drawing.Point, System.Drawing">
     <value>249, 423</value>
@@ -456,7 +501,7 @@
     <value>671, 90</value>
   </data>
   <data name="CHK_speecharmdisarm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 20</value>
+    <value>75, 17</value>
   </data>
   <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
     <value>시동/제동</value>
@@ -471,7 +516,7 @@
     <value>107, 529</value>
   </data>
   <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 20</value>
+    <value>98, 17</value>
   </data>
   <data name="chk_analytics.Text" xml:space="preserve">
     <value>익명 상황 제외</value>
@@ -480,7 +525,7 @@
     <value>228, 529</value>
   </data>
   <data name="CHK_beta.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 20</value>
+    <value>95, 17</value>
   </data>
   <data name="CHK_beta.Text" xml:space="preserve">
     <value>베타 업데이트</value>
@@ -489,7 +534,7 @@
     <value>340, 506</value>
   </data>
   <data name="CHK_Password.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 20</value>
+    <value>98, 17</value>
   </data>
   <data name="CHK_Password.Text" xml:space="preserve">
     <value>암호 보호 설정</value>
@@ -498,7 +543,7 @@
     <value>748, 90</value>
   </data>
   <data name="CHK_speechlowspeed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>48, 17</value>
   </data>
   <data name="CHK_speechlowspeed.Text" xml:space="preserve">
     <value>저속</value>
@@ -507,7 +552,7 @@
     <value>496, 506</value>
   </data>
   <data name="CHK_showairports.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
+    <value>73, 17</value>
   </data>
   <data name="CHK_showairports.Text" xml:space="preserve">
     <value>공항 표시</value>
@@ -515,11 +560,14 @@
   <data name="chk_ADSB.Location" type="System.Drawing.Point, System.Drawing">
     <value>598, 506</value>
   </data>
+  <data name="chk_ADSB.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 17</value>
+  </data>
   <data name="chk_tfr.Location" type="System.Drawing.Point, System.Drawing">
     <value>496, 529</value>
   </data>
   <data name="chk_tfr.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
+    <value>73, 17</value>
   </data>
   <data name="chk_tfr.Text" xml:space="preserve">
     <value>고도 유지</value>
@@ -534,7 +582,7 @@
     <value>340, 529</value>
   </data>
   <data name="chk_norcreceiver.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 20</value>
+    <value>131, 17</value>
   </data>
   <data name="chk_norcreceiver.Text" xml:space="preserve">
     <value>원격조종 수신기 없음</value>
@@ -542,11 +590,14 @@
   <data name="CMB_Layout.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 450</value>
   </data>
+  <data name="CMB_Layout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
+  </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 453</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 16</value>
+    <value>29, 13</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>배치</value>
@@ -555,7 +606,7 @@
     <value>598, 530</value>
   </data>
   <data name="CHK_AutoParamCommit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 20</value>
+    <value>120, 17</value>
   </data>
   <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
     <value>매개변수 자동 반영</value>
@@ -564,7 +615,7 @@
     <value>671, 506</value>
   </data>
   <data name="chk_shownofly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
+    <value>73, 17</value>
   </data>
   <data name="chk_shownofly.Text" xml:space="preserve">
     <value>비행 안함</value>
@@ -573,7 +624,7 @@
     <value>249, 200</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
+    <value>54, 13</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>고도 단위</value>
@@ -581,14 +632,20 @@
   <data name="CMB_altunits.Location" type="System.Drawing.Point, System.Drawing">
     <value>320, 197</value>
   </data>
+  <data name="CMB_altunits.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 21</value>
+  </data>
   <data name="num_gcsid.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 477</value>
+  </data>
+  <data name="num_gcsid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 20</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 479</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 16</value>
+    <value>68, 13</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>지상 통제 ID</value>
@@ -597,7 +654,7 @@
     <value>107, 552</value>
   </data>
   <data name="CHK_params_bg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 20</value>
+    <value>197, 17</value>
   </data>
   <data name="CHK_params_bg.Text" xml:space="preserve">
     <value>백그라운드에서 매개변수 다운로드</value>
@@ -605,8 +662,14 @@
   <data name="chk_slowMachine.Location" type="System.Drawing.Point, System.Drawing">
     <value>341, 555</value>
   </data>
+  <data name="chk_slowMachine.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 17</value>
+  </data>
   <data name="CHK_speechArmedOnly.Location" type="System.Drawing.Point, System.Drawing">
     <value>275, 89</value>
+  </data>
+  <data name="CHK_speechArmedOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 17</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>251, 111</value>

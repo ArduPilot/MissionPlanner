@@ -60,11 +60,11 @@ namespace MissionPlanner
 
         // Displaying Altitude on Menu Strip
 
-        private AltitudeUpdater altitudeUpdater = new AltitudeUpdater();
-        private void aLTITUDEToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            altitudeUpdater.showAltitude((ToolStripMenuItem)sender);
-        }
+        //private AltitudeUpdater altitudeUpdater = new AltitudeUpdater();
+       // private void aLTITUDEToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+            //altitudeUpdater.showAltitude((ToolStripMenuItem)sender);
+        //}
 
         // Displaying GPS status on Menu Strip
 
@@ -2128,6 +2128,33 @@ namespace MissionPlanner
 
             if (comPort.BaseStream.IsOpen)
                 loadph_serial();
+
+            //aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
+
+            //GPS Toolstrip
+            gPSToolStripMenuItem_Click(gPSToolStripMenuItem, EventArgs.Empty);
+
+            //time 
+
+            tIMEToolStripMenuItem_Click(tIMEToolStripMenuItem, EventArgs.Empty);
+
+            //speed
+            sPEEDToolStripMenuItem_Click(sPEEDToolStripMenuItem, EventArgs.Empty);
+
+            //battery
+            bATTERYToolStripMenuItem_Click(bATTERYToolStripMenuItem, EventArgs.Empty);
+
+            //mode
+
+            toolStripMenuItem1_Click_2(toolStripMenuItem1, EventArgs.Empty);
+
+
+            //stz
+
+            sTATUSToolStripMenuItem_Click(sTATUSToolStripMenuItem, EventArgs.Empty);
+
+
+
         }
 
         void loadph_serial()
