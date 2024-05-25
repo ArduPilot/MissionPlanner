@@ -396,7 +396,7 @@ namespace SkiaTest
 
                     var canvas = e.Canvas;
 
-                    canvas.Clear(SKColors.Gray);
+                    //canvas.Clear(SKColors.Gray);
 
                     canvas.Scale((float) scale.Width, (float) scale.Height);
 
@@ -410,7 +410,7 @@ namespace SkiaTest
                     {
                         Id = (int?)a.Key,
                         Value = a.Value,
-                        Parent = (int?)(a.Value.parent?.Handle.ToInt64())
+                        Parent = (int?)(a.Value.Parent?.Handle.ToInt64())
                     });
 
                     var newtree = TreeNode.BuildTree(treeflat.ToList());
@@ -424,7 +424,7 @@ namespace SkiaTest
 
                             try
                             {
-                                FormsRender.DrawOntoCanvas(form.Handle, canvas, true);
+                                FormsRender.DrawOntoCanvas(form.Handle, canvas, Application.OpenForms.Count > 1);
                             }
                             catch (Exception ex)
                             {
