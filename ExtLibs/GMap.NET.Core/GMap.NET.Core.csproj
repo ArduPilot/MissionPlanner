@@ -27,7 +27,7 @@
     <EmbeddedResource Remove="Resources\Resource1.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.0.0" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="GMap.NET.ObjectModel\ObservableCollection.cs" />
