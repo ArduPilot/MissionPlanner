@@ -52,6 +52,14 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay tfrpolygons;
         internal GMapMarker CurrentGMapMarker;
 
+        //
+        //private DoseRateUpdater doseRateUpdater;
+        //private ToolStripMenuItem toolStripMenuItem;
+
+
+
+
+
         internal PointLatLng MouseDownStart;
 
         //The file path of the selected script
@@ -1596,6 +1604,7 @@ namespace MissionPlanner.GCSViews
                 if (CMB_action.Text == actions.Trigger_Camera.ToString())
                 {
                     MainV2.comPort.setDigicamControl(true);
+                    AddMarker();
                     return;
                 }
             }
@@ -6353,5 +6362,51 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
             }
         }
+
+        public void AddMarker()
+        {
+            double latitude = MainV2.comPort.MAV.cs.lat;
+            double longitude = MainV2.comPort.MAV.cs.lng;
+
+
+
+
+            float doseRate = DoseRateUpdater.finalValue1;
+            //float doseRate = doseRateUpdater.finalValue1;
+            //float doseRate = doseRateUpdater.AccessFinalValue1(doseRateUpdater.finalValue1);
+            //float = doseaRate.finalValue1 THIS TYPE IS NOT ACCESSABLE TILL NOW
+
+            CustomMessageBox.Show(doseRate.ToString());
+            string time = DateTime.Now.ToString("HH:mm:ss"); // Current time in HH:mm:ss format
+
+
+            // Create a new PointLatLng object with the given latitude and longitude
+            PointLatLng position = new PointLatLng(latitude, longitude);
+            //PointLatLng position = new PointLatLng(-35.3717999, 149.1608834);
+
+            // Create a new marker at the specified position, using an arrow type icon
+            GMarkerGoogle marker = new GMarkerGoogle(position, GMarkerGoogleType.red_small);
+
+            // Set the tooltip text to display the latitude and longitude
+            marker.ToolTipText = $"Lat: {position.Lat}, Lng: {position.Lng}\nDose Rate: {doseRate}\nTime: {time}";
+
+
+            // Set the tooltip mode to always display the tooltip
+            marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+            marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+
+            // Add the marker to the overlay
+            //photosoverlay.Markers.Add(marker);
+            //routes.Markers.Add(marker);
+
+            poioverlay.Markers.Add(marker); // this line responsible for displaying the marker on map continously
+                                            // Set the marker to be visible
+            marker.IsVisible = true;
+            //gMapControl1.Refresh();
+            //gMapControl1._Overlays.Add.Add(marker);
+
+
+        }
+
     }
 }

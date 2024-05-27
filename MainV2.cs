@@ -5305,7 +5305,7 @@ namespace MissionPlanner
                         parentControl.Enabled = false;
                     }
 
-                    if (menuItem.Text == "Auto")
+                    if (menuItem.Text == "AUTO")
                     {
                         // Show save file dialog
                         SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -5347,7 +5347,7 @@ namespace MissionPlanner
                         StopArchiving();
 
                         // Change menu item text back to "Auto"
-                        menuItem.Text = "Auto";
+                        menuItem.Text = "AUTO";
                     }
 
                     if (parentControl != null)
