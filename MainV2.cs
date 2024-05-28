@@ -5317,10 +5317,10 @@ namespace MissionPlanner
                             string timestampFilePath = saveFileDialog.FileName;
 
                             // Write CSV headers
-                            System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,finalValue\n");
+                            System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,finalValue,threshold\n");
 
                             // Switch to auto mode
-                            MainV2.comPort.setMode("Auto");
+                            MainV2.comPort.setMode("AUTO");
 
                             // Initialize and start the timer to save timestamps
                             System.Timers.Timer autoModeTimer = new System.Timers.Timer(1000);
@@ -5328,14 +5328,17 @@ namespace MissionPlanner
                             {
                                 try
                                 {
+
+                                    CustomMessageBox.Show("auto is calling");
                                     string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                                     double currentLatitude = MainV2.comPort.MAV.cs.lat;
                                     double currentLongitude = MainV2.comPort.MAV.cs.lng;
                                     float doseRate = DoseRateUpdater.finalValue1;
+                                    string threshold = DoseRateUpdater.s_threshold;
 
+                                    CustomMessageBox.Show(threshold);
 
-
-                                    string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate}\n";
+                                    string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate},{threshold}\n";
                                     File.AppendAllText(timestampFilePath, csvLine);
                                 }
                                 catch (Exception ex)
@@ -5367,7 +5370,7 @@ namespace MissionPlanner
                         MainV2.comPort.setMode("Manual");
 
                         // Change menu item text back to "Auto"
-                        menuItem.Text = "Auto";
+                        menuItem.Text = "AUTO";
                     }
 
                     if (parentControl != null)

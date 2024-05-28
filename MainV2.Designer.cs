@@ -249,6 +249,8 @@ namespace MissionPlanner
             // 
             // toolStripMenuItem4
             // 
+            this.toolStripMenuItem4.Checked = true;
+            this.toolStripMenuItem4.CheckState = System.Windows.Forms.CheckState.Checked;
             resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
