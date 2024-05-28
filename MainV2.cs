@@ -1725,7 +1725,7 @@ namespace MissionPlanner
                                         }
 
                                         return true;
-                                    }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+                                    }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
 
                                     can.NodeAdded += (id, status) =>
                                     {
