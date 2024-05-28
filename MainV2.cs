@@ -5308,46 +5308,66 @@ namespace MissionPlanner
                     if (menuItem.Text == "AUTO")
                     {
                         // Show save file dialog
-                        SaveFileDialog saveFileDialog = new SaveFileDialog
-                        {
-                            Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
-                            FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.txt"
-                        };
+                        SaveFileDialog saveFileDialog = new SaveFileDialog();
+                         saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
+                        saveFileDialog.FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.csv";
 
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            // Save the file
-                            File.WriteAllText(saveFileDialog.FileName, "Survey data content here...");
-                            timestampFilePath = saveFileDialog.FileName;
+                            string timestampFilePath = saveFileDialog.FileName;
+
+                            // Write CSV headers
+                            System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,finalValue\n");
 
                             // Switch to auto mode
                             MainV2.comPort.setMode("Auto");
 
                             // Initialize and start the timer to save timestamps
-                            autoModeTimer = new System.Timers.Timer(1000);
+                            System.Timers.Timer autoModeTimer = new System.Timers.Timer(1000);
                             autoModeTimer.Elapsed += (s, args) =>
                             {
-                                File.AppendAllText(timestampFilePath, $"{DateTime.Now:MM_dd_HH_mm_ss}\n");
+                                try
+                                {
+                                    string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                                    double currentLatitude = MainV2.comPort.MAV.cs.lat;
+                                    double currentLongitude = MainV2.comPort.MAV.cs.lng;
+                                    float doseRate = DoseRateUpdater.finalValue1;
+
+
+
+                                    string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate}\n";
+                                    File.AppendAllText(timestampFilePath, csvLine);
+                                }
+                                catch (Exception ex)
+                                {
+                                    // Log or handle the error appropriately
+                                    CustomMessageBox.Show($"Error during timer elapsed: {ex.Message}", Strings.ERROR);
+                                }
                             };
                             autoModeTimer.Start();
 
                             // Change menu item text to "Stop Archiving"
                             menuItem.Text = "Stop Archiving";
 
-                            // Set archiving active flag
-                            isArchivingActive = true;
-
-                            // Subscribe to the FormClosing event if not already subscribed
-                            this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
-                            this.FindForm().FormClosing += MainForm_FormClosing;
+                            // Store the timer in the menu item tag for later retrieval
+                            menuItem.Tag = autoModeTimer;
                         }
                     }
                     else if (menuItem.Text == "Stop Archiving")
                     {
-                        StopArchiving();
+                        // Retrieve and stop the timer
+                        System.Timers.Timer autoModeTimer = menuItem.Tag as System.Timers.Timer;
+                        if (autoModeTimer != null)
+                        {
+                            autoModeTimer.Stop();
+                            autoModeTimer.Dispose();
+                        }
+
+                        // Switch off auto mode
+                        MainV2.comPort.setMode("Manual");
 
                         // Change menu item text back to "Auto"
-                        menuItem.Text = "AUTO";
+                        menuItem.Text = "Auto";
                     }
 
                     if (parentControl != null)
@@ -5356,9 +5376,9 @@ namespace MissionPlanner
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                CustomMessageBox.Show($"Command failed: {ex.Message}", Strings.ERROR);
             }
         }
 
