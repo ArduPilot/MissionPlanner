@@ -121,6 +121,7 @@ namespace MissionPlanner
         private void sPEEDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             airspeedUpdater.showSpeed((ToolStripMenuItem)sender);
+           
         }
 
 
@@ -5118,7 +5119,7 @@ namespace MissionPlanner
             try
             {
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+                var action = MainV2.comPort.MAV.cs.armed ? "DISARM" : "ARM";
 
                 if (isitarmed)
                     if (CustomMessageBox.Show("Are you sure you want to " + action, action,
@@ -5150,6 +5151,8 @@ namespace MissionPlanner
                         }
                     }
                 }
+
+                toolStripMenuItem4.Text = isitarmed ? "ARM" : "DISARM";
             }
             catch
             {
@@ -5305,7 +5308,7 @@ namespace MissionPlanner
                         parentControl.Enabled = false;
                     }
 
-                    if (menuItem.Text == "AUTO")
+                    if (menuItem.Text == "START")
                     {
                         // Show save file dialog
                         SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -5332,22 +5335,22 @@ namespace MissionPlanner
                             autoModeTimer.Start();
 
                             // Change menu item text to "Stop Archiving"
-                            menuItem.Text = "Stop Archiving";
+                            menuItem.Text = "STOP";
 
                             // Set archiving active flag
                             isArchivingActive = true;
 
                             // Subscribe to the FormClosing event if not already subscribed
-                            this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
-                            this.FindForm().FormClosing += MainForm_FormClosing;
+                            //this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
+                            //this.FindForm().FormClosing += MainForm_FormClosing;
                         }
                     }
-                    else if (menuItem.Text == "Stop Archiving")
+                    else if (menuItem.Text == "STOP")
                     {
                         StopArchiving();
 
                         // Change menu item text back to "Auto"
-                        menuItem.Text = "AUTO";
+                        menuItem.Text = "START";
                     }
 
                     if (parentControl != null)
@@ -5378,7 +5381,7 @@ namespace MissionPlanner
             isArchivingActive = false;
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        /*private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (isArchivingActive)
             {
@@ -5394,6 +5397,6 @@ namespace MissionPlanner
                     });
                 });
             }
-        }
+        }*/
     }
 }

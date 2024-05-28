@@ -6376,7 +6376,7 @@ namespace MissionPlanner.GCSViews
             //float doseRate = doseRateUpdater.AccessFinalValue1(doseRateUpdater.finalValue1);
             //float = doseaRate.finalValue1 THIS TYPE IS NOT ACCESSABLE TILL NOW
 
-            CustomMessageBox.Show(doseRate.ToString());
+            //CustomMessageBox.Show(doseRate.ToString());
             string time = DateTime.Now.ToString("HH:mm:ss"); // Current time in HH:mm:ss format
 
 

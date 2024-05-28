@@ -545,7 +545,7 @@ namespace MissionPlanner
 
         public static float finalValue1 { get; set; } 
 
-
+       
         float GMone;
         float GMtwo;
 
@@ -611,12 +611,15 @@ namespace MissionPlanner
                 // TextBoxes for user input
                 txtDetectorSensitivity1 = new TextBox();
                 txtDetectorSensitivity1.Dock = DockStyle.Top; // Position at the top of the form
+                txtDetectorSensitivity1.KeyDown += TxtDetectorSensitivity1_KeyDown;
 
                 txtDetectorSensitivity2 = new TextBox();
                 txtDetectorSensitivity2.Dock = DockStyle.Top;
+                txtDetectorSensitivity2.KeyDown += TxtDetectorSensitivity2_KeyDown; ;
 
                 txtThreshold = new TextBox();
                 txtThreshold.Dock = DockStyle.Top;
+                txtThreshold.KeyDown += TxtThreshold_KeyDown;
 
                 // Arrange controls in a vertical layout (using a TableLayoutPanel)
                 TableLayoutPanel panel = new TableLayoutPanel();
@@ -635,7 +638,7 @@ namespace MissionPlanner
 
                 // Initialize the Submit button and add it to the form
                 btnSubmit = new Button();
-                btnSubmit.Text = "OK";
+                btnSubmit.Text = "OK" ;
                 btnSubmit.Dock = DockStyle.Bottom; // Position at bottom
                 btnSubmit.Click += BtnSubmit_Click;
                 Controls.Add(btnSubmit);
@@ -647,12 +650,49 @@ namespace MissionPlanner
                 this.Text = "Detector Parameters";
             }
 
+
+            private void TxtDetectorSensitivity1_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true; // Prevent the ding sound
+                    txtDetectorSensitivity2.Focus(); // Move to next field
+                }
+            }
+
+            private void TxtDetectorSensitivity2_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true; // Prevent the ding sound
+                    txtThreshold.Focus(); // Move to next field
+                }
+            }
+
+            private void TxtThreshold_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true; // Prevent the ding sound
+                    SubmitValues();
+                }
+            }
+
             private void BtnSubmit_Click(object sender, EventArgs e)
+            {
+                SubmitValues();
+            }
+
+
+
+            private void SubmitValues()
             {
                 // Retrieve user input from TextBoxes
                 string detectorSensitivity1 = txtDetectorSensitivity1.Text;
                 string detectorSensitivity2 = txtDetectorSensitivity2.Text;
                 string threshold = txtThreshold.Text;
+
+                // Validate inputs if necessary
 
                 // Close the form and return DialogResult.OK (or handle errors)
                 this.DialogResult = DialogResult.OK;
@@ -694,10 +734,11 @@ namespace MissionPlanner
             {
                 string message = MainV2.comPort.MAV.cs.message;
 
-                if (message != null)
+                if (message != null)  
                 {
                     string pattern1 = @"^GMs\s\d(\d{4})";
                     string pattern2 = @"^GMs\s\d\d\d\d\d\s\d\d\d\d\d\s\d(\d{4})";
+
 
                     Match match1 = Regex.Match(message, pattern1);
                     if (match1.Success)
