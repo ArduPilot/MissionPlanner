@@ -543,9 +543,18 @@ namespace MissionPlanner
 
         public float userDetSense2 { get; set; }
 
-        public static float finalValue1 { get; set; } 
+        public static float finalValue1 { get; set; }
+        
+        public static string detectorSensitivity1 { get; set; }
 
+<<<<<<< HEAD
        
+=======
+        public static string detectorSensitivity2 { get; set; }
+
+        public static string s_threshold { get; set; }
+
+>>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
         float GMone;
         float GMtwo;
 
@@ -578,6 +587,7 @@ namespace MissionPlanner
 
             // Button to submit the value
             private Button btnSubmit;
+            private readonly string userThreshold;
 
             public PopupForm(DoseRateUpdater updater)
             {
@@ -586,8 +596,17 @@ namespace MissionPlanner
 
                 // Pre-fill the textboxes with the stored values
                 txtThreshold.Text = updater.userThreshold.ToString();
+
+                //CustomMessageBox.Show(userThreshold);
+
+                string txtthreshold = updater.userThreshold.ToString();
+
                 txtDetectorSensitivity1.Text = updater.userDetSense1.ToString();
+                string txtthreshold1 = updater.userDetSense1.ToString();
                 txtDetectorSensitivity2.Text = updater.userDetSense2.ToString();
+                string txtthreshold2 = updater.userDetSense2.ToString();
+
+                //CustomMessageBox.Show(txtthreshold);
             }
 
             private void InitializeComponent()
@@ -692,7 +711,11 @@ namespace MissionPlanner
                 string detectorSensitivity2 = txtDetectorSensitivity2.Text;
                 string threshold = txtThreshold.Text;
 
+<<<<<<< HEAD
                 // Validate inputs if necessary
+=======
+                CustomMessageBox.Show(threshold);
+>>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
 
                 // Close the form and return DialogResult.OK (or handle errors)
                 this.DialogResult = DialogResult.OK;
@@ -708,6 +731,9 @@ namespace MissionPlanner
             {
                 // Update user variables with specific user input 
                 userThreshold = float.Parse(popup.txtThreshold.Text);
+
+                Console.WriteLine(userThreshold);
+
                 userDetSense1 = float.Parse(popup.txtDetectorSensitivity1.Text);
                 userDetSense2 = float.Parse(popup.txtDetectorSensitivity2.Text);
             }
