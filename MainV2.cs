@@ -3,7 +3,7 @@ extern alias Drawing;
 #endif
 
 using GMap.NET.WindowsForms;
-using log4net;
+//using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
@@ -39,9 +39,10 @@ using MissionPlanner.Joystick;
 using System.Net;
 using Newtonsoft.Json;
 using DroneCAN;
-using static IronPython.Modules.PythonCsvModule;
+//using static IronPython.Modules.PythonCsvModule;
 
 using System.Threading;
+using log4net;
 
 // Define the PluginThreadrunner variable at the class level
 
@@ -186,8 +187,7 @@ namespace MissionPlanner
 
 
 
-        private static readonly ILog log =
-            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static menuicons displayicons; //do not initialize to allow update of custom icons
         public static string running_directory = Settings.GetRunningDirectory();
@@ -5312,7 +5312,7 @@ namespace MissionPlanner
                     {
                         // Show save file dialog
                         SaveFileDialog saveFileDialog = new SaveFileDialog();
-                         saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
+                        saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
                         saveFileDialog.FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.csv";
 
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -5320,7 +5320,7 @@ namespace MissionPlanner
                             string timestampFilePath = saveFileDialog.FileName;
 
                             // Write CSV headers
-                            System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,finalValue\n");
+                            System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,Doserate,Threshold,DS1,DS2\n");
 
                             // Switch to auto mode
                             MainV2.comPort.setMode("AUTO");
@@ -5332,16 +5332,18 @@ namespace MissionPlanner
                                 try
                                 {
 
-                                    CustomMessageBox.Show("auto is calling");
+                                    //CustomMessageBox.Show("auto is calling");
                                     string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                                     double currentLatitude = MainV2.comPort.MAV.cs.lat;
                                     double currentLongitude = MainV2.comPort.MAV.cs.lng;
                                     float doseRate = DoseRateUpdater.finalValue1;
-                                    //string threshold = DoseRateUpdater.s_threshold;
+                                    string threshold = DoseRateUpdater.threshold;
+                                    string ds1 = DoseRateUpdater.detectorSensitivity1;
+                                    string ds2 = DoseRateUpdater.detectorSensitivity2;
 
                                     //CustomMessageBox.Show(threshold);
 
-                                    string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate}\n";
+                                    string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate},{threshold},{ds1},{ds2}\n";
                                     File.AppendAllText(timestampFilePath, csvLine);
                                 }
                                 catch (Exception ex)
@@ -5355,17 +5357,8 @@ namespace MissionPlanner
                             // Change menu item text to "Stop Archiving"
                             menuItem.Text = "STOP";
 
-<<<<<<< HEAD
-                            // Set archiving active flag
-                            isArchivingActive = true;
-
-                            // Subscribe to the FormClosing event if not already subscribed
-                            //this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
-                            //this.FindForm().FormClosing += MainForm_FormClosing;
-=======
                             // Store the timer in the menu item tag for later retrieval
                             menuItem.Tag = autoModeTimer;
->>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
                         }
                     }
                     else if (menuItem.Text == "STOP")
@@ -5396,6 +5389,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show($"Command failed: {ex.Message}", Strings.ERROR);
             }
         }
+
 
         private void StopArchiving()
         {

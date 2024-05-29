@@ -898,11 +898,11 @@
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-<<<<<<< HEAD
-    <value>92, 72</value>
-=======
-    <value>55, 47</value>
->>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
+ 
+  <value>92, 72</value>
+
+  <value>55, 47</value>
+
   </data>
   <data name="toolStripMenuItem5.Text" xml:space="preserve">
     <value>START</value>
@@ -911,17 +911,17 @@
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-<<<<<<< HEAD
+  
     <value>68, 72</value>
   </data>
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>ARM</value>
-=======
+
     <value>37, 47</value>
   </data>
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>AR</value>
->>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
+
   </data>
   <data name="toolStripMenuItem1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
@@ -1029,11 +1029,11 @@
     <value>status1</value>
   </data>
   <data name="&gt;&gt;status1.Type" xml:space="preserve">
-<<<<<<< HEAD
+
     <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.8914.29723, Culture=neutral, PublicKeyToken=null</value>
-=======
+
     <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.8914.18281, Culture=neutral, PublicKeyToken=null</value>
->>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
+
   </data>
   <data name="&gt;&gt;status1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -2812,11 +2812,10 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-<<<<<<< HEAD
     <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.8914.29723, Culture=neutral, PublicKeyToken=null</value>
-=======
+
     <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.8914.18281, Culture=neutral, PublicKeyToken=null</value>
->>>>>>> b74dc44b4980c17d41426a873fbe1d71ae598d52
+
   </data>
   <data name="&gt;&gt;sPEEDToolStripMenuItem.Name" xml:space="preserve">
     <value>sPEEDToolStripMenuItem</value>
