@@ -3,7 +3,7 @@ extern alias Drawing;
 #endif
 
 using GMap.NET.WindowsForms;
-using log4net;
+//using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
@@ -39,9 +39,10 @@ using MissionPlanner.Joystick;
 using System.Net;
 using Newtonsoft.Json;
 using DroneCAN;
-using static IronPython.Modules.PythonCsvModule;
+//using static IronPython.Modules.PythonCsvModule;
 
 using System.Threading;
+using log4net;
 
 // Define the PluginThreadrunner variable at the class level
 
@@ -186,8 +187,7 @@ namespace MissionPlanner
 
 
 
-        private static readonly ILog log =
-            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static menuicons displayicons; //do not initialize to allow update of custom icons
         public static string running_directory = Settings.GetRunningDirectory();
@@ -2220,7 +2220,11 @@ namespace MissionPlanner
 
 
             // Call aLTITUDEToolStripMenuItem_Click when connection is established
+<<<<<<< HEAD
            // aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
+=======
+            //aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
 
             //GPS Toolstrip
             gPSToolStripMenuItem_Click(gPSToolStripMenuItem, EventArgs.Empty);
@@ -5170,7 +5174,54 @@ namespace MissionPlanner
 
 
 
+<<<<<<< HEAD
 
+=======
+            // arm the MAV
+            try
+            {
+                var isitarmed = MainV2.comPort.MAV.cs.armed;
+                var action = MainV2.comPort.MAV.cs.armed ? "DISARM" : "ARM";
+
+                if (isitarmed)
+                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
+                            CustomMessageBox.MessageBoxButtons.YesNo) !=
+                        CustomMessageBox.DialogResult.Yes)
+                        return;
+                StringBuilder sb = new StringBuilder();
+                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+                {
+                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text)
+                        .TrimEnd('\0'));
+                    return true;
+                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                bool ans = MainV2.comPort.doARM(!isitarmed);
+                MainV2.comPort.UnSubscribeToPacketType(sub);
+                if (ans == false)
+                {
+                    if (CustomMessageBox.Show(
+                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
+                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
+                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
+                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                        CustomMessageBox.DialogResult.Yes)
+                    {
+                        ans = MainV2.comPort.doARM(!isitarmed, true);
+                        if (ans == false)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                        }
+                    }
+                }
+
+                toolStripMenuItem4.Text = isitarmed ? "ARM" : "DISARM";
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+            }
+        }
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
 
 
         /*
@@ -5323,43 +5374,77 @@ namespace MissionPlanner
                     if (menuItem.Text == "START")
                     {
                         // Show save file dialog
-                        SaveFileDialog saveFileDialog = new SaveFileDialog
-                        {
-                            Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
-                            FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.txt"
-                        };
+                        SaveFileDialog saveFileDialog = new SaveFileDialog();
+                        saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
+                        saveFileDialog.FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.csv";
 
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            // Save the file
-                            File.WriteAllText(saveFileDialog.FileName, "Survey data content here...");
-                            timestampFilePath = saveFileDialog.FileName;
+                            string timestampFilePath = saveFileDialog.FileName;
+
+                            // Write CSV headers
+                            System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,Doserate,Threshold,DS1,DS2\n");
 
                             // Switch to auto mode
-                            MainV2.comPort.setMode("Auto");
+                            MainV2.comPort.setMode("AUTO");
 
                             // Initialize and start the timer to save timestamps
-                            autoModeTimer = new System.Timers.Timer(1000);
+                            System.Timers.Timer autoModeTimer = new System.Timers.Timer(1000);
                             autoModeTimer.Elapsed += (s, args) =>
                             {
-                                File.AppendAllText(timestampFilePath, $"{DateTime.Now:MM_dd_HH_mm_ss}\n");
+                                try
+                                {
+
+                                    //CustomMessageBox.Show("auto is calling");
+                                    string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                                    double currentLatitude = MainV2.comPort.MAV.cs.lat;
+                                    double currentLongitude = MainV2.comPort.MAV.cs.lng;
+                                    float doseRate = DoseRateUpdater.finalValue1;
+                                    string threshold = DoseRateUpdater.threshold;
+                                    string ds1 = DoseRateUpdater.detectorSensitivity1;
+                                    string ds2 = DoseRateUpdater.detectorSensitivity2;
+
+                                    //CustomMessageBox.Show(threshold);
+
+                                    string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate},{threshold},{ds1},{ds2}\n";
+                                    File.AppendAllText(timestampFilePath, csvLine);
+                                }
+                                catch (Exception ex)
+                                {
+                                    // Log or handle the error appropriately
+                                    CustomMessageBox.Show($"Error during timer elapsed: {ex.Message}", Strings.ERROR);
+                                }
                             };
                             autoModeTimer.Start();
 
                             // Change menu item text to "Stop Archiving"
                             menuItem.Text = "STOP";
 
+<<<<<<< HEAD
                             // Set archiving active flag
                             isArchivingActive = true;
 
                             // Subscribe to the FormClosing event if not already subscribed
                             //this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
                             //this.FindForm().FormClosing += MainForm_FormClosing;
+=======
+                            // Store the timer in the menu item tag for later retrieval
+                            menuItem.Tag = autoModeTimer;
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
                         }
                     }
                     else if (menuItem.Text == "STOP")
                     {
-                        StopArchiving();
+                        // Retrieve and stop the timer
+                        System.Timers.Timer autoModeTimer = menuItem.Tag as System.Timers.Timer;
+                        if (autoModeTimer != null)
+                        {
+                            autoModeTimer.Stop();
+                            autoModeTimer.Dispose();
+                        }
+
+                        // Switch off auto mode
+                        MainV2.comPort.setMode("Manual");
 
                         // Change menu item text back to "Auto"
                         menuItem.Text = "START";
@@ -5371,11 +5456,12 @@ namespace MissionPlanner
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                CustomMessageBox.Show($"Command failed: {ex.Message}", Strings.ERROR);
             }
         }
+
 
         private void StopArchiving()
         {

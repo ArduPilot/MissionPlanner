@@ -72,7 +72,11 @@ namespace MissionPlanner
                     toolStripMenuItem.AutoSize = true;
                     toolStripMenuItem.Text = "Speed: 0.00 Km/h";
                 }
+<<<<<<< HEAD
                
+=======
+                MissionPlanner.GCSViews.FlightData.instance.AddMarker();
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
             }
             else
             {

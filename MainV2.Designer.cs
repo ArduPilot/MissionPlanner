@@ -80,10 +80,15 @@ namespace MissionPlanner
             this.MenuInitConfig,
             this.MenuConfigTune,
             this.MenuSimulation,
-            this.MenuConnect,
-            this.toolStripConnectionControl,
             this.toolStripMenuItem2,
             this.toolStripMenuItem3,
+            this.MenuConnect,
+            this.toolStripConnectionControl,
+<<<<<<< HEAD
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+=======
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
             this.sTATUSToolStripMenuItem,
             this.sPEEDToolStripMenuItem,
             this.gPSToolStripMenuItem,
@@ -259,6 +264,8 @@ namespace MissionPlanner
             // 
             // toolStripMenuItem4
             // 
+            this.toolStripMenuItem4.Checked = true;
+            this.toolStripMenuItem4.CheckState = System.Windows.Forms.CheckState.Checked;
             resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);

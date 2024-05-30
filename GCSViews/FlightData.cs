@@ -6374,6 +6374,7 @@ namespace MissionPlanner.GCSViews
               float doseRate = DoseRateUpdater.finalValue1;
               float thres = DoseRateUpdater.userThreshold;
 
+<<<<<<< HEAD
               //float userThreshold = DoseRateUpdater.threshold;
               //float doseRate = doseRateUpdater.finalValue1;
               //float doseRate = doseRateUpdater.AccessFinalValue1(doseRateUpdater.finalValue1);
@@ -6381,6 +6382,10 @@ namespace MissionPlanner.GCSViews
 
               //CustomMessageBox.Show(doseRate.ToString());
               string time = DateTime.Now.ToString("HH:mm:ss"); // Current time in HH:mm:ss format
+=======
+            //CustomMessageBox.Show(doseRate.ToString());
+            string time = DateTime.Now.ToString("HH:mm:ss"); // Current time in HH:mm:ss format
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
 
 
               // Create a new PointLatLng object with the given latitude and longitude
