@@ -3579,9 +3579,12 @@ namespace MissionPlanner
                     }
                 };
 
-                ZeroConf.ProbeForMavlink();
+                if (!isHerelink)
+                {
+                    ZeroConf.ProbeForMavlink();
 
-                ZeroConf.ProbeForRTSP();
+                    ZeroConf.ProbeForRTSP();
+                }
             }
             catch
             {

@@ -236,23 +236,26 @@ namespace MissionPlanner
 
             try
             {
-                var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
-                log.Info(file);
-                IntPtr ptr = IntPtr.Zero;
-
-                if (MONO)
+                if (!MainV2.Android)
                 {
-                    ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
-                        MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
-                    log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
-                }
+                    var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
+                    log.Info(file);
+                    IntPtr ptr = IntPtr.Zero;
 
-                if (ptr == IntPtr.Zero)
-                    ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
+                    if (MONO)
+                    {
+                        ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
+                            MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
+                        log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
+                    }
 
-                if (ptr != IntPtr.Zero)
-                {
-                    log.Info("SkiaLoaded");
+                    if (ptr == IntPtr.Zero)
+                        ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
+
+                    if (ptr != IntPtr.Zero)
+                    {
+                        log.Info("SkiaLoaded");
+                    }
                 }
             }
             catch (Exception ex)
