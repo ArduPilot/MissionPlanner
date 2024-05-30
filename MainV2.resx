@@ -943,11 +943,7 @@
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-<<<<<<< HEAD
     <value>92, 72</value>
-=======
-    <value>62, 47</value>
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
   </data>
   <data name="toolStripMenuItem5.Text" xml:space="preserve">
     <value>START</value>
@@ -956,11 +952,7 @@
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
   </data>
   <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-<<<<<<< HEAD
     <value>148, 72</value>
-=======
-    <value>106, 47</value>
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
   </data>
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>ARM/DISARM</value>
@@ -1044,11 +1036,7 @@
     <value>status1</value>
   </data>
   <data name="&gt;&gt;status1.Type" xml:space="preserve">
-<<<<<<< HEAD
     <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.8916.20839, Culture=neutral, PublicKeyToken=null</value>
-=======
-    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.8916.20938, Culture=neutral, PublicKeyToken=null</value>
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
   </data>
   <data name="&gt;&gt;status1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -2827,7 +2815,6 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-<<<<<<< HEAD
     <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.8916.20839, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem2.Name" xml:space="preserve">

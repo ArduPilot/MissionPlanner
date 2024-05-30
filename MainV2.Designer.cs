@@ -84,11 +84,10 @@ namespace MissionPlanner
             this.toolStripMenuItem3,
             this.MenuConnect,
             this.toolStripConnectionControl,
-<<<<<<< HEAD
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-=======
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
+
+           // this.toolStripMenuItem2,
+           // this.toolStripMenuItem3,
+
             this.sTATUSToolStripMenuItem,
             this.sPEEDToolStripMenuItem,
             this.gPSToolStripMenuItem,

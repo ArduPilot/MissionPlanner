@@ -2220,11 +2220,11 @@ namespace MissionPlanner
 
 
             // Call aLTITUDEToolStripMenuItem_Click when connection is established
-<<<<<<< HEAD
+
            // aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
-=======
+
             //aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
+
 
             //GPS Toolstrip
             gPSToolStripMenuItem_Click(gPSToolStripMenuItem, EventArgs.Empty);
@@ -5174,11 +5174,9 @@ namespace MissionPlanner
 
 
 
-<<<<<<< HEAD
 
-=======
             // arm the MAV
-            try
+         /*   try
             {
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
                 var action = MainV2.comPort.MAV.cs.armed ? "DISARM" : "ARM";
@@ -5221,7 +5219,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
             }
         }
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
+>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc*/
 
 
         /*
@@ -5420,17 +5418,19 @@ namespace MissionPlanner
                             // Change menu item text to "Stop Archiving"
                             menuItem.Text = "STOP";
 
-<<<<<<< HEAD
+
+
+//<<<<<<< HEAD
                             // Set archiving active flag
                             isArchivingActive = true;
 
                             // Subscribe to the FormClosing event if not already subscribed
                             //this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
                             //this.FindForm().FormClosing += MainForm_FormClosing;
-=======
+//=======
                             // Store the timer in the menu item tag for later retrieval
                             menuItem.Tag = autoModeTimer;
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc
+//>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc 
                         }
                     }
                     else if (menuItem.Text == "STOP")
