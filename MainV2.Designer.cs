@@ -51,7 +51,6 @@ namespace MissionPlanner
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.sPEEDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aLTITUDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tIMEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bATTERYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,19 +80,18 @@ namespace MissionPlanner
             this.MenuInitConfig,
             this.MenuConfigTune,
             this.MenuSimulation,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
             this.MenuConnect,
             this.toolStripConnectionControl,
+            this.sTATUSToolStripMenuItem,
             this.sPEEDToolStripMenuItem,
-            this.aLTITUDEToolStripMenuItem,
             this.gPSToolStripMenuItem,
             this.tIMEToolStripMenuItem,
             this.bATTERYToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem4,
             this.toolStripMenuItem1,
-            this.sTATUSToolStripMenuItem,
-            this.toolStripMenuItem3});
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem4});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
@@ -208,12 +206,6 @@ namespace MissionPlanner
             this.sPEEDToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.sPEEDToolStripMenuItem.Name = "sPEEDToolStripMenuItem";
             this.sPEEDToolStripMenuItem.Click += new System.EventHandler(this.sPEEDToolStripMenuItem_Click);
-            // 
-            // aLTITUDEToolStripMenuItem
-            // 
-            resources.ApplyResources(this.aLTITUDEToolStripMenuItem, "aLTITUDEToolStripMenuItem");
-            this.aLTITUDEToolStripMenuItem.Name = "aLTITUDEToolStripMenuItem";
-            this.aLTITUDEToolStripMenuItem.Click += new System.EventHandler(this.aLTITUDEToolStripMenuItem_Click);
             // 
             // gPSToolStripMenuItem
             // 
@@ -336,7 +328,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem connectionListToolStripMenuItem;
         public Controls.Status status1;
         private System.Windows.Forms.ToolStripMenuItem sPEEDToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aLTITUDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gPSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tIMEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bATTERYToolStripMenuItem;

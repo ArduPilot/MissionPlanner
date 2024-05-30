@@ -2220,7 +2220,7 @@ namespace MissionPlanner
 
 
             // Call aLTITUDEToolStripMenuItem_Click when connection is established
-            aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
+            //aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
 
             //GPS Toolstrip
             gPSToolStripMenuItem_Click(gPSToolStripMenuItem, EventArgs.Empty);
