@@ -50,17 +50,16 @@ namespace MissionPlanner
             this.MenuSimulation = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.sTATUSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sPEEDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aLTITUDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tIMEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bATTERYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.sTATUSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.status1 = new MissionPlanner.Controls.Status();
@@ -83,17 +82,16 @@ namespace MissionPlanner
             this.MenuSimulation,
             this.MenuConnect,
             this.toolStripConnectionControl,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.sTATUSToolStripMenuItem,
             this.sPEEDToolStripMenuItem,
-            this.aLTITUDEToolStripMenuItem,
             this.gPSToolStripMenuItem,
             this.tIMEToolStripMenuItem,
             this.bATTERYToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem4,
             this.toolStripMenuItem1,
-            this.sTATUSToolStripMenuItem,
-            this.toolStripMenuItem3});
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem4});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
@@ -202,18 +200,32 @@ namespace MissionPlanner
             this.toolStripConnectionControl.Name = "toolStripConnectionControl";
             this.toolStripConnectionControl.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Checked = true;
+            this.toolStripMenuItem2.CheckState = System.Windows.Forms.CheckState.Checked;
+            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // sTATUSToolStripMenuItem
+            // 
+            resources.ApplyResources(this.sTATUSToolStripMenuItem, "sTATUSToolStripMenuItem");
+            this.sTATUSToolStripMenuItem.Name = "sTATUSToolStripMenuItem";
+            this.sTATUSToolStripMenuItem.Click += new System.EventHandler(this.sTATUSToolStripMenuItem_Click);
+            // 
             // sPEEDToolStripMenuItem
             // 
             resources.ApplyResources(this.sPEEDToolStripMenuItem, "sPEEDToolStripMenuItem");
             this.sPEEDToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.sPEEDToolStripMenuItem.Name = "sPEEDToolStripMenuItem";
             this.sPEEDToolStripMenuItem.Click += new System.EventHandler(this.sPEEDToolStripMenuItem_Click);
-            // 
-            // aLTITUDEToolStripMenuItem
-            // 
-            resources.ApplyResources(this.aLTITUDEToolStripMenuItem, "aLTITUDEToolStripMenuItem");
-            this.aLTITUDEToolStripMenuItem.Name = "aLTITUDEToolStripMenuItem";
-            this.aLTITUDEToolStripMenuItem.Click += new System.EventHandler(this.aLTITUDEToolStripMenuItem_Click);
             // 
             // gPSToolStripMenuItem
             // 
@@ -233,13 +245,11 @@ namespace MissionPlanner
             this.bATTERYToolStripMenuItem.Name = "bATTERYToolStripMenuItem";
             this.bATTERYToolStripMenuItem.Click += new System.EventHandler(this.bATTERYToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
+            // toolStripMenuItem1
             // 
-            this.toolStripMenuItem2.Checked = true;
-            this.toolStripMenuItem2.CheckState = System.Windows.Forms.CheckState.Checked;
-            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click_2);
             // 
             // toolStripMenuItem5
             // 
@@ -252,24 +262,6 @@ namespace MissionPlanner
             resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click_2);
-            // 
-            // sTATUSToolStripMenuItem
-            // 
-            resources.ApplyResources(this.sTATUSToolStripMenuItem, "sTATUSToolStripMenuItem");
-            this.sTATUSToolStripMenuItem.Name = "sTATUSToolStripMenuItem";
-            this.sTATUSToolStripMenuItem.Click += new System.EventHandler(this.sTATUSToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // menu
             // 
@@ -334,7 +326,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem connectionListToolStripMenuItem;
         public Controls.Status status1;
         private System.Windows.Forms.ToolStripMenuItem sPEEDToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aLTITUDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gPSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tIMEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bATTERYToolStripMenuItem;

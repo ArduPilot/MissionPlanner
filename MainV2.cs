@@ -121,6 +121,7 @@ namespace MissionPlanner
         private void sPEEDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             airspeedUpdater.showSpeed((ToolStripMenuItem)sender);
+           
         }
 
 
@@ -2219,7 +2220,7 @@ namespace MissionPlanner
 
 
             // Call aLTITUDEToolStripMenuItem_Click when connection is established
-            aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
+           // aLTITUDEToolStripMenuItem_Click(aLTITUDEToolStripMenuItem, EventArgs.Empty);
 
             //GPS Toolstrip
             gPSToolStripMenuItem_Click(gPSToolStripMenuItem, EventArgs.Empty);
@@ -5109,53 +5110,67 @@ namespace MissionPlanner
             }
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            if (!MainV2.comPort.BaseStream.IsOpen)
-                return;
+         private void toolStripMenuItem4_Click(object sender, EventArgs e)
+         {
+             if (!MainV2.comPort.BaseStream.IsOpen)
+                 return;
 
-            // arm the MAV
-            try
-            {
-                var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+             // arm the MAV
+             try
+             {
+                 var isitarmed = MainV2.comPort.MAV.cs.armed;
+                 var action = MainV2.comPort.MAV.cs.armed ? "DISARM" : "ARM";
 
-                if (isitarmed)
-                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
-                            CustomMessageBox.MessageBoxButtons.YesNo) !=
-                        CustomMessageBox.DialogResult.Yes)
-                        return;
-                StringBuilder sb = new StringBuilder();
-                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
-                {
-                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text)
-                        .TrimEnd('\0'));
-                    return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-                bool ans = MainV2.comPort.doARM(!isitarmed);
-                MainV2.comPort.UnSubscribeToPacketType(sub);
-                if (ans == false)
-                {
-                    if (CustomMessageBox.Show(
-                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
-                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
-                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
-                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
-                        CustomMessageBox.DialogResult.Yes)
-                    {
-                        ans = MainV2.comPort.doARM(!isitarmed, true);
-                        if (ans == false)
-                        {
-                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
-            }
-        }
+                 if (isitarmed)
+                     if (CustomMessageBox.Show("Are you sure you want to " + action, action,
+                             CustomMessageBox.MessageBoxButtons.YesNo) !=
+                         CustomMessageBox.DialogResult.Yes)
+                         return;
+                 StringBuilder sb = new StringBuilder();
+                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+                 {
+                     sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text)
+                         .TrimEnd('\0'));
+                     return true;
+                 }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                 bool ans = MainV2.comPort.doARM(!isitarmed);
+                 MainV2.comPort.UnSubscribeToPacketType(sub);
+                 if (ans == false)
+                 {
+                     if (CustomMessageBox.Show(
+                             action + " failed.\n" + sb.ToString() + "\nForce " + action +
+                             " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
+                             action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
+                             CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                         CustomMessageBox.DialogResult.Yes)
+                     {
+                         ans = MainV2.comPort.doARM(!isitarmed, true);
+                         if (ans == false)
+                         {
+                             CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                         }
+                     }
+                 }
+
+                // toolStripMenuItem4.Text = isitarmed ? "ARM" : "DISARM";
+             }
+             catch
+             {
+                 CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+             }
+         }
+
+
+
+
+      
+
+
+
+
+
+
+
 
 
         /*
@@ -5305,7 +5320,7 @@ namespace MissionPlanner
                         parentControl.Enabled = false;
                     }
 
-                    if (menuItem.Text == "AUTO")
+                    if (menuItem.Text == "START")
                     {
                         // Show save file dialog
                         SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -5332,22 +5347,22 @@ namespace MissionPlanner
                             autoModeTimer.Start();
 
                             // Change menu item text to "Stop Archiving"
-                            menuItem.Text = "Stop Archiving";
+                            menuItem.Text = "STOP";
 
                             // Set archiving active flag
                             isArchivingActive = true;
 
                             // Subscribe to the FormClosing event if not already subscribed
-                            this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
-                            this.FindForm().FormClosing += MainForm_FormClosing;
+                            //this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
+                            //this.FindForm().FormClosing += MainForm_FormClosing;
                         }
                     }
-                    else if (menuItem.Text == "Stop Archiving")
+                    else if (menuItem.Text == "STOP")
                     {
                         StopArchiving();
 
                         // Change menu item text back to "Auto"
-                        menuItem.Text = "AUTO";
+                        menuItem.Text = "START";
                     }
 
                     if (parentControl != null)
@@ -5378,7 +5393,7 @@ namespace MissionPlanner
             isArchivingActive = false;
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        /*private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (isArchivingActive)
             {
@@ -5394,6 +5409,6 @@ namespace MissionPlanner
                     });
                 });
             }
-        }
+        }*/
     }
 }

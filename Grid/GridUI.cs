@@ -871,6 +871,7 @@ namespace MissionPlanner.Grid
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
             double seconds = ((routetotal * 1000.0) / ((flyspeedms) * 0.8));
+            //CustomMessageBox.Show(lbl_flighttime.Text.ToString());
             // reduce flying speed by 20 %
             lbl_flighttime.Text = secondsToNice(seconds);
             seconds = ((routetotal * 1000.0) / (flyspeedms));

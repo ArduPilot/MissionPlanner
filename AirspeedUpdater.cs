@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+  
 
 // Suriya made changes here
 
@@ -24,7 +25,13 @@ namespace MissionPlanner
                 airspeedUpdateTimer = new System.Windows.Forms.Timer();
                 airspeedUpdateTimer.Interval = 1; // Update every 1 second
                 airspeedUpdateTimer.Tick += (sender, e) => airspeedUpdateTimer_Tick(sender, e, toolStripMenuItem);
+
+                
+
                 airspeedUpdateTimer.Start();
+
+               
+                //FlightData.AddMarker(); //creating the marker functuon
             }
 
             else if (!airspeedUpdateTimer.Enabled)
@@ -57,20 +64,21 @@ namespace MissionPlanner
                     toolStripMenuItem.TextAlign = ContentAlignment.MiddleCenter;
 
                     // Format the text with a fixed number of decimal places
-                    toolStripMenuItem.Text = "Speed: " + "\n" + airspeed.ToString("0.00") + " m/s";
+                    toolStripMenuItem.Text = "Speed: " + "\n" + airspeed.ToString("0.00") + " Km/h";
                 }
                 else
                 {
                     // Reset label properties and display default text
                     toolStripMenuItem.AutoSize = true;
-                    toolStripMenuItem.Text = "Speed: 0.00 m/s";
+                    toolStripMenuItem.Text = "Speed: 0.00 Km/h";
                 }
+               
             }
             else
             {
                 // Reset label properties and display default text
                 toolStripMenuItem.AutoSize = true;
-                toolStripMenuItem.Text = "Speed: 0.00 m/s";
+                toolStripMenuItem.Text = "Speed: 0.00 Km/h";
             }
         }
     }
