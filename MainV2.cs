@@ -3,7 +3,7 @@ extern alias Drawing;
 #endif
 
 using GMap.NET.WindowsForms;
-//using log4net;
+using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
@@ -41,8 +41,6 @@ using Newtonsoft.Json;
 using DroneCAN;
 //using static IronPython.Modules.PythonCsvModule;
 
-using System.Threading;
-using log4net;
 
 // Define the PluginThreadrunner variable at the class level
 
@@ -53,70 +51,6 @@ namespace MissionPlanner
 {
     public partial class MainV2 : Form
     {
-
-        /*private ManualResetEvent PluginThreadrunner = new ManualResetEvent(false);
-
-        private AirspeedUpdater airspeedUpdater = new AirspeedUpdater();
-
-        private void UpdateConnectIcon()
-        {
-            if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
-            {
-                if (comPort.BaseStream.IsOpen)
-                {
-                    if (this.MenuConnect.Image == null || (string)this.MenuConnect.Image.Tag != "Disconnect")
-                    {
-                        this.BeginInvoke((MethodInvoker)delegate
-                        {
-                            this.MenuConnect.Image = displayicons.disconnect;
-                            this.MenuConnect.Image.Tag = "Disconnect";
-                            this.MenuConnect.Text = Strings.DISCONNECTc;
-                            _connectionControl.IsConnected(true);
-                            airspeedUpdater.showSpeed(this.MenuConnect); // Pass MenuConnect to airspeedUpdater.showSpeed
-                        });
-                    }
-                }
-                else
-                {
-                    if (this.MenuConnect.Image != null && (string)this.MenuConnect.Image.Tag != "Connect")
-                    {
-                        this.BeginInvoke((MethodInvoker)delegate
-                        {
-                            this.MenuConnect.Image = displayicons.connect;
-                            this.MenuConnect.Image.Tag = "Connect";
-                            this.MenuConnect.Text = Strings.CONNECTc;
-                            _connectionControl.IsConnected(false);
-                            if (_connectionStats != null)
-                            {
-                                _connectionStats.StopUpdates();
-                            }
-                        });
-                    }
-
-                    if (comPort.logreadmode)
-                    {
-                        this.BeginInvoke((MethodInvoker)delegate { _connectionControl.IsConnected(true); });
-                    }
-                }
-
-                connectButtonUpdate = DateTime.Now;
-            }
-        }
-
-        */
-
-
-
-
-
-
-        //
-
-
-
-
-        // Suriya was here
-        // Displaying Airspeed on Menu Strip
 
         private AirspeedUpdater airspeedUpdater = new AirspeedUpdater();
         private void sPEEDToolStripMenuItem_Click(object sender, EventArgs e)

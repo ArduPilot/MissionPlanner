@@ -6371,7 +6371,8 @@ namespace MissionPlanner.GCSViews
 
 
 
-              float doseRate = DoseRateUpdater.finalValue1;
+            //float doseRate = DoseRateUpdater.finalValue1;
+              float doseRate = 100;
               string thres = DoseRateUpdater.threshold;
               float thresh1 = float.Parse(thres);
 
