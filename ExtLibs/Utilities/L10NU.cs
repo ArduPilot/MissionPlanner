@@ -23,6 +23,10 @@ namespace MissionPlanner.Utilities
                 case "zh-Hans":
                     lines = Regex.Split(Resources.strings_zhHans, "\r\n|\r|\n");
                     break;
+                case "uk":
+                case "uk-UA":
+                    lines = Regex.Split(Resources.strings_uk, "\r\n|\r|\n");
+                    break;
             }
             if (lines != null)
             {

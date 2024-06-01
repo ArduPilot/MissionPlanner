@@ -95,5 +95,14 @@ namespace MissionPlanner.Utilities.Properties {
                 return ResourceManager.GetString("strings_zhHans", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string in uk
+        /// </summary>
+        internal static string strings_uk {
+            get {
+                return ResourceManager.GetString("strings_uk", resourceCulture);
+            }
+        }
     }
 }
