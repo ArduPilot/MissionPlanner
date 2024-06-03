@@ -20,7 +20,7 @@ for i in range(20):
 	proc = Process()
 	proc.StartInfo.WorkingDirectory = workdir
 	proc.StartInfo.FileName ='C:\Users\michael\Documents\Mission Planner\sitl\ArduCopter.exe'
-	proc.StartInfo.Arguments	= ' -M+ -s1 --uartA tcp:0 --defaults ..\default_params\copter.parm --instance ' + str(i) + ' --home -35.363261,'+ str(149.165330 + 0.000001 * i) +',584,353'
+	proc.StartInfo.Arguments	= ' -M+ -s1 --serial0 tcp:0 --defaults ..\default_params\copter.parm --instance ' + str(i) + ' --home -35.363261,'+ str(149.165330 + 0.000001 * i) +',584,353'
 	proc.Start()
 
 	port = MissionPlanner.Comms.TcpSerial();
