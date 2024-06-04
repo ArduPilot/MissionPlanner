@@ -32,7 +32,7 @@ namespace MissionPlanner
         private void TimeUpdateTimer_Tick(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
         {
             toolStripMenuItem.Text = "Time: " + "\n" + DateTime.Now.ToString("hh:mm:ss"); // Update menu text
-            MissionPlanner.GCSViews.FlightData.instance.AddMarker();
+            //MissionPlanner.GCSViews.FlightData.instance.AddMarker();
         }
     }
 

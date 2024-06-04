@@ -70,6 +70,7 @@ namespace MissionPlanner
                 tickFunc.Interval = 1000; // Set the interval to 1 second
                 tickFunc.Tick += (sender, e) => RadiationDetection(sender, e, toolStripMenuItem);
                 tickFunc.Start();
+                
             }
             else if (!tickFunc.Enabled)
             {
@@ -122,7 +123,7 @@ namespace MissionPlanner
                     }
 
                     // Update UI elements based on finalValue1
-                    toolStripMenuItem.Text = finalValue1 + " nsv/h ";
+                    toolStripMenuItem.Text = finalValue1.ToString("F2") + "\n" + "nsv/h";
                     toolStripMenuItem.ForeColor = finalValue1 >= userThreshold ? Color.Red : Color.Black;
 
                     // Call the other program to log data to CSV
