@@ -346,6 +346,12 @@
     <Compile Update="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <None Update="Drivers\amd64\WdfCoInstaller01009.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\amd64\winusbcoinstaller2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Drivers\cubeorangeplus.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -687,6 +693,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Drivers\cubecomp.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\stm32bootloader.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\STM32Bootloader.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\x86\WdfCoInstaller01009.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\x86\winusbcoinstaller2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="HighContrast.mpsystheme">
