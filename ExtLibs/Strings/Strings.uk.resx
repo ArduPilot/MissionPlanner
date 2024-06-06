@@ -131,23 +131,23 @@
     <value>Помилка</value>
   </data>
   <data name="ErrorClosingLogFile" xml:space="preserve">
-    <value>Помилка під час закриття лог-файлів</value>
+    <value>Помилка при закритті лог-файлів</value>
   </data>
   <data name="ErrorCommunicating" xml:space="preserve">
-    <value>Помилка під час зв'язку з автопілотом</value>
+    <value>Помилка зв'язку з автопілотом</value>
   </data>
   <data name="ErrorConnecting" xml:space="preserve">
     <value>Помилка під'єднання
 </value>
   </data>
   <data name="ErrorFeatureNotEnabled" xml:space="preserve">
-    <value>Ця функція у вашій прошивці не активована.</value>
+    <value>Ця функція не активована у вашій прошивці.</value>
   </data>
   <data name="ErrorFirmwareFile" xml:space="preserve">
-    <value>Помилка під час завантаження файла прошивки</value>
+    <value>Помилка при завантаженні файлу прошивки</value>
   </data>
   <data name="ErrorLogList" xml:space="preserve">
-    <value>Помилка під час отримання списку лог-файлів</value>
+    <value>Помилка при отриманні списку лог-файлів</value>
   </data>
   <data name="ErrorNoResponce" xml:space="preserve">
     <value>Помилка: немає відповіді від М-БпЛА</value>
@@ -302,7 +302,7 @@
     <value>Не вдалося під'єднатись</value>
   </data>
   <data name="ConnectingMavlink" xml:space="preserve">
-    <value>Під'єдную MAVLink</value>
+    <value>Під'єднується MAVLink</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Готово</value>
@@ -327,23 +327,23 @@
 MissionPlanner очікує на дійсних 2 серцебиття перед під'єднанням</value>
   </data>
   <data name="Trying" xml:space="preserve">
-    <value>Намагаюсь під'єднатись
+    <value>Спроба під'єднатись
 Час очікування {0}</value>
   </data>
   <data name="CantDetectBoardVersion" xml:space="preserve">
-    <value>Не можу визначити версію Вашої плати. Перевірте кабель.</value>
+    <value>Не вдається визначити версію Вашої плати. Перевірте кабель.</value>
   </data>
   <data name="CheckPortSettingsOr" xml:space="preserve">
     <value>Налаштування невірні або порт вже використовується?</value>
   </data>
   <data name="CommunicationErrorNoConnection" xml:space="preserve">
-    <value>Помилка зв'язку - немає підключення</value>
+    <value>Помилка зв'язку - немає під'єднання</value>
   </data>
   <data name="DetectedA" xml:space="preserve">
-    <value>Визначив </value>
+    <value>Визначено </value>
   </data>
   <data name="DetectingBoardVersion" xml:space="preserve">
-    <value>Визначаю версію плати</value>
+    <value>Визначення версії плати</value>
   </data>
   <data name="DownloadingFromInternet" xml:space="preserve">
     <value>Завантаження з Інтернету</value>
@@ -389,7 +389,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>Завантаження завершено</value>
   </data>
   <data name="UploadingBytesToBoard" xml:space="preserve">
-    <value>Завантажую {0} байт на Плату:</value>
+    <value>Завантаження {0} байт на Плату:</value>
   </data>
   <data name="VerifyComplete" xml:space="preserve">
     <value>Перевірку завершено</value>
@@ -448,7 +448,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>OK</value>
   </data>
   <data name="LinkStats" xml:space="preserve">
-    <value>Статистика підключення</value>
+    <value>Статистика під'єднання</value>
   </data>
   <data name="Stop" xml:space="preserve">
     <value>Стоп</value>
@@ -678,7 +678,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>Несправний зв'язок зі супутником</value>
   </data>
   <data name="Prearm_check_failed" xml:space="preserve">
-    <value>Попередня перевірка безпеки під час розблокування НЕВДАЛА
+    <value>Попередня перевірка безпеки при розблокуванні НЕВДАЛА
 - перегляньте повідомлення</value>
   </data>
   <data name="Invalid_Location" xml:space="preserve">
