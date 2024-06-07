@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -82,3 +82,5 @@ namespace MissionPlanner
         }
     }
 }
+
+ 

@@ -5169,14 +5169,169 @@ namespace MissionPlanner
             }
         }
 
+      
         // Place this at the class level in MainV2.cs
+        /* private static bool isArchivingActive = false;
+         private System.Timers.Timer autoModeTimer = null;
+         private string timestampFilePath = string.Empty;
+
+         private void toolStripMenuItem5_Click(object sender, EventArgs e)
+         {
+             try
+             {
+                 ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+                 if (menuItem != null)
+                 {
+                     Control parentControl = menuItem.Owner as Control;
+                     if (parentControl != null)
+                     {
+                         parentControl.Enabled = false;
+                     }
+
+                     if (menuItem.Text == "START")
+                     {
+                         // Show save file dialog
+                         SaveFileDialog saveFileDialog = new SaveFileDialog();
+                         saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
+                         saveFileDialog.FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.csv";
+
+                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                         {
+                             string timestampFilePath = saveFileDialog.FileName;
+
+                             // Write CSV headers
+                             System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,Doserate,Threshold,DS1,DS2\n");
+
+                             // Switch to auto mode
+
+                             MainV2.comPort.setMode("AUTO");
+
+
+                           
+
+                             // Initialize and start the timer to save timestamps
+                             System.Timers.Timer autoModeTimer = new System.Timers.Timer(1000);
+                             autoModeTimer.Elapsed += (s, args) =>
+
+                             {
+                                 try
+                                 {
+                                     MissionPlanner.GCSViews.FlightData.instance.AddMarker();
+
+                                     //CustomMessageBox.Show("auto is calling");
+                                     string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                                     double currentLatitude = MainV2.comPort.MAV.cs.lat;
+                                     double currentLongitude = MainV2.comPort.MAV.cs.lng;
+                                     float doseRate = DoseRateUpdater.finalValue1;
+                                     string threshold = DoseRateUpdater.threshold;
+                                     string ds1 = DoseRateUpdater.detectorSensitivity1;
+                                     string ds2 = DoseRateUpdater.detectorSensitivity2;
+
+                                     //CustomMessageBox.Show(threshold);
+
+                                     string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate},{threshold},{ds1},{ds2}\n";
+                                     File.AppendAllText(timestampFilePath, csvLine);
+                                 }
+                                 catch (Exception ex)
+                                 {
+                                     // Log or handle the error appropriately
+                                     //CustomMessageBox.Show($"Error during timer elapsed: {ex.Message}", Strings.ERROR);
+                                 }
+                             };
+                             autoModeTimer.Start();
+
+                             // Change menu item text to "Stop Archiving"
+                             menuItem.Text = "STOP";
+
+
+
+
+                             // Set archiving active flag
+                             isArchivingActive = true;
+
+                             menuItem.Tag = autoModeTimer;
+
+                           
+
+                        }
+                     }
+                     else if (menuItem.Text == "STOP")
+                     {
+                         // Retrieve and stop the timer
+                         System.Timers.Timer autoModeTimer = menuItem.Tag as System.Timers.Timer;
+                         if (autoModeTimer != null)
+                         {
+                             autoModeTimer.Stop();
+                             autoModeTimer.Dispose();
+                         }
+
+                         // Switch off auto mode
+                         MainV2.comPort.setMode("Manual");
+
+                         // Change menu item text back to "Auto"
+                         menuItem.Text = "START";
+                     }
+
+                     if (parentControl != null)
+                     {
+                         parentControl.Enabled = true;
+                     }
+                 }
+             }
+             catch (Exception ex)
+             {
+                 CustomMessageBox.Show($"Command failed: {ex.Message}", Strings.ERROR);
+             }
+         }
+
+
+         private void StopArchiving()
+         {
+             if (autoModeTimer != null)
+             {
+                 autoModeTimer.Stop();
+                 autoModeTimer.Dispose();
+                 autoModeTimer = null;
+             }
+
+             // Switch off auto mode
+             MainV2.comPort.setMode("Manual");
+
+             // Reset archiving active flag
+             isArchivingActive = false;
+        }
+
+
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isArchivingActive)
+            {
+                // Cancel the form closing event to prevent the application from closing
+                e.Cancel = true;
+
+                // Show warning message asynchronously to keep UI responsive
+                Task.Run(() =>
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        MessageBox.Show("Please stop archiving before closing the application.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                });
+            }
+        }*/
+
+
+
+
+
+
+
         private static bool isArchivingActive = false;
         private System.Timers.Timer autoModeTimer = null;
         private string timestampFilePath = string.Empty;
 
-        // Subscribe to the FormClosing event
 
-        // The rest of your methods, including toolStripMenuItem5_Click and StopArchiving
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             try
@@ -5245,10 +5400,27 @@ namespace MissionPlanner
                     }
                     else if (menuItem.Text == "STOP")
                     {
+
                         StopArchiving();
+
+
+                        // Retrieve and stop the timer
+                        autoModeTimer = menuItem.Tag as System.Timers.Timer;
+                        if (autoModeTimer != null)
+                        {
+                            autoModeTimer.Stop();
+                            autoModeTimer.Dispose();
+                        }
+
+                        // Switch off auto mode
+                        MainV2.comPort.setMode("Manual");
+
 
                         // Change menu item text back to "START"
                         menuItem.Text = "START";
+
+                        // Reset archiving active flag
+                        isArchivingActive = false;
                     }
 
                     if (parentControl != null)
@@ -5280,6 +5452,20 @@ namespace MissionPlanner
             isArchivingActive = false;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 
       
     }
