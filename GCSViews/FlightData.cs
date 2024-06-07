@@ -2599,6 +2599,7 @@ namespace MissionPlanner.GCSViews
             if (hud1.Parent == SubMainLeft.Panel1)
                 SubMainLeft.Panel1Collapsed = false;
             huddropout = false;
+            
         }
 
         void dropout_Resize(object sender, EventArgs e)
@@ -2828,6 +2829,8 @@ namespace MissionPlanner.GCSViews
                         Text = "Close"
                     };
                     but.Click += but_Click;
+
+                    
 
                     splitContainer1.Panel2.Controls.Add(but);
                     splitContainer1.Panel2.Controls.Add(sc.Control);
@@ -6046,6 +6049,7 @@ namespace MissionPlanner.GCSViews
             tabControlactions.SelectedTab = tabQuick;
             tabQuickDetached = false;
             contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
+            
         }
 
         private void IDENT_btn_Click(object sender, EventArgs e)
@@ -6368,13 +6372,14 @@ namespace MissionPlanner.GCSViews
               double latitude = MainV2.comPort.MAV.cs.lat;
               double longitude = MainV2.comPort.MAV.cs.lng;
 
+             string thresh = DoseRateUpdater.threshold;
 
 
 
             //float doseRate = DoseRateUpdater.finalValue1;
               float doseRate = 100;
-              string thres = DoseRateUpdater.threshold;
-              float thresh1 = float.Parse(thres);
+             // string thres = DoseRateUpdater.threshold;
+              float thresh1 = float.Parse(thresh);
 
 
 

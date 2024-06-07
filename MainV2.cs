@@ -49,6 +49,7 @@ using DroneCAN;
 
 namespace MissionPlanner
 {
+
     public partial class MainV2 : Form
     {
 
@@ -779,6 +780,8 @@ namespace MissionPlanner
 
         public MainV2()
         {
+            //this.FormClosing += new FormClosingEventHandler(MainV2_FormClosing);
+
             log.Info("Mainv2 ctor");
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
@@ -2477,22 +2480,59 @@ namespace MissionPlanner
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected override void OnFormClosed(FormClosedEventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosed(e);
-
-            Console.WriteLine("MainV2_FormClosed");
-
-            if (joystick != null)
+            if (isArchivingActive)
             {
-              
-                while (!joysendThreadExited)
-                    Thread.Sleep(10);
+                
 
-                joystick.Dispose(); //proper clean up of joystick.
+                CustomMessageBox.Show("Stop Archving");
+                StopArchiving();
             }
+            else
+            {
+                base.OnFormClosing(e);
+
+                Console.WriteLine("MainV2_FormClosed");
+
+
+
+
+
+                if (joystick != null)
+                {
+
+                    while (!joysendThreadExited)
+                        Thread.Sleep(10);
+
+                    joystick.Dispose(); //proper clean up of joystick.
+                }
+            }
+                
         }
-       
+
+
+        //public  new void OnFormClosing(FormClosingEventArgs e) //naveen
+        //{
+        //    base.OnFormClosing(e);
+
+        //    Console.WriteLine("MainV2_FormClosed");
+
+
+
+
+
+        //    if (joystick != null)
+        //    {
+
+        //        while (!joysendThreadExited)
+        //            Thread.Sleep(10);
+
+        //        joystick.Dispose(); //proper clean up of joystick.
+        //    }
+        //}
+
+
         private void LoadConfig()
         {
             try
@@ -5109,163 +5149,7 @@ namespace MissionPlanner
 
 
 
-            // arm the MAV
-         /*   try
-            {
-                var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "DISARM" : "ARM";
-
-                if (isitarmed)
-                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
-                            CustomMessageBox.MessageBoxButtons.YesNo) !=
-                        CustomMessageBox.DialogResult.Yes)
-                        return;
-                StringBuilder sb = new StringBuilder();
-                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
-                {
-                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text)
-                        .TrimEnd('\0'));
-                    return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-                bool ans = MainV2.comPort.doARM(!isitarmed);
-                MainV2.comPort.UnSubscribeToPacketType(sub);
-                if (ans == false)
-                {
-                    if (CustomMessageBox.Show(
-                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
-                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
-                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
-                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
-                        CustomMessageBox.DialogResult.Yes)
-                    {
-                        ans = MainV2.comPort.doARM(!isitarmed, true);
-                        if (ans == false)
-                        {
-                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                        }
-                    }
-                }
-
-                toolStripMenuItem4.Text = isitarmed ? "ARM" : "DISARM";
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
-            }
-        }
->>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc*/
-
-
-        /*
-        // Place this at the class level in MainV2.cs
-        private static bool isArchivingActive = false;
-        private System.Timers.Timer autoModeTimer = null;
-        private string timestampFilePath = string.Empty;
-
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
-                if (menuItem != null)
-                {
-                    Control parentControl = menuItem.Owner as Control;
-                    if (parentControl != null)
-                    {
-                        parentControl.Enabled = false;
-                    }
-
-                    if (menuItem.Text == "Auto")
-                    {
-                        // Show save file dialog
-                        SaveFileDialog saveFileDialog = new SaveFileDialog
-                        {
-                            Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
-                            FileName = $"survey_{DateTime.Now:MM_dd_HH_mm_ss}.txt"
-                        };
-
-                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            // Save the file
-                            File.WriteAllText(saveFileDialog.FileName, "Survey data content here...");
-                            timestampFilePath = saveFileDialog.FileName;
-
-                            // Switch to auto mode
-                            MainV2.comPort.setMode("Auto");
-
-                            // Initialize and start the timer to save timestamps
-                            autoModeTimer = new System.Timers.Timer(1000);
-                            autoModeTimer.Elapsed += (s, args) =>
-                            {
-                                File.AppendAllText(timestampFilePath, $"{DateTime.Now:MM_dd_HH_mm_ss}\n");
-                            };
-                            autoModeTimer.Start();
-
-                            // Change menu item text to "Stop Archiving"
-                            menuItem.Text = "Stop Archiving";
-
-                            // Set archiving active flag
-                            isArchivingActive = true;
-
-                            // Subscribe to the FormClosing event if not already subscribed
-                            this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
-                            this.FindForm().FormClosing += MainForm_FormClosing;
-                        }
-                    }
-                    else if (menuItem.Text == "Stop Archiving")
-                    {
-                        StopArchiving();
-
-                        // Change menu item text back to "Auto"
-                        menuItem.Text = "Auto";
-                    }
-
-                    if (parentControl != null)
-                    {
-                        parentControl.Enabled = true;
-                    }
-                }
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-            }
-        }
-
-        private void StopArchiving()
-        {
-            if (autoModeTimer != null)
-            {
-                autoModeTimer.Stop();
-                autoModeTimer.Dispose();
-                autoModeTimer = null;
-            }
-
-            // Switch off auto mode
-            MainV2.comPort.setMode("Manual");
-
-            // Reset archiving active flag
-            isArchivingActive = false;
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (isArchivingActive)
-            {
-                // Cancel the form closing event to prevent the application from closing
-                e.Cancel = true;
-
-                // Show warning message asynchronously to keep UI responsive
-                Task.Run(() =>
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        MessageBox.Show("Please stop archiving before closing the application.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                });
-            }
-        }*/
-
+        
         private void MainV2_Load(object sender, EventArgs e)
         {
 
@@ -5290,6 +5174,9 @@ namespace MissionPlanner
         private System.Timers.Timer autoModeTimer = null;
         private string timestampFilePath = string.Empty;
 
+        // Subscribe to the FormClosing event
+
+        // The rest of your methods, including toolStripMenuItem5_Click and StopArchiving
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             try
@@ -5312,7 +5199,7 @@ namespace MissionPlanner
 
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            string timestampFilePath = saveFileDialog.FileName;
+                            timestampFilePath = saveFileDialog.FileName;
 
                             // Write CSV headers
                             System.IO.File.WriteAllText(timestampFilePath, "Timestamp,Latitude,Longitude,Doserate,Threshold,DS1,DS2\n");
@@ -5321,13 +5208,13 @@ namespace MissionPlanner
                             MainV2.comPort.setMode("AUTO");
 
                             // Initialize and start the timer to save timestamps
-                            System.Timers.Timer autoModeTimer = new System.Timers.Timer(1000);
+                            autoModeTimer = new System.Timers.Timer(1000);
                             autoModeTimer.Elapsed += (s, args) =>
                             {
                                 try
                                 {
+                                    MissionPlanner.GCSViews.FlightData.instance.AddMarker();
 
-                                    //CustomMessageBox.Show("auto is calling");
                                     string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                                     double currentLatitude = MainV2.comPort.MAV.cs.lat;
                                     double currentLongitude = MainV2.comPort.MAV.cs.lng;
@@ -5336,51 +5223,31 @@ namespace MissionPlanner
                                     string ds1 = DoseRateUpdater.detectorSensitivity1;
                                     string ds2 = DoseRateUpdater.detectorSensitivity2;
 
-                                    //CustomMessageBox.Show(threshold);
-
                                     string csvLine = $"{currentTime},{currentLatitude},{currentLongitude},{doseRate},{threshold},{ds1},{ds2}\n";
                                     File.AppendAllText(timestampFilePath, csvLine);
                                 }
                                 catch (Exception ex)
                                 {
                                     // Log or handle the error appropriately
-                                    CustomMessageBox.Show($"Error during timer elapsed: {ex.Message}", Strings.ERROR);
+                                    // CustomMessageBox.Show($"Error during timer elapsed: {ex.Message}", Strings.ERROR);
                                 }
                             };
                             autoModeTimer.Start();
 
-                            // Change menu item text to "Stop Archiving"
+                            // Change menu item text to "STOP"
                             menuItem.Text = "STOP";
 
-
-
-//<<<<<<< HEAD
                             // Set archiving active flag
                             isArchivingActive = true;
 
-                            // Subscribe to the FormClosing event if not already subscribed
-                            //this.FindForm().FormClosing -= MainForm_FormClosing; // Prevent duplicate subscription
-                            //this.FindForm().FormClosing += MainForm_FormClosing;
-//=======
-                            // Store the timer in the menu item tag for later retrieval
                             menuItem.Tag = autoModeTimer;
-//>>>>>>> 2c108a5c4e617b16672ff96ec9e7d7121fa0b8bc 
                         }
                     }
                     else if (menuItem.Text == "STOP")
                     {
-                        // Retrieve and stop the timer
-                        System.Timers.Timer autoModeTimer = menuItem.Tag as System.Timers.Timer;
-                        if (autoModeTimer != null)
-                        {
-                            autoModeTimer.Stop();
-                            autoModeTimer.Dispose();
-                        }
+                        StopArchiving();
 
-                        // Switch off auto mode
-                        MainV2.comPort.setMode("Manual");
-
-                        // Change menu item text back to "Auto"
+                        // Change menu item text back to "START"
                         menuItem.Text = "START";
                     }
 
@@ -5396,9 +5263,9 @@ namespace MissionPlanner
             }
         }
 
-
         private void StopArchiving()
         {
+            //CustomMessageBox.Show("Stopping Archiving");
             if (autoModeTimer != null)
             {
                 autoModeTimer.Stop();
@@ -5413,22 +5280,7 @@ namespace MissionPlanner
             isArchivingActive = false;
         }
 
-        /*private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (isArchivingActive)
-            {
-                // Cancel the form closing event to prevent the application from closing
-                e.Cancel = true;
 
-                // Show warning message asynchronously to keep UI responsive
-                Task.Run(() =>
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        MessageBox.Show("Please stop archiving before closing the application.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                });
-            }
-        }*/
+      
     }
 }
