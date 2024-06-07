@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -3681,6 +3682,130 @@ namespace MissionPlanner
                             xpdr_flight_id = status.flight_id;
 
                             xpdr_status_pending = true;
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HIGHRES_IMU:
+                        {
+                            const ushort HIGHRES_IMU_UPDATED_XACC = 0x01;
+                            const ushort HIGHRES_IMU_UPDATED_YACC = 0x02;
+                            const ushort HIGHRES_IMU_UPDATED_ZACC = 0x04;
+                            const ushort HIGHRES_IMU_UPDATED_XGYRO = 0x08;
+                            const ushort HIGHRES_IMU_UPDATED_YGYRO = 0x10;
+                            const ushort HIGHRES_IMU_UPDATED_ZGYRO = 0x20;
+                            const ushort HIGHRES_IMU_UPDATED_XMAG = 0x40;
+                            const ushort HIGHRES_IMU_UPDATED_YMAG = 0x80;
+                            const ushort HIGHRES_IMU_UPDATED_ZMAG = 0x100;
+                            const ushort HIGHRES_IMU_UPDATED_ABS_PRESSURE = 0x200;
+                            const ushort HIGHRES_IMU_UPDATED_DIFF_PRESSURE = 0x400;
+                            const ushort HIGHRES_IMU_UPDATED_PRESSURE_ALT = 0x800;
+                            const ushort HIGHRES_IMU_UPDATED_TEMPERATURE = 0x1000;
+                            const ushort HIGHRES_IMU_UPDATED_ALL = 0xFFFF;
+
+                            var imu = mavLinkMessage.ToStructure<MAVLink.mavlink_highres_imu_t>();
+                            if (imu.id == 0)
+                            {
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XACC) > 0)
+                                {
+                                    ax = imu.xacc;
+                                    ay = imu.yacc;
+                                    az = imu.zacc;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XGYRO) > 0)
+                                {
+                                    gx = imu.xgyro;
+                                    gy = imu.ygyro;
+                                    gz = imu.zgyro;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XMAG) > 0)
+                                {
+                                    mx = imu.xmag;
+                                    my = imu.ymag;
+                                    mz = imu.zmag;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_ABS_PRESSURE) > 0)
+                                {
+                                    press_abs = imu.abs_pressure;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_TEMPERATURE) > 0)
+                                {
+                                    press_temp = (int)imu.temperature;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_PRESSURE_ALT) > 0)
+                                {
+                                    altasl = imu.pressure_alt;
+                                }
+                            }
+                            else if (imu.id == 1)
+                            {
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XACC) > 0)
+                                {
+                                    ax2 = imu.xacc;
+                                    ay2 = imu.yacc;
+                                    az2 = imu.zacc;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XGYRO) > 0)
+                                {
+                                    gx2 = imu.xgyro;
+                                    gy2 = imu.ygyro;
+                                    gz2 = imu.zgyro;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XMAG) > 0)
+                                {
+                                    mx2 = imu.xmag;
+                                    my2 = imu.ymag;
+                                    mz2 = imu.zmag;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_ABS_PRESSURE) > 0)
+                                {
+                                    press_abs = imu.abs_pressure;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_TEMPERATURE) > 0)
+                                {
+                                    press_temp = (int)imu.temperature;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_PRESSURE_ALT) > 0)
+                                {
+                                    altasl = imu.pressure_alt;
+                                }
+                            }
+                            else if (imu.id == 2)
+                            {
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XACC) > 0)
+                                {
+                                    ax3 = imu.xacc;
+                                    ay3 = imu.yacc;
+                                    az3 = imu.zacc;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XGYRO) > 0)
+                                {
+                                    gx3 = imu.xgyro;
+                                    gy3 = imu.ygyro;
+                                    gz3 = imu.zgyro;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_XMAG) > 0)
+                                {
+                                    mx3 = imu.xmag;
+                                    my3 = imu.ymag;
+                                    mz3 = imu.zmag;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_ABS_PRESSURE) > 0)
+                                {
+                                    press_abs = imu.abs_pressure;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_TEMPERATURE) > 0)
+                                {
+                                    press_temp = (int)imu.temperature;
+                                }
+                                if ((imu.fields_updated & HIGHRES_IMU_UPDATED_PRESSURE_ALT) > 0)
+                                {
+                                    altasl = imu.pressure_alt;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        {
+                            Debug.WriteLine("Unhandled CS message " + mavLinkMessage.msgid + " = " + mavLinkMessage.msgtypename);
                         }
                         break;
                 }
