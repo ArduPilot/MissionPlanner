@@ -278,6 +278,7 @@ namespace MissionPlanner
         public float SSA { get; set; }
 
         [GroupText("Attitude")]
+        [DisplayFieldName("AOA.Field")]
         [DisplayText("AOA (deg)")]
         public float AOA { get; set; }
 
@@ -305,6 +306,7 @@ namespace MissionPlanner
         public double lng { get; set; }
 
         [GroupText("Position")]
+        [DisplayFieldName("alt.Field")]
         [DisplayText("Altitude (alt)")]
         public float alt
         {
@@ -331,6 +333,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Position")]
+        [DisplayFieldName("altasl.Field")]
         [DisplayText("Altitude (alt)")]
         public float altasl
         {
@@ -357,6 +360,7 @@ namespace MissionPlanner
         [GroupText("Position")] public double vlen => Math.Sqrt(Math.Pow(vx, 2) + Math.Pow(vy, 2) + Math.Pow(vz, 2));
 
         [GroupText("Position")]
+        [DisplayFieldName("altoffsethome.Field")]
         [DisplayText("Alt Home Offset (dist)")]
         public float altoffsethome { get; set; }
 
@@ -456,6 +460,7 @@ namespace MissionPlanner
         [GroupText("Other")] public float altd100 => alt / 100 % 10;
 
         // speeds
+        [DisplayFieldName("airspeed.Field")]
         [DisplayText("AirSpeed (speed)")]
         [GroupText("Sensor")]
         public float airspeed
@@ -470,6 +475,7 @@ namespace MissionPlanner
 
         public bool lowairspeed { get; set; }
 
+        [DisplayFieldName("asratio.Field")]
         [DisplayText("Airspeed Ratio")]
         [GroupText("Calibration")]
         public float asratio { get; set; }
@@ -503,6 +509,7 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float az { get; set; }
 
+        [DisplayFieldName("accelsq.Field")]
         [DisplayText("Accel Strength")]
         [GroupText("Sensor")]
         public float accelsq => (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f;
@@ -558,6 +565,7 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float az2 { get; set; }
 
+        [DisplayFieldName("accelsq2.Field")]
         [DisplayText("Accel2 Strength")]
         [GroupText("Sensor")]
         public float accelsq2 => (float)Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f;
@@ -613,6 +621,7 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float az3 { get; set; }
 
+        [DisplayFieldName("accelsq3.Field")]
         [DisplayText("Accel3 Strength")]
         [GroupText("Sensor")]
         public float accelsq3 => (float)Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f;
@@ -941,6 +950,7 @@ namespace MissionPlanner
         }
 
         [GroupText("NAV")]
+        [DisplayFieldName("alt_error.Field")]
         [DisplayText("Altitude Error (dist)")]
         public float alt_error
         {
@@ -962,6 +972,7 @@ namespace MissionPlanner
         }
 
         [GroupText("NAV")]
+        [DisplayFieldName("aspd_error.Field")]
         [DisplayText("Airspeed Error (speed)")]
         public float aspd_error
         {
@@ -1621,6 +1632,7 @@ namespace MissionPlanner
             }
         }
 
+        [DisplayFieldName("AZToMAV.Field")]
         [DisplayText("Bearing to Mav (deg)")]
         [GroupText("Position")]
         public float AZToMAV
@@ -3837,6 +3849,29 @@ namespace MissionPlanner
                 ans.Sort((a, b) => StringCompareTo(a, b));
 
             return ans;
+        }
+
+        public string GetTranslatedFieldName(string name)
+        {
+            if (custom_field_names.ContainsKey(name))
+            {
+                var desc = custom_field_names[name];
+                return desc;
+            }
+
+            var typeofthing = typeof(CurrentState).GetProperty(name);
+
+            if (typeofthing != null)
+            {
+                var attrib = typeofthing.GetCustomAttributes(false).OfType<DisplayFieldNameAttribute>().ToArray();
+
+                if (attrib.Length > 0)
+                {
+                    return attrib.OfType<DisplayFieldNameAttribute>().First().Text;
+                }
+            }
+
+            return name;
         }
 
         public string GetNameandUnit(string name)

@@ -50,4 +50,29 @@ namespace MissionPlanner.Attributes
       }
 
    }
+
+    /// <summary>
+    /// Used to decorate a field with a custom name.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
+    public sealed class DisplayFieldNameAttribute : Attribute
+    {
+
+        private readonly string _text;
+
+        public DisplayFieldNameAttribute(string text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                throw new ArgumentException("\"text\" is required.");
+            }
+            _text = text;
+        }
+
+        public string Text
+        {
+            get { return MissionPlanner.Utilities.L10NU.GetString(_text); }
+        }
+
+    }
 }
