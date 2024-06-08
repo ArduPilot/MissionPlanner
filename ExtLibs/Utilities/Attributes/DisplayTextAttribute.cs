@@ -57,21 +57,20 @@ namespace MissionPlanner.Attributes
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
     public sealed class DisplayFieldNameAttribute : Attribute
     {
+        private readonly string _translationKey;
 
-        private readonly string _text;
-
-        public DisplayFieldNameAttribute(string text)
+        public DisplayFieldNameAttribute(string translationKey)
         {
-            if (String.IsNullOrEmpty(text))
+            if (String.IsNullOrEmpty(translationKey))
             {
-                throw new ArgumentException("\"text\" is required.");
+                throw new ArgumentException("\"translationKey\" is required.");
             }
-            _text = text;
+            _translationKey = translationKey;
         }
 
-        public string Text
+        public string TryTranslate(string defaultTo)
         {
-            get { return MissionPlanner.Utilities.L10NU.GetString(_text); }
+            return MissionPlanner.Utilities.L10NU.GetString(_translationKey, defaultTo: defaultTo);
         }
 
     }
