@@ -1,138 +1,341 @@
-﻿Roll (deg)=Крен (deg)
+﻿roll=roll (крен)
+Roll (deg)=Крен (deg)
+
+pitch=pitch (тангаж)
 Pitch (deg)=Тангаж (deg)
+
+yaw=yaw (рискання)
 Yaw (deg)=Рискання (deg)
+
+groundcourse=groundcourse (шлях.кут)
 GroundCourse (deg)=Шляховий кут (deg)
+
+lat=lat (широта)
 Latitude (dd)=Широта (dd)
+
+lng=lng (довгота)
 Longitude (dd)=Довгота (dd)
-alt.Field=alt (висота)
+
+alt=alt (висота)
 Altitude (dist)=Висота (dist)
-altoffsethome.Field=altoffsethome (компенс.висоти дом.точки))
+
+altoffsethome=altoffsethome (компенс.висоти дом.точки)
 Alt Home Offset (dist)=Компенсація висоти дом.точки (dist)
+
+gpsstatus=gpsstatus (стан GPS)
 Gps Status=Стан GPS
+
+gpshdop=gpshdop (GPS HDOP)
 Gps HDOP=Горизон. погіршення точності GPS
+
+satcount=satcount (кільк.супутників)
 Sat Count=Кількість супутників
-airspeed.Field=airspeed (повітр.швидкість)
+
+airspeed=airspeed (повітр.швидкість)
 AirSpeed (speed)=Повітряна швидкість (speed)
+
+targetairspeed=targetairspeed (задана повітр.швидкість)
 Airspeed Target (speed)=Задана повітряна швидкість (speed)
-asratio.Field=asratio (коеф.повітр.швидкості)
+
+asratio=asratio (коеф.повітр.швидкості)
 Airspeed Ratio=Коефіцієнт повітряної швидкості
+
+groundspeed=groundspeed (шлях.швидкість)
 GroundSpeed (speed)=Шляхова швидкість (speed)
+
+ax=ax (прискор.X)
 Accel X=Прискорення X
+
+ay=ay (прискор.Y)
 Accel Y=Прискорення Y
+
+az=az (прискор.Z)
 Accel Z=Прискорення Z
+
+gx=gx (гіро X)
 Gyro X=Гіроскоп X
+
+gy=gy (гіро Y)
 Gyro Y=Гіроскоп Y
+
+gz=gz (гіро Z)
 Gyro Z=Гіроскоп Z
+
+mx=mx (компас X)
 Mag X=Компас X
+
+my=my (компас Y)
 Mag Y=Компас Y
+
+mz=mz (компас Z)
 Mag Z=Компас Z
+
 Accel2 X=Прискорення #2 X
+
 Accel2 Y=Прискорення #2 Y
+
 Accel2 Z=Прискорення #2 Z
+
 Gyro2 X=Гіроскоп #2 X
+
 Gyro2 Y=Гіроскоп #2 Y
+
 Gyro2 Z=Гіроскоп #2 Z
+
 Mag2 X=Компас #2 X
+
 Mag2 Y=Компас #2 Y
+
 Mag2 Z=Компас #2 Z
+
+magfield=magfield (магнітне поле)
 Mag Field=Магнітне Поле
+
 Mag2 Field=Магнітне Поле #2
+
 Mag3 Field=Магнітне Поле #3
-accelsq.Field=accelsq (сила прискорення)
+
+accelsq=accelsq (сила прискорення)
 Accel Strength=Сила Прискорення
+
+gyrosq=gyrosq (сила гіроскопа)
 Gyro Strength=Сила Гіроскопа
-accelsq2.Field=accelsq2 (сила прискорення 2)
+
 Accel2 Strength=Сила Прискорення #2
-accelsq3.Field=accelsq3 (сила прискорення 3)
+
 Accel3 Strength=Сила Прискорення #3
+
+failsafe=failsafe (відмовостійкий)
 Failsafe=Відмовостійкий
+
+rxrssi=rxrssi (потужність RX)
 RX Rssi=Потужність RX (rssi)
+
+verticalspeed=verticalspeed (верт.швидкість)
 Vertical Speed (speed)=Вертикальна швидкість (speed)
+
+wind_dir=wind_dir (напрямок вітру)
 Wind Direction (Deg)=Напрямок вітру (Deg)
+
+wind_vel=wind_vel (швидкість вітру)
 Wind Velocity (speed)=Швидкість вітру (speed)
+
+vx=vx (швидкість X)
+Velocity X (ms)=Швидкість X (ms)
+
+vy=vy (швидкість Y)
+Velocity Y (ms)=Швидкість Y (ms)
+
+vz=vz (швидкість Z)
+Velocity Z (ms)=Швидкість Z (ms)
+
+nav_roll=nav_roll (заданий крен)
 Roll Target (deg)=Заданий крен (deg)
+
+nav_pitch=nav_pitch (заданий тангаж)
 Pitch Target (deg)=Заданий тангаж (deg)
+
+nav_bearing=nav_bearing (заданий пеленг)
 Bearing Target (deg)=Заданий пеленг (deg)
-Dist to WP (dist)=Відстань до точки маршуту (dist)
-alt_error.Field=alt_error (похибка висоти)
+
+wp_dist=wp_dist (відстань до п-ту маршруту)
+Dist to WP (dist)=Відстань до пункту маршуту (dist)
+
+alt_error=alt_error (похибка висоти)
 Altitude Error (dist)=Похибка висоти (dist)
+
+ber_error=ber_error (похибка пеленгу)
 Bearing Error (deg)=Похибка пеленгу (deg)
-aspd_error.Field=aspd_error (похибка повітр.швидкості)
+
+aspd_error=aspd_error (похибка повітр.швидкості)
 Airspeed Error (speed)=Похибка повітряної швидкості (speed)
+
+xtrack_error=xtrack_error (похибка Xtrack)
 Xtrack Error (m)=Похибка Xtrack (m)
+
+mode=mode (режим)
 Mode=Режим
+
+climbrate=climbrate (швидкість підйому)
 ClimbRate (speed)=Швидкість підйому (speed)
+
+tot=tot (час над ціллю)
 Time over Target (sec)=Час над ціллю (sec)
+
+toh=toh (час над дом.точкою)
 Time over Home (sec)=Час над дом.точкою (sec)
+
+distTraveled=distTraveled (пройдена відстань)
 Dist Traveled (dist)=Пройдена відстань (dist)
+
+timeSinceArmInAir=timeSinceArmInAir (час у повітрі)
 Time in Air (sec)=Час у повітрі (sec)
+
+turnrate=turnrate (швидкість повороту)
 Turn Rate (speed)=Швидкість повороту (speed)
+
+radius=radius (радіус повороту)
 Turn Radius (dist)=Радіус повороту (dist)
+
+battery_voltage=battery_voltage (напруга бат.)
 Bat Voltage (V)=Напруга батареї (V)
+
+battery_remaining.Field = battery_remaining (залишок бат.(%))
 Bat Remaining (%)=Залишок батареї (%)
+
+current=current (струм бат.)
 Bat Current (Amps)=Струм батареї (Amps)
+
+watts=watts (потужність бат.)
 Bat Watts=Потужність батареї (Watts)
+
+battery_usedmah=battery_usedmah (використ.бат.)
 Bat used EST (mah)=Використано батареї (прибл.) (mah)
+
 Bat2 Voltage (V)=Напруга батереї #2 (V)
+
 Bat2 Current (Amps)=Струм батареї #2 (Amps)
+
 Bat3 Current (Amps)=Струм батареї #3 (Amps)
+
 Bat4 Current (Amps)=Струм батареї #4 (Amps)
+
 Bat5 Current (Amps)=Струм батареї #5 (Amps)
+
 Bat6 Current (Amps)=Струм батареї #6 (Amps)
+
 Bat7 Current (Amps)=Струм батареї #7 (Amps)
+
 Bat8 Current (Amps)=Струм батареї #8 (Amps)
+
 Bat9 Current (Amps)=Струм батареї #9 (Amps)
-Distance to Home (dist)=Відстань до дом.точки (dist)
-Distance From Moving Base (dist)=Відстань від рухомої бази (dist)
+
+ELToMAV=ELToMAV (підвищ.до М-БпЛА)
 Elevation to Mav (deg)=Підвищення до М-БпЛА (deg)
-AZToMAV.Field=AZToMAV (пеленг до М-БпЛА)
+
+AZToMAV=AZToMAV (пеленг до М-БпЛА)
 Bearing to Mav (deg)=Пеленг до М-БпЛА (deg)
+
+sonarrange=sonarrange (діапазон сонара)
 Sonar Range (alt)=Діапазон сонара (alt)
+
+sonarvoltage=sonarvoltage (напруга сонара)
 Sonar Voltage (Volt)=Напруга сонара (Volt)
+
 3DR Radio rssi=Потужність 3DR-радіосигналу (rssi)
+
 3DR Radio remote rssi=Потужність 3DR-сигналу дист.керув.
+
 3DR Radio noise=Шум 3DR-радіо
+
 3DR Radio remote noise=Шум 3DR-пульта дист.керув.
+
 3DR Radio snr=Сигнал/Шум 3DR-радіо
+
 3DR Radio remote snr=Сигнал/Шум 3DR-пульта дист.керув.
+
 3DR Radio est dist (m)=3DR-радіо прибл. відстань (m)
+
+hwvoltage=hwvoltage (апаратна напруга)
 HW Voltage=Апаратна напруга
+
+boardvoltage=boardvoltage (борт.напруга)
 Board Voltage=Бортова напруга
+
+servovoltage=servovoltage (напруга серво-рейки)
 Servo Rail Voltage=Напруга серво-рейки
-Voltage Flags=Прапорці напруги
-altasl.Field=altasl (висота)
+
+voltageflag=voltageflag (стан напруги)
+Voltage Flags=Стан напруги
+
+altasl=altasl (висота)
 Altitude (alt)=Висота (alt)
+
 Altitude2 (dist)=Висота #2 (dist)
-AOA.Field=AOA (кут атаки)
+
+AOA=AOA (кут атаки)
 AOA (deg)=Кут атаки (deg)
+
+battery_kmleft=battery_kmleft (залишок бат.(km))
 Bat km left EST (km)=Залишок батареї (у km)
+
+battery_mahperkm=battery_mahperkm (ефективність бат.)
 Bat efficiency (mah/km)=Ефективність батареї (mah/km)
+
+crit_AOA=crit_AOA (крит.кут атаки)
 Crit AOA (deg)=Критичний Кут атаки (deg)
+
+DistFromMovingBase=DistFromMovingBase (відстань від рух.бази)
 Dist to Moving Base (dist)=Відстань від рухомої бази (dist)
+
+DistToHome=DistToHome (відстань до дом.точки)
 Dist to Home (dist)=Відстань до дом.точки (dist)
+
+localsnrdb=localsnrdb (сигнал/шум Sik-радіо)
 Sik Radio snr=Сигнал/Шум Sik-радіо
+
+DistRSSIRemain=DistRSSIRemain (Sik-радіо прибл.відстань)
 Sik Radio est dist (m)=Sik-радіо прибл. відстань (m)
+
+glide_ratio=glide_ratio (коеф.глісади)
 Glide Ratio=Коефіцієнт Глісади
+
+horizondist=horizondist (відст.до гориз.)
 Horizon Dist (dist)=Відстань до горизонту (dist)
+
+gpsvel_acc=gpsvel_acc (точн.швидкості)
 Velocity Accuracy=Точність індикат. швидкості
+
+gpsyaw=gpsyaw (рискання згідно GPS)
 GPS Yaw (deg)=Рискання (GPS) (deg)
+
 GroundCourse2 (deg)=Шляховий кут #2 (deg)
+
+noise=noise (шум Sik-радіо)
 Sik Radio noise=Шум Sik-радіо
+
+imu1_temp=imu1_temp (IMU#1 темп.)
 IMU1 Temperature=IMU-сенсор #1: Температура
+
 IMU2 Temperature=IMU-сенсор #2: Температура
+
 IMU3 Temperature=IMU-сенсор #3: Температура
+
+efi_baro=efi_baro (інжектор:баром.тиск)
 EFI Baro Pressure (kPa)=Інжектор: Барометр. тиск (kPa)
+
+efi_headtemp=efi_headtemp (інжектор:темп.гол.блоку.цил.)
 EFI Head Temp (C)=Інжектор: Темпер.головки блоку циліндру (C)
+
+efi_load=efi_load (інжектор:навантаж.двигуна)
 EFI Load (%)=Інжектор: Навантаження двигуна (%)
+
+efi_health=efi_health (інжектор:справність)
 EFI Health=Інжектор: Справність
+
+efi_exhasttemp=efi_exhasttemp (інжектор:темп.вихлопу)
 EFI Exhast Temp (C)=Інжектор: Температура вихлопу (C)
+
+efi_intaketemp=efi_intaketemp (інжектор:впускна темп.)
 EFI Intake Temp (C)=Інжектор: Впускна температура (C)
+
+efi_rpm=efi_rpm (інжектор:кільк.обертів)
 EFI rpm=Інжектор: Кількість обертів
+
+efi_fuelflow=efi_fuelflow (інжектор:потік палива)
 EFI Fuel Flow (g/min)=Інжектор: Потік палива (g/min)
+
+efi_fuelconsumed=efi_fuelconsumed (інжектор:палива спожито)
 EFI Fuel Consumed (g)=Інжектор: Палива спожито (g)
+
+efi_fuelpressure=efi_fuelpressure (інжектор:тиск палива)
 EFI Fuel Pressure (kPa)=Інжектор: Тиск палива (kPa)
+
 Longitude2 (dd)=Довгота #2 (dd)
+
+SSA=SSA (кут бок.ковз)
 SSA (deg)=Кут боков.ковзання (deg)
+
 flow_comp_m_x=Оптич.потік з гіро-компенсац. X
 flow_comp_m_y=Оптич.потік з гіро-компенсац. Y
 flow_x=Оптичний потік X
