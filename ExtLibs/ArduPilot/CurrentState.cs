@@ -251,18 +251,18 @@ namespace MissionPlanner
         public float customfield19 { get; set; }
 
         // orientation - rads
-	[DisplayFieldName("roll.Field")]
+        [DisplayFieldName("roll.Field")]
         [DisplayText("Roll (deg)")]
         [GroupText("Attitude")]
         public float roll { get; set; }
 
         [GroupText("Attitude")]
-	[DisplayFieldName("pitch.Field")]
+        [DisplayFieldName("pitch.Field")]
         [DisplayText("Pitch (deg)")]
         public float pitch { get; set; }
 
         [GroupText("Attitude")]
-	[DisplayFieldName("yaw.Field")]
+        [DisplayFieldName("yaw.Field")]
         [DisplayText("Yaw (deg)")]
         public float yaw
         {
@@ -277,7 +277,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Attitude")]
-	[DisplayFieldName("SSA.Field")]
+        [DisplayFieldName("SSA.Field")]
         [DisplayText("SSA (deg)")]
         public float SSA { get; set; }
 
@@ -287,7 +287,7 @@ namespace MissionPlanner
         public float AOA { get; set; }
 
         [GroupText("Position")]
-	[DisplayFieldName("groundcourse.Field")]
+        [DisplayFieldName("groundcourse.Field")]
         [DisplayText("GroundCourse (deg)")]
         public float groundcourse
         {
@@ -302,13 +302,13 @@ namespace MissionPlanner
         }
 
         // position
-	[DisplayFieldName("lat.Field")]
+        [DisplayFieldName("lat.Field")]
         [DisplayText("Latitude (dd)")]
         [GroupText("Position")]
         public double lat { get; set; }
 
         [GroupText("Position")]
-	[DisplayFieldName("lng.Field")]
+        [DisplayFieldName("lng.Field")]
         [DisplayText("Longitude (dd)")]
         public double lng { get; set; }
 
@@ -349,22 +349,22 @@ namespace MissionPlanner
         }
 
         [GroupText("Position")]
-	[DisplayFieldName("horizondist.Field")]
+        [DisplayFieldName("horizondist.Field")]
         [DisplayText("Horizon Dist (dist)")]
         public float horizondist => (float)(3570 * Math.Sqrt(alt)) * multiplierdist;
 
         [GroupText("Position")]
-	[DisplayFieldName("vx.Field")]
+        [DisplayFieldName("vx.Field")]
         [DisplayText("Velocity X (ms)")]
         public double vx { get; set; }
 
         [DisplayText("Velocity Y (ms)")]
-	[DisplayFieldName("vy.Field")]
+        [DisplayFieldName("vy.Field")]
         [GroupText("Position")]
         public double vy { get; set; }
 
         [DisplayText("Velocity Z (ms)")]
-	[DisplayFieldName("vz.Field")]
+        [DisplayFieldName("vz.Field")]
         [GroupText("Position")]
         public double vz { get; set; }
 
@@ -376,31 +376,31 @@ namespace MissionPlanner
         public float altoffsethome { get; set; }
 
         [GroupText("Position")]
-	[DisplayFieldName("gpsstatus.Field")]
+        [DisplayFieldName("gpsstatus.Field")]
         [DisplayText("Gps Status")]
         public float gpsstatus { get; set; }
 
-	[DisplayFieldName("gpshdop.Field")]
+        [DisplayFieldName("gpshdop.Field")]
         [DisplayText("Gps HDOP")]
         [GroupText("Position")]
         public float gpshdop { get; set; }
 
-	[DisplayFieldName("satcount.Field")]
+        [DisplayFieldName("satcount.Field")]
         [DisplayText("Sat Count")]
         [GroupText("Position")]
         public float satcount { get; set; }
 
-	[DisplayFieldName("gpsh_acc.Field")]
+        [DisplayFieldName("gpsh_acc.Field")]
         [DisplayText("H Acc (m)")]
         [GroupText("Position")]
         public float gpsh_acc { get; private set; }
 
-	[DisplayFieldName("gpsv_acc.Field")]
+        [DisplayFieldName("gpsv_acc.Field")]
         [DisplayText("V Acc (m)")]
         [GroupText("Position")]
         public float gpsv_acc { get; private set; }
 
-	[DisplayFieldName("gpsvel_acc.Field")]
+        [DisplayFieldName("gpsvel_acc.Field")]
         [DisplayText("Velocity Accuracy")]
         [GroupText("Position")]
         public float gpsvel_acc { get; private set; }
@@ -409,7 +409,7 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float gpshdg_acc { get; private set; }
 
-	[DisplayFieldName("gpsyaw.Field")]
+        [DisplayFieldName("gpsyaw.Field")]
         [DisplayText("GPS Yaw (deg)")]
         [GroupText("Position")]
         public float gpsyaw { get; private set; }
@@ -487,7 +487,7 @@ namespace MissionPlanner
             set => _airspeed = value;
         }
 
-	[DisplayFieldName("targetairspeed.Field")]
+        [DisplayFieldName("targetairspeed.Field")]
         [DisplayText("Airspeed Target (speed)")]
         [GroupText("NAV")]
         public float targetairspeed { get; private set; }
@@ -508,7 +508,7 @@ namespace MissionPlanner
         public float airspeed2_temp { get; set; }
 
         [GroupText("Position")]
-	[DisplayFieldName("groundspeed.Field")]
+        [DisplayFieldName("groundspeed.Field")]
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed
         {
@@ -517,17 +517,17 @@ namespace MissionPlanner
         }
 
         // accel
-	[DisplayFieldName("ax.Field")]
+        [DisplayFieldName("ax.Field")]
         [DisplayText("Accel X")]
         [GroupText("Sensor")]
         public float ax { get; set; }
 
-	[DisplayFieldName("ay.Field")]
+        [DisplayFieldName("ay.Field")]
         [DisplayText("Accel Y")]
         [GroupText("Sensor")]
         public float ay { get; set; }
 
-	[DisplayFieldName("az.Field")]
+        [DisplayFieldName("az.Field")]
         [DisplayText("Accel Z")]
         [GroupText("Sensor")]
         public float az { get; set; }
@@ -553,33 +553,33 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float gz { get; set; }
 
-	[DisplayFieldName("gyrosq.Field")]
+        [DisplayFieldName("gyrosq.Field")]
         [DisplayText("Gyro Strength")]
         [GroupText("Sensor")]
         public float gyrosq => (float)Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2));
 
         // mag
-	[DisplayFieldName("mx.Field")]
+        [DisplayFieldName("mx.Field")]
         [DisplayText("Mag X")]
         [GroupText("Sensor")]
         public float mx { get; set; }
 
-	[DisplayFieldName("my.Field")]
+        [DisplayFieldName("my.Field")]
         [DisplayText("Mag Y")]
         [GroupText("Sensor")]
         public float my { get; set; }
 
-	[DisplayFieldName("mz.Field")]
+        [DisplayFieldName("mz.Field")]
         [DisplayText("Mag Z")]
         [GroupText("Sensor")]
         public float mz { get; set; }
 
-	[DisplayFieldName("magfield.Field")]
+        [DisplayFieldName("magfield.Field")]
         [DisplayText("Mag Field")]
         [GroupText("Sensor")]
         public float magfield => (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
 
-	[DisplayFieldName("imu1_temp.Field")]
+        [DisplayFieldName("imu1_temp.Field")]
         [DisplayText("IMU1 Temperature")]
         [GroupText("Sensor")]
         public float imu1_temp { get; set; }
@@ -901,18 +901,14 @@ namespace MissionPlanner
             set => _ch3percent = value;
         }
 
-	[DisplayFieldName("failsafe.Field")]
-        [DisplayText("Failsafe")]
-	[GroupText("Software")]
-	public bool failsafe { get; set; }
+        [DisplayFieldName("failsafe.Field")]
+        [DisplayText("Failsafe")][GroupText("Software")] public bool failsafe { get; set; }
 
-	[DisplayFieldName("rxrssi.Field")]
-        [DisplayText("RX Rssi")]
-	[GroupText("Telem")]
-	public int rxrssi { get; set; }
+        [DisplayFieldName("rxrssi.Field")]
+        [DisplayText("RX Rssi")][GroupText("Telem")] public int rxrssi { get; set; }
 
         [GroupText("Attitude")]
-	[DisplayFieldName("crit_AOA.Field")]
+        [DisplayFieldName("crit_AOA.Field")]
         [DisplayText("Crit AOA (deg)")]
         public float crit_AOA
         {
@@ -937,7 +933,7 @@ namespace MissionPlanner
 
         public bool lowgroundspeed { get; set; }
 
-	[DisplayFieldName("verticalspeed.Field")]
+        [DisplayFieldName("verticalspeed.Field")]
         [DisplayText("Vertical Speed (speed)")]
         [GroupText("Position")]
         public float verticalspeed
@@ -952,7 +948,7 @@ namespace MissionPlanner
 
         [DisplayText("Vertical Speed (fpm)")][GroupText("Position")] public double verticalspeed_fpm => vz * -3.28084 * 60;
 
-	[DisplayFieldName("glide_ratio.Field")]
+        [DisplayFieldName("glide_ratio.Field")]
         [DisplayText("Glide Ratio")]
         [GroupText("Position")]
         public double glide_ratio
@@ -966,27 +962,27 @@ namespace MissionPlanner
 
         //nav state
         [GroupText("NAV")]
-	[DisplayFieldName("nav_roll.Field")]
+        [DisplayFieldName("nav_roll.Field")]
         [DisplayText("Roll Target (deg)")]
         public float nav_roll { get; set; }
 
         [GroupText("NAV")]
-	[DisplayFieldName("nav_pitch.Field")]
+        [DisplayFieldName("nav_pitch.Field")]
         [DisplayText("Pitch Target (deg)")]
         public float nav_pitch { get; set; }
 
         [GroupText("NAV")]
-	[DisplayFieldName("nav_bearing.Field")]
+        [DisplayFieldName("nav_bearing.Field")]
         [DisplayText("Bearing Target (deg)")]
         public float nav_bearing { get; set; }
 
         [GroupText("NAV")]
-	[DisplayFieldName("target_bearing.Field")]
+        [DisplayFieldName("target_bearing.Field")]
         [DisplayText("Bearing Target (deg)")]
         public float target_bearing { get; set; }
 
         [GroupText("NAV")]
-	[DisplayFieldName("wp_dist.Field")]
+        [DisplayFieldName("wp_dist.Field")]
         [DisplayText("Dist to WP (dist)")]
         public float wp_dist
         {
@@ -1032,7 +1028,7 @@ namespace MissionPlanner
         }
 
         [GroupText("NAV")]
-	[DisplayFieldName("xtrack_error.Field")]
+        [DisplayFieldName("xtrack_error.Field")]
         [DisplayText("Xtrack Error (m)")]
         public float xtrack_error { get; set; }
 
@@ -1041,11 +1037,11 @@ namespace MissionPlanner
         public float wpno { get; set; }
 
         [GroupText("NAV")]
-	[DisplayFieldName("mode.Field")]
+        [DisplayFieldName("mode.Field")]
         [DisplayText("Mode")]
         public string mode { get; set; }
 
-	[DisplayFieldName("climbrate.Field")]
+        [DisplayFieldName("climbrate.Field")]
         [DisplayText("ClimbRate (speed)")]
         [GroupText("Position")]
         public float climbrate
@@ -1058,7 +1054,7 @@ namespace MissionPlanner
         /// <summary>
         ///     time over target in seconds
         /// </summary>
-	[DisplayFieldName("tot.Field")]
+        [DisplayFieldName("tot.Field")]
         [DisplayText("Time over Target (sec)")]
         [GroupText("NAV")]
         public int tot
@@ -1070,7 +1066,7 @@ namespace MissionPlanner
             }
         }
 
-	[DisplayFieldName("toh.Field")]
+        [DisplayFieldName("toh.Field")]
         [DisplayText("Time over Home (sec)")]
         [GroupText("NAV")]
         public int toh
@@ -1082,19 +1078,13 @@ namespace MissionPlanner
             }
         }
 
-	[DisplayFieldName("distTraveled.Field")]
-        [DisplayText("Dist Traveled (dist)")]
-	[GroupText("Position")]
-	public float distTraveled { get; set; }
+        [DisplayFieldName("distTraveled.Field")]
+        [DisplayText("Dist Traveled (dist)")][GroupText("Position")] public float distTraveled { get; set; }
 
-        [DisplayText("Time in Air (sec)")]
-	[GroupText("Position")]
-	public float timeSinceArmInAir { get; set; }
+        [DisplayText("Time in Air (sec)")][GroupText("Position")] public float timeSinceArmInAir { get; set; }
 
-	[DisplayFieldName("timeInAir.Field")]
-        [DisplayText("Time in Air (sec)")]
-	[GroupText("Position")]
-	public float timeInAir { get; set; }
+        [DisplayFieldName("timeInAir.Field")]
+        [DisplayText("Time in Air (sec)")][GroupText("Position")] public float timeInAir { get; set; }
 
         //Time in Air converted to min.sec format for easier reading
         [DisplayText("Time in Air (min.sec)")]
@@ -1102,7 +1092,7 @@ namespace MissionPlanner
         public float timeInAirMinSec => (int)(timeInAir / 60) + timeInAir % 60 / 100;
 
         // calced turn rate
-	[DisplayFieldName("turnrate.Field")]
+        [DisplayFieldName("turnrate.Field")]
         [DisplayText("Turn Rate (speed)")]
         [GroupText("Position")]
         public float turnrate
@@ -1146,15 +1136,11 @@ namespace MissionPlanner
             }
         }
 
-	[DisplayFieldName("wind_dir.Field")]
-        [DisplayText("Wind Direction (Deg)")]
-	[GroupText("Position")]
-	public float wind_dir { get; set; }
+        [DisplayFieldName("wind_dir.Field")]
+        [DisplayText("Wind Direction (Deg)")][GroupText("Position")] public float wind_dir { get; set; }
 
-	[DisplayFieldName("wind_vel.Field")]
-        [DisplayText("Wind Velocity (speed)")]
-	[GroupText("Position")]
-	public float wind_vel { get; set; }
+        [DisplayFieldName("wind_vel.Field")]
+        [DisplayText("Wind Velocity (speed)")][GroupText("Position")] public float wind_vel { get; set; }
 
         [GroupText("NAV")] public float targetaltd100 => targetalt / 100 % 10;
         [GroupText("NAV")]
@@ -1199,7 +1185,7 @@ namespace MissionPlanner
 
         //battery
         [GroupText("Battery")]
-	[DisplayFieldName("battery_voltage.Field")]
+        [DisplayFieldName("battery_voltage.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage
         {
@@ -1284,7 +1270,7 @@ namespace MissionPlanner
         public int battery_remaining9 { get; set; }
 
         [GroupText("Battery")]
-	[DisplayFieldName("current.Field")]
+        [DisplayFieldName("current.Field")]
         [DisplayText("Bat Current (Amps)")]
         public double current
         {
@@ -1349,23 +1335,23 @@ namespace MissionPlanner
         public double current9 { get; set; }
 
         [GroupText("Battery")]
-	[DisplayFieldName("watts.Field")]
+        [DisplayFieldName("watts.Field")]
         [DisplayText("Bat Watts")]
         public double watts => battery_voltage * current;
 
         [GroupText("Battery")]
-	[DisplayFieldName("battery_mahperkm.Field")]
+        [DisplayFieldName("battery_mahperkm.Field")]
         [DisplayText("Bat efficiency (mah/km)")]
         public double battery_mahperkm => battery_usedmah / (distTraveled / 1000.0f);
 
         [GroupText("Battery")]
-	[DisplayFieldName("battery_kmleft.Field")]
+        [DisplayFieldName("battery_kmleft.Field")]
         [DisplayText("Bat km left EST (km)")]
         public double battery_kmleft => (100.0f / (100.0f - battery_remaining) * battery_usedmah - battery_usedmah) /
                                         battery_mahperkm;
 
         [GroupText("Battery")]
-	[DisplayFieldName("battery_usedmah.Field")]
+        [DisplayFieldName("battery_usedmah.Field")]
         [DisplayText("Bat used EST (mah)")]
         public double battery_usedmah { get; set; }
 
@@ -1645,7 +1631,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Position")]
-	[DisplayFieldName("DistToHome.Field")]
+        [DisplayFieldName("DistToHome.Field")]
         [DisplayText("Dist to Home (dist)")]
         public float DistToHome
         {
@@ -1667,7 +1653,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Position")]
-	[DisplayFieldName("DistFromMovingBase.Field")]
+        [DisplayFieldName("DistFromMovingBase.Field")]
         [DisplayText("Dist to Moving Base (dist)")]
         public float DistFromMovingBase
         {
@@ -1688,7 +1674,7 @@ namespace MissionPlanner
             }
         }
 
-	[DisplayFieldName("ELToMAV.Field")]
+        [DisplayFieldName("ELToMAV.Field")]
         [DisplayText("Elevation to Mav (deg)")]
         [GroupText("Position")]
         public float ELToMAV
@@ -1737,7 +1723,7 @@ namespace MissionPlanner
             }
         }
 
-	[DisplayFieldName("sonarrange.Field")]
+        [DisplayFieldName("sonarrange.Field")]
         [DisplayText("Sonar Range (alt)")]
         [GroupText("Sensor")]
         public float sonarrange
@@ -1746,10 +1732,8 @@ namespace MissionPlanner
             set => _sonarrange = value;
         }
 
-	[DisplayFieldName("sonarvoltage.Field")]
-        [DisplayText("Sonar Voltage (Volt)")]
-	[GroupText("Sensor")]
-	public float sonarvoltage { get; set; }
+        [DisplayFieldName("sonarvoltage.Field")]
+        [DisplayText("Sonar Voltage (Volt)")][GroupText("Sensor")] public float sonarvoltage { get; set; }
 
         [DisplayText("RangeFinder1 (cm)")][GroupText("Sensor")] public uint rangefinder1 { get; set; }
         [DisplayText("RangeFinder2 (cm)")][GroupText("Sensor")] public uint rangefinder2 { get; set; }
@@ -1781,7 +1765,7 @@ namespace MissionPlanner
         [GroupText("Telem")] public byte txbuffer { get; set; }
 
         [GroupText("Telem")]
-	[DisplayFieldName("noise.Field")]
+        [DisplayFieldName("noise.Field")]
         [DisplayText("Sik Radio noise")]
         public float noise { get; set; }
 
@@ -1793,7 +1777,7 @@ namespace MissionPlanner
         [GroupText("Telem")] public ushort fixedp { get; set; }
 
         [GroupText("Telem")]
-	[DisplayFieldName("localsnrdb.Field")]
+        [DisplayFieldName("localsnrdb.Field")]
         [DisplayText("Sik Radio snr")]
         public float localsnrdb
         {
@@ -1820,7 +1804,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Telem")]
-	[DisplayFieldName("DistRSSIRemain.Field")]
+        [DisplayFieldName("DistRSSIRemain.Field")]
         [DisplayText("Sik Radio est dist (m)")]
         public float DistRSSIRemain
         {
@@ -1858,25 +1842,17 @@ namespace MissionPlanner
 
         [DisplayText("Error Count")][GroupText("Hardware")] public ushort errors_count4 { get; set; }
 
-	[DisplayFieldName("hwvoltage.Field")]
-        [DisplayText("HW Voltage")]
-	[GroupText("Hardware")]
-	public float hwvoltage { get; set; }
+        [DisplayFieldName("hwvoltage.Field")]
+        [DisplayText("HW Voltage")][GroupText("Hardware")] public float hwvoltage { get; set; }
 
-	[DisplayFieldName("boardvoltage.Field")]
-        [DisplayText("Board Voltage")]
-	[GroupText("Hardware")]
-	public float boardvoltage { get; set; }
+        [DisplayFieldName("boardvoltage.Field")]
+        [DisplayText("Board Voltage")][GroupText("Hardware")] public float boardvoltage { get; set; }
 
-	[DisplayFieldName("servovoltage.Field")]
-        [DisplayText("Servo Rail Voltage")]
-	[GroupText("Hardware")]
-	public float servovoltage { get; set; }
+        [DisplayFieldName("servovoltage.Field")]
+        [DisplayText("Servo Rail Voltage")][GroupText("Hardware")] public float servovoltage { get; set; }
 
-	[DisplayFieldName("voltageflag.Field")]
-        [DisplayText("Voltage Flags")]
-	[GroupText("Hardware")]
-	public uint voltageflag { get; set; }
+        [DisplayFieldName("voltageflag.Field")]
+        [DisplayText("Voltage Flags")][GroupText("Hardware")] public uint voltageflag { get; set; }
 
         [GroupText("Hardware")] public ushort i2cerrors { get; set; }
 
@@ -2044,52 +2020,43 @@ namespace MissionPlanner
         public int gen_maint_time { get; set; }
 
         [GroupText("EFI")]
-	[DisplayFieldNameAttribute("efi_baro.Field")]
+        [DisplayFieldNameAttribute("efi_baro.Field")]
         [DisplayText("EFI Baro Pressure (kPa)")]
         public float efi_baro { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_headtemp.Field")]
+        [DisplayFieldName("efi_headtemp.Field")]
         [DisplayText("EFI Head Temp (C)")]
         public float efi_headtemp { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_load.Field")]
+        [DisplayFieldName("efi_load.Field")]
         [DisplayText("EFI Load (%)")]
         public float efi_load { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_health.Field")]
+        [DisplayFieldName("efi_health.Field")]
         [DisplayText("EFI Health")]
         public byte efi_health { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldNameAttribute("efi_exhasttemp.Field")]
+        [DisplayFieldNameAttribute("efi_exhasttemp.Field")]
         [DisplayText("EFI Exhast Temp (C)")]
         public float efi_exhasttemp { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_intaketemp.Field")]
+        [DisplayFieldName("efi_intaketemp.Field")]
         [DisplayText("EFI Intake Temp (C)")]
         public float efi_intaketemp { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_rpm.Field")]
+        [DisplayFieldName("efi_rpm.Field")]
         [DisplayText("EFI rpm")]
         public float efi_rpm { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_fuelflow.Field")]
+        [DisplayFieldName("efi_fuelflow.Field")]
         [DisplayText("EFI Fuel Flow (g/min)")]
         public float efi_fuelflow { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_fuelconsumed.Field")]
+        [DisplayFieldName("efi_fuelconsumed.Field")]
         [DisplayText("EFI Fuel Consumed (g)")]
         public float efi_fuelconsumed { get; private set; }
-
         [GroupText("EFI")]
-	[DisplayFieldName("efi_fuelpressure.Field")]
+        [DisplayFieldName("efi_fuelpressure.Field")]
         [DisplayText("EFI Fuel Pressure (kPa)")]
         public float efi_fuelpressure { get; private set; }
 
