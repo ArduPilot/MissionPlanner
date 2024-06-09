@@ -136,6 +136,8 @@ nav_pitch.Field=nav_pitch (заданий тангаж)
 Pitch Target (deg)=Заданий тангаж (deg)
 
 nav_bearing.Field=nav_bearing (заданий пеленг)
+
+target_bearing.Field=target_bearing (заданий пеленг)
 Bearing Target (deg)=Заданий пеленг (deg)
 
 wp_dist.Field=wp_dist (відстань до п-ту маршруту)
@@ -168,7 +170,7 @@ Time over Home (sec)=Час над дом.точкою (sec)
 distTraveled.Field=distTraveled (пройдена відстань)
 Dist Traveled (dist)=Пройдена відстань (dist)
 
-timeSinceArmInAir.Field=timeSinceArmInAir (час у повітрі)
+timeInAir.Field=timeSinceArmInAir (час у повітрі (sec))
 Time in Air (sec)=Час у повітрі (sec)
 
 turnrate.Field=turnrate (швидкість повороту)
@@ -313,10 +315,10 @@ EFI Load (%)=Інжектор: Навантаження двигуна (%)
 efi_health.Field=efi_health (інжектор:справність)
 EFI Health=Інжектор: Справність
 
-efi_exhasttemp.Field=efi_exhasttemp (інжектор:темп.вихлопу)
+efi_exhasttemp.Field=efi_exhasttemp (інжектор:темпер.вихлопу)
 EFI Exhast Temp (C)=Інжектор: Температура вихлопу (C)
 
-efi_intaketemp.Field=efi_intaketemp (інжектор:впускна темп.)
+efi_intaketemp.Field=efi_intaketemp (інжектор:впускна темпер.)
 EFI Intake Temp (C)=Інжектор: Впускна температура (C)
 
 efi_rpm.Field=efi_rpm (інжектор:кільк.обертів)

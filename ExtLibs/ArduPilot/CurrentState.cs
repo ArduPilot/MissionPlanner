@@ -981,6 +981,7 @@ namespace MissionPlanner
         public float nav_bearing { get; set; }
 
         [GroupText("NAV")]
+	[DisplayFieldName("target_bearing.Field")]
         [DisplayText("Bearing Target (deg)")]
         public float target_bearing { get; set; }
 
@@ -1086,12 +1087,14 @@ namespace MissionPlanner
 	[GroupText("Position")]
 	public float distTraveled { get; set; }
 
-	[DisplayFieldName("timeSinceArmInAir.Field")]
         [DisplayText("Time in Air (sec)")]
 	[GroupText("Position")]
 	public float timeSinceArmInAir { get; set; }
 
-        [DisplayText("Time in Air (sec)")][GroupText("Position")] public float timeInAir { get; set; }
+	[DisplayFieldName("timeInAir.Field")]
+        [DisplayText("Time in Air (sec)")]
+	[GroupText("Position")]
+	public float timeInAir { get; set; }
 
         //Time in Air converted to min.sec format for easier reading
         [DisplayText("Time in Air (min.sec)")]
