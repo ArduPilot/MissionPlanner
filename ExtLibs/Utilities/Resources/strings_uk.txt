@@ -1,300 +1,300 @@
-﻿roll.Field=roll (крен)
+﻿roll.Field=(fieldName) (крен)
 Roll (deg)=Крен (deg)
 
-pitch.Field=pitch (тангаж)
+pitch.Field=(fieldName) (тангаж)
 Pitch (deg)=Тангаж (deg)
 
-yaw.Field=yaw (рискання)
+yaw.Field=(fieldName) (рискання)
 Yaw (deg)=Рискання (deg)
 
-groundcourse.Field=groundcourse (шляхов.кут)
+groundcourse.Field=(fieldName) (шляхов.кут)
 GroundCourse (deg)=Шляховий кут (deg)
 
-groundcourse2.Field=groundcourse (шляхов.кут #2)
+groundcourse2.Field=(fieldName) (шляхов.кут #2)
 GroundCourse2 (deg)=Шляховий кут #2 (deg)
 
-lat.Field=lat (широта)
+lat.Field=(fieldName) (широта)
 Latitude (dd)=Широта (dd)
 
-lng.Field=lng (довгота)
+lng.Field=(fieldName) (довгота)
 Longitude (dd)=Довгота (dd)
 
-alt.Field=alt (висота)
+alt.Field=(fieldName) (висота)
 Altitude (dist)=Висота (dist)
 
-altoffsethome.Field=altoffsethome (компенс.висоти дом.точки)
+altoffsethome.Field=(fieldName) (компенс.висоти дом.точки)
 Alt Home Offset (dist)=Компенсація висоти дом.точки (dist)
 
-gpsstatus.Field=gpsstatus (стан GPS)
+gpsstatus.Field=(fieldName) (стан GPS)
 Gps Status=Стан GPS
 
-gpshdop.Field=gpshdop (GPS HDOP)
+gpshdop.Field=(fieldName) (GPS HDOP)
 Gps HDOP=Горизон.погіршення точності GPS
 
-satcount.Field=satcount (кільк.супутників)
+satcount.Field=(fieldName) (кільк.супутників)
 Sat Count=Кількість супутників
 
-airspeed1_temp.Field=airspeed1_temp (темпер.повітря #1)
+airspeed1_temp.Field=(fieldName) (темпер.повітря #1)
 Airspeed1 Temperature=Темпер.повітря#1
 
-airspeed2_temp.Field=airspeed2_temp (темпер.повітря #2)
+airspeed2_temp.Field=(fieldName) (темпер.повітря #2)
 Airspeed2 Temperature=Темпер.повітря#2
 
-airspeed.Field=airspeed (повітр.швидкість)
+airspeed.Field=(fieldName) (повітр.швидкість)
 AirSpeed (speed)=Повітряна швидкість (speed)
 
-targetairspeed.Field=targetairspeed (задана повітр.швидкість)
+targetairspeed.Field=(fieldName) (задана повітр.швидкість)
 Airspeed Target (speed)=Задана повітряна швидкість (speed)
 
-asratio.Field=asratio (коеф.повітр.швидкості)
+asratio.Field=(fieldName) (коеф.повітр.швидкості)
 Airspeed Ratio=Коефіцієнт повітряної швидкості
 
-groundspeed.Field=groundspeed (шляхов.швидкість)
+groundspeed.Field=(fieldName) (шляхов.швидкість)
 GroundSpeed (speed)=Шляхова швидкість (speed)
 
-ax.Field=ax (прискор.X)
+ax.Field=(fieldName) (прискор.X)
 Accel X=Прискорення X
 
-ax2.Field=ax (прискор.#2 X)
+ax2.Field=(fieldName) (прискор.#2 X)
 Accel2 X=Прискорення #2 X
 
-ax3.Field=ax (прискор.#3 X)
+ax3.Field=(fieldName) (прискор.#3 X)
 Accel3 X=Прискорення #3 X
 
-ay.Field=ay (прискор.Y)
+ay.Field=(fieldName) (прискор.Y)
 Accel Y=Прискорення Y
 
-ay2.Field=ay2 (прискор.#2 Y)
+ay2.Field=(fieldName) (прискор.#2 Y)
 Accel2 Y=Прискорення #2 Y
 
-ay3.Field=ay3 (прискор.#3 Y)
+ay3.Field=(fieldName) (прискор.#3 Y)
 Accel3 Y=Прискорення #3 Y
 
-az.Field=az (прискор.Z)
+az.Field=(fieldName) (прискор.Z)
 Accel Z=Прискорення Z
 
-az2.Field=az (прискор.#2 Z)
+az2.Field=(fieldName) (прискор.#2 Z)
 Accel2 Z=Прискорення #2 Z
 
-az3.Field=az (прискор.#3 Z)
+az3.Field=(fieldName) (прискор.#3 Z)
 Accel3 Z=Прискорення #3 Z
 
-gx.Field=gx (гіро X)
+gx.Field=(fieldName) (гіро X)
 Gyro X=Гіроскоп X
 
-gx2.Field=gx (гіро #2 X)
+gx2.Field=(fieldName) (гіро #2 X)
 Gyro2 X=Гіроскоп #2 X
 
-gx3.Field=gx (гіро #3 X)
+gx3.Field=(fieldName) (гіро #3 X)
 Gyro3 X=Гіроскоп #3 X
 
-gy.Field=gy (гіро Y)
+gy.Field=(fieldName) (гіро Y)
 Gyro Y=Гіроскоп Y
 
-gy2.Field=gy (гіро #2 Y)
+gy2.Field=(fieldName) (гіро #2 Y)
 Gyro2 Y=Гіроскоп #2 Y
 
-gy3.Field=gy (гіро #3 Y)
+gy3.Field=(fieldName) (гіро #3 Y)
 Gyro3 Y=Гіроскоп #3 Y
 
-gz.Field=gz (гіро Z)
+gz.Field=(fieldName) (гіро Z)
 Gyro Z=Гіроскоп Z
 
-gz2.Field=gz (гіро #2 Z)
+gz2.Field=(fieldName) (гіро #2 Z)
 Gyro2 Z=Гіроскоп #2 Z
 
-gz3.Field=gz (гіро #3 Z)
+gz3.Field=(fieldName) (гіро #3 Z)
 Gyro3 Z=Гіроскоп #3 Z
 
-mx.Field=mx (компас X)
+mx.Field=(fieldName) (компас X)
 Mag X=Компас X
 
-mx2.Field=mx2 (компас #2 X)
+mx2.Field=(fieldName) (компас #2 X)
 Mag2 X=Компас #2 X
 
-mx3.Field=mx3 (компас #3 X)
+mx3.Field=(fieldName) (компас #3 X)
 Mag3 X=Компас #3 X
 
-my.Field=my (компас Y)
+my.Field=(fieldName) (компас Y)
 Mag Y=Компас Y
 
-my2.Field=my (компас #2 Y)
+my2.Field=(fieldName) (компас #2 Y)
 Mag2 Y=Компас #2 Y
 
-my3.Field=my (компас #3 Y)
+my3.Field=(fieldName) (компас #3 Y)
 Mag3 Y=Компас #3 Y
 
-mz.Field=mz (компас Z)
+mz.Field=(fieldName) (компас Z)
 Mag Z=Компас Z
 
-mz2.Field=mz (компас #2 Z)
+mz2.Field=(fieldName) (компас #2 Z)
 Mag2 Z=Компас #2 Z
 
-mz3.Field=mz (компас #3 Z)
+mz3.Field=(fieldName) (компас #3 Z)
 Mag3 Z=Компас #3 Z
 
-magfield.Field=magfield (магнітне поле)
+magfield.Field=(fieldName) (магнітне поле)
 Mag Field=Магнітне Поле
 
-magfield2.Field=magfield2 (магнітне поле #2)
+magfield2.Field=(fieldName) (магнітне поле #2)
 Mag2 Field=Магнітне Поле #2
 
-magfield3.Field=magfield3 (магнітне поле #3)
+magfield3.Field=(fieldName) (магнітне поле #3)
 Mag3 Field=Магнітне Поле #3
 
-accelsq.Field=accelsq (сила прискорення)
+accelsq.Field=(fieldName) (сила прискорення)
 Accel Strength=Сила Прискорення
 
-gyrosq.Field=gyrosq (сила гіроскопа)
+gyrosq.Field=(fieldName) (сила гіроскопа)
 Gyro Strength=Сила Гіроскопа
 
-gyrosq2.Field=gyrosq2 (сила гіроскопа #2)
+gyrosq2.Field=(fieldName) (сила гіроскопа #2)
 Gyro2 Strength=Сила Гіроскопа #2
 
-gyrosq3.Field=gyrosq3 (сила гіроскопа #3)
+gyrosq3.Field=(fieldName) (сила гіроскопа #3)
 Gyro3 Strength=Сила Гіроскопа #3
 
-accelsq2.Field=accelsq (сила прискорення #2)
+accelsq2.Field=(fieldName) (сила прискорення #2)
 Accel2 Strength=Сила Прискорення #2
 
-accelsq3.Field=accelsq (сила прискорення #3)
+accelsq3.Field=(fieldName) (сила прискорення #3)
 Accel3 Strength=Сила Прискорення #3
 
-failsafe.Field=failsafe (відмовостійкий)
+failsafe.Field=(fieldName) (відмовостійкий)
 Failsafe=Відмовостійкий
 
-rxrssi.Field=rxrssi (потужність RX)
+rxrssi.Field=(fieldName) (потужність RX)
 RX Rssi=Потужність RX (rssi)
 
-verticalspeed.Field=verticalspeed (верт.швидкість)
+verticalspeed.Field=(fieldName) (верт.швидкість)
 Vertical Speed (speed)=Вертикальна швидкість (speed)
 
-wind_dir.Field=wind_dir (напрямок вітру)
+wind_dir.Field=(fieldName) (напрямок вітру)
 Wind Direction (Deg)=Напрямок вітру (Deg)
 
-wind_vel.Field=wind_vel (швидкість вітру)
+wind_vel.Field=(fieldName) (швидкість вітру)
 Wind Velocity (speed)=Швидкість вітру (speed)
 
-vx.Field=vx (швидкість X)
+vx.Field=(fieldName) (швидкість X)
 Velocity X (ms)=Швидкість X (ms)
 
-vy.Field=vy (швидкість Y)
+vy.Field=(fieldName) (швидкість Y)
 Velocity Y (ms)=Швидкість Y (ms)
 
-vz.Field=vz (швидкість Z)
+vz.Field=(fieldName) (швидкість Z)
 Velocity Z (ms)=Швидкість Z (ms)
 
-nav_roll.Field=nav_roll (заданий крен)
+nav_roll.Field=(fieldName) (заданий крен)
 Roll Target (deg)=Заданий крен (deg)
 
-nav_pitch.Field=nav_pitch (заданий тангаж)
+nav_pitch.Field=(fieldName) (заданий тангаж)
 Pitch Target (deg)=Заданий тангаж (deg)
 
-nav_bearing.Field=nav_bearing (заданий пеленг)
+nav_bearing.Field=(fieldName) (заданий пеленг)
 
-target_bearing.Field=target_bearing (заданий пеленг)
+target_bearing.Field=(fieldName) (заданий пеленг)
 Bearing Target (deg)=Заданий пеленг (deg)
 
-wp_dist.Field=wp_dist (відстань до п-ту маршруту)
+wp_dist.Field=(fieldName) (відстань до п-ту маршруту)
 Dist to WP (dist)=Відстань до пункту маршуту (dist)
 
-alt_error.Field=alt_error (похибка висоти)
+alt_error.Field=(fieldName) (похибка висоти)
 Altitude Error (dist)=Похибка висоти (dist)
 
-ber_error.Field=ber_error (похибка пеленгу)
+ber_error.Field=(fieldName) (похибка пеленгу)
 Bearing Error (deg)=Похибка пеленгу (deg)
 
-aspd_error.Field=aspd_error (похибка повітр.швидкості)
+aspd_error.Field=(fieldName) (похибка повітр.швидкості)
 Airspeed Error (speed)=Похибка повітряної швидкості (speed)
 
-xtrack_error.Field=xtrack_error (похибка Xtrack)
+xtrack_error.Field=(fieldName) (похибка Xtrack)
 Xtrack Error (m)=Похибка Xtrack (m)
 
-mode.Field=mode (режим)
+mode.Field=(fieldName) (режим)
 Mode=Режим
 
-climbrate.Field=climbrate (швидкість підйому)
+climbrate.Field=(fieldName) (швидкість підйому)
 ClimbRate (speed)=Швидкість підйому (speed)
 
-tot.Field=tot (час над ціллю)
+tot.Field=(fieldName) (час над ціллю)
 Time over Target (sec)=Час над ціллю (sec)
 
-toh.Field=toh (час над дом.точкою)
+toh.Field=(fieldName) (час над дом.точкою)
 Time over Home (sec)=Час над дом.точкою (sec)
 
-distTraveled.Field=distTraveled (пройдена відстань)
+distTraveled.Field=(fieldName) (пройдена відстань)
 Dist Traveled (dist)=Пройдена відстань (dist)
 
-timeInAir.Field=timeInAir (час у повітрі (sec))
+timeInAir.Field=(fieldName) (час у повітрі (sec))
 Time in Air (sec)=Час у повітрі (sec)
 
-turnrate.Field=turnrate (швидкість повороту)
+turnrate.Field=(fieldName) (швидкість повороту)
 Turn Rate (speed)=Швидкість повороту (speed)
 
-radius.Field=radius (радіус повороту)
+radius.Field=(fieldName) (радіус повороту)
 Turn Radius (dist)=Радіус повороту (dist)
 
-battery_voltage.Field=battery_voltage (напруга бат.)
+battery_voltage.Field=(fieldName) (напруга бат.)
 Bat Voltage (V)=Напруга батареї (V)
 
-battery_voltage2.Field=battery_voltage (напруга бат.#2)
+battery_voltage2.Field=(fieldName) (напруга бат.#2)
 
-battery_voltage3.Field=battery_voltage (напруга бат.#3)
+battery_voltage3.Field=(fieldName) (напруга бат.#3)
 
-battery_voltage4.Field=battery_voltage (напруга бат.#4)
+battery_voltage4.Field=(fieldName) (напруга бат.#4)
 
-battery_voltage5.Field=battery_voltage (напруга бат.#5)
+battery_voltage5.Field=(fieldName) (напруга бат.#5)
 
-battery_voltage6.Field=battery_voltage (напруга бат.#6)
+battery_voltage6.Field=(fieldName) (напруга бат.#6)
 
-battery_voltage7.Field=battery_voltage (напруга бат.#7)
+battery_voltage7.Field=(fieldName) (напруга бат.#7)
 
-battery_voltage8.Field=battery_voltage (напруга бат.#8)
+battery_voltage8.Field=(fieldName) (напруга бат.#8)
 
-battery_voltage9.Field=battery_voltage (напруга бат.#9)
+battery_voltage9.Field=(fieldName) (напруга бат.#9)
 
-battery_remaining.Field=battery_remaining (залишок бат.(%))
+battery_remaining.Field=(fieldName) (залишок бат.(%))
 Bat Remaining (%)=Залишок батареї (%)
 
-battery_remaining2.Field=battery_remaining (залишок бат.#2 (%))
+battery_remaining2.Field=(fieldName) (залишок бат.#2 (%))
 
-battery_remaining3.Field=battery_remaining (залишок бат.#3 (%))
+battery_remaining3.Field=(fieldName) (залишок бат.#3 (%))
 
-battery_remaining4.Field=battery_remaining (залишок бат.#4 (%))
+battery_remaining4.Field=(fieldName) (залишок бат.#4 (%))
 
-battery_remaining5.Field=battery_remaining (залишок бат.#5 (%))
+battery_remaining5.Field=(fieldName) (залишок бат.#5 (%))
 
-battery_remaining6.Field=battery_remaining (залишок бат.#6 (%))
+battery_remaining6.Field=(fieldName) (залишок бат.#6 (%))
 
-battery_remaining7.Field=battery_remaining (залишок бат.#7 (%))
+battery_remaining7.Field=(fieldName) (залишок бат.#7 (%))
 
-battery_remaining8.Field=battery_remaining (залишок бат.#8 (%))
+battery_remaining8.Field=(fieldName) (залишок бат.#8 (%))
 
-battery_remaining9.Field=battery_remaining (залишок бат.#9 (%))
+battery_remaining9.Field=(fieldName) (залишок бат.#9 (%))
 
-current.Field=current (струм бат.)
+current.Field=(fieldName) (струм бат.)
 Bat Current (Amps)=Струм батареї (Amps)
 
-current2.Field=current (струм бат.#2)
+current2.Field=(fieldName) (струм бат.#2)
 
-current3.Field=current (струм бат.#3)
+current3.Field=(fieldName) (струм бат.#3)
 
-current4.Field=current (струм бат.#4)
+current4.Field=(fieldName) (струм бат.#4)
 
-current5.Field=current (струм бат.#5)
+current5.Field=(fieldName) (струм бат.#5)
 
-current6.Field=current (струм бат.#6)
+current6.Field=(fieldName) (струм бат.#6)
 
-current7.Field=current (струм бат.#7)
+current7.Field=(fieldName) (струм бат.#7)
 
-current8.Field=current (струм бат.#8)
+current8.Field=(fieldName) (струм бат.#8)
 
-current9.Field=current (струм бат.#9)
+current9.Field=(fieldName) (струм бат.#9)
 
-watts.Field=watts (потужність бат.)
+watts.Field=(fieldName) (потужність бат.)
 Bat Watts=Потужність батареї (Watts)
 
-battery_usedmah.Field=battery_usedmah (використ.бат.)
+battery_usedmah.Field=(fieldName) (використ.бат.)
 Bat used EST (mah)=Використано батареї (прибл.) (mah)
 
 Bat2 Voltage (V)=Напруга батереї #2 (V)
@@ -315,16 +315,16 @@ Bat8 Current (Amps)=Струм батареї #8 (Amps)
 
 Bat9 Current (Amps)=Струм батареї #9 (Amps)
 
-ELToMAV.Field=ELToMAV (підвищ.до М-БпЛА)
+ELToMAV.Field=(fieldName) (підвищ.до М-БпЛА)
 Elevation to Mav (deg)=Підвищення до М-БпЛА (deg)
 
-AZToMAV.Field=AZToMAV (пеленг до М-БпЛА)
+AZToMAV.Field=(fieldName) (пеленг до М-БпЛА)
 Bearing to Mav (deg)=Пеленг до М-БпЛА (deg)
 
-sonarrange.Field=sonarrange (діапазон сонара)
+sonarrange.Field=(fieldName) (діапазон сонара)
 Sonar Range (alt)=Діапазон сонара (alt)
 
-sonarvoltage.Field=sonarvoltage (напруга сонара)
+sonarvoltage.Field=(fieldName) (напруга сонара)
 Sonar Voltage (Volt)=Напруга сонара (Volt)
 
 3DR Radio rssi=Потужність 3DR-радіосигналу (rssi)
@@ -341,143 +341,143 @@ Sonar Voltage (Volt)=Напруга сонара (Volt)
 
 3DR Radio est dist (m)=3DR-радіо прибл. відстань (m)
 
-hwvoltage.Field=hwvoltage (апаратна напруга)
+hwvoltage.Field=(fieldName) (апаратна напруга)
 HW Voltage=Апаратна напруга
 
-boardvoltage.Field=boardvoltage (борт.напруга)
+boardvoltage.Field=(fieldName) (борт.напруга)
 Board Voltage=Бортова напруга
 
-servovoltage.Field=servovoltage (напруга серво-рейки)
+servovoltage.Field=(fieldName) (напруга серво-рейки)
 Servo Rail Voltage=Напруга серво-рейки
 
-voltageflag.Field=voltageflag (стан напруги)
+voltageflag.Field=(fieldName) (стан напруги)
 Voltage Flags=Стан напруги
 
-altasl.Field=altasl (висота)
+altasl.Field=(fieldName) (висота)
 Altitude (alt)=Висота (alt)
 
 Altitude2 (dist)=Висота #2 (dist)
 
-AOA.Field=AOA (кут атаки)
+AOA.Field=(fieldName) (кут атаки)
 AOA (deg)=Кут атаки (deg)
 
-battery_kmleft.Field=battery_kmleft (залишок бат.(km))
+battery_kmleft.Field=(fieldName) (залишок бат.(km))
 Bat km left EST (km)=Залишок батареї (у km)
 
-battery_mahperkm.Field=battery_mahperkm (ефективність бат.)
+battery_mahperkm.Field=(fieldName) (ефективність бат.)
 Bat efficiency (mah/km)=Ефективність батареї (mah/km)
 
-crit_AOA.Field=crit_AOA (крит.кут атаки)
+crit_AOA.Field=(fieldName) (крит.кут атаки)
 Crit AOA (deg)=Критичний Кут атаки (deg)
 
-DistFromMovingBase.Field=DistFromMovingBase (відстань від рух.бази)
+DistFromMovingBase.Field=(fieldName) (відстань від рух.бази)
 Dist to Moving Base (dist)=Відстань від рухомої бази (dist)
 
-DistToHome.Field=DistToHome (відстань до дом.точки)
+DistToHome.Field=(fieldName) (відстань до дом.точки)
 Dist to Home (dist)=Відстань до дом.точки (dist)
 
-localsnrdb.Field=localsnrdb (сигнал/шум Sik-радіо)
+localsnrdb.Field=(fieldName) (сигнал/шум Sik-радіо)
 Sik Radio snr=Сигнал/Шум Sik-радіо
 
-rssi.Field=rssi (потужність Sik-радіосигналу)
+rssi.Field=(fieldName) (потужність Sik-радіосигналу)
 Sik Radio rssi=Потужність Sik-радіосигналу (rssi)
 
-remrssi.Field=remrssi (потужність Sik-сигналу дист.керув.)
+remrssi.Field=(fieldName) (потужність Sik-сигналу дист.керув.)
 Sik Radio remote rssi=Потужність Sik-сигналу дист.керув. (rssi)
 
-remnoise.Field=remnoise (шум Sik-пульта дист.керув.)
+remnoise.Field=(fieldName) (шум Sik-пульта дист.керув.)
 Sik Radio remote noise=Шум Sik-пульта дист.керув.
 
-remotesnrdb.Field=remotesnrdb (сигнал/шум Sik-пульта дист.керув.)
+remotesnrdb.Field=(fieldName) (сигнал/шум Sik-пульта дист.керув.)
 Sik Radio remote snr=Сигнал/Шум Sik-пульта дист.керув.
 
-DistRSSIRemain.Field=DistRSSIRemain (Sik-радіо прибл.відстань)
+DistRSSIRemain.Field=(fieldName) (Sik-радіо прибл.відстань)
 Sik Radio est dist (m)=Sik-радіо прибл. відстань (m)
 
-glide_ratio.Field=glide_ratio (коеф.глісади)
+glide_ratio.Field=(fieldName) (коеф.глісади)
 Glide Ratio=Коефіцієнт Глісади
 
-horizondist.Field=horizondist (відст.до гориз.)
+horizondist.Field=(fieldName) (відст.до гориз.)
 Horizon Dist (dist)=Відстань до горизонту (dist)
 
-gpsvel_acc.Field=gpsvel_acc (точн.швидкості за GPS)
+gpsvel_acc.Field=(fieldName) (точн.швидкості за GPS)
 Velocity Accuracy=Точність індикат. швидкості (GPS)
 
-gpsyaw2.Field=gpsyaw (рискання за GPS #2)
+gpsyaw2.Field=(fieldName) (рискання за GPS #2)
 
-gpsyaw.Field=gpsyaw (рискання за GPS)
+gpsyaw.Field=(fieldName) (рискання за GPS)
 GPS Yaw (deg)=Рискання (deg) (GPS)
 
 GroundCourse2 (deg)=Шляховий кут #2 (deg)
 
-noise.Field=noise (шум Sik-радіо)
+noise.Field=(fieldName) (шум Sik-радіо)
 Sik Radio noise=Шум Sik-радіо
 
-imu1_temp.Field=imu1_temp (IMU1 темпер.)
+imu1_temp.Field=(fieldName) (IMU1 темпер.)
 IMU1 Temperature=IMU1: Температура
 
-imu2_temp.Field=imu2_temp (IMU2 темпер.)
+imu2_temp.Field=(fieldName) (IMU2 темпер.)
 IMU2 Temperature=IMU2: Температура
 
-imu3_temp.Field=imu2_temp (IMU3 темпер.)
+imu3_temp.Field=(fieldName) (IMU3 темпер.)
 IMU3 Temperature=IMU3: Температура
 
-efi_baro.Field=efi_baro (інжектор: баром.тиск)
+efi_baro.Field=(fieldName) (інжектор: баром.тиск)
 EFI Baro Pressure (kPa)=Інжектор: Барометр. тиск (kPa)
 
-efi_headtemp.Field=efi_headtemp (інжектор: темпер.ГБЦ)
+efi_headtemp.Field=(fieldName) (інжектор: темпер.ГБЦ)
 EFI Head Temp (C)=Інжектор: Темпер.ГБЦ (C)
 
-efi_load.Field=efi_load (інжектор: навантаж.двигуна)
+efi_load.Field=(fieldName) (інжектор: навантаж.двигуна)
 EFI Load (%)=Інжектор: Навантаження двигуна (%)
 
-efi_health.Field=efi_health (інжектор: справність)
+efi_health.Field=(fieldName) (інжектор: справність)
 EFI Health=Інжектор: Справність
 
-efi_exhasttemp.Field=efi_exhasttemp (інжектор: темпер.вихлопу)
+efi_exhasttemp.Field=(fieldName) (інжектор: темпер.вихлопу)
 EFI Exhast Temp (C)=Інжектор: Температура вихлопу (C)
 
-efi_intaketemp.Field=efi_intaketemp (інжектор: впускна темпер.)
+efi_intaketemp.Field=(fieldName) (інжектор: впускна темпер.)
 EFI Intake Temp (C)=Інжектор: Впускна температура (C)
 
-efi_rpm.Field=efi_rpm (інжектор: кільк.обертів)
+efi_rpm.Field=(fieldName) (інжектор: кільк.обертів)
 EFI rpm=Інжектор: Кількість обертів
 
-efi_fuelflow.Field=efi_fuelflow (інжектор: потік палива)
+efi_fuelflow.Field=(fieldName) (інжектор: потік палива)
 EFI Fuel Flow (g/min)=Інжектор: Потік палива (g/min)
 
-efi_fuelconsumed.Field=efi_fuelconsumed (інжектор: палива спожито)
+efi_fuelconsumed.Field=(fieldName) (інжектор: палива спожито)
 EFI Fuel Consumed (g)=Інжектор: Палива спожито (g)
 
-efi_fuelpressure.Field=efi_fuelpressure (інжектор: тиск палива)
+efi_fuelpressure.Field=(fieldName) (інжектор: тиск палива)
 EFI Fuel Pressure (kPa)=Інжектор: Тиск палива (kPa)
 
-lng2.Field=lng2 (довгота #2)
+lng2.Field=(fieldName) (довгота #2)
 Longitude2 (dd)=Довгота #2 (dd)
 
-gpsh_acc.Field=gpsh_acc (точність гориз.положення за GPS)
+gpsh_acc.Field=(fieldName) (точність гориз.положення за GPS)
 H Acc (m)=Точність гориз.положення (m) (GPS)
 
-gpsv_acc.Field=gpsv_acc (точність вертик.положення за GPS)
+gpsv_acc.Field=(fieldName) (точність вертик.положення за GPS)
 V Acc (m)=Точність вертик.положення (m) (GPS)
 
-SSA.Field=SSA (кут бок.ковз)
+SSA.Field=(fieldName) (кут бок.ковз)
 SSA (deg)=Кут боков.ковзання (deg)
 
-opt_m_x.Field=opt_m_x (опт.потік (з гіро) X)
+opt_m_x.Field=(fieldName) (опт.потік (з гіро) X)
 flow_comp_m_x=Оптич.потік з гіро-компенсац. X
 
-opt_m_y.Field=opt_m_y (опт.потік (з гіро) Y)
+opt_m_y.Field=(fieldName) (опт.потік (з гіро) Y)
 flow_comp_m_y=Оптич.потік з гіро-компенсац. Y
 
-opt_x.Field=opt_x (опт.потік X)
+opt_x.Field=(fieldName) (опт.потік X)
 flow_x=Оптичний потік X
 
-opt_y.Field=opt_y (опт.потік Y)
+opt_y.Field=(fieldName) (опт.потік Y)
 flow_y=Оптичний потік Y
 
-opt_qua.Field=opt_qua (якість опт.потоку)
+opt_qua.Field=(fieldName) (якість опт.потоку)
 flow quality=Якість оптичного потоку
 
-wpno.Field=wpno (поточний пункт маршр.)
+wpno.Field=(fieldName) (поточний пункт маршр.)
 WP No=Поточний пункт маршр.

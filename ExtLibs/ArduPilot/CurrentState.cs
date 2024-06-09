@@ -4018,7 +4018,8 @@ namespace MissionPlanner
 
                     if (translated != null)
                     {
-                        return translated;
+                        var desc = translated.Replace("(fieldName)", name);
+                        return desc;
                     }
 
                     // fall-through
