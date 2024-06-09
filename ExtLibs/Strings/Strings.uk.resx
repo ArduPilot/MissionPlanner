@@ -524,7 +524,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>НЕМАЄ RC-приймача</value>
   </data>
   <data name="AutoWP" xml:space="preserve">
-    <value>Авто точка маршр.</value>
+    <value>Автом.пункт маршр.</value>
   </data>
   <data name="EnsurePropsNotOn" xml:space="preserve">
     <value>ПЕРЕКОНАЙТЕСЯ, що на М-БпЛА НЕ встановлені гвинти</value>
