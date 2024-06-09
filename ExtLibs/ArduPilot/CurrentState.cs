@@ -4006,24 +4006,31 @@ namespace MissionPlanner
                 return desc;
             }
 
-            var typeofthing = typeof(CurrentState).GetProperty(name);
-
-            if (typeofthing != null)
+            try
             {
-                var attrib = typeofthing.GetCustomAttributes(false).OfType<DisplayFieldNameAttribute>().ToArray();
+                var typeofthing = typeof(CurrentState).GetProperty(name);
 
-                if (attrib.Length > 0)
+                if (typeofthing != null)
                 {
-                    var translated = attrib.OfType<DisplayFieldNameAttribute>().First().TryTranslate(defaultTo: null);
+                    var attrib = typeofthing.GetCustomAttributes(false).OfType<DisplayFieldNameAttribute>().ToArray();
 
-                    if (translated != null)
+                    if (attrib.Length > 0)
                     {
-                        var desc = translated.Replace("(fieldName)", name);
-                        return desc;
-                    }
+                        var translated = attrib.OfType<DisplayFieldNameAttribute>().First().TryTranslate(defaultTo: null);
 
-                    // fall-through
+                        if (translated != null)
+                        {
+                            var desc = translated.Replace("(fieldName)", name);
+                            return desc;
+                        }
+
+                        // fall-through
+                    }
                 }
+            } catch
+            {
+                // NOTE: The exception will get logged automatically,
+                // therefore we may swallow the exception and move on.
             }
 
             return name;
