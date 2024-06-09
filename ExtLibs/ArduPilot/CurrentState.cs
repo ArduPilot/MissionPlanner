@@ -418,6 +418,7 @@ namespace MissionPlanner
         [GroupText("Position")]
         public double lat2 { get; set; }
 
+        [DisplayFieldName("lng2.Field")]
         [DisplayText("Longitude2 (dd)")]
         [GroupText("Position")]
         public double lng2 { get; set; }
@@ -442,6 +443,7 @@ namespace MissionPlanner
         public float groundspeed2 { get; set; }
 
         [DisplayText("GroundCourse2 (deg)")]
+        [DisplayFieldName("groundcourse2.Field")]
         [GroupText("Position")]
         public float groundcourse2 { get; set; }
 
@@ -462,6 +464,7 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float gpshdg_acc2 { get; private set; }
 
+        [DisplayFieldName("gpsyaw2.Field")]
         [DisplayText("GPS Yaw (deg)")]
         [GroupText("Position")]
         public float gpsyaw2 { get; private set; }
@@ -499,10 +502,12 @@ namespace MissionPlanner
         [GroupText("Calibration")]
         public float asratio { get; set; }
 
+        [DisplayFieldName("airspeed1_temp.Field")]
         [DisplayText("Airspeed1 Temperature")]
         [GroupText("Sensor")]
         public float airspeed1_temp { get; set; }
 
+        [DisplayFieldName("airspeed2_temp.Field")]
         [DisplayText("Airspeed2 Temperature")]
         [GroupText("Sensor")]
         public float airspeed2_temp { get; set; }
@@ -585,112 +590,138 @@ namespace MissionPlanner
         public float imu1_temp { get; set; }
 
         // accel2
+        [DisplayFieldName("ax2.Field")]
         [DisplayText("Accel2 X")]
         [GroupText("Sensor")]
         public float ax2 { get; set; }
 
+        [DisplayFieldName("ay2.Field")]
         [DisplayText("Accel2 Y")]
         [GroupText("Sensor")]
         public float ay2 { get; set; }
 
+        [DisplayFieldName("az2.Field")]
         [DisplayText("Accel2 Z")]
         [GroupText("Sensor")]
         public float az2 { get; set; }
 
+        [DisplayFieldName("accelsq2.Field")]
         [DisplayText("Accel2 Strength")]
         [GroupText("Sensor")]
         public float accelsq2 => (float)Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f;
 
         // gyro2
+        [DisplayFieldName("gx2.Field")]
         [DisplayText("Gyro2 X")]
         [GroupText("Sensor")]
         public float gx2 { get; set; }
 
+        [DisplayFieldName("gy2.Field")]
         [DisplayText("Gyro2 Y")]
         [GroupText("Sensor")]
         public float gy2 { get; set; }
 
+        [DisplayFieldName("gz2.Field")]
         [DisplayText("Gyro2 Z")]
         [GroupText("Sensor")]
         public float gz2 { get; set; }
 
+        [DisplayFieldName("gyrosq2.Field")]
         [DisplayText("Gyro2 Strength")]
         [GroupText("Sensor")]
         public float gyrosq2 => (float)Math.Sqrt(Math.Pow(gx2, 2) + Math.Pow(gy2, 2) + Math.Pow(gz2, 2));
 
         // mag2
+        [DisplayFieldName("mx2.Field")]
         [DisplayText("Mag2 X")]
         [GroupText("Sensor")]
         public float mx2 { get; set; }
 
+        [DisplayFieldName("my2.Field")]
         [DisplayText("Mag2 Y")]
         [GroupText("Sensor")]
         public float my2 { get; set; }
 
+        [DisplayFieldName("mz2.Field")]
         [DisplayText("Mag2 Z")]
         [GroupText("Sensor")]
         public float mz2 { get; set; }
 
+        [DisplayFieldName("magfield2.Field")]
         [DisplayText("Mag2 Field")]
         [GroupText("Sensor")]
         public float magfield2 => (float)Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2));
 
+        [DisplayFieldName("imu2_temp.Field")]
         [DisplayText("IMU2 Temperature")]
         [GroupText("Sensor")]
         public float imu2_temp { get; set; }
 
         // accel3
+        [DisplayFieldName("ax3.Field")]
         [DisplayText("Accel3 X")]
         [GroupText("Sensor")]
         public float ax3 { get; set; }
 
+        [DisplayFieldName("ay3.Field")]
         [DisplayText("Accel3 Y")]
         [GroupText("Sensor")]
         public float ay3 { get; set; }
 
+        [DisplayFieldName("az3.Field")]
         [DisplayText("Accel3 Z")]
         [GroupText("Sensor")]
         public float az3 { get; set; }
 
+        [DisplayFieldName("accelsq3.Field")]
         [DisplayText("Accel3 Strength")]
         [GroupText("Sensor")]
         public float accelsq3 => (float)Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f;
 
         // gyro3
+        [DisplayFieldName("gx3.Field")]
         [DisplayText("Gyro3 X")]
         [GroupText("Sensor")]
         public float gx3 { get; set; }
 
+        [DisplayFieldName("gy3.Field")]
         [DisplayText("Gyro3 Y")]
         [GroupText("Sensor")]
         public float gy3 { get; set; }
 
+        [DisplayFieldName("gz3.Field")]
         [DisplayText("Gyro3 Z")]
         [GroupText("Sensor")]
         public float gz3 { get; set; }
 
+        [DisplayFieldName("gyrosq3.Field")]
         [DisplayText("Gyro3 Strength")]
         [GroupText("Sensor")]
         public float gyrosq3 => (float)Math.Sqrt(Math.Pow(gx3, 2) + Math.Pow(gy3, 2) + Math.Pow(gz3, 2));
 
         // mag3
+        [DisplayFieldName("mx3.Field")]
         [DisplayText("Mag3 X")]
         [GroupText("Sensor")]
         public float mx3 { get; set; }
 
+        [DisplayFieldName("my2.Field")]
         [DisplayText("Mag3 Y")]
         [GroupText("Sensor")]
         public float my3 { get; set; }
 
+        [DisplayFieldName("mz3.Field")]
         [DisplayText("Mag3 Z")]
         [GroupText("Sensor")]
         public float mz3 { get; set; }
 
+        [DisplayFieldName("magfield3.Field")]
         [DisplayText("Mag3 Field")]
         [GroupText("Sensor")]
         public float magfield3 => (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2));
 
 
+        [DisplayFieldName("imu3_temp.Field")]
         [DisplayText("IMU3 Temperature")]
         [GroupText("Sensor")]
         public float imu3_temp { get; set; }
@@ -1033,6 +1064,7 @@ namespace MissionPlanner
         public float xtrack_error { get; set; }
 
         [GroupText("NAV")]
+        [DisplayFieldName("wpno.Field")]
         [DisplayText("WP No")]
         public float wpno { get; set; }
 
@@ -1198,34 +1230,42 @@ namespace MissionPlanner
         }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage3.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage3 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage4.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage4 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage5.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage5 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage6.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage6 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage7.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage7 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage8.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage8 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage9.Field")]
         [DisplayText("Bat Voltage (V)")]
         public double battery_voltage9 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining
         {
@@ -1238,34 +1278,42 @@ namespace MissionPlanner
         }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining2.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining2 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining3.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining3 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining4.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining4 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining5.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining5 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining6.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining6 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining7.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining7 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining8.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining8 { get; set; }
 
         [GroupText("Battery")]
+	[DisplayFieldName("battery_remaining9.Field")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining9 { get; set; }
 
@@ -1292,6 +1340,7 @@ namespace MissionPlanner
         } //current may to be below zero - recuperation in arduplane
 
         [GroupText("Battery")]
+        [DisplayFieldName("current2.Field")]
         [DisplayText("Bat2 Current (Amps)")]
         public double current2
         {
@@ -1307,30 +1356,37 @@ namespace MissionPlanner
         }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current3.Field")]
         [DisplayText("Bat3 Current (Amps)")]
         public double current3 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current4.Field")]
         [DisplayText("Bat4 Current (Amps)")]
         public double current4 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current5.Field")]
         [DisplayText("Bat5 Current (Amps)")]
         public double current5 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current6.Field")]
         [DisplayText("Bat6 Current (Amps)")]
         public double current6 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current7.Field")]
         [DisplayText("Bat7 Current (Amps)")]
         public double current7 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current8.Field")]
         [DisplayText("Bat8 Current (Amps)")]
         public double current8 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("current9.Field")]
         [DisplayText("Bat9 Current (Amps)")]
         public double current9 { get; set; }
 
@@ -1423,6 +1479,7 @@ namespace MissionPlanner
         public double battery_usedmah9 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_voltage2.Field")]
         [DisplayText("Bat2 Voltage (V)")]
         public double battery_voltage2
         {
@@ -1755,10 +1812,12 @@ namespace MissionPlanner
 
         // Sik radio
         [GroupText("Telem")]
+        [DisplayFieldName("rssi.Field")]
         [DisplayText("Sik Radio rssi")]
         public float rssi { get; set; }
 
         [GroupText("Telem")]
+        [DisplayFieldName("remrssi.Field")]
         [DisplayText("Sik Radio remote rssi")]
         public float remrssi { get; set; }
 
@@ -1770,6 +1829,7 @@ namespace MissionPlanner
         public float noise { get; set; }
 
         [GroupText("Telem")]
+        [DisplayFieldName("remnoise.Field")]
         [DisplayText("Sik Radio remote noise")]
         public float remnoise { get; set; }
 
@@ -1791,6 +1851,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Telem")]
+        [DisplayFieldName("remotesnrdb.Field")]
         [DisplayText("Sik Radio remote snr")]
         public float remotesnrdb
         {
@@ -1939,14 +2000,19 @@ namespace MissionPlanner
         [GroupText("Enviromental")]
         public int KIndex => KIndexstatic;
 
+        [DisplayFieldName("opt_m_x.Field")]
         [GroupText("Flow")][DisplayText("flow_comp_m_x")] public float opt_m_x { get; set; }
 
+        [DisplayFieldName("opt_m_y.Field")]
         [GroupText("Flow")][DisplayText("flow_comp_m_y")] public float opt_m_y { get; set; }
 
+        [DisplayFieldName("opt_x.Field")]
         [GroupText("Flow")][DisplayText("flow_x")] public short opt_x { get; set; }
 
+        [DisplayFieldName("opt_y.Field")]
         [GroupText("Flow")][DisplayText("flow_y")] public short opt_y { get; set; }
 
+        [DisplayFieldName("opt_qua.Field")]
         [GroupText("Flow")][DisplayText("flow quality")] public byte opt_qua { get; set; }
 
         [GroupText("EKF")] public float ekfstatus { get; set; }
