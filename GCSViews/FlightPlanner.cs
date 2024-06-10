@@ -3415,7 +3415,13 @@ namespace MissionPlanner.GCSViews
                 });
             }
 
-            trackBar1.Value = (int) MainMap.Zoom;
+            TRK_zoom.Minimum = MainMap.MapProvider.MinZoom;
+            TRK_zoom.Maximum = 24;
+            TRK_zoom.Value = (float)MainMap.Zoom;
+
+            Zoomlevel.Minimum = MainMap.MapProvider.MinZoom;
+            Zoomlevel.Maximum = 24;
+            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
 
             updateCMDParams();
 
@@ -4927,14 +4933,15 @@ namespace MissionPlanner.GCSViews
             // this is a mono fix for the zoom bar
             //Console.WriteLine("panelmap "+panelMap.Size.ToString());
             MainMap.Size = new Size(panelMap.Size.Width - 50, panelMap.Size.Height);
-            trackBar1.Location = new Point(panelMap.Size.Width - 50, trackBar1.Location.Y);
-            trackBar1.Size = new Size(trackBar1.Size.Width, panelMap.Size.Height - trackBar1.Location.Y);
+            TRK_zoom.Location = new Point(panelMap.Size.Width - 50, TRK_zoom.Location.Y);
+            TRK_zoom.Size = new Size(TRK_zoom.Size.Width, panelMap.Size.Height - TRK_zoom.Location.Y);
             label11.Location = new Point(panelMap.Size.Width - 50, label11.Location.Y);
         }
 
         public void Planner_Resize(object sender, EventArgs e)
         {
-            MainMap.Zoom = trackBar1.Value;
+            MainMap.Zoom = TRK_zoom.Value;
+            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
         }
 
         /// <summary>
@@ -6567,13 +6574,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        public void trackBar1_Scroll(object sender, EventArgs e)
+        public void TRK_zoom_Scroll(object sender, EventArgs e)
         {
             try
             {
                 lock (thisLock)
                 {
-                    MainMap.Zoom = trackBar1.Value;
+                    MainMap.Zoom = TRK_zoom.Value;
+                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value);
                 }
             }
             catch (Exception ex)
@@ -6582,13 +6590,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        private void Zoomlevel_ValueChanged(object sender, EventArgs e)
         {
             try
             {
                 lock (thisLock)
                 {
-                    MainMap.Zoom = trackBar1.Value;
+                    MainMap.Zoom = (double)Zoomlevel.Value;
+                    TRK_zoom.Value = (float)Zoomlevel.Value;
                 }
             }
             catch (Exception ex)
@@ -7617,7 +7626,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 try
                 {
-                    trackBar1.Value = (int) (MainMap.Zoom);
+                    TRK_zoom.Value = (float)(MainMap.Zoom);
+                    Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
                 }
                 catch (Exception ex)
                 {

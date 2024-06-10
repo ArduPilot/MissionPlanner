@@ -5257,10 +5257,12 @@ namespace MissionPlanner.GCSViews
                 if (gMapControl1.MaxZoom + 1 == (double) TRK_zoom.Value)
                 {
                     gMapControl1.Zoom = TRK_zoom.Value - .1;
+                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value - .1);
                 }
                 else
                 {
                     gMapControl1.Zoom = TRK_zoom.Value;
+                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value);
                 }
 
                 UpdateOverlayVisibility();
@@ -5775,10 +5777,12 @@ namespace MissionPlanner.GCSViews
                 if (gMapControl1.MaxZoom + 1 == (double) Zoomlevel.Value)
                 {
                     gMapControl1.Zoom = (double) Zoomlevel.Value - .1;
+                    TRK_zoom.Value = (float)Zoomlevel.Value - (float).1;
                 }
                 else
                 {
                     gMapControl1.Zoom = (double) Zoomlevel.Value;
+                    TRK_zoom.Value = (float)Zoomlevel.Value;
                 }
             }
             catch
