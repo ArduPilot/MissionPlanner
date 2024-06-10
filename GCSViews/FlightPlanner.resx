@@ -394,7 +394,7 @@
     <value>2</value>
   </data>
   <data name="panel5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 212</value>
+    <value>3, 278</value>
   </data>
   <data name="panel5.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 87</value>
@@ -598,7 +598,7 @@
     <value>6</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 305</value>
+    <value>3, 371</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 89</value>
@@ -1316,6 +1316,57 @@
   <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="progressBarInjectCustomMap.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 97</value>
+  </data>
+  <data name="progressBarInjectCustomMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
+  </data>
+  <data name="progressBarInjectCustomMap.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="progressBarInjectCustomMap.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;progressBarInjectCustomMap.Name" xml:space="preserve">
+    <value>progressBarInjectCustomMap</value>
+  </data>
+  <data name="&gt;&gt;progressBarInjectCustomMap.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;progressBarInjectCustomMap.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;progressBarInjectCustomMap.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_InjectCustomMap.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_InjectCustomMap.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 68</value>
+  </data>
+  <data name="BUT_InjectCustomMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
+  </data>
+  <data name="BUT_InjectCustomMap.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="BUT_InjectCustomMap.Text" xml:space="preserve">
+    <value>Inject Custom Map</value>
+  </data>
+  <data name="&gt;&gt;BUT_InjectCustomMap.Name" xml:space="preserve">
+    <value>BUT_InjectCustomMap</value>
+  </data>
+  <data name="&gt;&gt;BUT_InjectCustomMap.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_InjectCustomMap.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;BUT_InjectCustomMap.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="chk_grid.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1404,7 +1455,7 @@
     <value>3, 64</value>
   </data>
   <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 61</value>
+    <value>123, 127</value>
   </data>
   <data name="panel3.TabIndex" type="System.Int32, mscorlib">
     <value>49</value>
@@ -1506,7 +1557,7 @@
     <value>2</value>
   </data>
   <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 131</value>
+    <value>3, 197</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 75</value>
