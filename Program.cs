@@ -316,6 +316,11 @@ namespace MissionPlanner
             Console.WriteLine("Setup GMaps 1");
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
+            if (Settings.Instance["mapCache"] != null)
+            {
+                GMap.NET.GMaps.Instance.Mode = (GMap.NET.AccessMode)Enum.Parse(typeof(GMap.NET.AccessMode), Settings.Instance["mapCache"].ToString());
+                log.Info("Map access mode set to : " + GMap.NET.GMaps.Instance.Mode.ToString());
+            }
             Console.WriteLine("Setup GMaps 2");
             // add my custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
