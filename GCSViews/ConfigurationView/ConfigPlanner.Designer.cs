@@ -82,9 +82,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txt_log_dir = new System.Windows.Forms.TextBox();
             this.BUT_logdirbrowse = new MissionPlanner.Controls.MyButton();
-            this.label4 = new System.Windows.Forms.Label();
-            this.CMB_theme = new System.Windows.Forms.ComboBox();
-            this.BUT_themecustom = new MissionPlanner.Controls.MyButton();
             this.CHK_speecharmdisarm = new System.Windows.Forms.CheckBox();
             this.BUT_Vario = new MissionPlanner.Controls.MyButton();
             this.chk_analytics = new System.Windows.Forms.CheckBox();
@@ -557,23 +554,6 @@
             this.BUT_logdirbrowse.UseVisualStyleBackColor = true;
             this.BUT_logdirbrowse.Click += new System.EventHandler(this.BUT_logdirbrowse_Click);
             // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // CMB_theme
-            // 
-            resources.ApplyResources(this.CMB_theme, "CMB_theme");
-            this.CMB_theme.Name = "CMB_theme";
-            // 
-            // BUT_themecustom
-            // 
-            resources.ApplyResources(this.BUT_themecustom, "BUT_themecustom");
-            this.BUT_themecustom.Name = "BUT_themecustom";
-            this.BUT_themecustom.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_themecustom.UseVisualStyleBackColor = true;
-            // 
             // CHK_speecharmdisarm
             // 
             resources.ApplyResources(this.CHK_speecharmdisarm, "CHK_speecharmdisarm");
@@ -778,9 +758,6 @@
             this.Controls.Add(this.chk_analytics);
             this.Controls.Add(this.BUT_Vario);
             this.Controls.Add(this.CHK_speecharmdisarm);
-            this.Controls.Add(this.BUT_themecustom);
-            this.Controls.Add(this.CMB_theme);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.BUT_logdirbrowse);
             this.Controls.Add(this.txt_log_dir);
             this.Controls.Add(this.label3);
@@ -898,9 +875,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txt_log_dir;
         private Controls.MyButton BUT_logdirbrowse;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox CMB_theme;
-        private Controls.MyButton BUT_themecustom;
         private System.Windows.Forms.CheckBox CHK_speecharmdisarm;
         private Controls.MyButton BUT_Vario;
         private System.Windows.Forms.CheckBox chk_analytics;

@@ -814,6 +814,7 @@ namespace MissionPlanner
             but_GDAL_Click(sender, e);
         }
 
+        /*
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -829,7 +830,7 @@ namespace MissionPlanner
             }
             base.WndProc(ref m);
         }
-
+        */
         private void but_GDAL_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();

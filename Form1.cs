@@ -953,6 +953,10 @@ namespace MissionPlanner
 }
 */
 
+
+//working code currently 
+
+/*
 using System;
 using System.Windows.Forms;
 using ZedGraph;
@@ -1153,3 +1157,8 @@ namespace MissionPlanner
         }
     }
 }
+*/
+
+
+
+

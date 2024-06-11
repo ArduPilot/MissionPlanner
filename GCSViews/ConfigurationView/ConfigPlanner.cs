@@ -75,9 +75,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_speedunits.DataSource = Enum.GetNames(typeof(speeds));
             CMB_altunits.DataSource = Enum.GetNames(typeof(altitudes));
 
-            CMB_theme.DataSource = ThemeManager.ThemeNames;
+            //CMB_theme.DataSource = ThemeManager.ThemeNames;
 
-            CMB_theme.Text = ThemeManager.thmColor.strThemeName;
+            //CMB_theme.Text = ThemeManager.thmColor.strThemeName;
 
             num_gcsid.Value = MAVLinkInterface.gcssysid;
 
@@ -761,7 +761,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            ThemeManager.LoadTheme(CMB_theme.Text);
+            //ThemeManager.LoadTheme(CMB_theme.Text);
             ThemeManager.ApplyThemeTo(MainV2.instance);
             CustomMessageBox.Show("You may need to select another tab or restart to see the full effect.");
         }

@@ -1108,7 +1108,7 @@
         private Controls.MyButton BUT_outputMavlink;
         private Controls.MyButton BUT_followleader;
         private Controls.MyButton BUT_sorttlogs;
-        
+
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
         private Controls.MyButton but_mavserialport;
@@ -1150,7 +1150,7 @@
         private Controls.MyButton BUT_QNH;
         private Controls.MyButton but_trimble;
         private Controls.MyButton myButton_vlc;
-   
+
         private Controls.MyButton but_agemapdata;
         private Controls.MyButton myButton1;
         private Controls.MyButton but_signkey;

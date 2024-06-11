@@ -5155,6 +5155,7 @@ namespace MissionPlanner
 
         }
 
+        /*
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             using (ChartPopupForm chartPopup = new ChartPopupForm())
@@ -5168,7 +5169,7 @@ namespace MissionPlanner
 
             }
         }
-
+        */
       
         // Place this at the class level in MainV2.cs
         /* private static bool isArchivingActive = false;

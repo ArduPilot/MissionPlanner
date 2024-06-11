@@ -134,6 +134,9 @@
   <data name="&gt;&gt;BUT_logdirbrowse.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;CHK_beta.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="chk_ADSB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -142,10 +145,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_rateposition.ZOrder" xml:space="preserve">
-    <value>54</value>
+    <value>51</value>
   </data>
   <data name="&gt;&gt;label96.ZOrder" xml:space="preserve">
-    <value>61</value>
+    <value>58</value>
   </data>
   <data name="CHK_Password.Location" type="System.Drawing.Point, System.Drawing">
     <value>340, 504</value>
@@ -153,11 +156,8 @@
   <data name="CMB_altunits.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 24</value>
   </data>
-  <data name="&gt;&gt;CHK_speechwaypoint.ZOrder" xml:space="preserve">
-    <value>66</value>
-  </data>
   <data name="&gt;&gt;label108.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>41</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -168,8 +168,8 @@
   <data name="&gt;&gt;CHK_disttohomeflightdata.Name" xml:space="preserve">
     <value>CHK_disttohomeflightdata</value>
   </data>
-  <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 20</value>
+  <data name="&gt;&gt;CHK_speechcustom.ZOrder" xml:space="preserve">
+    <value>61</value>
   </data>
   <data name="&gt;&gt;label101.Name" xml:space="preserve">
     <value>label101</value>
@@ -195,23 +195,20 @@
   <data name="label102.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 13</value>
   </data>
-  <data name="&gt;&gt;CHK_GDIPlus.Name" xml:space="preserve">
-    <value>CHK_GDIPlus</value>
-  </data>
   <data name="CMB_ratesensors.Items2" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Log Path</value>
   </data>
-  <data name="num_gcsid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 22</value>
+  <data name="label95.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;CHK_maprotation.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>29</value>
   </data>
   <data name="CMB_rateposition.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 24</value>
@@ -229,7 +226,7 @@
     <value>76</value>
   </data>
   <data name="&gt;&gt;CHK_GDIPlus.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>35</value>
   </data>
   <data name="CMB_raterc.Items7" xml:space="preserve">
     <value>6</value>
@@ -255,14 +252,11 @@
   <data name="chk_temp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
-    <value>Low Speed</value>
-  </data>
   <data name="CHK_Password.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
   </data>
-  <data name="chk_slowMachine.TabIndex" type="System.Int32, mscorlib">
-    <value>123</value>
+  <data name="&gt;&gt;label107.ZOrder" xml:space="preserve">
+    <value>44</value>
   </data>
   <data name="CHK_AutoParamCommit.TabIndex" type="System.Int32, mscorlib">
     <value>116</value>
@@ -270,14 +264,11 @@
   <data name="BUT_themecustom.Text" xml:space="preserve">
     <value>Custom</value>
   </data>
-  <data name="&gt;&gt;label95.ZOrder" xml:space="preserve">
-    <value>62</value>
-  </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CMB_videoresolutions.Name" xml:space="preserve">
-    <value>CMB_videoresolutions</value>
+  <data name="CHK_resetapmonconnect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 277</value>
   </data>
   <data name="chk_slowMachine.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -292,7 +283,7 @@
     <value>22, 13</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.ZOrder" xml:space="preserve">
-    <value>77</value>
+    <value>74</value>
   </data>
   <data name="&gt;&gt;CHK_GDIPlus.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -301,7 +292,7 @@
     <value>20</value>
   </data>
   <data name="&gt;&gt;CHK_loadwponconnect.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>37</value>
   </data>
   <data name="label93.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 142</value>
@@ -345,8 +336,11 @@
   <data name="&gt;&gt;chk_slowMachine.Name" xml:space="preserve">
     <value>chk_slowMachine</value>
   </data>
-  <data name="&gt;&gt;BUT_Vario.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="label108.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 278</value>
+  </data>
+  <data name="&gt;&gt;chk_temp.ZOrder" xml:space="preserve">
+    <value>13</value>
   </data>
   <data name="CHK_showairports.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -375,14 +369,26 @@
   <data name="&gt;&gt;BUT_Vario.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
+  <data name="CMB_ratestatus.Items12" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="CMB_rateattitude.Items10" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="label101.Text" xml:space="preserve">
     <value>Telemetry Rates</value>
   </data>
+  <data name="label103.Text" xml:space="preserve">
+    <value>Position</value>
+  </data>
   <data name="&gt;&gt;CHK_maprotation.Name" xml:space="preserve">
     <value>CHK_maprotation</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="chk_shownofly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -397,7 +403,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NUM_tracklength.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>39</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -408,8 +414,8 @@
   <data name="&gt;&gt;chk_temp.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;BUT_Joystick.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="label94.Text" xml:space="preserve">
+    <value>OSD Color</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 373</value>
@@ -441,6 +447,9 @@
   <data name="&gt;&gt;CMB_raterc.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="label26.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
   <data name="CHK_resetapmonconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -465,23 +474,17 @@
   <data name="CMB_osdcolor.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 62</value>
   </data>
-  <data name="CHK_beta.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;CMB_videosources.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_language.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Alt Units</value>
-  </data>
   <data name="&gt;&gt;CMB_theme.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>36</value>
   </data>
   <data name="CHK_Password.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -489,8 +492,8 @@
   <data name="CHK_showairports.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 20</value>
   </data>
-  <data name="BUT_themecustom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>249, 421</value>
+  <data name="&gt;&gt;BUT_logdirbrowse.Name" xml:space="preserve">
+    <value>BUT_logdirbrowse</value>
   </data>
   <data name="&gt;&gt;chk_tfr.ZOrder" xml:space="preserve">
     <value>14</value>
@@ -517,13 +520,13 @@
     <value>9</value>
   </data>
   <data name="&gt;&gt;label94.ZOrder" xml:space="preserve">
-    <value>67</value>
+    <value>64</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 16</value>
   </data>
-  <data name="BUT_logdirbrowse.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CMB_ratesensors.Items14" xml:space="preserve">
+    <value>100</value>
   </data>
   <data name="CMB_ratesensors.Items4" xml:space="preserve">
     <value>3</value>
@@ -531,8 +534,14 @@
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="CHK_Password.Text" xml:space="preserve">
+    <value>Password Protect Config</value>
+  </data>
   <data name="label99.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;CMB_distunits.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Parent" xml:space="preserve">
     <value>$this</value>
@@ -565,7 +574,7 @@
     <value>157, 31</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>34</value>
   </data>
   <data name="&gt;&gt;CMB_altunits.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -588,8 +597,17 @@
   <data name="&gt;&gt;CMB_speedunits.Name" xml:space="preserve">
     <value>CMB_speedunits</value>
   </data>
+  <data name="&gt;&gt;txt_log_dir.Name" xml:space="preserve">
+    <value>txt_log_dir</value>
+  </data>
+  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="&gt;&gt;label12.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="label98.Text" xml:space="preserve">
+    <value>Speed Units</value>
   </data>
   <data name="CHK_GDIPlus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -603,9 +621,6 @@
   <data name="BUT_logdirbrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="&gt;&gt;label104.Name" xml:space="preserve">
-    <value>label104</value>
-  </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 477</value>
   </data>
@@ -614,6 +629,9 @@
   </data>
   <data name="CHK_speechArmedOnly.Location" type="System.Drawing.Point, System.Drawing">
     <value>212, 89</value>
+  </data>
+  <data name="chk_slowMachine.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;num_gcsid.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -636,14 +654,14 @@
   <data name="&gt;&gt;CMB_raterc.Name" xml:space="preserve">
     <value>CMB_raterc</value>
   </data>
-  <data name="CHK_params_bg.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="CHK_disttohomeflightdata.Size" type="System.Drawing.Size, System.Drawing">
     <value>129, 17</value>
   </data>
   <data name="&gt;&gt;BUT_Vario.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chk_analytics.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_ratestatus.Parent" xml:space="preserve">
     <value>$this</value>
@@ -654,14 +672,11 @@
   <data name="label103.Location" type="System.Drawing.Point, System.Drawing">
     <value>220, 254</value>
   </data>
-  <data name="&gt;&gt;txt_log_dir.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechlowspeed.ZOrder" xml:space="preserve">
     <value>17</value>
-  </data>
-  <data name="&gt;&gt;label23.Name" xml:space="preserve">
-    <value>label23</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -687,11 +702,14 @@
   <data name="&gt;&gt;label94.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CHK_speechaltwarning.ZOrder" xml:space="preserve">
-    <value>43</value>
+  <data name="&gt;&gt;CHK_beta.Name" xml:space="preserve">
+    <value>CHK_beta</value>
   </data>
-  <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 16</value>
+  <data name="label96.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 171</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Alt Units</value>
   </data>
   <data name="&gt;&gt;CHK_resetapmonconnect.Name" xml:space="preserve">
     <value>CHK_resetapmonconnect</value>
@@ -720,14 +738,11 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Map Follow</value>
   </data>
-  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>91</value>
   </data>
   <data name="CHK_speechmode.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="CHK_speechcustom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>469, 89</value>
   </data>
   <data name="&gt;&gt;label101.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -738,8 +753,8 @@
   <data name="chk_slowMachine.Text" xml:space="preserve">
     <value>Runing on a slow computer</value>
   </data>
-  <data name="&gt;&gt;CMB_Layout.ZOrder" xml:space="preserve">
-    <value>11</value>
+  <data name="CHK_speechlowspeed.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 398</value>
@@ -774,20 +789,14 @@
   <data name="BUT_Vario.TabIndex" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
-  <data name="&gt;&gt;CHK_speechArmedOnly.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>38</value>
   </data>
   <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 20</value>
   </data>
   <data name="CMB_raterc.Location" type="System.Drawing.Point, System.Drawing">
     <value>489, 251</value>
-  </data>
-  <data name="&gt;&gt;CHK_beta.Parent" xml:space="preserve">
-    <value>$this</value>
   </data>
   <data name="CMB_Layout.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 448</value>
@@ -798,14 +807,11 @@
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 141</value>
   </data>
-  <data name="&gt;&gt;CMB_severity.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;label26.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label93.ZOrder" xml:space="preserve">
-    <value>71</value>
+    <value>68</value>
   </data>
   <data name="&gt;&gt;CHK_speechArmedOnly.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -813,8 +819,8 @@
   <data name="CMB_ratesensors.Location" type="System.Drawing.Point, System.Drawing">
     <value>584, 251</value>
   </data>
-  <data name="CMB_ratestatus.Items12" xml:space="preserve">
-    <value>25</value>
+  <data name="&gt;&gt;BUT_logdirbrowse.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="BUT_themecustom.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -829,7 +835,7 @@
     <value>True</value>
   </data>
   <data name="&gt;&gt;label99.ZOrder" xml:space="preserve">
-    <value>56</value>
+    <value>53</value>
   </data>
   <data name="&gt;&gt;CMB_osdcolor.Name" xml:space="preserve">
     <value>CMB_osdcolor</value>
@@ -862,7 +868,7 @@
     <value>8</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>26</value>
   </data>
   <data name="label98.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -871,7 +877,7 @@
     <value>Show Airports</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>32</value>
   </data>
   <data name="&gt;&gt;CHK_speechaltwarning.Name" xml:space="preserve">
     <value>CHK_speechaltwarning</value>
@@ -882,20 +888,14 @@
   <data name="CMB_ratestatus.Items" xml:space="preserve">
     <value>-1</value>
   </data>
-  <data name="CHK_params_bg.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="CHK_speecharmdisarm.Location" type="System.Drawing.Point, System.Drawing">
     <value>760, 89</value>
-  </data>
-  <data name="CHK_resetapmonconnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 277</value>
   </data>
   <data name="CHK_GDIPlus.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
   </data>
   <data name="&gt;&gt;CMB_raterc.ZOrder" xml:space="preserve">
-    <value>48</value>
+    <value>45</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 16</value>
@@ -911,15 +911,6 @@
   </data>
   <data name="CMB_rateattitude.Items11" xml:space="preserve">
     <value>10</value>
-  </data>
-  <data name="label108.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
-  </data>
-  <data name="CMB_distunits.TabIndex" type="System.Int32, mscorlib">
-    <value>61</value>
-  </data>
-  <data name="&gt;&gt;CHK_Password.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CHK_speechmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -937,10 +928,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_osdcolor.ZOrder" xml:space="preserve">
-    <value>68</value>
-  </data>
-  <data name="label101.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+    <value>65</value>
   </data>
   <data name="&gt;&gt;CMB_Layout.Name" xml:space="preserve">
     <value>CMB_Layout</value>
@@ -972,9 +960,6 @@
   <data name="CMB_ratestatus.Items11" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="CHK_maprotation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 372</value>
-  </data>
   <data name="CMB_videoresolutions.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 24</value>
   </data>
@@ -999,6 +984,9 @@
   <data name="&gt;&gt;CHK_mavdebug.Name" xml:space="preserve">
     <value>CHK_mavdebug</value>
   </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>252, 108</value>
+  </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 16</value>
   </data>
@@ -1007,6 +995,9 @@
   </data>
   <data name="&gt;&gt;label96.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label101.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="BUT_videostop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1054,10 +1045,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label104.ZOrder" xml:space="preserve">
-    <value>49</value>
-  </data>
-  <data name="&gt;&gt;CMB_rateposition.Name" xml:space="preserve">
-    <value>CMB_rateposition</value>
+    <value>46</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -1071,6 +1059,9 @@
   <data name="&gt;&gt;BUT_Vario.Name" xml:space="preserve">
     <value>BUT_Vario</value>
   </data>
+  <data name="label104.Text" xml:space="preserve">
+    <value>Mode/Status</value>
+  </data>
   <data name="&gt;&gt;CMB_raterc.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -1082,6 +1073,9 @@
   </data>
   <data name="CHK_mavdebug.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="chk_analytics.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 527</value>
   </data>
   <data name="CHK_disttohomeflightdata.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1101,6 +1095,9 @@
   <data name="CMB_osdcolor.TabIndex" type="System.Int32, mscorlib">
     <value>69</value>
   </data>
+  <data name="CMB_rateposition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>282, 251</value>
+  </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 16</value>
   </data>
@@ -1113,6 +1110,9 @@
   <data name="&gt;&gt;CHK_speechbattery.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;chk_analytics.Name" xml:space="preserve">
+    <value>chk_analytics</value>
+  </data>
   <data name="CHK_params_bg.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 550</value>
   </data>
@@ -1120,10 +1120,10 @@
     <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CMB_distunits.ZOrder" xml:space="preserve">
-    <value>60</value>
+    <value>57</value>
   </data>
   <data name="&gt;&gt;CHK_mavdebug.ZOrder" xml:space="preserve">
-    <value>46</value>
+    <value>43</value>
   </data>
   <data name="label96.Text" xml:space="preserve">
     <value>Joystick</value>
@@ -1159,10 +1159,13 @@
     <value>111</value>
   </data>
   <data name="&gt;&gt;label92.ZOrder" xml:space="preserve">
-    <value>74</value>
+    <value>71</value>
   </data>
   <data name="&gt;&gt;CHK_speechmode.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="label93.Text" xml:space="preserve">
+    <value>UI Language</value>
   </data>
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>
@@ -1194,9 +1197,6 @@
   <data name="BUT_themecustom.TabIndex" type="System.Int32, mscorlib">
     <value>98</value>
   </data>
-  <data name="&gt;&gt;CHK_showairports.Name" xml:space="preserve">
-    <value>CHK_showairports</value>
-  </data>
   <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 20</value>
   </data>
@@ -1204,16 +1204,19 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label98.ZOrder" xml:space="preserve">
-    <value>57</value>
+    <value>54</value>
   </data>
   <data name="CMB_rateattitude.Items13" xml:space="preserve">
     <value>100</value>
   </data>
-  <data name="&gt;&gt;CMB_speedunits.ZOrder" xml:space="preserve">
-    <value>59</value>
+  <data name="&gt;&gt;label108.Name" xml:space="preserve">
+    <value>label108</value>
   </data>
-  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;CMB_speedunits.ZOrder" xml:space="preserve">
+    <value>56</value>
+  </data>
+  <data name="&gt;&gt;label103.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_theme.Name" xml:space="preserve">
     <value>CMB_theme</value>
@@ -1224,8 +1227,8 @@
   <data name="CMB_ratesensors.Items" xml:space="preserve">
     <value>-1</value>
   </data>
-  <data name="&gt;&gt;chk_temp.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;BUT_Joystick.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;chk_shownofly.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1248,9 +1251,6 @@
   <data name="chk_slowMachine.Location" type="System.Drawing.Point, System.Drawing">
     <value>340, 550</value>
   </data>
-  <data name="CMB_osdcolor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 23</value>
-  </data>
   <data name="CHK_enablespeech.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1258,7 +1258,7 @@
     <value>4</value>
   </data>
   <data name="&gt;&gt;CHK_enablespeech.ZOrder" xml:space="preserve">
-    <value>72</value>
+    <value>69</value>
   </data>
   <data name="&gt;&gt;CMB_rateposition.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1314,9 +1314,6 @@
   <data name="&gt;&gt;CMB_distunits.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 20</value>
-  </data>
   <data name="&gt;&gt;CHK_resetapmonconnect.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -1327,19 +1324,13 @@
     <value>62</value>
   </data>
   <data name="&gt;&gt;txt_log_dir.ZOrder" xml:space="preserve">
-    <value>27</value>
-  </data>
-  <data name="&gt;&gt;CHK_speechcustom.ZOrder" xml:space="preserve">
-    <value>64</value>
+    <value>24</value>
   </data>
   <data name="&gt;&gt;CHK_disttohomeflightdata.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>27</value>
   </data>
   <data name="label104.TabIndex" type="System.Int32, mscorlib">
     <value>50</value>
-  </data>
-  <data name="chk_shownofly.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;label102.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1357,13 +1348,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label103.ZOrder" xml:space="preserve">
-    <value>50</value>
+    <value>47</value>
   </data>
   <data name="&gt;&gt;NUM_tracklength.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="chk_norcreceiver.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CHK_speechlowspeed.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1371,14 +1359,11 @@
   <data name="label95.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 90</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
   </data>
   <data name="CMB_ratesensors.Items5" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>535, 254</value>
   </data>
   <data name="CHK_speechmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 89</value>
@@ -1398,17 +1383,17 @@
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
+  <data name="CHK_beta.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CHK_hudshow.Name" xml:space="preserve">
     <value>CHK_hudshow</value>
   </data>
-  <data name="&gt;&gt;BUT_logdirbrowse.Name" xml:space="preserve">
-    <value>BUT_logdirbrowse</value>
-  </data>
   <data name="&gt;&gt;CHK_Password.ZOrder" xml:space="preserve">
     <value>18</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
   </data>
   <data name="CMB_raterc.Items11" xml:space="preserve">
     <value>10</value>
@@ -1416,8 +1401,11 @@
   <data name="&gt;&gt;BUT_videostop.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CHK_beta.Name" xml:space="preserve">
-    <value>CHK_beta</value>
+  <data name="&gt;&gt;CHK_speechaltwarning.ZOrder" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="CHK_maprotation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 372</value>
   </data>
   <data name="&gt;&gt;label98.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1428,26 +1416,26 @@
   <data name="CHK_loadwponconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label95.TabIndex" type="System.Int32, mscorlib">
     <value>63</value>
   </data>
-  <data name="CMB_rateattitude.Items2" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="label92.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
-    <value>126</value>
   </data>
   <data name="CHK_speecharmdisarm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;CMB_rateattitude.ZOrder" xml:space="preserve">
-    <value>55</value>
+    <value>52</value>
+  </data>
+  <data name="CHK_showairports.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label92.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1477,7 +1465,7 @@
     <value>9, 451</value>
   </data>
   <data name="&gt;&gt;CMB_ratesensors.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>31</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 16</value>
@@ -1485,32 +1473,26 @@
   <data name="CHK_speechArmedOnly.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 20</value>
   </data>
-  <data name="&gt;&gt;chk_temp.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
   <data name="&gt;&gt;CHK_showairports.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="label94.Text" xml:space="preserve">
-    <value>OSD Color</value>
   </data>
   <data name="label94.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 16</value>
   </data>
-  <data name="CHK_speechaltwarning.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="CHK_resetapmonconnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>217, 17</value>
   </data>
-  <data name="CMB_severity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 24</value>
+  <data name="&gt;&gt;CMB_videoresolutions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_speedunits.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="label98.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 225</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablespeech.Name" xml:space="preserve">
+    <value>CHK_enablespeech</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>89</value>
@@ -1526,6 +1508,12 @@
   </data>
   <data name="CHK_maprotation.Text" xml:space="preserve">
     <value>Map is rotated to follow the plane</value>
+  </data>
+  <data name="CHK_maprotation.TabIndex" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="CHK_AutoParamCommit.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 20</value>
@@ -1543,7 +1531,10 @@
     <value>3</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.ZOrder" xml:space="preserve">
-    <value>78</value>
+    <value>75</value>
+  </data>
+  <data name="BUT_logdirbrowse.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="CHK_loadwponconnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 17</value>
@@ -1566,17 +1557,17 @@
   <data name="label95.Text" xml:space="preserve">
     <value>Speech</value>
   </data>
-  <data name="label103.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 301</value>
+  </data>
+  <data name="BUT_themecustom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>249, 421</value>
   </data>
   <data name="BUT_themecustom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="&gt;&gt;label101.ZOrder" xml:space="preserve">
-    <value>52</value>
+    <value>49</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1584,8 +1575,14 @@
   <data name="chk_temp.Text" xml:space="preserve">
     <value>Testing Screen</value>
   </data>
+  <data name="&gt;&gt;CMB_videoresolutions.Name" xml:space="preserve">
+    <value>CMB_videoresolutions</value>
+  </data>
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
+  </data>
+  <data name="&gt;&gt;BUT_Vario.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="CMB_ratestatus.Items13" xml:space="preserve">
     <value>35</value>
@@ -1600,7 +1597,7 @@
     <value>138, 24</value>
   </data>
   <data name="&gt;&gt;label102.ZOrder" xml:space="preserve">
-    <value>51</value>
+    <value>48</value>
   </data>
   <data name="&gt;&gt;chk_analytics.ZOrder" xml:space="preserve">
     <value>20</value>
@@ -1614,14 +1611,14 @@
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
   </data>
-  <data name="CMB_ratestatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>415, 251</value>
+  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="label96.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="BUT_videostart.TabIndex" type="System.Int32, mscorlib">
-    <value>78</value>
+  <data name="CHK_params_bg.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>Mode </value>
@@ -1662,14 +1659,11 @@
   <data name="CMB_rateposition.Items9" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="label94.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 65</value>
+  </data>
   <data name="NUM_tracklength.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 300</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
   </data>
   <data name="CMB_severity.TabIndex" type="System.Int32, mscorlib">
     <value>125</value>
@@ -1677,8 +1671,8 @@
   <data name="CMB_ratesensors.Items7" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="chk_slowMachine.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 16</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1686,17 +1680,14 @@
   <data name="&gt;&gt;label107.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 16</value>
-  </data>
   <data name="CMB_ratesensors.Items1" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;CMB_severity.ZOrder" xml:space="preserve">
-    <value>69</value>
+    <value>66</value>
   </data>
   <data name="&gt;&gt;CHK_speechmode.ZOrder" xml:space="preserve">
-    <value>65</value>
+    <value>62</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Name" xml:space="preserve">
     <value>BUT_Joystick</value>
@@ -1731,14 +1722,8 @@
   <data name="CMB_ratesensors.Items8" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="label96.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 171</value>
-  </data>
-  <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>Battery Warning</value>
-  </data>
-  <data name="CMB_Layout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 24</value>
+  <data name="CHK_hudshow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CMB_ratesensors.Name" xml:space="preserve">
     <value>CMB_ratesensors</value>
@@ -1757,9 +1742,6 @@
   </data>
   <data name="&gt;&gt;CHK_loadwponconnect.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label103.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CMB_ratestatus.Items5" xml:space="preserve">
     <value>4</value>
@@ -1794,14 +1776,14 @@
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CMB_videoresolutions.Parent" xml:space="preserve">
+  <data name="CHK_speechlowspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>853, 89</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;txt_log_dir.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="CMB_rateposition.Location" type="System.Drawing.Point, System.Drawing">
-    <value>282, 251</value>
-  </data>
-  <data name="CMB_rateattitude.Items10" xml:space="preserve">
-    <value>9</value>
   </data>
   <data name="CHK_showairports.TabIndex" type="System.Int32, mscorlib">
     <value>107</value>
@@ -1818,14 +1800,14 @@
   <data name="CMB_language.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 24</value>
   </data>
+  <data name="label101.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 16</value>
+  </data>
   <data name="BUT_Vario.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 501</value>
   </data>
   <data name="CHK_speechArmedOnly.TabIndex" type="System.Int32, mscorlib">
     <value>124</value>
-  </data>
-  <data name="&gt;&gt;label107.ZOrder" xml:space="preserve">
-    <value>47</value>
   </data>
   <data name="label96.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 16</value>
@@ -1840,7 +1822,7 @@
     <value>228, 527</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.ZOrder" xml:space="preserve">
-    <value>76</value>
+    <value>73</value>
   </data>
   <data name="&gt;&gt;CHK_speecharmdisarm.Name" xml:space="preserve">
     <value>CHK_speecharmdisarm</value>
@@ -1863,9 +1845,6 @@
   <data name="&gt;&gt;CHK_speechwaypoint.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CMB_ratesensors.Items14" xml:space="preserve">
-    <value>100</value>
-  </data>
   <data name="&gt;&gt;chk_ADSB.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1885,10 +1864,10 @@
     <value>Video Format</value>
   </data>
   <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>30</value>
   </data>
-  <data name="&gt;&gt;chk_shownofly.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <data name="&gt;&gt;label23.Name" xml:space="preserve">
+    <value>label23</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
     <value>Sensor</value>
@@ -1896,8 +1875,8 @@
   <data name="CMB_raterc.TabIndex" type="System.Int32, mscorlib">
     <value>49</value>
   </data>
-  <data name="CHK_hudshow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;CHK_loadwponconnect.Name" xml:space="preserve">
+    <value>CHK_loadwponconnect</value>
   </data>
   <data name="label102.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1906,7 +1885,10 @@
     <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CHK_hudshow.ZOrder" xml:space="preserve">
-    <value>73</value>
+    <value>70</value>
+  </data>
+  <data name="CHK_speechaltwarning.Location" type="System.Drawing.Point, System.Drawing">
+    <value>671, 89</value>
   </data>
   <data name="&gt;&gt;CMB_Layout.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1923,8 +1905,11 @@
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
+  <data name="&gt;&gt;label97.ZOrder" xml:space="preserve">
+    <value>55</value>
+  </data>
   <data name="&gt;&gt;BUT_logdirbrowse.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>23</value>
   </data>
   <data name="&gt;&gt;CMB_videosources.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1954,10 +1939,13 @@
     <value>7</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>28</value>
   </data>
   <data name="CHK_params_bg.TabIndex" type="System.Int32, mscorlib">
     <value>122</value>
+  </data>
+  <data name="&gt;&gt;chk_temp.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -1974,8 +1962,8 @@
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;BUT_logdirbrowse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="chk_norcreceiver.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;chk_norcreceiver.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -1995,8 +1983,8 @@
   <data name="chk_ADSB.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 20</value>
   </data>
-  <data name="&gt;&gt;CHK_loadwponconnect.Name" xml:space="preserve">
-    <value>CHK_loadwponconnect</value>
+  <data name="&gt;&gt;chk_shownofly.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Theme</value>
@@ -2010,11 +1998,14 @@
   <data name="CMB_rateposition.Items10" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="&gt;&gt;BUT_themecustom.Name" xml:space="preserve">
+    <value>BUT_themecustom</value>
+  </data>
   <data name="&gt;&gt;label24.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CHK_beta.ZOrder" xml:space="preserve">
-    <value>19</value>
+  <data name="label108.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
   </data>
   <data name="CMB_altunits.TabIndex" type="System.Int32, mscorlib">
     <value>119</value>
@@ -2031,8 +2022,11 @@
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 108</value>
+  <data name="&gt;&gt;CHK_speechwaypoint.ZOrder" xml:space="preserve">
+    <value>63</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechbattery.ZOrder" xml:space="preserve">
+    <value>60</value>
   </data>
   <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2052,20 +2046,20 @@
   <data name="&gt;&gt;chk_ADSB.Name" xml:space="preserve">
     <value>chk_ADSB</value>
   </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;CMB_speedunits.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_osdcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label98.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="num_gcsid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 22</value>
   </data>
   <data name="CMB_ratesensors.Items11" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="label93.Text" xml:space="preserve">
-    <value>UI Language</value>
+  <data name="&gt;&gt;CMB_Layout.ZOrder" xml:space="preserve">
+    <value>11</value>
   </data>
   <data name="&gt;&gt;CHK_speechcustom.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2077,22 +2071,19 @@
     <value>249, 198</value>
   </data>
   <data name="&gt;&gt;CMB_videosources.ZOrder" xml:space="preserve">
-    <value>75</value>
+    <value>72</value>
   </data>
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="chk_slowMachine.TabIndex" type="System.Int32, mscorlib">
+    <value>123</value>
   </data>
   <data name="&gt;&gt;CHK_mavdebug.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="CMB_severity.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 111</value>
-  </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
-    <value>121</value>
-  </data>
-  <data name="label95.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="CMB_language.TabIndex" type="System.Int32, mscorlib">
     <value>70</value>
@@ -2106,11 +2097,11 @@
   <data name="CMB_rateattitude.Items12" xml:space="preserve">
     <value>50</value>
   </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;CHK_Password.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label108.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 278</value>
+  <data name="CHK_speechbattery.Text" xml:space="preserve">
+    <value>Battery Warning</value>
   </data>
   <data name="&gt;&gt;CMB_altunits.Name" xml:space="preserve">
     <value>CMB_altunits</value>
@@ -2118,32 +2109,32 @@
   <data name="label7.Text" xml:space="preserve">
     <value>GCS ID</value>
   </data>
-  <data name="&gt;&gt;label108.Name" xml:space="preserve">
-    <value>label108</value>
+  <data name="CMB_osdcolor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 23</value>
   </data>
-  <data name="&gt;&gt;CMB_speedunits.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;CHK_GDIPlus.Name" xml:space="preserve">
+    <value>CHK_GDIPlus</value>
   </data>
   <data name="&gt;&gt;label33.Name" xml:space="preserve">
     <value>label33</value>
   </data>
-  <data name="&gt;&gt;label97.ZOrder" xml:space="preserve">
-    <value>58</value>
+  <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 20</value>
   </data>
-  <data name="CHK_maprotation.TabIndex" type="System.Int32, mscorlib">
-    <value>90</value>
+  <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 20</value>
   </data>
   <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>91</value>
+  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
+    <value>535, 254</value>
   </data>
-  <data name="CHK_speechlowspeed.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;CMB_videoresolutions.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;chk_analytics.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 16</value>
   </data>
   <data name="&gt;&gt;label9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2154,14 +2145,17 @@
   <data name="chk_tfr.Text" xml:space="preserve">
     <value>TFR's</value>
   </data>
-  <data name="label26.TabIndex" type="System.Int32, mscorlib">
-    <value>86</value>
+  <data name="chk_shownofly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label98.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="CMB_ratesensors.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 24</value>
   </data>
-  <data name="label94.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 65</value>
+  <data name="CHK_params_bg.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label93.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2180,6 +2174,9 @@
   </data>
   <data name="CHK_speechArmedOnly.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CHK_resetapmonconnect.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2211,8 +2208,8 @@
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>
   </data>
-  <data name="label101.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 16</value>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>126</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -2220,38 +2217,35 @@
   <data name="&gt;&gt;CHK_speechArmedOnly.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label97.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;CHK_speechwaypoint.Name" xml:space="preserve">
     <value>CHK_speechwaypoint</value>
   </data>
   <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CHK_Password.Text" xml:space="preserve">
-    <value>Password Protect Config</value>
+  <data name="&gt;&gt;label97.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CHK_params_bg.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="&gt;&gt;CMB_videoresolutions.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>33</value>
   </data>
   <data name="&gt;&gt;label98.Name" xml:space="preserve">
     <value>label98</value>
   </data>
-  <data name="&gt;&gt;txt_log_dir.Name" xml:space="preserve">
-    <value>txt_log_dir</value>
+  <data name="label101.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 16</value>
   </data>
-  <data name="label107.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CHK_speechcustom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>469, 89</value>
   </data>
-  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;CHK_speechArmedOnly.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>180, 303</value>
@@ -2262,14 +2256,14 @@
   <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
     <value>Display in Flightdata</value>
   </data>
-  <data name="&gt;&gt;CHK_enablespeech.Name" xml:space="preserve">
-    <value>CHK_enablespeech</value>
+  <data name="BUT_videostart.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
   </data>
-  <data name="&gt;&gt;CMB_videoresolutions.Type" xml:space="preserve">
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>121</value>
+  </data>
+  <data name="&gt;&gt;CMB_severity.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label103.Text" xml:space="preserve">
-    <value>Position</value>
   </data>
   <data name="&gt;&gt;label97.Name" xml:space="preserve">
     <value>label97</value>
@@ -2292,8 +2286,8 @@
   <data name="CHK_beta.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chk_analytics.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 527</value>
+  <data name="label103.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label101.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 254</value>
@@ -2310,11 +2304,14 @@
   <data name="&gt;&gt;NUM_tracklength.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CHK_speechlowspeed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>853, 89</value>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="CMB_raterc.Items10" xml:space="preserve">
     <value>9</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
+    <value>Arm/Disarm</value>
   </data>
   <data name="label97.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 198</value>
@@ -2323,7 +2320,7 @@
     <value>True</value>
   </data>
   <data name="&gt;&gt;CHK_resetapmonconnect.ZOrder" xml:space="preserve">
-    <value>45</value>
+    <value>42</value>
   </data>
   <data name="&gt;&gt;CHK_speechmode.Name" xml:space="preserve">
     <value>CHK_speechmode</value>
@@ -2349,14 +2346,14 @@
   <data name="CMB_rateattitude.Items3" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;CMB_distunits.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="CMB_rateattitude.Items2" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;label8.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CHK_speechbattery.ZOrder" xml:space="preserve">
-    <value>63</value>
+  <data name="&gt;&gt;label104.Name" xml:space="preserve">
+    <value>label104</value>
   </data>
   <data name="CHK_GDIPlus.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 17</value>
@@ -2364,8 +2361,8 @@
   <data name="CHK_maprotation.Size" type="System.Drawing.Size, System.Drawing">
     <value>205, 17</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>25</value>
+  <data name="&gt;&gt;CMB_rateposition.Name" xml:space="preserve">
+    <value>CMB_rateposition</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Name" xml:space="preserve">
     <value>BUT_videostop</value>
@@ -2374,7 +2371,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_ratestatus.ZOrder" xml:space="preserve">
-    <value>53</value>
+    <value>50</value>
   </data>
   <data name="BUT_logdirbrowse.Location" type="System.Drawing.Point, System.Drawing">
     <value>496, 393</value>
@@ -2385,8 +2382,8 @@
   <data name="label97.Text" xml:space="preserve">
     <value>Dist Units</value>
   </data>
-  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
-    <value>Arm/Disarm</value>
+  <data name="CMB_distunits.TabIndex" type="System.Int32, mscorlib">
+    <value>61</value>
   </data>
   <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 20</value>
@@ -2418,14 +2415,14 @@
   <data name="CMB_ratestatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 24</value>
   </data>
-  <data name="CHK_speechaltwarning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>671, 89</value>
+  <data name="label107.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;chk_norcreceiver.Name" xml:space="preserve">
     <value>chk_norcreceiver</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>25</value>
   </data>
   <data name="CMB_rateposition.Items3" xml:space="preserve">
     <value>2</value>
@@ -2436,8 +2433,8 @@
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 16</value>
   </data>
-  <data name="label104.Text" xml:space="preserve">
-    <value>Mode/Status</value>
+  <data name="CMB_severity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 24</value>
   </data>
   <data name="&gt;&gt;CHK_speechArmedOnly.Name" xml:space="preserve">
     <value>CHK_speechArmedOnly</value>
@@ -2445,14 +2442,17 @@
   <data name="&gt;&gt;label96.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;BUT_themecustom.Name" xml:space="preserve">
-    <value>BUT_themecustom</value>
+  <data name="CMB_Layout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 24</value>
   </data>
-  <data name="&gt;&gt;chk_analytics.Name" xml:space="preserve">
-    <value>chk_analytics</value>
+  <data name="&gt;&gt;CHK_showairports.Name" xml:space="preserve">
+    <value>CHK_showairports</value>
   </data>
   <data name="CMB_ratestatus.TabIndex" type="System.Int32, mscorlib">
     <value>54</value>
+  </data>
+  <data name="CMB_ratestatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>415, 251</value>
   </data>
   <data name="CHK_speecharmdisarm.TabIndex" type="System.Int32, mscorlib">
     <value>99</value>
@@ -2479,10 +2479,10 @@
     <value>No Fly</value>
   </data>
   <data name="&gt;&gt;CMB_language.ZOrder" xml:space="preserve">
-    <value>70</value>
+    <value>67</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
+  <data name="CHK_speechaltwarning.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label99.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2490,8 +2490,8 @@
   <data name="&gt;&gt;BUT_videostart.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="label98.Text" xml:space="preserve">
-    <value>Speed Units</value>
+  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
+    <value>Low Speed</value>
   </data>
   <data name="label93.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 16</value>
@@ -2526,10 +2526,10 @@
   <data name="&gt;&gt;chk_norcreceiver.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CHK_showairports.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;label95.ZOrder" xml:space="preserve">
+    <value>59</value>
   </data>
-  <data name="&gt;&gt;label101.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_beta.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
