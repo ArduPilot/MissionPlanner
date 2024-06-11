@@ -13,6 +13,7 @@ namespace MissionPlanner
 {
     public class BatteryUpdater
     {
+       
 
         private System.Windows.Forms.Timer batteryUpdateTimer;
 
@@ -33,22 +34,63 @@ namespace MissionPlanner
 
         }
 
+        //private void batteryUpdateTimer_Tick(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
+        //{
+        //    if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+        //    {
+
+        //        float battery = MainV2.comPort.MAV.cs.battery_remaining;
+        //        if (battery != null)
+        //        {
+
+        //            toolStripMenuItem.Text = "Battery: " + "\n" + battery + "%";
+
+        //            if (battery > 20)
+        //            {
+        //                toolStripMenuItem.ForeColor = Color.Green; // Above 20% - Green
+        //            }
+        //            else if (battery <= 20 && battery > 10)
+        //            {
+        //                toolStripMenuItem.ForeColor = Color.Orange; // 20%-10% - Orange
+        //            }
+        //            else
+        //            {
+        //                toolStripMenuItem.ForeColor = Color.Red; // Below 10% - Red
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            toolStripMenuItem.Text = "Battery not connected";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        toolStripMenuItem.Text = "Battery not connected";
+        //    }
+        //}
         private void batteryUpdateTimer_Tick(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
         {
+
             if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
             {
+                double MinVoltage = 19;
+                double MaxVoltage = 25.2;
+                double MaxEnduranceMinutes = 40;
 
-                float battery = MainV2.comPort.MAV.cs.battery_remaining;
-                if (battery != null)
+                double battery = MainV2.comPort.MAV.cs.battery_voltage;
+                
+                if (battery >= MinVoltage)
                 {
+                    double endurance = (battery - MinVoltage) / (MaxVoltage - MinVoltage) * MaxEnduranceMinutes;
+                    endurance = Math.Round(endurance, 1); // Round endurance to 1 decimal place
+                    toolStripMenuItem.Text = "Battery: " + "\n" + endurance + "min";
 
-                    toolStripMenuItem.Text = "Battery: " + "\n" + battery + "%";
-
-                    if (battery > 20)
+                    if (endurance > 23.5)
                     {
                         toolStripMenuItem.ForeColor = Color.Green; // Above 20% - Green
                     }
-                    else if (battery <= 20 && battery > 10)
+                    else if (battery <= 23.5 && battery > 20)
                     {
                         toolStripMenuItem.ForeColor = Color.Orange; // 20%-10% - Orange
                     }
@@ -60,12 +102,14 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    toolStripMenuItem.Text = "Battery not connected";
+                    toolStripMenuItem.ForeColor = Color.White; // 20%-10% - Orange
+                    toolStripMenuItem.BackColor = Color.Red; // 20%-10% - Orange
+                    toolStripMenuItem.Text = "Battery Low";
                 }
             }
             else
             {
-                toolStripMenuItem.Text = "Battery not connected";
+                toolStripMenuItem.Text = "No Battery";
             }
         }
 

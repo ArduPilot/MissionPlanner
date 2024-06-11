@@ -223,8 +223,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlannerTests", "Miss
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDroneID", "ExtLibs\MockDroneID\MockDroneID.csproj", "{6D39C141-733B-4C4A-87AB-974637952D1B}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Missionplanner-barc-wixv3", "..\Mission-msi-barc\Missionplanner-barc-wixv3\Missionplanner-barc-wixv3.wixproj", "{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1224,18 +1222,6 @@ Global
 		{6D39C141-733B-4C4A-87AB-974637952D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D39C141-733B-4C4A-87AB-974637952D1B}.Release|x86.ActiveCfg = Release|Any CPU
 		{6D39C141-733B-4C4A-87AB-974637952D1B}.Release|x86.Build.0 = Release|Any CPU
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Debug|Any CPU.Build.0 = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Debug|x86.ActiveCfg = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Debug|x86.Build.0 = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.DefaultBuild|Any CPU.ActiveCfg = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.DefaultBuild|Any CPU.Build.0 = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.DefaultBuild|x86.ActiveCfg = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.DefaultBuild|x86.Build.0 = Debug|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Release|Any CPU.ActiveCfg = Release|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Release|Any CPU.Build.0 = Release|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Release|x86.ActiveCfg = Release|x86
-		{8A25225A-81CB-4BBA-BBC7-03FAF91510EC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

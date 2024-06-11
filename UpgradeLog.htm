@@ -1,0 +1,359 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+ <html xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><meta content="en-us" http-equiv="Content-Language" /><meta content="text/html; charset=utf-16" http-equiv="Content-Type" /><title _locID="ConversionReport0">
+          Migration Report
+        </title><style> 
+                    /* Body style, for the entire document */
+                    body
+                    {
+                        background: #F3F3F4;
+                        color: #1E1E1F;
+                        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    /* Header1 style, used for the main title */
+                    h1
+                    {
+                        padding: 10px 0px 10px 10px;
+                        font-size: 21pt;
+                        background-color: #E2E2E2;
+                        border-bottom: 1px #C1C1C2 solid; 
+                        color: #201F20;
+                        margin: 0;
+                        font-weight: normal;
+                    }
+
+                    /* Header2 style, used for "Overview" and other sections */
+                    h2
+                    {
+                        font-size: 18pt;
+                        font-weight: normal;
+                        padding: 15px 0 5px 0;
+                        margin: 0;
+                    }
+
+                    /* Header3 style, used for sub-sections, such as project name */
+                    h3
+                    {
+                        font-weight: normal;
+                        font-size: 15pt;
+                        margin: 0;
+                        padding: 15px 0 5px 0;
+                        background-color: transparent;
+                    }
+
+                    /* Color all hyperlinks one color */
+                    a
+                    {
+                        color: #1382CE;
+                    }
+
+                    /* Table styles */ 
+                    table
+                    {
+                        border-spacing: 0 0;
+                        border-collapse: collapse;
+                        font-size: 10pt;
+                    }
+
+                    table th
+                    {
+                        background: #E7E7E8;
+                        text-align: left;
+                        text-decoration: none;
+                        font-weight: normal;
+                        padding: 3px 6px 3px 6px;
+                    }
+
+                    table td
+                    {
+                        vertical-align: top;
+                        padding: 3px 6px 5px 5px;
+                        margin: 0px;
+                        border: 1px solid #E7E7E8;
+                        background: #F7F7F8;
+                    }
+
+                    /* Local link is a style for hyperlinks that link to file:/// content, there are lots so color them as 'normal' text until the user mouse overs */
+                    .localLink
+                    {
+                        color: #1E1E1F;
+                        background: #EEEEED;
+                        text-decoration: none;
+                    }
+
+                    .localLink:hover
+                    {
+                        color: #1382CE;
+                        background: #FFFF99;
+                        text-decoration: none;
+                    }
+
+                    /* Center text, used in the over views cells that contain message level counts */ 
+                    .textCentered
+                    {
+                        text-align: center;
+                    }
+
+                    /* The message cells in message tables should take up all avaliable space */
+                    .messageCell
+                    {
+                        width: 100%;
+                    }
+
+                    /* Padding around the content after the h1 */ 
+                    #content 
+                    {
+	                    padding: 0px 12px 12px 12px; 
+                    }
+
+                    /* The overview table expands to width, with a max width of 97% */ 
+                    #overview table
+                    {
+                        width: auto;
+                        max-width: 75%; 
+                    }
+
+                    /* The messages tables are always 97% width */
+                    #messages table
+                    {
+                        width: 97%;
+                    }
+
+                    /* All Icons */
+                    .IconSuccessEncoded, .IconInfoEncoded, .IconWarningEncoded, .IconErrorEncoded
+                    {
+                        min-width:18px;
+                        min-height:18px; 
+                        background-repeat:no-repeat;
+                        background-position:center;
+                    }
+
+                    /* Success icon encoded */
+                    .IconSuccessEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconSuccess#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcElEQVR4Xq2TsUsCURzHv15g8ZJcBWlyiYYgCIWcb9DFRRwMW5TA2c0/QEFwFkxxUQdxVlBwCYWOi6IhWgQhBLHJUCkhLr/BW8S7gvrAg+N+v8/v+x68Z8MGy+XSCyABQAXgBgHGALoASkIIDWSLeLBetdHryMjd5IxQPWT4rn1c/P7+xxp72Cs9m5SZ0Bq2vPnbPFafK2zDvmNHypdC0BPkLlQhxJsCAhQoZwdZU5mwxh720qGo8MzTxTTKZDPCx2HoVzp6lz0Q9tKhyx0kGs8Ny+TkWRKk8lCROwEduhyg9l/6lunOPSfmH3NUH6uQ0KHLAe7JYvJjevm+DAMGJHToKtigE+vwvIidxLamb8IBY9e+C5LiXREkfho3TSd06HJA13/oh6T51MTsfQbHrsMynQ5dDihFjiK8JJAU9AKIWTp76dCVN7HWHrajmUEGvyF9nkbAE6gLIS7kTUyuf2gscLoJrElZo/Mvj+nPz/kLTmfnEwP3tB0AAAAASUVORK5CYII=);
+                    }
+
+                    /* Information icon encoded */
+                    .IconInfoEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconInformation#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVR4Xs2TsUoDQRRF7wwoziokjZUKadInhdhukR9YP8DMX1hYW+QvdsXa/QHBbcXC7W0CamWTQnclFutceIQJwwaWNLlwm5k5d94M76mmaeCrrmsLYOocY12FcxZFUeozCqKqqgYA8uevv1H6VuPxcwlfk5N92KHBxfFeCSAxxswlYAW/Xr989x/mv9gkhtyMDhcAxgzRsp7flj8B/HF1RsMXq+NZMkopaHe7lbKxQUEIGbKsYNoGn969060hZBkQex/W8oRQwsQaW2o3Ago2SVcJUzAgY3N0lTCZZm+zPS8HB51gMmS1DEYyOz9acKO1D8JWTlafKIMxdhvlfdyT94Vv5h7P8Ky7nQzACmhvKq3zk3PjW9asz9D/1oigecsioooAAAAASUVORK5CYII=);
+                    }
+
+                    /* Warning icon encoded */
+                    .IconWarningEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconWarning#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAx0lEQVR4XpWSMQ7CMAxFf4xAyBMLCxMrO8dhaBcuwdCJS3RJBw7SA/QGTCxdWJgiQYWKXJWKIXHIlyw5lqr34tQgEOdcBsCOx5yZK3hCCKdYXneQkh4pEfqzLfu+wVDSyyzFoJjfz9NB+pAF+eizx2Vruts0k15mPgvS6GYvpVtQhB61IB/dk6AF6fS4Ben0uIX5odtFe8Q/eW1KvFeH4e8khT6+gm5B+t3juyDt7n0jpe+CANTd+oTUjN/U3yVaABnSUjFz/gFq44JaVSCXeQAAAABJRU5ErkJggg==);
+                    }
+
+                    /* Error icon encoded */
+                    .IconErrorEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconError#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQElEQVR4XqWTvUoEQRCE6wYPZUA80AfwAQz23uCMjA7MDRQEIzPBVEyNTQUFIw00vcQTTMzuAh/AxEQQT8HF/3G/oGGnEUGuoNnd6qoZuqltyKEsyzVJq5I6rnUp6SjGeGhESikzzlc1eL7opfuVbrqbU1Zw9NCgtQMaZpY0eNnaaL2fHusvTK5vKu7sjSS1Y4y3QUA6K3e3Mau5UFDyMP7tYF9o8cAHZv68vipoIJg971PZIZ5HiwdvYGGvFVFHmGmZ2MxwmQYPXubPl9Up0tfoMQGetXd6mRbvhBw+boZ6WF7Mbv1+GsHRk0fQmPAH1GfmZirbCfDJ61tw3Px8/8pZsPAG4jlVhcPgZ7adwNWBB68lkRQWFiTgFlbnLY3DGGM7izIJIyT/jjIvEJw6fdJTc6krDzh6aMwMP9bvDH4ADSsa9uSWVJkAAAAASUVORK5CYII=);
+                    }
+                 </style><script type="text/javascript" language="javascript"> 
+          
+            // Startup 
+            // Hook up the the loaded event for the document/window, to linkify the document content
+            var startupFunction = function() { linkifyElement("messages"); };
+            
+            if(window.attachEvent)
+            {
+              window.attachEvent('onload', startupFunction);
+            }
+            else if (window.addEventListener) 
+            {
+              window.addEventListener('load', startupFunction, false);
+            }
+            else 
+            {
+              document.addEventListener('load', startupFunction, false);
+            } 
+            
+            // Toggles the visibility of table rows with the specified name 
+            function toggleTableRowsByName(name)
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  if(!!currentName && currentName.indexOf(name) == 0)
+                  {
+                      var isVisible = allRows[i].style.display == ''; 
+                      isVisible ? allRows[i].style.display = 'none' : allRows[i].style.display = '';
+                  }
+               }
+            }
+            
+            function scrollToFirstVisibleRow(name) 
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  var isVisible = allRows[i].style.display == ''; 
+                  if(!!currentName && currentName.indexOf(name) == 0 && isVisible)
+                  {
+                     allRows[i].scrollIntoView(true); 
+                     return true; 
+                  }
+               }
+               
+               return false;
+            }
+            
+            // Linkifies the specified text content, replaces candidate links with html links 
+            function linkify(text)
+            {
+                 if(!text || 0 === text.length)
+                 {
+                     return text; 
+                 }
+
+                 // Find http, https and ftp links and replace them with hyper links 
+                 var urlLink = /(http|https|ftp)\:\/\/[a-zA-Z0-9\-\.]+(:[a-zA-Z0-9]*)?\/?([a-zA-Z0-9\-\._\?\,\/\\\+&%\$#\=~;\{\}])*/gi;
+                 
+                 return text.replace(urlLink, '<a href="$&">$&</a>') ;
+            }
+            
+            // Linkifies the specified element by ID
+            function linkifyElement(id)
+            {
+                var element = document.getElementById(id);
+                if(!!element)
+                {
+                  element.innerHTML = linkify(element.innerHTML); 
+                }
+            }
+            
+            function ToggleMessageVisibility(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              toggleTableRowsByName("MessageRowClass" + projectName);
+              toggleTableRowsByName('MessageRowHeaderShow' + projectName);
+              toggleTableRowsByName('MessageRowHeaderHide' + projectName); 
+            }
+            
+            function ScrollToFirstVisibleMessage(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              // First try the 'Show messages' row
+              if(!scrollToFirstVisibleRow('MessageRowHeaderShow' + projectName))
+              {
+                // Failed to find a visible row for 'Show messages', try an actual message row 
+                scrollToFirstVisibleRow('MessageRowClass' + projectName); 
+              }
+            }
+           </script></head><body><h1 _locID="ConversionReport">
+          Migration Report - </h1><div id="content"><h2 _locID="OverviewTitle">Overview</h2><div id="overview"><table><tr><th></th><th _locID="ProjectTableHeader">Project</th><th _locID="PathTableHeader">Path</th><th _locID="ErrorsTableHeader">Errors</th><th _locID="WarningsTableHeader">Warnings</th><th _locID="MessagesTableHeader">Messages</th></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Missionplanner-barc-wixv3">Missionplanner-barc-wixv3</a></strong></td><td>..\Mission-msi-barc\Missionplanner-barc-wixv3\Missionplanner-barc-wixv3.wixproj</td><td class="textCentered"><a href="#Missionplanner-barc-wixv3Error">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#.nuget">.nuget</a></strong></td><td>.nuget</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#7zip">7zip</a></strong></td><td>ExtLibs\7zip\7zip.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Accessibility-net_4_x">Accessibility-net_4_x</a></strong></td><td>ExtLibs\mono\mcs\class\Accessibility\Accessibility-net_4_x.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#alglibnet">alglibnet</a></strong></td><td>ExtLibs\alglibnet\alglibnet.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#AltitudeAngelWings">AltitudeAngelWings</a></strong></td><td>ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#AltitudeAngelWings.Plugin">AltitudeAngelWings.Plugin</a></strong></td><td>ExtLibs\AltitudeAngelWings.Plugin\AltitudeAngelWings.Plugin.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#App">App</a></strong></td><td>App</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Arduino">Arduino</a></strong></td><td>ExtLibs\Arduino\Arduino.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#AviFile">AviFile</a></strong></td><td>ExtLibs\AviFile\AviFile.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#BaseClasses">BaseClasses</a></strong></td><td>ExtLibs\BaseClasses\BaseClasses.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#BSE.Windows.Forms">BSE.Windows.Forms</a></strong></td><td>ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Bulb">Bulb</a></strong></td><td>ExtLibs\LEDBulb\Bulb\Bulb.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Core">Core</a></strong></td><td>ExtLibs\Core\Core.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#DirectShowLib">DirectShowLib</a></strong></td><td>ExtLibs\DirectShowLib\DirectShowLib.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Dowding">Dowding</a></strong></td><td>plugins\Dowding\Dowding.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Drawing">Drawing</a></strong></td><td>Drawing</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#DriverCleanup">DriverCleanup</a></strong></td><td>ExtLibs\DriverCleanup\DriverCleanup.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#DroneCAN">DroneCAN</a></strong></td><td>ExtLibs\DroneCAN\DroneCAN.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#DroneCANFlasher">DroneCANFlasher</a></strong></td><td>ExtLibs\UAVCANFlasher\DroneCANFlasher.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ExtGuided">ExtGuided</a></strong></td><td>ExtLibs\ExtGuided\ExtGuided.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ExtLibs">ExtLibs</a></strong></td><td>ExtLibs</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#FaceMap">FaceMap</a></strong></td><td>Plugins\FaceMap\FaceMap.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Flasher">Flasher</a></strong></td><td>ExtLibs\Flasher\Flasher.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#GDAL.NET">GDAL.NET</a></strong></td><td>ExtLibs\GDAL\GDAL.NET.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#GeoUtility">GeoUtility</a></strong></td><td>ExtLibs\GeoUtility\GeoUtility.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#GMap.NET.Core">GMap.NET.Core</a></strong></td><td>ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#GMap.NET.Drawing">GMap.NET.Drawing</a></strong></td><td>ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#GMap.NET.WindowsForms">GMap.NET.WindowsForms</a></strong></td><td>ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ICSharpCode.SharpZipLib">ICSharpCode.SharpZipLib</a></strong></td><td>ExtLibs\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Installer">Installer</a></strong></td><td>ExtLibs\Installer\Installer.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Interfaces">Interfaces</a></strong></td><td>ExtLibs\Interfaces\Interfaces.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#KMLib">KMLib</a></strong></td><td>ExtLibs\KMLib\KMLib.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#LibTessDotNet">LibTessDotNet</a></strong></td><td>ExtLibs\LibTessDotNet\LibTessDotNet.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#LibVLC.NET">LibVLC.NET</a></strong></td><td>ExtLibs\LibVLC.NET\LibVLC.NET.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ManagedNativeWifi.Simple">ManagedNativeWifi.Simple</a></strong></td><td>ExtLibs\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MAVLink">MAVLink</a></strong></td><td>ExtLibs\Mavlink\MAVLink.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MavlinkMessagePlugin">MavlinkMessagePlugin</a></strong></td><td>ExtLibs\MavlinkMessagePlugin\MavlinkMessagePlugin.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#md5sum">md5sum</a></strong></td><td>ExtLibs\md5sum\md5sum.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MetaDataExtractor">MetaDataExtractor</a></strong></td><td>ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Antenna">MissionPlanner.Antenna</a></strong></td><td>ExtLibs\Antenna\MissionPlanner.Antenna.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.ArduPilot">MissionPlanner.ArduPilot</a></strong></td><td>ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Comms">MissionPlanner.Comms</a></strong></td><td>ExtLibs\Comms\MissionPlanner.Comms.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Controls">MissionPlanner.Controls</a></strong></td><td>ExtLibs\Controls\MissionPlanner.Controls.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Drawing">MissionPlanner.Drawing</a></strong></td><td>ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Drawing.Common">MissionPlanner.Drawing.Common</a></strong></td><td>ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Gridv2">MissionPlanner.Gridv2</a></strong></td><td>ExtLibs\MissionPlanner.Gridv2\MissionPlanner.Gridv2.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.HIL">MissionPlanner.HIL</a></strong></td><td>ExtLibs\HIL\MissionPlanner.HIL.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Maps">MissionPlanner.Maps</a></strong></td><td>ExtLibs\Maps\MissionPlanner.Maps.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.SimpleGrid">MissionPlanner.SimpleGrid</a></strong></td><td>ExtLibs\SimpleGrid\MissionPlanner.SimpleGrid.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Stats">MissionPlanner.Stats</a></strong></td><td>ExtLibs\MissionPlanner.Stats\MissionPlanner.Stats.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Strings">MissionPlanner.Strings</a></strong></td><td>ExtLibs\Strings\MissionPlanner.Strings.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.Utilities">MissionPlanner.Utilities</a></strong></td><td>ExtLibs\Utilities\MissionPlanner.Utilities.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MissionPlanner.WebAPIs">MissionPlanner.WebAPIs</a></strong></td><td>ExtLibs\WebAPIs\MissionPlanner.WebAPIs.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Mock">Mock</a></strong></td><td>ExtLibs\Mock\Mock.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#MockDroneID">MockDroneID</a></strong></td><td>ExtLibs\MockDroneID\MockDroneID.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#netDxf">netDxf</a></strong></td><td>ExtLibs\netDxf\netDxf.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NMEA2000">NMEA2000</a></strong></td><td>ExtLibs\NMEA2000\NMEA2000.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Ntrip">Ntrip</a></strong></td><td>ExtLibs\Ntrip\Ntrip.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Onvif">Onvif</a></strong></td><td>ExtLibs\Onvif\Onvif.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#OpenDroneID_Plugin">OpenDroneID_Plugin</a></strong></td><td>Plugins\OpenDroneID2\OpenDroneID_Plugin.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#OSDConfigurator">OSDConfigurator</a></strong></td><td>ExtLibs\OSDConfigurator\OSDConfigurator.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Other">Other</a></strong></td><td>Other</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ParameterMetaDataGenerator">ParameterMetaDataGenerator</a></strong></td><td>ExtLibs\ParameterMetaDataGenerator\ParameterMetaDataGenerator.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Plugins">Plugins</a></strong></td><td>Plugins</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ProjNET">ProjNET</a></strong></td><td>ExtLibs\ProjNet\ProjNET.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#px4uploader">px4uploader</a></strong></td><td>ExtLibs\px4uploader\px4uploader.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#SharpAdbClient">SharpAdbClient</a></strong></td><td>ExtLibs\SharpAdbClient\SharpAdbClient.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#SharpKml">SharpKml</a></strong></td><td>ExtLibs\SharpKml\SharpKml.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Shortcuts">Shortcuts</a></strong></td><td>Plugins\Shortcuts\Shortcuts.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#solo">solo</a></strong></td><td>ExtLibs\solo\solo.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Solution Items">Solution Items</a></strong></td><td>Solution Items</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#SvgNet">SvgNet</a></strong></td><td>ExtLibs\SvgNet\SvgNet.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#System.Drawing.android">System.Drawing.android</a></strong></td><td>ExtLibs\System.Drawing.android\System.Drawing.android.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#System.Runtime.Serialization.Formatters.Soap-net_4_x">System.Runtime.Serialization.Formatters.Soap-net_4_x</a></strong></td><td>ExtLibs\mono\mcs\class\System.Runtime.Serialization.Formatters.Soap\System.Runtime.Serialization.Formatters.Soap-net_4_x.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#System.Windows.Forms-net_4_x">System.Windows.Forms-net_4_x</a></strong></td><td>ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#TestPlugin">TestPlugin</a></strong></td><td>ExtLibs\TestPlugin\TestPlugin.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#tlogThumbnailHandler">tlogThumbnailHandler</a></strong></td><td>ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#TrackerHomeGPS">TrackerHomeGPS</a></strong></td><td>ExtLibs\TrackerHome\TrackerHomeGPS.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Transitions">Transitions</a></strong></td><td>ExtLibs\Transitions\Transitions.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#wasm">wasm</a></strong></td><td>ExtLibs\wasm\wasm.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#WebCamService">WebCamService</a></strong></td><td>ExtLibs\WebCamService\WebCamService.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#WindowsStore">WindowsStore</a></strong></td><td>ExtLibs\WindowsStore\WindowsStore.wapproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#WinForms">WinForms</a></strong></td><td>WinForms</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Xamarin.Forms.Platform.WinForms">Xamarin.Forms.Platform.WinForms</a></strong></td><td>ExtLibs\Xamarin.Forms.Platform.WinForms\Xamarin.Forms.Platform.WinForms.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#ZedGraph">ZedGraph</a></strong></td><td>ExtLibs\ZedGraph\ZedGraph.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Zeroconf">Zeroconf</a></strong></td><td>ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Solution"><span _locID="OverviewSolutionSpan">Solution</span></a></strong></td><td>MissionPlanner.sln</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#" onclick="ScrollToFirstVisibleMessage('Solution'); return false;">1</a></td></tr></table></div><h2 _locID="SolutionAndProjectsTitle">Solution and projects</h2><div id="messages"><a name="Missionplanner-barc-wixv3" /><h3>Missionplanner-barc-wixv3</h3><table><tr id="Missionplanner-barc-wixv3HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr name="ErrorRowClassMissionplanner-barc-wixv3"><td class="IconErrorEncoded"><a name="Missionplanner-barc-wixv3Error" /></td><td class="messageCell"><strong>..\Mission-msi-barc\Missionplanner-barc-wixv3\Missionplanner-barc-wixv3.wixproj:
+        </strong><span>The application which this project type is based on was not found. Please try this link for further information: 930c7802-8a8c-48f9-8165-68863bccd9dd</span></td></tr></table><a name=".nuget" /><h3>.nuget</h3><table><tr id=".nugetHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">.nuget logged no messages.
+                  </td></tr></table><a name="7zip" /><h3>7zip</h3><table><tr id="7zipHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">7zip logged no messages.
+                  </td></tr></table><a name="Accessibility-net_4_x" /><h3>Accessibility-net_4_x</h3><table><tr id="Accessibility-net_4_xHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Accessibility-net_4_x logged no messages.
+                  </td></tr></table><a name="alglibnet" /><h3>alglibnet</h3><table><tr id="alglibnetHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">alglibnet logged no messages.
+                  </td></tr></table><a name="AltitudeAngelWings" /><h3>AltitudeAngelWings</h3><table><tr id="AltitudeAngelWingsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">AltitudeAngelWings logged no messages.
+                  </td></tr></table><a name="AltitudeAngelWings.Plugin" /><h3>AltitudeAngelWings.Plugin</h3><table><tr id="AltitudeAngelWings.PluginHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">AltitudeAngelWings.Plugin logged no messages.
+                  </td></tr></table><a name="App" /><h3>App</h3><table><tr id="AppHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">App logged no messages.
+                  </td></tr></table><a name="Arduino" /><h3>Arduino</h3><table><tr id="ArduinoHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Arduino logged no messages.
+                  </td></tr></table><a name="AviFile" /><h3>AviFile</h3><table><tr id="AviFileHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">AviFile logged no messages.
+                  </td></tr></table><a name="BaseClasses" /><h3>BaseClasses</h3><table><tr id="BaseClassesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">BaseClasses logged no messages.
+                  </td></tr></table><a name="BSE.Windows.Forms" /><h3>BSE.Windows.Forms</h3><table><tr id="BSE.Windows.FormsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">BSE.Windows.Forms logged no messages.
+                  </td></tr></table><a name="Bulb" /><h3>Bulb</h3><table><tr id="BulbHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Bulb logged no messages.
+                  </td></tr></table><a name="Core" /><h3>Core</h3><table><tr id="CoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Core logged no messages.
+                  </td></tr></table><a name="DirectShowLib" /><h3>DirectShowLib</h3><table><tr id="DirectShowLibHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">DirectShowLib logged no messages.
+                  </td></tr></table><a name="Dowding" /><h3>Dowding</h3><table><tr id="DowdingHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Dowding logged no messages.
+                  </td></tr></table><a name="Drawing" /><h3>Drawing</h3><table><tr id="DrawingHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Drawing logged no messages.
+                  </td></tr></table><a name="DriverCleanup" /><h3>DriverCleanup</h3><table><tr id="DriverCleanupHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">DriverCleanup logged no messages.
+                  </td></tr></table><a name="DroneCAN" /><h3>DroneCAN</h3><table><tr id="DroneCANHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">DroneCAN logged no messages.
+                  </td></tr></table><a name="DroneCANFlasher" /><h3>DroneCANFlasher</h3><table><tr id="DroneCANFlasherHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">DroneCANFlasher logged no messages.
+                  </td></tr></table><a name="ExtGuided" /><h3>ExtGuided</h3><table><tr id="ExtGuidedHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ExtGuided logged no messages.
+                  </td></tr></table><a name="ExtLibs" /><h3>ExtLibs</h3><table><tr id="ExtLibsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ExtLibs logged no messages.
+                  </td></tr></table><a name="FaceMap" /><h3>FaceMap</h3><table><tr id="FaceMapHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">FaceMap logged no messages.
+                  </td></tr></table><a name="Flasher" /><h3>Flasher</h3><table><tr id="FlasherHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Flasher logged no messages.
+                  </td></tr></table><a name="GDAL.NET" /><h3>GDAL.NET</h3><table><tr id="GDAL.NETHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">GDAL.NET logged no messages.
+                  </td></tr></table><a name="GeoUtility" /><h3>GeoUtility</h3><table><tr id="GeoUtilityHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">GeoUtility logged no messages.
+                  </td></tr></table><a name="GMap.NET.Core" /><h3>GMap.NET.Core</h3><table><tr id="GMap.NET.CoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">GMap.NET.Core logged no messages.
+                  </td></tr></table><a name="GMap.NET.Drawing" /><h3>GMap.NET.Drawing</h3><table><tr id="GMap.NET.DrawingHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">GMap.NET.Drawing logged no messages.
+                  </td></tr></table><a name="GMap.NET.WindowsForms" /><h3>GMap.NET.WindowsForms</h3><table><tr id="GMap.NET.WindowsFormsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">GMap.NET.WindowsForms logged no messages.
+                  </td></tr></table><a name="ICSharpCode.SharpZipLib" /><h3>ICSharpCode.SharpZipLib</h3><table><tr id="ICSharpCode.SharpZipLibHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ICSharpCode.SharpZipLib logged no messages.
+                  </td></tr></table><a name="Installer" /><h3>Installer</h3><table><tr id="InstallerHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Installer logged no messages.
+                  </td></tr></table><a name="Interfaces" /><h3>Interfaces</h3><table><tr id="InterfacesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Interfaces logged no messages.
+                  </td></tr></table><a name="KMLib" /><h3>KMLib</h3><table><tr id="KMLibHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">KMLib logged no messages.
+                  </td></tr></table><a name="LibTessDotNet" /><h3>LibTessDotNet</h3><table><tr id="LibTessDotNetHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">LibTessDotNet logged no messages.
+                  </td></tr></table><a name="LibVLC.NET" /><h3>LibVLC.NET</h3><table><tr id="LibVLC.NETHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">LibVLC.NET logged no messages.
+                  </td></tr></table><a name="ManagedNativeWifi.Simple" /><h3>ManagedNativeWifi.Simple</h3><table><tr id="ManagedNativeWifi.SimpleHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ManagedNativeWifi.Simple logged no messages.
+                  </td></tr></table><a name="MAVLink" /><h3>MAVLink</h3><table><tr id="MAVLinkHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MAVLink logged no messages.
+                  </td></tr></table><a name="MavlinkMessagePlugin" /><h3>MavlinkMessagePlugin</h3><table><tr id="MavlinkMessagePluginHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MavlinkMessagePlugin logged no messages.
+                  </td></tr></table><a name="md5sum" /><h3>md5sum</h3><table><tr id="md5sumHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">md5sum logged no messages.
+                  </td></tr></table><a name="MetaDataExtractor" /><h3>MetaDataExtractor</h3><table><tr id="MetaDataExtractorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MetaDataExtractor logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Antenna" /><h3>MissionPlanner.Antenna</h3><table><tr id="MissionPlanner.AntennaHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Antenna logged no messages.
+                  </td></tr></table><a name="MissionPlanner.ArduPilot" /><h3>MissionPlanner.ArduPilot</h3><table><tr id="MissionPlanner.ArduPilotHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.ArduPilot logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Comms" /><h3>MissionPlanner.Comms</h3><table><tr id="MissionPlanner.CommsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Comms logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Controls" /><h3>MissionPlanner.Controls</h3><table><tr id="MissionPlanner.ControlsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Controls logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Drawing" /><h3>MissionPlanner.Drawing</h3><table><tr id="MissionPlanner.DrawingHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Drawing logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Drawing.Common" /><h3>MissionPlanner.Drawing.Common</h3><table><tr id="MissionPlanner.Drawing.CommonHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Drawing.Common logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Gridv2" /><h3>MissionPlanner.Gridv2</h3><table><tr id="MissionPlanner.Gridv2HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Gridv2 logged no messages.
+                  </td></tr></table><a name="MissionPlanner.HIL" /><h3>MissionPlanner.HIL</h3><table><tr id="MissionPlanner.HILHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.HIL logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Maps" /><h3>MissionPlanner.Maps</h3><table><tr id="MissionPlanner.MapsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Maps logged no messages.
+                  </td></tr></table><a name="MissionPlanner.SimpleGrid" /><h3>MissionPlanner.SimpleGrid</h3><table><tr id="MissionPlanner.SimpleGridHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.SimpleGrid logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Stats" /><h3>MissionPlanner.Stats</h3><table><tr id="MissionPlanner.StatsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Stats logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Strings" /><h3>MissionPlanner.Strings</h3><table><tr id="MissionPlanner.StringsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Strings logged no messages.
+                  </td></tr></table><a name="MissionPlanner.Utilities" /><h3>MissionPlanner.Utilities</h3><table><tr id="MissionPlanner.UtilitiesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.Utilities logged no messages.
+                  </td></tr></table><a name="MissionPlanner.WebAPIs" /><h3>MissionPlanner.WebAPIs</h3><table><tr id="MissionPlanner.WebAPIsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MissionPlanner.WebAPIs logged no messages.
+                  </td></tr></table><a name="Mock" /><h3>Mock</h3><table><tr id="MockHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Mock logged no messages.
+                  </td></tr></table><a name="MockDroneID" /><h3>MockDroneID</h3><table><tr id="MockDroneIDHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">MockDroneID logged no messages.
+                  </td></tr></table><a name="netDxf" /><h3>netDxf</h3><table><tr id="netDxfHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">netDxf logged no messages.
+                  </td></tr></table><a name="NMEA2000" /><h3>NMEA2000</h3><table><tr id="NMEA2000HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NMEA2000 logged no messages.
+                  </td></tr></table><a name="Ntrip" /><h3>Ntrip</h3><table><tr id="NtripHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Ntrip logged no messages.
+                  </td></tr></table><a name="Onvif" /><h3>Onvif</h3><table><tr id="OnvifHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Onvif logged no messages.
+                  </td></tr></table><a name="OpenDroneID_Plugin" /><h3>OpenDroneID_Plugin</h3><table><tr id="OpenDroneID_PluginHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">OpenDroneID_Plugin logged no messages.
+                  </td></tr></table><a name="OSDConfigurator" /><h3>OSDConfigurator</h3><table><tr id="OSDConfiguratorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">OSDConfigurator logged no messages.
+                  </td></tr></table><a name="Other" /><h3>Other</h3><table><tr id="OtherHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Other logged no messages.
+                  </td></tr></table><a name="ParameterMetaDataGenerator" /><h3>ParameterMetaDataGenerator</h3><table><tr id="ParameterMetaDataGeneratorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ParameterMetaDataGenerator logged no messages.
+                  </td></tr></table><a name="Plugins" /><h3>Plugins</h3><table><tr id="PluginsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Plugins logged no messages.
+                  </td></tr></table><a name="ProjNET" /><h3>ProjNET</h3><table><tr id="ProjNETHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ProjNET logged no messages.
+                  </td></tr></table><a name="px4uploader" /><h3>px4uploader</h3><table><tr id="px4uploaderHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">px4uploader logged no messages.
+                  </td></tr></table><a name="SharpAdbClient" /><h3>SharpAdbClient</h3><table><tr id="SharpAdbClientHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">SharpAdbClient logged no messages.
+                  </td></tr></table><a name="SharpKml" /><h3>SharpKml</h3><table><tr id="SharpKmlHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">SharpKml logged no messages.
+                  </td></tr></table><a name="Shortcuts" /><h3>Shortcuts</h3><table><tr id="ShortcutsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Shortcuts logged no messages.
+                  </td></tr></table><a name="solo" /><h3>solo</h3><table><tr id="soloHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">solo logged no messages.
+                  </td></tr></table><a name="Solution Items" /><h3>Solution Items</h3><table><tr id="Solution ItemsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Solution Items logged no messages.
+                  </td></tr></table><a name="SvgNet" /><h3>SvgNet</h3><table><tr id="SvgNetHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">SvgNet logged no messages.
+                  </td></tr></table><a name="System.Drawing.android" /><h3>System.Drawing.android</h3><table><tr id="System.Drawing.androidHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">System.Drawing.android logged no messages.
+                  </td></tr></table><a name="System.Runtime.Serialization.Formatters.Soap-net_4_x" /><h3>System.Runtime.Serialization.Formatters.Soap-net_4_x</h3><table><tr id="System.Runtime.Serialization.Formatters.Soap-net_4_xHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">System.Runtime.Serialization.Formatters.Soap-net_4_x logged no messages.
+                  </td></tr></table><a name="System.Windows.Forms-net_4_x" /><h3>System.Windows.Forms-net_4_x</h3><table><tr id="System.Windows.Forms-net_4_xHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">System.Windows.Forms-net_4_x logged no messages.
+                  </td></tr></table><a name="TestPlugin" /><h3>TestPlugin</h3><table><tr id="TestPluginHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">TestPlugin logged no messages.
+                  </td></tr></table><a name="tlogThumbnailHandler" /><h3>tlogThumbnailHandler</h3><table><tr id="tlogThumbnailHandlerHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">tlogThumbnailHandler logged no messages.
+                  </td></tr></table><a name="TrackerHomeGPS" /><h3>TrackerHomeGPS</h3><table><tr id="TrackerHomeGPSHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">TrackerHomeGPS logged no messages.
+                  </td></tr></table><a name="Transitions" /><h3>Transitions</h3><table><tr id="TransitionsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Transitions logged no messages.
+                  </td></tr></table><a name="wasm" /><h3>wasm</h3><table><tr id="wasmHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">wasm logged no messages.
+                  </td></tr></table><a name="WebCamService" /><h3>WebCamService</h3><table><tr id="WebCamServiceHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">WebCamService logged no messages.
+                  </td></tr></table><a name="WindowsStore" /><h3>WindowsStore</h3><table><tr id="WindowsStoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">WindowsStore logged no messages.
+                  </td></tr></table><a name="WinForms" /><h3>WinForms</h3><table><tr id="WinFormsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">WinForms logged no messages.
+                  </td></tr></table><a name="Xamarin.Forms.Platform.WinForms" /><h3>Xamarin.Forms.Platform.WinForms</h3><table><tr id="Xamarin.Forms.Platform.WinFormsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Xamarin.Forms.Platform.WinForms logged no messages.
+                  </td></tr></table><a name="ZedGraph" /><h3>ZedGraph</h3><table><tr id="ZedGraphHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">ZedGraph logged no messages.
+                  </td></tr></table><a name="Zeroconf" /><h3>Zeroconf</h3><table><tr id="ZeroconfHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Zeroconf logged no messages.
+                  </td></tr></table><a name="Solution" /><h3 _locID="ProjectDisplayNameHeader">Solution</h3><table><tr id="SolutionHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr name="MessageRowHeaderShowSolution"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="ShowAdditionalMessages" href="#" name="SolutionMessage" onclick="ToggleMessageVisibility('Solution'); return false;">
+          Show 1 additional messages
+        </a></td></tr><tr name="MessageRowClassSolution" style="display: none"><td class="IconInfoEncoded"><a name="SolutionMessage" /></td><td class="messageCell"><strong>MissionPlanner.sln:
+        </strong><span>The solution file does not require migration.</span></td></tr><tr style="display: none" name="MessageRowHeaderHideSolution"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="HideAdditionalMessages" href="#" name="SolutionMessage" onclick="ToggleMessageVisibility('Solution'); return false;">
+          Hide 1 additional messages
+        </a></td></tr></table></div></div></body></html>
