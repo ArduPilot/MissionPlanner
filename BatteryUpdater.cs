@@ -13,6 +13,7 @@ namespace MissionPlanner
 {
     public class BatteryUpdater
     {
+        public static double endurance;
        
 
         private System.Windows.Forms.Timer batteryUpdateTimer;
@@ -34,41 +35,6 @@ namespace MissionPlanner
 
         }
 
-        //private void batteryUpdateTimer_Tick(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
-        //{
-        //    if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
-        //    {
-
-        //        float battery = MainV2.comPort.MAV.cs.battery_remaining;
-        //        if (battery != null)
-        //        {
-
-        //            toolStripMenuItem.Text = "Battery: " + "\n" + battery + "%";
-
-        //            if (battery > 20)
-        //            {
-        //                toolStripMenuItem.ForeColor = Color.Green; // Above 20% - Green
-        //            }
-        //            else if (battery <= 20 && battery > 10)
-        //            {
-        //                toolStripMenuItem.ForeColor = Color.Orange; // 20%-10% - Orange
-        //            }
-        //            else
-        //            {
-        //                toolStripMenuItem.ForeColor = Color.Red; // Below 10% - Red
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            toolStripMenuItem.Text = "Battery not connected";
-        //        }
-        //    }
-        //    else
-        //    {
-        //        toolStripMenuItem.Text = "Battery not connected";
-        //    }
-        //}
         private void batteryUpdateTimer_Tick(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
         {
 
@@ -82,7 +48,7 @@ namespace MissionPlanner
                 
                 if (battery >= MinVoltage)
                 {
-                    double endurance = (battery - MinVoltage) / (MaxVoltage - MinVoltage) * MaxEnduranceMinutes;
+                    endurance = (battery - MinVoltage) / (MaxVoltage - MinVoltage) * MaxEnduranceMinutes;
                     endurance = Math.Round(endurance, 1); // Round endurance to 1 decimal place
                     toolStripMenuItem.Text = "Battery: " + "\n" + endurance + "min";
 
