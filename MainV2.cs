@@ -115,6 +115,10 @@ namespace MissionPlanner
         private void sTATUSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             statusUpdater.showStatus((ToolStripMenuItem)sender);
+
+            
+
+
         }
 
 
@@ -5337,6 +5341,8 @@ namespace MissionPlanner
         {
             try
             {
+
+
                 ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
                 if (menuItem != null)
                 {
@@ -5348,6 +5354,28 @@ namespace MissionPlanner
 
                     if (menuItem.Text == "START")
                     {
+                        double end = (BatteryUpdater.endurance) * 60;
+
+                        double tt = TotalDist.totaltime;
+
+                        double esttime = FlightPlanner.totalDistance;
+                        double esttime2 = 100000000000;
+
+                        if (esttime > end)
+                        { 
+                            //CustomMessageBox.Show("Mission time is more than Drone's flight time");
+                            MessageBox.Show($"Mission time is more than Drone's flight time", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            //CustomMessageBox.Show("totaltime is less then the endurance");
+                            MessageBox.Show($"Mission time is less than Drone's flight time", "Go ahead", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
+
+
+
+
                         // Show save file dialog
                         SaveFileDialog saveFileDialog = new SaveFileDialog();
                         saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";

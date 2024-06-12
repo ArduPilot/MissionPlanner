@@ -64,11 +64,18 @@ namespace MissionPlanner.Grid
         bool isMouseDraging = false;
 
         // GridUI
+
+        // made changes here Suriya
+
+        private GridPlugin _plugin;
+
+
         public GridUI(GridPlugin plugin)
         {
             this.plugin = plugin;
 
             InitializeComponent();
+            _plugin = plugin ?? throw new ArgumentNullException(nameof(plugin));
 
             loading = true;
 
@@ -150,6 +157,8 @@ namespace MissionPlanner.Grid
             map.ZoomAndCenterMarkers("polygons");
         }
 
+        // check this function Suriya
+
         // Load/Save
         public void LoadGrid()
         {
@@ -211,6 +220,7 @@ namespace MissionPlanner.Grid
             CHK_toandland.Checked = griddata.autotakeoff;
             CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
             NUM_split.Value = griddata.splitmission;
+
 
 
             NUM_Distance.Value = griddata.dist;
@@ -573,6 +583,21 @@ namespace MissionPlanner.Grid
                 }
             }
         }
+        //
+        // make changes here Suriya
+
+
+        public double seconds;
+
+
+
+
+
+
+
+
+
+
 
         // Do Work
         private async void domainUpDown1_ValueChanged(object sender, EventArgs e)
@@ -607,11 +632,11 @@ namespace MissionPlanner.Grid
             else
             {
                 grid = await Utilities.Grid.CreateGridAsync(list,
-                    CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
-                    (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
-                    (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
-                    (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text),
-                    false, (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, (float) NUM_leadin2.Value,
+                    CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                    (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
+                    (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
+                    (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text),
+                    false, (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, (float)NUM_leadin2.Value,
                     MainV2.comPort.MAV.cs.PlannedHomeLocation, chk_optimize_for_distance.Checked).ConfigureAwait(true);
             }
 
@@ -635,11 +660,11 @@ namespace MissionPlanner.Grid
                 Utilities.Grid.StartPointLatLngAlt = grid[grid.Count - 1];
 
                 grid.AddRange(await Utilities.Grid.CreateGridAsync(list,
-                    CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
-                    (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value + 90.0,
-                    (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
+                    CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                    (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value + 90.0,
+                    (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     Utilities.Grid.StartPosition.Point, false,
-                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, (float) NUM_leadin2.Value,
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, (float)NUM_leadin2.Value,
                     MainV2.comPort.MAV.cs.PlannedHomeLocation, chk_optimize_for_distance.Checked).ConfigureAwait(true));
             }
 
@@ -837,7 +862,7 @@ namespace MissionPlanner.Grid
             {
                 // Meters
                 lbl_area.Text = calcpolygonarea(list).ToString("#") + " m^2";
-                lbl_distance.Text = routetotal.ToString("0.##") + " km";
+                lbl_distance.Text = routetotal.ToString("0.#######") + " km";
                 lbl_spacing.Text = NUM_spacing.Value.ToString("0.#") + " m";
                 lbl_grndres.Text = TXT_cmpixel.Text;
                 lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
@@ -852,9 +877,9 @@ namespace MissionPlanner.Grid
                 if (TXT_cmpixel.Text != "")
                 {
                     // speed m/s
-                    var speed = ((float) NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
+                    var speed = ((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
                     // cmpix cm/pixel
-                    var cmpix = float.Parse(TXT_cmpixel.Text.TrimEnd(new[] {'c', 'm', ' '}));
+                    var cmpix = float.Parse(TXT_cmpixel.Text.TrimEnd(new[] { 'c', 'm', ' ' }));
                     // m pix = m/pixel
                     var mpix = cmpix * 0.01;
                     // gsd / 2.0
@@ -870,8 +895,7 @@ namespace MissionPlanner.Grid
 
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
-            double seconds = ((routetotal * 1000.0) / ((flyspeedms) * 0.8));
-            //CustomMessageBox.Show(lbl_flighttime.Text.ToString());
+            seconds = ((routetotal * 1000.0) / ((flyspeedms) * 0.8));
             // reduce flying speed by 20 %
             lbl_flighttime.Text = secondsToNice(seconds);
             seconds = ((routetotal * 1000.0) / (flyspeedms));
@@ -959,7 +983,7 @@ namespace MissionPlanner.Grid
             foreach (var item in list)
             {
                 routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.red)
-                    {ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver});
+                { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                 a++;
             }
         }
@@ -1653,7 +1677,10 @@ namespace MissionPlanner.Grid
                         }
                     }
 
-                    if (CHK_usespeed.Checked)
+                    // made changes here Suriya
+                    // Use speed is default on
+
+                    if (CHK_usespeed.Checked || !CHK_usespeed.Checked)
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0,
                             ((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0,
@@ -1812,8 +1839,9 @@ namespace MissionPlanner.Grid
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 1, 0, 0, 0, 0, gridobject);
                     }
-
-                    if (CHK_usespeed.Checked)
+                    // made changes here Suriya
+                    // Use speed is by defult ON
+                    if (CHK_usespeed.Checked || !CHK_usespeed.Checked)
                     {
                         if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                         {
@@ -1915,7 +1943,7 @@ namespace MissionPlanner.Grid
 
         private void CMB_startfrom_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(loading)
+            if (loading)
                 return;
 
             if (CMB_startfrom.Text == Utilities.Grid.StartPosition.Point.ToString())
@@ -1923,7 +1951,7 @@ namespace MissionPlanner.Grid
                 int pnt = 1;
                 InputBox.Show("Enter point #", "Please enter a boundary point number", ref pnt);
 
-                if(list.Count > pnt)
+                if (list.Count > pnt)
                     Utilities.Grid.StartPointLatLngAlt = list[pnt - 1];
             }
 

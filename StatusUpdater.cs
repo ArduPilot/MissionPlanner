@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MissionPlanner.GCSViews;
 
 namespace MissionPlanner
 {
@@ -13,6 +14,10 @@ namespace MissionPlanner
 
         public void showStatus(ToolStripMenuItem toolStripMenuItem)
         {
+
+            
+
+
             if (statusTimer == null)
             {
                 statusTimer = new System.Windows.Forms.Timer();

@@ -686,6 +686,7 @@
     <Compile Include="AltitudeUpdater.cs" />
     <Compile Include="Antenna\TrackerGeneric.cs" />
     <Compile Include="BatteryUpdater.cs" />
+    <Compile Include="TotalDist.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Controls\DroneCANSubscriber.cs">
       <SubType>UserControl</SubType>
