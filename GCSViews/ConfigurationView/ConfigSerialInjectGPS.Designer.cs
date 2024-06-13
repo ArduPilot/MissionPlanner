@@ -36,13 +36,28 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chk_rtcmmsg = new System.Windows.Forms.CheckBox();
             this.lbl_svin = new System.Windows.Forms.Label();
-            this.chk_ubloxautoconfig = new System.Windows.Forms.CheckBox();
-            this.groupBoxm8p = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.chk_autoconfig = new System.Windows.Forms.CheckBox();
+            this.groupBox_autoconfig = new System.Windows.Forms.GroupBox();
+            this.panel_septentrio = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.chk_septentriogalileo = new System.Windows.Forms.CheckBox();
+            this.chk_septentriobeidou = new System.Windows.Forms.CheckBox();
+            this.chk_septentrioglonass = new System.Windows.Forms.CheckBox();
+            this.chk_septentriogps = new System.Windows.Forms.CheckBox();
+            this.input_septentriortcminterval = new System.Windows.Forms.NumericUpDown();
+            this.button_septentriortcminterval = new MissionPlanner.Controls.MyButton();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.cmb_septentriortcmamount = new System.Windows.Forms.ComboBox();
+            this.input_septentriofixedlongitude = new System.Windows.Forms.TextBox();
+            this.chk_septentriofixedposition = new System.Windows.Forms.CheckBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.input_septentriofixedatitude = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.button_septentriosetposition = new MissionPlanner.Controls.MyButton();
+            this.input_septentriofixedaltitude = new System.Windows.Forms.TextBox();
+            this.panel_ubloxoptions = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.but_restartsvin = new MissionPlanner.Controls.MyButton();
             this.chk_m8p_130p = new System.Windows.Forms.CheckBox();
@@ -58,10 +73,15 @@
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_surveyinDur = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chk_sendgga = new System.Windows.Forms.CheckBox();
+            this.check_sendntripv1 = new System.Windows.Forms.CheckBox();
             this.lbl_status2 = new System.Windows.Forms.Label();
             this.lbl_status3 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -82,12 +102,16 @@
             this.labelgps = new System.Windows.Forms.Label();
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBoxConfigType = new System.Windows.Forms.ComboBox();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
-            this.check_sendntripv1 = new System.Windows.Forms.CheckBox();
-            this.groupBoxm8p.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBox_autoconfig.SuspendLayout();
+            this.panel_septentrio.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.input_septentriortcminterval)).BeginInit();
+            this.panel_ubloxoptions.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -151,60 +175,204 @@
             this.lbl_svin.Name = "lbl_svin";
             this.toolTip1.SetToolTip(this.lbl_svin, resources.GetString("lbl_svin.ToolTip"));
             // 
-            // chk_ubloxautoconfig
+            // chk_autoconfig
             // 
-            resources.ApplyResources(this.chk_ubloxautoconfig, "chk_ubloxautoconfig");
-            this.chk_ubloxautoconfig.Name = "chk_ubloxautoconfig";
-            this.toolTip1.SetToolTip(this.chk_ubloxautoconfig, resources.GetString("chk_ubloxautoconfig.ToolTip"));
-            this.chk_ubloxautoconfig.UseVisualStyleBackColor = true;
-            this.chk_ubloxautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
+            resources.ApplyResources(this.chk_autoconfig, "chk_autoconfig");
+            this.chk_autoconfig.Name = "chk_autoconfig";
+            this.toolTip1.SetToolTip(this.chk_autoconfig, resources.GetString("chk_autoconfig.ToolTip"));
+            this.chk_autoconfig.UseVisualStyleBackColor = true;
+            this.chk_autoconfig.CheckedChanged += new System.EventHandler(this.chk_autoconfig_CheckedChanged);
             // 
-            // groupBoxm8p
+            // groupBox_autoconfig
             // 
-            this.groupBoxm8p.Controls.Add(this.groupBox1);
-            this.groupBoxm8p.Controls.Add(this.panel2);
-            resources.ApplyResources(this.groupBoxm8p, "groupBoxm8p");
-            this.groupBoxm8p.Name = "groupBoxm8p";
-            this.groupBoxm8p.TabStop = false;
+            this.groupBox_autoconfig.Controls.Add(this.panel_septentrio);
+            this.groupBox_autoconfig.Controls.Add(this.panel_ubloxoptions);
+            resources.ApplyResources(this.groupBox_autoconfig, "groupBox_autoconfig");
+            this.groupBox_autoconfig.Name = "groupBox_autoconfig";
+            this.groupBox_autoconfig.TabStop = false;
             // 
-            // groupBox1
+            // panel_septentrio
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.lbl_svin);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            this.panel_septentrio.Controls.Add(this.label21);
+            this.panel_septentrio.Controls.Add(this.chk_septentriogalileo);
+            this.panel_septentrio.Controls.Add(this.chk_septentriobeidou);
+            this.panel_septentrio.Controls.Add(this.chk_septentrioglonass);
+            this.panel_septentrio.Controls.Add(this.chk_septentriogps);
+            this.panel_septentrio.Controls.Add(this.input_septentriortcminterval);
+            this.panel_septentrio.Controls.Add(this.button_septentriortcminterval);
+            this.panel_septentrio.Controls.Add(this.label20);
+            this.panel_septentrio.Controls.Add(this.label19);
+            this.panel_septentrio.Controls.Add(this.cmb_septentriortcmamount);
+            this.panel_septentrio.Controls.Add(this.input_septentriofixedlongitude);
+            this.panel_septentrio.Controls.Add(this.chk_septentriofixedposition);
+            this.panel_septentrio.Controls.Add(this.label14);
+            this.panel_septentrio.Controls.Add(this.input_septentriofixedatitude);
+            this.panel_septentrio.Controls.Add(this.label17);
+            this.panel_septentrio.Controls.Add(this.label18);
+            this.panel_septentrio.Controls.Add(this.button_septentriosetposition);
+            this.panel_septentrio.Controls.Add(this.input_septentriofixedaltitude);
+            resources.ApplyResources(this.panel_septentrio, "panel_septentrio");
+            this.panel_septentrio.Name = "panel_septentrio";
             // 
-            // label10
+            // label21
             // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            this.toolTip1.SetToolTip(this.label10, resources.GetString("label10.ToolTip"));
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
+            this.toolTip1.SetToolTip(this.label21, resources.GetString("label21.ToolTip"));
             // 
-            // label7
+            // chk_septentriogalileo
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            this.toolTip1.SetToolTip(this.label7, resources.GetString("label7.ToolTip"));
+            resources.ApplyResources(this.chk_septentriogalileo, "chk_septentriogalileo");
+            this.chk_septentriogalileo.Checked = true;
+            this.chk_septentriogalileo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_septentriogalileo.Name = "chk_septentriogalileo";
+            this.toolTip1.SetToolTip(this.chk_septentriogalileo, resources.GetString("chk_septentriogalileo.ToolTip"));
+            this.chk_septentriogalileo.UseVisualStyleBackColor = true;
+            this.chk_septentriogalileo.Click += new System.EventHandler(this.chk_septentrioconstellation_Click);
             // 
-            // label9
+            // chk_septentriobeidou
             // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            this.toolTip1.SetToolTip(this.label9, resources.GetString("label9.ToolTip"));
+            resources.ApplyResources(this.chk_septentriobeidou, "chk_septentriobeidou");
+            this.chk_septentriobeidou.Checked = true;
+            this.chk_septentriobeidou.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_septentriobeidou.Name = "chk_septentriobeidou";
+            this.toolTip1.SetToolTip(this.chk_septentriobeidou, resources.GetString("chk_septentriobeidou.ToolTip"));
+            this.chk_septentriobeidou.UseVisualStyleBackColor = true;
+            this.chk_septentriobeidou.Click += new System.EventHandler(this.chk_septentrioconstellation_Click);
             // 
-            // label8
+            // chk_septentrioglonass
             // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            this.toolTip1.SetToolTip(this.label8, resources.GetString("label8.ToolTip"));
+            resources.ApplyResources(this.chk_septentrioglonass, "chk_septentrioglonass");
+            this.chk_septentrioglonass.Checked = true;
+            this.chk_septentrioglonass.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_septentrioglonass.Name = "chk_septentrioglonass";
+            this.toolTip1.SetToolTip(this.chk_septentrioglonass, resources.GetString("chk_septentrioglonass.ToolTip"));
+            this.chk_septentrioglonass.UseVisualStyleBackColor = true;
+            this.chk_septentrioglonass.Click += new System.EventHandler(this.chk_septentrioconstellation_Click);
+            // 
+            // chk_septentriogps
+            // 
+            resources.ApplyResources(this.chk_septentriogps, "chk_septentriogps");
+            this.chk_septentriogps.Checked = true;
+            this.chk_septentriogps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_septentriogps.Name = "chk_septentriogps";
+            this.toolTip1.SetToolTip(this.chk_septentriogps, resources.GetString("chk_septentriogps.ToolTip"));
+            this.chk_septentriogps.UseVisualStyleBackColor = true;
+            this.chk_septentriogps.Click += new System.EventHandler(this.chk_septentrioconstellation_Click);
+            // 
+            // input_septentriortcminterval
+            // 
+            this.input_septentriortcminterval.DecimalPlaces = 1;
+            this.input_septentriortcminterval.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.input_septentriortcminterval, "input_septentriortcminterval");
+            this.input_septentriortcminterval.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.input_septentriortcminterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.input_septentriortcminterval.Name = "input_septentriortcminterval";
+            this.input_septentriortcminterval.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            // 
+            // button_septentriortcminterval
+            // 
+            resources.ApplyResources(this.button_septentriortcminterval, "button_septentriortcminterval");
+            this.button_septentriortcminterval.Name = "button_septentriortcminterval";
+            this.button_septentriortcminterval.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.button_septentriortcminterval.UseVisualStyleBackColor = true;
+            this.button_septentriortcminterval.Click += new System.EventHandler(this.button_septentriortcminterval_Click);
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
+            this.toolTip1.SetToolTip(this.label20, resources.GetString("label20.ToolTip"));
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            this.toolTip1.SetToolTip(this.label19, resources.GetString("label19.ToolTip"));
+            // 
+            // cmb_septentriortcmamount
+            // 
+            this.cmb_septentriortcmamount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_septentriortcmamount.FormattingEnabled = true;
+            this.cmb_septentriortcmamount.Items.AddRange(new object[] {
+            resources.GetString("cmb_septentriortcmamount.Items"),
+            resources.GetString("cmb_septentriortcmamount.Items1"),
+            resources.GetString("cmb_septentriortcmamount.Items2")});
+            resources.ApplyResources(this.cmb_septentriortcmamount, "cmb_septentriortcmamount");
+            this.cmb_septentriortcmamount.Name = "cmb_septentriortcmamount";
+            this.cmb_septentriortcmamount.SelectedIndexChanged += new System.EventHandler(this.cmb_septentriortcmamount_SelectedIndexChanged);
+            // 
+            // input_septentriofixedlongitude
+            // 
+            resources.ApplyResources(this.input_septentriofixedlongitude, "input_septentriofixedlongitude");
+            this.input_septentriofixedlongitude.Name = "input_septentriofixedlongitude";
+            // 
+            // chk_septentriofixedposition
+            // 
+            resources.ApplyResources(this.chk_septentriofixedposition, "chk_septentriofixedposition");
+            this.chk_septentriofixedposition.Name = "chk_septentriofixedposition";
+            this.toolTip1.SetToolTip(this.chk_septentriofixedposition, resources.GetString("chk_septentriofixedposition.ToolTip"));
+            this.chk_septentriofixedposition.UseVisualStyleBackColor = true;
+            this.chk_septentriofixedposition.Click += new System.EventHandler(this.chk_septentriofixedposition_Click);
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // input_septentriofixedatitude
+            // 
+            resources.ApplyResources(this.input_septentriofixedatitude, "input_septentriofixedatitude");
+            this.input_septentriofixedatitude.Name = "input_septentriofixedatitude";
+            // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // button_septentriosetposition
+            // 
+            resources.ApplyResources(this.button_septentriosetposition, "button_septentriosetposition");
+            this.button_septentriosetposition.Name = "button_septentriosetposition";
+            this.button_septentriosetposition.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.button_septentriosetposition.UseVisualStyleBackColor = true;
+            this.button_septentriosetposition.Click += new System.EventHandler(this.button_septentriosetposition_Click);
+            // 
+            // input_septentriofixedaltitude
+            // 
+            resources.ApplyResources(this.input_septentriofixedaltitude, "input_septentriofixedaltitude");
+            this.input_septentriofixedaltitude.Name = "input_septentriofixedaltitude";
+            // 
+            // panel_ubloxoptions
+            // 
+            this.panel_ubloxoptions.Controls.Add(this.panel2);
+            this.panel_ubloxoptions.Controls.Add(this.groupBox1);
+            resources.ApplyResources(this.panel_ubloxoptions, "panel_ubloxoptions");
+            this.panel_ubloxoptions.Name = "panel_ubloxoptions";
             // 
             // panel2
             // 
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Controls.Add(this.but_restartsvin);
             this.panel2.Controls.Add(this.chk_m8p_130p);
             this.panel2.Controls.Add(this.but_save_basepos);
@@ -213,6 +381,7 @@
             this.panel2.Controls.Add(this.txt_surveyinAcc);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.txt_surveyinDur);
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
             // but_restartsvin
@@ -317,18 +486,45 @@
             this.toolTip1.SetToolTip(this.txt_surveyinDur, resources.GetString("txt_surveyinDur.ToolTip"));
             this.txt_surveyinDur.TextChanged += new System.EventHandler(this.txt_surveyinDur_TextChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lbl_svin);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label8);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            this.toolTip1.SetToolTip(this.label10, resources.GetString("label10.ToolTip"));
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            this.toolTip1.SetToolTip(this.label7, resources.GetString("label7.ToolTip"));
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            this.toolTip1.SetToolTip(this.label9, resources.GetString("label9.ToolTip"));
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            this.toolTip1.SetToolTip(this.label8, resources.GetString("label8.ToolTip"));
+            // 
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            // 
-            // BUT_connect
-            // 
-            resources.ApplyResources(this.BUT_connect, "BUT_connect");
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // toolTip1
             // 
@@ -344,6 +540,13 @@
             this.chk_sendgga.Name = "chk_sendgga";
             this.toolTip1.SetToolTip(this.chk_sendgga, resources.GetString("chk_sendgga.ToolTip"));
             this.chk_sendgga.UseVisualStyleBackColor = true;
+            // 
+            // check_sendntripv1
+            // 
+            resources.ApplyResources(this.check_sendntripv1, "check_sendntripv1");
+            this.check_sendntripv1.Name = "check_sendntripv1";
+            this.toolTip1.SetToolTip(this.check_sendntripv1, resources.GetString("check_sendntripv1.ToolTip"));
+            this.check_sendntripv1.UseVisualStyleBackColor = true;
             // 
             // lbl_status2
             // 
@@ -388,7 +591,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBoxm8p);
+            this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox_autoconfig);
             // 
             // splitContainer1.Panel2
             // 
@@ -479,6 +683,25 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // comboBoxConfigType
+            // 
+            this.comboBoxConfigType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxConfigType.FormattingEnabled = true;
+            this.comboBoxConfigType.Items.AddRange(new object[] {
+            resources.GetString("comboBoxConfigType.Items"),
+            resources.GetString("comboBoxConfigType.Items1")});
+            resources.ApplyResources(this.comboBoxConfigType, "comboBoxConfigType");
+            this.comboBoxConfigType.Name = "comboBoxConfigType";
+            this.comboBoxConfigType.SelectedIndexChanged += new System.EventHandler(this.comboBoxConfigType_SelectedIndexChanged);
+            // 
+            // BUT_connect
+            // 
+            resources.ApplyResources(this.BUT_connect, "BUT_connect");
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
+            // 
             // myGMAP1
             // 
             resources.ApplyResources(this.myGMAP1, "myGMAP1");
@@ -503,21 +726,15 @@
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             // 
-            // check_sendntripv1
-            // 
-            resources.ApplyResources(this.check_sendntripv1, "check_sendntripv1");
-            this.check_sendntripv1.Name = "check_sendntripv1";
-            this.toolTip1.SetToolTip(this.check_sendntripv1, resources.GetString("check_sendntripv1.ToolTip"));
-            this.check_sendntripv1.UseVisualStyleBackColor = true;
-            // 
             // ConfigSerialInjectGPS
             // 
+            this.Controls.Add(this.comboBoxConfigType);
             this.Controls.Add(this.check_sendntripv1);
             this.Controls.Add(this.chk_sendgga);
             this.Controls.Add(this.myGMAP1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.chk_ubloxautoconfig);
+            this.Controls.Add(this.chk_autoconfig);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.chk_rtcmmsg);
             this.Controls.Add(this.CMB_baudrate);
@@ -525,11 +742,15 @@
             this.Controls.Add(this.CMB_serialport);
             this.Name = "ConfigSerialInjectGPS";
             resources.ApplyResources(this, "$this");
-            this.groupBoxm8p.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
+            this.groupBox_autoconfig.ResumeLayout(false);
+            this.panel_septentrio.ResumeLayout(false);
+            this.panel_septentrio.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.input_septentriortcminterval)).EndInit();
+            this.panel_ubloxoptions.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -552,8 +773,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox chk_rtcmmsg;
         private System.Windows.Forms.Label lbl_svin;
-        private System.Windows.Forms.CheckBox chk_ubloxautoconfig;
-        private System.Windows.Forms.GroupBox groupBoxm8p;
+        private System.Windows.Forms.CheckBox chk_autoconfig;
+        private System.Windows.Forms.GroupBox groupBox_autoconfig;
         private System.Windows.Forms.TextBox txt_surveyinAcc;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -599,5 +820,26 @@
         private Controls.myGMAP myGMAP1;
         private System.Windows.Forms.CheckBox chk_sendgga;
         private System.Windows.Forms.CheckBox check_sendntripv1;
+        private System.Windows.Forms.ComboBox comboBoxConfigType;
+        private System.Windows.Forms.Panel panel_ubloxoptions;
+        private System.Windows.Forms.Panel panel_septentrio;
+        private System.Windows.Forms.TextBox input_septentriofixedatitude;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox input_septentriofixedaltitude;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox input_septentriofixedlongitude;
+        private System.Windows.Forms.CheckBox chk_septentriofixedposition;
+        private Controls.MyButton button_septentriosetposition;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox cmb_septentriortcmamount;
+        private Controls.MyButton button_septentriortcminterval;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.NumericUpDown input_septentriortcminterval;
+        private System.Windows.Forms.CheckBox chk_septentriogalileo;
+        private System.Windows.Forms.CheckBox chk_septentriobeidou;
+        private System.Windows.Forms.CheckBox chk_septentrioglonass;
+        private System.Windows.Forms.CheckBox chk_septentriogps;
+        private System.Windows.Forms.Label label21;
     }
 }
