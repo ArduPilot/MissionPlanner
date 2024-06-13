@@ -24,6 +24,7 @@ jobs:
         run: |
           brew install --cask xamarin-ios
           brew install --cask xamarin-android
+          brew install --cask xamarin-mac
           msbuild -ver
           dotnet --version
           dotnet --list-sdks
@@ -56,6 +57,7 @@ jobs:
         run: |
           brew install --cask xamarin-ios
           brew install --cask xamarin-android
+          brew install --cask xamarin-mac
           msbuild -ver
           dotnet --version
           dotnet --list-sdks
