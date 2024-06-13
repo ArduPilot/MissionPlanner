@@ -718,7 +718,7 @@ namespace MissionPlanner
                         else
                         {
                             PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
-                            throw new Exception(@"Can not establish a connection
+                            throw new TimeoutException(@"Can not establish a connection
 
 Please check the following
 1. You have firmware loaded
