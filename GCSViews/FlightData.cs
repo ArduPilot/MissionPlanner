@@ -600,6 +600,11 @@ namespace MissionPlanner.GCSViews
             myPane.YAxis.Title.Text = "Unit";
             myPane.YAxis.Title.FontSpec.Size += 2;
 
+            // made changes here Suriya
+            //myPane.XAxis.Type = AxisType.Date;
+            //myPane.XAxis.Scale.Format = "HH:mm:ss";
+            //myPane.XAxis.Scale.MajorUnit = DateUnit.Second;
+
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
 
@@ -3618,9 +3623,20 @@ namespace MissionPlanner.GCSViews
                     Vario.SetValue(MainV2.comPort.MAV.cs.climbrate);
 
                     // udpate tunning tab
+
+                    //if (tunning.AddMilliseconds(75) < DateTime.Now && CB_tuning.Checked)
+                    //Made changes here Suriya
+                    // Changed the if statement
+                    // reverted if statement
+                    //if (CB_tuning.Checked)
                     if (tunning.AddMilliseconds(75) < DateTime.Now && CB_tuning.Checked)
                     {
                         double time = (Environment.TickCount - tickStart) / 1000.0;
+
+                        // made change here Suriya
+                        // Adding time in HH:MM:SS format
+
+                        //double time = (double)new XDate(DateTime.Now);
                         if (list1item != null)
                             list1.Add(time, (list1item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list2item != null)
@@ -5225,15 +5241,19 @@ namespace MissionPlanner.GCSViews
                 // Time is measured in seconds
                 double time = (Environment.TickCount - tickStart) / 1000.0;
 
+                //double time = (double)new XDate(DateTime.Now);
+
                 // Keep the X scale at a rolling 30 second interval, with one
                 // major step between the max X value and the end of the axis
+
+                
                 Scale xScale = zg1.GraphPane.XAxis.Scale;
                 if (time > xScale.Max - xScale.MajorStep)
                 {
                     xScale.Max = time + xScale.MajorStep;
                     xScale.Min = xScale.Max - 10.0;
                 }
-
+                
                 // Make sure the Y axis is rescaled to accommodate actual data
                 zg1.AxisChange();
 

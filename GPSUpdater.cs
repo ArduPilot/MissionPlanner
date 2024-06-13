@@ -38,7 +38,20 @@ namespace MissionPlanner
                 float gpsStatus = MainV2.comPort.MAV.cs.gpsstatus;
                 if (gpsStatus != null)
                 {
-                    toolStripMenuItem.Text = "GPS: " + "\n" + gpsStatus.ToString("0.00");
+
+                    if (gpsStatus == 3.0)
+                    {
+                        toolStripMenuItem.Text = "GPS 3D Fixed " ;
+                        toolStripMenuItem.BackColor = System.Drawing.Color.Green;
+                        toolStripMenuItem.ForeColor = System.Drawing.Color.White;
+                    }
+                    //toolStripMenuItem.Text = "GPS: " + "\n" + gpsStatus.ToString("0.00");
+                    else
+                    {
+                        toolStripMenuItem.Text = "GPS 3D not Fixed ";
+                        toolStripMenuItem.BackColor = System.Drawing.Color.Red;
+                        toolStripMenuItem.ForeColor = System.Drawing.Color.White;
+                    }
                 }
 
                 else
