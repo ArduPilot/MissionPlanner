@@ -4463,8 +4463,9 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
-                    fields.Add((field.Name, field.Name));
+                    var fieldDesc = MainV2.comPort.MAV.cs.GetFieldDesc(field.Name);
+                    max_length = Math.Max(max_length, TextRenderer.MeasureText(fieldDesc, selectform.Font).Width);
+                    fields.Add((field.Name, fieldDesc));
                 }
             }
 
