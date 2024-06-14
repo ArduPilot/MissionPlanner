@@ -5402,7 +5402,7 @@ namespace MissionPlanner
                                     string currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                                     double currentLatitude = MainV2.comPort.MAV.cs.lat;
                                     double currentLongitude = MainV2.comPort.MAV.cs.lng;
-                                    float doseRate = DoseRateUpdater.finalValue1;
+                                    string doseRate = DoseRateUpdater.finalValue1;
                                     string threshold = DoseRateUpdater.threshold;
                                     string ds1 = DoseRateUpdater.detectorSensitivity1;
                                     string ds2 = DoseRateUpdater.detectorSensitivity2;

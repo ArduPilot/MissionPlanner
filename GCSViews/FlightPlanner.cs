@@ -5781,12 +5781,25 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             using (SaveFileDialog fd = new SaveFileDialog())
             {
+                /*
                 fd.Filter = "Mission|*.waypoints;*.txt|Mission JSON|*.mission";
                 fd.DefaultExt = ".waypoints";
                 fd.InitialDirectory = Settings.Instance["WPFileDirectory"] ?? "";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
+                */
+
+                string formattedDate = DateTime.Now.ToString("M-d-yyyy-hh-mm-ss-tt");
+                //DateTime date = DateTime.Now;
+                string defaultFileName = $"Survey{formattedDate}"; // Default file name
+                fd.Filter = "Mission|*.waypoints;*.txt|Mission JSON|*.mission";
+                //fd.DefaultExt = ".waypoints";
+                fd.InitialDirectory = Settings.Instance["WPFileDirectory"] ?? "";
+                fd.FileName = string.IsNullOrEmpty(wpfilename) ? defaultFileName : wpfilename;
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+
                 if (file != "" && result == DialogResult.OK)
                 {
                     Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
