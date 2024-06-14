@@ -55,7 +55,7 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    string pattern1 = @"^GMs\s\d(\d{4})";
+                    string pattern1 = @"DR:\s\d+(\.\d+)?,\sThr:\s\d+(\.\d+)?,\sDS1:\s\d+(\.\d+)?,\sDS2:\s*\d+(\.\d+)?";
                     Match match1 = Regex.Match(statusMessage, pattern1);
 
                     if (match1.Success)

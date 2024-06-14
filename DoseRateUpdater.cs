@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Windows.Forms;
@@ -282,4 +282,161 @@ namespace MissionPlanner
     }
 }
 
+*/
+
+
+using System;
+using System.Text.RegularExpressions;
+using System.Drawing;
+using System.Windows.Forms;
+using MissionPlanner;
+
+namespace MissionPlanner
+{
+    public class DoseRateUpdater
+    {
+        private System.Windows.Forms.Timer tickFunc;
+
+
+
+        public static string finalValue1 { get; set; } //ganesh
+        public static string detectorSensitivity1 { get; set; }   //ganesh
+        public static string detectorSensitivity2 { get; set; } //ganesh
+        public static string threshold { get; set; } //ganesh
+
+
+
+        public DoseRateUpdater()
+        {
+
+        }
+
+        private float LoadSetting(string key, float defaultValue)
+        {
+            // Implement logic to load the setting value from a persistent storage location (e.g., registry, file)
+            return defaultValue;
+        }
+
+        private void SaveSetting(string key, float value)
+        {
+            // Implement logic to save the setting value to a persistent storage location (e.g., registry, file)
+        }
+
+        public void showDoseRate(ToolStripMenuItem toolStripMenuItem)
+        {
+
+            if (tickFunc == null)
+            {
+                tickFunc = new System.Windows.Forms.Timer();
+                tickFunc.Interval = 1000; // Set the interval to 1 second
+                tickFunc.Tick += (sender, e) => RadiationDetection(sender, e, toolStripMenuItem);
+                tickFunc.Start();
+
+            }
+            else if (!tickFunc.Enabled)
+            {
+                tickFunc.Start();
+            }
+        }
+
+        public void RadiationDetection(object sender, EventArgs e, ToolStripMenuItem toolStripMenuItem)
+        {
+            if (MainV2.comPort != null && MainV2.comPort.MAV != null && MainV2.comPort.MAV.cs != null)
+            {
+                string message = MainV2.comPort.MAV.cs.message;
+
+                toolStripMenuItem.AutoSize = false;
+                toolStripMenuItem.Width = 70; // Adjust the width as needed
+                toolStripMenuItem.TextAlign = ContentAlignment.MiddleCenter;
+                ;
+                if (!string.IsNullOrEmpty(message))
+                {
+                    // Pattern to match "Dose Rate:" followed by a number
+
+
+                    // Pattern to match Detector_Sensitivity_1 followed by a number
+                    string patternGM1 = @"DS1:\s*(\d+(\.\d+)?)";
+                    Match matchGM1 = Regex.Match(message, patternGM1);
+                    detectorSensitivity1 = matchGM1.Groups[1].Value;
+
+                    // Pattern to match DS2 followed by a number
+                    string patternGM2 = @"DS2:\s*(\d+(\.\d+)?)";
+                    Match matchGM2 = Regex.Match(message, patternGM2);
+                    detectorSensitivity2 = matchGM2.Groups[1].Value;
+
+                    // Pattern to match Threshold (Thr) followed by a number
+                    string patternThr = @"Thr:\s*(\d+(\.\d+)?)";
+                    Match matchThr = Regex.Match(message, patternThr);
+                    threshold = matchThr.Groups[1].Value;
+
+                    // Pattern to match Dose Rate (DR) followed by a number
+                    string patternDoseRate = @"DR:\s*(\d+(\.\d+)?)";
+                    Match matchDoseRate = Regex.Match(message, patternDoseRate);
+                    finalValue1 = matchDoseRate.Groups[1].Value;
+
+
+                    // CustomMessageBox.Show(finalValue1);
+
+                    // Output the extracted values
+
+                    /*            string pattern = @"Dose Rate:\s*(\d+(\.\d+)?)";
+                                Match match = Regex.Match(message, pattern);
+                                //CustomMessageBox.Show("thes", match.ToString());
+
+                                string g = match.Groups[1].Value;    */
+
+                    // CustomMessageBox.Show("dose", g);
+
+
+                    if (matchDoseRate.Success)
+                    {
+                        // Extract the number after "Dose Rate:"
+                        string extractedValue = matchDoseRate.Groups[1].Value;
+                        if (float.TryParse(extractedValue, out float doseRate))
+                        {
+                            // Format the dose rate value to fixed width with leading spaces
+                            string formattedValue = doseRate.ToString("F1").PadLeft(6); // Adjust width as needed
+
+                            // Convert formattedValue to float for comparison with userThreshold
+                            if (float.TryParse(formattedValue, out float finalValue1))
+                            {
+                                // Update the menu bar to display dose rate value
+                                toolStripMenuItem.Text = $"{formattedValue} \n nsv/h";
+                                toolStripMenuItem.ForeColor = finalValue1 >= float.Parse(threshold) ? Color.Red : Color.Black; // Optionally, adjust color
+                                                                                                                               // CustomMessageBox.Show(threshold);
+                            }
+                            else
+                            {
+                                // Handle the case where formattedValue cannot be parsed as a float
+
+                                toolStripMenuItem.Text = "No Data";
+                                toolStripMenuItem.ForeColor = Color.Red;
+                            }
+                        }
+                        else
+                        {
+
+                            toolStripMenuItem.Text = "No Data";
+                            toolStripMenuItem.ForeColor = Color.Red;
+                        }
+                    }
+                    else
+                    {
+
+                        toolStripMenuItem.Text = "No Data";
+                        toolStripMenuItem.ForeColor = Color.Red;
+                    }
+                }
+                else
+                {
+
+                    toolStripMenuItem.Text = "No data";
+                    toolStripMenuItem.ForeColor = Color.Red;
+                }
+            }
+
+        }
+    }
+
+}
 
