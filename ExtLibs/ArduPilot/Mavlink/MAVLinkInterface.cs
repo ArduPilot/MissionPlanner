@@ -1045,7 +1045,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
             log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid,
                 mavlinkversion,
-                MAV.aptype.ToString(), MAV.apname.ToString());
+                MAVlist[message.sysid, message.compid].aptype.ToString(), MAVlist[message.sysid, message.compid].apname.ToString());
         }
 
         private void SetupMavConnect(MAVLinkMessage message, mavlink_high_latency2_t hl)
@@ -1062,7 +1062,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
             log.InfoFormat("ID HL sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid,
                 mavlinkversion,
-                MAV.aptype.ToString(), MAV.apname.ToString());
+                MAVlist[message.sysid, message.compid].aptype.ToString(), MAVlist[message.sysid, message.compid].apname.ToString());
         }
 
         public MAVLinkMessage getHeartBeat()
