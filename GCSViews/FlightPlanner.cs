@@ -2502,6 +2502,14 @@ namespace MissionPlanner.GCSViews
                     if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null &&
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value.ToString() == "0")
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
+
+                    //Zero out lat and lon since it is not used in the takeoff command
+                    if (Commands.Rows[selectedrow].Cells[Lat.Index].Value != null)
+                        Commands.Rows[selectedrow].Cells[Lat.Index].Value = "0";
+                    if (Commands.Rows[selectedrow].Cells[Lon.Index].Value != null)
+                        Commands.Rows[selectedrow].Cells[Lon.Index].Value = "0";
+
+
                 }
 
                 // default land to 0
@@ -3406,8 +3414,8 @@ namespace MissionPlanner.GCSViews
 
             if (Settings.Instance["WMSTserver"] != null)
             {
-                Task.Run(()=>{ 
-                    try { 
+                Task.Run(()=>{
+                    try {
                     WMTSProvider.CustomWMTSURL = Settings.Instance["WMSTserver"];
                     WMTSProvider.LayerName = WMTSProvider.Layers[int.Parse(Settings.Instance["WMSTLayer"])];
                      this.BeginInvokeIfRequired(()=>{ MainMap.Core.ReloadMap(); });
@@ -5061,7 +5069,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 return;
-            } 
+            }
             else if (Element is Folder)
             {
                 foreach (var feat in ((Folder)Element).Features)
@@ -5143,10 +5151,10 @@ namespace MissionPlanner.GCSViews
                         int color = ((Style)style).Line.Color.Value.Abgr;
                         // convert color from ABGR to ARGB
                         color = (int)((color & 0xFF00FF00) | ((color & 0x00FF0000) >> 16) | ((color & 0x000000FF) << 16));
-                        
+
                         // ABGR
                         return (Color.FromArgb(color), (int)((Style)style).Line.Width.Value);
-                    }                    
+                    }
                 }
             }
             return (Color.White, 2);
