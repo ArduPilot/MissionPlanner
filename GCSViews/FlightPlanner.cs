@@ -8006,7 +8006,15 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void zoomToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+            {
+                MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            }
+            else if (MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat != 0)
+            {
+                MainMap.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
+            }
+
             if (MainMap.Zoom < 17)
                 MainMap.Zoom = 17;
         }
