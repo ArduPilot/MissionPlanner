@@ -84,6 +84,34 @@ namespace RedundantLinkManager
         /// <returns></returns>
         public override bool Loaded()
         {
+            bool rlm_enabled = Host.config.GetBoolean("RedundantLinkManager_Enabled", false);
+            // Add right-click menu item to the connect button to enable the redundant link manager
+            ToolStripMenuItem enableRLM = new ToolStripMenuItem
+            {
+                Name = "MenuEnableRLM",
+                Size = new System.Drawing.Size(180, 22),
+                Text = "Redundant Link Manager",
+                Checked = rlm_enabled,
+            };
+            enableRLM.Click += new EventHandler((sender, e) =>
+            {
+                rlm_enabled = !rlm_enabled;
+                Host.config["RedundantLinkManager_Enabled"] = rlm_enabled.ToString();
+                (sender as ToolStripMenuItem).Checked = rlm_enabled;
+                // Restart popup
+                CustomMessageBox.Show("Please restart Mission Planner", "Restart Required", MessageBoxButtons.OK);
+
+            });
+            // Use reflection to add this to the end of MainV2.CTX_mainmenu, which is private
+            var ctx_mainmenu = Host.MainForm.GetType().GetField("CTX_mainmenu", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(Host.MainForm) as ContextMenuStrip;
+            ctx_mainmenu.Items.Add(enableRLM);
+
+            // Check if the redundant link manager is enabled
+            if (!Host.config.GetBoolean("RedundantLinkManager_Enabled", false))
+            {
+                return true;
+            }
+
             // Remove the stock connection control
             Host.MainForm.MainMenu.Items.RemoveByKey("toolStripConnectionControl");
             Host.MainForm.MainMenu.Items.RemoveByKey("MenuConnect");
@@ -272,6 +300,12 @@ namespace RedundantLinkManager
                 BaseStream = make_basestream(link),
                 speechenabled = false,
             };
+
+            if (link.comPort.BaseStream == null)
+            {
+                link.Dispose();
+                return;
+            }
 
             // Attempt to open a connection, and listen to it for 2s
             link.comPort.BaseStream.Open();
