@@ -128,8 +128,18 @@ item.float_value
 0.8
 (double)item.float_value
 0.800000011920929
- */
-                    return Math.Round((double)float_value, 7);
+ */                 {
+                        //In case of very large numbers, decimal conversion could fail. In that case fall back to straight double conversion
+                        try
+                        {
+                            return (double)(decimal)float_value;
+
+                        }
+                        catch
+                        {
+                            return Math.Round((double)float_value, 7);
+                        }
+                    }
             }
 
             throw new FormatException("invalid type");
