@@ -38,12 +38,7 @@
             this.pictureBoxSub = new MissionPlanner.Controls.ImageLabel();
             this.pictureAntennaTracker = new MissionPlanner.Controls.ImageLabel();
             this.pictureBoxRover = new MissionPlanner.Controls.ImageLabel();
-            this.pictureBoxOctaQuad = new MissionPlanner.Controls.ImageLabel();
-            this.pictureBoxOcta = new MissionPlanner.Controls.ImageLabel();
             this.pictureBoxHeli = new MissionPlanner.Controls.ImageLabel();
-            this.pictureBoxY6 = new MissionPlanner.Controls.ImageLabel();
-            this.pictureBoxTri = new MissionPlanner.Controls.ImageLabel();
-            this.pictureBoxHexa = new MissionPlanner.Controls.ImageLabel();
             this.pictureBoxQuad = new MissionPlanner.Controls.ImageLabel();
             this.pictureBoxPlane = new MissionPlanner.Controls.ImageLabel();
             this.lbl_alloptions = new System.Windows.Forms.Label();
@@ -139,7 +134,7 @@
             this.pictureAntennaTracker.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureAntennaTracker.Image = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
             this.pictureAntennaTracker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureAntennaTracker.Location = new System.Drawing.Point(3, 159);
+            this.pictureAntennaTracker.Location = new System.Drawing.Point(634, 3);
             this.pictureAntennaTracker.Name = "pictureAntennaTracker";
             this.pictureAntennaTracker.Size = new System.Drawing.Size(150, 150);
             this.pictureAntennaTracker.TabIndex = 47;
@@ -159,79 +154,18 @@
             this.pictureBoxRover.Tag = "";
             this.pictureBoxRover.Click += new System.EventHandler(this.PictureBox_Click);
             // 
-            // pictureBoxOctaQuad
-            // 
-            this.pictureBoxOctaQuad.Image = global::MissionPlanner.Properties.Resources.x8;
-            this.pictureBoxOctaQuad.Location = new System.Drawing.Point(627, 3);
-            this.pictureBoxOctaQuad.Name = "pictureBoxOctaQuad";
-            this.pictureBoxOctaQuad.Size = new System.Drawing.Size(150, 150);
-            this.pictureBoxOctaQuad.TabIndex = 46;
-            this.pictureBoxOctaQuad.TabStop = false;
-            this.pictureBoxOctaQuad.Tag = "";
-            this.pictureBoxOctaQuad.Click += new System.EventHandler(this.PictureBox_Click);
-            // 
-            // pictureBoxOcta
-            // 
-            this.pictureBoxOcta.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_12;
-            this.pictureBoxOcta.Location = new System.Drawing.Point(627, 159);
-            this.pictureBoxOcta.Name = "pictureBoxOcta";
-            this.pictureBoxOcta.Size = new System.Drawing.Size(150, 150);
-            this.pictureBoxOcta.TabIndex = 45;
-            this.pictureBoxOcta.TabStop = false;
-            this.pictureBoxOcta.Tag = "";
-            this.pictureBoxOcta.Click += new System.EventHandler(this.PictureBox_Click);
-            // 
             // pictureBoxHeli
             // 
             this.pictureBoxHeli.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBoxHeli.Image = global::MissionPlanner.Properties.Resources.APM_airframes_08;
             this.pictureBoxHeli.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBoxHeli.Location = new System.Drawing.Point(159, 159);
+            this.pictureBoxHeli.Location = new System.Drawing.Point(471, 3);
             this.pictureBoxHeli.Name = "pictureBoxHeli";
             this.pictureBoxHeli.Size = new System.Drawing.Size(150, 150);
             this.pictureBoxHeli.TabIndex = 44;
             this.pictureBoxHeli.TabStop = false;
             this.pictureBoxHeli.Tag = "";
             this.pictureBoxHeli.Click += new System.EventHandler(this.PictureBox_Click);
-            // 
-            // pictureBoxY6
-            // 
-            this.pictureBoxY6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxY6.Image = global::MissionPlanner.Properties.Resources.y6a;
-            this.pictureBoxY6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBoxY6.Location = new System.Drawing.Point(471, 159);
-            this.pictureBoxY6.Name = "pictureBoxY6";
-            this.pictureBoxY6.Size = new System.Drawing.Size(150, 150);
-            this.pictureBoxY6.TabIndex = 43;
-            this.pictureBoxY6.TabStop = false;
-            this.pictureBoxY6.Tag = "";
-            this.pictureBoxY6.Click += new System.EventHandler(this.PictureBox_Click);
-            // 
-            // pictureBoxTri
-            // 
-            this.pictureBoxTri.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxTri.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_08;
-            this.pictureBoxTri.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBoxTri.Location = new System.Drawing.Point(315, 159);
-            this.pictureBoxTri.Name = "pictureBoxTri";
-            this.pictureBoxTri.Size = new System.Drawing.Size(150, 150);
-            this.pictureBoxTri.TabIndex = 42;
-            this.pictureBoxTri.TabStop = false;
-            this.pictureBoxTri.Tag = "";
-            this.pictureBoxTri.Click += new System.EventHandler(this.PictureBox_Click);
-            // 
-            // pictureBoxHexa
-            // 
-            this.pictureBoxHexa.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxHexa.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_10;
-            this.pictureBoxHexa.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBoxHexa.Location = new System.Drawing.Point(471, 3);
-            this.pictureBoxHexa.Name = "pictureBoxHexa";
-            this.pictureBoxHexa.Size = new System.Drawing.Size(150, 150);
-            this.pictureBoxHexa.TabIndex = 41;
-            this.pictureBoxHexa.TabStop = false;
-            this.pictureBoxHexa.Tag = "";
-            this.pictureBoxHexa.Click += new System.EventHandler(this.PictureBox_Click);
             // 
             // pictureBoxQuad
             // 
@@ -284,12 +218,7 @@
             this.Controls.Add(this.pictureBoxSub);
             this.Controls.Add(this.pictureAntennaTracker);
             this.Controls.Add(this.pictureBoxRover);
-            this.Controls.Add(this.pictureBoxOctaQuad);
-            this.Controls.Add(this.pictureBoxOcta);
             this.Controls.Add(this.pictureBoxHeli);
-            this.Controls.Add(this.pictureBoxY6);
-            this.Controls.Add(this.pictureBoxTri);
-            this.Controls.Add(this.pictureBoxHexa);
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxPlane);
             this.Name = "ConfigFirmwareManifest";
@@ -304,12 +233,7 @@
         private Controls.ImageLabel pictureBoxSub;
         private Controls.ImageLabel pictureAntennaTracker;
         private Controls.ImageLabel pictureBoxRover;
-        private Controls.ImageLabel pictureBoxOctaQuad;
-        private Controls.ImageLabel pictureBoxOcta;
         private Controls.ImageLabel pictureBoxHeli;
-        private Controls.ImageLabel pictureBoxY6;
-        private Controls.ImageLabel pictureBoxTri;
-        private Controls.ImageLabel pictureBoxHexa;
         private Controls.ImageLabel pictureBoxQuad;
         private Controls.ImageLabel pictureBoxPlane;
         private Controls.ImageLabel imageLabel1;
