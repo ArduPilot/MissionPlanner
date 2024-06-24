@@ -262,6 +262,14 @@ namespace MissionPlanner
 
         private DateTime lastparamset = DateTime.MinValue;
 
+        /// <summary>
+        /// stores a list of strings during connect for possible debug
+        /// </summary>
+        internal List<string> plaintxtlinebuffer = new List<string>(30);
+
+        /// <summary>
+        /// stores a single string during connect for possible debug
+        /// </summary>
         internal string plaintxtline = "";
         private string buildplaintxtline = "";
 
@@ -713,21 +721,16 @@ namespace MissionPlanner
                         if (hbseen)
                         {
                             PRsender.doWorkArgs.ErrorMessage = Strings.Only1Hb;
-                            throw new Exception(Strings.Only1HbD);
+                            throw new Exception(Strings.Only1HbD + plaintxtlinebuffer.Aggregate((a, b) => a + "\r\n" + b));
                         }
                         else
                         {
                             PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
-                            throw new Exception(@"Can not establish a connection
-
-Please check the following
-1. You have firmware loaded
-2. You have the correct serial port selected
-3. PX4 - You have the microsd card installed
-4. Try a diffrent usb port
+                            throw new TimeoutException(@"Can not establish a connection
 
 No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup
-Mission Planner waits for 2 valid heartbeat packets before connecting");
+Mission Planner waits for 2 valid heartbeat packets before connecting
+" + plaintxtlinebuffer.Aggregate((a, b) => a + "\r\n" + b));
                         }
                     }
 
@@ -1045,7 +1048,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
             log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid,
                 mavlinkversion,
-                MAV.aptype.ToString(), MAV.apname.ToString());
+                MAVlist[message.sysid, message.compid].aptype.ToString(), MAVlist[message.sysid, message.compid].apname.ToString());
         }
 
         private void SetupMavConnect(MAVLinkMessage message, mavlink_high_latency2_t hl)
@@ -1062,7 +1065,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
             log.InfoFormat("ID HL sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid,
                 mavlinkversion,
-                MAV.aptype.ToString(), MAV.apname.ToString());
+                MAVlist[message.sysid, message.compid].aptype.ToString(), MAVlist[message.sysid, message.compid].apname.ToString());
         }
 
         public MAVLinkMessage getHeartBeat()
@@ -4692,7 +4695,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             {
                                 // check new line is valid
                                 if (buildplaintxtline.Length > 3)
+                                {
                                     plaintxtline = buildplaintxtline;
+                                    plaintxtlinebuffer.Insert(0, plaintxtline);
+                                    while (plaintxtlinebuffer.Count >= 30)
+                                        plaintxtlinebuffer.RemoveAt(plaintxtlinebuffer.Count - 1);
+                                }
 
                                 log.Info(plaintxtline);
                                 // reset for next line

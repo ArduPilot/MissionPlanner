@@ -502,6 +502,7 @@ namespace MissionPlanner
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
         public static WebCamService.Capture cam { get; set; }
+        public List<AutoConnect.ConnectionInfo> ExtraConnectionList { get; } = new List<AutoConnect.ConnectionInfo>();
 
         /// <summary>
         /// controls the main serial reader thread
@@ -1268,6 +1269,11 @@ namespace MissionPlanner
             _connectionControl.CMB_serialport.Items.Add("UDP");
             _connectionControl.CMB_serialport.Items.Add("UDPCl");
             _connectionControl.CMB_serialport.Items.Add("WS");
+
+            foreach (var item in ExtraConnectionList)
+            {
+                _connectionControl.CMB_serialport.Items.Add(item.Label);
+            }
         }
 
         private void MenuFlightData_Click(object sender, EventArgs e)
@@ -1477,6 +1483,15 @@ namespace MissionPlanner
                     prd.RunBackgroundOperationAsync();
                     return;
                 default:
+                    var extraconfig = ExtraConnectionList.Any(a => a.Label == portname);
+                    if (extraconfig)
+                    {
+                        var config = ExtraConnectionList.First(a => a.Label == portname);
+                        config.Enabled = true;
+                        AutoConnect.ProcessEntry(config);
+                        return;
+                    }
+
                     comPort.BaseStream = new SerialPort();
                     break;
             }
@@ -3534,6 +3549,10 @@ namespace MissionPlanner
                             if (seen.Contains(zeroconfHost.Id))
                                 return;
 
+                            // no duplicates
+                            if (!ExtraConnectionList.Any(a => a.Label == "ZeroConf " + zeroconfHost.DisplayName))
+                                ExtraConnectionList.Add(new AutoConnect.ConnectionInfo("ZeroConf " + zeroconfHost.DisplayName, false, port, AutoConnect.ProtocolType.Udp, AutoConnect.ConnectionFormat.MAVLink, AutoConnect.Direction.Outbound, ip));
+
                             if (CustomMessageBox.Show(
                                     "A Mavlink stream has been detected, " + zeroconfHost.DisplayName + "(" +
                                     zeroconfHost.Id + "). Would you like to connect to it?",
@@ -3758,7 +3777,7 @@ namespace MissionPlanner
                                 nt.lat = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat;
                                 nt.lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
                                 nt.alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
-                                this.BeginInvokeIfRequired(() => { inject.DoConnect(); });
+                                this.BeginInvokeIfRequired(() => { inject.DoConnect().RunSynchronously(); });
                             }
                             catch (Exception ex)
                             {

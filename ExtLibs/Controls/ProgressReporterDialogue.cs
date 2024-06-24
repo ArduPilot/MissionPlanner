@@ -301,7 +301,8 @@ namespace MissionPlanner.Controls
                           + Environment.NewLine + Environment.NewLine
                           + this.workerException.StackTrace;
 
-            MsgBox.CustomMessageBox.Show(message,"Exception Details",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MsgBox.CustomMessageBox.ShowTextBox(message, "Exception Details", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         /// <summary>

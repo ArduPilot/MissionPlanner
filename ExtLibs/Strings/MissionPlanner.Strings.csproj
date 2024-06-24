@@ -38,6 +38,7 @@
     <EmbeddedResource Update="Strings.pt.resx"> </EmbeddedResource>
     <EmbeddedResource Update="Strings.ru-KZ.resx"></EmbeddedResource>
     <EmbeddedResource Update="Strings.tr.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.uk.resx"></EmbeddedResource>
     <EmbeddedResource Update="Strings.zh-Hans.resx"></EmbeddedResource>
  
 

@@ -2503,6 +2503,14 @@ namespace MissionPlanner.GCSViews
                     if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null &&
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value.ToString() == "0")
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
+
+                    //Zero out lat and lon since it is not used in the takeoff command
+                    if (Commands.Rows[selectedrow].Cells[Lat.Index].Value != null)
+                        Commands.Rows[selectedrow].Cells[Lat.Index].Value = "0";
+                    if (Commands.Rows[selectedrow].Cells[Lon.Index].Value != null)
+                        Commands.Rows[selectedrow].Cells[Lon.Index].Value = "0";
+
+
                 }
 
                 // default land to 0
@@ -3408,8 +3416,8 @@ namespace MissionPlanner.GCSViews
 
             if (Settings.Instance["WMSTserver"] != null)
             {
-                Task.Run(()=>{ 
-                    try { 
+                Task.Run(()=>{
+                    try {
                     WMTSProvider.CustomWMTSURL = Settings.Instance["WMSTserver"];
                     WMTSProvider.LayerName = WMTSProvider.Layers[int.Parse(Settings.Instance["WMSTLayer"])];
                      this.BeginInvokeIfRequired(()=>{ MainMap.Core.ReloadMap(); });
@@ -3417,7 +3425,13 @@ namespace MissionPlanner.GCSViews
                 });
             }
 
-            trackBar1.Value = (int) MainMap.Zoom;
+            TRK_zoom.Minimum = MainMap.MapProvider.MinZoom;
+            TRK_zoom.Maximum = 24;
+            TRK_zoom.Value = (float)MainMap.Zoom;
+
+            Zoomlevel.Minimum = MainMap.MapProvider.MinZoom;
+            Zoomlevel.Maximum = 24;
+            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
 
             updateCMDParams();
 
@@ -4929,14 +4943,15 @@ namespace MissionPlanner.GCSViews
             // this is a mono fix for the zoom bar
             //Console.WriteLine("panelmap "+panelMap.Size.ToString());
             MainMap.Size = new Size(panelMap.Size.Width - 50, panelMap.Size.Height);
-            trackBar1.Location = new Point(panelMap.Size.Width - 50, trackBar1.Location.Y);
-            trackBar1.Size = new Size(trackBar1.Size.Width, panelMap.Size.Height - trackBar1.Location.Y);
+            TRK_zoom.Location = new Point(panelMap.Size.Width - 50, TRK_zoom.Location.Y);
+            TRK_zoom.Size = new Size(TRK_zoom.Size.Width, panelMap.Size.Height - TRK_zoom.Location.Y);
             label11.Location = new Point(panelMap.Size.Width - 50, label11.Location.Y);
         }
 
         public void Planner_Resize(object sender, EventArgs e)
         {
-            MainMap.Zoom = trackBar1.Value;
+            MainMap.Zoom = TRK_zoom.Value;
+            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
         }
 
         /// <summary>
@@ -5056,7 +5071,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 return;
-            } 
+            }
             else if (Element is Folder)
             {
                 foreach (var feat in ((Folder)Element).Features)
@@ -5138,10 +5153,10 @@ namespace MissionPlanner.GCSViews
                         int color = ((Style)style).Line.Color.Value.Abgr;
                         // convert color from ABGR to ARGB
                         color = (int)((color & 0xFF00FF00) | ((color & 0x00FF0000) >> 16) | ((color & 0x000000FF) << 16));
-                        
+
                         // ABGR
                         return (Color.FromArgb(color), (int)((Style)style).Line.Width.Value);
-                    }                    
+                    }
                 }
             }
             return (Color.White, 2);
@@ -6569,13 +6584,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        public void trackBar1_Scroll(object sender, EventArgs e)
+        public void TRK_zoom_Scroll(object sender, EventArgs e)
         {
             try
             {
                 lock (thisLock)
                 {
-                    MainMap.Zoom = trackBar1.Value;
+                    MainMap.Zoom = TRK_zoom.Value;
+                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value);
                 }
             }
             catch (Exception ex)
@@ -6584,13 +6600,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        private void Zoomlevel_ValueChanged(object sender, EventArgs e)
         {
             try
             {
                 lock (thisLock)
                 {
-                    MainMap.Zoom = trackBar1.Value;
+                    MainMap.Zoom = (double)Zoomlevel.Value;
+                    TRK_zoom.Value = (float)Zoomlevel.Value;
                 }
             }
             catch (Exception ex)
@@ -7619,7 +7636,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 try
                 {
-                    trackBar1.Value = (int) (MainMap.Zoom);
+                    TRK_zoom.Value = (float)(MainMap.Zoom);
+                    Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
                 }
                 catch (Exception ex)
                 {
@@ -7990,7 +8008,15 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void zoomToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+            {
+                MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            }
+            else if (MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat != 0)
+            {
+                MainMap.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
+            }
+
             if (MainMap.Zoom < 17)
                 MainMap.Zoom = 17;
         }

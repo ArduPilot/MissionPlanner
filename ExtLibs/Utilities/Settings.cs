@@ -185,7 +185,17 @@ namespace MissionPlanner.Utilities
         public void RemoveList(string key, string item)
         {
             var list = GetList(key).ToList().Where(a => a != item);
-            SetList(key, list);
+            //if the list is empty remove the key
+            if (list == null || list.Count() == 0)
+            {
+                if (config.ContainsKey(key))
+                    config.Remove(key);
+                return;
+            }
+            else
+            {
+                SetList(key, list);
+            }
         }
 
         public int GetInt32(string key, int defaulti = 0)
