@@ -1,4 +1,4 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using DotSpatial.Projections;
 using GeoUtility.GeoSystem;
 using GeoUtility.GeoSystem.Base;
@@ -8045,9 +8045,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     var files_jpeg = Directory.GetFiles(fbd.SelectedPath, "*.jpeg", SearchOption.AllDirectories);
                     var files_png = Directory.GetFiles(fbd.SelectedPath, "*.png", SearchOption.AllDirectories);
                     string[] files = new string[files_jpg.Length + files_jpeg.Length + files_png.Length];
-                    Array.Copy(files_jpg, files, files_jpg.Length);
-                    Array.Copy(files_jpeg, files, files_jpeg.Length);
-                    Array.Copy(files_png, files, files_png.Length);
+                    Array.Copy(files_jpg, 0, files, 0, files_jpg.Length);
+                    Array.Copy(files_jpeg, 0, files, files_jpg.Length, files_jpeg.Length);
+                    Array.Copy(files_png, 0, files, files_jpg.Length + files_jpeg.Length, files_png.Length);
 
                     progressBarInjectCustomMap.Maximum = files.Length + 1;
 
