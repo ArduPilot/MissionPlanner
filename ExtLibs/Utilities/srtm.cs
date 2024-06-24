@@ -9,6 +9,7 @@ using System.Collections;
 using System.Net.Http;
 using System.Threading.Tasks;
 using log4net;
+using GMap.NET;
 
 namespace MissionPlanner.Utilities
 {
@@ -388,16 +389,18 @@ namespace MissionPlanner.Utilities
                         if (!Directory.Exists(datadirectory))
                             Directory.CreateDirectory(datadirectory);
 
-                        lock (objlock)
+                        if (GMaps.Instance.Mode != AccessMode.CacheOnly)
                         {
-                            if (!queue.Contains(filename))
+                            lock (objlock)
                             {
-                                log.Info("Getting " + filename);
-                                queue.Add(filename);
-                                requestSemaphore.Release();
+                                if (!queue.Contains(filename))
+                                {
+                                    log.Info("Getting " + filename);
+                                    queue.Add(filename);
+                                    requestSemaphore.Release();
+                                }
                             }
                         }
-
                     }
                 }
             }
