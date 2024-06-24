@@ -5031,7 +5031,28 @@ namespace MissionPlanner.GCSViews
 
                 maxzoom = Math.Min(maxzoom, MainMap.MaxZoom);
 
-                for (int i = 1; i <= maxzoom; i++)
+                string minzoomstring = "1";
+                if (InputBox.Show("min zoom", "Enter the min zoom to prefetch to.", ref minzoomstring) !=
+                    DialogResult.OK)
+                    return;
+
+                int minzoom = 20;
+                if (!int.TryParse(minzoomstring, out minzoom))
+                {
+                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                    return;
+                }
+                minzoom = Math.Max(minzoom, MainMap.MinZoom);
+
+                if (minzoom > maxzoom)
+                {
+                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                    return;
+                }
+
+                for (int i = minzoom; i <= maxzoom; i++)
+                {
+                    try
                 {
                     TilePrefetcher obj = new TilePrefetcher();
                     ThemeManager.ApplyThemeTo(obj);
@@ -5045,6 +5066,10 @@ namespace MissionPlanner.GCSViews
                     }
 
                     obj.Dispose();
+                }
+                    catch
+                    {
+                    }
                 }
             }
             else

@@ -183,6 +183,37 @@ namespace MissionPlanner.Maps
             return affectedRows;
         }
 
+        public bool CheckImageFromCache(int type, GPoint pos, int zoom)
+        {
+            bool ret = false;
+            if (Created)
+            {
+                try
+                {
+                    string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type).Name +
+                                  Path.DirectorySeparatorChar + zoom + Path.DirectorySeparatorChar + pos.Y +
+                                  Path.DirectorySeparatorChar + pos.X + ".jpg";
+                    if (File.Exists(file))
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+#if MONO
+            Console.WriteLine("CheckImageFromCache: " + ex.ToString());
+#endif
+                    Debug.WriteLine("CheckImageFromCache: " + ex.ToString());
+                    ret = false;
+                }
+            }
+            return ret;
+        }
+
         #endregion
     }
 }

@@ -35,5 +35,14 @@ namespace GMap.NET
       /// <param name="type">provider dbid or null to use all providers</param>
       /// <returns>The number of deleted tiles.</returns>
       int DeleteOlderThan(DateTime date, int ? type);
+
+      /// <summary>
+      /// check if image exist on db
+      /// </summary>
+      /// <param name="type"></param>
+      /// <param name="pos"></param>
+      /// <param name="zoom"></param>
+      /// <returns>True if Image Exist, false otherwise</returns>
+      bool CheckImageFromCache(int type, GPoint pos, int zoom);
    }
 }
