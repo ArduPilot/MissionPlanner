@@ -3646,7 +3646,14 @@ namespace MissionPlanner.GCSViews
                             this.BeginInvoke((MethodInvoker) delegate { but_disablejoystick.Visible = true; });
                         }
 
-                        adsb.CurrentPosition = MainV2.comPort.MAV.cs.HomeLocation;
+                        if (MainV2.comPort.MAV.cs.Location != PointLatLngAlt.Zero)
+                        {
+                            adsb.CurrentPosition = MainV2.comPort.MAV.cs.Location;
+                        }
+                        else
+                        {
+                            adsb.CurrentPosition = gMapControl1.Position;
+                        }
 
                         // show proximity screen
                         if (MainV2.comPort.MAV?.Proximity != null && MainV2.comPort.MAV.Proximity.DataAvailable)
@@ -4061,11 +4068,18 @@ namespace MissionPlanner.GCSViews
                                         return;
 
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
-                                                            "CallSign: " + pllau.CallSign + "\n" +
-                                                            "Squawk: " + Convert.ToString(pllau.Squawk) + "\n" +
-                                                            "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + "\n" +
-                                                            "Speed: " + pllau.Speed.ToString("0") + "\n" +
-                                                            "Heading: " + pllau.Heading.ToString("0");
+                                                            "Callsign: " + pllau.CallSign + "\n" +
+                                                            "Squawk: " + pllau.Squawk.ToString("X4") + "\n" +
+                                                            "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
+                                                            "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
+                                                            "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
+                                                            "Heading: " + pllau.Heading.ToString("0") + "°";
+                                    // Add distance
+                                    if (MainV2.comPort.MAV.cs.Location.Lat != 0 && MainV2.comPort.MAV.cs.Location.Lng != 0)
+                                        adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
+                                    // Add collision threat level
+                                    if (pllau.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger");
                                     adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                     adsbplane.Position = pllau;
                                     adsbplane.heading = pllau.Heading;
@@ -4074,9 +4088,6 @@ namespace MissionPlanner.GCSViews
                                     if (((DateTime) pllau.Time) > DateTime.Now.AddSeconds(-30))
                                     {
                                         adsbplane.IsVisible = true;
-
-                                        if (pllau.DisplayICAO)
-                                            adsbplane.ToolTipMode = MarkerTooltipMode.Always;
 
                                         switch (pllau.ThreatLevel)
                                         {

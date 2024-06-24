@@ -908,19 +908,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (((CheckBox)sender).Checked)
             {
-                var server = "127.0.0.1";
+                var server = "https://api.adsb.lol/"; // default to adsb.lol
                 if (Settings.Instance["adsbserver"] != null)
                     server = Settings.Instance["adsbserver"];
-                if (DialogResult.Cancel == InputBox.Show("Server", "Server IP?", ref server))
+                if (DialogResult.Cancel == InputBox.Show("ADSB Server", "Server IP or API base URL (see https://ardupilot.org/planner/docs/common-adsb.html)", ref server))
                     return;
+                // Strip ending slash off server
+                if (server.EndsWith("/"))
+                    server = server.Substring(0, server.Length - 1);
                 Settings.Instance["adsbserver"] = server;
 
-                var port = "30003";
-                if (Settings.Instance["adsbport"] != null)
-                    port = Settings.Instance["adsbport"];
-                if (DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
-                    return;
-                Settings.Instance["adsbport"] = port;
+                // if server isn't an HTTP(S) URL, assume TCP and ask for a port
+                if (!server.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var port = "30003";
+                    if (Settings.Instance["adsbport"] != null)
+                        port = Settings.Instance["adsbport"];
+                    if (DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
+                        return;
+                    Settings.Instance["adsbport"] = port;
+                }
+            }
+            else
+            {
+                // if we're disabling ADSB, clear the list of planes
+                MainV2.instance.adsbPlanes.Clear();
             }
 
             Settings.Instance["enableadsb"] = chk_ADSB.Checked.ToString();

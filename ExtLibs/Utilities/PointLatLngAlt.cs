@@ -21,6 +21,9 @@ namespace MissionPlanner.Utilities
         public static readonly PointLatLngAlt Zero = new PointLatLngAlt();
         public double Lat { get; set; } = 0;
         public double Lng { get; set; } = 0;
+        /// <summary>
+        /// Altitude in meters
+        /// </summary>
         public double Alt { get; set; } = 0;
         public string Tag { get; set; } = "";
         public string Tag2 { get; set; } = "";

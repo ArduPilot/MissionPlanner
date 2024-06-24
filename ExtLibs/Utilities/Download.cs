@@ -321,6 +321,23 @@ namespace MissionPlanner.Utilities
             return await Task.Run(() => (content));
         }
 
+        public struct HTTPResult
+        {
+            public string content;
+            public HttpStatusCode status;
+        }
+
+        /// <summary>
+        /// Perform a GET request and return the content and status code
+        /// </summary>
+        public static async Task<HTTPResult> GetAsyncWithStatus(string uri)
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(uri);
+            var content = await response.Content.ReadAsStringAsync();
+            return await Task.Run(() => (new HTTPResult() { content = content, status = response.StatusCode }));
+        }
+
         public static event EventHandler<HttpRequestMessage> RequestModification;
 
         public static async Task<bool> getFilefromNetAsync(string url, string saveto, Action<int, string> status = null)
