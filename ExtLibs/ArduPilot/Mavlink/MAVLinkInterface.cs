@@ -557,6 +557,33 @@ namespace MissionPlanner
                     }
                 });
             }
+
+            if (tuple.Item2 == (byte)MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 ||
+                (tuple.Item2 >= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER &&
+                tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_ONBOARD_COMPUTER4))
+            {
+                MAVlist[tuple.Item1, tuple.Item2].GimbalManager = new GimbalManagerProtocol(this);
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        // Open holds this
+                        while (!_openComplete)
+                        {
+                            await Task.Delay(1000);
+                        }
+
+                        await Task.Delay(2000);
+
+                        MAVlist[tuple.Item1, tuple.Item2]
+                            .GimbalManager.Discover();
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
+                });
+            }
         }
 
         public MAVLinkInterface(Stream logfileStream)
