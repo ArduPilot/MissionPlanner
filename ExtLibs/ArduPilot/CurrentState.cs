@@ -3389,8 +3389,11 @@ namespace MissionPlanner
                             ch15in = rcin.chan15_raw;
                             ch16in = rcin.chan16_raw;
 
-                            //percent
-                            rxrssi = (int)(rcin.rssi / 255.0 * 100.0);
+                            // As per mavlink, rcin.rssi is 0-254, 0 being the worst and 254 being the best and 255 invalid/unknown
+                            // get the percentage
+                            rxrssi = (int)(rcin.rssi / 254.0 * 100.0);
+                            // if invalid, set to 0
+                            if (rcin.rssi == 255) rxrssi = 0;
 
                             //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW);
                         }
