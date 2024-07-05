@@ -323,35 +323,35 @@ namespace MissionPlanner.Log
 
         private void Zg1_ContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
         {
-            menuStrip.Items.Add(new ToolStripMenuItem("Properties MasterPane", null, (c, e) =>
-            {               
-                    var propertyGrid1 = new PropertyGrid();
-                    propertyGrid1.Width = 500;
-                    propertyGrid1.Height = 800;
-                    propertyGrid1.SelectedObject = zg1.MasterPane;
+            //menuStrip.Items.Add(new ToolStripMenuItem("Properties MasterPane", null, (c, e) =>
+            //{
+            //        var propertyGrid1 = new PropertyGrid();
+            //        propertyGrid1.Width = 500;
+            //        propertyGrid1.Height = 800;
+            //        propertyGrid1.SelectedObject = zg1.MasterPane;
 
-                    propertyGrid1.ShowUserControl();                
-            }));
+            //        propertyGrid1.ShowUserControl();
+            //}));
 
-            menuStrip.Items.Add(new ToolStripMenuItem("Properties YAxis", null, (c, e) =>
-            {
-                var propertyGrid1 = new PropertyGrid();
-                propertyGrid1.Width = 500;
-                propertyGrid1.Height = 800;
-                propertyGrid1.SelectedObject = zg1.GraphPane.YAxis.Scale;
+            //menuStrip.Items.Add(new ToolStripMenuItem("Properties YAxis", null, (c, e) =>
+            //{
+            //    var propertyGrid1 = new PropertyGrid();
+            //    propertyGrid1.Width = 500;
+            //    propertyGrid1.Height = 800;
+            //    propertyGrid1.SelectedObject = zg1.GraphPane.YAxis.Scale;
 
-                propertyGrid1.ShowUserControl();
-            }));
+            //    propertyGrid1.ShowUserControl();
+            //}));
 
-            menuStrip.Items.Add(new ToolStripMenuItem("Properties YAxis2", null, (c, e) =>
-            {
-                var propertyGrid1 = new PropertyGrid();
-                propertyGrid1.Width = 500;
-                propertyGrid1.Height = 800;
-                propertyGrid1.SelectedObject = zg1.GraphPane.Y2Axis.Scale;
+            //menuStrip.Items.Add(new ToolStripMenuItem("Properties YAxis2", null, (c, e) =>
+            //{
+            //    var propertyGrid1 = new PropertyGrid();
+            //    propertyGrid1.Width = 500;
+            //    propertyGrid1.Height = 800;
+            //    propertyGrid1.SelectedObject = zg1.GraphPane.Y2Axis.Scale;
 
-                propertyGrid1.ShowUserControl();
-            }));  
+            //    propertyGrid1.ShowUserControl();
+            //}));
         }
 
         public void LoadLog(string FileName)
