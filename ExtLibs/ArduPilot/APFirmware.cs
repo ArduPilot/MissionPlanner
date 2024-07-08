@@ -192,6 +192,8 @@ namespace MissionPlanner.ArduPilot
                 a.Platform?.ToLower().Replace("primary", "secondary") == device.board?.ToLower() ||
                 a.Platform?.ToLower() == device.board?.Replace("-BL", "secondary").ToLower() ||
                 a.Platform?.ToLower() == device.board?.Replace("-BL", "primary").ToLower() ||
+                a.Platform?.ToLower() == device.board?.ToLower() + "primary" ||
+                a.Platform?.ToLower() == device.board?.ToLower() + "secondary" ||
                 a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())));
 
             if (boardidcheck)
