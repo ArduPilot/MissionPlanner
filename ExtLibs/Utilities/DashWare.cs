@@ -52,7 +52,7 @@ namespace MissionPlanner.Utilities
                         var idx = 0;
                         StringBuilder sb = new StringBuilder();
 
-                        sb.Append(dfitem.timems);
+                        sb.Append(dfitem.timems.ToInvariantString());
                         idx++;
                         sb.Append(',');
 

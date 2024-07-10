@@ -564,20 +564,11 @@
   <data name="gMapControl1.Size" type="System.Drawing.Size, System.Drawing">
     <value>589, 421</value>
   </data>
-  <data name="TRK_zoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 421</value>
-  </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>634, 421</value>
   </data>
-  <data name="Zoomlevel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>438, 9</value>
-  </data>
   <data name="Zoomlevel.ToolTip" xml:space="preserve">
     <value>改变放大级别</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>缩放</value>
