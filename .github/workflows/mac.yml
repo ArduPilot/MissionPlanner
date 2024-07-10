@@ -4,7 +4,7 @@ on: [push, workflow_dispatch, pull_request]
 jobs:
   buildIOS:
     name: Build IOS
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - uses: actions/checkout@v2
@@ -22,6 +22,9 @@ jobs:
       - name: Build
         shell: pwsh
         run: |
+          brew install --cask xamarin-ios
+          brew install --cask xamarin-android
+          brew install --cask xamarin-mac
           msbuild -ver
           dotnet --version
           dotnet --list-sdks
@@ -34,19 +37,13 @@ jobs:
 
   buildOSX:
     name: Build OSX
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
           fetch-depth: 10
-          
-      - name: Set default Xcode 14.0.1
-        run: |
-          XCODE_ROOT=/Applications/Xcode_14.0.1.app
-          echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
-          sudo xcode-select -s $XCODE_ROOT
 
       - name: Cache multiple paths
         uses: actions/cache@v2
@@ -58,6 +55,9 @@ jobs:
       - name: Build
         shell: pwsh
         run: |
+          brew install --cask xamarin-ios
+          brew install --cask xamarin-android
+          brew install --cask xamarin-mac
           msbuild -ver
           dotnet --version
           dotnet --list-sdks

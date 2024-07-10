@@ -323,6 +323,7 @@ namespace MissionPlanner.Log
 
         private void Zg1_ContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
         {
+            /*
             menuStrip.Items.Add(new ToolStripMenuItem("Properties MasterPane", null, (c, e) =>
             {               
                     var propertyGrid1 = new PropertyGrid();
@@ -352,6 +353,7 @@ namespace MissionPlanner.Log
 
                 propertyGrid1.ShowUserControl();
             }));  
+            */
         }
 
         public void LoadLog(string FileName)
