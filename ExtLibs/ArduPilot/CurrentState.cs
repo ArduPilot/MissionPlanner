@@ -321,7 +321,7 @@ namespace MissionPlanner
             get => (_alt - altoffsethome) * multiplieralt;
             set
             {
-                // check update rate, and ensure time hasnt gone backwards                
+                // check update rate, and ensure time hasnt gone backwards
                 _alt = value;
 
                 if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
@@ -902,6 +902,28 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc12_curr { get; set; }
         [GroupText("ESC")] public float esc12_rpm { get; set; }
         [GroupText("ESC")] public float esc12_temp { get; set; }
+
+        [GroupText("ESC")] public float esc13_volt { get; set; }
+        [GroupText("ESC")] public float esc13_curr { get; set; }
+        [GroupText("ESC")] public float esc13_rpm { get; set; }
+        [GroupText("ESC")] public float esc13_temp { get; set; }
+
+        [GroupText("ESC")] public float esc14_volt { get; set; }
+        [GroupText("ESC")] public float esc14_curr { get; set; }
+        [GroupText("ESC")] public float esc14_rpm { get; set; }
+        [GroupText("ESC")] public float esc14_temp { get; set; }
+
+        [GroupText("ESC")] public float esc15_volt { get; set; }
+        [GroupText("ESC")] public float esc15_curr { get; set; }
+        [GroupText("ESC")] public float esc15_rpm { get; set; }
+        [GroupText("ESC")] public float esc15_temp { get; set; }
+
+        [GroupText("ESC")] public float esc16_volt { get; set; }
+        [GroupText("ESC")] public float esc16_curr { get; set; }
+        [GroupText("ESC")] public float esc16_rpm { get; set; }
+        [GroupText("ESC")] public float esc16_temp { get; set; }
+
+
 
         [GroupText("RadioOut")]
         public float ch3percent
@@ -2197,9 +2219,9 @@ namespace MissionPlanner
                 || mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.RADIO // propagate the RADIO/RADIO_STATUS message across all devices on this link
                 || mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS
                 || ( mavLinkMessage.sysid == parent.sysid                      // Propagate NAMED_VALUE_FLOAT messages across all components within the same device
-                     && mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_FLOAT 
+                     && mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_FLOAT
                      && Settings.Instance.GetBoolean("propagateNamedFloats", true)) )
-                     
+
             {
                 switch (mavLinkMessage.msgid)
                 {
@@ -3474,6 +3496,34 @@ namespace MissionPlanner
                         }
 
                         break;
+
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ESC_TELEMETRY_13_TO_16:
+
+                        {
+                            var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_13_to_16_t>();
+                            esc13_volt = esc.voltage[0] / 100.0f;
+                            esc13_curr = esc.current[0] / 100.0f;
+                            esc13_rpm = esc.rpm[0];
+                            esc13_temp = esc.temperature[0];
+
+                            esc14_volt = esc.voltage[1] / 100.0f;
+                            esc14_curr = esc.current[1] / 100.0f;
+                            esc14_rpm = esc.rpm[1];
+                            esc14_temp = esc.temperature[1];
+
+                            esc15_volt = esc.voltage[2] / 100.0f;
+                            esc15_curr = esc.current[2] / 100.0f;
+                            esc15_rpm = esc.rpm[2];
+                            esc15_temp = esc.temperature[2];
+
+                            esc16_volt = esc.voltage[3] / 100.0f;
+                            esc16_curr = esc.current[3] / 100.0f;
+                            esc16_rpm = esc.rpm[3];
+                            esc16_temp = esc.temperature[3];
+                        }
+
+                        break;
+
                     case (uint)MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW:
 
                         {
@@ -3716,7 +3766,7 @@ namespace MissionPlanner
                             float value = named_float.value;
                             var field = custom_field_names.FirstOrDefault(x => x.Value == name).Key;
 
-                            //todo: if field is null then check if we have a free customfield and add the named_value 
+                            //todo: if field is null then check if we have a free customfield and add the named_value
                             if (field == null)
                             {
                                 short i;
@@ -3809,7 +3859,7 @@ namespace MissionPlanner
                             var status = mavLinkMessage.ToStructure<MAVLink.mavlink_gimbal_device_attitude_status_t>();
                             Quaternion q = new Quaternion(status.q[0], status.q[1], status.q[2], status.q[3]);
                             campointa = (float)(q.get_euler_pitch() * (180.0 / Math.PI));
-                            campointb = (float)(q.get_euler_roll() * (180.0 / Math.PI)); 
+                            campointb = (float)(q.get_euler_roll() * (180.0 / Math.PI));
                             campointc = (float)(q.get_euler_yaw() * (180.0 / Math.PI));
                             if (campointc < 0) campointc += 360; //normalization
                         }
@@ -3962,6 +4012,40 @@ namespace MissionPlanner
                             }
                         }
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MCU_STATUS:
+                        {
+                            var mcu = mavLinkMessage.ToStructure<MAVLink.mavlink_mcu_status_t>();
+                            if (mcu.id == 0)
+                            {
+                                mcutemp = mcu.MCU_temperature / 100.0f;
+                                mcuvoltage = mcu.MCU_voltage / 1000.0f;
+                                mcuminvolt = mcu.MCU_voltage_min / 1000.0f;
+                                mcumaxvolt = mcu.MCU_voltage_max / 1000.0f;
+                            }
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS:
+                        {
+                            var ahrs = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs_t>();
+                            
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS2:
+                        {
+                            var ahrs2 = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs2_t>();
+
+                            ahrs2_roll = ahrs2.roll * (float)MathHelper.rad2deg;
+                            ahrs2_pitch = ahrs2.pitch * (float)MathHelper.rad2deg;
+                            ahrs2_yaw = ahrs2.yaw * (float)MathHelper.rad2deg;
+                            ahrs2_alt = ahrs2.altitude;
+                            ahrs2_lat = ahrs2.lat / 1e7;
+                            ahrs2_lng = ahrs2.lng / 1e7;
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
+                        {
+                        }
+                        break;
                     default:
                         {
                             Debug.WriteLine("Unhandled CS message " + mavLinkMessage.msgid + " = " + mavLinkMessage.msgtypename);
@@ -3970,6 +4054,35 @@ namespace MissionPlanner
                 }
             }
         }
+
+        [GroupText("AHRS2")]
+        public float ahrs2_roll { get; set; }
+        [GroupText("AHRS2")]
+        public float ahrs2_pitch { get; set; }
+        [GroupText("AHRS2")]
+        public float ahrs2_yaw { get; set; }
+        [GroupText("AHRS2")]
+        public float ahrs2_alt { get; set; }
+        [GroupText("AHRS2")]
+        public double ahrs2_lat { get; set; }
+        [GroupText("AHRS2")]
+        public double ahrs2_lng { get; set; }
+
+
+        [GroupText("MCU")]
+        [DisplayText("mcu max voltage")]
+        public float mcumaxvolt { get; set; }
+        [GroupText("MCU")]
+        [DisplayText("mcu min voltage")]
+        public float mcuminvolt { get; set; }
+
+        [GroupText("MCU")]
+        [DisplayText("mcu voltage")]
+        public float mcuvoltage { get; set; }
+
+        [GroupText("MCU")]
+        [DisplayText("mcu temperature")]
+        public float mcutemp { get; set; }
 
         [GroupText("Fence")]
         [DisplayText("Breach count")]
@@ -4324,7 +4437,7 @@ namespace MissionPlanner
         public void dowindcalc()
         {
             //Wind Fixed gain Observer
-            //Ryan Beall 
+            //Ryan Beall
             //8FEB10
 
             var Kw = 0.010; // 0.01 // 0.10

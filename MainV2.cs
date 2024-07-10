@@ -3114,12 +3114,12 @@ namespace MissionPlanner
                             break;
                         }
 
-                        DateTime startread = DateTime.Now;
+                        DateTime startread = DateTime.UtcNow;
 
                         // must be open, we have bytes, we are not yielding the port,
                         // the thread is meant to be running and we only spend 1 seconds max in this read loop
                         while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes &&
-                               port.giveComport == false && serialThread && startread.AddSeconds(1) > DateTime.Now)
+                               port.giveComport == false && serialThread && startread.AddSeconds(1) > DateTime.UtcNow)
                         {
                             try
                             {

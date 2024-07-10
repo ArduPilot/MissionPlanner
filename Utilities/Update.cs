@@ -274,7 +274,7 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        var result = files.Any(task => Path.Combine(Settings.GetRunningDirectory(), task).ToLower().Equals(dll.ToLower()));
+                        var result = files.Any(task => Path.GetFullPath(Path.Combine(Settings.GetRunningDirectory(), task)).ToLower().Equals(dll.ToLower()));
 
                         if (result == false)
                             File.Delete(dll);
@@ -286,7 +286,7 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        var result = files.Any(task => Path.Combine(Settings.GetRunningDirectory(), task).ToLower().Equals(exe.ToLower()));
+                        var result = files.Any(task => Path.GetFullPath(Path.Combine(Settings.GetRunningDirectory(), task)).ToLower().Equals(exe.ToLower()));
 
                         if (result == false)
                             File.Delete(exe);
