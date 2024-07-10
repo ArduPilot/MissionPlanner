@@ -178,7 +178,7 @@ namespace MissionPlanner.Comms
 
         public string PortName { get; set; }
         public int ReadBufferSize { get; set; }
-        public int ReadTimeout { get; set; }
+        public int ReadTimeout { get; set; } = 50;
         public bool RtsEnable { get; set; }
 
         public int WriteBufferSize { get; set; }
