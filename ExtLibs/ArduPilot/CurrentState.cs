@@ -4012,6 +4012,40 @@ namespace MissionPlanner
                             }
                         }
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MCU_STATUS:
+                        {
+                            var mcu = mavLinkMessage.ToStructure<MAVLink.mavlink_mcu_status_t>();
+                            if (mcu.id == 0)
+                            {
+                                mcutemp = mcu.MCU_temperature / 100.0f;
+                                mcuvoltage = mcu.MCU_voltage / 1000.0f;
+                                mcuminvolt = mcu.MCU_voltage_min / 1000.0f;
+                                mcumaxvolt = mcu.MCU_voltage_max / 1000.0f;
+                            }
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS:
+                        {
+                            var ahrs = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs_t>();
+                            
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS2:
+                        {
+                            var ahrs2 = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs2_t>();
+
+                            ahrs2_roll = ahrs2.roll * (float)MathHelper.rad2deg;
+                            ahrs2_pitch = ahrs2.pitch * (float)MathHelper.rad2deg;
+                            ahrs2_yaw = ahrs2.yaw * (float)MathHelper.rad2deg;
+                            ahrs2_alt = ahrs2.altitude;
+                            ahrs2_lat = ahrs2.lat / 1e7;
+                            ahrs2_lng = ahrs2.lng / 1e7;
+                        }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
+                        {
+                        }
+                        break;
                     default:
                         {
                             Debug.WriteLine("Unhandled CS message " + mavLinkMessage.msgid + " = " + mavLinkMessage.msgtypename);
@@ -4020,6 +4054,35 @@ namespace MissionPlanner
                 }
             }
         }
+
+        [GroupText("AHRS2")]
+        public float ahrs2_roll { get; set; }
+        [GroupText("AHRS2")]
+        public float ahrs2_pitch { get; set; }
+        [GroupText("AHRS2")]
+        public float ahrs2_yaw { get; set; }
+        [GroupText("AHRS2")]
+        public float ahrs2_alt { get; set; }
+        [GroupText("AHRS2")]
+        public double ahrs2_lat { get; set; }
+        [GroupText("AHRS2")]
+        public double ahrs2_lng { get; set; }
+
+
+        [GroupText("MCU")]
+        [DisplayText("mcu max voltage")]
+        public float mcumaxvolt { get; set; }
+        [GroupText("MCU")]
+        [DisplayText("mcu min voltage")]
+        public float mcuminvolt { get; set; }
+
+        [GroupText("MCU")]
+        [DisplayText("mcu voltage")]
+        public float mcuvoltage { get; set; }
+
+        [GroupText("MCU")]
+        [DisplayText("mcu temperature")]
+        public float mcutemp { get; set; }
 
         [GroupText("Fence")]
         [DisplayText("Breach count")]
