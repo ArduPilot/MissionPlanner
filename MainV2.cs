@@ -461,6 +461,9 @@ namespace MissionPlanner
         public static bool speech_armed_only = false;
         public static bool speechEnabled()
         {
+            if (speechEngine == null)
+                return false;
+
             if (!speechEnable) {
                 return false;
             }
@@ -519,7 +522,7 @@ namespace MissionPlanner
         /// <summary>
         /// track the last heartbeat sent
         /// </summary>
-        private DateTime heatbeatSend = DateTime.Now;
+        private DateTime heatbeatSend = DateTime.UtcNow;
 
         /// <summary>
         /// used to call anything as needed.
@@ -531,15 +534,18 @@ namespace MissionPlanner
         public static MainSwitcher View;
 
         /// <summary>
-        /// store the time we first connect
+        /// store the time we first connect UTC
         /// </summary>
-        DateTime connecttime = DateTime.Now;
+        DateTime connecttime = DateTime.UtcNow;
+        /// <summary>
+        /// no data repeat interval UTC
+        /// </summary>
+        DateTime nodatawarning = DateTime.UtcNow;
 
-        DateTime nodatawarning = DateTime.Now;
-        DateTime OpenTime = DateTime.Now;
-
-
-        DateTime connectButtonUpdate = DateTime.Now;
+        /// <summary>
+        /// update the connect button UTC
+        /// </summary>
+        DateTime connectButtonUpdate = DateTime.UtcNow;
 
         /// <summary>
         /// declared here if i want a "single" instance of the form
@@ -1590,7 +1596,7 @@ namespace MissionPlanner
                 } // soft fail
 
                 // reset connect time - for timeout functions
-                connecttime = DateTime.Now;
+                connecttime = DateTime.UtcNow;
 
                 // do the connect
                 comPort.Open(false, skipconnectcheck, showui);
@@ -2533,7 +2539,7 @@ namespace MissionPlanner
         /// </summary>
         private void UpdateConnectIcon()
         {
-            if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
+            if ((DateTime.UtcNow - connectButtonUpdate).Milliseconds > 500)
             {
                 //                        Console.WriteLine(DateTime.Now.Millisecond);
                 if (comPort.BaseStream.IsOpen)
@@ -2572,7 +2578,7 @@ namespace MissionPlanner
                     }
                 }
 
-                connectButtonUpdate = DateTime.Now;
+                connectButtonUpdate = DateTime.UtcNow;
             }
         }
 
@@ -2721,7 +2727,7 @@ namespace MissionPlanner
                     }
 
                     // 30 seconds interval speech options
-                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
+                    if (speechEnabled() && (DateTime.UtcNow - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (MainV2.speechEngine.IsReady)
@@ -2732,7 +2738,7 @@ namespace MissionPlanner
                                     "" + Settings.Instance["speechcustom"]));
                             }
 
-                            speechcustomtime = DateTime.Now;
+                            speechcustomtime = DateTime.UtcNow;
                         }
 
                         // speech for battery alerts
@@ -2765,7 +2771,7 @@ namespace MissionPlanner
                     }
 
                     // speech for airspeed alerts
-                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
+                    if (speechEnabled() && (DateTime.UtcNow - speechlowspeedtime).TotalSeconds > 10 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (Settings.Instance.GetBoolean("speechlowspeedenabled") == true &&
@@ -2781,7 +2787,7 @@ namespace MissionPlanner
                                     MainV2.speechEngine.SpeakAsync(
                                         ArduPilot.Common.speechConversion(comPort.MAV,
                                             "" + Settings.Instance["speechlowairspeed"]));
-                                    speechlowspeedtime = DateTime.Now;
+                                    speechlowspeedtime = DateTime.UtcNow;
                                 }
                             }
                             else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
@@ -2791,18 +2797,18 @@ namespace MissionPlanner
                                     MainV2.speechEngine.SpeakAsync(
                                         ArduPilot.Common.speechConversion(comPort.MAV,
                                             "" + Settings.Instance["speechlowgroundspeed"]));
-                                    speechlowspeedtime = DateTime.Now;
+                                    speechlowspeedtime = DateTime.UtcNow;
                                 }
                             }
                             else
                             {
-                                speechlowspeedtime = DateTime.Now;
+                                speechlowspeedtime = DateTime.UtcNow;
                             }
                         }
                     }
 
                     // speech altitude warning - message high warning
-                    if (speechEnabled() && speechEngine != null &&
+                    if (speechEnabled() &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         float warnalt = float.MaxValue;
@@ -2860,13 +2866,13 @@ namespace MissionPlanner
                     }
 
                     // attenuate the link qualty over time
-                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds >= 1)
+                    if ((DateTime.UtcNow - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds >= 1)
                     {
-                        if (linkqualitytime.Second != DateTime.Now.Second)
+                        if (linkqualitytime.Second != DateTime.UtcNow.Second)
                         {
                             MainV2.comPort.MAV.cs.linkqualitygcs =
                                 (ushort) (MainV2.comPort.MAV.cs.linkqualitygcs * 0.8f);
-                            linkqualitytime = DateTime.Now;
+                            linkqualitytime = DateTime.UtcNow;
 
                             // force redraw if there are no other packets are being read
                             this.BeginInvokeIfRequired(
@@ -2876,20 +2882,20 @@ namespace MissionPlanner
                     }
 
                     // data loss warning - wait min of 3 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
-                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 3
-                        && (DateTime.Now - connecttime).TotalSeconds > 30
-                        && (DateTime.Now - nodatawarning).TotalSeconds > 5
+                    if ((DateTime.UtcNow - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 3
+                        && (DateTime.UtcNow - connecttime).TotalSeconds > 30
+                        && (DateTime.UtcNow - nodatawarning).TotalSeconds > 5
                         && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen)
                         && MainV2.comPort.MAV.cs.armed)
                     {
-                        var msg = "WARNING No Data for " + (int)(DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
+                        var msg = "WARNING No Data for " + (int)(DateTime.UtcNow - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
                         MainV2.comPort.MAV.cs.messageHigh = msg;
-                        if (speechEnabled() && speechEngine != null)
+                        if (speechEnabled())
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(msg);
-                                nodatawarning = DateTime.Now;
+                                nodatawarning = DateTime.UtcNow;
                             }
                         }
                     }
@@ -2969,7 +2975,7 @@ namespace MissionPlanner
                     }
 
                     // send a hb every seconds from gcs to ap
-                    if (heatbeatSend.Second != DateTime.Now.Second)
+                    if (heatbeatSend.Second != DateTime.UtcNow.Second)
                     {
                         MAVLink.mavlink_heartbeat_t htb = new MAVLink.mavlink_heartbeat_t()
                         {
@@ -2990,7 +2996,7 @@ namespace MissionPlanner
                                 try
                                 {
                                     // poll only when not armed
-                                    if (!port.MAV.cs.armed && DateTime.Now > connecttime.AddSeconds(60))
+                                    if (!port.MAV.cs.armed && DateTime.UtcNow > connecttime.AddSeconds(60))
                                     {
                                         port.getParamPoll();
                                         port.getParamPoll();
@@ -3076,7 +3082,7 @@ namespace MissionPlanner
                             }
                         }
 
-                        heatbeatSend = DateTime.Now;
+                        heatbeatSend = DateTime.UtcNow;
                     }
 
                     // if not connected or busy, sleep and loop

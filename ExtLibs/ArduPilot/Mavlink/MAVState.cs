@@ -265,7 +265,7 @@ namespace MissionPlanner
         }
 
         /// <summary>
-        /// time seen of last mavlink packet
+        /// time seen of last mavlink packet UTC
         /// </summary>
         public DateTime lastvalidpacket { get; set; }
 

@@ -1640,7 +1640,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                     log.Info("setParam gotback " + st + " : " + MAVlist[sysid, compid].param[st]);
 
-                    lastparamset = DateTime.Now;
+                    lastparamset = DateTime.UtcNow;
 
                     // check if enabeling this param has added subparams, queue on gui thread
                     if (currentparamcount < par.param_count)
@@ -5024,7 +5024,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 }
                 else if (logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < lastlogread)
                 {
-                    MAVlist[sysid, compid].packetlosttimer = lastlogread;
+                    MAVlist[sysid, compid].packetlosttimer = lastlogread.ToUniversalTime();
                     MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
                     MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
                 }
@@ -5340,7 +5340,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     if (Settings.Instance["autoParamCommit"] == null ||
                         Settings.Instance.GetBoolean("autoParamCommit") == true)
                     {
-                        if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.Now)
+                        if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.UtcNow)
                         {
                             lastparamset = DateTime.MinValue;
 
@@ -5362,7 +5362,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             }
 
             // update last valid packet receive time
-            MAVlist[sysid, compid].lastvalidpacket = DateTime.Now;
+            MAVlist[sysid, compid].lastvalidpacket = DateTime.UtcNow;
 
             return message;
         }
