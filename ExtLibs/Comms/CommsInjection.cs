@@ -18,6 +18,7 @@ namespace MissionPlanner.Comms
         public CommsInjection()
         {
             BaseStream = new CommsStream(this, 0);
+            Open();
         }
         public void AppendBuffer(byte[] indata)
         {
@@ -39,6 +40,7 @@ namespace MissionPlanner.Comms
         {
             lock (_bufferRX)
                 _bufferRX.Clear();
+            IsOpen = false;
         }
 
         public void DiscardInBuffer()
@@ -51,10 +53,14 @@ namespace MissionPlanner.Comms
         {
             lock (_bufferRX)
                 _bufferRX.Clear();
+            IsOpen = true;
         }
 
         public int Read(byte[] buffer, int offset, int count)
         {
+            if (!IsOpen)
+                throw new IOException("CommsInjection not open");
+
             var counttimeout = 0;
             while (BytesToRead == 0)
             {
@@ -174,7 +180,7 @@ namespace MissionPlanner.Comms
         public int DataBits { get; set; }
         public bool DtrEnable { get; set; }
 
-        public bool IsOpen => true;
+        public bool IsOpen { get; private set; } = false;
 
         public string PortName { get; set; }
         public int ReadBufferSize { get; set; }

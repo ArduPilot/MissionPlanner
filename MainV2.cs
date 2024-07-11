@@ -1801,6 +1801,8 @@ namespace MissionPlanner
                                         }
                                     }
 
+                                    can.Stop();
+
                                     MainV2.comPort.UnSubscribeToPacketType(canref);
                                 }
                             }
