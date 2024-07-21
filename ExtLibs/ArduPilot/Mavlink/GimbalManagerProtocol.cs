@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.ArduPilot.Mavlink
 {
@@ -99,13 +100,13 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return (ManagerInfo[gimbal_device_id].cap_flags & (uint)flags) == (uint)flags;
         }
 
-        public bool Retract(byte gimbal_device_id = 0)
+        public Task<bool> RetractAsync(byte gimbal_device_id = 0)
         {
             if (!HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_RETRACT))
             {
-                return false;
+                return Task.FromResult(false);
             }
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
@@ -118,13 +119,13 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 gimbal_device_id);
         }
 
-        public bool Neutral(byte gimbal_device_id = 0)
+        public Task<bool> NeutralAsync(byte gimbal_device_id = 0)
         {
             if (!HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_NEUTRAL))
             {
-                return false;
+                return Task.FromResult(false);
             }
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
@@ -137,15 +138,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 gimbal_device_id);
         }
 
-        public bool SetYawLock(bool yaw_lock, byte gimbal_device_id = 0)
+        public Task<bool> SetRCYawLockAsync(bool yaw_lock, byte gimbal_device_id = 0)
         {
             if ((yaw_lock && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_LOCK)) ||
                 (!yaw_lock && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_FOLLOW)))
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
@@ -158,7 +159,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 gimbal_device_id);
         }
 
-        public bool SetAnglesCommand(float pitch, float yaw, bool yaw_in_earth_frame, byte gimbal_device_id = 0)
+        public Task<bool> SetAnglesCommandAsync(float pitch, float yaw, bool yaw_in_earth_frame, byte gimbal_device_id = 0)
         {
             if (!HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.CAN_POINT_LOCATION_LOCAL) ||
                 (pitch != 0 && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_PITCH_AXIS)) ||
@@ -166,10 +167,10 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 (yaw != 0 && yaw_in_earth_frame && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_LOCK)) ||
                 (yaw != 0 && !yaw_in_earth_frame && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_FOLLOW)))
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
@@ -198,17 +199,17 @@ namespace MissionPlanner.ArduPilot.Mavlink
             mavint.sendPacket(set, mavint.sysidcurrent, mavint.compidcurrent);
         }
 
-        public bool SetRatesCommand(float pitchRate, float yawRate, bool yaw_in_earth_frame, byte gimbal_device_id = 0)
+        public Task<bool> SetRatesCommandAsync(float pitchRate, float yawRate, bool yaw_in_earth_frame, byte gimbal_device_id = 0)
         {
             if ((pitchRate != 0 && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_PITCH_AXIS)) ||
                 (yawRate != 0 && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_AXIS)) ||
                 (yawRate != 0 && yaw_in_earth_frame && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_LOCK)) ||
                 (yawRate != 0 && !yaw_in_earth_frame && !HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.HAS_YAW_FOLLOW)))
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
@@ -237,14 +238,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
             mavint.sendPacket(set, mavint.sysidcurrent, mavint.compidcurrent);
         }
 
-        public bool SetROILocation(double lat, double lon, double alt = 0, byte gimbal_device_id = 0, MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT)
+        public Task<bool> SetROILocationAsync(double lat, double lon, double alt = 0, byte gimbal_device_id = 0, MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT)
         {
             if (!HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.CAN_POINT_LOCATION_GLOBAL))
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            return mavint.doCommandInt(
+            return mavint.doCommandIntAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_SET_ROI_LOCATION,
@@ -256,9 +257,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 frame: frame);
         }
 
-        public bool SetROINone(byte gimbal_device_id = 0)
+        public Task<bool> SetROINoneAsync(byte gimbal_device_id = 0)
         {
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_SET_ROI_NONE,
@@ -266,14 +267,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 0, 0, 0, 0, 0, 0);
         }
 
-        public bool SetROISysID(byte sysid, byte gimbal_device_id = 0)
+        public Task<bool> SetROISysIDAsync(byte sysid, byte gimbal_device_id = 0)
         {
             if (!HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.CAN_POINT_LOCATION_GLOBAL))
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            return mavint.doCommand(
+            return mavint.doCommandAsync(
                 (byte)mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_SET_ROI_SYSID,
