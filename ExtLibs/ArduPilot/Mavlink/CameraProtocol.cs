@@ -308,5 +308,21 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 float.NaN // Reserved (set to NaN)
             );
         }
+
+        /// <summary>
+        /// Control the camera zoom level.
+        /// </summary>
+        /// <param name="zoom_level">The zoom level to set. The range of valid values depend on the zoom type.</param>
+        /// <param name="zoom_type">The type of zoom to perform</param>
+        public Task SetZoomAsync(float zoom_level, MAVLink.CAMERA_ZOOM_TYPE zoom_type = MAVLink.CAMERA_ZOOM_TYPE.ZOOM_TYPE_RANGE)
+        {
+            return parent.parent.doCommandAsync(
+                parent.sysid, parent.compid,
+                MAVLink.MAV_CMD.SET_CAMERA_ZOOM,
+                (float)zoom_type,
+                zoom_level,
+                0, 0, 0, 0, 0
+            );
+        }
     }
 }
