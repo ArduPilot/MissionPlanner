@@ -303,7 +303,7 @@ namespace MissionPlanner
             {
                 previousPitchRate = pitch;
                 previousYawRate = yaw;
-                selectedGimbalManager?.SetRatesCommand(pitch, yaw, yaw_lock, gimbalDeviceId);
+                selectedGimbalManager?.SetRatesCommandAsync(pitch, yaw, yaw_lock, gimbalDeviceId);
                 Console.WriteLine($"Pitch: {pitch}, Yaw: {yaw}");
             }
 
@@ -350,35 +350,35 @@ namespace MissionPlanner
             {
                 Console.WriteLine("Toggle lock/follow");
                 yaw_lock = !yaw_lock;
-                selectedGimbalManager.SetRatesCommand(previousPitchRate, previousYawRate, yaw_lock);
+                selectedGimbalManager.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock);
             }
             else if (key == preferences.SetLock)
             {
                 Console.WriteLine("Set lock");
                 yaw_lock = true;
-                selectedGimbalManager.SetRatesCommand(previousPitchRate, previousYawRate, yaw_lock);
+                selectedGimbalManager.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock);
             }
             else if (key == preferences.SetFollow)
             {
                 Console.WriteLine("Set follow");
                 yaw_lock = false;
-                selectedGimbalManager.SetRatesCommand(previousPitchRate, previousYawRate, yaw_lock);
+                selectedGimbalManager.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock);
             }
             else if (key == preferences.Retract)
             {
                 Console.WriteLine("Retract");
-                selectedGimbalManager?.Retract();
+                selectedGimbalManager?.RetractAsync();
             }
             else if (key == preferences.Neutral)
             {
                 Console.WriteLine("Neutral");
-                selectedGimbalManager?.Neutral();
+                selectedGimbalManager?.NeutralAsync();
             }
             else if (key == preferences.Home)
             {
                 Console.WriteLine("Home");
                 var loc = MainV2.comPort?.MAV?.cs.HomeLocation;
-                selectedGimbalManager?.SetROILocation(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
+                selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
             }
         }
     }
