@@ -1117,7 +1117,7 @@ namespace DroneCAN
                     else
                     {
                         Console.WriteLine("Got BeginFirmwareUpdate_res " + frame.SourceNode);
-                        acceptbegin = true;
+                        // move acceptbegin to uavcan_protocol_file_Read_req
                     }
                 }
                 else if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_res))
@@ -1143,15 +1143,16 @@ namespace DroneCAN
                                         {
                                             image_file_remote_path = new DroneCAN.uavcan_protocol_file_Path()
                                             {
-                                                path = firmware_namebytes, path_len = (byte) firmware_namebytes.Length
+                                                path = firmware_namebytes,
+                                                path_len = (byte)firmware_namebytes.Length
                                             },
                                             source_node_id = SourceNode
                                         };
 
                                     var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID++, req_msg);
-                               
-                                        WriteToStreamSLCAN(slcan);
-                                        Console.WriteLine("Send uavcan_protocol_file_BeginFirmwareUpdate_req");
+
+                                    WriteToStreamSLCAN(slcan);
+                                    Console.WriteLine("Send uavcan_protocol_file_BeginFirmwareUpdate_req");
                                 }
                                 else
                                 {
@@ -1181,6 +1182,10 @@ namespace DroneCAN
                         done = true;
                         return;
                     }
+                }
+                else if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_file_Read_req))
+                {
+                    acceptbegin = true;
                 }
             };
             MessageReceived += updatedelegate;
@@ -1223,7 +1228,7 @@ namespace DroneCAN
             int b = 0;
             while (!done)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 if (exception != null || cancel.IsCancellationRequested)
                 {
@@ -1235,7 +1240,7 @@ namespace DroneCAN
                     var lastrxts = NodeList.First(a => a.Key == nodeid).Value.uptime_sec;
                     if(lastrxts != timestamp)
                         b = 0;
-                    if (b > 5)
+                    if (b > 10)
                     {
                         Console.WriteLine("Possible update issue " + nodeid + " (no nodestatus) ");
                     }
@@ -1256,7 +1261,7 @@ namespace DroneCAN
                 }
 
                 b++;
-                if (b > 30)
+                if (b > 60)
                 {
                     break;
                 }

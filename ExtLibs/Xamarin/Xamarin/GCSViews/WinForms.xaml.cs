@@ -863,7 +863,7 @@ namespace Xamarin.GCSViews
 
                 var canvas = e.Surface.Canvas;
 
-                canvas.Clear(SKColors.Gray);
+                //canvas.Clear(SKColors.Gray);
 
                 canvas.Scale((float) scale.Width, (float) scale.Height);
 
@@ -876,6 +876,7 @@ namespace Xamarin.GCSViews
 
                         try
                         {
+                            // skgl is not keeping the previous render. so true.
                             FormsRender.DrawOntoCanvas(form.Handle, canvas, true);
                         }
                         catch (Exception ex)

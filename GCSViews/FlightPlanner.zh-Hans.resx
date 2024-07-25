@@ -831,7 +831,7 @@
   <data name="MainMap.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="trackBar1.ToolTip" xml:space="preserve">
+  <data name="TRK_zoom.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="label11.Text" xml:space="preserve">

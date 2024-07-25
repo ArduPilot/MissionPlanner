@@ -140,7 +140,7 @@ public class FormsRender
              /*   Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
                     SKClipOperation.Intersect);
              */
-                parent = parent.parent;
+                parent = parent.Parent;
             }
 
             Monitor.Enter(XplatUIMine.paintlock);
@@ -168,7 +168,7 @@ public class FormsRender
                         if (hwnd.DrawNeeded || forcerender)
                         {
                             if (hwnd.hwndbmpNC != null)
-                                Canvas.DrawImage(hwnd.hwndbmpNC,
+                                Canvas.DrawImage(hwnd.hwndbmpNC, 
                                     new SKPoint(x - borders.left, y - borders.top), paint);
                             /*
                             Canvas.ClipRect(
@@ -180,6 +180,8 @@ public class FormsRender
                                     new SKPoint(x, y));
 
                             wasdrawn = true;
+                            // we needed to draw this, so everything after this is forced to render
+                            forcerender = true;
                         }
 
                         hwnd.DrawNeeded = false;
@@ -201,6 +203,8 @@ public class FormsRender
                                     new SKPoint(x + 0, y + 0));
 
                             wasdrawn = true;
+                            // we needed to draw this, so everything after this is forced to render
+                            forcerender = true;
                         }
 
                         hwnd.DrawNeeded = false;
@@ -262,7 +266,7 @@ public class FormsRender
 
             foreach (var child in children)
             {
-                DrawOntoCanvas(child.ClientWindow, Canvas, true);
+                DrawOntoCanvas(child.ClientWindow, Canvas, forcerender);
             }
         }
 

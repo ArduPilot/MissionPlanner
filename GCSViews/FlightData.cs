@@ -931,6 +931,19 @@ namespace MissionPlanner.GCSViews
             BeginInvoke((Action) delegate { photosoverlay.Markers.Add(marker); });
         }
 
+        private void addMAVMarker(MAVState MAV)
+        {
+            this.BeginInvokeIfRequired(() =>
+            {
+                var marker = Common.getMAVMarker(MAV, routes);
+
+                if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
+                    return;
+
+                addMissionRouteMarker(marker);
+            });
+        }
+
         private void addMissionRouteMarker(GMapMarker marker)
         {
             if (marker == null) return;
@@ -4117,17 +4130,17 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    this.BeginInvokeIfRequired(() =>
+                                    if (MAV == MainV2.comPort?.MAV)
                                     {
-                                        var marker = Common.getMAVMarker(MAV, routes);
-
-                                        if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
-                                            return;
-
-                                        addMissionRouteMarker(marker);
-                                    });
+                                        // We will draw this last
+                                        continue;
+                                    }
+                                    addMAVMarker(MAV);
                                 }
                             }
+
+                            // Draw the active aircraft
+                            addMAVMarker(MainV2.comPort.MAV);
 
                             if (route.Points.Count == 0 || route.Points[route.Points.Count - 1].Lat != 0 &&
                                 (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.Checked)
@@ -4461,8 +4474,9 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
-                    fields.Add((field.Name, field.Name));
+                    var fieldDesc = MainV2.comPort.MAV.cs.GetFieldDesc(field.Name);
+                    max_length = Math.Max(max_length, TextRenderer.MeasureText(fieldDesc, selectform.Font).Width);
+                    fields.Add((field.Name, fieldDesc));
                 }
             }
 
@@ -5255,10 +5269,12 @@ namespace MissionPlanner.GCSViews
                 if (gMapControl1.MaxZoom + 1 == (double) TRK_zoom.Value)
                 {
                     gMapControl1.Zoom = TRK_zoom.Value - .1;
+                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value - .1);
                 }
                 else
                 {
                     gMapControl1.Zoom = TRK_zoom.Value;
+                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value);
                 }
 
                 UpdateOverlayVisibility();
@@ -5773,10 +5789,12 @@ namespace MissionPlanner.GCSViews
                 if (gMapControl1.MaxZoom + 1 == (double) Zoomlevel.Value)
                 {
                     gMapControl1.Zoom = (double) Zoomlevel.Value - .1;
+                    TRK_zoom.Value = (float)Zoomlevel.Value - (float).1;
                 }
                 else
                 {
                     gMapControl1.Zoom = (double) Zoomlevel.Value;
+                    TRK_zoom.Value = (float)Zoomlevel.Value;
                 }
             }
             catch

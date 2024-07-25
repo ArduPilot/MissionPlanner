@@ -468,6 +468,9 @@ namespace MissionPlanner
         public static bool speech_armed_only = false;
         public static bool speechEnabled()
         {
+            if (speechEngine == null)
+                return false;
+
             if (!speechEnable) {
                 return false;
             }
@@ -509,6 +512,7 @@ namespace MissionPlanner
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
         public static WebCamService.Capture cam { get; set; }
+        public List<AutoConnect.ConnectionInfo> ExtraConnectionList { get; } = new List<AutoConnect.ConnectionInfo>();
 
         /// <summary>
         /// controls the main serial reader thread
@@ -527,7 +531,7 @@ namespace MissionPlanner
         /// <summary>
         /// track the last heartbeat sent
         /// </summary>
-        private DateTime heatbeatSend = DateTime.Now;
+        private DateTime heatbeatSend = DateTime.UtcNow;
 
         /// <summary>
         /// track the last ads-b send time
@@ -549,15 +553,18 @@ namespace MissionPlanner
         public static MainSwitcher View;
 
         /// <summary>
-        /// store the time we first connect
+        /// store the time we first connect UTC
         /// </summary>
-        DateTime connecttime = DateTime.Now;
+        DateTime connecttime = DateTime.UtcNow;
+        /// <summary>
+        /// no data repeat interval UTC
+        /// </summary>
+        DateTime nodatawarning = DateTime.UtcNow;
 
-        DateTime nodatawarning = DateTime.Now;
-        DateTime OpenTime = DateTime.Now;
-
-
-        DateTime connectButtonUpdate = DateTime.Now;
+        /// <summary>
+        /// update the connect button UTC
+        /// </summary>
+        DateTime connectButtonUpdate = DateTime.UtcNow;
 
         /// <summary>
         /// declared here if i want a "single" instance of the form
@@ -1269,6 +1276,11 @@ namespace MissionPlanner
             _connectionControl.CMB_serialport.Items.Add("UDP");
             _connectionControl.CMB_serialport.Items.Add("UDPCl");
             _connectionControl.CMB_serialport.Items.Add("WS");
+
+            foreach (var item in ExtraConnectionList)
+            {
+                _connectionControl.CMB_serialport.Items.Add(item.Label);
+            }
         }
 
         private void MenuFlightData_Click(object sender, EventArgs e)
@@ -1478,6 +1490,15 @@ namespace MissionPlanner
                     prd.RunBackgroundOperationAsync();
                     return;
                 default:
+                    var extraconfig = ExtraConnectionList.Any(a => a.Label == portname);
+                    if (extraconfig)
+                    {
+                        var config = ExtraConnectionList.First(a => a.Label == portname);
+                        config.Enabled = true;
+                        AutoConnect.ProcessEntry(config);
+                        return;
+                    }
+
                     comPort.BaseStream = new SerialPort();
                     break;
             }
@@ -1576,7 +1597,7 @@ namespace MissionPlanner
                 } // soft fail
 
                 // reset connect time - for timeout functions
-                connecttime = DateTime.Now;
+                connecttime = DateTime.UtcNow;
 
                 // do the connect
                 comPort.Open(false, skipconnectcheck, showui);
@@ -1726,7 +1747,7 @@ namespace MissionPlanner
                                         }
 
                                         return true;
-                                    }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+                                    }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
 
                                     can.NodeAdded += (id, status) =>
                                     {
@@ -1780,6 +1801,8 @@ namespace MissionPlanner
                                             Common.MessageShowAgain("New firmware", "New firmware for " + devicename + " " + option.MavFirmwareVersion + " " + option.GitSha + "\nUpdate via the dronecan screen");
                                         }
                                     }
+
+                                    can.Stop();
 
                                     MainV2.comPort.UnSubscribeToPacketType(canref);
                                 }
@@ -2523,7 +2546,7 @@ namespace MissionPlanner
         /// </summary>
         private void UpdateConnectIcon()
         {
-            if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
+            if ((DateTime.UtcNow - connectButtonUpdate).Milliseconds > 500)
             {
                 //                        Console.WriteLine(DateTime.Now.Millisecond);
                 if (comPort.BaseStream.IsOpen)
@@ -2562,7 +2585,7 @@ namespace MissionPlanner
                     }
                 }
 
-                connectButtonUpdate = DateTime.Now;
+                connectButtonUpdate = DateTime.UtcNow;
             }
         }
 
@@ -2711,7 +2734,7 @@ namespace MissionPlanner
                     }
 
                     // 30 seconds interval speech options
-                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
+                    if (speechEnabled() && (DateTime.UtcNow - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (MainV2.speechEngine.IsReady)
@@ -2722,7 +2745,7 @@ namespace MissionPlanner
                                     "" + Settings.Instance["speechcustom"]));
                             }
 
-                            speechcustomtime = DateTime.Now;
+                            speechcustomtime = DateTime.UtcNow;
                         }
 
                         // speech for battery alerts
@@ -2755,7 +2778,7 @@ namespace MissionPlanner
                     }
 
                     // speech for airspeed alerts
-                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
+                    if (speechEnabled() && (DateTime.UtcNow - speechlowspeedtime).TotalSeconds > 10 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (Settings.Instance.GetBoolean("speechlowspeedenabled") == true &&
@@ -2771,7 +2794,7 @@ namespace MissionPlanner
                                     MainV2.speechEngine.SpeakAsync(
                                         ArduPilot.Common.speechConversion(comPort.MAV,
                                             "" + Settings.Instance["speechlowairspeed"]));
-                                    speechlowspeedtime = DateTime.Now;
+                                    speechlowspeedtime = DateTime.UtcNow;
                                 }
                             }
                             else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
@@ -2781,18 +2804,18 @@ namespace MissionPlanner
                                     MainV2.speechEngine.SpeakAsync(
                                         ArduPilot.Common.speechConversion(comPort.MAV,
                                             "" + Settings.Instance["speechlowgroundspeed"]));
-                                    speechlowspeedtime = DateTime.Now;
+                                    speechlowspeedtime = DateTime.UtcNow;
                                 }
                             }
                             else
                             {
-                                speechlowspeedtime = DateTime.Now;
+                                speechlowspeedtime = DateTime.UtcNow;
                             }
                         }
                     }
 
                     // speech altitude warning - message high warning
-                    if (speechEnabled() && speechEngine != null &&
+                    if (speechEnabled() &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         float warnalt = float.MaxValue;
@@ -2850,13 +2873,13 @@ namespace MissionPlanner
                     }
 
                     // attenuate the link qualty over time
-                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds >= 1)
+                    if ((DateTime.UtcNow - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds >= 1)
                     {
-                        if (linkqualitytime.Second != DateTime.Now.Second)
+                        if (linkqualitytime.Second != DateTime.UtcNow.Second)
                         {
                             MainV2.comPort.MAV.cs.linkqualitygcs =
                                 (ushort) (MainV2.comPort.MAV.cs.linkqualitygcs * 0.8f);
-                            linkqualitytime = DateTime.Now;
+                            linkqualitytime = DateTime.UtcNow;
 
                             // force redraw if there are no other packets are being read
                             this.BeginInvokeIfRequired(
@@ -2866,20 +2889,20 @@ namespace MissionPlanner
                     }
 
                     // data loss warning - wait min of 3 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
-                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 3
-                        && (DateTime.Now - connecttime).TotalSeconds > 30
-                        && (DateTime.Now - nodatawarning).TotalSeconds > 5
+                    if ((DateTime.UtcNow - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 3
+                        && (DateTime.UtcNow - connecttime).TotalSeconds > 30
+                        && (DateTime.UtcNow - nodatawarning).TotalSeconds > 5
                         && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen)
                         && MainV2.comPort.MAV.cs.armed)
                     {
-                        var msg = "WARNING No Data for " + (int)(DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
+                        var msg = "WARNING No Data for " + (int)(DateTime.UtcNow - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
                         MainV2.comPort.MAV.cs.messageHigh = msg;
-                        if (speechEnabled() && speechEngine != null)
+                        if (speechEnabled())
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(msg);
-                                nodatawarning = DateTime.Now;
+                                nodatawarning = DateTime.UtcNow;
                             }
                         }
                     }
@@ -2959,7 +2982,7 @@ namespace MissionPlanner
                     }
 
                     // send a hb every seconds from gcs to ap
-                    if (heatbeatSend.Second != DateTime.Now.Second)
+                    if (heatbeatSend.Second != DateTime.UtcNow.Second)
                     {
                         MAVLink.mavlink_heartbeat_t htb = new MAVLink.mavlink_heartbeat_t()
                         {
@@ -2980,7 +3003,7 @@ namespace MissionPlanner
                                 try
                                 {
                                     // poll only when not armed
-                                    if (!port.MAV.cs.armed && DateTime.Now > connecttime.AddSeconds(60))
+                                    if (!port.MAV.cs.armed && DateTime.UtcNow > connecttime.AddSeconds(60))
                                     {
                                         port.getParamPoll();
                                         port.getParamPoll();
@@ -3066,7 +3089,7 @@ namespace MissionPlanner
                             }
                         }
 
-                        heatbeatSend = DateTime.Now;
+                        heatbeatSend = DateTime.UtcNow;
                     }
 
                     // if not connected or busy, sleep and loop
@@ -3104,12 +3127,12 @@ namespace MissionPlanner
                             break;
                         }
 
-                        DateTime startread = DateTime.Now;
+                        DateTime startread = DateTime.UtcNow;
 
                         // must be open, we have bytes, we are not yielding the port,
                         // the thread is meant to be running and we only spend 1 seconds max in this read loop
                         while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes &&
-                               port.giveComport == false && serialThread && startread.AddSeconds(1) > DateTime.Now)
+                               port.giveComport == false && serialThread && startread.AddSeconds(1) > DateTime.UtcNow)
                         {
                             try
                             {
@@ -3618,6 +3641,10 @@ protected override void OnLoad(EventArgs e)
                             if (seen.Contains(zeroconfHost.Id))
                                 return;
 
+                            // no duplicates
+                            if (!ExtraConnectionList.Any(a => a.Label == "ZeroConf " + zeroconfHost.DisplayName))
+                                ExtraConnectionList.Add(new AutoConnect.ConnectionInfo("ZeroConf " + zeroconfHost.DisplayName, false, port, AutoConnect.ProtocolType.Udp, AutoConnect.ConnectionFormat.MAVLink, AutoConnect.Direction.Outbound, ip));
+
                             if (CustomMessageBox.Show(
                                     "A Mavlink stream has been detected, " + zeroconfHost.DisplayName + "(" +
                                     zeroconfHost.Id + "). Would you like to connect to it?",
@@ -3663,9 +3690,12 @@ protected override void OnLoad(EventArgs e)
                     }
                 };
 
-                ZeroConf.ProbeForMavlink();
+                if (!isHerelink)
+                {
+                    ZeroConf.ProbeForMavlink();
 
-                ZeroConf.ProbeForRTSP();
+                    ZeroConf.ProbeForRTSP();
+                }
             }
             catch
             {
@@ -3839,7 +3869,7 @@ protected override void OnLoad(EventArgs e)
                                 nt.lat = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat;
                                 nt.lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
                                 nt.alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
-                                this.BeginInvokeIfRequired(() => { inject.DoConnect(); });
+                                this.BeginInvokeIfRequired(() => { inject.DoConnect().RunSynchronously(); });
                             }
                             catch (Exception ex)
                             {
@@ -3933,11 +3963,16 @@ protected override void OnLoad(EventArgs e)
             }
 
             GMapMarkerBase.length = Settings.Instance.GetInt32("GMapMarkerBase_length", 500);
-            GMapMarkerBase.DisplayCOG = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayCOG", true);
-            GMapMarkerBase.DisplayHeading = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayHeading", true);
-            GMapMarkerBase.DisplayNavBearing = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
-            GMapMarkerBase.DisplayRadius = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
-            GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+            GMapMarkerBase.DisplayCOGSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayCOG", true);
+            GMapMarkerBase.DisplayHeadingSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayHeading", true);
+            GMapMarkerBase.DisplayNavBearingSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
+            GMapMarkerBase.DisplayRadiusSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
+            GMapMarkerBase.DisplayTargetSetting = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+            var inactiveDisplayStyle = GMapMarkerBase.InactiveDisplayStyleEnum.Normal;
+            string inactiveDisplayStyleStr = Settings.Instance.GetString("GMapMarkerBase_InactiveDisplayStyle", inactiveDisplayStyle.ToString());
+            Enum.TryParse(inactiveDisplayStyleStr, out inactiveDisplayStyle);
+            GMapMarkerBase.InactiveDisplayStyle = inactiveDisplayStyle;
+            Settings.Instance["GMapMarkerBase_InactiveDisplayStyle"] = inactiveDisplayStyle.ToString();
         }
 
         private void BGLogMessagesMetaData(object nothing)

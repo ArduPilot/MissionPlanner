@@ -308,6 +308,8 @@ namespace Xamarin.Droid
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
                     (int)Permission.Granted ||
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) !=
+                    (int)Permission.Granted ||
+                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothConnect) !=
                     (int)Permission.Granted)
                 {
                     ActivityCompat.RequestPermissions(this,
@@ -315,10 +317,11 @@ namespace Xamarin.Droid
                         {
                             Manifest.Permission.AccessFineLocation, Manifest.Permission.LocationHardware,
                             Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage,
-                            Manifest.Permission.Bluetooth
+                            Manifest.Permission.Bluetooth,
+                            Manifest.Permission.BluetoothConnect,
                         }, 1);
                 }
-                
+
             }
 
             try {

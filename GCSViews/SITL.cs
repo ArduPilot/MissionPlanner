@@ -640,7 +640,7 @@ namespace MissionPlanner.GCSViews
 
             ProcessStartInfo exestart = new ProcessStartInfo();
             exestart.FileName = exepath;
-            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} --uartA tcp:0 {3}", model, homelocation, speedup, extraargs);
+            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} --serial0 tcp:0 {3}", model, homelocation, speedup, extraargs);
             exestart.WorkingDirectory = simdir;
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
             Console.WriteLine("sitl: {0} {1} {2}", exestart.WorkingDirectory, exestart.FileName,
@@ -861,14 +861,14 @@ namespace MissionPlanner.GCSViews
                 if (max == a)
                 {
                     extra += String.Format(
-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
                         a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
                 else
                 {
                     extra += String.Format(
-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
-                        a, "" /*"--uartD tcpclient:127.0.0.1:" + (5770 + 10 * a)*/, a + 1,
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
+			a, "" /*"--serial2 tcpclient:127.0.0.1:" + (5770 + 10 * a)*/, a + 1,
                         BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
 
@@ -1007,14 +1007,14 @@ SIM_DRIFT_TIME=0
                 if (max == a)
                 {
                     extra += String.Format(
-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
                         a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
                 else
                 {
                     extra += String.Format(
-                        " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
-                        a, "--uartD tcpclient:127.0.0.1:" + (5772 + 10 * a), a + 1,
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
+			a, "--serial2 tcpclient:127.0.0.1:" + (5772 + 10 * a), a + 1,
                         BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
 
