@@ -145,7 +145,7 @@
     <value>Мультикоптер</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Додатковий командний рядок</value>
+    <value>Командний рядок</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Опції</value>
@@ -154,7 +154,7 @@
     <value>Стерти</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Місцезнаходження Дом.точки - Перетягніть мене</value>
+    <value>Дом.точка - Перетягніть мене</value>
   </data>
   <data name="but_swarmplane.Text" xml:space="preserve">
     <value>Swarm Літаків - Багатоканальний</value>
@@ -208,10 +208,10 @@
     <value>Опції</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Додатковий командний рядок</value>
+    <value>Командний рядок</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Місцезнаходження Дом.точки - Перетягніть мене</value>
+    <value>Дом.точка - Перетягніть мене</value>
   </data>
   <data name="chk_skipdownload.Text" xml:space="preserve">
     <value>Пропустити завантаження</value>

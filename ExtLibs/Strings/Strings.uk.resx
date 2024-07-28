@@ -599,7 +599,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>Змініть значення прискорювача</value>
   </data>
   <data name="Invalid_home_location" xml:space="preserve">
-    <value>Невірна локація для дом.точки</value>
+    <value>Невірне місце для дом.точки</value>
   </data>
   <data name="Converting_bin_to_log" xml:space="preserve">
     <value>Перетворення даних у журнал</value>

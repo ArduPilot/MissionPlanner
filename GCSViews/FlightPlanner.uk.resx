@@ -217,7 +217,7 @@
     <value>Завантажити файл</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Місцезнаходження Дом.точки</value>
+    <value>Дом.точка</value>
   </data>
   <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Завантажити файл з ППМ</value>
@@ -394,7 +394,7 @@
     <value>Відносно</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Місцезнаходження Дом.точки</value>
+    <value>Дом.точка</value>
   </data>
   <data name="BUT_loadwpfile.Text" xml:space="preserve">
     <value>Завантажити файл</value>
@@ -667,7 +667,7 @@
     <value>Донизу</value>
   </data>
   <data name="lnk_kml.Text" xml:space="preserve">
-    <value>Перегляд KML-файлу</value>
+    <value>KML-файл</value>
   </data>
   <data name="testToolStripMenuItem.Text" xml:space="preserve">
     <value>тест</value>
@@ -907,7 +907,7 @@
     <value>тест</value>
   </data>
   <data name="lnk_kml.Text" xml:space="preserve">
-    <value>Перегляд KML-файлу</value>
+    <value>KML-файл</value>
   </data>
   <data name="loadSHPFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Завантажити SHP-файл</value>
