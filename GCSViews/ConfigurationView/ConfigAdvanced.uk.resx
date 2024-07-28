@@ -247,7 +247,7 @@
     <value>Розшарити зв'язок із інженером підтримки</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Scramble lat/lng у bin або tlog-блозі</value>
+    <value>Scramble lat/lng in bin or tlog</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>Побудувати FFT з журналу</value>
