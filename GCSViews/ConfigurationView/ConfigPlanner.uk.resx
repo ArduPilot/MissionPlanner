@@ -343,7 +343,7 @@
     <value>Рухома мапа</value>
   </data>
   <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>Мапа обертатиметься за літаком</value>
+    <value>Мапу обертати відповідно курсу</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 303</value>
@@ -619,7 +619,15 @@
     <value>790, 507</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>863, 509</value>
+    <value>860, 501</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 26</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Довжина
+навігаційної лінії
+</value>
   </data>
   <data name="chk_displaytooltip.Location" type="System.Drawing.Point, System.Drawing">
     <value>659, 501</value>
@@ -632,6 +640,6 @@
 спливаючу підказку</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>949, 698</value>
+    <value>949, 681</value>
   </data>
 </root>
