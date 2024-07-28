@@ -117,32 +117,92 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Швидкість SIM-карти</value>
+  <data name="chk_skipdownload.Text" xml:space="preserve">
+    <value>Пропустити завантаження</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Вертоліт</value>
+    <value>Коптер</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Напрям</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Швидкість моделювання</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Площина</value>
+    <value>Літак</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Для досвідчених користувачів</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>ДКА</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Мультикоптер</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Додатковий командний рядок</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Опції</value>
+  </data>
+  <data name="chk_wipe.Text" xml:space="preserve">
+    <value>Стерти</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Місцезнаходження Дом.точки - Перетягніть мене</value>
+  </data>
+  <data name="but_swarmplane.Text" xml:space="preserve">
+    <value>Swarm Літаків - Багатоканальний</value>
+  </data>
+  <data name="but_swarmseq.Text" xml:space="preserve">
+    <value>Swarm Коптерів - Одноканальний</value>
+  </data>
+  <data name="but_swarmrover.Text" xml:space="preserve">
+    <value>Swarm ДКА - Багатоканальний</value>
+  </data>
+  <data name="but_swarmlink.Text" xml:space="preserve">
+    <value>Swarm Коптерів - Багатоканальний</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Оберіть прошивку для роботи</value>
+  </data>
+  <data name="but_swarmlink.Text" xml:space="preserve">
+    <value>Swarm Коптерів - Багатоканальний</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>ДКА</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Швидкість моделювання</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Коптер</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Літак</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Модель</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Розширені лише користувачі</value>
+    <value>Для досвідчених користувачів</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Мультикоптер</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Бурлака</value>
-  </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Виберіть прошивку для роботи</value>
+    <value>Оберіть прошивку для роботи</value>
+  </data>
+  <data name="chk_wipe.Text" xml:space="preserve">
+    <value>Стерти</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Опції</value>
@@ -151,24 +211,18 @@
     <value>Додатковий командний рядок</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Домашнє Місце - Перетягніть мене</value>
-  </data>
-  <data name="chk_wipe.Text" xml:space="preserve">
-    <value>Очистити</value>
-  </data>
-  <data name="but_swarmseq.Text" xml:space="preserve">
-    <value>Коптер Swarm - Одне посилання</value>
-  </data>
-  <data name="but_swarmplane.Text" xml:space="preserve">
-    <value>Площина оточення</value>
-  </data>
-  <data name="but_swarmrover.Text" xml:space="preserve">
-    <value>Перефарбовування - Багатоканальний</value>
+    <value>Місцезнаходження Дом.точки - Перетягніть мене</value>
   </data>
   <data name="chk_skipdownload.Text" xml:space="preserve">
     <value>Пропустити завантаження</value>
   </data>
-  <data name="but_swarmlink.Text" xml:space="preserve">
-    <value>Copter Swarm - Багатоканальний</value>
+  <data name="but_swarmseq.Text" xml:space="preserve">
+    <value>Swarm Коптерів - Одноканальний</value>
+  </data>
+  <data name="but_swarmplane.Text" xml:space="preserve">
+    <value>Swarm Літаків - Багатоканальний</value>
+  </data>
+  <data name="but_swarmrover.Text" xml:space="preserve">
+    <value>Swarm ДКА - Багатоканальний</value>
   </data>
 </root>

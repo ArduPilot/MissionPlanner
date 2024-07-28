@@ -117,56 +117,124 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Value.HeaderText" xml:space="preserve">
-    <value>Цінність</value>
-  </data>
-  <data name="BUT_refreshTable.Text" xml:space="preserve">
-    <value>Оновити таблицю</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Пошук</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Всі одиниці є у форматі 
-без масштабування</value>
-  </data>
   <data name="BUT_load.Text" xml:space="preserve">
     <value>Завантажити з файлу</value>
   </data>
   <data name="Units.HeaderText" xml:space="preserve">
-    <value>Одиниці виміру</value>
+    <value>Одиниці</value>
   </data>
-  <data name="Command.HeaderText" xml:space="preserve">
-    <value>Команда</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Усі одиниці тут - НЕоброблені та НЕмасштабовані</value>
   </data>
   <data name="BUT_commitToFlash.Text" xml:space="preserve">
-    <value>Параметри комітів</value>
+    <value>Застосувати параметри</value>
+  </data>
+  <data name="Default_value.HeaderText" xml:space="preserve">
+    <value>За замовчуванням</value>
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>Опис</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
     <value>Зберегти до файлу</value>
   </data>
-  <data name="Options.HeaderText" xml:space="preserve">
-    <value>Опції</value>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="BUT_refreshTable.Text" xml:space="preserve">
+    <value>Оновити таблицю</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Параметри запису</value>
+    <value>Записати параметри</value>
   </data>
   <data name="Fav.HeaderText" xml:space="preserve">
-    <value>Уподобання</value>
+    <value>Обране</value>
   </data>
   <data name="BUT_reset_params.Text" xml:space="preserve">
-    <value>Відновити за замовчуванням</value>
+    <value>Скинути за замовчуванням</value>
   </data>
   <data name="chk_modified.Text" xml:space="preserve">
-    <value>Змінено</value>
+    <value>Змінені</value>
   </data>
   <data name="BUT_compare.Text" xml:space="preserve">
-    <value>Порівняти Параметри</value>
+    <value>Порівняти параметри</value>
+  </data>
+  <data name="chk_none_default.Text" xml:space="preserve">
+    <value>Значення НЕ за замовчуванням</value>
   </data>
   <data name="BUT_paramfileload.Text" xml:space="preserve">
-    <value>Завантаження після запуску</value>
+    <value>Завантажити збережені</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Оновити параметри</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Опції</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Оновити параметри</value>
+  </data>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Значення</value>
+  </data>
+  <data name="chk_none_default.Text" xml:space="preserve">
+    <value>Значення НЕ за замовчуванням</value>
+  </data>
+  <data name="chk_modified.Text" xml:space="preserve">
+    <value>Змінені</value>
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>Скинути за замовчуванням</value>
+  </data>
+  <data name="Fav.HeaderText" xml:space="preserve">
+    <value>Обране</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Записати параметри</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Опції</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Зберегти до файлу</value>
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="Default_value.HeaderText" xml:space="preserve">
+    <value>За замовчуванням</value>
+  </data>
+  <data name="BUT_commitToFlash.Text" xml:space="preserve">
+    <value>Застосувати параметри</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>Одиниці</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>Завантажити з файлу</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Усі одиниці тут - НЕоброблені та НЕмасштабовані</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>Завантажити збережені</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="BUT_refreshTable.Text" xml:space="preserve">
+    <value>Оновити таблицю</value>
+  </data>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Значення</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>Порівняти параметри</value>
   </data>
 </root>

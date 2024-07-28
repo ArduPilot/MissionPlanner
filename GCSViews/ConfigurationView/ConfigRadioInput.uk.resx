@@ -117,25 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CHK_elevonch1rev.Text" xml:space="preserve">
+    <value>Елевони CH1 (Реверс)</value>
+  </data>
   <data name="BUT_Calibrateradio.Text" xml:space="preserve">
-    <value>Калібрування радіо</value>
+    <value>Калібрувати радіо</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Зв'язати Spektrum</value>
+  </data>
+  <data name="CHK_elevonch2rev.Text" xml:space="preserve">
+    <value>Елевони CH2 (Реверс)</value>
   </data>
   <data name="groupBoxElevons.Text" xml:space="preserve">
-    <value>Елевонська конфігурація</value>
+    <value>Конфігурація елевонів</value>
+  </data>
+  <data name="BUT_BindDSM8.Text" xml:space="preserve">
+    <value>Зв'язати DSM8</value>
   </data>
   <data name="CHK_elevonrev.Text" xml:space="preserve">
-    <value>Ельвонс</value>
+    <value>Елевони (Реверс)</value>
   </data>
-  <data name="CHK_revch1.Text" xml:space="preserve">
-    <value>У зворотньому напрямку</value>
-  </data>
-  <data name="CHK_revch3.Text" xml:space="preserve">
-    <value>У зворотньому напрямку</value>
-  </data>
-  <data name="CHK_revch2.Text" xml:space="preserve">
-    <value>У зворотньому напрямку</value>
+  <data name="CHK_mixmode.Text" xml:space="preserve">
+    <value>Елевони</value>
   </data>
   <data name="CHK_revch4.Text" xml:space="preserve">
-    <value>У зворотньому напрямку</value>
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_elevonch1rev.Text" xml:space="preserve">
+    <value>Елевони CH1 (Реверс)</value>
+  </data>
+  <data name="BUT_Calibrateradio.Text" xml:space="preserve">
+    <value>Калібрувати радіо</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Зв'язати Spektrum</value>
+  </data>
+  <data name="CHK_elevonch2rev.Text" xml:space="preserve">
+    <value>Елевони CH2 (Реверс)</value>
+  </data>
+  <data name="groupBoxElevons.Text" xml:space="preserve">
+    <value>Конфігурація елевонів</value>
+  </data>
+  <data name="BUT_BindDSM8.Text" xml:space="preserve">
+    <value>Зв'язати DSM8</value>
+  </data>
+  <data name="CHK_elevonrev.Text" xml:space="preserve">
+    <value>Елевони (Реверс)</value>
+  </data>
+  <data name="CHK_mixmode.Text" xml:space="preserve">
+    <value>Елевони</value>
+  </data>
+  <data name="BUT_BindDSMX.Text" xml:space="preserve">
+    <value>Зв'язати DSMX</value>
+  </data>
+  <data name="CHK_revch1.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_revch3.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_revch2.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_revch3.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_revch1.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_revch4.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="CHK_revch2.Text" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="BUT_BindDSMX.Text" xml:space="preserve">
+    <value>Зв'язати DSMX</value>
   </data>
 </root>

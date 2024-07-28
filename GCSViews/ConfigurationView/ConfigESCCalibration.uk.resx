@@ -117,43 +117,102 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>мінімальна швидкість двигунів в польоті (трохи вище, ніж "Прискор", коли Армеди")</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Залиште як 0 для використання діапазону вводу RX</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>максимальна швидкість двигунів під час польоту (майже всі ремісти мають крайній термін у горі)</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>швидкість, коли двигуни є озброєними, але горло рухається в нульовій (простою)</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Видалити інструкції!
-Після натискання кнопки
--Від'єднайте USB і батарею
--Під'єднати заряд акумулятора
--під час спалаху світлодіодів, push-Перемикач Saftey (якщо він є)
--ESCs повинен бути введений як вони калібровані
-- перезапустити контролер польоту зазвичай</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Швидкість обертання коли армуваний</value>
   </data>
   <data name="buttonStart.Text" xml:space="preserve">
-    <value>Калібрування ESCs</value>
+    <value>Калібрувати ESC</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Калібрування ESC (AC3.3+)</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Крутіть після Озброєння</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Зніміть Гвинти!
+ Після натискання на цю кнопку:
+- Від'єднайте USB та батарею
+- Під'єднайте батарею
+- Коли LED-и засвітяться, натисніть на запобіжний вимикач (якщо присутній)
+- ESC будуть подавати звукові сигналі під час калібрування
+- Перезавантажте контрольор польоту в звичайному режимі
+</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Мінімум обертів</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Тип ESC:</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Максимальна швидкість моторів у польоті (майже в усіх ESC в верхній частині є мертва зона)</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Швидкість на момент, коли мотори армувані, але газ на нулі (холостий хід)</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Мінімальна швидкість моторів у польоті (трішки вище за значення "Шв.оберту коли армуваний")</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Швидкість на момент, коли мотори армувані, але газ на нулі (холостий хід)</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Виведення PWM (Мін)</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Максимум обертів</value>
+    <value>Макс.швидкість обертання</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Виведення PWM (Макс)</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Виведення PWM (Мін)</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Макс.швидкість обертання</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Швидкість обертання коли армуваний</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Мін.швидкість обертання</value>
+  </data>
+  <data name="buttonStart.Text" xml:space="preserve">
+    <value>Калібрувати ESC</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Калібрування ESC (AC3.3+)</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Зніміть Гвинти!
+ Після натискання на цю кнопку:
+- Від'єднайте USB та батарею
+- Під'єднайте батарею
+- Коли LED-и засвітяться, натисніть на запобіжний вимикач (якщо присутній)
+- ESC будуть подавати звукові сигналі під час калібрування
+- Перезавантажте контрольор польоту в звичайному режимі
+</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Тип ESC:</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Максимальна швидкість моторів у польоті (майже в усіх ESC в верхній частині є мертва зона)</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Залиште як 0 для використання діапазону вводу RX</value>
+    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Мінімальна швидкість моторів у польоті (трішки вище за значення "Шв.оберту коли армуваний")</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Мін.швидкість обертання</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Виведення PWM (Макс)</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
   </data>
 </root>
