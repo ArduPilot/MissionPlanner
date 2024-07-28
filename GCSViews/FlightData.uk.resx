@@ -367,7 +367,7 @@
     <value>Розблокувати М-БпЛА</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Напряму до ППМ</value>
+    <value>Прямий до ППМ</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Tlog &gt; Kml або Графік</value>
@@ -502,7 +502,7 @@
     <value>HDOP (Горизонтальне погіршення точності) GPS</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Напряму до ППМ</value>
+    <value>Прямий до ППМ</value>
   </data>
   <data name="setBatteryCellCountToolStripMenuItem.Text" xml:space="preserve">
     <value>Напруга батареї</value>
@@ -745,7 +745,8 @@
     <value>Перегляд сенсорів</value>
   </data>
   <data name="but_bintolog.Text" xml:space="preserve">
-    <value>Перетворити .Bin в .Log</value>
+    <value>Перетворити
+.Bin в .Log</value>
   </data>
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
     <value>Перезапустити місію з самого початку</value>
@@ -805,7 +806,7 @@
     <value>Tlog &gt; Kml або Графік</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Масштабування</value>
+    <value>Мштб.</value>
   </data>
   <data name="BUT_clear_track.Text" xml:space="preserve">
     <value>Стерти маршрут</value>
