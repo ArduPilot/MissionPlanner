@@ -135,29 +135,33 @@
 акселерометру за замовчуванням (3 осі). Програма попросить Вас розташувати
 дрон на кожній зі сторін по черзі.</value>
   </data>
+  <data name="lbl_Accel_user.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 121</value>
+  </data>
   <data name="BUT_calib_accell.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 80</value>
+    <value>188, 87</value>
   </data>
   <data name="BUT_calib_accell.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 36</value>
+    <value>102, 32</value>
   </data>
   <data name="BUT_calib_accell.Text" xml:space="preserve">
     <value>Калібрувати аксел.</value>
   </data>
   <data name="BUT_level.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 169</value>
+    <value>188, 161</value>
   </data>
   <data name="BUT_level.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 31</value>
   </data>
   <data name="BUT_level.Text" xml:space="preserve">
-    <value>Калібрувати гориз.рівень</value>
+    <value>Калібрувати
+гориз.рівень</value>
   </data>
   <data name="BUT_simpleAccelCal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 272</value>
+    <value>188, 247</value>
   </data>
   <data name="BUT_simpleAccelCal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 31</value>
+    <value>102, 38</value>
   </data>
   <data name="BUT_simpleAccelCal.Text" xml:space="preserve">
     <value>Просте калібрування аксел.</value>
