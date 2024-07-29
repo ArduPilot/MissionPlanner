@@ -205,7 +205,7 @@
     <value>Встановити прошивку</value>
   </data>
   <data name="backstageViewPagefs.Text" xml:space="preserve">
-    <value>Відмовостійкий</value>
+    <value>Failsafe</value>
   </data>
   <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
     <value>Перевірка Мотору</value>
@@ -283,7 +283,7 @@
     <value>Додаткове обладнання</value>
   </data>
   <data name="backstageViewPagefs.Text" xml:space="preserve">
-    <value>Відмовостійкий</value>
+    <value>Failsafe</value>
   </data>
   <data name="backstageViewPageframetype.Text" xml:space="preserve">
     <value>Тип фрейму</value>

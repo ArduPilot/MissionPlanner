@@ -117,54 +117,63 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 37</value>
+  </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Калібрування акселерометру</value>
   </data>
-  <data name="BUT_calib_accell.Text" xml:space="preserve">
-    <value>Калібрувати аксел.</value>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 45</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Вирівняйте свій дрон горизонтально, щоб встановити зміщення акселерометру
-за замовчуванням (1 вісь/AHRS).</value>
-  </data>
-  <data name="BUT_level.Text" xml:space="preserve">
-    <value>Калібрувати рівень</value>
-  </data>
-  <data name="BUT_simpleAccelCal.Text" xml:space="preserve">
-    <value>Просте калібрування аксел.</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>822, 75</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Вирівняйте свій дрон горизонтально, щоб встановити Мін. та Макс. значення
 акселерометру за замовчуванням (3 осі). Програма попросить Вас розташувати
 дрон на кожній зі сторін по черзі.</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Вирівняйте свій дрон горизонтально, щоб встановити масштабні коефіцієнти
-акселерометру за замовчуванням для горизонтального польоту (1 вісь).</value>
+  <data name="BUT_calib_accell.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 80</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Калібрування акселерометру</value>
+  <data name="BUT_calib_accell.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 36</value>
   </data>
   <data name="BUT_calib_accell.Text" xml:space="preserve">
     <value>Калібрувати аксел.</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Вирівняйте свій дрон горизонтально, щоб встановити масштабні коефіцієнти
-акселерометру за замовчуванням для горизонтального польоту (1 вісь).</value>
+  <data name="BUT_level.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 169</value>
+  </data>
+  <data name="BUT_level.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 31</value>
   </data>
   <data name="BUT_level.Text" xml:space="preserve">
-    <value>Калібрувати рівень</value>
+    <value>Калібрувати гориз.рівень</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Вирівняйте свій дрон горизонтально, щоб встановити зміщення акселерометру
-за замовчуванням (1 вісь/AHRS).</value>
+  <data name="BUT_simpleAccelCal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 272</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Вирівняйте свій дрон горизонтально, щоб встановити Мін. та Макс. значення
-акселерометру за замовчуванням (3 осі). Програма попросить Вас розташувати
-дрон на кожній зі сторін по черзі.</value>
+  <data name="BUT_simpleAccelCal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 31</value>
   </data>
   <data name="BUT_simpleAccelCal.Text" xml:space="preserve">
     <value>Просте калібрування аксел.</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>838, 50</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Вирівняйте свій дрон горизонтально, щоб встановити зміщення акселерометру за
+замовчуванням (1 вісь/AHRS).</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>785, 50</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Вирівняйте свій дрон горизонтально, щоб встановити масштабні коефіцієнти
+акселерометру за замовчуванням для горизонтального польоту (1 вісь).</value>
   </data>
 </root>

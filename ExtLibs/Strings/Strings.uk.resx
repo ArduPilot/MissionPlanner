@@ -530,7 +530,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>ПЕРЕКОНАЙТЕСЯ, що на М-БпЛА НЕ встановлені гвинти</value>
   </data>
   <data name="FailSafe" xml:space="preserve">
-    <value>Відмовостійкий</value>
+    <value>Failsafe</value>
   </data>
   <data name="Error_binding" xml:space="preserve">
     <value>Помилка прив'язки</value>
