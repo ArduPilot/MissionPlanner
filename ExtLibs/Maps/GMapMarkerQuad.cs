@@ -198,26 +198,38 @@ namespace MissionPlanner.Maps
                 double width =
                     (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
                          Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+                // size of a square meter in pixels on our map
                 double m2pixelwidth = Overlay.Control.Width / width;
 
                 GPoint loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth * warn * 2)), LocalPosition.Y);
+
+                var markerDimension = (int)Math.Abs(loc.X - LocalPosition.X);
+                if (markerDimension == 0)
+                {
+                    return;
+                }
 
                 if (m2pixelwidth > 0.001 && warn > 0)
                     g.DrawArc(Pens.Orange,
                         new System.Drawing.Rectangle(
                             LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X) / 2),
                             LocalPosition.Y - Offset.Y - (int) Math.Abs(loc.X - LocalPosition.X) / 2,
-                            (int) Math.Abs(loc.X - LocalPosition.X), (int) Math.Abs(loc.X - LocalPosition.X)), 0,
+                            markerDimension, markerDimension), 0,
                         360);
 
                 loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth * danger * 2)), LocalPosition.Y);
+                markerDimension = (int)Math.Abs(loc.X - LocalPosition.X);
+                if (markerDimension == 0)
+                {
+                    return;
+                }
 
                 if (m2pixelwidth > 0.001 && danger > 0)
                     g.DrawArc(Pens.Red,
                         new System.Drawing.Rectangle(
                             LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X) / 2),
                             LocalPosition.Y - Offset.Y - (int) Math.Abs(loc.X - LocalPosition.X) / 2,
-                            (int) Math.Abs(loc.X - LocalPosition.X), (int) Math.Abs(loc.X - LocalPosition.X)), 0,
+                            markerDimension, markerDimension), 0,
                         360);
             }
         }
