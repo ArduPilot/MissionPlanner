@@ -3649,6 +3649,9 @@
   <data name="flowLayoutPanelServos.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="flowLayoutPanelServos.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
   <data name="flowLayoutPanelServos.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
