@@ -112,6 +112,8 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.progressBarInjectCustomMap = new System.Windows.Forms.ProgressBar();
+            this.BUT_InjectCustomMap = new MissionPlanner.Controls.MyButton();
             this.chk_grid = new System.Windows.Forms.CheckBox();
             this.comboBoxMapType = new System.Windows.Forms.ComboBox();
             this.lnk_kml = new System.Windows.Forms.LinkLabel();
@@ -696,12 +698,28 @@ namespace MissionPlanner.GCSViews
             // 
             // panel3
             // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.progressBarInjectCustomMap);
+            this.panel3.Controls.Add(this.BUT_InjectCustomMap);
             this.panel3.Controls.Add(this.chk_grid);
             this.panel3.Controls.Add(this.lbl_status);
             this.panel3.Controls.Add(this.comboBoxMapType);
             this.panel3.Controls.Add(this.lnk_kml);
             resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Name = "panel3";
+            // 
+            // progressBarInjectCustomMap
+            // 
+            resources.ApplyResources(this.progressBarInjectCustomMap, "progressBarInjectCustomMap");
+            this.progressBarInjectCustomMap.Name = "progressBarInjectCustomMap";
+            this.progressBarInjectCustomMap.Step = 1;
+            // 
+            // BUT_InjectCustomMap
+            // 
+            resources.ApplyResources(this.BUT_InjectCustomMap, "BUT_InjectCustomMap");
+            this.BUT_InjectCustomMap.Name = "BUT_InjectCustomMap";
+            this.BUT_InjectCustomMap.UseVisualStyleBackColor = true;
+            this.BUT_InjectCustomMap.Click += new System.EventHandler(this.BUT_InjectCustomMap_Click);
             // 
             // chk_grid
             // 
@@ -1729,6 +1747,8 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn AZ;
         private DataGridViewTextBoxColumn TagData;
         private ToolStripMenuItem gDALOpacityToolStripMenuItem;
+        private MyButton BUT_InjectCustomMap;
+        private ProgressBar progressBarInjectCustomMap;
         private NumericUpDown Zoomlevel;
     }
 }
