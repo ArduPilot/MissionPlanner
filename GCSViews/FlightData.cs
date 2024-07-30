@@ -1774,12 +1774,12 @@ namespace MissionPlanner.GCSViews
                     MAVLink.MAV_CMD cmd;
                     try
                     {
-                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
+                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper(CultureInfo.InvariantCulture));
                     }
                     catch (ArgumentException ex)
                     {
                         cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
-                            "DO_START_" + CMB_action.Text.ToUpper());
+                            "DO_START_" + CMB_action.Text.ToUpper(CultureInfo.InvariantCulture));
                     }
 
                     if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
