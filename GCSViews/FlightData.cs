@@ -192,6 +192,7 @@ namespace MissionPlanner.GCSViews
             HighLatency_Enable,
             HighLatency_Disable,
             Toggle_Safety_Switch,
+            Do_Parachute
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
