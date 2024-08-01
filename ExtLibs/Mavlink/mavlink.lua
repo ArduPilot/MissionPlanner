@@ -518,6 +518,7 @@ local enumEntryName = {
         [43001] = "MAV_CMD_GUIDED_CHANGE_ALTITUDE",
         [43002] = "MAV_CMD_GUIDED_CHANGE_HEADING",
         [43003] = "MAV_CMD_EXTERNAL_POSITION_ESTIMATE",
+        [43005] = "MAV_CMD_SET_HAGL",
     },
     ["SCRIPTING_CMD"] = {
         [0] = "SCRIPTING_CMD_REPL_START",
@@ -1603,7 +1604,12 @@ local enumEntryName = {
         [0] = "VIDEO_STREAM_TYPE_RTSP",
         [1] = "VIDEO_STREAM_TYPE_RTPUDP",
         [2] = "VIDEO_STREAM_TYPE_TCP_MPEG",
-        [3] = "VIDEO_STREAM_TYPE_MPEG_TS_H264",
+        [3] = "VIDEO_STREAM_TYPE_MPEG_TS",
+    },
+    ["VIDEO_STREAM_ENCODING"] = {
+        [0] = "VIDEO_STREAM_ENCODING_UNKNOWN",
+        [1] = "VIDEO_STREAM_ENCODING_H264",
+        [2] = "VIDEO_STREAM_ENCODING_H265",
     },
     ["CAMERA_TRACKING_STATUS_FLAGS"] = {
         [0] = "CAMERA_TRACKING_STATUS_FLAGS_IDLE",
@@ -3107,6 +3113,10 @@ f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param3 = ProtoField.new("param3: accura
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param7", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_SET_HAGL_param1 = ProtoField.new("param1: hagl (float)", "mavlink_proto.cmd_MAV_CMD_SET_HAGL_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_SET_HAGL_param2 = ProtoField.new("param2: accuracy (float)", "mavlink_proto.cmd_MAV_CMD_SET_HAGL_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_SET_HAGL_param3 = ProtoField.new("param3: timeout (float)", "mavlink_proto.cmd_MAV_CMD_SET_HAGL_param3", ftypes.FLOAT, nil)
 
 
 f.SENSOR_OFFSETS_mag_ofs_x = ProtoField.new("mag_ofs_x (int16_t)", "mavlink_proto.SENSOR_OFFSETS_mag_ofs_x", ftypes.INT16, nil)
@@ -9096,6 +9106,7 @@ f.VIDEO_STREAM_INFORMATION_rotation = ProtoField.new("rotation (uint16_t)", "mav
 f.VIDEO_STREAM_INFORMATION_hfov = ProtoField.new("hfov (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION_hfov", ftypes.UINT16, nil)
 f.VIDEO_STREAM_INFORMATION_name = ProtoField.new("name (char)", "mavlink_proto.VIDEO_STREAM_INFORMATION_name", ftypes.STRING, nil)
 f.VIDEO_STREAM_INFORMATION_uri = ProtoField.new("uri (char)", "mavlink_proto.VIDEO_STREAM_INFORMATION_uri", ftypes.STRING, nil)
+f.VIDEO_STREAM_INFORMATION_encoding = ProtoField.new("encoding (VIDEO_STREAM_ENCODING)", "mavlink_proto.VIDEO_STREAM_INFORMATION_encoding", ftypes.UINT8, enumEntryName.VIDEO_STREAM_ENCODING)
 
 f.VIDEO_STREAM_STATUS_stream_id = ProtoField.new("stream_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_STATUS_stream_id", ftypes.UINT8, nil)
 f.VIDEO_STREAM_STATUS_flags = ProtoField.new("flags (VIDEO_STREAM_STATUS_FLAGS)", "mavlink_proto.VIDEO_STREAM_STATUS_flags", ftypes.UINT16, nil)
@@ -28887,8 +28898,58 @@ function payload_fns.payload_75_cmd43003(buffer, tree, msgid, offset, limit, pin
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_SET_HAGL
+function payload_fns.payload_75_cmd43005(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_HAGL_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_HAGL_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_HAGL_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_ENUM_END
-function payload_fns.payload_75_cmd43004(buffer, tree, msgid, offset, limit, pinfo)
+function payload_fns.payload_75_cmd43006(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
     if (offset + 35 > limit) then
         padded = buffer(0, limit):bytes()
@@ -37229,8 +37290,52 @@ function payload_fns.payload_76_cmd43003(buffer, tree, msgid, offset, limit, pin
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_SET_HAGL
+function payload_fns.payload_76_cmd43005(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_HAGL_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_HAGL_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_HAGL_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_ENUM_END
-function payload_fns.payload_76_cmd43004(buffer, tree, msgid, offset, limit, pinfo)
+function payload_fns.payload_76_cmd43006(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
     if (offset + 33 > limit) then
         padded = buffer(0, limit):bytes()
@@ -47820,9 +47925,9 @@ end
 -- dissect payload of message type VIDEO_STREAM_INFORMATION
 function payload_fns.payload_269(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 213 > limit) then
+    if (offset + 214 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 213)
+        padded:set_size(offset + 214)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -47864,6 +47969,9 @@ function payload_fns.payload_269(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 53, 160)
     value = tvbrange:string()
     subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION_uri, tvbrange, value)
+    tvbrange = padded(offset + 213, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION_encoding, tvbrange, value)
 end
 -- dissect payload of message type VIDEO_STREAM_STATUS
 function payload_fns.payload_270(buffer, tree, msgid, offset, limit, pinfo)

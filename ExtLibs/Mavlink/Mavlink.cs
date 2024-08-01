@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Apr 10 2024";
+    public const string MAVLINK_BUILD_DATE = "Thu Aug 01 2024";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -237,7 +237,7 @@ public partial class MAVLink
         new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
         new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
         new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
-        new message_info(269, "VIDEO_STREAM_INFORMATION", 109, 213, 213, typeof( mavlink_video_stream_information_t )),
+        new message_info(269, "VIDEO_STREAM_INFORMATION", 109, 213, 214, typeof( mavlink_video_stream_information_t )),
         new message_info(270, "VIDEO_STREAM_STATUS", 59, 19, 19, typeof( mavlink_video_stream_status_t )),
         new message_info(271, "CAMERA_FOV_STATUS", 22, 52, 52, typeof( mavlink_camera_fov_status_t )),
         new message_info(275, "CAMERA_TRACKING_IMAGE_STATUS", 126, 31, 31, typeof( mavlink_camera_tracking_image_status_t )),
@@ -1323,6 +1323,9 @@ public partial class MAVLink
         [Description("Provide an external position estimate for use when dead-reckoning. This is meant to be used for occasional position resets that may be provided by a external system such as a remote pilot using landmarks over a video link.")]
         [hasLocation()]
         EXTERNAL_POSITION_ESTIMATE=43003, 
+        ///<summary> Provide a value for height above ground level. This can be used for things like fixed wing and VTOL landing. |Height above ground level.| estimated one standard deviation accuracy of the measurement. Set to NaN if not known.| Timeout for this data. The flight controller should only consider this data valid within the timeout window.| Empty| Empty| Empty| Empty|  </summary>
+        [Description("Provide a value for height above ground level. This can be used for things like fixed wing and VTOL landing.")]
+        SET_HAGL=43005, 
         
     };
     
@@ -4613,9 +4616,24 @@ public partial class MAVLink
         ///<summary> Stream is MPEG on TCP | </summary>
         [Description("Stream is MPEG on TCP")]
         TCP_MPEG=2, 
-        ///<summary> Stream is h.264 on MPEG TS (URI gives the port number) | </summary>
-        [Description("Stream is h.264 on MPEG TS (URI gives the port number)")]
-        MPEG_TS_H264=3, 
+        ///<summary> Stream is MPEG TS (URI gives the port number) | </summary>
+        [Description("Stream is MPEG TS (URI gives the port number)")]
+        MPEG_TS=3, 
+        
+    };
+    
+    ///<summary> Video stream encodings </summary>
+    public enum VIDEO_STREAM_ENCODING: byte
+    {
+        ///<summary> Stream encoding is unknown | </summary>
+        [Description("Stream encoding is unknown")]
+        UNKNOWN=0, 
+        ///<summary> Stream encoding is H.264 | </summary>
+        [Description("Stream encoding is H.264")]
+        H264=1, 
+        ///<summary> Stream encoding is H.265 | </summary>
+        [Description("Stream encoding is H.265")]
+        H265=2, 
         
     };
     
@@ -13952,9 +13970,9 @@ public partial class MAVLink
         //[FieldOffset(12)]
         public  int alt;
 
-        /// <summary>Altitude above ground  [mm] </summary>
+        /// <summary>Altitude above home  [mm] </summary>
         [Units("[mm]")]
-        [Description("Altitude above ground")]
+        [Description("Altitude above home")]
         //[FieldOffset(16)]
         public  int relative_alt;
 
@@ -26051,13 +26069,13 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=213)]
+    /// extensions_start 12
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=214)]
     ///<summary> Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc. </summary>
     public struct mavlink_video_stream_information_t
     {
         /// packet ordered constructor
-        public mavlink_video_stream_information_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri) 
+        public mavlink_video_stream_information_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri,/*VIDEO_STREAM_ENCODING*/byte encoding) 
         {
             this.framerate = framerate;
             this.bitrate = bitrate;
@@ -26071,11 +26089,12 @@ public partial class MAVLink
             this.type = type;
             this.name = name;
             this.uri = uri;
+            this.encoding = encoding;
             
         }
         
         /// packet xml order
-        public static mavlink_video_stream_information_t PopulateXMLOrder(byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,ushort hfov,byte[] name,byte[] uri) 
+        public static mavlink_video_stream_information_t PopulateXMLOrder(byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,ushort hfov,byte[] name,byte[] uri,/*VIDEO_STREAM_ENCODING*/byte encoding) 
         {
             var msg = new mavlink_video_stream_information_t();
 
@@ -26091,6 +26110,7 @@ public partial class MAVLink
             msg.hfov = hfov;
             msg.name = name;
             msg.uri = uri;
+            msg.encoding = encoding;
             
             return msg;
         }
@@ -26169,6 +26189,12 @@ public partial class MAVLink
         //[FieldOffset(53)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=160)]
 		public byte[] uri;
+
+        /// <summary>Encoding of stream. VIDEO_STREAM_ENCODING  </summary>
+        [Units("")]
+        [Description("Encoding of stream.")]
+        //[FieldOffset(213)]
+        public  /*VIDEO_STREAM_ENCODING*/byte encoding;
     };
 
     
