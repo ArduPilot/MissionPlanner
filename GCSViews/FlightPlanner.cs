@@ -2673,12 +2673,10 @@ namespace MissionPlanner.GCSViews
                 if ((MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0)
                 {
                     geoFenceToolStripMenuItem.Visible = false;
-                    rallyPointsToolStripMenuItem.Visible = false;
                 }
                 else
                 {
                     geoFenceToolStripMenuItem.Visible = true;
-                    rallyPointsToolStripMenuItem.Visible = true;
                 }
             }
 
