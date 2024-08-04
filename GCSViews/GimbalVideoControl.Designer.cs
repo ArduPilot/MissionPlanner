@@ -56,6 +56,8 @@ namespace MissionPlanner
             this.VideoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.VideoBox.TabIndex = 0;
             this.VideoBox.TabStop = false;
+            this.VideoBox.MouseLeave += new System.EventHandler(this.VideoBox_MouseLeave);
+            this.VideoBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.VideoBox_MouseMove);
             // 
             // VideoBoxContextMenu
             // 
