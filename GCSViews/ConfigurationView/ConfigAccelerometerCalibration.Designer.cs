@@ -62,7 +62,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_calib_accell, "BUT_calib_accell");
             this.BUT_calib_accell.Name = "BUT_calib_accell";
-            this.BUT_calib_accell.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_calib_accell.UseVisualStyleBackColor = true;
             this.BUT_calib_accell.Click += new System.EventHandler(this.BUT_calib_accell_Click);
             // 
@@ -80,7 +79,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_level, "BUT_level");
             this.BUT_level.Name = "BUT_level";
-            this.BUT_level.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_level.UseVisualStyleBackColor = true;
             this.BUT_level.Click += new System.EventHandler(this.BUT_level_Click);
             // 
@@ -88,7 +86,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.BUT_simpleAccelCal, "BUT_simpleAccelCal");
             this.BUT_simpleAccelCal.Name = "BUT_simpleAccelCal";
-            this.BUT_simpleAccelCal.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_simpleAccelCal.UseVisualStyleBackColor = true;
             this.BUT_simpleAccelCal.Click += new System.EventHandler(this.BUT_simpleAccelCal_Click);
             // 
@@ -104,7 +101,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigAccelerometerCalibration
             // 
-            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_level);
@@ -115,6 +111,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.label5);
             this.Controls.Add(this.BUT_simpleAccelCal);
             this.Name = "ConfigAccelerometerCalibration";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 
