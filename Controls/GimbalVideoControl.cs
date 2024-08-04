@@ -143,12 +143,18 @@ namespace MissionPlanner.Controls
 
         private void RenderFrame(object sender, MPBitmap image)
         {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => RenderFrame(sender, image)));
+                return;
+            }
             try
             {
-                if (image == null)
+                if (image == null || image.Width <= 0 || image.Height <= 0)
                 {
                     VideoBox.Image?.Dispose();
                     VideoBox.Image = null;
+                    VideoBox.Image = VideoBox.ErrorImage;
                     return;
                 }
 
