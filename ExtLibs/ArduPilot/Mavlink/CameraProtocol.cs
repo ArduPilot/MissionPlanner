@@ -1,9 +1,12 @@
-﻿using System;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Core.Geometry;
 using GeoAPI.DataStructures;
 using log4net;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot.Mavlink
 {
@@ -22,9 +25,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
         // Tracks whether we have received a `CAMERA_INFORMATION` message yet
         private bool have_camera_information = false;
 
-        public MAVLink.mavlink_camera_information_t CameraInformation { get; set; }
-        public MAVLink.mavlink_camera_settings_t CameraSettings { get; set; }
-        public MAVLink.mavlink_camera_capture_status_t CameraCaptureStatus { get; set; }
+        public MAVLink.mavlink_camera_information_t CameraInformation { get; private set; }
+        public MAVLink.mavlink_camera_settings_t CameraSettings { get; private set; }
+        public MAVLink.mavlink_camera_capture_status_t CameraCaptureStatus { get; private set; }
+        public MAVLink.mavlink_camera_fov_status_t CameraFOVStatus { get; private set; }
+
+        public static ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t> VideoStreams { get; private set; } = new ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t>();
 
         /// <summary>
         /// True if the camera has different modes, like image mode and video mode
@@ -161,13 +167,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
             case MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION:
                 have_camera_information = true;
-                CameraInformation = ((MAVLink.mavlink_camera_information_t)message.data);
+                CameraInformation = (MAVLink.mavlink_camera_information_t)message.data;
                 break;
             case MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS:
-                CameraSettings = ((MAVLink.mavlink_camera_settings_t)message.data);
+                CameraSettings = (MAVLink.mavlink_camera_settings_t)message.data;
                 break;
             case MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS:
-                CameraCaptureStatus = ((MAVLink.mavlink_camera_capture_status_t)message.data);
+                CameraCaptureStatus = (MAVLink.mavlink_camera_capture_status_t)message.data;
+                break;
+            case MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS:
+                CameraFOVStatus = (MAVLink.mavlink_camera_fov_status_t)message.data;
                 break;
             }
         }
@@ -191,6 +200,19 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 Task.Run(RequestCameraInformationAsync);
             }
 
+            // Request FOV status
+            Task.Run(async () =>
+            {
+                await parent.parent.doCommandAsync(
+                    parent.sysid, parent.compid,
+                    MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
+                    (float)MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS,
+                    interval_us,
+                    0, 0, 0, 0, 0
+                ).ConfigureAwait(false);
+            });
+
+            // Get camera settings
             if (HasModes || HasZoom || HasFocus)
             {
                 Task.Run(async () =>
@@ -323,6 +345,38 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 zoom_level,
                 0, 0, 0, 0, 0
             );
+        }
+
+        public PointLatLngAlt CalculateImagePointLocation(double x, double y)
+        {
+            var imagePosition = new PointLatLngAlt(CameraFOVStatus.lat_image * 1e-7, CameraFOVStatus.lon_image * 1e-7, CameraFOVStatus.alt_image * 1e-3);
+            if(x == 0 && y == 0)
+            {
+                return imagePosition;
+            }
+
+            var camPosition = new PointLatLngAlt(CameraFOVStatus.lat_camera * 1e-7, CameraFOVStatus.lon_camera * 1e-7, CameraFOVStatus.alt_camera * 1e-3);
+
+            var height = camPosition.Alt - imagePosition.Alt;
+            if(height < 0)
+            {
+                return null;
+            }
+
+            var dist = camPosition.GetDistance(imagePosition);
+            var down_elevation = Math.Atan2(height, dist); // zero means pointing level, pi/2 is straight down
+            down_elevation += y / 2 * CameraFOVStatus.vfov * Math.PI / 180;
+            down_elevation = Math.Max(0.0001, down_elevation);
+            var out_distance = height * Math.Cos(down_elevation) / Math.Sin(down_elevation);
+            out_distance = Math.Min(out_distance, 1e5);
+
+            var side_angle = x / 2 * CameraFOVStatus.hfov * Math.PI / 180;
+            var side_distance = Math.Sqrt(out_distance * out_distance + height * height) * Math.Tan(side_angle);
+
+            var bearing = camPosition.GetBearing(imagePosition);
+            var pos = camPosition.newpos(bearing, out_distance).newpos(bearing + 90, side_distance);
+            pos.Alt = imagePosition.Alt;
+            return pos;
         }
     }
 }
