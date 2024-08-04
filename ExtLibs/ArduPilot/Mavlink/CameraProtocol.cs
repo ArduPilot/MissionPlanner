@@ -129,21 +129,29 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if(parent?.parent != null)
                 {
                     // New-style request
-                    var resp = await parent?.parent?.doCommandAsync(
+                    var resp = await parent.parent.doCommandAsync(
                         parent.sysid, parent.compid,
                         MAVLink.MAV_CMD.REQUEST_MESSAGE,
                         (float)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION,
                         0, 0, 0, 0, 0, 0
                     );
                     // Fall back to deprecated request message
-                    if (resp)
+                    if (!resp)
                     {
-                        await parent?.parent?.doCommandAsync(
+                        await parent.parent.doCommandAsync(
                             parent.sysid, parent.compid,
                             MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION,
                             0, 0, 0, 0, 0, 0, 0
                         );
                     }
+
+                    // Get video stream information as well
+                    await parent.parent.doCommandAsync(
+                        parent.sysid, parent.compid,
+                        MAVLink.MAV_CMD.REQUEST_MESSAGE,
+                        (float)MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION,
+                        0, 0, 0, 0, 0, 0
+                    );
                 }
             }
             catch (Exception ex)
@@ -174,6 +182,10 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 break;
             case MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS:
                 CameraCaptureStatus = (MAVLink.mavlink_camera_capture_status_t)message.data;
+                break;
+            case MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION:
+                var video_stream_info = (MAVLink.mavlink_video_stream_information_t)message.data;
+                VideoStreams[(parent.sysid, parent.compid, video_stream_info.stream_id)] = video_stream_info;
                 break;
             case MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS:
                 CameraFOVStatus = (MAVLink.mavlink_camera_fov_status_t)message.data;

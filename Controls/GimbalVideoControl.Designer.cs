@@ -78,6 +78,7 @@ namespace MissionPlanner.Controls
             this.videoStreamToolStripMenuItem.Name = "videoStreamToolStripMenuItem";
             this.videoStreamToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.videoStreamToolStripMenuItem.Text = "Video Stream";
+            this.videoStreamToolStripMenuItem.Click += new System.EventHandler(this.videoStreamToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
