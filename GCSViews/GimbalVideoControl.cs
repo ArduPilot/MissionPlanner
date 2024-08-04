@@ -15,6 +15,7 @@ using static MAVLink;
 using MissionPlanner.GCSViews;
 using System.Threading.Tasks;
 using MissionPlanner.ArduPilot.Mavlink;
+using GMap.NET.WindowsForms;
 
 namespace MissionPlanner
 {
@@ -71,6 +72,7 @@ namespace MissionPlanner
             }
         }
 
+        private GMapOverlay videoBounds;
         public GimbalVideoControl()
         {
             InitializeComponent();
@@ -81,6 +83,9 @@ namespace MissionPlanner
 
             // Register the global key handler
             Application.AddMessageFilter(this);
+
+            videoBounds = new GMapOverlay("VideoBounds");
+            MainV2.instance.FlightData.gMapControl1.Overlays.Add(videoBounds);
         }
 
         private void loadPreferences()
@@ -376,6 +381,62 @@ namespace MissionPlanner
                 var loc = MainV2.comPort?.MAV?.cs.HomeLocation;
                 selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
             }
+        }
+
+        private DateTime lastMouseMove = DateTime.MinValue;
+        private void VideoBox_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if(DateTime.Now > lastMouseMove.AddMilliseconds(100))
+            {
+                lastMouseMove = DateTime.Now;
+                videoBounds.Clear();
+
+                if (VideoBox.Image == null)
+                {
+                    return;
+                }
+
+                // Find the point within the image inside VideoBox, not just the VideoBox
+                var x = e.X;
+                var y = e.Y;
+                var imageWidth = Math.Min(VideoBox.Width, VideoBox.Height * VideoBox.Image.Width / VideoBox.Image.Height);
+                var imageHeight = Math.Min(VideoBox.Height, VideoBox.Width * VideoBox.Image.Height / VideoBox.Image.Width);
+                if (imageWidth < VideoBox.Width)
+                {
+                    x -= (VideoBox.Width - imageWidth) / 2;
+                    x *= VideoBox.Width / imageWidth;
+                    if (x < 0 || x >= imageWidth)
+                    {
+                        return;
+                    }
+                }
+                if (imageHeight < VideoBox.Height)
+                {
+                    y -= (VideoBox.Height - imageHeight) / 2;
+                    y *= VideoBox.Height / imageHeight;
+                    if (y < 0 || y >= imageHeight)
+                    {
+                        return;
+                    }
+                }
+
+
+                var point = selectedCamera?.CalculateImagePointLocation(2 * x / (float)imageWidth - 1, 2 * y / (float)imageHeight - 1);
+                if (point != null)
+                {
+                    videoBounds.Markers.Add(
+                        new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
+                            new GMap.NET.PointLatLng(point.Lat, point.Lng),
+                            GMap.NET.WindowsForms.Markers.GMarkerGoogleType.blue_small
+                        )
+                    );
+                }
+            }
+        }
+
+        private void VideoBox_MouseLeave(object sender, EventArgs e)
+        {
+            videoBounds.Markers.Clear();
         }
     }
 

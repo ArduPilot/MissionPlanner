@@ -1,4 +1,4 @@
-﻿using DirectShowLib;
+using DirectShowLib;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -49,6 +49,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay geofence;
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI");
+        internal static GMapOverlay cameraBounds;
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay tfrpolygons;
         internal GMapMarker CurrentGMapMarker;
@@ -381,6 +382,9 @@ namespace MissionPlanner.GCSViews
 
             photosoverlay = new GMapOverlay("photos overlay");
             gMapControl1.Overlays.Add(photosoverlay);
+
+            cameraBounds = new GMapOverlay("camera bounds");
+            gMapControl1.Overlays.Add(cameraBounds);
 
             routes = new GMapOverlay("routes");
             gMapControl1.Overlays.Add(routes);
@@ -4164,6 +4168,37 @@ namespace MissionPlanner.GCSViews
                         prop.alt = MainV2.comPort.MAV.cs.alt;
                         prop.altasl = MainV2.comPort.MAV.cs.altasl;
                         prop.center = gMapControl1.Position;
+
+                        // Update camera bounds
+                        cameraBounds.Polygons.Clear();
+                        if (MainV2.comPort?.MAV?.Camera != null)
+                        {
+                            var cam = MainV2.comPort.MAV.Camera;
+                            var p1 = cam?.CalculateImagePointLocation(-1, -1);
+                            var p2 = cam?.CalculateImagePointLocation(-1, 1);
+                            var p3 = cam?.CalculateImagePointLocation(1, 1);
+                            var p4 = cam?.CalculateImagePointLocation(1, -1);
+
+                            if(p1 != null && p2 != null && p3 != null && p4 != null)
+                            {
+                                cameraBounds.Polygons.Add(
+                                    new GMap.NET.WindowsForms.GMapPolygon(
+                                        new List<GMap.NET.PointLatLng>
+                                        {
+                                            new GMap.NET.PointLatLng(p1.Lat, p1.Lng),
+                                            new GMap.NET.PointLatLng(p2.Lat, p2.Lng),
+                                            new GMap.NET.PointLatLng(p3.Lat, p3.Lng),
+                                            new GMap.NET.PointLatLng(p4.Lat, p4.Lng)
+                                        },
+                                        "CameraBounds"
+                                    )
+                                    {
+                                        Fill = Brushes.Transparent,
+                                        Stroke = new Pen(Color.DarkBlue, 3)
+                                    }
+                                );
+                            }
+                        }
 
                         gMapControl1.HoldInvalidation = false;
 
