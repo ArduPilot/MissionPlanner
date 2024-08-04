@@ -20,6 +20,7 @@ using MissionPlanner.GCSViews;
 using System.Threading.Tasks;
 using MissionPlanner.ArduPilot.Mavlink;
 using GMap.NET.WindowsForms;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace MissionPlanner
 {
@@ -388,49 +389,22 @@ namespace MissionPlanner
         }
 
         private DateTime lastMouseMove = DateTime.MinValue;
-        private void VideoBox_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void VideoBox_MouseMove(object sender, MouseEventArgs e)
         {
             if(DateTime.Now > lastMouseMove.AddMilliseconds(100))
             {
                 lastMouseMove = DateTime.Now;
                 mouseMapMarker.Clear();
 
-                if (VideoBox.Image == null)
-                {
-                    return;
-                }
 
-                // Find the point within the image inside VideoBox, not just the VideoBox
-                var x = e.X;
-                var y = e.Y;
-                var imageWidth = Math.Min(VideoBox.Width, VideoBox.Height * VideoBox.Image.Width / VideoBox.Image.Height);
-                var imageHeight = Math.Min(VideoBox.Height, VideoBox.Width * VideoBox.Image.Height / VideoBox.Image.Width);
-                if (imageWidth < VideoBox.Width)
-                {
-                    x -= (VideoBox.Width - imageWidth) / 2;
-                    x *= VideoBox.Width / imageWidth;
-                    if (x < 0 || x >= imageWidth)
-                    {
-                        return;
-                    }
-                }
-                if (imageHeight < VideoBox.Height)
-                {
-                    y -= (VideoBox.Height - imageHeight) / 2;
-                    y *= VideoBox.Height / imageHeight;
-                    if (y < 0 || y >= imageHeight)
-                    {
-                        return;
-                    }
-                }
-
-
-                var point = selectedCamera?.CalculateImagePointLocation(2 * x / (float)imageWidth - 1, 2 * y / (float)imageHeight - 1);
-                if (point != null)
+                var point = getMousePosition(e.X, e.Y);
+                if(!point.HasValue) { return; }
+                var latlon = selectedCamera?.CalculateImagePointLocation(point.Value.x, point.Value.y);
+                if (latlon != null)
                 {
                     mouseMapMarker.Markers.Add(
                         new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
-                            new GMap.NET.PointLatLng(point.Lat, point.Lng),
+                            new GMap.NET.PointLatLng(latlon.Lat, latlon.Lng),
                             GMap.NET.WindowsForms.Markers.GMarkerGoogleType.blue_small
                         )
                     );
@@ -441,6 +415,51 @@ namespace MissionPlanner
         private void VideoBox_MouseLeave(object sender, EventArgs e)
         {
             mouseMapMarker.Markers.Clear();
+        }
+
+        private void VideoBox_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs me = (MouseEventArgs)e;
+            var point = getMousePosition(me.X, me.Y);
+            if (!point.HasValue) { return; }
+
+            var loc = selectedCamera?.CalculateImagePointLocation(point.Value.x, point.Value.y);
+            if (loc != null)
+            {
+                selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
+            }
+        }
+
+        private (double x, double y)? getMousePosition(int x, int y)
+        {
+            if (VideoBox.Image == null)
+            {
+                return null;
+            }
+
+            // Find the point within the image inside VideoBox, not just the VideoBox
+            var imageWidth = Math.Min(VideoBox.Width, VideoBox.Height * VideoBox.Image.Width / VideoBox.Image.Height);
+            var imageHeight = Math.Min(VideoBox.Height, VideoBox.Width * VideoBox.Image.Height / VideoBox.Image.Width);
+            if (imageWidth < VideoBox.Width)
+            {
+                x -= (VideoBox.Width - imageWidth) / 2;
+                x *= VideoBox.Width / imageWidth;
+                if (x < 0 || x >= imageWidth)
+                {
+                    return null;
+                }
+            }
+            if (imageHeight < VideoBox.Height)
+            {
+                y -= (VideoBox.Height - imageHeight) / 2;
+                y *= VideoBox.Height / imageHeight;
+                if (y < 0 || y >= imageHeight)
+                {
+                    return null;
+                }
+            }
+
+            return (2 * x / (double)imageWidth - 1, 2 * y / (double)imageHeight - 1);
         }
     }
 
