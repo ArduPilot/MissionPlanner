@@ -205,8 +205,19 @@ namespace MissionPlanner.Controls
                 }
             }
 
+            var form = new VideoStreamSelector()
+            {
+                StartPosition = FormStartPosition.CenterParent,
+            };
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                _stream.Start(form.gstreamer_pipeline);
+            }
+
             //_stream.Start("rtspsrc location=rtsp://192.168.144.25:8554/main.264 latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
-            _stream.Start("videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
+            //_stream.Start("rtspsrc location=rtsp://127.0.0.1:8554/live latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
+            //_stream.Start("videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
+            //_stream.Start("dx9screencapsrc x=10 y=60 width=640 height=360 monitor=1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
         }
 
         public bool PreFilterMessage(ref Message m)
