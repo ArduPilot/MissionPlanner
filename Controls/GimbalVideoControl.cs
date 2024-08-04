@@ -22,7 +22,7 @@ using MissionPlanner.ArduPilot.Mavlink;
 using GMap.NET.WindowsForms;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
-namespace MissionPlanner
+namespace MissionPlanner.Controls
 {
     public partial class GimbalVideoControl : UserControl, IMessageFilter
     {
