@@ -117,14 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Швидкість обертання коли армуваний</value>
-  </data>
-  <data name="buttonStart.Text" xml:space="preserve">
-    <value>Калібрувати ESC</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 37</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Калібрування ESC (AC3.3+)</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>783, 175</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Зніміть Гвинти!
@@ -136,83 +137,73 @@
 - Перезавантажте контрольор польоту в звичайному режимі
 </value>
   </data>
+  <data name="buttonStart.Text" xml:space="preserve">
+    <value>Калібрувати ESC</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 25</value>
+  </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Тип ESC:</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Максимальна швидкість моторів у польоті (майже в усіх ESC в верхній частині є мертва зона)</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Швидкість на момент, коли мотори армувані, але газ на нулі (холостий хід)</value>
-  </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Мінімальна швидкість моторів у польоті (трішки вище за значення "Швидкість обертання коли армуваний")</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Швидкість на момент, коли мотори армувані, але газ на нулі (холостий хід)</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 25</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Виведення PWM (Мін)</value>
+    <value>Мін.вихід PWM</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Макс.швидкість обертання</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 25</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Виведення PWM (Макс)</value>
+    <value>Макс.вихід PWM</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Виведення PWM (Мін)</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Макс.швидкість обертання</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>392, 25</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Швидкість обертання коли армуваний</value>
   </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 25</value>
+  </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Мін.швидкість обертання</value>
   </data>
-  <data name="buttonStart.Text" xml:space="preserve">
-    <value>Калібрувати ESC</value>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 25</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Калібрування ESC (AC3.3+)</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Макс.швидкість обертання</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Зніміть Гвинти!
- Після натискання на цю кнопку:
-- Від'єднайте USB та батарею
-- Під'єднайте батарею
-- Коли LED-и засвітяться, натисніть на запобіжний вимикач (якщо присутній)
-- ESC будуть подавати звукові сигналі під час калібрування
-- Перезавантажте контрольор польоту в звичайному режимі
-</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Тип ESC:</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Максимальна швидкість моторів у польоті (майже в усіх ESC в верхній частині є мертва зона)</value>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 25</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Мінімальна швидкість моторів у польоті (трішки вище за значення "Швидкість обертання коли армуваний")</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Мін.швидкість обертання</value>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 25</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Виведення PWM (Макс)</value>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>766, 25</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Швидкість на момент, коли мотори армувані, але газ на нулі (холостий хід)</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1085, 25</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Мінімальна швидкість моторів у польоті (трішки вище за значення "Швидкість обертання коли армуваний")</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>957, 25</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Максимальна швидкість моторів у польоті (майже в усіх ESC в верхній частині є мертва зона)</value>
   </data>
 </root>
