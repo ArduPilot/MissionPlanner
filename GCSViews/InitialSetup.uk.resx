@@ -199,7 +199,7 @@
     <value>Повітряна швидкість</value>
   </data>
   <data name="backstageViewPageaccel.Text" xml:space="preserve">
-    <value>Калібрування прискорювачу</value>
+    <value>Калібрування аксел.</value>
   </data>
   <data name="backstageViewPagefw.Text" xml:space="preserve">
     <value>Встановити прошивку</value>
@@ -265,7 +265,7 @@
     <value>Встановити прошивку</value>
   </data>
   <data name="backstageViewPageaccel.Text" xml:space="preserve">
-    <value>Калібрування прискорювачу</value>
+    <value>Калібрування аксел.</value>
   </data>
   <data name="backstageViewPageInitialParams.Text" xml:space="preserve">
     <value>Початковий параметр налаштування</value>
