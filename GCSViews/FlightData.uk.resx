@@ -117,397 +117,1843 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_SendMSG.Text" xml:space="preserve">
-    <value>Повідомлення</value>
-  </data>
-  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Поставте камеру сюди</value>
-  </data>
-  <data name="groundColorToolStripMenuItem.Text" xml:space="preserve">
-    <value>Колір землі</value>
-  </data>
-  <data name="BUT_setmode.ToolTip" xml:space="preserve">
-    <value>Зміни в режимі зліва</value>
-  </data>
-  <data name="BUT_edit_selected.Text" xml:space="preserve">
-    <value>Редагувати вибраний сценарій</value>
-  </data>
-  <data name="BUT_abort_script.Text" xml:space="preserve">
-    <value>Перервати запущений скрипт</value>
-  </data>
-  <data name="STBY_btn.Text" xml:space="preserve">
-    <value>СТБР</value>
-  </data>
-  <data name="tabServo.Text" xml:space="preserve">
-    <value>Серво/Станція</value>
-  </data>
-  <data name="BUT_playlog.Text" xml:space="preserve">
-    <value>Відтворити/Призупинити</value>
-  </data>
-  <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>Змінює поточну цільову точку</value>
-  </data>
-  <data name="BUT_SendMSG.ToolTip" xml:space="preserve">
-    <value>Відправити повідомлення, яке можна зберегти в журналі транспортних засобів</value>
-  </data>
-  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>Змінити режим на авто</value>
-  </data>
-  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Літати сюди</value>
-  </data>
-  <data name="quickView1.ToolTip" xml:space="preserve">
-    <value>Двічі натисніть на мене, щоб змінити</value>
-  </data>
-  <data name="gStreamerStopToolStripMenuItem.Text" xml:space="preserve">
-    <value>Зупинка GStreamer</value>
-  </data>
-  <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
-    <value>Вивід програми Перенаправлення</value>
-  </data>
-  <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>Необроблений вигляд датчика</value>
-  </data>
-  <data name="but_bintolog.Text" xml:space="preserve">
-    <value>Перетворити .Bin в .Log</value>
-  </data>
-  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
-    <value>Перезапустити місію з самого початку</value>
-  </data>
-  <data name="BUT_abortland.ToolTip" xml:space="preserve">
-    <value>Тільки площина</value>
-  </data>
-  <data name="BUT_loganalysis.Text" xml:space="preserve">
-    <value>Автоаналіз</value>
-  </data>
-  <data name="groupBoxPitch.Text" xml:space="preserve">
-    <value>Нахил</value>
-  </data>
-  <data name="tabPagePreFlight.Text" xml:space="preserve">
-    <value>Польоти</value>
-  </data>
-  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
-    <value>Очистити записаний шлях на карті</value>
-  </data>
-  <data name="BUT_resumemis.Text" xml:space="preserve">
-    <value>Місія резюме</value>
-  </data>
-  <data name="videoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Відео</value>
-  </data>
-  <data name="FlightID_label.Text" xml:space="preserve">
-    <value>ID політа</value>
-  </data>
-  <data name="CB_tuning.ToolTip" xml:space="preserve">
-    <value>Покажіть графік тунелю, погоня цільового ставлення проти фактичного</value>
-  </data>
-  <data name="hereLinkVideoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Відео HereLink</value>
-  </data>
-  <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
-    <value>Російський гуд</value>
-  </data>
-  <data name="setHomeHereToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Встановіть домівку тут</value>
-  </data>
-  <data name="lbl_hdop.Text" xml:space="preserve">
-    <value>хдоп: 0</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Швидкість</value>
-  </data>
-  <data name="tabPayload.Text" xml:space="preserve">
-    <value>Керування корисним завантаженням</value>
-  </data>
-  <data name="BUT_ARM.ToolTip" xml:space="preserve">
-    <value>Мав</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Прямо до поточного WP</value>
-  </data>
-  <data name="BUT_log2kml.Text" xml:space="preserve">
-    <value>Tlog &gt; Kml або графік</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Масштабування</value>
-  </data>
-  <data name="BUT_clear_track.Text" xml:space="preserve">
-    <value>Очистити маршрут</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>GPS трек (чорний)</value>
-  </data>
-  <data name="BUT_ARM.Text" xml:space="preserve">
-    <value>Арм/Дізарм</value>
-  </data>
-  <data name="groupBoxYaw.Text" xml:space="preserve">
-    <value>Навігація</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Поточний заголовок</value>
-  </data>
-  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Видалити</value>
-  </data>
-  <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Елементи користувача</value>
-  </data>
-  <data name="myButton1.ToolTip" xml:space="preserve">
-    <value>Змінити режим на Вручну/Персоналізувати</value>
-  </data>
-  <data name="tabActionsSimple.Text" xml:space="preserve">
-    <value>Дії</value>
-  </data>
-  <data name="BUT_DFMavlink.Text" xml:space="preserve">
-    <value>Завантажити DataFlash Log Via Mavlink</value>
-  </data>
-  <data name="CHK_autopan.ToolTip" xml:space="preserve">
-    <value>Виконує автовідкривач на основі поточного розташування</value>
-  </data>
-  <data name="flyToCoordsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Летіти лордам</value>
-  </data>
-  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
-    <value>Змінити режим на RTL</value>
-  </data>
-  <data name="tablogbrowse.Text" xml:space="preserve">
-    <value>Журнал DataFlash</value>
-  </data>
-  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
-    <value>Зміни в режимі зліва</value>
-  </data>
-  <data name="XPDRConnect_btn.Text" xml:space="preserve">
-    <value>Підключитися до транспондера</value>
-  </data>
-  <data name="multiLineToolStripMenuItem.Text" xml:space="preserve">
-    <value>Багаторядковий</value>
-  </data>
-  <data name="tabGauges.Text" xml:space="preserve">
-    <value>Гож</value>
-  </data>
-  <data name="CHK_autopan.Text" xml:space="preserve">
-    <value>Автопрокрутка</value>
-  </data>
-  <data name="IDENT_btn.Text" xml:space="preserve">
-    <value>ПІДЕНТИСЯ</value>
-  </data>
-  <data name="setViewCountToolStripMenuItem.Text" xml:space="preserve">
-    <value>Встановити кількість переглядів</value>
-  </data>
-  <data name="ON_btn.Text" xml:space="preserve">
-    <value>УВІМК</value>
-  </data>
-  <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
-    <value>Встановити MJPEG джерело</value>
-  </data>
-  <data name="customizeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Налаштовувати</value>
-  </data>
-  <data name="poiatcoordsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Коурди</value>
-  </data>
-  <data name="BUT_joystick.Text" xml:space="preserve">
-    <value>Джойстик</value>
-  </data>
-  <data name="Zoomlevel.ToolTip" xml:space="preserve">
-    <value>Змінити рівень збільшення</value>
-  </data>
-  <data name="CB_tuning.Text" xml:space="preserve">
-    <value>Налаштування</value>
-  </data>
-  <data name="showIconsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Показати піктограми</value>
-  </data>
-  <data name="BUT_speed10.Text" xml:space="preserve">
-    <value>10х</value>
-  </data>
-  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
-    <value>Запустити камеру ЗАРАЗ</value>
-  </data>
-  <data name="but_disablejoystick.Text" xml:space="preserve">
-    <value>Вимкнути джойстик</value>
-  </data>
-  <data name="BUT_run_script.Text" xml:space="preserve">
-    <value>Запуск сценарію</value>
-  </data>
-  <data name="tabScripts.Text" xml:space="preserve">
-    <value>Скрипти</value>
-  </data>
-  <data name="lbl_sats.Text" xml:space="preserve">
-    <value>Зубці: 0</value>
-  </data>
-  <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>Виконати дію</value>
-  </data>
-  <data name="BUTrestartmission.Text" xml:space="preserve">
-    <value>Перезапустити місію</value>
-  </data>
-  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>Змінити режим на Вручну/Персоналізувати</value>
-  </data>
-  <data name="takeOffToolStripMenuItem.Text" xml:space="preserve">
-    <value>Зліт</value>
-  </data>
-  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>Перегляд початкових значень гірозавра та Доступу та Raw Radio ins/outs</value>
-  </data>
-  <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
-    <value>Встановити співвідношення сторін</value>
-  </data>
-  <data name="saveFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Зберегти</value>
-  </data>
-  <data name="PointCameraCoordsToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Точки координат камери</value>
-  </data>
-  <data name="BUT_matlab.Text" xml:space="preserve">
-    <value>Створити Matlab файл</value>
-  </data>
-  <data name="BUT_abortland.Text" xml:space="preserve">
-    <value>Перервати посадку</value>
-  </data>
-  <data name="Gspeed.ToolTip" xml:space="preserve">
-    <value>Подвійне натискання по мені змінити Макс</value>
-  </data>
-  <data name="labelScriptStatus.Text" xml:space="preserve">
-    <value>Статус скрипту: скрипт не запущений</value>
-  </data>
-  <data name="but_dflogtokml.Text" xml:space="preserve">
-    <value>Створити KML + gpx</value>
-  </data>
-  <data name="tabPagemessages.Text" xml:space="preserve">
-    <value>Повідомлення</value>
-  </data>
-  <data name="tabActions.Text" xml:space="preserve">
-    <value>Дії</value>
-  </data>
-  <data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Завантажити файл</value>
-  </data>
-  <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>Попередити дію вліво</value>
-  </data>
-  <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>Встановити Alt будинку</value>
-  </data>
-  <data name="setGStreamerSourceToolStripMenuItem.Text" xml:space="preserve">
-    <value>Встановити джерело GStreamer</value>
-  </data>
-  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Встановіть домівку тут</value>
-  </data>
-  <data name="labelSelectedScript.Text" xml:space="preserve">
-    <value>Вибраний скрипт: немає</value>
-  </data>
-  <data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
-    <value>Поміняти місцями з картою</value>
-  </data>
-  <data name="tabQuick.Text" xml:space="preserve">
-    <value>Швидко</value>
-  </data>
-  <data name="BUT_georefimage.Text" xml:space="preserve">
-    <value>Geo Опорні зображення</value>
-  </data>
-  <data name="BUT_speed5.Text" xml:space="preserve">
-    <value>5х</value>
-  </data>
-  <data name="BUT_loadtelem.Text" xml:space="preserve">
-    <value>Завантажити журнал</value>
-  </data>
-  <data name="addPoiToolStripMenuItem.Text" xml:space="preserve">
-    <value>Додати Poi</value>
-  </data>
-  <data name="BUT_joystick.ToolTip" xml:space="preserve">
-    <value>Налаштування та увімкнення вашого джойстику</value>
-  </data>
-  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>Встановити поточний дисплей як 0, розмір панелі вводиться як 0</value>
-  </data>
-  <data name="BUT_speed2.Text" xml:space="preserve">
-    <value>2х</value>
-  </data>
-  <data name="BUT_resetGimbalPos.Text" xml:space="preserve">
-    <value>Скинути позицію</value>
-  </data>
-  <data name="BUT_speed1.Text" xml:space="preserve">
-    <value>1х</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="recordHudToAVIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
   <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
-    <value>Запис Hud до AVI</value>
+    <value>Запис HUD до AVI</value>
   </data>
-  <data name="tabTransponder.Text" xml:space="preserve">
-    <value>Транспондер</value>
-  </data>
-  <data name="tabStatus.Text" xml:space="preserve">
-    <value>Статус</value>
-  </data>
-  <data name="BUT_quickauto.Text" xml:space="preserve">
-    <value>Авто</value>
-  </data>
-  <data name="BUT_setwp.Text" xml:space="preserve">
-    <value>Встановити WP</value>
-  </data>
-  <data name="undockToolStripMenuItem.Text" xml:space="preserve">
-    <value>Розстикувати</value>
-  </data>
-  <data name="myButton3.Text" xml:space="preserve">
-    <value>Авто</value>
-  </data>
-  <data name="BUT_select_script.Text" xml:space="preserve">
-    <value>Виберіть скрипт</value>
-  </data>
-  <data name="tabTLogs.Text" xml:space="preserve">
-    <value>Журнал телеметрії</value>
-  </data>
-  <data name="myButton2.ToolTip" xml:space="preserve">
-    <value>Змінити режим на RTL</value>
-  </data>
-  <data name="Squawk_label.Text" xml:space="preserve">
-    <value>Сквак</value>
-  </data>
-  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
-    <value>Планувальник польотів</value>
-  </data>
-  <data name="BUT_mountmode.Text" xml:space="preserve">
-    <value>Встановити монтування</value>
-  </data>
-  <data name="setEKFHomeHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Встановіть Origin тут EKF</value>
-  </data>
-  <data name="myButton3.ToolTip" xml:space="preserve">
-    <value>Змінити режим на авто</value>
-  </data>
-  <data name="BUT_setmode.Text" xml:space="preserve">
-    <value>Режим набору</value>
-  </data>
-  <data name="lbl_playbackspeed.Text" xml:space="preserve">
-    <value>х 1.0</value>
-  </data>
-  <data name="onOffCameraOverlapToolStripMenuItem.Text" xml:space="preserve">
-    <value>Перетин камери</value>
-  </data>
-  <data name="BUT_PayloadFolder.Text" xml:space="preserve">
-    <value>Файли в Payload</value>
-  </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Переглянути журнал</value>
+  <data name="stopRecordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
     <value>Зупинити запис</value>
   </data>
-  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>Літати тут</value>
+  <data name="setMJPEGSourceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
-  <data name="lbl_sats.ToolTip" xml:space="preserve">
-    <value>Граф Саталіту</value>
+  <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити MJPEG джерело</value>
   </data>
-  <data name="setBatteryCellCountToolStripMenuItem.Text" xml:space="preserve">
-    <value>Напруга акумулятора</value>
+  <data name="startCameraToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
   <data name="startCameraToolStripMenuItem.Text" xml:space="preserve">
-    <value>Почати камеру</value>
+    <value>Увімкнути камеру</value>
+  </data>
+  <data name="setGStreamerSourceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
+  </data>
+  <data name="setGStreamerSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити джерело GStreamer</value>
+  </data>
+  <data name="hereLinkVideoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
+  </data>
+  <data name="hereLinkVideoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Відео HereLink</value>
+  </data>
+  <data name="gStreamerStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
+  </data>
+  <data name="gStreamerStopToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зупинити GStreamer</value>
+  </data>
+  <data name="videoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="videoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Відео</value>
+  </data>
+  <data name="setAspectRatioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити Співвідношення сторін</value>
+  </data>
+  <data name="userItemsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Елементи користувача</value>
+  </data>
+  <data name="russianHudToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
+    <value>HUD радянського зразку</value>
+  </data>
+  <data name="swapWithMapToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Поміняти місцями з мапою</value>
+  </data>
+  <data name="groundColorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="groundColorToolStripMenuItem.Text" xml:space="preserve">
+    <value>Колір землі</value>
+  </data>
+  <data name="setBatteryCellCountToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="setBatteryCellCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>Напруга батареї</value>
+  </data>
+  <data name="showIconsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 22</value>
+  </data>
+  <data name="showIconsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Показати іконки</value>
+  </data>
+  <data name="contextMenuStripHud.Size" type="System.Drawing.Size, System.Drawing">
+    <value>269, 180</value>
+  </data>
+  <data name="contextMenuStripHud.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="hud1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubMainLeft.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="customizeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="customizeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Персоналізувати</value>
+  </data>
+  <data name="multiLineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="multiLineToolStripMenuItem.Text" xml:space="preserve">
+    <value>Розмістити в багато рядків</value>
+  </data>
+  <data name="contextMenuStripactionstab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 48</value>
+  </data>
+  <data name="contextMenuStripactionstab.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="setViewCountToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 22</value>
+  </data>
+  <data name="setViewCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити кількість виглядів</value>
+  </data>
+  <data name="undockToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 22</value>
+  </data>
+  <data name="undockToolStripMenuItem.Text" xml:space="preserve">
+    <value>Відстикувати</value>
+  </data>
+  <data name="contextMenuStripQuickView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 48</value>
+  </data>
+  <data name="contextMenuStripQuickView.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView1.ToolTip" xml:space="preserve">
+    <value>Двічі натисніть на мене, щоб змінити</value>
+  </data>
+  <data name="tableLayoutPanelQuick.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabQuick.Text" xml:space="preserve">
+    <value>Швидкий доступ</value>
+  </data>
+  <data name="tabQuick.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_SendMSG.Text" xml:space="preserve">
+    <value>Повідомлення</value>
+  </data>
+  <data name="BUT_SendMSG.ToolTip" xml:space="preserve">
+    <value>Відправити повідомлення для збееження в журналі трансп.засобу</value>
+  </data>
+  <data name="BUT_abortland.Text" xml:space="preserve">
+    <value>Перервати посадку</value>
+  </data>
+  <data name="BUT_abortland.ToolTip" xml:space="preserve">
+    <value>Доступно лише для літаків</value>
+  </data>
+  <data name="modifyandSetLoiterRad.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_clear_track.Text" xml:space="preserve">
+    <value>Стерти маршрут</value>
+  </data>
+  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
+    <value>Стерти записаний шлях з карти</value>
+  </data>
+  <data name="CMB_action.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTactiondo.Text" xml:space="preserve">
+    <value>Виконати</value>
+  </data>
+  <data name="BUTactiondo.ToolTip" xml:space="preserve">
+    <value>Виконати</value>
+  </data>
+  <data name="BUT_resumemis.Text" xml:space="preserve">
+    <value>Продовжити місію</value>
+  </data>
+  <data name="BUT_resumemis.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="modifyandSetAlt.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="modifyandSetSpeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMB_setwp.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_ARM.Text" xml:space="preserve">
+    <value>Армувати/Деармувати</value>
+  </data>
+  <data name="BUT_ARM.ToolTip" xml:space="preserve">
+    <value>Розблокувати М-БпЛА</value>
+  </data>
+  <data name="BUT_mountmode.Text" xml:space="preserve">
+    <value>Встановити монтування</value>
+  </data>
+  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
+    <value>Встановити новий режим</value>
+  </data>
+  <data name="BUT_joystick.Text" xml:space="preserve">
+    <value>Джойстик</value>
+  </data>
+  <data name="BUT_joystick.ToolTip" xml:space="preserve">
+    <value>Налаштувати та активувати джойстик</value>
+  </data>
+  <data name="BUT_RAWSensor.Text" xml:space="preserve">
+    <value>Перегляд сенсорів</value>
+  </data>
+  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
+    <value>Переглянути необроблені показники Гіроскопа, Прискорення або входів/виходів Радіо</value>
+  </data>
+  <data name="BUT_Homealt.Text" xml:space="preserve">
+    <value>Встановити висоту дом.точки</value>
+  </data>
+  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
+    <value>Встановити поточну висоту на 0, тобто висота дом.точки буде показана як 0</value>
+  </data>
+  <data name="BUTrestartmission.Text" xml:space="preserve">
+    <value>Перезапустити місію</value>
+  </data>
+  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
+    <value>Перезапустити місію з самого початку</value>
+  </data>
+  <data name="CMB_mountmode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_quickrtl.Text" xml:space="preserve">
+    <value>RTL (Повернення додому)</value>
+  </data>
+  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
+    <value>Виконати RTL (Повернення додому)</value>
+  </data>
+  <data name="BUT_quickmanual.Text" xml:space="preserve">
+    <value>Віраж</value>
+  </data>
+  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
+    <value>Перевести в Режим Ручний/Стабілізація</value>
+  </data>
+  <data name="BUT_setwp.Text" xml:space="preserve">
+    <value>Встановити ППМ</value>
+  </data>
+  <data name="BUT_setwp.ToolTip" xml:space="preserve">
+    <value>Змінити цільовий ППМ</value>
+  </data>
+  <data name="CMB_modes.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_quickauto.Text" xml:space="preserve">
+    <value>Авто</value>
+  </data>
+  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
+    <value>Встановити режим Авто</value>
+  </data>
+  <data name="BUT_setmode.Text" xml:space="preserve">
+    <value>Встановити режим</value>
+  </data>
+  <data name="BUT_setmode.ToolTip" xml:space="preserve">
+    <value>Встановити новий режим</value>
+  </data>
+  <data name="tableLayoutPanel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabActions.Text" xml:space="preserve">
+    <value>Дії</value>
+  </data>
+  <data name="tabActions.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="txt_messagebox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPagemessages.Text" xml:space="preserve">
+    <value>Повідомлення</value>
+  </data>
+  <data name="tabPagemessages.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="myButton1.Text" xml:space="preserve">
+    <value>Віраж</value>
+  </data>
+  <data name="myButton1.ToolTip" xml:space="preserve">
+    <value>Встановити Режим Ручний/Стабілізація</value>
+  </data>
+  <data name="myButton2.Text" xml:space="preserve">
+    <value>RTL (Повернення додому)</value>
+  </data>
+  <data name="myButton2.ToolTip" xml:space="preserve">
+    <value>Перевести в режим RTL (Повернення додому)</value>
+  </data>
+  <data name="myButton3.Text" xml:space="preserve">
+    <value>Авто</value>
+  </data>
+  <data name="myButton3.ToolTip" xml:space="preserve">
+    <value>Встановити режим Авто</value>
+  </data>
+  <data name="tabActionsSimple.Text" xml:space="preserve">
+    <value>Дії</value>
+  </data>
+  <data name="tabActionsSimple.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkListControl1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPagePreFlight.Text" xml:space="preserve">
+    <value>Передпольотна перевірка</value>
+  </data>
+  <data name="tabPagePreFlight.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Gvspeed.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="Gvspeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Gheading.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="Gheading.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Galt.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="Galt.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Gspeed.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="Gspeed.ToolTip" xml:space="preserve">
+    <value>Двічі натисніть на мене, щоб змінити Макс.значення</value>
+  </data>
+  <data name="tabGauges.Text" xml:space="preserve">
+    <value>Прилади</value>
+  </data>
+  <data name="tabGauges.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NACp_tb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NIC_tb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NACp_lbl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NIC_lbl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Squawk_nud.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlightID_tb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="fault_clb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="XPDRConnect_btn.Text" xml:space="preserve">
+    <value>Під'єднатися до транспондера</value>
+  </data>
+  <data name="XPDRConnect_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Squawk_label.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlightID_label.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 13</value>
+  </data>
+  <data name="FlightID_label.Text" xml:space="preserve">
+    <value>ID польоту</value>
+  </data>
+  <data name="FlightID_label.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IDENT_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ALT_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="STBY_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ON_btn.Text" xml:space="preserve">
+    <value>УВІМК</value>
+  </data>
+  <data name="ON_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mode_clb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabTransponder.Text" xml:space="preserve">
+    <value>Транспондер</value>
+  </data>
+  <data name="tabTransponder.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabStatus.Text" xml:space="preserve">
+    <value>Стан</value>
+  </data>
+  <data name="tabStatus.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions16.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanelServos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabServo.Text" xml:space="preserve">
+    <value>Серво/Реле</value>
+  </data>
+  <data name="tabServo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabAuxFunction.Text" xml:space="preserve">
+    <value>Aux Функції</value>
+  </data>
+  <data name="tabAuxFunction.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBoxRedirectOutput.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 17</value>
+  </data>
+  <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
+    <value>Перенаправити вивід програми</value>
+  </data>
+  <data name="checkBoxRedirectOutput.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_edit_selected.Text" xml:space="preserve">
+    <value>Редагувати обраний сценарій</value>
+  </data>
+  <data name="BUT_edit_selected.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelSelectedScript.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 13</value>
+  </data>
+  <data name="labelSelectedScript.Text" xml:space="preserve">
+    <value>Обраний скрипт: немає</value>
+  </data>
+  <data name="labelSelectedScript.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_run_script.Text" xml:space="preserve">
+    <value>Запустити скрипт</value>
+  </data>
+  <data name="BUT_run_script.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_abort_script.Text" xml:space="preserve">
+    <value>Перервати запущений скрипт</value>
+  </data>
+  <data name="BUT_abort_script.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelScriptStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 13</value>
+  </data>
+  <data name="labelScriptStatus.Text" xml:space="preserve">
+    <value>Стан скрипту: немає запущених</value>
+  </data>
+  <data name="labelScriptStatus.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_select_script.Text" xml:space="preserve">
+    <value>Оберіть скрипт</value>
+  </data>
+  <data name="BUT_select_script.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabScripts.Text" xml:space="preserve">
+    <value>Скрипти</value>
+  </data>
+  <data name="tabScripts.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_PayloadFolder.Text" xml:space="preserve">
+    <value>Файли корисного навантаження</value>
+  </data>
+  <data name="BUT_PayloadFolder.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_gimbalRollPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="trackBarRoll.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="groupBoxRoll.Text" xml:space="preserve">
-    <value>Крутити</value>
+    <value>Крен</value>
+  </data>
+  <data name="groupBoxRoll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_gimbalYawPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="trackBarYaw.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBoxYaw.Text" xml:space="preserve">
+    <value>Рискання</value>
+  </data>
+  <data name="groupBoxYaw.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_resetGimbalPos.Text" xml:space="preserve">
+    <value>Скинути позицію</value>
+  </data>
+  <data name="BUT_resetGimbalPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="trackBarPitch.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_gimbalPitchPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBoxPitch.Text" xml:space="preserve">
+    <value>Нахил</value>
+  </data>
+  <data name="groupBoxPitch.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPayload.Text" xml:space="preserve">
+    <value>Керування корисним навантаженням</value>
+  </data>
+  <data name="tabPayload.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 13</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Швидкість</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed10.Text" xml:space="preserve">
+    <value>10х</value>
+  </data>
+  <data name="BUT_speed10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed5.Text" xml:space="preserve">
+    <value>5х</value>
+  </data>
+  <data name="BUT_speed5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed2.Text" xml:space="preserve">
+    <value>2х</value>
+  </data>
+  <data name="BUT_speed2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1.Text" xml:space="preserve">
+    <value>1х</value>
+  </data>
+  <data name="BUT_speed1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1_2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1_4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1_10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_loadtelem.Text" xml:space="preserve">
+    <value>Завантажити журнал</value>
+  </data>
+  <data name="BUT_loadtelem.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_playbackspeed.Text" xml:space="preserve">
+    <value>х 1.0</value>
+  </data>
+  <data name="lbl_playbackspeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_logpercent.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LBL_logfn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_log2kml.Text" xml:space="preserve">
+    <value>Tlog &gt; Kml або Графік</value>
+  </data>
+  <data name="BUT_log2kml.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_playlog.Text" xml:space="preserve">
+    <value>Відтворити/Призупинити</value>
+  </data>
+  <data name="BUT_playlog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tracklog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableLayoutPaneltlogs.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabTLogs.Text" xml:space="preserve">
+    <value>Журнали телеметрії</value>
+  </data>
+  <data name="tabTLogs.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_DFMavlink.Text" xml:space="preserve">
+    <value>Завантажити Журнал DataFlash через MAVLink</value>
+  </data>
+  <data name="BUT_DFMavlink.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_georefimage.Text" xml:space="preserve">
+    <value>Файли геореференції</value>
+  </data>
+  <data name="BUT_georefimage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>Переглянути журнал</value>
+  </data>
+  <data name="BUT_logbrowse.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_matlab.Text" xml:space="preserve">
+    <value>Створити Matlab файл</value>
+  </data>
+  <data name="BUT_matlab.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="but_bintolog.Text" xml:space="preserve">
+    <value>Перетворити
+.Bin в .Log</value>
+  </data>
+  <data name="but_bintolog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="but_dflogtokml.Text" xml:space="preserve">
+    <value>Створити KML + gpx</value>
+  </data>
+  <data name="but_dflogtokml.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_loganalysis.Text" xml:space="preserve">
+    <value>Авто-аналіз</value>
+  </data>
+  <data name="BUT_loganalysis.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableLayoutPanel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tablogbrowse.Text" xml:space="preserve">
+    <value>Журнали DataFlash</value>
+  </data>
+  <data name="tablogbrowse.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabControlactions.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel_persistent.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubMainLeft.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubMainLeft.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MainH.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="zg1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Летіти на Цю Висоту</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>Летіти на Цю Висоту</value>
+  </data>
+  <data name="flyToCoordsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="flyToCoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Летіти за Координатами</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зберегти Файл</value>
+  </data>
+  <data name="loadFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Завантажити файл</value>
+  </data>
+  <data name="poiatcoordsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="poiatcoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Координати</value>
+  </data>
+  <data name="addPoiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="addPoiToolStripMenuItem.Text" xml:space="preserve">
+    <value>Додати POI</value>
+  </data>
+  <data name="pointCameraHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Навести Камеру Сюди</value>
+  </data>
+  <data name="PointCameraCoordsToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="PointCameraCoordsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Навести Камеру за Координатами</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Активувати камеру ЗАРАЗ</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
+    <value>Планувальник польоту</value>
+  </data>
+  <data name="setEKFHomeHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>258, 22</value>
+  </data>
+  <data name="setEKFHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити Вихідну точку EKF Тут</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>258, 22</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Встановити Дом.точку Тут</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Встановити Дом.точку Тут</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Text" xml:space="preserve">
+    <value>Зліт</value>
+  </data>
+  <data name="onOffCameraOverlapToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="onOffCameraOverlapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Перекриття Камери</value>
+  </data>
+  <data name="jumpToTagToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="jumpToTagToolStripMenuItem.Text" xml:space="preserve">
+    <value>Перейти до Тегу</value>
+  </data>
+  <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>262, 268</value>
+  </data>
+  <data name="contextMenuStripMap.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Мштб.</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="but_disablejoystick.Text" xml:space="preserve">
+    <value>Вимкнути джойстик</value>
+  </data>
+  <data name="but_disablejoystick.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>Змінити рівень масштабування</value>
+  </data>
+  <data name="distanceBar1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TRK_zoom.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="windDir1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 167</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 13</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>GPS (Чорний)</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 167</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 13</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Цільовий курс</value>
+  </data>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Прямий до ППМ</value>
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 13</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Поточний курс</value>
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_hdop.Text" xml:space="preserve">
+    <value>HDOP: 0</value>
+  </data>
+  <data name="lbl_hdop.ToolTip" xml:space="preserve">
+    <value>HDOP (Горизонтальне погіршення точності) GPS</value>
+  </data>
+  <data name="lbl_sats.Text" xml:space="preserve">
+    <value>Супутники: 0</value>
+  </data>
+  <data name="lbl_sats.ToolTip" xml:space="preserve">
+    <value>Кулькість супутників</value>
+  </data>
+  <data name="gMapControl1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="coords1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 17</value>
+  </data>
+  <data name="CHK_autopan.Text" xml:space="preserve">
+    <value>Авто-центрування</value>
+  </data>
+  <data name="CHK_autopan.ToolTip" xml:space="preserve">
+    <value>Змушує карту автоматично центруватися на поточному місцезнаходженні</value>
+  </data>
+  <data name="CB_tuning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 17</value>
+  </data>
+  <data name="CB_tuning.Text" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="CB_tuning.ToolTip" xml:space="preserve">
+    <value>Показати графік для налаштування - зі значеннями цільової висоти проти фактичної</value>
+  </data>
+  <data name="panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableMap.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MainH.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MainH.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>

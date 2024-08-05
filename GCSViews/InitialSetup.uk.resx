@@ -117,73 +117,178 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
+    <value>Підвіс камери</value>
+  </data>
+  <data name="backstageViewPageESP.Text" xml:space="preserve">
+    <value>Налаштування ESP8266</value>
+  </data>
+  <data name="backstageViewPagemand.Text" xml:space="preserve">
+    <value>Обов'язкове обладнання</value>
+  </data>
+  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
+    <value>Оптичний потік</value>
+  </data>
+  <data name="backstageViewPagecompass.Text" xml:space="preserve">
+    <value>Компас</value>
+  </data>
+  <data name="backstageViewPageinstfw.Text" xml:space="preserve">
+    <value>Встановити прошивку</value>
+  </data>
+  <data name="backstageViewPagetradheli.Text" xml:space="preserve">
+    <value>Налаштування коптеру</value>
+  </data>
+  <data name="backstageViewPageESC.Text" xml:space="preserve">
+    <value>Калібрування ESC</value>
+  </data>
+  <data name="backstageViewPagewizard.Text" xml:space="preserve">
+    <value>Майстер</value>
+  </data>
+  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
+    <value>Монітор батареї</value>
+  </data>
+  <data name="backstageViewPageSerial.Text" xml:space="preserve">
+    <value>Послідовні порти</value>
+  </data>
   <data name="backstageViewPageairspeed.Text" xml:space="preserve">
-    <value>Швидкість польоту</value>
+    <value>Повітряна швидкість</value>
   </data>
-  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
-    <value>Монітор акумулятора 2</value>
+  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
+    <value>Sik-радіостанція</value>
   </data>
-  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
-    <value>Трекер антени</value>
+  <data name="backstageViewPageflmode.Text" xml:space="preserve">
+    <value>Режими польоту</value>
   </data>
-  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
-    <value>Налаштування Bluetooth</value>
-  </data>
-  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>Компас/Автомобіль Calib</value>
-  </data>
-  <data name="backstageViewPageopt.Text" xml:space="preserve">
-    <value>Необов'язкове обладнання</value>
-  </data>
-  <data name="backstageViewPageradio.Text" xml:space="preserve">
-    <value>Калібрування радіо</value>
-  </data>
-  <data name="backstageViewPageframetype.Text" xml:space="preserve">
-    <value>Тип фрейму</value>
+  <data name="backstageViewPagesonar.Text" xml:space="preserve">
+    <value>Сонар</value>
   </data>
   <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
     <value>Встановити прошивку</value>
   </data>
-  <data name="backstageViewPagefs.Text" xml:space="preserve">
-    <value>Безпечна</value>
+  <data name="backstageViewPageframetype.Text" xml:space="preserve">
+    <value>Тип фрейму</value>
+  </data>
+  <data name="backstageViewPageradio.Text" xml:space="preserve">
+    <value>Калібрування радіо</value>
+  </data>
+  <data name="backstageViewPageopt.Text" xml:space="preserve">
+    <value>Додаткове обладнання</value>
+  </data>
+  <data name="backstageViewPageParachute.Text" xml:space="preserve">
+    <value>Парашут</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
+    <value>Калібрування Компасу/Мотору</value>
+  </data>
+  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
+    <value>Налаштування Bluetooth</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
+    <value>Антенний трекер</value>
+  </data>
+  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
+    <value>Монітор батареї 2</value>
+  </data>
+  <data name="backstageViewPageInitialParams.Text" xml:space="preserve">
+    <value>Початковий параметр налаштування</value>
+  </data>
+  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
+    <value>Sik-радіостанція</value>
+  </data>
+  <data name="backstageViewPageairspeed.Text" xml:space="preserve">
+    <value>Повітряна швидкість</value>
+  </data>
+  <data name="backstageViewPageaccel.Text" xml:space="preserve">
+    <value>Калібрування аксел.</value>
   </data>
   <data name="backstageViewPagefw.Text" xml:space="preserve">
     <value>Встановити прошивку</value>
   </data>
-  <data name="backstageViewPageaccel.Text" xml:space="preserve">
-    <value>Калібрування акцентів</value>
+  <data name="backstageViewPagefs.Text" xml:space="preserve">
+    <value>Failsafe</value>
   </data>
   <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
-    <value>Мотор тесту</value>
+    <value>Перевірка Мотору</value>
   </data>
-  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
-    <value>Монітор акумулятора</value>
+  <data name="backstageViewPageinstfw.Text" xml:space="preserve">
+    <value>Встановити прошивку</value>
   </data>
-  <data name="backstageViewPagewizard.Text" xml:space="preserve">
-    <value>Майстер</value>
+  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
+    <value>Калібрування Компасу/Мотору</value>
+  </data>
+  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
+    <value>Налаштування Bluetooth</value>
+  </data>
+  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
+    <value>Підвіс камери</value>
+  </data>
+  <data name="backstageViewPageESP.Text" xml:space="preserve">
+    <value>Налаштування ESP8266</value>
+  </data>
+  <data name="backstageViewPageParachute.Text" xml:space="preserve">
+    <value>Парашут</value>
+  </data>
+  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
+    <value>Оптичний потік</value>
+  </data>
+  <data name="backstageViewPagemand.Text" xml:space="preserve">
+    <value>Обов'язкове обладнання</value>
+  </data>
+  <data name="backstageViewPageflmode.Text" xml:space="preserve">
+    <value>Режими польоту</value>
+  </data>
+  <data name="backstageViewPagecompass.Text" xml:space="preserve">
+    <value>Компас</value>
+  </data>
+  <data name="backstageViewPagesonar.Text" xml:space="preserve">
+    <value>Сонар</value>
   </data>
   <data name="backstageViewPageESC.Text" xml:space="preserve">
     <value>Калібрування ESC</value>
   </data>
   <data name="backstageViewPagetradheli.Text" xml:space="preserve">
-    <value>Встановлення Heli</value>
+    <value>Налаштування коптеру</value>
   </data>
-  <data name="backstageViewPageflmode.Text" xml:space="preserve">
-    <value>Режими рейтів</value>
+  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
+    <value>Монітор батареї</value>
   </data>
-  <data name="backstageViewPagecompass.Text" xml:space="preserve">
-    <value>Компас</value>
+  <data name="backstageViewPagewizard.Text" xml:space="preserve">
+    <value>Майстер</value>
   </data>
-  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
-    <value>Оптичний потік</value>
+  <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
+    <value>Перевірка Мотору</value>
   </data>
-  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
-    <value>Підвіска камери</value>
+  <data name="backstageViewPageSerial.Text" xml:space="preserve">
+    <value>Послідовні порти</value>
   </data>
-  <data name="backstageViewPageinstfw.Text" xml:space="preserve">
+  <data name="backstageViewPagefw.Text" xml:space="preserve">
     <value>Встановити прошивку</value>
   </data>
-  <data name="backstageViewPagesonar.Text" xml:space="preserve">
-    <value>Знайти діапазон</value>
+  <data name="backstageViewPageaccel.Text" xml:space="preserve">
+    <value>Калібрування аксел.</value>
+  </data>
+  <data name="backstageViewPageInitialParams.Text" xml:space="preserve">
+    <value>Початковий параметр налаштування</value>
+  </data>
+  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
+    <value>Монітор батареї 2</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
+    <value>Антенний трекер</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
+    <value>Встановити прошивку</value>
+  </data>
+  <data name="backstageViewPageopt.Text" xml:space="preserve">
+    <value>Додаткове обладнання</value>
+  </data>
+  <data name="backstageViewPagefs.Text" xml:space="preserve">
+    <value>Failsafe</value>
+  </data>
+  <data name="backstageViewPageframetype.Text" xml:space="preserve">
+    <value>Тип фрейму</value>
+  </data>
+  <data name="backstageViewPageradio.Text" xml:space="preserve">
+    <value>Калібрування радіо</value>
   </data>
 </root>

@@ -117,35 +117,113 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Поточний режим:</value>
+  <data name="chk_ss3.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
   </data>
-  <data name="CB_simple5.Text" xml:space="preserve">
-    <value>Простий режим</value>
+  <data name="chk_ss6.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Поточне PWM:</value>
+  <data name="chk_ss1.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
   </data>
-  <data name="CB_simple4.Text" xml:space="preserve">
-    <value>Простий режим</value>
+  <data name="chk_ss4.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
   </data>
-  <data name="CB_simple1.Text" xml:space="preserve">
-    <value>Простий режим</value>
+  <data name="chk_ss5.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
   </data>
-  <data name="labelfm2.Text" xml:space="preserve">
-    <value>Режим польоту 2</value>
+  <data name="BUT_SaveModes.Text" xml:space="preserve">
+    <value>Зберегти режими</value>
   </data>
-  <data name="CB_simple6.Text" xml:space="preserve">
+  <data name="linkLabel1_ss.Text" xml:space="preserve">
+    <value>Опис режимів "Simple" та "Super Simple"</value>
+  </data>
+  <data name="lbl_currentmode.Text" xml:space="preserve">
+    <value>Вручну</value>
+  </data>
+  <data name="labelfm5.Text" xml:space="preserve">
+    <value>Режим польоту 5</value>
+  </data>
+  <data name="chk_ss2.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
+  </data>
+  <data name="CB_simple2.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="labelfm3.Text" xml:space="preserve">
+    <value>Режим польоту 3</value>
+  </data>
+  <data name="labelfm4.Text" xml:space="preserve">
+    <value>Режим польоту 4</value>
+  </data>
+  <data name="CB_simple3.Text" xml:space="preserve">
     <value>Простий режим</value>
   </data>
   <data name="labelfm1.Text" xml:space="preserve">
     <value>Режим польоту 1</value>
   </data>
-  <data name="CB_simple3.Text" xml:space="preserve">
+  <data name="CB_simple6.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="labelfm2.Text" xml:space="preserve">
+    <value>Режим польоту 2</value>
+  </data>
+  <data name="CB_simple1.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="CB_simple4.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Поточний PWM:</value>
+  </data>
+  <data name="CB_simple5.Text" xml:space="preserve">
+    <value>Простий режим</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Поточний режим:</value>
+  </data>
+  <data name="labelfm6.Text" xml:space="preserve">
+    <value>Режим польоту 6</value>
+  </data>
+  <data name="CB_simple5.Text" xml:space="preserve">
     <value>Простий режим</value>
   </data>
   <data name="labelfm4.Text" xml:space="preserve">
     <value>Режим польоту 4</value>
+  </data>
+  <data name="CB_simple3.Text" xml:space="preserve">
+    <value>Простий режим</value>
+  </data>
+  <data name="BUT_SaveModes.Text" xml:space="preserve">
+    <value>Зберегти режими</value>
+  </data>
+  <data name="chk_ss5.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Поточний режим:</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Поточний PWM:</value>
+  </data>
+  <data name="CB_simple4.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="CB_simple1.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="labelfm2.Text" xml:space="preserve">
+    <value>Режим польоту 2</value>
+  </data>
+  <data name="CB_simple6.Text" xml:space="preserve">
+    <value>Режим "Simple"</value>
+  </data>
+  <data name="labelfm1.Text" xml:space="preserve">
+    <value>Режим польоту 1</value>
+  </data>
+  <data name="chk_ss4.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
   </data>
   <data name="labelfm3.Text" xml:space="preserve">
     <value>Режим польоту 3</value>
@@ -154,7 +232,7 @@
     <value>Режим польоту 6</value>
   </data>
   <data name="CB_simple2.Text" xml:space="preserve">
-    <value>Простий режим</value>
+    <value>Режим "Simple"</value>
   </data>
   <data name="labelfm5.Text" xml:space="preserve">
     <value>Режим польоту 5</value>
@@ -162,28 +240,19 @@
   <data name="lbl_currentmode.Text" xml:space="preserve">
     <value>Вручну</value>
   </data>
+  <data name="chk_ss1.Text" xml:space="preserve">
+    <value>Режим "Super Simple"</value>
+  </data>
   <data name="linkLabel1_ss.Text" xml:space="preserve">
-    <value>Простий і дуже простий опис</value>
+    <value>Опис режимів "Simple" та "Super Simple"</value>
   </data>
   <data name="chk_ss2.Text" xml:space="preserve">
-    <value>Супер простий режим</value>
+    <value>Режим "Super Simple"</value>
   </data>
   <data name="chk_ss3.Text" xml:space="preserve">
-    <value>Супер простий режим</value>
+    <value>Режим "Super Simple"</value>
   </data>
   <data name="chk_ss6.Text" xml:space="preserve">
-    <value>Супер простий режим</value>
-  </data>
-  <data name="chk_ss1.Text" xml:space="preserve">
-    <value>Супер простий режим</value>
-  </data>
-  <data name="chk_ss4.Text" xml:space="preserve">
-    <value>Супер простий режим</value>
-  </data>
-  <data name="chk_ss5.Text" xml:space="preserve">
-    <value>Супер простий режим</value>
-  </data>
-  <data name="BUT_SaveModes.Text" xml:space="preserve">
-    <value>Зберегти режими</value>
+    <value>Режим "Super Simple"</value>
   </data>
 </root>

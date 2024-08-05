@@ -161,7 +161,7 @@ accelsq3.Field=(fieldName) (сила прискорення #3)
 Accel3 Strength=Сила Прискорення #3
 
 failsafe.Field=(fieldName) (відмовостійкий)
-Failsafe=Відмовостійкий
+Failsafe=Failsafe
 
 rxrssi.Field=(fieldName) (потужність RX)
 RX Rssi=Потужність RX (rssi)

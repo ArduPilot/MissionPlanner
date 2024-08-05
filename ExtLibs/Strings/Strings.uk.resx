@@ -497,7 +497,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>Несправний Гіроскоп</value>
   </data>
   <data name="BadAccelHealth" xml:space="preserve">
-    <value>Несправний Прискорювач</value>
+    <value>Несправний Аксел.</value>
   </data>
   <data name="BadCompassHealth" xml:space="preserve">
     <value>Несправний компас</value>
@@ -530,7 +530,7 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>ПЕРЕКОНАЙТЕСЯ, що на М-БпЛА НЕ встановлені гвинти</value>
   </data>
   <data name="FailSafe" xml:space="preserve">
-    <value>Відмовостійкий</value>
+    <value>Failsafe</value>
   </data>
   <data name="Error_binding" xml:space="preserve">
     <value>Помилка прив'язки</value>
@@ -596,10 +596,10 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
     <value>дисперсія висот ландшафту</value>
   </data>
   <data name="ChangeThrottle" xml:space="preserve">
-    <value>Змініть значення прискорювача</value>
+    <value>Змінити газ</value>
   </data>
   <data name="Invalid_home_location" xml:space="preserve">
-    <value>Невірна локація для дом.точки</value>
+    <value>Невірне місце для дом.точки</value>
   </data>
   <data name="Converting_bin_to_log" xml:space="preserve">
     <value>Перетворення даних у журнал</value>

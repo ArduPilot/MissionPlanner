@@ -117,67 +117,151 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_follow_me.Text" xml:space="preserve">
-    <value>Слідкуйте за мною</value>
-  </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Діаграма FFT з журналу</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Показувати додаткову іконку на карті поточного місцезнаходження.</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Scramble lat/lng у bin або tlog-блозі</value>
-  </data>
-  <data name="BUT_outputnmea.Text" xml:space="preserve">
-    <value>НМЕА</value>
-  </data>
-  <data name="but_fft.Text" xml:space="preserve">
-    <value>ФТТ</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Увімкнути користувацькі попередження на основі набору умов</value>
-  </data>
-  <data name="but_signkey.Text" xml:space="preserve">
-    <value>Підписання Mavlink</value>
-  </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Перегляд декодованих даних mavlink та отримано</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Наступні сторінки є тільки для додаткових налаштувань. Використовуйте з обережністю</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Віддзеркалювання Mavlink на зовнішнє розташування. Для моніторингу або контролю</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Вивід MAV розташування як рядок NMEA</value>
+    <value>Переглянути декодовані дані MAVLink, що надсилаються та приймаються</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Переглянути дані з 360 криниці</value>
+    <value>Переглянути дані з 360 ЛІДАР</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Показати місцезнаходження М-БпЛА у форматі NMEA</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Зовнішнє дзеркало MAVLink. Для моніторингу та контролю.</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Наступні сторінки призначені лише для розширеної конфігурації. Будьте обережні!</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Переглянути декодовані дані MAVLink, що надсилаються та приймаються</value>
+  </data>
+  <data name="but_signkey.Text" xml:space="preserve">
+    <value>Крипто-підписання MAVLink</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Увімкнути підписання mavlink на безпечне спілкування з MAV</value>
+    <value>Увімкніть крипто-підписання MAVLink, щоб захистити зв'язок з М-БпЛА</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Розшарити зв'язок із інженером підтримки</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Побудувати FFT з журналу</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Показати додатковий значок на карті вашого поточного місцезнаходження.</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Побудувати FFT з журналу</value>
+  </data>
+  <data name="BUT_spect.Text" xml:space="preserve">
+    <value>Спектрограма</value>
+  </data>
+  <data name="BUT_follow_me.Text" xml:space="preserve">
+    <value>Слідуй за мною</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Увімкнути кастомізовані попередження на основі набору умов</value>
+  </data>
+  <data name="BUT_paramgen.Text" xml:space="preserve">
+    <value>Генерація параметрів</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Наступні сторінки призначені лише для розширеної конфігурації. Будьте обережні!</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Зовнішнє дзеркало MAVLink. Для моніторингу та контролю.</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Показати місцезнаходження М-БпЛА у форматі NMEA</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Переглянути дані з 360 ЛІДАР</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Увімкніть крипто-підписання MAVLink, щоб захистити зв'язок з М-БпЛА</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Використовуйте зовнішні графіки NMEA і відправляйте рух шляхових точок в MAV залежно від вказаного місця</value>
+    <value>Використовувати зовнішний NMEA GPS та надсилати ППМ режиму наведення до М-БпЛА на основі його місцезнаходження</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Відновити інформацію про парам, яка знаходиться всередині mp</value>
+    <value>Регенерувати інфо про параметри, яки використовуються в MissionPlanner</value>
   </data>
   <data name="but_anonlog.Text" xml:space="preserve">
-    <value>Анон Лог</value>
+    <value>Анон.журнал</value>
+  </data>
+  <data name="BUT_supportproxy.Text" xml:space="preserve">
+    <value>Проксі підтримки</value>
   </data>
   <data name="but_proximity.Text" xml:space="preserve">
-    <value>Наближення</value>
+    <value>Близькість</value>
   </data>
   <data name="BUT_movingbase.Text" xml:space="preserve">
     <value>Рухома база</value>
   </data>
   <data name="BUT_outputMavlink.Text" xml:space="preserve">
-    <value>Дзеркало Mavlink</value>
+    <value>Дзеркало MAVLink</value>
+  </data>
+  <data name="but_mavinspector.Text" xml:space="preserve">
+    <value>Інспектор MAVLink</value>
+  </data>
+  <data name="BUT_paramgen.Text" xml:space="preserve">
+    <value>Генерація параметрів</value>
   </data>
   <data name="but_warningmanager.Text" xml:space="preserve">
     <value>Менеджер попереджень</value>
+  </data>
+  <data name="but_signkey.Text" xml:space="preserve">
+    <value>Крипто-підписання MAVLink</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Увімкнути кастомізовані попередження на основі набору умов</value>
+  </data>
+  <data name="but_warningmanager.Text" xml:space="preserve">
+    <value>Менеджер попереджень</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Використовувати зовнішний NMEA GPS та надсилати ППМ режиму наведення до М-БпЛА на основі його місцезнаходження</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Регенерувати інфо про параметри, яки використовуються в MissionPlanner</value>
+  </data>
+  <data name="but_anonlog.Text" xml:space="preserve">
+    <value>Анон.журнал</value>
+  </data>
+  <data name="BUT_supportproxy.Text" xml:space="preserve">
+    <value>Проксі підтримки</value>
+  </data>
+  <data name="but_proximity.Text" xml:space="preserve">
+    <value>Близькість</value>
+  </data>
+  <data name="BUT_movingbase.Text" xml:space="preserve">
+    <value>Рухома база</value>
+  </data>
+  <data name="BUT_outputMavlink.Text" xml:space="preserve">
+    <value>Дзеркало MAVLink</value>
+  </data>
+  <data name="but_mavinspector.Text" xml:space="preserve">
+    <value>Інспектор MAVLink</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Розшарити зв'язок із інженером підтримки</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Scramble lat/lng in bin or tlog</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Побудувати FFT з журналу</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Показати додатковий значок на карті вашого поточного місцезнаходження.</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Побудувати FFT з журналу</value>
+  </data>
+  <data name="BUT_spect.Text" xml:space="preserve">
+    <value>Спектрограма</value>
+  </data>
+  <data name="BUT_follow_me.Text" xml:space="preserve">
+    <value>Слідуй за мною</value>
   </data>
 </root>
