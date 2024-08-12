@@ -5872,10 +5872,12 @@ public partial class MAVLink
         ///<summary> The GPS receiver detected no signal jamming. | </summary>
         [Description("The GPS receiver detected no signal jamming.")]
         OK=1, 
+        ///<summary> The GPS receiver detected and mitigated signal jamming. | </summary>
+        [Description("The GPS receiver detected and mitigated signal jamming.")]
+        MITIGATED=2, 
         ///<summary> The GPS receiver detected signal jamming. | </summary>
         [Description("The GPS receiver detected signal jamming.")]
-        DETECTED=2, 
-        
+        DETECTED=3, 
     };
     
     ///<summary> Signal spoofing state in a GPS receiver. </summary>

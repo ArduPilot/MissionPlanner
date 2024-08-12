@@ -2023,7 +2023,8 @@ local enumEntryName = {
     ["GPS_JAMMING_STATE"] = {
         [0] = "GPS_JAMMING_STATE_UNKNOWN",
         [1] = "GPS_JAMMING_STATE_OK",
-        [2] = "GPS_JAMMING_STATE_DETECTED",
+        [2] = "GPS_JAMMING_STATE_MITIGATED",
+        [3] = "GPS_JAMMING_STATE_DETECTED",
     },
     ["GPS_SPOOFING_STATE"] = {
         [0] = "GPS_SPOOFING_STATE_UNKNOWN",
