@@ -7,6 +7,7 @@ using MissionPlanner.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -5263,9 +5264,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 if (msgid == 0)
                                 {
                                     // flush on heartbeat - 1 seconds
-                                    if (logfile != null)
+                                    if (logfile != null && logfile.CanWrite)
                                         logfile.Flush();
-                                    if (rawlogfile != null)
+                                    if (rawlogfile != null && rawlogfile.CanWrite)
                                         rawlogfile.Flush();
                                 }
                             }
@@ -5884,8 +5885,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             {
                 Hashtable set = new Hashtable();
 
-                giveComport = true;
-                MAVLinkMessage buffer;
+                giveComport = false;
+                MAVLinkMessage buffer = MAVLinkMessage.Invalid;
 
                 if (Progress != null)
                 {
@@ -5896,6 +5897,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 uint ofs = 0;
                 uint bps = 0;
                 DateTime bpstimer = DateTime.Now;
+
+                ConcurrentQueue<MAVLinkMessage> queue = new ConcurrentQueue<MAVLinkMessage>();
+                EventHandler<MAVLinkMessage> handler = (sender, msg) =>
+                {
+                    queue.Enqueue(msg);
+                };
+                OnPacketReceived += handler;
+
+                _OnPacketReceived.GetInvocationList().ForEach(a => log.Info(a.GetMethodInfo().ToJSON()));
+                
 
                 mavlink_log_request_data_t req = new mavlink_log_request_data_t();
 
@@ -5912,6 +5923,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 DateTime start = DateTime.Now;
                 int retrys = 3;
 
+
                 while (true)
                 {
                     if (!(start.AddMilliseconds(3000) > DateTime.Now))
@@ -5926,11 +5938,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         }
 
                         giveComport = false;
+                        OnPacketReceived -= handler;
                         throw new TimeoutException("Timeout on read - GetLog");
                     }
 
                     var start1 = DateTime.Now;
-                    buffer = await readPacketAsync().ConfigureAwait(false);
+                    if (!queue.TryDequeue(out buffer))
+                    {
+                        Thread.Sleep(10);
+                        buffer = MAVLinkMessage.Invalid;
+                    }
                     var end = DateTime.Now - start1;
                     var lapse = end.TotalMilliseconds;
                     //Console.WriteLine("readPacketAsync: " + lapse);
@@ -5994,6 +6011,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     if (totallength == ms.Length && set.Count >= ((totallength) / 90 + 1))
                     {
                         giveComport = false;
+                        OnPacketReceived -= handler;
                         return filename;
                     }
 
@@ -6023,7 +6041,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         }
                     }
 
-                    buffer = await readPacketAsync().ConfigureAwait(false);
+                    if (!queue.TryDequeue(out buffer))
+                    {
+                        Thread.Sleep(10);
+                        buffer = MAVLinkMessage.Invalid;
+                    }
                     if (buffer.Length > 5)
                     {
                         if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA && buffer.sysid == req.target_system &&
@@ -6076,6 +6098,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     }
                 }
 
+                OnPacketReceived -= handler;
                 throw new Exception("Failed to get log");
             }
         }

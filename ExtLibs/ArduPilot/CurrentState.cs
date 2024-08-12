@@ -142,7 +142,11 @@ namespace MissionPlanner
                 _parent = value;
                 if (parent != null)
                     if (parent.parent != null)
+                    {
+                        // 100% ensure no duplicates
+                        parent.parent.OnPacketReceived -= Parent_OnPacketReceived;
                         parent.parent.OnPacketReceived += Parent_OnPacketReceived;
+                    }
             }
         }
 
