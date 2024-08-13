@@ -29,6 +29,7 @@ namespace MissionPlanner.Controls
         {
             _mav = mav;
             _mavftp = new MAVFtp(_mav, (byte)_mav.sysidcurrent, (byte)mav.compidcurrent);
+            DateTime nextupdate = DateTime.UtcNow;
             _mavftp.Progress += (message, percent) =>
             {
                 try
@@ -39,20 +40,22 @@ namespace MissionPlanner.Controls
                         return;
                     }
 
-                    this.BeginInvokeIfRequired(() =>
-                    {
-                        try
+                    if (nextupdate < DateTime.UtcNow)
+                        this.BeginInvokeIfRequired(() =>
                         {
-                            if(percent >= 0)
-                                toolStripProgressBar1.Value = percent;
-                            toolStripStatusLabel1.Text = message;
-                            statusStrip1.Refresh();
-                        }
-                        catch (Exception ex)
-                        {
-                            log.Error(ex);
-                        }
-                    });
+                            try
+                            {
+                                nextupdate = DateTime.UtcNow.AddMilliseconds(100);
+                                if (percent >= 0)
+                                    toolStripProgressBar1.Value = percent;
+                                toolStripStatusLabel1.Text = message;
+                                statusStrip1.Refresh();
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error(ex);
+                            }
+                        });
                 }
                 catch (Exception ex)
                 {
