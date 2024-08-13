@@ -4050,8 +4050,9 @@ namespace MissionPlanner
                         }
                         break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
-                        {
-                        }
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CANFD_FRAME:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_DATA:
                         break;
                     default:
                         {
