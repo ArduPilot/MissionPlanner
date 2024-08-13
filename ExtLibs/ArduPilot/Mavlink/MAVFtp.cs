@@ -783,7 +783,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 // we have lost data
                 if (answer.Position != ftphead.offset)
                 {
-    
+                    log.Info($"lost data {file} at rx {ftphead.offset} vs ms {answer.Position}");
                 }
 
                 // got a valid segment, so reset retrys
@@ -792,17 +792,19 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 chunkSortedList[ftphead.offset] = ftphead.offset + ftphead.size;
 
+                SimplifyChunkList(chunkSortedList);
+
                 var currentsize = chunkSortedList.Sum(a => a.Value - a.Key);
 
-                log.Info($"got data {file} at {ftphead.offset} got {currentsize} of {size}");
+                //log.Info($"got data {file} at {ftphead.offset} got {currentsize} of {size}");
 
                 answer.Seek(ftphead.offset, SeekOrigin.Begin);
                 answer.Write(ftphead.data, 0, ftphead.size);
                 timeout.ResetTimeout();
                 //log.Debug(ftphead);
                 seq_no = (ushort)(ftphead.seq_number + 1);
-                // if rerequest needed
-                payload.offset = ftphead.offset + ftphead.size;
+                // dont move backwards
+                payload.offset = Math.Max(ftphead.offset + ftphead.size, payload.offset);
                 payload.seq_number = seq_no;
                 fileTransferProtocol.payload = payload;
                 // ignore the burst read first response
@@ -858,6 +860,29 @@ namespace MissionPlanner.ArduPilot.Mavlink
             if (ex != null)
                 throw ex;
             return answer;
+        }
+
+        private void SimplifyChunkList(SortedList<uint, uint> chunkSortedList)
+        {
+            // join any overlapping chunks
+            for (int i = 0; i < chunkSortedList.Count - 1; i++)
+            {
+                var chunk = chunkSortedList.ElementAt(i);
+                var nextchunk = chunkSortedList.ElementAt(i + 1);
+                // next chunk is after this one
+                if (chunk.Value >= nextchunk.Key)
+                {
+                    chunkSortedList[chunk.Key] = nextchunk.Value;
+                    chunkSortedList.RemoveAt(i + 1);
+                    i--;
+                }
+                // next chunk is inside this one
+                else if (nextchunk.Key >= chunk.Key && nextchunk.Value <= chunk.Value)
+                {
+                    chunkSortedList.RemoveAt(i + 1);
+                    i--;
+                }
+            }
         }
 
         private uint FindMissing(SortedList<uint, uint> chunkSortedList)
