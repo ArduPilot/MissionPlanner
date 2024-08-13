@@ -156,26 +156,17 @@ namespace Carbonix
                 last_controller_state = false;
             }
 
+            // Update the weather data on the Records tab if necessary
+            tabRecords.UpdateMETAR();
+
             // If the aircraft has just been armed, send a message to the autopilot to
-            // capture the pilots and battery set in the log.
+            // capture the pilots and other record information
             if (Host.comPort.BaseStream.IsOpen && Host.cs.armed && !last_arm_state)
             {
-                string pic = "";
-                string gso = "";
-                int avionics_batid = 0;
-                int vtol_batid = 0;
-                tabRecords.Invoke((MethodInvoker)delegate
+                foreach (var record in tabRecords.GetRecords())
                 {
-                    pic = tabRecords.cmb_pic.Text;
-                    gso = tabRecords.cmb_gso.Text;
-                    avionics_batid = (int)tabRecords.num_avbatid.Value;
-                    vtol_batid = (int)tabRecords.num_vtolbatid.Value;
-
-                });
-                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "PIC: " + pic);
-                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "GSO: " + gso);
-                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "AVBAT: " + avionics_batid.ToString());
-                Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, "VTOLBAT: " + vtol_batid.ToString());
+                    Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, record);
+                }
                 last_arm_state = true;
             }
             else if (!Host.comPort.BaseStream.IsOpen)
@@ -273,7 +264,7 @@ namespace Carbonix
                 Text = "Records",
                 Name = "tabRecords"
             };
-            tabRecords = new RecordsTab(Host, aircraft_settings.pilots) { Dock = DockStyle.Fill };
+            tabRecords = new RecordsTab(Host, settings, aircraft_settings) { Dock = DockStyle.Fill };
             tabPageRecords.Controls.Add(tabRecords);
             Host.MainForm.FlightData.TabListOriginal.Insert(2, tabPageRecords);
 

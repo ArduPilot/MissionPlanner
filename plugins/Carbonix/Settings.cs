@@ -16,7 +16,9 @@ namespace Carbonix
         public List<string> fpmap_menu_allow;
         public List<string> fpmap_menu_autowp_allow;
         public List<string> fpmap_menu_maptool_allow;
+        public List<string> pilot_locations;
         public string controller;
+        public string weather_api_key;
 
         public GeneralSettings()
         {
@@ -56,7 +58,13 @@ namespace Carbonix
                 "kMLOverlayToolStripMenuItem",
                 "elevationGraphToolStripMenuItem",
             };
+            pilot_locations = new List<string>()
+            {
+                "Field",
+                "ROC1"
+            };
             controller = "vJoy Device";
+            weather_api_key = Environment.GetEnvironmentVariable("WEATHER_API_KEY") ?? "";
         }
     }
 
@@ -81,11 +89,10 @@ namespace Carbonix
             public double alt;
         }
         public List<Point> approach_points;
-
         public List<NumberViewSettings> takeofftab_displays;
-
         public List<string> pilots;
-
+        public List<string> payloads;
+        public bool has_avionics_battery;
         public bool use_joystick;
 
         public AircraftSettings(Aircraft aircraft)
@@ -126,6 +133,15 @@ namespace Carbonix
                     "Isaac Straatemeier",
                 };
 
+                payloads = new List<string>()
+                {
+                    "None",
+                    "YellowScan",
+                    "CM62",
+                };
+
+                has_avionics_battery = false;
+
                 use_joystick = true;
                 break;
             case Aircraft.Ottano:
@@ -161,7 +177,16 @@ namespace Carbonix
                     "Lachlan Conn",
                     "Isaac Straatemeier",
                 };
-                
+
+                payloads = new List<string>()
+                {
+                    "None",
+                    "Dual GS120",
+                    "Riegl",
+                };
+
+                has_avionics_battery = true;
+
                 use_joystick = false;
                 break;
             default:

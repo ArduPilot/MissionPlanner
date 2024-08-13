@@ -5,6 +5,8 @@ jobs:
   build:
     name: Build Release
     runs-on: windows-latest
+    env:
+      WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
 
     steps:
       - uses: actions/checkout@v2
