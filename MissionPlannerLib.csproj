@@ -487,7 +487,7 @@
    </PackageReference>
    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.80.2" />
-   <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
+   <PackageReference Include="SkiaSharp.Views.Forms" Version="2.88.8" />
    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
    <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
    <PackageReference Include="System.Runtime" Version="4.3.1" />
@@ -499,7 +499,7 @@
     <PackageReference Include="SSH.NET" version="2020.0.2" /> 
 	 <PackageReference Include="SharpDX" version="4.1.0" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" />
-    <PackageReference Include="SkiaSharp" Version="2.80.2" /> <PackageReference Include="Crc32.NET">
+    <PackageReference Include="SkiaSharp" Version="2.88.8" /> <PackageReference Include="Crc32.NET">
       <Version>1.2.0</Version>
     </PackageReference>
     <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="netstandard2.0" requireReinstallation="true" />
