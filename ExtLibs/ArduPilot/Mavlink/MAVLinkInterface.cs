@@ -244,6 +244,7 @@ namespace MissionPlanner
                 {
                     // trying to set it true twice
                     log.Error(new System.Diagnostics.StackTrace().ToString());
+                    Debugger.Break();
                 }
 
                 if (value == true)
