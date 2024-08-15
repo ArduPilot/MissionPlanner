@@ -817,6 +817,31 @@ namespace GMap.NET
 
       readonly Exception noDataException = new Exception("No data in local tile cache...");
 
+      public bool CheckImageExist(GMapProvider provider, GPoint pos, int zoom, out Exception result)
+      {
+         result = null;
+         try
+         {
+            if (Mode != AccessMode.ServerOnly && !provider.BypassCache)
+            {
+               if (PrimaryCache != null)
+               {
+                  return PrimaryCache.CheckImageFromCache(provider.DbId, pos, zoom);
+               }
+
+               if (SecondaryCache != null)
+               {
+                  return SecondaryCache.CheckImageFromCache(provider.DbId, pos, zoom);
+               }
+            }
+         }
+         catch (Exception ex)
+         {
+            Debug.WriteLine("CheckImageExist: " + ex.ToString());
+         }
+         return false;
+      }
+
 #if !PocketPC
       TileHttpHost host;
 
