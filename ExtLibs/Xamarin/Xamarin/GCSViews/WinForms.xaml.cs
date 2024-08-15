@@ -109,7 +109,7 @@ namespace Xamarin.GCSViews
                     }
                     else
                     {
-                        if (s.StartsWith("BT_"))
+                        if (s.StartsWith("BT_") || s.StartsWith("BLE_"))
                         {
                             var bt = await Test.BlueToothDevice.GetDeviceInfoList();
 

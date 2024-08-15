@@ -79,6 +79,7 @@
     <Compile Remove="ExtLibs\Onvif\**" />
     <Compile Remove="ExtLibs\OSDConfigurator\**" />
     <Compile Remove="ExtLibs\ParameterMetaDataGenerator\**" />
+    <Compile Remove="ExtLibs\pinvokegen\**" />
     <Compile Remove="ExtLibs\ProjNet\**" />
     <Compile Remove="ExtLibs\px4uploader\**" />
     <Compile Remove="ExtLibs\SharpAdbClient\**" />
@@ -175,6 +176,7 @@
     <EmbeddedResource Remove="ExtLibs\Onvif\**" />
     <EmbeddedResource Remove="ExtLibs\OSDConfigurator\**" />
     <EmbeddedResource Remove="ExtLibs\ParameterMetaDataGenerator\**" />
+    <EmbeddedResource Remove="ExtLibs\pinvokegen\**" />
     <EmbeddedResource Remove="ExtLibs\ProjNet\**" />
     <EmbeddedResource Remove="ExtLibs\px4uploader\**" />
     <EmbeddedResource Remove="ExtLibs\SharpAdbClient\**" />
@@ -270,6 +272,7 @@
     <None Remove="ExtLibs\Onvif\**" />
     <None Remove="ExtLibs\OSDConfigurator\**" />
     <None Remove="ExtLibs\ParameterMetaDataGenerator\**" />
+    <None Remove="ExtLibs\pinvokegen\**" />
     <None Remove="ExtLibs\ProjNet\**" />
     <None Remove="ExtLibs\px4uploader\**" />
     <None Remove="ExtLibs\SharpAdbClient\**" />
