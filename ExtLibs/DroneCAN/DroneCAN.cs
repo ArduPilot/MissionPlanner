@@ -378,9 +378,11 @@ namespace DroneCAN
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
                 {
                     var gnires = new DroneCAN.uavcan_protocol_GetNodeInfo_res();
-                    gnires.software_version.major = (byte)Assembly.GetExecutingAssembly().GetName().Version.Major;
-                    gnires.software_version.minor = (byte)Assembly.GetExecutingAssembly().GetName().Version.Minor;
-                    gnires.hardware_version.major = 0;
+                    var fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+                    gnires.software_version.major = (byte)fvi.ProductMajorPart;
+                    gnires.software_version.minor = (byte)fvi.ProductMinorPart;
+                    gnires.software_version.vcs_commit = uint.Parse(fvi.ProductBuildPart.ToString(), NumberStyles.HexNumber);
+                    gnires.hardware_version.major = (byte)0;
                     gnires.hardware_version.unique_id = ASCIIEncoding.ASCII.GetBytes(("MissionPlanner").PadRight(16, '\x0'));
                     gnires.name = ASCIIEncoding.ASCII.GetBytes("org.missionplanner");
                     gnires.name_len = (byte)gnires.name.Length;
