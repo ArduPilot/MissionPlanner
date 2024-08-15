@@ -1103,12 +1103,16 @@ namespace MissionPlanner
         private void but_disablearmswitch_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
-                MainV2.comPort.setMode(
-                    new MAVLink.mavlink_set_mode_t()
-                    {
-                        custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control == true && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u,
-                        target_system = (byte)MainV2.comPort.sysidcurrent
-                    }, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
+            {   
+                var target_system = (byte)MainV2.comPort.sysidcurrent;
+                if (target_system == 0) {
+                    log.Info("Not toggling safety on sysid 0");
+                    return;
+                }
+                var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
+                var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = target_system };
+                MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
+            }
         }
 
         private void but_hwids_Click(object sender, EventArgs e)
