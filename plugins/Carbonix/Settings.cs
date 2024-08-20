@@ -131,6 +131,9 @@ namespace Carbonix
                 {
                     "Lachlan Conn",
                     "Isaac Straatemeier",
+                    "Darwish Ismail",
+                    "Aidan Biggar",
+                    "Matt Sturdy",
                 };
 
                 payloads = new List<string>()
@@ -138,6 +141,7 @@ namespace Carbonix
                     "None",
                     "YellowScan",
                     "CM62",
+                    "Nighthawk"
                 };
 
                 has_avionics_battery = false;
@@ -176,13 +180,18 @@ namespace Carbonix
                 {
                     "Lachlan Conn",
                     "Isaac Straatemeier",
+                    "Darwish Ismail",
+                    "Aidan Biggar",
+                    "Matt Sturdy",
                 };
 
                 payloads = new List<string>()
                 {
                     "None",
-                    "Dual GS120",
-                    "Riegl",
+                    "Dual GS-120",
+                    "Riegl and GS-120",
+                    "Single GS-120",
+                    "Riegl Vux-120",
                 };
 
                 has_avionics_battery = true;
