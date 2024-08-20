@@ -28,6 +28,7 @@ jobs:
             !**.so
             !**.aab
             !**.dll
+            !jl
           key: ${{ runner.os }}-buildAAB
 
       - name: Build
@@ -104,6 +105,7 @@ jobs:
             !**.so
             !**.aab
             !**.dll
+            !jl
           key: ${{ runner.os }}-buildAPK
       - name: Build
         shell: pwsh
