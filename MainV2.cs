@@ -512,7 +512,14 @@ namespace MissionPlanner
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
         public static WebCamService.Capture cam { get; set; }
+        /// <summary>
+        /// used for custom autoconnect for predefined endpoints
+        /// </summary>
         public List<AutoConnect.ConnectionInfo> ExtraConnectionList { get; } = new List<AutoConnect.ConnectionInfo>();
+        /// <summary>
+        /// used for dynamic custom port types
+        /// </summary>
+        public Dictionary<Regex, Func<string, string, ICommsSerial>> CustomPortList { get; } = new Dictionary<Regex, Func<string, string, ICommsSerial>>();
 
         /// <summary>
         /// controls the main serial reader thread
@@ -1499,7 +1506,15 @@ namespace MissionPlanner
                         return;
                     }
 
-                    comPort.BaseStream = new SerialPort();
+                    var customport = CustomPortList.Any(a => a.Key.IsMatch(portname));
+                    if (customport)
+                    {
+                        comPort.BaseStream = CustomPortList.First(a => a.Key.IsMatch(portname)).Value(portname, baud);
+                    }
+                    else
+                    {
+                        comPort.BaseStream = new SerialPort();
+                    }
                     break;
             }
 
@@ -3246,7 +3261,7 @@ namespace MissionPlanner
         }
 
 
-protected override void OnLoad(EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             // check if its defined, and force to show it if not known about
             if (Settings.Instance["menu_autohide"] == null)
@@ -3737,6 +3752,16 @@ protected override void OnLoad(EventArgs e)
                     catch { }
                 }
             };
+
+            try
+            {
+                // prescan
+                MissionPlanner.Comms.CommsBLE.SerialPort_GetCustomPorts();
+            }
+            catch { }
+
+            // add the custom port creator
+            CustomPortList.Add(new Regex("BLE_.*"), (s1, s2) => { return new CommsBLE() { PortName = s1, BaudRate = int.Parse(s2) }; });
 
             this.ResumeLayout();
 
