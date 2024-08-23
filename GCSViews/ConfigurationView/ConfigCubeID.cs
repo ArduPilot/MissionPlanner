@@ -83,7 +83,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             bool seenresp = false;
 
-            MainV2.comPort.BaseStream.BaudRate = 57600;
+            if (CHK_forcebaud.Checked)
+                MainV2.comPort.BaseStream.BaudRate = 57600;
 
             var subid = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CUBEPILOT_FIRMWARE_UPDATE_RESP, msg =>
             {
