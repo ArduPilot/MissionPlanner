@@ -34,21 +34,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             done = false;
             progress = 0.0;
             offset = 0;
+            file = string.Empty;
 
-            /*
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.bin|*.bin";
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
 
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                file = ofd.FileName;
-            */
-                ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            prd.DoWork += Prd_DoWork;
 
-                prd.DoWork += Prd_DoWork;
-
-                prd.RunBackgroundOperationAsync();
-            //}
+            prd.RunBackgroundOperationAsync();
         }
 
         uint crc32_update(uint crc, byte[] data) {
@@ -68,11 +60,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Prd_DoWork(Utilities.IProgressReporterDialogue sender)
         {
-            file = Path.GetTempFileName();
-            if (!Download.getFilefromNet(url, file))
+            if (file == string.Empty)
             {
-                sender.doWorkArgs.ErrorMessage = "Bad Download"; 
-                return;
+                file = Path.GetTempFileName();
+                if (!Download.getFilefromNet(url, file))
+                {
+                    sender.doWorkArgs.ErrorMessage = "Bad Download";
+                    return;
+                }
             }
 
             var firmware_data = File.ReadAllBytes(file);
@@ -168,6 +163,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             //SERIAL_PASS2
             //SERIAL_PASSTIMO
+        }
+
+        private void but_customfw_Click(object sender, EventArgs e)
+        {
+            done = false;
+            progress = 0.0;
+            offset = 0;
+            file = string.Empty;
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "*.bin|*.bin";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                file = ofd.FileName;
+            
+                ProgressReporterDialogue prd = new ProgressReporterDialogue();
+
+                prd.DoWork += Prd_DoWork;
+
+                prd.RunBackgroundOperationAsync();
+            }
         }
     }
 }

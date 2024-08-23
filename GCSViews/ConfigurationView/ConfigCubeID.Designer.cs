@@ -36,12 +36,13 @@
             this.mavpasscombo = new MissionPlanner.Controls.MavlinkComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.CHK_forcebaud = new System.Windows.Forms.CheckBox();
+            this.but_customfw = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.mavnumtimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // but_upfw
             // 
-            this.but_upfw.Location = new System.Drawing.Point(141, 218);
+            this.but_upfw.Location = new System.Drawing.Point(72, 218);
             this.but_upfw.Name = "but_upfw";
             this.but_upfw.Size = new System.Drawing.Size(120, 23);
             this.but_upfw.TabIndex = 0;
@@ -124,10 +125,22 @@
             this.CHK_forcebaud.Text = "Force 57600 baud";
             this.CHK_forcebaud.UseVisualStyleBackColor = true;
             // 
+            // but_customfw
+            // 
+            this.but_customfw.Location = new System.Drawing.Point(198, 218);
+            this.but_customfw.Name = "but_customfw";
+            this.but_customfw.Size = new System.Drawing.Size(109, 23);
+            this.but_customfw.TabIndex = 8;
+            this.but_customfw.Text = "Upload Custom Firmware";
+            this.but_customfw.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_customfw.UseVisualStyleBackColor = true;
+            this.but_customfw.Click += new System.EventHandler(this.but_customfw_Click);
+            // 
             // ConfigCubeID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_customfw);
             this.Controls.Add(this.CHK_forcebaud);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -154,5 +167,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox CHK_forcebaud;
+        private Controls.MyButton but_customfw;
     }
 }
