@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 using SkiaSharp;
+using System.Diagnostics;
 
 namespace Aberus.VisualStudio.Debugger.ImageVisualizer
 {
@@ -13,6 +14,8 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
         /// <param name="outgoingData"></param>
         public override void GetData(object target, Stream outgoingData)
         {
+            Debug.WriteLine("ImageVisualizerObjectSource GetData " + target.GetType());
+            System.Diagnostics.Debugger.Break();
             if (target is SKBitmap image1)
             {
                 var bitmapSource = image1.Encode(SKEncodedImageFormat.Png, 100).AsStream();
@@ -36,7 +39,7 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
                     outgoingData);
             }
             else if (target is SKCanvas image5)
-            {
+            {                
                 base.GetData(
                     new SerializableBitmapImage(new byte[0]),
                     outgoingData);

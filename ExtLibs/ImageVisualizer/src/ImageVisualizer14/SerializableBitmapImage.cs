@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -12,11 +13,13 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
 
         public SerializableBitmapImage(byte[] image)
         {
+            Debug.WriteLine("SerializableBitmapImage(byte[] image) Length " + image.Length);
             this.Image = image;
         }
 
         public SerializableBitmapImage(Stream image)
         {
+            Debug.WriteLine("SerializableBitmapImage(Stream image) Length " + image.Length);
             var ms = new MemoryStream();
             image.CopyTo(ms);
             this.Image = ms.ToArray();
@@ -24,6 +27,7 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
 
         protected SerializableBitmapImage(SerializationInfo info, StreamingContext context)
         {
+            Debug.WriteLine("SerializableBitmapImage(SerializationInfo info, StreamingContext context)");
             foreach (var i in info)
             {
                 if (string.Equals(i.Name, "Image", StringComparison.OrdinalIgnoreCase))
@@ -73,6 +77,7 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            Debug.WriteLine("ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)");
             {
                 using (var memoryStream = new MemoryStream())
                 {

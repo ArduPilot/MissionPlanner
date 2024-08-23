@@ -863,7 +863,7 @@ namespace Xamarin.GCSViews
 
                 var canvas = e.Surface.Canvas;
 
-                //canvas.Clear(SKColors.Gray);
+                canvas.Clear(SKColors.Gray);
 
                 canvas.Scale((float) scale.Width, (float) scale.Height);
 

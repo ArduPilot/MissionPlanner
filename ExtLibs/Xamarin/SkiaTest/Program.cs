@@ -396,7 +396,7 @@ namespace SkiaTest
 
                     var canvas = e.Canvas;
 
-                    //canvas.Clear(SKColors.Gray);
+                    canvas.Clear(SKColors.Gray);
 
                     canvas.Scale((float) scale.Width, (float) scale.Height);
 
@@ -424,7 +424,7 @@ namespace SkiaTest
 
                             try
                             {
-                                FormsRender.DrawOntoCanvas(form.Handle, canvas, Application.OpenForms.Count > 1);
+                                FormsRender.DrawOntoCanvas(form.Handle, canvas, true /* Application.OpenForms.Count > 1*/);
                             }
                             catch (Exception ex)
                             {
