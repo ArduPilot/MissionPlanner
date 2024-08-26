@@ -14,6 +14,7 @@ using MissionPlanner.Controls;
 using System.Threading.Tasks;
 using System.Drawing;
 using MissionPlanner.GCSViews.ConfigurationView;
+using Newtonsoft.Json.Serialization;
 
 namespace Carbonix
 {
@@ -207,20 +208,40 @@ namespace Carbonix
             }
         }
 
+        /// <summary>
+        /// Forces all properties to be required when deserializing JSON. This prevents newly-added
+        /// fields from being silently ignored if settings file already exists from an old version.
+        /// </summary>
+        public class RequiredPropertiesContractResolver : DefaultContractResolver
+        {
+            protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+            {
+                JsonProperty property = base.CreateProperty(member, memberSerialization);
+                property.Required = Required.Always;
+                return property;
+            }
+        }
+
         private bool GetSettingsFromFile<T>(string filename, ref T outobj)
         {
             // For debugging, always load default settings
             // This is so the settings in the git repo always match what I am testing
-#if !DEBUG
+#if DEBUG
             if (File.Exists(filename))
             {
                 try
                 {
-                    outobj = JsonConvert.DeserializeObject<T>(File.ReadAllText(filename));
+                    outobj = JsonConvert.DeserializeObject<T>(File.ReadAllText(filename), new JsonSerializerSettings()
+                    {
+                        ContractResolver = new RequiredPropertiesContractResolver(),
+                        ObjectCreationHandling = ObjectCreationHandling.Replace,
+                        MissingMemberHandling = MissingMemberHandling.Error
+                    });
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
+                    log.Error(e);
                     // Something went wrong importing this file, save a backup of it and we'll create a new one
                     int i = 1;
                     string newFilename;
