@@ -162,18 +162,15 @@ namespace Carbonix
 
             // If the aircraft has just been armed, send a message to the autopilot to
             // capture the pilots and other record information
-            if (Host.comPort.BaseStream.IsOpen && Host.cs.armed && !last_arm_state)
+            var is_armed = (Host.comPort?.BaseStream?.IsOpen ?? false) && Host.cs.armed;
+            if (is_armed && !last_arm_state)
             {
                 foreach (var record in tabRecords.GetRecords())
                 {
                     Host.comPort.send_text((byte)MAVLink.MAV_SEVERITY.INFO, record);
                 }
-                last_arm_state = true;
             }
-            else if (!Host.comPort.BaseStream.IsOpen)
-            {
-                last_arm_state = false;
-            }
+            last_arm_state = is_armed;
 
             return true;
         }
