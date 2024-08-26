@@ -208,6 +208,8 @@ namespace MissionPlanner.Comms
                     bool paired = false;
                     //while (!paired)
                     {
+                        mtu = simpleble_peripheral_mtu(peripheral);
+                        Console.WriteLine("MTU: " + mtu);
                         simpleble_peripheral_is_connected(peripheral, out paired);
                         //simpleble_peripheral_is_paired(peripheral, out paired);
                         Thread.Sleep(1000);
@@ -616,6 +618,8 @@ namespace MissionPlanner.Comms
             string peripheral_address = simpleble_peripheral_address(peripheral);
 
             Console.WriteLine("Disconnected from " + peripheral_address);
+
+            bleperiph.Close();
         }
 
         private static void peripheral_on_connected(simpleble_peripheral_t peripheral, void* userdata)
@@ -693,6 +697,7 @@ namespace MissionPlanner.Comms
         private static MyCallbackp _callbackperipheral_on_notify;
         private MyCallbackp2 _callbackperipheral_on_connected;
         private MyCallbackp2 _callbackperipheral_on_disconnected;
+        private ushort mtu;
 
         private static void Send(simpleble_peripheral_t peripheral, byte[] data, int offset, int length) 
         {
