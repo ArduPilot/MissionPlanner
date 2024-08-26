@@ -16,12 +16,14 @@ namespace Carbonix
         private readonly PluginHost Host;
         private static readonly ILog log = LogManager.GetLogger(typeof(RecordsTab));
         private readonly string weather_api_key;
+        private readonly bool has_avionics_battery;
         private Task<(bool, string)> metarTask = null;
 
         public RecordsTab(PluginHost Host, GeneralSettings settings, AircraftSettings aircraft_settings)
         {
             this.Host = Host;
-            this.weather_api_key = settings.weather_api_key;
+            weather_api_key = settings.weather_api_key;
+            has_avionics_battery = aircraft_settings.has_avionics_battery;
             InitializeComponent();
             foreach (var pilot in aircraft_settings.pilots)
             {
@@ -42,7 +44,6 @@ namespace Carbonix
             // Hide the avionics battery row if the aircraft does not have one
             if (!aircraft_settings.has_avionics_battery)
             {
-                num_avbatid.Visible = false;
                 var rowIndex = tableLayoutPanelOuter.GetRow(num_avbatid);
                 tableLayoutPanelOuter.RowStyles[rowIndex].SizeType = SizeType.Absolute;
                 tableLayoutPanelOuter.RowStyles[rowIndex].Height = 0;
@@ -205,7 +206,7 @@ namespace Carbonix
                 $"VTOLBAT:{num_vtolbatid.Value}",
             };
 
-            if (num_avbatid.Visible)
+            if (has_avionics_battery)
             {
                 messages.Add($"AVBAT:{num_avbatid.Value}");
             }
