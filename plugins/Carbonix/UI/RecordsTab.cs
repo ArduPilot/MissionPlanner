@@ -47,6 +47,9 @@ namespace Carbonix
                 var rowIndex = tableLayoutPanelOuter.GetRow(num_avbatid);
                 tableLayoutPanelOuter.RowStyles[rowIndex].SizeType = SizeType.Absolute;
                 tableLayoutPanelOuter.RowStyles[rowIndex].Height = 0;
+
+                // This is needed or else it still draws on top of the VTOL battery row for some reason
+                num_avbatid.Visible = false;
             }
             
         }
