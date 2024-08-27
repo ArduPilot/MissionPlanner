@@ -109,7 +109,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             atc_thr_mix_man = 0.1;
             ins_accel_filter = 10;
-            mot_thst_expo = Math.Round(0.15686 * Math.Log(prop_size) + 0.23693, 2);
+            mot_thst_expo = Math.Min(Math.Round(0.15686 * Math.Log(prop_size) + 0.23693, 2),0.80);
             mot_thst_hover = 0.2;
 
             batt_arm_volt = (batt_cells - 1) * 0.1 + (batt_cell_min_voltage+0.3) * batt_cells;
