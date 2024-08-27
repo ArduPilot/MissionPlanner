@@ -244,6 +244,7 @@ namespace Carbonix
                     this_line += $" {word}";
                 }
             }
+            messages.Add(this_line);
 
             return messages;
         }
