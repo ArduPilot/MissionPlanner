@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,18 @@ namespace Carbonix
                 "ROC1"
             };
             controller = "vJoy Device";
-            weather_api_key = Environment.GetEnvironmentVariable("WEATHER_API_KEY") ?? "";
+            /*
+            It is shockingly difficult to handle this API key the "right way" in
+            C#. Getting an environment variable at compile-time is not
+            supported. The best way seems to be to put in a placeholder string
+            and then have CI do a find/replace in all files.
+
+            We will instead do this the wrong way until it becomes a problem.
+            This is a free API key with a simple daily limit, so if it leaks, we
+            can simply get a new one and then use this old key as the
+            placeholder for the find/replace.
+            */
+            weather_api_key = "5f88b0183ab94ee68cb15d418c";
         }
     }
 
