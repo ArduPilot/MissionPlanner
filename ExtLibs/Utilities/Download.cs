@@ -522,9 +522,20 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-                fs.Close();
-                dataStream.Close();
-
+                if (fs.Length != contlen)
+                {
+                    lock (log)
+                        log.Info("getFilefromNet(): " + "File size mismatch " + fs.Length + " vs " + contlen);
+                    fs.Close();
+                    dataStream.Close();
+                    return false;
+                }
+                else
+                {
+                    fs.Close();
+                    dataStream.Close();
+                }
+                
                 if (File.Exists(saveto))
                 {
                     File.Delete(saveto);
