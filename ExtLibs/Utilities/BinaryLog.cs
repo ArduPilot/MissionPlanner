@@ -524,6 +524,9 @@ namespace MissionPlanner.Utilities
                 case 'Q':
                     return (BitConverter.ToUInt64(message, offset), 8);
 
+                case 'g':
+                    return (HalfHelper.HalfushortToSingle(BitConverter.ToUInt16(message, offset)), 2);
+
                 case 'f':
                     return (BitConverter.ToSingle(message, offset), 4);
 
