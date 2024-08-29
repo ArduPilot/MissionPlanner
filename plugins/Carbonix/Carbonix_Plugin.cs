@@ -223,7 +223,7 @@ namespace Carbonix
         {
             // For debugging, always load default settings
             // This is so the settings in the git repo always match what I am testing
-#if DEBUG
+#if !DEBUG
             if (File.Exists(filename))
             {
                 try
