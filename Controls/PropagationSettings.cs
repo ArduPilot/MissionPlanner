@@ -34,6 +34,7 @@ namespace MissionPlanner.Controls
         private Label label1;
         private CheckBox chk_setalt;
         private Label label3;
+        private CheckBox chk_showscale;
         private CheckBox chk_ele;
 
         public PropagationSettings()
@@ -52,6 +53,8 @@ namespace MissionPlanner.Controls
             NUM_min.Value = (decimal)Settings.Instance.GetFloat("Propagation_Minalt", 100.0f);
             NUM_max.Value = (decimal)Settings.Instance.GetFloat("Propagation_Maxalt", 400.0f);
 
+            chk_showscale.Checked = Maps.Propagation.showScale;
+
             chk_ele.Checked = Maps.Propagation.ele_run;
             chk_terrain.Checked = Maps.Propagation.ter_run;
             chk_rf.Checked = Maps.Propagation.rf_run;
@@ -69,15 +72,17 @@ namespace MissionPlanner.Controls
             this.chk_dronedist = new System.Windows.Forms.CheckBox();
             this.chk_homedist = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chk_showscale = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.NUM_max = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.NUM_min = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
             this.label91 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label89 = new System.Windows.Forms.Label();
             this.Clearance = new System.Windows.Forms.NumericUpDown();
+            this.NUM_min = new System.Windows.Forms.NumericUpDown();
             this.label100 = new System.Windows.Forms.Label();
             this.label113 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.label109 = new System.Windows.Forms.Label();
             this.CMB_Rotational = new System.Windows.Forms.ComboBox();
             this.label90 = new System.Windows.Forms.Label();
@@ -91,63 +96,63 @@ namespace MissionPlanner.Controls
             this.label114 = new System.Windows.Forms.Label();
             this.Tolerance = new System.Windows.Forms.NumericUpDown();
             this.chk_setalt = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_max)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Tolerance)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // chk_ele
-            // 
+            //
             resources.ApplyResources(this.chk_ele, "chk_ele");
             this.chk_ele.Checked = true;
             this.chk_ele.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_ele.Name = "chk_ele";
             this.chk_ele.UseVisualStyleBackColor = true;
             this.chk_ele.CheckedChanged += new System.EventHandler(this.chk_ele_CheckedChanged);
-            // 
+            //
             // chk_terrain
-            // 
+            //
             resources.ApplyResources(this.chk_terrain, "chk_terrain");
             this.chk_terrain.Checked = true;
             this.chk_terrain.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_terrain.Name = "chk_terrain";
             this.chk_terrain.UseVisualStyleBackColor = true;
             this.chk_terrain.CheckedChanged += new System.EventHandler(this.chk_terrain_CheckedChanged);
-            // 
+            //
             // chk_rf
-            // 
+            //
             resources.ApplyResources(this.chk_rf, "chk_rf");
             this.chk_rf.Checked = true;
             this.chk_rf.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_rf.Name = "chk_rf";
             this.chk_rf.UseVisualStyleBackColor = true;
             this.chk_rf.CheckedChanged += new System.EventHandler(this.chk_rf_CheckedChanged);
-            // 
+            //
             // chk_dronedist
-            // 
+            //
             resources.ApplyResources(this.chk_dronedist, "chk_dronedist");
             this.chk_dronedist.Checked = true;
             this.chk_dronedist.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_dronedist.Name = "chk_dronedist";
             this.chk_dronedist.UseVisualStyleBackColor = true;
             this.chk_dronedist.CheckedChanged += new System.EventHandler(this.chk_dronedist_CheckedChanged);
-            // 
+            //
             // chk_homedist
-            // 
+            //
             resources.ApplyResources(this.chk_homedist, "chk_homedist");
             this.chk_homedist.Checked = true;
             this.chk_homedist.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_homedist.Name = "chk_homedist";
             this.chk_homedist.UseVisualStyleBackColor = true;
             this.chk_homedist.CheckedChanged += new System.EventHandler(this.chk_homedist_CheckedChanged);
-            // 
+            //
             // groupBox1
-            // 
+            //
+            this.groupBox1.Controls.Add(this.chk_showscale);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.NUM_max);
             this.groupBox1.Controls.Add(this.label91);
@@ -173,9 +178,23 @@ namespace MissionPlanner.Controls
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            // 
+            //
+            // cb_showscale
+            //
+            resources.ApplyResources(this.chk_showscale, "cb_showscale");
+            this.chk_showscale.Checked = true;
+            this.chk_showscale.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chk_showscale.Name = "cb_showscale";
+            this.chk_showscale.UseVisualStyleBackColor = true;
+            this.chk_showscale.CheckedChanged += new System.EventHandler(this.chk_showscale_CheckedChanged);
+            //
+            // label3
+            //
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            //
             // NUM_max
-            // 
+            //
             this.NUM_max.DecimalPlaces = 1;
             this.NUM_max.Increment = new decimal(new int[] {
             1,
@@ -190,46 +209,24 @@ namespace MissionPlanner.Controls
             0});
             this.NUM_max.Name = "NUM_max";
             this.NUM_max.ValueChanged += new System.EventHandler(this.NUM_max_ValueChanged);
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // NUM_min
-            // 
-            this.NUM_min.DecimalPlaces = 1;
-            this.NUM_min.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            resources.ApplyResources(this.NUM_min, "NUM_min");
-            this.NUM_min.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.NUM_min.Name = "NUM_min";
-            this.NUM_min.ValueChanged += new System.EventHandler(this.NUM_min_ValueChanged);
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
+            //
             // label91
-            // 
+            //
             resources.ApplyResources(this.label91, "label91");
             this.label91.Name = "label91";
-            // 
+            //
+            // label2
+            //
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            //
             // label89
-            // 
+            //
             resources.ApplyResources(this.label89, "label89");
             this.label89.Name = "label89";
-            // 
+            //
             // Clearance
-            // 
+            //
             this.Clearance.DecimalPlaces = 1;
             this.Clearance.Increment = new decimal(new int[] {
             1,
@@ -244,24 +241,46 @@ namespace MissionPlanner.Controls
             0});
             this.Clearance.Name = "Clearance";
             this.Clearance.ValueChanged += new System.EventHandler(this.Clearance_ValueChanged);
-            // 
+            //
+            // NUM_min
+            //
+            this.NUM_min.DecimalPlaces = 1;
+            this.NUM_min.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.NUM_min, "NUM_min");
+            this.NUM_min.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.NUM_min.Name = "NUM_min";
+            this.NUM_min.ValueChanged += new System.EventHandler(this.NUM_min_ValueChanged);
+            //
             // label100
-            // 
+            //
             resources.ApplyResources(this.label100, "label100");
             this.label100.Name = "label100";
-            // 
+            //
             // label113
-            // 
+            //
             resources.ApplyResources(this.label113, "label113");
             this.label113.Name = "label113";
-            // 
+            //
+            // label1
+            //
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            //
             // label109
-            // 
+            //
             resources.ApplyResources(this.label109, "label109");
             this.label109.Name = "label109";
-            // 
+            //
             // CMB_Rotational
-            // 
+            //
             this.CMB_Rotational.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_Rotational.FormattingEnabled = true;
             this.CMB_Rotational.Items.AddRange(new object[] {
@@ -273,14 +292,14 @@ namespace MissionPlanner.Controls
             resources.ApplyResources(this.CMB_Rotational, "CMB_Rotational");
             this.CMB_Rotational.Name = "CMB_Rotational";
             this.CMB_Rotational.SelectedIndexChanged += new System.EventHandler(this.CMB_Rotational_SelectedIndexChanged);
-            // 
+            //
             // label90
-            // 
+            //
             resources.ApplyResources(this.label90, "label90");
             this.label90.Name = "label90";
-            // 
+            //
             // CMB_Resolution
-            // 
+            //
             this.CMB_Resolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_Resolution.FormattingEnabled = true;
             this.CMB_Resolution.Items.AddRange(new object[] {
@@ -292,14 +311,14 @@ namespace MissionPlanner.Controls
             resources.ApplyResources(this.CMB_Resolution, "CMB_Resolution");
             this.CMB_Resolution.Name = "CMB_Resolution";
             this.CMB_Resolution.SelectedIndexChanged += new System.EventHandler(this.CMB_Resolution_SelectedIndexChanged);
-            // 
+            //
             // label110
-            // 
+            //
             resources.ApplyResources(this.label110, "label110");
             this.label110.Name = "label110";
-            // 
+            //
             // CMB_Angular
-            // 
+            //
             this.CMB_Angular.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_Angular.FormattingEnabled = true;
             this.CMB_Angular.Items.AddRange(new object[] {
@@ -311,14 +330,14 @@ namespace MissionPlanner.Controls
             resources.ApplyResources(this.CMB_Angular, "CMB_Angular");
             this.CMB_Angular.Name = "CMB_Angular";
             this.CMB_Angular.SelectedIndexChanged += new System.EventHandler(this.CMB_Angular_SelectedIndexChanged);
-            // 
+            //
             // label111
-            // 
+            //
             resources.ApplyResources(this.label111, "label111");
             this.label111.Name = "label111";
-            // 
+            //
             // NUM_range
-            // 
+            //
             this.NUM_range.DecimalPlaces = 1;
             this.NUM_range.Increment = new decimal(new int[] {
             1,
@@ -333,14 +352,14 @@ namespace MissionPlanner.Controls
             0});
             this.NUM_range.Name = "NUM_range";
             this.NUM_range.ValueChanged += new System.EventHandler(this.NUM_range_ValueChanged);
-            // 
+            //
             // label112
-            // 
+            //
             resources.ApplyResources(this.label112, "label112");
             this.label112.Name = "label112";
-            // 
+            //
             // NUM_height
-            // 
+            //
             this.NUM_height.DecimalPlaces = 1;
             this.NUM_height.Increment = new decimal(new int[] {
             1,
@@ -355,14 +374,14 @@ namespace MissionPlanner.Controls
             0});
             this.NUM_height.Name = "NUM_height";
             this.NUM_height.ValueChanged += new System.EventHandler(this.NUM_height_ValueChanged);
-            // 
+            //
             // label114
-            // 
+            //
             resources.ApplyResources(this.label114, "label114");
             this.label114.Name = "label114";
-            // 
+            //
             // Tolerance
-            // 
+            //
             this.Tolerance.DecimalPlaces = 1;
             this.Tolerance.Increment = new decimal(new int[] {
             1,
@@ -377,23 +396,18 @@ namespace MissionPlanner.Controls
             0});
             this.Tolerance.Name = "Tolerance";
             this.Tolerance.ValueChanged += new System.EventHandler(this.Tolerance_ValueChanged);
-            // 
+            //
             // chk_setalt
-            // 
+            //
             resources.ApplyResources(this.chk_setalt, "chk_setalt");
             this.chk_setalt.Checked = true;
             this.chk_setalt.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_setalt.Name = "chk_setalt";
             this.chk_setalt.UseVisualStyleBackColor = true;
             this.chk_setalt.CheckedChanged += new System.EventHandler(this.chk_setalt_CheckedChanged);
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
+            //
             // PropagationSettings
-            // 
+            //
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.chk_setalt);
             this.Controls.Add(this.groupBox1);
@@ -405,15 +419,22 @@ namespace MissionPlanner.Controls
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PropagationSettings";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_max)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Tolerance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void chk_showscale_CheckedChanged(object sender, EventArgs e)
+        {
+            Maps.Propagation.showScale = chk_showscale.Checked;
+            Console.WriteLine("showScale: " + chk_showscale.Checked);
         }
 
         private void chk_ele_CheckedChanged(object sender, EventArgs e)
