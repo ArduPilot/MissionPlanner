@@ -82,7 +82,11 @@ namespace MissionPlanner.Maps
             get => Settings.Instance.GetBoolean("Propagation_Setalt");
             set => Settings.Instance["Propagation_Setalt"] = value.ToString();
         }
-
+        public static bool showScale
+        {
+            get => Settings.Instance.GetBoolean("Propagation_ShowScale");
+            set => Settings.Instance["Propagation_ShowScale"] = value.ToString();
+        }
         //thread run
         public bool ele_enabled { get; set; }
 
@@ -300,14 +304,17 @@ namespace MissionPlanner.Maps
 
                             var tlfinal = gMapControl1.FromLatLngToLocal(imageDataRect.LocationTopLeft);
                             var rbfinal = gMapControl1.FromLatLngToLocal(imageDataRect.LocationRightBottom);
-                            
-                            var gMapMarkerElevation = new GMapMarkerElevation(imageData, 
+
+                            var gMapMarkerElevation = new GMapMarkerElevation(imageData,
                                 (int)Math.Min(rbfinal.X - tlfinal.X, imageData.GetLength(0)), (int)Math.Min(rbfinal.Y - tlfinal.Y, imageData.GetLength(1)),
                                 new RectLatLng(imageDataRect.LocationTopLeft, imageDataRect.Size),
                                 new PointLatLngAlt(imageDataCenter));
 
                             if (!ele_enabled)
                                 return;
+
+                            if (ele_run) gMapMarkerElevation.setScale(showScale, 0, (int)Settings.Instance.GetFloat("Propagation_Clearance", 5),"Rel to Terrain");
+                            else if (ter_run) gMapMarkerElevation.setScale(showScale, (int)max_alt, (int)min_alt, "Elevation (AMSL)");
 
                             try
                             {
@@ -409,7 +416,7 @@ namespace MissionPlanner.Maps
             {
                 normvalue = (value - min_alt) / (max_alt - min_alt);
             }
-            
+
             if (normvalue < 0)
                 normvalue = 0;
 

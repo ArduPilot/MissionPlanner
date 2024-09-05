@@ -126,7 +126,7 @@
     <value>13, 13</value>
   </data>
   <data name="chk_ele.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 16</value>
+    <value>70, 17</value>
   </data>
   <data name="chk_ele.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -153,7 +153,7 @@
     <value>13, 36</value>
   </data>
   <data name="chk_terrain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
+    <value>59, 17</value>
   </data>
   <data name="chk_terrain.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -180,7 +180,7 @@
     <value>13, 59</value>
   </data>
   <data name="chk_rf.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 16</value>
+    <value>64, 17</value>
   </data>
   <data name="chk_rf.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -207,7 +207,7 @@
     <value>107, 36</value>
   </data>
   <data name="chk_dronedist.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 16</value>
+    <value>97, 17</value>
   </data>
   <data name="chk_dronedist.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -234,7 +234,7 @@
     <value>107, 13</value>
   </data>
   <data name="chk_homedist.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
+    <value>96, 17</value>
   </data>
   <data name="chk_homedist.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -254,7 +254,37 @@
   <data name="&gt;&gt;chk_homedist.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="cb_showscale.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cb_showscale.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cb_showscale.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 22</value>
+  </data>
+  <data name="cb_showscale.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 17</value>
+  </data>
+  <data name="cb_showscale.TabIndex" type="System.Int32, mscorlib">
+    <value>132</value>
+  </data>
+  <data name="cb_showscale.Text" xml:space="preserve">
+    <value>Show Scale</value>
+  </data>
+  <data name="&gt;&gt;cb_showscale.Name" xml:space="preserve">
+    <value>cb_showscale</value>
+  </data>
+  <data name="&gt;&gt;cb_showscale.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cb_showscale.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;cb_showscale.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -280,13 +310,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="NUM_max.Location" type="System.Drawing.Point, System.Drawing">
     <value>317, 124</value>
   </data>
   <data name="NUM_max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 19</value>
+    <value>56, 20</value>
   </data>
   <data name="NUM_max.TabIndex" type="System.Int32, mscorlib">
     <value>132</value>
@@ -301,7 +331,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_max.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label91.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -328,7 +358,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label91.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -355,7 +385,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label89.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -382,13 +412,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label89.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Clearance.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 19</value>
   </data>
   <data name="Clearance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 19</value>
+    <value>56, 20</value>
   </data>
   <data name="Clearance.TabIndex" type="System.Int32, mscorlib">
     <value>120</value>
@@ -403,13 +433,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;Clearance.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="NUM_min.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 124</value>
   </data>
   <data name="NUM_min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 19</value>
+    <value>56, 20</value>
   </data>
   <data name="NUM_min.TabIndex" type="System.Int32, mscorlib">
     <value>130</value>
@@ -424,7 +454,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_min.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label100.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -451,7 +481,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label100.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="label113.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -478,7 +508,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label113.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -505,7 +535,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="label109.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -532,7 +562,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label109.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="CMB_Rotational.Items" xml:space="preserve">
     <value>0.5</value>
@@ -553,7 +583,7 @@
     <value>174, 72</value>
   </data>
   <data name="CMB_Rotational.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
+    <value>40, 21</value>
   </data>
   <data name="CMB_Rotational.TabIndex" type="System.Int32, mscorlib">
     <value>119</value>
@@ -568,7 +598,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_Rotational.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label90.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -595,7 +625,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label90.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="CMB_Resolution.Items" xml:space="preserve">
     <value>2</value>
@@ -616,7 +646,7 @@
     <value>174, 45</value>
   </data>
   <data name="CMB_Resolution.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
+    <value>40, 21</value>
   </data>
   <data name="CMB_Resolution.TabIndex" type="System.Int32, mscorlib">
     <value>118</value>
@@ -631,7 +661,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_Resolution.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="label110.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -658,7 +688,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label110.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="CMB_Angular.Items" xml:space="preserve">
     <value>0</value>
@@ -679,7 +709,7 @@
     <value>317, 72</value>
   </data>
   <data name="CMB_Angular.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
+    <value>40, 21</value>
   </data>
   <data name="CMB_Angular.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -694,7 +724,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_Angular.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="label111.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -721,13 +751,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label111.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="NUM_range.Location" type="System.Drawing.Point, System.Drawing">
     <value>442, 73</value>
   </data>
   <data name="NUM_range.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 19</value>
+    <value>56, 20</value>
   </data>
   <data name="NUM_range.TabIndex" type="System.Int32, mscorlib">
     <value>121</value>
@@ -742,7 +772,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_range.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="label112.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -769,13 +799,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label112.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="NUM_height.Location" type="System.Drawing.Point, System.Drawing">
     <value>601, 73</value>
   </data>
   <data name="NUM_height.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 19</value>
+    <value>46, 20</value>
   </data>
   <data name="NUM_height.TabIndex" type="System.Int32, mscorlib">
     <value>122</value>
@@ -790,7 +820,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_height.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="label114.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -817,13 +847,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label114.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="Tolerance.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 99</value>
   </data>
   <data name="Tolerance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 19</value>
+    <value>56, 20</value>
   </data>
   <data name="Tolerance.TabIndex" type="System.Int32, mscorlib">
     <value>123</value>
@@ -838,7 +868,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;Tolerance.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 82</value>
@@ -874,7 +904,7 @@
     <value>107, 60</value>
   </data>
   <data name="chk_setalt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 16</value>
+    <value>86, 17</value>
   </data>
   <data name="chk_setalt.TabIndex" type="System.Int32, mscorlib">
     <value>131</value>
