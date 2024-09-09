@@ -2862,7 +2862,7 @@ namespace MissionPlanner.Controls
                         text = _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
                         drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, yPos[1]);
                         if (displayCellVoltage & (_batterycellcount != 0))
-                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos[1]);
+                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos[0]);
 
                     }
                     else
