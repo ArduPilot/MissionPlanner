@@ -4,7 +4,7 @@ for /f %%f in ('dir /a-d /b ..\bin\Release\net461\plugins') do if exist ..\bin\R
 
 powershell -command "cd..; ls plugins -recurse | ForEach-Object { if (Test-Path ($_.fullname -replace '\\plugins\\','\') -PathType Leaf) { $_.fullname }} | ForEach-Object { del $_ }"
 
-wix.exe ..\bin\release\net461\
+.\net472\wix.exe ..\bin\release\net461\
 
 pause
 
