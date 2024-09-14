@@ -22,37 +22,31 @@ namespace MissionPlanner.Controls
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.retractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neutralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pointDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pointHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.yawLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.takePictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startRecordingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.hideControlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.CameraLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.TakePictureButton = new MissionPlanner.Controls.MyButton();
-            this.RecordVideoButton = new MissionPlanner.Controls.MyButton();
-            this.ZoomTrackBar = new MissionPlanner.Controls.MyTrackBar();
-            this.ZoomLabel = new System.Windows.Forms.Label();
-            this.LockButton = new MissionPlanner.Controls.MyButton();
             this.ControlInfoTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.UITimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).BeginInit();
             this.VideoBoxContextMenu.SuspendLayout();
-            this.MainLayoutPanel.SuspendLayout();
-            this.CameraLayoutPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ZoomTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // VideoBox
             // 
-            this.VideoBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.VideoBox.ContextMenuStrip = this.VideoBoxContextMenu;
+            this.VideoBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.VideoBox.ErrorImage = global::MissionPlanner.Properties.Resources.no_video;
             this.VideoBox.Image = global::MissionPlanner.Properties.Resources.no_video;
             this.VideoBox.InitialImage = null;
-            this.VideoBox.Location = new System.Drawing.Point(37, 0);
+            this.VideoBox.Location = new System.Drawing.Point(0, 0);
             this.VideoBox.Margin = new System.Windows.Forms.Padding(0);
             this.VideoBox.Name = "VideoBox";
-            this.VideoBox.Size = new System.Drawing.Size(511, 382);
+            this.VideoBox.Size = new System.Drawing.Size(640, 480);
             this.VideoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.VideoBox.TabIndex = 0;
             this.VideoBox.TabStop = false;
@@ -67,163 +61,104 @@ namespace MissionPlanner.Controls
             this.toolStripMenuItem1,
             this.retractToolStripMenuItem,
             this.neutralToolStripMenuItem,
+            this.pointDownToolStripMenuItem,
+            this.pointHomeToolStripMenuItem,
+            this.yawLockToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.takePictureToolStripMenuItem,
+            this.startRecordingToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.hideControlsToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.VideoBoxContextMenu.Name = "VideoBoxContextMenu";
-            this.VideoBoxContextMenu.Size = new System.Drawing.Size(148, 126);
+            this.VideoBoxContextMenu.Size = new System.Drawing.Size(156, 220);
             // 
             // videoStreamToolStripMenuItem
             // 
             this.videoStreamToolStripMenuItem.Name = "videoStreamToolStripMenuItem";
-            this.videoStreamToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.videoStreamToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.videoStreamToolStripMenuItem.Text = "Video Stream";
             this.videoStreamToolStripMenuItem.Click += new System.EventHandler(this.videoStreamToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(144, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
             // 
             // retractToolStripMenuItem
             // 
             this.retractToolStripMenuItem.Name = "retractToolStripMenuItem";
-            this.retractToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.retractToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.retractToolStripMenuItem.Text = "Retract";
             // 
             // neutralToolStripMenuItem
             // 
             this.neutralToolStripMenuItem.Name = "neutralToolStripMenuItem";
-            this.neutralToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.neutralToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.neutralToolStripMenuItem.Text = "Neutral";
+            // 
+            // pointDownToolStripMenuItem
+            // 
+            this.pointDownToolStripMenuItem.Name = "pointDownToolStripMenuItem";
+            this.pointDownToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.pointDownToolStripMenuItem.Text = "Point Down";
+            // 
+            // pointHomeToolStripMenuItem
+            // 
+            this.pointHomeToolStripMenuItem.Name = "pointHomeToolStripMenuItem";
+            this.pointHomeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.pointHomeToolStripMenuItem.Text = "Point Home";
+            // 
+            // yawLockToolStripMenuItem
+            // 
+            this.yawLockToolStripMenuItem.Name = "yawLockToolStripMenuItem";
+            this.yawLockToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.yawLockToolStripMenuItem.Text = "Yaw Lock";
+            this.yawLockToolStripMenuItem.Click += new System.EventHandler(this.yawLockToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
+            // 
+            // takePictureToolStripMenuItem
+            // 
+            this.takePictureToolStripMenuItem.Name = "takePictureToolStripMenuItem";
+            this.takePictureToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.takePictureToolStripMenuItem.Text = "Take Picture";
+            // 
+            // startRecordingToolStripMenuItem
+            // 
+            this.startRecordingToolStripMenuItem.Name = "startRecordingToolStripMenuItem";
+            this.startRecordingToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.startRecordingToolStripMenuItem.Text = "Start Recording";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(144, 6);
-            // 
-            // hideControlsToolStripMenuItem
-            // 
-            this.hideControlsToolStripMenuItem.Name = "hideControlsToolStripMenuItem";
-            this.hideControlsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.hideControlsToolStripMenuItem.Text = "Hide Controls";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
-            // MainLayoutPanel
+            // UITimer
             // 
-            this.MainLayoutPanel.ColumnCount = 2;
-            this.MainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.MainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.MainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainLayoutPanel.Controls.Add(this.VideoBox, 1, 0);
-            this.MainLayoutPanel.Controls.Add(this.CameraLayoutPanel, 0, 0);
-            this.MainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.MainLayoutPanel.Margin = new System.Windows.Forms.Padding(1);
-            this.MainLayoutPanel.Name = "MainLayoutPanel";
-            this.MainLayoutPanel.RowCount = 1;
-            this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainLayoutPanel.Size = new System.Drawing.Size(548, 382);
-            this.MainLayoutPanel.TabIndex = 1;
-            // 
-            // CameraLayoutPanel
-            // 
-            this.CameraLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.CameraLayoutPanel.Controls.Add(this.TakePictureButton);
-            this.CameraLayoutPanel.Controls.Add(this.RecordVideoButton);
-            this.CameraLayoutPanel.Controls.Add(this.ZoomTrackBar);
-            this.CameraLayoutPanel.Controls.Add(this.ZoomLabel);
-            this.CameraLayoutPanel.Controls.Add(this.LockButton);
-            this.CameraLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.CameraLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.CameraLayoutPanel.Name = "CameraLayoutPanel";
-            this.CameraLayoutPanel.Size = new System.Drawing.Size(37, 382);
-            this.CameraLayoutPanel.TabIndex = 1;
-            // 
-            // TakePictureButton
-            // 
-            this.TakePictureButton.Location = new System.Drawing.Point(2, 2);
-            this.TakePictureButton.Margin = new System.Windows.Forms.Padding(2);
-            this.TakePictureButton.Name = "TakePictureButton";
-            this.TakePictureButton.Size = new System.Drawing.Size(33, 33);
-            this.TakePictureButton.TabIndex = 0;
-            this.TakePictureButton.Text = "Pic";
-            this.TakePictureButton.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.ControlInfoTooltip.SetToolTip(this.TakePictureButton, "Take a picture");
-            this.TakePictureButton.UseVisualStyleBackColor = true;
-            // 
-            // RecordVideoButton
-            // 
-            this.RecordVideoButton.Location = new System.Drawing.Point(2, 39);
-            this.RecordVideoButton.Margin = new System.Windows.Forms.Padding(2);
-            this.RecordVideoButton.Name = "RecordVideoButton";
-            this.RecordVideoButton.Size = new System.Drawing.Size(33, 33);
-            this.RecordVideoButton.TabIndex = 1;
-            this.RecordVideoButton.Text = "Rec";
-            this.RecordVideoButton.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.ControlInfoTooltip.SetToolTip(this.RecordVideoButton, "Start/stop recording");
-            this.RecordVideoButton.UseVisualStyleBackColor = true;
-            // 
-            // ZoomTrackBar
-            // 
-            this.ZoomTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ZoomTrackBar.AutoSize = false;
-            this.ZoomTrackBar.LargeChange = 0.005F;
-            this.ZoomTrackBar.Location = new System.Drawing.Point(2, 76);
-            this.ZoomTrackBar.Margin = new System.Windows.Forms.Padding(2);
-            this.ZoomTrackBar.Maximum = 0.01F;
-            this.ZoomTrackBar.Minimum = 0F;
-            this.ZoomTrackBar.Name = "ZoomTrackBar";
-            this.ZoomTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.ZoomTrackBar.Size = new System.Drawing.Size(33, 81);
-            this.ZoomTrackBar.SmallChange = 0.001F;
-            this.ZoomTrackBar.TabIndex = 4;
-            this.ZoomTrackBar.TickFrequency = 0.001F;
-            this.ZoomTrackBar.Value = 0F;
-            // 
-            // ZoomLabel
-            // 
-            this.ZoomLabel.AutoSize = true;
-            this.ZoomLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F);
-            this.ZoomLabel.Location = new System.Drawing.Point(1, 159);
-            this.ZoomLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.ZoomLabel.Name = "ZoomLabel";
-            this.ZoomLabel.Size = new System.Drawing.Size(33, 13);
-            this.ZoomLabel.TabIndex = 5;
-            this.ZoomLabel.Text = "Zoom";
-            // 
-            // LockButton
-            // 
-            this.LockButton.Location = new System.Drawing.Point(2, 174);
-            this.LockButton.Margin = new System.Windows.Forms.Padding(2);
-            this.LockButton.Name = "LockButton";
-            this.LockButton.Size = new System.Drawing.Size(33, 33);
-            this.LockButton.TabIndex = 8;
-            this.LockButton.Text = "Loc";
-            this.LockButton.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.ControlInfoTooltip.SetToolTip(this.LockButton, "Yaw frame lock/follow");
-            this.LockButton.UseVisualStyleBackColor = true;
+            this.UITimer.Enabled = true;
+            this.UITimer.Interval = 500;
+            this.UITimer.Tick += new System.EventHandler(this.UITimer_Tick);
             // 
             // GimbalVideoControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.MainLayoutPanel);
+            this.Controls.Add(this.VideoBox);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "GimbalVideoControl";
-            this.Size = new System.Drawing.Size(548, 382);
+            this.Size = new System.Drawing.Size(640, 480);
             ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).EndInit();
             this.VideoBoxContextMenu.ResumeLayout(false);
-            this.MainLayoutPanel.ResumeLayout(false);
-            this.CameraLayoutPanel.ResumeLayout(false);
-            this.CameraLayoutPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ZoomTrackBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -231,13 +166,6 @@ namespace MissionPlanner.Controls
         #endregion
 
         private System.Windows.Forms.PictureBox VideoBox;
-        private System.Windows.Forms.TableLayoutPanel MainLayoutPanel;
-        private System.Windows.Forms.FlowLayoutPanel CameraLayoutPanel;
-        private Controls.MyButton TakePictureButton;
-        private Controls.MyButton RecordVideoButton;
-        private Controls.MyTrackBar ZoomTrackBar;
-        private System.Windows.Forms.Label ZoomLabel;
-        private Controls.MyButton LockButton;
         private System.Windows.Forms.ToolTip ControlInfoTooltip;
         private System.Windows.Forms.ContextMenuStrip VideoBoxContextMenu;
         private System.Windows.Forms.ToolStripMenuItem videoStreamToolStripMenuItem;
@@ -245,7 +173,13 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ToolStripMenuItem neutralToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem hideControlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pointDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pointHomeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem yawLockToolStripMenuItem;
+        private System.Windows.Forms.Timer UITimer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem takePictureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startRecordingToolStripMenuItem;
     }
 }
