@@ -6,17 +6,21 @@ namespace MissionPlanner.ArduPilot.Mavlink
 {
     public class GimbalManagerProtocol
     {
+        // Stores the last GIMBAL_MANAGER_INFORMATION message for each gimbal device/component ID.
+        // This index will be 1-6, or MAVLink component IDs 154, 171-175.
+        // Index 0 is used to store the message of the first (lowest) gimbal ID.
         public ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_information_t> ManagerInfo =
-            new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_information_t>(
-                new Dictionary<byte, MAVLink.mavlink_gimbal_manager_information_t>()
-                {
-                    {0, new MAVLink.mavlink_gimbal_manager_information_t() {cap_flags = 0} }
-                }
-            );
+            new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_information_t>();
 
+        // Stores the GIMBAL_MANAGER_STATUS message for each gimbal device/component ID.
+        // This index will be 1-6, or MAVLink component IDs 154, 171-175.
+        // Index 0 is used to store the message of the first (lowest) gimbal ID.
         public ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_status_t> ManagerStatus =
             new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_status_t>();
 
+        // Stores the GIMBAL_DEVICE_ATTITUDE_STATUS message for each gimbal device/component ID.
+        // This index will be 1-6, or MAVLink component IDs 154, 171-175.
+        // Index 0 is used to store the message of the first (lowest) gimbal ID.
         public ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_device_attitude_status_t> GimbalStatus =
             new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_device_attitude_status_t>();
 
@@ -39,30 +43,31 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 {
                     var gmi = (MAVLink.mavlink_gimbal_manager_information_t)message.data;
 
-                    // It is invalid to have a gimbal device ID of 0. This field should be a component ID or a number 1-6
-                    if (gmi.gimbal_device_id == 0)
-                    {
-                        return;
-                    }
-
                     ManagerInfo[gmi.gimbal_device_id] = gmi;
-                    // Keep a ManagerInfo element 0 to store capabilities of any gimbal
-                    ManagerInfo[0] = new MAVLink.mavlink_gimbal_manager_information_t()
+                    if (!ManagerInfo.ContainsKey(0) || gmi.gimbal_device_id <= ManagerInfo[0].gimbal_device_id)
                     {
-                        cap_flags = gmi.cap_flags | ManagerInfo[0].cap_flags
-                    };
+                        ManagerInfo[0] = gmi;
+                    }
                 }
 
                 if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_STATUS)
                 {
                     var gms = (MAVLink.mavlink_gimbal_manager_status_t)message.data;
                     ManagerStatus[gms.gimbal_device_id] = gms;
+                    if (!ManagerStatus.ContainsKey(0) || gms.gimbal_device_id <= ManagerStatus[0].gimbal_device_id)
+                    {
+                        ManagerStatus[0] = gms;
+                    }
                 }
 
                 if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_DEVICE_ATTITUDE_STATUS)
                 {
                     var gds = (MAVLink.mavlink_gimbal_device_attitude_status_t)message.data;
                     GimbalStatus[gds.gimbal_device_id] = gds;
+                    if (!GimbalStatus.ContainsKey(0) || gds.gimbal_device_id <= GimbalStatus[0].gimbal_device_id)
+                    {
+                        GimbalStatus[0] = gds;
+                    }
                 }
             };
         }
