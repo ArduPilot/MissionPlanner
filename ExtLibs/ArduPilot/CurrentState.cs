@@ -4413,6 +4413,7 @@ namespace MissionPlanner
                                 MAV.sysid,
                                 MAV.compid); // request rc info
                             MAV.Camera?.RequestMessageIntervals(MAV.cs.ratestatus); // use ratestatus until we create a new setting for this
+                            MAV.GimbalManager?.Discover();
                         }
                         catch
                         {
