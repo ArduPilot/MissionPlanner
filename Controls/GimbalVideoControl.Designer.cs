@@ -32,6 +32,7 @@ namespace MissionPlanner.Controls
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ControlInfoTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.UITimer = new System.Windows.Forms.Timer(this.components);
+            this.stopRecordingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).BeginInit();
             this.VideoBoxContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -67,10 +68,11 @@ namespace MissionPlanner.Controls
             this.toolStripSeparator1,
             this.takePictureToolStripMenuItem,
             this.startRecordingToolStripMenuItem,
+            this.stopRecordingToolStripMenuItem,
             this.toolStripMenuItem2,
             this.settingsToolStripMenuItem});
             this.VideoBoxContextMenu.Name = "VideoBoxContextMenu";
-            this.VideoBoxContextMenu.Size = new System.Drawing.Size(156, 220);
+            this.VideoBoxContextMenu.Size = new System.Drawing.Size(181, 264);
             // 
             // videoStreamToolStripMenuItem
             // 
@@ -89,24 +91,28 @@ namespace MissionPlanner.Controls
             this.retractToolStripMenuItem.Name = "retractToolStripMenuItem";
             this.retractToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.retractToolStripMenuItem.Text = "Retract";
+            this.retractToolStripMenuItem.Click += new System.EventHandler(this.retractToolStripMenuItem_Click);
             // 
             // neutralToolStripMenuItem
             // 
             this.neutralToolStripMenuItem.Name = "neutralToolStripMenuItem";
             this.neutralToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.neutralToolStripMenuItem.Text = "Neutral";
+            this.neutralToolStripMenuItem.Click += new System.EventHandler(this.neutralToolStripMenuItem_Click);
             // 
             // pointDownToolStripMenuItem
             // 
             this.pointDownToolStripMenuItem.Name = "pointDownToolStripMenuItem";
             this.pointDownToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.pointDownToolStripMenuItem.Text = "Point Down";
+            this.pointDownToolStripMenuItem.Click += new System.EventHandler(this.pointDownToolStripMenuItem_Click);
             // 
             // pointHomeToolStripMenuItem
             // 
             this.pointHomeToolStripMenuItem.Name = "pointHomeToolStripMenuItem";
             this.pointHomeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.pointHomeToolStripMenuItem.Text = "Point Home";
+            this.pointHomeToolStripMenuItem.Click += new System.EventHandler(this.pointHomeToolStripMenuItem_Click);
             // 
             // yawLockToolStripMenuItem
             // 
@@ -125,12 +131,14 @@ namespace MissionPlanner.Controls
             this.takePictureToolStripMenuItem.Name = "takePictureToolStripMenuItem";
             this.takePictureToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.takePictureToolStripMenuItem.Text = "Take Picture";
+            this.takePictureToolStripMenuItem.Click += new System.EventHandler(this.takePictureToolStripMenuItem_Click);
             // 
             // startRecordingToolStripMenuItem
             // 
             this.startRecordingToolStripMenuItem.Name = "startRecordingToolStripMenuItem";
-            this.startRecordingToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.startRecordingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startRecordingToolStripMenuItem.Text = "Start Recording";
+            this.startRecordingToolStripMenuItem.Click += new System.EventHandler(this.startRecordingToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -148,6 +156,13 @@ namespace MissionPlanner.Controls
             this.UITimer.Enabled = true;
             this.UITimer.Interval = 500;
             this.UITimer.Tick += new System.EventHandler(this.UITimer_Tick);
+            // 
+            // stopRecordingToolStripMenuItem
+            // 
+            this.stopRecordingToolStripMenuItem.Name = "stopRecordingToolStripMenuItem";
+            this.stopRecordingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stopRecordingToolStripMenuItem.Text = "Stop Recording";
+            this.stopRecordingToolStripMenuItem.Click += new System.EventHandler(this.stopRecordingToolStripMenuItem_Click);
             // 
             // GimbalVideoControl
             // 
@@ -181,5 +196,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem takePictureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startRecordingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopRecordingToolStripMenuItem;
     }
 }
