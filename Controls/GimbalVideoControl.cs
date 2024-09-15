@@ -47,8 +47,6 @@ namespace MissionPlanner.Controls
         private float previousPitchRate = 0;
         private float previousYawRate = 0;
         private float previousZoomRate = 0;
-        private UInt32 gimbalManagerFlags = 0;
-        private byte gimbalDeviceId = 0;
         private bool yaw_lock = false;
 
         private CameraProtocol _selectedCamera;
@@ -64,6 +62,20 @@ namespace MissionPlanner.Controls
             }
         }
 
+        private bool isRecording
+        {
+            // TODO: ArduPilot hard-codes this to 0 presently, so we can't check it
+            /*get
+            {
+                return selectedCamera?.CameraCaptureStatus.video_status > 0;
+            }*/
+
+            // So for now, we will manually track it
+            // TODO: Remove this once ArduPilot is fixed
+            get;
+            set;
+        }
+
         private GimbalManagerProtocol _selectedGimbalManager;
         private GimbalManagerProtocol selectedGimbalManager
         {
@@ -76,6 +88,10 @@ namespace MissionPlanner.Controls
                 _selectedGimbalManager = value;
             }
         }
+
+        // The selected gimbal ID for the currently-selected gimbal manager
+        // (0 means all gimbals)
+        private byte selectedGimbalID = 0;
 
         private GMapOverlay mouseMapMarker;
         public GimbalVideoControl()
@@ -119,6 +135,7 @@ namespace MissionPlanner.Controls
             boundPressKeys.Add(preferences.SetFollow);
             boundPressKeys.Add(preferences.Retract);
             boundPressKeys.Add(preferences.Neutral);
+            boundPressKeys.Add(preferences.PointDown);
             boundPressKeys.Add(preferences.Home);
 
             // Populate the list of keys that are expected to be held down
@@ -212,11 +229,6 @@ namespace MissionPlanner.Controls
             {
                 _stream.Start(form.gstreamer_pipeline);
             }
-
-            //_stream.Start("rtspsrc location=rtsp://192.168.144.25:8554/main.264 latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
-            //_stream.Start("rtspsrc location=rtsp://127.0.0.1:8554/live latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
-            //_stream.Start("videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
-            //_stream.Start("dx9screencapsrc x=10 y=60 width=640 height=360 monitor=1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false");
         }
 
         public bool PreFilterMessage(ref Message m)
@@ -319,7 +331,7 @@ namespace MissionPlanner.Controls
             {
                 previousPitchRate = pitch;
                 previousYawRate = yaw;
-                selectedGimbalManager?.SetRatesCommandAsync(pitch, yaw, yaw_lock, gimbalDeviceId);
+                selectedGimbalManager?.SetRatesCommandAsync(pitch, yaw, yaw_lock, selectedGimbalID);
                 Console.WriteLine($"Pitch: {pitch}, Yaw: {yaw}");
             }
 
@@ -343,61 +355,109 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private bool recording = false;
-        private bool lockMode = false;
         private void HandleKeyPress(Keys key)
         {
             if (key == preferences.TakePicture)
             {
+                TakePicture();
+            }
+            else if (key == preferences.ToggleRecording)
+            {
+                SetRecording(!isRecording);
+            }
+            else if (key == preferences.StartRecording)
+            {
+                SetRecording(true);
+            }
+            else if (key == preferences.StopRecording)
+            {
+                SetRecording(false);
+            }
+            else if (key == preferences.ToggleLockFollow)
+            {
+                SetYawLock(!yaw_lock);
+            }
+            else if (key == preferences.SetLock)
+            {
+                SetYawLock(true);
+            }
+            else if (key == preferences.SetFollow)
+            {
+                SetYawLock(false);
+            }
+            else if (key == preferences.Retract)
+            {
+                Retract();
+            }
+            else if (key == preferences.Neutral)
+            {
+                Neutral();
+            }
+            else if (key == preferences.PointDown)
+            {
+                PointDown();
+            }
+            else if (key == preferences.Home)
+            {
+                Home();
+            }
+        }
+
+        private void TakePicture()
+        {
                 Console.WriteLine("Take picture");
                 selectedCamera?.TakeSinglePictureAsync();
-            }
-            else if (key == preferences.StartRecording || (key == preferences.ToggleRecording && !recording))
+        }
+
+        private void SetRecording(bool start)
+        {
+            isRecording = start;
+            if(start)
             {
                 Console.WriteLine("Start recording");
                 selectedCamera?.StartRecordingAsync();
             }
-            else if (key == preferences.StopRecording || (key == preferences.ToggleRecording && recording))
+            else
             {
                 Console.WriteLine("Stop recording");
                 selectedCamera?.StopRecordingAsync();
             }
-            else if (key == preferences.ToggleLockFollow)
-            {
-                Console.WriteLine("Toggle lock/follow");
-                yaw_lock = !yaw_lock;
-                selectedGimbalManager.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock);
-            }
-            else if (key == preferences.SetLock)
-            {
-                Console.WriteLine("Set lock");
-                yaw_lock = true;
-                selectedGimbalManager.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock);
-            }
-            else if (key == preferences.SetFollow)
-            {
-                Console.WriteLine("Set follow");
-                yaw_lock = false;
-                selectedGimbalManager.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock);
-            }
-            else if (key == preferences.Retract)
-            {
-                Console.WriteLine("Retract");
-                selectedGimbalManager?.RetractAsync();
-            }
-            else if (key == preferences.Neutral)
-            {
-                Console.WriteLine("Neutral");
-                selectedGimbalManager?.NeutralAsync();
-            }
-            else if (key == preferences.Home)
-            {
-                Console.WriteLine("Home");
-                var loc = MainV2.comPort?.MAV?.cs.HomeLocation;
-                selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
-            }
         }
 
+        private void SetYawLock(bool locked)
+        {
+            string message = locked ? "lock" : "follow";
+            Console.WriteLine($"Set yaw {message}");
+            yaw_lock = locked;
+            yawLockToolStripMenuItem.Checked = locked;
+            selectedGimbalManager?.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock, selectedGimbalID);
+        }
+
+        private void Retract()
+        {
+            Console.WriteLine("Retract");
+            selectedGimbalManager?.RetractAsync();
+        }
+
+        private void Neutral()
+        {
+            Console.WriteLine("Neutral");
+            selectedGimbalManager?.NeutralAsync();
+        }
+
+        private void PointDown()
+        {
+            Console.WriteLine("Point down");
+            selectedGimbalManager?.SetAnglesCommandAsync(-90, 0, false, selectedGimbalID);
+        }
+
+        private void Home()
+        {
+            Console.WriteLine("Home");
+            var loc = MainV2.comPort?.MAV?.cs.HomeLocation;
+            selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
+        }
+    
         private DateTime lastMouseMove = DateTime.MinValue;
         private void VideoBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -471,6 +531,58 @@ namespace MissionPlanner.Controls
 
             return (2 * x / (double)imageWidth - 1, 2 * y / (double)imageHeight - 1);
         }
+
+        /// <summary>
+        /// Update the camera controls based on the current camera capabilities
+        /// </summary>
+        private void UITimer_Tick(object sender, EventArgs e)
+        {
+            takePictureToolStripMenuItem.Enabled = selectedCamera?.CanCaptureImage ?? false;
+            startRecordingToolStripMenuItem.Enabled = selectedCamera?.CanCaptureVideo ?? false;
+            stopRecordingToolStripMenuItem.Enabled = selectedCamera?.CanCaptureVideo ?? false;
+        }
+
+        private void yawLockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = sender as ToolStripMenuItem;
+            if (item == null) { return; }
+            SetYawLock(!item.Checked);
+        }
+
+        private void retractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Retract();
+        }
+
+        private void neutralToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Neutral();
+        }
+
+        private void pointDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PointDown();
+        }
+
+        private void pointHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Home();
+        }
+
+        private void takePictureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TakePicture();
+        }
+
+        private void startRecordingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetRecording(true);
+        }
+
+        private void stopRecordingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetRecording(false);
+        }
     }
 
     public class GimbalControlPreferences
@@ -496,6 +608,7 @@ namespace MissionPlanner.Controls
         public Keys SetFollow { get; set; }
         public Keys Retract { get; set; }
         public Keys Neutral { get; set; }
+        public Keys PointDown { get; set; }
         public Keys Home { get; set; }
 
 
@@ -544,6 +657,7 @@ namespace MissionPlanner.Controls
             SetFollow = Keys.None;
             Retract = Keys.None;
             Neutral = Keys.N;
+            PointDown = Keys.None;
             Home = Keys.H;
 
             MoveCameraToMouseLocation = MouseButton.Left;
