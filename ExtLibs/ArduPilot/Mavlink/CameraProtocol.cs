@@ -141,7 +141,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         await parent.parent.doCommandAsync(
                             parent.sysid, parent.compid,
                             MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION,
-                            0, 0, 0, 0, 0, 0, 0
+                            0, 0, 0, 0, 0, 0, 0,
+                            false // Don't wait for response
                         );
                     }
 
@@ -150,7 +151,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         parent.sysid, parent.compid,
                         MAVLink.MAV_CMD.REQUEST_MESSAGE,
                         (float)MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION,
-                        0, 0, 0, 0, 0, 0
+                        0, 0, 0, 0, 0, 0,
+                        false // Don't wait for response
                     );
                 }
             }
@@ -207,10 +209,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
             float interval_us = (float)(1e6 / ratehz);
 
-            if (!have_camera_information)
-            {
-                Task.Run(RequestCameraInformationAsync);
-            }
+            Task.Run(RequestCameraInformationAsync);
 
             // Request FOV status
             Task.Run(async () =>
@@ -220,7 +219,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
                     (float)MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS,
                     interval_us,
-                    0, 0, 0, 0, 0
+                    0, 0, 0, 0, 0,
+                    false // Don't wait for response
                 ).ConfigureAwait(false);
             });
 
@@ -234,7 +234,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
                         (float)MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS,
                         interval_us,
-                        0, 0, 0, 0, 0
+                        0, 0, 0, 0, 0,
+                        false // Don't wait for response
                     ).ConfigureAwait(false);
                 });
             }
@@ -251,7 +252,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
                         (float)MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS,
                         interval_us,
-                        0, 0, 0, 0, 0
+                        0, 0, 0, 0, 0,
+                        false // Don't wait for response
                     ).ConfigureAwait(false);
                 });
             }
