@@ -152,12 +152,18 @@ namespace MissionPlanner.Utilities
             return Math.Sqrt(v);
         }
 
-        // convert a vector from earth to body frame
-        public void earth_to_body(Vector3f v)
+        // convert a vector from body to earth frame
+        public Vector3f body_to_earth(Vector3f v)
         {
             Matrix3 m = new Matrix3();
             rotation_matrix(m);
-            v = m * v;
+            return m * v;
+        }
+
+        // convert a vector from earth to body frame
+        public Vector3f earth_to_body(Vector3f v)
+        {
+            return inverse().body_to_earth(v);
         }
 
         // create a quaternion from Euler angles
