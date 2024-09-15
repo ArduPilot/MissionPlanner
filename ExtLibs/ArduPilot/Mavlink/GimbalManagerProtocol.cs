@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MissionPlanner.ArduPilot.Mavlink
@@ -31,45 +30,52 @@ namespace MissionPlanner.ArduPilot.Mavlink
             this.mavint = mavint;
         }
 
+        private bool first_discover = true;
         public void Discover()
         {
+            if (first_discover)
+            {
+                first_discover = false;
+                mavint.OnPacketReceived += MessagesHandler;
+            }
+
             mavint.doCommand(0, 0, MAVLink.MAV_CMD.REQUEST_MESSAGE,
                 (float)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_INFORMATION,
                 0, 0, 0, 0, 0, 0, false);
+        }
 
-            mavint.OnPacketReceived += (sender, message) =>
+        private void MessagesHandler(object sender, MAVLink.MAVLinkMessage message)
+        {
+            if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_INFORMATION)
             {
-                if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_INFORMATION)
-                {
-                    var gmi = (MAVLink.mavlink_gimbal_manager_information_t)message.data;
+                var gmi = (MAVLink.mavlink_gimbal_manager_information_t)message.data;
 
-                    ManagerInfo[gmi.gimbal_device_id] = gmi;
-                    if (!ManagerInfo.ContainsKey(0) || gmi.gimbal_device_id <= ManagerInfo[0].gimbal_device_id)
-                    {
-                        ManagerInfo[0] = gmi;
-                    }
-                }
-
-                if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_STATUS)
+                ManagerInfo[gmi.gimbal_device_id] = gmi;
+                if (!ManagerInfo.ContainsKey(0) || gmi.gimbal_device_id <= ManagerInfo[0].gimbal_device_id)
                 {
-                    var gms = (MAVLink.mavlink_gimbal_manager_status_t)message.data;
-                    ManagerStatus[gms.gimbal_device_id] = gms;
-                    if (!ManagerStatus.ContainsKey(0) || gms.gimbal_device_id <= ManagerStatus[0].gimbal_device_id)
-                    {
-                        ManagerStatus[0] = gms;
-                    }
+                    ManagerInfo[0] = gmi;
                 }
+            }
 
-                if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_DEVICE_ATTITUDE_STATUS)
+            if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_STATUS)
+            {
+                var gms = (MAVLink.mavlink_gimbal_manager_status_t)message.data;
+                ManagerStatus[gms.gimbal_device_id] = gms;
+                if (!ManagerStatus.ContainsKey(0) || gms.gimbal_device_id <= ManagerStatus[0].gimbal_device_id)
                 {
-                    var gds = (MAVLink.mavlink_gimbal_device_attitude_status_t)message.data;
-                    GimbalStatus[gds.gimbal_device_id] = gds;
-                    if (!GimbalStatus.ContainsKey(0) || gds.gimbal_device_id <= GimbalStatus[0].gimbal_device_id)
-                    {
-                        GimbalStatus[0] = gds;
-                    }
+                    ManagerStatus[0] = gms;
                 }
-            };
+            }
+
+            if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_DEVICE_ATTITUDE_STATUS)
+            {
+                var gds = (MAVLink.mavlink_gimbal_device_attitude_status_t)message.data;
+                GimbalStatus[gds.gimbal_device_id] = gds;
+                if (!GimbalStatus.ContainsKey(0) || gds.gimbal_device_id <= GimbalStatus[0].gimbal_device_id)
+                {
+                    GimbalStatus[0] = gds;
+                }
+            }
         }
 
         public bool HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS flags, byte gimbal_device_id = 0)
