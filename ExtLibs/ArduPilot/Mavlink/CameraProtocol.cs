@@ -126,7 +126,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         {
             try
             {
-                if(parent?.parent != null)
+                if (parent?.parent != null)
                 {
                     // New-style request
                     var resp = await parent.parent.doCommandAsync(
@@ -202,7 +202,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// <param name="ratehz">Message frequency in messages per second.</param>
         public void RequestMessageIntervals(int ratehz)
         {
-            if(parent?.parent == null)
+            if (parent?.parent == null)
             {
                 return;
             }
@@ -361,10 +361,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
             );
         }
 
+        /// <summary>
+        /// Calculate the lat/lon/alt-msl of a point in the image, given its x/y position in the image.
+        /// <param name="x">x position in the image, -1 to 1 (positive right)</param>
+        /// <param name="y">y position in the image, -1 to 1 (positive down)</param>
+        /// <returns>PointLatLngAlt with the calculated position, or null if the calculation failed</returns>
         public PointLatLngAlt CalculateImagePointLocation(double x, double y)
         {
             var imagePosition = new PointLatLngAlt(CameraFOVStatus.lat_image * 1e-7, CameraFOVStatus.lon_image * 1e-7, CameraFOVStatus.alt_image * 1e-3);
-            if(x == 0 && y == 0)
+            if (x == 0 && y == 0)
             {
                 return imagePosition;
             }
@@ -372,7 +377,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var camPosition = new PointLatLngAlt(CameraFOVStatus.lat_camera * 1e-7, CameraFOVStatus.lon_camera * 1e-7, CameraFOVStatus.alt_camera * 1e-3);
 
             var height = camPosition.Alt - imagePosition.Alt;
-            if(height < 0)
+            if (height < 0)
             {
                 return null;
             }
@@ -391,6 +396,29 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var pos = camPosition.newpos(bearing, out_distance).newpos(bearing + 90, side_distance);
             pos.Alt = imagePosition.Alt;
             return pos;
+        }
+
+        /// <summary>
+        /// Calculate the 3D unit vector of a pixel in the world frame, given its x/y position in the image.
+        /// </summary>
+        /// <param name="x">x position in the image, -1 to 1 (positive right)</param>
+        /// <param name="y">y position in the image, -1 to 1 (positive down)</param>
+        /// <returns></returns>
+        public Vector3 CalculateImagePointVector(double x, double y)
+        {
+            var vector = new Vector3(1, 0, 0); // Body-frame vector pointing straight ahead
+            if (CameraFOVStatus.hfov != float.NaN && CameraFOVStatus.vfov != float.NaN && x != 0 && y != 0)
+            {
+                var hfov = CameraFOVStatus.hfov * Math.PI / 180;
+                var vfov = CameraFOVStatus.vfov * Math.PI / 180;
+
+                vector.y = Math.Tan(x * hfov / 2); // x in the image is toward the right side of the plane (positive y in body frame)
+                vector.z = Math.Tan(y * vfov / 2); // y in the image is down (negative z in body frame)
+                vector.normalize();
+            }
+
+            var q = new Quaternion(CameraFOVStatus.q[0], CameraFOVStatus.q[1], CameraFOVStatus.q[2], CameraFOVStatus.q[3]);
+            return q.body_to_earth(vector);
         }
     }
 }
