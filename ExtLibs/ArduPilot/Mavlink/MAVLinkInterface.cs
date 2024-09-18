@@ -400,13 +400,17 @@ namespace MissionPlanner
             {
                 _logplaybackfile = value;
                 if (_logplaybackfile != null && _logplaybackfile.BaseStream is FileStream)
-                    log.Info("Logplaybackfile set " + ((FileStream) _logplaybackfile.BaseStream).Name);
+                    log.Info("Logplaybackfile set " + ((FileStream)_logplaybackfile.BaseStream).Name);
                 MAVlist.Clear();
             }
         }
 
         public BufferedStream logfile { get; set; }
         public BufferedStream rawlogfile { get; set; }
+
+        public int Mavlink1Count { get { return _mavlink1count; } }
+        public int Mavlink2Count { get { return _mavlink2count; } }
+        public int Mavlink2Signed { get  { return _mavlink2signed; } }
 
         private int _mavlink1count = 0;
         private int _mavlink2count = 0;
