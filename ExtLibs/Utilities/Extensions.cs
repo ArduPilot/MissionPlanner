@@ -117,6 +117,16 @@ namespace MissionPlanner.Utilities
             return tsk.GetAwaiter().GetResult();
         }
 
+        public static bool ByteArraysEqual(this ReadOnlySpan<byte> a1, ReadOnlySpan<byte> a2)
+        {
+            return a1.SequenceEqual(a2);
+        }
+
+        public static bool ByteArraysEqual(this byte[] a1, ReadOnlySpan<byte> a2)
+        {
+            return a1.AsSpan().SequenceEqual(a2);
+        }
+
         public static void InsertSorted<T>(this Collection<T> collection, T item)
             where T : IComparable<T>
         {

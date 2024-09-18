@@ -14,6 +14,9 @@ namespace MissionPlanner.Controls
             ThemeManager.ApplyThemeTo(this);
 
             LoadKeys();
+
+            timer1.Interval = 190;
+            timer1.Start();
         }
 
         private void but_save_Click(object sender, EventArgs e)
@@ -86,6 +89,25 @@ namespace MissionPlanner.Controls
         private void but_disablesigning_Click(object sender, EventArgs e)
         {
             MainV2.comPort.setupSigning(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "");
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var name = "None/Unknown";
+            var key = MainV2.comPort.MAV.signingKey;
+            if (key != null)
+            {
+                foreach (var authKey in MAVAuthKeys.Keys)
+                {
+                    if (authKey.Value.Key.ByteArraysEqual(key))
+                    {
+                        name = authKey.Key;
+                        break;
+                    }
+                }
+            }
+            
+            lbl_sgnpkts.Text = "Using Key: " + name + ", Signed Packets: " + MainV2.comPort.Mavlink2Signed.ToString();
         }
     }
 }

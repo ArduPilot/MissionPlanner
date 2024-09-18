@@ -13,6 +13,9 @@ using MissionPlanner.ArduPilot.Mavlink;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("MissionPlanner")]
 
 namespace MissionPlanner
 {
