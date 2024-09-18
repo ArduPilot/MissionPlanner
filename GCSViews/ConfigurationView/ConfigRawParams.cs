@@ -266,6 +266,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             int error = 0;
             bool reboot = false;
 
+            // List to track successfully saved parameters
+            List<string> savedParams = new List<string>();
+
             foreach (string value in temp)
             {
                 try
@@ -276,7 +279,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam(value, (double)_changes[value]);
+                    // Get the previous value of the param to display in 'param change info'
+                    // (a better way would be to get the value somewhere from inside the code, insted of demanding it from mavlink)
+                    string previousValue = MainV2.comPort.MAV.param[value].ToString();
+                    // new value of param
+                    double newValue = (double)_changes[value];
+
+                    MainV2.comPort.setParam(value, newValue);
+
+                    // Add the parameter, previous and new values to the list for 'param change info'
+                    // remember, the 'value' here is key of param, while prev and new are actual values of param
+                    savedParams.Add($"{savedParams.Count + 1})  {value}  : {previousValue}  ->  {newValue}");
+
                     //check if reboot required
                     if (ParameterMetaDataRepository.GetParameterRebootRequired(value, MainV2.comPort.MAV.cs.firmware.ToString()))
                     {
@@ -322,7 +336,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (error > 0)
                 CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
             else
-                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+            {
+                // Join the saved parameters list to a string
+                string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
+                
+                if (savedParams.Count > 0)
+                    CustomMessageBox.Show($"{savedParams.Count} parameters successfully saved : \n\n{savedParamsMessage}", "Saved");
+                else
+                    CustomMessageBox.Show($"No parameter saved.", "Saved");
+            }
 
             //Check if reboot is required
             if (reboot)
