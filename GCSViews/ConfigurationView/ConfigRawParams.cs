@@ -310,7 +310,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                 }
             }
-            else
+            else if (temp.Count > 20)
             {
                 // Ask the user for confirmation without listing individual changes
                 if (CustomMessageBox.Show($"You are about to change {temp.Count} parameters. Are you sure you want to proceed?", "Confirm Parameter Changes",
@@ -378,9 +378,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (error > 0)
                 CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
-            else
+            else if (temp.Count>0)
                 CustomMessageBox.Show($"{temp.Count} parameters successfully saved.", "Saved");
-            
+            else
+                CustomMessageBox.Show($"No parameters were changed.", "No changes");
+
             //Check if reboot is required
             if (reboot)
             {
