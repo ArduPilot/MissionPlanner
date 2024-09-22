@@ -491,11 +491,38 @@ namespace MissionPlanner.Controls
         {
             MouseEventArgs me = (MouseEventArgs)e;
             var point = getMousePosition(me.X, me.Y);
-            if (!point.HasValue) { return; }
-
-            var loc = selectedCamera?.CalculateImagePointLocation(point.Value.x, point.Value.y);
-            if (loc != null)
+            if (!point.HasValue)
             {
+                return;
+            }
+
+            // Check currently held modifier keys
+            if (Control.ModifierKeys == preferences.MoveCameraToMouseLocationModifier)
+            {
+                var attitude = selectedGimbalManager?.GetAttitude(selectedGimbalID);
+                if (attitude == null)
+                {
+                    return;
+                }
+                var q = selectedCamera?.CalculateImagePointRotation(point.Value.x, point.Value.y);
+                if (q == null)
+                {
+                    return;
+                }
+                q = attitude * q;
+                Console.WriteLine("Attitude: {0:0.0} {1:0.0} {2:0.0}", attitude.get_euler_yaw() * MathHelper.rad2deg, attitude.get_euler_pitch() * MathHelper.rad2deg, attitude.get_euler_roll() * MathHelper.rad2deg);
+                Console.WriteLine("New: {0:0.0} {1:0.0} {2:0.0}", q.get_euler_yaw() * MathHelper.rad2deg, q.get_euler_pitch() * MathHelper.rad2deg, q.get_euler_roll() * MathHelper.rad2deg);
+
+                selectedGimbalManager?.SetAttitudeAsync(q, yaw_lock, selectedGimbalID);
+               
+            }
+            else if (Control.ModifierKeys == preferences.MoveCameraPOIToMouseLocationModifier)
+            {
+                var loc = selectedCamera?.CalculateImagePointLocation(point.Value.x, point.Value.y);
+                if (loc == null)
+                {
+                    return;
+                }
                 selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
             }
         }
@@ -666,9 +693,9 @@ namespace MissionPlanner.Controls
             TrackObjectUnderMouse = MouseButton.Left;
 
             MoveCameraToMouseLocationModifier = Keys.None;
-            MoveCameraPOIToMouseLocationModifier = Keys.Shift;
+            MoveCameraPOIToMouseLocationModifier = Keys.Control;
             SlewCameraBasedOnMouseModifier = Keys.Alt;
-            TrackObjectUnderMouseModifier = Keys.Control;
+            TrackObjectUnderMouseModifier = Keys.Control | Keys.Alt;
 
             // Default speed settings
             SlewSpeedSlow = 1m; // deg/sec

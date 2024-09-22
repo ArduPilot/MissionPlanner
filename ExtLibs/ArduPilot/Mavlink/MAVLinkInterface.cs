@@ -562,7 +562,7 @@ namespace MissionPlanner
                 (tuple.Item2 >= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER &&
                 tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_ONBOARD_COMPUTER4))
             {
-                MAVlist[tuple.Item1, tuple.Item2].GimbalManager = new GimbalManagerProtocol(this);
+                MAVlist[tuple.Item1, tuple.Item2].GimbalManager = new GimbalManagerProtocol(this, MAVlist[tuple.Item1, tuple.Item2].cs);
                 Task.Run(async () =>
                 {
                     try
