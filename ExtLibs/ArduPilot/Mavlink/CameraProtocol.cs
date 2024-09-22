@@ -398,6 +398,29 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return pos;
         }
 
+
+        /// <summary>
+        /// Calculate the 3D unit vector of a pixel in the camera frame, given its x/y position in the image.
+        /// </summary>
+        /// <param name="x">x position in the image, -1 to 1 (positive right)</param>
+        /// <param name="y">y position in the image, -1 to 1 (positive down)</param>
+        /// <returns></returns>
+        private Vector3 CalculateImagePointVectorCameraFrame(double x, double y)
+        {
+            var vector = new Vector3(1, 0, 0); // Camera-frame vector pointing straight ahead
+            if (CameraFOVStatus.hfov != float.NaN && CameraFOVStatus.vfov != float.NaN && x != 0 && y != 0)
+            {
+                var hfov = CameraFOVStatus.hfov * Math.PI / 180;
+                var vfov = CameraFOVStatus.vfov * Math.PI / 180;
+
+                vector.y = Math.Tan(x * hfov / 2); // x in the image is toward the right side of the plane (positive y in camera frame)
+                vector.z = Math.Tan(y * vfov / 2); // y in the image is down (z in camera frame)
+                vector.normalize();
+            }
+
+            return vector;
+        }
+
         /// <summary>
         /// Calculate the 3D unit vector of a pixel in the world frame, given its x/y position in the image.
         /// </summary>
@@ -406,19 +429,40 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// <returns></returns>
         public Vector3 CalculateImagePointVector(double x, double y)
         {
-            var vector = new Vector3(1, 0, 0); // Body-frame vector pointing straight ahead
-            if (CameraFOVStatus.hfov != float.NaN && CameraFOVStatus.vfov != float.NaN && x != 0 && y != 0)
+            if (CameraFOVStatus.q == null)
             {
-                var hfov = CameraFOVStatus.hfov * Math.PI / 180;
-                var vfov = CameraFOVStatus.vfov * Math.PI / 180;
+                return new Vector3(1);
+            }
+            var v = CalculateImagePointVectorCameraFrame(x, y);
+            var q = new Quaternion(CameraFOVStatus.q[0], CameraFOVStatus.q[1], CameraFOVStatus.q[2], CameraFOVStatus.q[3]);
+            return q.body_to_earth(v);
+        }
 
-                vector.y = Math.Tan(x * hfov / 2); // x in the image is toward the right side of the plane (positive y in body frame)
-                vector.z = Math.Tan(y * vfov / 2); // y in the image is down (negative z in body frame)
-                vector.normalize();
+        /// <summary>
+        /// Calculate a rotation quaternion that will rotate the camera to point at a pixel in the image.
+        /// </summary>
+        /// <param name="x">x position in the image, -1 to 1 (positive right)</param>
+        /// <param name="y">y position in the image, -1 to 1 (positive down)</param>
+        /// <returns></returns>
+        public Quaternion CalculateImagePointRotation(double x, double y)
+        {
+            var v1 = CalculateImagePointVectorCameraFrame(0, 0);
+            var v2 = CalculateImagePointVectorCameraFrame(x, y);
+
+            if (v1 == -v2)
+            {
+                return Quaternion.from_axis_angle(new Vector3(0, 0, 1), Math.PI); // 180 degree rotation around z axis
             }
 
-            var q = new Quaternion(CameraFOVStatus.q[0], CameraFOVStatus.q[1], CameraFOVStatus.q[2], CameraFOVStatus.q[3]);
-            return q.body_to_earth(vector);
+            // The axis of rotation is the cross product of the two vectors
+            var axis = v1 % v2;
+            if(axis.length() == 0)
+            {
+                return new Quaternion();
+            }
+            axis.normalize();
+
+            return Quaternion.from_axis_angle(axis, Math.Acos(v1 * v2));
         }
     }
 }
