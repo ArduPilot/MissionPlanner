@@ -269,8 +269,7 @@ namespace MissionPlanner.Swarm
                                 att_target.thrust = (float)MathHelper.constrain(thrustp.get_pid(), 0.1, 1);
                             }
 
-                            Quaternion q = new Quaternion();
-                            q.from_vector312(newroll * MathHelper.deg2rad, newpitch * MathHelper.deg2rad, yawerror * MathHelper.deg2rad);
+                            Quaternion q = Quaternion.from_euler312(newroll * MathHelper.deg2rad, newpitch * MathHelper.deg2rad, yawerror * MathHelper.deg2rad);
 
                             att_target.q = new float[4];
                             att_target.q[0] = (float)q.q1;
