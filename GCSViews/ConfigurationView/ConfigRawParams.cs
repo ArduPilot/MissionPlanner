@@ -253,9 +253,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
-                return;
-
             // sort with enable at the bottom - this ensures params are set before the function is disabled
             var temp = _changes.Keys.Cast<string>().ToList();
 
@@ -273,42 +270,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 foreach (string value in temp)
                 {
-                    try
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
                     {
-                        if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
-                        {
-                            CustomMessageBox.Show("You are not connected", Strings.ERROR);
-                            return;
-                        }
-
-                        // Get the previous value of the param to display in 'param change info'
-                        // (a better way would be to get the value somewhere from inside the code, insted of recieving it over mavlink)
-                        string previousValue = MainV2.comPort.MAV.param[value].ToString();
-                        // new value of param
-                        double newValue = (double)_changes[value];
-
-                        // Add the parameter, previous and new values to the list for 'param change info'
-                        // remember, the 'value' here is key of param, while prev and new are actual values of param
-                        savedParams.Add($"{savedParams.Count + 1})  {value}  : {previousValue}  ->  {newValue}");
-                    }
-                    catch
-                    {
-                        error++;
-                        CustomMessageBox.Show("Read " + value + " Failed");
-                    }
-                }
-
-                if (error == 0)
-                {
-                    // Join the saved parameters list to a string
-                    string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
-
-                    // Ask the user for confirmation showing detailed changes
-                    if (CustomMessageBox.Show($"You are about to change {savedParams.Count} parameters. Please review the changes below:\n\n{savedParamsMessage}\n\nDo you want to proceed?", "Confirm Parameter Changes",
-            CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
-        CustomMessageBox.DialogResult.Yes)
+                        CustomMessageBox.Show("You are not connected", Strings.ERROR);
                         return;
+                    }
+
+                    // Get the previous value of the param to display in 'param change info'
+                    // (a better way would be to get the value somewhere from inside the code, insted of recieving it over mavlink)
+                    string previousValue = MainV2.comPort.MAV.param[value].ToString();
+                    // new value of param
+                    double newValue = (double)_changes[value];
+
+                    // Add the parameter, previous and new values to the list for 'param change info'
+                    // remember, the 'value' here is key of param, while prev and new are actual values of param
+                    savedParams.Add($"{savedParams.Count + 1})  {value}  : {previousValue}  ->  {newValue}");
                 }
+                
+                // Join the saved parameters list to a string
+                string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
+
+                // Ask the user for confirmation showing detailed changes
+                if (CustomMessageBox.Show($"You are about to change {savedParams.Count} parameters. Please review the changes below:\n\n{savedParamsMessage}\n\nDo you want to proceed?", "Confirm Parameter Changes",
+        CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
+    CustomMessageBox.DialogResult.Yes)
+                    return;
             }
             else if (temp.Count > 20)
             {
@@ -319,62 +305,61 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
             }
 
-            if (error == 0)
+
+            foreach (string value in temp)
             {
-                foreach (string value in temp)
+                try
                 {
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
+
+                    MainV2.comPort.setParam(value, (double)_changes[value]);
+
+                    //check if reboot required
+                    if (ParameterMetaDataRepository.GetParameterRebootRequired(value, MainV2.comPort.MAV.cs.firmware.ToString()))
+                    {
+                        reboot = true;
+                    }
                     try
                     {
-                        if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                        // set control as well
+                        var textControls = Controls.Find(value, true);
+                        if (textControls.Length > 0)
                         {
-                            CustomMessageBox.Show("Your are not connected", Strings.ERROR);
-                            return;
-                        }
-
-                        MainV2.comPort.setParam(value, (double)_changes[value]);
-
-                        //check if reboot required
-                        if (ParameterMetaDataRepository.GetParameterRebootRequired(value, MainV2.comPort.MAV.cs.firmware.ToString()))
-                        {
-                            reboot = true;
-                        }
-                        try
-                        {
-                            // set control as well
-                            var textControls = Controls.Find(value, true);
-                            if (textControls.Length > 0)
-                            {
-                                ThemeManager.ApplyThemeTo(textControls[0]);
-                            }
-                        }
-                        catch
-                        {
-                        }
-
-                        try
-                        {
-                            // set param table as well
-                            foreach (DataGridViewRow row in Params.Rows)
-                            {
-                                if (row.Cells[Command.Index].Value.ToString() == value)
-                                {
-                                    row.Cells[Value.Index].Style.BackColor = ThemeManager.ControlBGColor;
-                                    _changes.Remove(value);
-                                    break;
-                                }
-                            }
-                        }
-                        catch
-                        {
+                            ThemeManager.ApplyThemeTo(textControls[0]);
                         }
                     }
                     catch
                     {
-                        error++;
-                        CustomMessageBox.Show("Set " + value + " Failed");
+                    }
+
+                    try
+                    {
+                        // set param table as well
+                        foreach (DataGridViewRow row in Params.Rows)
+                        {
+                            if (row.Cells[Command.Index].Value.ToString() == value)
+                            {
+                                row.Cells[Value.Index].Style.BackColor = ThemeManager.ControlBGColor;
+                                _changes.Remove(value);
+                                break;
+                            }
+                        }
+                    }
+                    catch
+                    {
                     }
                 }
+                catch
+                {
+                    error++;
+                    CustomMessageBox.Show("Set " + value + " Failed");
+                }
             }
+            
 
             if (error > 0)
                 CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
