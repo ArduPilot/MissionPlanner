@@ -1620,6 +1620,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
+            // Reset the table of nodes
+            myDataGridView1.Rows.Clear();
+
             cmb_interfacetype.Enabled = false;
             cmb_networkinterface.Enabled = false;
             but_connect.Text = "Disconnect";
