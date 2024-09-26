@@ -6,7 +6,7 @@
 - [How to Compile](#how-tocompile)
 - [Launching Mission Planner on other Operating systems](launching-mission-planner-on-other-system)
 - [External Services Used](#external-services-used)
-- 
+
 Website : http://ardupilot.org/planner/
 
 Forum : http://discuss.ardupilot.org/c/ground-control-software/mission-planner
