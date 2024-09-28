@@ -241,6 +241,17 @@ namespace MissionPlanner.Controls
                         MainV2.comPort.MirrorStream.BaudRate = int.Parse(extra);
                         MainV2.comPort.MirrorStream.Open();
                     }
+                    else if (protocol == "WS")
+                    {
+                        // Only support WebSocket server for now
+                        if (direction == "Outbound")
+                        {
+                            var server = new MissionPlanner.Comms.WebSocketServer();
+                            server.EndPoint = new IPEndPoint(IPAddress.Parse(extra), int.Parse(port));
+                            server.Open();
+                            MainV2.comPort.MirrorStream = server;
+                        }
+                    }
                 }
                 catch (Exception ex) {
                     CustomMessageBox.Show("Error: " + ex.Message);

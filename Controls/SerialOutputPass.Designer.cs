@@ -100,7 +100,8 @@
             this.Type.Items.AddRange(new object[] {
             "Serial",
             "TCP",
-            "UDP"});
+            "UDP",
+            "WS"});
             this.Type.Name = "Type";
             this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
