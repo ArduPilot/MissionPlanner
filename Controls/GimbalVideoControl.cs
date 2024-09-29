@@ -101,6 +101,8 @@ namespace MissionPlanner.Controls
 
             loadPreferences();
 
+            yaw_lock = preferences.DefaultLockedMode;
+
             // Register the global key handler
             Application.AddMessageFilter(this);
 
