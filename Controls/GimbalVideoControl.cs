@@ -557,6 +557,13 @@ namespace MissionPlanner.Controls
             takePictureToolStripMenuItem.Enabled = selectedCamera?.CanCaptureImage ?? false;
             startRecordingToolStripMenuItem.Enabled = selectedCamera?.CanCaptureVideo ?? false;
             stopRecordingToolStripMenuItem.Enabled = selectedCamera?.CanCaptureVideo ?? false;
+
+            if (selectedCamera != null)
+            {
+                selectedCamera.HFOV = (float)preferences.CameraHFOV;
+                selectedCamera.VFOV = (float)preferences.CameraVFOV;
+                selectedCamera.UseFOVStatus = preferences.UseFOVReportedByCamera;
+            }
         }
 
         private void yawLockToolStripMenuItem_Click(object sender, EventArgs e)
