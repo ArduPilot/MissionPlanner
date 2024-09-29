@@ -268,8 +268,10 @@ namespace MissionPlanner.Controls
 
         [Preferences("Zoom Speed (unitless)", ControlType.DecimalUpDown, Min = 0.01, Max = 1, Increment = 0.1, DecimalPlaces = 2)]
         public decimal ZoomSpeed { get; set; }
-        [Preferences("Camera FOV (deg)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
-        public decimal CameraFOV { get; set; }
+        [Preferences("Camera Horizontal FOV (deg)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
+        public decimal CameraHFOV { get; set; }
+        [Preferences("Camera Vertical FOV (deg)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
+        public decimal CameraVFOV { get; set; }
 
         // Boolean options
         [Preferences("Use FOV Reported by Camera", ControlType.Checkbox)]
@@ -311,7 +313,8 @@ namespace MissionPlanner.Controls
             SlewSpeedNormal = 5m; // deg/sec
             SlewSpeedFast = 25m; // deg/sec
             ZoomSpeed = 1.0m; // unitless [0, 1]
-            CameraFOV = 50.0m; // horizontal, degrees
+            CameraHFOV = 40.0m; // horizontal, degrees
+            CameraVFOV = 30.0m; // vertical, degrees
 
             // Default boolean options
             DefaultLockedMode = false;
