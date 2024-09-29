@@ -106,6 +106,45 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
         }
 
+        public bool UseFOVStatus { get; set; } = true;
+
+        public float _hfov = float.NaN;
+        /// <summary>
+        /// Horizontal field of view of the camera, in degrees. Uses the latest received value from the camera if available and `UseFOVStatus` is true.
+        /// </summary>
+        public float HFOV
+        {
+            get
+            {
+                if (!UseFOVStatus || CameraFOVStatus.hfov == float.NaN)
+                {
+                    return _hfov;
+                }
+                return CameraFOVStatus.hfov;
+            }
+            set
+            {
+                _hfov = value;
+            }
+        }
+
+        public float _vfov = float.NaN;
+        public float VFOV
+        {
+            get
+            {
+                if (!UseFOVStatus || CameraFOVStatus.vfov == float.NaN)
+                {
+                    return _vfov;
+                }
+                return CameraFOVStatus.vfov;
+            }
+            set
+            {
+                _vfov = value;
+            }
+        }
+
         /// <summary>
         /// Initializes the camera protocol by setting up message parsing and requesting initial camera information.
         /// </summary>
@@ -384,12 +423,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
             var dist = camPosition.GetDistance(imagePosition);
             var down_elevation = Math.Atan2(height, dist); // zero means pointing level, pi/2 is straight down
-            down_elevation += y / 2 * CameraFOVStatus.vfov * Math.PI / 180;
+            down_elevation += y / 2 * VFOV * Math.PI / 180;
             down_elevation = Math.Max(0.0001, down_elevation);
             var out_distance = height * Math.Cos(down_elevation) / Math.Sin(down_elevation);
             out_distance = Math.Min(out_distance, 1e5);
 
-            var side_angle = x / 2 * CameraFOVStatus.hfov * Math.PI / 180;
+            var side_angle = x / 2 * HFOV * Math.PI / 180;
             var side_distance = Math.Sqrt(out_distance * out_distance + height * height) * Math.Tan(side_angle);
 
             var bearing = camPosition.GetBearing(imagePosition);
@@ -408,10 +447,10 @@ namespace MissionPlanner.ArduPilot.Mavlink
         private Vector3 CalculateImagePointVectorCameraFrame(double x, double y)
         {
             var vector = new Vector3(1, 0, 0); // Camera-frame vector pointing straight ahead
-            if (CameraFOVStatus.hfov != float.NaN && CameraFOVStatus.vfov != float.NaN && x != 0 && y != 0)
+            if (HFOV != float.NaN && VFOV != float.NaN && x != 0 && y != 0)
             {
-                var hfov = CameraFOVStatus.hfov * Math.PI / 180;
-                var vfov = CameraFOVStatus.vfov * Math.PI / 180;
+                var hfov = HFOV * Math.PI / 180;
+                var vfov = VFOV * Math.PI / 180;
 
                 vector.y = Math.Tan(x * hfov / 2); // x in the image is toward the right side of the plane (positive y in camera frame)
                 vector.z = Math.Tan(y * vfov / 2); // y in the image is down (z in camera frame)
