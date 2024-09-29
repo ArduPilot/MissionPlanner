@@ -317,8 +317,8 @@ namespace MissionPlanner.Controls
             CameraVFOV = 30.0m; // vertical, degrees
 
             // Default boolean options
-            DefaultLockedMode = false;
             UseFOVReportedByCamera = true;
+            DefaultLockedMode = false;
         }
 
         public GimbalControlSettings(GimbalControlSettings other)
