@@ -244,7 +244,12 @@ namespace MissionPlanner.GCSViews
             var opt = AddBackstageViewPage(typeof(ConfigOptional), rm.GetString("backstageViewPageopt.Text"));
             if (MainV2.DisplayConfiguration.displayRTKInject)
             {
-                AddBackstageViewPage(typeof(ConfigSerialInjectGPS), "RTK/GPS Inject", true, opt);
+                var rtcmStr = rm.GetString("backstageViewPageSerialInjectGPS.Text");
+                if(rtcmStr == null)
+                    {
+                    rtcmStr = "RTK/GPS Inject";
+                }
+                AddBackstageViewPage(typeof(ConfigSerialInjectGPS), rtcmStr, true, opt);
             }
 
             AddBackstageViewPage(typeof(ConfigCubeID), "CubeID Update",
