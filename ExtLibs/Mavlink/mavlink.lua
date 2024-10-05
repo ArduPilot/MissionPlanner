@@ -250,6 +250,7 @@ messageName = {
     [271] = 'CAMERA_FOV_STATUS',
     [275] = 'CAMERA_TRACKING_IMAGE_STATUS',
     [276] = 'CAMERA_TRACKING_GEO_STATUS',
+    [277] = 'CAMERA_THERMAL_RANGE',
     [280] = 'GIMBAL_MANAGER_INFORMATION',
     [281] = 'GIMBAL_MANAGER_STATUS',
     [282] = 'GIMBAL_MANAGER_SET_ATTITUDE',
@@ -774,6 +775,7 @@ local enumEntryName = {
         [256] = "EKF_PRED_POS_HORIZ_REL",
         [512] = "EKF_PRED_POS_HORIZ_ABS",
         [1024] = "EKF_UNINITIALIZED",
+        [32768] = "EKF_GPS_GLITCHING",
     },
     ["PID_TUNING_AXIS"] = {
         [1] = "PID_TUNING_ROLL",
@@ -1595,10 +1597,12 @@ local enumEntryName = {
         [512] = "CAMERA_CAP_FLAGS_HAS_TRACKING_POINT",
         [1024] = "CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE",
         [2048] = "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS",
+        [4096] = "CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE",
     },
     ["VIDEO_STREAM_STATUS_FLAGS"] = {
         [1] = "VIDEO_STREAM_STATUS_FLAGS_RUNNING",
         [2] = "VIDEO_STREAM_STATUS_FLAGS_THERMAL",
+        [4] = "VIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED",
     },
     ["VIDEO_STREAM_TYPE"] = {
         [0] = "VIDEO_STREAM_TYPE_RTSP",
@@ -3827,17 +3831,18 @@ f.MAG_CAL_PROGRESS_direction_y = ProtoField.new("direction_y (float)", "mavlink_
 f.MAG_CAL_PROGRESS_direction_z = ProtoField.new("direction_z (float)", "mavlink_proto.MAG_CAL_PROGRESS_direction_z", ftypes.FLOAT, nil)
 
 f.EKF_STATUS_REPORT_flags = ProtoField.new("flags (EKF_STATUS_FLAGS)", "mavlink_proto.EKF_STATUS_REPORT_flags", ftypes.UINT16, nil)
-f.EKF_STATUS_REPORT_flags_flagEKF_ATTITUDE = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_ATTITUDE", "EKF_ATTITUDE", 11, nil, 1)
-f.EKF_STATUS_REPORT_flags_flagEKF_VELOCITY_HORIZ = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_VELOCITY_HORIZ", "EKF_VELOCITY_HORIZ", 11, nil, 2)
-f.EKF_STATUS_REPORT_flags_flagEKF_VELOCITY_VERT = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_VELOCITY_VERT", "EKF_VELOCITY_VERT", 11, nil, 4)
-f.EKF_STATUS_REPORT_flags_flagEKF_POS_HORIZ_REL = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_HORIZ_REL", "EKF_POS_HORIZ_REL", 11, nil, 8)
-f.EKF_STATUS_REPORT_flags_flagEKF_POS_HORIZ_ABS = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_HORIZ_ABS", "EKF_POS_HORIZ_ABS", 11, nil, 16)
-f.EKF_STATUS_REPORT_flags_flagEKF_POS_VERT_ABS = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_VERT_ABS", "EKF_POS_VERT_ABS", 11, nil, 32)
-f.EKF_STATUS_REPORT_flags_flagEKF_POS_VERT_AGL = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_VERT_AGL", "EKF_POS_VERT_AGL", 11, nil, 64)
-f.EKF_STATUS_REPORT_flags_flagEKF_CONST_POS_MODE = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_CONST_POS_MODE", "EKF_CONST_POS_MODE", 11, nil, 128)
-f.EKF_STATUS_REPORT_flags_flagEKF_PRED_POS_HORIZ_REL = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_PRED_POS_HORIZ_REL", "EKF_PRED_POS_HORIZ_REL", 11, nil, 256)
-f.EKF_STATUS_REPORT_flags_flagEKF_PRED_POS_HORIZ_ABS = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_PRED_POS_HORIZ_ABS", "EKF_PRED_POS_HORIZ_ABS", 11, nil, 512)
-f.EKF_STATUS_REPORT_flags_flagEKF_UNINITIALIZED = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_UNINITIALIZED", "EKF_UNINITIALIZED", 11, nil, 1024)
+f.EKF_STATUS_REPORT_flags_flagEKF_ATTITUDE = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_ATTITUDE", "EKF_ATTITUDE", 16, nil, 1)
+f.EKF_STATUS_REPORT_flags_flagEKF_VELOCITY_HORIZ = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_VELOCITY_HORIZ", "EKF_VELOCITY_HORIZ", 16, nil, 2)
+f.EKF_STATUS_REPORT_flags_flagEKF_VELOCITY_VERT = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_VELOCITY_VERT", "EKF_VELOCITY_VERT", 16, nil, 4)
+f.EKF_STATUS_REPORT_flags_flagEKF_POS_HORIZ_REL = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_HORIZ_REL", "EKF_POS_HORIZ_REL", 16, nil, 8)
+f.EKF_STATUS_REPORT_flags_flagEKF_POS_HORIZ_ABS = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_HORIZ_ABS", "EKF_POS_HORIZ_ABS", 16, nil, 16)
+f.EKF_STATUS_REPORT_flags_flagEKF_POS_VERT_ABS = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_VERT_ABS", "EKF_POS_VERT_ABS", 16, nil, 32)
+f.EKF_STATUS_REPORT_flags_flagEKF_POS_VERT_AGL = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_POS_VERT_AGL", "EKF_POS_VERT_AGL", 16, nil, 64)
+f.EKF_STATUS_REPORT_flags_flagEKF_CONST_POS_MODE = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_CONST_POS_MODE", "EKF_CONST_POS_MODE", 16, nil, 128)
+f.EKF_STATUS_REPORT_flags_flagEKF_PRED_POS_HORIZ_REL = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_PRED_POS_HORIZ_REL", "EKF_PRED_POS_HORIZ_REL", 16, nil, 256)
+f.EKF_STATUS_REPORT_flags_flagEKF_PRED_POS_HORIZ_ABS = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_PRED_POS_HORIZ_ABS", "EKF_PRED_POS_HORIZ_ABS", 16, nil, 512)
+f.EKF_STATUS_REPORT_flags_flagEKF_UNINITIALIZED = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_UNINITIALIZED", "EKF_UNINITIALIZED", 16, nil, 1024)
+f.EKF_STATUS_REPORT_flags_flagEKF_GPS_GLITCHING = ProtoField.bool("mavlink_proto.EKF_STATUS_REPORT_flags.EKF_GPS_GLITCHING", "EKF_GPS_GLITCHING", 16, nil, 32768)
 f.EKF_STATUS_REPORT_velocity_variance = ProtoField.new("velocity_variance (float)", "mavlink_proto.EKF_STATUS_REPORT_velocity_variance", ftypes.FLOAT, nil)
 f.EKF_STATUS_REPORT_pos_horiz_variance = ProtoField.new("pos_horiz_variance (float)", "mavlink_proto.EKF_STATUS_REPORT_pos_horiz_variance", ftypes.FLOAT, nil)
 f.EKF_STATUS_REPORT_pos_vert_variance = ProtoField.new("pos_vert_variance (float)", "mavlink_proto.EKF_STATUS_REPORT_pos_vert_variance", ftypes.FLOAT, nil)
@@ -8511,18 +8516,19 @@ f.CAMERA_INFORMATION_resolution_h = ProtoField.new("resolution_h (uint16_t)", "m
 f.CAMERA_INFORMATION_resolution_v = ProtoField.new("resolution_v (uint16_t)", "mavlink_proto.CAMERA_INFORMATION_resolution_v", ftypes.UINT16, nil)
 f.CAMERA_INFORMATION_lens_id = ProtoField.new("lens_id (uint8_t)", "mavlink_proto.CAMERA_INFORMATION_lens_id", ftypes.UINT8, nil)
 f.CAMERA_INFORMATION_flags = ProtoField.new("flags (CAMERA_CAP_FLAGS)", "mavlink_proto.CAMERA_INFORMATION_flags", ftypes.UINT32, nil)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_VIDEO = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_VIDEO", "CAMERA_CAP_FLAGS_CAPTURE_VIDEO", 12, nil, 1)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_IMAGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_IMAGE", "CAMERA_CAP_FLAGS_CAPTURE_IMAGE", 12, nil, 2)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_MODES = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_MODES", "CAMERA_CAP_FLAGS_HAS_MODES", 12, nil, 4)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", 12, nil, 8)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", 12, nil, 16)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", "CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", 12, nil, 32)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_ZOOM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", "CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", 12, nil, 64)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_FOCUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", "CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", 12, nil, 128)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_VIDEO_STREAM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", "CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", 12, nil, 256)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_POINT = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", "CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", 12, nil, 512)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", "CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", 12, nil, 1024)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", 12, nil, 2048)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_VIDEO = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_VIDEO", "CAMERA_CAP_FLAGS_CAPTURE_VIDEO", 13, nil, 1)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_IMAGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_IMAGE", "CAMERA_CAP_FLAGS_CAPTURE_IMAGE", 13, nil, 2)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_MODES = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_MODES", "CAMERA_CAP_FLAGS_HAS_MODES", 13, nil, 4)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", 13, nil, 8)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", 13, nil, 16)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", "CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", 13, nil, 32)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_ZOOM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", "CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", 13, nil, 64)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_FOCUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", "CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", 13, nil, 128)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_VIDEO_STREAM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", "CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", 13, nil, 256)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_POINT = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", "CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", 13, nil, 512)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", "CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", 13, nil, 1024)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", 13, nil, 2048)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_THERMAL_RANGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE", "CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE", 13, nil, 4096)
 f.CAMERA_INFORMATION_cam_definition_version = ProtoField.new("cam_definition_version (uint16_t)", "mavlink_proto.CAMERA_INFORMATION_cam_definition_version", ftypes.UINT16, nil)
 f.CAMERA_INFORMATION_cam_definition_uri = ProtoField.new("cam_definition_uri (char)", "mavlink_proto.CAMERA_INFORMATION_cam_definition_uri", ftypes.STRING, nil)
 f.CAMERA_INFORMATION_gimbal_device_id = ProtoField.new("gimbal_device_id (uint8_t)", "mavlink_proto.CAMERA_INFORMATION_gimbal_device_id", ftypes.UINT8, nil)
@@ -9096,8 +9102,9 @@ f.VIDEO_STREAM_INFORMATION_stream_id = ProtoField.new("stream_id (uint8_t)", "ma
 f.VIDEO_STREAM_INFORMATION_count = ProtoField.new("count (uint8_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION_count", ftypes.UINT8, nil)
 f.VIDEO_STREAM_INFORMATION_type = ProtoField.new("type (VIDEO_STREAM_TYPE)", "mavlink_proto.VIDEO_STREAM_INFORMATION_type", ftypes.UINT8, enumEntryName.VIDEO_STREAM_TYPE)
 f.VIDEO_STREAM_INFORMATION_flags = ProtoField.new("flags (VIDEO_STREAM_STATUS_FLAGS)", "mavlink_proto.VIDEO_STREAM_INFORMATION_flags", ftypes.UINT16, nil)
-f.VIDEO_STREAM_INFORMATION_flags_flagVIDEO_STREAM_STATUS_FLAGS_RUNNING = ProtoField.bool("mavlink_proto.VIDEO_STREAM_INFORMATION_flags.VIDEO_STREAM_STATUS_FLAGS_RUNNING", "VIDEO_STREAM_STATUS_FLAGS_RUNNING", 2, nil, 1)
-f.VIDEO_STREAM_INFORMATION_flags_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL = ProtoField.bool("mavlink_proto.VIDEO_STREAM_INFORMATION_flags.VIDEO_STREAM_STATUS_FLAGS_THERMAL", "VIDEO_STREAM_STATUS_FLAGS_THERMAL", 2, nil, 2)
+f.VIDEO_STREAM_INFORMATION_flags_flagVIDEO_STREAM_STATUS_FLAGS_RUNNING = ProtoField.bool("mavlink_proto.VIDEO_STREAM_INFORMATION_flags.VIDEO_STREAM_STATUS_FLAGS_RUNNING", "VIDEO_STREAM_STATUS_FLAGS_RUNNING", 3, nil, 1)
+f.VIDEO_STREAM_INFORMATION_flags_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL = ProtoField.bool("mavlink_proto.VIDEO_STREAM_INFORMATION_flags.VIDEO_STREAM_STATUS_FLAGS_THERMAL", "VIDEO_STREAM_STATUS_FLAGS_THERMAL", 3, nil, 2)
+f.VIDEO_STREAM_INFORMATION_flags_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED = ProtoField.bool("mavlink_proto.VIDEO_STREAM_INFORMATION_flags.VIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED", "VIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED", 3, nil, 4)
 f.VIDEO_STREAM_INFORMATION_framerate = ProtoField.new("framerate (float)", "mavlink_proto.VIDEO_STREAM_INFORMATION_framerate", ftypes.FLOAT, nil)
 f.VIDEO_STREAM_INFORMATION_resolution_h = ProtoField.new("resolution_h (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION_resolution_h", ftypes.UINT16, nil)
 f.VIDEO_STREAM_INFORMATION_resolution_v = ProtoField.new("resolution_v (uint16_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION_resolution_v", ftypes.UINT16, nil)
@@ -9110,8 +9117,9 @@ f.VIDEO_STREAM_INFORMATION_encoding = ProtoField.new("encoding (VIDEO_STREAM_ENC
 
 f.VIDEO_STREAM_STATUS_stream_id = ProtoField.new("stream_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_STATUS_stream_id", ftypes.UINT8, nil)
 f.VIDEO_STREAM_STATUS_flags = ProtoField.new("flags (VIDEO_STREAM_STATUS_FLAGS)", "mavlink_proto.VIDEO_STREAM_STATUS_flags", ftypes.UINT16, nil)
-f.VIDEO_STREAM_STATUS_flags_flagVIDEO_STREAM_STATUS_FLAGS_RUNNING = ProtoField.bool("mavlink_proto.VIDEO_STREAM_STATUS_flags.VIDEO_STREAM_STATUS_FLAGS_RUNNING", "VIDEO_STREAM_STATUS_FLAGS_RUNNING", 2, nil, 1)
-f.VIDEO_STREAM_STATUS_flags_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL = ProtoField.bool("mavlink_proto.VIDEO_STREAM_STATUS_flags.VIDEO_STREAM_STATUS_FLAGS_THERMAL", "VIDEO_STREAM_STATUS_FLAGS_THERMAL", 2, nil, 2)
+f.VIDEO_STREAM_STATUS_flags_flagVIDEO_STREAM_STATUS_FLAGS_RUNNING = ProtoField.bool("mavlink_proto.VIDEO_STREAM_STATUS_flags.VIDEO_STREAM_STATUS_FLAGS_RUNNING", "VIDEO_STREAM_STATUS_FLAGS_RUNNING", 3, nil, 1)
+f.VIDEO_STREAM_STATUS_flags_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL = ProtoField.bool("mavlink_proto.VIDEO_STREAM_STATUS_flags.VIDEO_STREAM_STATUS_FLAGS_THERMAL", "VIDEO_STREAM_STATUS_FLAGS_THERMAL", 3, nil, 2)
+f.VIDEO_STREAM_STATUS_flags_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED = ProtoField.bool("mavlink_proto.VIDEO_STREAM_STATUS_flags.VIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED", "VIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED", 3, nil, 4)
 f.VIDEO_STREAM_STATUS_framerate = ProtoField.new("framerate (float)", "mavlink_proto.VIDEO_STREAM_STATUS_framerate", ftypes.FLOAT, nil)
 f.VIDEO_STREAM_STATUS_resolution_h = ProtoField.new("resolution_h (uint16_t)", "mavlink_proto.VIDEO_STREAM_STATUS_resolution_h", ftypes.UINT16, nil)
 f.VIDEO_STREAM_STATUS_resolution_v = ProtoField.new("resolution_v (uint16_t)", "mavlink_proto.VIDEO_STREAM_STATUS_resolution_v", ftypes.UINT16, nil)
@@ -9160,6 +9168,16 @@ f.CAMERA_TRACKING_GEO_STATUS_vel_acc = ProtoField.new("vel_acc (float)", "mavlin
 f.CAMERA_TRACKING_GEO_STATUS_dist = ProtoField.new("dist (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_dist", ftypes.FLOAT, nil)
 f.CAMERA_TRACKING_GEO_STATUS_hdg = ProtoField.new("hdg (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_hdg", ftypes.FLOAT, nil)
 f.CAMERA_TRACKING_GEO_STATUS_hdg_acc = ProtoField.new("hdg_acc (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_hdg_acc", ftypes.FLOAT, nil)
+
+f.CAMERA_THERMAL_RANGE_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_THERMAL_RANGE_time_boot_ms", ftypes.UINT32, nil)
+f.CAMERA_THERMAL_RANGE_stream_id = ProtoField.new("stream_id (uint8_t)", "mavlink_proto.CAMERA_THERMAL_RANGE_stream_id", ftypes.UINT8, nil)
+f.CAMERA_THERMAL_RANGE_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_THERMAL_RANGE_camera_device_id", ftypes.UINT8, nil)
+f.CAMERA_THERMAL_RANGE_max = ProtoField.new("max (float)", "mavlink_proto.CAMERA_THERMAL_RANGE_max", ftypes.FLOAT, nil)
+f.CAMERA_THERMAL_RANGE_max_point_x = ProtoField.new("max_point_x (float)", "mavlink_proto.CAMERA_THERMAL_RANGE_max_point_x", ftypes.FLOAT, nil)
+f.CAMERA_THERMAL_RANGE_max_point_y = ProtoField.new("max_point_y (float)", "mavlink_proto.CAMERA_THERMAL_RANGE_max_point_y", ftypes.FLOAT, nil)
+f.CAMERA_THERMAL_RANGE_min = ProtoField.new("min (float)", "mavlink_proto.CAMERA_THERMAL_RANGE_min", ftypes.FLOAT, nil)
+f.CAMERA_THERMAL_RANGE_min_point_x = ProtoField.new("min_point_x (float)", "mavlink_proto.CAMERA_THERMAL_RANGE_min_point_x", ftypes.FLOAT, nil)
+f.CAMERA_THERMAL_RANGE_min_point_y = ProtoField.new("min_point_y (float)", "mavlink_proto.CAMERA_THERMAL_RANGE_min_point_y", ftypes.FLOAT, nil)
 
 f.GIMBAL_MANAGER_INFORMATION_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.GIMBAL_MANAGER_INFORMATION_time_boot_ms", ftypes.UINT32, nil)
 f.GIMBAL_MANAGER_INFORMATION_cap_flags = ProtoField.new("cap_flags (GIMBAL_MANAGER_CAP_FLAGS)", "mavlink_proto.GIMBAL_MANAGER_INFORMATION_cap_flags", ftypes.UINT32, nil)
@@ -10817,6 +10835,7 @@ function dissect_flags_EKF_STATUS_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagEKF_PRED_POS_HORIZ_REL"], tvbrange, value)
     tree:add_le(f[name .. "_flagEKF_PRED_POS_HORIZ_ABS"], tvbrange, value)
     tree:add_le(f[name .. "_flagEKF_UNINITIALIZED"], tvbrange, value)
+    tree:add_le(f[name .. "_flagEKF_GPS_GLITCHING"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_HL_FAILURE_FLAG(tree, name, tvbrange, value)
@@ -11090,11 +11109,13 @@ function dissect_flags_CAMERA_CAP_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_TRACKING_POINT"], tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE"], tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_THERMAL_RANGE"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_VIDEO_STREAM_STATUS_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagVIDEO_STREAM_STATUS_FLAGS_RUNNING"], tvbrange, value)
     tree:add_le(f[name .. "_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL"], tvbrange, value)
+    tree:add_le(f[name .. "_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_CAMERA_TRACKING_TARGET_DATA(tree, name, tvbrange, value)
@@ -48150,6 +48171,44 @@ function payload_fns.payload_276(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 44, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_hdg_acc, tvbrange, value)
+end
+-- dissect payload of message type CAMERA_THERMAL_RANGE
+function payload_fns.payload_277(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 30 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 30)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_time_boot_ms, tvbrange, value)
+    tvbrange = padded(offset + 28, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_stream_id, tvbrange, value)
+    tvbrange = padded(offset + 29, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_camera_device_id, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_max, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_max_point_x, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_max_point_y, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_min, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_min_point_x, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.CAMERA_THERMAL_RANGE_min_point_y, tvbrange, value)
 end
 -- dissect payload of message type GIMBAL_MANAGER_INFORMATION
 function payload_fns.payload_280(buffer, tree, msgid, offset, limit, pinfo)
