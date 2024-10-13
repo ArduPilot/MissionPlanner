@@ -401,6 +401,71 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         /// <summary>
+        /// Command the camera to track a point in the image.
+        /// </summary>
+        /// <param name="x">x position in the image, -1 to 1 (positive right)</param>
+        /// <param name="y">y position in the image, -1 to 1 (positive down)</param>
+        /// <returns></returns>
+        public Task<bool> SetTrackingPointAsync(float x, float y)
+        {
+            // Check capabilities.
+            if ((CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.HAS_TRACKING_POINT) == 0)
+            {
+                return Task.FromResult(false);
+            }
+            // Map -1:1 to 0:1
+            x = (x + 1) / 2;
+            y = (y + 1) / 2;
+            return parent.parent.doCommandAsync(
+                parent.sysid, parent.compid,
+                MAVLink.MAV_CMD.CAMERA_TRACK_POINT,
+                x, y,
+                0, 0, 0, 0, 0
+            );
+        }
+
+
+        /// <summary>
+        /// Command the camera to track a rectangle in the image.
+        /// </summary>
+        /// <param name="x1">x position of one corner of the rectangle, -1 to 1 (positive right)</param>
+        /// <param name="y1">y position of one corner of the rectangle, -1 to 1 (positive down)</param>
+        /// <param name="x2">x position of the other corner of the rectangle, -1 to 1 (positive right)</param>
+        /// <param name="y2">y position of the other corner of the rectangle, -1 to 1 (positive down)</param>
+        /// <returns></returns>
+        public Task<bool> SetTrackingRectangleAsync(float x1, float y1, float x2, float y2)
+        {
+            // Check capabilities.
+            if ((CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.HAS_TRACKING_RECTANGLE) == 0)
+            {
+                return Task.FromResult(false);
+            }
+
+            // Map -1:1 to 0:1
+            x1 = (x1 + 1) / 2;
+            y1 = (y1 + 1) / 2;
+            x2 = (x2 + 1) / 2;
+            y2 = (y2 + 1) / 2;
+
+            // Ensure x1 < x2 and y1 < y2
+            if (x1 > x2)
+            {
+                (x2, x1) = (x1, x2);
+            }
+            if (y1 > y2)
+            {
+                (y2, y1) = (y1, y2);
+            }
+
+            return parent.parent.doCommandAsync(
+                parent.sysid, parent.compid,
+                MAVLink.MAV_CMD.CAMERA_TRACK_RECTANGLE,
+                x1, y1, x2, y2,
+                0, 0, 0
+            );
+        }
+
+        /// <summary>
         /// Calculate the lat/lon/alt-msl of a point in the image, given its x/y position in the image.
         /// <param name="x">x position in the image, -1 to 1 (positive right)</param>
         /// <param name="y">y position in the image, -1 to 1 (positive down)</param>
