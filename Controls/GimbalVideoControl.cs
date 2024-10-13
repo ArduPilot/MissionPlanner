@@ -451,6 +451,8 @@ namespace MissionPlanner.Controls
         }
     
         private DateTime lastMouseMove = DateTime.MinValue;
+        private (double x, double y)? dragStartPoint = null;
+        private (double x, double y)? dragEndPoint = null;
         private void VideoBox_MouseMove(object sender, MouseEventArgs e)
         {
             if(DateTime.Now > lastMouseMove.AddMilliseconds(100))
@@ -472,11 +474,27 @@ namespace MissionPlanner.Controls
                     );
                 }
             }
+
+            if ((Control.ModifierKeys, e.Button) == preferences.TrackObjectUnderMouse)
+            {
+                if(dragStartPoint == null)
+                {
+                    dragStartPoint = getMousePosition(e.X, e.Y);
+                }
+                dragEndPoint = getMousePosition(e.X, e.Y);
+            }
+            else
+            {
+                dragStartPoint = null;
+                dragEndPoint = null;
+            }
         }
 
         private void VideoBox_MouseLeave(object sender, EventArgs e)
         {
             mouseMapMarker.Markers.Clear();
+            dragStartPoint = null;
+            dragEndPoint = null;
         }
 
         private void VideoBox_Click(object sender, EventArgs e)
@@ -517,6 +535,23 @@ namespace MissionPlanner.Controls
                 }
                 selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
             }
+            else if ((Control.ModifierKeys, me.Button) == preferences.TrackObjectUnderMouse)
+            {
+                var x = (float)point.Value.x;
+                var y = (float)point.Value.y;
+                if (dragStartPoint.HasValue)
+                {
+                    var start_x = (float)dragStartPoint.Value.x;
+                    var start_y = (float)dragStartPoint.Value.y;
+                    selectedCamera?.SetTrackingRectangleAsync(
+                        start_x, start_y, x, y
+                    );
+                }
+                else
+                {
+                    selectedCamera?.SetTrackingPointAsync(x, y);
+                }
+            }
         }
 
         private (double x, double y)? getMousePosition(int x, int y)
@@ -533,19 +568,13 @@ namespace MissionPlanner.Controls
             {
                 x -= (VideoBox.Width - imageWidth) / 2;
                 x *= VideoBox.Width / imageWidth;
-                if (x < 0 || x >= imageWidth)
-                {
-                    return null;
-                }
+                x = Math.Max(0, Math.Min(VideoBox.Width, x));
             }
             if (imageHeight < VideoBox.Height)
             {
                 y -= (VideoBox.Height - imageHeight) / 2;
                 y *= VideoBox.Height / imageHeight;
-                if (y < 0 || y >= imageHeight)
-                {
-                    return null;
-                }
+                y = Math.Max(0, Math.Min(VideoBox.Height, y));
             }
 
             return (2 * x / (double)imageWidth - 1, 2 * y / (double)imageHeight - 1);
