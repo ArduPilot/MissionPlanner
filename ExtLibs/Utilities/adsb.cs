@@ -189,7 +189,9 @@ namespace MissionPlanner.Utilities
                                     {
                                         VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
                                         CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                        Squawk = Convert.ToUInt16(ac.squawk, 16) // Convert the hex value back to a raw uint16
+                                        Squawk = Convert.ToUInt16(ac.squawk, 16), // Convert the hex value back to a raw uint16
+                                        Type = (ac.t ?? ""), // NOTE: ac.type is the way the aircraft was detected, not the aircraft type
+                                        Category = (ac.category ?? ""),
                                     };
 
                                     UpdatePlanePosition(this, plane);
@@ -1318,6 +1320,15 @@ namespace MissionPlanner.Utilities
             public double VerticalSpeed { get; set; }
             public object Raw { get; set; }
             public object Source { get; set; }
+
+            /// <summary>
+            /// The wake vortex category of the aircraft like A1 or A3; see 2.2.3.2.5.2 (https://www.adsbexchange.com/emitter-category-ads-b-do-260b-2-2-3-2-5-2/)
+            /// </summary>
+            public string Category { get; set; }
+            /// <summary>
+            /// The type of aircraft like A380 or B737 pulled from aircraft database.
+            /// </summary>
+            public string Type { get; set; }
         }
     }
 }

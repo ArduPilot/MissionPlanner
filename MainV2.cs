@@ -1208,6 +1208,8 @@ namespace MissionPlanner
                     plane.Speed = adsb.Speed;
                     plane.VerticalSpeed = adsb.VerticalSpeed;
                     plane.Source = sender;
+                    plane.Category = adsb.Category;
+                    plane.Type = adsb.Type;
                     instance.adsbPlanes[id] = plane;
                 }
                 else
