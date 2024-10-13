@@ -174,7 +174,57 @@ namespace MissionPlanner.Controls
                 VideoBox.Image = new Bitmap(
                     image.Width, image.Height, 4 * image.Width,
                     PixelFormat.Format32bppPArgb,
-                    image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0
+                );
+                
+                // Overlay tracking info
+                var tracking_status = selectedCamera?.CameraTrackingImageStatus ?? new mavlink_camera_tracking_image_status_t();
+                if (dragStartPoint.HasValue && dragEndPoint.HasValue)
+                {
+                    var start = dragStartPoint.Value;
+                    var end = dragEndPoint.Value;
+                    using (var g = Graphics.FromImage(VideoBox.Image))
+                    {
+                        var x = (float)(Math.Min(start.x, end.x) + 1) * VideoBox.Image.Width / 2;
+                        var y = (float)(Math.Min(start.y, end.y) + 1) * VideoBox.Image.Height / 2;
+                        var w = (float)Math.Abs(start.x - end.x) * VideoBox.Image.Width / 2;
+                        var h = (float)Math.Abs(start.y - end.y) * VideoBox.Image.Height / 2;
+                        g.DrawRectangle(Pens.Red, x, y, w, h);
+                    }
+                }
+                else if (tracking_status.tracking_status == (byte)MAVLink.CAMERA_TRACKING_STATUS_FLAGS.ACTIVE &&
+                    (tracking_status.target_data & (byte)MAVLink.CAMERA_TRACKING_TARGET_DATA.RENDERED) == 0 && // Don't render if the target is already rendered
+                    (tracking_status.target_data & (byte)MAVLink.CAMERA_TRACKING_TARGET_DATA.IN_STATUS) != 0) // Only render if this status message contains the target data
+                {
+                    if (tracking_status.tracking_mode == (byte)MAVLink.CAMERA_TRACKING_MODE.POINT &&
+                        !float.IsNaN(tracking_status.point_x) &&
+                        !float.IsNaN(tracking_status.point_y))
+                    {
+                        var x = tracking_status.point_x * VideoBox.Image.Width;
+                        var y = tracking_status.point_y * VideoBox.Image.Height;
+                        var size = float.IsNaN(tracking_status.radius) ? 10 : tracking_status.radius;
+                        using (var g = Graphics.FromImage(VideoBox.Image))
+                        {
+                            g.DrawEllipse(Pens.Red, (int)x - size / 2, (int)y - size / 2, size, size);
+                        }
+                    }
+                    else if (tracking_status.tracking_mode == (byte)MAVLink.CAMERA_TRACKING_MODE.RECTANGLE &&
+                        !float.IsNaN(tracking_status.rec_top_x) &&
+                        !float.IsNaN(tracking_status.rec_top_y) &&
+                        !float.IsNaN(tracking_status.rec_bottom_x) &&
+                        !float.IsNaN(tracking_status.rec_bottom_y))
+                    {
+                        var x = (float)(Math.Min(tracking_status.rec_top_x, tracking_status.rec_bottom_x)) * VideoBox.Image.Width;
+                        var y = (float)(Math.Min(tracking_status.rec_top_y, tracking_status.rec_bottom_y)) * VideoBox.Image.Height;
+                        var w = (float)Math.Abs(tracking_status.rec_top_x - tracking_status.rec_bottom_x) * VideoBox.Image.Width;
+                        var h = (float)Math.Abs(tracking_status.rec_top_y - tracking_status.rec_bottom_y) * VideoBox.Image.Height;
+                        using (var g = Graphics.FromImage(VideoBox.Image))
+                        {
+                            g.DrawRectangle(Pens.Red, x, y, w, h);
+                        }
+                    }
+                }
+
 
                 old?.Dispose();
             }
@@ -537,6 +587,7 @@ namespace MissionPlanner.Controls
             }
             else if ((Control.ModifierKeys, me.Button) == preferences.TrackObjectUnderMouse)
             {
+                selectedCamera?.RequestTrackingMessageInterval(5);
                 var x = (float)point.Value.x;
                 var y = (float)point.Value.y;
                 if (dragStartPoint.HasValue)
