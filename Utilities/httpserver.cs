@@ -1095,6 +1095,20 @@ namespace MissionPlanner.Utilities
                         }
                         stream.Close();
                     }
+                    else if (url.ToLower().Contains("/adsb"))
+                    {
+                        string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\n\r\n";
+                        byte[] temp = asciiEncoding.GetBytes(header);
+                        stream.Write(temp, 0, temp.Length);
+
+                        var adsbdata = MainV2.instance.adsbPlanes.ToJSON();
+
+                        byte[] buffer = Encoding.ASCII.GetBytes(adsbdata);
+
+                        stream.Write(buffer, 0, buffer.Length);
+
+                        stream.Close();
+                    }
                     /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains(" / "))
                     {
