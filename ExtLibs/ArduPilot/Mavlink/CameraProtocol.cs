@@ -29,6 +29,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public MAVLink.mavlink_camera_settings_t CameraSettings { get; private set; }
         public MAVLink.mavlink_camera_capture_status_t CameraCaptureStatus { get; private set; }
         public MAVLink.mavlink_camera_fov_status_t CameraFOVStatus { get; private set; }
+        public MAVLink.mavlink_camera_tracking_image_status_t CameraTrackingImageStatus { get; private set; }
 
         public static ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t> VideoStreams { get; private set; } = new ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t>();
 
@@ -231,6 +232,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
             case MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS:
                 CameraFOVStatus = (MAVLink.mavlink_camera_fov_status_t)message.data;
                 break;
+            case MAVLink.MAVLINK_MSG_ID.CAMERA_TRACKING_IMAGE_STATUS:
+                CameraTrackingImageStatus = (MAVLink.mavlink_camera_tracking_image_status_t)message.data;
+                break;
             }
         }
 
@@ -296,6 +300,28 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     ).ConfigureAwait(false);
                 });
             }
+        }
+
+        public void RequestTrackingMessageInterval(int ratehz)
+        {
+            if (parent?.parent == null)
+            {
+                return;
+            }
+
+            float interval_us = (float)(1e6 / ratehz);
+
+            Task.Run(async () =>
+            {
+                await parent.parent.doCommandAsync(
+                        parent.sysid, parent.compid,
+                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
+                        (float)MAVLink.MAVLINK_MSG_ID.CAMERA_TRACKING_IMAGE_STATUS,
+                        interval_us,
+                        0, 0, 0, 0, 0,
+                        false // Don't wait for response
+                ).ConfigureAwait(false);
+            });
         }
 
         /// <summary>
