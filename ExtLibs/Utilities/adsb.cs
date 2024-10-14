@@ -1329,6 +1329,161 @@ namespace MissionPlanner.Utilities
             /// The type of aircraft like A380 or B737 pulled from aircraft database.
             /// </summary>
             public string Type { get; set; }
+
+            /// <summary>
+            /// Returns the aircraft's emitter category in MAVLink enum format
+            /// </summary>
+            public MAVLink.ADSB_EMITTER_TYPE GetEmitterCategory()
+            {
+                switch (this.Category)
+                {
+                    case "A0":
+                        return MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                    case "A1":
+                        return MAVLink.ADSB_EMITTER_TYPE.LIGHT;
+                    case "A2":
+                        return MAVLink.ADSB_EMITTER_TYPE.SMALL;
+                    case "A3":
+                        return MAVLink.ADSB_EMITTER_TYPE.LARGE;
+                    case "A4":
+                        return MAVLink.ADSB_EMITTER_TYPE.HIGH_VORTEX_LARGE;
+                    case "A5":
+                        return MAVLink.ADSB_EMITTER_TYPE.HEAVY;
+                    case "A6":
+                        return MAVLink.ADSB_EMITTER_TYPE.HIGHLY_MANUV;
+                    case "A7":
+                        return MAVLink.ADSB_EMITTER_TYPE.ROTOCRAFT;
+                    case "B0":
+                        return MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED;
+                    case "B1":
+                        return MAVLink.ADSB_EMITTER_TYPE.GLIDER;
+                    case "B2":
+                        return MAVLink.ADSB_EMITTER_TYPE.LIGHTER_AIR;
+                    case "B3":
+                        return MAVLink.ADSB_EMITTER_TYPE.PARACHUTE;
+                    case "B4":
+                        return MAVLink.ADSB_EMITTER_TYPE.ULTRA_LIGHT;
+                    case "B5":
+                        return MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED2;
+                    case "B6":
+                        return MAVLink.ADSB_EMITTER_TYPE.UAV;
+                    case "B7":
+                        return MAVLink.ADSB_EMITTER_TYPE.SPACE;
+                    case "C0":
+                        return MAVLink.ADSB_EMITTER_TYPE.UNASSGINED3;
+                    case "C1":
+                        return MAVLink.ADSB_EMITTER_TYPE.EMERGENCY_SURFACE;
+                    case "C2":
+                        return MAVLink.ADSB_EMITTER_TYPE.SERVICE_SURFACE;
+                    case "C3":
+                        return MAVLink.ADSB_EMITTER_TYPE.POINT_OBSTACLE;
+                    // C4-C7 aren't defined in MAVLink yet
+                }
+                return MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+            }
+            public string GetCategoryFriendlyString()
+            {
+                switch (this.Category)
+                {
+                    case "A0":
+                        return "No Info";
+                    case "A1":
+                        return "Light";
+                    case "A2":
+                        return "Small";
+                    case "A3":
+                        return "Large";
+                    case "A4":
+                        return "High Vortex Large";
+                    case "A5":
+                        return "Heavy";
+                    case "A6":
+                        return "Highly Manuv";
+                    case "A7":
+                        return "Rotocraft";
+                    case "B0":
+                        return "Unassigned";
+                    case "B1":
+                        return "Glider";
+                    case "B2":
+                        return "Lighter Air";
+                    case "B3":
+                        return "Parachute";
+                    case "B4":
+                        return "Ultra Light";
+                    case "B5":
+                        return "Unassigned";
+                    case "B6":
+                        return "UAV";
+                    case "B7":
+                        return "Space";
+                    case "C0":
+                        return "Unassigned";
+                    case "C1":
+                        return "Emergency Surface";
+                    case "C2":
+                        return "Service Surface";
+                    case "C3":
+                        return "Point Obstacle";
+                    case "C4":
+                        return "Cluster Obstacle";
+                    case "C5":
+                        return "Line Obstacle";
+                    case "C6":
+                        return "Unassigned";
+                    case "C7":
+                        return "Unassigned";
+                }
+                return this.Category;
+            }
+        }
+        public static string GetEmitterCategoryShort(MAVLink.ADSB_EMITTER_TYPE category)
+        {
+            switch (category)
+            {
+                case MAVLink.ADSB_EMITTER_TYPE.NO_INFO:
+                    return "A0";
+                case MAVLink.ADSB_EMITTER_TYPE.LIGHT:
+                    return "A1";
+                case MAVLink.ADSB_EMITTER_TYPE.SMALL:
+                    return "A2";
+                case MAVLink.ADSB_EMITTER_TYPE.LARGE:
+                    return "A3";
+                case MAVLink.ADSB_EMITTER_TYPE.HIGH_VORTEX_LARGE:
+                    return "A4";
+                case MAVLink.ADSB_EMITTER_TYPE.HEAVY:
+                    return "A5";
+                case MAVLink.ADSB_EMITTER_TYPE.HIGHLY_MANUV:
+                    return "A6";
+                case MAVLink.ADSB_EMITTER_TYPE.ROTOCRAFT:
+                    return "A7";
+                case MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED:
+                    return "B0";
+                case MAVLink.ADSB_EMITTER_TYPE.GLIDER:
+                    return "B1";
+                case MAVLink.ADSB_EMITTER_TYPE.LIGHTER_AIR:
+                    return "B2";
+                case MAVLink.ADSB_EMITTER_TYPE.PARACHUTE:
+                    return "B3";
+                case MAVLink.ADSB_EMITTER_TYPE.ULTRA_LIGHT:
+                    return "B4";
+                case MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED2:
+                    return "B5";
+                case MAVLink.ADSB_EMITTER_TYPE.UAV:
+                    return "B6";
+                case MAVLink.ADSB_EMITTER_TYPE.SPACE:
+                    return "B7";
+                case MAVLink.ADSB_EMITTER_TYPE.UNASSGINED3:
+                    return "C0";
+                case MAVLink.ADSB_EMITTER_TYPE.EMERGENCY_SURFACE:
+                    return "C1";
+                case MAVLink.ADSB_EMITTER_TYPE.SERVICE_SURFACE:
+                    return "C2";
+                case MAVLink.ADSB_EMITTER_TYPE.POINT_OBSTACLE:
+                    return "C3";
+            }
+            return "";
         }
     }
+
 }
