@@ -4070,8 +4070,15 @@ namespace MissionPlanner.GCSViews
                                     if (adsbplane == null || pllau == null)
                                         return;
 
+                                    string typeCategory = "";
+                                    if (pllau.Type != "") {
+                                        typeCategory = pllau.Type + " / ";
+                                    }
+                                    typeCategory += pllau.GetCategoryFriendlyString();
+
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
                                                             "Callsign: " + pllau.CallSign + "\n" +
+                                                            "Type/Category: " + typeCategory + "\n" +
                                                             "Squawk: " + pllau.Squawk.ToString("X4") + "\n" +
                                                             "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
@@ -4087,6 +4094,7 @@ namespace MissionPlanner.GCSViews
                                     adsbplane.Position = pllau;
                                     adsbplane.heading = pllau.Heading;
                                     adsbplane.Tag = pllau;
+                                    adsbplane.EmitterCategory = pllau.GetEmitterCategory();
 
                                     if (((DateTime) pllau.Time) > DateTime.Now.AddSeconds(-30))
                                     {
