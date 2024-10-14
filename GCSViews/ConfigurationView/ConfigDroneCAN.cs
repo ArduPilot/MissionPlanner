@@ -466,6 +466,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private TcpListener listener;
         private bool mavlinkCANRun;
         private byte BusInUse;
+        private bool isConnected = false;
 
         private void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -650,6 +651,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
+            Disconnect();
+            timer?.Stop();
+        }
+
+        public void Disconnect()
+        {
             mavlinkCANRun = false;
             try
             {
@@ -663,7 +670,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             listener = null;
             can?.Stop(chk_canonclose.Checked);
             can = null;
-            timer?.Stop();
+
+            cmb_interfacetype.Enabled = true;
+            cmb_networkinterface.Enabled = true;
+            but_connect.Text = "Connect";
+            isConnected = false;
         }
 
         private void myDataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -1593,6 +1604,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_connect_Click(object sender, EventArgs e)
         {
+            if (isConnected)
+            {
+                Disconnect();
+                return;
+            }
+
             mavlinkCANRun = false;
 
             var selected = cmb_interfacetype.SelectedValue;
@@ -1603,7 +1620,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            but_connect.Enabled = false;
+            // Reset the table of nodes
+            myDataGridView1.Rows.Clear();
+
+            cmb_interfacetype.Enabled = false;
+            cmb_networkinterface.Enabled = false;
+            but_connect.Text = "Disconnect";
+            isConnected = true;
 
             var type = (ConnectionTypes)selected;
 

@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DDD2FEA8-801E-463B-8913-9CCCDA2D9429}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TerrainMakerPlugin</RootNamespace>
+    <AssemblyName>TerrainMakerPlugin</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Debug\net461\plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>$(SolutionDir)bin\Release\net461\plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\BaseClasses\BaseClasses.csproj">
+      <Project>{2a8e8af5-74e7-49db-a42e-9360fa7a6cc4}</Project>
+      <Name>BaseClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
+      <Project>{9ca367b8-0b98-49d1-84fb-735e612e3ba9}</Project>
+      <Name>BSE.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Core\Core.csproj">
+      <Project>{59129078-7b12-4198-b93e-0aa08d0bb7ed}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Mavlink\MAVLink.csproj">
+      <Project>{13d2ec90-c41f-48a1-aada-859b6dc24edc}</Project>
+      <Name>MAVLink</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)MissionPlanner.csproj">
+      <Project>{a2e22272-95fe-47b6-b050-9ae7e2055bf5}</Project>
+      <Name>MissionPlanner</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj">
+      <Project>{ca6345d3-7a6d-478b-a0ed-a58e50dcaa83}</Project>
+      <Name>MissionPlanner.ArduPilot</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Comms\MissionPlanner.Comms.csproj">
+      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Name>MissionPlanner.Comms</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Controls\MissionPlanner.Controls.csproj">
+      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Name>MissionPlanner.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj">
+      <Project>{d773accd-9c2d-4e94-a967-faa7ea2d21cb}</Project>
+      <Name>GMap.NET.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Interfaces\Interfaces.csproj">
+      <Project>{FD4D2994-9BEA-41A1-8C51-2E02D1E8503E}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\Maps\MissionPlanner.Maps.csproj">
+      <Project>{6c4ff9c3-7aff-4274-b8fc-4a93a1faadea}</Project>
+      <Name>MissionPlanner.Maps</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Project>{6974d22c-ede6-4bb2-aad2-ff23ed6ec165}</Project>
+      <Name>MissionPlanner.Drawing</Name>
+      <Aliases>Drawing</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)ExtLibs\SvgNet\SvgNet.csproj">
+      <Project>{bb4c8021-b5e1-4de2-82cb-14bdfb9837e4}</Project>
+      <Name>SvgNet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Location.cs" />
+    <Compile Include="TerrainDataFile.cs" />
+    <Compile Include="TerrainMakerPlugin.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>4.7.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
