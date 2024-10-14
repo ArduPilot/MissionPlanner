@@ -6252,8 +6252,8 @@ namespace MissionPlanner.GCSViews
                                                              !Mode_clb.GetItemChecked(2) &&
                                                              !Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
                     ON_btn.Font   = new Font(ON_btn.Font,   ( Mode_clb.GetItemChecked(0) &&
-                                                              Mode_clb.GetItemChecked(1) &&
-                                                             !Mode_clb.GetItemChecked(2) &&
+                                                             !Mode_clb.GetItemChecked(1) &&
+                                                              Mode_clb.GetItemChecked(2) &&
                                                               Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
                     ALT_btn.Font  = new Font(ALT_btn.Font,  ( Mode_clb.GetItemChecked(0) &&
                                                               Mode_clb.GetItemChecked(1) &&
