@@ -6250,9 +6250,16 @@ namespace MissionPlanner.GCSViews
 
         private void updateTransponder()
         {
+            static neverConnected = true;
             MainV2.comPort.MAV.cs.xpdr_status_pending = false;
             if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
             {
+                if (neverConnected)
+                {
+                    // subscribe to status message on first connection
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS, (float) 1000000.0, 0, 0, 0, 0, 0);
+                }
+
                 STBY_btn.Enabled = true;
                 ON_btn.Enabled = true;
                 ALT_btn.Enabled = true;
