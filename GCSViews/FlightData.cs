@@ -226,6 +226,8 @@ namespace MissionPlanner.GCSViews
             {11, "<3m" }
         };
 
+        private bool transponderNeverConnected = true;
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -3289,6 +3291,8 @@ namespace MissionPlanner.GCSViews
 
             DateTime updatescreen = DateTime.Now;
 
+            DateTime transponderUpdate = DateTime.Now;
+
             DateTime tsreal = DateTime.Now;
             double taketime = 0;
             double timeerror = 0;
@@ -4186,9 +4190,10 @@ namespace MissionPlanner.GCSViews
                     Console.WriteLine("FD Main loop exception " + ex);
                 }
 
-                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending || transponderUpdate.AddMilliseconds(5000) < DateTime.Now)
                 {
                     BeginInvoke((Action) updateTransponder);
+                    transponderUpdate = DateTime.Now;
                 }
             }
 
@@ -6220,7 +6225,7 @@ namespace MissionPlanner.GCSViews
                 {
                     updateTransponder();
                 }
-                else CustomMessageBox.Show("Timeout.");
+                else CustomMessageBox.Show("Timeout: Status message not received.");
 
             }
             catch (Exception ex)
@@ -6231,14 +6236,38 @@ namespace MissionPlanner.GCSViews
 
         private void updateTransponder()
         {
-            static neverConnected = true;
-            MainV2.comPort.MAV.cs.xpdr_status_pending = false;
-            if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
+            if (!MainV2.comPort.MAV.cs.xpdr_status_pending)
             {
-                if (neverConnected)
+                // timeout on status message
+                STBY_btn.Enabled = false;
+                ON_btn.Enabled = false;
+                ALT_btn.Enabled = false;
+                IDENT_btn.Enabled = false;
+                FlightID_tb.Enabled = false;
+                Squawk_nud.Enabled = false;
+
+                if (transponderNeverConnected)
+                {
+                    XPDRConnect_btn.Text = "Connect To Transponder";
+                    XPDRConnect_btn.Enabled = true;
+                }
+                else
+                {
+                    // if we have connected before, we should have subscribed to the status message.
+                    // something must have reset the message interval (AP power cycled, etc.)
+                    // so indicate that the connection reset
+                    XPDRConnect_btn.Text = "Transponder Status Lost";
+                    XPDRConnect_btn.Enabled = true;
+                    transponderNeverConnected = true;
+                }
+            }
+            else if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
+            {
+                if (transponderNeverConnected)
                 {
                     // subscribe to status message on first connection
                     MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS, (float) 1000000.0, 0, 0, 0, 0, 0);
+                    transponderNeverConnected = false;
                 }
 
                 STBY_btn.Enabled = true;
@@ -6301,6 +6330,7 @@ namespace MissionPlanner.GCSViews
                 IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.xpdr_ident_active ? FontStyle.Bold : FontStyle.Regular);
 
                 XPDRConnect_btn.Text = "Transponder Connected!";
+                XPDRConnect_btn.Enabled = false;
             }
             else
             {
@@ -6311,8 +6341,10 @@ namespace MissionPlanner.GCSViews
                 FlightID_tb.Enabled = false;
                 Squawk_nud.Enabled = false;
 
-                XPDRConnect_btn.Text = "Connect to Transponder";
+                XPDRConnect_btn.Text = "Transponder Offline";
+                XPDRConnect_btn.Enabled = false;
             }
+            MainV2.comPort.MAV.cs.xpdr_status_pending = false;
         }
 
         private void showIconsToolStripMenuItem_Click(object sender, EventArgs e)
