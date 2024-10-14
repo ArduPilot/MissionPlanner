@@ -5005,6 +5005,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             return MAVLinkMessage.Invalid;
                         }
                     }
+
+                    var timestamp = new DateTime(2015, 1, 1).AddMilliseconds(message.sigTimestamp / 100.0);
+                    var delta = DateTime.UtcNow - timestamp;
                 }
 
                 // packet is now verified

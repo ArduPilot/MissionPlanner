@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Mavlink;
 using MissionPlanner.Utilities;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -61,10 +62,50 @@ namespace MissionPlanner.Controls
 
                 string pass = "";
 
-                if (InputBox.Show("Input Seed", "Please enter your pass phrase", ref pass) == DialogResult.OK)
+                if (InputBox.Show("Input Seed", "Please enter your pass phrase/sentence\nNumbers, Lower Case, Upper Case, Symbols, and 12+ chars long using atleast 2 of each", ref pass) == DialogResult.OK)
                 {
                     var input = InputBox.value;
+                    {
+                        var n = 0;
+                        int score = 0;
+                        var len = input.Length;
 
+                        // chars
+                        score += len * 4;
+                        // upper
+                        n = input.Count(c => char.IsUpper(c));
+                        if(n > 0)
+                        score += (len - n) * 2;
+                        // lower
+                        n = input.Count(c => char.IsLower(c));
+                        if (n > 0)
+                            score += (len - n) * 2;
+                        //number
+                        n = input.Count(c => char.IsNumber(c));
+                        if (n > 0)
+                            score +=  n * 4;
+                        //symbols
+                        n = input.Count(c => char.IsSymbol(c) || char.IsPunctuation(c));
+                        if (n > 0)
+                            score += n * 6;
+                        //middle number or symbol
+                        n = input.Skip(1).Take(len - 2).Count(c => char.IsSymbol(c) || char.IsPunctuation(c) ||  char.IsNumber(c));
+                        if (n > 0)
+                            score += n * 2;
+                        // letters only
+                        n = input.Count(c => char.IsLetter(c));
+                        score += len == n ? -len : 0;
+                        // numbers only
+                        n = input.Count(c => char.IsNumber(c));
+                        score += len == n ? -len : 0;
+
+                        if(score <= 40)
+                            CustomMessageBox.Show("Password Strength: " + score + " WEAK - it will be added, but please pick a better password");
+                        else if (score <= 60)
+                            CustomMessageBox.Show("Password Strength: " + score + " Good");
+                        else if (score > 60)
+                            CustomMessageBox.Show("Password Strength: " + score + " Strong");
+                    }
                     MAVAuthKeys.AddKey(dataGridView1[FName.Index, row].Value.ToString(), input);
                 }
 

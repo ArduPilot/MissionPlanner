@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Aug 01 2024";
+    public const string MAVLINK_BUILD_DATE = "Sat Oct 05 2024";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -242,6 +242,7 @@ public partial class MAVLink
         new message_info(271, "CAMERA_FOV_STATUS", 22, 52, 52, typeof( mavlink_camera_fov_status_t )),
         new message_info(275, "CAMERA_TRACKING_IMAGE_STATUS", 126, 31, 31, typeof( mavlink_camera_tracking_image_status_t )),
         new message_info(276, "CAMERA_TRACKING_GEO_STATUS", 18, 49, 49, typeof( mavlink_camera_tracking_geo_status_t )),
+        new message_info(277, "CAMERA_THERMAL_RANGE", 62, 30, 30, typeof( mavlink_camera_thermal_range_t )),
         new message_info(280, "GIMBAL_MANAGER_INFORMATION", 70, 33, 33, typeof( mavlink_gimbal_manager_information_t )),
         new message_info(281, "GIMBAL_MANAGER_STATUS", 48, 13, 13, typeof( mavlink_gimbal_manager_status_t )),
         new message_info(282, "GIMBAL_MANAGER_SET_ATTITUDE", 123, 35, 35, typeof( mavlink_gimbal_manager_set_attitude_t )),
@@ -571,6 +572,7 @@ public partial class MAVLink
         CAMERA_FOV_STATUS = 271,
         CAMERA_TRACKING_IMAGE_STATUS = 275,
         CAMERA_TRACKING_GEO_STATUS = 276,
+        CAMERA_THERMAL_RANGE = 277,
         GIMBAL_MANAGER_INFORMATION = 280,
         GIMBAL_MANAGER_STATUS = 281,
         GIMBAL_MANAGER_SET_ATTITUDE = 282,
@@ -2096,6 +2098,9 @@ public partial class MAVLink
         ///<summary> Set if EKF has never been healthy. | </summary>
         [Description("Set if EKF has never been healthy.")]
         EKF_UNINITIALIZED=1024, 
+        ///<summary> Set if EKF believes the GPS input data is faulty. | </summary>
+        [Description("Set if EKF believes the GPS input data is faulty.")]
+        EKF_GPS_GLITCHING=32768, 
         
     };
     
@@ -4588,6 +4593,9 @@ public partial class MAVLink
         ///<summary> Camera supports tracking geo status (CAMERA_TRACKING_GEO_STATUS). | </summary>
         [Description("Camera supports tracking geo status (CAMERA_TRACKING_GEO_STATUS).")]
         HAS_TRACKING_GEO_STATUS=2048, 
+        ///<summary> Camera supports absolute thermal range (request CAMERA_THERMAL_RANGE with MAV_CMD_REQUEST_MESSAGE) (WIP). | </summary>
+        [Description("Camera supports absolute thermal range (request CAMERA_THERMAL_RANGE with MAV_CMD_REQUEST_MESSAGE) (WIP).")]
+        HAS_THERMAL_RANGE=4096, 
         
     };
     
@@ -4601,6 +4609,9 @@ public partial class MAVLink
         ///<summary> Stream is thermal imaging | </summary>
         [Description("Stream is thermal imaging")]
         THERMAL=2, 
+        ///<summary> Stream can report absolute thermal range (see CAMERA_THERMAL_RANGE). (WIP). | </summary>
+        [Description("Stream can report absolute thermal range (see CAMERA_THERMAL_RANGE). (WIP).")]
+        THERMAL_RANGE_ENABLED=4, 
         
     };
     
@@ -26616,6 +26627,101 @@ public partial class MAVLink
         [Description("Current tracking status")]
         //[FieldOffset(48)]
         public  /*CAMERA_TRACKING_STATUS_FLAGS*/byte tracking_status;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=30)]
+    ///<summary> Camera absolute thermal range. This can be streamed when the associated `VIDEO_STREAM_STATUS.flag` bit `VIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED` is set, but a GCS may choose to only request it for the current active stream. Use MAV_CMD_SET_MESSAGE_INTERVAL to define message interval (param3 indicates the stream id of the current camera, or 0 for all streams, param4 indicates the target camera_device_id for autopilot-attached cameras or 0 for MAVLink cameras). </summary>
+    public struct mavlink_camera_thermal_range_t
+    {
+        /// packet ordered constructor
+        public mavlink_camera_thermal_range_t(uint time_boot_ms,float max,float max_point_x,float max_point_y,float min,float min_point_x,float min_point_y,byte stream_id,byte camera_device_id) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.max = max;
+            this.max_point_x = max_point_x;
+            this.max_point_y = max_point_y;
+            this.min = min;
+            this.min_point_x = min_point_x;
+            this.min_point_y = min_point_y;
+            this.stream_id = stream_id;
+            this.camera_device_id = camera_device_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_camera_thermal_range_t PopulateXMLOrder(uint time_boot_ms,byte stream_id,byte camera_device_id,float max,float max_point_x,float max_point_y,float min,float min_point_x,float min_point_y) 
+        {
+            var msg = new mavlink_camera_thermal_range_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.stream_id = stream_id;
+            msg.camera_device_id = camera_device_id;
+            msg.max = max;
+            msg.max_point_x = max_point_x;
+            msg.max_point_y = max_point_y;
+            msg.min = min;
+            msg.min_point_x = min_point_x;
+            msg.min_point_y = min_point_y;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Temperature max.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature max.")]
+        //[FieldOffset(4)]
+        public  float max;
+
+        /// <summary>Temperature max point x value (normalized 0..1, 0 is left, 1 is right), NAN if unknown.   </summary>
+        [Units("")]
+        [Description("Temperature max point x value (normalized 0..1, 0 is left, 1 is right), NAN if unknown.")]
+        //[FieldOffset(8)]
+        public  float max_point_x;
+
+        /// <summary>Temperature max point y value (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown.   </summary>
+        [Units("")]
+        [Description("Temperature max point y value (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown.")]
+        //[FieldOffset(12)]
+        public  float max_point_y;
+
+        /// <summary>Temperature min.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature min.")]
+        //[FieldOffset(16)]
+        public  float min;
+
+        /// <summary>Temperature min point x value (normalized 0..1, 0 is left, 1 is right), NAN if unknown.   </summary>
+        [Units("")]
+        [Description("Temperature min point x value (normalized 0..1, 0 is left, 1 is right), NAN if unknown.")]
+        //[FieldOffset(20)]
+        public  float min_point_x;
+
+        /// <summary>Temperature min point y value (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown.   </summary>
+        [Units("")]
+        [Description("Temperature min point y value (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown.")]
+        //[FieldOffset(24)]
+        public  float min_point_y;
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        [Units("")]
+        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(28)]
+        public  byte stream_id;
+
+        /// <summary>Camera id of a non-MAVLink camera attached to an autopilot (1-6).  0 if the component is a MAVLink camera (with its own component id).   </summary>
+        [Units("")]
+        [Description("Camera id of a non-MAVLink camera attached to an autopilot (1-6).  0 if the component is a MAVLink camera (with its own component id).")]
+        //[FieldOffset(29)]
+        public  byte camera_device_id;
     };
 
     
