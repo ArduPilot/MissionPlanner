@@ -439,7 +439,7 @@
     <value>671, 89</value>
   </data>
   <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 17</value>
+    <value>88, 21</value>
   </data>
   <data name="CHK_speechaltwarning.TabIndex" type="System.Int32, mscorlib">
     <value>79</value>
@@ -1148,7 +1148,7 @@
     <value>559, 89</value>
   </data>
   <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
+    <value>109, 21</value>
   </data>
   <data name="CHK_speechbattery.TabIndex" type="System.Int32, mscorlib">
     <value>64</value>
@@ -1181,7 +1181,7 @@
     <value>469, 89</value>
   </data>
   <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 17</value>
+    <value>88, 21</value>
   </data>
   <data name="CHK_speechcustom.TabIndex" type="System.Int32, mscorlib">
     <value>65</value>
@@ -1214,7 +1214,7 @@
     <value>408, 89</value>
   </data>
   <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 17</value>
+    <value>63, 21</value>
   </data>
   <data name="CHK_speechmode.TabIndex" type="System.Int32, mscorlib">
     <value>66</value>
@@ -1247,7 +1247,7 @@
     <value>332, 89</value>
   </data>
   <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 17</value>
+    <value>78, 21</value>
   </data>
   <data name="CHK_speechwaypoint.TabIndex" type="System.Int32, mscorlib">
     <value>67</value>
@@ -1403,7 +1403,7 @@
     <value>107, 89</value>
   </data>
   <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 17</value>
+    <value>106, 21</value>
   </data>
   <data name="CHK_enablespeech.TabIndex" type="System.Int32, mscorlib">
     <value>72</value>
@@ -1436,7 +1436,7 @@
     <value>73</value>
   </data>
   <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>HUD Overlay</value>
+    <value>Enable HUD Overlay</value>
   </data>
   <data name="&gt;&gt;CHK_hudshow.Name" xml:space="preserve">
     <value>CHK_hudshow</value>
@@ -1859,7 +1859,7 @@
     <value>760, 89</value>
   </data>
   <data name="CHK_speecharmdisarm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 17</value>
+    <value>88, 21</value>
   </data>
   <data name="CHK_speecharmdisarm.TabIndex" type="System.Int32, mscorlib">
     <value>99</value>
@@ -1919,7 +1919,7 @@
     <value>107, 577</value>
   </data>
   <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 17</value>
+    <value>122, 21</value>
   </data>
   <data name="chk_analytics.TabIndex" type="System.Int32, mscorlib">
     <value>102</value>
@@ -1949,7 +1949,7 @@
     <value>228, 577</value>
   </data>
   <data name="CHK_beta.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 17</value>
+    <value>98, 21</value>
   </data>
   <data name="CHK_beta.TabIndex" type="System.Int32, mscorlib">
     <value>103</value>
@@ -1979,7 +1979,7 @@
     <value>340, 554</value>
   </data>
   <data name="CHK_Password.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 17</value>
+    <value>149, 21</value>
   </data>
   <data name="CHK_Password.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2009,7 +2009,7 @@
     <value>853, 89</value>
   </data>
   <data name="CHK_speechlowspeed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 17</value>
+    <value>87, 21</value>
   </data>
   <data name="CHK_speechlowspeed.TabIndex" type="System.Int32, mscorlib">
     <value>105</value>
@@ -2042,7 +2042,7 @@
     <value>496, 554</value>
   </data>
   <data name="CHK_showairports.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 17</value>
+    <value>98, 21</value>
   </data>
   <data name="CHK_showairports.TabIndex" type="System.Int32, mscorlib">
     <value>107</value>
@@ -2072,7 +2072,7 @@
     <value>598, 554</value>
   </data>
   <data name="chk_ADSB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 17</value>
+    <value>62, 21</value>
   </data>
   <data name="chk_ADSB.TabIndex" type="System.Int32, mscorlib">
     <value>108</value>
@@ -2102,7 +2102,7 @@
     <value>496, 577</value>
   </data>
   <data name="chk_tfr.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 17</value>
+    <value>61, 21</value>
   </data>
   <data name="chk_tfr.TabIndex" type="System.Int32, mscorlib">
     <value>109</value>
@@ -2162,7 +2162,7 @@
     <value>340, 577</value>
   </data>
   <data name="chk_norcreceiver.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 17</value>
+    <value>111, 21</value>
   </data>
   <data name="chk_norcreceiver.TabIndex" type="System.Int32, mscorlib">
     <value>111</value>
@@ -2240,7 +2240,7 @@
     <value>598, 578</value>
   </data>
   <data name="CHK_AutoParamCommit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 17</value>
+    <value>130, 21</value>
   </data>
   <data name="CHK_AutoParamCommit.TabIndex" type="System.Int32, mscorlib">
     <value>116</value>
@@ -2270,7 +2270,7 @@
     <value>671, 554</value>
   </data>
   <data name="chk_shownofly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 17</value>
+    <value>63, 21</value>
   </data>
   <data name="chk_shownofly.TabIndex" type="System.Int32, mscorlib">
     <value>117</value>
@@ -2402,7 +2402,7 @@
     <value>107, 600</value>
   </data>
   <data name="CHK_params_bg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 17</value>
+    <value>193, 21</value>
   </data>
   <data name="CHK_params_bg.TabIndex" type="System.Int32, mscorlib">
     <value>122</value>
@@ -2432,7 +2432,7 @@
     <value>340, 600</value>
   </data>
   <data name="chk_slowMachine.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 17</value>
+    <value>162, 21</value>
   </data>
   <data name="chk_slowMachine.TabIndex" type="System.Int32, mscorlib">
     <value>123</value>
@@ -2462,7 +2462,7 @@
     <value>212, 89</value>
   </data>
   <data name="CHK_speechArmedOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 17</value>
+    <value>116, 21</value>
   </data>
   <data name="CHK_speechArmedOnly.TabIndex" type="System.Int32, mscorlib">
     <value>124</value>
@@ -2573,7 +2573,7 @@
     <value>107, 501</value>
   </data>
   <data name="chk_displaycog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 17</value>
+    <value>93, 21</value>
   </data>
   <data name="chk_displaycog.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2633,7 +2633,7 @@
     <value>199, 501</value>
   </data>
   <data name="chk_displayheading.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 17</value>
+    <value>110, 21</value>
   </data>
   <data name="chk_displayheading.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2663,7 +2663,7 @@
     <value>308, 501</value>
   </data>
   <data name="chk_displaynavbearing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 17</value>
+    <value>129, 21</value>
   </data>
   <data name="chk_displaynavbearing.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2693,7 +2693,7 @@
     <value>436, 501</value>
   </data>
   <data name="chk_displayradius.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 17</value>
+    <value>128, 21</value>
   </data>
   <data name="chk_displayradius.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2723,7 +2723,7 @@
     <value>563, 501</value>
   </data>
   <data name="chk_displaytarget.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 17</value>
+    <value>101, 21</value>
   </data>
   <data name="chk_displaytarget.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2804,7 +2804,7 @@
     <value>663, 501</value>
   </data>
   <data name="chk_displaytooltip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 17</value>
+    <value>106, 21</value>
   </data>
   <data name="chk_displaytooltip.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -2902,6 +2902,33 @@
   <data name="&gt;&gt;BUT_mapCacheDir.ZOrder" xml:space="preserve">
     <value>93</value>
   </data>
+  <data name="CHK_speechadsb.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_speechadsb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>947, 88</value>
+  </data>
+  <data name="CHK_speechadsb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 21</value>
+  </data>
+  <data name="CHK_speechadsb.TabIndex" type="System.Int32, mscorlib">
+    <value>131</value>
+  </data>
+  <data name="CHK_speechadsb.Text" xml:space="preserve">
+    <value>ADSB Alerts</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.Name" xml:space="preserve">
+    <value>CHK_speechadsb</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="CHK_rtsresetesp32.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -2912,7 +2939,7 @@
     <value>251, 19</value>
   </data>
   <data name="CHK_rtsresetesp32.TabIndex" type="System.Int32, mscorlib">
-    <value>131</value>
+    <value>132</value>
   </data>
   <data name="CHK_rtsresetesp32.Text" xml:space="preserve">
     <value>Disable RTS reset on ESP32 SerialUSB</value>
@@ -2936,7 +2963,7 @@
     <value>True</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>949, 693</value>
+    <value>1664, 693</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigPlanner</value>

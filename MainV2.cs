@@ -3088,6 +3088,7 @@ namespace MissionPlanner
                 return;
             adsbThread = true;
             ADSBThreadRunner.Reset();
+            DateTime lastSpeech = DateTime.Now;
             while (adsbThread)
             {
                 await Task.Delay(1000).ConfigureAwait(false); // run every 1000 ms
@@ -3140,7 +3141,53 @@ namespace MissionPlanner
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+                // Speech alert if plane is too close
+                var closestPlane = relevantPlanes.FirstOrDefault();
+                if (
+                    lastSpeech.AddSeconds(5) < DateTime.Now &&
+                    closestPlane != null &&
+                    closestPlane.GetDistance(ourLocation) < 1000 &&
+                    Math.Abs(closestPlane.Alt - comPort.MAV.cs.altasl) < 500
+                )
+                {
+                    if (speechEnable && speechEngine != null)
+                    {
+                        if (Settings.Instance.GetBoolean("speechadsbenabled"))
+                        {
 
+                            // Bearing to traffic from our plane
+                            int bearingToTraffic = (int)ourLocation.GetBearing(closestPlane);
+                            
+                            // Heading of our plane
+                            int heading = (int)comPort.MAV.cs.yaw;
+
+                            // Calculate the bearing to traffic relative to our heading
+                            bearingToTraffic = (bearingToTraffic - heading + 360) % 360;
+                            int clock = (int)Math.Round(bearingToTraffic / 30.0, MidpointRounding.AwayFromZero);
+                            if (clock == 0)
+                            {
+                                clock = 12;
+                            }
+                            // Log it including callsign
+                            log.InfoFormat("Traffic: {0} {1}; {2} {3}",
+                                bearingToTraffic,
+                                closestPlane.Alt > ourLocation.Alt ? "high" : "low",
+                                closestPlane.CallSign,
+                                closestPlane.Tag
+                            );
+
+                            string recommendedAction = closestPlane.Alt > ourLocation.Alt ? "descend" : "climb";
+                            string speech = string.Format("Traffic: {0} O'Clock {1}; {2}",
+                                clock,
+                                closestPlane.Alt > ourLocation.Alt ? "high" : "low",
+                                recommendedAction
+                            );
+                            MainV2.speechEngine.SpeakAsync(speech);
+                            lastSpeech = DateTime.Now;
+                        }
+                    }
+
+                }
             }
 
         }
