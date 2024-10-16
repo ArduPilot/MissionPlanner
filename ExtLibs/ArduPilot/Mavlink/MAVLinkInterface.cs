@@ -4359,7 +4359,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 if (MAVlist[sysid, compid].cs.firmware == Firmwares.ArduPlane)
                 {
-                    MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte) 2);
+                    MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, (MAV_FRAME)gotohere.frame, (byte) 2);
 
                     if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
