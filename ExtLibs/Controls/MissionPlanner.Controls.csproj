@@ -43,6 +43,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>HUDT.resx</DependentUpon>
     </Compile>
+    <Compile Update="ClickBindingButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="KeyBindingButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

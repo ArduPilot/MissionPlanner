@@ -19,7 +19,7 @@ namespace MissionPlanner.Utilities
             };
             prd.RunBackgroundOperationAsync();
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
         }
     }
 }

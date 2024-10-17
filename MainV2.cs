@@ -1,4 +1,4 @@
-﻿#if !LIB
+#if !LIB
 extern alias Drawing;
 #endif
 
@@ -2038,7 +2038,7 @@ namespace MissionPlanner
             Warnings.WarningEngine.Stop();
 
             log.Info("stop GStreamer");
-            GStreamer.StopAll();
+            GCSViews.FlightData.hudGStreamer.Stop();
 
             log.Info("closing vlcrender");
             try
@@ -3332,22 +3332,22 @@ namespace MissionPlanner
             };
             AutoConnect.NewVideoStream += (sender, gststring) =>
             {
-                MainV2.instance.BeginInvoke((Action)delegate
+                MainV2.instance.BeginInvoke((Action) delegate
                 {
                     try
                     {
                         log.Info("AutoConnect.NewVideoStream " + gststring);
-                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                        GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                        if (!GStreamer.gstlaunchexists)
+                        if (!GStreamer.GstLaunchExists)
                         {
                             if (CustomMessageBox.Show(
                                     "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
                                     "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                                (int)System.Windows.Forms.DialogResult.Yes)
+                                (int) System.Windows.Forms.DialogResult.Yes)
                             {
                                 GStreamerUI.DownloadGStreamer();
-                                if (!GStreamer.gstlaunchexists)
+                                if (!GStreamer.GstLaunchExists)
                                 {
                                     return;
                                 }
@@ -3358,7 +3358,7 @@ namespace MissionPlanner
                             }
                         }
 
-                        GStreamer.StartA(gststring);
+                        GCSViews.FlightData.hudGStreamer.Start(gststring);
                     }
                     catch (Exception ex)
                     {
@@ -3367,47 +3367,6 @@ namespace MissionPlanner
                 });
             };
             AutoConnect.Start();
-
-            // debound based on url
-            List<string> videourlseen = new List<string>();
-            // prevent spaming the ui
-            SemaphoreSlim videodetect = new SemaphoreSlim(1);
-
-            CameraProtocol.OnRTSPDetected += (sender, s) =>
-            {
-                if (isHerelink)
-                {
-                    return;
-                }
-
-                MainV2.instance.BeginInvoke((Action)delegate
-                {
-                    try
-                    {
-                        if (!videourlseen.Contains(s) && videodetect.Wait(0))
-                        {
-                            videourlseen.Add(s);
-                            if (CustomMessageBox.Show(
-                                    "A video stream has been detected, Do you want to connect to it? " + s,
-                                    "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                                (int)System.Windows.Forms.DialogResult.Yes)
-                            {
-                                AutoConnect.RaiseNewVideoStream(sender,
-                                    String.Format(
-                                        "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
-                                        s));
-                            }
-
-                            videodetect.Release();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-                });
-            };
-
 
             BinaryLog.onFlightMode += (firmware, modeno) =>
             {
@@ -3436,7 +3395,7 @@ namespace MissionPlanner
                 }
             };
 
-            GStreamer.onNewImage += (sender, image) =>
+            GCSViews.FlightData.hudGStreamer.OnNewImage += (sender, image) =>
             {
                 try
                 {
@@ -3794,9 +3753,9 @@ namespace MissionPlanner
 
                 if (cmds.ContainsKey("gstream"))
                 {
-                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                    GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                    if (!GStreamer.gstlaunchexists)
+                    if (!GStreamer.GstLaunchExists)
                     {
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
@@ -3816,7 +3775,7 @@ namespace MissionPlanner
                                 {
                                     try
                                     {
-                                        var st = GStreamer.StartA(cmds["gstream"]);
+                                        var st = GCSViews.FlightData.hudGStreamer.Start(cmds["gstream"]);
                                         if (st == null)
                                         {
                                             // prevent spam
