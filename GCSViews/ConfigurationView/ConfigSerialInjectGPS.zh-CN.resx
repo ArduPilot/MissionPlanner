@@ -117,95 +117,157 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="backstageViewPagefw.Text" xml:space="preserve">
-    <value>安装固件</value>
-  </data>
-  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
-    <value>安装固件</value>
-  </data>
-  <data name="backstageViewPagewizard.Text" xml:space="preserve">
-    <value>向导</value>
-  </data>
-  <data name="backstageViewPagemand.Text" xml:space="preserve">
-    <value>必要硬件</value>
-  </data>
-  <data name="backstageViewPagetradheli.Text" xml:space="preserve">
-    <value>直升机安装</value>
-  </data>
-  <data name="backstageViewPageframetype.Text" xml:space="preserve">
-    <value>机架类型</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="configAccelerometerCalibration.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 450</value>
+  <data name="chk_rtcmmsg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 16</value>
   </data>
-  <data name="backstageViewPagecompass.Text" xml:space="preserve">
-    <value>指南针</value>
+  <data name="chk_rtcmmsg.Text" xml:space="preserve">
+    <value>注入消息类型</value>
   </data>
-  <data name="backstageViewPageradio.Text" xml:space="preserve">
-    <value>遥控器校准</value>
+  <data name="lbl_svin.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
   </data>
-  <data name="backstageViewPageflmode.Text" xml:space="preserve">
-    <value>飞行模式</value>
+  <data name="chk_autoconfig.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 16</value>
   </data>
-  <data name="backstageViewPagefs.Text" xml:space="preserve">
-    <value>故障保护</value>
+  <data name="chk_autoconfig.Text" xml:space="preserve">
+    <value>自动配置接收器</value>
   </data>
-  <data name="backstageViewPageopt.Text" xml:space="preserve">
-    <value>可选硬件</value>
+  <data name="chk_autoconfig.ToolTip" xml:space="preserve">
+    <value>自动配置连接到所选端口的接收器以输出校正消息。</value>
   </data>
-  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
-    <value>SiK电台(数传)</value>
+  <data name="groupBox_autoconfig.Text" xml:space="preserve">
+    <value>自动化配置</value>
   </data>
-  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
-    <value>电池监测器</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>指南针/电机 校准</value>
+  <data name="chk_septentriogalileo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="backstageViewPagesonar.Text" xml:space="preserve">
-    <value>声呐</value>
+  <data name="chk_septentriobeidou.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="backstageViewPageairspeed.Text" xml:space="preserve">
-    <value>空速</value>
+  <data name="chk_septentriogps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
-    <value>光流</value>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>Both accuracy and duration must be meet in order for the survey in to complete
+ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
   </data>
-  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
-    <value>相机云台</value>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
   </data>
-  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
-    <value>天线追踪器</value>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
   </data>
-  <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
-    <value>电机测试</value>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
   </data>
-  <data name="configHWBT1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 450</value>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
   </data>
-  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
-    <value>蓝牙设置</value>
+  <data name="chk_sendgga.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 16</value>
   </data>
-  <data name="backstageViewPageaccel.Text" xml:space="preserve">
-    <value>加速度计校准</value>
+  <data name="chk_sendgga.Text" xml:space="preserve">
+    <value>发送NTRIP GGA? (VRS/Smart)</value>
   </data>
-  <data name="backstageViewPageParachute.Text" xml:space="preserve">
-    <value>降落伞</value>
+  <data name="check_sendntripv1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 16</value>
   </data>
-  <data name="backstageViewPageESC.Text" xml:space="preserve">
-    <value>电调校准</value>
+  <data name="check_sendntripv1.Text" xml:space="preserve">
+    <value>发送NTRIP v1.0 ?</value>
   </data>
-  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
-    <value>电池监测器2</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
   </data>
-  <data name="backstageViewPageESP.Text" xml:space="preserve">
-    <value>ESP8266设置</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>传入速率</value>
   </data>
-  <data name="backstageViewPagePX4Flow.Text" xml:space="preserve">
-    <value>PX4Flow光流</value>
+<data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+		<value>84, 12</value>
+</data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>输出速率</value>
   </data>
-<data name="backstageViewPageSerialInjectGPS.Text" xml:space="preserve">
-    <value>差分定位</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>RTCM 基准站位置 </value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>RTCM消息ID</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>基准站</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>格洛纳斯</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>RTCM数据时效</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>伽利略</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>北斗</value>
+  </data>
+  <data name="labelbase.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 16</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>链路状态</value>
+  </data>
+  <data name="BUT_connect.Text" xml:space="preserve">
+    <value>连接</value>
   </data>
 </root>
