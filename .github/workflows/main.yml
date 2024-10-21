@@ -9,7 +9,7 @@ jobs:
       WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 10
@@ -33,7 +33,7 @@ jobs:
           cd ..
           .\md5sum.exe net461 > ..\..\checksums.txt
           
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: MissionPlannerBeta
           path: bin\Release\net461
@@ -57,13 +57,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 10
 
       - name: Cache multiple paths
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             **/obj/**
