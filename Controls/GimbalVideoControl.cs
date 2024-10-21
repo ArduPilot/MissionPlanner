@@ -238,15 +238,19 @@ namespace MissionPlanner.Controls
         {
             if (disposing)
             {
-                _stream.OnNewImage -= RenderFrame;
-                _stream.Stop();
-
+                Stop();
                 if (components != null)
                 {
                     components.Dispose();
                 }
             }
             base.Dispose(disposing);
+        }
+
+        public void Stop()
+        {
+            _stream.OnNewImage -= RenderFrame;
+            _stream.Stop();
         }
 
         private void videoStreamToolStripMenuItem_Click(object sender, EventArgs e)
@@ -276,7 +280,7 @@ namespace MissionPlanner.Controls
         public bool PreFilterMessage(ref Message m)
         {
             // Don't hog the keyboard when this control doesn't have focus
-            if (!ContainsFocus)
+            if (!(Parent?.ContainsFocus ?? false))
             {
                 if(heldKeys.Count > 0)
                 {
@@ -549,6 +553,9 @@ namespace MissionPlanner.Controls
 
         private void VideoBox_Click(object sender, EventArgs e)
         {
+            // Focus the control when clicked
+            VideoBox.Focus();
+
             MouseEventArgs me = (MouseEventArgs)e;
             var point = getMousePosition(me.X, me.Y);
             if (!point.HasValue)

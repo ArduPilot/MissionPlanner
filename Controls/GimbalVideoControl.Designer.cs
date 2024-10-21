@@ -72,7 +72,7 @@ namespace MissionPlanner.Controls
             this.toolStripMenuItem2,
             this.settingsToolStripMenuItem});
             this.VideoBoxContextMenu.Name = "VideoBoxContextMenu";
-            this.VideoBoxContextMenu.Size = new System.Drawing.Size(181, 264);
+            this.VideoBoxContextMenu.Size = new System.Drawing.Size(156, 242);
             // 
             // videoStreamToolStripMenuItem
             // 
@@ -180,10 +180,7 @@ namespace MissionPlanner.Controls
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox VideoBox;
         private System.Windows.Forms.ToolTip ControlInfoTooltip;
-        private System.Windows.Forms.ContextMenuStrip VideoBoxContextMenu;
         private System.Windows.Forms.ToolStripMenuItem videoStreamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem retractToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neutralToolStripMenuItem;
@@ -198,5 +195,7 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ToolStripMenuItem takePictureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startRecordingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopRecordingToolStripMenuItem;
+        public System.Windows.Forms.ContextMenuStrip VideoBoxContextMenu;
+        public System.Windows.Forms.PictureBox VideoBox;
     }
 }
