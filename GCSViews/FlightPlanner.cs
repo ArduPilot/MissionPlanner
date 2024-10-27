@@ -53,6 +53,7 @@ using Newtonsoft.Json;
 using MissionPlanner.ArduPilot.Mavlink;
 using System.Drawing.Imaging;
 using SharpKml.Engine;
+using MissionPlanner.Controls.Waypoints;
 
 namespace MissionPlanner.GCSViews
 {
@@ -5318,6 +5319,21 @@ namespace MissionPlanner.GCSViews
                     temp.id == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT ||
                     temp.id == (ushort) MAVLink.MAV_CMD.TAKEOFF || temp.id == (ushort) MAVLink.MAV_CMD.DO_SET_HOME)
                 {
+
+                    try
+                    {
+                        // cm/s - ac
+                        Spline2._wp_accel_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL") ? MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value : 100;
+                        Spline2._wp_speed_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED") ? MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value : 600;
+
+                        // ar
+                        //WP_ACCEL - m/s
+                        //WP_SPEED - m/s
+                    }
+                    catch
+                    {
+
+                    }
                     // not home
                     if (i != 0)
                     {
