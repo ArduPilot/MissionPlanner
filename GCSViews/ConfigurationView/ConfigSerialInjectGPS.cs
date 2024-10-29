@@ -1480,7 +1480,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                if (comPort.IsOpen)
+                if (comPort.IsOpen && comboBoxConfigType.Text == "Septentrio")
                 {
                     await UpdateSeptentrioRTCMSettings();
                 }
