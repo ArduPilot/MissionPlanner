@@ -391,6 +391,9 @@
     <None Include="plugins\example20-multiplepositions.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="plugins\example22-payloadconfig.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Update="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
