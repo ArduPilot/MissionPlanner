@@ -29,14 +29,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_privkey_Click(object sender, System.EventArgs e)
         {
-            openFileDialog1.DefaultExt = ".pem";
-            openFileDialog1.Filter = "*.pem|*.pem";
+            openFileDialog1.DefaultExt = ".pem;.dat";
+            openFileDialog1.Filter = "*.pem;*.dat|*.pem;*.dat";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 var pem = File.ReadAllText(openFileDialog1.FileName);
-                PemReader pr = new PemReader(new StringReader(pem));
-                var key = (Ed25519PrivateKeyParameters)pr.ReadObject();
-                keyPair = new AsymmetricCipherKeyPair(key.GeneratePublicKey(), key);
+                if (pem.Contains("PRIVATE_KEYV1"))
+                {
+                    pem = pem.Replace("PRIVATE_KEYV1:", "");
+                    var keyap = Convert.FromBase64String(pem);
+                    keyPair = SignedFW.GenerateKey(keyap);
+                }
+                else
+                {
+                    PemReader pr = new PemReader(new StringReader(pem));
+                    var key = (Ed25519PrivateKeyParameters)pr.ReadObject();
+                    keyPair = new AsymmetricCipherKeyPair(key.GeneratePublicKey(), key);
+                }                
                 txt_pubkey.Text = Convert.ToBase64String(((Ed25519PublicKeyParameters)keyPair.Public).GetEncoded());
             }
         }
@@ -92,6 +101,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(sfd.FileName, privatekey);
+
+                File.WriteAllText(sfd.FileName.Replace(".pem", "_private_key.dat"), "PRIVATE_KEYV1:" + Convert.ToBase64String(((Ed25519PrivateKeyParameters)keyPair.Private).GetEncoded()));
+                File.WriteAllText(sfd.FileName.Replace(".pem", "_public_key.dat"), "PUBLIC_KEYV1:" + Convert.ToBase64String(((Ed25519PublicKeyParameters)keyPair.Public).GetEncoded()));
+
                 txt_pubkey.Text = Convert.ToBase64String(((Ed25519PublicKeyParameters)keyPair.Public).GetEncoded());
                 CustomMessageBox.Show("Protect your private key, if lost there is no method to get it back.");
             }
