@@ -5176,9 +5176,15 @@ namespace MissionPlanner.GCSViews
                 {
                     if (((Style)style).Line != null)
                     {
-                        int color = ((Style)style).Line.Color.Value.Abgr;
+                        int color;
+                        if (((Style)style).Line.Color != null)
+                        {
+                            color = ((Style)style).Line.Color.Value.Abgr;
+                            color = (int)((color & 0xFF00FF00) | ((color & 0x00FF0000) >> 16) | ((color & 0x000000FF) << 16));
+
+                        }
+                        else color = Color.White.ToArgb();
                         // convert color from ABGR to ARGB
-                        color = (int)((color & 0xFF00FF00) | ((color & 0x00FF0000) >> 16) | ((color & 0x000000FF) << 16));
 
                         if (((Style)style).Line.Width != null)
                         {
