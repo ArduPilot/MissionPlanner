@@ -256,7 +256,7 @@ namespace MissionPlanner.Controls
         }
 
         static void ConvertColorSpace(BitmapData _data)
-        {                             
+        {
             // bgra to rgba
             var x = 0; var y = 0; var width = _data.Width; var height = _data.Height;
             for (y = 0; y < height; y++)
@@ -295,7 +295,7 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge              
+                // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             }
             return texture;
@@ -310,7 +310,7 @@ namespace MissionPlanner.Controls
         {
             var ans = Math.Log(value, 2);
 
-            return (int)Math.Pow(2, Math.Floor(ans));            
+            return (int)Math.Pow(2, Math.Floor(ans));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -519,7 +519,7 @@ namespace MissionPlanner.Controls
                 /*Console.WriteLine("cam: {0} {1} {2} lookat: {3} {4} {5}", (float) cameraX, (float) cameraY, (float) cameraZ,
                     (float) lookX,
                     (float) lookY, (float) lookZ);
-                  */                  
+                  */
                 modelMatrix = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ + 100f * 0,
                     (float) lookX, (float) lookY, (float) lookZ,
                     0, 0, 1);
@@ -539,7 +539,7 @@ namespace MissionPlanner.Controls
                 GL.ClearColor(Color.CornflowerBlue);
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit |
                          ClearBufferMask.AccumBufferBit);
-                
+
                 // disable depth during terrain draw
                 GL.Disable(EnableCap.DepthTest);
                 GL.DepthFunc(DepthFunction.Lequal);
@@ -642,7 +642,7 @@ namespace MissionPlanner.Controls
                                 startindex + 1, startindex + 3, startindex + 2
                             });
 
-                        
+
                         wpmarker.Draw(projMatrix, modelMatrix);
 
                         wpmarker.Cleanup(true);
@@ -696,7 +696,7 @@ namespace MissionPlanner.Controls
             var factor = 0.3;
             return new double[]
             {
-                oldpos[0] * factor + newpos[0] * (1.0 - factor), 
+                oldpos[0] * factor + newpos[0] * (1.0 - factor),
                 oldpos[1] * factor + newpos[1] * (1.0 - factor),
                 oldpos[2] * factor + newpos[2] * (1.0 - factor)
             };
@@ -758,7 +758,7 @@ namespace MissionPlanner.Controls
                 if (DateTime.Now.Second % 3 == 1)
                     CleanupOldTextures(tileArea);
             }
-      
+
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             var C = 2 * Math.PI * 6378137.000;
             // horizontal distance by each tile square
@@ -775,6 +775,7 @@ namespace MissionPlanner.Controls
                 stile = C * Math.Cos(_center.Lat) / Math.Pow(2, tilearea.zoom);
                 pxstep = (int)(stile / 45);
                 pxstep = FloorPowerOf2(pxstep);
+                if (pxstep == int.MinValue) pxstep = 0;
                 if (pxstep == 0)
                     pxstep = 1;
                 foreach (var p in tilearea.points)
@@ -879,7 +880,7 @@ namespace MissionPlanner.Controls
 
         private void Minimumtile(List<tileZoomArea> tileArea)
         {
-            foreach (tileZoomArea tileZoomArea in tileArea.Reverse<tileZoomArea>()) 
+            foreach (tileZoomArea tileZoomArea in tileArea.Reverse<tileZoomArea>())
             {
                 //GPoint centerPixel = Provider.Projection.FromLatLngToPixel(center, Zoom);
                 //var centerTileXYLocation = Provider.Projection.FromPixelToTileXY(centerPixel);
@@ -1669,9 +1670,9 @@ void main(void) {
                 }
 
                 GL.UseProgram(_program);
-                positionSlot = GL.GetAttribLocation(_program, "Position");                
-                colorSlot = GL.GetAttribLocation(_program, "SourceColor");                
-                texCoordSlot = GL.GetAttribLocation(_program, "TexCoordIn");                
+                positionSlot = GL.GetAttribLocation(_program, "Position");
+                colorSlot = GL.GetAttribLocation(_program, "SourceColor");
+                texCoordSlot = GL.GetAttribLocation(_program, "TexCoordIn");
                 projectionSlot = GL.GetUniformLocation(_program, "Projection");
                 modelViewSlot = GL.GetUniformLocation(_program, "ModelView");
                 textureSlot = GL.GetUniformLocation(_program, "Texture");
@@ -1716,7 +1717,7 @@ void main(void) {
             public void Dispose()
             {
                 Cleanup();
-            }            
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
