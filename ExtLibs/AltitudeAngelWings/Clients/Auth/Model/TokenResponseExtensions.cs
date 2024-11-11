@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -43,7 +44,7 @@ namespace AltitudeAngelWings.Clients.Auth.Model
                     scopes.AddRange(values.Select(item => item.ToString()));
                     break;
                 default:
-                    scopes.Add(JsonExtensions.SerializeToJson(value));
+                    scopes.Add(JsonConvert.SerializeObject(value));
                     break;
             }
 

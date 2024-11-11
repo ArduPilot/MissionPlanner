@@ -117,43 +117,182 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>мінімальна швидкість двигунів в польоті (трохи вище, ніж "Прискор", коли Армеди")</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>623, 5</value>
   </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Залиште як 0 для використання діапазону вводу RX</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>максимальна швидкість двигунів під час польоту (майже всі ремісти мають крайній термін у горі)</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>швидкість, коли двигуни є озброєними, але горло рухається в нульовій (простою)</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Видалити інструкції!
-Після натискання кнопки
--Від'єднайте USB і батарею
--Під'єднати заряд акумулятора
--під час спалаху світлодіодів, push-Перемикач Saftey (якщо він є)
--ESCs повинен бути введений як вони калібровані
-- перезапустити контролер польоту зазвичай</value>
-  </data>
-  <data name="buttonStart.Text" xml:space="preserve">
-    <value>Калібрування ESCs</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 20</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Калібрування ESC (AC3.3+)</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>783, 175</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Зніміть Гвинти!
+ Після натискання на цю кнопку:
+- Від'єднайте USB та батарею
+- Під'єднайте батарею
+- Коли LED-и засвітяться, натисніть на запобіжний вимикач (якщо присутній)
+- ESC будуть подавати звукові сигналі під час калібрування
+- Перезавантажте контрольор польоту в звичайному режимі
+</value>
+  </data>
+  <data name="buttonStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonStart.Text" xml:space="preserve">
+    <value>Калібрувати ESC</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 369</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>623, 5</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>623, 5</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 25</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Тип ESC:</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 25</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Мін. вихід PWM</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 25</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Макс. вихід PWM</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 64</value>
+  </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Крутіть після Озброєння</value>
+    <value>Швидкість обертання коли армуваний</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 284</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 50</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Мінімум обертів</value>
+    <value>Мін.швидкість обертання</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 324</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 25</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Максимум обертів</value>
+    <value>Макс.швидкість обертання</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 193</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 25</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Залиште як 0 для використання діапазону вводу RX</value>
+    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 219</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 25</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Залиште нуль, щоб використовувати вхідний діапазон RX</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 250</value>
+  </data>
+  <data name="label11.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>591, 0</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>580, 50</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Швидкість на момент, коли мотори армувані, але газ на нулі (холостий хід)</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 284</value>
+  </data>
+  <data name="label12.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>400, 160</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 100</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Мінімальна швидкість моторів у польоті (трішки вище за значення "Швидкість обертання коли армуваний")</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 324</value>
+  </data>
+  <data name="label13.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>400, 160</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>379, 75</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Максимальна швидкість моторів у польоті (майже в усіх ESC в верхній частині є мертва зона)</value>
+  </data>
+  <data name="mavlinkNumericUpDown5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 322</value>
+  </data>
+  <data name="mavlinkNumericUpDown4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 282</value>
+  </data>
+  <data name="mavlinkNumericUpDown3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 243</value>
+  </data>
+  <data name="mavlinkNumericUpDown2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 212</value>
+  </data>
+  <data name="mavlinkNumericUpDown1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 186</value>
+  </data>
+  <data name="mavlinkComboBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 158</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>629, 420</value>
   </data>
 </root>

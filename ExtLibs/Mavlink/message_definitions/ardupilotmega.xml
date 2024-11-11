@@ -6,6 +6,7 @@
   <include>icarous.xml</include>
   <include>loweheiser.xml</include>
   <include>cubepilot.xml</include>
+  <include>csAirLink.xml</include>
   <dialect>2</dialect>
   <!-- Note that ArduPilot-specific messages should use the command id range from 150 to 250, to leave plenty of room for growth of common.xml If you prototype a message here, then you should consider if it is general enough to move into common.xml later -->
   <enums>
@@ -22,10 +23,6 @@
     <enum name="HEADING_TYPE">
       <entry value="0" name="HEADING_TYPE_COURSE_OVER_GROUND"/>
       <entry value="1" name="HEADING_TYPE_HEADING"/>
-    </enum>
-    <enum name="SPEED_TYPE">
-      <entry value="0" name="SPEED_TYPE_AIRSPEED"/>
-      <entry value="1" name="SPEED_TYPE_GROUNDSPEED"/>
     </enum>
     <!-- ardupilot specific MAV_CMD_* commands -->
     <enum name="MAV_CMD">
@@ -317,7 +314,7 @@
         <description>Change target altitude at a given rate. This slews the vehicle at a controllable rate between it's previous altitude and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)</description>
         <param index="1">Empty</param>
         <param index="2">Empty</param>
-        <param index="3" label="alt rate-of-change" units="m/s/s" minValue="0">Rate of change, toward new altitude. 0 for maximum rate change. Positive numbers only, as negative numbers will not converge on the new target alt.</param>
+        <param index="3" label="alt rate-of-change" units="m/s" minValue="0">Rate of change, toward new altitude. 0 for maximum rate change. Positive numbers only, as negative numbers will not converge on the new target alt.</param>
         <param index="4">Empty</param>
         <param index="5">Empty</param>
         <param index="6">Empty</param>
@@ -342,6 +339,16 @@
         <param index="5" label="Latitude">Latitude</param>
         <param index="6" label="Longitude">Longitude</param>
         <param index="7" label="Altitude" units="m">Altitude, not used. Should be sent as NaN. May be supported in a future version of this message.</param>
+      </entry>
+      <entry value="43005" name="MAV_CMD_SET_HAGL" hasLocation="false" isDestination="false">
+        <description>Provide a value for height above ground level. This can be used for things like fixed wing and VTOL landing.</description>
+        <param index="1" label="hagl" units="m">Height above ground level.</param>
+        <param index="2" label="accuracy" units="m">estimated one standard deviation accuracy of the measurement. Set to NaN if not known.</param>
+        <param index="3" label="timeout" units="s">Timeout for this data. The flight controller should only consider this data valid within the timeout window.</param>
+        <param index="4">Empty</param>
+        <param index="5">Empty</param>
+        <param index="6">Empty</param>
+        <param index="7">Empty</param>
       </entry>
     </enum>
     <enum name="SCRIPTING_CMD">
@@ -425,6 +432,12 @@
       </entry>
       <entry value="2" name="LAND_IMMEDIATELY">
         <description>Flag set when plane is to immediately descend to break altitude and land without GCS intervention. Flag not set when plane is to loiter at Rally point until commanded to land.</description>
+      </entry>
+      <entry value="4" name="ALT_FRAME_VALID">
+        <description>True if the following altitude frame value is valid.</description>
+      </entry>
+      <entry value="24" name="ALT_FRAME">
+        <description>2 bit value representing altitude frame. 0: absolute, 1: relative home, 2: relative origin, 3: relative terrain</description>
       </entry>
     </enum>
     <!-- Camera event types -->
@@ -984,6 +997,9 @@
       </entry>
       <entry value="512" name="EKF_PRED_POS_HORIZ_ABS">
         <description>Set if EKF's predicted horizontal position (absolute) estimate is good.</description>
+      </entry>
+      <entry value="32768" name="EKF_GPS_GLITCHING">
+        <description>Set if EKF believes the GPS input data is faulty.</description>
       </entry>
       <entry value="1024" name="EKF_UNINITIALIZED">
         <description>Set if EKF has never been healthy.</description>

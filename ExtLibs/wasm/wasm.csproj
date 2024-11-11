@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-   <TargetFramework>net7.0</TargetFramework>
+   <TargetFramework>net8.0</TargetFramework>
 
-
+		
     <RazorLangVersion>3.0</RazorLangVersion>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <BlazorCacheBootResources>true</BlazorCacheBootResources>
     <RunAOTCompilation>true</RunAOTCompilation>
-
-	  <WasmEnableThreads>false</WasmEnableThreads>
+		<WasmEnableSIMD>true</WasmEnableSIMD>
+		<PublishTrimmed>false</PublishTrimmed>
+		<WasmEnableThreads>false</WasmEnableThreads>
 
   </PropertyGroup>
 
@@ -35,27 +36,28 @@
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.1.0-preview3" />
+    <PackageReference Include="Blazor.Extensions.WebUSB" Version="1.1.0-preview1" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
-    <PackageReference Include="Excubo.Blazor.Canvas" Version="3.2.18" />
+    <PackageReference Include="Excubo.Blazor.Canvas" Version="3.2.40" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="SkiaSharp.Views.Blazor" Version="2.88.3" />
-    <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.1" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Reshiru.Blazor.IndexedDB.Framework" Version="1.0.1" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.1.21360" />
-    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="3.2.2" />
-    <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="10.0.0" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.2.23201" />
+    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="4.0.0" />
+    <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="10.3.1" />
     <PackageReference Include="WebGLDotNET" Version="2.1.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
 
   </ItemGroup>
 

@@ -48,15 +48,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TRIM_THROTTLE.setup(0, 0, 1, 0, "TRIM_THROTTLE", MainV2.comPort.MAV.param);
 
             ARSPD_RATIO.setup(0, 2.5f, 1, 0.005f, "ARSPD_RATIO", MainV2.comPort.MAV.param);
-            ARSPD_FBW_MAX.setup(0, 0, 1, 0, "ARSPD_FBW_MAX", MainV2.comPort.MAV.param);
-            ARSPD_FBW_MIN.setup(0, 0, 1, 0, "ARSPD_FBW_MIN", MainV2.comPort.MAV.param);
-            TRIM_ARSPD_CM.setup(0, 5000, 100, 0.1f, "TRIM_ARSPD_CM", MainV2.comPort.MAV.param);
+            ARSPD_FBW_MAX.setup(0, 0, 1, 1, new string[] { "AIRSPEED_MAX", "ARSPD_FBW_MAX" }, MainV2.comPort.MAV.param);
+            ARSPD_FBW_MIN.setup(0, 0, 1, 1, new string[] { "AIRSPEED_MIN", "ARSPD_FBW_MIN" }, MainV2.comPort.MAV.param);
+            TRIM_ARSPD_CM.setup(0, 50, 1, 1, "AIRSPEED_CRUISE", MainV2.comPort.MAV.param);
 
-            LIM_PITCH_MIN.setup(0, 0, 100, 0, "LIM_PITCH_MIN", MainV2.comPort.MAV.param);
-            LIM_PITCH_MAX.setup(0, 0, 100, 0, "LIM_PITCH_MAX", MainV2.comPort.MAV.param);
-            LIM_ROLL_CD.setup(0, 0, 100, 0, "LIM_ROLL_CD", MainV2.comPort.MAV.param);
+            LIM_PITCH_MIN.setup(0, 0, 1, 1, "PTCH_LIM_MIN_DEG", MainV2.comPort.MAV.param);
+            LIM_PITCH_MAX.setup(0, 0, 1, 1, "PTCH_LIM_MAX_DEG", MainV2.comPort.MAV.param);
+            LIM_ROLL_CD.setup(0, 0, 1, 1, "ROLL_LIMIT_DEG", MainV2.comPort.MAV.param);
 
-            KFF_PTCH2THR.setup(0, 0, 1, 0, "KFF_PTCH2THR", MainV2.comPort.MAV.param);
+            KFF_PTCH2THR.setup(0, 0, 1, 0, new string[] { "KFF_THR2PTCH","KFF_PTCH2THR"}, MainV2.comPort.MAV.param);
             KFF_RDDRMIX.setup(0, 0, 1, 0, "KFF_RDDRMIX", MainV2.comPort.MAV.param);
 
             ENRGY2THR_IMAX.setup(0, 0, 100, 0, "ENRGY2THR_IMAX", MainV2.comPort.MAV.param);
@@ -145,19 +145,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
             {
-                // If we have reached the target line length and the next      
-                // character is whitespace then begin a new line.   
+                // If we have reached the target line length and the next
+                // character is whitespace then begin a new line.
                 if (currentLinePosition >= lineLength &&
                     char.IsWhiteSpace(text[textIndex]))
                 {
                     sb.Append(Environment.NewLine);
                     currentLinePosition = 0;
                 }
-                // If we have just started a new line, skip all the whitespace.    
+                // If we have just started a new line, skip all the whitespace.
                 if (currentLinePosition == 0)
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
                         textIndex++;
-                // Append the next character.     
+                // Append the next character.
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
             }

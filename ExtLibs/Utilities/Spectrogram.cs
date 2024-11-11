@@ -23,21 +23,27 @@ namespace MissionPlanner.Utilities
             out List<(double timeus, double[] value)> allfftdata, string type = "ACC1", string field = "AccX",
             string timeus = "TimeUS", int min = -80, int max = -20)
         {
+            Console.WriteLine("GenerateImage " + type + " " + field);
             allfftdata = new List<(double timeus, double[] value)>();
 
             if (cb.SeenMessageTypes.Contains("ISBH"))
             {
+                Console.WriteLine("GenerateImage seen ISBH");
                 int sensorno = (type.Contains("1") ? 0 : (type.Contains("2") ? 1 : 2));
                 int sensor = type.Contains("ACC") ? 0 : 1;
-                int Ns = -1;
-                int type1 = -1;
-                int instance = -1;
+
+                (double, (double, double)[]) cachedata;
+
                 double sample_rate = -1;
-                double multiplier = -1;
 
                 (double time, double d)[] data = new (double time, double d)[0];
-                if (!cache.TryGetValue(cb.GetHashCode() + sensorno + "" + sensor, out data))
+                if (!cache.TryGetValue(cb.GetHashCode() + sensorno + "" + sensor, out cachedata))
                 {
+                    int Ns = -1;
+                    int type1 = -1;
+                    int instance = -1;
+                    double multiplier = -1;
+
                     data = cb.GetEnumeratorType(new string[] { "ISBH", "ISBD" })
                         .SelectMany(
                             item =>
@@ -94,11 +100,16 @@ namespace MissionPlanner.Utilities
 
                                 return new (double time, double d)[0];
                             }).ToArray();
-                    cache.Set(cb.GetHashCode() + sensorno + "" + sensor, data,
+                    cache.Set(cb.GetHashCode() + sensorno + "" + sensor, (sample_rate, data),
                         new MemoryCacheEntryOptions()
                         {
                             AbsoluteExpirationRelativeToNow = System.TimeSpan.FromMinutes(10)
                         });
+                }
+                else 
+                {
+                    sample_rate = cachedata.Item1;
+                    data = cachedata.Item2;                
                 }
 
 
@@ -115,8 +126,8 @@ namespace MissionPlanner.Utilities
                 int totalsamples = data.Count();
                 int count = totalsamples / N;
                 int done = 0;
-                // 50% overlap
-                int divisor = 4;
+                // batch sampling is non continuous
+                int divisor = 1;
                 count *= divisor;
                 var img = new Image<Rgba32>(count, freqt.Length);
                 log.Debug("done and count ");
@@ -183,7 +194,10 @@ namespace MissionPlanner.Utilities
                 double timedelta = 0;
                 // 50% overlap
                 int divisor = 4;
+                if (count > 2048)
+                    divisor = 1;
                 count *= divisor;
+                Console.WriteLine("Image Size " + count + " " + N / 2);
                 var img = new Image<Rgba32>(count, N / 2);
                 log.Debug("done and count ");
 

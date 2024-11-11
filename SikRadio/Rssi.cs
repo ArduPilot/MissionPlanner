@@ -32,24 +32,48 @@ namespace SikRadio
 
             zedGraphControl1.GraphPane.Title.Text = "RSSI";
 
-            if (Terminal.sw == null)
-                Terminal.sw = new StreamWriter("Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
+            Terminal.SetupStreamWriter();
         }
 
         public void Connect()
         {
             if (_Session == null)
             {
-                _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
-                if (_Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                RFD.RFD900.TSession Session = null;
+
+                if (RFDLib.Utils.Retry(() =>
                 {
-                    inter.doCommand(Config.comPort, "AT&T=RSSI");
+                    Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
+                    return Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND;
+                }
+                , 3))
+                {
+                    if (RFDLib.Utils.Retry(() => Session.ATCClient.DoQuery("AT&T=RSSI", true).Contains("RSSI"), 3))
+                    {
+                        Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
 
-                    _Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
+                        tickStart = Environment.TickCount;
 
-                    tickStart = Environment.TickCount;
+                        timer1.Start();
 
-                    timer1.Start();
+                        _Session = Session;
+                    }
+                    else
+                    {
+                        var ATIReply = Session.ATCClient.DoQuery("ATI", true);
+                        if (RFDLib.Text.Contains(ATIReply, "async"))
+                        {
+                            MissionPlanner.MsgBox.CustomMessageBox.Show("Firmware doesn't support RSSI reporting");
+                        }
+                        else
+                        {
+                            MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to enter RSSI reporting mode.");
+                        }
+                    }
+                }
+                else
+                {
+                    MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to put modem into AT command mode.");
                 }
             }
         }
@@ -70,59 +94,7 @@ namespace SikRadio
 
                     _Session.Dispose();
                     _Session = null;
-
-                    BUT_disconnect.Enabled = false;
-                    BUT_connect.Enabled = true;
                 }
-            }
-        }
-
-        private void BUT_connect_Click(object sender, EventArgs e)
-        {
-            CustomMessageBox.Show("Ensure you disconnect properly, to leave the radio in a good state");
-
-            try
-            {
-                MainV2.comPort.BaseStream.Open();
-
-                inter.doConnect(MainV2.comPort.BaseStream);
-
-                inter.doCommand(MainV2.comPort.BaseStream, "AT&T=RSSI");
-
-                inter.doCommand(MainV2.comPort.BaseStream, "ATO");
-
-                tickStart = Environment.TickCount;
-
-                timer1.Start();
-
-                BUT_disconnect.Enabled = true;
-                BUT_connect.Enabled = false;
-            }
-            catch
-            {
-                CustomMessageBox.Show("Bad Port Setting");
-            }
-        }
-
-        private void BUT_disconnect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                timer1.Stop();
-
-                inter.doConnect(MainV2.comPort.BaseStream);
-
-                inter.doCommand(MainV2.comPort.BaseStream, "AT&T");
-
-                inter.doCommand(MainV2.comPort.BaseStream, "ATO");
-
-                MainV2.comPort.BaseStream.Close();
-
-                BUT_disconnect.Enabled = false;
-                BUT_connect.Enabled = true;
-            }
-            catch
-            {
             }
         }
 
@@ -137,40 +109,54 @@ namespace SikRadio
                 if (comPort.BytesToRead < 50)
                     return;
 
-                var line = comPort.ReadLine();
-
-                /*
-L/R RSSI: 12/0  L/R noise: 17/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0
-L/R RSSI: 12/0  L/R noise: 16/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0
-                 */
-
-                var rssi = new Regex(@"RSSI: ([0-9]+)/([0-9]+)\s+L/R noise: ([0-9]+)/([0-9]+)");
-
-                var match = rssi.Match(line);
-
-                if (match.Success)
+                try
                 {
-                    var time = (Environment.TickCount - tickStart)/1000.0;
+                    var line = comPort.ReadLine();
 
-                    plotdatarssil.Add(time, double.Parse(match.Groups[1].Value));
-                    plotdatarssir.Add(time, double.Parse(match.Groups[2].Value));
-                    plotdatanoicel.Add(time, double.Parse(match.Groups[3].Value));
-                    plotdatanoicer.Add(time, double.Parse(match.Groups[4].Value));
+                    /*
+    L/R RSSI: 12/0  L/R noise: 17/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0
+    L/R RSSI: 12/0  L/R noise: 16/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0
+                     */
 
+                    var rssi = new Regex(@"RSSI: ([0-9]+)/([0-9]+)\s+L/R noise: ([0-9]+)/([0-9]+)");
 
-                    // Make sure the Y axis is rescaled to accommodate actual data
-                    zedGraphControl1.AxisChange();
+                    var match = rssi.Match(line);
 
-                    // Force a redraw
-
-                    zedGraphControl1.Invalidate();
-
-                    if (Terminal.sw != null)
+                    if (match.Success)
                     {
-                        Terminal.sw.Write(line);
-                        Terminal.sw.Flush();
+                        var time = (Environment.TickCount - tickStart) / 1000.0;
+
+                        plotdatarssil.Add(time, double.Parse(match.Groups[1].Value));
+                        plotdatarssir.Add(time, double.Parse(match.Groups[2].Value));
+                        plotdatanoicel.Add(time, double.Parse(match.Groups[3].Value));
+                        plotdatanoicer.Add(time, double.Parse(match.Groups[4].Value));
+
+
+                        // Make sure the Y axis is rescaled to accommodate actual data
+                        zedGraphControl1.AxisChange();
+
+                        // Force a redraw
+
+                        zedGraphControl1.Invalidate();
+
+                        if (Terminal.sw != null)
+                        {
+                            Terminal.sw.Write(line);
+                            Terminal.sw.Flush();
+                        }
                     }
                 }
+                catch
+                {
+                }
+            }
+        }
+
+        public string Header
+        {
+            get
+            {
+                return "RSSI";
             }
         }
     }

@@ -18,7 +18,7 @@ namespace MissionPlanner.Controls
 
             thisrelay = relay;
 
-            TXT_rcchannel.Text = "Relay " + thisrelay.ToString();
+            TXT_rcchannel.Text = "Relay " + (thisrelay+1).ToString();
 
             loadSettings();
 

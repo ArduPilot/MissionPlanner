@@ -58,6 +58,23 @@ namespace MissionPlanner.plugins
                         return;
                     mAVLinkInterfaces.Add(comport);
 
+                    comport.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, (m) =>
+                    {
+                        try
+                        {
+                            MainV2.Comports.ForEach<MAVLinkInterface>(comport1 =>
+                            {
+                                if (comport != comport1)
+                                    comport1.Write(m.buffer);
+                            });
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            return true;
+                        }
+                    }, 0, 0);
+
                     comport.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, (m) =>
                     {
                         try

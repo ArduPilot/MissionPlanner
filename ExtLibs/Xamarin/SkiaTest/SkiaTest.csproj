@@ -31,14 +31,14 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NetCoreEx.Geometry" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp" Version="2.80.4" />
+    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.80.2" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.2">
       <Aliases>nothanks</Aliases>
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
     <PackageReference Include="WinApi" Version="4.0.0" />
     <PackageReference Include="WinApi.Desktop" Version="4.0.0" />

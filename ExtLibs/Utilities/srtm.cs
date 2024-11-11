@@ -9,6 +9,7 @@ using System.Collections;
 using System.Net.Http;
 using System.Threading.Tasks;
 using log4net;
+using GMap.NET;
 
 namespace MissionPlanner.Utilities
 {
@@ -383,24 +384,23 @@ namespace MissionPlanner.Utilities
                 }
                 else // get something
                 {
-                    if(lat >= 61) // srtm data only goes to 60N
-                        return altresponce.Invalid;
-
                     if (zoom >= 7)
                     {
                         if (!Directory.Exists(datadirectory))
                             Directory.CreateDirectory(datadirectory);
 
-                        lock (objlock)
+                        if (GMaps.Instance.Mode != AccessMode.CacheOnly)
                         {
-                            if (!queue.Contains(filename))
+                            lock (objlock)
                             {
-                                log.Info("Getting " + filename);
-                                queue.Add(filename);
-                                requestSemaphore.Release();
+                                if (!queue.Contains(filename))
+                                {
+                                    log.Info("Getting " + filename);
+                                    queue.Add(filename);
+                                    requestSemaphore.Release();
+                                }
                             }
                         }
-
                     }
                 }
             }

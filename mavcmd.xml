@@ -165,6 +165,15 @@
       <Y></Y>
       <Z></Z>
     </SET_CAMERA_FOCUS>
+    <SET_CAMERA_SOURCE>
+      <P1>Id</P1>
+      <P2>Primary(1:RGB,2:IR,3:NDVI,4:Wide)</P2>
+      <P3>Secondary(1:RGB,2:IR,3:NDVI,4:Wide)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_SOURCE>
     <VIDEO_START_CAPTURE>
       <P1>StreamId</P1>
       <P2></P2>
@@ -193,7 +202,7 @@
       <Z></Z>
     </DO_AUX_FUNCTION>
     <DO_CHANGE_SPEED>
-      <P1>Type</P1>
+      <P1>Type (0:horiz,2:up,3:down)</P1>
       <P2>Speed m/s</P2>
       <P3></P3>
       <P4></P4>
@@ -492,6 +501,15 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <DELAY>
+      <P1>Seconds (or -1)</P1>
+      <P2>Hour UTC (or -1)</P2>
+      <P3>Minute UTC (or -1)</P3>
+      <P4>Second UTC</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DELAY>
     <VTOL_TAKEOFF>
       <P1></P1>
       <P2></P2>
@@ -582,6 +600,15 @@
       <Y></Y>
       <Z></Z>
     </SET_CAMERA_FOCUS>
+    <SET_CAMERA_SOURCE>
+      <P1>Id</P1>
+      <P2>Primary(1:RGB,2:IR,3:NDVI,4:Wide)</P2>
+      <P3>Secondary(1:RGB,2:IR,3:NDVI,4:Wide)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_SOURCE>
     <VIDEO_START_CAPTURE>
       <P1>StreamId</P1>
       <P2></P2>
@@ -999,6 +1026,15 @@
       <Y></Y>
       <Z></Z>
     </SET_CAMERA_FOCUS>
+    <SET_CAMERA_SOURCE>
+      <P1>Id</P1>
+      <P2>Primary(1:RGB,2:IR,3:NDVI,4:Wide)</P2>
+      <P3>Secondary(1:RGB,2:IR,3:NDVI,4:Wide)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SET_CAMERA_SOURCE>
     <VIDEO_START_CAPTURE>
       <P1>StreamId</P1>
       <P2></P2>

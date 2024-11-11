@@ -117,179 +117,529 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>Карту повернуто, щоб прослідкувати за площиною</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
+    <value>549, 254</value>
   </data>
-  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
-    <value>Попередження Alt</value>
+  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 13</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Інтерфейс</value>
+  <data name="label33.Text" xml:space="preserve">
+    <value>Датчик</value>
   </data>
-  <data name="BUT_videostop.Text" xml:space="preserve">
-    <value>Зупинити</value>
+  <data name="CMB_ratesensors.Location" type="System.Drawing.Point, System.Drawing">
+    <value>594, 251</value>
   </data>
-  <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>Сповіщення акумулятора</value>
-  </data>
-  <data name="CHK_enablespeech.Text" xml:space="preserve">
-    <value>Увімкнути мовлення</value>
-  </data>
-  <data name="CHK_Password.Text" xml:space="preserve">
-    <value>Конфігурація захисту пароля</value>
-  </data>
-  <data name="chk_slowMachine.Text" xml:space="preserve">
-    <value>Працює на повільному комп'ютері</value>
-  </data>
-  <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
-    <value>Авто фіксації Параметри</value>
-  </data>
-  <data name="chk_analytics.Text" xml:space="preserve">
-    <value>Статистика заборони анонса</value>
-  </data>
-  <data name="chk_norcreceiver.Text" xml:space="preserve">
-    <value>Немає RC приймача</value>
-  </data>
-  <data name="label23.Text" xml:space="preserve">
-    <value>Довжина пісні</value>
-  </data>
-  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
-    <value>Броня /Знешкодження</value>
-  </data>
-  <data name="label24.Text" xml:space="preserve">
-    <value>Точки</value>
-  </data>
-  <data name="CHK_speechcustom.Text" xml:space="preserve">
-    <value>30-ті інтервал</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Віддати до дому</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Шлях до лог файлу</value>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 13</value>
   </data>
   <data name="label26.Text" xml:space="preserve">
     <value>Формат відео</value>
   </data>
+  <data name="CHK_GDIPlus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>307, 17</value>
+  </data>
+  <data name="CHK_GDIPlus.Text" xml:space="preserve">
+    <value>GDI+ (старий тип/без апаратного прискорення)</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>ППМ</value>
+  </data>
+  <data name="CHK_loadwponconnect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 17</value>
+  </data>
+  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
+    <value>Завантажувати ППМ при під'єднанні?</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 13</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Довжина смуги</value>
+  </data>
+  <data name="CHK_speechaltwarning.Location" type="System.Drawing.Point, System.Drawing">
+    <value>618, 82</value>
+  </data>
+  <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 30</value>
+  </data>
+  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
+    <value>Попереджати
+про висоту</value>
+  </data>
+  <data name="label108.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 13</value>
+  </data>
+  <data name="label108.Text" xml:space="preserve">
+    <value>Скидання парам.</value>
+  </data>
+  <data name="CHK_resetapmonconnect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 17</value>
+  </data>
+  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
+    <value>Скидувати параметри при USB під'єднанні (перемикати DTR)</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CHK_mavdebug.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="CHK_mavdebug.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 651</value>
+  </data>
+  <data name="CHK_mavdebug.Text" xml:space="preserve">
+    <value>Налагодження MAVLink</value>
+  </data>
+  <data name="label107.Location" type="System.Drawing.Point, System.Drawing">
+    <value>475, 254</value>
+  </data>
+  <data name="CMB_raterc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>500, 251</value>
+  </data>
+  <data name="label104.Location" type="System.Drawing.Point, System.Drawing">
+    <value>344, 254</value>
+  </data>
+  <data name="label104.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="label104.Text" xml:space="preserve">
+    <value>Режим/Стан</value>
+  </data>
+  <data name="label103.Location" type="System.Drawing.Point, System.Drawing">
+    <value>234, 254</value>
+  </data>
+  <data name="label103.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
   <data name="label103.Text" xml:space="preserve">
     <value>Позиція</value>
   </data>
+  <data name="label102.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
+  </data>
   <data name="label102.Text" xml:space="preserve">
-    <value>Відношення</value>
+    <value>Авіагоризонт</value>
   </data>
-  <data name="BUT_Vario.Text" xml:space="preserve">
-    <value>Запустити/Зупинити варіант</value>
+  <data name="label101.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 250</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Слідкувати за картою</value>
+  <data name="label101.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 26</value>
   </data>
   <data name="label101.Text" xml:space="preserve">
-    <value>Телеметрії</value>
+    <value>Частота
+телеметрії</value>
   </data>
-  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
-    <value>Низька швидкість</value>
+  <data name="CMB_ratestatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>418, 251</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Альтернативні одиниці</value>
+  <data name="CMB_rateposition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>284, 251</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Тема</value>
+  <data name="CMB_rateattitude.Location" type="System.Drawing.Point, System.Drawing">
+    <value>184, 251</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Макет</value>
-  </data>
-  <data name="label104.Text" xml:space="preserve">
-    <value>Режим/Статус</value>
-  </data>
-  <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>Увімкнути HUD накладення</value>
-  </data>
-  <data name="label108.Text" xml:space="preserve">
-    <value>Скинути налаштування підключення</value>
-  </data>
-  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
-    <value>Завантажувати точки при підключенні?</value>
-  </data>
-  <data name="CHK_beta.Text" xml:space="preserve">
-    <value>Бета-оновлення</value>
-  </data>
-  <data name="chk_ADSB.Text" xml:space="preserve">
-    <value>АДСБ</value>
-  </data>
-  <data name="label98.Text" xml:space="preserve">
-    <value>Одиниці швидкості</value>
-  </data>
-  <data name="CHK_speechwaypoint.Text" xml:space="preserve">
-    <value>Шляхова Точка</value>
+  <data name="label99.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 40</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
     <value>ПРИМІТКА: Вкладка Конфігурація НЕ відображатиме ці одиниці, оскільки це необроблені значення.
 </value>
   </data>
-  <data name="label92.Text" xml:space="preserve">
-    <value>Відео пристрій</value>
+  <data name="label98.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 13</value>
   </data>
-  <data name="label93.Text" xml:space="preserve">
-    <value>Мова інтерфейсу</value>
+  <data name="label98.Text" xml:space="preserve">
+    <value>Од. швидкості</value>
+  </data>
+  <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label97.Text" xml:space="preserve">
+    <value>Од. відстані</value>
+  </data>
+  <data name="label96.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 13</value>
   </data>
   <data name="label96.Text" xml:space="preserve">
     <value>Джойстик</value>
   </data>
-  <data name="CHK_GDIPlus.Text" xml:space="preserve">
-    <value>GDI+ (старий тип/без апаратного прискорення)</value>
-  </data>
-  <data name="chk_tfr.Text" xml:space="preserve">
-    <value>TFR</value>
-  </data>
-  <data name="label94.Text" xml:space="preserve">
-    <value>Колір OSD</value>
-  </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>Датчик</value>
-  </data>
-  <data name="label97.Text" xml:space="preserve">
-    <value>Одиниці виміру</value>
-  </data>
-  <data name="CHK_showairports.Text" xml:space="preserve">
-    <value>Показати аеропорти</value>
-  </data>
-  <data name="BUT_themecustom.Text" xml:space="preserve">
-    <value>Користувацька</value>
+  <data name="label95.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
-    <value>Мова</value>
+    <value>Мовлення</value>
   </data>
-  <data name="BUT_Joystick.Text" xml:space="preserve">
-    <value>Налаштування джойстика</value>
+  <data name="CHK_speechbattery.Location" type="System.Drawing.Point, System.Drawing">
+    <value>520, 82</value>
   </data>
-  <data name="CHK_params_bg.Text" xml:space="preserve">
-    <value>Завантаження парамів у BackGround</value>
+  <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 30</value>
   </data>
-  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
-    <value>Показувати у Політданих</value>
+  <data name="CHK_speechbattery.Text" xml:space="preserve">
+    <value>Попереджати
+про батарею</value>
   </data>
-  <data name="CHK_mavdebug.Text" xml:space="preserve">
-    <value>Налагодження повідомлень Mavlink</value>
+  <data name="CHK_speechcustom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>414, 89</value>
   </data>
-  <data name="chk_temp.Text" xml:space="preserve">
-    <value>Екран тестування</value>
+  <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 17</value>
   </data>
-  <data name="chk_shownofly.Text" xml:space="preserve">
-    <value>Без польоту</value>
+  <data name="CHK_speechcustom.Text" xml:space="preserve">
+    <value>30-сек інтервал</value>
   </data>
-  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>Скинути на USB підключення (перемкнути DTR)</value>
+  <data name="CHK_speechmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>350, 89</value>
+  </data>
+  <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 17</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>Режим </value>
   </data>
-  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
-    <value>Переглянути</value>
+  <data name="CHK_speechwaypoint.Location" type="System.Drawing.Point, System.Drawing">
+    <value>294, 89</value>
   </data>
-  <data name="CHK_speechArmedOnly.Text" xml:space="preserve">
-    <value>Тільки коли зброєний</value>
+  <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 17</value>
+  </data>
+  <data name="CHK_speechwaypoint.Text" xml:space="preserve">
+    <value>ППМ</value>
+  </data>
+  <data name="label94.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 13</value>
+  </data>
+  <data name="label94.Text" xml:space="preserve">
+    <value>Колір OSD</value>
+  </data>
+  <data name="label93.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 13</value>
+  </data>
+  <data name="label93.Text" xml:space="preserve">
+    <value>Мова інтерфейсу</value>
+  </data>
+  <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 17</value>
+  </data>
+  <data name="CHK_enablespeech.Text" xml:space="preserve">
+    <value>Увімкнути</value>
+  </data>
+  <data name="CHK_hudshow.Text" xml:space="preserve">
+    <value>HUD оверлей</value>
+  </data>
+  <data name="label92.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 13</value>
+  </data>
+  <data name="label92.Text" xml:space="preserve">
+    <value>Відеопристрій</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Рухома мапа</value>
+  </data>
+  <data name="CHK_maprotation.Text" xml:space="preserve">
+    <value>Мапу обертати відповідно курсу</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 303</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 17</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Відстань до дом.точки</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Location" type="System.Drawing.Point, System.Drawing">
+    <value>337, 302</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 17</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
+    <value>Показувати у даних польоту</value>
+  </data>
+  <data name="BUT_Joystick.Text" xml:space="preserve">
+    <value>Налаштування джойстика</value>
+  </data>
+  <data name="BUT_videostop.Text" xml:space="preserve">
+    <value>Стоп</value>
   </data>
   <data name="BUT_videostart.Text" xml:space="preserve">
     <value>Старт</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Шлях до журналу</value>
+  </data>
+  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
+    <value>Переглянути</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="BUT_themecustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 20</value>
+  </data>
+  <data name="BUT_themecustom.Text" xml:space="preserve">
+    <value>Користувацька</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Location" type="System.Drawing.Point, System.Drawing">
+    <value>717, 89</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 17</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
+    <value>Арм/Деарм</value>
+  </data>
+  <data name="BUT_Vario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 560</value>
+  </data>
+  <data name="BUT_Vario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 26</value>
+  </data>
+  <data name="BUT_Vario.Text" xml:space="preserve">
+    <value>Увімк/Вимк варіометр</value>
+  </data>
+  <data name="chk_analytics.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 586</value>
+  </data>
+  <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 30</value>
+  </data>
+  <data name="chk_analytics.Text" xml:space="preserve">
+    <value>Відмовитися від
+анон. збору даних</value>
+  </data>
+  <data name="CHK_beta.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 586</value>
+  </data>
+  <data name="CHK_beta.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 30</value>
+  </data>
+  <data name="CHK_beta.Text" xml:space="preserve">
+    <value>Бета-версії
+оновлень</value>
+  </data>
+  <data name="CHK_Password.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 556</value>
+  </data>
+  <data name="CHK_Password.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 30</value>
+  </data>
+  <data name="CHK_Password.Text" xml:space="preserve">
+    <value>Конфігурація
+захисту пароля</value>
+  </data>
+  <data name="CHK_speechlowspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>810, 89</value>
+  </data>
+  <data name="CHK_speechlowspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
+    <value>Низька швидкість</value>
+  </data>
+  <data name="CHK_showairports.Location" type="System.Drawing.Point, System.Drawing">
+    <value>493, 556</value>
+  </data>
+  <data name="CHK_showairports.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 30</value>
+  </data>
+  <data name="CHK_showairports.Text" xml:space="preserve">
+    <value>Показувати
+аеропорти</value>
+  </data>
+  <data name="chk_ADSB.Location" type="System.Drawing.Point, System.Drawing">
+    <value>594, 563</value>
+  </data>
+  <data name="chk_tfr.Location" type="System.Drawing.Point, System.Drawing">
+    <value>493, 593</value>
+  </data>
+  <data name="chk_tfr.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 17</value>
+  </data>
+  <data name="chk_tfr.Text" xml:space="preserve">
+    <value>TFR</value>
+  </data>
+  <data name="chk_temp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="chk_temp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 651</value>
+  </data>
+  <data name="chk_temp.Text" xml:space="preserve">
+    <value>Тестовий Екран</value>
+  </data>
+  <data name="chk_norcreceiver.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 593</value>
+  </data>
+  <data name="chk_norcreceiver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 17</value>
+  </data>
+  <data name="chk_norcreceiver.Text" xml:space="preserve">
+    <value>Немає RC-приймача</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Макет</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>594, 586</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 30</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
+    <value>Авто-застосування
+параметрів</value>
+  </data>
+  <data name="chk_shownofly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>674, 563</value>
+  </data>
+  <data name="chk_shownofly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 17</value>
+  </data>
+  <data name="chk_shownofly.Text" xml:space="preserve">
+    <value>Безпольотні зони</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 198</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 13</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Од. висоти</value>
+  </data>
+  <data name="CHK_params_bg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 615</value>
+  </data>
+  <data name="CHK_params_bg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 30</value>
+  </data>
+  <data name="CHK_params_bg.Text" xml:space="preserve">
+    <value>Завантаження параметрів
+у фоновому режимі</value>
+  </data>
+  <data name="chk_slowMachine.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 615</value>
+  </data>
+  <data name="chk_slowMachine.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 30</value>
+  </data>
+  <data name="chk_slowMachine.Text" xml:space="preserve">
+    <value>В мене
+повільний комп'ютер</value>
+  </data>
+  <data name="CHK_speechArmedOnly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>185, 89</value>
+  </data>
+  <data name="CHK_speechArmedOnly.Text" xml:space="preserve">
+    <value>Коли армуваний</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 31</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>УВАГА: Встановіть низький рівень ВАЖЛИВОСТІ, щоб говорити</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 536</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 13</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Неактивний літак</value>
+  </data>
+  <data name="cmb_secondarydisplaystyle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 533</value>
+  </data>
+  <data name="chk_displaycog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 30</value>
+  </data>
+  <data name="chk_displaycog.Text" xml:space="preserve">
+    <value>Показувати
+центр тяжіння</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Іконка літаку</value>
+  </data>
+  <data name="chk_displayheading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 508</value>
+  </data>
+  <data name="chk_displayheading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 17</value>
+  </data>
+  <data name="chk_displayheading.Text" xml:space="preserve">
+    <value>Показувати курс</value>
+  </data>
+  <data name="chk_displaynavbearing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>316, 508</value>
+  </data>
+  <data name="chk_displaynavbearing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 17</value>
+  </data>
+  <data name="chk_displaynavbearing.Text" xml:space="preserve">
+    <value>Показувати пеленг</value>
+  </data>
+  <data name="chk_displayradius.Location" type="System.Drawing.Point, System.Drawing">
+    <value>439, 501</value>
+  </data>
+  <data name="chk_displayradius.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 30</value>
+  </data>
+  <data name="chk_displayradius.Text" xml:space="preserve">
+    <value>Показувати
+радіус повороту</value>
+  </data>
+  <data name="chk_displaytarget.Location" type="System.Drawing.Point, System.Drawing">
+    <value>544, 508</value>
+  </data>
+  <data name="chk_displaytarget.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 17</value>
+  </data>
+  <data name="chk_displaytarget.Text" xml:space="preserve">
+    <value>Показувати ціль</value>
+  </data>
+  <data name="num_linelength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>790, 507</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>860, 501</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 26</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Довжина
+навігаційної лінії
+</value>
+  </data>
+  <data name="chk_displaytooltip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>659, 501</value>
+  </data>
+  <data name="chk_displaytooltip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 30</value>
+  </data>
+  <data name="chk_displaytooltip.Text" xml:space="preserve">
+    <value>Показувати
+спливаючу підказку</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>949, 681</value>
   </data>
 </root>

@@ -1,0 +1,94 @@
+﻿@page "/Firmware"
+@inject HttpClient Http
+@using System.Net
+@using System.Net.Http.Headers
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas.Canvas2D
+@using Blazor.Extensions.Canvas.WebGL
+@using GMap.NET.MapProviders
+@using GMap.NET
+@using GMap.NET.Internals
+@using MissionPlanner.Controls
+@using MissionPlanner.ArduPilot
+@inject IUSB usb
+
+<p>
+    <button id="connect">Connect</button>
+    <button @onclick="doit">Update</button>
+</p>
+
+<table id="fw" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Options</th>
+            <th>Desc</th>
+            <th></th>
+        </tr>
+    </thead>
+@if(show) 
+{
+        <tbody>
+            @foreach (var fw in APFirmware.GetReleaseNewest(APFirmware.RELEASE_TYPES.OFFICIAL))
+            {
+                <tr>
+                <td>@fw.VehicleType</td>
+                <td>@fw.Format</td>
+                <td><a href="@fw.Url">@fw.VehicleType</a></td>
+                <td>@fw.Platform</td>
+                <td>@fw.MavType</td>
+                </tr>
+            }
+        </tbody>
+}
+</table>
+
+<br>
+@(DateTime.Now.ToString("O"))
+
+
+@functions {
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    bool show = false;
+
+    async void doit()
+    {
+        APFirmware.GetList();
+        show = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        log.Debug("Firmware OnInitializedAsync");
+
+        log.Info(UriHelper.Uri);
+
+        await usb.Initialize();
+
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        log.Debug("Firmware OnParametersSetAsync Done");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        log.Debug("Firmware OnAfterRenderAsync Start");
+
+        if (firstRender)
+        {
+
+          
+
+        }
+    }
+    protected override bool ShouldRender()
+    {
+        var renderUI = true;
+        log.Debug("Firmware ShouldRender Done");
+        return renderUI;
+    }
+}

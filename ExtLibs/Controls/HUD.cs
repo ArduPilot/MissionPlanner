@@ -2825,26 +2825,31 @@ namespace MissionPlanner.Controls
                     graphicsObject.ResetTransform();
 
                     SolidBrush textcolor;
-                    Image icon;
+                    Image icon = null;
                     String text;
 
                     if (criticalvoltagealert)
                     {
                         textcolor = _redBrush;
-                        icon = HUDT.batt_red;
+                        if (displayicons)
+                            icon = HUDT.batt_red;
                     }
                     else if (lowvoltagealert)
                     {
                         textcolor = _orangeBrush;
-                        icon = HUDT.batt_yellow;
+                        if (displayicons)
+                            icon = HUDT.batt_yellow;
                     }
                     else
                     {
                         textcolor = _whiteBrush;
-                        if (_batteryremaining > 75) icon = HUDT.batt_4;
-                        else if (_batteryremaining > 50) icon = HUDT.batt_3;
-                        else if (_batteryremaining > 25) icon = HUDT.batt_2;
-                        else icon = HUDT.batt_1;
+                        if (displayicons)
+                        {
+                            if (_batteryremaining > 75) icon = HUDT.batt_4;
+                            else if (_batteryremaining > 50) icon = HUDT.batt_3;
+                            else if (_batteryremaining > 25) icon = HUDT.batt_2;
+                            else icon = HUDT.batt_1;
+                        }
                     }
 
                     int textIdx = 0;
@@ -2857,7 +2862,7 @@ namespace MissionPlanner.Controls
                         text = _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
                         drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, yPos[1]);
                         if (displayCellVoltage & (_batterycellcount != 0))
-                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos[1]);
+                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos[0]);
 
                     }
                     else

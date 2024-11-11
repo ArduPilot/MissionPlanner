@@ -139,13 +139,13 @@ namespace MissionPlanner.Comms
             // Need to ensure URI is % encoded, except the first "@", colons and backslashes
             var count = url.Split('@').Length - 1;
 
+            url = PercentEncode(url);
+
             if (count > 1)
             {
                 var regex = new Regex("@");
                 url = regex.Replace(url, "%40", 1);
             }
-
-            url = PercentEncode(url);
 
             url = url.Replace("ntrip://", "http://");
 

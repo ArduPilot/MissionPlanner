@@ -1,9 +1,11 @@
 ﻿using DirectShowLib;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
+using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -23,6 +25,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public ConfigPlanner()
         {
+            startup = true;
+
             InitializeComponent();
             CMB_Layout.Items.Add(DisplayNames.Basic);
             CMB_Layout.Items.Add(DisplayNames.Advanced);
@@ -38,6 +42,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_severity.Items.Add(SeverityLevel.Notice);
             CMB_severity.Items.Add(SeverityLevel.Info);
             CMB_severity.Items.Add(SeverityLevel.Debug);
+
+            cmb_secondarydisplaystyle.DataSource = Enum.GetNames(typeof(Maps.GMapMarkerBase.InactiveDisplayStyleEnum));
+            cmb_secondarydisplaystyle.Text = Settings.Instance.GetString(
+                "GMapMarkerBase_InactiveDisplayStyle",
+                Maps.GMapMarkerBase.InactiveDisplayStyleEnum.Normal.ToString()
+            );
         }
 
 
@@ -222,6 +232,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             txt_log_dir.Text = Settings.Instance.LogDir;
+
+            // Setup aircraft icon settings
+            chk_displaycog.Checked = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayCOG", true);
+            chk_displayheading.Checked = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayHeading", true);
+            chk_displaynavbearing.Checked = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
+            chk_displayradius.Checked = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
+            chk_displaytarget.Checked = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+            chk_displaytooltip.Checked = Settings.Instance.GetString("mapicondesc", "") != "";
+            num_linelength.Value = Settings.Instance.GetInt32("GMapMarkerBase_Length", 500);
+
+            CMB_mapCache.DataSource = Enum.GetNames(typeof(GMap.NET.AccessMode));
+            try
+            {
+                CMB_mapCache.SelectedIndex = CMB_mapCache.Items.IndexOf(Settings.Instance["mapCache"] ?? GMap.NET.GMaps.Instance.Mode.ToString());
+            }
+            catch
+            {
+            }
 
             startup = false;
         }
@@ -720,6 +748,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
             Settings.Instance["CHK_maprotation"] = CHK_maprotation.Checked.ToString();
+            if (CHK_maprotation.Checked)
+            {
+                chk_shownofly.Checked = false;
+            }
             FlightData.instance.gMapControl1.Bearing = 0;
         }
 
@@ -887,19 +919,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (((CheckBox)sender).Checked)
             {
-                var server = "127.0.0.1";
+                var server = "https://api.adsb.lol/"; // default to adsb.lol
                 if (Settings.Instance["adsbserver"] != null)
                     server = Settings.Instance["adsbserver"];
-                if (DialogResult.Cancel == InputBox.Show("Server", "Server IP?", ref server))
+                if (DialogResult.Cancel == InputBox.Show("ADSB Server", "Server IP or API base URL (see https://ardupilot.org/planner/docs/common-adsb.html)", ref server))
                     return;
+                // Strip ending slash off server
+                if (server.EndsWith("/"))
+                    server = server.Substring(0, server.Length - 1);
                 Settings.Instance["adsbserver"] = server;
 
-                var port = "30003";
-                if (Settings.Instance["adsbport"] != null)
-                    port = Settings.Instance["adsbport"];
-                if (DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
-                    return;
-                Settings.Instance["adsbport"] = port;
+                // if server isn't an HTTP(S) URL, assume TCP and ask for a port
+                if (!server.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var port = "30003";
+                    if (Settings.Instance["adsbport"] != null)
+                        port = Settings.Instance["adsbport"];
+                    if (DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
+                        return;
+                    Settings.Instance["adsbport"] = port;
+                }
+            }
+            else
+            {
+                // if we're disabling ADSB, clear the list of planes
+                MainV2.instance.adsbPlanes.Clear();
             }
 
             Settings.Instance["enableadsb"] = chk_ADSB.Checked.ToString();
@@ -987,6 +1031,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+            if (chk_shownofly.Checked)
+            {
+                CHK_maprotation.Checked = false;
+            }
         }
 
         private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)
@@ -1017,6 +1065,121 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             MainV2.speech_armed_only = CHK_speechArmedOnly.Checked;
             Settings.Instance["speech_armed_only"] = CHK_speechArmedOnly.Checked.ToString();
+        }
+
+        private void chk_displaycog_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["GMapMarkerBase_DisplayCOG"] = chk_displaycog.Checked.ToString();
+            Maps.GMapMarkerBase.DisplayCOGSetting = chk_displaycog.Checked;
+        }
+
+        private void chk_displayheading_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["GMapMarkerBase_DisplayHeading"] = chk_displayheading.Checked.ToString();
+            Maps.GMapMarkerBase.DisplayHeadingSetting = chk_displayheading.Checked;
+        }
+
+        private void chk_displaynavbearing_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["GMapMarkerBase_DisplayNavBearing"] = chk_displaynavbearing.Checked.ToString();
+            Maps.GMapMarkerBase.DisplayNavBearingSetting = chk_displaynavbearing.Checked;
+        }
+
+        private void chk_displayradius_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["GMapMarkerBase_DisplayRadius"] = chk_displayradius.Checked.ToString();
+            Maps.GMapMarkerBase.DisplayRadiusSetting = chk_displayradius.Checked;
+        }
+
+        private void chk_displaytarget_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["GMapMarkerBase_DisplayTarget"] = chk_displaytarget.Checked.ToString();
+            Maps.GMapMarkerBase.DisplayTargetSetting = chk_displaytarget.Checked;
+        }
+
+        private void chk_displaytooltip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+            {
+                return;
+            }
+            if (chk_displaytooltip.Checked)
+            {
+                // Prompt user for text
+                var descstring = Settings.Instance["mapicondesc_default",
+                    "{alt}{altunit} {airspeed}{speedunit} id:{sysid} Sats:{satcount} HDOP:{gpshdop} Volts:{battery_voltage}"];
+
+                if (DialogResult.Cancel == InputBox.Show("Description", "What do you want it to show?", ref descstring))
+                {
+                    return;
+                }
+
+                Settings.Instance["mapicondesc"] = descstring;
+                Settings.Instance["mapicondesc_default"] = descstring;
+            }
+            else
+            {
+                Settings.Instance["mapicondesc"] = "";
+            }
+            
+        }
+
+        private void num_linelength_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["GMapMarkerBase_length"] = num_linelength.Value.ToString();
+            Maps.GMapMarkerBase.length = (int)(num_linelength.Value);
+        }
+
+        private void cmb_secondarydisplaystyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(startup)
+            {
+                return;
+            }
+            if (Enum.TryParse(cmb_secondarydisplaystyle.Text,
+                              out Maps.GMapMarkerBase.InactiveDisplayStyleEnum result))
+            {
+                Settings.Instance["GMapMarkerBase_InactiveDisplayStyle"] = cmb_secondarydisplaystyle.Text;
+                Maps.GMapMarkerBase.InactiveDisplayStyle = result;
+            }
+            else
+            {
+                Settings.Instance["GMapMarkerBase_InactiveDisplayStyle"] = Maps.GMapMarkerBase.InactiveDisplayStyleEnum.Normal.ToString();
+                Maps.GMapMarkerBase.InactiveDisplayStyle = Maps.GMapMarkerBase.InactiveDisplayStyleEnum.Normal;
+            }
+        }
+
+        private void CMB_mapCache_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["mapCache"] = CMB_mapCache.Text;
+            GMap.NET.GMaps.Instance.Mode = (GMap.NET.AccessMode)Enum.Parse(typeof(GMap.NET.AccessMode), Settings.Instance["mapCache"].ToString());
+        }
+
+        private void BUT_mapCacheDir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string folderPath = MyImageCache.Instance.CacheLocation;
+                if (Directory.Exists(folderPath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        Arguments = folderPath,
+                        FileName = "explorer.exe"
+                    };
+
+                    Process.Start(startInfo);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("{0} Directory does not exist!", folderPath));
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

@@ -1,4 +1,149 @@
-﻿*Mission Planner 1.3.80 - 20-03-2023
+﻿*Mission Planner 1.3.82 -  Aug 1, 2024
+## What's Changed
+* mavcmd: do-change-speed Type field includes possible values by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3273
+* ConfigPlanner: Fix Korean localization by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3272
+* prevent target_system=0 in toggle safety switch by @tridge in https://github.com/ArduPilot/MissionPlanner/pull/3269
+* CurrenState :Use VFR_HUD for climbrate IF it is received. by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3267
+* FlighData: Fix rotated map not displaying vehicle by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3266
+* SerialConfig:Fix exception when with less than five serial ports by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3265
+* CurrentState: correct unit handling for `radius` by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3262
+* CurrentState: handle GIMBAL_DEVICE_ATTITUDE_STATUS message by @tatsuy in https://github.com/ArduPilot/MissionPlanner/pull/3286
+* Make QuickView Add window fixed size and scrollable. by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3290
+* ConfigSerial: Update SerialOptionRules.json by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3276
+* DisplayView: Disable ConfigStandardParams and ConfigAdvancedParams  by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3274
+* Sik radio update 2024-1-18 by @StevenHAtRFDesign in https://github.com/ArduPilot/MissionPlanner/pull/3277
+* Joystick: fix expo saving function by @tatsuy in https://github.com/ArduPilot/MissionPlanner/pull/3257
+* Can update by @meee1 in https://github.com/ArduPilot/MissionPlanner/pull/3299
+* ConfigRawParams: When setting a parameter changes the number of parameters, do a full refresh. and check if reboot is needed by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3271
+* MAVLinkInterface: remove legacy text severity by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3259
+* TCPSerial Fixes #3307 by @Godeffroy in https://github.com/ArduPilot/MissionPlanner/pull/3314
+* ExtLibs: add new device ids to list by @andyp1per in https://github.com/ArduPilot/MissionPlanner/pull/3315
+* Remove project test to fix git action builds by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3321
+* added NAV_DELAY support for plane by @tridge in https://github.com/ArduPilot/MissionPlanner/pull/3311
+* mavcmd: add set-camera-source by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3313
+* GCSViews: Config DroneCAN allow with no SLCAN port by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3312
+* Sikradio.resx: Clairfy standard and custom fw upload button texts by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3333
+* Grid: max altitude increased to 99999m to allow HAPS to use the calculation by @Bruno-B2S in https://github.com/ArduPilot/MissionPlanner/pull/3334
+* ExtLibs: add SCHA63T to imu types of device ids by @tatsuy in https://github.com/ArduPilot/MissionPlanner/pull/3337
+* srtm: removed 60N limit on SRTM downloads by @tridge in https://github.com/ArduPilot/MissionPlanner/pull/3338
+* Add more relays by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3344
+* Update Plane Config page for 4.5.x changed param names by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3345
+* DisplayView config bits by @Godeffroy in https://github.com/ArduPilot/MissionPlanner/pull/3329
+* GMapMarkerBase: add options for transparent MAVs by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3263
+* Preflight tab - Edit: CheckListEditor.cs updated add preflight sub checklist item functionality and response time by @Matthew-Alti in https://github.com/ArduPilot/MissionPlanner/pull/3318
+* SITL: fixed arguments for SITL launch by @tridge in https://github.com/ArduPilot/MissionPlanner/pull/3359
+* Localization: update uk translation by @FrequentFlyer86 in https://github.com/ArduPilot/MissionPlanner/pull/3361
+* Actions: osx fix by @meee1 in https://github.com/ArduPilot/MissionPlanner/pull/3364
+* Implement support for translation of field names in the QV, update the uk translation by @FrequentFlyer86 in https://github.com/ArduPilot/MissionPlanner/pull/3363
+* Localization: update uk translation for service messages by @FrequentFlyer86 in https://github.com/ArduPilot/MissionPlanner/pull/3362
+* gps base: add automatic base station configuration for Septentrio by @flyingthingsintothings in https://github.com/ArduPilot/MissionPlanner/pull/3324
+* Update Zoom level by @Godeffroy in https://github.com/ArduPilot/MissionPlanner/pull/3323
+* FlighPlanner: When a WP changed to Takeoff zero out Lat,Lng by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3368
+* FlighPlanner: Fix map moving to 0,0 when HomeLocation clicked  by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3367
+* Settings:Fix RemoveList to remove last item in the setting by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3370
+* DashWare: fix culture bug by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3373
+* ConigInitialParams: Mot thrst calc changes as requested by Xfacta by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3375
+* CurrentState: Add ESC13-16 telemetry by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3378
+* FlightData.cs : Cultureinfo to ToUpper on commands by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3383
+* FlighData : Relay display name start from 1 by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3381
+* FlightData: Fix Python script hang... by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3377
+* CurrentState: fix rxrssi scaling and when rcin.rssi is 255 (invalid/unknown) by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3372
+* Refactor ADS-B input support in Mission Planner by @MUSTARDTIGERFPV in https://github.com/ArduPilot/MissionPlanner/pull/3251
+* FlightPlanner : Inject Custom Map tiles and reload map into custom by @Godeffroy in https://github.com/ArduPilot/MissionPlanner/pull/3322
+
+## New Contributors
+* @Godeffroy made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3314
+* @Bruno-B2S made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3334
+* @FrequentFlyer86 made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3361
+* @flyingthingsintothings made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3324
+
+**Full Changelog**: https://github.com/ArduPilot/MissionPlanner/compare/MissionPlanner1.3.81...MissionPlanner1.3.82
+
+*Mission Planner 1.3.81 -  Dec 7, 2023 
+## What's Changed
+* Speech: fix pronunciation of quadplane modes by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3091
+* MAVFTP: use smaller read/write sizes to keep radios happier by @tridge in https://github.com/ArduPilot/MissionPlanner/pull/3087
+* Param list improvements by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3080
+* ConfigRawParam: handle range and value together by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3098
+* CoT/TAK: add detail takv and some cleanup by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3099
+* mavcmd: add jump-tag commands for plane, copter, rover by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3097
+* Misc bug fixes by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3102
+* ConfigRawParams: fix typecast exception by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3094
+* ConfigRawParams: clamp numeric control by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3095
+* Fix getting settings default result by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3103
+* CoT: adds send interval and saves all settings by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3104
+* HUD: Don't override user setting to show BATT, add BATT2 option by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3105
+* Comm Stats: reset button to clear all the fields better by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3106
+* Revert "Settings: add GetDecimal() to Settings.Instance storage" by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3108
+* Jump Tags - add ability to Trigger it by @magicrub in https://github.com/ArduPilot/MissionPlanner/pull/3101
+* ADSB: fix deadlock issue by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3109
+* OpenDroneID2: fixed swapped UA_Type and ID_Type by @dakejahl in https://github.com/ArduPilot/MissionPlanner/pull/3128
+* mavcmd: rover command list gets LOITER_TURNS by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3127
+* Update authentication redirect URL by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3145
+* GCSViews: ConfigRawParams: bitmask takes priority over options by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3129
+* FlightData: Actions: add safety switch toggle by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3143
+* Update README.md by @vr4guid in https://github.com/ArduPilot/MissionPlanner/pull/3142
+* mavcmd: update do-digicam-control fields by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3139
+* GeoRefImage: fix min shutter filter by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3133
+* OSDConfigurator: add support for HD layouts by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3146
+* GCSViews: ConfigurationView: update coloum width by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3130
+* ConfigRawParams: fix search slowdown by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3149
+* Flightdata, Payload Control tab fixes by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3153
+* Fix as a result of rename by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3157
+* Improvements to Altitude Angel integration by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3147
+* ExtLibs: setMountConfigure uses mav-cmd-do-mount-configure by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3159
+* CommsNTRIP: add a checkbox to select NTRIP v1.0 for older caster by @khancyr in https://github.com/ArduPilot/MissionPlanner/pull/3172
+* Fix json Mission export by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3170
+* Optimizations and map display bug fixes by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3168
+* Adding Legacy, UTM Basic and UTM Ready display by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3166
+* PreFlight tab: Resizing fix by @Matthew-Alti in https://github.com/ArduPilot/MissionPlanner/pull/3169
+* ADSB: fix AVR and Beast modes to display call sign and velocity. by @SteveBorensteinNOAA in https://github.com/ArduPilot/MissionPlanner/pull/3110
+* mavcmd: add image-start-capture command columns by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3175
+* mavcmd: add image-stop-capture command by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3177
+* Temp: Add sysid target to safety switch command by @stephendade in https://github.com/ArduPilot/MissionPlanner/pull/3176
+* Fix missing params in QP Extended Tuning page by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3192
+* Pr bug homealt fileload by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3195
+* ConfigRawParams: manual absolute column sizing by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3194
+* Updated Altitude Angel branding by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3173
+* GCSViews: ConfigRawParams: look up param type for bitmask helper by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3189
+* Preflight tab - Edit: CheckListEditor.cs updated the Add button and the Removal Button by @Matthew-Alti in https://github.com/ArduPilot/MissionPlanner/pull/3174
+* FlightData - Update to the Colour Randomization Quick Tab Numbers by @Matthew-Alti in https://github.com/ArduPilot/MissionPlanner/pull/3156
+* GCSViews: ConfigurationView: Motor test: use JSON file to add more infromation by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3043
+* LogSort: Add sorting by BRD_SER_NUM by @TunaLobster in https://github.com/ArduPilot/MissionPlanner/pull/2692
+* PropagationSettings: add altitude filter of terrain by @tatsuy in https://github.com/ArduPilot/MissionPlanner/pull/3202
+* WPOverlay: change the condition for rally point by @tatsuy in https://github.com/ArduPilot/MissionPlanner/pull/3201
+* DFLog: Fix messages show as System.byte[] by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3210
+* Quickview Color Randomization bug fix by @Autonomost in https://github.com/ArduPilot/MissionPlanner/pull/3211
+* MainV2: Fix console window hide in windows11 by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3214
+* maccmd.xml: add DO_SEND_SCRIPT_MESSAGE by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3215
+* CurrentState: add more rangefinders by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3209
+* ExtLibs: Utilities: BinaryLog: fix FW version detection used for mode names by @IamPete1 in https://github.com/ArduPilot/MissionPlanner/pull/3220
+* CurrentState: Propagate Named Float messages across components with same sysid. by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3226
+* WPOverlay: treat VTOL_LAND like LAND by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3236
+* BinaryLog: escape characters in byte arrays by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3237
+* GCSViews: Update optical flow config page by @stephendade in https://github.com/ArduPilot/MissionPlanner/pull/3234
+* LogBrowse: improve parameter handling by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3233
+* WPOverlay: fix loiter circle rendering by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3232
+* Fixing a performance problem in message display by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3228
+* MissionPlanner.csproj : Fix post build command to accept space in folder names by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3227
+* Actions: fix android build by @meee1 in https://github.com/ArduPilot/MissionPlanner/pull/3244
+* Setup: SerialPort settings screen by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3240
+* Improve/Fix SBS-1 ADS-B Parsing by @MUSTARDTIGERFPV in https://github.com/ArduPilot/MissionPlanner/pull/3218
+* MapboxUser: increase MaxZoom to 24 by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3208
+* GridUI: fix config load bugs by @robertlong13 in https://github.com/ArduPilot/MissionPlanner/pull/3200
+* Minor bug fix for multipolygons in map by @rupertbenbrook in https://github.com/ArduPilot/MissionPlanner/pull/3252
+
+## New Contributors
+* @dakejahl made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3128
+* @vr4guid made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3142
+* @Matthew-Alti made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3169
+* @SteveBorensteinNOAA made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3110
+* @Autonomost made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3211
+* @MUSTARDTIGERFPV made their first contribution in https://github.com/ArduPilot/MissionPlanner/pull/3218
+
+**Full Changelog**: https://github.com/ArduPilot/MissionPlanner/compare/MissionPlanner1.3.80...MissionPlanner1.3.81
+
+*Mission Planner 1.3.80 - 20-03-2023
 MAVFtp: fix locker static
 MAVFtp: add lock on dir list
 Graphs: update

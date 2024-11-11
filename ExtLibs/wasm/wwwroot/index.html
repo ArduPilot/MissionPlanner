@@ -21,6 +21,9 @@
         (function () {
             var fetchListener = window.fetch;
             window.fetch = function () {
+                if (arguments.length == 2) {
+                    arguments[1].mode = 'no-cors';
+                }
                 console.log(arguments);
                 var result = fetchListener.apply(this, arguments);
                 return result;

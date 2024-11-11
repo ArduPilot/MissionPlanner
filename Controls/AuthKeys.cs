@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Mavlink;
 using MissionPlanner.Utilities;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -14,6 +15,9 @@ namespace MissionPlanner.Controls
             ThemeManager.ApplyThemeTo(this);
 
             LoadKeys();
+
+            timer1.Interval = 190;
+            timer1.Start();
         }
 
         private void but_save_Click(object sender, EventArgs e)
@@ -58,10 +62,50 @@ namespace MissionPlanner.Controls
 
                 string pass = "";
 
-                if (InputBox.Show("Input Seed", "Please enter your pass phrase", ref pass) == DialogResult.OK)
+                if (InputBox.Show("Input Seed", "Please enter your pass phrase/sentence\nNumbers, Lower Case, Upper Case, Symbols, and 12+ chars long using atleast 2 of each", ref pass) == DialogResult.OK)
                 {
                     var input = InputBox.value;
+                    {
+                        var n = 0;
+                        int score = 0;
+                        var len = input.Length;
 
+                        // chars
+                        score += len * 4;
+                        // upper
+                        n = input.Count(c => char.IsUpper(c));
+                        if(n > 0)
+                        score += (len - n) * 2;
+                        // lower
+                        n = input.Count(c => char.IsLower(c));
+                        if (n > 0)
+                            score += (len - n) * 2;
+                        //number
+                        n = input.Count(c => char.IsNumber(c));
+                        if (n > 0)
+                            score +=  n * 4;
+                        //symbols
+                        n = input.Count(c => char.IsSymbol(c) || char.IsPunctuation(c));
+                        if (n > 0)
+                            score += n * 6;
+                        //middle number or symbol
+                        n = input.Skip(1).Take(len - 2).Count(c => char.IsSymbol(c) || char.IsPunctuation(c) ||  char.IsNumber(c));
+                        if (n > 0)
+                            score += n * 2;
+                        // letters only
+                        n = input.Count(c => char.IsLetter(c));
+                        score += len == n ? -len : 0;
+                        // numbers only
+                        n = input.Count(c => char.IsNumber(c));
+                        score += len == n ? -len : 0;
+
+                        if(score <= 40)
+                            CustomMessageBox.Show("Password Strength: " + score + " WEAK - it will be added, but please pick a better password");
+                        else if (score <= 60)
+                            CustomMessageBox.Show("Password Strength: " + score + " Good");
+                        else if (score > 60)
+                            CustomMessageBox.Show("Password Strength: " + score + " Strong");
+                    }
                     MAVAuthKeys.AddKey(dataGridView1[FName.Index, row].Value.ToString(), input);
                 }
 
@@ -86,6 +130,25 @@ namespace MissionPlanner.Controls
         private void but_disablesigning_Click(object sender, EventArgs e)
         {
             MainV2.comPort.setupSigning(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "");
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var name = "None/Unknown";
+            var key = MainV2.comPort.MAV.signingKey;
+            if (key != null)
+            {
+                foreach (var authKey in MAVAuthKeys.Keys)
+                {
+                    if (authKey.Value.Key.ByteArraysEqual(key))
+                    {
+                        name = authKey.Key;
+                        break;
+                    }
+                }
+            }
+            
+            lbl_sgnpkts.Text = "Using Key: " + name + ", Signed Packets: " + MainV2.comPort.Mavlink2Signed.ToString();
         }
     }
 }

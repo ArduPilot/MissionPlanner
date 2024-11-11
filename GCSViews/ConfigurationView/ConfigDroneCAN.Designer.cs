@@ -29,11 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             this.menu_parameters = new System.Windows.Forms.MenuItem();
             this.menu_restart = new System.Windows.Forms.MenuItem();
@@ -42,11 +41,9 @@
             this.menu_passthrough = new System.Windows.Forms.MenuItem();
             this.menu_passthrough4 = new System.Windows.Forms.MenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.but_mavlinkcanmode2 = new MissionPlanner.Controls.MyButton();
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
@@ -69,8 +66,12 @@
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UAVText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
-            this.but_mavlinkcanmode2_2 = new MissionPlanner.Controls.MyButton();
             this.but_filter = new MissionPlanner.Controls.MyButton();
+            this.but_stats = new MissionPlanner.Controls.MyButton();
+            this.cmb_interfacetype = new System.Windows.Forms.ComboBox();
+            this.cmb_networkinterface = new System.Windows.Forms.ComboBox();
+            this.but_connect = new MissionPlanner.Controls.MyButton();
+            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -81,10 +82,9 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.but_stats = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,17 +108,6 @@
             this.groupBox5.Size = new System.Drawing.Size(796, 5);
             this.groupBox5.TabIndex = 79;
             this.groupBox5.TabStop = false;
-            // 
-            // but_slcanmode1
-            // 
-            this.but_slcanmode1.Location = new System.Drawing.Point(7, 35);
-            this.but_slcanmode1.Name = "but_slcanmode1";
-            this.but_slcanmode1.Size = new System.Drawing.Size(83, 23);
-            this.but_slcanmode1.TabIndex = 82;
-            this.but_slcanmode1.Text = "SLCan Direct";
-            this.but_slcanmode1.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_slcanmode1.UseVisualStyleBackColor = true;
-            this.but_slcanmode1.Click += new System.EventHandler(this.but_slcandirect_Click);
             // 
             // contextMenu1
             // 
@@ -177,17 +166,6 @@
             this.label1.Text = "After enabling SLCAN, you will no longer be able to connect via MAVLINK.\r\nYou mus" +
     "t leave this screen and wait 2 seconds before connecting again\r\n";
             // 
-            // but_mavlinkcanmode2
-            // 
-            this.but_mavlinkcanmode2.Location = new System.Drawing.Point(96, 35);
-            this.but_mavlinkcanmode2.Name = "but_mavlinkcanmode2";
-            this.but_mavlinkcanmode2.Size = new System.Drawing.Size(91, 23);
-            this.but_mavlinkcanmode2.TabIndex = 84;
-            this.but_mavlinkcanmode2.Text = "MAVlink-CAN1";
-            this.but_mavlinkcanmode2.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_mavlinkcanmode2.UseVisualStyleBackColor = true;
-            this.but_mavlinkcanmode2.Click += new System.EventHandler(this.but_slcanmavlink_Click);
-            // 
             // but_uavcaninspector
             // 
             this.but_uavcaninspector.Location = new System.Drawing.Point(338, 35);
@@ -244,11 +222,6 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(441, 20);
             this.textBox3.TabIndex = 18;
-            // 
-            // uAVCANModelBindingSource
-            // 
-            this.uAVCANModelBindingSource.AllowNew = true;
-            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.DroneCANModel);
             // 
             // textBox13
             // 
@@ -459,17 +432,6 @@
             this.chk_canonclose.Text = "Exit SLCAN on leave?";
             this.chk_canonclose.UseVisualStyleBackColor = true;
             // 
-            // but_mavlinkcanmode2_2
-            // 
-            this.but_mavlinkcanmode2_2.Location = new System.Drawing.Point(193, 35);
-            this.but_mavlinkcanmode2_2.Name = "but_mavlinkcanmode2_2";
-            this.but_mavlinkcanmode2_2.Size = new System.Drawing.Size(91, 23);
-            this.but_mavlinkcanmode2_2.TabIndex = 91;
-            this.but_mavlinkcanmode2_2.Text = "MAVlink-CAN2";
-            this.but_mavlinkcanmode2_2.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_mavlinkcanmode2_2.UseVisualStyleBackColor = true;
-            this.but_mavlinkcanmode2_2.Click += new System.EventHandler(this.but_slcanmode2_2_Click);
-            // 
             // but_filter
             // 
             this.but_filter.Location = new System.Drawing.Point(290, 35);
@@ -480,6 +442,51 @@
             this.but_filter.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_filter.UseVisualStyleBackColor = true;
             this.but_filter.Click += new System.EventHandler(this.but_filter_Click);
+            // 
+            // but_stats
+            // 
+            this.but_stats.Location = new System.Drawing.Point(290, 60);
+            this.but_stats.Name = "but_stats";
+            this.but_stats.Size = new System.Drawing.Size(42, 23);
+            this.but_stats.TabIndex = 93;
+            this.but_stats.Text = "Stats";
+            this.but_stats.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_stats.UseVisualStyleBackColor = true;
+            this.but_stats.Click += new System.EventHandler(this.but_stats_Click);
+            // 
+            // cmb_interfacetype
+            // 
+            this.cmb_interfacetype.FormattingEnabled = true;
+            this.cmb_interfacetype.Location = new System.Drawing.Point(7, 37);
+            this.cmb_interfacetype.Name = "cmb_interfacetype";
+            this.cmb_interfacetype.Size = new System.Drawing.Size(179, 21);
+            this.cmb_interfacetype.TabIndex = 96;
+            this.cmb_interfacetype.SelectedIndexChanged += new System.EventHandler(this.cmb_interfacetype_SelectedIndexChanged);
+            // 
+            // cmb_networkinterface
+            // 
+            this.cmb_networkinterface.FormattingEnabled = true;
+            this.cmb_networkinterface.Location = new System.Drawing.Point(7, 64);
+            this.cmb_networkinterface.Name = "cmb_networkinterface";
+            this.cmb_networkinterface.Size = new System.Drawing.Size(179, 21);
+            this.cmb_networkinterface.TabIndex = 97;
+            this.cmb_networkinterface.Visible = false;
+            // 
+            // but_connect
+            // 
+            this.but_connect.Location = new System.Drawing.Point(192, 48);
+            this.but_connect.Name = "but_connect";
+            this.but_connect.Size = new System.Drawing.Size(75, 23);
+            this.but_connect.TabIndex = 98;
+            this.but_connect.Text = "Connect";
+            this.but_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_connect.UseVisualStyleBackColor = true;
+            this.but_connect.Click += new System.EventHandler(this.but_connect_Click);
+            // 
+            // uAVCANModelBindingSource
+            // 
+            this.uAVCANModelBindingSource.AllowNew = true;
+            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.DroneCANModel);
             // 
             // myDataGridView1
             // 
@@ -570,9 +577,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle1.Format = "X";
-            dataGridViewCellStyle1.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Format = "X";
+            dataGridViewCellStyle3.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle3;
             this.SoftwareCRC.HeaderText = "SW CRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -580,40 +587,29 @@
             // 
             // Menu
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = "Menu";
-            this.Menu.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.NullValue = "Menu";
+            this.Menu.DefaultCellStyle = dataGridViewCellStyle4;
             this.Menu.HeaderText = "Menu";
             this.Menu.Name = "Menu";
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;
             // 
-            // but_stats
-            // 
-            this.but_stats.Location = new System.Drawing.Point(290, 60);
-            this.but_stats.Name = "but_stats";
-            this.but_stats.Size = new System.Drawing.Size(42, 23);
-            this.but_stats.TabIndex = 93;
-            this.but_stats.Text = "Stats";
-            this.but_stats.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_stats.UseVisualStyleBackColor = true;
-            this.but_stats.Click += new System.EventHandler(this.but_stats_Click);
-            // 
             // ConfigDroneCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_connect);
+            this.Controls.Add(this.cmb_networkinterface);
+            this.Controls.Add(this.cmb_interfacetype);
             this.Controls.Add(this.but_stats);
             this.Controls.Add(this.but_filter);
-            this.Controls.Add(this.but_mavlinkcanmode2_2);
             this.Controls.Add(this.chk_canonclose);
             this.Controls.Add(this.DGDebug);
             this.Controls.Add(this.chk_log);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.but_uavcaninspector);
-            this.Controls.Add(this.but_mavlinkcanmode2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.but_slcanmode1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.myDataGridView1);
@@ -621,8 +617,8 @@
             this.Size = new System.Drawing.Size(798, 612);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -634,9 +630,7 @@
         private Controls.MyDataGridView myDataGridView1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox5;
-        private Controls.MyButton but_slcanmode1;
         private System.Windows.Forms.Label label1;
-        private Controls.MyButton but_mavlinkcanmode2;
         private Controls.MyButton but_uavcaninspector;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
@@ -669,7 +663,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
         private System.Windows.Forms.DataGridViewTextBoxColumn UAVText;
-        private Controls.MyButton but_mavlinkcanmode2_2;
         private Controls.MyButton but_filter;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
@@ -682,5 +675,8 @@
         private System.Windows.Forms.DataGridViewButtonColumn Menu;
         private System.Windows.Forms.MenuItem menu_passthrough4;
         private Controls.MyButton but_stats;
+        private System.Windows.Forms.ComboBox cmb_interfacetype;
+        private System.Windows.Forms.ComboBox cmb_networkinterface;
+        private Controls.MyButton but_connect;
     }
 }

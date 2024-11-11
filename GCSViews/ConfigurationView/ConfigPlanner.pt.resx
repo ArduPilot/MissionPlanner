@@ -117,41 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>Mapa roda seguindo o veiculo</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
   </data>
-  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
-    <value>Aviso Alt</value>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Formato video</value>
   </data>
-  <data name="BUT_videostop.Text" xml:space="preserve">
-    <value>Parar</value>
+  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
+    <value>Carregar WPs na conexão?</value>
   </data>
-  <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>Aviso de bateria</value>
-  </data>
-  <data name="CHK_enablespeech.Text" xml:space="preserve">
-    <value>Habilita fala</value>
-  </data>
-  <data name="CHK_Password.Text" xml:space="preserve">
-    <value>Password de configuração</value>
-  </data>
-  <data name="chk_norcreceiver.Text" xml:space="preserve">
-    <value>Sem receptor RC</value>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 13</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
     <value>Tamanho do rastro</value>
   </data>
-  <data name="CHK_speechcustom.Text" xml:space="preserve">
-    <value>Intervalo 30s</value>
+  <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 17</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Distancia ao Home</value>
+  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
+    <value>Aviso Alt</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Log percurso</value>
+  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
+    <value>Reset APM no conector USB</value>
   </data>
-  <data name="label26.Text" xml:space="preserve">
-    <value>Formato video</value>
+  <data name="CHK_mavdebug.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 642</value>
+  </data>
+  <data name="CHK_mavdebug.Text" xml:space="preserve">
+    <value>Debugar Mensagem Mavlink</value>
+  </data>
+  <data name="label104.Text" xml:space="preserve">
+    <value>Modo/Estat.</value>
   </data>
   <data name="label103.Text" xml:space="preserve">
     <value>Posiç.</value>
@@ -159,76 +157,145 @@
   <data name="label102.Text" xml:space="preserve">
     <value>Altitude</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Seguir Mapa</value>
-  </data>
   <data name="label101.Text" xml:space="preserve">
     <value>Taxas telemetria</value>
-  </data>
-  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
-    <value>Baixa velocidade</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Tema</value>
-  </data>
-  <data name="label104.Text" xml:space="preserve">
-    <value>Modo/Estat.</value>
-  </data>
-  <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>Hebilita HUD Overlay</value>
-  </data>
-  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
-    <value>Carregar WPs na conexão?</value>
-  </data>
-  <data name="label98.Text" xml:space="preserve">
-    <value>Unidade Veloc.</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
     <value>NOTA: O tab de configuração não vai mostrar essas unidades já que são valores brutos.</value>
   </data>
-  <data name="label92.Text" xml:space="preserve">
-    <value>Dispositivo de video</value>
+  <data name="label98.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 13</value>
   </data>
-  <data name="label93.Text" xml:space="preserve">
-    <value>Idioma da UI</value>
+  <data name="label98.Text" xml:space="preserve">
+    <value>Unidade Veloc.</value>
   </data>
-  <data name="label94.Text" xml:space="preserve">
-    <value>Cor OSD</value>
+  <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
   </data>
   <data name="label97.Text" xml:space="preserve">
     <value>Unidade Dist</value>
   </data>
-  <data name="CHK_showairports.Text" xml:space="preserve">
-    <value>Mostrar aeroportos</value>
-  </data>
-  <data name="BUT_themecustom.Text" xml:space="preserve">
-    <value>Customizado</value>
+  <data name="label95.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 13</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
     <value>Fala</value>
   </data>
-  <data name="BUT_Joystick.Text" xml:space="preserve">
-    <value>Ajuste Joystick</value>
+  <data name="CHK_speechbattery.Text" xml:space="preserve">
+    <value>Aviso de bateria</value>
   </data>
-  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
-    <value>Mostrar na "TelaNav"</value>
+  <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 17</value>
   </data>
-  <data name="CHK_mavdebug.Text" xml:space="preserve">
-    <value>Debugar Mensagem Mavlink</value>
+  <data name="CHK_speechcustom.Text" xml:space="preserve">
+    <value>Intervalo 30s</value>
   </data>
-  <data name="chk_temp.Text" xml:space="preserve">
-    <value>Tela de teste</value>
-  </data>
-  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>Reset APM no conector USB</value>
+  <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 17</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>Modo</value>
   </data>
-  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
-    <value>Navegar</value>
+  <data name="label94.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
+  <data name="label94.Text" xml:space="preserve">
+    <value>Cor OSD</value>
+  </data>
+  <data name="label93.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 13</value>
+  </data>
+  <data name="label93.Text" xml:space="preserve">
+    <value>Idioma da UI</value>
+  </data>
+  <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 17</value>
+  </data>
+  <data name="CHK_enablespeech.Text" xml:space="preserve">
+    <value>Habilita fala</value>
+  </data>
+  <data name="CHK_hudshow.Text" xml:space="preserve">
+    <value>Hebilita HUD Overlay</value>
+  </data>
+  <data name="label92.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 13</value>
+  </data>
+  <data name="label92.Text" xml:space="preserve">
+    <value>Dispositivo de video</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Seguir Mapa</value>
+  </data>
+  <data name="CHK_maprotation.Text" xml:space="preserve">
+    <value>Mapa roda seguindo o veiculo</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Distancia ao Home</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
+    <value>Mostrar na "TelaNav"</value>
+  </data>
+  <data name="BUT_Joystick.Text" xml:space="preserve">
+    <value>Ajuste Joystick</value>
+  </data>
+  <data name="BUT_videostop.Text" xml:space="preserve">
+    <value>Parar</value>
   </data>
   <data name="BUT_videostart.Text" xml:space="preserve">
     <value>Inicio</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Log percurso</value>
+  </data>
+  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
+    <value>Navegar</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="BUT_themecustom.Text" xml:space="preserve">
+    <value>Customizado</value>
+  </data>
+  <data name="CHK_Password.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 17</value>
+  </data>
+  <data name="CHK_Password.Text" xml:space="preserve">
+    <value>Password de configuração</value>
+  </data>
+  <data name="CHK_speechlowspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 17</value>
+  </data>
+  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
+    <value>Baixa velocidade</value>
+  </data>
+  <data name="CHK_showairports.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 17</value>
+  </data>
+  <data name="CHK_showairports.Text" xml:space="preserve">
+    <value>Mostrar aeroportos</value>
+  </data>
+  <data name="chk_temp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 642</value>
+  </data>
+  <data name="chk_temp.Text" xml:space="preserve">
+    <value>Tela de teste</value>
+  </data>
+  <data name="chk_norcreceiver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 17</value>
+  </data>
+  <data name="chk_norcreceiver.Text" xml:space="preserve">
+    <value>Sem receptor RC</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>974, 662</value>
   </data>
 </root>

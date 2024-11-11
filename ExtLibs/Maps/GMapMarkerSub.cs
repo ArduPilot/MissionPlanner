@@ -30,6 +30,11 @@ namespace MissionPlanner.Maps
 
         public override void OnRender(IGraphics g)
         {
+            if (IsHidden)
+            {
+                return;
+            }
+
             var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
@@ -68,7 +73,20 @@ namespace MissionPlanner.Maps
             catch
             {
             }
+
+#if NET472_OR_GREATER
+            var ia = new System.Drawing.Imaging.ImageAttributes();
+            if (IsTransparent)
+            {
+                // Draw image with transparency using a color matrix
+                var cm = new System.Drawing.Imaging.ColorMatrix { Matrix33 = 0.39f };
+                ia.SetColorMatrix(cm, System.Drawing.Imaging.ColorMatrixFlag.Default, System.Drawing.Imaging.ColorAdjustType.Bitmap);
+            }
+            g.DrawImage(imagecache, new Rectangle(-imagecache.Width / 2, -imagecache.Width / 2, imagecache.Width, imagecache.Height), 0, 0, imagecache.Width, imagecache.Height, GraphicsUnit.Pixel, ia);
+#else
             g.DrawImageUnscaled(imagecache, 59/-2, 59/-2);
+#endif
+
 
             g.Transform = temp;
         }

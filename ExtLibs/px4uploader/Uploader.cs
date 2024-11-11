@@ -806,6 +806,9 @@ namespace px4uploader
 
             this.port.ReadTimeout = 1000; // 1 sec
 
+            bool sameflash = true;
+            bool sameexternalflash = true;
+
             if (self.fw_maxsize > 0)
             {
                 int expect_crc = fw.crc(self.fw_maxsize);
@@ -817,8 +820,8 @@ namespace px4uploader
                 print("FW File 0x" + hexlify(BitConverter.GetBytes(expect_crc)) + " " + expect_crc);
                 print("Current 0x" + hexlify(BitConverter.GetBytes(report_crc)) + " " + report_crc);
 
-                if (expect_crc == report_crc)
-                    throw new Exception("Same Firmware. Not uploading");
+                if (expect_crc != report_crc)
+                    sameflash = false;                    
             }
 
             if (self.extf_maxsize > 0)
@@ -826,7 +829,7 @@ namespace px4uploader
                 int expect_crc = fw.extf_crc(fw.extf_image_size);
 
                 byte[] size_bytes = BitConverter.GetBytes(fw.extf_image_size);
- 
+
                 __send(new byte[] {(byte)Code.EXTF_GET_CRC,
                     size_bytes[0], size_bytes[1], size_bytes[2], size_bytes[3],
                     (byte) Code.EOC});
@@ -840,9 +843,12 @@ namespace px4uploader
                 print("Ext FW File 0x" + hexlify(BitConverter.GetBytes(expect_crc)) + " " + expect_crc);
                 print("Current 0x" + hexlify(BitConverter.GetBytes(report_crc)) + " " + report_crc);
 
-                if (expect_crc == report_crc)
-                    throw new Exception("Same Firmware. Not uploading");
+                if (expect_crc != report_crc)
+                    sameexternalflash = false;
             }
+
+            if (sameflash && sameexternalflash)
+                throw new Exception("Same Firmware. Not uploading");
         }
 
         public void identify()

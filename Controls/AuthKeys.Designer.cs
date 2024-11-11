@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthKeys));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -36,6 +37,8 @@
             this.but_save = new MissionPlanner.Controls.MyButton();
             this.but_add = new MissionPlanner.Controls.MyButton();
             this.but_disablesigning = new MissionPlanner.Controls.MyButton();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lbl_sgnpkts = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,6 +78,7 @@
             // 
             resources.ApplyResources(this.but_save, "but_save");
             this.but_save.Name = "but_save";
+            this.but_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_save.UseVisualStyleBackColor = true;
             this.but_save.Click += new System.EventHandler(this.but_save_Click);
             // 
@@ -82,6 +86,7 @@
             // 
             resources.ApplyResources(this.but_add, "but_add");
             this.but_add.Name = "but_add";
+            this.but_add.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_add.UseVisualStyleBackColor = true;
             this.but_add.Click += new System.EventHandler(this.but_add_Click);
             // 
@@ -89,13 +94,24 @@
             // 
             resources.ApplyResources(this.but_disablesigning, "but_disablesigning");
             this.but_disablesigning.Name = "but_disablesigning";
+            this.but_disablesigning.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_disablesigning.UseVisualStyleBackColor = true;
             this.but_disablesigning.Click += new System.EventHandler(this.but_disablesigning_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 150;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // lbl_sgnpkts
+            // 
+            resources.ApplyResources(this.lbl_sgnpkts, "lbl_sgnpkts");
+            this.lbl_sgnpkts.Name = "lbl_sgnpkts";
+            // 
             // AuthKeys
             // 
-            
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.lbl_sgnpkts);
             this.Controls.Add(this.but_disablesigning);
             this.Controls.Add(this.but_add);
             this.Controls.Add(this.but_save);
@@ -103,6 +119,7 @@
             this.Name = "AuthKeys";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -115,5 +132,7 @@
         private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private MyButton but_disablesigning;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label lbl_sgnpkts;
     }
 }

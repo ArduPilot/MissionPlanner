@@ -1490,7 +1490,7 @@ namespace MissionPlanner.Utilities
                 WinNativeMethods.SetDefaultDllDirectories(WinNativeMethods.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
                 WinNativeMethods.AddDllDirectory(Path.Combine(gstdir, "bin"));
                 WinNativeMethods.LoadLibrary(orig);
-            }catch { }
+            }catch { }            
         }
 
         //C:\ProgramData\Mission Planner\gstreamer\1.0\x86_64\bin
@@ -1573,6 +1573,19 @@ namespace MissionPlanner.Utilities
                     {
                         log.Info("Found gstreamer " + ans.First());
                         SetGSTPath(ans.First());
+                        try
+                        {
+                            uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
+                            NativeMethods.gst_version(out v1, out v2, out v3, out v4);
+
+                            log.InfoFormat("GStreamer {0}.{1}.{2}.{3}", v1, v2, v3, v4);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex); 
+                            return "";
+                        }
+
                         return ans.First();
                     }
                 }
@@ -2163,26 +2176,36 @@ namespace MissionPlanner.Utilities
 
 
             status?.Invoke(0, "Downloading..");
+            int retry = 3;
 
-            try
+            while (retry > 0)
             {
-                Download.getFilefromNet(url, output, status: status);
-
-                status?.Invoke(50, "Extracting..");
-                ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
-                status?.Invoke(100, "Done.");
-            }
-            catch (WebException ex)
-            {
-                status?.Invoke(-1, "Error downloading file " + ex.ToString());
                 try
                 {
-                    if (File.Exists(output))
-                        File.Delete(output);
+                    if (Download.getFilefromNet(url, output, status: status))
+                    {
+
+                        status?.Invoke(50, "Extracting..");
+                        ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
+                        status?.Invoke(100, "Done.");
+
+                        break;
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                }
+                    status?.Invoke(-1, "Error downloading file " + ex.ToString());
+                    try
+                    {
+                        if (File.Exists(output))
+                            File.Delete(output);
+                    }
+                    catch
+                    {
+                    }
+                    status?.Invoke(-1, "Retry");
+                } 
+                retry--;
             }
         }
     }

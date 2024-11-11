@@ -33,6 +33,7 @@ namespace MissionPlanner.Utilities
             while (asyncthread != null && asyncthread.IsAlive)
             {
                 running = false;
+                Thread.Sleep(1);
             }
 
             asyncthread = new Thread(new ThreadStart(getUrl))

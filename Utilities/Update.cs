@@ -269,33 +269,6 @@ namespace MissionPlanner.Utilities
                     files.Add(file);
                 }
 
-                // cleanup unused dlls and exes
-                dlls.ForEach(dll =>
-                {
-                    try
-                    {
-                        var result = files.Any(task => Path.Combine(Settings.GetRunningDirectory(), task).ToLower().Equals(dll.ToLower()));
-
-                        if (result == false)
-                            File.Delete(dll);
-                    }
-                    catch { }
-                });
-
-                exes.ForEach(exe =>
-                {
-                    try
-                    {
-                        var result = files.Any(task => Path.Combine(Settings.GetRunningDirectory(), task).ToLower().Equals(exe.ToLower()));
-
-                        if (result == false)
-                            File.Delete(exe);
-                    }
-                    catch { }
-                });
-
-
-
                 // background md5
                 List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
 
@@ -460,6 +433,31 @@ namespace MissionPlanner.Utilities
                         if (frmProgressReporter != null)
                             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.Checking + file);
                     }
+                });
+
+                // cleanup unused dlls and exes
+                dlls.ForEach(dll =>
+                {
+                    try
+                    {
+                        var result = files.Any(task => Path.GetFullPath(Path.Combine(Settings.GetRunningDirectory(), task)).ToLower().Equals(dll.ToLower()));
+
+                        if (result == false)
+                            File.Delete(dll);
+                    }
+                    catch { }
+                });
+
+                exes.ForEach(exe =>
+                {
+                    try
+                    {
+                        var result = files.Any(task => Path.GetFullPath(Path.Combine(Settings.GetRunningDirectory(), task)).ToLower().Equals(exe.ToLower()));
+
+                        if (result == false)
+                            File.Delete(exe);
+                    }
+                    catch { }
                 });
             }
         }

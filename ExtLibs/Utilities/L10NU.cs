@@ -23,6 +23,10 @@ namespace MissionPlanner.Utilities
                 case "zh-Hans":
                     lines = Regex.Split(Resources.strings_zhHans, "\r\n|\r|\n");
                     break;
+                case "uk":
+                case "uk-UA":
+                    lines = Regex.Split(Resources.strings_uk, "\r\n|\r|\n");
+                    break;
             }
             if (lines != null)
             {
@@ -41,7 +45,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public static string GetString(string key)
+        public static string GetString(string key, string defaultTo)
         {
             if (strings.ContainsKey(key))
             {
@@ -49,8 +53,13 @@ namespace MissionPlanner.Utilities
             }
             else
             {
-                return key;
+                return defaultTo;
             }
+        }
+
+        public static string GetString(string key)
+        {
+            return GetString(key, defaultTo: key);
         }
     }
 }

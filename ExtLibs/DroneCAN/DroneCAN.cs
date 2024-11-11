@@ -378,9 +378,11 @@ namespace DroneCAN
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
                 {
                     var gnires = new DroneCAN.uavcan_protocol_GetNodeInfo_res();
-                    gnires.software_version.major = (byte)Assembly.GetExecutingAssembly().GetName().Version.Major;
-                    gnires.software_version.minor = (byte)Assembly.GetExecutingAssembly().GetName().Version.Minor;
-                    gnires.hardware_version.major = 0;
+                    var fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+                    gnires.software_version.major = (byte)fvi.ProductMajorPart;
+                    gnires.software_version.minor = (byte)fvi.ProductMinorPart;
+                    gnires.software_version.vcs_commit = uint.Parse(fvi.ProductBuildPart.ToString(), NumberStyles.HexNumber);
+                    gnires.hardware_version.major = (byte)0;
                     gnires.hardware_version.unique_id = ASCIIEncoding.ASCII.GetBytes(("MissionPlanner").PadRight(16, '\x0'));
                     gnires.name = ASCIIEncoding.ASCII.GetBytes("org.missionplanner");
                     gnires.name_len = (byte)gnires.name.Length;
@@ -1117,7 +1119,7 @@ namespace DroneCAN
                     else
                     {
                         Console.WriteLine("Got BeginFirmwareUpdate_res " + frame.SourceNode);
-                        acceptbegin = true;
+                        // move acceptbegin to uavcan_protocol_file_Read_req
                     }
                 }
                 else if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_res))
@@ -1143,15 +1145,16 @@ namespace DroneCAN
                                         {
                                             image_file_remote_path = new DroneCAN.uavcan_protocol_file_Path()
                                             {
-                                                path = firmware_namebytes, path_len = (byte) firmware_namebytes.Length
+                                                path = firmware_namebytes,
+                                                path_len = (byte)firmware_namebytes.Length
                                             },
                                             source_node_id = SourceNode
                                         };
 
                                     var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID++, req_msg);
-                               
-                                        WriteToStreamSLCAN(slcan);
-                                        Console.WriteLine("Send uavcan_protocol_file_BeginFirmwareUpdate_req");
+
+                                    WriteToStreamSLCAN(slcan);
+                                    Console.WriteLine("Send uavcan_protocol_file_BeginFirmwareUpdate_req");
                                 }
                                 else
                                 {
@@ -1181,6 +1184,10 @@ namespace DroneCAN
                         done = true;
                         return;
                     }
+                }
+                else if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_file_Read_req))
+                {
+                    acceptbegin = true;
                 }
             };
             MessageReceived += updatedelegate;
@@ -1223,7 +1230,7 @@ namespace DroneCAN
             int b = 0;
             while (!done)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 if (exception != null || cancel.IsCancellationRequested)
                 {
@@ -1235,7 +1242,7 @@ namespace DroneCAN
                     var lastrxts = NodeList.First(a => a.Key == nodeid).Value.uptime_sec;
                     if(lastrxts != timestamp)
                         b = 0;
-                    if (b > 5)
+                    if (b > 10)
                     {
                         Console.WriteLine("Possible update issue " + nodeid + " (no nodestatus) ");
                     }
@@ -1256,7 +1263,7 @@ namespace DroneCAN
                 }
 
                 b++;
-                if (b > 30)
+                if (b > 60)
                 {
                     break;
                 }

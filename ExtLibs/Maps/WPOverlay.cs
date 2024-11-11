@@ -72,7 +72,7 @@ namespace MissionPlanner.ArduPilot
                     || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI || command == (ushort)MAVLink.MAV_CMD.DO_LAND_START)
                 {
                     // land can be 0,0 or a lat,lng
-                    if (command == (ushort) MAVLink.MAV_CMD.LAND && item.lat == 0 && item.lng == 0)
+                    if ((command == (ushort)MAVLink.MAV_CMD.LAND || command == (ushort)MAVLink.MAV_CMD.VTOL_LAND) && item.lat == 0 && item.lng == 0)
                     {
                         continue;
                     }
@@ -96,7 +96,7 @@ namespace MissionPlanner.ArduPilot
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
                             item.alt * altunitmultiplier, null, wpradius);
                     } 
-                    else if (command == (ushort) MAVLink.MAV_CMD.LAND && item.lat != 0 && item.lng != 0)
+                    else if ((command == (ushort) MAVLink.MAV_CMD.LAND || command == (ushort) MAVLink.MAV_CMD.VTOL_LAND) && item.lat != 0 && item.lng != 0)
                     {
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
                             item.alt + gethomealt((MAVLink.MAV_FRAME) item.frame, item.lat, item.lng),
@@ -139,6 +139,7 @@ namespace MissionPlanner.ArduPilot
                     }
                     else if (command == (ushort) MAVLink.MAV_CMD.LOITER_TIME ||
                              command == (ushort) MAVLink.MAV_CMD.LOITER_TURNS ||
+                             command == (ushort) MAVLink.MAV_CMD.LOITER_TO_ALT ||
                              command == (ushort) MAVLink.MAV_CMD.LOITER_UNLIM)
                     {
                         if (item.lat == 0 && item.lng == 0)
@@ -160,6 +161,20 @@ namespace MissionPlanner.ArduPilot
                                 color = Color.LightBlue
                             });
 
+                            // Calculate the loiter radius and direction for this command, if one is specified
+                            var this_loiterradius = loiterradius;
+                            if (command == (ushort)MAVLink.MAV_CMD.LOITER_TURNS ||
+                                command == (ushort)MAVLink.MAV_CMD.LOITER_UNLIM)
+                            {
+                                this_loiterradius = item.p3 != 0 ? item.p3 : this_loiterradius;
+                            }
+                            else if (command == (ushort)MAVLink.MAV_CMD.LOITER_TO_ALT)
+                            {
+                                this_loiterradius = item.p2 != 0 ? item.p2 : this_loiterradius;
+                            }
+                            int loiterdirection = Math.Sign(this_loiterradius);
+                            this_loiterradius = Math.Abs(this_loiterradius);
+
                             // exit at tangent
                             if (item.p4 == 1)
                             {
@@ -175,10 +190,11 @@ namespace MissionPlanner.ArduPilot
                                 var bearing = from.GetBearing(to);
                                 var dist = from.GetDistance(to);
 
-                                if (dist > loiterradius)
+                                if (dist > this_loiterradius)
                                 {
                                     route.Add(pointlist[pointlist.Count - 1]);
-                                    var offset = from.newpos(bearing + 90, loiterradius);
+                                    var theta = Math.Acos(this_loiterradius / dist) * MathHelper.rad2deg;
+                                    var offset = from.newpos(bearing - loiterdirection*theta, this_loiterradius);
                                     route.Add(offset);
                                 }
                                 else
@@ -190,7 +206,7 @@ namespace MissionPlanner.ArduPilot
                                 route.Add(pointlist[pointlist.Count - 1]);
 
                             addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                                item.alt * altunitmultiplier, Color.LightBlue, loiterradius);
+                                item.alt * altunitmultiplier, Color.LightBlue, this_loiterradius);
                         }
                     }
                     else if (command == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT)

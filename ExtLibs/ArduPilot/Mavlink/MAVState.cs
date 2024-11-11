@@ -13,6 +13,10 @@ using MissionPlanner.ArduPilot.Mavlink;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("MissionPlanner")]
+[assembly: InternalsVisibleTo("MissionPlannerLib")]
 
 namespace MissionPlanner
 {
@@ -265,7 +269,7 @@ namespace MissionPlanner
         }
 
         /// <summary>
-        /// time seen of last mavlink packet
+        /// time seen of last mavlink packet UTC
         /// </summary>
         public DateTime lastvalidpacket { get; set; }
 

@@ -1320,7 +1320,7 @@
             0});
             resources.ApplyResources(this.NUM_altitude, "NUM_altitude");
             this.NUM_altitude.Maximum = new decimal(new int[] {
-            9999,
+            99999,
             0,
             0,
             0});

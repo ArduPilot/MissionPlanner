@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
@@ -149,9 +149,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Runtime.Serializatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageViz", "ImageViz", "{F2D60E3A-B8A0-45F1-BB6F-9B1C0F1BC6CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageVisualizer.UI", "ExtLibs\ImageVisualizer\src\ImageVisualizer16.UI\ImageVisualizer.UI.csproj", "{63D1D741-7C82-447B-B5F8-68B3BE3470D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageVisualizer.UI", "ExtLibs\ImageVisualizer\src\ImageVisualizer16.UI\ImageVisualizer.UI.csproj", "{63D1D741-7C82-447B-B5F8-68B3BE3470D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageVisualizerSkiaPackage", "ExtLibs\ImageVisualizer\src\ImageVisualizerPackage\ImageVisualizerSkiaPackage.csproj", "{FB4C20B3-659C-4D7E-9832-7BFB165DF2E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageVisualizerSkiaPackage", "ExtLibs\ImageVisualizer\src\ImageVisualizerPackage\ImageVisualizerSkiaPackage.csproj", "{FB4C20B3-659C-4D7E-9832-7BFB165DF2E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageVisualizer.Common", "ExtLibs\ImageVisualizer\src\ImageVisualizer16.Common\ImageVisualizer.Common.csproj", "{0C5A5D4A-FF08-438C-BD2A-032946C4968A}"
 EndProject

@@ -28,9 +28,30 @@ using log4net.Repository.Hierarchy;
 using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using Zeroconf;
+using Blazor.Extensions.WebUSB;
+using System.Threading;
 
 namespace wasm
 {
+
+    public class FirstMiddleware : DelegatingHandler
+    {
+        public Task<byte[]> GetByteArrayAsync(string requestUri) 
+        {
+            return null;
+        }
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            // Interfering code before sending the request
+            var response = await base.SendAsync(request, cancellationToken);
+            // Interfering code after sending the request
+
+            return response;
+        }
+    }
+
     public class Program
     {
         private static log4net.ILog log;
@@ -43,6 +64,10 @@ namespace wasm
 
             builder.Services.AddTransient(sp => new HttpClient
                 {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
+
+            builder.Services.AddTransient<FirstMiddleware>();
+
+            builder.Services.AddHttpClient();
 
             builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
 
@@ -61,6 +86,8 @@ namespace wasm
                 config.PreventDuplicates = true;
                 config.NewestOnTop = true;
             });
+
+            builder.Services.UseWebUSB(); // Makes IUSB available to the DI container
 
             {
 
@@ -138,7 +165,8 @@ namespace wasm
                 MissionPlanner.Utilities.Download.RequestModification += Download_RequestModification;
             }
 
-            await builder.Build().RunAsync();
+            var app = builder.Build();
+            await app.RunAsync();
         }
 
         private static void Download_RequestModification(object sender, HttpRequestMessage e)

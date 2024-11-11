@@ -305,15 +305,17 @@ namespace AltitudeAngelWings.Service
 
                     case GeoJSONObjectType.MultiPolygon:
                         // TODO: This does not work for polygons with holes and just does the outer polygon
-                        foreach (var poly in ((MultiPolygon)feature.Geometry).Coordinates)
+                        for (var index = 0; index < ((MultiPolygon)feature.Geometry).Coordinates.Count; index++)
                         {
+                            var poly = ((MultiPolygon)feature.Geometry).Coordinates[index];
                             var coordinates =
                                 poly.Coordinates[0].Coordinates.OfType<Position>()
                                     .Select(c => new LatLong(c.Latitude, c.Longitude))
                                     .ToList();
 
                             var colorInfo = properties.ToColorInfo(_settings.MapOpacityAdjust);
-                            overlayFeatures.Add(new OverlayFeature(feature.Id, OverlayFeatureType.Line, coordinates, colorInfo, feature));
+                            overlayFeatures.Add(new OverlayFeature($"{feature.Id}-{index}", OverlayFeatureType.Line,
+                                coordinates, colorInfo, feature));
                         }
 
                         break;

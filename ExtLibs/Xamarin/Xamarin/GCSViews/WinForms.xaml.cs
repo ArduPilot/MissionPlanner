@@ -109,7 +109,7 @@ namespace Xamarin.GCSViews
                     }
                     else
                     {
-                        if (s.StartsWith("BT_"))
+                        if (s.StartsWith("BT_") || s.StartsWith("BLE_"))
                         {
                             var bt = await Test.BlueToothDevice.GetDeviceInfoList();
 
@@ -876,6 +876,7 @@ namespace Xamarin.GCSViews
 
                         try
                         {
+                            // skgl is not keeping the previous render. so true.
                             FormsRender.DrawOntoCanvas(form.Handle, canvas, true);
                         }
                         catch (Exception ex)

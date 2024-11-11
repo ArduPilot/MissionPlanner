@@ -18,6 +18,9 @@ using Timer = System.Windows.Forms.Timer;
 using static DroneCAN.DroneCAN;
 using System.ComponentModel;
 using System.Drawing;
+using MissionPlanner.ArduPilot;
+using System.Runtime.InteropServices;
+using System.Net.NetworkInformation;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -28,22 +31,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
 
             uAVCANModelBindingSource.DataSource = allnodes;
-
-            if (MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
-                this.Enabled = false;
         }
 
         List<DroneCANModel> allnodes = new List<DroneCANModel>();
 
         public void Activate()
         {
-            if (MainV2.comPort.MAV.param.Count > 5 && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
-                this.Enabled = false;
-
             timer = new Timer();
             timer.Interval = 1000;
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            cmb_interfacetype.DataSource = Enum.GetValues(typeof(ConnectionTypes));
+
+            cmb_networkinterface.DataSource = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+                .Where(inter => inter.SupportsMulticast &&
+                    inter.OperationalStatus == System.Net.NetworkInformation.OperationalStatus.Up &&
+                    inter.GetIPProperties().GetIPv4Properties() != null).ToList();
+
+            cmb_networkinterface.DisplayMember = "Description";
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -55,6 +61,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        public enum ConnectionTypes
+        {
+            SLCAN,
+            MAVLinkCAN1,
+            MAVLinkCAN2,
+            MCastCan1,
+            MCastCan2,
+        }
+
         private void but_slcandirect_Click(object sender, EventArgs e)
         {
             startslcan(1);
@@ -62,16 +77,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_slcanmavlink_Click(object sender, EventArgs e)
         {
-            mavlinkCANRun = false;
+            
             StartMavlinkCAN(1);
         }
 
         private void StartMavlinkCAN(byte bus = 1)
         {
             BusInUse = bus;
-            but_slcanmode1.Enabled = false;
-            but_mavlinkcanmode2.Enabled = true;
-            but_mavlinkcanmode2_2.Enabled = true;
             but_filter.Enabled = true;
 
             Task.Run(() =>
@@ -187,9 +199,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void startslcan(byte canport)
         {
-            but_slcanmode1.Enabled = false;
-            but_mavlinkcanmode2.Enabled = false;
-            but_mavlinkcanmode2_2.Enabled = false;
             but_filter.Enabled = false;
 
             try
@@ -246,7 +255,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // place an invalid port in its place
             if (port != null)
                 MainV2.comPort.BaseStream = new Comms.SerialPort()
-                    { PortName = port.PortName, BaudRate = port.BaudRate };
+                { PortName = port.PortName, BaudRate = port.BaudRate };
             SetupSLCanPort(port);
 
         }
@@ -434,7 +443,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     var debug = msg as DroneCAN.DroneCAN.uavcan_protocol_debug_LogMessage;
 
-                    this.BeginInvoke((Action)delegate()
+                    this.BeginInvoke((Action)delegate ()
                     {
                         DGDebug.Rows.Insert(0, new object[]
                         {
@@ -457,6 +466,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private TcpListener listener;
         private bool mavlinkCANRun;
         private byte BusInUse;
+        private bool isConnected = false;
 
         private void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -494,6 +504,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
                 var url = can.LookForUpdate(devicename, hwversion, beta);
+
+                if (url == string.Empty)
+                    url = APFirmware.Manifest.Firmware.Where(a => a.MavFirmwareVersionType == (beta ? APFirmware.RELEASE_TYPES.BETA.ToString() : APFirmware.RELEASE_TYPES.OFFICIAL.ToString()) &&
+                    a.VehicleType == "AP_Periph" && a.Format == "bin" &&
+                    a.MavType == "CAN_PERIPHERAL" &&
+                    devicename.EndsWith(a.Platform)).First()?.Url.ToString();
 
                 if (url != string.Empty)
                 {
@@ -557,7 +573,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 FileDialog fd = new OpenFileDialog();
                 fd.RestoreDirectory = true;
-                fd.Filter = "*.bin|*.bin|*.*|*.*";
+                fd.Filter = "*.bin;*.apj|*.bin;*.apj";
                 var dia = fd.ShowDialog();
 
                 if (fd.CheckFileExists && dia == DialogResult.OK)
@@ -575,6 +591,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     try
                     {
+                        if (fd.FileName.ToLower().EndsWith(".apj"))
+                        {
+                            var fw = px4uploader.Firmware.ProcessFirmware(fd.FileName);
+                            var tmp = Path.GetTempFileName();
+                            File.WriteAllBytes(tmp, fw.imagebyte);
+                            fd.FileName = tmp;
+                        }
+
                         var cancel = new CancellationTokenSource();
 
                         prd.DoWork += dialogue =>
@@ -627,6 +651,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
+            Disconnect();
+            timer?.Stop();
+        }
+
+        public void Disconnect()
+        {
             mavlinkCANRun = false;
             try
             {
@@ -640,7 +670,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             listener = null;
             can?.Stop(chk_canonclose.Checked);
             can = null;
-            timer?.Stop();
+
+            cmb_interfacetype.Enabled = true;
+            cmb_networkinterface.Enabled = true;
+            but_connect.Text = "Connect";
+            isConnected = false;
         }
 
         private void myDataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -768,7 +802,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                         tcpbps += read;
                                         var slcan = can.PackageMessageSLCAN(0, 30, can.TransferID++,
                                             new DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream()
-                                                { protocol_id = 3, data = buffer, data_len = (byte)read });
+                                            { protocol_id = 3, data = buffer, data_len = (byte)read });
                                         can.WriteToStreamSLCAN(slcan);
                                     }
 
@@ -885,7 +919,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             panel.Controls.AddRange(list.Select(a =>
             {
                 var cb = new CheckBox()
-                    { Name = a.Name, Text = a.Name, Checked = defaultfilter.Contains(a.msgid), Width = 320 };
+                { Name = a.Name, Text = a.Name, Checked = defaultfilter.Contains(a.msgid), Width = 320 };
                 cb.CheckedChanged += (s, e2) =>
                 {
                     if (cb.Checked)
@@ -1077,11 +1111,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                                         protocol = (byte)uavcan_tunnel_Protocol
                                                             .UAVCAN_TUNNEL_PROTOCOL_GPS_GENERIC
                                                     },
-                                                    target_node = target_node, serial_id = -1,
+                                                    target_node = target_node,
+                                                    serial_id = -1,
                                                     baudrate = (uint)baudrate,
                                                     options = (byte)uavcan_tunnel_Targetted
                                                         .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
-                                                    buffer = buffer, buffer_len = (byte)read
+                                                    buffer = buffer,
+                                                    buffer_len = (byte)read
                                                 });
                                             can.WriteToStreamSLCAN(slcan);
                                             lastsend = DateTime.Now;
@@ -1148,7 +1184,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public CanStats(byte NodeID, dronecan_protocol_CanStats data)
             {
                 this.NodeID = NodeID;
-                
+
                 busoff_errors = data.busoff_errors;
                 rx_errors = data.rx_errors;
                 @interface = data.@interface;
@@ -1158,8 +1194,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 tx_success = data.tx_success;
                 tx_timedout = data.tx_timedout;
                 tx_abort = data.tx_abort;
-                rx_overflow= data.rx_overflow;
-                rx_received= data.rx_received;
+                rx_overflow = data.rx_overflow;
+                rx_received = data.rx_received;
             }
 
             public new byte @interface
@@ -1402,6 +1438,233 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             frm.Refresh();
 
             frm.Closing += (o, args) => { can.MessageReceived -= mrd; };
+        }
+
+        private void but_mcast1_Click(object sender, EventArgs e)
+        {
+            mavlinkCANRun = false;
+            StartmcastCAN(0);
+        }
+
+        private void but_mcast2_Click(object sender, EventArgs e)
+        {
+            mavlinkCANRun = false;
+            StartmcastCAN(1);
+        }
+
+        //https://github.com/dronecan/pydronecan/blob/master/dronecan/driver/mcast.py#L30
+
+        const ushort MCAST_FLAG_CANFD = 0x0001;
+        const ushort MCAST_MAGIC = 0x2934;
+        const ushort MCAST_MAX_PKT_LEN = 74; // 64 byte data + 10 byte header
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct mcasthdr
+        {
+            public ushort magic;
+            public ushort crc16; 
+            public mcastcanbody body;
+
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            public struct mcastcanbody
+            {
+                public ushort flags;
+                public uint message_id;
+                [MarshalAs(UnmanagedType.ByValArray)]
+                public byte[] data;
+            }
+        }
+
+
+        private void StartmcastCAN(byte bus = 0, NetworkInterface inter = null)
+        {
+            if (inter == null)
+            {
+                CustomMessageBox.Show("No network interfaces found");
+                return;
+            }
+            BusInUse = bus;
+            but_filter.Enabled = false;
+
+            var p = inter.GetIPProperties().GetIPv4Properties();
+            if (p == null)
+            {
+                CustomMessageBox.Show("No IPv4 properties found");
+                return;
+            }
+
+            //239.65.82.B
+            var hostEndPoint = IPAddress.Parse("239.65.82." + bus.ToString());
+            var Port = "57732";
+
+            var udpport = new UdpClient();
+            udpport.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastInterface, (int)IPAddress.HostToNetworkOrder(p.Index));
+            udpport.Client.ExclusiveAddressUse = false;
+            udpport.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            udpport.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, (int)1000);
+            udpport.Client.ExclusiveAddressUse = false;
+
+            udpport.Client.Bind(new IPEndPoint(IPAddress.Any, int.Parse(Port)));
+
+            var multOpt = new MulticastOption(hostEndPoint, p.Index);
+            udpport.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multOpt);
+
+            var can = new DroneCAN.DroneCAN();
+            can.FrameReceived += (frame, payload) =>
+            {
+                mcasthdr hdr = new mcasthdr();
+                hdr.magic = MCAST_MAGIC;
+                hdr.body.flags = frame.FDCan ? MCAST_FLAG_CANFD : (ushort)0;
+                hdr.body.message_id = BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000 : 0);
+                hdr.body.data = payload.packet_data;
+                var body = MavlinkUtil.StructureToByteArray(hdr.body);
+                Array.Resize(ref body, 6 + hdr.body.data.Length);
+                Array.Copy(hdr.body.data, 0, body, 6, hdr.body.data.Length);
+                hdr.crc16 = DroneCAN.TransferCRC.compute(body, body.Length);
+
+                var pkt = MavlinkUtil.StructureToByteArray(hdr);
+                Array.Resize(ref pkt, 4 + 6 + hdr.body.data.Length);
+                Array.Copy(hdr.body.data, 0, pkt, 4 + 6, hdr.body.data.Length);
+
+                udpport.Send(pkt,
+                    pkt.Length,
+                    new IPEndPoint(hostEndPoint, int.Parse(Port)));
+            };
+
+            var port = new CommsInjection();
+
+            port.ReadBufferUpdate += (o, i) => { };
+            port.WriteCallback += (o, bytes) =>
+            {
+                var lines = ASCIIEncoding.ASCII.GetString(bytes.ToArray())
+                    .Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var line in lines)
+                {
+                    can.ReadMessageSLCAN(line);
+                }
+
+            };
+
+            mavlinkCANRun = true;
+
+            Task.Run(() =>
+            {
+                IPEndPoint source = new IPEndPoint(IPAddress.Any, 0);
+
+                while (mavlinkCANRun)
+                {
+                    try
+                    {
+                        var data = udpport.Receive(ref source);
+
+                        mcasthdr hdr = data.ByteArrayToStructure<mcasthdr>(0);
+
+                        if (hdr.magic != MCAST_MAGIC)
+                            continue;
+                        if (hdr.crc16 != DroneCAN.TransferCRC.compute(data.Skip(4).ToArray(), data.Length - 4))
+                            continue;
+
+                        var canfd = (hdr.body.flags & MCAST_FLAG_CANFD) > 0;
+                        var cf = new CANFrame(BitConverter.GetBytes(hdr.body.message_id & 0x1FFFFFFF));
+                        var payload = new CANPayload(data.Skip(4 + 6).ToArray());
+                        var length = dataLengthToDlc(payload.packet_data.Length);
+
+                        /*
+        magic, crc16, flags, message_id = struct.unpack("<HHHI", data[:10])
+        if magic != MCAST_MAGIC:
+            continue
+        if crc16 != common.crc16_from_bytes(data[4:]):
+            continue
+
+        is_extended = (message_id & (1<<31)) != 0
+        is_canfd = flags & MCAST_FLAG_CANFD != 0
+        canid = message_id & 0x1FFFFFFF
+        frame = CANFrame(canid, data[10:], is_extended, canfd= is_canfd)
+                        */
+
+                        var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
+                            , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
+
+                        port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
+                    } 
+                    catch (SocketException)
+                    {
+                        // timeout
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            });
+
+            SetupSLCanPort(port);
+        }
+
+        private void but_connect_Click(object sender, EventArgs e)
+        {
+            if (isConnected)
+            {
+                Disconnect();
+                return;
+            }
+
+            mavlinkCANRun = false;
+
+            var selected = cmb_interfacetype.SelectedValue;
+
+            if (selected == null)
+            {
+                CustomMessageBox.Show("Please select an interface type");
+                return;
+            }
+
+            // Reset the table of nodes
+            myDataGridView1.Rows.Clear();
+
+            cmb_interfacetype.Enabled = false;
+            cmb_networkinterface.Enabled = false;
+            but_connect.Text = "Disconnect";
+            isConnected = true;
+
+            var type = (ConnectionTypes)selected;
+
+            switch (type)
+            {
+                case ConnectionTypes.SLCAN:
+                    startslcan(1);
+                    break;
+                case ConnectionTypes.MAVLinkCAN1:
+                    StartMavlinkCAN(1);
+                    break;
+                case ConnectionTypes.MCastCan1:
+                    StartmcastCAN(0, (NetworkInterface)cmb_networkinterface.SelectedValue);
+                    break;
+                case ConnectionTypes.MAVLinkCAN2:
+                    StartMavlinkCAN(2);
+                    break;
+                case ConnectionTypes.MCastCan2:
+                    StartmcastCAN(1, (NetworkInterface)cmb_networkinterface.SelectedValue);
+                    break;
+            }
+        }
+
+        private void cmb_interfacetype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch ((ConnectionTypes)cmb_interfacetype.SelectedValue)
+            {
+                case ConnectionTypes.SLCAN:
+                case ConnectionTypes.MAVLinkCAN1:
+                case ConnectionTypes.MAVLinkCAN2:
+                    cmb_networkinterface.Visible = false;
+                    break;
+
+                case ConnectionTypes.MCastCan1:
+                case ConnectionTypes.MCastCan2:
+                    cmb_networkinterface.Visible = true;
+                    break;
+            }
         }
     }
 }

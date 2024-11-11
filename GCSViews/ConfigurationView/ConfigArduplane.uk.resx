@@ -118,168 +118,195 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label12.Text" xml:space="preserve">
-    <value>Сходження по Макс (м/с)</value>
+    <value>Макс. підйом (м/с)</value>
   </data>
-  <data name="label49.Text" xml:space="preserve">
-    <value>ІНТЕРТАХ</value>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>Рискання серво</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Макс. тангаж</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Макс. кут кренування</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Мін. тангаж</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Період</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>Затемнення піхви</value>
+    <value>Демпфування тангажу</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Мін. кількість (м/с)</value>
+    <value>Мін. опускання (м/с)</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>Змагання у часі</value>
+    <value>Часова константа</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>Іскри макс (м/с)</value>
+    <value>Макс. опускання (м/с)</value>
   </data>
   <data name="label83.Text" xml:space="preserve">
-    <value>Від П до T</value>
-  </data>
-  <data name="label56.Text" xml:space="preserve">
-    <value>Пн</value>
+    <value>P до T</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>FBW макс</value>
-  </data>
-  <data name="label54.Text" xml:space="preserve">
-    <value>Ре</value>
+    <value>Макс. FBW</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>FBW хв</value>
+    <value>Мін. FBW</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Оновити параметри</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Записати параметри</value>
+  </data>
+  <data name="label78.Text" xml:space="preserve">
+    <value>Компенс.руля напрямку</value>
+  </data>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>Оновити екран</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Крен серво (ПІД)</value>
   </data>
   <data name="label57.Text" xml:space="preserve">
-    <value>Макс. інтергратор</value>
+    <value>Integrator (Макс.)</value>
   </data>
   <data name="groupBox9.Text" xml:space="preserve">
-    <value>Серво з Pitch Pid</value>
-  </data>
-  <data name="label52.Text" xml:space="preserve">
-    <value>Пн</value>
+    <value>Тангаж серво (ПІД)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Співвідношення</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Макс</value>
-  </data>
-  <data name="label55.Text" xml:space="preserve">
-    <value>Я</value>
-  </data>
-  <data name="label50.Text" xml:space="preserve">
-    <value>Ре</value>
+    <value>Макс.</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Мін</value>
+    <value>Мін.</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Контроль L1 - Керування</value>
+    <value>L1 Control - Керування поворотом</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Круз</value>
+    <value>Крейсерська</value>
   </data>
-  <data name="label53.Text" xml:space="preserve">
-    <value>ІНТЕРТАХ</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>ТЕШ</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Швидкість наростання газу</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Кути навігації</value>
   </data>
-  <data name="label51.Text" xml:space="preserve">
-    <value>Я</value>
-  </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>Дросель 0-100%</value>
+    <value>Газ 0-100%</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Круз</value>
+    <value>Крейсерська</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Повітряна швидкість м/с</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Згасіння</value>
+    <value>Демпфування</value>
   </data>
   <data name="label58.Text" xml:space="preserve">
-    <value>Затухання</value>
+    <value>Демпфування</value>
   </data>
-  <data name="label65.Text" xml:space="preserve">
-    <value>ІНТЕРТАХ</value>
-  </data>
-  <data name="label59.Text" xml:space="preserve">
-    <value>Інтеграл</value>
-  </data>
-  <data name="label66.Text" xml:space="preserve">
-    <value>Ре</value>
-  </data>
-  <data name="label67.Text" xml:space="preserve">
-    <value>Я</value>
-  </data>
-  <data name="groupBox16.Text" xml:space="preserve">
-    <value>Інші Мікси</value>
-  </data>
-  <data name="groupBox12.Text" xml:space="preserve">
-    <value>Пітч-АС Під</value>
-  </data>
-  <data name="label68.Text" xml:space="preserve">
-    <value>Пн</value>
-  </data>
-  <data name="label69.Text" xml:space="preserve">
-    <value>ІНТЕРТАХ</value>
-  </data>
-  <data name="groupBox10.Text" xml:space="preserve">
-    <value>Серво Йо</value>
-  </data>
-  <data name="groupBox13.Text" xml:space="preserve">
-    <value>Альт-Під</value>
-  </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>Максимум звуку</value>
-  </data>
-  <data name="label37.Text" xml:space="preserve">
-    <value>Банк Макс</value>
-  </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>Пітч мін</value>
-  </data>
-  <data name="label74.Text" xml:space="preserve">
-    <value>Ре</value>
-  </data>
-  <data name="label76.Text" xml:space="preserve">
-    <value>Пн</value>
-  </data>
-  <data name="label75.Text" xml:space="preserve">
-    <value>Я</value>
-  </data>
-  <data name="label70.Text" xml:space="preserve">
-    <value>Ре</value>
-  </data>
-  <data name="label72.Text" xml:space="preserve">
-    <value>Пн</value>
-  </data>
-  <data name="label71.Text" xml:space="preserve">
-    <value>Я</value>
-  </data>
-  <data name="label73.Text" xml:space="preserve">
-    <value>ІНТЕРТАХ</value>
-  </data>
-  <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Параметри запису</value>
-  </data>
-  <data name="label78.Text" xml:space="preserve">
-    <value>Рудник мікс</value>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Оновити параметри</value>
   </data>
   <data name="BUT_refreshpart.Text" xml:space="preserve">
     <value>Оновити екран</value>
   </data>
-  <data name="BUT_rerequestparams.Text" xml:space="preserve">
-    <value>Оновити параметри</value>
+  <data name="label78.Text" xml:space="preserve">
+    <value>Компенс.руля напрямку</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Записати параметри</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Повітряна швидкість м/с</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Мін. тангаж</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Макс. кут кренування</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Макс. тангаж</value>
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>Рискання серво</value>
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>Демпфування</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Демпфування</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Кути навігації</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Крейсерська</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Газ 0-100%</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Швидкість наростання газу</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Крейсерська</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>L1 Control - Керування поворотом</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Мін.</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Макс.</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Співвідношення</value>
+  </data>
+  <data name="label57.Text" xml:space="preserve">
+    <value>Integrator (Макс.)</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Тангаж серво (ПІД)</value>
+  </data>
+  <data name="label83.Text" xml:space="preserve">
+    <value>P до T</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Крен серво (ПІД)</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Мін. FBW</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Макс. FBW</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Макс. опускання (м/с)</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Демпфування тангажу</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Часова константа</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Мін. опускання (м/с)</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Макс. підйом (м/с)</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Період</value>
   </data>
 </root>

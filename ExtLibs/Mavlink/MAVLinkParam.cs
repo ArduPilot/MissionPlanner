@@ -33,7 +33,7 @@ public partial class MAVLink
         /// <summary>
         /// Default value of parameter as a double, readonly, NaN if not available
         /// </summary>
-        public readonly decimal? default_value = null;
+        public readonly double? default_value = null;
 
         private MAV_PARAM_TYPE _typeap = 0;
         public MAV_PARAM_TYPE TypeAP {
@@ -82,11 +82,12 @@ public partial class MAVLink
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="wiretype"></param>
-        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype)
+        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype, double? _default_value = null)
         {
             Name = name;
             Type = wiretype;
             Value = value;
+            default_value = _default_value;
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ public partial class MAVLink
         /// <param name="inputwire"></param>
         /// <param name="wiretype"></param>
         /// <param name="typeap"></param>
-        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap, decimal? _default_value = null)
+        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap, double? _default_value = null)
         {
             Name = name;
             Type = wiretype;
@@ -128,10 +129,19 @@ item.float_value
 (double)item.float_value
 0.800000011920929
  */
-                    return (double)(decimal)float_value;
+                    return RoundToSignificantDigits(float_value, 7);
             }
 
             throw new FormatException("invalid type");
+        }
+
+        private double RoundToSignificantDigits(double d, int digits)
+        {
+            if (d == 0)
+                return 0;
+
+            double scale = Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(d))) + 1);
+            return scale * Math.Round(d / scale, digits);
         }
 
         public void SetValue(double input)

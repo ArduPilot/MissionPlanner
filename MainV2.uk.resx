@@ -117,59 +117,122 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuSimulation.ToolTipText" xml:space="preserve">
-    <value>Моделювання</value>
+  <data name="autoHideToolStripMenuItem.Text" xml:space="preserve">
+    <value>Авто-приховання</value>
   </data>
-  <data name="MenuFlightPlanner.Text" xml:space="preserve">
-    <value>ПЛАН</value>
+  <data name="menu.Text" xml:space="preserve">
+    <value>Меню</value>
   </data>
-  <data name="MenuHelp.Text" xml:space="preserve">
-    <value>Допомога</value>
+  <data name="MenuHelp.ToolTipText" xml:space="preserve">
+    <value>ДОВІДКА</value>
   </data>
-  <data name="connectionListToolStripMenuItem.Text" xml:space="preserve">
-    <value>Список зв'язків</value>
+  <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
+    <value>НАЛАШТУВАННЯ</value>
   </data>
-  <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
-    <value>Параметри апаратних параметрів</value>
+  <data name="MenuSimulation.Text" xml:space="preserve">
+    <value>МОДЕЛЮВАННЯ</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Планувальник Місії - Мікаель Оборн</value>
+  <data name="MenuConfigTune.Text" xml:space="preserve">
+    <value>КОНФІГУРАЦІЯ</value>
   </data>
-  <data name="connectionOptionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Параметри підключення</value>
+  <data name="MenuFlightData.ToolTipText" xml:space="preserve">
+    <value>ДАНІ ПОЛЬОТУ</value>
   </data>
-  <data name="readonlyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Тільки читання</value>
+  <data name="MenuConnect.Text" xml:space="preserve">
+    <value>ПІД'ЄДНАТИСЯ</value>
+  </data>
+  <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
+    <value>ПЛАН ПОЛЬОТУ</value>
   </data>
   <data name="MenuFlightData.Text" xml:space="preserve">
-    <value>ДАНІ</value>
+    <value>ДАНІ ПОЛЬОТУ</value>
   </data>
   <data name="MenuInitConfig.Text" xml:space="preserve">
     <value>НАЛАШТУВАННЯ</value>
   </data>
-  <data name="MenuConnect.Text" xml:space="preserve">
-    <value>ПІДКЛЮЧИТИ</value>
+  <data name="connectionOptionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Параметри під'єднання</value>
+  </data>
+  <data name="readonlyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Тільки читання</value>
+  </data>
+  <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
+    <value>НАЛАШТУВАННЯ</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Mission Planner - автор Майкл Оборн</value>
+  </data>
+  <data name="MenuHelp.Text" xml:space="preserve">
+    <value>ДОВІДКА</value>
+  </data>
+  <data name="connectionListToolStripMenuItem.Text" xml:space="preserve">
+    <value>Список під'єднань</value>
+  </data>
+  <data name="MenuSimulation.ToolTipText" xml:space="preserve">
+    <value>МОДЕЛЮВАННЯ</value>
+  </data>
+  <data name="MenuFlightPlanner.Text" xml:space="preserve">
+    <value>ПЛАН ПОЛЬОТУ</value>
+  </data>
+  <data name="MenuFlightPlanner.Text" xml:space="preserve">
+    <value>ПЛАН ПОЛЬОТУ</value>
+  </data>
+  <data name="connectionListToolStripMenuItem.Text" xml:space="preserve">
+    <value>Список під'єднань</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Mission Planner - автор Майкл Оборн</value>
+  </data>
+  <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
+    <value>НАЛАШТУВАННЯ</value>
+  </data>
+  <data name="readonlyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Тільки читання</value>
+  </data>
+  <data name="connectionOptionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Параметри під'єднання</value>
+  </data>
+  <data name="MenuInitConfig.Text" xml:space="preserve">
+    <value>НАЛАШТУВАННЯ</value>
+  </data>
+  <data name="MenuFlightData.Text" xml:space="preserve">
+    <value>ДАНІ ПОЛЬОТУ</value>
   </data>
   <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
-    <value>Планувальник польотів</value>
+    <value>ПЛАН ПОЛЬОТУ</value>
   </data>
-  <data name="MenuConfigTune.Text" xml:space="preserve">
-    <value>Підтверджуєте</value>
+  <data name="MenuConnect.Text" xml:space="preserve">
+    <value>ПІД'ЄДНАТИСЯ</value>
   </data>
   <data name="MenuFlightData.ToolTipText" xml:space="preserve">
-    <value>Політ даних</value>
+    <value>ДАНІ ПОЛЬОТУ</value>
   </data>
-  <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
-    <value>Налаштування програмного забезпечення</value>
+  <data name="MenuConfigTune.Text" xml:space="preserve">
+    <value>КОНФІГУРАЦІЯ</value>
   </data>
   <data name="MenuSimulation.Text" xml:space="preserve">
-    <value>Моделювання</value>
+    <value>МОДЕЛЮВАННЯ</value>
+  </data>
+  <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
+    <value>НАЛАШТУВАННЯ</value>
   </data>
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
-    <value>Довідка</value>
+    <value>ДОВІДКА</value>
+  </data>
+  <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
+    <value>На весь екран</value>
   </data>
   <data name="menu.Text" xml:space="preserve">
     <value>Меню</value>
+  </data>
+  <data name="MenuSimulation.ToolTipText" xml:space="preserve">
+    <value>МОДЕЛЮВАННЯ</value>
+  </data>
+  <data name="autoHideToolStripMenuItem.Text" xml:space="preserve">
+    <value>Авто-приховання</value>
+  </data>
+  <data name="MenuHelp.Text" xml:space="preserve">
+    <value>ДОВІДКА</value>
   </data>
   <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
     <value>На весь екран</value>

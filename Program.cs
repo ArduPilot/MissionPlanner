@@ -236,23 +236,26 @@ namespace MissionPlanner
 
             try
             {
-                var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
-                log.Info(file);
-                IntPtr ptr = IntPtr.Zero;
-
-                if (MONO)
+                if (!MainV2.Android)
                 {
-                    ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
-                        MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
-                    log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
-                }
+                    var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
+                    log.Info(file);
+                    IntPtr ptr = IntPtr.Zero;
 
-                if (ptr == IntPtr.Zero)
-                    ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
+                    if (MONO)
+                    {
+                        ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
+                            MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
+                        log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
+                    }
 
-                if (ptr != IntPtr.Zero)
-                {
-                    log.Info("SkiaLoaded");
+                    if (ptr == IntPtr.Zero)
+                        ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
+
+                    if (ptr != IntPtr.Zero)
+                    {
+                        log.Info("SkiaLoaded");
+                    }
                 }
             }
             catch (Exception ex)
@@ -313,6 +316,11 @@ namespace MissionPlanner
             Console.WriteLine("Setup GMaps 1");
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
+            if (Settings.Instance["mapCache"] != null)
+            {
+                GMap.NET.GMaps.Instance.Mode = (GMap.NET.AccessMode)Enum.Parse(typeof(GMap.NET.AccessMode), Settings.Instance["mapCache"].ToString());
+                log.Info("Map access mode set to : " + GMap.NET.GMaps.Instance.Mode.ToString());
+            }
             Console.WriteLine("Setup GMaps 2");
             // add my custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
@@ -382,7 +390,11 @@ namespace MissionPlanner
 
             // generic status report screen
             MAVLinkInterface.CreateIProgressReporterDialogue += title =>
-                new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+            {
+                var ret = new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+                ThemeManager.ApplyThemeTo(ret);
+                return ret;
+            };
 
             Console.WriteLine("Setup proxy");
             try

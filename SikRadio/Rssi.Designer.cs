@@ -1,4 +1,4 @@
-﻿using MissionPlanner.Controls;
+using MissionPlanner.Controls;
 namespace SikRadio
 {
     partial class Rssi
@@ -32,8 +32,6 @@ namespace SikRadio
             this.components = new System.ComponentModel.Container();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.BUT_disconnect = new MissionPlanner.Controls.MyButton();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // zedGraphControl1
@@ -57,37 +55,9 @@ namespace SikRadio
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // BUT_disconnect
-            // 
-            this.BUT_disconnect.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.BUT_disconnect.Enabled = false;
-            this.BUT_disconnect.Location = new System.Drawing.Point(250, 4);
-            this.BUT_disconnect.Name = "BUT_disconnect";
-            this.BUT_disconnect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_disconnect.TabIndex = 2;
-            this.BUT_disconnect.Text = "Disconnect";
-            this.BUT_disconnect.UseVisualStyleBackColor = true;
-            this.BUT_disconnect.Visible = false;
-            this.BUT_disconnect.Click += new System.EventHandler(this.BUT_disconnect_Click);
-            // 
-            // BUT_connect
-            // 
-            this.BUT_connect.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.BUT_connect.Location = new System.Drawing.Point(169, 4);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 1;
-            this.BUT_connect.Text = "Connect";
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Visible = false;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
-            // 
             // Rssi
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-
-            this.Controls.Add(this.BUT_disconnect);
-            this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.zedGraphControl1);
             this.Name = "Rssi";
             this.Size = new System.Drawing.Size(492, 386);
@@ -98,8 +68,7 @@ namespace SikRadio
         #endregion
 
         private ZedGraph.ZedGraphControl zedGraphControl1;
-        private MyButton BUT_connect;
-        private MyButton BUT_disconnect;
         private System.Windows.Forms.Timer timer1;
     }
 }
+

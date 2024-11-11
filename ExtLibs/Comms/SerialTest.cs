@@ -6,7 +6,7 @@ namespace MissionPlanner.Comms
 {
     public class SerialTest
     {
-        public static void Main(string[] args)
+        public static void Mainold(string[] args)
         {
             var portName = @"\\.\" + args[0];
             var handle = CreateFile(portName, 0, 0, IntPtr.Zero, 3, 0x80, IntPtr.Zero);

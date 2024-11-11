@@ -117,34 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CMB_boardtype.Text" xml:space="preserve">
-    <value>Д/Хв</value>
-  </data>
-  <data name="BUTtests.Text" xml:space="preserve">
-    <value>Тести</value>
-  </data>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>Підключитися</value>
-  </data>
   <data name="Logs.Text" xml:space="preserve">
     <value>Завантажити журнал</value>
   </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>Налаштування радіо</value>
-  </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Від'єднатись</value>
-  </data>
   <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>*ПРИМІТКА* Будь ласка, натисніть на підключення вище
-CLI працює тільки при першому підключенні потужності. завантажити журнал тільки через USB
-Нові версії підтримують тільки завантаження журналу через mavlink, будь ласка, перегляньте дані &gt; журнали даних dataflahs
-</value>
+    <value>*УВАГА* Будь ласка, клацніть "Під'єднатися". Працює лише при першому підключенні живлення. Завантаження журналів - лише через USB. Завантаження журналів на новіших версіях - лише через MAVLink. Будь ласка, зверніться до журналів flightdata &gt; dataflahs</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>Перегляд журналу</value>
   </data>
   <data name="BUTsetupshow.Text" xml:space="preserve">
     <value>Показати налаштування</value>
+  </data>
+  <data name="BUTtests.Text" xml:space="preserve">
+    <value>Тести</value>
+  </data>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>Під'єднатися</value>
+  </data>
+  <data name="BUTradiosetup.Text" xml:space="preserve">
+    <value>Налаштувати Радіо</value>
+  </data>
+  <data name="BUT_disconnect.Text" xml:space="preserve">
+    <value>Від'єднатися</value>
+  </data>
+  <data name="Logs.Text" xml:space="preserve">
+    <value>Завантажити журнал</value>
+  </data>
+  <data name="BUT_disconnect.Text" xml:space="preserve">
+    <value>Від'єднатися</value>
+  </data>
+  <data name="BUTradiosetup.Text" xml:space="preserve">
+    <value>Налаштувати Радіо</value>
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>Перегляд журналу</value>
+  </data>
+  <data name="TXT_terminal.Text" xml:space="preserve">
+    <value>*УВАГА* Будь ласка, клацніть "Під'єднатися". Працює лише при першому підключенні живлення. Завантаження журналів - лише через USB. Завантаження журналів на новіших версіях - лише через MAVLink. Будь ласка, зверніться до журналів flightdata &gt; dataflahs</value>
+  </data>
+  <data name="BUTsetupshow.Text" xml:space="preserve">
+    <value>Показати налаштування</value>
+  </data>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>Під'єднатися</value>
+  </data>
+  <data name="BUTtests.Text" xml:space="preserve">
+    <value>Тести</value>
   </data>
 </root>

@@ -17,6 +17,10 @@ namespace MissionPlanner.Maps
         Bitmap elevation;
 
         private RectLatLng rect;
+        private  bool showScale;
+        private  int scaleHigh;
+        private  int scaleLow;
+        private string scaleText;
 
         public GMapMarkerElevation(byte [,] imageData, int idx, int idy, RectLatLng rect, PointLatLng currentloc)
         : base(currentloc)
@@ -27,7 +31,7 @@ namespace MissionPlanner.Maps
 
             //create a new Bitmap
             Bitmap bmp = new Bitmap(idx,idy, PixelFormat.Format32bppArgb);
-            
+
             //lock it to get the BitmapData Object
             BitmapData bmData =
                 bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
@@ -44,7 +48,7 @@ namespace MissionPlanner.Maps
             }
 
             //copy the bytes
-            System.Runtime.InteropServices.Marshal.Copy(pixels, 0, bmData.Scan0, (bmData.Stride/4) * bmData.Height);            
+            System.Runtime.InteropServices.Marshal.Copy(pixels, 0, bmData.Scan0, (bmData.Stride/4) * bmData.Height);
 
             //never forget to unlock the bitmap
             bmp.UnlockBits(bmData);
@@ -105,12 +109,19 @@ namespace MissionPlanner.Maps
             return pal.Entries[incol].ToArgb();
         }
 
+        public void setScale(bool enabled, int high, int low, string text)
+        {
+            showScale = enabled;
+            scaleHigh = high;
+            scaleLow = low;
+            scaleText = text;
+        }
         public override void OnRender(IGraphics g)
         {
             base.OnRender(g);
 
             var tlll = Overlay.Control.FromLatLngToLocal(rect.LocationTopLeft);
-            var brll = Overlay.Control.FromLatLngToLocal(rect.LocationRightBottom);            
+            var brll = Overlay.Control.FromLatLngToLocal(rect.LocationRightBottom);
 
             var old = g.Transform;
 
@@ -121,6 +132,34 @@ namespace MissionPlanner.Maps
 
             g.DrawImage(elevation, tlll.X, tlll.Y, brll.X - tlll.X, brll.Y - tlll.Y);
 
+            if (showScale)
+            {
+                Bitmap test = new Bitmap(255, 20);
+                //fill the image with the rainbow palette
+                for (int i = 0; i < 255; i++)
+                {
+                    using (Graphics g2 = Graphics.FromImage(test))
+                    {
+
+                        Color c = Color.FromArgb(255, Rainbow(i / 255.0f));
+                        g2.FillRectangle(new SolidBrush(c), i, 0, 1, 20);
+                    }
+                }
+                //write the text "200" to the image
+                using (Graphics g2 = Graphics.FromImage(test))
+                {
+                    g2.DrawRectangle(new Pen(Color.Black), 0, 0, 255, 20);
+                    g2.DrawString(scaleHigh.ToString() + "m", new Font("Arial", 8), new SolidBrush(Color.White), 1, 0);
+                    int len = (int)g2.MeasureString(scaleLow.ToString() + "m", new Font("Arial", 8)).Width;
+                    g2.DrawString(scaleLow.ToString() + "m", new Font("Arial", 8), new SolidBrush(Color.White), 255 - len + 2, 0);
+                    //Write text at center
+                    len = (int)g2.MeasureString(scaleText, new Font("Arial", 7)).Width;
+                    g2.DrawString(scaleText, new Font("Arial", 7), new SolidBrush(Color.Black), 127 - len / 2, 0);
+
+                }
+
+                g.DrawImage(test, 0, 60, 300, 20);
+            }
             g.Transform = old;
         }
     }
