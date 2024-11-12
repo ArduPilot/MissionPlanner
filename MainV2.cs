@@ -747,12 +747,6 @@ namespace MissionPlanner
             {
             }
 
-            Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
-            Warnings.WarningEngine.Start(speechEnable ? speechEngine : null);
-            Warnings.WarningEngine.WarningMessage += (sender, s) => { MainV2.comPort.MAV.cs.messageHigh = s; };
-
-            Warnings.WarningEngine.QuickPanelColoring += WarningEngine_QuickPanelColoring;
-
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
 
@@ -1020,6 +1014,11 @@ namespace MissionPlanner
             catch
             {
             }
+
+            Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
+            Warnings.WarningEngine.Start(speechEnable ? speechEngine : null);
+            Warnings.WarningEngine.WarningMessage += (sender, s) => { MainV2.comPort.MAV.cs.messageHigh = s; };
+            Warnings.WarningEngine.QuickPanelColoring += WarningEngine_QuickPanelColoring;
 
             if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
