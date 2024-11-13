@@ -153,7 +153,7 @@ namespace MissionPlanner.Utilities
                             // Store start time
                             var timer = Stopwatch.StartNew();
 
-                            string formattedUrl = string.Format(url, server, CurrentPosition.Lat, CurrentPosition.Lng, httpRequestRadius);
+                            string formattedUrl = string.Format(CultureInfo.InvariantCulture, url, server, CurrentPosition.Lat, CurrentPosition.Lng, httpRequestRadius);
                             var t = Download.GetAsyncWithStatus(formattedUrl);
                             t.Wait();
 
