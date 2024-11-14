@@ -2074,6 +2074,18 @@ namespace MissionPlanner
 
         [GroupText("PID")] public float pidPDmod { get; set; }
 
+        [GroupText("PID")] public float pidSRateRoll { get; set; }
+
+        [GroupText("PID")] public float pidSRatePitch { get; set; }
+
+        [GroupText("PID")] public float pidSRateYaw { get; set; }
+
+        [GroupText("PID")] public float pidSRateAccZ { get; set; }
+
+        [GroupText("PID")] public float pidSRateSteer { get; set; }
+        
+        [GroupText("PID")] public float pidSRateLanding { get; set; }
+
         [GroupText("Vibe")] public uint vibeclip0 { get; set; }
 
         [GroupText("Vibe")] public uint vibeclip1 { get; set; }
@@ -3686,8 +3698,7 @@ namespace MissionPlanner
                         {
                             var pid = mavLinkMessage.ToStructure<MAVLink.mavlink_pid_tuning_t>();
 
-                            //todo: currently only deals with single axis at once
-
+                            // These variables currently only deal a with single axis at once, but SRate can be reported for multiple at once
                             pidff = pid.FF;
                             pidP = pid.P;
                             pidI = pid.I;
@@ -3697,6 +3708,29 @@ namespace MissionPlanner
                             pidachieved = pid.achieved;
                             pidSRate = pid.SRate;
                             pidPDmod = pid.PDmod;
+
+                            switch (pid.axis)
+                            {
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_ROLL:
+                                    pidSRateRoll = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_PITCH:
+                                    pidSRatePitch = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_YAW:
+                                    pidSRateYaw = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_ACCZ:
+                                    pidSRateAccZ = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_STEER:
+                                    pidSRateSteer = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_LANDING:
+                                    pidSRateLanding = pid.SRate;
+                                    break;
+                            }
+
                         }
 
                         break;
