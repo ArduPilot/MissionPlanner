@@ -1677,8 +1677,8 @@ namespace MissionPlanner
 
                             foreach (var item in softwares)
                             {
-                            // check primare firmware type. ie arudplane, arducopter
-                            if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
+                                // check primare firmware type. ie arudplane, arducopter
+                                if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
                                 {
                                     Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
                                     Version ver2 = item.MavFirmwareVersion;
@@ -1691,10 +1691,13 @@ namespace MissionPlanner
                                         break;
                                     }
 
-                                // check the first hit only
-                                break;
+                                    // check the first hit only
+                                    break;
                                 }
                             }
+
+                            // load version specific config
+                            ParameterMetaDataRepositoryAPMpdef.GetMetaDataVersioned(VersionDetection.GetVersion(comPort.MAV.VersionString));
                         }
                         catch (Exception ex)
                         {
