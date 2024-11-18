@@ -391,6 +391,9 @@
     <None Include="plugins\example20-multiplepositions.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="plugins\example23-switch.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="plugins\example22-payloadconfig.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1183,5 +1186,8 @@
     <Compile Include="SikRadio\RFDLib\IO\SerialPort\SerialPort.cs" />
     <Compile Include="SikRadio\RFDLib\RFDLib.cs" />
     <Compile Include="SikRadio\RFDLib\Text.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="plugins\example23-switch.resx" />
   </ItemGroup>
 </Project>
