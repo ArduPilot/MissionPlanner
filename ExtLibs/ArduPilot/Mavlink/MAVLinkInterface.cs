@@ -2501,6 +2501,19 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
         }
 
         /// <summary>
+        /// Control ICE Engine
+        /// </summary>
+        /// <param name="onoff">true to enable, false to disable</param>
+        /// <returns></returns>
+        public bool doEngineControl(byte sysid, byte compid, bool onoff = false)
+        {
+            int param1 = onoff ? 1 : 0;
+
+            return doCommand(sysid, compid, MAV_CMD.DO_ENGINE_CONTROL,
+                    param1, 0, 0, 0, 0, 0, 0);
+        }
+
+        /// <summary>
         /// reboot the vehicle
         /// </summary>
         /// <param name="bootloadermode">reboot into bootloader mode?</param>
