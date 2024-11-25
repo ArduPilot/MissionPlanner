@@ -1210,6 +1210,7 @@ namespace MissionPlanner
                     plane.Source = sender;
                     plane.Category = adsb.Category;
                     plane.Type = adsb.Type;
+                    plane.IsOnGround = adsb.IsOnGround;
                     instance.adsbPlanes[id] = plane;
                 }
                 else
@@ -1219,7 +1220,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, Category = adsb.Category, Type = adsb.Type};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
@@ -3137,8 +3138,8 @@ namespace MissionPlanner
                 if (
                     lastSpeech.AddSeconds(5) < DateTime.Now &&
                     closestPlane != null &&
-                    closestPlane.GetDistance(ourLocation) < 1000 &&
-                    Math.Abs(closestPlane.Alt - comPort.MAV.cs.altasl) < 500
+                    closestPlane.GetDistance(ourLocation) < 5000 &&
+                    Math.Abs(closestPlane.Alt - comPort.MAV.cs.altasl) < 1000
                 )
                 {
                     if (speechEnable && speechEngine != null)
@@ -3166,13 +3167,37 @@ namespace MissionPlanner
                                 closestPlane.CallSign,
                                 closestPlane.Tag
                             );
-
+                            string verticalDirection = closestPlane.Alt > ourLocation.Alt ? "high" : "low";
                             string recommendedAction = closestPlane.Alt > ourLocation.Alt ? "descend" : "climb";
-                            string speech = string.Format("Traffic: {0} O'Clock {1}; {2}",
-                                clock,
-                                closestPlane.Alt > ourLocation.Alt ? "high" : "low",
-                                recommendedAction
-                            );
+                            string speech = "";
+                            // Switch message urgency based on proximity
+                            if (closestPlane.GetDistance(ourLocation) < 1000)
+                            {
+                                // Peak urgency, start with the recommended action
+                                speech = string.Format("{2} NOW! {2} NOW! Traffic {0} O'Clock {1}",
+                                    clock,
+                                    verticalDirection,
+                                    recommendedAction
+                                );
+                            }
+                            else if (closestPlane.GetDistance(ourLocation) < 3000)
+                            {
+                                // High urgency
+                                speech = string.Format("Traffic Close! {0} O'Clock {1}; {2};",
+                                    clock,
+                                    verticalDirection,
+                                    recommendedAction
+                                );
+                            }
+                            else
+                            {
+                                // Low urgency
+                                speech = string.Format("Traffic; {0} O'Clock {1};",
+                                    clock,
+                                    verticalDirection
+                                );
+                            }
+
                             MainV2.speechEngine.SpeakAsync(speech);
                             lastSpeech = DateTime.Now;
                         }
