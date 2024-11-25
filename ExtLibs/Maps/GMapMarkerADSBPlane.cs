@@ -32,15 +32,17 @@ namespace MissionPlanner.Maps
 
         public float heading = 0;
         public AlertLevelOptions AlertLevel = AlertLevelOptions.Green;
-        public float DrawScale = 1;
+        public float DrawScale = 0.5f;
 
         // Cache the last drawn data to avoid re-coloring every frame
         private Bitmap lastDrawn = null;
         // Store the last alert level to decide whether to redraw
         private AlertLevelOptions lastAlertLevel = AlertLevelOptions.Green;
         private MAVLink.ADSB_EMITTER_TYPE lastEmitterCategory = MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+        private bool lastIsOnGround = true;
 
         public MAVLink.ADSB_EMITTER_TYPE EmitterCategory { get; set; }
+        public bool IsOnGround { get; set; }
 
         public enum AlertLevelOptions
         {
@@ -96,12 +98,12 @@ namespace MissionPlanner.Maps
             {
             }
 
-            bool needsRedraw = lastDrawn == null || lastAlertLevel != AlertLevel || lastEmitterCategory != EmitterCategory;
-
+            bool needsRedraw = lastDrawn == null || lastAlertLevel != AlertLevel || lastEmitterCategory != EmitterCategory || lastIsOnGround != IsOnGround;
             if (!needsRedraw)
             {
                 g.ScaleTransform(DrawScale, DrawScale);
                 g.DrawImageUnscaled(lastDrawn, lastDrawn.Width / -2, lastDrawn.Height / -2);
+                g.Transform = temp;
                 return;
             }
 
@@ -163,7 +165,9 @@ namespace MissionPlanner.Maps
                     bitmap = adsb_point_obstacle;
                     break;
             }
-
+            lastEmitterCategory = EmitterCategory;
+            bitmap = (Bitmap)bitmap.Clone();
+            g.ScaleTransform(DrawScale, DrawScale);
             // Set the color based on alert level
             var fillColor = Color.Green;
             switch (AlertLevel)
@@ -178,13 +182,20 @@ namespace MissionPlanner.Maps
                     fillColor = Color.Red;
                     break;
             }
+            lastAlertLevel = AlertLevel;
+
+            if (IsOnGround)
+            {
+                fillColor = Color.DarkGray;
+                fillColor = Color.FromArgb(128, fillColor);
+            }
+            lastIsOnGround = IsOnGround;
 
             ColorSprite(bitmap, fillColor);
 
-            g.ScaleTransform(DrawScale, DrawScale);
             g.DrawImageUnscaled(bitmap, bitmap.Width / -2, bitmap.Height / -2);
 
-            lastDrawn = bitmap;
+            lastDrawn = (Bitmap)bitmap.Clone();
 
             g.Transform = temp;
         }

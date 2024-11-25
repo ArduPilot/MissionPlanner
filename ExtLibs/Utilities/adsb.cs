@@ -175,9 +175,17 @@ namespace MissionPlanner.Utilities
                                 {
                                     // The API sometimes sets this value to either the string "ground" or a JSON Number. This handles that.
                                     int alt = 0;
+                                    bool onGround = false;
                                     if (ac.alt_baro is long intValue)
                                     {
                                         alt = (int)intValue;
+                                    }
+                                    else if (ac.alt_baro is string strValue)
+                                    {
+                                        if (strValue == "ground")
+                                        {
+                                            onGround = true;
+                                        }
                                     }
                                     PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
                                         ac.lon,
@@ -189,9 +197,10 @@ namespace MissionPlanner.Utilities
                                     {
                                         VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
                                         CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                        Squawk = Convert.ToUInt16(ac.squawk, 16), // Convert the hex value back to a raw uint16
+                                        Squawk = Convert.ToUInt16(ac.squawk, 10), // Convert the string into a collquial number representation, so that "1200" becomes 1200.
                                         Type = (ac.t ?? ""), // NOTE: ac.type is the way the aircraft was detected, not the aircraft type
                                         Category = (ac.category ?? ""),
+                                        IsOnGround = onGround,
                                     };
 
                                     UpdatePlanePosition(this, plane);
@@ -925,7 +934,7 @@ namespace MissionPlanner.Utilities
                             ushort squawk = 0;
                             try
                             {
-                                squawk = Convert.ToUInt16(strArray[17], 16); // Convert the hex value back to a raw uint16
+                                squawk = Convert.ToUInt16(strArray[17], 10); // Convert the value as the colloquial "1200" -> 1200.
                             }
                             catch { }
 
@@ -1308,6 +1317,9 @@ namespace MissionPlanner.Utilities
 
             public string CallSign { get; set; } = "";
 
+            /// <summary>
+            /// Squawk in colloquially used format - where the decimal value 1200 (0b10010110000) represents what the rest of the world calls 1200.
+            /// </summary>
             public ushort Squawk { get; set; }
 
             /// <summary>
@@ -1329,6 +1341,11 @@ namespace MissionPlanner.Utilities
             /// The type of aircraft like A380 or B737 pulled from aircraft database.
             /// </summary>
             public string Type { get; set; }
+
+            /// <summary>
+            /// A boolean indicating if the aircraft is on the ground
+            /// </summary>
+            public bool IsOnGround { get; set; }
 
             /// <summary>
             /// Returns the aircraft's emitter category in MAVLink enum format

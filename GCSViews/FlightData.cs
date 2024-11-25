@@ -4497,11 +4497,12 @@ namespace MissionPlanner.GCSViews
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
                                                             "Callsign: " + pllau.CallSign + "\n" +
                                                             "Type/Category: " + typeCategory + "\n" +
-                                                            "Squawk: " + pllau.Squawk.ToString("X4") + "\n" +
+                                                            "Squawk: " + pllau.Squawk.ToString() + "\n" +
                                                             "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
-                                                            "Heading: " + pllau.Heading.ToString("0") + "°";
+                                                            "Heading: " + pllau.Heading.ToString("0") + "°" +
+                                                            (pllau.IsOnGround ? " (On Ground)" : "") + "\n";
                                     // Add distance
                                     if (MainV2.comPort.MAV.cs.Location.Lat != 0 && MainV2.comPort.MAV.cs.Location.Lng != 0)
                                         adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
@@ -4513,6 +4514,7 @@ namespace MissionPlanner.GCSViews
                                     adsbplane.heading = pllau.Heading;
                                     adsbplane.Tag = pllau;
                                     adsbplane.EmitterCategory = pllau.GetEmitterCategory();
+                                    adsbplane.IsOnGround = pllau.IsOnGround;
 
                                     if (((DateTime) pllau.Time) > DateTime.Now.AddSeconds(-30))
                                     {
