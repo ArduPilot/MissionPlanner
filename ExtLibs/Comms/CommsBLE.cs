@@ -70,7 +70,6 @@ namespace MissionPlanner.Comms
 
         }
 
-        static simpleble_adapter_t adapter;
 
         public void Open()
         {
@@ -82,144 +81,152 @@ namespace MissionPlanner.Comms
             if (IsOpen)
                 return;
 
-            lock (locker)
+            // only one instance of the scan
+            if (Monitor.TryEnter(locker))
             {
-                if(adapter == null)
-                    adapter = simpleble_adapter_get_handle(0);
-
-                if (adapter == null)
+                try
                 {
-                    throw new Exception("No adapter was found.\n");
-                    return;
-                }
+                    if (adapter == null)
+                        adapter = simpleble_adapter_get_handle(0);
 
-                simpleble_adapter_set_callback_on_scan_start(adapter, adapter_on_scan_start, null);
-                simpleble_adapter_set_callback_on_scan_stop(adapter, adapter_on_scan_stop, null);
-                simpleble_adapter_set_callback_on_scan_found(adapter, adapter_on_scan_found, null);
-                simpleble_adapter_set_callback_on_scan_updated(adapter, adapter_on_scan_updated, null);
-
-                simpleble_adapter_scan_for(adapter, 5000);
-
-                simpleble_adapter_set_callback_on_scan_start(adapter, null, null);
-                simpleble_adapter_set_callback_on_scan_stop(adapter, null, null);
-                simpleble_adapter_set_callback_on_scan_found(adapter, null, null);
-                simpleble_adapter_set_callback_on_scan_updated(adapter, null, null);
-
-                size_t useindex = -1;
-
-                size_t peripheral_count = simpleble_adapter_scan_get_results_count(adapter);
-                for (size_t peripheral_index = 0; peripheral_index < peripheral_count; peripheral_index++)
-                {
-                    var peripheral = simpleble_adapter_scan_get_results_handle(adapter, peripheral_index);
-
-                    string peripheral_identifier = simpleble_peripheral_identifier(peripheral);
-                    string peripheral_address = simpleble_peripheral_address(peripheral);
-
-                    bool peripheral_connectable = false;
-                    simpleble_peripheral_is_connectable(peripheral, out peripheral_connectable);
-
-                    int16_t peripheral_rssi = simpleble_peripheral_rssi(peripheral);
-
-                    printf("[{0}] {1} [{2}] {3} dBm {4}\n", peripheral_index, peripheral_identifier, peripheral_address,
-                           peripheral_rssi, peripheral_connectable ? "Connectable" : "Non-Connectable");
-
-                    if (PortName.Contains(peripheral_address.ToLower().Replace(":", "")))
+                    if (adapter == null)
                     {
-                        size_t services_count = simpleble_peripheral_services_count(peripheral);
-                        for (size_t service_index = 0; service_index < services_count; service_index++)
-                        {
-                            simpleble_service_t service = default;
-                            simpleble_peripheral_services_get(peripheral, service_index, ref service);
-
-                            printf("    Service UUID: {0}\n", service.uuid.valueuuid);
-                            printf("    Service data: ");
-                            print_buffer_hex(service.data, service.data_length, true);
-
-                            useindex = peripheral_index;
-                        }
-                    }
-
-                    size_t manufacturer_data_count = simpleble_peripheral_manufacturer_data_count(peripheral);
-                    for (size_t manuf_data_index = 0; manuf_data_index < manufacturer_data_count; manuf_data_index++)
-                    {
-                        simpleble_manufacturer_data_t manuf_data = default;
-                        simpleble_peripheral_manufacturer_data_get(peripheral, manuf_data_index, ref manuf_data);
-                        printf("    Manufacturer ID: {0}\n", manuf_data.manufacturer_id);
-                        printf("    Manufacturer data: ");
-                        print_buffer_hex(manuf_data.data, manuf_data.data_length, true);
-                    }
-
-                    // Let's not forget to release the associated handles and memory
-                    simpleble_peripheral_release_handle(peripheral);
-                    //simpleble_free(peripheral_address);
-                    //simpleble_free(peripheral_identifier);
-                }
-
-                if (useindex == -1)
-                {
-                    throw new Exception("Could not find device");
-                }
-
-                {
-                    peripheral = simpleble_adapter_scan_get_results_handle(adapter, useindex);
-                    string peripheral_address = simpleble_peripheral_address(peripheral);
-                    bleperiph = this;
-
-                    _callbackperipheral_on_connected = new MyCallbackp2(peripheral_on_connected);
-                    _callbackperipheral_on_disconnected = new MyCallbackp2(peripheral_on_disconnected);
-
-                    simpleble_peripheral_set_callback_on_connected(peripheral, _callbackperipheral_on_connected, null);
-                    simpleble_peripheral_set_callback_on_disconnected(peripheral, _callbackperipheral_on_disconnected, null);
-
-
-                    var err_code = simpleble_peripheral_connect(peripheral);
-                    if (err_code != simpleble_err_t.SIMPLEBLE_SUCCESS)
-                    {
-                        throw new Exception("Failed to connect.\n");
+                        throw new Exception("No adapter was found.\n");
                         return;
                     }
 
-                    size_t services_count = simpleble_peripheral_services_count(peripheral);
-                    printf("Successfully connected, listing {0} services.\n", services_count);
+                    simpleble_adapter_set_callback_on_scan_start(adapter, adapter_on_scan_start, null);
+                    simpleble_adapter_set_callback_on_scan_stop(adapter, adapter_on_scan_stop, null);
+                    simpleble_adapter_set_callback_on_scan_found(adapter, adapter_on_scan_found, null);
+                    simpleble_adapter_set_callback_on_scan_updated(adapter, adapter_on_scan_updated, null);
 
-                    for (size_t i = 0; i < services_count; i++)
+                    simpleble_adapter_scan_for(adapter, 5000);
+
+                    simpleble_adapter_set_callback_on_scan_start(adapter, null, null);
+                    simpleble_adapter_set_callback_on_scan_stop(adapter, null, null);
+                    simpleble_adapter_set_callback_on_scan_found(adapter, null, null);
+                    simpleble_adapter_set_callback_on_scan_updated(adapter, null, null);
+
+                    size_t useindex = -1;
+
+                    size_t peripheral_count = simpleble_adapter_scan_get_results_count(adapter);
+                    for (size_t peripheral_index = 0; peripheral_index < peripheral_count; peripheral_index++)
                     {
-                        simpleble_service_t service = default;
-                        err_code = simpleble_peripheral_services_get(peripheral, i, ref service);
+                        var peripheral = simpleble_adapter_scan_get_results_handle(adapter, peripheral_index);
 
+                        string peripheral_identifier = simpleble_peripheral_identifier(peripheral);
+                        string peripheral_address = simpleble_peripheral_address(peripheral);
+
+                        bool peripheral_connectable = false;
+                        simpleble_peripheral_is_connectable(peripheral, out peripheral_connectable);
+
+                        int16_t peripheral_rssi = simpleble_peripheral_rssi(peripheral);
+
+                        printf("[{0}] {1} [{2}] {3} dBm {4}\n", peripheral_index, peripheral_identifier, peripheral_address,
+                               peripheral_rssi, peripheral_connectable ? "Connectable" : "Non-Connectable");
+
+                        if (PortName.Contains(peripheral_address.ToLower().Replace(":", "")))
+                        {
+                            size_t services_count = simpleble_peripheral_services_count(peripheral);
+                            for (size_t service_index = 0; service_index < services_count; service_index++)
+                            {
+                                simpleble_service_t service = default;
+                                simpleble_peripheral_services_get(peripheral, service_index, ref service);
+
+                                printf("    Service UUID: {0}\n", service.uuid.valueuuid);
+                                printf("    Service data: ");
+                                print_buffer_hex(service.data, service.data_length, true);
+
+                                useindex = peripheral_index;
+                            }
+                        }
+
+                        size_t manufacturer_data_count = simpleble_peripheral_manufacturer_data_count(peripheral);
+                        for (size_t manuf_data_index = 0; manuf_data_index < manufacturer_data_count; manuf_data_index++)
+                        {
+                            simpleble_manufacturer_data_t manuf_data = default;
+                            simpleble_peripheral_manufacturer_data_get(peripheral, manuf_data_index, ref manuf_data);
+                            printf("    Manufacturer ID: {0}\n", manuf_data.manufacturer_id);
+                            printf("    Manufacturer data: ");
+                            print_buffer_hex(manuf_data.data, manuf_data.data_length, true);
+                        }
+
+                        // Let's not forget to release the associated handles and memory
+                        simpleble_peripheral_release_handle(peripheral);
+                        peripheral = IntPtr.Zero;
+                        //simpleble_free(peripheral_address);
+                        //simpleble_free(peripheral_identifier);
+                    }
+
+                    if (useindex == -1)
+                    {
+                        throw new Exception("Could not find device");
+                    }
+
+                    {
+                        peripheral = simpleble_adapter_scan_get_results_handle(adapter, useindex);
+                        string peripheral_address = simpleble_peripheral_address(peripheral);
+                        bleperiph = this;
+
+                        _callbackperipheral_on_connected = new MyCallbackp2(peripheral_on_connected);
+                        _callbackperipheral_on_disconnected = new MyCallbackp2(peripheral_on_disconnected);
+
+                        simpleble_peripheral_set_callback_on_connected(peripheral, _callbackperipheral_on_connected, null);
+                        simpleble_peripheral_set_callback_on_disconnected(peripheral, _callbackperipheral_on_disconnected, null);
+
+
+                        var err_code = simpleble_peripheral_connect(peripheral);
                         if (err_code != simpleble_err_t.SIMPLEBLE_SUCCESS)
                         {
-                            throw new Exception("Failed to get service.\n");
+                            throw new Exception("Failed to connect.\n");
                             return;
                         }
 
-                        printf("Service: {0} - ({1} characteristics)\n", service.uuid.valueuuid, service.characteristic_count);
-                        for (size_t j = 0; j < service.characteristic_count; j++)
+                        size_t services_count = simpleble_peripheral_services_count(peripheral);
+                        printf("Successfully connected, listing {0} services.\n", services_count);
+
+                        for (size_t i = 0; i < services_count; i++)
                         {
-                            printf("  Characteristic: {0} - ({1} descriptors)\n", service.characteristics[j].uuid.valueuuid,
-                                   service.characteristics[j].descriptor_count);
-                            for (size_t k = 0; k < service.characteristics[j].descriptor_count; k++)
+                            simpleble_service_t service = default;
+                            err_code = simpleble_peripheral_services_get(peripheral, i, ref service);
+
+                            if (err_code != simpleble_err_t.SIMPLEBLE_SUCCESS)
                             {
-                                printf("    Descriptor: {0}\n", service.characteristics[j].descriptors[k].uuid.valueuuid);
+                                throw new Exception("Failed to get service.\n");
+                                return;
+                            }
+
+                            printf("Service: {0} - ({1} characteristics)\n", service.uuid.valueuuid, service.characteristic_count);
+                            for (size_t j = 0; j < service.characteristic_count; j++)
+                            {
+                                printf("  Characteristic: {0} - ({1} descriptors)\n", service.characteristics[j].uuid.valueuuid,
+                                       service.characteristics[j].descriptor_count);
+                                for (size_t k = 0; k < service.characteristics[j].descriptor_count; k++)
+                                {
+                                    printf("    Descriptor: {0}\n", service.characteristics[j].descriptors[k].uuid.valueuuid);
+                                }
                             }
                         }
-                    }
 
-                    bool paired = false;
-                    //while (!paired)
-                    {
-                        mtu = simpleble_peripheral_mtu(peripheral);
-                        Console.WriteLine("MTU: " + mtu);
-                        simpleble_peripheral_is_connected(peripheral, out paired);
-                        //simpleble_peripheral_is_paired(peripheral, out paired);
-                        Thread.Sleep(1000);
-                        Console.WriteLine("Waiting for pairing/connected");
-                    }
+                        bool paired = false;
+                        //while (!paired)
+                        {
+                            mtu = simpleble_peripheral_mtu(peripheral);
+                            Console.WriteLine("MTU: " + mtu);
+                            simpleble_peripheral_is_connected(peripheral, out paired);
+                            //simpleble_peripheral_is_paired(peripheral, out paired);
+                            Thread.Sleep(1000);
+                            Console.WriteLine("Waiting for pairing/connected");
+                        }
 
-                    IsOpen = true;
+                        IsOpen = true;
+                    }
+                }
+                finally
+                {
+                    Monitor.Exit(locker);
                 }
             }
-
         }
 
         static object locker = new object();
@@ -237,11 +244,13 @@ namespace MissionPlanner.Comms
             // run scan in the background - and only one
             Task.Run(() =>
             {
-                lock (locker)
+                if (Monitor.TryEnter(locker))
                 {
                     try
                     {
-                        if(adapter == IntPtr.Zero)
+                        simpleble_adapter_t adapter = IntPtr.Zero;
+
+                        if (adapter == IntPtr.Zero)
                             adapter = simpleble_adapter_get_handle(0);
                         if (adapter == null)
                         {
@@ -300,11 +309,17 @@ namespace MissionPlanner.Comms
                             }
 
                             simpleble_peripheral_release_handle(peripheral);
+                            peripheral = IntPtr.Zero;
                         }
 
-                        //simpleble_adapter_release_handle(adapter);
+                        simpleble_adapter_release_handle(adapter);
+                        adapter = IntPtr.Zero;
                     }
                     catch { }
+                    finally
+                    {
+                        Monitor.Exit(locker);
+                    }
                 }
             });
 
@@ -698,6 +713,7 @@ namespace MissionPlanner.Comms
         private MyCallbackp2 _callbackperipheral_on_connected;
         private MyCallbackp2 _callbackperipheral_on_disconnected;
         private ushort mtu;
+        private simpleble_adapter_t adapter;
 
         private static void Send(simpleble_peripheral_t peripheral, byte[] data, int offset, int length) 
         {

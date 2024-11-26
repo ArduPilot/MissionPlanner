@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sat Oct 05 2024";
+    public const string MAVLINK_BUILD_DATE = "Mon Nov 18 2024";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -37,6 +37,7 @@ public partial class MAVLink
         
     // msgid, name, crc, minlength, length, type
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
+        new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
         new message_info(1, "SYS_STATUS", 124, 31, 31, typeof( mavlink_sys_status_t )),
         new message_info(2, "SYSTEM_TIME", 137, 12, 12, typeof( mavlink_system_time_t )),
         new message_info(4, "PING", 237, 14, 14, typeof( mavlink_ping_t )),
@@ -76,6 +77,7 @@ public partial class MAVLink
         new message_info(49, "GPS_GLOBAL_ORIGIN", 39, 12, 20, typeof( mavlink_gps_global_origin_t )),
         new message_info(50, "PARAM_MAP_RC", 78, 37, 37, typeof( mavlink_param_map_rc_t )),
         new message_info(51, "MISSION_REQUEST_INT", 196, 4, 5, typeof( mavlink_mission_request_int_t )),
+        new message_info(53, "MISSION_CHECKSUM", 3, 5, 5, typeof( mavlink_mission_checksum_t )),
         new message_info(54, "SAFETY_SET_ALLOWED_AREA", 15, 27, 27, typeof( mavlink_safety_set_allowed_area_t )),
         new message_info(55, "SAFETY_ALLOWED_AREA", 3, 25, 25, typeof( mavlink_safety_allowed_area_t )),
         new message_info(61, "ATTITUDE_QUATERNION_COV", 167, 72, 72, typeof( mavlink_attitude_quaternion_cov_t )),
@@ -202,6 +204,11 @@ public partial class MAVLink
         new message_info(217, "GOPRO_GET_RESPONSE", 202, 6, 6, typeof( mavlink_gopro_get_response_t )),
         new message_info(218, "GOPRO_SET_REQUEST", 17, 7, 7, typeof( mavlink_gopro_set_request_t )),
         new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, 2, typeof( mavlink_gopro_set_response_t )),
+        new message_info(220, "NAV_FILTER_BIAS", 34, 32, 32, typeof( mavlink_nav_filter_bias_t )),
+        new message_info(221, "RADIO_CALIBRATION", 71, 42, 42, typeof( mavlink_radio_calibration_t )),
+        new message_info(222, "UALBERTA_SYS_STATUS", 15, 3, 3, typeof( mavlink_ualberta_sys_status_t )),
+        new message_info(223, "COMMAND_INT_STAMPED", 119, 47, 47, typeof( mavlink_command_int_stamped_t )),
+        new message_info(224, "COMMAND_LONG_STAMPED", 102, 45, 45, typeof( mavlink_command_long_stamped_t )),
         new message_info(225, "EFI_STATUS", 208, 65, 73, typeof( mavlink_efi_status_t )),
         new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
         new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
@@ -252,6 +259,7 @@ public partial class MAVLink
         new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 210, 53, 57, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
         new message_info(287, "GIMBAL_MANAGER_SET_PITCHYAW", 1, 23, 23, typeof( mavlink_gimbal_manager_set_pitchyaw_t )),
         new message_info(288, "GIMBAL_MANAGER_SET_MANUAL_CONTROL", 20, 23, 23, typeof( mavlink_gimbal_manager_set_manual_control_t )),
+        new message_info(295, "AIRSPEED", 234, 12, 12, typeof( mavlink_airspeed_t )),
         new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
         new message_info(301, "AIS_VESSEL", 243, 58, 58, typeof( mavlink_ais_vessel_t )),
         new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
@@ -263,6 +271,8 @@ public partial class MAVLink
         new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
         new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 167, typeof( mavlink_obstacle_distance_t )),
         new message_info(331, "ODOMETRY", 91, 230, 233, typeof( mavlink_odometry_t )),
+        new message_info(332, "TRAJECTORY_REPRESENTATION_WAYPOINTS", 236, 239, 239, typeof( mavlink_trajectory_representation_waypoints_t )),
+        new message_info(333, "TRAJECTORY_REPRESENTATION_BEZIER", 231, 109, 109, typeof( mavlink_trajectory_representation_bezier_t )),
         new message_info(335, "ISBD_LINK_STATUS", 225, 24, 24, typeof( mavlink_isbd_link_status_t )),
         new message_info(339, "RAW_RPM", 199, 5, 5, typeof( mavlink_raw_rpm_t )),
         new message_info(340, "UTM_GLOBAL_POSITION", 99, 70, 70, typeof( mavlink_utm_global_position_t )),
@@ -275,6 +285,26 @@ public partial class MAVLink
         new message_info(386, "CAN_FRAME", 132, 16, 16, typeof( mavlink_can_frame_t )),
         new message_info(387, "CANFD_FRAME", 4, 72, 72, typeof( mavlink_canfd_frame_t )),
         new message_info(388, "CAN_FILTER_MODIFY", 8, 37, 37, typeof( mavlink_can_filter_modify_t )),
+        new message_info(420, "RADIO_RC_CHANNELS", 20, 9, 73, typeof( mavlink_radio_rc_channels_t )),
+        new message_info(435, "AVAILABLE_MODES", 134, 46, 46, typeof( mavlink_available_modes_t )),
+        new message_info(436, "CURRENT_MODE", 193, 9, 9, typeof( mavlink_current_mode_t )),
+        new message_info(437, "AVAILABLE_MODES_MONITOR", 30, 1, 1, typeof( mavlink_available_modes_monitor_t )),
+        new message_info(441, "GNSS_INTEGRITY", 169, 17, 17, typeof( mavlink_gnss_integrity_t )),
+        new message_info(8002, "SENS_POWER", 218, 16, 16, typeof( mavlink_sens_power_t )),
+        new message_info(8003, "SENS_MPPT", 231, 41, 41, typeof( mavlink_sens_mppt_t )),
+        new message_info(8004, "ASLCTRL_DATA", 172, 98, 98, typeof( mavlink_aslctrl_data_t )),
+        new message_info(8005, "ASLCTRL_DEBUG", 251, 38, 38, typeof( mavlink_aslctrl_debug_t )),
+        new message_info(8006, "ASLUAV_STATUS", 97, 14, 14, typeof( mavlink_asluav_status_t )),
+        new message_info(8007, "EKF_EXT", 64, 32, 32, typeof( mavlink_ekf_ext_t )),
+        new message_info(8008, "ASL_OBCTRL", 234, 33, 33, typeof( mavlink_asl_obctrl_t )),
+        new message_info(8009, "SENS_ATMOS", 144, 16, 16, typeof( mavlink_sens_atmos_t )),
+        new message_info(8010, "SENS_BATMON", 155, 41, 41, typeof( mavlink_sens_batmon_t )),
+        new message_info(8011, "FW_SOARING_DATA", 20, 102, 102, typeof( mavlink_fw_soaring_data_t )),
+        new message_info(8012, "SENSORPOD_STATUS", 54, 16, 16, typeof( mavlink_sensorpod_status_t )),
+        new message_info(8013, "SENS_POWER_BOARD", 222, 46, 46, typeof( mavlink_sens_power_board_t )),
+        new message_info(8014, "GSM_LINK_STATUS", 200, 14, 14, typeof( mavlink_gsm_link_status_t )),
+        new message_info(8015, "SATCOM_LINK_STATUS", 23, 24, 24, typeof( mavlink_satcom_link_status_t )),
+        new message_info(8016, "SENSOR_AIRFLOW_ANGLES", 149, 18, 18, typeof( mavlink_sensor_airflow_angles_t )),
         new message_info(9000, "WHEEL_DISTANCE", 113, 137, 137, typeof( mavlink_wheel_distance_t )),
         new message_info(9005, "WINCH_STATUS", 117, 34, 34, typeof( mavlink_winch_status_t )),
         new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
@@ -320,6 +350,15 @@ public partial class MAVLink
         new message_info(12918, "OPEN_DRONE_ID_ARM_STATUS", 139, 51, 51, typeof( mavlink_open_drone_id_arm_status_t )),
         new message_info(12919, "OPEN_DRONE_ID_SYSTEM_UPDATE", 7, 18, 18, typeof( mavlink_open_drone_id_system_update_t )),
         new message_info(12920, "HYGROMETER_SENSOR", 20, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
+        new message_info(17000, "TEST_TYPES", 103, 179, 179, typeof( mavlink_test_types_t )),
+        new message_info(17150, "ARRAY_TEST_0", 26, 33, 33, typeof( mavlink_array_test_0_t )),
+        new message_info(17151, "ARRAY_TEST_1", 72, 16, 16, typeof( mavlink_array_test_1_t )),
+        new message_info(17153, "ARRAY_TEST_3", 19, 17, 17, typeof( mavlink_array_test_3_t )),
+        new message_info(17154, "ARRAY_TEST_4", 89, 17, 17, typeof( mavlink_array_test_4_t )),
+        new message_info(17155, "ARRAY_TEST_5", 27, 10, 10, typeof( mavlink_array_test_5_t )),
+        new message_info(17156, "ARRAY_TEST_6", 14, 91, 91, typeof( mavlink_array_test_6_t )),
+        new message_info(17157, "ARRAY_TEST_7", 187, 84, 84, typeof( mavlink_array_test_7_t )),
+        new message_info(17158, "ARRAY_TEST_8", 106, 24, 24, typeof( mavlink_array_test_8_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
         new message_info(50001, "CUBEPILOT_RAW_RC", 246, 32, 32, typeof( mavlink_cubepilot_raw_rc_t )),
@@ -329,8 +368,21 @@ public partial class MAVLink
         new message_info(50005, "CUBEPILOT_FIRMWARE_UPDATE_RESP", 152, 6, 6, typeof( mavlink_cubepilot_firmware_update_resp_t )),
         new message_info(52000, "AIRLINK_AUTH", 13, 100, 100, typeof( mavlink_airlink_auth_t )),
         new message_info(52001, "AIRLINK_AUTH_RESPONSE", 239, 1, 1, typeof( mavlink_airlink_auth_response_t )),
-        new message_info(26900, "VIDEO_STREAM_INFORMATION99", 222, 246, 246, typeof( mavlink_video_stream_information99_t )),
-        new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
+        new message_info(60001, "STORM32_GIMBAL_DEVICE_STATUS", 186, 42, 42, typeof( mavlink_storm32_gimbal_device_status_t )),
+        new message_info(60002, "STORM32_GIMBAL_DEVICE_CONTROL", 69, 32, 32, typeof( mavlink_storm32_gimbal_device_control_t )),
+        new message_info(60010, "STORM32_GIMBAL_MANAGER_INFORMATION", 208, 33, 33, typeof( mavlink_storm32_gimbal_manager_information_t )),
+        new message_info(60011, "STORM32_GIMBAL_MANAGER_STATUS", 183, 7, 7, typeof( mavlink_storm32_gimbal_manager_status_t )),
+        new message_info(60012, "STORM32_GIMBAL_MANAGER_CONTROL", 99, 36, 36, typeof( mavlink_storm32_gimbal_manager_control_t )),
+        new message_info(60013, "STORM32_GIMBAL_MANAGER_CONTROL_PITCHYAW", 129, 24, 24, typeof( mavlink_storm32_gimbal_manager_control_pitchyaw_t )),
+        new message_info(60014, "STORM32_GIMBAL_MANAGER_CORRECT_ROLL", 134, 8, 8, typeof( mavlink_storm32_gimbal_manager_correct_roll_t )),
+        new message_info(60015, "STORM32_GIMBAL_MANAGER_PROFILE", 78, 22, 22, typeof( mavlink_storm32_gimbal_manager_profile_t )),
+        new message_info(60020, "QSHOT_STATUS", 202, 4, 4, typeof( mavlink_qshot_status_t )),
+        new message_info(60025, "COMPONENT_PREARM_STATUS", 20, 10, 10, typeof( mavlink_component_prearm_status_t )),
+        new message_info(60050, "AVSS_PRS_SYS_STATUS", 220, 14, 14, typeof( mavlink_avss_prs_sys_status_t )),
+        new message_info(60051, "AVSS_DRONE_POSITION", 245, 24, 24, typeof( mavlink_avss_drone_position_t )),
+        new message_info(60052, "AVSS_DRONE_IMU", 101, 44, 44, typeof( mavlink_avss_drone_imu_t )),
+        new message_info(60053, "AVSS_DRONE_OPERATION_MODE", 45, 6, 6, typeof( mavlink_avss_drone_operation_mode_t )),
+        new message_info(26900, "zVIDEO_STREAM_INFORMATION", 124, 246, 246, typeof( mavlink_zvideo_stream_information_t )),
 
     };
 
@@ -367,6 +419,7 @@ public partial class MAVLink
     public enum MAVLINK_MSG_ID 
     {
 
+        HEARTBEAT = 0,
         SYS_STATUS = 1,
         SYSTEM_TIME = 2,
         PING = 4,
@@ -406,6 +459,7 @@ public partial class MAVLink
         GPS_GLOBAL_ORIGIN = 49,
         PARAM_MAP_RC = 50,
         MISSION_REQUEST_INT = 51,
+        MISSION_CHECKSUM = 53,
         SAFETY_SET_ALLOWED_AREA = 54,
         SAFETY_ALLOWED_AREA = 55,
         ATTITUDE_QUATERNION_COV = 61,
@@ -532,6 +586,11 @@ public partial class MAVLink
         GOPRO_GET_RESPONSE = 217,
         GOPRO_SET_REQUEST = 218,
         GOPRO_SET_RESPONSE = 219,
+        NAV_FILTER_BIAS = 220,
+        RADIO_CALIBRATION = 221,
+        UALBERTA_SYS_STATUS = 222,
+        COMMAND_INT_STAMPED = 223,
+        COMMAND_LONG_STAMPED = 224,
         EFI_STATUS = 225,
         RPM = 226,
         ESTIMATOR_STATUS = 230,
@@ -582,6 +641,7 @@ public partial class MAVLink
         AUTOPILOT_STATE_FOR_GIMBAL_DEVICE = 286,
         GIMBAL_MANAGER_SET_PITCHYAW = 287,
         GIMBAL_MANAGER_SET_MANUAL_CONTROL = 288,
+        AIRSPEED = 295,
         WIFI_CONFIG_AP = 299,
         AIS_VESSEL = 301,
         UAVCAN_NODE_STATUS = 310,
@@ -593,6 +653,8 @@ public partial class MAVLink
         PARAM_EXT_ACK = 324,
         OBSTACLE_DISTANCE = 330,
         ODOMETRY = 331,
+        TRAJECTORY_REPRESENTATION_WAYPOINTS = 332,
+        TRAJECTORY_REPRESENTATION_BEZIER = 333,
         ISBD_LINK_STATUS = 335,
         RAW_RPM = 339,
         UTM_GLOBAL_POSITION = 340,
@@ -605,6 +667,26 @@ public partial class MAVLink
         CAN_FRAME = 386,
         CANFD_FRAME = 387,
         CAN_FILTER_MODIFY = 388,
+        RADIO_RC_CHANNELS = 420,
+        AVAILABLE_MODES = 435,
+        CURRENT_MODE = 436,
+        AVAILABLE_MODES_MONITOR = 437,
+        GNSS_INTEGRITY = 441,
+        SENS_POWER = 8002,
+        SENS_MPPT = 8003,
+        ASLCTRL_DATA = 8004,
+        ASLCTRL_DEBUG = 8005,
+        ASLUAV_STATUS = 8006,
+        EKF_EXT = 8007,
+        ASL_OBCTRL = 8008,
+        SENS_ATMOS = 8009,
+        SENS_BATMON = 8010,
+        FW_SOARING_DATA = 8011,
+        SENSORPOD_STATUS = 8012,
+        SENS_POWER_BOARD = 8013,
+        GSM_LINK_STATUS = 8014,
+        SATCOM_LINK_STATUS = 8015,
+        SENSOR_AIRFLOW_ANGLES = 8016,
         WHEEL_DISTANCE = 9000,
         WINCH_STATUS = 9005,
         UAVIONIX_ADSB_OUT_CFG = 10001,
@@ -650,6 +732,15 @@ public partial class MAVLink
         OPEN_DRONE_ID_ARM_STATUS = 12918,
         OPEN_DRONE_ID_SYSTEM_UPDATE = 12919,
         HYGROMETER_SENSOR = 12920,
+        TEST_TYPES = 17000,
+        ARRAY_TEST_0 = 17150,
+        ARRAY_TEST_1 = 17151,
+        ARRAY_TEST_3 = 17153,
+        ARRAY_TEST_4 = 17154,
+        ARRAY_TEST_5 = 17155,
+        ARRAY_TEST_6 = 17156,
+        ARRAY_TEST_7 = 17157,
+        ARRAY_TEST_8 = 17158,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
         CUBEPILOT_RAW_RC = 50001,
@@ -659,9 +750,24 @@ public partial class MAVLink
         CUBEPILOT_FIRMWARE_UPDATE_RESP = 50005,
         AIRLINK_AUTH = 52000,
         AIRLINK_AUTH_RESPONSE = 52001,
-        VIDEO_STREAM_INFORMATION99 = 26900,
-        HEARTBEAT = 0,
+        STORM32_GIMBAL_DEVICE_STATUS = 60001,
+        STORM32_GIMBAL_DEVICE_CONTROL = 60002,
+        STORM32_GIMBAL_MANAGER_INFORMATION = 60010,
+        STORM32_GIMBAL_MANAGER_STATUS = 60011,
+        STORM32_GIMBAL_MANAGER_CONTROL = 60012,
+        STORM32_GIMBAL_MANAGER_CONTROL_PITCHYAW = 60013,
+        STORM32_GIMBAL_MANAGER_CORRECT_ROLL = 60014,
+        STORM32_GIMBAL_MANAGER_PROFILE = 60015,
+        QSHOT_STATUS = 60020,
+        COMPONENT_PREARM_STATUS = 60025,
+        AVSS_PRS_SYS_STATUS = 60050,
+        AVSS_DRONE_POSITION = 60051,
+        AVSS_DRONE_IMU = 60052,
+        AVSS_DRONE_OPERATION_MODE = 60053,
+        zVIDEO_STREAM_INFORMATION = 26900,
     }
+    
+    
     
     
     ///<summary>  </summary>
@@ -703,6 +809,9 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         HEADING=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        DEFAULT=2, 
         
     };
     
@@ -984,6 +1093,9 @@ public partial class MAVLink
         ///<summary> Mission command to set a Camera Auto Mount Pivoting Oblique Survey (Replaces CAM_TRIGG_DIST for this purpose). The camera is triggered each time this distance is exceeded, then the mount moves to the next position. Params 4~6 set-up the angle limits and number of positions for oblique survey, where mount-enabled vehicles automatically roll the camera between shots to emulate an oblique camera setup (providing an increased HFOV). This command can also be used to set the shutter integration time for the camera. |Camera trigger distance. 0 to stop triggering.| Camera shutter integration time. 0 to ignore| The minimum interval in which the camera is capable of taking subsequent pictures repeatedly. 0 to ignore.| Total number of roll positions at which the camera will capture photos (images captures spread evenly across the limits defined by param5).| Angle limits that the camera can be rolled to left and right of center.| Fixed pitch angle that the camera will hold in oblique mode if the mount is actuated in the pitch axis.| Empty|  </summary>
         [Description("Mission command to set a Camera Auto Mount Pivoting Oblique Survey (Replaces CAM_TRIGG_DIST for this purpose). The camera is triggered each time this distance is exceeded, then the mount moves to the next position. Params 4~6 set-up the angle limits and number of positions for oblique survey, where mount-enabled vehicles automatically roll the camera between shots to emulate an oblique camera setup (providing an increased HFOV). This command can also be used to set the shutter integration time for the camera.")]
         OBLIQUE_SURVEY=260, 
+        ///<summary> Enable the specified standard MAVLink mode.           If the mode is not supported the vehicle should ACK with MAV_RESULT_FAILED.          |The mode to set.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
+        [Description("Enable the specified standard MAVLink mode.           If the mode is not supported the vehicle should ACK with MAV_RESULT_FAILED.         ")]
+        DO_SET_STANDARD_MODE=262, 
         ///<summary> start running a mission |first_item: the first mission item to run| last_item:  the last mission item to run (after this item is run, the mission ends)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("start running a mission")]
         MISSION_START=300, 
@@ -1063,6 +1175,9 @@ public partial class MAVLink
         ///<summary> Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number. |Target tag to jump to.| Repeat count.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.")]
         DO_JUMP_TAG=601, 
+        ///<summary>            Set system and component id.           This allows moving of a system and all its components to a new system id, or moving a particular component to a new system/component id.           Recipients must reject command addressed to broadcast system ID.          |New system ID for target component(s). 0: ignore and reject command (broadcast system ID not allowed).| New component ID for target component(s). 0: ignore (component IDs don't change).| Reboot components after ID change. Any non-zero value triggers the reboot.| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("           Set system and component id.           This allows moving of a system and all its components to a new system id, or moving a particular component to a new system/component id.           Recipients must reject command addressed to broadcast system ID.         ")]
+        DO_SET_SYS_CMP_ID=610, 
         ///<summary> Set gimbal manager pitch/yaw setpoints (low rate command). It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: only the gimbal manager will react to this command - it will be ignored by a gimbal device. Use GIMBAL_MANAGER_SET_PITCHYAW if you need to stream pitch/yaw setpoints at higher rate.  |Pitch angle (positive to pitch up, relative to vehicle for FOLLOW mode, relative to world horizon for LOCK mode).| Yaw angle (positive to yaw to the right, relative to vehicle for FOLLOW mode, absolute to North for LOCK mode).| Pitch rate (positive to pitch up).| Yaw rate (positive to yaw to the right).| Gimbal manager flags to use.| Reserved (default:0)| Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).|  </summary>
         [Description("Set gimbal manager pitch/yaw setpoints (low rate command). It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: only the gimbal manager will react to this command - it will be ignored by a gimbal device. Use GIMBAL_MANAGER_SET_PITCHYAW if you need to stream pitch/yaw setpoints at higher rate. ")]
         DO_GIMBAL_MANAGER_PITCHYAW=1000, 
@@ -1236,6 +1351,12 @@ public partial class MAVLink
         ///<summary> Request forwarding of CAN packets from the given CAN bus to this interface. CAN Frames are sent using CAN_FRAME and CANFD_FRAME messages |Bus number (0 to disable forwarding, 1 for first bus, 2 for 2nd bus, 3 for 3rd bus).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Request forwarding of CAN packets from the given CAN bus to this interface. CAN Frames are sent using CAN_FRAME and CANFD_FRAME messages")]
         CAN_FORWARD=32000, 
+        ///<summary> Mission command to reset Maximum Power Point Tracker (MPPT) |MPPT number| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        [Description("Mission command to reset Maximum Power Point Tracker (MPPT)")]
+        RESET_MPPT=40001, 
+        ///<summary> Mission command to perform a power cycle on payload |Complete power cycle| VISensor power cycle| Empty| Empty| Empty| Empty| Empty|  </summary>
+        [Description("Mission command to perform a power cycle on payload")]
+        PAYLOAD_CONTROL=40002, 
         ///<summary> A system wide power-off event has been initiated. |Empty.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("A system wide power-off event has been initiated.")]
         POWER_OFF_INITIATED=42000, 
@@ -1325,9 +1446,48 @@ public partial class MAVLink
         [Description("Provide an external position estimate for use when dead-reckoning. This is meant to be used for occasional position resets that may be provided by a external system such as a remote pilot using landmarks over a video link.")]
         [hasLocation()]
         EXTERNAL_POSITION_ESTIMATE=43003, 
+        ///<summary> Set an external estimate of wind direction and speed.           This might be used to provide an initial wind estimate to the estimator (EKF) in the case where the vehicle is wind dead-reckoning, extending the time when operating without GPS before before position drift builds to an unsafe level. For this use case the command might reasonably be sent every few minutes when operating at altitude, and the value is cleared if the estimator resets itself.          |Horizontal wind speed.| Estimated 1 sigma accuracy of wind speed. Set to NaN if unknown.| Azimuth (relative to true north) from where the wind is blowing.| Estimated 1 sigma accuracy of wind direction. Set to NaN if unknown.| Empty| Empty| Empty|  </summary>
+        [Description("Set an external estimate of wind direction and speed.           This might be used to provide an initial wind estimate to the estimator (EKF) in the case where the vehicle is wind dead-reckoning, extending the time when operating without GPS before before position drift builds to an unsafe level. For this use case the command might reasonably be sent every few minutes when operating at altitude, and the value is cleared if the estimator resets itself.         ")]
+        EXTERNAL_WIND_ESTIMATE=43004, 
         ///<summary> Provide a value for height above ground level. This can be used for things like fixed wing and VTOL landing. |Height above ground level.| estimated one standard deviation accuracy of the measurement. Set to NaN if not known.| Timeout for this data. The flight controller should only consider this data valid within the timeout window.| Empty| Empty| Empty| Empty|  </summary>
         [Description("Provide a value for height above ground level. This can be used for things like fixed wing and VTOL landing.")]
         SET_HAGL=43005, 
+        ///<summary> Command to a gimbal manager to control the gimbal tilt and pan angles. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. A gimbal device is never to react to this command. |Pitch/tilt angle (positive: tilt up, NaN to be ignored).| Yaw/pan angle (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).| Pitch/tilt rate (positive: tilt up, NaN to be ignored).| Yaw/pan rate (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).| Gimbal device flags.| Gimbal manager flags.| Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals). The client is copied into bits 8-15.|  </summary>
+        [Description("Command to a gimbal manager to control the gimbal tilt and pan angles. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. A gimbal device is never to react to this command.")]
+        STORM32_DO_GIMBAL_MANAGER_CONTROL_PITCHYAW=60002, 
+        ///<summary> Command to configure a gimbal manager. A gimbal device is never to react to this command. The selected profile is reported in the STORM32_GIMBAL_MANAGER_STATUS message. |Gimbal manager profile (0 = default).| Gimbal manager setup flags (0 = none).| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals). Send command multiple times for more than one but not all gimbals.|  </summary>
+        [Description("Command to configure a gimbal manager. A gimbal device is never to react to this command. The selected profile is reported in the STORM32_GIMBAL_MANAGER_STATUS message.")]
+        [Obsolete]
+        STORM32_DO_GIMBAL_MANAGER_SETUP=60010, 
+        ///<summary> Command to initiate gimbal actions. Usually performed by the gimbal device, but some can also be done by the gimbal manager. It is hence best to broadcast this command. |Gimbal action to initiate (0 = none).| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Gimbal ID of the gimbal to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals). Send command multiple times for more than one but not all gimbals.|  </summary>
+        [Description("Command to initiate gimbal actions. Usually performed by the gimbal device, but some can also be done by the gimbal manager. It is hence best to broadcast this command.")]
+        [Obsolete]
+        STORM32_DO_GIMBAL_ACTION=60011, 
+        ///<summary> Command to set the shot manager mode. |Set shot mode.| Set shot state or command. The allowed values are specific to the selected shot mode.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Command to set the shot manager mode.")]
+        [Obsolete]
+        QSHOT_DO_CONFIGURE=60020, 
+        ///<summary> AVSS defined command. Set PRS arm statuses. |PRS arm statuses| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command. Set PRS arm statuses.")]
+        PRS_SET_ARM=60050, 
+        ///<summary> AVSS defined command. Gets PRS arm statuses |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command. Gets PRS arm statuses")]
+        PRS_GET_ARM=60051, 
+        ///<summary> AVSS defined command.  Get the PRS battery voltage in millivolts |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command.  Get the PRS battery voltage in millivolts")]
+        PRS_GET_BATTERY=60052, 
+        ///<summary> AVSS defined command. Get the PRS error statuses. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command. Get the PRS error statuses.")]
+        PRS_GET_ERR=60053, 
+        ///<summary> AVSS defined command. Set the ATS arming altitude in meters. |ATS arming altitude| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command. Set the ATS arming altitude in meters.")]
+        PRS_SET_ARM_ALTI=60070, 
+        ///<summary> AVSS defined command. Get the ATS arming altitude in meters. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command. Get the ATS arming altitude in meters.")]
+        PRS_GET_ARM_ALTI=60071, 
+        ///<summary> AVSS defined command. Shuts down the PRS system. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        [Description("AVSS defined command. Shuts down the PRS system.")]
+        PRS_SHUTDOWN=60072, 
         
     };
     
@@ -2501,6 +2661,39 @@ public partial class MAVLink
     };
     
     
+    ///<summary>  </summary>
+    public enum GSM_LINK_TYPE: byte
+    {
+        ///<summary> no service | </summary>
+        [Description("no service")]
+        NONE=0, 
+        ///<summary> link type unknown | </summary>
+        [Description("link type unknown")]
+        UNKNOWN=1, 
+        ///<summary> 2G (GSM/GRPS/EDGE) link | </summary>
+        [Description("2G (GSM/GRPS/EDGE) link")]
+        _2G=2, 
+        ///<summary> 3G link (WCDMA/HSDPA/HSPA)  | </summary>
+        [Description("3G link (WCDMA/HSDPA/HSPA) ")]
+        _3G=3, 
+        ///<summary> 4G link (LTE) | </summary>
+        [Description("4G link (LTE)")]
+        _4G=4, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum GSM_MODEM_TYPE: byte
+    {
+        ///<summary> not specified | </summary>
+        [Description("not specified")]
+        UNKNOWN=0, 
+        ///<summary> HUAWEI LTE USB Stick E3372 | </summary>
+        [Description("HUAWEI LTE USB Stick E3372")]
+        HUAWEI_E3372=1, 
+        
+    };
+    
     
     ///<summary> These values define the type of firmware release.  These values indicate the first version or release of this type.  For example the first alpha release would be 64, the second would be 65. </summary>
     public enum FIRMWARE_VERSION_TYPE: int /*default*/
@@ -3117,7 +3310,7 @@ public partial class MAVLink
     
     ///<summary> Gimbal device (low level) error flags (bitmap, 0 means no error) </summary>
     [Flags]
-	public enum GIMBAL_DEVICE_ERROR_FLAGS: uint
+	public enum GIMBAL_DEVICE_ERROR_FLAGS: ushort
     {
         ///<summary> Gimbal device is limited by hardware roll limit. | </summary>
         [Description("Gimbal device is limited by hardware roll limit.")]
@@ -5933,366 +6126,180 @@ public partial class MAVLink
     };
     
     
-    ///<summary> State flags for ADS-B transponder dynamic report </summary>
-    public enum UAVIONIX_ADSB_OUT_DYNAMIC_STATE: ushort
+    ///<summary> Airspeed sensor flags </summary>
+    [Flags]
+	public enum AIRSPEED_SENSOR_FLAGS: byte
     {
-        ///<summary>  | </summary>
-        [Description("")]
-        INTENT_CHANGE=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        AUTOPILOT_ENABLED=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        NICBARO_CROSSCHECKED=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        ON_GROUND=8, 
-        ///<summary>  | </summary>
-        [Description("")]
-        IDENT=16, 
+        ///<summary> Airspeed sensor is unhealthy | </summary>
+        [Description("Airspeed sensor is unhealthy")]
+        AIRSPEED_SENSOR_UNHEALTHY=0, 
+        ///<summary> True if the data from this sensor is being actively used by the flight controller for guidance, navigation or control. | </summary>
+        [Description("True if the data from this sensor is being actively used by the flight controller for guidance, navigation or control.")]
+        AIRSPEED_SENSOR_USING=1, 
         
     };
     
-    ///<summary> Transceiver RF control flags for ADS-B transponder dynamic reports </summary>
-    public enum UAVIONIX_ADSB_OUT_RF_SELECT: byte
+    ///<summary> RADIO_RC_CHANNELS flags (bitmask). </summary>
+    [Flags]
+	public enum RADIO_RC_CHANNELS_FLAGS: ushort
     {
-        ///<summary>  | </summary>
-        [Description("")]
-        STANDBY=0, 
-        ///<summary>  | </summary>
-        [Description("")]
-        RX_ENABLED=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        TX_ENABLED=2, 
+        ///<summary> Failsafe is active. The content of the RC channels data in the RADIO_RC_CHANNELS message is implementation dependent. | </summary>
+        [Description("Failsafe is active. The content of the RC channels data in the RADIO_RC_CHANNELS message is implementation dependent.")]
+        FAILSAFE=1, 
+        ///<summary> Channel data may be out of date. This is set when the receiver is unable to validate incoming data from the transmitter and has therefore resent the last valid data it received. | </summary>
+        [Description("Channel data may be out of date. This is set when the receiver is unable to validate incoming data from the transmitter and has therefore resent the last valid data it received.")]
+        OUTDATED=2, 
         
     };
     
-    ///<summary> Status for ADS-B transponder dynamic input </summary>
-    public enum UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX: byte
+    ///<summary> Standard modes with a well understood meaning across flight stacks and vehicle types.         For example, most flight stack have the concept of a 'return' or 'RTL' mode that takes a vehicle to safety, even though the precise mechanics of this mode may differ.         Modes may be set using MAV_CMD_DO_SET_STANDARD_MODE.        </summary>
+    public enum MAV_STANDARD_MODE: byte
     {
-        ///<summary>  | </summary>
-        [Description("")]
-        NONE_0=0, 
-        ///<summary>  | </summary>
-        [Description("")]
-        NONE_1=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        _2D=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        _3D=3, 
-        ///<summary>  | </summary>
-        [Description("")]
-        DGPS=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        RTK=5, 
+        ///<summary> Non standard mode.           This may be used when reporting the mode if the current flight mode is not a standard mode.          | </summary>
+        [Description("Non standard mode.           This may be used when reporting the mode if the current flight mode is not a standard mode.         ")]
+        NON_STANDARD=0, 
+        ///<summary> Position mode (manual).           Position-controlled and stabilized manual mode.           When sticks are released vehicles return to their level-flight orientation and hold both position and altitude against wind and external forces.           This mode can only be set by vehicles that can hold a fixed position.           Multicopter (MC) vehicles actively brake and hold both position and altitude against wind and external forces.           Hybrid MC/FW ('VTOL') vehicles first transition to multicopter mode (if needed) but otherwise behave in the same way as MC vehicles.           Fixed-wing (FW) vehicles must not support this mode.           Other vehicle types must not support this mode (this may be revisited through the PR process).          | </summary>
+        [Description("Position mode (manual).           Position-controlled and stabilized manual mode.           When sticks are released vehicles return to their level-flight orientation and hold both position and altitude against wind and external forces.           This mode can only be set by vehicles that can hold a fixed position.           Multicopter (MC) vehicles actively brake and hold both position and altitude against wind and external forces.           Hybrid MC/FW ('VTOL') vehicles first transition to multicopter mode (if needed) but otherwise behave in the same way as MC vehicles.           Fixed-wing (FW) vehicles must not support this mode.           Other vehicle types must not support this mode (this may be revisited through the PR process).         ")]
+        POSITION_HOLD=1, 
+        ///<summary> Orbit (manual).           Position-controlled and stabilized manual mode.           The vehicle circles around a fixed setpoint in the horizontal plane at a particular radius, altitude, and direction.           Flight stacks may further allow manual control over the setpoint position, radius, direction, speed, and/or altitude of the circle, but this is not mandated.           Flight stacks may support the [MAV_CMD_DO_ORBIT](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_ORBIT) for changing the orbit parameters.           MC and FW vehicles may support this mode.           Hybrid MC/FW ('VTOL') vehicles may support this mode in MC/FW or both modes; if the mode is not supported by the current configuration the vehicle should transition to the supported configuration.           Other vehicle types must not support this mode (this may be revisited through the PR process).          | </summary>
+        [Description("Orbit (manual).           Position-controlled and stabilized manual mode.           The vehicle circles around a fixed setpoint in the horizontal plane at a particular radius, altitude, and direction.           Flight stacks may further allow manual control over the setpoint position, radius, direction, speed, and/or altitude of the circle, but this is not mandated.           Flight stacks may support the [MAV_CMD_DO_ORBIT](https://mavlink.io/en/messages/common.html#MAV_CMD_DO_ORBIT) for changing the orbit parameters.           MC and FW vehicles may support this mode.           Hybrid MC/FW ('VTOL') vehicles may support this mode in MC/FW or both modes; if the mode is not supported by the current configuration the vehicle should transition to the supported configuration.           Other vehicle types must not support this mode (this may be revisited through the PR process).         ")]
+        ORBIT=2, 
+        ///<summary> Cruise mode (manual).           Position-controlled and stabilized manual mode.           When sticks are released vehicles return to their level-flight orientation and hold their original track against wind and external forces.           Fixed-wing (FW) vehicles level orientation and maintain current track and altitude against wind and external forces.           Hybrid MC/FW ('VTOL') vehicles first transition to FW mode (if needed) but otherwise behave in the same way as MC vehicles.           Multicopter (MC) vehicles must not support this mode.           Other vehicle types must not support this mode (this may be revisited through the PR process).          | </summary>
+        [Description("Cruise mode (manual).           Position-controlled and stabilized manual mode.           When sticks are released vehicles return to their level-flight orientation and hold their original track against wind and external forces.           Fixed-wing (FW) vehicles level orientation and maintain current track and altitude against wind and external forces.           Hybrid MC/FW ('VTOL') vehicles first transition to FW mode (if needed) but otherwise behave in the same way as MC vehicles.           Multicopter (MC) vehicles must not support this mode.           Other vehicle types must not support this mode (this may be revisited through the PR process).         ")]
+        CRUISE=3, 
+        ///<summary> Altitude hold (manual).           Altitude-controlled and stabilized manual mode.           When sticks are released vehicles return to their level-flight orientation and hold their altitude.           MC vehicles continue with existing momentum and may move with wind (or other external forces).           FW vehicles continue with current heading, but may be moved off-track by wind.           Hybrid MC/FW ('VTOL') vehicles behave according to their current configuration/mode (FW or MC).           Other vehicle types must not support this mode (this may be revisited through the PR process).          | </summary>
+        [Description("Altitude hold (manual).           Altitude-controlled and stabilized manual mode.           When sticks are released vehicles return to their level-flight orientation and hold their altitude.           MC vehicles continue with existing momentum and may move with wind (or other external forces).           FW vehicles continue with current heading, but may be moved off-track by wind.           Hybrid MC/FW ('VTOL') vehicles behave according to their current configuration/mode (FW or MC).           Other vehicle types must not support this mode (this may be revisited through the PR process).         ")]
+        ALTITUDE_HOLD=4, 
+        ///<summary> Return home mode (auto).           Automatic mode that returns vehicle to home via a safe flight path.           It may also automatically land the vehicle (i.e. RTL).           The precise flight path and landing behaviour depend on vehicle configuration and type.          | </summary>
+        [Description("Return home mode (auto).           Automatic mode that returns vehicle to home via a safe flight path.           It may also automatically land the vehicle (i.e. RTL).           The precise flight path and landing behaviour depend on vehicle configuration and type.         ")]
+        RETURN_HOME=5, 
+        ///<summary> Safe recovery mode (auto).           Automatic mode that takes vehicle to a predefined safe location via a safe flight path (rally point or mission defined landing) .           It may also automatically land the vehicle.           The precise return location, flight path, and landing behaviour depend on vehicle configuration and type.          | </summary>
+        [Description("Safe recovery mode (auto).           Automatic mode that takes vehicle to a predefined safe location via a safe flight path (rally point or mission defined landing) .           It may also automatically land the vehicle.           The precise return location, flight path, and landing behaviour depend on vehicle configuration and type.         ")]
+        SAFE_RECOVERY=6, 
+        ///<summary> Mission mode (automatic).           Automatic mode that executes MAVLink missions.           Missions are executed from the current waypoint as soon as the mode is enabled.          | </summary>
+        [Description("Mission mode (automatic).           Automatic mode that executes MAVLink missions.           Missions are executed from the current waypoint as soon as the mode is enabled.         ")]
+        MISSION=7, 
+        ///<summary> Land mode (auto).           Automatic mode that lands the vehicle at the current location.           The precise landing behaviour depends on vehicle configuration and type.          | </summary>
+        [Description("Land mode (auto).           Automatic mode that lands the vehicle at the current location.           The precise landing behaviour depends on vehicle configuration and type.         ")]
+        LAND=8, 
+        ///<summary> Takeoff mode (auto).           Automatic takeoff mode.           The precise takeoff behaviour depends on vehicle configuration and type.          | </summary>
+        [Description("Takeoff mode (auto).           Automatic takeoff mode.           The precise takeoff behaviour depends on vehicle configuration and type.         ")]
+        TAKEOFF=9, 
         
     };
     
-    ///<summary> Status flags for ADS-B transponder dynamic output </summary>
-    public enum UAVIONIX_ADSB_RF_HEALTH: byte
+    ///<summary> Mode properties.        </summary>
+    public enum MAV_MODE_PROPERTY: uint
     {
-        ///<summary>  | </summary>
-        [Description("")]
-        INITIALIZING=0, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> If set, this mode is an advanced mode.           For example a rate-controlled manual mode might be advanced, whereas a position-controlled manual mode is not.           A GCS can optionally use this flag to configure the UI for its intended users.          | </summary>
+        [Description("If set, this mode is an advanced mode.           For example a rate-controlled manual mode might be advanced, whereas a position-controlled manual mode is not.           A GCS can optionally use this flag to configure the UI for its intended users.         ")]
+        ADVANCED=1, 
+        ///<summary> If set, this mode should not be added to the list of selectable modes.           The mode might still be selected by the FC directly (for example as part of a failsafe).          | </summary>
+        [Description("If set, this mode should not be added to the list of selectable modes.           The mode might still be selected by the FC directly (for example as part of a failsafe).         ")]
+        NOT_USER_SELECTABLE=2, 
+        
+    };
+    
+    ///<summary> Flags indicating errors in a GPS receiver. </summary>
+    [Flags]
+	public enum GPS_SYSTEM_ERROR_FLAGS: uint
+    {
+        ///<summary> There are problems with incoming correction streams. | </summary>
+        [Description("There are problems with incoming correction streams.")]
+        GPS_SYSTEM_ERROR_INCOMING_CORRECTIONS=1, 
+        ///<summary> There are problems with the configuration. | </summary>
+        [Description("There are problems with the configuration.")]
+        GPS_SYSTEM_ERROR_CONFIGURATION=2, 
+        ///<summary> There are problems with the software on the GPS receiver. | </summary>
+        [Description("There are problems with the software on the GPS receiver.")]
+        GPS_SYSTEM_ERROR_SOFTWARE=4, 
+        ///<summary> There are problems with an antenna connected to the GPS receiver. | </summary>
+        [Description("There are problems with an antenna connected to the GPS receiver.")]
+        GPS_SYSTEM_ERROR_ANTENNA=8, 
+        ///<summary> There are problems handling all incoming events. | </summary>
+        [Description("There are problems handling all incoming events.")]
+        GPS_SYSTEM_ERROR_EVENT_CONGESTION=16, 
+        ///<summary> The GPS receiver CPU is overloaded. | </summary>
+        [Description("The GPS receiver CPU is overloaded.")]
+        GPS_SYSTEM_ERROR_CPU_OVERLOAD=32, 
+        ///<summary> The GPS receiver is experiencing output congestion. | </summary>
+        [Description("The GPS receiver is experiencing output congestion.")]
+        GPS_SYSTEM_ERROR_OUTPUT_CONGESTION=64, 
+        
+    };
+    
+    ///<summary> Signal authentication state in a GPS receiver. </summary>
+    public enum GPS_AUTHENTICATION_STATE: byte
+    {
+        ///<summary> The GPS receiver does not provide GPS signal authentication info. | </summary>
+        [Description("The GPS receiver does not provide GPS signal authentication info.")]
+        UNKNOWN=0, 
+        ///<summary> The GPS receiver is initializing signal authentication. | </summary>
+        [Description("The GPS receiver is initializing signal authentication.")]
+        INITIALIZING=1, 
+        ///<summary> The GPS receiver encountered an error while initializing signal authentication. | </summary>
+        [Description("The GPS receiver encountered an error while initializing signal authentication.")]
+        ERROR=2, 
+        ///<summary> The GPS receiver has correctly authenticated all signals. | </summary>
+        [Description("The GPS receiver has correctly authenticated all signals.")]
+        OK=3, 
+        ///<summary> GPS signal authentication is disabled on the receiver. | </summary>
+        [Description("GPS signal authentication is disabled on the receiver.")]
+        DISABLED=4, 
+        
+    };
+    
+    ///<summary> Signal jamming state in a GPS receiver. </summary>
+    public enum GPS_JAMMING_STATE: byte
+    {
+        ///<summary> The GPS receiver does not provide GPS signal jamming info. | </summary>
+        [Description("The GPS receiver does not provide GPS signal jamming info.")]
+        UNKNOWN=0, 
+        ///<summary> The GPS receiver detected no signal jamming. | </summary>
+        [Description("The GPS receiver detected no signal jamming.")]
         OK=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        FAIL_TX=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        FAIL_RX=16, 
+        ///<summary> The GPS receiver detected and mitigated signal jamming. | </summary>
+        [Description("The GPS receiver detected and mitigated signal jamming.")]
+        MITIGATED=2, 
+        ///<summary> The GPS receiver detected signal jamming. | </summary>
+        [Description("The GPS receiver detected signal jamming.")]
+        DETECTED=3, 
         
     };
     
-    ///<summary> Definitions for aircraft size </summary>
-    public enum UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE: byte
+    ///<summary> Signal spoofing state in a GPS receiver. </summary>
+    public enum GPS_SPOOFING_STATE: byte
     {
-        ///<summary>  | </summary>
-        [Description("")]
-        NO_DATA=0, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L15M_W23M=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L25M_W28P5M=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L25_34M=3, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L35_33M=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L35_38M=5, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L45_39P5M=6, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L45_45M=7, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L55_45M=8, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L55_52M=9, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L65_59P5M=10, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L65_67M=11, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L75_W72P5M=12, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L75_W80M=13, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L85_W80M=14, 
-        ///<summary>  | </summary>
-        [Description("")]
-        L85_W90M=15, 
+        ///<summary> The GPS receiver does not provide GPS signal spoofing info. | </summary>
+        [Description("The GPS receiver does not provide GPS signal spoofing info.")]
+        UNKNOWN=0, 
+        ///<summary> The GPS receiver detected no signal spoofing. | </summary>
+        [Description("The GPS receiver detected no signal spoofing.")]
+        OK=1, 
+        ///<summary> The GPS receiver detected and mitigated signal spoofing. | </summary>
+        [Description("The GPS receiver detected and mitigated signal spoofing.")]
+        MITIGATED=2, 
+        ///<summary> The GPS receiver detected signal spoofing but still has a fix. | </summary>
+        [Description("The GPS receiver detected signal spoofing but still has a fix.")]
+        DETECTED=3, 
         
     };
     
-    ///<summary> GPS lataral offset encoding </summary>
-    public enum UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT: byte
+    ///<summary> State of RAIM processing. </summary>
+    public enum GPS_RAIM_STATE: byte
     {
-        ///<summary>  | </summary>
-        [Description("")]
-        NO_DATA=0, 
-        ///<summary>  | </summary>
-        [Description("")]
-        LEFT_2M=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        LEFT_4M=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        LEFT_6M=3, 
-        ///<summary>  | </summary>
-        [Description("")]
-        RIGHT_0M=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        RIGHT_2M=5, 
-        ///<summary>  | </summary>
-        [Description("")]
-        RIGHT_4M=6, 
-        ///<summary>  | </summary>
-        [Description("")]
-        RIGHT_6M=7, 
-        
-    };
-    
-    ///<summary> GPS longitudinal offset encoding </summary>
-    public enum UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        NO_DATA=0, 
-        ///<summary>  | </summary>
-        [Description("")]
-        APPLIED_BY_SENSOR=1, 
-        
-    };
-    
-    ///<summary> Emergency status encoding </summary>
-    public enum UAVIONIX_ADSB_EMERGENCY_STATUS: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_NO_EMERGENCY=0, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_GENERAL_EMERGENCY=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_LIFEGUARD_EMERGENCY=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_MINIMUM_FUEL_EMERGENCY=3, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_NO_COMM_EMERGENCY=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_UNLAWFUL_INTERFERANCE_EMERGENCY=5, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY=6, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_OUT_RESERVED=7, 
-        
-    };
-    
-    ///<summary> State flags for ADS-B transponder dynamic report </summary>
-    public enum UAVIONIX_ADSB_OUT_CONTROL_STATE: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        EXTERNAL_BARO_CROSSCHECKED=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        ON_GROUND=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        IDENT_BUTTON_ACTIVE=8, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MODE_A_ENABLED=16, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MODE_C_ENABLED=32, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MODE_S_ENABLED=64, 
-        ///<summary>  | </summary>
-        [Description("")]
-        _1090ES_TX_ENABLED=128, 
-        
-    };
-    
-    ///<summary> State flags for X-Bit and reserved fields. </summary>
-    public enum UAVIONIX_ADSB_XBIT: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        ENABLED=128, 
-        
-    };
-    
-    ///<summary> State flags for ADS-B transponder status report </summary>
-    public enum UAVIONIX_ADSB_OUT_STATUS_STATE: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        ON_GROUND=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        INTERROGATED_SINCE_LAST=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        XBIT_ENABLED=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        IDENT_ACTIVE=8, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MODE_A_ENABLED=16, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MODE_C_ENABLED=32, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MODE_S_ENABLED=64, 
-        ///<summary>  | </summary>
-        [Description("")]
-        _1090ES_TX_ENABLED=128, 
-        
-    };
-    
-    ///<summary> State flags for ADS-B transponder status report </summary>
-    public enum UAVIONIX_ADSB_OUT_STATUS_NIC_NACP: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_20_NM=1, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_8_NM=2, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_4_NM=3, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_2_NM=4, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_1_NM=5, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_0_3_NM=6, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_0_2_NM=7, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_0_1_NM=8, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_75_M=9, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_25_M=10, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NIC_CR_7_5_M=11, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_10_NM=16, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_4_NM=32, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_2_NM=48, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_1_NM=64, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_0_5_NM=80, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_0_3_NM=96, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_0_1_NM=112, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_0_05_NM=128, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_30_M=144, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_10_M=160, 
-        ///<summary>  | </summary>
-        [Description("")]
-        UAVIONIX_ADSB_NACP_EPU_3_M=176, 
-        
-    };
-    
-    ///<summary> State flags for ADS-B transponder fault report </summary>
-    public enum UAVIONIX_ADSB_OUT_STATUS_FAULT: byte
-    {
-        ///<summary>  | </summary>
-        [Description("")]
-        STATUS_MESSAGE_UNAVAIL=8, 
-        ///<summary>  | </summary>
-        [Description("")]
-        GPS_NO_POS=16, 
-        ///<summary>  | </summary>
-        [Description("")]
-        GPS_UNAVAIL=32, 
-        ///<summary>  | </summary>
-        [Description("")]
-        TX_SYSTEM_FAIL=64, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MAINT_REQ=128, 
+        ///<summary> RAIM capability is unknown. | </summary>
+        [Description("RAIM capability is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> RAIM is disabled. | </summary>
+        [Description("RAIM is disabled.")]
+        DISABLED=1, 
+        ///<summary> RAIM integrity check was successful. | </summary>
+        [Description("RAIM integrity check was successful.")]
+        OK=2, 
+        ///<summary> RAIM integrity check failed. | </summary>
+        [Description("RAIM integrity check failed.")]
+        FAILED=3, 
         
     };
     
@@ -6333,21 +6340,6 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         LAND=5, 
-        
-    };
-    
-    
-    
-    
-    ///<summary>  </summary>
-    public enum AIRLINK_AUTH_RESPONSE_TYPE: byte
-    {
-        ///<summary> Login or password error | </summary>
-        [Description("Login or password error")]
-        AIRLINK_ERROR_LOGIN_OR_PASS=0, 
-        ///<summary> Auth successful | </summary>
-        [Description("Auth successful")]
-        AIRLINK_AUTH_OK=1, 
         
     };
     
@@ -7059,6 +7051,1009 @@ public partial class MAVLink
         
     };
     
+    
+    
+    
+    
+    ///<summary> Available autopilot modes for ualberta uav </summary>
+    public enum UALBERTA_AUTOPILOT_MODE: int /*default*/
+    {
+        ///<summary> Raw input pulse widts sent to output | </summary>
+        [Description("Raw input pulse widts sent to output")]
+        MODE_MANUAL_DIRECT=1, 
+        ///<summary> Inputs are normalized using calibration, the converted back to raw pulse widths for output | </summary>
+        [Description("Inputs are normalized using calibration, the converted back to raw pulse widths for output")]
+        MODE_MANUAL_SCALED=2, 
+        ///<summary>  dfsdfs | </summary>
+        [Description(" dfsdfs")]
+        MODE_AUTO_PID_ATT=3, 
+        ///<summary>  dfsfds | </summary>
+        [Description(" dfsfds")]
+        MODE_AUTO_PID_VEL=4, 
+        ///<summary>  dfsdfsdfs | </summary>
+        [Description(" dfsdfsdfs")]
+        MODE_AUTO_PID_POS=5, 
+        
+    };
+    
+    ///<summary> Navigation filter mode </summary>
+    public enum UALBERTA_NAV_MODE: int /*default*/
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        AHRS_INIT=1, 
+        ///<summary> AHRS mode | </summary>
+        [Description("AHRS mode")]
+        AHRS=2, 
+        ///<summary> INS/GPS initialization mode | </summary>
+        [Description("INS/GPS initialization mode")]
+        INS_GPS_INIT=3, 
+        ///<summary> INS/GPS mode | </summary>
+        [Description("INS/GPS mode")]
+        INS_GPS=4, 
+        
+    };
+    
+    ///<summary> Mode currently commanded by pilot </summary>
+    public enum UALBERTA_PILOT_MODE: int /*default*/
+    {
+        ///<summary>  sdf | </summary>
+        [Description(" sdf")]
+        PILOT_MANUAL=1, 
+        ///<summary>  dfs | </summary>
+        [Description(" dfs")]
+        PILOT_AUTO=2, 
+        ///<summary>  Rotomotion mode  | </summary>
+        [Description(" Rotomotion mode ")]
+        PILOT_ROTO=3, 
+        
+    };
+    
+    
+    ///<summary> State flags for ADS-B transponder dynamic report </summary>
+    public enum UAVIONIX_ADSB_OUT_DYNAMIC_STATE: ushort
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        INTENT_CHANGE=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AUTOPILOT_ENABLED=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        NICBARO_CROSSCHECKED=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        ON_GROUND=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        IDENT=16, 
+        
+    };
+    
+    ///<summary> Transceiver RF control flags for ADS-B transponder dynamic reports </summary>
+    public enum UAVIONIX_ADSB_OUT_RF_SELECT: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        STANDBY=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RX_ENABLED=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TX_ENABLED=2, 
+        
+    };
+    
+    ///<summary> Status for ADS-B transponder dynamic input </summary>
+    public enum UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        NONE_0=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        NONE_1=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        _2D=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        _3D=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        DGPS=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RTK=5, 
+        
+    };
+    
+    ///<summary> Status flags for ADS-B transponder dynamic output </summary>
+    public enum UAVIONIX_ADSB_RF_HEALTH: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        INITIALIZING=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OK=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        FAIL_TX=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        FAIL_RX=16, 
+        
+    };
+    
+    ///<summary> Definitions for aircraft size </summary>
+    public enum UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        NO_DATA=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L15M_W23M=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L25M_W28P5M=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L25_34M=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L35_33M=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L35_38M=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L45_39P5M=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L45_45M=7, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L55_45M=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L55_52M=9, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L65_59P5M=10, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L65_67M=11, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L75_W72P5M=12, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L75_W80M=13, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L85_W80M=14, 
+        ///<summary>  | </summary>
+        [Description("")]
+        L85_W90M=15, 
+        
+    };
+    
+    ///<summary> GPS lataral offset encoding </summary>
+    public enum UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        NO_DATA=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        LEFT_2M=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        LEFT_4M=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        LEFT_6M=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RIGHT_0M=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RIGHT_2M=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RIGHT_4M=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RIGHT_6M=7, 
+        
+    };
+    
+    ///<summary> GPS longitudinal offset encoding </summary>
+    public enum UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        NO_DATA=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        APPLIED_BY_SENSOR=1, 
+        
+    };
+    
+    ///<summary> Emergency status encoding </summary>
+    public enum UAVIONIX_ADSB_EMERGENCY_STATUS: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_NO_EMERGENCY=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_GENERAL_EMERGENCY=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_LIFEGUARD_EMERGENCY=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_MINIMUM_FUEL_EMERGENCY=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_NO_COMM_EMERGENCY=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_UNLAWFUL_INTERFERANCE_EMERGENCY=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_OUT_RESERVED=7, 
+        
+    };
+    
+    ///<summary> State flags for ADS-B transponder dynamic report </summary>
+    public enum UAVIONIX_ADSB_OUT_CONTROL_STATE: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        EXTERNAL_BARO_CROSSCHECKED=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        ON_GROUND=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        IDENT_BUTTON_ACTIVE=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_A_ENABLED=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_C_ENABLED=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_S_ENABLED=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        _1090ES_TX_ENABLED=128, 
+        
+    };
+    
+    ///<summary> State flags for X-Bit and reserved fields. </summary>
+    public enum UAVIONIX_ADSB_XBIT: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        ENABLED=128, 
+        
+    };
+    
+    ///<summary> State flags for ADS-B transponder status report </summary>
+    public enum UAVIONIX_ADSB_OUT_STATUS_STATE: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        ON_GROUND=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        INTERROGATED_SINCE_LAST=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        XBIT_ENABLED=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        IDENT_ACTIVE=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_A_ENABLED=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_C_ENABLED=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_S_ENABLED=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        _1090ES_TX_ENABLED=128, 
+        
+    };
+    
+    ///<summary> State flags for ADS-B transponder status report </summary>
+    public enum UAVIONIX_ADSB_OUT_STATUS_NIC_NACP: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_20_NM=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_8_NM=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_4_NM=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_2_NM=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_1_NM=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_0_3_NM=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_0_2_NM=7, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_0_1_NM=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_75_M=9, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_25_M=10, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_7_5_M=11, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_10_NM=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_4_NM=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_2_NM=48, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_1_NM=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_5_NM=80, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_3_NM=96, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_1_NM=112, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_05_NM=128, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_30_M=144, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_10_M=160, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_3_M=176, 
+        
+    };
+    
+    ///<summary> State flags for ADS-B transponder fault report </summary>
+    public enum UAVIONIX_ADSB_OUT_STATUS_FAULT: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        STATUS_MESSAGE_UNAVAIL=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        GPS_NO_POS=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        GPS_UNAVAIL=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TX_SYSTEM_FAIL=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MAINT_REQ=128, 
+        
+    };
+    
+    
+    
+    ///<summary>  </summary>
+    public enum MAV_STORM32_TUNNEL_PAYLOAD_TYPE: int /*default*/
+    {
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_CH1_IN=200, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_CH1_OUT=201, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_CH2_IN=202, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_CH2_OUT=203, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_CH3_IN=204, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_CH3_OUT=205, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_RESERVED6=206, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_RESERVED7=207, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_RESERVED8=208, 
+        ///<summary> Registered for STorM32 gimbal controller. | </summary>
+        [Description("Registered for STorM32 gimbal controller.")]
+        STORM32_RESERVED9=209, 
+        
+    };
+    
+    ///<summary> STorM32 gimbal prearm check flags. </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_PREARM_FLAGS: int /*default*/
+    {
+        ///<summary> STorM32 gimbal is in normal state. | </summary>
+        [Description("STorM32 gimbal is in normal state.")]
+        IS_NORMAL=1, 
+        ///<summary> The IMUs are healthy and working normally. | </summary>
+        [Description("The IMUs are healthy and working normally.")]
+        IMUS_WORKING=2, 
+        ///<summary> The motors are active and working normally. | </summary>
+        [Description("The motors are active and working normally.")]
+        MOTORS_WORKING=4, 
+        ///<summary> The encoders are healthy and working normally. | </summary>
+        [Description("The encoders are healthy and working normally.")]
+        ENCODERS_WORKING=8, 
+        ///<summary> A battery voltage is applied and is in range. | </summary>
+        [Description("A battery voltage is applied and is in range.")]
+        VOLTAGE_OK=16, 
+        ///<summary> ???. | </summary>
+        [Description("???.")]
+        VIRTUALCHANNELS_RECEIVING=32, 
+        ///<summary> Mavlink messages are being received. | </summary>
+        [Description("Mavlink messages are being received.")]
+        MAVLINK_RECEIVING=64, 
+        ///<summary> The STorM32Link data indicates QFix. | </summary>
+        [Description("The STorM32Link data indicates QFix.")]
+        STORM32LINK_QFIX=128, 
+        ///<summary> The STorM32Link is working. | </summary>
+        [Description("The STorM32Link is working.")]
+        STORM32LINK_WORKING=256, 
+        ///<summary> The camera has been found and is connected. | </summary>
+        [Description("The camera has been found and is connected.")]
+        CAMERA_CONNECTED=512, 
+        ///<summary> The signal on the AUX0 input pin is low. | </summary>
+        [Description("The signal on the AUX0 input pin is low.")]
+        AUX0_LOW=1024, 
+        ///<summary> The signal on the AUX1 input pin is low. | </summary>
+        [Description("The signal on the AUX1 input pin is low.")]
+        AUX1_LOW=2048, 
+        ///<summary> The NTLogger is working normally. | </summary>
+        [Description("The NTLogger is working normally.")]
+        NTLOGGER_WORKING=4096, 
+        
+    };
+    
+    ///<summary> STorM32 camera prearm check flags. </summary>
+    [Flags]
+	public enum MAV_STORM32_CAMERA_PREARM_FLAGS: int /*default*/
+    {
+        ///<summary> The camera has been found and is connected. | </summary>
+        [Description("The camera has been found and is connected.")]
+        CONNECTED=1, 
+        
+    };
+    
+    ///<summary> Gimbal device capability flags. </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_DEVICE_CAP_FLAGS: uint
+    {
+        ///<summary> Gimbal device supports a retracted position. | </summary>
+        [Description("Gimbal device supports a retracted position.")]
+        HAS_RETRACT=1, 
+        ///<summary> Gimbal device supports a horizontal, forward looking position, stabilized. Can also be used to reset the gimbal's orientation. | </summary>
+        [Description("Gimbal device supports a horizontal, forward looking position, stabilized. Can also be used to reset the gimbal's orientation.")]
+        HAS_NEUTRAL=2, 
+        ///<summary> Gimbal device supports rotating around roll axis. | </summary>
+        [Description("Gimbal device supports rotating around roll axis.")]
+        HAS_ROLL_AXIS=4, 
+        ///<summary> Gimbal device supports to follow a roll angle relative to the vehicle. | </summary>
+        [Description("Gimbal device supports to follow a roll angle relative to the vehicle.")]
+        HAS_ROLL_FOLLOW=8, 
+        ///<summary> Gimbal device supports locking to an roll angle (generally that's the default). | </summary>
+        [Description("Gimbal device supports locking to an roll angle (generally that's the default).")]
+        HAS_ROLL_LOCK=16, 
+        ///<summary> Gimbal device supports rotating around pitch axis. | </summary>
+        [Description("Gimbal device supports rotating around pitch axis.")]
+        HAS_PITCH_AXIS=32, 
+        ///<summary> Gimbal device supports to follow a pitch angle relative to the vehicle. | </summary>
+        [Description("Gimbal device supports to follow a pitch angle relative to the vehicle.")]
+        HAS_PITCH_FOLLOW=64, 
+        ///<summary> Gimbal device supports locking to an pitch angle (generally that's the default). | </summary>
+        [Description("Gimbal device supports locking to an pitch angle (generally that's the default).")]
+        HAS_PITCH_LOCK=128, 
+        ///<summary> Gimbal device supports rotating around yaw axis. | </summary>
+        [Description("Gimbal device supports rotating around yaw axis.")]
+        HAS_YAW_AXIS=256, 
+        ///<summary> Gimbal device supports to follow a yaw angle relative to the vehicle (generally that's the default). | </summary>
+        [Description("Gimbal device supports to follow a yaw angle relative to the vehicle (generally that's the default).")]
+        HAS_YAW_FOLLOW=512, 
+        ///<summary> Gimbal device supports locking to a heading angle. | </summary>
+        [Description("Gimbal device supports locking to a heading angle.")]
+        HAS_YAW_LOCK=1024, 
+        ///<summary> Gimbal device supports yawing/panning infinitely (e.g. using a slip ring). | </summary>
+        [Description("Gimbal device supports yawing/panning infinitely (e.g. using a slip ring).")]
+        HAS_INFINITE_YAW=2048, 
+        ///<summary> Gimbal device supports absolute yaw angles (this usually requires support by an autopilot, and can be dynamic, i.e., go on and off during runtime). | </summary>
+        [Description("Gimbal device supports absolute yaw angles (this usually requires support by an autopilot, and can be dynamic, i.e., go on and off during runtime).")]
+        HAS_ABSOLUTE_YAW=65536, 
+        ///<summary> Gimbal device supports control via an RC input signal. | </summary>
+        [Description("Gimbal device supports control via an RC input signal.")]
+        HAS_RC=131072, 
+        
+    };
+    
+    ///<summary> Flags for gimbal device operation. Used for setting and reporting, unless specified otherwise. Settings which are in violation of the capability flags are ignored by the gimbal device. </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_DEVICE_FLAGS: ushort
+    {
+        ///<summary> Retracted safe position (no stabilization), takes presedence over NEUTRAL flag. If supported by the gimbal, the angles in the retracted position can be set in addition. | </summary>
+        [Description("Retracted safe position (no stabilization), takes presedence over NEUTRAL flag. If supported by the gimbal, the angles in the retracted position can be set in addition.")]
+        RETRACT=1, 
+        ///<summary> Neutral position (horizontal, forward looking, with stabiliziation). | </summary>
+        [Description("Neutral position (horizontal, forward looking, with stabiliziation).")]
+        NEUTRAL=2, 
+        ///<summary> Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default. | </summary>
+        [Description("Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default.")]
+        ROLL_LOCK=4, 
+        ///<summary> Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default. | </summary>
+        [Description("Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default.")]
+        PITCH_LOCK=8, 
+        ///<summary> Lock yaw angle to absolute angle relative to earth (not relative to drone). When the YAW_ABSOLUTE flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute), else it is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle). | </summary>
+        [Description("Lock yaw angle to absolute angle relative to earth (not relative to drone). When the YAW_ABSOLUTE flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute), else it is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle).")]
+        YAW_LOCK=16, 
+        ///<summary> Gimbal device can accept absolute yaw angle input. This flag cannot be set, is only for reporting (attempts to set it are rejected by the gimbal device). | </summary>
+        [Description("Gimbal device can accept absolute yaw angle input. This flag cannot be set, is only for reporting (attempts to set it are rejected by the gimbal device).")]
+        CAN_ACCEPT_YAW_ABSOLUTE=256, 
+        ///<summary> Yaw angle is absolute (is only accepted if CAN_ACCEPT_YAW_ABSOLUTE is set). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute), else it is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle). | </summary>
+        [Description("Yaw angle is absolute (is only accepted if CAN_ACCEPT_YAW_ABSOLUTE is set). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute), else it is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle).")]
+        YAW_ABSOLUTE=512, 
+        ///<summary> RC control. The RC input signal fed to the gimbal device exclusively controls the gimbal's orientation. Overrides RC_MIXED flag if that is also set. | </summary>
+        [Description("RC control. The RC input signal fed to the gimbal device exclusively controls the gimbal's orientation. Overrides RC_MIXED flag if that is also set.")]
+        RC_EXCLUSIVE=1024, 
+        ///<summary> RC control. The RC input signal fed to the gimbal device is mixed into the gimbal's orientation. Is overriden by RC_EXCLUSIVE flag if that is also set. | </summary>
+        [Description("RC control. The RC input signal fed to the gimbal device is mixed into the gimbal's orientation. Is overriden by RC_EXCLUSIVE flag if that is also set.")]
+        RC_MIXED=2048, 
+        ///<summary> UINT16_MAX = ignore. | </summary>
+        [Description("UINT16_MAX = ignore.")]
+        NONE=65535, 
+        
+    };
+    
+    ///<summary> Gimbal device error and condition flags (0 means no error or other condition). </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_DEVICE_ERROR_FLAGS: int /*default*/
+    {
+        ///<summary> Gimbal device is limited by hardware roll limit. | </summary>
+        [Description("Gimbal device is limited by hardware roll limit.")]
+        AT_ROLL_LIMIT=1, 
+        ///<summary> Gimbal device is limited by hardware pitch limit. | </summary>
+        [Description("Gimbal device is limited by hardware pitch limit.")]
+        AT_PITCH_LIMIT=2, 
+        ///<summary> Gimbal device is limited by hardware yaw limit. | </summary>
+        [Description("Gimbal device is limited by hardware yaw limit.")]
+        AT_YAW_LIMIT=4, 
+        ///<summary> There is an error with the gimbal device's encoders. | </summary>
+        [Description("There is an error with the gimbal device's encoders.")]
+        ENCODER_ERROR=8, 
+        ///<summary> There is an error with the gimbal device's power source. | </summary>
+        [Description("There is an error with the gimbal device's power source.")]
+        POWER_ERROR=16, 
+        ///<summary> There is an error with the gimbal device's motors. | </summary>
+        [Description("There is an error with the gimbal device's motors.")]
+        MOTOR_ERROR=32, 
+        ///<summary> There is an error with the gimbal device's software. | </summary>
+        [Description("There is an error with the gimbal device's software.")]
+        SOFTWARE_ERROR=64, 
+        ///<summary> There is an error with the gimbal device's communication. | </summary>
+        [Description("There is an error with the gimbal device's communication.")]
+        COMMS_ERROR=128, 
+        ///<summary> Gimbal device is currently calibrating (not an error). | </summary>
+        [Description("Gimbal device is currently calibrating (not an error).")]
+        CALIBRATION_RUNNING=256, 
+        ///<summary> Gimbal device is not assigned to a gimbal manager (not an error). | </summary>
+        [Description("Gimbal device is not assigned to a gimbal manager (not an error).")]
+        NO_MANAGER=32768, 
+        
+    };
+    
+    ///<summary> Gimbal manager capability flags. </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS: uint
+    {
+        ///<summary> The gimbal manager supports several profiles. | </summary>
+        [Description("The gimbal manager supports several profiles.")]
+        HAS_PROFILES=1, 
+        ///<summary> The gimbal manager supports changing the gimbal manager during run time, i.e. can be enabled/disabled. | </summary>
+        [Description("The gimbal manager supports changing the gimbal manager during run time, i.e. can be enabled/disabled.")]
+        SUPPORTS_CHANGE=2, 
+        
+    };
+    
+    ///<summary> Flags for gimbal manager operation. Used for setting and reporting, unless specified otherwise. If a setting is accepted by the gimbal manger, is reported in the STORM32_GIMBAL_MANAGER_STATUS message. </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_MANAGER_FLAGS: ushort
+    {
+        ///<summary> 0 = ignore. | </summary>
+        [Description("0 = ignore.")]
+        NONE=0, 
+        ///<summary> Request to set RC input to active, or report RC input is active. Implies RC mixed. RC exclusive is achieved by setting all clients to inactive. | </summary>
+        [Description("Request to set RC input to active, or report RC input is active. Implies RC mixed. RC exclusive is achieved by setting all clients to inactive.")]
+        RC_ACTIVE=1, 
+        ///<summary> Request to set onboard/companion computer client to active, or report this client is active. | </summary>
+        [Description("Request to set onboard/companion computer client to active, or report this client is active.")]
+        CLIENT_ONBOARD_ACTIVE=2, 
+        ///<summary> Request to set autopliot client to active, or report this client is active. | </summary>
+        [Description("Request to set autopliot client to active, or report this client is active.")]
+        CLIENT_AUTOPILOT_ACTIVE=4, 
+        ///<summary> Request to set GCS client to active, or report this client is active. | </summary>
+        [Description("Request to set GCS client to active, or report this client is active.")]
+        CLIENT_GCS_ACTIVE=8, 
+        ///<summary> Request to set camera client to active, or report this client is active. | </summary>
+        [Description("Request to set camera client to active, or report this client is active.")]
+        CLIENT_CAMERA_ACTIVE=16, 
+        ///<summary> Request to set GCS2 client to active, or report this client is active. | </summary>
+        [Description("Request to set GCS2 client to active, or report this client is active.")]
+        CLIENT_GCS2_ACTIVE=32, 
+        ///<summary> Request to set camera2 client to active, or report this client is active. | </summary>
+        [Description("Request to set camera2 client to active, or report this client is active.")]
+        CLIENT_CAMERA2_ACTIVE=64, 
+        ///<summary> Request to set custom client to active, or report this client is active. | </summary>
+        [Description("Request to set custom client to active, or report this client is active.")]
+        CLIENT_CUSTOM_ACTIVE=128, 
+        ///<summary> Request to set custom2 client to active, or report this client is active. | </summary>
+        [Description("Request to set custom2 client to active, or report this client is active.")]
+        CLIENT_CUSTOM2_ACTIVE=256, 
+        ///<summary> Request supervision. This flag is only for setting, it is not reported. | </summary>
+        [Description("Request supervision. This flag is only for setting, it is not reported.")]
+        SET_SUPERVISON=512, 
+        ///<summary> Release supervision. This flag is only for setting, it is not reported. | </summary>
+        [Description("Release supervision. This flag is only for setting, it is not reported.")]
+        SET_RELEASE=1024, 
+        
+    };
+    
+    ///<summary> Gimbal manager client ID. In a prioritizing profile, the priorities are determined by the implementation; they could e.g. be custom1 > onboard > GCS > autopilot/camera > GCS2 > custom2. </summary>
+    public enum MAV_STORM32_GIMBAL_MANAGER_CLIENT: byte
+    {
+        ///<summary> For convenience. | </summary>
+        [Description("For convenience.")]
+        NONE=0, 
+        ///<summary> This is the onboard/companion computer client. | </summary>
+        [Description("This is the onboard/companion computer client.")]
+        ONBOARD=1, 
+        ///<summary> This is the autopilot client. | </summary>
+        [Description("This is the autopilot client.")]
+        AUTOPILOT=2, 
+        ///<summary> This is the GCS client. | </summary>
+        [Description("This is the GCS client.")]
+        GCS=3, 
+        ///<summary> This is the camera client. | </summary>
+        [Description("This is the camera client.")]
+        CAMERA=4, 
+        ///<summary> This is the GCS2 client. | </summary>
+        [Description("This is the GCS2 client.")]
+        GCS2=5, 
+        ///<summary> This is the camera2 client. | </summary>
+        [Description("This is the camera2 client.")]
+        CAMERA2=6, 
+        ///<summary> This is the custom client. | </summary>
+        [Description("This is the custom client.")]
+        CUSTOM=7, 
+        ///<summary> This is the custom2 client. | </summary>
+        [Description("This is the custom2 client.")]
+        CUSTOM2=8, 
+        
+    };
+    
+    ///<summary> Flags for gimbal manager set up. Used for setting and reporting, unless specified otherwise. </summary>
+    [Flags]
+	public enum MAV_STORM32_GIMBAL_MANAGER_SETUP_FLAGS: int /*default*/
+    {
+        ///<summary> Enable gimbal manager. This flag is only for setting, is not reported. | </summary>
+        [Description("Enable gimbal manager. This flag is only for setting, is not reported.")]
+        ENABLE=16384, 
+        ///<summary> Disable gimbal manager. This flag is only for setting, is not reported. | </summary>
+        [Description("Disable gimbal manager. This flag is only for setting, is not reported.")]
+        DISABLE=32768, 
+        
+    };
+    
+    ///<summary> Gimbal manager profiles. Only standard profiles are defined. Any implementation can define it's own profile in addition, and should use enum values > 16. </summary>
+    public enum MAV_STORM32_GIMBAL_MANAGER_PROFILE: byte
+    {
+        ///<summary> Default profile. Implementation specific. | </summary>
+        [Description("Default profile. Implementation specific.")]
+        DEFAULT=0, 
+        ///<summary> Custom profile. Configurable profile according to the STorM32 definition. Is configured with STORM32_GIMBAL_MANAGER_PROFIL. | </summary>
+        [Description("Custom profile. Configurable profile according to the STorM32 definition. Is configured with STORM32_GIMBAL_MANAGER_PROFIL.")]
+        CUSTOM=1, 
+        ///<summary> Default cooperative profile. Uses STorM32 custom profile with default settings to achieve cooperative behavior. | </summary>
+        [Description("Default cooperative profile. Uses STorM32 custom profile with default settings to achieve cooperative behavior.")]
+        COOPERATIVE=2, 
+        ///<summary> Default exclusive profile. Uses STorM32 custom profile with default settings to achieve exclusive behavior. | </summary>
+        [Description("Default exclusive profile. Uses STorM32 custom profile with default settings to achieve exclusive behavior.")]
+        EXCLUSIVE=3, 
+        ///<summary> Default priority profile with cooperative behavior for equal priority. Uses STorM32 custom profile with default settings to achieve priority-based behavior. | </summary>
+        [Description("Default priority profile with cooperative behavior for equal priority. Uses STorM32 custom profile with default settings to achieve priority-based behavior.")]
+        PRIORITY_COOPERATIVE=4, 
+        ///<summary> Default priority profile with exclusive behavior for equal priority. Uses STorM32 custom profile with default settings to achieve priority-based behavior. | </summary>
+        [Description("Default priority profile with exclusive behavior for equal priority. Uses STorM32 custom profile with default settings to achieve priority-based behavior.")]
+        PRIORITY_EXCLUSIVE=5, 
+        
+    };
+    
+    ///<summary> Gimbal actions. </summary>
+    public enum MAV_STORM32_GIMBAL_ACTION: int /*default*/
+    {
+        ///<summary> Trigger the gimbal device to recenter the gimbal. | </summary>
+        [Description("Trigger the gimbal device to recenter the gimbal.")]
+        RECENTER=1, 
+        ///<summary> Trigger the gimbal device to run a calibration. | </summary>
+        [Description("Trigger the gimbal device to run a calibration.")]
+        CALIBRATION=2, 
+        ///<summary> Trigger gimbal device to (re)discover the gimbal manager during run time. | </summary>
+        [Description("Trigger gimbal device to (re)discover the gimbal manager during run time.")]
+        DISCOVER_MANAGER=3, 
+        
+    };
+    
+    ///<summary> Enumeration of possible shot modes. </summary>
+    public enum MAV_QSHOT_MODE: ushort
+    {
+        ///<summary> Undefined shot mode. Can be used to determine if qshots should be used or not. | </summary>
+        [Description("Undefined shot mode. Can be used to determine if qshots should be used or not.")]
+        UNDEFINED=0, 
+        ///<summary> Start normal gimbal operation. Is usally used to return back from a shot. | </summary>
+        [Description("Start normal gimbal operation. Is usally used to return back from a shot.")]
+        DEFAULT=1, 
+        ///<summary> Load and keep safe gimbal position and stop stabilization. | </summary>
+        [Description("Load and keep safe gimbal position and stop stabilization.")]
+        GIMBAL_RETRACT=2, 
+        ///<summary> Load neutral gimbal position and keep it while stabilizing. | </summary>
+        [Description("Load neutral gimbal position and keep it while stabilizing.")]
+        GIMBAL_NEUTRAL=3, 
+        ///<summary> Start mission with gimbal control. | </summary>
+        [Description("Start mission with gimbal control.")]
+        GIMBAL_MISSION=4, 
+        ///<summary> Start RC gimbal control. | </summary>
+        [Description("Start RC gimbal control.")]
+        GIMBAL_RC_CONTROL=5, 
+        ///<summary> Start gimbal tracking the point specified by Lat, Lon, Alt. | </summary>
+        [Description("Start gimbal tracking the point specified by Lat, Lon, Alt.")]
+        POI_TARGETING=6, 
+        ///<summary> Start gimbal tracking the system with specified system ID. | </summary>
+        [Description("Start gimbal tracking the system with specified system ID.")]
+        SYSID_TARGETING=7, 
+        ///<summary> Start 2-point cable cam quick shot. | </summary>
+        [Description("Start 2-point cable cam quick shot.")]
+        CABLECAM_2POINT=8, 
+        ///<summary> Start gimbal tracking the home location. | </summary>
+        [Description("Start gimbal tracking the home location.")]
+        HOME_TARGETING=9, 
+        
+    };
+    
+    
+    ///<summary>  </summary>
+    public enum MAV_AVSS_COMMAND_FAILURE_REASON: int /*default*/
+    {
+        ///<summary> AVSS defined command failure reason. PRS not steady. | </summary>
+        [Description("AVSS defined command failure reason. PRS not steady.")]
+        PRS_NOT_STEADY=1, 
+        ///<summary> AVSS defined command failure reason. PRS DTM not armed. | </summary>
+        [Description("AVSS defined command failure reason. PRS DTM not armed.")]
+        PRS_DTM_NOT_ARMED=2, 
+        ///<summary> AVSS defined command failure reason. PRS OTM not armed. | </summary>
+        [Description("AVSS defined command failure reason. PRS OTM not armed.")]
+        PRS_OTM_NOT_ARMED=3, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum AVSS_M300_OPERATION_MODE: int /*default*/
+    {
+        ///<summary> In manual control mode | </summary>
+        [Description("In manual control mode")]
+        MODE_M300_MANUAL_CTRL=0, 
+        ///<summary> In attitude mode  | </summary>
+        [Description("In attitude mode ")]
+        MODE_M300_ATTITUDE=1, 
+        ///<summary> In GPS mode | </summary>
+        [Description("In GPS mode")]
+        MODE_M300_P_GPS=6, 
+        ///<summary> In hotpoint mode  | </summary>
+        [Description("In hotpoint mode ")]
+        MODE_M300_HOTPOINT_MODE=9, 
+        ///<summary> In assisted takeoff mode | </summary>
+        [Description("In assisted takeoff mode")]
+        MODE_M300_ASSISTED_TAKEOFF=10, 
+        ///<summary> In auto takeoff mode | </summary>
+        [Description("In auto takeoff mode")]
+        MODE_M300_AUTO_TAKEOFF=11, 
+        ///<summary> In auto landing mode | </summary>
+        [Description("In auto landing mode")]
+        MODE_M300_AUTO_LANDING=12, 
+        ///<summary> In go home mode | </summary>
+        [Description("In go home mode")]
+        MODE_M300_NAVI_GO_HOME=15, 
+        ///<summary> In sdk control mode | </summary>
+        [Description("In sdk control mode")]
+        MODE_M300_NAVI_SDK_CTRL=17, 
+        ///<summary> In sport mode | </summary>
+        [Description("In sport mode")]
+        MODE_M300_S_SPORT=31, 
+        ///<summary> In force auto landing mode | </summary>
+        [Description("In force auto landing mode")]
+        MODE_M300_FORCE_AUTO_LANDING=33, 
+        ///<summary> In tripod mode | </summary>
+        [Description("In tripod mode")]
+        MODE_M300_T_TRIPOD=38, 
+        ///<summary> In search mode | </summary>
+        [Description("In search mode")]
+        MODE_M300_SEARCH_MODE=40, 
+        ///<summary> In engine mode | </summary>
+        [Description("In engine mode")]
+        MODE_M300_ENGINE_START=41, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum AVSS_HORSEFLY_OPERATION_MODE: int /*default*/
+    {
+        ///<summary> In manual control mode | </summary>
+        [Description("In manual control mode")]
+        MODE_HORSEFLY_MANUAL_CTRL=0, 
+        ///<summary> In auto takeoff mode | </summary>
+        [Description("In auto takeoff mode")]
+        MODE_HORSEFLY_AUTO_TAKEOFF=1, 
+        ///<summary> In auto landing mode | </summary>
+        [Description("In auto landing mode")]
+        MODE_HORSEFLY_AUTO_LANDING=2, 
+        ///<summary> In go home mode | </summary>
+        [Description("In go home mode")]
+        MODE_HORSEFLY_NAVI_GO_HOME=3, 
+        ///<summary> In drop mode | </summary>
+        [Description("In drop mode")]
+        MODE_HORSEFLY_DROP=4, 
+        
+    };
+    
+    
+    
+    ///<summary>  </summary>
+    public enum AIRLINK_AUTH_RESPONSE_TYPE: byte
+    {
+        ///<summary> Login or password error | </summary>
+        [Description("Login or password error")]
+        AIRLINK_ERROR_LOGIN_OR_PASS=0, 
+        ///<summary> Auth successful | </summary>
+        [Description("Auth successful")]
+        AIRLINK_AUTH_OK=1, 
+        
+    };
+    
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
+    ///<summary> Information about video stream </summary>
+    public struct mavlink_zvideo_stream_information_t
+    {
+        /// packet ordered constructor
+        public mavlink_zvideo_stream_information_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
+        {
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.camera_id = camera_id;
+            this.status = status;
+            this.uri = uri;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_zvideo_stream_information_t PopulateXMLOrder(byte camera_id,byte status,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,byte[] uri) 
+        {
+            var msg = new mavlink_zvideo_stream_information_t();
+
+            msg.camera_id = camera_id;
+            msg.status = status;
+            msg.framerate = framerate;
+            msg.resolution_h = resolution_h;
+            msg.resolution_v = resolution_v;
+            msg.bitrate = bitrate;
+            msg.rotation = rotation;
+            msg.uri = uri;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Frame rate.  [Hz] </summary>
+        [Units("[Hz]")]
+        [Description("Frame rate.")]
+        //[FieldOffset(0)]
+        public  float framerate;
+
+        /// <summary>Bit rate.  [bits/s] </summary>
+        [Units("[bits/s]")]
+        [Description("Bit rate.")]
+        //[FieldOffset(4)]
+        public  uint bitrate;
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Horizontal resolution.")]
+        //[FieldOffset(8)]
+        public  ushort resolution_h;
+
+        /// <summary>Vertical resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Vertical resolution.")]
+        //[FieldOffset(10)]
+        public  ushort resolution_v;
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Video image rotation clockwise.")]
+        //[FieldOffset(12)]
+        public  ushort rotation;
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        [Units("")]
+        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(14)]
+        public  byte camera_id;
+
+        /// <summary>Number of streams available.   </summary>
+        [Units("")]
+        [Description("Number of streams available.")]
+        //[FieldOffset(15)]
+        public  byte status;
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+        [Units("")]
+        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
+		public byte[] uri;
+    };
+
     [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
@@ -12366,92 +13361,1860 @@ public partial class MAVLink
 		public byte[] temperature;
     };
 
-    [Obsolete]
+    
     /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
-    ///<summary> Information about video stream </summary>
-    public struct mavlink_video_stream_information99_t
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=47)]
+    ///<summary> Message encoding a command with parameters as scaled integers and additional metadata. Scaling depends on the actual command value. </summary>
+    public struct mavlink_command_int_stamped_t
     {
         /// packet ordered constructor
-        public mavlink_video_stream_information99_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
+        public mavlink_command_int_stamped_t(ulong vehicle_timestamp,uint utc_time,float param1,float param2,float param3,float param4,int x,int y,float z,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue) 
         {
-            this.framerate = framerate;
-            this.bitrate = bitrate;
-            this.resolution_h = resolution_h;
-            this.resolution_v = resolution_v;
-            this.rotation = rotation;
-            this.camera_id = camera_id;
-            this.status = status;
-            this.uri = uri;
+            this.vehicle_timestamp = vehicle_timestamp;
+            this.utc_time = utc_time;
+            this.param1 = param1;
+            this.param2 = param2;
+            this.param3 = param3;
+            this.param4 = param4;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.command = command;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.frame = frame;
+            this.current = current;
+            this.autocontinue = autocontinue;
             
         }
         
         /// packet xml order
-        public static mavlink_video_stream_information99_t PopulateXMLOrder(byte camera_id,byte status,float framerate,ushort resolution_h,ushort resolution_v,uint bitrate,ushort rotation,byte[] uri) 
+        public static mavlink_command_int_stamped_t PopulateXMLOrder(uint utc_time,ulong vehicle_timestamp,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,/*MAV_CMD*/ushort command,byte current,byte autocontinue,float param1,float param2,float param3,float param4,int x,int y,float z) 
         {
-            var msg = new mavlink_video_stream_information99_t();
+            var msg = new mavlink_command_int_stamped_t();
 
-            msg.camera_id = camera_id;
-            msg.status = status;
-            msg.framerate = framerate;
-            msg.resolution_h = resolution_h;
-            msg.resolution_v = resolution_v;
-            msg.bitrate = bitrate;
-            msg.rotation = rotation;
-            msg.uri = uri;
+            msg.utc_time = utc_time;
+            msg.vehicle_timestamp = vehicle_timestamp;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.frame = frame;
+            msg.command = command;
+            msg.current = current;
+            msg.autocontinue = autocontinue;
+            msg.param1 = param1;
+            msg.param2 = param2;
+            msg.param3 = param3;
+            msg.param4 = param4;
+            msg.x = x;
+            msg.y = y;
+            msg.z = z;
             
             return msg;
         }
         
 
-        /// <summary>Frame rate.  [Hz] </summary>
-        [Units("[Hz]")]
-        [Description("Frame rate.")]
+        /// <summary>Microseconds elapsed since vehicle boot   </summary>
+        [Units("")]
+        [Description("Microseconds elapsed since vehicle boot")]
         //[FieldOffset(0)]
-        public  float framerate;
+        public  ulong vehicle_timestamp;
 
-        /// <summary>Bit rate.  [bits/s] </summary>
-        [Units("[bits/s]")]
-        [Description("Bit rate.")]
-        //[FieldOffset(4)]
-        public  uint bitrate;
-
-        /// <summary>Horizontal resolution.  [pix] </summary>
-        [Units("[pix]")]
-        [Description("Horizontal resolution.")]
+        /// <summary>UTC time, seconds elapsed since 01.01.1970   </summary>
+        [Units("")]
+        [Description("UTC time, seconds elapsed since 01.01.1970")]
         //[FieldOffset(8)]
-        public  ushort resolution_h;
+        public  uint utc_time;
 
-        /// <summary>Vertical resolution.  [pix] </summary>
-        [Units("[pix]")]
-        [Description("Vertical resolution.")]
-        //[FieldOffset(10)]
-        public  ushort resolution_v;
-
-        /// <summary>Video image rotation clockwise.  [deg] </summary>
-        [Units("[deg]")]
-        [Description("Video image rotation clockwise.")]
+        /// <summary>PARAM1, see MAV_CMD enum   </summary>
+        [Units("")]
+        [Description("PARAM1, see MAV_CMD enum")]
         //[FieldOffset(12)]
-        public  ushort rotation;
+        public  float param1;
 
-        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        /// <summary>PARAM2, see MAV_CMD enum   </summary>
         [Units("")]
-        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
-        //[FieldOffset(14)]
-        public  byte camera_id;
-
-        /// <summary>Number of streams available.   </summary>
-        [Units("")]
-        [Description("Number of streams available.")]
-        //[FieldOffset(15)]
-        public  byte status;
-
-        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
-        [Units("")]
-        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        [Description("PARAM2, see MAV_CMD enum")]
         //[FieldOffset(16)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
-		public byte[] uri;
+        public  float param2;
+
+        /// <summary>PARAM3, see MAV_CMD enum   </summary>
+        [Units("")]
+        [Description("PARAM3, see MAV_CMD enum")]
+        //[FieldOffset(20)]
+        public  float param3;
+
+        /// <summary>PARAM4, see MAV_CMD enum   </summary>
+        [Units("")]
+        [Description("PARAM4, see MAV_CMD enum")]
+        //[FieldOffset(24)]
+        public  float param4;
+
+        /// <summary>PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7   </summary>
+        [Units("")]
+        [Description("PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7")]
+        //[FieldOffset(28)]
+        public  int x;
+
+        /// <summary>PARAM6 / local: y position in meters * 1e4, global: longitude in degrees * 10^7   </summary>
+        [Units("")]
+        [Description("PARAM6 / local: y position in meters * 1e4, global: longitude in degrees * 10^7")]
+        //[FieldOffset(32)]
+        public  int y;
+
+        /// <summary>PARAM7 / z position: global: altitude in meters (MSL, WGS84, AGL or relative to home - depending on frame).   </summary>
+        [Units("")]
+        [Description("PARAM7 / z position: global: altitude in meters (MSL, WGS84, AGL or relative to home - depending on frame).")]
+        //[FieldOffset(36)]
+        public  float z;
+
+        /// <summary>The scheduled action for the mission item, as defined by MAV_CMD enum MAV_CMD  </summary>
+        [Units("")]
+        [Description("The scheduled action for the mission item, as defined by MAV_CMD enum")]
+        //[FieldOffset(40)]
+        public  /*MAV_CMD*/ushort command;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(42)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(43)]
+        public  byte target_component;
+
+        /// <summary>The coordinate system of the COMMAND, as defined by MAV_FRAME enum MAV_FRAME  </summary>
+        [Units("")]
+        [Description("The coordinate system of the COMMAND, as defined by MAV_FRAME enum")]
+        //[FieldOffset(44)]
+        public  /*MAV_FRAME*/byte frame;
+
+        /// <summary>false:0, true:1   </summary>
+        [Units("")]
+        [Description("false:0, true:1")]
+        //[FieldOffset(45)]
+        public  byte current;
+
+        /// <summary>autocontinue to next wp   </summary>
+        [Units("")]
+        [Description("autocontinue to next wp")]
+        //[FieldOffset(46)]
+        public  byte autocontinue;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=45)]
+    ///<summary> Send a command with up to seven parameters to the MAV and additional metadata </summary>
+    public struct mavlink_command_long_stamped_t
+    {
+        /// packet ordered constructor
+        public mavlink_command_long_stamped_t(ulong vehicle_timestamp,uint utc_time,float param1,float param2,float param3,float param4,float param5,float param6,float param7,/*MAV_CMD*/ushort command,byte target_system,byte target_component,byte confirmation) 
+        {
+            this.vehicle_timestamp = vehicle_timestamp;
+            this.utc_time = utc_time;
+            this.param1 = param1;
+            this.param2 = param2;
+            this.param3 = param3;
+            this.param4 = param4;
+            this.param5 = param5;
+            this.param6 = param6;
+            this.param7 = param7;
+            this.command = command;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.confirmation = confirmation;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_command_long_stamped_t PopulateXMLOrder(uint utc_time,ulong vehicle_timestamp,byte target_system,byte target_component,/*MAV_CMD*/ushort command,byte confirmation,float param1,float param2,float param3,float param4,float param5,float param6,float param7) 
+        {
+            var msg = new mavlink_command_long_stamped_t();
+
+            msg.utc_time = utc_time;
+            msg.vehicle_timestamp = vehicle_timestamp;
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.command = command;
+            msg.confirmation = confirmation;
+            msg.param1 = param1;
+            msg.param2 = param2;
+            msg.param3 = param3;
+            msg.param4 = param4;
+            msg.param5 = param5;
+            msg.param6 = param6;
+            msg.param7 = param7;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Microseconds elapsed since vehicle boot   </summary>
+        [Units("")]
+        [Description("Microseconds elapsed since vehicle boot")]
+        //[FieldOffset(0)]
+        public  ulong vehicle_timestamp;
+
+        /// <summary>UTC time, seconds elapsed since 01.01.1970   </summary>
+        [Units("")]
+        [Description("UTC time, seconds elapsed since 01.01.1970")]
+        //[FieldOffset(8)]
+        public  uint utc_time;
+
+        /// <summary>Parameter 1, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 1, as defined by MAV_CMD enum.")]
+        //[FieldOffset(12)]
+        public  float param1;
+
+        /// <summary>Parameter 2, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 2, as defined by MAV_CMD enum.")]
+        //[FieldOffset(16)]
+        public  float param2;
+
+        /// <summary>Parameter 3, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 3, as defined by MAV_CMD enum.")]
+        //[FieldOffset(20)]
+        public  float param3;
+
+        /// <summary>Parameter 4, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 4, as defined by MAV_CMD enum.")]
+        //[FieldOffset(24)]
+        public  float param4;
+
+        /// <summary>Parameter 5, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 5, as defined by MAV_CMD enum.")]
+        //[FieldOffset(28)]
+        public  float param5;
+
+        /// <summary>Parameter 6, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 6, as defined by MAV_CMD enum.")]
+        //[FieldOffset(32)]
+        public  float param6;
+
+        /// <summary>Parameter 7, as defined by MAV_CMD enum.   </summary>
+        [Units("")]
+        [Description("Parameter 7, as defined by MAV_CMD enum.")]
+        //[FieldOffset(36)]
+        public  float param7;
+
+        /// <summary>Command ID, as defined by MAV_CMD enum. MAV_CMD  </summary>
+        [Units("")]
+        [Description("Command ID, as defined by MAV_CMD enum.")]
+        //[FieldOffset(40)]
+        public  /*MAV_CMD*/ushort command;
+
+        /// <summary>System which should execute the command   </summary>
+        [Units("")]
+        [Description("System which should execute the command")]
+        //[FieldOffset(42)]
+        public  byte target_system;
+
+        /// <summary>Component which should execute the command, 0 for all components   </summary>
+        [Units("")]
+        [Description("Component which should execute the command, 0 for all components")]
+        //[FieldOffset(43)]
+        public  byte target_component;
+
+        /// <summary>0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)   </summary>
+        [Units("")]
+        [Description("0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)")]
+        //[FieldOffset(44)]
+        public  byte confirmation;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
+    ///<summary> Voltage and current sensor data </summary>
+    public struct mavlink_sens_power_t
+    {
+        /// packet ordered constructor
+        public mavlink_sens_power_t(float adc121_vspb_volt,float adc121_cspb_amp,float adc121_cs1_amp,float adc121_cs2_amp) 
+        {
+            this.adc121_vspb_volt = adc121_vspb_volt;
+            this.adc121_cspb_amp = adc121_cspb_amp;
+            this.adc121_cs1_amp = adc121_cs1_amp;
+            this.adc121_cs2_amp = adc121_cs2_amp;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sens_power_t PopulateXMLOrder(float adc121_vspb_volt,float adc121_cspb_amp,float adc121_cs1_amp,float adc121_cs2_amp) 
+        {
+            var msg = new mavlink_sens_power_t();
+
+            msg.adc121_vspb_volt = adc121_vspb_volt;
+            msg.adc121_cspb_amp = adc121_cspb_amp;
+            msg.adc121_cs1_amp = adc121_cs1_amp;
+            msg.adc121_cs2_amp = adc121_cs2_amp;
+            
+            return msg;
+        }
+        
+
+        /// <summary> Power board voltage sensor reading  [V] </summary>
+        [Units("[V]")]
+        [Description(" Power board voltage sensor reading")]
+        //[FieldOffset(0)]
+        public  float adc121_vspb_volt;
+
+        /// <summary> Power board current sensor reading  [A] </summary>
+        [Units("[A]")]
+        [Description(" Power board current sensor reading")]
+        //[FieldOffset(4)]
+        public  float adc121_cspb_amp;
+
+        /// <summary> Board current sensor 1 reading  [A] </summary>
+        [Units("[A]")]
+        [Description(" Board current sensor 1 reading")]
+        //[FieldOffset(8)]
+        public  float adc121_cs1_amp;
+
+        /// <summary> Board current sensor 2 reading  [A] </summary>
+        [Units("[A]")]
+        [Description(" Board current sensor 2 reading")]
+        //[FieldOffset(12)]
+        public  float adc121_cs2_amp;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
+    ///<summary> Maximum Power Point Tracker (MPPT) sensor data for solar module power performance tracking </summary>
+    public struct mavlink_sens_mppt_t
+    {
+        /// packet ordered constructor
+        public mavlink_sens_mppt_t(ulong mppt_timestamp,float mppt1_volt,float mppt1_amp,float mppt2_volt,float mppt2_amp,float mppt3_volt,float mppt3_amp,ushort mppt1_pwm,ushort mppt2_pwm,ushort mppt3_pwm,byte mppt1_status,byte mppt2_status,byte mppt3_status) 
+        {
+            this.mppt_timestamp = mppt_timestamp;
+            this.mppt1_volt = mppt1_volt;
+            this.mppt1_amp = mppt1_amp;
+            this.mppt2_volt = mppt2_volt;
+            this.mppt2_amp = mppt2_amp;
+            this.mppt3_volt = mppt3_volt;
+            this.mppt3_amp = mppt3_amp;
+            this.mppt1_pwm = mppt1_pwm;
+            this.mppt2_pwm = mppt2_pwm;
+            this.mppt3_pwm = mppt3_pwm;
+            this.mppt1_status = mppt1_status;
+            this.mppt2_status = mppt2_status;
+            this.mppt3_status = mppt3_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sens_mppt_t PopulateXMLOrder(ulong mppt_timestamp,float mppt1_volt,float mppt1_amp,ushort mppt1_pwm,byte mppt1_status,float mppt2_volt,float mppt2_amp,ushort mppt2_pwm,byte mppt2_status,float mppt3_volt,float mppt3_amp,ushort mppt3_pwm,byte mppt3_status) 
+        {
+            var msg = new mavlink_sens_mppt_t();
+
+            msg.mppt_timestamp = mppt_timestamp;
+            msg.mppt1_volt = mppt1_volt;
+            msg.mppt1_amp = mppt1_amp;
+            msg.mppt1_pwm = mppt1_pwm;
+            msg.mppt1_status = mppt1_status;
+            msg.mppt2_volt = mppt2_volt;
+            msg.mppt2_amp = mppt2_amp;
+            msg.mppt2_pwm = mppt2_pwm;
+            msg.mppt2_status = mppt2_status;
+            msg.mppt3_volt = mppt3_volt;
+            msg.mppt3_amp = mppt3_amp;
+            msg.mppt3_pwm = mppt3_pwm;
+            msg.mppt3_status = mppt3_status;
+            
+            return msg;
+        }
+        
+
+        /// <summary> MPPT last timestamp   [us] </summary>
+        [Units("[us]")]
+        [Description(" MPPT last timestamp ")]
+        //[FieldOffset(0)]
+        public  ulong mppt_timestamp;
+
+        /// <summary> MPPT1 voltage   [V] </summary>
+        [Units("[V]")]
+        [Description(" MPPT1 voltage ")]
+        //[FieldOffset(8)]
+        public  float mppt1_volt;
+
+        /// <summary> MPPT1 current   [A] </summary>
+        [Units("[A]")]
+        [Description(" MPPT1 current ")]
+        //[FieldOffset(12)]
+        public  float mppt1_amp;
+
+        /// <summary> MPPT2 voltage   [V] </summary>
+        [Units("[V]")]
+        [Description(" MPPT2 voltage ")]
+        //[FieldOffset(16)]
+        public  float mppt2_volt;
+
+        /// <summary> MPPT2 current   [A] </summary>
+        [Units("[A]")]
+        [Description(" MPPT2 current ")]
+        //[FieldOffset(20)]
+        public  float mppt2_amp;
+
+        /// <summary>MPPT3 voltage   [V] </summary>
+        [Units("[V]")]
+        [Description("MPPT3 voltage ")]
+        //[FieldOffset(24)]
+        public  float mppt3_volt;
+
+        /// <summary> MPPT3 current   [A] </summary>
+        [Units("[A]")]
+        [Description(" MPPT3 current ")]
+        //[FieldOffset(28)]
+        public  float mppt3_amp;
+
+        /// <summary> MPPT1 pwm   [us] </summary>
+        [Units("[us]")]
+        [Description(" MPPT1 pwm ")]
+        //[FieldOffset(32)]
+        public  ushort mppt1_pwm;
+
+        /// <summary> MPPT2 pwm   [us] </summary>
+        [Units("[us]")]
+        [Description(" MPPT2 pwm ")]
+        //[FieldOffset(34)]
+        public  ushort mppt2_pwm;
+
+        /// <summary> MPPT3 pwm   [us] </summary>
+        [Units("[us]")]
+        [Description(" MPPT3 pwm ")]
+        //[FieldOffset(36)]
+        public  ushort mppt3_pwm;
+
+        /// <summary> MPPT1 status    </summary>
+        [Units("")]
+        [Description(" MPPT1 status ")]
+        //[FieldOffset(38)]
+        public  byte mppt1_status;
+
+        /// <summary> MPPT2 status    </summary>
+        [Units("")]
+        [Description(" MPPT2 status ")]
+        //[FieldOffset(39)]
+        public  byte mppt2_status;
+
+        /// <summary> MPPT3 status    </summary>
+        [Units("")]
+        [Description(" MPPT3 status ")]
+        //[FieldOffset(40)]
+        public  byte mppt3_status;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=98)]
+    ///<summary> ASL-fixed-wing controller data </summary>
+    public struct mavlink_aslctrl_data_t
+    {
+        /// packet ordered constructor
+        public mavlink_aslctrl_data_t(ulong timestamp,float h,float hRef,float hRef_t,float PitchAngle,float PitchAngleRef,float q,float qRef,float uElev,float uThrot,float uThrot2,float nZ,float AirspeedRef,float YawAngle,float YawAngleRef,float RollAngle,float RollAngleRef,float p,float pRef,float r,float rRef,float uAil,float uRud,byte aslctrl_mode,byte SpoilersEngaged) 
+        {
+            this.timestamp = timestamp;
+            this.h = h;
+            this.hRef = hRef;
+            this.hRef_t = hRef_t;
+            this.PitchAngle = PitchAngle;
+            this.PitchAngleRef = PitchAngleRef;
+            this.q = q;
+            this.qRef = qRef;
+            this.uElev = uElev;
+            this.uThrot = uThrot;
+            this.uThrot2 = uThrot2;
+            this.nZ = nZ;
+            this.AirspeedRef = AirspeedRef;
+            this.YawAngle = YawAngle;
+            this.YawAngleRef = YawAngleRef;
+            this.RollAngle = RollAngle;
+            this.RollAngleRef = RollAngleRef;
+            this.p = p;
+            this.pRef = pRef;
+            this.r = r;
+            this.rRef = rRef;
+            this.uAil = uAil;
+            this.uRud = uRud;
+            this.aslctrl_mode = aslctrl_mode;
+            this.SpoilersEngaged = SpoilersEngaged;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_aslctrl_data_t PopulateXMLOrder(ulong timestamp,byte aslctrl_mode,float h,float hRef,float hRef_t,float PitchAngle,float PitchAngleRef,float q,float qRef,float uElev,float uThrot,float uThrot2,float nZ,float AirspeedRef,byte SpoilersEngaged,float YawAngle,float YawAngleRef,float RollAngle,float RollAngleRef,float p,float pRef,float r,float rRef,float uAil,float uRud) 
+        {
+            var msg = new mavlink_aslctrl_data_t();
+
+            msg.timestamp = timestamp;
+            msg.aslctrl_mode = aslctrl_mode;
+            msg.h = h;
+            msg.hRef = hRef;
+            msg.hRef_t = hRef_t;
+            msg.PitchAngle = PitchAngle;
+            msg.PitchAngleRef = PitchAngleRef;
+            msg.q = q;
+            msg.qRef = qRef;
+            msg.uElev = uElev;
+            msg.uThrot = uThrot;
+            msg.uThrot2 = uThrot2;
+            msg.nZ = nZ;
+            msg.AirspeedRef = AirspeedRef;
+            msg.SpoilersEngaged = SpoilersEngaged;
+            msg.YawAngle = YawAngle;
+            msg.YawAngleRef = YawAngleRef;
+            msg.RollAngle = RollAngle;
+            msg.RollAngleRef = RollAngleRef;
+            msg.p = p;
+            msg.pRef = pRef;
+            msg.r = r;
+            msg.rRef = rRef;
+            msg.uAil = uAil;
+            msg.uRud = uRud;
+            
+            return msg;
+        }
+        
+
+        /// <summary> Timestamp  [us] </summary>
+        [Units("[us]")]
+        [Description(" Timestamp")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary> See sourcecode for a description of these values...    </summary>
+        [Units("")]
+        [Description(" See sourcecode for a description of these values... ")]
+        //[FieldOffset(8)]
+        public  float h;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(12)]
+        public  float hRef;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(16)]
+        public  float hRef_t;
+
+        /// <summary>Pitch angle  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Pitch angle")]
+        //[FieldOffset(20)]
+        public  float PitchAngle;
+
+        /// <summary>Pitch angle reference  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Pitch angle reference")]
+        //[FieldOffset(24)]
+        public  float PitchAngleRef;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(28)]
+        public  float q;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(32)]
+        public  float qRef;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(36)]
+        public  float uElev;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(40)]
+        public  float uThrot;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(44)]
+        public  float uThrot2;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(48)]
+        public  float nZ;
+
+        /// <summary>Airspeed reference  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Airspeed reference")]
+        //[FieldOffset(52)]
+        public  float AirspeedRef;
+
+        /// <summary>Yaw angle  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Yaw angle")]
+        //[FieldOffset(56)]
+        public  float YawAngle;
+
+        /// <summary>Yaw angle reference  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Yaw angle reference")]
+        //[FieldOffset(60)]
+        public  float YawAngleRef;
+
+        /// <summary>Roll angle  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Roll angle")]
+        //[FieldOffset(64)]
+        public  float RollAngle;
+
+        /// <summary>Roll angle reference  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Roll angle reference")]
+        //[FieldOffset(68)]
+        public  float RollAngleRef;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(72)]
+        public  float p;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(76)]
+        public  float pRef;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(80)]
+        public  float r;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(84)]
+        public  float rRef;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(88)]
+        public  float uAil;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(92)]
+        public  float uRud;
+
+        /// <summary> ASLCTRL control-mode (manual, stabilized, auto, etc...)   </summary>
+        [Units("")]
+        [Description(" ASLCTRL control-mode (manual, stabilized, auto, etc...)")]
+        //[FieldOffset(96)]
+        public  byte aslctrl_mode;
+
+        /// <summary>    </summary>
+        [Units("")]
+        [Description(" ")]
+        //[FieldOffset(97)]
+        public  byte SpoilersEngaged;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
+    ///<summary> ASL-fixed-wing controller debug data </summary>
+    public struct mavlink_aslctrl_debug_t
+    {
+        /// packet ordered constructor
+        public mavlink_aslctrl_debug_t(uint i32_1,float f_1,float f_2,float f_3,float f_4,float f_5,float f_6,float f_7,float f_8,byte i8_1,byte i8_2) 
+        {
+            this.i32_1 = i32_1;
+            this.f_1 = f_1;
+            this.f_2 = f_2;
+            this.f_3 = f_3;
+            this.f_4 = f_4;
+            this.f_5 = f_5;
+            this.f_6 = f_6;
+            this.f_7 = f_7;
+            this.f_8 = f_8;
+            this.i8_1 = i8_1;
+            this.i8_2 = i8_2;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_aslctrl_debug_t PopulateXMLOrder(uint i32_1,byte i8_1,byte i8_2,float f_1,float f_2,float f_3,float f_4,float f_5,float f_6,float f_7,float f_8) 
+        {
+            var msg = new mavlink_aslctrl_debug_t();
+
+            msg.i32_1 = i32_1;
+            msg.i8_1 = i8_1;
+            msg.i8_2 = i8_2;
+            msg.f_1 = f_1;
+            msg.f_2 = f_2;
+            msg.f_3 = f_3;
+            msg.f_4 = f_4;
+            msg.f_5 = f_5;
+            msg.f_6 = f_6;
+            msg.f_7 = f_7;
+            msg.f_8 = f_8;
+            
+            return msg;
+        }
+        
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(0)]
+        public  uint i32_1;
+
+        /// <summary> Debug data    </summary>
+        [Units("")]
+        [Description(" Debug data ")]
+        //[FieldOffset(4)]
+        public  float f_1;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(8)]
+        public  float f_2;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(12)]
+        public  float f_3;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(16)]
+        public  float f_4;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(20)]
+        public  float f_5;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(24)]
+        public  float f_6;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(28)]
+        public  float f_7;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(32)]
+        public  float f_8;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(36)]
+        public  byte i8_1;
+
+        /// <summary> Debug data   </summary>
+        [Units("")]
+        [Description(" Debug data")]
+        //[FieldOffset(37)]
+        public  byte i8_2;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    ///<summary> Extended state information for ASLUAVs </summary>
+    public struct mavlink_asluav_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_asluav_status_t(float Motor_rpm,byte LED_status,byte SATCOM_status,byte[] Servo_status) 
+        {
+            this.Motor_rpm = Motor_rpm;
+            this.LED_status = LED_status;
+            this.SATCOM_status = SATCOM_status;
+            this.Servo_status = Servo_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_asluav_status_t PopulateXMLOrder(byte LED_status,byte SATCOM_status,byte[] Servo_status,float Motor_rpm) 
+        {
+            var msg = new mavlink_asluav_status_t();
+
+            msg.LED_status = LED_status;
+            msg.SATCOM_status = SATCOM_status;
+            msg.Servo_status = Servo_status;
+            msg.Motor_rpm = Motor_rpm;
+            
+            return msg;
+        }
+        
+
+        /// <summary> Motor RPM    </summary>
+        [Units("")]
+        [Description(" Motor RPM ")]
+        //[FieldOffset(0)]
+        public  float Motor_rpm;
+
+        /// <summary> Status of the position-indicator LEDs   </summary>
+        [Units("")]
+        [Description(" Status of the position-indicator LEDs")]
+        //[FieldOffset(4)]
+        public  byte LED_status;
+
+        /// <summary> Status of the IRIDIUM satellite communication system   </summary>
+        [Units("")]
+        [Description(" Status of the IRIDIUM satellite communication system")]
+        //[FieldOffset(5)]
+        public  byte SATCOM_status;
+
+        /// <summary> Status vector for up to 8 servos   </summary>
+        [Units("")]
+        [Description(" Status vector for up to 8 servos")]
+        //[FieldOffset(6)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
+		public byte[] Servo_status;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Extended EKF state estimates for ASLUAVs </summary>
+    public struct mavlink_ekf_ext_t
+    {
+        /// packet ordered constructor
+        public mavlink_ekf_ext_t(ulong timestamp,float Windspeed,float WindDir,float WindZ,float Airspeed,float beta,float alpha) 
+        {
+            this.timestamp = timestamp;
+            this.Windspeed = Windspeed;
+            this.WindDir = WindDir;
+            this.WindZ = WindZ;
+            this.Airspeed = Airspeed;
+            this.beta = beta;
+            this.alpha = alpha;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_ekf_ext_t PopulateXMLOrder(ulong timestamp,float Windspeed,float WindDir,float WindZ,float Airspeed,float beta,float alpha) 
+        {
+            var msg = new mavlink_ekf_ext_t();
+
+            msg.timestamp = timestamp;
+            msg.Windspeed = Windspeed;
+            msg.WindDir = WindDir;
+            msg.WindZ = WindZ;
+            msg.Airspeed = Airspeed;
+            msg.beta = beta;
+            msg.alpha = alpha;
+            
+            return msg;
+        }
+        
+
+        /// <summary> Time since system start  [us] </summary>
+        [Units("[us]")]
+        [Description(" Time since system start")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary> Magnitude of wind velocity (in lateral inertial plane)  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description(" Magnitude of wind velocity (in lateral inertial plane)")]
+        //[FieldOffset(8)]
+        public  float Windspeed;
+
+        /// <summary> Wind heading angle from North  [rad] </summary>
+        [Units("[rad]")]
+        [Description(" Wind heading angle from North")]
+        //[FieldOffset(12)]
+        public  float WindDir;
+
+        /// <summary> Z (Down) component of inertial wind velocity  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description(" Z (Down) component of inertial wind velocity")]
+        //[FieldOffset(16)]
+        public  float WindZ;
+
+        /// <summary> Magnitude of air velocity  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description(" Magnitude of air velocity")]
+        //[FieldOffset(20)]
+        public  float Airspeed;
+
+        /// <summary> Sideslip angle  [rad] </summary>
+        [Units("[rad]")]
+        [Description(" Sideslip angle")]
+        //[FieldOffset(24)]
+        public  float beta;
+
+        /// <summary> Angle of attack  [rad] </summary>
+        [Units("[rad]")]
+        [Description(" Angle of attack")]
+        //[FieldOffset(28)]
+        public  float alpha;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
+    ///<summary> Off-board controls/commands for ASLUAVs </summary>
+    public struct mavlink_asl_obctrl_t
+    {
+        /// packet ordered constructor
+        public mavlink_asl_obctrl_t(ulong timestamp,float uElev,float uThrot,float uThrot2,float uAilL,float uAilR,float uRud,byte obctrl_status) 
+        {
+            this.timestamp = timestamp;
+            this.uElev = uElev;
+            this.uThrot = uThrot;
+            this.uThrot2 = uThrot2;
+            this.uAilL = uAilL;
+            this.uAilR = uAilR;
+            this.uRud = uRud;
+            this.obctrl_status = obctrl_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_asl_obctrl_t PopulateXMLOrder(ulong timestamp,float uElev,float uThrot,float uThrot2,float uAilL,float uAilR,float uRud,byte obctrl_status) 
+        {
+            var msg = new mavlink_asl_obctrl_t();
+
+            msg.timestamp = timestamp;
+            msg.uElev = uElev;
+            msg.uThrot = uThrot;
+            msg.uThrot2 = uThrot2;
+            msg.uAilL = uAilL;
+            msg.uAilR = uAilR;
+            msg.uRud = uRud;
+            msg.obctrl_status = obctrl_status;
+            
+            return msg;
+        }
+        
+
+        /// <summary> Time since system start  [us] </summary>
+        [Units("[us]")]
+        [Description(" Time since system start")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary> Elevator command [~]   </summary>
+        [Units("")]
+        [Description(" Elevator command [~]")]
+        //[FieldOffset(8)]
+        public  float uElev;
+
+        /// <summary> Throttle command [~]   </summary>
+        [Units("")]
+        [Description(" Throttle command [~]")]
+        //[FieldOffset(12)]
+        public  float uThrot;
+
+        /// <summary> Throttle 2 command [~]   </summary>
+        [Units("")]
+        [Description(" Throttle 2 command [~]")]
+        //[FieldOffset(16)]
+        public  float uThrot2;
+
+        /// <summary> Left aileron command [~]   </summary>
+        [Units("")]
+        [Description(" Left aileron command [~]")]
+        //[FieldOffset(20)]
+        public  float uAilL;
+
+        /// <summary> Right aileron command [~]   </summary>
+        [Units("")]
+        [Description(" Right aileron command [~]")]
+        //[FieldOffset(24)]
+        public  float uAilR;
+
+        /// <summary> Rudder command [~]   </summary>
+        [Units("")]
+        [Description(" Rudder command [~]")]
+        //[FieldOffset(28)]
+        public  float uRud;
+
+        /// <summary> Off-board computer status   </summary>
+        [Units("")]
+        [Description(" Off-board computer status")]
+        //[FieldOffset(32)]
+        public  byte obctrl_status;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
+    ///<summary> Atmospheric sensors (temperature, humidity, ...)  </summary>
+    public struct mavlink_sens_atmos_t
+    {
+        /// packet ordered constructor
+        public mavlink_sens_atmos_t(ulong timestamp,float TempAmbient,float Humidity) 
+        {
+            this.timestamp = timestamp;
+            this.TempAmbient = TempAmbient;
+            this.Humidity = Humidity;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sens_atmos_t PopulateXMLOrder(ulong timestamp,float TempAmbient,float Humidity) 
+        {
+            var msg = new mavlink_sens_atmos_t();
+
+            msg.timestamp = timestamp;
+            msg.TempAmbient = TempAmbient;
+            msg.Humidity = Humidity;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Time since system boot  [us] </summary>
+        [Units("[us]")]
+        [Description("Time since system boot")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary> Ambient temperature  [degC] </summary>
+        [Units("[degC]")]
+        [Description(" Ambient temperature")]
+        //[FieldOffset(8)]
+        public  float TempAmbient;
+
+        /// <summary> Relative humidity  [%] </summary>
+        [Units("[%]")]
+        [Description(" Relative humidity")]
+        //[FieldOffset(12)]
+        public  float Humidity;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
+    ///<summary> Battery pack monitoring data for Li-Ion batteries </summary>
+    public struct mavlink_sens_batmon_t
+    {
+        /// packet ordered constructor
+        public mavlink_sens_batmon_t(ulong batmon_timestamp,float temperature,uint safetystatus,uint operationstatus,ushort voltage,short current,ushort batterystatus,ushort serialnumber,ushort cellvoltage1,ushort cellvoltage2,ushort cellvoltage3,ushort cellvoltage4,ushort cellvoltage5,ushort cellvoltage6,byte SoC) 
+        {
+            this.batmon_timestamp = batmon_timestamp;
+            this.temperature = temperature;
+            this.safetystatus = safetystatus;
+            this.operationstatus = operationstatus;
+            this.voltage = voltage;
+            this.current = current;
+            this.batterystatus = batterystatus;
+            this.serialnumber = serialnumber;
+            this.cellvoltage1 = cellvoltage1;
+            this.cellvoltage2 = cellvoltage2;
+            this.cellvoltage3 = cellvoltage3;
+            this.cellvoltage4 = cellvoltage4;
+            this.cellvoltage5 = cellvoltage5;
+            this.cellvoltage6 = cellvoltage6;
+            this.SoC = SoC;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sens_batmon_t PopulateXMLOrder(ulong batmon_timestamp,float temperature,ushort voltage,short current,byte SoC,ushort batterystatus,ushort serialnumber,uint safetystatus,uint operationstatus,ushort cellvoltage1,ushort cellvoltage2,ushort cellvoltage3,ushort cellvoltage4,ushort cellvoltage5,ushort cellvoltage6) 
+        {
+            var msg = new mavlink_sens_batmon_t();
+
+            msg.batmon_timestamp = batmon_timestamp;
+            msg.temperature = temperature;
+            msg.voltage = voltage;
+            msg.current = current;
+            msg.SoC = SoC;
+            msg.batterystatus = batterystatus;
+            msg.serialnumber = serialnumber;
+            msg.safetystatus = safetystatus;
+            msg.operationstatus = operationstatus;
+            msg.cellvoltage1 = cellvoltage1;
+            msg.cellvoltage2 = cellvoltage2;
+            msg.cellvoltage3 = cellvoltage3;
+            msg.cellvoltage4 = cellvoltage4;
+            msg.cellvoltage5 = cellvoltage5;
+            msg.cellvoltage6 = cellvoltage6;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Time since system start  [us] </summary>
+        [Units("[us]")]
+        [Description("Time since system start")]
+        //[FieldOffset(0)]
+        public  ulong batmon_timestamp;
+
+        /// <summary>Battery pack temperature  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Battery pack temperature")]
+        //[FieldOffset(8)]
+        public  float temperature;
+
+        /// <summary>Battery monitor safetystatus report bits in Hex   </summary>
+        [Units("")]
+        [Description("Battery monitor safetystatus report bits in Hex")]
+        //[FieldOffset(12)]
+        public  uint safetystatus;
+
+        /// <summary>Battery monitor operation status report bits in Hex   </summary>
+        [Units("")]
+        [Description("Battery monitor operation status report bits in Hex")]
+        //[FieldOffset(16)]
+        public  uint operationstatus;
+
+        /// <summary>Battery pack voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack voltage")]
+        //[FieldOffset(20)]
+        public  ushort voltage;
+
+        /// <summary>Battery pack current  [mA] </summary>
+        [Units("[mA]")]
+        [Description("Battery pack current")]
+        //[FieldOffset(22)]
+        public  short current;
+
+        /// <summary>Battery monitor status report bits in Hex   </summary>
+        [Units("")]
+        [Description("Battery monitor status report bits in Hex")]
+        //[FieldOffset(24)]
+        public  ushort batterystatus;
+
+        /// <summary>Battery monitor serial number in Hex   </summary>
+        [Units("")]
+        [Description("Battery monitor serial number in Hex")]
+        //[FieldOffset(26)]
+        public  ushort serialnumber;
+
+        /// <summary>Battery pack cell 1 voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack cell 1 voltage")]
+        //[FieldOffset(28)]
+        public  ushort cellvoltage1;
+
+        /// <summary>Battery pack cell 2 voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack cell 2 voltage")]
+        //[FieldOffset(30)]
+        public  ushort cellvoltage2;
+
+        /// <summary>Battery pack cell 3 voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack cell 3 voltage")]
+        //[FieldOffset(32)]
+        public  ushort cellvoltage3;
+
+        /// <summary>Battery pack cell 4 voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack cell 4 voltage")]
+        //[FieldOffset(34)]
+        public  ushort cellvoltage4;
+
+        /// <summary>Battery pack cell 5 voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack cell 5 voltage")]
+        //[FieldOffset(36)]
+        public  ushort cellvoltage5;
+
+        /// <summary>Battery pack cell 6 voltage  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Battery pack cell 6 voltage")]
+        //[FieldOffset(38)]
+        public  ushort cellvoltage6;
+
+        /// <summary>Battery pack state-of-charge   </summary>
+        [Units("")]
+        [Description("Battery pack state-of-charge")]
+        //[FieldOffset(40)]
+        public  byte SoC;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=102)]
+    ///<summary> Fixed-wing soaring (i.e. thermal seeking) data </summary>
+    public struct mavlink_fw_soaring_data_t
+    {
+        /// packet ordered constructor
+        public mavlink_fw_soaring_data_t(ulong timestamp,ulong timestampModeChanged,float xW,float xR,float xLat,float xLon,float VarW,float VarR,float VarLat,float VarLon,float LoiterRadius,float LoiterDirection,float DistToSoarPoint,float vSinkExp,float z1_LocalUpdraftSpeed,float z2_DeltaRoll,float z1_exp,float z2_exp,float ThermalGSNorth,float ThermalGSEast,float TSE_dot,float DebugVar1,float DebugVar2,byte ControlMode,byte valid) 
+        {
+            this.timestamp = timestamp;
+            this.timestampModeChanged = timestampModeChanged;
+            this.xW = xW;
+            this.xR = xR;
+            this.xLat = xLat;
+            this.xLon = xLon;
+            this.VarW = VarW;
+            this.VarR = VarR;
+            this.VarLat = VarLat;
+            this.VarLon = VarLon;
+            this.LoiterRadius = LoiterRadius;
+            this.LoiterDirection = LoiterDirection;
+            this.DistToSoarPoint = DistToSoarPoint;
+            this.vSinkExp = vSinkExp;
+            this.z1_LocalUpdraftSpeed = z1_LocalUpdraftSpeed;
+            this.z2_DeltaRoll = z2_DeltaRoll;
+            this.z1_exp = z1_exp;
+            this.z2_exp = z2_exp;
+            this.ThermalGSNorth = ThermalGSNorth;
+            this.ThermalGSEast = ThermalGSEast;
+            this.TSE_dot = TSE_dot;
+            this.DebugVar1 = DebugVar1;
+            this.DebugVar2 = DebugVar2;
+            this.ControlMode = ControlMode;
+            this.valid = valid;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_fw_soaring_data_t PopulateXMLOrder(ulong timestamp,ulong timestampModeChanged,float xW,float xR,float xLat,float xLon,float VarW,float VarR,float VarLat,float VarLon,float LoiterRadius,float LoiterDirection,float DistToSoarPoint,float vSinkExp,float z1_LocalUpdraftSpeed,float z2_DeltaRoll,float z1_exp,float z2_exp,float ThermalGSNorth,float ThermalGSEast,float TSE_dot,float DebugVar1,float DebugVar2,byte ControlMode,byte valid) 
+        {
+            var msg = new mavlink_fw_soaring_data_t();
+
+            msg.timestamp = timestamp;
+            msg.timestampModeChanged = timestampModeChanged;
+            msg.xW = xW;
+            msg.xR = xR;
+            msg.xLat = xLat;
+            msg.xLon = xLon;
+            msg.VarW = VarW;
+            msg.VarR = VarR;
+            msg.VarLat = VarLat;
+            msg.VarLon = VarLon;
+            msg.LoiterRadius = LoiterRadius;
+            msg.LoiterDirection = LoiterDirection;
+            msg.DistToSoarPoint = DistToSoarPoint;
+            msg.vSinkExp = vSinkExp;
+            msg.z1_LocalUpdraftSpeed = z1_LocalUpdraftSpeed;
+            msg.z2_DeltaRoll = z2_DeltaRoll;
+            msg.z1_exp = z1_exp;
+            msg.z2_exp = z2_exp;
+            msg.ThermalGSNorth = ThermalGSNorth;
+            msg.ThermalGSEast = ThermalGSEast;
+            msg.TSE_dot = TSE_dot;
+            msg.DebugVar1 = DebugVar1;
+            msg.DebugVar2 = DebugVar2;
+            msg.ControlMode = ControlMode;
+            msg.valid = valid;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary>Timestamp since last mode change  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp since last mode change")]
+        //[FieldOffset(8)]
+        public  ulong timestampModeChanged;
+
+        /// <summary>Thermal core updraft strength  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Thermal core updraft strength")]
+        //[FieldOffset(16)]
+        public  float xW;
+
+        /// <summary>Thermal radius  [m] </summary>
+        [Units("[m]")]
+        [Description("Thermal radius")]
+        //[FieldOffset(20)]
+        public  float xR;
+
+        /// <summary>Thermal center latitude  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Thermal center latitude")]
+        //[FieldOffset(24)]
+        public  float xLat;
+
+        /// <summary>Thermal center longitude  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Thermal center longitude")]
+        //[FieldOffset(28)]
+        public  float xLon;
+
+        /// <summary>Variance W   </summary>
+        [Units("")]
+        [Description("Variance W")]
+        //[FieldOffset(32)]
+        public  float VarW;
+
+        /// <summary>Variance R   </summary>
+        [Units("")]
+        [Description("Variance R")]
+        //[FieldOffset(36)]
+        public  float VarR;
+
+        /// <summary>Variance Lat   </summary>
+        [Units("")]
+        [Description("Variance Lat")]
+        //[FieldOffset(40)]
+        public  float VarLat;
+
+        /// <summary>Variance Lon    </summary>
+        [Units("")]
+        [Description("Variance Lon ")]
+        //[FieldOffset(44)]
+        public  float VarLon;
+
+        /// <summary>Suggested loiter radius  [m] </summary>
+        [Units("[m]")]
+        [Description("Suggested loiter radius")]
+        //[FieldOffset(48)]
+        public  float LoiterRadius;
+
+        /// <summary>Suggested loiter direction   </summary>
+        [Units("")]
+        [Description("Suggested loiter direction")]
+        //[FieldOffset(52)]
+        public  float LoiterDirection;
+
+        /// <summary>Distance to soar point  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance to soar point")]
+        //[FieldOffset(56)]
+        public  float DistToSoarPoint;
+
+        /// <summary>Expected sink rate at current airspeed, roll and throttle  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Expected sink rate at current airspeed, roll and throttle")]
+        //[FieldOffset(60)]
+        public  float vSinkExp;
+
+        /// <summary>Measurement / updraft speed at current/local airplane position  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Measurement / updraft speed at current/local airplane position")]
+        //[FieldOffset(64)]
+        public  float z1_LocalUpdraftSpeed;
+
+        /// <summary>Measurement / roll angle tracking error  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Measurement / roll angle tracking error")]
+        //[FieldOffset(68)]
+        public  float z2_DeltaRoll;
+
+        /// <summary>Expected measurement 1   </summary>
+        [Units("")]
+        [Description("Expected measurement 1")]
+        //[FieldOffset(72)]
+        public  float z1_exp;
+
+        /// <summary>Expected measurement 2   </summary>
+        [Units("")]
+        [Description("Expected measurement 2")]
+        //[FieldOffset(76)]
+        public  float z2_exp;
+
+        /// <summary>Thermal drift (from estimator prediction step only)  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Thermal drift (from estimator prediction step only)")]
+        //[FieldOffset(80)]
+        public  float ThermalGSNorth;
+
+        /// <summary>Thermal drift (from estimator prediction step only)  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Thermal drift (from estimator prediction step only)")]
+        //[FieldOffset(84)]
+        public  float ThermalGSEast;
+
+        /// <summary> Total specific energy change (filtered)  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description(" Total specific energy change (filtered)")]
+        //[FieldOffset(88)]
+        public  float TSE_dot;
+
+        /// <summary> Debug variable 1   </summary>
+        [Units("")]
+        [Description(" Debug variable 1")]
+        //[FieldOffset(92)]
+        public  float DebugVar1;
+
+        /// <summary> Debug variable 2   </summary>
+        [Units("")]
+        [Description(" Debug variable 2")]
+        //[FieldOffset(96)]
+        public  float DebugVar2;
+
+        /// <summary>Control Mode [-]   </summary>
+        [Units("")]
+        [Description("Control Mode [-]")]
+        //[FieldOffset(100)]
+        public  byte ControlMode;
+
+        /// <summary>Data valid [-]   </summary>
+        [Units("")]
+        [Description("Data valid [-]")]
+        //[FieldOffset(101)]
+        public  byte valid;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
+    ///<summary> Monitoring of sensorpod status </summary>
+    public struct mavlink_sensorpod_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_sensorpod_status_t(ulong timestamp,ushort free_space,byte visensor_rate_1,byte visensor_rate_2,byte visensor_rate_3,byte visensor_rate_4,byte recording_nodes_count,byte cpu_temp) 
+        {
+            this.timestamp = timestamp;
+            this.free_space = free_space;
+            this.visensor_rate_1 = visensor_rate_1;
+            this.visensor_rate_2 = visensor_rate_2;
+            this.visensor_rate_3 = visensor_rate_3;
+            this.visensor_rate_4 = visensor_rate_4;
+            this.recording_nodes_count = recording_nodes_count;
+            this.cpu_temp = cpu_temp;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sensorpod_status_t PopulateXMLOrder(ulong timestamp,byte visensor_rate_1,byte visensor_rate_2,byte visensor_rate_3,byte visensor_rate_4,byte recording_nodes_count,byte cpu_temp,ushort free_space) 
+        {
+            var msg = new mavlink_sensorpod_status_t();
+
+            msg.timestamp = timestamp;
+            msg.visensor_rate_1 = visensor_rate_1;
+            msg.visensor_rate_2 = visensor_rate_2;
+            msg.visensor_rate_3 = visensor_rate_3;
+            msg.visensor_rate_4 = visensor_rate_4;
+            msg.recording_nodes_count = recording_nodes_count;
+            msg.cpu_temp = cpu_temp;
+            msg.free_space = free_space;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp in linuxtime (since 1.1.1970)  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp in linuxtime (since 1.1.1970)")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary>Free space available in recordings directory in [Gb] * 1e2   </summary>
+        [Units("")]
+        [Description("Free space available in recordings directory in [Gb] * 1e2")]
+        //[FieldOffset(8)]
+        public  ushort free_space;
+
+        /// <summary>Rate of ROS topic 1   </summary>
+        [Units("")]
+        [Description("Rate of ROS topic 1")]
+        //[FieldOffset(10)]
+        public  byte visensor_rate_1;
+
+        /// <summary>Rate of ROS topic 2   </summary>
+        [Units("")]
+        [Description("Rate of ROS topic 2")]
+        //[FieldOffset(11)]
+        public  byte visensor_rate_2;
+
+        /// <summary>Rate of ROS topic 3   </summary>
+        [Units("")]
+        [Description("Rate of ROS topic 3")]
+        //[FieldOffset(12)]
+        public  byte visensor_rate_3;
+
+        /// <summary>Rate of ROS topic 4   </summary>
+        [Units("")]
+        [Description("Rate of ROS topic 4")]
+        //[FieldOffset(13)]
+        public  byte visensor_rate_4;
+
+        /// <summary>Number of recording nodes   </summary>
+        [Units("")]
+        [Description("Number of recording nodes")]
+        //[FieldOffset(14)]
+        public  byte recording_nodes_count;
+
+        /// <summary>Temperature of sensorpod CPU in  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature of sensorpod CPU in")]
+        //[FieldOffset(15)]
+        public  byte cpu_temp;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
+    ///<summary> Monitoring of power board status </summary>
+    public struct mavlink_sens_power_board_t
+    {
+        /// packet ordered constructor
+        public mavlink_sens_power_board_t(ulong timestamp,float pwr_brd_system_volt,float pwr_brd_servo_volt,float pwr_brd_digital_volt,float pwr_brd_mot_l_amp,float pwr_brd_mot_r_amp,float pwr_brd_analog_amp,float pwr_brd_digital_amp,float pwr_brd_ext_amp,float pwr_brd_aux_amp,byte pwr_brd_status,byte pwr_brd_led_status) 
+        {
+            this.timestamp = timestamp;
+            this.pwr_brd_system_volt = pwr_brd_system_volt;
+            this.pwr_brd_servo_volt = pwr_brd_servo_volt;
+            this.pwr_brd_digital_volt = pwr_brd_digital_volt;
+            this.pwr_brd_mot_l_amp = pwr_brd_mot_l_amp;
+            this.pwr_brd_mot_r_amp = pwr_brd_mot_r_amp;
+            this.pwr_brd_analog_amp = pwr_brd_analog_amp;
+            this.pwr_brd_digital_amp = pwr_brd_digital_amp;
+            this.pwr_brd_ext_amp = pwr_brd_ext_amp;
+            this.pwr_brd_aux_amp = pwr_brd_aux_amp;
+            this.pwr_brd_status = pwr_brd_status;
+            this.pwr_brd_led_status = pwr_brd_led_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sens_power_board_t PopulateXMLOrder(ulong timestamp,byte pwr_brd_status,byte pwr_brd_led_status,float pwr_brd_system_volt,float pwr_brd_servo_volt,float pwr_brd_digital_volt,float pwr_brd_mot_l_amp,float pwr_brd_mot_r_amp,float pwr_brd_analog_amp,float pwr_brd_digital_amp,float pwr_brd_ext_amp,float pwr_brd_aux_amp) 
+        {
+            var msg = new mavlink_sens_power_board_t();
+
+            msg.timestamp = timestamp;
+            msg.pwr_brd_status = pwr_brd_status;
+            msg.pwr_brd_led_status = pwr_brd_led_status;
+            msg.pwr_brd_system_volt = pwr_brd_system_volt;
+            msg.pwr_brd_servo_volt = pwr_brd_servo_volt;
+            msg.pwr_brd_digital_volt = pwr_brd_digital_volt;
+            msg.pwr_brd_mot_l_amp = pwr_brd_mot_l_amp;
+            msg.pwr_brd_mot_r_amp = pwr_brd_mot_r_amp;
+            msg.pwr_brd_analog_amp = pwr_brd_analog_amp;
+            msg.pwr_brd_digital_amp = pwr_brd_digital_amp;
+            msg.pwr_brd_ext_amp = pwr_brd_ext_amp;
+            msg.pwr_brd_aux_amp = pwr_brd_aux_amp;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary>Power board system voltage  [V] </summary>
+        [Units("[V]")]
+        [Description("Power board system voltage")]
+        //[FieldOffset(8)]
+        public  float pwr_brd_system_volt;
+
+        /// <summary>Power board servo voltage  [V] </summary>
+        [Units("[V]")]
+        [Description("Power board servo voltage")]
+        //[FieldOffset(12)]
+        public  float pwr_brd_servo_volt;
+
+        /// <summary>Power board digital voltage  [V] </summary>
+        [Units("[V]")]
+        [Description("Power board digital voltage")]
+        //[FieldOffset(16)]
+        public  float pwr_brd_digital_volt;
+
+        /// <summary>Power board left motor current sensor  [A] </summary>
+        [Units("[A]")]
+        [Description("Power board left motor current sensor")]
+        //[FieldOffset(20)]
+        public  float pwr_brd_mot_l_amp;
+
+        /// <summary>Power board right motor current sensor  [A] </summary>
+        [Units("[A]")]
+        [Description("Power board right motor current sensor")]
+        //[FieldOffset(24)]
+        public  float pwr_brd_mot_r_amp;
+
+        /// <summary>Power board analog current sensor  [A] </summary>
+        [Units("[A]")]
+        [Description("Power board analog current sensor")]
+        //[FieldOffset(28)]
+        public  float pwr_brd_analog_amp;
+
+        /// <summary>Power board digital current sensor  [A] </summary>
+        [Units("[A]")]
+        [Description("Power board digital current sensor")]
+        //[FieldOffset(32)]
+        public  float pwr_brd_digital_amp;
+
+        /// <summary>Power board extension current sensor  [A] </summary>
+        [Units("[A]")]
+        [Description("Power board extension current sensor")]
+        //[FieldOffset(36)]
+        public  float pwr_brd_ext_amp;
+
+        /// <summary>Power board aux current sensor  [A] </summary>
+        [Units("[A]")]
+        [Description("Power board aux current sensor")]
+        //[FieldOffset(40)]
+        public  float pwr_brd_aux_amp;
+
+        /// <summary>Power board status register   </summary>
+        [Units("")]
+        [Description("Power board status register")]
+        //[FieldOffset(44)]
+        public  byte pwr_brd_status;
+
+        /// <summary>Power board leds status   </summary>
+        [Units("")]
+        [Description("Power board leds status")]
+        //[FieldOffset(45)]
+        public  byte pwr_brd_led_status;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    ///<summary> Status of GSM modem (connected to onboard computer) </summary>
+    public struct mavlink_gsm_link_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_gsm_link_status_t(ulong timestamp,/*GSM_MODEM_TYPE*/byte gsm_modem_type,/*GSM_LINK_TYPE*/byte gsm_link_type,byte rssi,byte rsrp_rscp,byte sinr_ecio,byte rsrq) 
+        {
+            this.timestamp = timestamp;
+            this.gsm_modem_type = gsm_modem_type;
+            this.gsm_link_type = gsm_link_type;
+            this.rssi = rssi;
+            this.rsrp_rscp = rsrp_rscp;
+            this.sinr_ecio = sinr_ecio;
+            this.rsrq = rsrq;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gsm_link_status_t PopulateXMLOrder(ulong timestamp,/*GSM_MODEM_TYPE*/byte gsm_modem_type,/*GSM_LINK_TYPE*/byte gsm_link_type,byte rssi,byte rsrp_rscp,byte sinr_ecio,byte rsrq) 
+        {
+            var msg = new mavlink_gsm_link_status_t();
+
+            msg.timestamp = timestamp;
+            msg.gsm_modem_type = gsm_modem_type;
+            msg.gsm_link_type = gsm_link_type;
+            msg.rssi = rssi;
+            msg.rsrp_rscp = rsrp_rscp;
+            msg.sinr_ecio = sinr_ecio;
+            msg.rsrq = rsrq;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (of OBC)  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp (of OBC)")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary>GSM modem used GSM_MODEM_TYPE  </summary>
+        [Units("")]
+        [Description("GSM modem used")]
+        //[FieldOffset(8)]
+        public  /*GSM_MODEM_TYPE*/byte gsm_modem_type;
+
+        /// <summary>GSM link type GSM_LINK_TYPE  </summary>
+        [Units("")]
+        [Description("GSM link type")]
+        //[FieldOffset(9)]
+        public  /*GSM_LINK_TYPE*/byte gsm_link_type;
+
+        /// <summary>RSSI as reported by modem (unconverted)   </summary>
+        [Units("")]
+        [Description("RSSI as reported by modem (unconverted)")]
+        //[FieldOffset(10)]
+        public  byte rssi;
+
+        /// <summary>RSRP (LTE) or RSCP (WCDMA) as reported by modem (unconverted)   </summary>
+        [Units("")]
+        [Description("RSRP (LTE) or RSCP (WCDMA) as reported by modem (unconverted)")]
+        //[FieldOffset(11)]
+        public  byte rsrp_rscp;
+
+        /// <summary>SINR (LTE) or ECIO (WCDMA) as reported by modem (unconverted)   </summary>
+        [Units("")]
+        [Description("SINR (LTE) or ECIO (WCDMA) as reported by modem (unconverted)")]
+        //[FieldOffset(12)]
+        public  byte sinr_ecio;
+
+        /// <summary>RSRQ (LTE only) as reported by modem (unconverted)   </summary>
+        [Units("")]
+        [Description("RSRQ (LTE only) as reported by modem (unconverted)")]
+        //[FieldOffset(13)]
+        public  byte rsrq;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
+    ///<summary> Status of the SatCom link </summary>
+    public struct mavlink_satcom_link_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_satcom_link_status_t(ulong timestamp,ulong last_heartbeat,ushort failed_sessions,ushort successful_sessions,byte signal_quality,byte ring_pending,byte tx_session_pending,byte rx_session_pending) 
+        {
+            this.timestamp = timestamp;
+            this.last_heartbeat = last_heartbeat;
+            this.failed_sessions = failed_sessions;
+            this.successful_sessions = successful_sessions;
+            this.signal_quality = signal_quality;
+            this.ring_pending = ring_pending;
+            this.tx_session_pending = tx_session_pending;
+            this.rx_session_pending = rx_session_pending;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_satcom_link_status_t PopulateXMLOrder(ulong timestamp,ulong last_heartbeat,ushort failed_sessions,ushort successful_sessions,byte signal_quality,byte ring_pending,byte tx_session_pending,byte rx_session_pending) 
+        {
+            var msg = new mavlink_satcom_link_status_t();
+
+            msg.timestamp = timestamp;
+            msg.last_heartbeat = last_heartbeat;
+            msg.failed_sessions = failed_sessions;
+            msg.successful_sessions = successful_sessions;
+            msg.signal_quality = signal_quality;
+            msg.ring_pending = ring_pending;
+            msg.tx_session_pending = tx_session_pending;
+            msg.rx_session_pending = rx_session_pending;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary>Timestamp of the last successful sbd session  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp of the last successful sbd session")]
+        //[FieldOffset(8)]
+        public  ulong last_heartbeat;
+
+        /// <summary>Number of failed sessions   </summary>
+        [Units("")]
+        [Description("Number of failed sessions")]
+        //[FieldOffset(16)]
+        public  ushort failed_sessions;
+
+        /// <summary>Number of successful sessions   </summary>
+        [Units("")]
+        [Description("Number of successful sessions")]
+        //[FieldOffset(18)]
+        public  ushort successful_sessions;
+
+        /// <summary>Signal quality   </summary>
+        [Units("")]
+        [Description("Signal quality")]
+        //[FieldOffset(20)]
+        public  byte signal_quality;
+
+        /// <summary>Ring call pending   </summary>
+        [Units("")]
+        [Description("Ring call pending")]
+        //[FieldOffset(21)]
+        public  byte ring_pending;
+
+        /// <summary>Transmission session pending   </summary>
+        [Units("")]
+        [Description("Transmission session pending")]
+        //[FieldOffset(22)]
+        public  byte tx_session_pending;
+
+        /// <summary>Receiving session pending   </summary>
+        [Units("")]
+        [Description("Receiving session pending")]
+        //[FieldOffset(23)]
+        public  byte rx_session_pending;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
+    ///<summary> Calibrated airflow angle measurements </summary>
+    public struct mavlink_sensor_airflow_angles_t
+    {
+        /// packet ordered constructor
+        public mavlink_sensor_airflow_angles_t(ulong timestamp,float angleofattack,float sideslip,byte angleofattack_valid,byte sideslip_valid) 
+        {
+            this.timestamp = timestamp;
+            this.angleofattack = angleofattack;
+            this.sideslip = sideslip;
+            this.angleofattack_valid = angleofattack_valid;
+            this.sideslip_valid = sideslip_valid;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_sensor_airflow_angles_t PopulateXMLOrder(ulong timestamp,float angleofattack,byte angleofattack_valid,float sideslip,byte sideslip_valid) 
+        {
+            var msg = new mavlink_sensor_airflow_angles_t();
+
+            msg.timestamp = timestamp;
+            msg.angleofattack = angleofattack;
+            msg.angleofattack_valid = angleofattack_valid;
+            msg.sideslip = sideslip;
+            msg.sideslip_valid = sideslip_valid;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp")]
+        //[FieldOffset(0)]
+        public  ulong timestamp;
+
+        /// <summary>Angle of attack  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Angle of attack")]
+        //[FieldOffset(8)]
+        public  float angleofattack;
+
+        /// <summary>Sideslip angle  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Sideslip angle")]
+        //[FieldOffset(12)]
+        public  float sideslip;
+
+        /// <summary>Angle of attack measurement valid   </summary>
+        [Units("")]
+        [Description("Angle of attack measurement valid")]
+        //[FieldOffset(16)]
+        public  byte angleofattack_valid;
+
+        /// <summary>Sideslip angle measurement valid   </summary>
+        [Units("")]
+        [Description("Sideslip angle measurement valid")]
+        //[FieldOffset(17)]
+        public  byte sideslip_valid;
     };
 
     
@@ -28562,6 +31325,237 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=239)]
+    ///<summary> Describe a trajectory using an array of up-to 5 waypoints in the local frame (MAV_FRAME_LOCAL_NED). </summary>
+    public struct mavlink_trajectory_representation_waypoints_t
+    {
+        /// packet ordered constructor
+        public mavlink_trajectory_representation_waypoints_t(ulong time_usec,float[] pos_x,float[] pos_y,float[] pos_z,float[] vel_x,float[] vel_y,float[] vel_z,float[] acc_x,float[] acc_y,float[] acc_z,float[] pos_yaw,float[] vel_yaw,ushort[] command,byte valid_points) 
+        {
+            this.time_usec = time_usec;
+            this.pos_x = pos_x;
+            this.pos_y = pos_y;
+            this.pos_z = pos_z;
+            this.vel_x = vel_x;
+            this.vel_y = vel_y;
+            this.vel_z = vel_z;
+            this.acc_x = acc_x;
+            this.acc_y = acc_y;
+            this.acc_z = acc_z;
+            this.pos_yaw = pos_yaw;
+            this.vel_yaw = vel_yaw;
+            this.command = command;
+            this.valid_points = valid_points;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_trajectory_representation_waypoints_t PopulateXMLOrder(ulong time_usec,byte valid_points,float[] pos_x,float[] pos_y,float[] pos_z,float[] vel_x,float[] vel_y,float[] vel_z,float[] acc_x,float[] acc_y,float[] acc_z,float[] pos_yaw,float[] vel_yaw,ushort[] command) 
+        {
+            var msg = new mavlink_trajectory_representation_waypoints_t();
+
+            msg.time_usec = time_usec;
+            msg.valid_points = valid_points;
+            msg.pos_x = pos_x;
+            msg.pos_y = pos_y;
+            msg.pos_z = pos_z;
+            msg.vel_x = vel_x;
+            msg.vel_y = vel_y;
+            msg.vel_z = vel_z;
+            msg.acc_x = acc_x;
+            msg.acc_y = acc_y;
+            msg.acc_z = acc_z;
+            msg.pos_yaw = pos_yaw;
+            msg.vel_yaw = vel_yaw;
+            msg.command = command;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
+        public  ulong time_usec;
+
+        /// <summary>X-coordinate of waypoint, set to NaN if not being used  [m] </summary>
+        [Units("[m]")]
+        [Description("X-coordinate of waypoint, set to NaN if not being used")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_x;
+
+        /// <summary>Y-coordinate of waypoint, set to NaN if not being used  [m] </summary>
+        [Units("[m]")]
+        [Description("Y-coordinate of waypoint, set to NaN if not being used")]
+        //[FieldOffset(28)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_y;
+
+        /// <summary>Z-coordinate of waypoint, set to NaN if not being used  [m] </summary>
+        [Units("[m]")]
+        [Description("Z-coordinate of waypoint, set to NaN if not being used")]
+        //[FieldOffset(48)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_z;
+
+        /// <summary>X-velocity of waypoint, set to NaN if not being used  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("X-velocity of waypoint, set to NaN if not being used")]
+        //[FieldOffset(68)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] vel_x;
+
+        /// <summary>Y-velocity of waypoint, set to NaN if not being used  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Y-velocity of waypoint, set to NaN if not being used")]
+        //[FieldOffset(88)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] vel_y;
+
+        /// <summary>Z-velocity of waypoint, set to NaN if not being used  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Z-velocity of waypoint, set to NaN if not being used")]
+        //[FieldOffset(108)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] vel_z;
+
+        /// <summary>X-acceleration of waypoint, set to NaN if not being used  [m/s/s] </summary>
+        [Units("[m/s/s]")]
+        [Description("X-acceleration of waypoint, set to NaN if not being used")]
+        //[FieldOffset(128)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] acc_x;
+
+        /// <summary>Y-acceleration of waypoint, set to NaN if not being used  [m/s/s] </summary>
+        [Units("[m/s/s]")]
+        [Description("Y-acceleration of waypoint, set to NaN if not being used")]
+        //[FieldOffset(148)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] acc_y;
+
+        /// <summary>Z-acceleration of waypoint, set to NaN if not being used  [m/s/s] </summary>
+        [Units("[m/s/s]")]
+        [Description("Z-acceleration of waypoint, set to NaN if not being used")]
+        //[FieldOffset(168)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] acc_z;
+
+        /// <summary>Yaw angle, set to NaN if not being used  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Yaw angle, set to NaN if not being used")]
+        //[FieldOffset(188)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_yaw;
+
+        /// <summary>Yaw rate, set to NaN if not being used  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Yaw rate, set to NaN if not being used")]
+        //[FieldOffset(208)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] vel_yaw;
+
+        /// <summary>MAV_CMD command id of waypoint, set to UINT16_MAX if not being used. MAV_CMD  </summary>
+        [Units("")]
+        [Description("MAV_CMD command id of waypoint, set to UINT16_MAX if not being used.")]
+        //[FieldOffset(228)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public ushort[] command;
+
+        /// <summary>Number of valid points (up-to 5 waypoints are possible)   </summary>
+        [Units("")]
+        [Description("Number of valid points (up-to 5 waypoints are possible)")]
+        //[FieldOffset(238)]
+        public  byte valid_points;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=109)]
+    ///<summary> Describe a trajectory using an array of up-to 5 bezier control points in the local frame (MAV_FRAME_LOCAL_NED). </summary>
+    public struct mavlink_trajectory_representation_bezier_t
+    {
+        /// packet ordered constructor
+        public mavlink_trajectory_representation_bezier_t(ulong time_usec,float[] pos_x,float[] pos_y,float[] pos_z,float[] delta,float[] pos_yaw,byte valid_points) 
+        {
+            this.time_usec = time_usec;
+            this.pos_x = pos_x;
+            this.pos_y = pos_y;
+            this.pos_z = pos_z;
+            this.delta = delta;
+            this.pos_yaw = pos_yaw;
+            this.valid_points = valid_points;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_trajectory_representation_bezier_t PopulateXMLOrder(ulong time_usec,byte valid_points,float[] pos_x,float[] pos_y,float[] pos_z,float[] delta,float[] pos_yaw) 
+        {
+            var msg = new mavlink_trajectory_representation_bezier_t();
+
+            msg.time_usec = time_usec;
+            msg.valid_points = valid_points;
+            msg.pos_x = pos_x;
+            msg.pos_y = pos_y;
+            msg.pos_z = pos_z;
+            msg.delta = delta;
+            msg.pos_yaw = pos_yaw;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
+        public  ulong time_usec;
+
+        /// <summary>X-coordinate of bezier control points. Set to NaN if not being used  [m] </summary>
+        [Units("[m]")]
+        [Description("X-coordinate of bezier control points. Set to NaN if not being used")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_x;
+
+        /// <summary>Y-coordinate of bezier control points. Set to NaN if not being used  [m] </summary>
+        [Units("[m]")]
+        [Description("Y-coordinate of bezier control points. Set to NaN if not being used")]
+        //[FieldOffset(28)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_y;
+
+        /// <summary>Z-coordinate of bezier control points. Set to NaN if not being used  [m] </summary>
+        [Units("[m]")]
+        [Description("Z-coordinate of bezier control points. Set to NaN if not being used")]
+        //[FieldOffset(48)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_z;
+
+        /// <summary>Bezier time horizon. Set to NaN if velocity/acceleration should not be incorporated  [s] </summary>
+        [Units("[s]")]
+        [Description("Bezier time horizon. Set to NaN if velocity/acceleration should not be incorporated")]
+        //[FieldOffset(68)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] delta;
+
+        /// <summary>Yaw. Set to NaN for unchanged  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Yaw. Set to NaN for unchanged")]
+        //[FieldOffset(88)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public float[] pos_yaw;
+
+        /// <summary>Number of valid control points (up-to 5 points are possible)   </summary>
+        [Units("")]
+        [Description("Number of valid control points (up-to 5 points are possible)")]
+        //[FieldOffset(108)]
+        public  byte valid_points;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
     ///<summary> Status of the Iridium SBD link. </summary>
     public struct mavlink_isbd_link_status_t
@@ -30547,6 +33541,1616 @@ public partial class MAVLink
 
     
     /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
+    ///<summary> Checksum for the current mission, rally point or geofence plan, or for the 'combined' plan (a GCS can use these checksums to determine if it has matching plans).         This message must be broadcast with the appropriate checksum following any change to a mission, geofence or rally point definition         (immediately after the MISSION_ACK that completes the upload sequence).         It may also be requested using MAV_CMD_REQUEST_MESSAGE, where param 2 indicates the plan type for which the checksum is required.         The checksum must be calculated on the autopilot, but may also be calculated by the GCS.         The checksum uses the same CRC32 algorithm as MAVLink FTP (https://mavlink.io/en/services/ftp.html#crc32-implementation).         The checksum for a mission, geofence or rally point definition is run over each item in the plan in seq order (excluding the home location if present in the plan), and covers the following fields (in order):         frame, command, autocontinue, param1, param2, param3, param4, param5, param6, param7.         The checksum for the whole plan (MAV_MISSION_TYPE_ALL) is calculated using the same approach, running over each sub-plan in the following order: mission, geofence then rally point.        </summary>
+    public struct mavlink_mission_checksum_t
+    {
+        /// packet ordered constructor
+        public mavlink_mission_checksum_t(uint checksum,/*MAV_MISSION_TYPE*/byte mission_type) 
+        {
+            this.checksum = checksum;
+            this.mission_type = mission_type;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_mission_checksum_t PopulateXMLOrder(/*MAV_MISSION_TYPE*/byte mission_type,uint checksum) 
+        {
+            var msg = new mavlink_mission_checksum_t();
+
+            msg.mission_type = mission_type;
+            msg.checksum = checksum;
+            
+            return msg;
+        }
+        
+
+        /// <summary>CRC32 checksum of current plan for specified type.   </summary>
+        [Units("")]
+        [Description("CRC32 checksum of current plan for specified type.")]
+        //[FieldOffset(0)]
+        public  uint checksum;
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+        [Units("")]
+        [Description("Mission type.")]
+        //[FieldOffset(4)]
+        public  /*MAV_MISSION_TYPE*/byte mission_type;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
+    ///<summary> Airspeed information from a sensor. </summary>
+    public struct mavlink_airspeed_t
+    {
+        /// packet ordered constructor
+        public mavlink_airspeed_t(float airspeed,float raw_press,short temperature,byte id,/*AIRSPEED_SENSOR_FLAGS*/byte flags) 
+        {
+            this.airspeed = airspeed;
+            this.raw_press = raw_press;
+            this.temperature = temperature;
+            this.id = id;
+            this.flags = flags;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_airspeed_t PopulateXMLOrder(byte id,float airspeed,short temperature,float raw_press,/*AIRSPEED_SENSOR_FLAGS*/byte flags) 
+        {
+            var msg = new mavlink_airspeed_t();
+
+            msg.id = id;
+            msg.airspeed = airspeed;
+            msg.temperature = temperature;
+            msg.raw_press = raw_press;
+            msg.flags = flags;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Calibrated airspeed (CAS).  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Calibrated airspeed (CAS).")]
+        //[FieldOffset(0)]
+        public  float airspeed;
+
+        /// <summary>Raw differential pressure. NaN for value unknown/not supplied.  [hPa] </summary>
+        [Units("[hPa]")]
+        [Description("Raw differential pressure. NaN for value unknown/not supplied.")]
+        //[FieldOffset(4)]
+        public  float raw_press;
+
+        /// <summary>Temperature. INT16_MAX for value unknown/not supplied.  [cdegC] </summary>
+        [Units("[cdegC]")]
+        [Description("Temperature. INT16_MAX for value unknown/not supplied.")]
+        //[FieldOffset(8)]
+        public  short temperature;
+
+        /// <summary>Sensor ID.   </summary>
+        [Units("")]
+        [Description("Sensor ID.")]
+        //[FieldOffset(10)]
+        public  byte id;
+
+        /// <summary>Airspeed sensor flags. AIRSPEED_SENSOR_FLAGS  </summary>
+        [Units("")]
+        [Description("Airspeed sensor flags.")]
+        //[FieldOffset(11)]
+        public  /*AIRSPEED_SENSOR_FLAGS*/byte flags;
+    };
+
+    
+    /// extensions_start 5
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=73)]
+    ///<summary> RC channel outputs from a MAVLink RC receiver for input to a flight controller or other components (allows an RC receiver to connect via MAVLink instead of some other protocol such as PPM-Sum or S.BUS).         Note that this is not intended to be an over-the-air format, and does not replace RC_CHANNELS and similar messages reported by the flight controller.         The target_system field should normally be set to the system id of the system to control, typically the flight controller.         The target_component field can normally be set to 0, so that all components of the system can receive the message.         The channels array field can publish up to 32 channels; the number of channel items used in the array is specified in the count field.         The time_last_update_ms field contains the timestamp of the last received valid channels data in the receiver's time domain.         The count field indicates the first index of the channel array that is not used for channel data (this and later indexes are zero-filled).         The RADIO_RC_CHANNELS_FLAGS_OUTDATED flag is set by the receiver if the channels data is not up-to-date (for example, if new data from the transmitter could not be validated so the last valid data is resent).         The RADIO_RC_CHANNELS_FLAGS_FAILSAFE failsafe flag is set by the receiver if the receiver's failsafe condition is met (implementation dependent, e.g., connection to the RC radio is lost).         In this case time_last_update_ms still contains the timestamp of the last valid channels data, but the content of the channels data is not defined by the protocol (it is up to the implementation of the receiver).         For instance, the channels data could contain failsafe values configured in the receiver; the default is to carry the last valid data.         Note: The RC channels fields are extensions to ensure that they are located at the end of the serialized payload and subject to MAVLink's trailing-zero trimming.        </summary>
+    public struct mavlink_radio_rc_channels_t
+    {
+        /// packet ordered constructor
+        public mavlink_radio_rc_channels_t(uint time_last_update_ms,/*RADIO_RC_CHANNELS_FLAGS*/ushort flags,byte target_system,byte target_component,byte count,short[] channels) 
+        {
+            this.time_last_update_ms = time_last_update_ms;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.count = count;
+            this.channels = channels;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_radio_rc_channels_t PopulateXMLOrder(byte target_system,byte target_component,uint time_last_update_ms,/*RADIO_RC_CHANNELS_FLAGS*/ushort flags,byte count,short[] channels) 
+        {
+            var msg = new mavlink_radio_rc_channels_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.time_last_update_ms = time_last_update_ms;
+            msg.flags = flags;
+            msg.count = count;
+            msg.channels = channels;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Time when the data in the channels field were last updated (time since boot in the receiver's time domain).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Time when the data in the channels field were last updated (time since boot in the receiver's time domain).")]
+        //[FieldOffset(0)]
+        public  uint time_last_update_ms;
+
+        /// <summary>Radio RC channels status flags. RADIO_RC_CHANNELS_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Radio RC channels status flags.")]
+        //[FieldOffset(4)]
+        public  /*RADIO_RC_CHANNELS_FLAGS*/ushort flags;
+
+        /// <summary>System ID (ID of target system, normally flight controller).   </summary>
+        [Units("")]
+        [Description("System ID (ID of target system, normally flight controller).")]
+        //[FieldOffset(6)]
+        public  byte target_system;
+
+        /// <summary>Component ID (normally 0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (normally 0 for broadcast).")]
+        //[FieldOffset(7)]
+        public  byte target_component;
+
+        /// <summary>Total number of RC channels being received. This can be larger than 32, indicating that more channels are available but not given in this message.   </summary>
+        [Units("")]
+        [Description("Total number of RC channels being received. This can be larger than 32, indicating that more channels are available but not given in this message.")]
+        //[FieldOffset(8)]
+        public  byte count;
+
+        /// <summary>RC channels.         Channel values are in centered 13 bit format. Range is -4096 to 4096, center is 0. Conversion to PWM is x * 5/32 + 1500.         Channels with indexes equal or above count should be set to 0, to benefit from MAVLink's trailing-zero trimming.   </summary>
+        [Units("")]
+        [Description("RC channels.         Channel values are in centered 13 bit format. Range is -4096 to 4096, center is 0. Conversion to PWM is x * 5/32 + 1500.         Channels with indexes equal or above count should be set to 0, to benefit from MAVLink's trailing-zero trimming.")]
+        //[FieldOffset(9)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public short[] channels;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
+    ///<summary> Get information about a particular flight modes.         The message can be enumerated or requested for a particular mode using MAV_CMD_REQUEST_MESSAGE.         Specify 0 in param2 to request that the message is emitted for all available modes or the specific index for just one mode.         The modes must be available/settable for the current vehicle/frame type.         Each modes should only be emitted once (even if it is both standard and custom).        </summary>
+    public struct mavlink_available_modes_t
+    {
+        /// packet ordered constructor
+        public mavlink_available_modes_t(uint custom_mode,/*MAV_MODE_PROPERTY*/uint properties,byte number_modes,byte mode_index,/*MAV_STANDARD_MODE*/byte standard_mode,byte[] mode_name) 
+        {
+            this.custom_mode = custom_mode;
+            this.properties = properties;
+            this.number_modes = number_modes;
+            this.mode_index = mode_index;
+            this.standard_mode = standard_mode;
+            this.mode_name = mode_name;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_available_modes_t PopulateXMLOrder(byte number_modes,byte mode_index,/*MAV_STANDARD_MODE*/byte standard_mode,uint custom_mode,/*MAV_MODE_PROPERTY*/uint properties,byte[] mode_name) 
+        {
+            var msg = new mavlink_available_modes_t();
+
+            msg.number_modes = number_modes;
+            msg.mode_index = mode_index;
+            msg.standard_mode = standard_mode;
+            msg.custom_mode = custom_mode;
+            msg.properties = properties;
+            msg.mode_name = mode_name;
+            
+            return msg;
+        }
+        
+
+        /// <summary>A bitfield for use for autopilot-specific flags   </summary>
+        [Units("")]
+        [Description("A bitfield for use for autopilot-specific flags")]
+        //[FieldOffset(0)]
+        public  uint custom_mode;
+
+        /// <summary>Mode properties. MAV_MODE_PROPERTY  </summary>
+        [Units("")]
+        [Description("Mode properties.")]
+        //[FieldOffset(4)]
+        public  /*MAV_MODE_PROPERTY*/uint properties;
+
+        /// <summary>The total number of available modes for the current vehicle type.   </summary>
+        [Units("")]
+        [Description("The total number of available modes for the current vehicle type.")]
+        //[FieldOffset(8)]
+        public  byte number_modes;
+
+        /// <summary>The current mode index within number_modes, indexed from 1.   </summary>
+        [Units("")]
+        [Description("The current mode index within number_modes, indexed from 1.")]
+        //[FieldOffset(9)]
+        public  byte mode_index;
+
+        /// <summary>Standard mode. MAV_STANDARD_MODE  </summary>
+        [Units("")]
+        [Description("Standard mode.")]
+        //[FieldOffset(10)]
+        public  /*MAV_STANDARD_MODE*/byte standard_mode;
+
+        /// <summary>Name of custom mode, with null termination character. Should be omitted for standard modes.   </summary>
+        [Units("")]
+        [Description("Name of custom mode, with null termination character. Should be omitted for standard modes.")]
+        //[FieldOffset(11)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=35)]
+		public byte[] mode_name;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
+    ///<summary> Get the current mode.         This should be emitted on any mode change, and broadcast at low rate (nominally 0.5 Hz).         It may be requested using MAV_CMD_REQUEST_MESSAGE.        </summary>
+    public struct mavlink_current_mode_t
+    {
+        /// packet ordered constructor
+        public mavlink_current_mode_t(uint custom_mode,uint intended_custom_mode,/*MAV_STANDARD_MODE*/byte standard_mode) 
+        {
+            this.custom_mode = custom_mode;
+            this.intended_custom_mode = intended_custom_mode;
+            this.standard_mode = standard_mode;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_current_mode_t PopulateXMLOrder(/*MAV_STANDARD_MODE*/byte standard_mode,uint custom_mode,uint intended_custom_mode) 
+        {
+            var msg = new mavlink_current_mode_t();
+
+            msg.standard_mode = standard_mode;
+            msg.custom_mode = custom_mode;
+            msg.intended_custom_mode = intended_custom_mode;
+            
+            return msg;
+        }
+        
+
+        /// <summary>A bitfield for use for autopilot-specific flags   </summary>
+        [Units("")]
+        [Description("A bitfield for use for autopilot-specific flags")]
+        //[FieldOffset(0)]
+        public  uint custom_mode;
+
+        /// <summary>The custom_mode of the mode that was last commanded by the user (for example, with MAV_CMD_DO_SET_STANDARD_MODE, MAV_CMD_DO_SET_MODE or via RC). This should usually be the same as custom_mode. It will be different if the vehicle is unable to enter the intended mode, or has left that mode due to a failsafe condition. 0 indicates the intended custom mode is unknown/not supplied   </summary>
+        [Units("")]
+        [Description("The custom_mode of the mode that was last commanded by the user (for example, with MAV_CMD_DO_SET_STANDARD_MODE, MAV_CMD_DO_SET_MODE or via RC). This should usually be the same as custom_mode. It will be different if the vehicle is unable to enter the intended mode, or has left that mode due to a failsafe condition. 0 indicates the intended custom mode is unknown/not supplied")]
+        //[FieldOffset(4)]
+        public  uint intended_custom_mode;
+
+        /// <summary>Standard mode. MAV_STANDARD_MODE  </summary>
+        [Units("")]
+        [Description("Standard mode.")]
+        //[FieldOffset(8)]
+        public  /*MAV_STANDARD_MODE*/byte standard_mode;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
+    ///<summary> A change to the sequence number indicates that the set of AVAILABLE_MODES has changed.         A receiver must re-request all available modes whenever the sequence number changes.         This is only emitted after the first change and should then be broadcast at low rate (nominally 0.3 Hz) and on change.        </summary>
+    public struct mavlink_available_modes_monitor_t
+    {
+        /// packet ordered constructor
+        public mavlink_available_modes_monitor_t(byte seq) 
+        {
+            this.seq = seq;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_available_modes_monitor_t PopulateXMLOrder(byte seq) 
+        {
+            var msg = new mavlink_available_modes_monitor_t();
+
+            msg.seq = seq;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Sequence number. The value iterates sequentially whenever AVAILABLE_MODES changes (e.g. support for a new mode is added/removed dynamically).   </summary>
+        [Units("")]
+        [Description("Sequence number. The value iterates sequentially whenever AVAILABLE_MODES changes (e.g. support for a new mode is added/removed dynamically).")]
+        //[FieldOffset(0)]
+        public  byte seq;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
+    ///<summary> Information about key components of GNSS receivers, like signal authentication, interference and system errors. </summary>
+    public struct mavlink_gnss_integrity_t
+    {
+        /// packet ordered constructor
+        public mavlink_gnss_integrity_t(/*GPS_SYSTEM_ERROR_FLAGS*/uint system_errors,ushort raim_hfom,ushort raim_vfom,byte id,/*GPS_AUTHENTICATION_STATE*/byte authentication_state,/*GPS_JAMMING_STATE*/byte jamming_state,/*GPS_SPOOFING_STATE*/byte spoofing_state,/*GPS_RAIM_STATE*/byte raim_state,byte corrections_quality,byte system_status_summary,byte gnss_signal_quality,byte post_processing_quality) 
+        {
+            this.system_errors = system_errors;
+            this.raim_hfom = raim_hfom;
+            this.raim_vfom = raim_vfom;
+            this.id = id;
+            this.authentication_state = authentication_state;
+            this.jamming_state = jamming_state;
+            this.spoofing_state = spoofing_state;
+            this.raim_state = raim_state;
+            this.corrections_quality = corrections_quality;
+            this.system_status_summary = system_status_summary;
+            this.gnss_signal_quality = gnss_signal_quality;
+            this.post_processing_quality = post_processing_quality;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_gnss_integrity_t PopulateXMLOrder(byte id,/*GPS_SYSTEM_ERROR_FLAGS*/uint system_errors,/*GPS_AUTHENTICATION_STATE*/byte authentication_state,/*GPS_JAMMING_STATE*/byte jamming_state,/*GPS_SPOOFING_STATE*/byte spoofing_state,/*GPS_RAIM_STATE*/byte raim_state,ushort raim_hfom,ushort raim_vfom,byte corrections_quality,byte system_status_summary,byte gnss_signal_quality,byte post_processing_quality) 
+        {
+            var msg = new mavlink_gnss_integrity_t();
+
+            msg.id = id;
+            msg.system_errors = system_errors;
+            msg.authentication_state = authentication_state;
+            msg.jamming_state = jamming_state;
+            msg.spoofing_state = spoofing_state;
+            msg.raim_state = raim_state;
+            msg.raim_hfom = raim_hfom;
+            msg.raim_vfom = raim_vfom;
+            msg.corrections_quality = corrections_quality;
+            msg.system_status_summary = system_status_summary;
+            msg.gnss_signal_quality = gnss_signal_quality;
+            msg.post_processing_quality = post_processing_quality;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Errors in the GPS system. GPS_SYSTEM_ERROR_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Errors in the GPS system.")]
+        //[FieldOffset(0)]
+        public  /*GPS_SYSTEM_ERROR_FLAGS*/uint system_errors;
+
+        /// <summary>Horizontal expected accuracy using satellites successfully validated using RAIM.  [cm] </summary>
+        [Units("[cm]")]
+        [Description("Horizontal expected accuracy using satellites successfully validated using RAIM.")]
+        //[FieldOffset(4)]
+        public  ushort raim_hfom;
+
+        /// <summary>Vertical expected accuracy using satellites successfully validated using RAIM.  [cm] </summary>
+        [Units("[cm]")]
+        [Description("Vertical expected accuracy using satellites successfully validated using RAIM.")]
+        //[FieldOffset(6)]
+        public  ushort raim_vfom;
+
+        /// <summary>GNSS receiver id. Must match instance ids of other messages from same receiver.   </summary>
+        [Units("")]
+        [Description("GNSS receiver id. Must match instance ids of other messages from same receiver.")]
+        //[FieldOffset(8)]
+        public  byte id;
+
+        /// <summary>Signal authentication state of the GPS system. GPS_AUTHENTICATION_STATE  </summary>
+        [Units("")]
+        [Description("Signal authentication state of the GPS system.")]
+        //[FieldOffset(9)]
+        public  /*GPS_AUTHENTICATION_STATE*/byte authentication_state;
+
+        /// <summary>Signal jamming state of the GPS system. GPS_JAMMING_STATE  </summary>
+        [Units("")]
+        [Description("Signal jamming state of the GPS system.")]
+        //[FieldOffset(10)]
+        public  /*GPS_JAMMING_STATE*/byte jamming_state;
+
+        /// <summary>Signal spoofing state of the GPS system. GPS_SPOOFING_STATE  </summary>
+        [Units("")]
+        [Description("Signal spoofing state of the GPS system.")]
+        //[FieldOffset(11)]
+        public  /*GPS_SPOOFING_STATE*/byte spoofing_state;
+
+        /// <summary>The state of the RAIM processing. GPS_RAIM_STATE  </summary>
+        [Units("")]
+        [Description("The state of the RAIM processing.")]
+        //[FieldOffset(12)]
+        public  /*GPS_RAIM_STATE*/byte raim_state;
+
+        /// <summary>An abstract value representing the estimated quality of incoming corrections, or 255 if not available.   </summary>
+        [Units("")]
+        [Description("An abstract value representing the estimated quality of incoming corrections, or 255 if not available.")]
+        //[FieldOffset(13)]
+        public  byte corrections_quality;
+
+        /// <summary>An abstract value representing the overall status of the receiver, or 255 if not available.   </summary>
+        [Units("")]
+        [Description("An abstract value representing the overall status of the receiver, or 255 if not available.")]
+        //[FieldOffset(14)]
+        public  byte system_status_summary;
+
+        /// <summary>An abstract value representing the quality of incoming GNSS signals, or 255 if not available.   </summary>
+        [Units("")]
+        [Description("An abstract value representing the quality of incoming GNSS signals, or 255 if not available.")]
+        //[FieldOffset(15)]
+        public  byte gnss_signal_quality;
+
+        /// <summary>An abstract value representing the estimated PPK quality, or 255 if not available.   </summary>
+        [Units("")]
+        [Description("An abstract value representing the estimated PPK quality, or 255 if not available.")]
+        //[FieldOffset(16)]
+        public  byte post_processing_quality;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
+    ///<summary> ICAROUS heartbeat </summary>
+    public struct mavlink_icarous_heartbeat_t
+    {
+        /// packet ordered constructor
+        public mavlink_icarous_heartbeat_t(/*ICAROUS_FMS_STATE*/byte status) 
+        {
+            this.status = status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_icarous_heartbeat_t PopulateXMLOrder(/*ICAROUS_FMS_STATE*/byte status) 
+        {
+            var msg = new mavlink_icarous_heartbeat_t();
+
+            msg.status = status;
+            
+            return msg;
+        }
+        
+
+        /// <summary>See the FMS_STATE enum. ICAROUS_FMS_STATE  </summary>
+        [Units("")]
+        [Description("See the FMS_STATE enum.")]
+        //[FieldOffset(0)]
+        public  /*ICAROUS_FMS_STATE*/byte status;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
+    ///<summary> Kinematic multi bands (track) output from Daidalus </summary>
+    public struct mavlink_icarous_kinematic_bands_t
+    {
+        /// packet ordered constructor
+        public mavlink_icarous_kinematic_bands_t(float min1,float max1,float min2,float max2,float min3,float max3,float min4,float max4,float min5,float max5,sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5) 
+        {
+            this.min1 = min1;
+            this.max1 = max1;
+            this.min2 = min2;
+            this.max2 = max2;
+            this.min3 = min3;
+            this.max3 = max3;
+            this.min4 = min4;
+            this.max4 = max4;
+            this.min5 = min5;
+            this.max5 = max5;
+            this.numBands = numBands;
+            this.type1 = type1;
+            this.type2 = type2;
+            this.type3 = type3;
+            this.type4 = type4;
+            this.type5 = type5;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_icarous_kinematic_bands_t PopulateXMLOrder(sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,float min1,float max1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,float min2,float max2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,float min3,float max3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,float min4,float max4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5,float min5,float max5) 
+        {
+            var msg = new mavlink_icarous_kinematic_bands_t();
+
+            msg.numBands = numBands;
+            msg.type1 = type1;
+            msg.min1 = min1;
+            msg.max1 = max1;
+            msg.type2 = type2;
+            msg.min2 = min2;
+            msg.max2 = max2;
+            msg.type3 = type3;
+            msg.min3 = min3;
+            msg.max3 = max3;
+            msg.type4 = type4;
+            msg.min4 = min4;
+            msg.max4 = max4;
+            msg.type5 = type5;
+            msg.min5 = min5;
+            msg.max5 = max5;
+            
+            return msg;
+        }
+        
+
+        /// <summary>min angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("min angle (degrees)")]
+        //[FieldOffset(0)]
+        public  float min1;
+
+        /// <summary>max angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("max angle (degrees)")]
+        //[FieldOffset(4)]
+        public  float max1;
+
+        /// <summary>min angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("min angle (degrees)")]
+        //[FieldOffset(8)]
+        public  float min2;
+
+        /// <summary>max angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("max angle (degrees)")]
+        //[FieldOffset(12)]
+        public  float max2;
+
+        /// <summary>min angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("min angle (degrees)")]
+        //[FieldOffset(16)]
+        public  float min3;
+
+        /// <summary>max angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("max angle (degrees)")]
+        //[FieldOffset(20)]
+        public  float max3;
+
+        /// <summary>min angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("min angle (degrees)")]
+        //[FieldOffset(24)]
+        public  float min4;
+
+        /// <summary>max angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("max angle (degrees)")]
+        //[FieldOffset(28)]
+        public  float max4;
+
+        /// <summary>min angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("min angle (degrees)")]
+        //[FieldOffset(32)]
+        public  float min5;
+
+        /// <summary>max angle (degrees)  [deg] </summary>
+        [Units("[deg]")]
+        [Description("max angle (degrees)")]
+        //[FieldOffset(36)]
+        public  float max5;
+
+        /// <summary>Number of track bands   </summary>
+        [Units("")]
+        [Description("Number of track bands")]
+        //[FieldOffset(40)]
+        public  sbyte numBands;
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+        [Units("")]
+        [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(41)]
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type1;
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+        [Units("")]
+        [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(42)]
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type2;
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+        [Units("")]
+        [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(43)]
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type3;
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+        [Units("")]
+        [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(44)]
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type4;
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+        [Units("")]
+        [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(45)]
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type5;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
+    ///<summary> The heartbeat message shows that a system or component is present and responding. The type and autopilot fields (along with the message component id), allow the receiving system to treat further messages from this system appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at https://mavlink.io/en/services/heartbeat.html </summary>
+    public struct mavlink_heartbeat_t
+    {
+        /// packet ordered constructor
+        public mavlink_heartbeat_t(uint custom_mode,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
+        {
+            this.custom_mode = custom_mode;
+            this.type = type;
+            this.autopilot = autopilot;
+            this.base_mode = base_mode;
+            this.system_status = system_status;
+            this.mavlink_version = mavlink_version;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_heartbeat_t PopulateXMLOrder(/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,uint custom_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
+        {
+            var msg = new mavlink_heartbeat_t();
+
+            msg.type = type;
+            msg.autopilot = autopilot;
+            msg.base_mode = base_mode;
+            msg.custom_mode = custom_mode;
+            msg.system_status = system_status;
+            msg.mavlink_version = mavlink_version;
+            
+            return msg;
+        }
+        
+
+        /// <summary>A bitfield for use for autopilot-specific flags   </summary>
+        [Units("")]
+        [Description("A bitfield for use for autopilot-specific flags")]
+        //[FieldOffset(0)]
+        public  uint custom_mode;
+
+        /// <summary>Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type. MAV_TYPE  </summary>
+        [Units("")]
+        [Description("Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type.")]
+        //[FieldOffset(4)]
+        public  /*MAV_TYPE*/byte type;
+
+        /// <summary>Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers. MAV_AUTOPILOT  </summary>
+        [Units("")]
+        [Description("Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers.")]
+        //[FieldOffset(5)]
+        public  /*MAV_AUTOPILOT*/byte autopilot;
+
+        /// <summary>System mode bitmap. MAV_MODE_FLAG  bitmask</summary>
+        [Units("")]
+        [Description("System mode bitmap.")]
+        //[FieldOffset(6)]
+        public  /*MAV_MODE_FLAG*/byte base_mode;
+
+        /// <summary>System status flag. MAV_STATE  </summary>
+        [Units("")]
+        [Description("System status flag.")]
+        //[FieldOffset(7)]
+        public  /*MAV_STATE*/byte system_status;
+
+        /// <summary>MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version   </summary>
+        [Units("")]
+        [Description("MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version")]
+        //[FieldOffset(8)]
+        public  byte mavlink_version;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
+    ///<summary> Array test #0. </summary>
+    public struct mavlink_array_test_0_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_0_t(uint[] ar_u32,ushort[] ar_u16,byte v1,sbyte[] ar_i8,byte[] ar_u8) 
+        {
+            this.ar_u32 = ar_u32;
+            this.ar_u16 = ar_u16;
+            this.v1 = v1;
+            this.ar_i8 = ar_i8;
+            this.ar_u8 = ar_u8;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_0_t PopulateXMLOrder(byte v1,sbyte[] ar_i8,byte[] ar_u8,ushort[] ar_u16,uint[] ar_u32) 
+        {
+            var msg = new mavlink_array_test_0_t();
+
+            msg.v1 = v1;
+            msg.ar_i8 = ar_i8;
+            msg.ar_u8 = ar_u8;
+            msg.ar_u16 = ar_u16;
+            msg.ar_u32 = ar_u32;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public uint[] ar_u32;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public ushort[] ar_u16;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(24)]
+        public  byte v1;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(25)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public sbyte[] ar_i8;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(29)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] ar_u8;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
+    ///<summary> Array test #1. </summary>
+    public struct mavlink_array_test_1_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_1_t(uint[] ar_u32) 
+        {
+            this.ar_u32 = ar_u32;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_1_t PopulateXMLOrder(uint[] ar_u32) 
+        {
+            var msg = new mavlink_array_test_1_t();
+
+            msg.ar_u32 = ar_u32;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public uint[] ar_u32;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
+    ///<summary> Array test #3. </summary>
+    public struct mavlink_array_test_3_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_3_t(uint[] ar_u32,byte v) 
+        {
+            this.ar_u32 = ar_u32;
+            this.v = v;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_3_t PopulateXMLOrder(byte v,uint[] ar_u32) 
+        {
+            var msg = new mavlink_array_test_3_t();
+
+            msg.v = v;
+            msg.ar_u32 = ar_u32;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public uint[] ar_u32;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(16)]
+        public  byte v;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
+    ///<summary> Array test #4. </summary>
+    public struct mavlink_array_test_4_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_4_t(uint[] ar_u32,byte v) 
+        {
+            this.ar_u32 = ar_u32;
+            this.v = v;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_4_t PopulateXMLOrder(uint[] ar_u32,byte v) 
+        {
+            var msg = new mavlink_array_test_4_t();
+
+            msg.ar_u32 = ar_u32;
+            msg.v = v;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public uint[] ar_u32;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(16)]
+        public  byte v;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=10)]
+    ///<summary> Array test #5. </summary>
+    public struct mavlink_array_test_5_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_5_t(byte[] c1,byte[] c2) 
+        {
+            this.c1 = c1;
+            this.c2 = c2;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_5_t PopulateXMLOrder(byte[] c1,byte[] c2) 
+        {
+            var msg = new mavlink_array_test_5_t();
+
+            msg.c1 = c1;
+            msg.c2 = c2;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public byte[] c1;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(5)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public byte[] c2;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=91)]
+    ///<summary> Array test #6. </summary>
+    public struct mavlink_array_test_6_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_6_t(double[] ar_d,uint v3,uint[] ar_u32,int[] ar_i32,float[] ar_f,ushort v2,ushort[] ar_u16,short[] ar_i16,byte v1,byte[] ar_u8,sbyte[] ar_i8,byte[] ar_c) 
+        {
+            this.ar_d = ar_d;
+            this.v3 = v3;
+            this.ar_u32 = ar_u32;
+            this.ar_i32 = ar_i32;
+            this.ar_f = ar_f;
+            this.v2 = v2;
+            this.ar_u16 = ar_u16;
+            this.ar_i16 = ar_i16;
+            this.v1 = v1;
+            this.ar_u8 = ar_u8;
+            this.ar_i8 = ar_i8;
+            this.ar_c = ar_c;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_6_t PopulateXMLOrder(byte v1,ushort v2,uint v3,uint[] ar_u32,int[] ar_i32,ushort[] ar_u16,short[] ar_i16,byte[] ar_u8,sbyte[] ar_i8,byte[] ar_c,double[] ar_d,float[] ar_f) 
+        {
+            var msg = new mavlink_array_test_6_t();
+
+            msg.v1 = v1;
+            msg.v2 = v2;
+            msg.v3 = v3;
+            msg.ar_u32 = ar_u32;
+            msg.ar_i32 = ar_i32;
+            msg.ar_u16 = ar_u16;
+            msg.ar_i16 = ar_i16;
+            msg.ar_u8 = ar_u8;
+            msg.ar_i8 = ar_i8;
+            msg.ar_c = ar_c;
+            msg.ar_d = ar_d;
+            msg.ar_f = ar_f;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public double[] ar_d;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(16)]
+        public  uint v3;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(20)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public uint[] ar_u32;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(28)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public int[] ar_i32;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(36)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public float[] ar_f;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(44)]
+        public  ushort v2;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(46)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public ushort[] ar_u16;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(50)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public short[] ar_i16;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(54)]
+        public  byte v1;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(55)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public byte[] ar_u8;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(57)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public sbyte[] ar_i8;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(59)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] ar_c;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=84)]
+    ///<summary> Array test #7. </summary>
+    public struct mavlink_array_test_7_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_7_t(double[] ar_d,float[] ar_f,uint[] ar_u32,int[] ar_i32,ushort[] ar_u16,short[] ar_i16,byte[] ar_u8,sbyte[] ar_i8,byte[] ar_c) 
+        {
+            this.ar_d = ar_d;
+            this.ar_f = ar_f;
+            this.ar_u32 = ar_u32;
+            this.ar_i32 = ar_i32;
+            this.ar_u16 = ar_u16;
+            this.ar_i16 = ar_i16;
+            this.ar_u8 = ar_u8;
+            this.ar_i8 = ar_i8;
+            this.ar_c = ar_c;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_7_t PopulateXMLOrder(double[] ar_d,float[] ar_f,uint[] ar_u32,int[] ar_i32,ushort[] ar_u16,short[] ar_i16,byte[] ar_u8,sbyte[] ar_i8,byte[] ar_c) 
+        {
+            var msg = new mavlink_array_test_7_t();
+
+            msg.ar_d = ar_d;
+            msg.ar_f = ar_f;
+            msg.ar_u32 = ar_u32;
+            msg.ar_i32 = ar_i32;
+            msg.ar_u16 = ar_u16;
+            msg.ar_i16 = ar_i16;
+            msg.ar_u8 = ar_u8;
+            msg.ar_i8 = ar_i8;
+            msg.ar_c = ar_c;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public double[] ar_d;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public float[] ar_f;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public uint[] ar_u32;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public int[] ar_i32;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(40)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public ushort[] ar_u16;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(44)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public short[] ar_i16;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(48)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public byte[] ar_u8;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(50)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public sbyte[] ar_i8;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(52)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] ar_c;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
+    ///<summary> Array test #8. </summary>
+    public struct mavlink_array_test_8_t
+    {
+        /// packet ordered constructor
+        public mavlink_array_test_8_t(double[] ar_d,uint v3,ushort[] ar_u16) 
+        {
+            this.ar_d = ar_d;
+            this.v3 = v3;
+            this.ar_u16 = ar_u16;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_array_test_8_t PopulateXMLOrder(uint v3,double[] ar_d,ushort[] ar_u16) 
+        {
+            var msg = new mavlink_array_test_8_t();
+
+            msg.v3 = v3;
+            msg.ar_d = ar_d;
+            msg.ar_u16 = ar_u16;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public double[] ar_d;
+
+        /// <summary>Stub field   </summary>
+        [Units("")]
+        [Description("Stub field")]
+        //[FieldOffset(16)]
+        public  uint v3;
+
+        /// <summary>Value array   </summary>
+        [Units("")]
+        [Description("Value array")]
+        //[FieldOffset(20)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public ushort[] ar_u16;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=179)]
+    ///<summary> Test all field types </summary>
+    public struct mavlink_test_types_t
+    {
+        /// packet ordered constructor
+        public mavlink_test_types_t(ulong u64,long s64,double d,ulong[] u64_array,long[] s64_array,double[] d_array,uint u32,int s32,float f,uint[] u32_array,int[] s32_array,float[] f_array,ushort u16,short s16,ushort[] u16_array,short[] s16_array,byte c,byte[] s,byte u8,sbyte s8,byte[] u8_array,sbyte[] s8_array) 
+        {
+            this.u64 = u64;
+            this.s64 = s64;
+            this.d = d;
+            this.u64_array = u64_array;
+            this.s64_array = s64_array;
+            this.d_array = d_array;
+            this.u32 = u32;
+            this.s32 = s32;
+            this.f = f;
+            this.u32_array = u32_array;
+            this.s32_array = s32_array;
+            this.f_array = f_array;
+            this.u16 = u16;
+            this.s16 = s16;
+            this.u16_array = u16_array;
+            this.s16_array = s16_array;
+            this.c = c;
+            this.s = s;
+            this.u8 = u8;
+            this.s8 = s8;
+            this.u8_array = u8_array;
+            this.s8_array = s8_array;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_test_types_t PopulateXMLOrder(byte c,byte[] s,byte u8,ushort u16,uint u32,ulong u64,sbyte s8,short s16,int s32,long s64,float f,double d,byte[] u8_array,ushort[] u16_array,uint[] u32_array,ulong[] u64_array,sbyte[] s8_array,short[] s16_array,int[] s32_array,long[] s64_array,float[] f_array,double[] d_array) 
+        {
+            var msg = new mavlink_test_types_t();
+
+            msg.c = c;
+            msg.s = s;
+            msg.u8 = u8;
+            msg.u16 = u16;
+            msg.u32 = u32;
+            msg.u64 = u64;
+            msg.s8 = s8;
+            msg.s16 = s16;
+            msg.s32 = s32;
+            msg.s64 = s64;
+            msg.f = f;
+            msg.d = d;
+            msg.u8_array = u8_array;
+            msg.u16_array = u16_array;
+            msg.u32_array = u32_array;
+            msg.u64_array = u64_array;
+            msg.s8_array = s8_array;
+            msg.s16_array = s16_array;
+            msg.s32_array = s32_array;
+            msg.s64_array = s64_array;
+            msg.f_array = f_array;
+            msg.d_array = d_array;
+            
+            return msg;
+        }
+        
+
+        /// <summary>uint64_t   </summary>
+        [Units("")]
+        [Description("uint64_t")]
+        //[FieldOffset(0)]
+        public  ulong u64;
+
+        /// <summary>int64_t   </summary>
+        [Units("")]
+        [Description("int64_t")]
+        //[FieldOffset(8)]
+        public  long s64;
+
+        /// <summary>double   </summary>
+        [Units("")]
+        [Description("double")]
+        //[FieldOffset(16)]
+        public  double d;
+
+        /// <summary>uint64_t_array   </summary>
+        [Units("")]
+        [Description("uint64_t_array")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public ulong[] u64_array;
+
+        /// <summary>int64_t_array   </summary>
+        [Units("")]
+        [Description("int64_t_array")]
+        //[FieldOffset(48)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public long[] s64_array;
+
+        /// <summary>double_array   </summary>
+        [Units("")]
+        [Description("double_array")]
+        //[FieldOffset(72)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public double[] d_array;
+
+        /// <summary>uint32_t   </summary>
+        [Units("")]
+        [Description("uint32_t")]
+        //[FieldOffset(96)]
+        public  uint u32;
+
+        /// <summary>int32_t   </summary>
+        [Units("")]
+        [Description("int32_t")]
+        //[FieldOffset(100)]
+        public  int s32;
+
+        /// <summary>float   </summary>
+        [Units("")]
+        [Description("float")]
+        //[FieldOffset(104)]
+        public  float f;
+
+        /// <summary>uint32_t_array   </summary>
+        [Units("")]
+        [Description("uint32_t_array")]
+        //[FieldOffset(108)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public uint[] u32_array;
+
+        /// <summary>int32_t_array   </summary>
+        [Units("")]
+        [Description("int32_t_array")]
+        //[FieldOffset(120)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public int[] s32_array;
+
+        /// <summary>float_array   </summary>
+        [Units("")]
+        [Description("float_array")]
+        //[FieldOffset(132)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public float[] f_array;
+
+        /// <summary>uint16_t   </summary>
+        [Units("")]
+        [Description("uint16_t")]
+        //[FieldOffset(144)]
+        public  ushort u16;
+
+        /// <summary>int16_t   </summary>
+        [Units("")]
+        [Description("int16_t")]
+        //[FieldOffset(146)]
+        public  short s16;
+
+        /// <summary>uint16_t_array   </summary>
+        [Units("")]
+        [Description("uint16_t_array")]
+        //[FieldOffset(148)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public ushort[] u16_array;
+
+        /// <summary>int16_t_array   </summary>
+        [Units("")]
+        [Description("int16_t_array")]
+        //[FieldOffset(154)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public short[] s16_array;
+
+        /// <summary>char   </summary>
+        [Units("")]
+        [Description("char")]
+        //[FieldOffset(160)]
+        public  byte c;
+
+        /// <summary>string   </summary>
+        [Units("")]
+        [Description("string")]
+        //[FieldOffset(161)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
+		public byte[] s;
+
+        /// <summary>uint8_t   </summary>
+        [Units("")]
+        [Description("uint8_t")]
+        //[FieldOffset(171)]
+        public  byte u8;
+
+        /// <summary>int8_t   </summary>
+        [Units("")]
+        [Description("int8_t")]
+        //[FieldOffset(172)]
+        public  sbyte s8;
+
+        /// <summary>uint8_t_array   </summary>
+        [Units("")]
+        [Description("uint8_t_array")]
+        //[FieldOffset(173)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public byte[] u8_array;
+
+        /// <summary>int8_t_array   </summary>
+        [Units("")]
+        [Description("int8_t_array")]
+        //[FieldOffset(176)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public sbyte[] s8_array;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Accelerometer and Gyro biases from the navigation filter </summary>
+    public struct mavlink_nav_filter_bias_t
+    {
+        /// packet ordered constructor
+        public mavlink_nav_filter_bias_t(ulong usec,float accel_0,float accel_1,float accel_2,float gyro_0,float gyro_1,float gyro_2) 
+        {
+            this.usec = usec;
+            this.accel_0 = accel_0;
+            this.accel_1 = accel_1;
+            this.accel_2 = accel_2;
+            this.gyro_0 = gyro_0;
+            this.gyro_1 = gyro_1;
+            this.gyro_2 = gyro_2;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_nav_filter_bias_t PopulateXMLOrder(ulong usec,float accel_0,float accel_1,float accel_2,float gyro_0,float gyro_1,float gyro_2) 
+        {
+            var msg = new mavlink_nav_filter_bias_t();
+
+            msg.usec = usec;
+            msg.accel_0 = accel_0;
+            msg.accel_1 = accel_1;
+            msg.accel_2 = accel_2;
+            msg.gyro_0 = gyro_0;
+            msg.gyro_1 = gyro_1;
+            msg.gyro_2 = gyro_2;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (microseconds)   </summary>
+        [Units("")]
+        [Description("Timestamp (microseconds)")]
+        //[FieldOffset(0)]
+        public  ulong usec;
+
+        /// <summary>b_f[0]   </summary>
+        [Units("")]
+        [Description("b_f[0]")]
+        //[FieldOffset(8)]
+        public  float accel_0;
+
+        /// <summary>b_f[1]   </summary>
+        [Units("")]
+        [Description("b_f[1]")]
+        //[FieldOffset(12)]
+        public  float accel_1;
+
+        /// <summary>b_f[2]   </summary>
+        [Units("")]
+        [Description("b_f[2]")]
+        //[FieldOffset(16)]
+        public  float accel_2;
+
+        /// <summary>b_f[0]   </summary>
+        [Units("")]
+        [Description("b_f[0]")]
+        //[FieldOffset(20)]
+        public  float gyro_0;
+
+        /// <summary>b_f[1]   </summary>
+        [Units("")]
+        [Description("b_f[1]")]
+        //[FieldOffset(24)]
+        public  float gyro_1;
+
+        /// <summary>b_f[2]   </summary>
+        [Units("")]
+        [Description("b_f[2]")]
+        //[FieldOffset(28)]
+        public  float gyro_2;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
+    ///<summary> Complete set of calibration parameters for the radio </summary>
+    public struct mavlink_radio_calibration_t
+    {
+        /// packet ordered constructor
+        public mavlink_radio_calibration_t(ushort[] aileron,ushort[] elevator,ushort[] rudder,ushort[] gyro,ushort[] pitch,ushort[] throttle) 
+        {
+            this.aileron = aileron;
+            this.elevator = elevator;
+            this.rudder = rudder;
+            this.gyro = gyro;
+            this.pitch = pitch;
+            this.throttle = throttle;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_radio_calibration_t PopulateXMLOrder(ushort[] aileron,ushort[] elevator,ushort[] rudder,ushort[] gyro,ushort[] pitch,ushort[] throttle) 
+        {
+            var msg = new mavlink_radio_calibration_t();
+
+            msg.aileron = aileron;
+            msg.elevator = elevator;
+            msg.rudder = rudder;
+            msg.gyro = gyro;
+            msg.pitch = pitch;
+            msg.throttle = throttle;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Aileron setpoints: left, center, right   </summary>
+        [Units("")]
+        [Description("Aileron setpoints: left, center, right")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public ushort[] aileron;
+
+        /// <summary>Elevator setpoints: nose down, center, nose up   </summary>
+        [Units("")]
+        [Description("Elevator setpoints: nose down, center, nose up")]
+        //[FieldOffset(6)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public ushort[] elevator;
+
+        /// <summary>Rudder setpoints: nose left, center, nose right   </summary>
+        [Units("")]
+        [Description("Rudder setpoints: nose left, center, nose right")]
+        //[FieldOffset(12)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public ushort[] rudder;
+
+        /// <summary>Tail gyro mode/gain setpoints: heading hold, rate mode   </summary>
+        [Units("")]
+        [Description("Tail gyro mode/gain setpoints: heading hold, rate mode")]
+        //[FieldOffset(18)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+		public ushort[] gyro;
+
+        /// <summary>Pitch curve setpoints (every 25%)   </summary>
+        [Units("")]
+        [Description("Pitch curve setpoints (every 25%)")]
+        //[FieldOffset(22)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public ushort[] pitch;
+
+        /// <summary>Throttle curve setpoints (every 25%)   </summary>
+        [Units("")]
+        [Description("Throttle curve setpoints (every 25%)")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)]
+		public ushort[] throttle;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
+    ///<summary> System status specific to ualberta uav </summary>
+    public struct mavlink_ualberta_sys_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_ualberta_sys_status_t(byte mode,byte nav_mode,byte pilot) 
+        {
+            this.mode = mode;
+            this.nav_mode = nav_mode;
+            this.pilot = pilot;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_ualberta_sys_status_t PopulateXMLOrder(byte mode,byte nav_mode,byte pilot) 
+        {
+            var msg = new mavlink_ualberta_sys_status_t();
+
+            msg.mode = mode;
+            msg.nav_mode = nav_mode;
+            msg.pilot = pilot;
+            
+            return msg;
+        }
+        
+
+        /// <summary>System mode, see UALBERTA_AUTOPILOT_MODE ENUM   </summary>
+        [Units("")]
+        [Description("System mode, see UALBERTA_AUTOPILOT_MODE ENUM")]
+        //[FieldOffset(0)]
+        public  byte mode;
+
+        /// <summary>Navigation mode, see UALBERTA_NAV_MODE ENUM   </summary>
+        [Units("")]
+        [Description("Navigation mode, see UALBERTA_NAV_MODE ENUM")]
+        //[FieldOffset(1)]
+        public  byte nav_mode;
+
+        /// <summary>Pilot mode, see UALBERTA_PILOT_MODE   </summary>
+        [Units("")]
+        [Description("Pilot mode, see UALBERTA_PILOT_MODE")]
+        //[FieldOffset(2)]
+        public  byte pilot;
+    };
+
+    
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Static data to configure the ADS-B transponder (send within 10 sec of a POR and every 10 sec thereafter) </summary>
     public struct mavlink_uavionix_adsb_out_cfg_t
@@ -31056,188 +35660,6 @@ public partial class MAVLink
 
     
     /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
-    ///<summary> ICAROUS heartbeat </summary>
-    public struct mavlink_icarous_heartbeat_t
-    {
-        /// packet ordered constructor
-        public mavlink_icarous_heartbeat_t(/*ICAROUS_FMS_STATE*/byte status) 
-        {
-            this.status = status;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_icarous_heartbeat_t PopulateXMLOrder(/*ICAROUS_FMS_STATE*/byte status) 
-        {
-            var msg = new mavlink_icarous_heartbeat_t();
-
-            msg.status = status;
-            
-            return msg;
-        }
-        
-
-        /// <summary>See the FMS_STATE enum. ICAROUS_FMS_STATE  </summary>
-        [Units("")]
-        [Description("See the FMS_STATE enum.")]
-        //[FieldOffset(0)]
-        public  /*ICAROUS_FMS_STATE*/byte status;
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
-    ///<summary> Kinematic multi bands (track) output from Daidalus </summary>
-    public struct mavlink_icarous_kinematic_bands_t
-    {
-        /// packet ordered constructor
-        public mavlink_icarous_kinematic_bands_t(float min1,float max1,float min2,float max2,float min3,float max3,float min4,float max4,float min5,float max5,sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5) 
-        {
-            this.min1 = min1;
-            this.max1 = max1;
-            this.min2 = min2;
-            this.max2 = max2;
-            this.min3 = min3;
-            this.max3 = max3;
-            this.min4 = min4;
-            this.max4 = max4;
-            this.min5 = min5;
-            this.max5 = max5;
-            this.numBands = numBands;
-            this.type1 = type1;
-            this.type2 = type2;
-            this.type3 = type3;
-            this.type4 = type4;
-            this.type5 = type5;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_icarous_kinematic_bands_t PopulateXMLOrder(sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,float min1,float max1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,float min2,float max2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,float min3,float max3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,float min4,float max4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5,float min5,float max5) 
-        {
-            var msg = new mavlink_icarous_kinematic_bands_t();
-
-            msg.numBands = numBands;
-            msg.type1 = type1;
-            msg.min1 = min1;
-            msg.max1 = max1;
-            msg.type2 = type2;
-            msg.min2 = min2;
-            msg.max2 = max2;
-            msg.type3 = type3;
-            msg.min3 = min3;
-            msg.max3 = max3;
-            msg.type4 = type4;
-            msg.min4 = min4;
-            msg.max4 = max4;
-            msg.type5 = type5;
-            msg.min5 = min5;
-            msg.max5 = max5;
-            
-            return msg;
-        }
-        
-
-        /// <summary>min angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("min angle (degrees)")]
-        //[FieldOffset(0)]
-        public  float min1;
-
-        /// <summary>max angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("max angle (degrees)")]
-        //[FieldOffset(4)]
-        public  float max1;
-
-        /// <summary>min angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("min angle (degrees)")]
-        //[FieldOffset(8)]
-        public  float min2;
-
-        /// <summary>max angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("max angle (degrees)")]
-        //[FieldOffset(12)]
-        public  float max2;
-
-        /// <summary>min angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("min angle (degrees)")]
-        //[FieldOffset(16)]
-        public  float min3;
-
-        /// <summary>max angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("max angle (degrees)")]
-        //[FieldOffset(20)]
-        public  float max3;
-
-        /// <summary>min angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("min angle (degrees)")]
-        //[FieldOffset(24)]
-        public  float min4;
-
-        /// <summary>max angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("max angle (degrees)")]
-        //[FieldOffset(28)]
-        public  float max4;
-
-        /// <summary>min angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("min angle (degrees)")]
-        //[FieldOffset(32)]
-        public  float min5;
-
-        /// <summary>max angle (degrees)  [deg] </summary>
-        [Units("[deg]")]
-        [Description("max angle (degrees)")]
-        //[FieldOffset(36)]
-        public  float max5;
-
-        /// <summary>Number of track bands   </summary>
-        [Units("")]
-        [Description("Number of track bands")]
-        //[FieldOffset(40)]
-        public  sbyte numBands;
-
-        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
-        [Units("")]
-        [Description("See the TRACK_BAND_TYPES enum.")]
-        //[FieldOffset(41)]
-        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type1;
-
-        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
-        [Units("")]
-        [Description("See the TRACK_BAND_TYPES enum.")]
-        //[FieldOffset(42)]
-        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type2;
-
-        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
-        [Units("")]
-        [Description("See the TRACK_BAND_TYPES enum.")]
-        //[FieldOffset(43)]
-        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type3;
-
-        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
-        [Units("")]
-        [Description("See the TRACK_BAND_TYPES enum.")]
-        //[FieldOffset(44)]
-        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type4;
-
-        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
-        [Units("")]
-        [Description("See the TRACK_BAND_TYPES enum.")]
-        //[FieldOffset(45)]
-        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type5;
-    };
-
-    
-    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=85)]
     ///<summary> Composite EFI and Governor data from Loweheiser equipment.  This message is created by the EFI unit based on its own data and data received from a governor attached to that EFI unit. </summary>
     public struct mavlink_loweheiser_gov_efi_t
@@ -31441,6 +35863,1093 @@ public partial class MAVLink
         [Description("EFI index.")]
         //[FieldOffset(84)]
         public  byte efi_index;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
+    ///<summary> Message reporting the current status of a gimbal device. This message should be broadcasted by a gimbal device component at a low regular rate (e.g. 4 Hz). For higher rates it should be emitted with a target. </summary>
+    public struct mavlink_storm32_gimbal_device_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_device_status_t(uint time_boot_ms,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,float yaw_absolute,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort flags,/*GIMBAL_DEVICE_ERROR_FLAGS*/ushort failure_flags,byte target_system,byte target_component) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.yaw_absolute = yaw_absolute;
+            this.flags = flags;
+            this.failure_flags = failure_flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_device_status_t PopulateXMLOrder(byte target_system,byte target_component,uint time_boot_ms,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,float yaw_absolute,/*GIMBAL_DEVICE_ERROR_FLAGS*/ushort failure_flags) 
+        {
+            var msg = new mavlink_storm32_gimbal_device_status_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.time_boot_ms = time_boot_ms;
+            msg.flags = flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            msg.yaw_absolute = yaw_absolute;
+            msg.failure_flags = failure_flags;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation). The frame depends on the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag.   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation). The frame depends on the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag.")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity (NaN if unknown).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity (NaN if unknown).")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity (NaN if unknown).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity (NaN if unknown).")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity (the frame depends on the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN if unknown).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity (the frame depends on the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN if unknown).")]
+        //[FieldOffset(28)]
+        public  float angular_velocity_z;
+
+        /// <summary>Yaw in absolute frame relative to Earth's North, north is 0 (NaN if unknown).  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Yaw in absolute frame relative to Earth's North, north is 0 (NaN if unknown).")]
+        //[FieldOffset(32)]
+        public  float yaw_absolute;
+
+        /// <summary>Gimbal device flags currently applied. MAV_STORM32_GIMBAL_DEVICE_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal device flags currently applied.")]
+        //[FieldOffset(36)]
+        public  /*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>Failure flags (0 for no failure). GIMBAL_DEVICE_ERROR_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Failure flags (0 for no failure).")]
+        //[FieldOffset(38)]
+        public  /*GIMBAL_DEVICE_ERROR_FLAGS*/ushort failure_flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(40)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(41)]
+        public  byte target_component;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Message to a gimbal device to control its attitude. This message is to be sent from the gimbal manager to the gimbal device. Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_storm32_gimbal_device_control_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_device_control_t(float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
+        {
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_device_control_t PopulateXMLOrder(byte target_system,byte target_component,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
+        {
+            var msg = new mavlink_storm32_gimbal_device_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.flags = flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, set first element to NaN to be ignored).   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, set first element to NaN to be ignored).")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity (positive: roll to the right, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity (positive: roll to the right, NaN to be ignored).")]
+        //[FieldOffset(16)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity (positive: tilt up, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity (positive: tilt up, NaN to be ignored).")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_z;
+
+        /// <summary>Gimbal device flags (UINT16_MAX to be ignored). MAV_STORM32_GIMBAL_DEVICE_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal device flags (UINT16_MAX to be ignored).")]
+        //[FieldOffset(28)]
+        public  /*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(30)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(31)]
+        public  byte target_component;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
+    ///<summary> Information about a gimbal manager. This message should be requested by a ground station using MAV_CMD_REQUEST_MESSAGE. It mirrors some fields of the STORM32_GIMBAL_DEVICE_INFORMATION message, but not all. If the additional information is desired, also STORM32_GIMBAL_DEVICE_INFORMATION should be requested. </summary>
+    public struct mavlink_storm32_gimbal_manager_information_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_manager_information_t(/*MAV_STORM32_GIMBAL_DEVICE_CAP_FLAGS*/uint device_cap_flags,/*MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS*/uint manager_cap_flags,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max,byte gimbal_id) 
+        {
+            this.device_cap_flags = device_cap_flags;
+            this.manager_cap_flags = manager_cap_flags;
+            this.roll_min = roll_min;
+            this.roll_max = roll_max;
+            this.pitch_min = pitch_min;
+            this.pitch_max = pitch_max;
+            this.yaw_min = yaw_min;
+            this.yaw_max = yaw_max;
+            this.gimbal_id = gimbal_id;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_manager_information_t PopulateXMLOrder(byte gimbal_id,/*MAV_STORM32_GIMBAL_DEVICE_CAP_FLAGS*/uint device_cap_flags,/*MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS*/uint manager_cap_flags,float roll_min,float roll_max,float pitch_min,float pitch_max,float yaw_min,float yaw_max) 
+        {
+            var msg = new mavlink_storm32_gimbal_manager_information_t();
+
+            msg.gimbal_id = gimbal_id;
+            msg.device_cap_flags = device_cap_flags;
+            msg.manager_cap_flags = manager_cap_flags;
+            msg.roll_min = roll_min;
+            msg.roll_max = roll_max;
+            msg.pitch_min = pitch_min;
+            msg.pitch_max = pitch_max;
+            msg.yaw_min = yaw_min;
+            msg.yaw_max = yaw_max;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Gimbal device capability flags. MAV_STORM32_GIMBAL_DEVICE_CAP_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Gimbal device capability flags.")]
+        //[FieldOffset(0)]
+        public  /*MAV_STORM32_GIMBAL_DEVICE_CAP_FLAGS*/uint device_cap_flags;
+
+        /// <summary>Gimbal manager capability flags. MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Gimbal manager capability flags.")]
+        //[FieldOffset(4)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS*/uint manager_cap_flags;
+
+        /// <summary>Hardware minimum roll angle (positive: roll to the right, NaN if unknown).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Hardware minimum roll angle (positive: roll to the right, NaN if unknown).")]
+        //[FieldOffset(8)]
+        public  float roll_min;
+
+        /// <summary>Hardware maximum roll angle (positive: roll to the right, NaN if unknown).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Hardware maximum roll angle (positive: roll to the right, NaN if unknown).")]
+        //[FieldOffset(12)]
+        public  float roll_max;
+
+        /// <summary>Hardware minimum pitch/tilt angle (positive: tilt up, NaN if unknown).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Hardware minimum pitch/tilt angle (positive: tilt up, NaN if unknown).")]
+        //[FieldOffset(16)]
+        public  float pitch_min;
+
+        /// <summary>Hardware maximum pitch/tilt angle (positive: tilt up, NaN if unknown).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Hardware maximum pitch/tilt angle (positive: tilt up, NaN if unknown).")]
+        //[FieldOffset(20)]
+        public  float pitch_max;
+
+        /// <summary>Hardware minimum yaw/pan angle (positive: pan to the right, relative to the vehicle/gimbal base, NaN if unknown).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Hardware minimum yaw/pan angle (positive: pan to the right, relative to the vehicle/gimbal base, NaN if unknown).")]
+        //[FieldOffset(24)]
+        public  float yaw_min;
+
+        /// <summary>Hardware maximum yaw/pan angle (positive: pan to the right, relative to the vehicle/gimbal base, NaN if unknown).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Hardware maximum yaw/pan angle (positive: pan to the right, relative to the vehicle/gimbal base, NaN if unknown).")]
+        //[FieldOffset(28)]
+        public  float yaw_max;
+
+        /// <summary>Gimbal ID (component ID or 1-6 for non-MAVLink gimbal) that this gimbal manager is responsible for.   </summary>
+        [Units("")]
+        [Description("Gimbal ID (component ID or 1-6 for non-MAVLink gimbal) that this gimbal manager is responsible for.")]
+        //[FieldOffset(32)]
+        public  byte gimbal_id;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=7)]
+    ///<summary> Message reporting the current status of a gimbal manager. This message should be broadcast at a low regular rate (e.g. 1 Hz, may be increase momentarily to e.g. 5 Hz for a period of 1 sec after a change). </summary>
+    public struct mavlink_storm32_gimbal_manager_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_manager_status_t(/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags,/*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte supervisor,/*MAV_STORM32_GIMBAL_MANAGER_PROFILE*/byte profile) 
+        {
+            this.device_flags = device_flags;
+            this.manager_flags = manager_flags;
+            this.gimbal_id = gimbal_id;
+            this.supervisor = supervisor;
+            this.profile = profile;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_manager_status_t PopulateXMLOrder(byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte supervisor,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags,/*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags,/*MAV_STORM32_GIMBAL_MANAGER_PROFILE*/byte profile) 
+        {
+            var msg = new mavlink_storm32_gimbal_manager_status_t();
+
+            msg.gimbal_id = gimbal_id;
+            msg.supervisor = supervisor;
+            msg.device_flags = device_flags;
+            msg.manager_flags = manager_flags;
+            msg.profile = profile;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Gimbal device flags currently applied. MAV_STORM32_GIMBAL_DEVICE_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal device flags currently applied.")]
+        //[FieldOffset(0)]
+        public  /*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags;
+
+        /// <summary>Gimbal manager flags currently applied. MAV_STORM32_GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal manager flags currently applied.")]
+        //[FieldOffset(2)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags;
+
+        /// <summary>Gimbal ID (component ID or 1-6 for non-MAVLink gimbal) that this gimbal manager is responsible for.   </summary>
+        [Units("")]
+        [Description("Gimbal ID (component ID or 1-6 for non-MAVLink gimbal) that this gimbal manager is responsible for.")]
+        //[FieldOffset(4)]
+        public  byte gimbal_id;
+
+        /// <summary>Client who is currently supervisor (0 = none). MAV_STORM32_GIMBAL_MANAGER_CLIENT  </summary>
+        [Units("")]
+        [Description("Client who is currently supervisor (0 = none).")]
+        //[FieldOffset(5)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte supervisor;
+
+        /// <summary>Profile currently applied (0 = default). MAV_STORM32_GIMBAL_MANAGER_PROFILE  </summary>
+        [Units("")]
+        [Description("Profile currently applied (0 = default).")]
+        //[FieldOffset(6)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_PROFILE*/byte profile;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=36)]
+    ///<summary> Message to a gimbal manager to control the gimbal attitude. Angles and rates can be set to NaN according to use case. A gimbal device is never to react to this message. </summary>
+    public struct mavlink_storm32_gimbal_manager_control_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_manager_control_t(float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags,/*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags,byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client) 
+        {
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.device_flags = device_flags;
+            this.manager_flags = manager_flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_id = gimbal_id;
+            this.client = client;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_manager_control_t PopulateXMLOrder(byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags,/*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags,float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z) 
+        {
+            var msg = new mavlink_storm32_gimbal_manager_control_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.gimbal_id = gimbal_id;
+            msg.client = client;
+            msg.device_flags = device_flags;
+            msg.manager_flags = manager_flags;
+            msg.q = q;
+            msg.angular_velocity_x = angular_velocity_x;
+            msg.angular_velocity_y = angular_velocity_y;
+            msg.angular_velocity_z = angular_velocity_z;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is determined by the GIMBAL_MANAGER_FLAGS_ABSOLUTE_YAW flag, set first element to NaN to be ignored).   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is determined by the GIMBAL_MANAGER_FLAGS_ABSOLUTE_YAW flag, set first element to NaN to be ignored).")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity (positive: roll to the right, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity (positive: roll to the right, NaN to be ignored).")]
+        //[FieldOffset(16)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity (positive: tilt up, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity (positive: tilt up, NaN to be ignored).")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_z;
+
+        /// <summary>Gimbal device flags (UINT16_MAX to be ignored). MAV_STORM32_GIMBAL_DEVICE_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal device flags (UINT16_MAX to be ignored).")]
+        //[FieldOffset(28)]
+        public  /*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags;
+
+        /// <summary>Gimbal manager flags (0 to be ignored). MAV_STORM32_GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal manager flags (0 to be ignored).")]
+        //[FieldOffset(30)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(32)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(33)]
+        public  byte target_component;
+
+        /// <summary>Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).")]
+        //[FieldOffset(34)]
+        public  byte gimbal_id;
+
+        /// <summary>Client which is contacting the gimbal manager (must be set). MAV_STORM32_GIMBAL_MANAGER_CLIENT  </summary>
+        [Units("")]
+        [Description("Client which is contacting the gimbal manager (must be set).")]
+        //[FieldOffset(35)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
+    ///<summary> Message to a gimbal manager to control the gimbal tilt and pan angles. Angles and rates can be set to NaN according to use case. A gimbal device is never to react to this message. </summary>
+    public struct mavlink_storm32_gimbal_manager_control_pitchyaw_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_manager_control_pitchyaw_t(float pitch,float yaw,float pitch_rate,float yaw_rate,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags,/*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags,byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client) 
+        {
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.pitch_rate = pitch_rate;
+            this.yaw_rate = yaw_rate;
+            this.device_flags = device_flags;
+            this.manager_flags = manager_flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_id = gimbal_id;
+            this.client = client;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_manager_control_pitchyaw_t PopulateXMLOrder(byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client,/*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags,/*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags,float pitch,float yaw,float pitch_rate,float yaw_rate) 
+        {
+            var msg = new mavlink_storm32_gimbal_manager_control_pitchyaw_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.gimbal_id = gimbal_id;
+            msg.client = client;
+            msg.device_flags = device_flags;
+            msg.manager_flags = manager_flags;
+            msg.pitch = pitch;
+            msg.yaw = yaw;
+            msg.pitch_rate = pitch_rate;
+            msg.yaw_rate = yaw_rate;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Pitch/tilt angle (positive: tilt up, NaN to be ignored).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Pitch/tilt angle (positive: tilt up, NaN to be ignored).")]
+        //[FieldOffset(0)]
+        public  float pitch;
+
+        /// <summary>Yaw/pan angle (positive: pan the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Yaw/pan angle (positive: pan the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).")]
+        //[FieldOffset(4)]
+        public  float yaw;
+
+        /// <summary>Pitch/tilt angular rate (positive: tilt up, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Pitch/tilt angular rate (positive: tilt up, NaN to be ignored).")]
+        //[FieldOffset(8)]
+        public  float pitch_rate;
+
+        /// <summary>Yaw/pan angular rate (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Yaw/pan angular rate (positive: pan to the right, the frame is determined by the STORM32_GIMBAL_DEVICE_FLAGS_YAW_ABSOLUTE flag, NaN to be ignored).")]
+        //[FieldOffset(12)]
+        public  float yaw_rate;
+
+        /// <summary>Gimbal device flags (UINT16_MAX to be ignored). MAV_STORM32_GIMBAL_DEVICE_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal device flags (UINT16_MAX to be ignored).")]
+        //[FieldOffset(16)]
+        public  /*MAV_STORM32_GIMBAL_DEVICE_FLAGS*/ushort device_flags;
+
+        /// <summary>Gimbal manager flags (0 to be ignored). MAV_STORM32_GIMBAL_MANAGER_FLAGS  </summary>
+        [Units("")]
+        [Description("Gimbal manager flags (0 to be ignored).")]
+        //[FieldOffset(18)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_FLAGS*/ushort manager_flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(20)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(21)]
+        public  byte target_component;
+
+        /// <summary>Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).")]
+        //[FieldOffset(22)]
+        public  byte gimbal_id;
+
+        /// <summary>Client which is contacting the gimbal manager (must be set). MAV_STORM32_GIMBAL_MANAGER_CLIENT  </summary>
+        [Units("")]
+        [Description("Client which is contacting the gimbal manager (must be set).")]
+        //[FieldOffset(23)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
+    ///<summary> Message to a gimbal manager to correct the gimbal roll angle. This message is typically used to manually correct for a tilted horizon in operation. A gimbal device is never to react to this message. </summary>
+    public struct mavlink_storm32_gimbal_manager_correct_roll_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_manager_correct_roll_t(float roll,byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client) 
+        {
+            this.roll = roll;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_id = gimbal_id;
+            this.client = client;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_manager_correct_roll_t PopulateXMLOrder(byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client,float roll) 
+        {
+            var msg = new mavlink_storm32_gimbal_manager_correct_roll_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.gimbal_id = gimbal_id;
+            msg.client = client;
+            msg.roll = roll;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Roll angle (positive to roll to the right).  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Roll angle (positive to roll to the right).")]
+        //[FieldOffset(0)]
+        public  float roll;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(4)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(5)]
+        public  byte target_component;
+
+        /// <summary>Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).")]
+        //[FieldOffset(6)]
+        public  byte gimbal_id;
+
+        /// <summary>Client which is contacting the gimbal manager (must be set). MAV_STORM32_GIMBAL_MANAGER_CLIENT  </summary>
+        [Units("")]
+        [Description("Client which is contacting the gimbal manager (must be set).")]
+        //[FieldOffset(7)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_CLIENT*/byte client;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
+    ///<summary> Message to set a gimbal manager profile. A gimbal device is never to react to this command. The selected profile is reported in the STORM32_GIMBAL_MANAGER_STATUS message. </summary>
+    public struct mavlink_storm32_gimbal_manager_profile_t
+    {
+        /// packet ordered constructor
+        public mavlink_storm32_gimbal_manager_profile_t(byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_PROFILE*/byte profile,byte[] priorities,byte profile_flags,byte rc_timeout,byte[] timeouts) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.gimbal_id = gimbal_id;
+            this.profile = profile;
+            this.priorities = priorities;
+            this.profile_flags = profile_flags;
+            this.rc_timeout = rc_timeout;
+            this.timeouts = timeouts;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_storm32_gimbal_manager_profile_t PopulateXMLOrder(byte target_system,byte target_component,byte gimbal_id,/*MAV_STORM32_GIMBAL_MANAGER_PROFILE*/byte profile,byte[] priorities,byte profile_flags,byte rc_timeout,byte[] timeouts) 
+        {
+            var msg = new mavlink_storm32_gimbal_manager_profile_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.gimbal_id = gimbal_id;
+            msg.profile = profile;
+            msg.priorities = priorities;
+            msg.profile_flags = profile_flags;
+            msg.rc_timeout = rc_timeout;
+            msg.timeouts = timeouts;
+            
+            return msg;
+        }
+        
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).   </summary>
+        [Units("")]
+        [Description("Gimbal ID of the gimbal manager to address (component ID or 1-6 for non-MAVLink gimbal, 0 for all gimbals, send command multiple times for more than one but not all gimbals).")]
+        //[FieldOffset(2)]
+        public  byte gimbal_id;
+
+        /// <summary>Profile to be applied (0 = default). MAV_STORM32_GIMBAL_MANAGER_PROFILE  </summary>
+        [Units("")]
+        [Description("Profile to be applied (0 = default).")]
+        //[FieldOffset(3)]
+        public  /*MAV_STORM32_GIMBAL_MANAGER_PROFILE*/byte profile;
+
+        /// <summary>Priorities for custom profile.   </summary>
+        [Units("")]
+        [Description("Priorities for custom profile.")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
+		public byte[] priorities;
+
+        /// <summary>Profile flags for custom profile (0 = default).   </summary>
+        [Units("")]
+        [Description("Profile flags for custom profile (0 = default).")]
+        //[FieldOffset(12)]
+        public  byte profile_flags;
+
+        /// <summary>Rc timeouts for custom profile (0 = infinite, in uints of 100 ms).   </summary>
+        [Units("")]
+        [Description("Rc timeouts for custom profile (0 = infinite, in uints of 100 ms).")]
+        //[FieldOffset(13)]
+        public  byte rc_timeout;
+
+        /// <summary>Timeouts for custom profile (0 = infinite, in uints of 100 ms).   </summary>
+        [Units("")]
+        [Description("Timeouts for custom profile (0 = infinite, in uints of 100 ms).")]
+        //[FieldOffset(14)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
+		public byte[] timeouts;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
+    ///<summary> Information about the shot operation. </summary>
+    public struct mavlink_qshot_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_qshot_status_t(/*MAV_QSHOT_MODE*/ushort mode,ushort shot_state) 
+        {
+            this.mode = mode;
+            this.shot_state = shot_state;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_qshot_status_t PopulateXMLOrder(/*MAV_QSHOT_MODE*/ushort mode,ushort shot_state) 
+        {
+            var msg = new mavlink_qshot_status_t();
+
+            msg.mode = mode;
+            msg.shot_state = shot_state;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Current shot mode. MAV_QSHOT_MODE  </summary>
+        [Units("")]
+        [Description("Current shot mode.")]
+        //[FieldOffset(0)]
+        public  /*MAV_QSHOT_MODE*/ushort mode;
+
+        /// <summary>Current state in the shot. States are specific to the selected shot mode.   </summary>
+        [Units("")]
+        [Description("Current state in the shot. States are specific to the selected shot mode.")]
+        //[FieldOffset(2)]
+        public  ushort shot_state;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=10)]
+    ///<summary> Message reporting the status of the prearm checks. The flags are component specific. </summary>
+    public struct mavlink_component_prearm_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_component_prearm_status_t(uint enabled_flags,uint fail_flags,byte target_system,byte target_component) 
+        {
+            this.enabled_flags = enabled_flags;
+            this.fail_flags = fail_flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_component_prearm_status_t PopulateXMLOrder(byte target_system,byte target_component,uint enabled_flags,uint fail_flags) 
+        {
+            var msg = new mavlink_component_prearm_status_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.enabled_flags = enabled_flags;
+            msg.fail_flags = fail_flags;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Currently enabled prearm checks. 0 means no checks are being performed, UINT32_MAX means not known.   </summary>
+        [Units("")]
+        [Description("Currently enabled prearm checks. 0 means no checks are being performed, UINT32_MAX means not known.")]
+        //[FieldOffset(0)]
+        public  uint enabled_flags;
+
+        /// <summary>Currently not passed prearm checks. 0 means all checks have been passed.   </summary>
+        [Units("")]
+        [Description("Currently not passed prearm checks. 0 means all checks have been passed.")]
+        //[FieldOffset(4)]
+        public  uint fail_flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(8)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(9)]
+        public  byte target_component;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    ///<summary>  AVSS PRS system status. </summary>
+    public struct mavlink_avss_prs_sys_status_t
+    {
+        /// packet ordered constructor
+        public mavlink_avss_prs_sys_status_t(uint time_boot_ms,uint error_status,uint battery_status,byte arm_status,byte charge_status) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.error_status = error_status;
+            this.battery_status = battery_status;
+            this.arm_status = arm_status;
+            this.charge_status = charge_status;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_avss_prs_sys_status_t PopulateXMLOrder(uint time_boot_ms,uint error_status,uint battery_status,byte arm_status,byte charge_status) 
+        {
+            var msg = new mavlink_avss_prs_sys_status_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.error_status = error_status;
+            msg.battery_status = battery_status;
+            msg.arm_status = arm_status;
+            msg.charge_status = charge_status;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since PRS boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since PRS boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>PRS error statuses   </summary>
+        [Units("")]
+        [Description("PRS error statuses")]
+        //[FieldOffset(4)]
+        public  uint error_status;
+
+        /// <summary>Estimated battery run-time without a remote connection and PRS battery voltage   </summary>
+        [Units("")]
+        [Description("Estimated battery run-time without a remote connection and PRS battery voltage")]
+        //[FieldOffset(8)]
+        public  uint battery_status;
+
+        /// <summary>PRS arm statuses   </summary>
+        [Units("")]
+        [Description("PRS arm statuses")]
+        //[FieldOffset(12)]
+        public  byte arm_status;
+
+        /// <summary>PRS battery charge statuses   </summary>
+        [Units("")]
+        [Description("PRS battery charge statuses")]
+        //[FieldOffset(13)]
+        public  byte charge_status;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
+    ///<summary>  Drone position. </summary>
+    public struct mavlink_avss_drone_position_t
+    {
+        /// packet ordered constructor
+        public mavlink_avss_drone_position_t(uint time_boot_ms,int lat,int lon,int alt,float ground_alt,float barometer_alt) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.ground_alt = ground_alt;
+            this.barometer_alt = barometer_alt;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_avss_drone_position_t PopulateXMLOrder(uint time_boot_ms,int lat,int lon,int alt,float ground_alt,float barometer_alt) 
+        {
+            var msg = new mavlink_avss_drone_position_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.ground_alt = ground_alt;
+            msg.barometer_alt = barometer_alt;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since FC boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since FC boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Latitude, expressed  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude, expressed")]
+        //[FieldOffset(4)]
+        public  int lat;
+
+        /// <summary>Longitude, expressed  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude, expressed")]
+        //[FieldOffset(8)]
+        public  int lon;
+
+        /// <summary>Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.")]
+        //[FieldOffset(12)]
+        public  int alt;
+
+        /// <summary>Altitude above ground, This altitude is measured by a ultrasound, Laser rangefinder or millimeter-wave radar  [m] </summary>
+        [Units("[m]")]
+        [Description("Altitude above ground, This altitude is measured by a ultrasound, Laser rangefinder or millimeter-wave radar")]
+        //[FieldOffset(16)]
+        public  float ground_alt;
+
+        /// <summary>This altitude is measured by a barometer  [m] </summary>
+        [Units("[m]")]
+        [Description("This altitude is measured by a barometer")]
+        //[FieldOffset(20)]
+        public  float barometer_alt;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary>  Drone IMU data. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0). </summary>
+    public struct mavlink_avss_drone_imu_t
+    {
+        /// packet ordered constructor
+        public mavlink_avss_drone_imu_t(uint time_boot_ms,float q1,float q2,float q3,float q4,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.q1 = q1;
+            this.q2 = q2;
+            this.q3 = q3;
+            this.q4 = q4;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_avss_drone_imu_t PopulateXMLOrder(uint time_boot_ms,float q1,float q2,float q3,float q4,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro) 
+        {
+            var msg = new mavlink_avss_drone_imu_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.q1 = q1;
+            msg.q2 = q2;
+            msg.q3 = q3;
+            msg.q4 = q4;
+            msg.xacc = xacc;
+            msg.yacc = yacc;
+            msg.zacc = zacc;
+            msg.xgyro = xgyro;
+            msg.ygyro = ygyro;
+            msg.zgyro = zgyro;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since FC boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since FC boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Quaternion component 1, w (1 in null-rotation)   </summary>
+        [Units("")]
+        [Description("Quaternion component 1, w (1 in null-rotation)")]
+        //[FieldOffset(4)]
+        public  float q1;
+
+        /// <summary>Quaternion component 2, x (0 in null-rotation)   </summary>
+        [Units("")]
+        [Description("Quaternion component 2, x (0 in null-rotation)")]
+        //[FieldOffset(8)]
+        public  float q2;
+
+        /// <summary>Quaternion component 3, y (0 in null-rotation)   </summary>
+        [Units("")]
+        [Description("Quaternion component 3, y (0 in null-rotation)")]
+        //[FieldOffset(12)]
+        public  float q3;
+
+        /// <summary>Quaternion component 4, z (0 in null-rotation)   </summary>
+        [Units("")]
+        [Description("Quaternion component 4, z (0 in null-rotation)")]
+        //[FieldOffset(16)]
+        public  float q4;
+
+        /// <summary>X acceleration  [m/s/s] </summary>
+        [Units("[m/s/s]")]
+        [Description("X acceleration")]
+        //[FieldOffset(20)]
+        public  float xacc;
+
+        /// <summary>Y acceleration  [m/s/s] </summary>
+        [Units("[m/s/s]")]
+        [Description("Y acceleration")]
+        //[FieldOffset(24)]
+        public  float yacc;
+
+        /// <summary>Z acceleration  [m/s/s] </summary>
+        [Units("[m/s/s]")]
+        [Description("Z acceleration")]
+        //[FieldOffset(28)]
+        public  float zacc;
+
+        /// <summary>Angular speed around X axis  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Angular speed around X axis")]
+        //[FieldOffset(32)]
+        public  float xgyro;
+
+        /// <summary>Angular speed around Y axis  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Angular speed around Y axis")]
+        //[FieldOffset(36)]
+        public  float ygyro;
+
+        /// <summary>Angular speed around Z axis  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Angular speed around Z axis")]
+        //[FieldOffset(40)]
+        public  float zgyro;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
+    ///<summary>  Drone operation mode. </summary>
+    public struct mavlink_avss_drone_operation_mode_t
+    {
+        /// packet ordered constructor
+        public mavlink_avss_drone_operation_mode_t(uint time_boot_ms,byte M300_operation_mode,byte horsefly_operation_mode) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.M300_operation_mode = M300_operation_mode;
+            this.horsefly_operation_mode = horsefly_operation_mode;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_avss_drone_operation_mode_t PopulateXMLOrder(uint time_boot_ms,byte M300_operation_mode,byte horsefly_operation_mode) 
+        {
+            var msg = new mavlink_avss_drone_operation_mode_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.M300_operation_mode = M300_operation_mode;
+            msg.horsefly_operation_mode = horsefly_operation_mode;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since FC boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since FC boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>DJI M300 operation mode   </summary>
+        [Units("")]
+        [Description("DJI M300 operation mode")]
+        //[FieldOffset(4)]
+        public  byte M300_operation_mode;
+
+        /// <summary>horsefly operation mode   </summary>
+        [Units("")]
+        [Description("horsefly operation mode")]
+        //[FieldOffset(5)]
+        public  byte horsefly_operation_mode;
     };
 
     
@@ -31814,77 +37323,6 @@ public partial class MAVLink
         [Description("Response type")]
         //[FieldOffset(0)]
         public  /*AIRLINK_AUTH_RESPONSE_TYPE*/byte resp_type;
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
-    ///<summary> The heartbeat message shows that a system or component is present and responding. The type and autopilot fields (along with the message component id), allow the receiving system to treat further messages from this system appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at https://mavlink.io/en/services/heartbeat.html </summary>
-    public struct mavlink_heartbeat_t
-    {
-        /// packet ordered constructor
-        public mavlink_heartbeat_t(uint custom_mode,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
-        {
-            this.custom_mode = custom_mode;
-            this.type = type;
-            this.autopilot = autopilot;
-            this.base_mode = base_mode;
-            this.system_status = system_status;
-            this.mavlink_version = mavlink_version;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_heartbeat_t PopulateXMLOrder(/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,uint custom_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
-        {
-            var msg = new mavlink_heartbeat_t();
-
-            msg.type = type;
-            msg.autopilot = autopilot;
-            msg.base_mode = base_mode;
-            msg.custom_mode = custom_mode;
-            msg.system_status = system_status;
-            msg.mavlink_version = mavlink_version;
-            
-            return msg;
-        }
-        
-
-        /// <summary>A bitfield for use for autopilot-specific flags   </summary>
-        [Units("")]
-        [Description("A bitfield for use for autopilot-specific flags")]
-        //[FieldOffset(0)]
-        public  uint custom_mode;
-
-        /// <summary>Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type. MAV_TYPE  </summary>
-        [Units("")]
-        [Description("Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type.")]
-        //[FieldOffset(4)]
-        public  /*MAV_TYPE*/byte type;
-
-        /// <summary>Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers. MAV_AUTOPILOT  </summary>
-        [Units("")]
-        [Description("Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers.")]
-        //[FieldOffset(5)]
-        public  /*MAV_AUTOPILOT*/byte autopilot;
-
-        /// <summary>System mode bitmap. MAV_MODE_FLAG  bitmask</summary>
-        [Units("")]
-        [Description("System mode bitmap.")]
-        //[FieldOffset(6)]
-        public  /*MAV_MODE_FLAG*/byte base_mode;
-
-        /// <summary>System status flag. MAV_STATE  </summary>
-        [Units("")]
-        [Description("System status flag.")]
-        //[FieldOffset(7)]
-        public  /*MAV_STATE*/byte system_status;
-
-        /// <summary>MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version   </summary>
-        [Units("")]
-        [Description("MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version")]
-        //[FieldOffset(8)]
-        public  byte mavlink_version;
     };
 
 }

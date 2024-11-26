@@ -183,40 +183,45 @@ namespace MissionPlanner.Warnings
             if (userepeattime && DateTime.Now < lastrepeat.AddSeconds(RepeatTime))
                 return false;
 
-            lastrepeat = DateTime.Now;
+            bool condition = false;
 
             switch (ConditionType)
             {
                 case Conditional.EQ:
                     if (GetValue == Warning)
-                        return true;
+                        condition = true;
                     break;
                 case Conditional.GT:
                     if (GetValue > Warning)
-                        return true;
+                        condition = true;
                     break;
                 case Conditional.GTEQ:
                     if (GetValue >= Warning)
-                        return true;
+                        condition = true;
                     break;
                 case Conditional.LT:
                     if (GetValue < Warning)
-                        return true;
+                        condition = true;
                     break;
                 case Conditional.LTEQ:
                     if (GetValue <= Warning)
-                        return true;
+                        condition = true;
                     break;
                 case Conditional.NEQ:
                     if (GetValue != Warning)
-                        return true;
+                        condition = true;
                     break;
                 case Conditional.NONE:
 
                     break;
             }
 
-            return false;
+            if (condition)
+            {
+                lastrepeat = DateTime.Now;
+            }
+
+            return condition;
         }
 
 

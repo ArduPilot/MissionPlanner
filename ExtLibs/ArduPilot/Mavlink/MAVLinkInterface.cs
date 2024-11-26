@@ -165,8 +165,13 @@ namespace MissionPlanner
             }
         }
 
-        public ICommsSerial MirrorStream { get; set; }
-        public bool MirrorStreamWrite { get; set; }
+        public class Mirror
+        {
+            public ICommsSerial MirrorStream { get; set; }
+            public bool MirrorStreamWrite { get; set; }
+        }
+
+        public List<Mirror> Mirrors { get; set; } = new List<Mirror>();
 
         public event EventHandler ParamListChanged
         {
@@ -418,6 +423,41 @@ namespace MissionPlanner
         private int _bps1 = 0;
         private int _bps2 = 0;
         private DateTime _bpstime { get; set; }
+
+        public bool MirrorStreamWrite { 
+            get {
+                if (Mirrors.Count > 0)
+                    return Mirrors[0].MirrorStreamWrite;
+
+                Mirrors.Add(new Mirror());
+                return MirrorStreamWrite;
+            } 
+            set 
+            {
+                if (Mirrors.Count > 0)
+                    Mirrors[0].MirrorStreamWrite = value;
+                else
+                    Mirrors.Add(new Mirror() { MirrorStreamWrite = value });
+            } 
+        }
+        public ICommsSerial MirrorStream {
+            get
+            {
+                if (Mirrors.Count > 0)
+                    return Mirrors[0].MirrorStream;
+
+                Mirrors.Add(new Mirror());
+                return MirrorStream;
+            }
+            set
+            {
+                if (Mirrors.Count > 0)
+                    Mirrors[0].MirrorStream = value;
+                else
+                    Mirrors.Add(new Mirror() { MirrorStream = value });
+            }
+        }
+
 
         public static ISpeech Speech;
 
@@ -4359,7 +4399,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 if (MAVlist[sysid, compid].cs.firmware == Firmwares.ArduPlane)
                 {
-                    MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte) 2);
+                    MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, (MAV_FRAME)gotohere.frame, (byte) 2);
 
                     if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
@@ -5385,34 +5425,39 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
         private void ProcessMirrorStream(byte[] buffer)
         {
-            try
+            foreach (var Mirror in Mirrors)
             {
-                // full rw from mirror stream
-                if (MirrorStream != null && MirrorStream.IsOpen)
+                var MirrorStream = Mirror.MirrorStream;
+                try
                 {
-                    MirrorStream.Write(buffer, 0, buffer.Length);
-
-                    while (MirrorStream.BytesToRead > 0)
+                    // full rw from mirror stream
+                    if (MirrorStream != null && MirrorStream.IsOpen)
                     {
-                        var len = MirrorStream.BytesToRead;
+                        MirrorStream.Write(buffer, 0, buffer.Length);
 
-                        byte[] buf = new byte[len];
+                        while (MirrorStream.BytesToRead > 0)
+                        {
+                            var len = MirrorStream.BytesToRead;
 
-                        len = MirrorStream.Read(buf, 0, len);
+                            byte[] buf = new byte[len];
 
-                        if (MirrorStreamWrite)
-                            lock (writelock)
-                            {
-                                BaseStream.Write(buf, 0, len);
+                            len = MirrorStream.Read(buf, 0, len);
 
-                                if (rawlogfile != null && rawlogfile.CanWrite)
-                                    rawlogfile.Write(buf, 0, len);
-                            }
+                            if (Mirror.MirrorStreamWrite)
+                                lock (writelock)
+                                {
+                                    BaseStream.Write(buf, 0, len);
+
+                                    if (rawlogfile != null && rawlogfile.CanWrite)
+                                        rawlogfile.Write(buf, 0, len);
+                                }
+                        }
                     }
+
                 }
-            }
-            catch
-            {
+                catch
+                {
+                }
             }
         }
 
@@ -6758,7 +6803,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             Terrain?.UnSub();
             Terrain = null;
 
-            MirrorStream = null;
+            Mirrors.Clear();
 
             logreadmode = false;
             logplaybackfile = null;

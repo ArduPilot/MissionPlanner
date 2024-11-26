@@ -1,18 +1,16 @@
 
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/ardupilotmega.xml').read().decode('utf-8') )" > message_definitions\ardupilotmega.xml
 
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/common.xml').read().decode('utf-8') )" > message_definitions\common.xml
+rem https://github.com/ArduPilot/mavlink/tree/master/message_definitions/v1.0/
 
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/minimal.xml').read().decode('utf-8') )" > message_definitions\minimal.xml
+echo import urllib.request; > update.py
+echo for i, v in enumerate(['ASLUAV.xml', 'AVSSUAS.xml', 'all.xml', 'ardupilotmega.xml', 'common.xml', 'csAirLink.xml', 'cubepilot.xml', 'development.xml', 'icarous.xml', 'loweheiser.xml', 'matrixpilot.xml', 'minimal.xml', 'python_array_test.xml', 'paparazzi.xml', 'standard.xml', 'storm32.xml', 'test.xml', 'uAvionix.xml', 'ualberta.xml']): >> update.py
+echo  print(v, "\n")
+echo  f = open("message_definitions/"+v, "w")>> update.py
+echo  f.write(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/'+v).read().decode('utf-8'))>> update.py
+echo  f.close()>> update.py
 
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/uAvionix.xml').read().decode('utf-8') )" > message_definitions\uAvionix.xml
+python update.py
 
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/icarous.xml').read().decode('utf-8') )" > message_definitions\icarous.xml
-
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/loweheiser.xml').read().decode('utf-8') )" > message_definitions\loweheiser.xml
-
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/cubepilot.xml').read().decode('utf-8') )" > message_definitions\cubepilot.xml
-
-python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/csAirLink.xml').read().decode('utf-8') )" > message_definitions\csAirLink.xml
+del update.py
 
 pause

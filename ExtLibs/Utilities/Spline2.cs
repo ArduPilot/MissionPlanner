@@ -53,9 +53,9 @@ namespace MissionPlanner.Controls.Waypoints
         float _slow_down_dist; // vehicle should begin to slow down once it is within this distance from the destination
         // To-Do: this should be used for straight segments as well
         float _yaw; // heading according to yaw
-        private float _wp_accel_cms = 100; // 1 m/s/s
+        public static float _wp_accel_cms { get; set; } = 100; // 1 m/s/s
         private uint32_t _wp_last_update;
-        private float _wp_speed_cms = 600; // 6 m/s
+        public static float _wp_speed_cms { get; set; } = 600; // 6 m/s
         public Vector3 _origin;
         public Vector3 _destination;
         private object _wp_speed_up_cms = 100;

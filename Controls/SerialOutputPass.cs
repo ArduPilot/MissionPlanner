@@ -1,4 +1,5 @@
-﻿using Microsoft.Scripting.Utils;
+﻿using DeviceProgramming.Dfu;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using Newtonsoft.Json;
@@ -131,15 +132,17 @@ namespace MissionPlanner.Controls
         void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
-            TcpListener listener = (TcpListener)ar.AsyncState;
+            var state = (ValueTuple<TcpListener, MAVLinkInterface.Mirror>)ar.AsyncState;
+            TcpListener listener = state.Item1;
+            MAVLinkInterface.Mirror mirror = state.Item2;
 
             // End the operation and display the received data on  
             // the console.
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            ((TcpSerial)MainV2.comPort.MirrorStream).client = client;
+            ((TcpSerial)mirror.MirrorStream).client = client;
 
-            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), state);
         }
 
         private void chk_write_CheckedChanged(object sender, EventArgs e)
@@ -165,7 +168,7 @@ namespace MissionPlanner.Controls
             Settings.Instance.SetList(configlist, ans);
         }
 
-        private void Load() 
+        private void Load()
         {
             var ans = Settings.Instance.GetList(configlist);
 
@@ -174,11 +177,17 @@ namespace MissionPlanner.Controls
                 if (row == null || row == "")
                     continue;
                 var data = ((JArray)JsonConvert.DeserializeObject(row)).Select(a => ((JValue)a).Value).ToArray();
-                myDataGridView1.Rows.Add(data);
+                var index = myDataGridView1.Rows.Add(data);
+
+                if (Started.Contains(index))
+                {
+                    myDataGridView1[Go.Index, index].Value = "Started";
+                }
             }
         }
 
         string configlist = "serialpasslist";
+        static private List<int> Started = new List<int>();
 
         private void myDataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -191,26 +200,31 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
+                    MAVLinkInterface.Mirror mirror = new MAVLinkInterface.Mirror();
+
                     var protocol = myDataGridView1[Type.Index, e.RowIndex].Value.ToString();
                     var direction = myDataGridView1[Direction.Index, e.RowIndex].Value.ToString();
                     var port = myDataGridView1[Port.Index, e.RowIndex].Value.ToString();
                     var extra = myDataGridView1[Extra.Index, e.RowIndex].Value.ToString();
+                    var write = myDataGridView1[Write.Index, e.RowIndex].Value.ToString();
                     if (protocol == "TCP")
                     {
                         if (direction == "Inbound")
-                        {
-                            MainV2.comPort.MirrorStream = new TcpSerial();
+                        {                           
+                            mirror.MirrorStream = new TcpSerial();
+                            mirror.MirrorStreamWrite = bool.Parse(write);
                             CMB_baudrate.SelectedIndex = 0;
                             listener = new TcpListener(System.Net.IPAddress.Any, int.Parse(port.ToString()));
                             listener.Start(0);
-                            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), (listener, mirror));
                             BUT_connect.Text = Strings.Stop;
                         }
                         else if (direction == "Outbound")
                         {
-                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true, Host = extra, Port = port, ConfigRef = "SerialOutputPassTCP" };
+                            mirror.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true, Host = extra, Port = port, ConfigRef = "SerialOutputPassTCP" };
                             CMB_baudrate.SelectedIndex = 0;
-                            MainV2.comPort.MirrorStream.Open();
+                            mirror.MirrorStream.Open();
+                            mirror.MirrorStreamWrite = bool.Parse(write);
                         }
                     } 
                     else if (protocol == "UDP")
@@ -220,9 +234,11 @@ namespace MissionPlanner.Controls
                             var udp = new UdpSerial()
                             { ConfigRef = "SerialOutputPassUDP", Port = port.ToString() };
                             udp.client = new UdpClient(int.Parse(port));
-                            MainV2.comPort.MirrorStream = udp;
+                            mirror.MirrorStream = udp;
+                            udp.IsOpen = true;
                             CMB_baudrate.SelectedIndex = 0;
-                            MainV2.comPort.MirrorStream.Open();
+                            mirror.MirrorStream.Open();
+                            mirror.MirrorStreamWrite = bool.Parse(write);
                         }
                         else if (direction == "Outbound")
                         {
@@ -230,17 +246,23 @@ namespace MissionPlanner.Controls
                             udp.hostEndPoint = new IPEndPoint(IPAddress.Parse(extra), int.Parse(port));
                             udp.client = new UdpClient();
                             udp.IsOpen = true;
-                            MainV2.comPort.MirrorStream = udp;
+                            mirror.MirrorStream = udp;
+                            mirror.MirrorStreamWrite = bool.Parse(write);
                             CMB_baudrate.SelectedIndex = 0;
                         }
                     } 
                     else if (protocol == "Serial")
                     {
-                        MainV2.comPort.MirrorStream = new SerialPort();
-                        MainV2.comPort.MirrorStream.PortName = port;
-                        MainV2.comPort.MirrorStream.BaudRate = int.Parse(extra);
-                        MainV2.comPort.MirrorStream.Open();
+                        mirror.MirrorStream = new SerialPort();
+                        mirror.MirrorStream.PortName = port;
+                        mirror.MirrorStream.BaudRate = int.Parse(extra);
+                        mirror.MirrorStream.Open();
+                        mirror.MirrorStreamWrite = bool.Parse(write);
                     }
+
+                    MainV2.comPort.Mirrors.Add(mirror);
+                    myDataGridView1[Go.Index, e.RowIndex].Value = "Started";
+                    Started.Add(e.RowIndex);
                 }
                 catch (Exception ex) {
                     CustomMessageBox.Show("Error: " + ex.Message);
