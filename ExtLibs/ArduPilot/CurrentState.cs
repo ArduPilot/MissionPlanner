@@ -1139,7 +1139,8 @@ namespace MissionPlanner
 
         [DisplayFieldName("distTraveled.Field")]
         [DisplayText("Dist Traveled (dist)")][GroupText("Position")] public float distTraveled { get; set; }
-
+  	public string distTravelledUnit = CurrentState.DistanceUnit;  // added by Mir 30112024
+      
         [DisplayText("Time in Air (sec)")][GroupText("Position")] public float timeSinceArmInAir { get; set; }
 
         [DisplayFieldName("timeInAir.Field")]
@@ -4416,6 +4417,18 @@ namespace MissionPlanner
                             if (mavinterface.BaseStream != null && !mavinterface.BaseStream.IsOpen &&
                                 !mavinterface.logreadmode)
                                 distTraveled = 0;
+
+                            // added by Mir 30112024
+                            if (distTravelledUnit != CurrentState.DistanceUnit)  // did distance unit change?
+                            {
+                                distTravelledUnit = CurrentState.DistanceUnit;  // set the new unit
+                                if(distTravelledUnit == "m") // changed to meters (was feets)
+                                    distTraveled = (float)(distTraveled / 3.28084); //Fix disttravelled
+                                else // changed to feets (was meters)
+                                    distTraveled = (float)(distTraveled * 3.28084); //Fix disttravelled
+
+                            } // end of my added
+                            
 
                             distTraveled += (float)lastpos.GetDistance(new PointLatLngAlt(lat, lng, 0, "")) *
                                             multiplierdist;
