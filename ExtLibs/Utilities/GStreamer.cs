@@ -53,17 +53,34 @@ namespace MissionPlanner.Utilities
             {
                 get
                 {
-                    if (Environment.OSVersion.Platform == PlatformID.Win32NT) 
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                         return BackendEnum.Windows;
-                    if (Environment.OSVersion.Platform == PlatformID.Unix) 
+                    if (Environment.OSVersion.Platform == PlatformID.Unix)
                     {
                         var doc = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                         if (doc.StartsWith("/data/user/"))
                             return BackendEnum.Android;
-                        return BackendEnum.Linux; 
+                        return BackendEnum.Linux;
                     }
 
                     return BackendEnum.Windows;
+                }
+            }
+
+            public static void gst_init(IntPtr argc, IntPtr argv)
+            {
+                switch (Backend)
+                {
+                    default:
+                    case BackendEnum.Windows:
+                        WinNativeMethods.gst_init(argc, argv);
+                        break;
+                    case BackendEnum.Linux:
+                        LinuxNativeMethods.gst_init(argc, argv);
+                        break;
+                    case BackendEnum.Android:
+                        AndroidNativeMethods.gst_init(argc, argv);
+                        break;
                 }
             }
 
@@ -918,7 +935,7 @@ namespace MissionPlanner.Utilities
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_init(IntPtr argc, IntPtr argv);
 
-            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
             public static extern void gst_init(ref int argc, string[] argv);
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
@@ -1244,17 +1261,15 @@ namespace MissionPlanner.Utilities
         static void ThreadStart(object datao)
         {
             string stringpipeline = (string)datao;
-            int argc = 1;
-            string[] argv = new string[] { "-vvv" };
 
             Environment.SetEnvironmentVariable("GST_DEBUG", "*:4");
 
             try
             {
-                
+
 
                 //https://github.com/GStreamer/gstreamer/blob/master/tools/gst-launch.c#L1125
-                NativeMethods.gst_init(ref argc, argv);
+                NativeMethods.gst_init(IntPtr.Zero, IntPtr.Zero);
             }
             catch (DllNotFoundException ex)
             {
