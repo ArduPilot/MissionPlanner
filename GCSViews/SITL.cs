@@ -32,6 +32,7 @@ namespace MissionPlanner.GCSViews
         Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
 
         Uri sitlmasterurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
+        Uri sitlbetaurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/Beta/");
 
         Uri sitlcopterstableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/");
         Uri sitlplanestableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/PlaneStable/");
@@ -110,6 +111,18 @@ namespace MissionPlanner.GCSViews
             if (!Directory.Exists(sitldirectory))
                 Directory.CreateDirectory(sitldirectory);
 
+            // Populate the version selection box
+            var versionSelect = new Dictionary<string, APFirmware.RELEASE_TYPES?>()
+            {
+                { "Latest (Dev)", APFirmware.RELEASE_TYPES.OFFICIAL },
+                { "Beta", APFirmware.RELEASE_TYPES.BETA },
+                { "Stable", APFirmware.RELEASE_TYPES.OFFICIAL },
+                { "Skip Download", null }
+            };
+            cmb_version.DataSource = new BindingSource(versionSelect, null);
+            cmb_version.DisplayMember = "Key";
+            cmb_version.ValueMember = "Value";
+            cmb_version.SelectedIndex = Settings.Instance.GetInt32("sitl_download_version");
         }
 
         public void Activate()
@@ -255,6 +268,9 @@ namespace MissionPlanner.GCSViews
         /// <returns></returns>
         private async Task<string> CheckandGetSITLImage(string filename)
         {
+            // Save the selected version for next time
+            Settings.Instance["sitl_download_version"] = cmb_version.SelectedIndex.ToString();
+            var release_type = cmb_version.SelectedValue as APFirmware.RELEASE_TYPES?;
             if (BundledPath != "")
             {
                 filename = filename.Replace(".elf", "");
@@ -296,12 +312,12 @@ namespace MissionPlanner.GCSViews
                 if (filename.ToLower().Contains("heli"))
                     type = APFirmware.MAV_TYPE.HELICOPTER;
 
-                var fw = APFirmware.GetOptions(new DeviceInfo() { board = "", hardwareid = "" }, APFirmware.RELEASE_TYPES.OFFICIAL, type);
+                var fw = APFirmware.GetOptions(new DeviceInfo() { board = "", hardwareid = "" }, release_type, type);
                 fw = fw.Where(a => a.Platform == "SITL_x86_64_linux_gnu").ToList();
                 if (fw.Count > 0)
                 {
                     var path = sitldirectory + Path.GetFileNameWithoutExtension(filename);
-                    if (!chk_skipdownload.Checked)
+                    if (release_type.HasValue)
                     {
                         Download.getFilefromNet(fw.First().Url.AbsoluteUri, path);
                         try
@@ -334,12 +350,12 @@ namespace MissionPlanner.GCSViews
                 if (filename.ToLower().Contains("heli"))
                     type = APFirmware.MAV_TYPE.HELICOPTER;
 
-                var fw = APFirmware.GetOptions(new DeviceInfo() { board = "", hardwareid="" }, APFirmware.RELEASE_TYPES.OFFICIAL, type);
+                var fw = APFirmware.GetOptions(new DeviceInfo() { board = "", hardwareid="" }, release_type, type);
                 fw = fw.Where(a => a.Platform == "SITL_arm_linux_gnueabihf").ToList();
                 if (fw.Count > 0)
                 {
                     var path = sitldirectory + Path.GetFileNameWithoutExtension(filename);
-                    if (!chk_skipdownload.Checked)
+                    if (release_type.HasValue)
                     {
                         Download.getFilefromNet(fw.First().Url.AbsoluteUri, path);
                         try {
@@ -358,7 +374,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if (!chk_skipdownload.Checked)
+            if (release_type.HasValue)
             {
                 // kill old session - so we can overwrite if needed
                 try
@@ -377,13 +393,16 @@ namespace MissionPlanner.GCSViews
                 }
 
                 var url = sitlmasterurl;
-                var result = CustomMessageBox.Show("Select the version you want to use?", "Select your version", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Question, "Latest(Dev)", "Stable");
 
-                if(result == CustomMessageBox.DialogResult.Yes)
+                if (release_type == APFirmware.RELEASE_TYPES.DEV)
                 {
                     // master by default
                 }
-                else if (result == CustomMessageBox.DialogResult.No)
+                else if (release_type == APFirmware.RELEASE_TYPES.BETA)
+                {
+                    url = sitlbetaurl;
+                }
+                else if (release_type == APFirmware.RELEASE_TYPES.OFFICIAL)
                 {
                     if (filename.ToLower().Contains("copter"))
                         url = sitlcopterstableurl;
