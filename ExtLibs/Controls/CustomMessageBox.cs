@@ -35,7 +35,7 @@ namespace MissionPlanner.MsgBox
             return Show(text, caption, buttons, MessageBoxIcon.None);
         }
 
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No", string CancelText = "Cancel")
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -50,7 +50,7 @@ namespace MissionPlanner.MsgBox
                     {
                         Console.WriteLine("CustomMessageBox thread running invoke " +
                                           System.Threading.Thread.CurrentThread.Name);
-                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
+                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText, CancelText);
                     });
                 }
                 catch (Exception ex)
@@ -58,19 +58,19 @@ namespace MissionPlanner.MsgBox
                     Console.WriteLine(ex);
                     // fall back
                     Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
+                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText, CancelText);
                 }
             }
             else
             {
                 Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText);
+                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText, CancelText);
             }
 
             return answer;
         }
 
-        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No", bool label = true)
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No", string CancelText = "Cancel", bool label = true)
         {
             DialogResult answer = DialogResult.Abort;
 
@@ -206,7 +206,7 @@ namespace MissionPlanner.MsgBox
                 }
 
 
-                AddButtonsToForm(msgBoxFrm, buttons, YesText, NoText);
+                AddButtonsToForm(msgBoxFrm, buttons, YesText, NoText, CancelText);
 
                 // display even if theme fails
                 try
@@ -262,7 +262,7 @@ namespace MissionPlanner.MsgBox
             return sb.ToString();
         }
 
-        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons, string YesText = "Yes", string NoText = "No")
+        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons, string YesText = "Yes", string NoText = "No", string CancelText = "Cancel")
         {
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
             int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
@@ -347,8 +347,52 @@ namespace MissionPlanner.MsgBox
                     msgBoxFrm.CancelButton = butcancel;
                     break;
 
+                case MessageBoxButtons.YesNoCancel:
+                    // Ensure there's enough space for all 3 buttons
+                    if (msgBoxFrm.Width < (75 * 3 + FORM_X_MARGIN * 4))
+                        msgBoxFrm.Width = (75 * 3 + FORM_X_MARGIN * 4);
+
+                    // Add Yes button
+                    var butYesButton = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = YesText,
+                        Left = msgBoxFrm.Width - 75 * 3 - FORM_X_MARGIN * 3,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butYesButton.Click += delegate { _state = DialogResult.Yes; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butYesButton);
+                    msgBoxFrm.AcceptButton = butYesButton;
+
+                    // Add No button
+                    var butNoButton = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = NoText,
+                        Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butNoButton.Click += delegate { _state = DialogResult.No; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butNoButton);
+
+                    // Add Cancel button
+                    var butCancelButton = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = CancelText,
+                        Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butCancelButton.Click += delegate { _state = DialogResult.Cancel; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butCancelButton);
+                    msgBoxFrm.CancelButton = butCancelButton;
+                    break;
+
                 default:
-                    throw new NotImplementedException("Only MessageBoxButtons.OK and YesNo supported at this time");
+                    throw new NotImplementedException("Only MessageBoxButtons.OK, YesNo, OKCancel, and YesNoCancel supported at this time");
             }
         }
 
@@ -374,7 +418,7 @@ namespace MissionPlanner.MsgBox
             }
         }
 
-        public static DialogResult ShowTextBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
+        public static DialogResult ShowTextBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No", string CancelText = "Cancel")
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -389,7 +433,7 @@ namespace MissionPlanner.MsgBox
                     {
                         Console.WriteLine("CustomMessageBox ShowTextBox thread running invoke " +
                                           System.Threading.Thread.CurrentThread.Name);
-                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText, false);
+                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText, CancelText, false);
                     });
                 }
                 catch (Exception ex)
@@ -397,13 +441,13 @@ namespace MissionPlanner.MsgBox
                     Console.WriteLine(ex);
                     // fall back
                     Console.WriteLine("CustomMessageBox ShowTextBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText, false);
+                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText, CancelText, false);
                 }
             }
             else
             {
                 Console.WriteLine("CustomMessageBox ShowTextBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer = ShowUI(text, caption, buttons, icon, YesText, NoText, false);
+                answer = ShowUI(text, caption, buttons, icon, YesText, NoText, CancelText, false);
             }
 
             return answer;

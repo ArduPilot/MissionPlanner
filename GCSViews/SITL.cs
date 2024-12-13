@@ -37,6 +37,8 @@ namespace MissionPlanner.GCSViews
         Uri sitlplanestableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/PlaneStable/");
         Uri sitlroverstableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/RoverStable/");
 
+        Uri sitlbetaurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/Beta/");
+
         string sitldirectory = Settings.GetUserDataDirectory() + "sitl" +
                                Path.DirectorySeparatorChar;
 
@@ -377,13 +379,17 @@ namespace MissionPlanner.GCSViews
                 }
 
                 var url = sitlmasterurl;
-                var result = CustomMessageBox.Show("Select the version you want to use?", "Select your version", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Question, "Latest(Dev)", "Stable");
+                var result = CustomMessageBox.Show("Select the version you want to use?", "Select your version", CustomMessageBox.MessageBoxButtons.YesNoCancel, CustomMessageBox.MessageBoxIcon.Question, "Latest(Dev)","Beta","Stable");
 
                 if(result == CustomMessageBox.DialogResult.Yes)
                 {
                     // master by default
                 }
                 else if (result == CustomMessageBox.DialogResult.No)
+                {
+                    url = sitlbetaurl;
+                }
+                else if (result == CustomMessageBox.DialogResult.Cancel)
                 {
                     if (filename.ToLower().Contains("copter"))
                         url = sitlcopterstableurl;
