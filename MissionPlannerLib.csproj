@@ -494,7 +494,7 @@
    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
    <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
    <PackageReference Include="System.Runtime" Version="4.3.1" />
-   <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+   <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
    <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
@@ -523,7 +523,7 @@
       <Version>1.1.64</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
  </ItemGroup>
 
