@@ -51,16 +51,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
             int port = 0;
             if (type == MAVLink.VIDEO_STREAM_TYPE.RTPUDP || type == MAVLink.VIDEO_STREAM_TYPE.MPEG_TS)
             {
-                var match = Regex.Match(uri, ":(\\d+)"); // Match a colon followed by digits
-                if (match.Success)
+                if (!int.TryParse(uri, out port))
                 {
-                    port = int.Parse(match.Groups[1].Value);
-                    if (port < 1 || port > 65535)
+                    var match = Regex.Match(uri, ":(\\d+)"); // Match a colon followed by digits
+                    if (match.Success)
                     {
-                        port = 0;
+                        port = int.Parse(match.Groups[1].Value);
                     }
                 }
-                if (port == 0)
+                if (port < 1 || port > 65535)
                 {
                     return "";
                 }
@@ -222,7 +221,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// <summary>
         /// Sends an asynchronous request to fetch camera information via.
         /// </summary>
-        private async Task RequestCameraInformationAsync()
+        public async Task RequestCameraInformationAsync()
         {
             try
             {
