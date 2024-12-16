@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Core.Geometry;
 using GeoAPI.DataStructures;
@@ -32,6 +33,65 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public MAVLink.mavlink_camera_tracking_image_status_t CameraTrackingImageStatus { get; private set; }
 
         public static ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t> VideoStreams { get; private set; } = new ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t>();
+
+        public static string GStreamerPipeline(MAVLink.mavlink_video_stream_information_t stream)
+        {
+            var type = (MAVLink.VIDEO_STREAM_TYPE)stream.type;
+            var uri = System.Text.Encoding.UTF8.GetString(stream.uri).Split('\0')[0];
+
+            // Allow a uri that starts with "gst://" to be used directly as a GStreamer pipeline
+            // (this is my personal hack to allow for custom pipelines for testing)
+            if (uri.StartsWith("gst://"))
+            {
+                return uri.Substring("gst://".Length);
+            }
+
+            // For the UDP transports, extract the port number from the URI. The URI should be only the port number,
+            // but we will attempt to handle malformed ones like "udp://127.0.0.1:5600" as well.
+            int port = 0;
+            if (type == MAVLink.VIDEO_STREAM_TYPE.RTPUDP || type == MAVLink.VIDEO_STREAM_TYPE.MPEG_TS)
+            {
+                var match = Regex.Match(uri, ":(\\d+)"); // Match a colon followed by digits
+                if (match.Success)
+                {
+                    port = int.Parse(match.Groups[1].Value);
+                    if (port < 1 || port > 65535)
+                    {
+                        port = 0;
+                    }
+                }
+                if (port == 0)
+                {
+                    return "";
+                }
+            }
+
+            // Otherwise, correctly generate a pipeline based on the stream type
+            switch (type)
+            {
+            case MAVLink.VIDEO_STREAM_TYPE.RTSP:
+                uri = "rtsp://" + Regex.Replace(uri, "^.*://", "");
+                return $"rtspsrc location={uri} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false";
+
+            case MAVLink.VIDEO_STREAM_TYPE.RTPUDP:
+                // Assume unknown encodings are H264
+                string encoding_name = stream.encoding == (byte)MAVLink.VIDEO_STREAM_ENCODING.H265 ? "H265" : "H264";
+                return $"udpsrc port={port} buffer-size=90000 ! application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string){encoding_name} ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false";
+
+            case MAVLink.VIDEO_STREAM_TYPE.TCP_MPEG:
+                var match = Regex.Match(uri, @"^(?:.*://)?([^:/]+):(\d+)");
+                if (match.Success)
+                {
+                    return $"tcpclientsrc host={match.Groups[1].Value} port={match.Groups[2].Value} ! decodebin ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false";
+                }
+                return "";
+
+            case MAVLink.VIDEO_STREAM_TYPE.MPEG_TS:
+                return $"udpsrc port={port} buffer-size=90000 ! tsparse ! tsdemux ! decodebin ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false";
+            default:
+                return "";
+            }
+        }
 
         /// <summary>
         /// True if the camera has different modes, like image mode and video mode
