@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MissionPlanner.ArduPilot.Mavlink;
 using GMap.NET.WindowsForms;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
+using System.Linq;
 
 namespace MissionPlanner.Controls
 {
@@ -93,6 +94,8 @@ namespace MissionPlanner.Controls
         private byte selectedGimbalID = 0;
 
         private GMapOverlay mouseMapMarker;
+
+        private readonly System.Timers.Timer AutoConnectTimer;
         public GimbalVideoControl()
         {
             InitializeComponent();
@@ -108,6 +111,60 @@ namespace MissionPlanner.Controls
 
             mouseMapMarker = new GMapOverlay("MouseMarker");
             MainV2.instance.FlightData.gMapControl1.Overlays.Add(mouseMapMarker);
+
+            if (!initializeGStreamer())
+            {
+                // No point in doing anything else if GStreamer isn't available
+                return;
+            }
+
+            _stream.OnNewImage += RenderFrame;
+
+            // Set up the auto-connect timer
+            AutoConnectTimer = new System.Timers.Timer()
+            {
+                Interval = 1000,
+                AutoReset = false
+            };
+            AutoConnectTimer.Elapsed += AutoConnectTimerCallback;
+            AutoConnectTimer.Start();
+        }
+
+        private bool initializeGStreamer()
+        {
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
+
+            if (!GStreamer.GstLaunchExists)
+            {
+                var result = CustomMessageBox.Show(
+                    "This feature requires GStreamer. Would you like to download and install it now?",
+                    "GStreamer not found",
+                    MessageBoxButtons.YesNo,
+                    CustomMessageBox.MessageBoxIcon.Question
+                );
+                if (result != (int)DialogResult.Yes)
+                {
+                    return false;
+                }
+                GStreamerUI.DownloadGStreamer();
+                // Check success
+                if (!GStreamer.GstLaunchExists)
+                {
+                    var message = "GStreamer was not found after installation. Please install it manually.";
+                    if (GStreamer.NativeMethods.Backend == GStreamer.NativeMethods.BackendEnum.Windows)
+                    {
+                        message += "\n\nFor Windows, install the MinGW version from https://gstreamer.freedesktop.org/download/#windows";
+                    }
+                    CustomMessageBox.Show(
+                        message,
+                        "GStreamer not found",
+                        MessageBoxButtons.OK,
+                        CustomMessageBox.MessageBoxIcon.Error
+                    );
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void loadPreferences()
@@ -705,6 +762,38 @@ namespace MissionPlanner.Controls
                 Settings.Instance["GimbalControlPreferences"] = Newtonsoft.Json.JsonConvert.SerializeObject(form.preferences);
                 loadPreferences();
             }
+        }
+
+        private void AutoConnectTimerCallback(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (CameraProtocol.VideoStreams.Count < 1)
+            {
+                Console.Write("Requesting camera information...");
+                // We must not have any reported video streams. Try to request them
+                selectedCamera?.RequestCameraInformationAsync().Wait();
+                Console.WriteLine(" done.");
+                // Come back later and see if any streams have been reported
+                AutoConnectTimer.Start();
+                return;
+            }
+
+
+            string previous_stream = Settings.Instance["gimbal_video_stream", ""];
+            // See if any of the streams are the last one used
+            foreach (var stream in CameraProtocol.VideoStreams.Values)
+            {
+                if (System.Text.Encoding.UTF8.GetString(stream.uri).Split('\0')[0] == previous_stream)
+                {
+                    _stream.Start(CameraProtocol.GStreamerPipeline(stream));
+                    return;
+                }
+            }
+
+            // If not, just use the first one
+            var first_stream = CameraProtocol.VideoStreams.First().Value;
+            Settings.Instance["gimbal_video_stream"] = System.Text.Encoding.UTF8.GetString(first_stream.uri).Split('\0')[0];
+            _stream.Start(CameraProtocol.GStreamerPipeline(first_stream));
+            return;
         }
     }
 }
