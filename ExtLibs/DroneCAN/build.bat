@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python3 -m pip install dronecan empy pexpect --user
+python3 -m pip install dronecan empy==3.3.4 pexpect setuptools --user
 
 python3 -m pip install --upgrade dronecan
 

@@ -2,6 +2,7 @@ using System;using System.Reflection;
 namespace DroneCAN {
 public partial class DroneCAN {
     public static (Type type,UInt16 msgid, ulong crcseed, Func<Byte[],int, bool, object> convert)[] MSG_INFO = { 
+	(typeof(dronecan_protocol_FlexDebug), 16371, 0xECA60382FF038F39, (b,s,fd) => dronecan_protocol_FlexDebug.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(dronecan_protocol_Stats), 342, 0x763AE3B8A986F8D1, (b,s,fd) => dronecan_protocol_Stats.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(dronecan_protocol_CanStats), 343, 0xCE080CAE3CA33C75, (b,s,fd) => dronecan_protocol_CanStats.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(dronecan_remoteid_BasicID), 20030, 0x5B1C624A8E4FC533, (b,s,fd) => dronecan_remoteid_BasicID.ByteArrayToDroneCANMsg(b,s,fd)),
@@ -13,7 +14,9 @@ public partial class DroneCAN {
 	(typeof(dronecan_remoteid_SecureCommand_req), 64, 0x126A47C9C17A8BD7, (b,s,fd) => dronecan_remoteid_SecureCommand_req.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(dronecan_remoteid_SecureCommand_res), 64, 0x126A47C9C17A8BD7, (b,s,fd) => dronecan_remoteid_SecureCommand_res.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(dronecan_sensors_hygrometer_Hygrometer), 1032, 0xCEB308892BF163E8, (b,s,fd) => dronecan_sensors_hygrometer_Hygrometer.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(dronecan_sensors_magnetometer_MagneticFieldStrengthHiRes), 1043, 0x3053EBE3D750286F, (b,s,fd) => dronecan_sensors_magnetometer_MagneticFieldStrengthHiRes.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(dronecan_sensors_rc_RCInput), 1140, 0x771555E596AAB4CF, (b,s,fd) => dronecan_sensors_rc_RCInput.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(dronecan_sensors_rpm_RPM), 1045, 0x140707C09274F6E7, (b,s,fd) => dronecan_sensors_rpm_RPM.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_hex_equipment_flow_Measurement), 20200, 0x6A908866BCB49C18, (b,s,fd) => com_hex_equipment_flow_Measurement.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_himark_servo_ServoCmd), 2018, 0x5D09E48551CE9194, (b,s,fd) => com_himark_servo_ServoCmd.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_himark_servo_ServoInfo), 2019, 0xCA8F4B8F97D23B57, (b,s,fd) => com_himark_servo_ServoInfo.ByteArrayToDroneCANMsg(b,s,fd)),
@@ -42,6 +45,11 @@ public partial class DroneCAN {
 	(typeof(com_hobbywing_esc_GetMaintenanceInformation_res), 241, 0xB81DBD4EC9A5977D, (b,s,fd) => com_hobbywing_esc_GetMaintenanceInformation_res.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_hobbywing_esc_GetMajorConfig_req), 242, 0x1506774DA3930BFD, (b,s,fd) => com_hobbywing_esc_GetMajorConfig_req.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_hobbywing_esc_GetMajorConfig_res), 242, 0x1506774DA3930BFD, (b,s,fd) => com_hobbywing_esc_GetMajorConfig_res.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(com_tmotor_esc_ParamCfg), 1033, 0x948F5E0B33E0EDEE, (b,s,fd) => com_tmotor_esc_ParamCfg.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(com_tmotor_esc_FocCtrl), 1035, 0x598143612FBC000B, (b,s,fd) => com_tmotor_esc_FocCtrl.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(com_tmotor_esc_PUSHSCI), 1038, 0xCE2B6D6B6BDC0AE8, (b,s,fd) => com_tmotor_esc_PUSHSCI.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(com_tmotor_esc_PUSHCAN), 1039, 0xAACF9B4B2577BC6E, (b,s,fd) => com_tmotor_esc_PUSHCAN.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(com_tmotor_esc_ParamGet), 1332, 0x462875A0ED874302, (b,s,fd) => com_tmotor_esc_ParamGet.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_volz_servo_ActuatorStatus), 20020, 0x29BF0D53B4060263, (b,s,fd) => com_volz_servo_ActuatorStatus.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_xacti_GnssStatus), 20305, 0x3413AC5D3E1DCBE3, (b,s,fd) => com_xacti_GnssStatus.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(com_xacti_GnssStatusReq), 20306, 0x60F5464E1CA03449, (b,s,fd) => com_xacti_GnssStatusReq.ByteArrayToDroneCANMsg(b,s,fd)),
@@ -82,6 +90,7 @@ public partial class DroneCAN {
 	(typeof(uavcan_equipment_esc_RawCommand), 1030, 0x217F5C87D7EC951D, (b,s,fd) => uavcan_equipment_esc_RawCommand.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(uavcan_equipment_esc_RPMCommand), 1031, 0xCE0F9F621CF7E70B, (b,s,fd) => uavcan_equipment_esc_RPMCommand.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(uavcan_equipment_esc_Status), 1034, 0xA9AF28AEA2FBB254, (b,s,fd) => uavcan_equipment_esc_Status.ByteArrayToDroneCANMsg(b,s,fd)),
+	(typeof(uavcan_equipment_esc_StatusExtended), 1036, 0x2DC203C50960EDC, (b,s,fd) => uavcan_equipment_esc_StatusExtended.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(uavcan_equipment_gnss_Fix), 1060, 0x54C1572B9E07F297, (b,s,fd) => uavcan_equipment_gnss_Fix.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(uavcan_equipment_gnss_Auxiliary), 1061, 0x9BE8BDC4C3DBBFD2, (b,s,fd) => uavcan_equipment_gnss_Auxiliary.ByteArrayToDroneCANMsg(b,s,fd)),
 	(typeof(uavcan_equipment_gnss_RTCMStream), 1062, 0x1F56030ECB171501, (b,s,fd) => uavcan_equipment_gnss_RTCMStream.ByteArrayToDroneCANMsg(b,s,fd)),
