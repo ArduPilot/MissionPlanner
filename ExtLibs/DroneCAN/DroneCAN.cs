@@ -1129,12 +1129,14 @@ namespace DroneCAN
                     var gnires = msg as DroneCAN.uavcan_protocol_GetNodeInfo_res;
                     Console.WriteLine(frame.SourceNode + " " + "GetNodeInfo: seen '{0}' from {1}",
                         ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
-                    if (devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') ||
+                    // ignore devicename, managed by the device itself
+                    if (true || devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') ||
                         devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') + "-BL" || gnires.name_len == 0)
                     {
                         if (firmware_crc != gnires.software_version.image_crc || firmware_crc == ulong.MaxValue)
                         {
-                            if (hwversion ==
+                            // ignore hw version
+                            if (true || hwversion ==
                                 double.Parse(gnires.hardware_version.major + "." + gnires.hardware_version.minor,
                                     CultureInfo.InvariantCulture) || hwversion == 0)
                             {
