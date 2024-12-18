@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Mon Nov 18 2024";
+    public const string MAVLINK_BUILD_DATE = "Wed Dec 18 2024";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -2354,233 +2354,251 @@ public partial class MAVLink
     ///<summary> A mapping of plane flight modes for custom_mode field of heartbeat. </summary>
     public enum PLANE_MODE: int /*default*/
     {
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> MANUAL | </summary>
+        [Description("MANUAL")]
         MANUAL=0, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> CIRCLE | </summary>
+        [Description("CIRCLE")]
         CIRCLE=1, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> STABILIZE | </summary>
+        [Description("STABILIZE")]
         STABILIZE=2, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> TRAINING | </summary>
+        [Description("TRAINING")]
         TRAINING=3, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ACRO | </summary>
+        [Description("ACRO")]
         ACRO=4, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> FBWA | </summary>
+        [Description("FBWA")]
         FLY_BY_WIRE_A=5, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> FBWB | </summary>
+        [Description("FBWB")]
         FLY_BY_WIRE_B=6, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> CRUISE | </summary>
+        [Description("CRUISE")]
         CRUISE=7, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTOTUNE | </summary>
+        [Description("AUTOTUNE")]
         AUTOTUNE=8, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTO | </summary>
+        [Description("AUTO")]
         AUTO=10, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> RTL | </summary>
+        [Description("RTL")]
         RTL=11, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> LOITER | </summary>
+        [Description("LOITER")]
         LOITER=12, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> TAKEOFF | </summary>
+        [Description("TAKEOFF")]
         TAKEOFF=13, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AVOID ADSB | </summary>
+        [Description("AVOID ADSB")]
         AVOID_ADSB=14, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> GUIDED | </summary>
+        [Description("GUIDED")]
         GUIDED=15, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> INITIALISING | </summary>
+        [Description("INITIALISING")]
         INITIALIZING=16, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QSTABILIZE | </summary>
+        [Description("QSTABILIZE")]
         QSTABILIZE=17, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QHOVER | </summary>
+        [Description("QHOVER")]
         QHOVER=18, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QLOITER | </summary>
+        [Description("QLOITER")]
         QLOITER=19, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QLAND | </summary>
+        [Description("QLAND")]
         QLAND=20, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QRTL | </summary>
+        [Description("QRTL")]
         QRTL=21, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QAUTOTUNE | </summary>
+        [Description("QAUTOTUNE")]
         QAUTOTUNE=22, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> QACRO | </summary>
+        [Description("QACRO")]
         QACRO=23, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> THERMAL | </summary>
+        [Description("THERMAL")]
         THERMAL=24, 
+        ///<summary> LOITER2QLAND | </summary>
+        [Description("LOITER2QLAND")]
+        LOITER_ALT_QLAND=25, 
         
     };
     
     ///<summary> A mapping of copter flight modes for custom_mode field of heartbeat. </summary>
     public enum COPTER_MODE: int /*default*/
     {
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> STABILIZE | </summary>
+        [Description("STABILIZE")]
         STABILIZE=0, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ACRO | </summary>
+        [Description("ACRO")]
         ACRO=1, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ALT HOLD | </summary>
+        [Description("ALT HOLD")]
         ALT_HOLD=2, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTO | </summary>
+        [Description("AUTO")]
         AUTO=3, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> GUIDED | </summary>
+        [Description("GUIDED")]
         GUIDED=4, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> LOITER | </summary>
+        [Description("LOITER")]
         LOITER=5, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> RTL | </summary>
+        [Description("RTL")]
         RTL=6, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> CIRCLE | </summary>
+        [Description("CIRCLE")]
         CIRCLE=7, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> LAND | </summary>
+        [Description("LAND")]
         LAND=9, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> DRIFT | </summary>
+        [Description("DRIFT")]
         DRIFT=11, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SPORT | </summary>
+        [Description("SPORT")]
         SPORT=13, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> FLIP | </summary>
+        [Description("FLIP")]
         FLIP=14, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTOTUNE | </summary>
+        [Description("AUTOTUNE")]
         AUTOTUNE=15, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> POSHOLD | </summary>
+        [Description("POSHOLD")]
         POSHOLD=16, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> BRAKE | </summary>
+        [Description("BRAKE")]
         BRAKE=17, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> THROW | </summary>
+        [Description("THROW")]
         THROW=18, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AVOID ADSB | </summary>
+        [Description("AVOID ADSB")]
         AVOID_ADSB=19, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> GUIDED NOGPS | </summary>
+        [Description("GUIDED NOGPS")]
         GUIDED_NOGPS=20, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SMARTRTL | </summary>
+        [Description("SMARTRTL")]
         SMART_RTL=21, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> FLOWHOLD | </summary>
+        [Description("FLOWHOLD")]
         FLOWHOLD=22, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> FOLLOW | </summary>
+        [Description("FOLLOW")]
         FOLLOW=23, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ZIGZAG | </summary>
+        [Description("ZIGZAG")]
         ZIGZAG=24, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SYSTEMID | </summary>
+        [Description("SYSTEMID")]
         SYSTEMID=25, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTOROTATE | </summary>
+        [Description("AUTOROTATE")]
         AUTOROTATE=26, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTO RTL | </summary>
+        [Description("AUTO RTL")]
         AUTO_RTL=27, 
+        ///<summary> TURTLE | </summary>
+        [Description("TURTLE")]
+        TURTLE=28, 
         
     };
     
     ///<summary> A mapping of sub flight modes for custom_mode field of heartbeat. </summary>
     public enum SUB_MODE: int /*default*/
     {
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> STABILIZE | </summary>
+        [Description("STABILIZE")]
         STABILIZE=0, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ACRO | </summary>
+        [Description("ACRO")]
         ACRO=1, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ALT HOLD | </summary>
+        [Description("ALT HOLD")]
         ALT_HOLD=2, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> AUTO | </summary>
+        [Description("AUTO")]
         AUTO=3, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> GUIDED | </summary>
+        [Description("GUIDED")]
         GUIDED=4, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> CIRCLE | </summary>
+        [Description("CIRCLE")]
         CIRCLE=7, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SURFACE | </summary>
+        [Description("SURFACE")]
         SURFACE=9, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> POSHOLD | </summary>
+        [Description("POSHOLD")]
         POSHOLD=16, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> MANUAL | </summary>
+        [Description("MANUAL")]
         MANUAL=19, 
+        ///<summary> MOTORDETECT | </summary>
+        [Description("MOTORDETECT")]
+        MOTORDETECT=20, 
+        ///<summary> SURFTRAK | </summary>
+        [Description("SURFTRAK")]
+        SURFTRAK=21, 
         
     };
     
     ///<summary> A mapping of rover flight modes for custom_mode field of heartbeat. </summary>
     public enum ROVER_MODE: int /*default*/
     {
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> MANUAL | </summary>
+        [Description("MANUAL")]
         MANUAL=0, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> ACRO | </summary>
+        [Description("ACRO")]
         ACRO=1, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> STEERING | </summary>
+        [Description("STEERING")]
         STEERING=3, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> HOLD | </summary>
+        [Description("HOLD")]
         HOLD=4, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> LOITER | </summary>
+        [Description("LOITER")]
         LOITER=5, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> FOLLOW | </summary>
+        [Description("FOLLOW")]
         FOLLOW=6, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SIMPLE | </summary>
+        [Description("SIMPLE")]
         SIMPLE=7, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> DOCK | </summary>
+        [Description("DOCK")]
+        DOCK=8, 
+        ///<summary> CIRCLE | </summary>
+        [Description("CIRCLE")]
+        CIRCLE=9, 
+        ///<summary> AUTO | </summary>
+        [Description("AUTO")]
         AUTO=10, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> RTL | </summary>
+        [Description("RTL")]
         RTL=11, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SMART RTL | </summary>
+        [Description("SMART RTL")]
         SMART_RTL=12, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> GUIDED | </summary>
+        [Description("GUIDED")]
         GUIDED=15, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> INITIALISING | </summary>
+        [Description("INITIALISING")]
         INITIALIZING=16, 
         
     };
@@ -2588,23 +2606,26 @@ public partial class MAVLink
     ///<summary> A mapping of antenna tracker flight modes for custom_mode field of heartbeat. </summary>
     public enum TRACKER_MODE: int /*default*/
     {
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> MANUAL | </summary>
+        [Description("MANUAL")]
         MANUAL=0, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> STOP | </summary>
+        [Description("STOP")]
         STOP=1, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SCAN | </summary>
+        [Description("SCAN")]
         SCAN=2, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> SERVO TEST | </summary>
+        [Description("SERVO TEST")]
         SERVO_TEST=3, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> GUIDED | </summary>
+        [Description("GUIDED")]
+        GUIDED=4, 
+        ///<summary> AUTO | </summary>
+        [Description("AUTO")]
         AUTO=10, 
-        ///<summary>  | </summary>
-        [Description("")]
+        ///<summary> INITIALISING | </summary>
+        [Description("INITIALISING")]
         INITIALIZING=16, 
         
     };

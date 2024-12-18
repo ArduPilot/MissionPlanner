@@ -900,6 +900,7 @@ local enumEntryName = {
         [22] = "PLANE_MODE_QAUTOTUNE",
         [23] = "PLANE_MODE_QACRO",
         [24] = "PLANE_MODE_THERMAL",
+        [25] = "PLANE_MODE_LOITER_ALT_QLAND",
     },
     ["COPTER_MODE"] = {
         [0] = "COPTER_MODE_STABILIZE",
@@ -927,6 +928,7 @@ local enumEntryName = {
         [25] = "COPTER_MODE_SYSTEMID",
         [26] = "COPTER_MODE_AUTOROTATE",
         [27] = "COPTER_MODE_AUTO_RTL",
+        [28] = "COPTER_MODE_TURTLE",
     },
     ["SUB_MODE"] = {
         [0] = "SUB_MODE_STABILIZE",
@@ -938,6 +940,8 @@ local enumEntryName = {
         [9] = "SUB_MODE_SURFACE",
         [16] = "SUB_MODE_POSHOLD",
         [19] = "SUB_MODE_MANUAL",
+        [20] = "SUB_MODE_MOTORDETECT",
+        [21] = "SUB_MODE_SURFTRAK",
     },
     ["ROVER_MODE"] = {
         [0] = "ROVER_MODE_MANUAL",
@@ -947,6 +951,8 @@ local enumEntryName = {
         [5] = "ROVER_MODE_LOITER",
         [6] = "ROVER_MODE_FOLLOW",
         [7] = "ROVER_MODE_SIMPLE",
+        [8] = "ROVER_MODE_DOCK",
+        [9] = "ROVER_MODE_CIRCLE",
         [10] = "ROVER_MODE_AUTO",
         [11] = "ROVER_MODE_RTL",
         [12] = "ROVER_MODE_SMART_RTL",
@@ -958,6 +964,7 @@ local enumEntryName = {
         [1] = "TRACKER_MODE_STOP",
         [2] = "TRACKER_MODE_SCAN",
         [3] = "TRACKER_MODE_SERVO_TEST",
+        [4] = "TRACKER_MODE_GUIDED",
         [10] = "TRACKER_MODE_AUTO",
         [16] = "TRACKER_MODE_INITIALIZING",
     },
