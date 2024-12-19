@@ -3147,7 +3147,7 @@ namespace MissionPlanner
                 if (
                     lastSpeech.AddSeconds(5) < DateTime.Now &&
                     closestPlane != null &&
-                    closestPlane.GetDistance(ourLocation) < 5000 &&
+                    closestPlane.GetDistance(ourLocation) < 10000 &&
                     Math.Abs(closestPlane.Alt - comPort.MAV.cs.altasl) < 1000
                 )
                 {
@@ -3189,7 +3189,7 @@ namespace MissionPlanner
                                     recommendedAction
                                 );
                             }
-                            else if (closestPlane.GetDistance(ourLocation) < 3000)
+                            else if (closestPlane.GetDistance(ourLocation) < 5000)
                             {
                                 // High urgency
                                 speech = string.Format("Traffic Close! {0} O'Clock {1}; {2};",
