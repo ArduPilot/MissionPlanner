@@ -20,12 +20,15 @@ namespace MissionPlanner.Controls
         private void but_doit_Click(object sender, EventArgs e)
         {
             var buffer = new byte[Convert.ToByte(num_count.Text)];
-            MainV2.comPort.device_op(Convert.ToByte(num_sysid.Text), Convert.ToByte(num_compid.Text), out buffer, 
+            var result = MainV2.comPort.device_op(Convert.ToByte(num_sysid.Text), Convert.ToByte(num_compid.Text), out buffer, 
                 dom_bustype.Text == "SPI" ? MAVLink.DEVICE_OP_BUSTYPE.SPI : MAVLink.DEVICE_OP_BUSTYPE.I2C,
                 txt_spiname.Text, Convert.ToByte(num_busno.Text), Convert.ToByte(num_address.Text), 
                 Convert.ToByte(num_regstart.Text), Convert.ToByte(num_count.Text));
 
-            textBox1.AppendText(buffer.Select(a => a.ToString("X2")).Aggregate((a, b) => a + b) + "\r\n");
+            if (buffer.Length > 0)
+                textBox1.AppendText(buffer.Select(a => a.ToString("X2")).Aggregate((a, b) => a + b) + "\r\n");
+            else
+                textBox1.AppendText("No Responce - " + result + "\r\n");
         }
 
         private void dom_bustype_SelectedItemChanged(object sender, EventArgs e)

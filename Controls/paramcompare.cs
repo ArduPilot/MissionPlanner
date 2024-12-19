@@ -41,7 +41,7 @@ namespace MissionPlanner.Controls
                     if (param.ContainsKey(value) && param2.ContainsKey(value))
                     {
                         // check double != double
-                        if (param[value] != param2[value])
+                        if (param[value].ToString() != param2[value].ToString())
                         // this will throw is there is no matching key
                         {
                             Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);

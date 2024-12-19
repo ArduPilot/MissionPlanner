@@ -4051,10 +4051,23 @@ namespace MissionPlanner
                             ahrs2_lng = ahrs2.lng / 1e7;
                         }
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AIRSPEED:
+                        {
+                            var airspeedp = mavLinkMessage.ToStructure<MAVLink.mavlink_airspeed_t>();
+
+                           if(airspeedp.id == 0)
+                            {
+                                airspeed = airspeedp.airspeed;
+                                airspeed1_temp = (float)(airspeedp.temperature / 100.0);
+                            }
+                        }
+                        break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CANFD_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL:
                     case (uint)MAVLink.MAVLINK_MSG_ID.LOG_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_WRITE_REPLY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TIMESYNC:
                         break;
                     default:
                         {

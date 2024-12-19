@@ -226,6 +226,8 @@ namespace MissionPlanner.GCSViews
             {11, "<3m" }
         };
 
+        private bool transponderNeverConnected = true;
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -2829,6 +2831,7 @@ namespace MissionPlanner.GCSViews
         private void flyToHereAltToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string alt = "100";
+            MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
 
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
@@ -2841,11 +2844,14 @@ namespace MissionPlanner.GCSViews
 
             if (Settings.Instance.ContainsKey("guided_alt"))
                 alt = Settings.Instance["guided_alt"];
+            if (Settings.Instance.ContainsKey("guided_alt_frame"))
+                frame = (MAVLink.MAV_FRAME)byte.Parse(Settings.Instance["guided_alt_frame"]);
 
-            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Guided Mode Alt", ref alt))
+            if (DialogResult.Cancel == AltInputBox.Show("Enter Alt", "Enter Guided Mode Alt", ref alt, ref frame))
                 return;
 
             Settings.Instance["guided_alt"] = alt;
+            Settings.Instance["guided_alt_frame"] = ((byte)frame).ToString();
 
             int intalt = (int) (100 * CurrentState.multiplieralt);
             if (!int.TryParse(alt, out intalt))
@@ -2855,6 +2861,7 @@ namespace MissionPlanner.GCSViews
             }
 
             MainV2.comPort.MAV.GuidedMode.z = intalt / CurrentState.multiplieralt;
+            MainV2.comPort.MAV.GuidedMode.frame = (byte) frame;
 
             if (MainV2.comPort.MAV.cs.mode == "Guided")
             {
@@ -2862,7 +2869,8 @@ namespace MissionPlanner.GCSViews
                 {
                     alt = MainV2.comPort.MAV.GuidedMode.z,
                     lat = MainV2.comPort.MAV.GuidedMode.x / 1e7,
-                    lng = MainV2.comPort.MAV.GuidedMode.y / 1e7
+                    lng = MainV2.comPort.MAV.GuidedMode.y / 1e7,
+                    frame = (byte)frame
                 });
             }
         }
@@ -3017,6 +3025,7 @@ namespace MissionPlanner.GCSViews
             gotohere.alt = MainV2.comPort.MAV.GuidedMode.z; // back to m
             gotohere.lat = (MouseDownStart.Lat);
             gotohere.lng = (MouseDownStart.Lng);
+            gotohere.frame = MainV2.comPort.MAV.GuidedMode.frame;
 
             try
             {
@@ -3288,6 +3297,8 @@ namespace MissionPlanner.GCSViews
             DateTime waypoints = DateTime.Now.AddSeconds(0);
 
             DateTime updatescreen = DateTime.Now;
+
+            DateTime transponderUpdate = DateTime.Now;
 
             DateTime tsreal = DateTime.Now;
             double taketime = 0;
@@ -4196,9 +4207,10 @@ namespace MissionPlanner.GCSViews
                     Console.WriteLine("FD Main loop exception " + ex);
                 }
 
-                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending || transponderUpdate.AddMilliseconds(5000) < DateTime.Now)
                 {
                     BeginInvoke((Action) updateTransponder);
+                    transponderUpdate = DateTime.Now;
                 }
             }
 
@@ -5826,6 +5838,16 @@ namespace MissionPlanner.GCSViews
             var location = "";
             InputBox.Show("Enter Fly To Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
 
+            byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+            if (!MainV2.comPort.MAV.GuidedMode.Equals(new MAVLink.mavlink_mission_item_int_t()))
+            {
+                frame = MainV2.comPort.MAV.GuidedMode.frame;
+            }
+            else if (Settings.Instance.ContainsKey("guided_alt_frame"))
+            {
+                byte.TryParse(Settings.Instance["guided_alt_frame"], out frame);
+            }
+
             var split = location.Split(';');
 
             if (split.Length == 3)
@@ -5842,6 +5864,7 @@ namespace MissionPlanner.GCSViews
                 gotohere.alt = (float) plla.Alt / CurrentState.multiplieralt; // back to m
                 gotohere.lat = (plla.Lat);
                 gotohere.lng = (plla.Lng);
+                gotohere.frame = frame;
 
                 try
                 {
@@ -5866,6 +5889,7 @@ namespace MissionPlanner.GCSViews
                 gotohere.alt = MainV2.comPort.MAV.GuidedMode.z; // back to m
                 gotohere.lat = (plla.Lat);
                 gotohere.lng = (plla.Lng);
+                gotohere.frame = frame;
 
                 try
                 {
@@ -6230,7 +6254,7 @@ namespace MissionPlanner.GCSViews
                 {
                     updateTransponder();
                 }
-                else CustomMessageBox.Show("Timeout.");
+                else CustomMessageBox.Show("Timeout: Status message not received.");
 
             }
             catch (Exception ex)
@@ -6241,9 +6265,40 @@ namespace MissionPlanner.GCSViews
 
         private void updateTransponder()
         {
-            MainV2.comPort.MAV.cs.xpdr_status_pending = false;
-            if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
+            if (!MainV2.comPort.MAV.cs.xpdr_status_pending)
             {
+                // timeout on status message
+                STBY_btn.Enabled = false;
+                ON_btn.Enabled = false;
+                ALT_btn.Enabled = false;
+                IDENT_btn.Enabled = false;
+                FlightID_tb.Enabled = false;
+                Squawk_nud.Enabled = false;
+
+                if (transponderNeverConnected)
+                {
+                    XPDRConnect_btn.Text = "Connect To Transponder";
+                    XPDRConnect_btn.Enabled = true;
+                }
+                else
+                {
+                    // if we have connected before, we should have subscribed to the status message.
+                    // something must have reset the message interval (AP power cycled, etc.)
+                    // so indicate that the connection reset
+                    XPDRConnect_btn.Text = "Transponder Status Lost";
+                    XPDRConnect_btn.Enabled = true;
+                    transponderNeverConnected = true;
+                }
+            }
+            else if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
+            {
+                if (transponderNeverConnected)
+                {
+                    // subscribe to status message on first connection
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS, (float) 1000000.0, 0, 0, 0, 0, 0);
+                    transponderNeverConnected = false;
+                }
+
                 STBY_btn.Enabled = true;
                 ON_btn.Enabled = true;
                 ALT_btn.Enabled = true;
@@ -6262,8 +6317,8 @@ namespace MissionPlanner.GCSViews
                                                              !Mode_clb.GetItemChecked(2) &&
                                                              !Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
                     ON_btn.Font   = new Font(ON_btn.Font,   ( Mode_clb.GetItemChecked(0) &&
-                                                              Mode_clb.GetItemChecked(1) &&
-                                                             !Mode_clb.GetItemChecked(2) &&
+                                                             !Mode_clb.GetItemChecked(1) &&
+                                                              Mode_clb.GetItemChecked(2) &&
                                                               Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
                     ALT_btn.Font  = new Font(ALT_btn.Font,  ( Mode_clb.GetItemChecked(0) &&
                                                               Mode_clb.GetItemChecked(1) &&
@@ -6304,6 +6359,7 @@ namespace MissionPlanner.GCSViews
                 IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.xpdr_ident_active ? FontStyle.Bold : FontStyle.Regular);
 
                 XPDRConnect_btn.Text = "Transponder Connected!";
+                XPDRConnect_btn.Enabled = false;
             }
             else
             {
@@ -6314,8 +6370,10 @@ namespace MissionPlanner.GCSViews
                 FlightID_tb.Enabled = false;
                 Squawk_nud.Enabled = false;
 
-                XPDRConnect_btn.Text = "Connect to Transponder";
+                XPDRConnect_btn.Text = "Transponder Offline";
+                XPDRConnect_btn.Enabled = false;
             }
+            MainV2.comPort.MAV.cs.xpdr_status_pending = false;
         }
 
         private void showIconsToolStripMenuItem_Click(object sender, EventArgs e)

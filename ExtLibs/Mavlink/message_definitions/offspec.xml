@@ -4,7 +4,7 @@
 	<dialect>0</dialect>
 
 	<messages>
-		<message id="26900" name="VIDEO_STREAM_INFORMATION99">
+		<message id="26900" name="zVIDEO_STREAM_INFORMATION">
 			<wip/>
 			<!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
 			<description>Information about video stream</description>

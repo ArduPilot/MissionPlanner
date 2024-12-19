@@ -38,6 +38,7 @@
             this.Direction = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Port = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Extra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Write = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Go = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -53,6 +54,7 @@
             // 
             resources.ApplyResources(this.BUT_connect, "BUT_connect");
             this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
@@ -88,6 +90,7 @@
             this.Direction,
             this.Port,
             this.Extra,
+            this.Write,
             this.Go});
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
@@ -123,6 +126,11 @@
             resources.ApplyResources(this.Extra, "Extra");
             this.Extra.Name = "Extra";
             // 
+            // Write
+            // 
+            resources.ApplyResources(this.Write, "Write");
+            this.Write.Name = "Write";
+            // 
             // Go
             // 
             resources.ApplyResources(this.Go, "Go");
@@ -155,6 +163,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Direction;
         private System.Windows.Forms.DataGridViewTextBoxColumn Port;
         private System.Windows.Forms.DataGridViewTextBoxColumn Extra;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Write;
         private System.Windows.Forms.DataGridViewButtonColumn Go;
     }
 }

@@ -23,10 +23,17 @@ namespace MissionPlanner.Utilities
         private static string[] vehicles = new[]
         {
              "SITL", "AP_Periph", "ArduSub", "Rover", "ArduCopter",
-            "ArduPlane", "AntennaTracker", "Blimp", "Heli"
+            "ArduPlane", "AntennaTracker", "Blimp", "Heli"      
+        };
+
+        private static string[] vehicles_versioned = new[] 
+        {
+            "Copter", "Plane", "Rover", "Sub", "Tracker"
         };
 
         static string url = "https://autotest.ardupilot.org/Parameters/{0}/apm.pdef.xml.gz";
+
+        static string urlversioned = "https://autotest.ardupilot.org/Parameters/versioned/{0}/stable-{1}/apm.pdef.xml";
 
         static ParameterMetaDataRepositoryAPMpdef()
         {
@@ -40,6 +47,42 @@ namespace MissionPlanner.Utilities
         {
             if (!_parameterMetaDataXML.ContainsKey(vehicle))
                 Reload(vehicle);
+        }
+
+        public static async Task GetMetaDataVersioned(Version version)
+        {
+            List<Task> tlist = new List<Task>();
+
+            vehicles_versioned.ForEach(a =>
+            {
+                try
+                {
+                    var newurl = String.Format(urlversioned, a, version.ToString());
+                    var file = Path.Combine(Settings.GetDataDirectory(), a + version.ToString() + ".apm.pdef.xml");
+                    if (File.Exists(file))
+                        if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now)
+                            return;
+                    var dltask = Download.getFilefromNetAsync(newurl, file);
+                    tlist.Add(dltask);
+                }
+                catch (Exception ex) { log.Error(ex); }
+            });
+
+            await Task.WhenAll(tlist);
+
+            vehicles_versioned.ForEach(a =>
+            {
+                try
+                {
+                    Reload(a + version.ToString());
+
+                    var veh = vehicles.First(b => b.Contains(a));
+
+                    if(_parameterMetaDataXML.ContainsKey(a + version.ToString()))
+                        _parameterMetaDataXML[veh] = _parameterMetaDataXML[a + version.ToString()];
+                }
+                catch (Exception ex) { log.Error(ex); }
+            });
         }
 
         public static async Task GetMetaData(bool force = false)

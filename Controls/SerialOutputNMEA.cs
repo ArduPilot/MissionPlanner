@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Comms;
+﻿using GeoidHeightsDotNet;
+using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System;
 using System.Globalization;
@@ -144,7 +145,8 @@ namespace MissionPlanner.Controls
                         DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100).ToString("0000.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
                         Math.Abs(lng * 100).ToString("00000.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
                         MainV2.comPort.MAV.cs.gpsstatus >= 3 ? 1 : 0, MainV2.comPort.MAV.cs.satcount,
-                        MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.altasl, "M", 0, "M", "");
+                        MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt, "M", 
+                        GeoidHeights.undulation(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng).ToString("0.0", CultureInfo.InvariantCulture), "M", "");
 
                     string checksum = GetChecksum(line);
                     NmeaStream.WriteLine(line + "*" + checksum+"\r");

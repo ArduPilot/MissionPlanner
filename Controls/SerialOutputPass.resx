@@ -128,6 +128,9 @@
   <data name="CMB_serialport.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="CMB_serialport.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;CMB_serialport.Name" xml:space="preserve">
     <value>CMB_serialport</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="BUT_connect.Text" xml:space="preserve">
     <value>Connect</value>
+  </data>
+  <data name="BUT_connect.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Name" xml:space="preserve">
     <value>BUT_connect</value>
@@ -201,6 +207,9 @@
   <data name="CMB_baudrate.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
+  <data name="CMB_baudrate.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;CMB_baudrate.Name" xml:space="preserve">
     <value>CMB_baudrate</value>
   </data>
@@ -230,6 +239,9 @@
   </data>
   <data name="chk_write.Text" xml:space="preserve">
     <value>Write access</value>
+  </data>
+  <data name="chk_write.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;chk_write.Name" xml:space="preserve">
     <value>chk_write</value>
@@ -282,6 +294,15 @@
   <data name="Extra.Width" type="System.Int32, mscorlib">
     <value>80</value>
   </data>
+  <metadata name="Write.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Write.HeaderText" xml:space="preserve">
+    <value>Write</value>
+  </data>
+  <data name="Write.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
   <metadata name="Go.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -295,7 +316,7 @@
     <value>12, 69</value>
   </data>
   <data name="myDataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>363, 150</value>
+    <value>428, 150</value>
   </data>
   <data name="myDataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -304,7 +325,7 @@
     <value>myDataGridView1</value>
   </data>
   <data name="&gt;&gt;myDataGridView1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8177.19206, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9076.24256, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myDataGridView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -316,7 +337,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>387, 228</value>
+    <value>452, 228</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -394,9 +415,6 @@
         AAf4AAAP/AAAH/4AAD//gAD//+AD//////8=
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>SerialOutput - Mavlink</value>
   </data>
@@ -423,6 +441,12 @@
   </data>
   <data name="&gt;&gt;Extra.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Write.Name" xml:space="preserve">
+    <value>Write</value>
+  </data>
+  <data name="&gt;&gt;Write.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Go.Name" xml:space="preserve">
     <value>Go</value>

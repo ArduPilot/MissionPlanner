@@ -8,6 +8,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.Security;
 
 namespace MissionPlanner.Utilities
@@ -19,6 +20,20 @@ namespace MissionPlanner.Utilities
         {
             //Creating Random
             var secureRandom = new SecureRandom();
+
+            //Parameters creation using the random and keysize
+            var keyGenParam = new KeyGenerationParameters(secureRandom, 256);
+
+            var generator = new Ed25519KeyPairGenerator();
+            generator.Init(keyGenParam);
+            AsymmetricCipherKeyPair keyPairg = generator.GenerateKeyPair();
+            return keyPairg;
+        }
+
+        public static AsymmetricCipherKeyPair GenerateKey(byte[] knownseed)
+        {
+            //Creating Random
+            var secureRandom = new SecureRandom(new preseedrandom(knownseed));
 
             //Parameters creation using the random and keysize
             var keyGenParam = new KeyGenerationParameters(secureRandom, 256);
@@ -123,6 +138,36 @@ namespace MissionPlanner.Utilities
             Console.WriteLine("FW SHA: " + Convert.ToBase64String(h));
 
             return System.Text.ASCIIEncoding.ASCII.GetBytes(JsonConvert.SerializeObject(d, Formatting.Indented));
+        }
+
+        private class preseedrandom : IRandomGenerator
+        {
+            private byte[] knownseed;
+
+            public preseedrandom(byte[] knownseed)
+            {
+                this.knownseed = knownseed;
+            }
+
+            public void AddSeedMaterial(byte[] seed)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AddSeedMaterial(long seed)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void NextBytes(byte[] bytes)
+            {
+                Array.Copy(knownseed, bytes, bytes.Length);
+            }
+
+            public void NextBytes(byte[] bytes, int start, int len)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
