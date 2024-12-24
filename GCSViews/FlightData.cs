@@ -2662,18 +2662,19 @@ namespace MissionPlanner.GCSViews
             Zoomlevel.Maximum = 24;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
 
-            var item1 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
-                MainV2.comPort.MAV.cs.firmware.ToString());
-            var item2 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_DEFLT_MODE",
-                MainV2.comPort.MAV.cs.firmware.ToString());
-            if (item1.Count > 0)
-                CMB_mountmode.DataSource = item1;
 
-            if (item2.Count > 0)
-                CMB_mountmode.DataSource = item2;
-
-            CMB_mountmode.DisplayMember = "Value";
-            CMB_mountmode.ValueMember = "Key";
+            var mnt_mode_paramnames = new List<string> { "MNT1_DEFLT_MODE", "MNT_DEFLT_MODE", "MNT_MODE" };
+            foreach (var name in mnt_mode_paramnames)
+            {
+                var item = ParameterMetaDataRepository.GetParameterOptionsInt(name, MainV2.comPort.MAV.cs.firmware.ToString());
+                if (item.Count > 0)
+                {
+                    CMB_mountmode.DataSource = item;
+                    CMB_mountmode.DisplayMember = "Value";
+                    CMB_mountmode.ValueMember = "Key";
+                    break;
+                }
+            }
 
             if (Settings.Instance["CHK_autopan"] != null)
                 CHK_autopan.Checked = Settings.Instance.GetBoolean("CHK_autopan");
