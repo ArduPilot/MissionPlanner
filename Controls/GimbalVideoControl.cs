@@ -100,8 +100,6 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
 
-            _stream.OnNewImage += RenderFrame;
-
             loadPreferences();
 
             yaw_lock = preferences.DefaultLockedMode;
