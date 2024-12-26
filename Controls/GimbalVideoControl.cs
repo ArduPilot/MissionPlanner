@@ -221,7 +221,7 @@ namespace MissionPlanner.Controls
                 {
                     VideoBox.Image?.Dispose();
                     VideoBox.Image = null;
-                    VideoBox.Image = VideoBox.ErrorImage;
+                    VideoBox.Image = global::MissionPlanner.Properties.Resources.no_video;
                     return;
                 }
 
