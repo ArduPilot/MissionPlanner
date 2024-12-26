@@ -6470,20 +6470,16 @@ namespace MissionPlanner.GCSViews
         ToolStripMenuItem gimbalVideoShowMiniMap = new ToolStripMenuItem("Mini map");
         ToolStripMenuItem gimbalVideoSwapPosition = new ToolStripMenuItem("Swap with map");
         ToolStripMenuItem gimbalVideoClose = new ToolStripMenuItem("Close");
+        bool gimbalMenuHandlersInitialized = false;
         GimbalVideoControl _gimbalVideoControl;
         GimbalVideoControl gimbalVideoControl
         {
             get
             {
-                // Check if we need to construct a gimbalVideoControl
-                if (_gimbalVideoControl == null || _gimbalVideoControl.IsDisposed)
+                // If this is the first call, create the handlers for the context menu items
+                if (!gimbalMenuHandlersInitialized)
                 {
-                    _gimbalVideoControl = new GimbalVideoControl();
-                    _gimbalVideoControl.Dock = DockStyle.Fill;
-
-                    // Add option to show/hide minimap
-                    gimbalVideoShowMiniMap.CheckOnClick = true;
-                    gimbalVideoShowMiniMap.Checked = true;
+                    gimbalMenuHandlersInitialized = true;
                     gimbalVideoShowMiniMap.CheckedChanged += (s, ev) =>
                     {
                         gMapControl1.Visible = gimbalVideoShowMiniMap.Checked;
@@ -6507,6 +6503,16 @@ namespace MissionPlanner.GCSViews
                         gimbalVideoControl.Stop();
                         gimbalVideoControl.Dispose();
                     };
+                }
+                // Check if we need to construct a gimbalVideoControl
+                if (_gimbalVideoControl == null || _gimbalVideoControl.IsDisposed)
+                {
+                    _gimbalVideoControl = new GimbalVideoControl();
+                    _gimbalVideoControl.Dock = DockStyle.Fill;
+
+                    // Add option to show/hide minimap
+                    gimbalVideoShowMiniMap.CheckOnClick = true;
+                    gimbalVideoShowMiniMap.Checked = true;
 
                     _gimbalVideoControl.VideoBoxContextMenu.Items.Add(gimbalVideoShowMiniMap);
                     _gimbalVideoControl.VideoBoxContextMenu.Items.Add(gimbalVideoSwapPosition);
