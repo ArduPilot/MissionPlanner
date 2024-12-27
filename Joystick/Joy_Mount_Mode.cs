@@ -1,5 +1,6 @@
 ﻿using MissionPlanner.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Joystick
@@ -14,18 +15,18 @@ namespace MissionPlanner.Joystick
 
             this.Tag = name;
 
-            comboBox1.ValueMember = "Key";
-            comboBox1.DisplayMember = "Value";
-
-            var item1 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
-                MainV2.comPort.MAV.cs.firmware.ToString());
-            var item2 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_DEFLT_MODE",
-                MainV2.comPort.MAV.cs.firmware.ToString());
-            if (item1.Count > 0)
-                comboBox1.DataSource = item1;
-
-            if (item2.Count > 0)
-                comboBox1.DataSource = item2;
+            var mnt_mode_paramnames = new List<string> { "MNT1_DEFLT_MODE", "MNT_DEFLT_MODE", "MNT_MODE" };
+            foreach (var paramname in mnt_mode_paramnames)
+            {
+                var item = ParameterMetaDataRepository.GetParameterOptionsInt(paramname, MainV2.comPort.MAV.cs.firmware.ToString());
+                if (item.Count > 0)
+                {
+                    comboBox1.DataSource = item;
+                    comboBox1.DisplayMember = "Value";
+                    comboBox1.ValueMember = "Key";
+                    break;
+                }
+            }
 
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 
