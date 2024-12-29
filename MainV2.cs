@@ -56,7 +56,7 @@ namespace MissionPlanner
 
         public static menuicons displayicons; //do not initialize to allow update of custom icons
         public static string running_directory = Settings.GetRunningDirectory();
-        
+
         public abstract class menuicons
         {
             public abstract Image fd { get; }
@@ -212,7 +212,7 @@ namespace MissionPlanner
         public class highcontrastmenuicons : menuicons
         {
             private string running_directory = Settings.GetRunningDirectory();
-            
+
             public override Image fd
             {
                 get
@@ -723,6 +723,7 @@ namespace MissionPlanner
             // define default basestream
             comPort.BaseStream = new SerialPort();
             comPort.BaseStream.BaudRate = 57600;
+            ((SerialPort)comPort.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
@@ -901,7 +902,7 @@ namespace MissionPlanner
                 try
                 {
                     DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
-                    //Force new view in case of saved view in config.xml 
+                    //Force new view in case of saved view in config.xml
                     DisplayConfiguration.displayAdvancedParams = false;
                     DisplayConfiguration.displayStandardParams = false;
                     DisplayConfiguration.displayFullParamList = true;
@@ -1448,6 +1449,8 @@ namespace MissionPlanner
                         {
                             _connectionControl.CMB_serialport.Text = comPort.BaseStream.PortName;
                             _connectionControl.CMB_baudrate.Text = comPort.BaseStream.BaudRate.ToString();
+                            ((SerialPort)comPort.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
+
                         }
                     });
                     break;
@@ -1513,6 +1516,8 @@ namespace MissionPlanner
                     else
                     {
                         comPort.BaseStream = new SerialPort();
+                        ((SerialPort)comPort.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
+
                     }
                     break;
             }
@@ -3133,7 +3138,7 @@ namespace MissionPlanner
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
 
             }
-            
+
         }
 
 
@@ -4751,6 +4756,7 @@ namespace MissionPlanner
                                 port.PortName = matches.Groups[1].Value;
                                 port.BaudRate = int.Parse(matches.Groups[2].Value);
                                 mav.BaseStream = port;
+                                ((SerialPort)mav.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
                                 mav.BaseStream.Open();
                             }
                             else
@@ -4774,10 +4780,10 @@ namespace MissionPlanner
                         Comports.Add(mav);
                     });
                 }
-                
+
                 */
 
-                Parallel.ForEach(mavs, mav => 
+                Parallel.ForEach(mavs, mav =>
                 {
                     Console.WriteLine("Process connect " + mav);
                     doConnect(mav, "preset", "0", false, false);

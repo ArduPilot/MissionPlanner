@@ -173,6 +173,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // setup other config state
             SetCheckboxFromConfig("CHK_resetapmonconnect", CHK_resetapmonconnect);
+            SetCheckboxFromConfig("CHK_rtsresetesp32", CHK_rtsresetesp32);
 
             CMB_rateattitude.Text = MainV2.comPort.MAV.cs.rateattitude.ToString();
             CMB_rateposition.Text = MainV2.comPort.MAV.cs.rateposition.ToString();
@@ -620,7 +621,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CurrentState.ratercbackup = MainV2.comPort.MAV.cs.raterc;
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc);
-            // request rc info 
+            // request rc info
         }
 
         private void CMB_ratesensors_SelectedIndexChanged(object sender, EventArgs e)
@@ -647,6 +648,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             Settings.Instance[((CheckBox)sender).Name] = ((CheckBox)sender).Checked.ToString();
         }
+
+        private void CHK_rtsresetesp32_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance[((CheckBox)sender).Name] = ((CheckBox)sender).Checked.ToString();
+        }
+
+
+
 
         private void CHK_speechaltwarning_CheckedChanged(object sender, EventArgs e)
         {
@@ -1121,7 +1130,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 Settings.Instance["mapicondesc"] = "";
             }
-            
+
         }
 
         private void num_linelength_ValueChanged(object sender, EventArgs e)
