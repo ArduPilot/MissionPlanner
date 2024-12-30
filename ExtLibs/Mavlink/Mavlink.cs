@@ -2429,7 +2429,9 @@ public partial class MAVLink
         ///<summary> LOITER2QLAND | </summary>
         [Description("LOITER2QLAND")]
         LOITER_ALT_QLAND=25, 
-        
+        ///<summary> AUTOLAND | </summary>
+        [Description("AUTOLAND")]
+        AUTOLAND=26,        
     };
     
     ///<summary> A mapping of copter flight modes for custom_mode field of heartbeat. </summary>

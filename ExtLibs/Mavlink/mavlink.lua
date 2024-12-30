@@ -901,6 +901,7 @@ local enumEntryName = {
         [23] = "PLANE_MODE_QACRO",
         [24] = "PLANE_MODE_THERMAL",
         [25] = "PLANE_MODE_LOITER_ALT_QLAND",
+        [26] = "PLANE_MODE_AUTOLAND",
     },
     ["COPTER_MODE"] = {
         [0] = "COPTER_MODE_STABILIZE",
