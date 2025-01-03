@@ -681,13 +681,13 @@ namespace MissionPlanner.Controls
             {
                 x -= (VideoBox.Width - imageWidth) / 2;
                 x *= VideoBox.Width / imageWidth;
-                x = Math.Max(0, Math.Min(VideoBox.Width, x));
+                x = Math.Max(0, Math.Min(imageWidth, x));
             }
             if (imageHeight < VideoBox.Height)
             {
                 y -= (VideoBox.Height - imageHeight) / 2;
                 y *= VideoBox.Height / imageHeight;
-                y = Math.Max(0, Math.Min(VideoBox.Height, y));
+                y = Math.Max(0, Math.Min(imageHeight, y));
             }
 
             return (2 * x / (double)imageWidth - 1, 2 * y / (double)imageHeight - 1);
