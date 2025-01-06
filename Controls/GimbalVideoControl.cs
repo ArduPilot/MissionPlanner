@@ -462,43 +462,43 @@ namespace MissionPlanner.Controls
             {
                 TakePicture();
             }
-            else if (key == preferences.ToggleRecording)
+            if (key == preferences.ToggleRecording)
             {
                 SetRecording(!isRecording);
             }
-            else if (key == preferences.StartRecording)
+            if (key == preferences.StartRecording)
             {
                 SetRecording(true);
             }
-            else if (key == preferences.StopRecording)
+            if (key == preferences.StopRecording)
             {
                 SetRecording(false);
             }
-            else if (key == preferences.ToggleLockFollow)
+            if (key == preferences.ToggleLockFollow)
             {
                 SetYawLock(!yaw_lock);
             }
-            else if (key == preferences.SetLock)
+            if (key == preferences.SetLock)
             {
                 SetYawLock(true);
             }
-            else if (key == preferences.SetFollow)
+            if (key == preferences.SetFollow)
             {
                 SetYawLock(false);
             }
-            else if (key == preferences.Retract)
+            if (key == preferences.Retract)
             {
                 Retract();
             }
-            else if (key == preferences.Neutral)
+            if (key == preferences.Neutral)
             {
                 Neutral();
             }
-            else if (key == preferences.PointDown)
+            if (key == preferences.PointDown)
             {
                 PointDown();
             }
-            else if (key == preferences.Home)
+            if (key == preferences.Home)
             {
                 Home();
             }
