@@ -40,6 +40,7 @@
             this.menu_updatebeta = new System.Windows.Forms.MenuItem();
             this.menu_passthrough = new System.Windows.Forms.MenuItem();
             this.menu_passthrough4 = new System.Windows.Forms.MenuItem();
+            this.menu_xc_esc_setid = new System.Windows.Forms.MenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -117,7 +118,8 @@
             this.menu_update,
             this.menu_updatebeta,
             this.menu_passthrough,
-            this.menu_passthrough4});
+            this.menu_passthrough4,
+            this.menu_xc_esc_setid});
             // 
             // menu_parameters
             // 
@@ -154,7 +156,13 @@
             // 
             this.menu_passthrough4.Index = 5;
             this.menu_passthrough4.Text = "CANPassThough Here3+/4";
-            this.menu_passthrough4.Click += new System.EventHandler(this.menu_passthrough4_Click);
+            this.menu_passthrough4.Click += new System.EventHandler(this.menu_passthrough4_Click);     
+            // 
+            // menu_xc_esc_setid
+            // 
+            this.menu_xc_esc_setid.Index = 6;
+            this.menu_xc_esc_setid.Text = "XC-ESC SetID";
+            this.menu_xc_esc_setid.Click += new System.EventHandler(this.menu_xc_esc_setid_Click);
             // 
             // label1
             // 
@@ -674,6 +682,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
         private System.Windows.Forms.DataGridViewButtonColumn Menu;
         private System.Windows.Forms.MenuItem menu_passthrough4;
+        private System.Windows.Forms.MenuItem menu_xc_esc_setid;
         private Controls.MyButton but_stats;
         private System.Windows.Forms.ComboBox cmb_interfacetype;
         private System.Windows.Forms.ComboBox cmb_networkinterface;

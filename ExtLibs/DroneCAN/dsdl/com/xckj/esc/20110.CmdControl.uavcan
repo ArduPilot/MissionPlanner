@@ -1,0 +1,12 @@
+OVERRIDE_SIGNATURE 0x4fdf12a8708a2030
+
+uint8 NODECMD_DIS_ALL_UP = 0        
+uint8 NODECMD_DIS_UP     = 1    
+uint8 NODECMD_TRIG_HB    = 10    
+uint8 NODECMD_EN_ALLUP   = 100    
+uint8 NODECMD_RST        = 0xFE    
+uint8 NodeCmd
+
+uint8 CmdNodeId          
+
+uint8 reserved
