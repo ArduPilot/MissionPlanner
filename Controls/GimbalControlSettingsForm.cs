@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -67,7 +68,7 @@ namespace MissionPlanner.Controls
                     };
                     keyBindingButton.KeyBindingChanged += (sender, e) =>
                     {
-                        property.SetValue(preferences, keyBindingButton.KeyBinding);
+                        HandleKeyBindingChanged(keyBindingButton, property);
                     };
                     SettingsTablePanel.Controls.Add(keyBindingButton, 1, row);
                     var clearKeyButton = new MyButton
@@ -90,7 +91,7 @@ namespace MissionPlanner.Controls
                     };
                     clickBindingButton.ClickBindingChanged += (sender, e) =>
                     {
-                        property.SetValue(preferences, clickBindingButton.ClickBinding);
+                        HandleClickBindingChanged(clickBindingButton, property);
                     };
                     SettingsTablePanel.Controls.Add(clickBindingButton, 1, row);
                     var clearClickButton = new MyButton
@@ -115,7 +116,7 @@ namespace MissionPlanner.Controls
                     SettingsTablePanel.Controls.Add(modifierBinding, 1, row);
                     modifierBinding.KeyBindingChanged += (sender, e) =>
                     {
-                        property.SetValue(preferences, modifierBinding.KeyBinding);
+                        HandleKeyBindingChanged(modifierBinding, property);
                     };
                     var clearModifierButton = new MyButton
                     {
@@ -173,6 +174,107 @@ namespace MissionPlanner.Controls
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+        
+        // Flag to suppress handlers to prevent re-entry when reverting to the previous value
+        private bool suppressHandlers = false;
+
+        /// <summary>
+        /// After a new key binding has been assigned, check for clashes and update the preferences object or revert if needed.
+        /// </summary>
+        /// <param name="keyBindingButton">Button that triggered this event</param>
+        /// <param name="property">Property that the button is controlling</param>
+        private void HandleKeyBindingChanged(KeyBindingButton keyBindingButton, PropertyInfo property)
+        {
+            if (suppressHandlers)
+            {
+                return;
+            }
+            if (keyBindingButton.KeyBinding == Keys.None ||
+                GetClashes(keyBindingButton.KeyBinding, property) == (int)DialogResult.Yes)
+            {
+                property.SetValue(preferences, keyBindingButton.KeyBinding);
+            }
+            else
+            {
+                suppressHandlers = true;
+                keyBindingButton.KeyBinding = (Keys)property.GetValue(preferences);
+                suppressHandlers = false;
+            }
+        }
+
+        /// <summary>
+        /// After a new click binding has been assigned, check for clashes and update the preferences object or revert if needed.
+        /// </summary>
+        /// <param name="clickBindingButton">Button that triggered this event</param>
+        /// <param name="property">Property that the button is controlling</param>
+        private void HandleClickBindingChanged(ClickBindingButton clickBindingButton, PropertyInfo property)
+        {
+            if (suppressHandlers)
+            {
+                return;
+            }
+            if (clickBindingButton.ClickBinding == (Keys.None, MouseButtons.None) ||
+                GetClashes(clickBindingButton.ClickBinding, property) == (int)DialogResult.Yes)
+            {
+                property.SetValue(preferences, clickBindingButton.ClickBinding);
+            }
+            else
+            {
+                suppressHandlers = true;
+                clickBindingButton.ClickBinding = ((Keys, MouseButtons))property.GetValue(preferences);
+                suppressHandlers = false;
+            }
+        }
+
+        /// <summary>
+        /// Scan through all properties of the preferences object and check for clashes with the new binding. If any are found, show a warning message.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="binding">New binding that we are attempting to set</param>
+        /// <param name="property">Property that stores the keybinding</param>
+        /// <returns>Dialog result of warning pop-up</returns>
+        private int GetClashes<T>(T binding, PropertyInfo property)
+        {
+            var properties = preferences.GetType().GetProperties();
+            var clashList = new List<PreferencesAttribute>();
+            foreach (var otherProperty in properties)
+            {
+                if (otherProperty == property)
+                {
+                    continue;
+                }
+                if (otherProperty.PropertyType != property.PropertyType)
+                {
+                    continue;
+                }
+                var attributes = otherProperty.GetCustomAttributes(typeof(PreferencesAttribute), true);
+                if (attributes.Length == 0)
+                {
+                    continue;
+                }
+                var attribute = (PreferencesAttribute)attributes[0];
+                if (object.Equals(otherProperty.GetValue(preferences), binding))
+                {
+                    clashList.Add(attribute);
+                }
+            }
+
+            if (clashList.Count > 0)
+            {
+                var clashMessage = new StringBuilder();
+                clashMessage.AppendLine("This binding is already used by the following:");
+                clashMessage.AppendLine();
+                foreach (var clash in clashList)
+                {
+                    clashMessage.AppendLine($"- {clash.LabelText}");
+                }
+                clashMessage.AppendLine();
+                clashMessage.AppendLine("Are you sure you want to use this binding?");
+                return CustomMessageBox.Show(clashMessage.ToString(), "Key Binding Clash", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            }
+
+            return (int)DialogResult.Yes;
         }
     }
 
