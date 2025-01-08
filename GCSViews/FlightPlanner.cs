@@ -97,6 +97,7 @@ namespace MissionPlanner.GCSViews
         private readonly Random rnd = new Random();
         public GMapMarker center = new GMarkerGoogle(new PointLatLng(0.0, 0.0), GMarkerGoogleType.none);
         private Dictionary<string, string[]> cmdParamNames = new Dictionary<string, string[]>();
+        private Dictionary<string, double[]> cmdParamMultipliers = new Dictionary<string, double[]>();
         private GMapMarkerRect CurentRectMarker;
         private altmode currentaltmode = (altmode) Settings.Instance.GetInt32("FPaltmode", (int)altmode.Relative);
         private GMapMarker CurrentGMapMarker;
@@ -1112,7 +1113,7 @@ namespace MissionPlanner.GCSViews
 
 
             DataGridViewTextBoxCell cell;
-            if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
+            if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.ToString().StartsWith("Alt"))
             {
                 if (CHK_verifyheight.Checked &&
                     (altmode) CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
@@ -1155,7 +1156,7 @@ namespace MissionPlanner.GCSViews
                 cell.DataGridView.EndEdit();
             }
 
-            if (alt != -1 && alt != -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
+            if (alt != -1 && alt != -2 && Commands.Columns[Alt.Index].HeaderText.ToString().StartsWith("Alt"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
 
@@ -3061,8 +3062,10 @@ namespace MissionPlanner.GCSViews
 
                 temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
 
-                if (Commands.Rows[a].Cells[Command.Index].Value.Equals("WAYPOINT"))
+                var command = Commands.Rows[a].Cells[Command.Index].Value.ToString();
+                if (command == "WAYPOINT")
                 {
+                    // Clamp the delay value to 0
                     if (temp.p1 < 0)
                     {
                         temp.p1 = 0;
@@ -3071,15 +3074,18 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+
+                var multipliers = cmdParamMultipliers[command];
                 temp.alt =
                     (float)
-                    (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
-                temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
-                temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
+                    (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / multipliers[6]);
+                temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()) / multipliers[4]);
+                temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()) / multipliers[5]);
 
-                temp.p2 = (float) (double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
-                temp.p3 = (float) (double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
-                temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
+                temp.p1 = (float) (double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString()) / multipliers[0]);
+                temp.p2 = (float) (double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()) / multipliers[1]);
+                temp.p3 = (float) (double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()) / multipliers[2]);
+                temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()) / multipliers[3]);
 
                 temp.Tag = Commands.Rows[a].Cells[TagData.Index].Value;
 
@@ -5352,22 +5358,23 @@ namespace MissionPlanner.GCSViews
                 }
 
                 DataGridViewComboBoxCell cellframe = Commands.Rows[i].Cells[Frame.Index] as DataGridViewComboBoxCell;
+                var multipliers = cmdParamMultipliers[cellcmd.Value.ToString()];
                 cellframe.Value = (int) temp.frame;
                 cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.alt * CurrentState.multiplieralt;
+                cell.Value = temp.alt * multipliers[6];
                 cell = Commands.Rows[i].Cells[Lat.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.lat;
+                cell.Value = temp.lat * multipliers[4];
                 cell = Commands.Rows[i].Cells[Lon.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.lng;
+                cell.Value = temp.lng * multipliers[5];
 
                 cell = Commands.Rows[i].Cells[Param1.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.p1;
+                cell.Value = temp.p1 * multipliers[0];
                 cell = Commands.Rows[i].Cells[Param2.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.p2;
+                cell.Value = temp.p2 * multipliers[1];
                 cell = Commands.Rows[i].Cells[Param3.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.p3;
+                cell.Value = temp.p3 * multipliers[2];
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.p4;
+                cell.Value = temp.p4 * multipliers[3];
 
                 // convert to utm/other
                 convertFromGeographic(temp.lat, temp.lng);
@@ -5426,9 +5433,10 @@ namespace MissionPlanner.GCSViews
             MainMap_OnMapZoomChanged();
         }
 
-        private Dictionary<string, string[]> readCMDXML()
+        private void readCMDXML()
         {
-            Dictionary<string, string[]> cmd = new Dictionary<string, string[]>();
+            cmdParamNames.Clear();
+            cmdParamMultipliers.Clear();
 
             // do lang stuff here
 
@@ -5479,6 +5487,7 @@ namespace MissionPlanner.GCSViews
                     {
                         string cmdname = inner.Name;
                         string[] cmdarray = new string[7];
+                        double[] cmdmultarray = new double[7] {1, 1, 1, 1, 1, 1, 1};
                         int b = 0;
 
                         XmlReader inner2 = inner.ReadSubtree();
@@ -5490,12 +5499,38 @@ namespace MissionPlanner.GCSViews
                             inner2.MoveToElement();
                             if (inner2.IsStartElement())
                             {
+                                var unitType = inner2.GetAttribute("unitType");
                                 cmdarray[b] = inner2.ReadString();
+                                if (unitType != null)
+                                {
+                                    switch (unitType)
+                                    {
+                                    case "alt":
+                                        cmdmultarray[b] = CurrentState.multiplieralt;
+                                        cmdarray[b] += $" ({CurrentState.AltUnit})";
+                                        break;
+                                    case "speed":
+                                        cmdmultarray[b] = CurrentState.multiplierspeed;
+                                        cmdarray[b] += $" ({CurrentState.SpeedUnit})";
+                                        break;
+                                    case "dist":
+                                        cmdmultarray[b] = CurrentState.multiplierdist;
+                                        cmdarray[b] += $" ({CurrentState.DistanceUnit})";
+                                        break;
+                                    }
+                                }
+                                // Handle a legacy mavcmd.xml from before the unitType attribute was added
+                                if (cmdarray[b] == "Alt" && inner2.Name == "Z")
+                                {
+                                    cmdmultarray[b] = CurrentState.multiplieralt;
+                                    cmdarray[b] += $" ({CurrentState.AltUnit})";
+                                }
                                 b++;
                             }
                         }
 
-                        cmd[cmdname] = cmdarray;
+                        cmdParamNames[cmdname] = cmdarray;
+                        cmdParamMultipliers[cmdname] = cmdmultarray;
                     }
                 }
             }
@@ -5506,15 +5541,11 @@ namespace MissionPlanner.GCSViews
                 {
                     Dictionary<string, string[]> configCommands = new Dictionary<string, string[]>();
                     configCommands = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(Settings.Instance["PlannerExtraCommand"]);
-                    var newCmdList = cmd.Concat(configCommands.Where(kvp => !cmd.ContainsKey(kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                    return newCmdList;
+                    cmdParamNames = cmdParamNames.Concat(configCommands.Where(kvp => !cmdParamNames.ContainsKey(kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 }
-
-                return cmd;
             }
             catch
             {
-                return cmd;
             }
         }
 
@@ -6806,11 +6837,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         public void updateCMDParams()
         {
-            cmdParamNames = readCMDXML();
+            readCMDXML();
 
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
-                var fence = new[]
+                var fenceNames = new[]
                 {
                     "",
                     "",
@@ -6820,20 +6851,26 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     "Long",
                     ""
                 };
+                var fenceMult = new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
                 cmdParamNames.Clear();
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fence.ToArray());
-                fence[0] = "Points";
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fence.ToArray());
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fence.ToArray());
-                fence[0] = "Radius";
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fence.ToArray());
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fence.ToArray());
-
+                cmdParamMultipliers.Clear();
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fenceNames.ToArray());
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fenceMult);
+                fenceNames[0] = "Points";
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fenceNames.ToArray());
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fenceNames.ToArray());
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fenceMult);
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fenceMult);
+                fenceNames[0] = "Radius (m)"; // Don't actually convert, but make it clear it's meters
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fenceNames.ToArray());
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceNames.ToArray());
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fenceMult);
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceMult);
             }
 
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
-                var rally = new[]
+                var rallyNames = new[]
                 {
                     "",
                     "",
@@ -6841,10 +6878,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     "",
                     "Lat",
                     "Long",
-                    "Alt"
+                    $"Alt ({CurrentState.AltUnit})"
                 };
+                var rallyMult = new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, CurrentState.multiplieralt};
                 cmdParamNames.Clear();
-                cmdParamNames.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rally);
+                cmdParamMultipliers.Clear();
+                cmdParamNames.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rallyNames);
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rallyMult);
             }
 
             List<string> cmds = new List<string>();
