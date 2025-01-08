@@ -733,7 +733,7 @@ namespace MissionPlanner
                 var countDown = new Timer {Interval = 1000, AutoReset = false};
                 countDown.Elapsed += (sender, e) =>
                 {
-                    int secondsRemaining = (deadline - e.SignalTime).Seconds;
+                    int secondsRemaining = Convert.ToInt32((deadline - e.SignalTime).TotalSeconds);
                     frmProgressReporter.UpdateProgressAndStatus(-1, string.Format(Strings.Trying, secondsRemaining));
                     if (secondsRemaining > 0) countDown.Start();
                 };
