@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Dec 18 2024";
+    public const string MAVLINK_BUILD_DATE = "Thu Jan 09 2025";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -2429,6 +2429,9 @@ public partial class MAVLink
         ///<summary> LOITER2QLAND | </summary>
         [Description("LOITER2QLAND")]
         LOITER_ALT_QLAND=25, 
+        ///<summary> AUTOLAND | </summary>
+        [Description("AUTOLAND")]
+        AUTOLAND=26, 
         
     };
     

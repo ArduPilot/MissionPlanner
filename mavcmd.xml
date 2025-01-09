@@ -10,7 +10,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </WAYPOINT>
     <TAKEOFF>
       <P1></P1>
@@ -19,7 +19,7 @@
       <P4></P4>
       <X></X>
       <Y></Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </TAKEOFF>
     <RETURN_TO_LAUNCH>
       <P1></P1>
@@ -64,7 +64,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LAND>
     <LOITER_TIME>
       <P1>Time s</P1>
@@ -73,7 +73,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TIME>
     <LOITER_TURNS>
       <P1>Turns</P1>
@@ -82,7 +82,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TURNS>
     <LOITER_UNLIM>
       <P1></P1>
@@ -91,7 +91,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_UNLIM>
     <PAYLOAD_PLACE>
       <P1>max descent</P1>
@@ -100,7 +100,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </PAYLOAD_PLACE>
     <SCRIPT_TIME>
       <P1>command</P1>
@@ -127,7 +127,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </SPLINE_WAYPOINT>
     <IMAGE_START_CAPTURE>
       <P1>Id</P1>
@@ -379,7 +379,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </DO_SET_ROI>
     <DO_SET_SERVO>
       <P1>Ser No</P1>
@@ -445,7 +445,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </WAYPOINT>
     <LOITER_UNLIM>
       <P1></P1>
@@ -454,7 +454,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_UNLIM>
     <LOITER_TURNS>
       <P1>Turns</P1>
@@ -463,7 +463,7 @@
       <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TURNS>
     <LOITER_TIME>
       <P1>Time s</P1>
@@ -472,7 +472,7 @@
       <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TIME>
     <LOITER_TO_ALT>
       <P1></P1>
@@ -481,7 +481,7 @@
       <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TO_ALT>
     <RETURN_TO_LAUNCH>
       <P1></P1>
@@ -499,7 +499,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LAND>
     <TAKEOFF>
       <P1>Pitch Angle</P1>
@@ -508,7 +508,7 @@
       <P4></P4>
       <X></X>
       <Y></Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </TAKEOFF>
     <DELAY>
       <P1>Seconds (or -1)</P1>
@@ -526,7 +526,7 @@
       <P4></P4>
       <X></X>
       <Y></Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </VTOL_TAKEOFF>
     <VTOL_LAND>
       <P1></P1>
@@ -535,7 +535,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </VTOL_LAND>
     <PAYLOAD_PLACE>
       <P1>max descent</P1>
@@ -544,7 +544,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </PAYLOAD_PLACE>
     <SCRIPT_TIME>
       <P1>commandId</P1>
@@ -661,7 +661,7 @@
       <P4></P4>
       <X></X>
       <Y></Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </CONTINUE_AND_CHANGE_ALT>
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
@@ -715,7 +715,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </DO_SET_ROI>
     <DO_INVERTED_FLIGHT>
       <P1>0=normal, 1=inverted</P1>
@@ -778,7 +778,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </DO_SET_HOME>
     <DO_SET_RELAY>
       <P1>Relay No</P1>
@@ -916,7 +916,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </WAYPOINT>
     <RETURN_TO_LAUNCH>
       <P1></P1>
@@ -952,7 +952,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_UNLIM>
     <LOITER_TURNS>
       <P1>Turns</P1>
@@ -961,7 +961,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TURNS>
     <LOITER_TIME>
       <P1>Time s</P1>
@@ -970,7 +970,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </LOITER_TIME>
     <SCRIPT_TIME>
       <P1>command</P1>
@@ -1231,7 +1231,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>
+      <Z unitType="alt">Alt</Z>
     </DO_SET_ROI>
     <DO_SET_SERVO>
       <P1>Ser No</P1>
