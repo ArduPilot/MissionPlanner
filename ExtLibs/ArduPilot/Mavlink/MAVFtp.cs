@@ -2223,7 +2223,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         return true;
                     }
                     int burstmax = 8;
-                    if(stream.Position > payload.offset + (rwSize* burstmax))
+                    if(stream.Position > payload.offset + (payload.data.Length * burstmax))
                     {
                         stream.Position = payload.offset;
                         Array.Resize(ref payload.data, rwSize);
