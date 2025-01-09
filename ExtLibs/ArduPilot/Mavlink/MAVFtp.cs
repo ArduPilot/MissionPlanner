@@ -2174,7 +2174,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 Exception ex = null;
                 sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
                 {
-                    Console.WriteLine("G " + DateTime.Now.ToString("O"));
+                    //Console.WriteLine("G " + DateTime.Now.ToString("O"));
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
@@ -2222,23 +2222,31 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         timeout.Complete = true;
                         return true;
                     }
-
-                    // send next
-                    payload.offset = (uint32_t) stream.Position;
-                    bytes_read = stream.Read(payload.data, 0, payload.data.Length);
-                    Array.Resize(ref payload.data, bytes_read);
-                    payload.size = (uint8_t) bytes_read;
-                    payload.seq_number = seq_no++;
-                    fileTransferProtocol.payload = payload;
-                    _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
-                    Progress?.Invoke(friendlyname, (int) ((float) payload.offset / size * 100.0));
-                    timeout.ResetTimeout();
-                    Console.WriteLine("S " + DateTime.Now.ToString("O"));
+                    int burstmax = 8;
+                    if(stream.Position > payload.offset + (rwSize* burstmax))
+                    {
+                        stream.Position = payload.offset;
+                        Array.Resize(ref payload.data, rwSize);
+                    }                    
+                    for (int burst = 0; burst < burstmax; burst++)
+                    {
+                        // send next
+                        payload.offset = (uint32_t)stream.Position;
+                        bytes_read = stream.Read(payload.data, 0, payload.data.Length);
+                        Array.Resize(ref payload.data, bytes_read);
+                        payload.size = (uint8_t)bytes_read;
+                        payload.seq_number = seq_no++;
+                        fileTransferProtocol.payload = payload;
+                        _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+                        Progress?.Invoke(friendlyname + " " + payload.offset, (int)((float)payload.offset / size * 100.0));
+                        timeout.ResetTimeout();
+                        //Console.WriteLine("S " + DateTime.Now.ToString("O"));
+                    }
                     return true;
                 }, _sysid, _compid);
                 // fill buffer
                 payload.offset = (uint32_t) stream.Position;
-                payload.data = new byte[rwSize];
+                payload.data = new byte[200];
                 bytes_read = stream.Read(payload.data, 0, payload.data.Length);
                 Array.Resize(ref payload.data, bytes_read);
                 payload.size = (uint8_t) bytes_read;
