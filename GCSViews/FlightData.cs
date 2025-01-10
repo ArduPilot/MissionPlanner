@@ -69,7 +69,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         DateTime lastmapposchange = DateTime.MinValue;
 
-        DateTime lastscreenupdate = DateTime.Now;
+        DateTime lastscreenupdate = DateTime.UtcNow;
         RollingPointPairList list1 = new RollingPointPairList(1200);
         CurveItem list1curve;
         PropertyInfo list1item;
@@ -5324,14 +5324,14 @@ namespace MissionPlanner.GCSViews
         private void updateBindingSource()
         {
             //  run at 10 hz.
-            if (lastscreenupdate.AddMilliseconds(100) < DateTime.Now)
+            if (lastscreenupdate.AddMilliseconds(100) < DateTime.UtcNow)
             {
                 lock (updateBindingSourcelock)
                 {
                     // this is an attempt to prevent an invoke queue on the binding update on slow machines
                     if (updateBindingSourcecount > 0)
                     {
-                        if (lastscreenupdate < DateTime.Now.AddSeconds(-5))
+                        if (lastscreenupdate < DateTime.UtcNow.AddSeconds(-5))
                         {
                             updateBindingSourcecount = 0;
                         }
@@ -5407,7 +5407,7 @@ namespace MissionPlanner.GCSViews
                 //if the tab detached wi have to update it
                 if (tabQuickDetached) MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
 
-                lastscreenupdate = DateTime.Now;
+                lastscreenupdate = DateTime.UtcNow;
             }
             catch (Exception ex)
             {
