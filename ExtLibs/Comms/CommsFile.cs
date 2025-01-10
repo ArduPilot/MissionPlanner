@@ -60,7 +60,7 @@ namespace MissionPlanner.Comms
                 }
 
                 // get the time taken since last read in seconds
-                var LapsedSinceLastRead = (DateTime.Now - lastread).TotalSeconds;
+                var LapsedSinceLastRead = (DateTime.UtcNow - lastread).TotalSeconds;
 
                 // escape if we are out of range
                 if (LapsedSinceLastRead < 0 || LapsedSinceLastRead > 2)
@@ -79,7 +79,7 @@ namespace MissionPlanner.Comms
                 Thread.Sleep(1);
             }
 
-            lastread = DateTime.Now;
+            lastread = DateTime.UtcNow;
 
             if (lastsecond != DateTime.Now.Second)
             {
