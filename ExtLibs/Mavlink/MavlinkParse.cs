@@ -96,7 +96,7 @@ public partial class MAVLink
                     timeout = 60000;
             }
 
-            DateTime to = DateTime.Now.AddMilliseconds(timeout);
+            DateTime to = DateTime.UtcNow.AddMilliseconds(timeout);
 
             int toread = count;
             int pos = offset;
@@ -112,12 +112,12 @@ public partial class MAVLink
 
                 // reset timeout if we get data
                 if (read > 0)
-                    to = DateTime.Now.AddMilliseconds(timeout);
+                    to = DateTime.UtcNow.AddMilliseconds(timeout);
 
                 if (toread == 0)
                     break;
 
-                if (DateTime.Now > to)
+                if (DateTime.UtcNow > to)
                 {
                     throw new TimeoutException("Timeout waiting for data");
                 }
