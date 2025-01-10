@@ -13,6 +13,7 @@ using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
 using MissionPlanner.Utilities;
+using System.Reactive.Linq;
 
 namespace MissionPlanner.ArduPilot.Mavlink
 {
@@ -2172,6 +2173,20 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (size == 0)
                     return false;
                 Exception ex = null;
+
+                Dictionary<int, uint> sendlist = new Dictionary<int, uint>();
+                for (int i = 0; i < size; i += rwSize)
+                    sendlist[i] = 0;
+
+                var bytesSentEverySecond = _mavint.BytesSent
+                 .Buffer(TimeSpan.FromSeconds(1))
+                 .Select(bytes => bytes.Sum());
+
+                var bps = 0;
+                bytesSentEverySecond
+                    .Buffer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1))
+                    .Select(xs => xs.Any() ? xs.Average() : 0.0).Subscribe(v => bps = (int)v);
+
                 sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
                 {
                     //Console.WriteLine("G " + DateTime.Now.ToString("O"));
@@ -2182,15 +2197,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         return true;
                     }
 
-                    var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
+                    var msg = (MAVLink.mavlink_file_transfer_protocol_t)message.data;
                     FTPPayloadHeader ftphead = msg.payload;
                     // error at far end
                     if (ftphead.opcode == FTPOpcode.kRspNak)
                     {
-                        var errorcode = (FTPErrorCode) ftphead.data[0];
+                        var errorcode = (FTPErrorCode)ftphead.data[0];
                         if (errorcode == FTPErrorCode.kErrFailErrno)
                         {
-                            var _ftp_errno = (errno) ftphead.data[1];
+                            var _ftp_errno = (errno)ftphead.data[1];
                             log.Error(ftphead.req_opcode + " " + errorcode + " " + _ftp_errno);
                             timeout.Retries = 0;
                             ex = new Exception("Mavftp responded - " + ftphead.req_opcode + " " + errorcode + " " +
@@ -2211,42 +2226,57 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         return true;
                     }
 
-                    // not for us or bad seq no
-                    if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                    // not for us
+                    if (payload.opcode != ftphead.req_opcode)
                         return true;
+
                     // only ack's
                     if (ftphead.opcode != FTPOpcode.kRspAck)
                         return true;
-                    if (stream.Position >= size)
+                    //log.Info(ftphead.ToJSON());
+
+                    // remove it as this is an ack for this offset
+                    sendlist.Remove((int)ftphead.offset);
+
+                    // the seq is not from our last tx, so its the first part of the batch
+                    if (payload.seq_number + 1 != ftphead.seq_number)
+                        return true;
+
+                    // confirm this is an ack for the last chunk
+                    if ((size - ftphead.offset) <= rwSize)
                     {
                         timeout.Complete = true;
                         return true;
                     }
-                    int burstmax = 8;
-                    if(stream.Position > payload.offset + (payload.data.Length * burstmax))
-                    {
-                        stream.Position = payload.offset;
-                        Array.Resize(ref payload.data, rwSize);
-                    }                    
-                    for (int burst = 0; burst < burstmax; burst++)
+
+                    // batch 5 at a time
+                    sendlist.Take(5).ForEach(a =>
                     {
                         // send next
+                        stream.Position = a.Key;
                         payload.offset = (uint32_t)stream.Position;
                         bytes_read = stream.Read(payload.data, 0, payload.data.Length);
+                        if (bytes_read == 0)
+                        {
+                            return;
+                        }
                         Array.Resize(ref payload.data, bytes_read);
                         payload.size = (uint8_t)bytes_read;
                         payload.seq_number = seq_no++;
                         fileTransferProtocol.payload = payload;
                         _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
-                        Progress?.Invoke(friendlyname + " " + payload.offset, (int)((float)payload.offset / size * 100.0));
+                        
+                        Progress?.Invoke(friendlyname + "\n" +
+                            bps + " Bps",
+                            (int)((float)payload.offset / size * 100.0));
                         timeout.ResetTimeout();
                         //Console.WriteLine("S " + DateTime.Now.ToString("O"));
-                    }
+                    });
                     return true;
                 }, _sysid, _compid);
                 // fill buffer
                 payload.offset = (uint32_t) stream.Position;
-                payload.data = new byte[200];
+                payload.data = new byte[rwSize];
                 bytes_read = stream.Read(payload.data, 0, payload.data.Length);
                 Array.Resize(ref payload.data, bytes_read);
                 payload.size = (uint8_t) bytes_read;
