@@ -79,6 +79,8 @@ namespace System.Drawing
         public int MiterLimit { get; set; }
 
         public LineCap EndCap { get; set; }
+        public CustomLineCap CustomStartCap { get; set; }
+        public CustomLineCap CustomEndCap { get; set; }
 
         public object Clone()
         {

@@ -1,7 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using System.IO;
 
-namespace System.Drawing
+namespace System.Drawing.Imaging
 {
     public class Metafile : Image
     {

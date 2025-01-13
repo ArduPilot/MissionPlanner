@@ -78,5 +78,10 @@ namespace System.Drawing
         {
             return 1;
         }
+
+        public float GetEmHeight(FontStyle style)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
