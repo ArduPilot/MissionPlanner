@@ -291,6 +291,9 @@
     <Compile Update="Controls\AuxOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Controls\QuickViewOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Controls\Status.cs">
       <SubType>UserControl</SubType>
     </Compile>
