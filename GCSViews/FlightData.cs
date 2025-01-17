@@ -2471,38 +2471,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        void chk_box_quickview_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox checkbox = (CheckBox) sender;
-
-            if (checkbox.Checked)
-            {
-                // save settings
-                Settings.Instance[((QuickView) checkbox.Tag).Name] = checkbox.Name;
-
-                // set description
-                string desc = checkbox.Name;
-                ((QuickView) checkbox.Tag).Tag = desc;
-
-                desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
-
-                ((QuickView) checkbox.Tag).desc = desc;
-
-                // set databinding for value
-                ((QuickView) checkbox.Tag).DataBindings.Clear();
-
-                var b = new Binding("number", bindingSourceQuickTab, checkbox.Name,
-                    true);
-                b.Format += new ConvertEventHandler(BindingTypeToNumber);
-                b.Parse += new ConvertEventHandler(NumberToBindingType);
-
-                ((QuickView) checkbox.Tag).DataBindings.Add(b);
-
-                // close selection form
-                ((Form) checkbox.Parent).Close();
-            }
-        }
-
         private void NumberToBindingType(object sender, ConvertEventArgs e)
         {
 
@@ -4536,103 +4504,9 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.lockQuickView)
                 return;
 
-            QuickView qv = (QuickView) sender;
-
-            Form selectform = new Form
-            {
-                Name = "select",
-                Width = MainV2.instance.Width - 100,
-                Height = MainV2.instance.Height - 100,
-                Text = "Display This",
-                AutoSize = false,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                AutoScroll = true,
-                FormBorderStyle = FormBorderStyle.FixedDialog
-
-            };
-            ThemeManager.ApplyThemeTo(selectform);
-
-            object thisBoxed = MainV2.comPort.MAV.cs;
-            Type test = thisBoxed.GetType();
-
-            int max_length = 0;
-            List<(string name, string desc)> fields = new List<(string, string)>();
-
-            foreach (var field in test.GetProperties())
-            {
-                // field.Name has the field's name.
-                object fieldValue = field.GetValue(thisBoxed, null); // Get value
-                if (fieldValue == null)
-                    continue;
-
-                if (!fieldValue.IsNumber())
-                {
-                    if(fieldValue is bool)
-                    {
-                        fieldValue = ((bool)fieldValue) == true ? 1 : 0;
-                    }
-                    else
-                        continue;
-                }
-
-                if (field.Name.Contains("customfield"))
-                {
-                    if (CurrentState.custom_field_names.ContainsKey(field.Name))
-                    {
-                        string name = CurrentState.custom_field_names[field.Name];
-                        max_length = Math.Max(max_length, TextRenderer.MeasureText(name, selectform.Font).Width);
-                        fields.Add((field.Name, name));
-                    }
-                }
-                else
-                {
-                    var fieldDesc = MainV2.comPort.MAV.cs.GetFieldDesc(field.Name);
-                    max_length = Math.Max(max_length, TextRenderer.MeasureText(fieldDesc, selectform.Font).Width);
-                    fields.Add((field.Name, fieldDesc));
-                }
-            }
-
-            max_length += 25;
-            fields.Sort((a, b) => a.Item2.CompareTo(b.Item2));
-
-            int col_count = (int) (Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
-            int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
-            int row_height = 20;
-            //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
-            selectform.SuspendLayout();
-            for (int i = 0; i < fields.Count; i++)
-            {
-                CheckBox chk_box = new CheckBox
-                {
-                    // dont change to ToString() = null exception
-                    Checked = qv.Tag != null && qv.Tag.ToString() == fields[i].name,
-                    Text = fields[i].desc,
-                    Name = fields[i].name,
-                    Tag = qv,
-                    Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height),
-                    Size = new Size(max_length, row_height),
-                    AutoSize = true
-                };
-                chk_box.CheckedChanged += chk_box_quickview_CheckedChanged;
-                if (chk_box.Checked)
-                    chk_box.BackColor = Color.Green;
-                selectform.Controls.Add(chk_box);
-            }
-
-            selectform.ResumeLayout();
-
-            selectform.Shown += (o, args) =>
-            {
-                selectform.Controls.ForEach(a =>
-                {
-                    if (a is CheckBox && ((CheckBox) a).Checked)
-                        ((CheckBox) a).BackColor = Color.Green;
-                });
-            };
-
-            selectform.ShowDialog(this);
+            new QuickViewOptions((QuickView)sender).ShowDialog();
+            ThemeManager.ApplyThemeTo(tabQuick); // Reset color to theme default if needed
+            Activate(); // Update new settings
         }
 
         private void recordHudToAVIToolStripMenuItem_Click(object sender, EventArgs e)
