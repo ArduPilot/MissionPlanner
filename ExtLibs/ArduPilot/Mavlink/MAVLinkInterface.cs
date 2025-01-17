@@ -501,8 +501,9 @@ namespace MissionPlanner
         {
 
             // check for a camera
-            if (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
-                tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
+            if (tuple.Item2 == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 ||
+                    (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
+                    tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6))
             {
                 MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
                 Task.Run(async () =>
@@ -549,6 +550,33 @@ namespace MissionPlanner
 
                         MAVlist[tuple.Item1, tuple.Item2]
                             .Gimbal.Discover(this);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
+                });
+            }
+
+            if (tuple.Item2 == (byte)MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 ||
+                (tuple.Item2 >= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER &&
+                tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_ONBOARD_COMPUTER4))
+            {
+                MAVlist[tuple.Item1, tuple.Item2].GimbalManager = new GimbalManagerProtocol(this, MAVlist[tuple.Item1, tuple.Item2].cs);
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        // Open holds this
+                        while (!_openComplete)
+                        {
+                            await Task.Delay(1000);
+                        }
+
+                        await Task.Delay(2000);
+
+                        MAVlist[tuple.Item1, tuple.Item2]
+                            .GimbalManager.Discover();
                     }
                     catch (Exception e)
                     {

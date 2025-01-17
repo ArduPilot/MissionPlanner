@@ -4459,6 +4459,8 @@ namespace MissionPlanner
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc,
                                 MAV.sysid,
                                 MAV.compid); // request rc info
+                            MAV.Camera?.RequestMessageIntervals(MAV.cs.ratestatus); // use ratestatus until we create a new setting for this
+                            MAV.GimbalManager?.Discover();
                         }
                         catch
                         {
