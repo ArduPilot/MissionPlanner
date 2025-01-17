@@ -135,8 +135,8 @@ namespace MissionPlanner.Utilities
             var frm = ctl.Tag as Form;
             if (frm == null)
                 return;
-
-            frm.ClientSize = ctl.ClientSize;
+            if (frm.WindowState == FormWindowState.Normal)
+                frm.ClientSize = ctl.ClientSize;
         }
 
         private static void Frm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
