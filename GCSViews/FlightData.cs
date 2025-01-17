@@ -758,8 +758,6 @@ namespace MissionPlanner.GCSViews
             }
 
             ThemeManager.ApplyThemeTo(tabControlactions);
-
-            saveTabControlActions();
         }
 
         internal void BUT_run_script_Click(object sender, EventArgs e)
