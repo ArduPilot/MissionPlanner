@@ -475,10 +475,10 @@
       <Z unitType="alt">Alt</Z>
     </LOITER_TIME>
     <LOITER_TO_ALT>
-      <P1></P1>
-      <P2>Radius</P2>
+      <P1>Radius</P1>
+      <P2></P2>
       <P3></P3>
-      <P4>1=Exit Tangent</P4>
+      <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z unitType="alt">Alt</Z>
