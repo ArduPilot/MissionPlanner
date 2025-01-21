@@ -242,7 +242,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     string json = r.ReadToEnd();
                     var all_layouts = JsonConvert.DeserializeObject<JSON_motors>(json);
-                    if (all_layouts.Version == "AP_Motors library test ver 1.1")
+                    if (all_layouts.Version == "AP_Motors library test ver 1.2")
                     {
                         foreach (var layout in all_layouts.layouts)
                         {
