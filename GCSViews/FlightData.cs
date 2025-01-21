@@ -3227,6 +3227,7 @@ namespace MissionPlanner.GCSViews
         {
             EKFStatus frm = new EKFStatus();
             frm.RestoreStartupLocation();
+            frm.WindowState = FormWindowState.Normal;
             frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
@@ -3248,6 +3249,7 @@ namespace MissionPlanner.GCSViews
         {
             Vibration frm = new Vibration();
             frm.RestoreStartupLocation();
+            frm.WindowState = FormWindowState.Normal;
             frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
@@ -3257,6 +3259,7 @@ namespace MissionPlanner.GCSViews
         {
             PrearmStatus frm = new PrearmStatus();
             frm.RestoreStartupLocation();
+            frm.WindowState = FormWindowState.Normal;
             frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
