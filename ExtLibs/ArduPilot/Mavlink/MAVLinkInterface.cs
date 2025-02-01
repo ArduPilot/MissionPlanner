@@ -4749,7 +4749,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     {
                         if (buffer[0] >= 0x20 && buffer[0] <= 127 || buffer[0] == '\n' || buffer[0] == '\r')
                         {
-                            // check for line termination
+                            // Write printable characters outside of mavlink packets to console
+                            Console.Write((char)buffer[0]);
+
+                            // check for line termination and log it
                             if (buffer[0] == '\r' || buffer[0] == '\n')
                             {
                                 // check new line is valid
@@ -4757,7 +4760,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 {
                                     plaintxtline = buildplaintxtline;
                                     plaintxtlinebuffer.Insert(0, plaintxtline);
-                                    while (plaintxtlinebuffer.Count >= 30)
+                                    while (plaintxtlinebuffer.Count >= 52)
                                         plaintxtlinebuffer.RemoveAt(plaintxtlinebuffer.Count - 1);
                                 }
 
@@ -4765,10 +4768,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 // reset for next line
                                 buildplaintxtline = "";
                             }
-
-                            //TCPConsole.Write(buffer[0]);
-                            Console.Write((char)buffer[0]);
-                            buildplaintxtline += (char)buffer[0];
+                            else
+                            {
+                                buildplaintxtline += (char)buffer[0];
+                            }
                         }
 
                         _bytesReceivedSubj.OnNext(1);
