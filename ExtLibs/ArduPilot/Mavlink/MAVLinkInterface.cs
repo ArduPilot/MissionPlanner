@@ -4745,7 +4745,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     }
 
                     // check if looks like a mavlink packet and check for exclusions and write to console
-                    if (buffer[0] != MAVLINK_STX_MAVLINK1 && buffer[0] != 'U' && buffer[0] != MAVLINK_STX)
+                    if (buffer[0] != MAVLINK_STX_MAVLINK1 && buffer[0] != MAVLINK_STX)
                     {
                         if (buffer[0] >= 0x20 && buffer[0] <= 127 || buffer[0] == '\n' || buffer[0] == '\r')
                         {
@@ -4784,7 +4784,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream?.BytesToRead);
 
                     // check for a header
-                    if (buffer[0] == MAVLINK_STX_MAVLINK1 || buffer[0] == MAVLINK_STX || buffer[0] == 'U')
+                    if (buffer[0] == MAVLINK_STX_MAVLINK1 || buffer[0] == MAVLINK_STX)
                     {
                         var mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
 
@@ -5094,7 +5094,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 packetSeemValid = false;
                 //The following IF had to be splitted to accomodate the new place of Readlock end.
                 //packetSeemValid helps it.
-                if ((message.header == 'U' || message.header == MAVLINK_STX_MAVLINK1 ||
+                if ((message.header == MAVLINK_STX_MAVLINK1 ||
                      message.header == MAVLINK_STX) &&
                     buffer.Length >= message.payloadlength)
                 {
@@ -6560,7 +6560,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     case 0:
                         byte0 = tempb;
-                        if (byte0 != 'U' && byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX)
+                        if (byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX)
                         {
                             log.DebugFormat("logread - lost sync byte {0} pos {1}", byte0,
                                 logplaybackfile.BaseStream.Position);
@@ -6568,7 +6568,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             do
                             {
                                 byte0 = logplaybackfile.ReadByte();
-                            } while (byte0 != 'U' && byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX);
+                            } while (byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX);
 
                             a = 1;
                             continue;
