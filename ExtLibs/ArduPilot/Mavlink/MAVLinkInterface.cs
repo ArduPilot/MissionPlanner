@@ -2012,7 +2012,17 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                  (indexsreceived.Count * 100) / param_total);
                         if (frmProgressReporter != null)
                             this.frmProgressReporter.UpdateProgressAndStatus(
-                                (indexsreceived.Count * 100) / param_total, "Already Got param " + paramID);
+                                (indexsreceived.Count * 100) / param_total, "Already Got param " + "(" + indexsreceived.Count.ToString() + "/" + param_total.ToString() + ") " + paramID);
+                        return true;
+                    }
+                    // check if we future have it
+                    if (indexsreceived.Count < par.param_index)
+                    {
+                        log.Info("Future got " + (par.param_index) + " '" + paramID + "' " +
+                                 (indexsreceived.Count * 100) / param_total);
+                        if (frmProgressReporter != null)
+                            this.frmProgressReporter.UpdateProgressAndStatus(
+                                (indexsreceived.Count * 100) / param_total, "Future Got param " + "(" + indexsreceived.Count.ToString() + "/" + param_total.ToString() + ") " + paramID);
                         return true;
                     }
 
@@ -2052,7 +2062,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                     if (frmProgressReporter != null)
                         this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total,
-                            Strings.Gotparam + paramID);
+                            Strings.Gotparam + "(" + indexsreceived.Count.ToString() + "/" + param_total.ToString() + ") " + paramID);
 
                     // we hit the last param, jump striaght to retry if params missing
                     if (par.param_index == (param_total - 1))
