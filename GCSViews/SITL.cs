@@ -114,7 +114,7 @@ namespace MissionPlanner.GCSViews
             // Populate the version selection box
             var versionSelect = new Dictionary<string, APFirmware.RELEASE_TYPES?>()
             {
-                { "Latest (Dev)", APFirmware.RELEASE_TYPES.OFFICIAL },
+                { "Latest (Dev)", APFirmware.RELEASE_TYPES.DEV },
                 { "Beta", APFirmware.RELEASE_TYPES.BETA },
                 { "Stable", APFirmware.RELEASE_TYPES.OFFICIAL },
                 { "Skip Download", null }
