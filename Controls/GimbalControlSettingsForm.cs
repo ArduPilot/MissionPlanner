@@ -20,11 +20,10 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
 
-            ThemeManager.ApplyThemeTo(this);
-
             this.preferences = new GimbalControlSettings(preferences);
-
             LoadPreferences();
+
+            ThemeManager.ApplyThemeTo(this);
         }
 
         private void LoadPreferences()
