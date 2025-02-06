@@ -304,12 +304,19 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// <param name="ratehz">Message frequency in messages per second.</param>
         public void RequestMessageIntervals(int ratehz)
         {
+            if (ratehz < 0)
+            {
+                // -1 means don't try to configure message intervals
+                return;
+            }
+
             if (parent?.parent == null)
             {
                 return;
             }
 
-            float interval_us = (float)(1e6 / ratehz);
+            // ratehz of 0 means "stop sending", which is what -1 interval_us means in the MAVLink message
+            float interval_us = ratehz > 0 ? (float)(1e6 / ratehz) : -1;
 
             Task.Run(RequestCameraInformationAsync);
 
