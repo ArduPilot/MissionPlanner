@@ -863,7 +863,7 @@ namespace MissionPlanner.Utilities
                             PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
                             plla.Heading = (float)plane.heading;
                             if (plane.CallSign != null) plla.CallSign = plane.CallSign;
-                            plla.Speed = (float)plane.ground_speed * KNOTS_TO_CMS;
+                            plla.Speed = (float)plane.ground_speed;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
