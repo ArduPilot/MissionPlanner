@@ -209,6 +209,10 @@ namespace MissionPlanner
                     MAV.sysid)
                 {
                     IsActive = MAV == MainV2.comPort?.MAV,
+                    ToolTipText = ArduPilot.Common.speechConversion(MAV, "" + Settings.Instance["mapicondesc"]),
+                    ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ?
+                                  MarkerTooltipMode.Never :
+                                  MarkerTooltipMode.Always,
                     Tag = MAV
                 };
             }
