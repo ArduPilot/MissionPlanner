@@ -1,0 +1,5 @@
+OVERRIDE_SIGNATURE 0xb95f98a2bb955035
+
+uint16 rpm
+uint16 current
+uint16 runstatus
