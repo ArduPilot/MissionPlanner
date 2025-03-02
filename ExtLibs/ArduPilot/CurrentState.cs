@@ -2441,7 +2441,7 @@ namespace MissionPlanner
                             alt = altasl - (float)HomeAlt;
                             alt_error = highlatency.target_altitude - alt;
                             targetalt = highlatency.target_altitude;
-                            wp_dist = highlatency.target_distance;
+                            wp_dist = highlatency.target_distance * 10;
                             wpno = highlatency.wp_num;
 
                             if (highlatency.failure_flags != 0)
@@ -2471,15 +2471,15 @@ namespace MissionPlanner
                             yaw = highlatency.heading * 2;
                             target_bearing = highlatency.target_heading * 2;
                             ch3percent = highlatency.throttle;
-                            airspeed = highlatency.airspeed;
-                            targetairspeed = highlatency.airspeed_sp;
-                            groundspeed = highlatency.groundspeed;
+                            airspeed = highlatency.airspeed / 5.0f;
+                            targetairspeed = highlatency.airspeed_sp / 5.0f;
+                            groundspeed = highlatency.groundspeed / 5.0f;
                             wind_vel = highlatency.windspeed / 5.0f;
                             wind_dir = highlatency.wind_heading * 2;
                             gpshdop = highlatency.eph;
                             // epv
                             airspeed1_temp = highlatency.temperature_air;
-                            climbrate = highlatency.climb_rate;
+                            climbrate = highlatency.climb_rate * 10;
                             battery_remaining = highlatency.battery;
 
                         }
