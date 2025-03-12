@@ -3760,6 +3760,7 @@ namespace MissionPlanner
                             groundspeed = vfr.groundspeed;
                             airspeed = vfr.airspeed;
                             ch3percent = vfr.throttle;
+                            yaw = vfr.heading;
 
                             if (sensors_present.revthrottle && sensors_enabled.revthrottle && sensors_health.revthrottle)
                                 if (ch3percent > 0)
