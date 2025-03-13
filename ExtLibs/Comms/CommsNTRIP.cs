@@ -385,7 +385,7 @@ namespace MissionPlanner.Comms
 
                 client = new TcpClient();
 
-                throw new Exception("Bad ntrip Responce\n\n" + line);
+                throw new Exception("Bad ntrip Response\n\n" + line);
             }
 
             if (line.Contains("SOURCETABLE"))
