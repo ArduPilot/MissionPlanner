@@ -28,7 +28,7 @@ namespace MissionPlanner.Controls
             if (buffer.Length > 0)
                 textBox1.AppendText(buffer.Select(a => a.ToString("X2")).Aggregate((a, b) => a + b) + "\r\n");
             else
-                textBox1.AppendText("No Responce - " + result + "\r\n");
+                textBox1.AppendText("No Response - " + result + "\r\n");
         }
 
         private void dom_bustype_SelectedItemChanged(object sender, EventArgs e)

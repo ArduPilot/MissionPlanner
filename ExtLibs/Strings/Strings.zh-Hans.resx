@@ -149,7 +149,7 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>接收日志列表时错误</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>错误: 没有来自飞行器的响应</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
