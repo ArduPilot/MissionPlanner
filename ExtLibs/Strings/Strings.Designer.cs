@@ -19,7 +19,7 @@ namespace MissionPlanner {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
@@ -151,6 +151,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unhealthy Airspeed.
+        /// </summary>
+        public static string BadAirspeed {
+            get {
+                return ResourceManager.GetString("BadAirspeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Baro Health.
         /// </summary>
         public static string BadBaroHealth {
@@ -183,15 +192,6 @@ namespace MissionPlanner {
         public static string BadGPSHealth {
             get {
                 return ResourceManager.GetString("BadGPSHealth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to unhealthy airspeed.
-        /// </summary>
-        public static string BadAirspeed {
-            get {
-                return ResourceManager.GetString("BadAirspeed", resourceCulture);
             }
         }
         
@@ -613,11 +613,11 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error: no responce from MAV.
+        ///   Looks up a localized string similar to Error: no response from MAV.
         /// </summary>
-        public static string ErrorNoResponce {
+        public static string ErrorNoResponse {
             get {
-                return ResourceManager.GetString("ErrorNoResponce", resourceCulture);
+                return ResourceManager.GetString("ErrorNoResponse", resourceCulture);
             }
         }
         
