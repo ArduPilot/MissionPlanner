@@ -165,6 +165,9 @@
     <PackageReference Include="Accord.Vision">
       <Version>3.8.0</Version>
     </PackageReference>
+    <PackageReference Include="AForge" Version="2.2.5" />
+    <PackageReference Include="AForge.Video" Version="2.2.5" />
+    <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" />
     <PackageReference Include="AsyncFixer">
       <Version>1.5.1</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -1177,6 +1180,10 @@
 
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\hss.png" />
+    <None Remove="Resources\hssasil.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="SikRadio\ISikRadioForm.cs" />
     <Compile Include="SikRadio\RFD900.cs" />
     <Compile Include="SikRadio\RFDLib\Array.cs" />
@@ -1189,5 +1196,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="plugins\example23-switch.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hss.png" />
+    <Resource Include="Resources\hssasil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
