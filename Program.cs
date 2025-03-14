@@ -200,7 +200,7 @@ namespace MissionPlanner
                 return;
             }
 
-            name = "Mission Planner";
+            name = "Atlas Planner";
 
             try
             {

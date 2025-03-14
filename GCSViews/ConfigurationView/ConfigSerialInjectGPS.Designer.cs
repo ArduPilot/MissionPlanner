@@ -591,7 +591,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.splitContainer1.Panel1.Controls.Add(this.groupBox_autoconfig);
             // 
             // splitContainer1.Panel2
