@@ -116,7 +116,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        string caption = item.Name + " " + GetItemCaption(item) + "  (" + item.Length + ")";
+                        string caption = item.Name + " " + GetItemCaption(item) + "  (" + MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)item.Length) + ")";
                         AddCheckedListBoxItem(caption);
                     }
                     catch (Exception ex)
@@ -418,7 +418,8 @@ namespace MissionPlanner.Log
 
                 if (current < max)
                 {
-                    labelBytes.Text = current.ToString();
+                    var per = (current / (double)max) * 100;
+                    labelBytes.Text = MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)current) + " " + per.ToString("N1") + "% ";
                 }
                 else
                 {
