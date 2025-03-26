@@ -740,6 +740,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
 
+        // Based on https://gist.github.com/Nazardo/e42de483a03ec2e1ef9348e23bec4f95
+        // (c) 2019 M. Levra
+
         public sealed class NaturalStringComparer : IComparer<string>
         {
             #region IComparer<string> Members
