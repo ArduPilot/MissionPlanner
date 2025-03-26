@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using org.mariuszgromada.math.mxparser;
+using System.Runtime.CompilerServices;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -38,6 +39,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         // Used by Param Tree to filter by prefix
         private string filterPrefix = "";
+
+        private NaturalStringComparer naturalsorter = new NaturalStringComparer();
 
         public ConfigRawParams()
         {
@@ -287,7 +290,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     // remember, the 'value' here is key of param, while prev and new are actual values of param
                     savedParams.Add($"{value}: {previousValue} -> {newValue}");
                 }
-                
+
                 // Join the saved parameters list to a string
                 string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
 
@@ -700,7 +703,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // Sort them again (because of the favorites, they may be out of order)
-            commands.Sort();
+            commands.Sort(naturalsorter);
 
             for (int i = 0; i < commands.Count; i++)
             {
@@ -737,6 +740,93 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
 
+        public sealed class NaturalStringComparer : IComparer<string>
+        {
+            #region IComparer<string> Members
+
+            public int Compare(string x, string y)
+            {
+                return NaturalCompare(x, y);
+            }
+
+            #endregion
+
+            public int NaturalCompare(string x, string y)
+            {
+                int indexX = 0;
+                int indexY = 0;
+                while (true)
+                {
+                    // Handle the case when one string has ended.
+                    if (indexX == x.Length)
+                    {
+                        return indexY == y.Length ? 0 : -1;
+                    }
+                    if (indexY == y.Length)
+                    {
+                        return 1;
+                    }
+
+                    char charX = x[indexX];
+                    char charY = y[indexY];
+                    if (char.IsDigit(charX) && char.IsDigit(charY))
+                    {
+                        // Skip leading zeroes in numbers.
+                        while (indexX < x.Length && x[indexX] == '0')
+                        {
+                            indexX++;
+                        }
+                        while (indexY < y.Length && y[indexY] == '0')
+                        {
+                            indexY++;
+                        }
+
+                        // Find the end of numbers
+                        int endNumberX = indexX;
+                        int endNumberY = indexY;
+                        while (endNumberX < x.Length && char.IsDigit(x[endNumberX]))
+                        {
+                            endNumberX++;
+                        }
+                        while (endNumberY < y.Length && char.IsDigit(y[endNumberY]))
+                        {
+                            endNumberY++;
+                        }
+
+                        int digitsLengthX = endNumberX - indexX;
+                        int digitsLengthY = endNumberY - indexY;
+
+                        // If the lengths are different, then the longer number is bigger
+                        if (digitsLengthX != digitsLengthY)
+                        {
+                            return digitsLengthX - digitsLengthY;
+                        }
+                        // Compare numbers digit by digit
+                        while (indexX < endNumberX)
+                        {
+                            if (x[indexX] != y[indexY])
+                                return x[indexX] - y[indexY];
+                            indexX++;
+                            indexY++;
+                        }
+                    }
+                    else
+                    {
+                        // Plain characters comparison
+                        int compareResult = char.ToUpperInvariant(charX).CompareTo(char.ToUpperInvariant(charY));
+                        if (compareResult != 0)
+                        {
+                            return compareResult;
+                        }
+                        indexX++;
+                        indexY++;
+                    }
+                }
+            }
+        }
+
+
+
         private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)
         {
             var fav1obj = Params[Fav.Index, args.RowIndex1].Value;
@@ -752,7 +842,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (args.CellValue2 == null)
                 return;
 
-            args.SortResult = args.CellValue1.ToString().CompareTo(args.CellValue2.ToString());
+            args.SortResult = naturalsorter.NaturalCompare(args.CellValue1.ToString(), args.CellValue2.ToString());
             args.Handled = true;
 
             if (fav1 && fav2)
@@ -1029,7 +1119,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             processToScreen();
             startup = false;
         }
-        
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string txt = treeView1.SelectedNode.Text + "_";
@@ -1061,7 +1151,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (e.RowIndex < 0)
                 return;
-            
+
             if (optionsControl != null)
             {
                 Params.Controls.Remove(optionsControl);
@@ -1194,7 +1284,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     num.Minimum = Math.Round((decimal)min, num.DecimalPlaces);
                     num.Maximum = Math.Round((decimal)max, num.DecimalPlaces);
                     num.Increment = Math.Round((decimal)inc, num.DecimalPlaces);
-                    
+
                     // Parse the cell. Clamp the value to the bounds.
                     decimal val = num.Minimum;
                     decimal.TryParse(Params[Value.Index, e.RowIndex].Value?.ToString(), out val);
