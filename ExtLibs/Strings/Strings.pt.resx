@@ -222,7 +222,7 @@
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>Atualizar parametros NÃO CONTINUE SE ESTIVER VOANDO</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>eErro: sem resposta do MAV</value>
   </data>
   <data name="Trying" xml:space="preserve">
