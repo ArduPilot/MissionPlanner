@@ -4477,7 +4477,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                 {
-                    giveComport = false;
                     throw new Exception("Alt Change Failed");
                 }
 
@@ -4490,12 +4489,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             }
             catch (Exception ex)
             {
-                giveComport = false;
                 log.Error(ex);
                 throw;
             }
-
-            giveComport = false;
         }
 
         public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, bool yaw,
