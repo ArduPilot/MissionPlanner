@@ -363,6 +363,7 @@ namespace MissionPlanner
             Console.WriteLine("Setup Settings.Instance.UserAgent");
             Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" +
                                           Environment.OSVersion?.VersionString + ")";
+            GMap.NET.MapProviders.GMapProvider.UserAgent = Settings.Instance.UserAgent;
 
             Console.WriteLine("Setup check gdal dir");
             // optionally add gdal support
