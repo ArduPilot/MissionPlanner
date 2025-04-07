@@ -1094,6 +1094,7 @@ namespace DroneCAN
             Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
             ServeFile(firmware_name, "fw.bin");
+            ServeFile(firmware_name, "fw.bi");
 
             var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName("fw.bin".ToLower()));
             ulong firmware_crc = ulong.MaxValue;
