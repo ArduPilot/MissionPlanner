@@ -1098,6 +1098,9 @@
   <data name="rad_do_set_servo.Text" xml:space="preserve">
     <value>DO_SET_SERVO</value>
   </data>
+  <data name="rad_do_set_relay.Text" xml:space="preserve">
+    <value>DO_SET_RELAY</value>
+  </data>
   <data name="&gt;&gt;rad_do_set_servo.Name" xml:space="preserve">
     <value>rad_do_set_servo</value>
   </data>
