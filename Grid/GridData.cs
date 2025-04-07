@@ -63,6 +63,15 @@ namespace MissionPlanner.Grid
         public decimal setservo_low;
         public decimal setservo_high;
 
+        // do repeat relay
+        public bool repeatrelay;
+        public decimal repeatrelay_no;
+        public decimal repeatrelay_cycle;
+
+        // do set relay
+        public decimal setrelay_no;
+        public decimal setrelay_state;
+
 
     }
 }
