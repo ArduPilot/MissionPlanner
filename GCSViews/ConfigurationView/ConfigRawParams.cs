@@ -1157,8 +1157,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (optionsControl != null)
             {
-                Params.Controls.Remove(optionsControl);
-                optionsControl.Dispose();
+                try
+                {
+                    Params.Controls.Remove(optionsControl);
+                    optionsControl.Dispose();
+                } catch { }
                 optionsControl = null;
             }
 
