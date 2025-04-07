@@ -1795,29 +1795,7 @@ namespace MissionPlanner.Grid
                                             (float)num_setservohigh.Value, 0, 0, 0, 0, 0,
                                             gridobject);
                                     }
-                                    else if (rad_do_set_relay.Checked)
-                                    {
-                                        if (plla.Tag == "SM")
-                                        {
-                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
-                                                plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
-
-                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_RELAY,
-                                                (float)num_setservono.Value,
-                                                (float)num_setservolow.Value, 0, 0, 0, 0, 0,
-                                                gridobject);
-                                        }
-                                        else if (plla.Tag == "ME")
-                                        {
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
-
-                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.SET_RELAY,
-                                                (float)num_setservono.Value,
-                                                (float)num_setservohigh.Value, 0, 0, 0, 0, 0,
-                                                gridobject);
-                                        }
-                                        
+                                    
 
                                     }
                             }
