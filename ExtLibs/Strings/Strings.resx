@@ -149,8 +149,8 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>Error receiving log list</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
-    <value>Error: no responce from MAV</value>
+  <data name="ErrorNoResponse" xml:space="preserve">
+    <value>Error: no response from MAV</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
     <value>You are not connected.</value>

@@ -231,7 +231,7 @@
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>Güncelleme ayarları AIR'DE</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>Hata: MAV'den yanıt yok</value>
   </data>
   <data name="Trying" xml:space="preserve">
