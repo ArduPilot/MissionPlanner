@@ -235,7 +235,7 @@ namespace MissionPlanner.Swarm
                     */
                     if (UpdateOffsets != null)
                     {
-                        UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z,
+                        UpdateOffsets(mouseover.interf, 1f, -1f, 2f,
                             mouseover);
                     }
 

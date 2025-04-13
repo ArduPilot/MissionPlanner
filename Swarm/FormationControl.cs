@@ -285,7 +285,16 @@ namespace MissionPlanner.Swarm
 
                     if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
                     {
-                        grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
+                        //此处是控制页面的icon位置
+                        //grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
+                        //((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
+                       
+                            offset.x = 1+ mav.sysid;
+                            offset.y = 1+ mav.sysid;
+                            offset.z = 1+ mav.sysid;
+                        
+                       
+                            grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
                         ((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
                     }
                 }
