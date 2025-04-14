@@ -45,6 +45,10 @@
             this.timer_status = new System.Windows.Forms.Timer(this.components);
             this.but_guided = new MissionPlanner.Controls.MyButton();
             this.but_auto = new MissionPlanner.Controls.MyButton();
+            this.savePoint = new MissionPlanner.Controls.MyButton();
+            this.loadPoint = new MissionPlanner.Controls.MyButton();
+            this.But_Brake = new MissionPlanner.Controls.MyButton();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -54,9 +58,9 @@
             // 
             this.CMB_mavs.DataSource = this.bindingSource1;
             this.CMB_mavs.FormattingEnabled = true;
-            this.CMB_mavs.Location = new System.Drawing.Point(336, 12);
+            this.CMB_mavs.Location = new System.Drawing.Point(529, 18);
             this.CMB_mavs.Name = "CMB_mavs";
-            this.CMB_mavs.Size = new System.Drawing.Size(121, 21);
+            this.CMB_mavs.Size = new System.Drawing.Size(121, 26);
             this.CMB_mavs.TabIndex = 4;
             this.CMB_mavs.SelectedIndexChanged += new System.EventHandler(this.CMB_mavs_SelectedIndexChanged);
             // 
@@ -65,7 +69,7 @@
             this.grid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grid1.Location = new System.Drawing.Point(3, 3);
             this.grid1.Name = "grid1";
-            this.grid1.Size = new System.Drawing.Size(755, 388);
+            this.grid1.Size = new System.Drawing.Size(1110, 553);
             this.grid1.TabIndex = 8;
             this.grid1.Vertical = false;
             this.grid1.UpdateOffsets += new MissionPlanner.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
@@ -73,61 +77,67 @@
             // BUT_Start
             // 
             this.BUT_Start.Enabled = false;
-            this.BUT_Start.Location = new System.Drawing.Point(787, 12);
+            this.BUT_Start.Location = new System.Drawing.Point(980, 18);
             this.BUT_Start.Name = "BUT_Start";
             this.BUT_Start.Size = new System.Drawing.Size(75, 23);
             this.BUT_Start.TabIndex = 6;
-            this.BUT_Start.Text = "Start";
+            this.BUT_Start.Text = "激活编队";
+            this.BUT_Start.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Start.UseVisualStyleBackColor = true;
             this.BUT_Start.Click += new System.EventHandler(this.BUT_Start_Click);
             // 
             // BUT_leader
             // 
-            this.BUT_leader.Location = new System.Drawing.Point(463, 12);
+            this.BUT_leader.Location = new System.Drawing.Point(656, 18);
             this.BUT_leader.Name = "BUT_leader";
             this.BUT_leader.Size = new System.Drawing.Size(75, 23);
             this.BUT_leader.TabIndex = 5;
-            this.BUT_leader.Text = "Set Leader";
+            this.BUT_leader.Text = "设置主机";
+            this.BUT_leader.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_leader.UseVisualStyleBackColor = true;
             this.BUT_leader.Click += new System.EventHandler(this.BUT_leader_Click);
             // 
             // BUT_Land
             // 
-            this.BUT_Land.Location = new System.Drawing.Point(255, 12);
+            this.BUT_Land.Location = new System.Drawing.Point(365, 20);
             this.BUT_Land.Name = "BUT_Land";
             this.BUT_Land.Size = new System.Drawing.Size(75, 23);
             this.BUT_Land.TabIndex = 3;
-            this.BUT_Land.Text = "Land (all)";
+            this.BUT_Land.Text = "降落";
+            this.BUT_Land.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Land.UseVisualStyleBackColor = true;
             this.BUT_Land.Click += new System.EventHandler(this.BUT_Land_Click);
             // 
             // BUT_Takeoff
             // 
-            this.BUT_Takeoff.Location = new System.Drawing.Point(174, 12);
+            this.BUT_Takeoff.Location = new System.Drawing.Point(284, 20);
             this.BUT_Takeoff.Name = "BUT_Takeoff";
             this.BUT_Takeoff.Size = new System.Drawing.Size(75, 23);
             this.BUT_Takeoff.TabIndex = 2;
-            this.BUT_Takeoff.Text = "Takeoff";
+            this.BUT_Takeoff.Text = "起飞";
+            this.BUT_Takeoff.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Takeoff.UseVisualStyleBackColor = true;
             this.BUT_Takeoff.Click += new System.EventHandler(this.BUT_Takeoff_Click);
             // 
             // BUT_Disarm
             // 
-            this.BUT_Disarm.Location = new System.Drawing.Point(93, 12);
+            this.BUT_Disarm.Location = new System.Drawing.Point(203, 20);
             this.BUT_Disarm.Name = "BUT_Disarm";
             this.BUT_Disarm.Size = new System.Drawing.Size(75, 23);
             this.BUT_Disarm.TabIndex = 1;
-            this.BUT_Disarm.Text = "Disarm (exl leader)";
+            this.BUT_Disarm.Text = "上锁";
+            this.BUT_Disarm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Disarm.UseVisualStyleBackColor = true;
             this.BUT_Disarm.Click += new System.EventHandler(this.BUT_Disarm_Click);
             // 
             // BUT_Arm
             // 
-            this.BUT_Arm.Location = new System.Drawing.Point(12, 12);
+            this.BUT_Arm.Location = new System.Drawing.Point(122, 20);
             this.BUT_Arm.Name = "BUT_Arm";
             this.BUT_Arm.Size = new System.Drawing.Size(75, 23);
             this.BUT_Arm.TabIndex = 0;
-            this.BUT_Arm.Text = "Arm (exl leader)";
+            this.BUT_Arm.Text = "解锁";
+            this.BUT_Arm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Arm.UseVisualStyleBackColor = true;
             this.BUT_Arm.Click += new System.EventHandler(this.BUT_Arm_Click);
             // 
@@ -137,19 +147,19 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(12, 39);
+            this.tabControl1.Location = new System.Drawing.Point(12, 47);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(769, 420);
+            this.tabControl1.Size = new System.Drawing.Size(1124, 591);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.grid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(761, 394);
+            this.tabPage1.Size = new System.Drawing.Size(1116, 559);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Stage 1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -157,11 +167,12 @@
             // BUT_Updatepos
             // 
             this.BUT_Updatepos.Enabled = false;
-            this.BUT_Updatepos.Location = new System.Drawing.Point(706, 12);
+            this.BUT_Updatepos.Location = new System.Drawing.Point(899, 18);
             this.BUT_Updatepos.Name = "BUT_Updatepos";
             this.BUT_Updatepos.Size = new System.Drawing.Size(75, 23);
             this.BUT_Updatepos.TabIndex = 10;
-            this.BUT_Updatepos.Text = "Update Pos";
+            this.BUT_Updatepos.Text = "更新位置";
+            this.BUT_Updatepos.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Updatepos.UseVisualStyleBackColor = true;
             this.BUT_Updatepos.Click += new System.EventHandler(this.BUT_Updatepos_Click);
             // 
@@ -170,9 +181,9 @@
             this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PNL_status.AutoScroll = true;
-            this.PNL_status.Location = new System.Drawing.Point(783, 61);
+            this.PNL_status.Location = new System.Drawing.Point(1142, 67);
             this.PNL_status.Name = "PNL_status";
-            this.PNL_status.Size = new System.Drawing.Size(147, 398);
+            this.PNL_status.Size = new System.Drawing.Size(141, 571);
             this.PNL_status.TabIndex = 11;
             // 
             // timer_status
@@ -183,35 +194,87 @@
             // 
             // but_guided
             // 
-            this.but_guided.Location = new System.Drawing.Point(544, 12);
+            this.but_guided.Location = new System.Drawing.Point(737, 18);
             this.but_guided.Name = "but_guided";
             this.but_guided.Size = new System.Drawing.Size(75, 23);
             this.but_guided.TabIndex = 12;
-            this.but_guided.Text = "Guided Mode (exl leader)";
+            this.but_guided.Text = "引导模式";
+            this.but_guided.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_guided.UseVisualStyleBackColor = true;
             this.but_guided.Click += new System.EventHandler(this.but_guided_Click);
             // 
             // but_auto
             // 
-            this.but_auto.Location = new System.Drawing.Point(625, 12);
+            this.but_auto.Location = new System.Drawing.Point(818, 18);
             this.but_auto.Name = "but_auto";
             this.but_auto.Size = new System.Drawing.Size(75, 23);
             this.but_auto.TabIndex = 13;
-            this.but_auto.Text = "Auto Mode  (exl leader)";
+            this.but_auto.Text = "自动模式";
+            this.but_auto.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_auto.UseVisualStyleBackColor = true;
             this.but_auto.Click += new System.EventHandler(this.but_auto_Click);
             // 
+            // savePoint
+            // 
+            this.savePoint.Enabled = false;
+            this.savePoint.Location = new System.Drawing.Point(1061, 18);
+            this.savePoint.Name = "savePoint";
+            this.savePoint.Size = new System.Drawing.Size(75, 23);
+            this.savePoint.TabIndex = 6;
+            this.savePoint.Text = "保存编队";
+            this.savePoint.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.savePoint.UseVisualStyleBackColor = true;
+            this.savePoint.Click += new System.EventHandler(this.BUT_SavePoint_Click);
+            // 
+            // loadPoint
+            // 
+            this.loadPoint.Enabled = false;
+            this.loadPoint.Location = new System.Drawing.Point(1142, 18);
+            this.loadPoint.Name = "loadPoint";
+            this.loadPoint.Size = new System.Drawing.Size(75, 23);
+            this.loadPoint.TabIndex = 6;
+            this.loadPoint.Text = "加载编队";
+            this.loadPoint.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.loadPoint.UseVisualStyleBackColor = true;
+            this.loadPoint.Click += new System.EventHandler(this.BUT_LoadPoint_Click);
+            // 
+            // But_Brake
+            // 
+            this.But_Brake.Location = new System.Drawing.Point(446, 20);
+            this.But_Brake.Name = "But_Brake";
+            this.But_Brake.Size = new System.Drawing.Size(75, 23);
+            this.But_Brake.TabIndex = 3;
+            this.But_Brake.Text = "刹车";
+            this.But_Brake.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.But_Brake.UseVisualStyleBackColor = true;
+            this.But_Brake.Click += new System.EventHandler(this.BUT_Brake_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 19);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(106, 22);
+            this.checkBox1.TabIndex = 14;
+            this.checkBox1.Text = "包含主机";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // FormationControl
             // 
-            this.ClientSize = new System.Drawing.Size(931, 471);
+            this.ClientSize = new System.Drawing.Size(1286, 650);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.but_auto);
             this.Controls.Add(this.but_guided);
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_Updatepos);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.loadPoint);
+            this.Controls.Add(this.savePoint);
             this.Controls.Add(this.BUT_Start);
             this.Controls.Add(this.BUT_leader);
             this.Controls.Add(this.CMB_mavs);
+            this.Controls.Add(this.But_Brake);
             this.Controls.Add(this.BUT_Land);
             this.Controls.Add(this.BUT_Takeoff);
             this.Controls.Add(this.BUT_Disarm);
@@ -223,6 +286,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -244,5 +308,9 @@
         private System.Windows.Forms.Timer timer_status;
         private Controls.MyButton but_guided;
         private Controls.MyButton but_auto;
+        private Controls.MyButton savePoint;
+        private Controls.MyButton loadPoint;
+        private Controls.MyButton But_Brake;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

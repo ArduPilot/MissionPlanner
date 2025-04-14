@@ -237,7 +237,7 @@ namespace MissionPlanner.Utilities
             public RallyPoints rallyPoints { get; set; }
             public int version { get; set; }
         }
-
+     
         public static RootObject ConvertFromLocationwps(List<Locationwp> list, byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
         {
             RootObject temp = new RootObject()

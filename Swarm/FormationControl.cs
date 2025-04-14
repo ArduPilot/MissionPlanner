@@ -7,6 +7,16 @@ using System.Drawing;
 using System.Windows.Forms;
 using GeoAPI.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
+using static IronPython.Modules._ast;
+using static MissionPlanner.GCSViews.FlightPlanner;
+using System.Globalization;
+using System.IO;
+using static MissionPlanner.Swarm.Grid;
+using static MissionPlanner.Utilities.MissionFile;
+using System.Linq;
+using Newtonsoft.Json;
+using Accord.Imaging.Filters;
+using static Microsoft.Scripting.Hosting.Shell.ConsoleHostOptions;
 
 namespace MissionPlanner.Swarm
 {
@@ -14,7 +24,7 @@ namespace MissionPlanner.Swarm
     {
         Formation SwarmInterface = null;
         bool threadrun = false;
-
+        public bool Vertical { get; set; }
         public FormationControl()
         {
             InitializeComponent();
@@ -143,9 +153,16 @@ namespace MissionPlanner.Swarm
 
         private void BUT_Arm_Click(object sender, EventArgs e)
         {
+            
+            
+        if (CustomMessageBox.Show("Are you sure you want to Arm" , "提示",
+                CustomMessageBox.MessageBoxButtons.YesNo) !=
+            CustomMessageBox.DialogResult.Yes)
+            return;
+
             if (SwarmInterface != null)
             {
-                SwarmInterface.Arm();
+                SwarmInterface.Arm_ALL(Vertical);
             }
         }
 
@@ -153,7 +170,7 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.Disarm();
+                SwarmInterface.Disarm_ALL(Vertical);
             }
         }
 
@@ -161,7 +178,7 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.Takeoff();
+                SwarmInterface.Takeoff_ALL(Vertical);
             }
         }
 
@@ -169,7 +186,7 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.Land();
+                SwarmInterface.Land_ALL(Vertical);
             }
         }
 
@@ -195,6 +212,11 @@ namespace MissionPlanner.Swarm
                 updateicons();
                 BUT_Start.Enabled = true;
                 BUT_Updatepos.Enabled = true;
+                savePoint.Enabled = true;
+                loadPoint.Enabled = true;
+
+
+                
             }
         }
 
@@ -289,9 +311,9 @@ namespace MissionPlanner.Swarm
                         //grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
                         //((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
                        
-                            offset.x = 1+ mav.sysid;
-                            offset.y = 1+ mav.sysid;
-                            offset.z = 1+ mav.sysid;
+                            //offset.x = 1+ mav.sysid;
+                            //offset.y = 1+ mav.sysid;
+                            //offset.z = 1+ mav.sysid;
                         
                        
                             grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
@@ -368,7 +390,7 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.GuidedMode();
+                SwarmInterface.GuidedMode_ALL(Vertical);
             }
         }
 
@@ -376,8 +398,241 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.AutoMode();
+                SwarmInterface.AutoMode_ALL(Vertical);
             }
+        }
+        internal string wpfilename;
+
+        
+        public void BUT_LoadPoint_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog fd = new OpenFileDialog())
+            {
+                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.plan;*.kml";
+                if (Directory.Exists(Settings.Instance["WPFileDirectory"] ?? ""))
+                    fd.InitialDirectory = Settings.Instance["WPFileDirectory"];
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+
+                if (File.Exists(file))
+                {
+                    Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
+                   
+                   
+                        string line = "";
+                        using (var fstream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (var fs = new StreamReader(fstream))
+                        {
+                            line = fs.ReadLine();
+                        }
+
+                        if (line.StartsWith("{"))
+                        {
+                            var format = ReadFile(file);
+
+                            var cmds = ConvertToPoint(format);
+
+                            BUT_Updatepos_Click_New(cmds);
+                        }
+                }
+            }
+        }
+
+
+
+        private void BUT_Updatepos_Click_New(List<new_icon> icons)
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    mav.cs.UpdateCurrentSettings(null, true, port, mav);
+
+                    //if (mav == SwarmInterface.Leader)
+                    //    continue;
+
+                    Vector3 offset = getOffsetFromLeader(((Formation)SwarmInterface).getLeader(), mav);
+                    
+                    if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
+                    {
+                        //此处是控制页面的icon位置
+                        //grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
+                        //((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
+
+                        //offset.x = 1+ mav.sysid;
+                        //offset.y = 1+ mav.sysid;
+                        //offset.z = 1+ mav.sysid;
+                        foreach (var icon in icons) {
+                            if (icon.interf == mav.sysid) {
+                                bool colorIsRed = false;
+                                if (icon.Color.Name.Equals( "Red")) {
+                                    colorIsRed = true;
+                                }
+                                grid1.UpdateIcon(mav, (float)icon.x, (float)icon.y, (float)icon.z, colorIsRed);
+                                ((Formation)SwarmInterface).setOffsets(mav, icon.y, icon.x, icon.z);
+                            }
+                        }
+
+                           
+                    }
+                }
+            }
+        }
+
+        private void BUT_SavePoint_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog fd = new SaveFileDialog())
+            {
+                fd.Filter = "Mission|*.waypoints;*.txt|Mission JSON|*.mission";
+                fd.DefaultExt = ".waypoints";
+                fd.InitialDirectory = Settings.Instance["WPFileDirectory"] ?? "";
+                fd.FileName = wpfilename;
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                List<new_icon> icons = new List<new_icon>();
+
+                if (file != "" && result == DialogResult.OK)
+                {
+                    Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
+
+                    try
+                    {
+                        
+                            if (SwarmInterface != null)
+                            {
+                                var vectorlead = SwarmInterface.getOffsets(MainV2.comPort.MAV);
+
+                                
+                                foreach (var port in MainV2.Comports)
+                                {
+                                    foreach (var mav in port.MAVlist)
+                                    {
+
+                                    new_icon save_icon = new new_icon();
+                                    var vector = SwarmInterface.getOffsets(mav);
+                                        save_icon.x = (float)vector.x;
+                                        save_icon.y = (float)vector.y;
+                                        save_icon.z = (float)vector.z;
+                                        if (mav == SwarmInterface.Leader) {
+                                            save_icon.Color = Color.Blue;
+                                        }
+                                        save_icon.interf = mav.sysid;
+         
+                                        icons.Add( save_icon);
+                                    }
+                                }
+                            }
+
+                            // Convert icons list to RootObject type
+                            var format = ConvertFromIcon(icons);
+
+                            // Now you can save this format as object
+                            WriteFile_icon(file, format);
+                            return;
+                        
+                    }
+                    catch (Exception)
+                    {
+                        CustomMessageBox.Show(Strings.ERROR);
+                    }
+                }
+            }
+        }
+        public static void WriteFile_icon(string filename, RootObject_ICon format)
+        {
+            var fileout = JsonConvert.SerializeObject(format, Formatting.Indented);
+
+            File.WriteAllText(filename, fileout);
+        }
+        public class new_icon
+        {
+            public float x = 0;
+            public float y = 0;
+            public float z = 10;
+            public int icosize = 20;
+            public RectangleF bounds = new RectangleF();
+            public Color Color = Color.Red;
+            public String Name = "";
+            public int interf = 0;
+            public bool Movable = true;
+        }
+            public class RootObject_ICon
+        {
+            public string fileType { get; set; }
+            public GeoFence geoFence { get; set; }
+            public string groundStation { get; set; }
+            public List<new_icon> icon { get; set; }
+            public RallyPoints rallyPoints { get; set; }
+            public int version { get; set; }
+        }
+        // Modified ConvertFromIcon method
+        public static RootObject_ICon ConvertFromIcon(List<new_icon> list, byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
+        {
+            RootObject_ICon temp = new RootObject_ICon()
+            {
+                groundStation = "MissionPlanner_ICon",
+                version = 1,
+                icon = new List<new_icon>()
+            };
+
+
+            temp.icon = list;
+
+            return temp;
+        }
+
+        public static List<new_icon> ConvertToPoint(RootObject_ICon format)
+        {
+            List<new_icon> cmds = new List<new_icon>();
+
+            // 空值检查
+            if (format == null || format.icon == null)
+                return cmds;
+
+            // 遍历 RootObject_ICon 中的 Grid.icon 列表
+            foreach (var gridIcon in format.icon)
+            {
+                // 创建目标 icon 对象
+                var targetIcon = new new_icon();
+
+                // 映射必要属性 (根据实际字段调整)
+                targetIcon.x = gridIcon.x;
+                targetIcon.y = gridIcon.y;
+                targetIcon.z = gridIcon.z;
+                targetIcon.Color = gridIcon.Color; 
+                targetIcon.interf = gridIcon.interf; 
+       
+
+                cmds.Add(targetIcon);
+            }
+
+            return cmds;
+        }
+
+        public static RootObject_ICon ReadFile(string filename)
+        {
+            using (var file =
+                new StreamReader(File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            {
+                var output = JsonConvert.DeserializeObject<RootObject_ICon>(file.ReadToEnd());
+
+                return output;
+            }
+        }
+
+        private void BUT_Brake_Click(object sender, EventArgs e)
+        {
+            if (SwarmInterface != null)
+            {
+                SwarmInterface.Brake_ALL(Vertical);
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Vertical = checkBox1.Checked;
+
+        
         }
     }
 }
