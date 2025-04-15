@@ -17,6 +17,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Accord.Imaging.Filters;
 using static Microsoft.Scripting.Hosting.Shell.ConsoleHostOptions;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Swarm
 {
@@ -325,11 +326,36 @@ namespace MissionPlanner.Swarm
                 }
             }
         }
+        static bool IsPositiveNumber(string input)
+        {
 
+            string pattern = @"^[+-]?\d+(\.\d+)?$"; // 允许正负号，并允许小数部分
+            return Regex.IsMatch(input, pattern);
+        }
 
         private void BUT_UpdateOption_pos_Click(object sender, EventArgs e)
         {
-            
+        
+
+           
+            bool isGreaterThanZero1 = IsPositiveNumber(textBox1.Text);
+            bool isGreaterThanZero2 = IsPositiveNumber(textBox2.Text);
+            bool isGreaterThanZero3 = IsPositiveNumber(textBox3.Text);
+            if (!isGreaterThanZero1) {
+                MessageBox.Show("请在x轴输入非空数字");
+                return;
+            }
+            if (!isGreaterThanZero2)
+            {
+                MessageBox.Show("请在y轴输入非空数字");
+                return;
+            }
+            if (!isGreaterThanZero3)
+            {
+                MessageBox.Show("请在z轴输入非空数字");
+                return;
+            }
+
             float selectedNumber2 = float.Parse(textBox1.Text);
             float selectedNumber3 = float.Parse(textBox2.Text);
             float selectedNumber4 = float.Parse(textBox3.Text);
@@ -398,7 +424,7 @@ namespace MissionPlanner.Swarm
                             ((Status)ctl).MAV.Text = mav.ToString();
                             ((Status)ctl).Guided.Text = mav.GuidedMode.x / 1e7 + "," + mav.GuidedMode.y / 1e7 + "," +
                                                          mav.GuidedMode.z;
-                            ((Status)ctl).Location1.Text = mav.cs.lat + "," + mav.cs.lng + "," +
+                            ((Status)ctl).Location1.Text = mav.cs.lat + ",\n" + mav.cs.lng + ",\n" +
                                                             mav.cs.alt;
 
                             if (mav == SwarmInterface.Leader)

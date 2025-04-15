@@ -86,7 +86,7 @@
             this.grid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grid1.Location = new System.Drawing.Point(3, 3);
             this.grid1.Name = "grid1";
-            this.grid1.Size = new System.Drawing.Size(1418, 749);
+            this.grid1.Size = new System.Drawing.Size(1199, 735);
             this.grid1.TabIndex = 8;
             this.grid1.Vertical = false;
             this.grid1.UpdateOffsets += new MissionPlanner.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
@@ -164,10 +164,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(12, 79);
+            this.tabControl1.Location = new System.Drawing.Point(12, 93);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1432, 787);
+            this.tabControl1.Size = new System.Drawing.Size(1213, 773);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -176,7 +176,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1424, 755);
+            this.tabPage1.Size = new System.Drawing.Size(1205, 741);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Stage 1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -198,9 +198,9 @@
             this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PNL_status.AutoScroll = true;
-            this.PNL_status.Location = new System.Drawing.Point(1450, 107);
+            this.PNL_status.Location = new System.Drawing.Point(1231, 107);
             this.PNL_status.Name = "PNL_status";
-            this.PNL_status.Size = new System.Drawing.Size(141, 759);
+            this.PNL_status.Size = new System.Drawing.Size(360, 759);
             this.PNL_status.TabIndex = 11;
             // 
             // timer_status
@@ -323,9 +323,9 @@
             // 
             // myButton1
             // 
-            this.myButton1.Location = new System.Drawing.Point(980, 61);
+            this.myButton1.Location = new System.Drawing.Point(980, 64);
             this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(75, 23);
+            this.myButton1.Size = new System.Drawing.Size(100, 23);
             this.myButton1.TabIndex = 10;
             this.myButton1.Text = "更新选中坐标";
             this.myButton1.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -334,21 +334,21 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(421, 64);
+            this.textBox1.Location = new System.Drawing.Point(421, 65);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 28);
             this.textBox1.TabIndex = 17;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(619, 64);
+            this.textBox2.Location = new System.Drawing.Point(619, 65);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 28);
             this.textBox2.TabIndex = 17;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(829, 64);
+            this.textBox3.Location = new System.Drawing.Point(829, 65);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 28);
             this.textBox3.TabIndex = 17;
