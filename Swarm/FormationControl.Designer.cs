@@ -275,6 +275,7 @@
             this.checkBox1.TabIndex = 14;
             this.checkBox1.Text = "包含主机";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label1
             // 

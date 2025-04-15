@@ -319,9 +319,10 @@ namespace MissionPlanner.Swarm
                         //此处是控制页面的icon位置
                     
                         
-                       
-                            grid1.UpdateIcon(mav, (float)offset.x, (float)offset.y, (float)offset.z, true);
-                        ((Formation)SwarmInterface).setOffsets(mav, offset.x, offset.y, offset.z);
+                            
+                        //此处的y,x，z比较特殊，其余的是x,y,z
+                        grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
+                        ((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
                     }
                 }
             }
@@ -689,7 +690,12 @@ namespace MissionPlanner.Swarm
                 SwarmInterface.Brake_ALL(Vertical);
             }
         }
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Vertical = checkBox1.Checked;
 
-       
+
+        }
+        
     }
 }
