@@ -52,6 +52,13 @@ namespace MissionPlanner.Swarm
             CMB_mavs.ValueMember = "Value";
             CMB_mavs.DisplayMember = "Key";
 
+            bindingSource2.DataSource = mavStates;
+
+            comboBox1.DataSource = bindingSource2;
+            comboBox1.ValueMember = "Value";
+            comboBox1.DisplayMember = "Key";
+
+         
             updateicons();
 
             this.MouseWheel += new MouseEventHandler(FollowLeaderControl_MouseWheel);
@@ -76,7 +83,7 @@ namespace MissionPlanner.Swarm
         void updateicons()
         {
             bindingSource1.ResetBindings(false);
-
+            bindingSource2.ResetBindings(false);
             foreach (var port in MainV2.Comports)
             {
                 foreach (var mav in port.MAVlist)
@@ -238,6 +245,7 @@ namespace MissionPlanner.Swarm
             }
 
             bindingSource1.ResetBindings(false);
+            bindingSource2.ResetBindings(false);
         }
 
         public Vector3 getOffsetFromLeader(MAVState leader, MAVState mav)
@@ -308,19 +316,47 @@ namespace MissionPlanner.Swarm
                     if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
                     {
                         //此处是控制页面的icon位置
-                        //grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
-                        //((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
-                       
-                            //offset.x = 1+ mav.sysid;
-                            //offset.y = 1+ mav.sysid;
-                            //offset.z = 1+ mav.sysid;
+                    
                         
                        
-                            grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
-                        ((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
+                            grid1.UpdateIcon(mav, (float)offset.x, (float)offset.y, (float)offset.z, true);
+                        ((Formation)SwarmInterface).setOffsets(mav, offset.x, offset.y, offset.z);
                     }
                 }
             }
+        }
+
+
+        private void BUT_UpdateOption_pos_Click(object sender, EventArgs e)
+        {
+            
+            float selectedNumber2 = float.Parse(textBox1.Text);
+            float selectedNumber3 = float.Parse(textBox2.Text);
+            float selectedNumber4 = float.Parse(textBox3.Text);
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                   
+                    if (mav == comboBox1.SelectedValue)
+                    {
+                        if (mav == SwarmInterface.Leader)
+                            continue;
+
+
+
+                       
+
+
+                        grid1.UpdateIcon(mav, selectedNumber2, selectedNumber3, selectedNumber4, true);
+                        ((Formation)SwarmInterface).setOffsets(mav, selectedNumber2, selectedNumber3, selectedNumber4);
+                    }
+                }
+            }
+
+
+
+
         }
 
         private void timer_status_Tick(object sender, EventArgs e)
@@ -438,7 +474,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
-
+        
 
         private void BUT_Updatepos_Click_New(List<new_icon> icons)
         {
@@ -457,7 +493,7 @@ namespace MissionPlanner.Swarm
                     {
                         //此处是控制页面的icon位置
                         //grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
-                        //((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
+                        //((Formation)SwarmInterface).setOffsets(mav, offset.x, offset.y, offset.z);
 
                         //offset.x = 1+ mav.sysid;
                         //offset.y = 1+ mav.sysid;
@@ -469,7 +505,7 @@ namespace MissionPlanner.Swarm
                                     colorIsRed = true;
                                 }
                                 grid1.UpdateIcon(mav, (float)icon.x, (float)icon.y, (float)icon.z, colorIsRed);
-                                ((Formation)SwarmInterface).setOffsets(mav, icon.y, icon.x, icon.z);
+                                ((Formation)SwarmInterface).setOffsets(mav, icon.x, icon.y, icon.z);
                             }
                         }
 
@@ -628,11 +664,6 @@ namespace MissionPlanner.Swarm
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            Vertical = checkBox1.Checked;
-
-        
-        }
+       
     }
 }
