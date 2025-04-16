@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Accord.Imaging.Filters;
 using static Microsoft.Scripting.Hosting.Shell.ConsoleHostOptions;
 using System.Text.RegularExpressions;
+using netDxf.Entities;
 
 namespace MissionPlanner.Swarm
 {
@@ -29,7 +30,7 @@ namespace MissionPlanner.Swarm
         public FormationControl()
         {
             InitializeComponent();
-
+           
             SwarmInterface = new Formation();
 
             TopMost = true;
@@ -58,8 +59,8 @@ namespace MissionPlanner.Swarm
             comboBox1.DataSource = bindingSource2;
             comboBox1.ValueMember = "Value";
             comboBox1.DisplayMember = "Key";
+            textBox4.Text = "0";
 
-         
             updateicons();
 
             this.MouseWheel += new MouseEventHandler(FollowLeaderControl_MouseWheel);
@@ -693,9 +694,119 @@ namespace MissionPlanner.Swarm
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             Vertical = checkBox1.Checked;
+        }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    if (mav == comboBox1.SelectedValue) { 
+                        var vector = SwarmInterface.getOffsets(mav);
+                        this.textBox1.Text = (float)vector.x+"";
+                        this.textBox2.Text = (float)vector.y + "";
+                        this.textBox3.Text = (float)vector.z + "";
+                     
+                    }
+
+                }
+            }
+        }
+
+        private void BUT_Rtl_Click(object sender, EventArgs e)
+        {
+            if (SwarmInterface != null)
+            {
+                SwarmInterface.Rtl_ALL(Vertical);
+            }
+        }
+
+        private void BUT_Rtl_successively_Click(object sender, EventArgs e)
+        {
+            if (SwarmInterface != null)
+            {
+                int a =int.Parse(textBox4.Text);
+                SwarmInterface.Rtl_successively_ALL(Vertical,a);
+            }
+        }
+
+        private void BUT_DifferenceX_Click(object sender, EventArgs e)
+        {
+            int a = int.Parse(textBox5.Text);
+            int b = 0;
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    if (mav == SwarmInterface.Leader)
+                        continue;
+
+
+                    b = b + a;
+                    var vector = SwarmInterface.getOffsets(mav);
+                    this.textBox1.Text = (float)b + "";
+                    this.textBox2.Text = (float)vector.y + "";
+                    this.textBox3.Text = (float)vector.z + "";
+
+                    grid1.UpdateIcon(mav, (float)b, (float)vector.y, (float)vector.z, true);
+                    ((Formation)SwarmInterface).setOffsets(mav, b, (float)vector.y, (float)vector.z);
+                    
+                }
+            }
 
         }
-        
+
+        private void BUT_DifferenceY_Click(object sender, EventArgs e)
+        {
+            int a = int.Parse(textBox6.Text);
+            int b = 0;
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    if (mav == SwarmInterface.Leader)
+                        continue;
+
+
+                    b = b + a;
+                    var vector = SwarmInterface.getOffsets(mav);
+                    this.textBox1.Text = (float)vector.x + "";
+                    this.textBox2.Text = (float)b + "";
+                    this.textBox3.Text = (float)vector.z + "";
+
+                    grid1.UpdateIcon(mav, (float)vector.x, (float)b, (float)vector.z, true);
+                    ((Formation)SwarmInterface).setOffsets(mav, vector.x, (float)b, (float)vector.z);
+
+                    
+                }
+            }
+        }
+
+        private void BUT_DifferenceZ_Click(object sender, EventArgs e)
+        {
+            int a = int.Parse(textBox7.Text);
+            int b = 0;
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    if (mav == SwarmInterface.Leader)
+                        continue;
+
+                    b = b + a;
+
+                    var vector = SwarmInterface.getOffsets(mav);
+                    this.textBox1.Text = (float)vector.x + "";
+                    this.textBox2.Text = (float)vector.y + "";
+                    this.textBox3.Text = (float)b + "";
+
+                    grid1.UpdateIcon(mav, (float)vector.x, (float)vector.y, (float)b, true);
+                    ((Formation)SwarmInterface).setOffsets(mav, vector.x, (float)vector.y, (float)b);
+                   
+                }
+            }
+
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using log4net;
 using System;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Swarm
 {
@@ -171,7 +173,30 @@ namespace MissionPlanner.Swarm
             }
         }
 
-      
+        public void Rtl_ALL(bool vertical)
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    port.setMode(mav.sysid, mav.compid, "RTL");
+                }
+            }
+        }
+        public async void Rtl_successively_ALL(bool vertical,int sleep_time)
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                   
+                   
+                    port.setMode(mav.sysid, mav.compid, "RTL");
+                    await Task.Delay(sleep_time*1000);  // 延迟3000毫秒（即3秒）
+                }
+            }
+        }
+        
 
         public void GuidedMode_ALL(bool vertical)
         {
