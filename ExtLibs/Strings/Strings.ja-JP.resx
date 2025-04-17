@@ -219,7 +219,7 @@
     <value>パラメータのアップデート
 機体が空中にある場合には実行しないでください！</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>エラー: MAVからの応答がありません</value>
   </data>
   <data name="Trying" xml:space="preserve">

@@ -228,7 +228,7 @@
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>Update ParameterJANGAN LAKUKAN INI JIKA ANDA BERADA DI UDARA</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>Kesalahan: tidak ada respon dari MAV</value>
   </data>
   <data name="Trying" xml:space="preserve">

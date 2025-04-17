@@ -149,7 +149,7 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>Помилка при отриманні списку лог-файлів</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>Помилка: М-БпЛА не відповідає</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
