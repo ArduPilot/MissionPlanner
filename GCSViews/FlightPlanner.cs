@@ -53,6 +53,7 @@ using Newtonsoft.Json;
 using MissionPlanner.ArduPilot.Mavlink;
 using System.Drawing.Imaging;
 using SharpKml.Engine;
+using com.drew.metadata;
 
 namespace MissionPlanner.GCSViews
 {
@@ -92,6 +93,8 @@ namespace MissionPlanner.GCSViews
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static Propagation prop;
         private static GMapOverlay rallypointoverlay;
+        private static GMapOverlay circlepointoverlay;
+        private static GMapOverlay blue_pushpin_pointoverlay;
         private static string zone = "50s";
         private readonly Random rnd = new Random();
         public GMapMarker center = new GMarkerGoogle(new PointLatLng(0.0, 0.0), GMarkerGoogleType.none);
@@ -100,8 +103,10 @@ namespace MissionPlanner.GCSViews
         private altmode currentaltmode = (altmode) Settings.Instance.GetInt32("FPaltmode", (int)altmode.Relative);
         private GMapMarker CurrentGMapMarker;
         public GMapMarker currentMarker;
+        private GMarkerGoogle CurrenGooglrMaker;
         private GMapMarkerPOI CurrentPOIMarker;
         private GMapMarkerRallyPt CurrentRallyPt;
+        private GMapMarkerCircle CurrentCircle;
         public GMapOverlay drawnpolygonsoverlay;
         private bool fetchpathrip;
         public GMapOverlay geofenceoverlay;
@@ -136,7 +141,8 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay top;
         public GMapPolygon wppolygon;
         private GMapMarker CurrentMidLine;
-
+        private Panel panel;
+        private FlowLayoutPanel flowLayoutPanel;
 
         public void Init()
         {
@@ -193,6 +199,12 @@ namespace MissionPlanner.GCSViews
 
             rallypointoverlay = new GMapOverlay("rallypoints");
             MainMap.Overlays.Add(rallypointoverlay);
+
+            circlepointoverlay = new GMapOverlay("circlepoints");
+            MainMap.Overlays.Add(circlepointoverlay);
+
+            blue_pushpin_pointoverlay = new GMapOverlay("blue_pushpin_pointoverlay");
+            MainMap.Overlays.Add(blue_pushpin_pointoverlay);
 
             routesoverlay = new GMapOverlay("routes");
             MainMap.Overlays.Add(routesoverlay);
@@ -285,8 +297,105 @@ namespace MissionPlanner.GCSViews
 
             timer.Start();
             */
+
+          
+            // 在面板中加入多个 CheckBox
+            for (int i = 0; i < 20; i++)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Text = $"{i + 1}";  // 设置复选框的文本为数字
+                checkBox.Size = new System.Drawing.Size(40, 45);
+                checkBox.Location = new System.Drawing.Point(5, i * 30); // 设置每个复选框的垂直位置
+                panel7.Controls.Add(checkBox);
+            }
+
+            
+            this.flowLayoutPanel = new FlowLayoutPanel();
+
+            // 设置FlowLayoutPanel
+            flowLayoutPanel.Dock = DockStyle.Fill;  // 确保 FlowLayoutPanel 占满整个窗体
+            flowLayoutPanel.FlowDirection = FlowDirection.TopDown; // 设置为垂直方向排列
+            flowLayoutPanel.WrapContents = false;  // 不允许自动换行
+            flowLayoutPanel.AutoScroll = true;     // 启用滚动功能，当内容超出时显示滚动条
+            for (int i = 0; i < 20; i++)
+            {
+                // 示例：添加几行数据
+                AddNewRow(i+"","自动", "12.6V", "0.0m", "0.0m/s", "100.0mAh", "109.8598843", "18.4179523", "EKF");
+                
+            }
+            // 设置Panel
+            this.panel8.Controls.Add(flowLayoutPanel);
+            //this.Controls.Add(panel8);
+
+            // 设置窗体的属性
+            this.Text = "动态信息面板";
+            this.Size = new System.Drawing.Size(800, 600);  // 确保窗体大小足够容纳内容
+
+
+
+
+            //****************************
+            //创建一个名为“markers”的图层
+            GMapOverlay markers = new GMapOverlay("markers");
+            //创建标记，并设置位置及样式
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(18.4244890, 109.8750401), GMarkerGoogleType.blue_pushpin);
+            blue_pushpin_pointoverlay.Markers.Add(marker);
+
+            
+            //计算100米对应的经纬度偏移量（近似值）
+            double radiusInMeters = 100;
+            double latOffset = radiusInMeters / 111320.0;  // 纬度: 1度 ≈ 111.32 km
+            double lngOffset = radiusInMeters / (111320.0 * Math.Cos(marker.Position.Lat * Math.PI / 180));
+
+            // 生成圆形点集
+            List<PointLatLng> circlePoints = new List<PointLatLng>();
+            for (int i = 0; i <= 360; i++)
+            {
+                double angle = i * Math.PI / 180;
+                double newLat = marker.Position.Lat + latOffset * Math.Cos(angle);
+                double newLng = marker.Position.Lng + lngOffset * Math.Sin(angle);
+                circlePoints.Add(new PointLatLng(newLat, newLng));
+            }
+
+
         }
 
+        
+
+        // 方法：动态更新行数据
+        public void AddNewRow(string id, string mode, string voltage, string height, string speed,
+                               string battery, string longitude, string latitude, string rtkStatus)
+        {
+            // 创建一行（由多个Label组成）
+            FlowLayoutPanel newRow = new FlowLayoutPanel();
+            newRow.FlowDirection = FlowDirection.LeftToRight;
+            newRow.AutoSize = true;  // 自动调整宽度
+
+            // 添加各个字段的Label
+            newRow.Controls.Add(CreateLabel($"无人机：{id}"));
+            newRow.Controls.Add(CreateLabel($"模式：{mode}"));
+            newRow.Controls.Add(CreateLabel($"电压：{voltage}"));
+            newRow.Controls.Add(CreateLabel($"高度：{height}"));
+            newRow.Controls.Add(CreateLabel($"速度：{speed}"));
+            newRow.Controls.Add(CreateLabel($"电量：{battery}"));
+            newRow.Controls.Add(CreateLabel($"经度：{longitude}"));
+            newRow.Controls.Add(CreateLabel($"纬度：{latitude}"));
+            newRow.Controls.Add(CreateLabel($"RTK固定解：{rtkStatus}"));
+
+            // 将新的一行添加到FlowLayoutPanel
+            flowLayoutPanel.Controls.Add(newRow);
+        }
+
+        // 辅助方法：创建每个字段的Label
+        private Label CreateLabel(string text)
+        {
+            Label label = new Label();
+            label.Text = text;
+            label.AutoSize = true;  // 自动调整大小
+            return label;
+        }
+
+      
         public static FlightPlanner instance { get; set; }
 
         public List<PointLatLngAlt> pointlist { get; set; } = new List<PointLatLngAlt>();
@@ -935,7 +1044,7 @@ namespace MissionPlanner.GCSViews
             }
 
             rallypointoverlay.Markers.Clear();
-
+            //circlepointoverlay.Markers.Clear();
             int count = int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString());
 
             for (int a = 0; a < (count); a++)
@@ -1381,9 +1490,9 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         public void writeKML()
         {
-            // quickadd is for when loading wps from eeprom or file, to prevent slow, loading times
+            //quickadd is for when loading wps from eeprom or file, to prevent slow, loading times
             if (quickadd)
-                return;
+                    return;
 
             if (Disposing)
                 return;
@@ -1398,7 +1507,7 @@ namespace MissionPlanner.GCSViews
                     home = new PointLatLngAlt(
                             double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
                             double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
-                        {Tag2 = CMB_altmode.SelectedValue.ToString()};
+                    { Tag2 = CMB_altmode.SelectedValue.ToString() };
                 }
                 catch (Exception ex)
                 {
@@ -1447,7 +1556,7 @@ namespace MissionPlanner.GCSViews
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
                                         FormatDistance((
                                             wpOverlay.overlay.Routes.SelectMany(a => a.Points)
-                                                .Select(a => (PointLatLngAlt) a)
+                                                .Select(a => (PointLatLngAlt)a)
                                                 .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
                                         ) / 1000.0, false);
 
@@ -1492,7 +1601,7 @@ namespace MissionPlanner.GCSViews
                         try
                         {
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
+                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0,
                                 CurrentState.multiplieralt);
                         }
                         catch
@@ -1512,7 +1621,7 @@ namespace MissionPlanner.GCSViews
                     MainMap.Refresh();
                 }
 
-                if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+                if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
                 {
                     var fenceoverlay = new WPOverlay();
                     fenceoverlay.overlay.Id = "fence";
@@ -1556,9 +1665,9 @@ namespace MissionPlanner.GCSViews
                                 var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
 
                                 var pnt = new GMapMarkerPlus(mid);
-                                pnt.Tag = new midline() {now = now, next = next};
-                                ((midline) pnt.Tag).now.Tag = (startwp + a).ToString();
-                                ((midline) pnt.Tag).next.Tag = (startwp + a + 1).ToString();
+                                pnt.Tag = new midline() { now = now, next = next };
+                                ((midline)pnt.Tag).now.Tag = (startwp + a).ToString();
+                                ((midline)pnt.Tag).next.Tag = (startwp + a + 1).ToString();
                                 fenceoverlay.overlay.Markers.Add(pnt);
 
                                 a++;
@@ -1569,7 +1678,7 @@ namespace MissionPlanner.GCSViews
                     MainMap.Refresh();
                 }
 
-                if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+                if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
                 {
                     var rallyoverlay = new WPOverlay();
                     rallyoverlay.overlay.Id = "rally";
@@ -6312,6 +6421,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             if (int.TryParse(altstring, out alt))
             {
+                //要看一下
                 PointLatLngAlt rallypt = new PointLatLngAlt(MouseDownStart.Lat, MouseDownStart.Lng,
                     alt / CurrentState.multiplieralt, "Rally Point");
                 rallypointoverlay.Markers.Add(
@@ -6577,6 +6687,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.GuidedMode.x / 1e7,
                         (int) MainV2.comPort.MAV.GuidedMode.z, Color.Blue, routesoverlay);
                 }
+
+
+                //添加无人机详情
+
+                //panel8.Controls.Add(checkBox);
             }
             catch (Exception ex)
             {
@@ -7081,6 +7196,56 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                     CurrentRallyPt.Position = pnew;
                 }
+                if (CurrentCircle != null)
+                {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentCircle.Position = pnew;
+                }
+                if (CurrenGooglrMaker != null)
+                {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrenGooglrMaker.Position = pnew;
+
+
+                    //计算100米对应的经纬度偏移量（近似值）
+                    double radiusInMeters = 100;
+                    double latOffset = radiusInMeters / 111320.0;  // 纬度: 1度 ≈ 111.32 km
+                    double lngOffset = radiusInMeters / (111320.0 * Math.Cos(pnew.Lat * Math.PI / 180));
+
+                    // 生成圆形点集
+                    List<PointLatLng> circlePoints = new List<PointLatLng>();
+                    for (int i = 0; i <= 360; i++)
+                    {
+                        double angle = i * Math.PI / 180;
+                        double newLat = pnew.Lat + latOffset * Math.Cos(angle);
+                        double newLng = pnew.Lng + lngOffset * Math.Sin(angle);
+                        circlePoints.Add(new PointLatLng(newLat, newLng));
+                    }
+                    
+
+                    GMapPolygon polygon = new GMapPolygon(circlePoints, "test");
+                    polygon.Fill = new SolidBrush(Color.FromArgb(0, Color.Blue));
+                    polygon.Stroke = new Pen(Color.Red, 3);
+
+                    var polygonsToRemove = circlepointoverlay.Polygons
+                                        .Where(a => a.Name == "test")
+                                        .ToList();
+
+                    foreach (var polygon_list in polygonsToRemove)
+                    {
+                        circlepointoverlay.Polygons.Remove(polygon_list);
+                    }
+
+
+                    //circlepointoverlay.Polygons.Clear();
+                    circlepointoverlay.Polygons.Add(polygon);
+                    
+
+
+
+                }
                 else if (groupmarkers.Count > 0)
                 {
                     // group drag
@@ -7138,7 +7303,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     {
                         if (CurrentGMapMarker != null && CurrentGMapMarker.Tag is int)
                         {
-                            int? pIndex = (int?) CurentRectMarker.Tag;
+                            int? pIndex = (int?)CurentRectMarker.Tag;
                             if (pIndex.HasValue)
                             {
                                 if (pIndex < wppolygon.Points.Count)
@@ -7182,6 +7347,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                     CurrentGMapMarker.Position = pnew;
                 }
+                else if (CurrentGMapMarker != null)
+                {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentGMapMarker.Position = pnew;
+                }
+                //此处
                 else if (Control.ModifierKeys == Keys.Control)
                 {
                     // draw selection box
@@ -7285,20 +7457,20 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     {
                         if (int.TryParse(midline.next.Tag, out pnt2))
                         {
-                            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
+                            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue ==
                                 MAVLink.MAV_MISSION_TYPE.FENCE)
                             {
-                                var prevtype = Commands.Rows[(int) Math.Max(pnt2 - 2, 0)].Cells[Command.Index].Value
+                                var prevtype = Commands.Rows[(int)Math.Max(pnt2 - 2, 0)].Cells[Command.Index].Value
                                     .ToString();
                                 // match type of prev row
-                                InsertCommand(pnt2 - 1, (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), prevtype),
+                                InsertCommand(pnt2 - 1, (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), prevtype),
                                     0, 0, 0, 0,
                                     CurrentMidLine.Position.Lng,
                                     CurrentMidLine.Position.Lat, 0);
 
                                 ReCalcFence(pnt2 - 1, true, false);
                             }
-                            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
+                            else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue ==
                                      MAVLink.MAV_MISSION_TYPE.MISSION)
                             {
 
@@ -7719,7 +7891,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                     CurrentRallyPt = item as GMapMarkerRallyPt;
                 }
-
+                if (item is  GMarkerGoogle)
+                {
+                    CurrenGooglrMaker = item as GMarkerGoogle;
+                }
+                
                 if (item is GMapMarkerAirport)
                 {
                     // do nothing - readonly
@@ -7765,7 +7941,15 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                     CurrentRallyPt = null;
                 }
-
+                if (item is GMapMarkerCircle)
+                {
+                    CurrentCircle = null;
+                }
+                if (item is GMarkerGoogle)
+                {
+                    CurrenGooglrMaker = null;
+                }
+                
                 if (item is GMapMarkerPOI)
                 {
                     CurrentPOIMarker = null;
@@ -8145,6 +8329,20 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             results += Environment.NewLine + Environment.NewLine + count + " tile" + (count > 1 ? "s" : "") + " loaded !";
             CustomMessageBox.Show("Number of tiles loaded per zoom : " + Environment.NewLine + results, "Injecting Custom Map Results");
             map.Dispose();
+        }
+
+        private void myButton1_Click(object sender, EventArgs e)
+        {
+            if (panel6.Height <= 30)
+            {
+                panel6.Height = 177;
+               
+            }
+            else
+            {
+                panel6.Height = 0;
+              
+            }
         }
     }
 }

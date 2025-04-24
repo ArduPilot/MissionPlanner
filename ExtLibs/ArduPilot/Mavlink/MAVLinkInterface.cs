@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using DeviceProgramming;
+using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Comms;
@@ -1364,6 +1365,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 if (BaseStream.IsOpen)
                 {
+                    //if (packet[7] == 86)
+                    //{
+                    //    BaseStream.Write(packet, 0, i);
+                    //    string result1 = string.Join(" ", packet);
+                    //    string result = string.Join(" ", Array.ConvertAll(packet, b => b.ToString("X2")));
+                    //    Console.WriteLine(result1);  // 输出：A 14 1E 28 32 3C
+                    //    Console.WriteLine(result);  // 输出：A 14 1E 28 32 3C
+                    //}
+
                     BaseStream.Write(packet, 0, i);
                     _bytesSentSubj.OnNext(i);
                 }
