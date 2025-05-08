@@ -980,7 +980,7 @@
     <value>status1</value>
   </data>
   <data name="&gt;&gt;status1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.7831.29456, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.9259.27863, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;status1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -2687,7 +2687,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Mission Planner - By Michael Oborne</value>
+    <value>Aviator - Ultragate IT DOO.</value>
   </data>
   <data name="&gt;&gt;autoHideToolStripMenuItem.Name" xml:space="preserve">
     <value>autoHideToolStripMenuItem</value>
@@ -2765,7 +2765,7 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7831.29456, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.9259.27863, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MenuArduPilot.Name" xml:space="preserve">
     <value>MenuArduPilot</value>

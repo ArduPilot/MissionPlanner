@@ -7,7 +7,7 @@ namespace MavlinkMessagePlugin
     {
         string _Name = "MavlinkMessagePlugin";
         string _Version = "0.1";
-        string _Author = "Michael Oborne";
+        string _Author = "Ultragate IT DOO.";
 
         public override string Name
         {

@@ -900,7 +900,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 countDown.Stop();
 
-                char[] temp = ("Mission Planner " + getAppVersion() + "\0").ToCharArray();
+                char[] temp = ("Aviator " + getAppVersion() + "\0").ToCharArray();
                 Array.Resize(ref temp, 50);
 
                 //

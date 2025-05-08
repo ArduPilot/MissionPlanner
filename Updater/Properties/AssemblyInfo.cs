@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Updater")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Michael Oborne")]
+[assembly: AssemblyCompany("Ultragate IT DOO.")]
 [assembly: AssemblyProduct("Updater")]
-[assembly: AssemblyCopyright("Copyright © Michael Oborne 2010")]
+[assembly: AssemblyCopyright("Copyright © Ultragate IT DOO. 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

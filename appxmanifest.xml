@@ -4,8 +4,8 @@
             Version="0.0.54.0"
             Publisher="CN=3B1842DF-8664-4A02-B840-61F61DA8A94E" />
   <Properties>
-    <DisplayName>Mission Planner</DisplayName>
-    <PublisherDisplayName>Michael Oborne</PublisherDisplayName>
+    <DisplayName>Aviator</DisplayName>
+    <PublisherDisplayName>Ultragate IT DOO.</PublisherDisplayName>
     <Logo>mpdesktop150.png</Logo>
   </Properties>
   <Resources>
@@ -19,7 +19,7 @@
   </Capabilities>
   <Applications>
 		<Application Id="MissionPlanner" Executable="MissionPlanner.exe" EntryPoint="Windows.FullTrustApplication">
-      <uap:VisualElements DisplayName="Mission Planner" Description="ArduPilot ground control station"
+      <uap:VisualElements DisplayName="Aviator" Description="Aviator Software ground control station"
            Square150x150Logo="mpdesktop150.png" Square44x44Logo="mpdesktop44.png"  
            BackgroundColor="#FFFFFF" />
       <Extensions />

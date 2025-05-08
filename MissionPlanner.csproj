@@ -1190,4 +1190,10 @@
   <ItemGroup>
     <EmbeddedResource Include="plugins\example23-switch.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

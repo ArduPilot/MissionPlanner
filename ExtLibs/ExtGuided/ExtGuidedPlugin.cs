@@ -12,7 +12,7 @@ using MissionPlanner.Utilities;
     {
         string _Name = "External Guided"; 
         string _Version = "0.1";
-        string _Author = "Michael Oborne";
+        string _Author = "Ultragate IT DOO.";
 
         public override string Name { get { return _Name; } }
         public override string Version { get { return _Version; } }
