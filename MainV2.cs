@@ -800,6 +800,10 @@ namespace MissionPlanner
                 titlebar = splash?.Text;
             }
 
+            //ILE
+            this.Text = "Ultragate IT";
+            titlebar = "Ultragate 1.0";
+
             if (!MONO) // windows only
             {
                 if (Settings.Instance["showconsole"] != null && Settings.Instance["showconsole"].ToString() == "True")
@@ -1074,8 +1078,9 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
             }
 
-            MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
-                (int) (200), 31);
+            //MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
+            //    (int) (200), 31);
+            MenuArduPilot.Image = ByteArrayToImage(Properties.Resources.ultragate_logo);
             MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
             if (Program.Logo2 != null)
@@ -1089,6 +1094,14 @@ namespace MissionPlanner
 
             // save config to test we have write access
             SaveConfig();
+        }
+
+        public Image ByteArrayToImage(byte[] byteArray)
+        {
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                return Image.FromStream(ms);
+            }
         }
 
         void cmb_sysid_Click(object sender, EventArgs e)
@@ -4654,11 +4667,12 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+                //System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+                System.Diagnostics.Process.Start("https://ultragateit.sistemone.mk/");
             }
             catch
             {
-                CustomMessageBox.Show("Failed to open url https://ardupilot.org");
+                CustomMessageBox.Show("Failed to open url https://ultragateit.sistemone.mk/");
             }
         }
 
