@@ -600,7 +600,31 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="BUT_SendMSG.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+	<data name="BUT_UDP.Location" type="System.Drawing.Point, System.Drawing">
+		<value>60, 147</value>
+	</data>
+	<data name="BUT_UDP.Size" type="System.Drawing.Size, System.Drawing">
+		<value>51, 31</value>
+	</data>
+	<data name="BUT_UDP.TabIndex" type="System.Int32, mscorlib">
+		<value>0</value>
+	</data>
+	<data name="BUT_UDP.Text" xml:space="preserve">
+    <value>send_UDP</value>
+  </data>
+	<data name="&gt;&gt;BUT_UDP.Name" xml:space="preserve">
+    <value>BUT_UDP</value>
+  </data>
+	<data name="&gt;&gt;BUT_UDP.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+	<data name="&gt;&gt;BUT_UDP.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+	<data name="&gt;&gt;BUT_UDP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+	<data name="BUT_SendMSG.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="BUT_SendMSG.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1369,7 +1393,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BUT_SendMSG" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_abortland" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetLoiterRad" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="BUT_clear_track" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_action" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUTactiondo" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_resumemis" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetAlt" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetSpeed" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_setwp" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_ARM" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_mountmode" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_joystick" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_RAWSensor" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Homealt" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUTrestartmission" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_mountmode" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickrtl" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickmanual" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setwp" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_modes" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickauto" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setmode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;Rows Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+	  <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BUT_UDP" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_SendMSG" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_abortland" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetLoiterRad" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="BUT_clear_track" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_action" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUTactiondo" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_resumemis" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetAlt" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="modifyandSetSpeed" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CMB_setwp" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_ARM" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_mountmode" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_joystick" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_RAWSensor" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Homealt" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BUTrestartmission" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_mountmode" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickrtl" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickmanual" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setwp" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_modes" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_quickauto" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BUT_setmode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;Rows Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tabActions.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 44</value>

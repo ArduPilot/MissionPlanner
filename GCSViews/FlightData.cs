@@ -1225,7 +1225,22 @@ namespace MissionPlanner.GCSViews
         {
             new JoystickSetup().ShowUserControl();
         }
+        private Boolean isLink = false;
+        private void BUT_UDP_Click(object sender, EventArgs e)
+        {
+            if (this.BUT_UDP.Text == "send_UDP")
+            {
+                this.BUT_UDP.Text = "close_UDP";
+                isLink = true;
+            }
+            else
+            {
+                this.BUT_UDP.Text = "send_UDP";
+                isLink = false;
+            }
 
+            new UDP().UDPlink(isLink);
+        }
 
         private void BUT_SendMSG_Click(object sender, EventArgs e)
         {
