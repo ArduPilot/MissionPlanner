@@ -38,6 +38,7 @@
             this.lbl_svin = new System.Windows.Forms.Label();
             this.chk_autoconfig = new System.Windows.Forms.CheckBox();
             this.groupBox_autoconfig = new System.Windows.Forms.GroupBox();
+            this.panel_um982 = new System.Windows.Forms.Panel();
             this.panel_septentrio = new System.Windows.Forms.Panel();
             this.label21 = new System.Windows.Forms.Label();
             this.chk_septentriogalileo = new System.Windows.Forms.CheckBox();
@@ -45,7 +46,6 @@
             this.chk_septentrioglonass = new System.Windows.Forms.CheckBox();
             this.chk_septentriogps = new System.Windows.Forms.CheckBox();
             this.input_septentriortcminterval = new System.Windows.Forms.NumericUpDown();
-            this.button_septentriortcminterval = new MissionPlanner.Controls.MyButton();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.cmb_septentriortcmamount = new System.Windows.Forms.ComboBox();
@@ -55,20 +55,10 @@
             this.input_septentriofixedatitude = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.button_septentriosetposition = new MissionPlanner.Controls.MyButton();
             this.input_septentriofixedaltitude = new System.Windows.Forms.TextBox();
             this.panel_ubloxoptions = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.but_restartsvin = new MissionPlanner.Controls.MyButton();
             this.chk_m8p_130p = new System.Windows.Forms.CheckBox();
-            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
-            this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
-            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -103,14 +93,26 @@
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.comboBoxConfigType = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.button_septentriortcminterval = new MissionPlanner.Controls.MyButton();
+            this.button_septentriosetposition = new MissionPlanner.Controls.MyButton();
+            this.but_restartsvin = new MissionPlanner.Controls.MyButton();
+            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
+            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox_autoconfig.SuspendLayout();
+            this.panel_um982.SuspendLayout();
             this.panel_septentrio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.input_septentriortcminterval)).BeginInit();
             this.panel_ubloxoptions.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -118,6 +120,7 @@
             this.splitContainer1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -185,11 +188,18 @@
             // 
             // groupBox_autoconfig
             // 
+            this.groupBox_autoconfig.Controls.Add(this.panel_um982);
             this.groupBox_autoconfig.Controls.Add(this.panel_septentrio);
             this.groupBox_autoconfig.Controls.Add(this.panel_ubloxoptions);
             resources.ApplyResources(this.groupBox_autoconfig, "groupBox_autoconfig");
             this.groupBox_autoconfig.Name = "groupBox_autoconfig";
             this.groupBox_autoconfig.TabStop = false;
+            // 
+            // panel_um982
+            // 
+            this.panel_um982.Controls.Add(this.label22);
+            resources.ApplyResources(this.panel_um982, "panel_um982");
+            this.panel_um982.Name = "panel_um982";
             // 
             // panel_septentrio
             // 
@@ -286,14 +296,6 @@
             0,
             65536});
             // 
-            // button_septentriortcminterval
-            // 
-            resources.ApplyResources(this.button_septentriortcminterval, "button_septentriortcminterval");
-            this.button_septentriortcminterval.Name = "button_septentriortcminterval";
-            this.button_septentriortcminterval.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.button_septentriortcminterval.UseVisualStyleBackColor = true;
-            this.button_septentriortcminterval.Click += new System.EventHandler(this.button_septentriortcminterval_Click);
-            // 
             // label20
             // 
             resources.ApplyResources(this.label20, "label20");
@@ -351,14 +353,6 @@
             resources.ApplyResources(this.label18, "label18");
             this.label18.Name = "label18";
             // 
-            // button_septentriosetposition
-            // 
-            resources.ApplyResources(this.button_septentriosetposition, "button_septentriosetposition");
-            this.button_septentriosetposition.Name = "button_septentriosetposition";
-            this.button_septentriosetposition.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.button_septentriosetposition.UseVisualStyleBackColor = true;
-            this.button_septentriosetposition.Click += new System.EventHandler(this.button_septentriosetposition_Click);
-            // 
             // input_septentriofixedaltitude
             // 
             resources.ApplyResources(this.input_septentriofixedaltitude, "input_septentriofixedaltitude");
@@ -384,15 +378,6 @@
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
-            // but_restartsvin
-            // 
-            resources.ApplyResources(this.but_restartsvin, "but_restartsvin");
-            this.but_restartsvin.Name = "but_restartsvin";
-            this.but_restartsvin.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.but_restartsvin, resources.GetString("but_restartsvin.ToolTip"));
-            this.but_restartsvin.UseVisualStyleBackColor = true;
-            this.but_restartsvin.Click += new System.EventHandler(this.but_restartsvin_Click);
-            // 
             // chk_m8p_130p
             // 
             resources.ApplyResources(this.chk_m8p_130p, "chk_m8p_130p");
@@ -400,66 +385,6 @@
             this.toolTip1.SetToolTip(this.chk_m8p_130p, resources.GetString("chk_m8p_130p.ToolTip"));
             this.chk_m8p_130p.UseVisualStyleBackColor = true;
             this.chk_m8p_130p.CheckedChanged += new System.EventHandler(this.chk_m8p_130p_CheckedChanged);
-            // 
-            // but_save_basepos
-            // 
-            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
-            this.but_save_basepos.Name = "but_save_basepos";
-            this.but_save_basepos.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.but_save_basepos, resources.GetString("but_save_basepos.ToolTip"));
-            this.but_save_basepos.UseVisualStyleBackColor = true;
-            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
-            // 
-            // dg_basepos
-            // 
-            resources.ApplyResources(this.dg_basepos, "dg_basepos");
-            this.dg_basepos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_basepos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Lat,
-            this.Long,
-            this.Alt,
-            this.BaseName1,
-            this.Use,
-            this.Delete});
-            this.dg_basepos.Name = "dg_basepos";
-            this.dg_basepos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellContentClick);
-            this.dg_basepos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellEndEdit);
-            this.dg_basepos.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dg_basepos_DefaultValuesNeeded);
-            this.dg_basepos.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dg_basepos_RowsRemoved);
-            // 
-            // Lat
-            // 
-            resources.ApplyResources(this.Lat, "Lat");
-            this.Lat.Name = "Lat";
-            // 
-            // Long
-            // 
-            resources.ApplyResources(this.Long, "Long");
-            this.Long.Name = "Long";
-            // 
-            // Alt
-            // 
-            resources.ApplyResources(this.Alt, "Alt");
-            this.Alt.Name = "Alt";
-            // 
-            // BaseName1
-            // 
-            resources.ApplyResources(this.BaseName1, "BaseName1");
-            this.BaseName1.Name = "BaseName1";
-            // 
-            // Use
-            // 
-            resources.ApplyResources(this.Use, "Use");
-            this.Use.Name = "Use";
-            this.Use.ReadOnly = true;
-            this.Use.Text = "Use";
-            // 
-            // Delete
-            // 
-            resources.ApplyResources(this.Delete, "Delete");
-            this.Delete.Name = "Delete";
-            this.Delete.ReadOnly = true;
-            this.Delete.Text = "Delete";
             // 
             // label2
             // 
@@ -689,10 +614,50 @@
             this.comboBoxConfigType.FormattingEnabled = true;
             this.comboBoxConfigType.Items.AddRange(new object[] {
             resources.GetString("comboBoxConfigType.Items"),
-            resources.GetString("comboBoxConfigType.Items1")});
+            resources.GetString("comboBoxConfigType.Items1"),
+            resources.GetString("comboBoxConfigType.Items2")});
             resources.ApplyResources(this.comboBoxConfigType, "comboBoxConfigType");
             this.comboBoxConfigType.Name = "comboBoxConfigType";
             this.comboBoxConfigType.SelectedIndexChanged += new System.EventHandler(this.comboBoxConfigType_SelectedIndexChanged);
+            // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
+            // button_septentriortcminterval
+            // 
+            resources.ApplyResources(this.button_septentriortcminterval, "button_septentriortcminterval");
+            this.button_septentriortcminterval.Name = "button_septentriortcminterval";
+            this.button_septentriortcminterval.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.button_septentriortcminterval.UseVisualStyleBackColor = true;
+            this.button_septentriortcminterval.Click += new System.EventHandler(this.button_septentriortcminterval_Click);
+            // 
+            // button_septentriosetposition
+            // 
+            resources.ApplyResources(this.button_septentriosetposition, "button_septentriosetposition");
+            this.button_septentriosetposition.Name = "button_septentriosetposition";
+            this.button_septentriosetposition.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.button_septentriosetposition.UseVisualStyleBackColor = true;
+            this.button_septentriosetposition.Click += new System.EventHandler(this.button_septentriosetposition_Click);
+            // 
+            // but_restartsvin
+            // 
+            resources.ApplyResources(this.but_restartsvin, "but_restartsvin");
+            this.but_restartsvin.Name = "but_restartsvin";
+            this.but_restartsvin.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.but_restartsvin, resources.GetString("but_restartsvin.ToolTip"));
+            this.but_restartsvin.UseVisualStyleBackColor = true;
+            this.but_restartsvin.Click += new System.EventHandler(this.but_restartsvin_Click);
+            // 
+            // but_save_basepos
+            // 
+            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
+            this.but_save_basepos.Name = "but_save_basepos";
+            this.but_save_basepos.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.but_save_basepos, resources.GetString("but_save_basepos.ToolTip"));
+            this.but_save_basepos.UseVisualStyleBackColor = true;
+            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
             // 
             // BUT_connect
             // 
@@ -726,6 +691,57 @@
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             // 
+            // dg_basepos
+            // 
+            resources.ApplyResources(this.dg_basepos, "dg_basepos");
+            this.dg_basepos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_basepos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Lat,
+            this.Long,
+            this.Alt,
+            this.BaseName1,
+            this.Use,
+            this.Delete});
+            this.dg_basepos.Name = "dg_basepos";
+            this.dg_basepos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellContentClick);
+            this.dg_basepos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellEndEdit);
+            this.dg_basepos.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dg_basepos_DefaultValuesNeeded);
+            this.dg_basepos.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dg_basepos_RowsRemoved);
+            // 
+            // Lat
+            // 
+            resources.ApplyResources(this.Lat, "Lat");
+            this.Lat.Name = "Lat";
+            // 
+            // Long
+            // 
+            resources.ApplyResources(this.Long, "Long");
+            this.Long.Name = "Long";
+            // 
+            // Alt
+            // 
+            resources.ApplyResources(this.Alt, "Alt");
+            this.Alt.Name = "Alt";
+            // 
+            // BaseName1
+            // 
+            resources.ApplyResources(this.BaseName1, "BaseName1");
+            this.BaseName1.Name = "BaseName1";
+            // 
+            // Use
+            // 
+            resources.ApplyResources(this.Use, "Use");
+            this.Use.Name = "Use";
+            this.Use.ReadOnly = true;
+            this.Use.Text = "Use";
+            // 
+            // Delete
+            // 
+            resources.ApplyResources(this.Delete, "Delete");
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            // 
             // ConfigSerialInjectGPS
             // 
             this.Controls.Add(this.comboBoxConfigType);
@@ -743,13 +759,14 @@
             this.Name = "ConfigSerialInjectGPS";
             resources.ApplyResources(this, "$this");
             this.groupBox_autoconfig.ResumeLayout(false);
+            this.panel_um982.ResumeLayout(false);
+            this.panel_um982.PerformLayout();
             this.panel_septentrio.ResumeLayout(false);
             this.panel_septentrio.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.input_septentriortcminterval)).EndInit();
             this.panel_ubloxoptions.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -759,6 +776,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -841,5 +859,7 @@
         private System.Windows.Forms.CheckBox chk_septentrioglonass;
         private System.Windows.Forms.CheckBox chk_septentriogps;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Panel panel_um982;
+        private System.Windows.Forms.Label label22;
     }
 }
