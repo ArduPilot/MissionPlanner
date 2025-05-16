@@ -738,14 +738,20 @@ namespace MissionPlanner.GCSViews
 
             foreach (var tabname in tabarray)
             {
+                bool added = false;
                 foreach (TabPage tabPage in TabListOriginal)
                 {
                     if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
                         tabControlactions.TabPages.Add(tabPage);
+                        log.Debug("add tabControlactions " + tabPage.Name);
+                        added = true;
                         break;
                     }
                 }
+
+                if(!added)
+                    log.Debug("not added to tabControlactions " + tabname);
             }
         }
 
@@ -2553,7 +2559,7 @@ namespace MissionPlanner.GCSViews
                     tabs = Settings.Instance["tabcontrolactions"];
                 }
 
-                string[] tabarray = tabs.Split(';');
+                string[] tabarray = tabs.Split(';').Distinct().ToArray();
 
                 foreach (TabPage tabPage in TabListOriginal)
                 {
