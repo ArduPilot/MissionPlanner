@@ -116,8 +116,8 @@ namespace MissionPlanner
 
         public int lastautowp = -1;
 
-        private DateTime lastdata = DateTime.MinValue;
-
+        public DateTime lastdata = DateTime.MinValue;
+        public DateTime lastdata1 = DateTime.MinValue;
         // for calc of sitl speedup
         internal DateTime lastimutime = DateTime.MinValue;
         private PointLatLngAlt lastpos = new PointLatLngAlt();
@@ -2761,6 +2761,8 @@ namespace MissionPlanner
                     case (uint)MAVLink.MAVLINK_MSG_ID.HEARTBEAT:
 
                         {
+
+                            lastdata1 = DateTime.Now;
                             var hb = mavLinkMessage.ToStructure<MAVLink.mavlink_heartbeat_t>();
 
                             if (hb.type == (byte)MAVLink.MAV_TYPE.GCS)
@@ -4412,6 +4414,7 @@ namespace MissionPlanner
                         }
 
                         lastdata = DateTime.Now.AddSeconds(30); // prevent flooding
+
                     }
                 }
 

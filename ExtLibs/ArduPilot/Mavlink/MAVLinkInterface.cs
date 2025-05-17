@@ -1364,6 +1364,36 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 if (BaseStream.IsOpen)
                 {
+
+
+                    //if (messageType == 86)
+                    //{
+
+                    //    byte[] data1 = MavlinkUtil.StructureToByteArray(indata);
+
+                    //    string hexString = BitConverter.ToString(data);
+
+                    //    string hexString1 = BitConverter.ToString(packet).Replace("-", " ");
+
+
+
+
+
+                    //    Console.WriteLine("***************************");
+
+                    //    Console.WriteLine(data1);
+
+                    //    Console.WriteLine(hexString);
+
+                    //    Console.WriteLine(hexString1);
+
+                    //    Console.WriteLine("***************************");
+
+
+
+                    //}
+
+
                     BaseStream.Write(packet, 0, i);
                     _bytesSentSubj.OnNext(i);
                 }

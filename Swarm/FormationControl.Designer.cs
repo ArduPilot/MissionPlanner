@@ -71,6 +71,8 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.myButton5 = new MissionPlanner.Controls.MyButton();
             this.myButton6 = new MissionPlanner.Controls.MyButton();
+            this.myButton7 = new MissionPlanner.Controls.MyButton();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -447,6 +449,22 @@
             this.myButton6.UseVisualStyleBackColor = true;
             this.myButton6.Click += new System.EventHandler(this.BUT_DifferenceZ_Click);
             // 
+            // myButton7
+            // 
+            this.myButton7.Location = new System.Drawing.Point(788, 782);
+            this.myButton7.Name = "myButton7";
+            this.myButton7.Size = new System.Drawing.Size(75, 23);
+            this.myButton7.TabIndex = 3;
+            this.myButton7.Text = "自动预警";
+            this.myButton7.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.myButton7.UseVisualStyleBackColor = true;
+            this.myButton7.Click += new System.EventHandler(this.AUTO_Early_Warning_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 15000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // FormationControl
             // 
             this.ClientSize = new System.Drawing.Size(1407, 877);
@@ -476,6 +494,7 @@
             this.Controls.Add(this.CMB_mavs);
             this.Controls.Add(this.myButton3);
             this.Controls.Add(this.myButton6);
+            this.Controls.Add(this.myButton7);
             this.Controls.Add(this.myButton5);
             this.Controls.Add(this.myButton4);
             this.Controls.Add(this.myButton2);
@@ -544,5 +563,7 @@
         private System.Windows.Forms.TextBox textBox7;
         private Controls.MyButton myButton5;
         private Controls.MyButton myButton6;
+        private Controls.MyButton myButton7;
+        private System.Windows.Forms.Timer timer1;
     }
 }
