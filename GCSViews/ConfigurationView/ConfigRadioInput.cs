@@ -328,7 +328,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            CustomMessageBox.Show("Ensure all your sticks are centered and throttle is down, and click ok to continue");
+            CustomMessageBox.Show("Ensure all your sticks are centered and throttle is down, and click ok to continue\nIf you have a sprung throttle then center it and click ok");
 
             MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs), true, MainV2.comPort);
 
