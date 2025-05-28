@@ -231,7 +231,7 @@
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>Обновить параметрыНЕ ДЕЛАЙТЕ ЭТО, ЕСЛИ ВЫ В ВОЗДУХЕ</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>Ошибка: нет ответа от MAV</value>
   </data>
   <data name="Trying" xml:space="preserve">

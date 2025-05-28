@@ -1057,7 +1057,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
             }
         }
 
@@ -1249,7 +1249,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
             }
         }
 
@@ -1390,7 +1390,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
             }
         }
 
@@ -1545,7 +1545,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (timeout > 30)
                                 {
-                                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                                    CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
                                     return;
                                 }
                             }
@@ -1560,7 +1560,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (timeout > 30)
                                 {
-                                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                                    CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
                                     return;
                                 }
                             }
@@ -1580,7 +1580,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (timeout > 40)
                                 {
-                                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                                    CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
                                     return;
                                 }
                             }
@@ -1596,7 +1596,7 @@ namespace MissionPlanner.GCSViews
 
                             if (timeout > 30)
                             {
-                                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                                CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
                                 return;
                             }
                         }

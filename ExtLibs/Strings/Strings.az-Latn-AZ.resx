@@ -213,7 +213,7 @@
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>Parametrləri yeniləyin. Diqqət HAVADA OLDUGUNUZ ZAMAN BUNU ETMƏYİN!</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>Xəta :MAV sorğuya cavab vermir.</value>
   </data>
   <data name="Trying" xml:space="preserve">
