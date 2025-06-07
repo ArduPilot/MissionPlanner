@@ -17,8 +17,8 @@ mc:Ignorable="d"
 <Button Name="but_stayoutest" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="446,39,0,0" Width="55" Height="43">stay out fence test</Button>
 <Button Name="but_acbarohight" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,430,0,0" Width="55" Height="36">adjust aircraft baro height</Button>
 <Button Name="but_packetbytes" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,381,0,0" Width="55" Height="43">parse packet bytes</Button>
-<Button Name="but_hwids" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,352,0,0" Width="55" Height="23">decode HWID's</Button>
-<Button Name="but_disablearmswitch" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,129,0,0" Width="55" Height="43">Toggle Saftey Switch</Button>
+<Button Name="but_hwids" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,352,0,0" Width="55" Height="23">decode HWIDs</Button>
+<Button Name="but_disablearmswitch" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,129,0,0" Width="55" Height="43">Toggle Safety Switch</Button>
 <Button Name="but_messageinterval" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,180,0,0" Width="55" Height="23">Message Interval</Button>
 <Button Name="but_3dmap" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,323,0,0" Width="55" Height="23">3D Map</Button>
 <Button Name="but_blupdate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="424,265,0,0" Width="55" Height="52">Bootloader Upgrade</Button>
@@ -52,7 +52,7 @@ mc:Ignorable="d"
 <Button Name="but_anonlog" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,234,0,0" Width="113" Height="15">Anon Log</Button>
 <Button Name="but_dashware" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,444,0,0" Width="113" Height="15">DashWare</Button>
 <TextBlock Name="label26" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,525,0,0" Width="66" Height="17">tlog browser</TextBlock>
-<TextBlock Name="label25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,504,0,0" Width="181" Height="17">create map jpg's for all tlogs in a dir</TextBlock>
+<TextBlock Name="label25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,504,0,0" Width="181" Height="17">create map JPGs for all TLogs in a dir</TextBlock>
 <TextBlock Name="label24" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,483,0,0" Width="143" Height="17">run the gimbal pointing algo</TextBlock>
 <TextBlock Name="label23" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,462,0,0" Width="114" Height="17">quad: arm and takeoff</TextBlock>
 <TextBlock Name="label21" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,420,0,0" Width="145" Height="17">struct conversion speed test</TextBlock>
@@ -62,13 +62,13 @@ mc:Ignorable="d"
 <Button Name="butlogindex" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,528,0,0" Width="113" Height="17">logindex</Button>
 <Button Name="but_armandtakeoff" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,465,0,0" Width="113" Height="15">arm and takeoff</Button>
 <Button Name="but_maplogs" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,507,0,0" Width="113" Height="15">map logs</Button>
-<TextBlock Name="label17" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,336,0,0" Width="228" Height="17">sort tlogs into there type and sysid directorys</TextBlock>
+<TextBlock Name="label17" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,336,0,0" Width="228" Height="17">Sort TLogs into their type and sysid directories</TextBlock>
 <Button Name="but_gimbaltest" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,486,0,0" Width="113" Height="15">gimbal test</Button>
 <Button Name="but_structtest" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,423,0,0" Width="113" Height="15">structtest</Button>
 <TextBlock Name="label15" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,294,0,0" Width="265" Height="17">create a exclusive passthrough to the gps (port 500)</TextBlock>
 <TextBlock Name="label14" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,273,0,0" Width="123" Height="17">follow the leader swarm</TextBlock>
 <TextBlock Name="label13" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,252,0,0" Width="136" Height="17">multi mav swarm interface</TextBlock>
-<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,210,0,0" Width="162" Height="17">convert shp file ot a polygon file</TextBlock>
+<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,210,0,0" Width="162" Height="17">convert shp file to a polygon file</TextBlock>
 <TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,189,0,0" Width="279" Height="17">show an extra icon on the map of your current location.</TextBlock>
 <TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,168,0,0" Width="211" Height="17">overlay the hud into your recorded videos</TextBlock>
 <Button Name="BUT_clearcustommaps" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,402,0,0" Width="113" Height="15">Clear Custom Maps</Button>
