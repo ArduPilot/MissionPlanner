@@ -17,14 +17,7 @@
     <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -202,7 +195,7 @@
     <value>GPS-трек (черный)</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
-    <value>Arm/Disarm</value>
+    <value>Включить/Выключить</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Вверх</value>
@@ -324,6 +317,12 @@
   <data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Загрузить файл</value>
   </data>
+  <data name="customizeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Настроить</value>
+  </data>
+  <data name="multiLineToolStripMenuItem.Text" xml:space="preserve">
+    <value>Многострочный</value>
+  </data>
   <data name="BUTactiondo.ToolTip" xml:space="preserve">
     <value>Выполняет действие из списка</value>
   </data>
@@ -341,6 +340,21 @@
   </data>
   <data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
     <value>Поменять местами с картой</value>
+  </data>
+  <data name="groundColorToolStripMenuItem.Text" xml:space="preserve">
+    <value>Цвет земли</value>
+  </data>
+  <data name="setBatteryCellCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>Количество ячеек батареи</value>
+  </data>
+  <data name="showIconsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Показывать иконки</value>
+  </data>
+  <data name="setViewCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>Количество окон</value>
+  </data>
+  <data name="undockToolStripMenuItem.Text" xml:space="preserve">
+    <value>Отсоединить</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
     <value>Кратко</value>
