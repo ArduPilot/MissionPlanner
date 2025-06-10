@@ -2081,7 +2081,7 @@
     <parameter default="5.0" name="MPC_VELD_LP" type="FLOAT">
       <short_desc>Частота среза ФНЧ для численного дифференцирования скорости</short_desc>
       <min>0.0</min>
-      <unit>Hz</unit>
+      <unit>Гц</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="6.0" name="MPC_ACC_HOR_MAX" type="FLOAT">
