@@ -267,7 +267,7 @@
       <long_desc>Определяет ёмкость подключённой батареи.</long_desc>
       <min>-1.0</min>
       <max>100000</max>
-      <unit>mA</unit>
+      <unit>мА</unit>
       <decimal>0</decimal>
       <increment>50</increment>
     </parameter>
@@ -289,7 +289,7 @@
       <long_desc>Задаёт время между последовательными срабатываниями триггера.</long_desc>
       <min>4.0</min>
       <max>10000.0</max>
-      <unit>milliseconds</unit>
+      <unit>мс</unit>
     </parameter>
     <parameter default="0" name="TRIG_POLARITY" type="INT32">
       <short_desc>Полярность сигнала триггера камеры</short_desc>
@@ -300,7 +300,7 @@
     <parameter default="0.5" name="TRIG_ACT_TIME" type="FLOAT">
       <short_desc>Время активации триггера камеры</short_desc>
       <long_desc>Задаёт время, на которое триггер переводится в активное состояние.</long_desc>
-      <unit>milliseconds</unit>
+      <unit>мс</unit>
     </parameter>
     <parameter default="0" name="TRIG_MODE" type="INT32">
       <short_desc>Режим срабатывания камеры</short_desc>
@@ -318,7 +318,7 @@
       <short_desc>Дистанция срабатывания камеры</short_desc>
       <long_desc>Устанавливает дистанцию, на которой должна сработать камера.</long_desc>
       <min>0</min>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
   </group>
   <group name="Предохранители">
@@ -393,7 +393,7 @@
       <long_desc>Через указанное количество секунд без связи включается режим потери связи</long_desc>
       <min>0</min>
       <max>30</max>
-      <unit>second</unit>
+      <unit>с</unit>
       <decimal>1</decimal>
       <increment>0.5</increment>
     </parameter>
@@ -402,7 +402,7 @@
       <long_desc>После восстановления связи флаг "потеря связи" сбросится после указанного времени устойчивой работы</long_desc>
       <min>0</min>
       <max>30</max>
-      <unit>second</unit>
+      <unit>с</unit>
       <decimal>1</decimal>
       <increment>0.5</increment>
     </parameter>
@@ -419,7 +419,7 @@
       <long_desc>Обнаружение отказа двигателя срабатывает только при токе ниже этого значения</long_desc>
       <min>0.0</min>
       <max>50.0</max>
-      <unit>ampere</unit>
+      <unit>А</unit>
       <decimal>2</decimal>
       <increment>1</increment>
     </parameter>
@@ -428,7 +428,7 @@
       <long_desc>Отказ двигателя фиксируется, если пороги газа и тока нарушаются в течение указанного времени</long_desc>
       <min>0.0</min>
       <max>60.0</max>
-      <unit>second</unit>
+      <unit>с</unit>
       <decimal>1</decimal>
       <increment>1</increment>
     </parameter>
@@ -437,7 +437,7 @@
       <long_desc>Через указанное время без связи с пультом устанавливается признак потери управления</long_desc>
       <min>0</min>
       <max>35</max>
-      <unit>second</unit>
+      <unit>с</unit>
       <decimal>1</decimal>
       <increment>0.1</increment>
     </parameter>
@@ -446,7 +446,7 @@
       <long_desc>Домашняя точка устанавливается, если оценка точности позиции ниже этого порога</long_desc>
       <min>2</min>
       <max>15</max>
-      <unit>meter</unit>
+      <unit>м</unit>
       <decimal>2</decimal>
       <increment>0.5</increment>
     </parameter>
@@ -455,7 +455,7 @@
       <long_desc>Домашняя точка устанавливается, если оценка точности позиции ниже этого порога</long_desc>
       <min>5</min>
       <max>25</max>
-      <unit>meter</unit>
+      <unit>м</unit>
       <decimal>2</decimal>
       <increment>0.5</increment>
     </parameter>
@@ -465,8 +465,8 @@
       <min>0</min>
       <max>1</max>
       <values>
-        <value code="1">Enabled</value>
-        <value code="0">Disabled</value>
+        <value code="1">Включено</value>
+        <value code="0">Выключено</value>
       </values>
     </parameter>
     <parameter default="0" name="COM_RC_IN_MODE" type="INT32">
@@ -485,7 +485,7 @@
       <long_desc>Положительное значение задаёт время в секундах, через которое аппарат автоматически разармится после обнаружения посадки. Ноль отключает функцию.</long_desc>
       <min>0</min>
       <max>20</max>
-      <unit>second</unit>
+      <unit>с</unit>
       <decimal>0</decimal>
       <increment>1</increment>
     </parameter>
@@ -495,7 +495,7 @@
       <short_desc>Время ожидания на точке удержания связи</short_desc>
       <long_desc>Время, в течение которого система должна ждать на точке удержания связи</long_desc>
       <min>0.0</min>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
     <parameter default="-266072120" name="NAV_DLL_CH_LAT" type="INT32">
       <short_desc>Широта точки удержания связи</short_desc>
@@ -516,13 +516,13 @@
       <long_desc>Высота точки удержания связи</long_desc>
       <min>-50</min>
       <max>30000</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="120.0" name="NAV_DLL_AH_T" type="FLOAT">
       <short_desc>Время ожидания на точке аэродрома</short_desc>
       <long_desc>Время, в течение которого система ждёт на точке домашнего аэродрома</long_desc>
       <min>0.0</min>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
     <parameter default="2" name="NAV_DLL_N" type="INT32">
       <short_desc>Допустимое число потерь связи</short_desc>
@@ -554,7 +554,7 @@
       <short_desc>Высота домашнего аэродрома</short_desc>
       <long_desc>Высота точки домашнего аэродрома</long_desc>
       <min>-50</min>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
   </group>
   <group name="EKF2">
@@ -562,25 +562,25 @@
       <short_desc>Задержка измерений магнитометра относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
-      <unit>ms</unit>
+      <unit>мс</unit>
     </parameter>
     <parameter default="0" name="EKF2_BARO_DELAY" type="FLOAT">
       <short_desc>Задержка измерений барометра относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
-      <unit>ms</unit>
+      <unit>мс</unit>
     </parameter>
     <parameter default="200" name="EKF2_GPS_DELAY" type="FLOAT">
       <short_desc>Задержка измерений GPS относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
-      <unit>ms</unit>
+      <unit>мс</unit>
     </parameter>
     <parameter default="200" name="EKF2_ASP_DELAY" type="FLOAT">
       <short_desc>Задержка измерений воздушной скорости относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
-      <unit>ms</unit>
+      <unit>мс</unit>
     </parameter>
     <parameter default="21" name="EKF2_GPS_CHECK" type="INT32">
       <short_desc>Битовая маска проверок GPS. Биты:
@@ -601,19 +601,19 @@
       <short_desc>Требуемая горизонтальная погрешность GPS (EPH)</short_desc>
       <min>2</min>
       <max>100</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="8.0" name="EKF2_REQ_EPV" type="FLOAT">
       <short_desc>Требуемая вертикальная погрешность GPS (EPV)</short_desc>
       <min>2</min>
       <max>100</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="1.0" name="EKF2_REQ_SACC" type="FLOAT">
       <short_desc>Требуемая точность скорости GPS</short_desc>
       <min>0.5</min>
       <max>5.0</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="6" name="EKF2_REQ_NSATS" type="INT32">
       <short_desc>Минимальное количество спутников для GPS</short_desc>
@@ -631,13 +631,13 @@
       <short_desc>Максимальный горизонтальный дрейф для GPS</short_desc>
       <min>0.1</min>
       <max>1.0</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="0.5" name="EKF2_REQ_VDRIFT" type="FLOAT">
       <short_desc>Максимальный вертикальный дрейф для GPS</short_desc>
       <min>0.1</min>
       <max>1.5</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="1.0e-3" name="EKF2_GYR_NOISE" type="FLOAT">
       <short_desc>Шум гироскопа для прогноза ковариации</short_desc>
@@ -649,7 +649,7 @@
       <short_desc>Шум акселерометра для прогноза ковариации</short_desc>
       <min>0.01</min>
       <max>1.0</max>
-      <unit>m/s/s</unit>
+      <unit>м/с²</unit>
     </parameter>
     <parameter default="7.0e-5" name="EKF2_GYR_B_NOISE" type="FLOAT">
       <short_desc>Шум процесса смещения угловых скоростей</short_desc>
@@ -661,61 +661,61 @@
       <short_desc>Шум процесса смещения ускорения по оси Z</short_desc>
       <min>0.0</min>
       <max>0.01</max>
-      <unit>m/s/s</unit>
+      <unit>м/с²</unit>
     </parameter>
     <parameter default="3.0e-3" name="EKF2_GYR_S_NOISE" type="FLOAT">
       <short_desc>Шум процесса масштаба угловых скоростей</short_desc>
       <min>0.0</min>
       <max>0.01</max>
-      <unit>None</unit>
+      <unit>без единицы</unit>
     </parameter>
     <parameter default="2.5e-2" name="EKF2_MAG_B_NOISE" type="FLOAT">
       <short_desc>Шум процесса смещения датчика и магнитного поля Земли</short_desc>
       <min>0.0</min>
       <max>0.1</max>
-      <unit>Gauss/s</unit>
+      <unit>Гаусс/с</unit>
     </parameter>
     <parameter default="1.0e-1" name="EKF2_WIND_NOISE" type="FLOAT">
       <short_desc>Шум процесса прогноза скорости ветра</short_desc>
       <min>0.0</min>
       <max>1.0</max>
-      <unit>m/s/s</unit>
+      <unit>м/с²</unit>
     </parameter>
     <parameter default="0.5" name="EKF2_GPS_V_NOISE" type="FLOAT">
       <short_desc>Шум измерений горизонтальной скорости GPS</short_desc>
       <min>0.01</min>
       <max>5.0</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="1.0" name="EKF2_GPS_P_NOISE" type="FLOAT">
       <short_desc>Шум измерений положения GPS</short_desc>
       <min>0.01</min>
       <max>10.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="10.0" name="EKF2_NOAID_NOISE" type="FLOAT">
       <short_desc>Шум измерений режима удержания без внешних датчиков</short_desc>
       <min>0.5</min>
       <max>50.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_BARO_NOISE" type="FLOAT">
       <short_desc>Шум измерений барометрической высоты</short_desc>
       <min>0.01</min>
       <max>15.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.17" name="EKF2_HEAD_NOISE" type="FLOAT">
       <short_desc>Шум измерений магнитного курса</short_desc>
       <min>0.01</min>
       <max>1.0</max>
-      <unit>rad</unit>
+      <unit>рад</unit>
     </parameter>
     <parameter default="5.0e-2" name="EKF2_MAG_NOISE" type="FLOAT">
       <short_desc>Шум измерений трёхосевого магнитометра</short_desc>
       <min>0.001</min>
       <max>1.0</max>
-      <unit>Gauss</unit>
+      <unit>Гаусс</unit>
     </parameter>
     <parameter default="0" name="EKF2_MAG_DECL" type="FLOAT">
       <short_desc>Магнитное склонение</short_desc>
@@ -724,12 +724,12 @@
     <parameter default="3.0" name="EKF2_HDG_GATE" type="FLOAT">
       <short_desc>Порог слияния магнитного курса</short_desc>
       <min>1.0</min>
-      <unit>SD</unit>
+      <unit>СКО</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_MAG_GATE" type="FLOAT">
       <short_desc>Порог слияния компонент магнитометра</short_desc>
       <min>1.0</min>
-      <unit>SD</unit>
+      <unit>СКО</unit>
     </parameter>
     <parameter default="7" name="EKF2_DECL_TYPE" type="INT32">
       <short_desc>Битовая маска обработки склонения.
@@ -748,22 +748,22 @@
 Иные значения отключают использование магнитометра</short_desc>
       <min>0</min>
       <max>2</max>
-      <unit>None</unit>
+      <unit>без единицы</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_BARO_GATE" type="FLOAT">
       <short_desc>Порог слияния высоты по барометру</short_desc>
       <min>1.0</min>
-      <unit>SD</unit>
+      <unit>СКО</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_GPS_P_GATE" type="FLOAT">
       <short_desc>Порог слияния горизонтального положения GPS</short_desc>
       <min>1.0</min>
-      <unit>SD</unit>
+      <unit>СКО</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_GPS_V_GATE" type="FLOAT">
       <short_desc>Порог слияния скорости GPS</short_desc>
       <min>1.0</min>
-      <unit>SD</unit>
+      <unit>СКО</unit>
     </parameter>
     <parameter default="0" name="EKF2_REC_RPL" type="INT32">
       <short_desc>При 1 модуль EKF2 публикует сообщения replay для логирования</short_desc>
@@ -777,14 +777,14 @@
       <long_desc>Задержка между шагом по крену и достижением уставки (обратная величина P‑коэффициента). Значение 0.5 с подходит большинству систем. Для мелких самолётов можно уменьшить, но это быстрее изнашивает сервоприводы.</long_desc>
       <min>0.4</min>
       <max>1.0</max>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
     <parameter default="0.4" name="FW_P_TC" type="FLOAT">
       <short_desc>Постоянная времени тангажа</short_desc>
       <long_desc>Задержка между шагом по тангажу и достижением уставки (обратная величина P‑коэффициента). Значение 0.5 с подходит большинству систем. Для мелких самолётов можно уменьшить, но это быстрее изнашивает сервоприводы.</long_desc>
       <min>0.2</min>
       <max>1.0</max>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
     <parameter default="0.08" name="FW_PR_P" type="FLOAT">
       <short_desc>Пропорциональный коэффициент скорости тангажа</short_desc>
@@ -920,35 +920,35 @@
     <parameter default="1000.0" name="FW_YCO_VMIN" type="FLOAT">
       <short_desc>Минимальная скорость для координации рысканья</short_desc>
       <long_desc>При скоростях выше этого значения рысканье рассчитывается для координированного разворота. Чтобы отключить, задайте очень большое значение.</long_desc>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="0" name="FW_YCO_METHOD" type="INT32">
       <short_desc>Метод расчёта рысканья</short_desc>
       <long_desc>Определяет способ вычисления рысканья: 0 — открытый контур с нулевым боковым ускорением по кинематическим ограничениям, 1 — замкнутый контур с измерением бокового ускорения.</long_desc>
       <min>0</min>
       <max>1</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="10.0" name="FW_AIRSPD_MIN" type="FLOAT">
       <short_desc>Минимальная воздушная скорость</short_desc>
       <long_desc>При снижении скорости ниже этого значения TECS будет активнее её увеличивать.</long_desc>
       <min>0.0</min>
       <max>40</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="15.0" name="FW_AIRSPD_TRIM" type="FLOAT">
       <short_desc>Номинальная воздушная скорость</short_desc>
       <long_desc>TECS стремится поддерживать эту скорость.</long_desc>
       <min>0.0</min>
       <max>40</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="20.0" name="FW_AIRSPD_MAX" type="FLOAT">
       <short_desc>Максимальная воздушная скорость</short_desc>
       <long_desc>Если скорость выше этого значения, TECS будет активнее её снижать.</long_desc>
       <min>0.0</min>
       <max>40</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="0.0" name="FW_RSP_OFF" type="FLOAT">
       <short_desc>Смещение уставки крена</short_desc>
@@ -1053,7 +1053,7 @@
       <short_desc>Время ожидания</short_desc>
       <long_desc>Время в секундах, в течение которого система выполняет открытый круг ожидания и ждёт восстановления GPS перед завершением полёта.</long_desc>
       <min>0.0</min>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
     <parameter default="15.0" name="NAV_GPSF_R" type="FLOAT">
       <short_desc>Крен при свободном ожидании</short_desc>
@@ -1105,13 +1105,13 @@
       <short_desc>Максимальная горизонтальная дистанция, м</short_desc>
       <long_desc>Установите &gt; 0, чтобы активировать действие геозоны при превышении горизонтальной дистанции от дома.</long_desc>
       <min>-1</min>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="-1" name="GF_MAX_VER_DIST" type="INT32">
       <short_desc>Максимальная вертикальная дистанция, м</short_desc>
       <long_desc>Установите &gt; 0, чтобы активировать действие геозоны при превышении вертикальной дистанции от дома.</long_desc>
       <min>-1</min>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
   </group>
   <group name="Подвес">
@@ -1223,20 +1223,20 @@
       <short_desc>Высота выравнивания (относительно посадочной)</short_desc>
       <min>0.0</min>
       <max>25.0</max>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="-1.0" name="FW_LND_TLALT" type="FLOAT">
       <short_desc>Высота ограничения газа при посадке (относительно посадочной)</short_desc>
       <long_desc>Значение -1 означает ограничение газа на 2/3 высоты выравнивания.</long_desc>
       <min>-1.0</min>
       <max>30.0</max>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="15.0" name="FW_LND_HHDIST" type="FLOAT">
       <short_desc>Горизонтальная дистанция удержания курса при посадке</short_desc>
       <min>0</min>
       <max>30.0</max>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0" name="FW_LND_USETER" type="INT32">
       <short_desc>Использовать оценку рельефа при посадке</short_desc>
@@ -1267,12 +1267,12 @@
     <parameter default="0.70" name="LNDMC_Z_VEL_MAX" type="FLOAT">
       <short_desc>Максимальная вертикальная скорость мультикоптера</short_desc>
       <long_desc>Допустимая вертикальная скорость в состоянии "на земле" (м/с вверх и вниз)</long_desc>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="1.50" name="LNDMC_XY_VEL_MAX" type="FLOAT">
       <short_desc>Максимальная горизонтальная скорость мультикоптера</short_desc>
       <long_desc>Допустимая горизонтальная скорость в состоянии "на земле" (м/с)</long_desc>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="20.0" name="LNDMC_ROT_MAX" type="FLOAT">
       <short_desc>Максимальная угловая скорость мультикоптера</short_desc>
@@ -1290,28 +1290,28 @@
       <long_desc>Допустимая горизонтальная скорость самолёта в состоянии "на земле" (м/с)</long_desc>
       <min>0.5</min>
       <max>10</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="10.0" name="LNDFW_VEL_Z_MAX" type="FLOAT">
       <short_desc>Максимальная вертикальная скорость самолёта</short_desc>
       <long_desc>Допустимая вертикальная скорость самолёта в состоянии "на земле" (м/с вверх и вниз)</long_desc>
       <min>5</min>
       <max>20</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="4.0" name="LNDFW_VELI_MAX" type="FLOAT">
       <short_desc>Максимальная кратковременная скорость самолёта</short_desc>
       <long_desc>Допустимая интегральная скорость по направлению полёта в состоянии "на земле" (м/с)</long_desc>
       <min>2</min>
       <max>10</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="8.00" name="LNDFW_AIRSPD_MAX" type="FLOAT">
       <short_desc>Максимальная воздушная скорость</short_desc>
       <long_desc>Допустимая воздушная скорость в состоянии "на земле" (м/с)</long_desc>
       <min>4</min>
       <max>20</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
   </group>
   <group name="Обнаружение запуска">
@@ -1334,7 +1334,7 @@
       <short_desc>Задержка включения двигателя</short_desc>
       <long_desc>Интервал между запуском управления ориентацией и подачей газа (передачей управления газом контроллеру). До его окончания газ устанавливается в значение FW_THR_IDLE. Установите 0 для отключения.</long_desc>
       <min>0</min>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
     <parameter default="30.0" name="LAUN_CAT_PMAX" type="FLOAT">
       <short_desc>Максимальный тангаж до включения газа (фаза задержки двигателя)</short_desc>
@@ -1355,19 +1355,19 @@
       <short_desc>СКО оптического потока по осям XY</short_desc>
       <min>0.01</min>
       <max>1</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.2" name="LPE_SNR_Z" type="FLOAT">
       <short_desc>СКО сонарного датчика по оси Z</short_desc>
       <min>0.01</min>
       <max>1</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.03" name="LPE_LDR_Z" type="FLOAT">
       <short_desc>СКО лидарного датчика по оси Z</short_desc>
       <min>0.01</min>
       <max>1</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.0454" name="LPE_ACC_XY" type="FLOAT">
       <short_desc>СКО акселерометра по осям XY</short_desc>
@@ -1387,49 +1387,49 @@
       <short_desc>СКО барометрической высоты</short_desc>
       <min>0.01</min>
       <max>3</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="2.0" name="LPE_GPS_XY" type="FLOAT">
       <short_desc>СКО координат GPS по XY</short_desc>
       <min>0.01</min>
       <max>5</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="10.0" name="LPE_GPS_Z" type="FLOAT">
       <short_desc>СКО высоты GPS</short_desc>
       <min>0.01</min>
       <max>20</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.275" name="LPE_GPS_VXY" type="FLOAT">
       <short_desc>СКО горизонтальной скорости GPS</short_desc>
       <min>0.01</min>
       <max>2</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="0.237" name="LPE_GPS_VZ" type="FLOAT">
       <short_desc>СКО вертикальной скорости GPS</short_desc>
       <min>0.01</min>
       <max>2</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="3.0" name="LPE_EPH_MAX" type="FLOAT">
       <short_desc>Максимальное значение EPH GPS</short_desc>
       <min>1.0</min>
       <max>5.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.5" name="LPE_VIS_XY" type="FLOAT">
       <short_desc>СКО визуального трекинга по XY</short_desc>
       <min>0.01</min>
       <max>1</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.5" name="LPE_VIS_Z" type="FLOAT">
       <short_desc>СКО визуального трекинга по Z</short_desc>
       <min>0.01</min>
       <max>2</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0" name="LPE_NO_VISION" type="INT32">
       <short_desc>Предохранитель для отключения входа системы зрения</short_desc>
@@ -1441,7 +1441,7 @@
       <short_desc>СКО позиции по системе Vicon</short_desc>
       <min>0.01</min>
       <max>1</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.0" name="LPE_PN_P" type="FLOAT">
       <short_desc>Мощность шума процесса для координат (дисперсия×частота)</short_desc>
@@ -1453,13 +1453,13 @@
       <short_desc>Мощность шума процесса для скорости (дисперсия×частота)</short_desc>
       <min>0</min>
       <max>5</max>
-      <unit>(m/s)-s</unit>
+      <unit>(м/с)·с</unit>
     </parameter>
     <parameter default="1e-8" name="LPE_PN_B" type="FLOAT">
       <short_desc>Мощность шума процесса смещения акселерометра (дисперсия×частота)</short_desc>
       <min>0</min>
       <max>1</max>
-      <unit>(m/s)-s</unit>
+      <unit>(м/с)·с</unit>
     </parameter>
     <parameter default="1000.0" name="LPE_BETA_MAX" type="FLOAT">
       <short_desc>Порог обнаружения отказа (распределение χ²)</short_desc>
@@ -1514,7 +1514,7 @@
     <parameter default="2.5" name="MIS_TAKEOFF_ALT" type="FLOAT">
       <short_desc>Высота взлёта</short_desc>
       <long_desc>Даже если первая точка имеет высоту ниже MIS_TAKEOFF_ALT относительно домашней, при взлёте аппарат наберёт эту высоту, затем полетит к точке.</long_desc>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="1" name="MIS_ONBOARD_EN" type="INT32">
       <short_desc>Постоянное хранение миссий на борту</short_desc>
@@ -1556,14 +1556,14 @@
       <long_desc>Используется по умолчанию для миссий, удержания, RTL и др. (только для самолётов).</long_desc>
       <min>25</min>
       <max>1000</max>
-      <unit>meter</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="10.0" name="NAV_ACC_RAD" type="FLOAT">
       <short_desc>Радиус завершения</short_desc>
       <long_desc>Радиус завершения по умолчанию; может быть переопределён параметром точки.</long_desc>
       <min>0.05</min>
       <max>200.0</max>
-      <unit>meter</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0" name="NAV_DLL_OBC" type="INT32">
       <short_desc>Режим OBC при потере связи</short_desc>
@@ -1636,7 +1636,7 @@
       <long_desc>Пропорциональный коэффициент тангажа, т.е. требуемая угловая скорость (рад/с) при ошибке 1 рад.</long_desc>
       <min>0.0</min>
       <max>10</max>
-      <unit>1/s</unit>
+      <unit>1/с</unit>
       <decimal>2</decimal>
       <increment>0.0005</increment>
     </parameter>
@@ -1673,7 +1673,7 @@
       <long_desc>Пропорциональный коэффициент рысканья, т.е. требуемая угловая скорость (рад/с) при ошибке 1 рад.</long_desc>
       <min>0.0</min>
       <max>5</max>
-      <unit>1/s</unit>
+      <unit>1/с</unit>
       <decimal>2</decimal>
       <increment>0.1</increment>
     </parameter>
@@ -1807,7 +1807,7 @@
       <short_desc>Коэффициент P по тангажу</short_desc>
       <long_desc>Пропорциональный коэффициент тангажа: желаемая угловая скорость в рад/с при ошибке 1 рад.</long_desc>
       <min>0.0</min>
-      <unit>1/s</unit>
+      <unit>1/с</unit>
     </parameter>
     <parameter default="0.1" name="MP_PITCHRATE_P" type="FLOAT">
       <short_desc>Повышение скорости ptg</short_desc>
@@ -1828,7 +1828,7 @@
       <short_desc>Рыскание</short_desc>
       <long_desc>Пропорциональный коэффициент рысканья: желаемая угловая скорость в рад/с при ошибке 1 рад.</long_desc>
       <min>0.0</min>
-      <unit>1/s</unit>
+      <unit>1/с</unit>
     </parameter>
     <parameter default="0.3" name="MP_YAWRATE_P" type="FLOAT">
       <short_desc>Повышение рыскания p</short_desc>
@@ -1852,7 +1852,7 @@
       <max>1.0</max>
     </parameter>
     <parameter default="60.0" name="MP_YAWRATE_MAX" type="FLOAT">
-      <short_desc>Максимальный показатель рыскания</short_desc>
+      <short_desc>Максимальная скорость рыскания</short_desc>
       <long_desc>Ограничение скорости рысканья при больших разворотах в автономных режимах, чтобы избежать насыщения микшера.</long_desc>
       <min>0.0</min>
       <max>360.0</max>
@@ -1876,19 +1876,19 @@
       <unit>°/с</unit>
     </parameter>
     <parameter default="35.0" name="MPP_MAN_R_MAX" type="FLOAT">
-      <short_desc>Максимальный рулет</short_desc>
+      <short_desc>Максимальный крен</short_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>°</unit>
     </parameter>
     <parameter default="35.0" name="MPP_MAN_P_MAX" type="FLOAT">
-      <short_desc>Максимальный ручный шаг</short_desc>
+      <short_desc>Максимальный тангаж</short_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>°</unit>
     </parameter>
     <parameter default="120.0" name="MPP_MAN_Y_MAX" type="FLOAT">
-      <short_desc>Максимальный ручный показатель рыскания</short_desc>
+      <short_desc>Максимальная ручная скорость рыскания</short_desc>
       <min>0.0</min>
       <unit>°/с</unit>
     </parameter>
@@ -1966,7 +1966,7 @@
       <long_desc>Максимальная вертикальная скорость в режиме AUTO и предельное значение для режимов ALTCTRL и POSCTRL.</long_desc>
       <min>0.0</min>
       <max>8.0</max>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
       <decimal>1</decimal>
     </parameter>
     <parameter default="0.5" name="MPC_Z_FF" type="FLOAT">
@@ -2001,7 +2001,7 @@
       <short_desc>Максимальная горизонтальная скорость</short_desc>
       <long_desc>Максимальная горизонтальная скорость в режиме AUTO и предел для режима позиционного удержания (POSCTRL).</long_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="0.5" name="MPC_XY_FF" type="FLOAT">
@@ -2028,33 +2028,33 @@
       <decimal>1</decimal>
     </parameter>
     <parameter default="0.5" name="MPC_LAND_SPEED" type="FLOAT">
-      <short_desc>Посадка на спуск</short_desc>
+      <short_desc>Скорость снижения при посадке</short_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
       <decimal>1</decimal>
     </parameter>
     <parameter default="1.5" name="MPC_TKO_SPEED" type="FLOAT">
-      <short_desc>Ставка взлета</short_desc>
+      <short_desc>Скорость взлёта</short_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="35.0" name="MPC_MAN_R_MAX" type="FLOAT">
-      <short_desc>Максимальный рулет</short_desc>
+      <short_desc>Максимальный крен</short_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>°</unit>
       <decimal>1</decimal>
     </parameter>
     <parameter default="35.0" name="MPC_MAN_P_MAX" type="FLOAT">
-      <short_desc>Максимальный ручный шаг</short_desc>
+      <short_desc>Максимальный тангаж</short_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>°</unit>
       <decimal>1</decimal>
     </parameter>
     <parameter default="200.0" name="MPC_MAN_Y_MAX" type="FLOAT">
-      <short_desc>Максимальный ручный показатель рыскания</short_desc>
+      <short_desc>Максимальная ручная скорость рыскания</short_desc>
       <min>0.0</min>
       <unit>°/с</unit>
       <decimal>1</decimal>
@@ -2069,13 +2069,13 @@
     <parameter default="0.8" name="MPC_HOLD_MAX_XY" type="FLOAT">
       <short_desc>Максимальная горизонтальная скорость, при которой возможно удержание позиции (0 — без ограничения)</short_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="0.6" name="MPC_HOLD_MAX_Z" type="FLOAT">
       <short_desc>Максимальная вертикальная скорость, при которой возможно удержание позиции (0 — без ограничения)</short_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="5.0" name="MPC_VELD_LP" type="FLOAT">
@@ -2088,7 +2088,7 @@
       <short_desc>Максимальное горизонтальное ускорение в режимах управления скоростью</short_desc>
       <min>2.0</min>
       <max>10.0</max>
-      <unit>m/s/s</unit>
+      <unit>м/с²</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="0.1" name="MPP_THR_MIN" type="FLOAT">
@@ -2124,7 +2124,7 @@
       <short_desc>Максимальная вертикальная скорость</short_desc>
       <long_desc>Максимальная вертикальная скорость в режиме AUTO и предел в стабилизированных режимах (ALTCTRL).</long_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="0.5" name="MPP_Z_FF" type="FLOAT">
       <short_desc>Коэффициент упреждения вертикальной скорости</short_desc>
@@ -2153,7 +2153,7 @@
       <short_desc>Максимальная горизонтальная скорость</short_desc>
       <long_desc>Максимальная горизонтальная скорость в режиме AUTO и предел для режима позиционного удержания (POSCTRL).</long_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
     <parameter default="0.5" name="MPP_XY_FF" type="FLOAT">
       <short_desc>Коэффициент упреждения горизонтальной скорости</short_desc>
@@ -2176,9 +2176,9 @@
       <unit>°</unit>
     </parameter>
     <parameter default="1.0" name="MPP_LAND_SPEED" type="FLOAT">
-      <short_desc>Посадка на спуск</short_desc>
+      <short_desc>Скорость снижения при посадке</short_desc>
       <min>0.0</min>
-      <unit>m/s</unit>
+      <unit>м/с</unit>
     </parameter>
   </group>
   <group name="ШИМ выходы">
@@ -2291,7 +2291,7 @@
       <long_desc>ВНИМАНИЕ: изменение этого параметра требует полной перезагрузки системы. Полностью обесточьте аппарат, чтобы применить изменения. Установите 1000 для стандартного значения или 900 для увеличения хода сервоприводов.</long_desc>
       <min>800</min>
       <max>1400</max>
-      <unit>microseconds</unit>
+      <unit>мкс</unit>
       <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="2000" name="PWM_MAX" type="INT32">
@@ -2299,7 +2299,7 @@
       <long_desc>ВНИМАНИЕ: изменение этого параметра требует полной перезагрузки системы. Полностью обесточьте аппарат, чтобы применить изменения. Установите 2000 для стандартного значения или 2100 для увеличения хода сервоприводов.</long_desc>
       <min>1600</min>
       <max>2200</max>
-      <unit>microseconds</unit>
+      <unit>мкс</unit>
       <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="0" name="PWM_DISARMED" type="INT32">
@@ -2307,7 +2307,7 @@
       <long_desc>ВНИМАНИЕ: изменение этого параметра требует полной перезагрузки системы. Полностью обесточьте аппарат, чтобы применить изменения. Это импульс PWM, который контроллер выдаёт в разоружённом состоянии. Основное назначение — отключить звук ESC при разоружении.</long_desc>
       <min>0</min>
       <max>2200</max>
-      <unit>microseconds</unit>
+      <unit>мкс</unit>
       <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="1000" name="PWM_AUX_MIN" type="INT32">
@@ -2315,7 +2315,7 @@
       <long_desc>ВНИМАНИЕ: изменение этого параметра требует полной перезагрузки системы. Полностью обесточьте аппарат, чтобы применить изменения. Установите 1000 по умолчанию или 900 для увеличения хода сервоприводов</long_desc>
       <min>800</min>
       <max>1400</max>
-      <unit>microseconds</unit>
+      <unit>мкс</unit>
       <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="2000" name="PWM_AUX_MAX" type="INT32">
@@ -2323,7 +2323,7 @@
       <long_desc>ВНИМАНИЕ: изменение этого параметра требует полной перезагрузки системы. Полностью обесточьте аппарат, чтобы применить изменения. Установите 2000 по умолчанию или 2100 для увеличения хода сервоприводов</long_desc>
       <min>1600</min>
       <max>2200</max>
-      <unit>microseconds</unit>
+      <unit>мкс</unit>
       <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="1000" name="PWM_AUX_DISARMED" type="INT32">
@@ -2331,7 +2331,7 @@
       <long_desc>ВНИМАНИЕ: изменение этого параметра требует полной перезагрузки системы. Полностью обесточьте аппарат, чтобы применить изменения. Это импульс PWM, который контроллер выдаёт в разоружённом состоянии. Основное назначение — отключить звук ESC при разоружении.</long_desc>
       <min>0</min>
       <max>2200</max>
-      <unit>microseconds</unit>
+      <unit>мкс</unit>
       <reboot_required>true</reboot_required>
     </parameter>
   </group>
@@ -2348,21 +2348,21 @@
       <long_desc>Известный минимальный радиус разворота. Используйте большее значение, чтобы самолёт выполнял манёвр подальше от точки сброса и крылья были выровнены.</long_desc>
       <min>30.0</min>
       <max>500.0</max>
-      <unit>meter</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="30.0" name="BD_PRECISION" type="FLOAT">
       <short_desc>Точность сброса</short_desc>
       <long_desc>Если при пролёте над точкой сброса дистанция меньше указанной, груз будет сброшен. Это защита от чрезмерного отклонения от требуемой точности.</long_desc>
       <min>1.0</min>
       <max>80.0</max>
-      <unit>meter</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.1" name="BD_OBJ_CD" type="FLOAT">
       <short_desc>Коэффициент сопротивления сбрасываемого объекта</short_desc>
       <long_desc>Коэффициент аэродинамического сопротивления (cd). Зависит от формы объекта; выберите ближайшую простую форму. См. http://ru.wikipedia.org/wiki/Drag_coefficient</long_desc>
       <min>0.08</min>
       <max>1.5</max>
-      <unit>meter</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.6" name="BD_OBJ_MASS" type="FLOAT">
       <short_desc>Масса сбрасываемого объекта</short_desc>
@@ -2615,7 +2615,7 @@
       <long_desc>Если ошибка измерения сонара превышает это значение, результат отбрасывается как всплеск или принимается за новый уровень поверхности при стабильном смещении.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="3.0" name="INAV_LAND_T" type="FLOAT">
       <short_desc>Время детектора посадки</short_desc>
@@ -2629,7 +2629,7 @@
       <long_desc>Порог дисперсии для срабатывания детектора посадки.</long_desc>
       <min>0.0</min>
       <max>10.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.2" name="INAV_LAND_THR" type="FLOAT">
       <short_desc>Порог газа детектора посадки</short_desc>
@@ -2649,14 +2649,14 @@
       <long_desc>Компенсация рыскания по X для потока</long_desc>
       <min>-1.0</min>
       <max>1.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0.0" name="INAV_FLOW_DIST_Y" type="FLOAT">
       <short_desc>Смещение модуля потока по Y (центр вращения)</short_desc>
       <long_desc>Компенсация рыскания по Y для потока</long_desc>
       <min>-1.0</min>
       <max>1.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0" name="INAV_DISAB_MOCAP" type="FLOAT">
       <short_desc>Отключить mocap (ставьте 0 при использовании фальш-GPS)</short_desc>
@@ -2675,7 +2675,7 @@
       <long_desc>Смещение калибровки LIDAR, добавляемое к измеренной дистанции</long_desc>
       <min>-20</min>
       <max>20</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="0" name="CBRK_NO_VISION" type="INT32">
       <short_desc>Отключить вход vision</short_desc>
@@ -2720,21 +2720,21 @@
       <long_desc>Минимальное значение канала 1</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500.0" name="RC1_TRIM" type="FLOAT">
       <short_desc>Трим канала 1</short_desc>
       <long_desc>Среднее значение (как и минимум для газа)</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000.0" name="RC1_MAX" type="FLOAT">
       <short_desc>Максимум канала 1</short_desc>
       <long_desc>Максимальное значение канала 1</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC1_REV" type="FLOAT">
       <short_desc>Реверс канала 1</short_desc>
@@ -2747,28 +2747,28 @@
       <long_desc>Диапазон ± этого значения вокруг трима считается нулём.</long_desc>
       <min>0.0</min>
       <max>100.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1000.0" name="RC2_MIN" type="FLOAT">
       <short_desc>Минимум канала 2</short_desc>
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500.0" name="RC2_TRIM" type="FLOAT">
       <short_desc>Трим канала 2</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000.0" name="RC2_MAX" type="FLOAT">
       <short_desc>Максимум канала 2</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC2_REV" type="FLOAT">
       <short_desc>Реверс канала 2</short_desc>
@@ -2781,28 +2781,28 @@
       <long_desc>Диапазон ± этого значения вокруг трима считается нулём.</long_desc>
       <min>0.0</min>
       <max>100.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1000" name="RC3_MIN" type="FLOAT">
       <short_desc>Минимум канала 3</short_desc>
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC3_TRIM" type="FLOAT">
       <short_desc>Трим канала 3</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC3_MAX" type="FLOAT">
       <short_desc>Максимум канала 3</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC3_REV" type="FLOAT">
       <short_desc>Реверс канала 3</short_desc>
@@ -2815,28 +2815,28 @@
       <long_desc>Диапазон ± этого значения вокруг трима считается нулём.</long_desc>
       <min>0.0</min>
       <max>100.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1000" name="RC4_MIN" type="FLOAT">
       <short_desc>Минимальное значение канала 4</short_desc>
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC4_TRIM" type="FLOAT">
       <short_desc>Триммер канала 4</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC4_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 4</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC4_REV" type="FLOAT">
       <short_desc>Инверсия канала 4</short_desc>
@@ -2849,28 +2849,28 @@
       <long_desc>Диапазон ± этого значения вокруг трима считается нулём.</long_desc>
       <min>0.0</min>
       <max>100.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1000" name="RC5_MIN" type="FLOAT">
       <short_desc>Минимальное значение канала 5</short_desc>
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC5_TRIM" type="FLOAT">
       <short_desc>Триммер канала 5</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC5_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 5</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC5_REV" type="FLOAT">
       <short_desc>Инверсия канала 5</short_desc>
@@ -2895,14 +2895,14 @@
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC6_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 6</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC6_REV" type="FLOAT">
       <short_desc>Инверсия канала 6</short_desc>
@@ -2927,14 +2927,14 @@
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC7_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 7</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC7_REV" type="FLOAT">
       <short_desc>Инверсия канала 7</short_desc>
@@ -2953,21 +2953,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC8_TRIM" type="FLOAT">
       <short_desc>Триммер канала 8</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC8_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 8</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC8_REV" type="FLOAT">
       <short_desc>Инверсия канала 8</short_desc>
@@ -2986,21 +2986,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC9_TRIM" type="FLOAT">
       <short_desc>Триммер канала 9</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC9_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 9</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC9_REV" type="FLOAT">
       <short_desc>Инверсия канала 9</short_desc>
@@ -3019,21 +3019,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC10_TRIM" type="FLOAT">
       <short_desc>Триммер канала 10</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC10_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 10</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC10_REV" type="FLOAT">
       <short_desc>Инверсия канала 10</short_desc>
@@ -3052,21 +3052,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC11_TRIM" type="FLOAT">
       <short_desc>Триммер канала 11</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC11_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 11</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC11_REV" type="FLOAT">
       <short_desc>Инверсия канала 11</short_desc>
@@ -3085,21 +3085,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC12_TRIM" type="FLOAT">
       <short_desc>Триммер канала 12</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC12_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 12</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC12_REV" type="FLOAT">
       <short_desc>Инверсия канала 12</short_desc>
@@ -3118,21 +3118,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC13_TRIM" type="FLOAT">
       <short_desc>Триммер канала 13</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC13_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 13</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC13_REV" type="FLOAT">
       <short_desc>Инверсия канала 13</short_desc>
@@ -3151,21 +3151,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC14_TRIM" type="FLOAT">
       <short_desc>Триммер канала 14</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC14_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 14</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC14_REV" type="FLOAT">
       <short_desc>Инверсия канала 14</short_desc>
@@ -3184,21 +3184,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC15_TRIM" type="FLOAT">
       <short_desc>Триммер канала 15</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC15_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 15</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC15_REV" type="FLOAT">
       <short_desc>Инверсия канала 15</short_desc>
@@ -3217,21 +3217,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC16_TRIM" type="FLOAT">
       <short_desc>Триммер канала 16</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC16_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 16</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC16_REV" type="FLOAT">
       <short_desc>Инверсия канала 16</short_desc>
@@ -3250,21 +3250,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC17_TRIM" type="FLOAT">
       <short_desc>Триммер канала 17</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC17_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 17</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC17_REV" type="FLOAT">
       <short_desc>Инверсия канала 17</short_desc>
@@ -3283,21 +3283,21 @@
       <long_desc>Минимальное значение для этого канала.</long_desc>
       <min>800.0</min>
       <max>1500.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1500" name="RC18_TRIM" type="FLOAT">
       <short_desc>Триммер канала 18</short_desc>
       <long_desc>Среднее значение (должно равняться минимуму для канала газа).</long_desc>
       <min>800.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="2000" name="RC18_MAX" type="FLOAT">
       <short_desc>Максимальное значение канала 18</short_desc>
       <long_desc>Максимальное значение для этого канала.</long_desc>
       <min>1500.0</min>
       <max>2200.0</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="1.0" name="RC18_REV" type="FLOAT">
       <short_desc>Инверсия канала 18</short_desc>
@@ -3523,7 +3523,7 @@
       <long_desc>Установите значение, немного выше значения ШИМ, предполагаемого дроссельной заслонкой в ​​случае сбоя, но убедитесь, что оно ниже значения ШИМ, предполагаемого дросселем во время нормальной работы.</long_desc>
       <min>0</min>
       <max>2200</max>
-      <unit>us</unit>
+      <unit>мкс</unit>
     </parameter>
     <parameter default="0" name="RC_RSSI_PWM_CHAN" type="INT32">
       <short_desc>Шин -канал входного канала, который обеспечивает RSSI</short_desc>
@@ -3549,7 +3549,7 @@
       <short_desc>Время зависания</short_desc>
       <long_desc>Количество времени за секунды, система должна быть в текущем положении, прежде чем завершение установлено в -1, чтобы заставить систему пропустить логирование</long_desc>
       <min>-1.0</min>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
   </group>
   <group name="Радиовыключатели">
@@ -3849,21 +3849,21 @@
       <long_desc>Высота, чтобы вылететь в RTL в метрах</long_desc>
       <min>0</min>
       <max>150</max>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="30" name="RTL_DESCEND_ALT" type="FLOAT">
       <short_desc>Высота зависания RTL</short_desc>
       <long_desc>Оставайтесь на этой высоте над домашним положением после спуска RTL.Земля (то есть медленно спускается) с этой высоты, если разрешено автодинг.</long_desc>
       <min>2</min>
       <max>100</max>
-      <unit>meters</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="-1.0" name="RTL_LAND_DELAY" type="FLOAT">
       <short_desc>RTL задержка</short_desc>
       <long_desc>Задержка после спуска перед посадкой в ​​режиме RTL.Если установлено в -1, система не приземлится, а в NAV_LANL_ALT.</long_desc>
       <min>-1</min>
       <max>300</max>
-      <unit>seconds</unit>
+      <unit>с</unit>
     </parameter>
   </group>
   <group name="Взлёт с полосы">
@@ -3884,7 +3884,7 @@
       <long_desc>До достижения RWTO_NAV_ALT самолёт удерживается горизонтально и курс поддерживается только рулём направления (см. RWTO_HDG). Значение должно быть меньше FW_CLMBOUT_DIFF, если тот &gt; 0.</long_desc>
       <min>0.0</min>
       <max>100.0</max>
-      <unit>m</unit>
+      <unit>м</unit>
     </parameter>
     <parameter default="1.0" name="RWTO_MAX_THR" type="FLOAT">
       <short_desc>Максимальный газ при взлёте с полосы</short_desc>
