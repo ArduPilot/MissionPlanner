@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <parameters>
   <version>3</version>
-  <group name="UAVCAN Motor Parameters" no_code_generation="true">
+  <group name="Параметры моторов UAVCAN" no_code_generation="true">
     <parameter default="75" name="ctl_bw" type="INT32">
       <short_desc>Полоса пропускания контроллера скорости</short_desc>
       <long_desc>Полоса пропускания контроллера скорости в Гц. Более высокие значения приводят к более быстрому набору оборотов и тока, но могут вызвать перерегулирование и повышенное потребление тока. Для самолётов с фиксированным крылом значение должно быть меньше 50 Гц; для мультикоптеров возможны значения до 100 Гц для улучшения отзывчивости.</long_desc>
@@ -114,7 +114,7 @@
       <min>0</min>
     </parameter>
   </group>
-  <group name="Attitude EKF estimator">
+  <group name="Оцениватель положения EKF">
     <parameter default="1e-4" name="EKF_ATT_V3_Q0" type="FLOAT">
       <short_desc>Процессный шум угловой скорости корпуса</short_desc>
     </parameter>
@@ -155,7 +155,7 @@
       <max>1</max>
     </parameter>
   </group>
-  <group name="Attitude Q estimator">
+  <group name="Оцениватель положения Q">
     <parameter default="0.2" name="ATT_W_ACC" type="FLOAT">
       <short_desc>Вес акселерометра в комплементарном фильтре</short_desc>
       <min>0</min>
@@ -214,7 +214,7 @@
       <decimal>2</decimal>
     </parameter>
   </group>
-  <group name="Battery Calibration">
+  <group name="Калибровка аккумулятора">
     <parameter default="3.4" name="BAT_V_EMPTY" type="FLOAT">
       <short_desc>Напряжение разряженной ячейки</short_desc>
       <long_desc>Определяет напряжение, при котором ячейка батареи считается разряженной.</long_desc>
@@ -283,7 +283,7 @@
       <short_desc>Коэффициент масштаба датчика тока батареи</short_desc>
     </parameter>
   </group>
-  <group name="Camera trigger">
+  <group name="Запуск камеры">
     <parameter default="40.0" name="TRIG_INTERVAL" type="FLOAT">
       <short_desc>Интервал срабатывания камеры</short_desc>
       <long_desc>Задаёт время между последовательными срабатываниями триггера.</long_desc>
@@ -321,7 +321,7 @@
       <unit>meters</unit>
     </parameter>
   </group>
-  <group name="Circuit Breaker">
+  <group name="Предохранители">
     <parameter default="0" name="CBRK_SUPPLY_CHK" type="INT32">
       <short_desc>Предохранитель проверки питания</short_desc>
       <long_desc>Значение 894281 отключает проверку питания в командире. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
@@ -377,7 +377,7 @@
       <max>197848</max>
     </parameter>
   </group>
-  <group name="Commander">
+  <group name="Командный модуль">
     <parameter default="0" name="COM_DL_LOSS_EN" type="INT32">
       <short_desc>Включение режима потери связи</short_desc>
       <long_desc>Установите 1, чтобы включить действия при потере телеметрии.</long_desc>
@@ -490,7 +490,7 @@
       <increment>1</increment>
     </parameter>
   </group>
-  <group name="Data Link Loss">
+  <group name="Потеря связи">
     <parameter default="120.0" name="NAV_DLL_CH_T" type="FLOAT">
       <short_desc>Время ожидания на точке удержания связи</short_desc>
       <long_desc>Время, в течение которого система должна ждать на точке удержания связи</long_desc>
@@ -771,7 +771,7 @@
       <max>1</max>
     </parameter>
   </group>
-  <group name="FW Attitude Control">
+  <group name="Управление ориентацией самолёта">
     <parameter default="0.4" name="FW_R_TC" type="FLOAT">
       <short_desc>Постоянная времени крена</short_desc>
       <long_desc>Задержка между шагом по крену и достижением уставки (обратная величина P‑коэффициента). Значение 0.5 с подходит большинству систем. Для мелких самолётов можно уменьшить, но это быстрее изнашивает сервоприводы.</long_desc>
@@ -989,7 +989,7 @@
       <max>1.0</max>
     </parameter>
   </group>
-  <group name="Fixed Wing TECS">
+  <group name="TECS самолёта">
     <parameter default="2.0" name="FW_T_SINK_MIN" type="FLOAT">
       <short_desc>Минимальная скорость снижения</short_desc>
       <long_desc>Скорость снижения при тяге THR_MIN и той же скорости, что использовалась для измерения FW_T_CLMB_MAX.</long_desc>
@@ -1048,7 +1048,7 @@
       <short_desc>Коэффициент P скорости</short_desc>
     </parameter>
   </group>
-  <group name="GPS Failure Navigation">
+  <group name="Навигация при отказе GPS">
     <parameter default="30.0" name="NAV_GPSF_LT" type="FLOAT">
       <short_desc>Время ожидания</short_desc>
       <long_desc>The amount of time in seconds the system should do open loop loiter and wait for gps recovery before it goes into flight termination.</long_desc>
@@ -1076,7 +1076,7 @@
       <max>1.0</max>
     </parameter>
   </group>
-  <group name="Geofence">
+  <group name="Виртуальное ограждение">
     <parameter default="1" name="GF_ACTION" type="INT32">
       <short_desc>Действие при нарушении геозоны</short_desc>
       <long_desc>0 = none, 1 = warning (default), 2 = loiter, 3 = return to launch, 4 = fight termination</long_desc>
@@ -1114,104 +1114,104 @@
       <unit>meters</unit>
     </parameter>
   </group>
-  <group name="Gimbal">
+  <group name="Подвес">
     <parameter default="0" name="GMB_USE_MNT" type="INT32">
-      <short_desc>Consider mount operation mode</short_desc>
-      <long_desc>If set to 1, mount mode will be enforced.</long_desc>
+      <short_desc>Учитывать режим подвеса</short_desc>
+      <long_desc>Если значение 1, будет принудительно установлен режим подвеса.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0" name="GMB_AUX_MNT_CHN" type="INT32">
-      <short_desc>Auxiliary switch to set mount operation mode</short_desc>
-      <long_desc>Set to 0 to disable manual mode control. If set to an auxiliary switch: Switch off means the gimbal is put into safe/locked position. Switch on means the gimbal can move freely, and landing gear will be retracted if applicable.</long_desc>
+      <short_desc>Вспомогательный переключатель выбора режима подвеса</short_desc>
+      <long_desc>При значении 0 ручное управление режимом отключено. Если назначен вспомогательный канал: выключено — подвес фиксируется в безопасном положении, включено — подвес свободно движется и, если возможно, убирает шасси.</long_desc>
       <min>0</min>
       <max>3</max>
     </parameter>
   </group>
-  <group name="L1 Control">
+  <group name="Управление L1">
     <parameter default="20.0" name="FW_L1_PERIOD" type="FLOAT">
-      <short_desc>L1 period</short_desc>
-      <long_desc>This is the L1 distance and defines the tracking point ahead of the aircraft its following. A value of 18-25 meters works for most aircraft. Shorten slowly during tuning until response is sharp without oscillation.</long_desc>
+      <short_desc>Период L1</short_desc>
+      <long_desc>Дистанция L1 определяет точку упреждения перед аппаратом. Для большинства систем подходит 18–25 м. Понижайте постепенно при настройке, пока реакция не станет резкой без колебаний.</long_desc>
       <min>12.0</min>
       <max>50.0</max>
     </parameter>
     <parameter default="0.75" name="FW_L1_DAMPING" type="FLOAT">
-      <short_desc>L1 damping</short_desc>
-      <long_desc>Damping factor for L1 control.</long_desc>
+      <short_desc>Демпфирование L1</short_desc>
+      <long_desc>Коэффициент демпфирования контура L1.</long_desc>
       <min>0.6</min>
       <max>0.9</max>
     </parameter>
     <parameter default="0.6" name="FW_THR_CRUISE" type="FLOAT">
-      <short_desc>Cruise throttle</short_desc>
-      <long_desc>This is the throttle setting required to achieve the desired cruise speed. Most airframes have a value of 0.5-0.7.</long_desc>
+      <short_desc>Крейсерский газ</short_desc>
+      <long_desc>Доля газа для поддержания крейсерской скорости. Обычно 0.5–0.7.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="FW_THR_SLEW_MAX" type="FLOAT">
-      <short_desc>Throttle max slew rate</short_desc>
-      <long_desc>Maximum slew rate for the commanded throttle</long_desc>
+      <short_desc>Максимальная скорость изменения газа</short_desc>
+      <long_desc>Ограничивает скорость изменения команды газа.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="-45.0" name="FW_P_LIM_MIN" type="FLOAT">
-      <short_desc>Negative pitch limit</short_desc>
-      <long_desc>The minimum negative pitch the controller will output.</long_desc>
+      <short_desc>Предел отрицательного тангажа</short_desc>
+      <long_desc>Минимальный отрицательный тангаж, выдаваемый контроллером.</long_desc>
       <min>-60.0</min>
       <max>0.0</max>
       <unit>degrees</unit>
     </parameter>
     <parameter default="45.0" name="FW_P_LIM_MAX" type="FLOAT">
-      <short_desc>Positive pitch limit</short_desc>
-      <long_desc>The maximum positive pitch the controller will output.</long_desc>
+      <short_desc>Предел положительного тангажа</short_desc>
+      <long_desc>Максимальный положительный тангаж, выдаваемый контроллером.</long_desc>
       <min>0.0</min>
       <max>60.0</max>
       <unit>degrees</unit>
     </parameter>
     <parameter default="50.0" name="FW_R_LIM" type="FLOAT">
-      <short_desc>Controller roll limit</short_desc>
-      <long_desc>The maximum roll the controller will output.</long_desc>
+      <short_desc>Предел крена контроллера</short_desc>
+      <long_desc>Максимальный крен, выдаваемый контроллером.</long_desc>
       <min>35.0</min>
       <max>65.0</max>
       <unit>degrees</unit>
     </parameter>
     <parameter default="1.0" name="FW_THR_MAX" type="FLOAT">
-      <short_desc>Throttle limit max</short_desc>
-      <long_desc>This is the maximum throttle % that can be used by the controller. For overpowered aircraft, this should be reduced to a value that provides sufficient thrust to climb at the maximum pitch angle PTCH_MAX.</long_desc>
+      <short_desc>Максимальный предел газа</short_desc>
+      <long_desc>Максимальная доля газа, которую может использовать контроллер. Для слишком мощных аппаратов уменьшите её до значения, достаточного для набора высоты при тангаже PTCH_MAX.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="FW_THR_MIN" type="FLOAT">
-      <short_desc>Throttle limit min</short_desc>
-      <long_desc>This is the minimum throttle % that can be used by the controller. For electric aircraft this will normally be set to zero, but can be set to a small non-zero value if a folding prop is fitted to prevent the prop from folding and unfolding repeatedly in-flight or to provide some aerodynamic drag from a turning prop to improve the descent rate. For aircraft with internal combustion engine this parameter should be set for desired idle rpm.</long_desc>
+      <short_desc>Минимальный предел газа</short_desc>
+      <long_desc>Минимальная доля газа, которую может использовать контроллер. На электролетах обычно ставят 0, но можно выбрать небольшое значение, чтобы винт не складывался и создавал аэродинамическое торможение. Для ДВС установите значение, соответствующее желаемым оборотам холостого хода.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.15" name="FW_THR_IDLE" type="FLOAT">
-      <short_desc>Idle throttle</short_desc>
-      <long_desc>This is the minimum throttle while on the ground For aircraft with internal combustion engine this parameter should be set above desired idle rpm.</long_desc>
+      <short_desc>Газ холостого хода</short_desc>
+      <long_desc>Минимальный газ на земле. Для ДВС значение должно быть выше оборотов холостого хода.</long_desc>
       <min>0.0</min>
       <max>0.4</max>
     </parameter>
     <parameter default="1.0" name="FW_THR_LND_MAX" type="FLOAT">
-      <short_desc>Throttle limit value before flare</short_desc>
-      <long_desc>This throttle value will be set as throttle limit at FW_LND_TLALT, before arcraft will flare.</long_desc>
+      <short_desc>Предел газа перед выравниванием</short_desc>
+      <long_desc>Это значение устанавливается как предел газа на высоте FW_LND_TLALT перед началом выравнивания.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="10.0" name="FW_CLMBOUT_DIFF" type="FLOAT">
-      <short_desc>Climbout Altitude difference</short_desc>
-      <long_desc>If the altitude error exceeds this parameter, the system will climb out with maximum throttle and minimum airspeed until it is closer than this distance to the desired altitude. Mostly used for takeoff waypoints / modes. Set to zero to disable climbout mode (not recommended).</long_desc>
+      <short_desc>Перепад высоты набора</short_desc>
+      <long_desc>Если ошибка высоты больше заданной, система набирает высоту с максимальным газом и минимальной скоростью, пока не приблизится к цели. Обычно используется при взлёте. Значение 0 отключает режим (не рекомендуется).</long_desc>
       <min>0.0</min>
       <max>150.0</max>
     </parameter>
     <parameter default="5.0" name="FW_T_CLMB_MAX" type="FLOAT">
-      <short_desc>Maximum climb rate</short_desc>
+      <short_desc>Максимальная скорость набора</short_desc>
       <long_desc>This is the best climb rate that the aircraft can achieve with the throttle set to THR_MAX and the airspeed set to the default value. For electric aircraft make sure this number can be achieved towards the end of flight when the battery voltage has reduced. The setting of this parameter can be checked by commanding a positive altitude change of 100m in loiter, RTL or guided mode. If the throttle required to climb is close to THR_MAX and the aircraft is maintaining airspeed, then this parameter is set correctly. If the airspeed starts to reduce, then the parameter is set to high, and if the throttle demand required to climb and maintain speed is noticeably less than FW_THR_MAX, then either FW_T_CLMB_MAX should be increased or FW_THR_MAX reduced.</long_desc>
       <min>2.0</min>
       <max>10.0</max>
     </parameter>
     <parameter default="5.0" name="FW_LND_ANG" type="FLOAT">
-      <short_desc>Landing slope angle</short_desc>
+      <short_desc>Угол захода на посадку</short_desc>
       <min>1.0</min>
       <max>15.0</max>
       <unit>degrees</unit>
@@ -1220,50 +1220,50 @@
       <short_desc>FW_LND_HVIRT</short_desc>
     </parameter>
     <parameter default="8.0" name="FW_LND_FLALT" type="FLOAT">
-      <short_desc>Landing flare altitude (relative to landing altitude)</short_desc>
+      <short_desc>Высота выравнивания (относительно посадочной)</short_desc>
       <min>0.0</min>
       <max>25.0</max>
       <unit>meters</unit>
     </parameter>
     <parameter default="-1.0" name="FW_LND_TLALT" type="FLOAT">
-      <short_desc>Landing throttle limit altitude (relative landing altitude)</short_desc>
-      <long_desc>Default of -1.0f lets the system default to applying throttle limiting at 2/3 of the flare altitude.</long_desc>
+      <short_desc>Высота ограничения газа при посадке (относительно посадочной)</short_desc>
+      <long_desc>Значение -1 означает ограничение газа на 2/3 высоты выравнивания.</long_desc>
       <min>-1.0</min>
       <max>30.0</max>
       <unit>meters</unit>
     </parameter>
     <parameter default="15.0" name="FW_LND_HHDIST" type="FLOAT">
-      <short_desc>Landing heading hold horizontal distance</short_desc>
+      <short_desc>Горизонтальная дистанция удержания курса при посадке</short_desc>
       <min>0</min>
       <max>30.0</max>
       <unit>meters</unit>
     </parameter>
     <parameter default="0" name="FW_LND_USETER" type="INT32">
-      <short_desc>Enable or disable usage of terrain estimate during landing</short_desc>
-      <long_desc>0: disabled, 1: enabled</long_desc>
+      <short_desc>Использовать оценку рельефа при посадке</short_desc>
+      <long_desc>0 — нет, 1 — да</long_desc>
     </parameter>
     <parameter default="2.5" name="FW_FLARE_PMIN" type="FLOAT">
-      <short_desc>Flare, minimum pitch</short_desc>
-      <long_desc>Minimum pitch during flare, a positive sign means nose up Applied once FW_LND_TLALT is reached</long_desc>
+      <short_desc>Минимальный тангаж при выравнивании</short_desc>
+      <long_desc>Минимальный тангаж после достижения FW_LND_TLALT (положительное значение — нос вверх).</long_desc>
       <min>0</min>
       <max>15.0</max>
       <unit>degrees</unit>
     </parameter>
     <parameter default="15.0" name="FW_FLARE_PMAX" type="FLOAT">
-      <short_desc>Flare, maximum pitch</short_desc>
-      <long_desc>Maximum pitch during flare, a positive sign means nose up Applied once FW_LND_TLALT is reached</long_desc>
+      <short_desc>Максимальный тангаж при выравнивании</short_desc>
+      <long_desc>Максимальный тангаж после достижения FW_LND_TLALT (положительное значение — нос вверх).</long_desc>
       <min>0</min>
       <max>45.0</max>
       <unit>degrees</unit>
     </parameter>
     <parameter default="1.3" name="FW_AIRSPD_SCALE" type="FLOAT">
-      <short_desc>Landing airspeed scale factor</short_desc>
-      <long_desc>Multiplying this factor with the minimum airspeed of the plane gives the target airspeed the landing approach.</long_desc>
+      <short_desc>Коэффициент посадочной скорости</short_desc>
+      <long_desc>Умножьте этот коэффициент на минимальную скорость, чтобы получить целевую скорость захода на посадку.</long_desc>
       <min>1.0</min>
       <max>1.5</max>
     </parameter>
   </group>
-  <group name="Land Detector">
+  <group name="Детектор посадки">
     <parameter default="0.70" name="LNDMC_Z_VEL_MAX" type="FLOAT">
       <short_desc>Multicopter max climb rate</short_desc>
       <long_desc>Maximum vertical velocity allowed in the landed state (m/s up and down)</long_desc>
@@ -1314,7 +1314,7 @@
       <unit>m/s</unit>
     </parameter>
   </group>
-  <group name="Launch detection">
+  <group name="Обнаружение запуска">
     <parameter default="0" name="LAUN_ALL_ON" type="INT32">
       <short_desc>Enable launch detection</short_desc>
       <min>0</min>
@@ -1344,7 +1344,7 @@
       <unit>deg</unit>
     </parameter>
   </group>
-  <group name="Local Position Estimator">
+  <group name="Локальный оцениватель позиции">
     <parameter default="1" name="LPE_ENABLED" type="INT32">
       <short_desc>Enable local position estimator</short_desc>
     </parameter>
@@ -1505,7 +1505,7 @@
       <max>1000</max>
     </parameter>
   </group>
-  <group name="MKBLCTRL Testmode">
+  <group name="Тестовый режим MKBLCTRL">
     <parameter default="0" name="MKBLCTRL_TEST" type="INT32">
       <short_desc>Включает тестовый режим (Identify) драйвера MKBLCTRL</short_desc>
     </parameter>
@@ -1578,7 +1578,7 @@
       <max>1</max>
     </parameter>
   </group>
-  <group name="Multicopter Attitude Control">
+  <group name="Управление ориентацией мультикоптера">
     <parameter default="0.2" name="MC_ROLL_TC" type="FLOAT">
       <short_desc>Roll time constant</short_desc>
       <long_desc>Reduce if the system is too twitchy, increase if the response is too slow and sluggish.</long_desc>
@@ -1893,7 +1893,7 @@
       <unit>deg/s</unit>
     </parameter>
   </group>
-  <group name="Multicopter Position Control">
+  <group name="Управление положением мультикоптера">
     <parameter default="0.12" name="MPC_THR_MIN" type="FLOAT">
       <short_desc>Minimum thrust in auto thrust control</short_desc>
       <long_desc>It's recommended to set it &gt; 0 to avoid free fall with zero thrust.</long_desc>
@@ -2181,7 +2181,7 @@
       <unit>m/s</unit>
     </parameter>
   </group>
-  <group name="PWM Outputs">
+  <group name="ШИМ выходы">
     <parameter default="0" name="PWM_AUX_REV1" type="INT32">
       <short_desc>Invert direction of aux output channel 1</short_desc>
       <long_desc>Set to 1 to invert the channel, 0 for default direction.</long_desc>
@@ -2335,7 +2335,7 @@
       <reboot_required>true</reboot_required>
     </parameter>
   </group>
-  <group name="Payload drop">
+  <group name="Сброс нагрузки">
     <parameter default="0.03" name="BD_GPROPERTIES" type="FLOAT">
       <short_desc>Ground drag property</short_desc>
       <long_desc>This parameter encodes the ground drag coefficient and the corresponding decrease in wind speed from the plane altitude to ground altitude.</long_desc>
@@ -2379,7 +2379,7 @@
       <unit>m^2</unit>
     </parameter>
   </group>
-  <group name="Position Estimator">
+  <group name="Оцениватель позиции">
     <parameter default="230" name="PE_VEL_DELAY_MS" type="INT32">
       <short_desc>Velocity estimate delay</short_desc>
       <long_desc>The delay in milliseconds of the velocity estimate from GPS.</long_desc>
@@ -2513,7 +2513,7 @@
       <max>10.0</max>
     </parameter>
   </group>
-  <group name="Position Estimator INAV">
+  <group name="Оцениватель позиции INAV">
     <parameter default="0.5" name="INAV_W_Z_BARO" type="FLOAT">
       <short_desc>Z axis weight for barometer</short_desc>
       <long_desc>Weight (cutoff frequency) for barometer altitude measurements.</long_desc>
@@ -2690,7 +2690,7 @@
       <max>1</max>
     </parameter>
   </group>
-  <group name="Radio Calibration">
+  <group name="Калибровка радиосвязи">
     <parameter default="0.0" name="TRIM_ROLL" type="FLOAT">
       <short_desc>Roll trim</short_desc>
       <long_desc>The trim value is the actuator control value the system needs for straight and level flight. It can be calibrated by flying manually straight and level using the RC trims and copying them using the GCS.</long_desc>
@@ -3544,7 +3544,7 @@
       <max>2000</max>
     </parameter>
   </group>
-  <group name="Radio Signal Loss">
+  <group name="Потеря радиосигнала">
     <parameter default="120.0" name="NAV_RCL_LT" type="FLOAT">
       <short_desc>Loiter Time</short_desc>
       <long_desc>The amount of time in seconds the system should loiter at current position before termination Set to -1 to make the system skip loitering</long_desc>
@@ -3552,7 +3552,7 @@
       <unit>seconds</unit>
     </parameter>
   </group>
-  <group name="Radio Switches">
+  <group name="Радиовыключатели">
     <parameter default="0" name="RC_MAP_MODE_SW" type="INT32">
       <short_desc>Mode switch channel mapping</short_desc>
       <long_desc>This is the main flight mode selector. The channel index (starting from 1 for channel 1) indicates which channel should be used for deciding about the main mode. A value of zero indicates the switch is not assigned.</long_desc>
@@ -3843,7 +3843,7 @@
       <max>1</max>
     </parameter>
   </group>
-  <group name="Return To Land">
+  <group name="Возврат и посадка">
     <parameter default="60" name="RTL_RETURN_ALT" type="FLOAT">
       <short_desc>RTL altitude</short_desc>
       <long_desc>Altitude to fly back in RTL in meters</long_desc>
@@ -3952,7 +3952,7 @@
       <max>3</max>
     </parameter>
   </group>
-  <group name="Sensor Calibration">
+  <group name="Калибровка датчиков">
     <parameter default="0" name="CAL_BOARD_ID" type="INT32">
       <short_desc>ID of the board this parameter set was calibrated on</short_desc>
     </parameter>
@@ -4277,14 +4277,14 @@
       <max>2</max>
     </parameter>
   </group>
-  <group name="Sensor Enable">
+  <group name="Включение датчиков">
     <parameter default="0" name="SENS_EN_LL40LS" type="INT32">
       <short_desc>Enable Lidar-Lite (LL40LS) pwm driver</short_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
   </group>
-  <group name="Subscriber Example">
+  <group name="Пример подписчика">
     <parameter default="100" name="SUB_INTERV" type="INT32">
       <short_desc>Interval of one subscriber in the example in ms</short_desc>
     </parameter>
@@ -4292,7 +4292,7 @@
       <short_desc>Float Demonstration Parameter in the Example</short_desc>
     </parameter>
   </group>
-  <group name="System">
+  <group name="Система">
     <parameter default="0" name="SYS_AUTOSTART" type="INT32">
       <short_desc>Auto-start script index</short_desc>
       <long_desc>CHANGING THIS VALUE REQUIRES A RESTART. Defines the auto-start script used to bootstrap the system.</long_desc>
@@ -4354,7 +4354,7 @@
       <max>1000000</max>
     </parameter>
   </group>
-  <group name="VTOL Attitude Control">
+  <group name="Управление ориентацией VTOL">
     <parameter default="0.6" name="VT_TRANS_THR" type="FLOAT">
       <short_desc>Target throttle value for pusher/puller motor during the transition to fw mode</short_desc>
       <min>0.0</min>
@@ -4718,7 +4718,7 @@ Maps the change of airspeed error to the acceleration setpoint</short_desc>
       <max>10.0</max>
     </parameter>
   </group>
-  <group name="Miscellaneous">
+  <group name="Разное">
     <parameter default="15" name="LED_RGB_MAXBRT" type="INT32">
       <short_desc>RGB Led brightness limit</short_desc>
       <long_desc>Set to 0 to disable, 1 for minimum brightness up to 15 (max)</long_desc>
