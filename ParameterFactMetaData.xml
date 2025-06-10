@@ -3,133 +3,112 @@
   <version>3</version>
   <group name="UAVCAN Motor Parameters" no_code_generation="true">
     <parameter default="75" name="ctl_bw" type="INT32">
-      <short_desc>Speed controller bandwidth</short_desc>
-      <long_desc>Speed controller bandwidth, in Hz. Higher values result in faster speed and current rise times, but may result in overshoot and higher current consumption. For fixed-wing aircraft, this value should be less than 50 Hz; for multirotors, values up to 100 Hz may provide improvements in responsiveness.</long_desc>
+      <short_desc>Полоса пропускания контроллера скорости</short_desc>
+      <long_desc>Полоса пропускания контроллера скорости в Гц. Более высокие значения приводят к более быстрому набору оборотов и тока, но могут вызвать перерегулирование и повышенное потребление тока. Для самолётов с фиксированным крылом значение должно быть меньше 50 Гц; для мультикоптеров возможны значения до 100 Гц для улучшения отзывчивости.</long_desc>
       <unit>Hertz</unit>
       <min>10</min>
       <max>250</max>
     </parameter>
     <parameter default="1" name="ctl_dir" type="INT32">
-      <short_desc>Reverse direction</short_desc>
-      <long_desc>Motor spin direction as detected during initial enumeration. Use 0 or 1 to reverse direction.</long_desc>
+      <short_desc>Обратное направление</short_desc>
+      <long_desc>Направление вращения двигателя, определённое при начальном сканировании. Используйте 0 или 1 для изменения направления.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="1" name="ctl_gain" type="FLOAT">
-      <short_desc>Speed (RPM) controller gain</short_desc>
-      <long_desc>Speed (RPM) controller gain. Determines controller
-            aggressiveness; units are amp-seconds per radian. Systems with
-            higher rotational inertia (large props) will need gain increased;
-            systems with low rotational inertia (small props) may need gain
-            decreased. Higher values result in faster response, but may result
-            in oscillation and excessive overshoot. Lower values result in a
-            slower, smoother response.</long_desc>
+      <short_desc>Коэффициент контроллера скорости (об/мин)</short_desc>
+      <long_desc>Коэффициент усиления контроллера скорости (об/мин). Определяет агрессивность контроллера; единицы измерения — ампер·секунда на радиан. Системы с большой инерцией вращения (крупные винты) потребуют увеличения коэффициента; системы с малой инерцией (малые винты) могут потребовать его уменьшения. Большие значения дают более быстрый отклик, но могут вызвать колебания и перерегулирование. Низкие значения обеспечивают более плавный отклик.</long_desc>
       <unit>amp-seconds per radian</unit>
       <decimal>3</decimal>
       <min>0.00</min>
       <max>1.00</max>
     </parameter>
     <parameter default="3.5" name="ctl_hz_idle" type="FLOAT">
-      <short_desc>Idle speed (e Hz)</short_desc>
-      <long_desc>Idle speed (e Hz)</long_desc>
+      <short_desc>Скорость холостого хода (эл. Гц)</short_desc>
+      <long_desc>Скорость холостого хода (эл. Гц)</long_desc>
       <unit>Hertz</unit>
       <decimal>3</decimal>
       <min>0.0</min>
       <max>100.0</max>
     </parameter>
     <parameter default="25" name="ctl_start_rate" type="INT32">
-      <short_desc>Spin-up rate (e Hz/s)</short_desc>
-      <long_desc>Spin-up rate (e Hz/s)</long_desc>
+      <short_desc>Скорость раскрутки (эл. Гц/с)</short_desc>
+      <long_desc>Скорость раскрутки (эл. Гц/с)</long_desc>
       <unit>Hz/s</unit>
       <min>5</min>
       <max>1000</max>
     </parameter>
     <parameter default="0" name="esc_index" type="INT32">
-      <short_desc>Index of this ESC in throttle command messages.</short_desc>
-      <long_desc>Index of this ESC in throttle command messages.</long_desc>
+      <short_desc>Индекс этого ESC в командах газа</short_desc>
+      <long_desc>Индекс данного ESC в сообщениях управления тягой.</long_desc>
       <unit>Index</unit>
       <min>0</min>
       <max>15</max>
     </parameter>
     <parameter default="20034" name="id_ext_status" type="INT32">
-      <short_desc>Extended status ID</short_desc>
-      <long_desc>Extended status ID</long_desc>
+      <short_desc>Идентификатор расширенного статуса</short_desc>
+      <long_desc>Идентификатор расширенного статуса</long_desc>
       <min>1</min>
       <max>1000000</max>
     </parameter>
     <parameter default="50000" name="int_ext_status" type="INT32">
-      <short_desc>Extended status interval (µs)</short_desc>
-      <long_desc>Extended status interval (µs)</long_desc>
+      <short_desc>Интервал расширенного статуса (мкс)</short_desc>
+      <long_desc>Интервал обновления расширенного статуса в микросекундах</long_desc>
       <unit>µs</unit>
       <min>0</min>
       <max>1000000</max>
     </parameter>
     <parameter default="50000" name="int_status" type="INT32">
-      <short_desc>ESC status interval (µs)</short_desc>
-      <long_desc>ESC status interval (µs)</long_desc>
+      <short_desc>Интервал статуса ESC (мкс)</short_desc>
+      <long_desc>Интервал сообщений статуса ESC в микросекундах</long_desc>
       <unit>µs</unit>
       <max>1000000</max>
     </parameter>
     <parameter default="12" name="mot_i_max" type="FLOAT">
-      <short_desc>Motor current limit in amps</short_desc>
-      <long_desc>Motor current limit in amps. This determines the maximum
-            current controller setpoint, as well as the maximum allowable
-            current setpoint slew rate. This value should generally be set to
-            the continuous current rating listed in the motor’s specification
-            sheet, or set equal to the motor’s specified continuous power
-            divided by the motor voltage limit.</long_desc>
+      <short_desc>Ограничение тока двигателя, А</short_desc>
+      <long_desc>Ограничение тока двигателя в амперах. Определяет максимальный заданный ток контроллера и максимально допустимую скорость его изменения. Обычно значение должно равняться номинальному току, указанному в спецификации двигателя, либо соответствовать мощности двигателя, делённой на его допустимое напряжение.</long_desc>
       <unit>Amps</unit>
       <decimal>3</decimal>
       <min>1</min>
       <max>80</max>
     </parameter>
     <parameter default="2300" name="mot_kv" type="INT32">
-      <short_desc>Motor Kv in RPM per volt</short_desc>
-      <long_desc>Motor Kv in RPM per volt. This can be taken from the motor’s
-            specification sheet; accuracy will help control performance but
-            some deviation from the specified value is acceptable.</long_desc>
+      <short_desc>KV двигателя (об/мин на вольт)</short_desc>
+      <long_desc>KV двигателя в оборотах в минуту на вольт. Значение берётся из спецификации мотора; точность улучшает управление, но допустимы небольшие отклонения.</long_desc>
       <unit>RPM/v</unit>
       <min>0</min>
       <max>4000</max>
     </parameter>
     <parameter default="0.0" name="mot_ls" type="FLOAT">
-      <short_desc>READ ONLY: Motor inductance in henries.</short_desc>
-      <long_desc>READ ONLY: Motor inductance in henries. This is measured on start-up.</long_desc>
+      <short_desc>ТОЛЬКО ЧТЕНИЕ: индуктивность двигателя, Гн</short_desc>
+      <long_desc>Индуктивность двигателя в генри измеряется при запуске и доступна только для чтения.</long_desc>
       <unit>henries</unit>
       <decimal>3</decimal>
     </parameter>
     <parameter default="14" name="mot_num_poles" type="INT32">
-      <short_desc>Number of motor poles.</short_desc>
-      <long_desc>Number of motor poles. Used to convert mechanical speeds to
-            electrical speeds. This number should be taken from the motor’s
-            specification sheet.</long_desc>
+      <short_desc>Количество полюсов двигателя</short_desc>
+      <long_desc>Количество полюсов двигателя, необходимое для преобразования механических оборотов в электрические. Значение берётся из спецификации мотора.</long_desc>
       <unit>Poles</unit>
       <min>2</min>
       <max>40</max>
     </parameter>
     <parameter default="0.0" name="mot_rs" type="FLOAT">
-      <short_desc>READ ONLY: Motor resistance in ohms</short_desc>
-      <long_desc>READ ONLY: Motor resistance in ohms. This is measured on start-up. When
-            tuning a new motor, check that this value is approximately equal
-            to the value shown in the motor’s specification sheet.</long_desc>
+      <short_desc>ТОЛЬКО ЧТЕНИЕ: сопротивление двигателя, Ом</short_desc>
+      <long_desc>Сопротивление двигателя в омах измеряется при запуске. При настройке нового мотора убедитесь, что оно соответствует значению из спецификации.</long_desc>
       <unit>Ohms</unit>
       <decimal>3</decimal>
     </parameter>
     <parameter default="0.5" name="mot_v_accel" type="FLOAT">
-      <short_desc>Acceleration limit (V)</short_desc>
-      <long_desc>Acceleration limit (V)</long_desc>
+      <short_desc>Ограничение ускорения (В)</short_desc>
+      <long_desc>Предел ускорения в вольтах.</long_desc>
       <unit>Volts</unit>
       <decimal>3</decimal>
       <min>0.01</min>
       <max>1.00</max>
     </parameter>
     <parameter default="14.8" name="mot_v_max" type="FLOAT">
-      <short_desc>Motor voltage limit in volts</short_desc>
-      <long_desc>Motor voltage limit in volts. The current controller’s
-            commanded voltage will never exceed this value. Note that this may
-            safely be above the nominal voltage of the motor; to determine the
-            actual motor voltage limit, divide the motor’s rated power by the
-            motor current limit.</long_desc>
+      <short_desc>Предельное напряжение двигателя, В</short_desc>
+      <long_desc>Максимальное напряжение, которое может быть подано на двигатель. Контроллер не превысит его. Значение может быть выше номинального; вычисляйте его как мощность мотора, делённую на допустимый ток.</long_desc>
       <unit>Volts</unit>
       <decimal>3</decimal>
       <min>0</min>
@@ -137,102 +116,99 @@
   </group>
   <group name="Attitude EKF estimator">
     <parameter default="1e-4" name="EKF_ATT_V3_Q0" type="FLOAT">
-      <short_desc>Body angular rate process noise</short_desc>
+      <short_desc>Процессный шум угловой скорости корпуса</short_desc>
     </parameter>
     <parameter default="0.08" name="EKF_ATT_V3_Q1" type="FLOAT">
-      <short_desc>Body angular acceleration process noise</short_desc>
+      <short_desc>Процессный шум углового ускорения корпуса</short_desc>
     </parameter>
     <parameter default="0.009" name="EKF_ATT_V3_Q2" type="FLOAT">
-      <short_desc>Acceleration process noise</short_desc>
+      <short_desc>Процессный шум ускорения</short_desc>
     </parameter>
     <parameter default="0.005" name="EKF_ATT_V3_Q3" type="FLOAT">
-      <short_desc>Magnet field vector process noise</short_desc>
+      <short_desc>Процессный шум векторного магнитного поля</short_desc>
     </parameter>
     <parameter default="0.0008" name="EKF_ATT_V4_R0" type="FLOAT">
-      <short_desc>Gyro measurement noise</short_desc>
+      <short_desc>Шум измерения гироскопа</short_desc>
     </parameter>
     <parameter default="10000.0" name="EKF_ATT_V4_R1" type="FLOAT">
-      <short_desc>Accel measurement noise</short_desc>
+      <short_desc>Шум измерения акселерометра</short_desc>
     </parameter>
     <parameter default="100.0" name="EKF_ATT_V4_R2" type="FLOAT">
-      <short_desc>Mag measurement noise</short_desc>
+      <short_desc>Шум измерения магнитометра</short_desc>
     </parameter>
     <parameter default="0.0018" name="ATT_J11" type="FLOAT">
-      <short_desc>Moment of inertia matrix diagonal entry (1, 1)</short_desc>
+      <short_desc>Элемент диагонали матрицы инерции (1, 1)</short_desc>
       <unit>kg*m^2</unit>
     </parameter>
     <parameter default="0.0018" name="ATT_J22" type="FLOAT">
-      <short_desc>Moment of inertia matrix diagonal entry (2, 2)</short_desc>
+      <short_desc>Элемент диагонали матрицы инерции (2, 2)</short_desc>
       <unit>kg*m^2</unit>
     </parameter>
     <parameter default="0.0037" name="ATT_J33" type="FLOAT">
-      <short_desc>Moment of inertia matrix diagonal entry (3, 3)</short_desc>
+      <short_desc>Элемент диагонали матрицы инерции (3, 3)</short_desc>
       <unit>kg*m^2</unit>
     </parameter>
     <parameter default="0" name="ATT_J_EN" type="INT32">
-      <short_desc>Moment of inertia enabled in estimator</short_desc>
-      <long_desc>If set to != 0 the moment of inertia will be used in the estimator</long_desc>
+      <short_desc>Использовать матрицу инерции в оценивателе</short_desc>
+      <long_desc>Если не равно 0, момент инерции будет учтён в фильтре</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
   </group>
   <group name="Attitude Q estimator">
     <parameter default="0.2" name="ATT_W_ACC" type="FLOAT">
-      <short_desc>Complimentary filter accelerometer weight</short_desc>
+      <short_desc>Вес акселерометра в комплементарном фильтре</short_desc>
       <min>0</min>
       <max>1</max>
       <decimal>2</decimal>
     </parameter>
     <parameter default="0.1" name="ATT_W_MAG" type="FLOAT">
-      <short_desc>Complimentary filter magnetometer weight</short_desc>
+      <short_desc>Вес магнитометра в комплементарном фильтре</short_desc>
       <min>0</min>
       <max>1</max>
       <decimal>2</decimal>
     </parameter>
     <parameter default="0.1" name="ATT_W_EXT_HDG" type="FLOAT">
-      <short_desc>Complimentary filter external heading weight</short_desc>
+      <short_desc>Вес внешнего курса в комплементарном фильтре</short_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0.1" name="ATT_W_GYRO_BIAS" type="FLOAT">
-      <short_desc>Complimentary filter gyroscope bias weight</short_desc>
+      <short_desc>Вес дрейфа гироскопа в комплементарном фильтре</short_desc>
       <min>0</min>
       <max>1</max>
       <decimal>2</decimal>
     </parameter>
     <parameter default="0.0" name="ATT_MAG_DECL" type="FLOAT">
-      <short_desc>Magnetic declination, in degrees</short_desc>
-      <long_desc>This parameter is not used in normal operation, as the declination is looked up based on the GPS coordinates of the vehicle.</long_desc>
+      <short_desc>Магнитное склонение в градусах</short_desc>
+      <long_desc>Этот параметр не используется в штатном режиме, так как склонение определяется по координатам GPS.</long_desc>
       <unit>degrees</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="1" name="ATT_MAG_DECL_A" type="INT32">
-      <short_desc>Enable automatic GPS based declination compensation</short_desc>
+      <short_desc>Включить автоматическую компенсацию склонения по GPS</short_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0" name="ATT_EXT_HDG_M" type="INT32">
-      <short_desc>External heading usage mode (from Motion capture/Vision)
-Set to 1 to use heading estimate from vision.
-Set to 2 to use heading from motion capture</short_desc>
+      <short_desc>Режим использования внешнего курса (vision/mocap). 1 – курс от vision, 2 – от motion capture</short_desc>
       <min>0</min>
       <max>2</max>
     </parameter>
     <parameter default="2" name="ATT_ACC_COMP" type="INT32">
-      <short_desc>Enable acceleration compensation based on GPS
-velocity</short_desc>
+      <short_desc>Включить компенсацию ускорения по скорости GPS</short_desc>
       <min>1</min>
       <max>2</max>
     </parameter>
     <parameter default="0.05" name="ATT_BIAS_MAX" type="FLOAT">
-      <short_desc>Gyro bias limit</short_desc>
+      <short_desc>Предел смещения гироскопа</short_desc>
       <min>0</min>
       <max>2</max>
       <unit>rad/s</unit>
       <decimal>3</decimal>
     </parameter>
     <parameter default="0.2" name="ATT_VIBE_THRESH" type="FLOAT">
-      <short_desc>Threshold (of RMS) to warn about high vibration levels</short_desc>
+      <short_desc>Порог (RMS) предупреждения о высокой вибрации</short_desc>
       <min>0.01</min>
       <max>10</max>
       <decimal>2</decimal>
@@ -240,22 +216,22 @@ velocity</short_desc>
   </group>
   <group name="Battery Calibration">
     <parameter default="3.4" name="BAT_V_EMPTY" type="FLOAT">
-      <short_desc>Empty cell voltage</short_desc>
-      <long_desc>Defines the voltage where a single cell of the battery is considered empty.</long_desc>
+      <short_desc>Напряжение разряженной ячейки</short_desc>
+      <long_desc>Определяет напряжение, при котором ячейка батареи считается разряженной.</long_desc>
       <unit>V</unit>
       <decimal>2</decimal>
       <increment>0.01</increment>
     </parameter>
     <parameter default="4.2" name="BAT_V_CHARGED" type="FLOAT">
-      <short_desc>Full cell voltage</short_desc>
-      <long_desc>Defines the voltage where a single cell of the battery is considered full.</long_desc>
+      <short_desc>Напряжение полностью заряженной ячейки</short_desc>
+      <long_desc>Определяет напряжение, при котором ячейка батареи считается полностью заряженной.</long_desc>
       <unit>V</unit>
       <decimal>2</decimal>
       <increment>0.01</increment>
     </parameter>
     <parameter default="0.07" name="BAT_V_LOAD_DROP" type="FLOAT">
-      <short_desc>Voltage drop per cell on 100% load</short_desc>
-      <long_desc>This implicitely defines the internal resistance to maximum current ratio and assumes linearity.</long_desc>
+      <short_desc>Падение напряжения на ячейку при 100% нагрузке</short_desc>
+      <long_desc>Неявно задаёт отношение внутреннего сопротивления к максимальному току и предполагает линейность.</long_desc>
       <min>0.0</min>
       <max>1.5</max>
       <unit>V</unit>
@@ -263,8 +239,8 @@ velocity</short_desc>
       <increment>0.01</increment>
     </parameter>
     <parameter default="3" name="BAT_N_CELLS" type="INT32">
-      <short_desc>Number of cells</short_desc>
-      <long_desc>Defines the number of cells the attached battery consists of.</long_desc>
+      <short_desc>Количество ячеек</short_desc>
+      <long_desc>Определяет количество ячеек в подключённой батарее.</long_desc>
       <min>2</min>
       <max>10</max>
       <unit>S</unit>
@@ -287,8 +263,8 @@ velocity</short_desc>
       </values>
     </parameter>
     <parameter default="-1.0" name="BAT_CAPACITY" type="FLOAT">
-      <short_desc>Battery capacity</short_desc>
-      <long_desc>Defines the capacity of the attached battery.</long_desc>
+      <short_desc>Ёмкость батареи</short_desc>
+      <long_desc>Определяет ёмкость подключённой батареи.</long_desc>
       <min>-1.0</min>
       <max>100000</max>
       <unit>mA</unit>
@@ -296,115 +272,115 @@ velocity</short_desc>
       <increment>50</increment>
     </parameter>
     <parameter default="10000" name="BAT_V_SCALE_IO" type="INT32">
-      <short_desc>Scaling factor for battery voltage sensor on PX4IO</short_desc>
+      <short_desc>Коэффициент масштаба датчика напряжения батареи на PX4IO</short_desc>
       <min>1</min>
       <max>100000</max>
     </parameter>
     <parameter default="-1.0" name="BAT_V_SCALING" type="FLOAT">
-      <short_desc>Scaling factor for battery voltage sensor on FMU v2</short_desc>
+      <short_desc>Коэффициент масштаба датчика напряжения батареи на FMU v2</short_desc>
     </parameter>
     <parameter default="-1.0" name="BAT_C_SCALING" type="FLOAT">
-      <short_desc>Scaling factor for battery current sensor</short_desc>
+      <short_desc>Коэффициент масштаба датчика тока батареи</short_desc>
     </parameter>
   </group>
   <group name="Camera trigger">
     <parameter default="40.0" name="TRIG_INTERVAL" type="FLOAT">
-      <short_desc>Camera trigger interval</short_desc>
-      <long_desc>This parameter sets the time between two consecutive trigger events</long_desc>
+      <short_desc>Интервал срабатывания камеры</short_desc>
+      <long_desc>Задаёт время между последовательными срабатываниями триггера.</long_desc>
       <min>4.0</min>
       <max>10000.0</max>
       <unit>milliseconds</unit>
     </parameter>
     <parameter default="0" name="TRIG_POLARITY" type="INT32">
-      <short_desc>Camera trigger polarity</short_desc>
-      <long_desc>This parameter sets the polarity of the trigger (0 = ACTIVE_LOW, 1 = ACTIVE_HIGH )</long_desc>
+      <short_desc>Полярность сигнала триггера камеры</short_desc>
+      <long_desc>Определяет полярность триггера (0 = ACTIVE_LOW, 1 = ACTIVE_HIGH).</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0.5" name="TRIG_ACT_TIME" type="FLOAT">
-      <short_desc>Camera trigger activation time</short_desc>
-      <long_desc>This parameter sets the time the trigger needs to pulled high or low.</long_desc>
+      <short_desc>Время активации триггера камеры</short_desc>
+      <long_desc>Задаёт время, на которое триггер переводится в активное состояние.</long_desc>
       <unit>milliseconds</unit>
     </parameter>
     <parameter default="0" name="TRIG_MODE" type="INT32">
-      <short_desc>Camera trigger mode</short_desc>
-      <long_desc>0 disables the trigger, 1 sets it to enabled on command, 2 always on, 3 distance based, 4 distance based enabled on command</long_desc>
+      <short_desc>Режим срабатывания камеры</short_desc>
+      <long_desc>0 – триггер выключен; 1 – включается по команде; 2 – всегда включён; 3 – по дистанции; 4 – по дистанции, но активируется по команде.</long_desc>
       <min>0</min>
       <max>4</max>
     </parameter>
     <parameter default="12" name="TRIG_PINS" type="INT32">
-      <short_desc>Camera trigger pin</short_desc>
-      <long_desc>Selects which pin is used, ranges from 1 to 6 (AUX1-AUX6)</long_desc>
+      <short_desc>Вывод триггера камеры</short_desc>
+      <long_desc>Выбор используемого вывода, от 1 до 6 (AUX1–AUX6).</long_desc>
       <min>1</min>
       <max>123456</max>
     </parameter>
     <parameter default="25.0" name="TRIG_DISTANCE" type="FLOAT">
-      <short_desc>Camera trigger distance</short_desc>
-      <long_desc>Sets the distance at which to trigger the camera.</long_desc>
+      <short_desc>Дистанция срабатывания камеры</short_desc>
+      <long_desc>Устанавливает дистанцию, на которой должна сработать камера.</long_desc>
       <min>0</min>
       <unit>meters</unit>
     </parameter>
   </group>
   <group name="Circuit Breaker">
     <parameter default="0" name="CBRK_SUPPLY_CHK" type="INT32">
-      <short_desc>Circuit breaker for power supply check</short_desc>
-      <long_desc>Setting this parameter to 894281 will disable the power valid checks in the commander. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель проверки питания</short_desc>
+      <long_desc>Значение 894281 отключает проверку питания в командире. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>894281</max>
     </parameter>
     <parameter default="0" name="CBRK_RATE_CTRL" type="INT32">
-      <short_desc>Circuit breaker for rate controller output</short_desc>
-      <long_desc>Setting this parameter to 140253 will disable the rate controller uORB publication. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель выхода регулятора угловых скоростей</short_desc>
+      <long_desc>Значение 140253 отключает публикацию uORB регулятора скоростей. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>140253</max>
     </parameter>
     <parameter default="0" name="CBRK_IO_SAFETY" type="INT32">
-      <short_desc>Circuit breaker for IO safety</short_desc>
-      <long_desc>Setting this parameter to 22027 will disable IO safety. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель безопасности IO</short_desc>
+      <long_desc>Значение 22027 отключает безопасность IO. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>22027</max>
     </parameter>
     <parameter default="0" name="CBRK_AIRSPD_CHK" type="INT32">
-      <short_desc>Circuit breaker for airspeed sensor</short_desc>
-      <long_desc>Setting this parameter to 162128 will disable the check for an airspeed sensor. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель датчика воздушной скорости</short_desc>
+      <long_desc>Значение 162128 отключает проверку датчика воздушной скорости. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>162128</max>
     </parameter>
     <parameter default="121212" name="CBRK_FLIGHTTERM" type="INT32">
-      <short_desc>Circuit breaker for flight termination</short_desc>
-      <long_desc>Setting this parameter to 121212 will disable the flight termination action. --&gt; The IO driver will not do flight termination if requested by the FMU WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель аварийного завершения полёта</short_desc>
+      <long_desc>Значение 121212 отключает процедуру аварийного завершения полёта. Драйвер IO не выполнит завершение по требованию FMU. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>121212</max>
     </parameter>
     <parameter default="284953" name="CBRK_ENGINEFAIL" type="INT32">
-      <short_desc>Circuit breaker for engine failure detection</short_desc>
-      <long_desc>Setting this parameter to 284953 will disable the engine failure detection. If the aircraft is in engine failure mode the enine failure flag will be set to healthy WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель обнаружения отказа двигателя</short_desc>
+      <long_desc>Значение 284953 отключает обнаружение отказа двигателя. В режиме отказа двигателя флаг будет считаться исправным. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>284953</max>
     </parameter>
     <parameter default="240024" name="CBRK_GPSFAIL" type="INT32">
-      <short_desc>Circuit breaker for GPS failure detection</short_desc>
-      <long_desc>Setting this parameter to 240024 will disable the GPS failure detection. If this check is enabled, then the sensor check will fail if the GPS module is missing. It will also check for excessive signal noise on the GPS receiver and warn the user if detected. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель обнаружения отказа GPS</short_desc>
+      <long_desc>Значение 240024 отключает обнаружение отказа GPS. При включённой проверке отсутствие модуля GPS приводит к ошибке, также контролируются помехи и при их обнаружении выдаётся предупреждение. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>240024</max>
     </parameter>
     <parameter default="0" name="CBRK_BUZZER" type="INT32">
-      <short_desc>Circuit breaker for disabling buzzer</short_desc>
-      <long_desc>Setting this parameter to 782097 will disable the buzzer audio notification. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель отключения зуммера</short_desc>
+      <long_desc>Значение 782097 отключает звуковую сигнализацию. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>782097</max>
     </parameter>
     <parameter default="0" name="CBRK_USB_CHK" type="INT32">
-      <short_desc>Circuit breaker for USB link check</short_desc>
-      <long_desc>Setting this parameter to 197848 will disable the USB connected checks in the commander. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK</long_desc>
+      <short_desc>Предохранитель проверки USB-соединения</short_desc>
+      <long_desc>Значение 197848 отключает проверку подключения USB в командире. ВНИМАНИЕ: использование этого предохранителя на ваш страх и риск.</long_desc>
       <min>0</min>
       <max>197848</max>
     </parameter>
   </group>
   <group name="Commander">
     <parameter default="0" name="COM_DL_LOSS_EN" type="INT32">
-      <short_desc>Datalink loss mode enabled</short_desc>
-      <long_desc>Set to 1 to enable actions triggered when the datalink is lost.</long_desc>
+      <short_desc>Включение режима потери связи</short_desc>
+      <long_desc>Установите 1, чтобы включить действия при потере телеметрии.</long_desc>
       <min>0</min>
       <max>1</max>
       <values>
@@ -413,8 +389,8 @@ velocity</short_desc>
       </values>
     </parameter>
     <parameter default="10" name="COM_DL_LOSS_T" type="INT32">
-      <short_desc>Datalink loss time threshold</short_desc>
-      <long_desc>After this amount of seconds without datalink the data link lost mode triggers</long_desc>
+      <short_desc>Время до срабатывания режима потери связи</short_desc>
+      <long_desc>Через указанное количество секунд без связи включается режим потери связи</long_desc>
       <min>0</min>
       <max>30</max>
       <unit>second</unit>
@@ -422,8 +398,8 @@ velocity</short_desc>
       <increment>0.5</increment>
     </parameter>
     <parameter default="0" name="COM_DL_REG_T" type="INT32">
-      <short_desc>Datalink regain time threshold</short_desc>
-      <long_desc>After a data link loss: after this this amount of seconds with a healthy datalink the 'datalink loss' flag is set back to false</long_desc>
+      <short_desc>Время восстановления связи</short_desc>
+      <long_desc>После восстановления связи флаг "потеря связи" сбросится после указанного времени устойчивой работы</long_desc>
       <min>0</min>
       <max>30</max>
       <unit>second</unit>
@@ -431,16 +407,16 @@ velocity</short_desc>
       <increment>0.5</increment>
     </parameter>
     <parameter default="0.5" name="COM_EF_THROT" type="FLOAT">
-      <short_desc>Engine Failure Throttle Threshold</short_desc>
-      <long_desc>Engine failure triggers only above this throttle value</long_desc>
+      <short_desc>Порог газа для обнаружения отказа двигателя</short_desc>
+      <long_desc>Отказ двигателя фиксируется только при значении газа выше этого порога</long_desc>
       <min>0.0</min>
       <max>1.0</max>
       <decimal>1</decimal>
       <increment>0.05</increment>
     </parameter>
     <parameter default="5.0" name="COM_EF_C2T" type="FLOAT">
-      <short_desc>Engine Failure Current/Throttle Threshold</short_desc>
-      <long_desc>Engine failure triggers only below this current value</long_desc>
+      <short_desc>Порог тока/газа отказа двигателя</short_desc>
+      <long_desc>Обнаружение отказа двигателя срабатывает только при токе ниже этого значения</long_desc>
       <min>0.0</min>
       <max>50.0</max>
       <unit>ampere</unit>
@@ -448,8 +424,8 @@ velocity</short_desc>
       <increment>1</increment>
     </parameter>
     <parameter default="10.0" name="COM_EF_TIME" type="FLOAT">
-      <short_desc>Engine Failure Time Threshold</short_desc>
-      <long_desc>Engine failure triggers only if the throttle threshold and the current to throttle threshold are violated for this time</long_desc>
+      <short_desc>Время для определения отказа двигателя</short_desc>
+      <long_desc>Отказ двигателя фиксируется, если пороги газа и тока нарушаются в течение указанного времени</long_desc>
       <min>0.0</min>
       <max>60.0</max>
       <unit>second</unit>
@@ -457,8 +433,8 @@ velocity</short_desc>
       <increment>1</increment>
     </parameter>
     <parameter default="0.5" name="COM_RC_LOSS_T" type="FLOAT">
-      <short_desc>RC loss time threshold</short_desc>
-      <long_desc>After this amount of seconds without RC connection the rc lost flag is set to true</long_desc>
+      <short_desc>Время потери связи с пультом</short_desc>
+      <long_desc>Через указанное время без связи с пультом устанавливается признак потери управления</long_desc>
       <min>0</min>
       <max>35</max>
       <unit>second</unit>
@@ -466,8 +442,8 @@ velocity</short_desc>
       <increment>0.1</increment>
     </parameter>
     <parameter default="5.0" name="COM_HOME_H_T" type="FLOAT">
-      <short_desc>Home set horizontal threshold</short_desc>
-      <long_desc>The home position will be set if the estimated positioning accuracy is below the threshold.</long_desc>
+      <short_desc>Порог горизонтальной точности установки точки возврата</short_desc>
+      <long_desc>Домашняя точка устанавливается, если оценка точности позиции ниже этого порога</long_desc>
       <min>2</min>
       <max>15</max>
       <unit>meter</unit>
@@ -475,8 +451,8 @@ velocity</short_desc>
       <increment>0.5</increment>
     </parameter>
     <parameter default="10.0" name="COM_HOME_V_T" type="FLOAT">
-      <short_desc>Home set vertical threshold</short_desc>
-      <long_desc>The home position will be set if the estimated positioning accuracy is below the threshold.</long_desc>
+      <short_desc>Порог вертикальной точности установки точки возврата</short_desc>
+      <long_desc>Домашняя точка устанавливается, если оценка точности позиции ниже этого порога</long_desc>
       <min>5</min>
       <max>25</max>
       <unit>meter</unit>
@@ -484,8 +460,8 @@ velocity</short_desc>
       <increment>0.5</increment>
     </parameter>
     <parameter default="1" name="COM_AUTOS_PAR" type="INT32">
-      <short_desc>Autosaving of params</short_desc>
-      <long_desc>If not equal to zero the commander will automatically save parameters to persistent storage once changed. Default is on, as the interoperability with currently deployed GCS solutions depends on parameters being sticky. Developers can default it to off.</long_desc>
+      <short_desc>Автосохранение параметров</short_desc>
+      <long_desc>Если значение не ноль, параметры автоматически сохраняются во флеш после изменения. По умолчанию включено для совместимости, разработчики могут отключить.</long_desc>
       <min>0</min>
       <max>1</max>
       <values>
@@ -494,8 +470,8 @@ velocity</short_desc>
       </values>
     </parameter>
     <parameter default="0" name="COM_RC_IN_MODE" type="INT32">
-      <short_desc>RC control input mode</short_desc>
-      <long_desc>The default value of 0 requires a valid RC transmitter setup. Setting this to 1 disables RC input handling and the associated checks. A value of 2 will generate RC control data from manual input received via MAVLink instead of directly forwarding the manual input data.</long_desc>
+      <short_desc>Режим приёма управления по РУ</short_desc>
+      <long_desc>Значение 0 требует настроенный передатчик РУ. При 1 обработка и проверки РУ отключаются. Значение 2 генерирует команды из входящих сообщений MAVLink вместо непосредственной передачи данных РУ.</long_desc>
       <min>0</min>
       <max>2</max>
       <values>
@@ -505,8 +481,8 @@ velocity</short_desc>
       </values>
     </parameter>
     <parameter default="0" name="COM_DISARM_LAND" type="INT32">
-      <short_desc>Time-out for auto disarm after landing</short_desc>
-      <long_desc>A non-zero, positive value specifies the time-out period in seconds after which the vehicle will be automatically disarmed in case a landing situation has been detected during this period. A value of zero means that automatic disarming is disabled.</long_desc>
+      <short_desc>Задержка автоматического разармирования после посадки</short_desc>
+      <long_desc>Положительное значение задаёт время в секундах, через которое аппарат автоматически разармится после обнаружения посадки. Ноль отключает функцию.</long_desc>
       <min>0</min>
       <max>20</max>
       <unit>second</unit>
@@ -516,586 +492,585 @@ velocity</short_desc>
   </group>
   <group name="Data Link Loss">
     <parameter default="120.0" name="NAV_DLL_CH_T" type="FLOAT">
-      <short_desc>Comms hold wait time</short_desc>
-      <long_desc>The amount of time in seconds the system should wait at the comms hold waypoint</long_desc>
+      <short_desc>Время ожидания на точке удержания связи</short_desc>
+      <long_desc>Время, в течение которого система должна ждать на точке удержания связи</long_desc>
       <min>0.0</min>
       <unit>seconds</unit>
     </parameter>
     <parameter default="-266072120" name="NAV_DLL_CH_LAT" type="INT32">
-      <short_desc>Comms hold Lat</short_desc>
-      <long_desc>Latitude of comms hold waypoint</long_desc>
+      <short_desc>Широта точки удержания связи</short_desc>
+      <long_desc>Широта точки удержания связи</long_desc>
       <min>-900000000</min>
       <max>900000000</max>
       <unit>degrees * 1e7</unit>
     </parameter>
     <parameter default="1518453890" name="NAV_DLL_CH_LON" type="INT32">
-      <short_desc>Comms hold Lon</short_desc>
-      <long_desc>Longitude of comms hold waypoint</long_desc>
+      <short_desc>Долгота точки удержания связи</short_desc>
+      <long_desc>Долгота точки удержания связи</long_desc>
       <min>-1800000000</min>
       <max>1800000000</max>
       <unit>degrees * 1e7</unit>
     </parameter>
     <parameter default="600.0" name="NAV_DLL_CH_ALT" type="FLOAT">
-      <short_desc>Comms hold alt</short_desc>
-      <long_desc>Altitude of comms hold waypoint</long_desc>
+      <short_desc>Высота точки удержания связи</short_desc>
+      <long_desc>Высота точки удержания связи</long_desc>
       <min>-50</min>
       <max>30000</max>
       <unit>m</unit>
     </parameter>
     <parameter default="120.0" name="NAV_DLL_AH_T" type="FLOAT">
-      <short_desc>Airfield hole wait time</short_desc>
-      <long_desc>The amount of time in seconds the system should wait at the airfield home waypoint</long_desc>
+      <short_desc>Время ожидания на точке аэродрома</short_desc>
+      <long_desc>Время, в течение которого система ждёт на точке домашнего аэродрома</long_desc>
       <min>0.0</min>
       <unit>seconds</unit>
     </parameter>
     <parameter default="2" name="NAV_DLL_N" type="INT32">
-      <short_desc>Number of allowed Datalink timeouts</short_desc>
-      <long_desc>After more than this number of data link timeouts the aircraft returns home directly</long_desc>
+      <short_desc>Допустимое число потерь связи</short_desc>
+      <long_desc>После превышения этого количества тайм‑аутов аппарат сразу возвращается домой</long_desc>
       <min>0</min>
       <max>1000</max>
     </parameter>
     <parameter default="0" name="NAV_DLL_CHSK" type="INT32">
-      <short_desc>Skip comms hold wp</short_desc>
-      <long_desc>If set to 1 the system will skip the comms hold wp on data link loss and will directly fly to airfield home</long_desc>
+      <short_desc>Пропускать точку удержания связи</short_desc>
+      <long_desc>Если равно 1, при потере связи точка удержания пропускается и аппарат летит сразу к аэродрому</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="-265847810" name="NAV_AH_LAT" type="INT32">
-      <short_desc>Airfield home Lat</short_desc>
-      <long_desc>Latitude of airfield home waypoint</long_desc>
+      <short_desc>Широта домашнего аэродрома</short_desc>
+      <long_desc>Широта точки домашнего аэродрома</long_desc>
       <min>-900000000</min>
       <max>900000000</max>
       <unit>degrees * 1e7</unit>
     </parameter>
     <parameter default="1518423250" name="NAV_AH_LON" type="INT32">
-      <short_desc>Airfield home Lon</short_desc>
-      <long_desc>Longitude of airfield home waypoint</long_desc>
+      <short_desc>Долгота домашнего аэродрома</short_desc>
+      <long_desc>Долгота точки домашнего аэродрома</long_desc>
       <min>-1800000000</min>
       <max>1800000000</max>
       <unit>degrees * 1e7</unit>
     </parameter>
     <parameter default="600.0" name="NAV_AH_ALT" type="FLOAT">
-      <short_desc>Airfield home alt</short_desc>
-      <long_desc>Altitude of airfield home waypoint</long_desc>
+      <short_desc>Высота домашнего аэродрома</short_desc>
+      <long_desc>Высота точки домашнего аэродрома</long_desc>
       <min>-50</min>
       <unit>m</unit>
     </parameter>
   </group>
   <group name="EKF2">
     <parameter default="0" name="EKF2_MAG_DELAY" type="FLOAT">
-      <short_desc>Magnetometer measurement delay relative to IMU measurements</short_desc>
+      <short_desc>Задержка измерений магнитометра относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
       <unit>ms</unit>
     </parameter>
     <parameter default="0" name="EKF2_BARO_DELAY" type="FLOAT">
-      <short_desc>Barometer measurement delay relative to IMU measurements</short_desc>
+      <short_desc>Задержка измерений барометра относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
       <unit>ms</unit>
     </parameter>
     <parameter default="200" name="EKF2_GPS_DELAY" type="FLOAT">
-      <short_desc>GPS measurement delay relative to IMU measurements</short_desc>
+      <short_desc>Задержка измерений GPS относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
       <unit>ms</unit>
     </parameter>
     <parameter default="200" name="EKF2_ASP_DELAY" type="FLOAT">
-      <short_desc>Airspeed measurement delay relative to IMU measurements</short_desc>
+      <short_desc>Задержка измерений воздушной скорости относительно ИМУ</short_desc>
       <min>0</min>
       <max>300</max>
       <unit>ms</unit>
     </parameter>
     <parameter default="21" name="EKF2_GPS_CHECK" type="INT32">
-      <short_desc>Integer bitmask controlling GPS checks. Set bits to 1 to enable checks. Checks enabled by the following bit positions
-0 : Minimum required sat count set by EKF2_REQ_NSATS
-1 : Minimum required GDoP set by EKF2_REQ_GDOP
-2 : Maximum allowed horizontal position error set by EKF2_REQ_EPH
-3 : Maximum allowed vertical position error set by EKF2_REQ_EPV
-4 : Maximum allowed speed error set by EKF2_REQ_SACC
-5 : Maximum allowed horizontal position rate set by EKF2_REQ_HDRIFT. This check can only be used if the vehciel is stationary during alignment.
-6 : Maximum allowed vertical position rate set by EKF2_REQ_VDRIFT. This check can only be used if the vehciel is stationary during alignment.
-7 : Maximum allowed horizontal speed set by EKF2_REQ_HDRIFT. This check can only be used if the vehciel is stationary during alignment.
-8 : Maximum allowed vertical velocity discrepancy set by EKF2_REQ_VDRIFT</short_desc>
+      <short_desc>Битовая маска проверок GPS. Биты:
+0 – минимум спутников (EKF2_REQ_NSATS)
+1 – максимум GDOP (EKF2_REQ_GDOP)
+2 – предел горизонтальной ошибки (EKF2_REQ_EPH)
+3 – предел вертикальной ошибки (EKF2_REQ_EPV)
+4 – предел ошибки скорости (EKF2_REQ_SACC)
+5 – скорость горизонтального дрейфа (EKF2_REQ_HDRIFT, работает только при неподвижном аппарате)
+6 – скорость вертикального дрейфа (EKF2_REQ_VDRIFT, работает только при неподвижном аппарате)
+7 – предел горизонтальной скорости (EKF2_REQ_HDRIFT, только при неподвижном аппарате)
+8 – несоответствие вертикальной скорости (EKF2_REQ_VDRIFT)</short_desc>
       <min>0</min>
       <max>511</max>
       <unit />
     </parameter>
     <parameter default="5.0" name="EKF2_REQ_EPH" type="FLOAT">
-      <short_desc>Required EPH to use GPS</short_desc>
+      <short_desc>Требуемая горизонтальная погрешность GPS (EPH)</short_desc>
       <min>2</min>
       <max>100</max>
       <unit>m</unit>
     </parameter>
     <parameter default="8.0" name="EKF2_REQ_EPV" type="FLOAT">
-      <short_desc>Required EPV to use GPS</short_desc>
+      <short_desc>Требуемая вертикальная погрешность GPS (EPV)</short_desc>
       <min>2</min>
       <max>100</max>
       <unit>m</unit>
     </parameter>
     <parameter default="1.0" name="EKF2_REQ_SACC" type="FLOAT">
-      <short_desc>Required speed accuracy to use GPS</short_desc>
+      <short_desc>Требуемая точность скорости GPS</short_desc>
       <min>0.5</min>
       <max>5.0</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="6" name="EKF2_REQ_NSATS" type="INT32">
-      <short_desc>Required satellite count to use GPS</short_desc>
+      <short_desc>Минимальное количество спутников для GPS</short_desc>
       <min>4</min>
       <max>12</max>
       <unit />
     </parameter>
     <parameter default="2.5" name="EKF2_REQ_GDOP" type="FLOAT">
-      <short_desc>Required GDoP to use GPS</short_desc>
+      <short_desc>Максимальный допустимый GDOP для GPS</short_desc>
       <min>1.5</min>
       <max>5.0</max>
       <unit />
     </parameter>
     <parameter default="0.3" name="EKF2_REQ_HDRIFT" type="FLOAT">
-      <short_desc>Maximum horizontal drift speed to use GPS</short_desc>
+      <short_desc>Максимальный горизонтальный дрейф для GPS</short_desc>
       <min>0.1</min>
       <max>1.0</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="0.5" name="EKF2_REQ_VDRIFT" type="FLOAT">
-      <short_desc>Maximum vertical drift speed to use GPS</short_desc>
+      <short_desc>Максимальный вертикальный дрейф для GPS</short_desc>
       <min>0.1</min>
       <max>1.5</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="1.0e-3" name="EKF2_GYR_NOISE" type="FLOAT">
-      <short_desc>Rate gyro noise for covariance prediction</short_desc>
+      <short_desc>Шум гироскопа для прогноза ковариации</short_desc>
       <min>0.0001</min>
       <max>0.01</max>
       <unit>rad/s</unit>
     </parameter>
     <parameter default="0.25" name="EKF2_ACC_NOISE" type="FLOAT">
-      <short_desc>Accelerometer noise for covariance prediction</short_desc>
+      <short_desc>Шум акселерометра для прогноза ковариации</short_desc>
       <min>0.01</min>
       <max>1.0</max>
       <unit>m/s/s</unit>
     </parameter>
     <parameter default="7.0e-5" name="EKF2_GYR_B_NOISE" type="FLOAT">
-      <short_desc>Process noise for delta angle bias prediction</short_desc>
+      <short_desc>Шум процесса смещения угловых скоростей</short_desc>
       <min>0.0</min>
       <max>0.0001</max>
       <unit>rad/s</unit>
     </parameter>
     <parameter default="1.0e-4" name="EKF2_ACC_B_NOISE" type="FLOAT">
-      <short_desc>Process noise for delta velocity z bias prediction</short_desc>
+      <short_desc>Шум процесса смещения ускорения по оси Z</short_desc>
       <min>0.0</min>
       <max>0.01</max>
       <unit>m/s/s</unit>
     </parameter>
     <parameter default="3.0e-3" name="EKF2_GYR_S_NOISE" type="FLOAT">
-      <short_desc>Process noise for delta angle scale factor prediction</short_desc>
+      <short_desc>Шум процесса масштаба угловых скоростей</short_desc>
       <min>0.0</min>
       <max>0.01</max>
       <unit>None</unit>
     </parameter>
     <parameter default="2.5e-2" name="EKF2_MAG_B_NOISE" type="FLOAT">
-      <short_desc>Process noise for sensor bias and earth magnetic field prediction</short_desc>
+      <short_desc>Шум процесса смещения датчика и магнитного поля Земли</short_desc>
       <min>0.0</min>
       <max>0.1</max>
       <unit>Gauss/s</unit>
     </parameter>
     <parameter default="1.0e-1" name="EKF2_WIND_NOISE" type="FLOAT">
-      <short_desc>Process noise for wind velocity prediction</short_desc>
+      <short_desc>Шум процесса прогноза скорости ветра</short_desc>
       <min>0.0</min>
       <max>1.0</max>
       <unit>m/s/s</unit>
     </parameter>
     <parameter default="0.5" name="EKF2_GPS_V_NOISE" type="FLOAT">
-      <short_desc>Measurement noise for gps horizontal velocity</short_desc>
+      <short_desc>Шум измерений горизонтальной скорости GPS</short_desc>
       <min>0.01</min>
       <max>5.0</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="1.0" name="EKF2_GPS_P_NOISE" type="FLOAT">
-      <short_desc>Measurement noise for gps position</short_desc>
+      <short_desc>Шум измерений положения GPS</short_desc>
       <min>0.01</min>
       <max>10.0</max>
       <unit>m</unit>
     </parameter>
     <parameter default="10.0" name="EKF2_NOAID_NOISE" type="FLOAT">
-      <short_desc>Measurement noise for non-aiding position hold</short_desc>
+      <short_desc>Шум измерений режима удержания без внешних датчиков</short_desc>
       <min>0.5</min>
       <max>50.0</max>
       <unit>m</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_BARO_NOISE" type="FLOAT">
-      <short_desc>Measurement noise for barometric altitude</short_desc>
+      <short_desc>Шум измерений барометрической высоты</short_desc>
       <min>0.01</min>
       <max>15.0</max>
       <unit>m</unit>
     </parameter>
     <parameter default="0.17" name="EKF2_HEAD_NOISE" type="FLOAT">
-      <short_desc>Measurement noise for magnetic heading fusion</short_desc>
+      <short_desc>Шум измерений магнитного курса</short_desc>
       <min>0.01</min>
       <max>1.0</max>
       <unit>rad</unit>
     </parameter>
     <parameter default="5.0e-2" name="EKF2_MAG_NOISE" type="FLOAT">
-      <short_desc>Measurement noise for magnetometer 3-axis fusion</short_desc>
+      <short_desc>Шум измерений трёхосевого магнитометра</short_desc>
       <min>0.001</min>
       <max>1.0</max>
       <unit>Gauss</unit>
     </parameter>
     <parameter default="0" name="EKF2_MAG_DECL" type="FLOAT">
-      <short_desc>Magnetic declination</short_desc>
+      <short_desc>Магнитное склонение</short_desc>
       <unit>degrees</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_HDG_GATE" type="FLOAT">
-      <short_desc>Gate size for magnetic heading fusion</short_desc>
+      <short_desc>Порог слияния магнитного курса</short_desc>
       <min>1.0</min>
       <unit>SD</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_MAG_GATE" type="FLOAT">
-      <short_desc>Gate size for magnetometer XYZ component fusion</short_desc>
+      <short_desc>Порог слияния компонент магнитометра</short_desc>
       <min>1.0</min>
       <unit>SD</unit>
     </parameter>
     <parameter default="7" name="EKF2_DECL_TYPE" type="INT32">
-      <short_desc>Integer bitmask controlling handling of magnetic declination. Set bits to in the following positions to enable functions.
-0 : Set to true to use the declination from the geo_lookup library when the GPS position becomes available, set to false to always use the EKF2_MAG_DECL value.
-1 : Set to true to save the EKF2_MAG_DECL parameter to the value returned by the EKF when the vehicle disarms.
-2 : Set to true to always use the declination as an observaton when 3-axis magnetometer fusion is being used</short_desc>
+      <short_desc>Битовая маска обработки склонения.
+0 – брать склонение из базы при появлении GPS
+1 – сохранять вычисленное склонение при разоружении
+2 – всегда использовать склонение при 3‑осевом слиянии</short_desc>
       <min>0</min>
       <max>7</max>
       <unit />
     </parameter>
     <parameter default="0" name="EKF2_MAG_TYPE" type="INT32">
-      <short_desc>Integer controlling the type of magnetometer fusion used - magnetic heading or 3-axis magnetometer.
-0 : determine the best fusion method to use automatically - heading fusion on-ground and 3-axis fusion in-flight
-1 : always use magnetic heading fusion
-2 : always use 3-axis fusion
-Other values  will disable magnetometer fusion completely</short_desc>
+      <short_desc>Тип слияния данных магнитометра.
+0 – выбор автоматически (курс на земле, 3 оси в полёте)
+1 – только курс
+2 – всегда 3 оси
+Иные значения отключают использование магнитометра</short_desc>
       <min>0</min>
       <max>2</max>
       <unit>None</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_BARO_GATE" type="FLOAT">
-      <short_desc>Gate size for barometric height fusion</short_desc>
+      <short_desc>Порог слияния высоты по барометру</short_desc>
       <min>1.0</min>
       <unit>SD</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_GPS_P_GATE" type="FLOAT">
-      <short_desc>Gate size for GPS horizontal position fusion</short_desc>
+      <short_desc>Порог слияния горизонтального положения GPS</short_desc>
       <min>1.0</min>
       <unit>SD</unit>
     </parameter>
     <parameter default="3.0" name="EKF2_GPS_V_GATE" type="FLOAT">
-      <short_desc>Gate size for GPS velocity fusion</short_desc>
+      <short_desc>Порог слияния скорости GPS</short_desc>
       <min>1.0</min>
       <unit>SD</unit>
     </parameter>
     <parameter default="0" name="EKF2_REC_RPL" type="INT32">
-      <short_desc>A value of 1 indicates that the ekf2 module will publish
-replay messages for logging</short_desc>
+      <short_desc>При 1 модуль EKF2 публикует сообщения replay для логирования</short_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
   </group>
   <group name="FW Attitude Control">
     <parameter default="0.4" name="FW_R_TC" type="FLOAT">
-      <short_desc>Attitude Roll Time Constant</short_desc>
-      <long_desc>This defines the latency between a roll step input and the achieved setpoint (inverse to a P gain). Half a second is a good start value and fits for most average systems. Smaller systems may require smaller values, but as this will wear out servos faster, the value should only be decreased as needed.</long_desc>
+      <short_desc>Постоянная времени крена</short_desc>
+      <long_desc>Задержка между шагом по крену и достижением уставки (обратная величина P‑коэффициента). Значение 0.5 с подходит большинству систем. Для мелких самолётов можно уменьшить, но это быстрее изнашивает сервоприводы.</long_desc>
       <min>0.4</min>
       <max>1.0</max>
       <unit>seconds</unit>
     </parameter>
     <parameter default="0.4" name="FW_P_TC" type="FLOAT">
-      <short_desc>Attitude Pitch Time Constant</short_desc>
-      <long_desc>This defines the latency between a pitch step input and the achieved setpoint (inverse to a P gain). Half a second is a good start value and fits for most average systems. Smaller systems may require smaller values, but as this will wear out servos faster, the value should only be decreased as needed.</long_desc>
+      <short_desc>Постоянная времени тангажа</short_desc>
+      <long_desc>Задержка между шагом по тангажу и достижением уставки (обратная величина P‑коэффициента). Значение 0.5 с подходит большинству систем. Для мелких самолётов можно уменьшить, но это быстрее изнашивает сервоприводы.</long_desc>
       <min>0.2</min>
       <max>1.0</max>
       <unit>seconds</unit>
     </parameter>
     <parameter default="0.08" name="FW_PR_P" type="FLOAT">
-      <short_desc>Pitch rate proportional gain</short_desc>
-      <long_desc>This defines how much the elevator input will be commanded depending on the current body angular rate error.</long_desc>
+      <short_desc>Пропорциональный коэффициент скорости тангажа</short_desc>
+      <long_desc>Определяет отклонение руля высоты в зависимости от ошибки угловой скорости.</long_desc>
       <min>0.005</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.02" name="FW_PR_I" type="FLOAT">
-      <short_desc>Pitch rate integrator gain</short_desc>
-      <long_desc>This gain defines how much control response will result out of a steady state error. It trims any constant error.</long_desc>
+      <short_desc>Интегральный коэффициент скорости тангажа</short_desc>
+      <long_desc>Определяет отклонение по постоянной ошибке, устраняя смещение.</long_desc>
       <min>0.005</min>
       <max>0.5</max>
     </parameter>
     <parameter default="60.0" name="FW_P_RMAX_POS" type="FLOAT">
-      <short_desc>Maximum positive / up pitch rate</short_desc>
-      <long_desc>This limits the maximum pitch up angular rate the controller will output (in degrees per second). Setting a value of zero disables the limit.</long_desc>
+      <short_desc>Максимальная скорость тангажа вверх</short_desc>
+      <long_desc>Ограничивает максимальную угловую скорость подъёма (град/с). Ноль отключает ограничение.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg/s</unit>
     </parameter>
     <parameter default="60.0" name="FW_P_RMAX_NEG" type="FLOAT">
-      <short_desc>Maximum negative / down pitch rate</short_desc>
-      <long_desc>This limits the maximum pitch down up angular rate the controller will output (in degrees per second). Setting a value of zero disables the limit.</long_desc>
+      <short_desc>Максимальная скорость тангажа вниз</short_desc>
+      <long_desc>Ограничивает максимальную угловую скорость снижения (град/с). Ноль отключает ограничение.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg/s</unit>
     </parameter>
     <parameter default="0.4" name="FW_PR_IMAX" type="FLOAT">
-      <short_desc>Pitch rate integrator limit</short_desc>
-      <long_desc>The portion of the integrator part in the control surface deflection is limited to this value</long_desc>
+      <short_desc>Предел интегратора скорости тангажа</short_desc>
+      <long_desc>Доля интегральной составляющей в отклонении ограничивается этим значением.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.05" name="FW_RR_P" type="FLOAT">
-      <short_desc>Roll rate proportional Gain</short_desc>
-      <long_desc>This defines how much the aileron input will be commanded depending on the current body angular rate error.</long_desc>
+      <short_desc>Пропорциональный коэффициент скорости крена</short_desc>
+      <long_desc>Определяет отклонение элеронов в зависимости от ошибки угловой скорости.</long_desc>
       <min>0.005</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.01" name="FW_RR_I" type="FLOAT">
-      <short_desc>Roll rate integrator Gain</short_desc>
-      <long_desc>This gain defines how much control response will result out of a steady state error. It trims any constant error.</long_desc>
+      <short_desc>Интегральный коэффициент скорости крена</short_desc>
+      <long_desc>Определяет влияние постоянной ошибки на отклонение элеронов.</long_desc>
       <min>0.005</min>
       <max>0.2</max>
     </parameter>
     <parameter default="0.2" name="FW_RR_IMAX" type="FLOAT">
-      <short_desc>Roll Integrator Anti-Windup</short_desc>
-      <long_desc>The portion of the integrator part in the control surface deflection is limited to this value.</long_desc>
+      <short_desc>Ограничение интегратора крена</short_desc>
+      <long_desc>Ограничивает вклад интегральной части в отклонение поверхности.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="70.0" name="FW_R_RMAX" type="FLOAT">
-      <short_desc>Maximum Roll Rate</short_desc>
-      <long_desc>This limits the maximum roll rate the controller will output (in degrees per second). Setting a value of zero disables the limit.</long_desc>
+      <short_desc>Максимальная скорость крена</short_desc>
+      <long_desc>Ограничивает максимальную угловую скорость крена (град/с). Ноль отключает ограничение.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg/s</unit>
     </parameter>
     <parameter default="0.05" name="FW_YR_P" type="FLOAT">
-      <short_desc>Yaw rate proportional gain</short_desc>
-      <long_desc>This defines how much the rudder input will be commanded depending on the current body angular rate error.</long_desc>
+      <short_desc>Пропорциональный коэффициент скорости рысканья</short_desc>
+      <long_desc>Определяет отклонение руля направления в зависимости от ошибки угловой скорости.</long_desc>
       <min>0.005</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="FW_YR_I" type="FLOAT">
-      <short_desc>Yaw rate integrator gain</short_desc>
-      <long_desc>This gain defines how much control response will result out of a steady state error. It trims any constant error.</long_desc>
+      <short_desc>Интегральный коэффициент скорости рысканья</short_desc>
+      <long_desc>Определяет влияние постоянной ошибки на отклонение руля направления.</long_desc>
       <min>0.0</min>
       <max>50.0</max>
     </parameter>
     <parameter default="0.2" name="FW_YR_IMAX" type="FLOAT">
-      <short_desc>Yaw rate integrator limit</short_desc>
-      <long_desc>The portion of the integrator part in the control surface deflection is limited to this value</long_desc>
+      <short_desc>Предел интегратора рысканья</short_desc>
+      <long_desc>Ограничивает вклад интегральной части в отклонение руля направления.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="FW_Y_RMAX" type="FLOAT">
-      <short_desc>Maximum Yaw Rate</short_desc>
-      <long_desc>This limits the maximum yaw rate the controller will output (in degrees per second). Setting a value of zero disables the limit.</long_desc>
+      <short_desc>Максимальная скорость рысканья</short_desc>
+      <long_desc>Ограничивает максимальную угловую скорость рысканья (град/с). Ноль отключает ограничение.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg/s</unit>
     </parameter>
     <parameter default="0.5" name="FW_WR_P" type="FLOAT">
-      <short_desc>Wheel steering rate proportional gain</short_desc>
-      <long_desc>This defines how much the wheel steering input will be commanded depending on the current body angular rate error.</long_desc>
+      <short_desc>Пропорциональный коэффициент скорости руления колесом</short_desc>
+      <long_desc>Определяет отклонение колеса руления в зависимости от ошибки угловой скорости.</long_desc>
       <min>0.005</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.1" name="FW_WR_I" type="FLOAT">
-      <short_desc>Wheel steering rate integrator gain</short_desc>
-      <long_desc>This gain defines how much control response will result out of a steady state error. It trims any constant error.</long_desc>
+      <short_desc>Интегральный коэффициент скорости руления колесом</short_desc>
+      <long_desc>Определяет влияние постоянной ошибки на отклонение колеса.</long_desc>
       <min>0.0</min>
       <max>50.0</max>
     </parameter>
     <parameter default="1.0" name="FW_WR_IMAX" type="FLOAT">
-      <short_desc>Wheel steering rate integrator limit</short_desc>
-      <long_desc>The portion of the integrator part in the control surface deflection is limited to this value</long_desc>
+      <short_desc>Предел интегратора скорости руления колесом</short_desc>
+      <long_desc>Ограничивает вклад интегральной части в руление колесом.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="FW_W_RMAX" type="FLOAT">
-      <short_desc>Maximum wheel steering rate</short_desc>
-      <long_desc>This limits the maximum wheel steering rate the controller will output (in degrees per second). Setting a value of zero disables the limit.</long_desc>
+      <short_desc>Максимальная скорость руления колесом</short_desc>
+      <long_desc>Ограничивает максимальную скорость отклонения колеса (град/с). Ноль отключает ограничение.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg/s</unit>
     </parameter>
     <parameter default="0.5" name="FW_RR_FF" type="FLOAT">
-      <short_desc>Roll rate feed forward</short_desc>
-      <long_desc>Direct feed forward from rate setpoint to control surface output. Use this to obtain a tigher response of the controller without introducing noise amplification.</long_desc>
+      <short_desc>Упреждение по скорости крена</short_desc>
+      <long_desc>Прямое упреждение от задаваемой скорости крена к управляющему воздействию, улучшает отклик без усиления шума.</long_desc>
       <min>0.0</min>
       <max>10.0</max>
     </parameter>
     <parameter default="0.5" name="FW_PR_FF" type="FLOAT">
-      <short_desc>Pitch rate feed forward</short_desc>
-      <long_desc>Direct feed forward from rate setpoint to control surface output</long_desc>
+      <short_desc>Упреждение по скорости тангажа</short_desc>
+      <long_desc>Прямое упреждение от задаваемой скорости тангажа.</long_desc>
       <min>0.0</min>
       <max>10.0</max>
     </parameter>
     <parameter default="0.3" name="FW_YR_FF" type="FLOAT">
-      <short_desc>Yaw rate feed forward</short_desc>
-      <long_desc>Direct feed forward from rate setpoint to control surface output</long_desc>
+      <short_desc>Упреждение по скорости рысканья</short_desc>
+      <long_desc>Прямое упреждение от задаваемой скорости рысканья.</long_desc>
       <min>0.0</min>
       <max>10.0</max>
     </parameter>
     <parameter default="0.2" name="FW_WR_FF" type="FLOAT">
-      <short_desc>Wheel steering rate feed forward</short_desc>
-      <long_desc>Direct feed forward from rate setpoint to control surface output</long_desc>
+      <short_desc>Упреждение руления колесом</short_desc>
+      <long_desc>Прямое упреждение от задаваемой скорости руления.</long_desc>
       <min>0.0</min>
       <max>10.0</max>
     </parameter>
     <parameter default="1000.0" name="FW_YCO_VMIN" type="FLOAT">
-      <short_desc>Minimal speed for yaw coordination</short_desc>
-      <long_desc>For airspeeds above this value, the yaw rate is calculated for a coordinated turn. Set to a very high value to disable.</long_desc>
+      <short_desc>Минимальная скорость для координации рысканья</short_desc>
+      <long_desc>При скоростях выше этого значения рысканье рассчитывается для координированного разворота. Чтобы отключить, задайте очень большое значение.</long_desc>
       <unit>m/s</unit>
     </parameter>
     <parameter default="0" name="FW_YCO_METHOD" type="INT32">
-      <short_desc>Method used for yaw coordination</short_desc>
-      <long_desc>The param value sets the method used to calculate the yaw rate 0: open-loop zero lateral acceleration based on kinematic constraints 1: closed-loop: try to reduce lateral acceleration to 0 by measuring the acceleration</long_desc>
+      <short_desc>Метод расчёта рысканья</short_desc>
+      <long_desc>Определяет способ вычисления рысканья: 0 — открытый контур с нулевым боковым ускорением по кинематическим ограничениям, 1 — замкнутый контур с измерением бокового ускорения.</long_desc>
       <min>0</min>
       <max>1</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="10.0" name="FW_AIRSPD_MIN" type="FLOAT">
-      <short_desc>Minimum Airspeed</short_desc>
-      <long_desc>If the airspeed falls below this value, the TECS controller will try to increase airspeed more aggressively.</long_desc>
+      <short_desc>Минимальная воздушная скорость</short_desc>
+      <long_desc>При снижении скорости ниже этого значения TECS будет активнее её увеличивать.</long_desc>
       <min>0.0</min>
       <max>40</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="15.0" name="FW_AIRSPD_TRIM" type="FLOAT">
-      <short_desc>Trim Airspeed</short_desc>
-      <long_desc>The TECS controller tries to fly at this airspeed.</long_desc>
+      <short_desc>Номинальная воздушная скорость</short_desc>
+      <long_desc>TECS стремится поддерживать эту скорость.</long_desc>
       <min>0.0</min>
       <max>40</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="20.0" name="FW_AIRSPD_MAX" type="FLOAT">
-      <short_desc>Maximum Airspeed</short_desc>
-      <long_desc>If the airspeed is above this value, the TECS controller will try to decrease airspeed more aggressively.</long_desc>
+      <short_desc>Максимальная воздушная скорость</short_desc>
+      <long_desc>Если скорость выше этого значения, TECS будет активнее её снижать.</long_desc>
       <min>0.0</min>
       <max>40</max>
       <unit>m/s</unit>
     </parameter>
     <parameter default="0.0" name="FW_RSP_OFF" type="FLOAT">
-      <short_desc>Roll Setpoint Offset</short_desc>
-      <long_desc>An airframe specific offset of the roll setpoint in degrees, the value is added to the roll setpoint and should correspond to the typical cruise speed of the airframe.</long_desc>
+      <short_desc>Смещение уставки крена</short_desc>
+      <long_desc>Специфическое для планера смещение уставки крена в градусах. Добавляется к задаваемому значению и соответствует крейсерской скорости.</long_desc>
       <min>-90.0</min>
       <max>90.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="0.0" name="FW_PSP_OFF" type="FLOAT">
-      <short_desc>Pitch Setpoint Offset</short_desc>
-      <long_desc>An airframe specific offset of the pitch setpoint in degrees, the value is added to the pitch setpoint and should correspond to the typical cruise speed of the airframe.</long_desc>
+      <short_desc>Смещение уставки тангажа</short_desc>
+      <long_desc>Специфическое для планера смещение уставки тангажа в градусах. Добавляется к задаваемому значению и соответствует крейсерской скорости.</long_desc>
       <min>-90.0</min>
       <max>90.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="45.0" name="FW_MAN_R_MAX" type="FLOAT">
-      <short_desc>Max Manual Roll</short_desc>
-      <long_desc>Max roll for manual control in attitude stabilized mode</long_desc>
+      <short_desc>Максимальный крен при ручном управлении</short_desc>
+      <long_desc>Предельный крен в режиме стабилизации при ручном управлении.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="45.0" name="FW_MAN_P_MAX" type="FLOAT">
-      <short_desc>Max Manual Pitch</short_desc>
-      <long_desc>Max pitch for manual control in attitude stabilized mode</long_desc>
+      <short_desc>Максимальный тангаж при ручном управлении</short_desc>
+      <long_desc>Предельный тангаж в режиме стабилизации при ручном управлении.</long_desc>
       <min>0.0</min>
       <max>90.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="1.0" name="FW_FLAPS_SCL" type="FLOAT">
-      <short_desc>Scale factor for flaps</short_desc>
+      <short_desc>Коэффициент отклонения закрылков</short_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="FW_FLAPERON_SCL" type="FLOAT">
-      <short_desc>Scale factor for flaperons</short_desc>
+      <short_desc>Коэффициент отклонения флеперонов</short_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
   </group>
   <group name="Fixed Wing TECS">
     <parameter default="2.0" name="FW_T_SINK_MIN" type="FLOAT">
-      <short_desc>Minimum descent rate</short_desc>
-      <long_desc>This is the sink rate of the aircraft with the throttle set to THR_MIN and flown at the same airspeed as used to measure FW_T_CLMB_MAX.</long_desc>
+      <short_desc>Минимальная скорость снижения</short_desc>
+      <long_desc>Скорость снижения при тяге THR_MIN и той же скорости, что использовалась для измерения FW_T_CLMB_MAX.</long_desc>
     </parameter>
     <parameter default="5.0" name="FW_T_SINK_MAX" type="FLOAT">
-      <short_desc>Maximum descent rate</short_desc>
-      <long_desc>This sets the maximum descent rate that the controller will use. If this value is too large, the aircraft can over-speed on descent. This should be set to a value that can be achieved without exceeding the lower pitch angle limit and without over-speeding the aircraft.</long_desc>
+      <short_desc>Максимальная скорость снижения</short_desc>
+      <long_desc>Максимальная скорость снижения, используемая контроллером. Слишком большое значение может привести к превышению скорости, поэтому оно должно быть достижимо без выхода за пределы тангажа.</long_desc>
     </parameter>
     <parameter default="5.0" name="FW_T_TIME_CONST" type="FLOAT">
-      <short_desc>TECS time constant</short_desc>
-      <long_desc>This is the time constant of the TECS control algorithm (in seconds). Smaller values make it faster to respond, larger values make it slower to respond.</long_desc>
+      <short_desc>Постоянная времени алгоритма TECS</short_desc>
+      <long_desc>Постоянная времени алгоритма TECS в секундах. Меньшие значения ускоряют реакцию, большие – замедляют.</long_desc>
     </parameter>
     <parameter default="8.0" name="FW_T_THRO_CONST" type="FLOAT">
-      <short_desc>TECS Throttle time constant</short_desc>
-      <long_desc>This is the time constant of the TECS throttle control algorithm (in seconds). Smaller values make it faster to respond, larger values make it slower to respond.</long_desc>
+      <short_desc>Постоянная времени газа TECS</short_desc>
+      <long_desc>Постоянная времени контура газа TECS (сек). Меньшие значения дают более быструю реакцию.</long_desc>
     </parameter>
     <parameter default="0.5" name="FW_T_THR_DAMP" type="FLOAT">
-      <short_desc>Throttle damping factor</short_desc>
-      <long_desc>This is the damping gain for the throttle demand loop. Increase to add damping to correct for oscillations in speed and height.</long_desc>
+      <short_desc>Коэффициент демпфирования по газу</short_desc>
+      <long_desc>Коэффициент демпфирования петли газа. Увеличивайте его для подавления колебаний скорости и высоты.</long_desc>
     </parameter>
     <parameter default="0.1" name="FW_T_INTEG_GAIN" type="FLOAT">
-      <short_desc>Integrator gain</short_desc>
-      <long_desc>This is the integrator gain on the control loop. Increasing this gain increases the speed at which speed and height offsets are trimmed out, but reduces damping and increases overshoot.</long_desc>
+      <short_desc>Коэффициент интегратора</short_desc>
+      <long_desc>Коэффициент интегратора в контуре управления. Большие значения быстрее устраняют ошибки, но уменьшают демпфирование и вызывают перерегулирование.</long_desc>
     </parameter>
     <parameter default="7.0" name="FW_T_VERT_ACC" type="FLOAT">
-      <short_desc>Maximum vertical acceleration</short_desc>
-      <long_desc>This is the maximum vertical acceleration (in metres/second square) either up or down that the controller will use to correct speed or height errors. The default value of 7 m/s/s (equivalent to +- 0.7 g) allows for reasonably aggressive pitch changes if required to recover from under-speed conditions.</long_desc>
+      <short_desc>Максимальное вертикальное ускорение</short_desc>
+      <long_desc>Предельное вертикальное ускорение (м/с²) вверх или вниз, которое используется для коррекции ошибок. Значение по умолчанию 7 м/с² (~0.7 g) допускает довольно резкие манёвры для восстановления скорости.</long_desc>
     </parameter>
     <parameter default="3.0" name="FW_T_HGT_OMEGA" type="FLOAT">
-      <short_desc>Complementary filter "omega" parameter for height</short_desc>
-      <long_desc>This is the cross-over frequency (in radians/second) of the complementary filter used to fuse vertical acceleration and barometric height to obtain an estimate of height rate and height. Increasing this frequency weights the solution more towards use of the barometer, whilst reducing it weights the solution more towards use of the accelerometer data.</long_desc>
+      <short_desc>Параметр «омега» комплементарного фильтра высоты</short_desc>
+      <long_desc>Частота среза (рад/с) комплементарного фильтра, объединяющего вертикальное ускорение и барометрическую высоту. При увеличении больше учитывается барометр, при уменьшении — акселерометр.</long_desc>
     </parameter>
     <parameter default="2.0" name="FW_T_SPD_OMEGA" type="FLOAT">
-      <short_desc>Complementary filter "omega" parameter for speed</short_desc>
-      <long_desc>This is the cross-over frequency (in radians/second) of the complementary filter used to fuse longitudinal acceleration and airspeed to obtain an improved airspeed estimate. Increasing this frequency weights the solution more towards use of the arispeed sensor, whilst reducing it weights the solution more towards use of the accelerometer data.</long_desc>
+      <short_desc>Параметр «омега» комплементарного фильтра скорости</short_desc>
+      <long_desc>Частота среза фильтра, объединяющего продольное ускорение и воздушную скорость. Большее значение даёт больший вес датчику скорости, меньшее — акселерометру.</long_desc>
     </parameter>
     <parameter default="15.0" name="FW_T_RLL2THR" type="FLOAT">
-      <short_desc>Roll -&gt; Throttle feedforward</short_desc>
-      <long_desc>Increasing this gain turn increases the amount of throttle that will be used to compensate for the additional drag created by turning. Ideally this should be set to  approximately 10 x the extra sink rate in m/s created by a 45 degree bank turn. Increase this gain if the aircraft initially loses energy in turns and reduce if the aircraft initially gains energy in turns. Efficient high aspect-ratio aircraft (eg powered sailplanes) can use a lower value, whereas inefficient low aspect-ratio models (eg delta wings) can use a higher value.</long_desc>
+      <short_desc>Упреждение крена в тягу</short_desc>
+      <long_desc>Увеличение этого коэффициента повышает подачу газа в повороте для компенсации дополнительного сопротивления. Обычно его выбирают около 10× дополнительной скорости снижения при крене 45°.</long_desc>
     </parameter>
     <parameter default="1.0" name="FW_T_SPDWEIGHT" type="FLOAT">
-      <short_desc>Speed &lt;--&gt; Altitude priority</short_desc>
-      <long_desc>This parameter adjusts the amount of weighting that the pitch control applies to speed vs height errors. Setting it to 0.0 will cause the pitch control to control height and ignore speed errors. This will normally improve height accuracy but give larger airspeed errors. Setting it to 2.0 will cause the pitch control loop to control speed and ignore height errors. This will normally reduce airspeed errors, but give larger height errors. The default value of 1.0 allows the pitch control to simultaneously control height and speed. Note to Glider Pilots - set this parameter to 2.0 (The glider will adjust its pitch angle to maintain airspeed, ignoring changes in height).</long_desc>
+      <short_desc>Приоритет скорости и высоты</short_desc>
+      <long_desc>Определяет вес, с которым управление тангажом учитывает ошибки по скорости и высоте. 0 – управлять только высотой, 2 – только скоростью. Значение 1 обеспечивает баланс.</long_desc>
     </parameter>
     <parameter default="0.0" name="FW_T_PTCH_DAMP" type="FLOAT">
-      <short_desc>Pitch damping factor</short_desc>
-      <long_desc>This is the damping gain for the pitch demand loop. Increase to add damping to correct for oscillations in height. The default value of 0.0 will work well provided the pitch to servo controller has been tuned properly.</long_desc>
+      <short_desc>Коэффициент демпфирования по тангажу</short_desc>
+      <long_desc>Коэффициент демпфирования петли тангажа. Увеличьте его для подавления колебаний высоты.</long_desc>
     </parameter>
     <parameter default="0.05" name="FW_T_HRATE_P" type="FLOAT">
-      <short_desc>Height rate P factor</short_desc>
+      <short_desc>Коэффициент P скорости высоты</short_desc>
     </parameter>
     <parameter default="0.0" name="FW_T_HRATE_FF" type="FLOAT">
-      <short_desc>Height rate FF factor</short_desc>
+      <short_desc>Коэффициент упреждения скорости высоты</short_desc>
     </parameter>
     <parameter default="0.02" name="FW_T_SRATE_P" type="FLOAT">
-      <short_desc>Speed rate P factor</short_desc>
+      <short_desc>Коэффициент P скорости</short_desc>
     </parameter>
   </group>
   <group name="GPS Failure Navigation">
     <parameter default="30.0" name="NAV_GPSF_LT" type="FLOAT">
-      <short_desc>Loiter time</short_desc>
+      <short_desc>Время ожидания</short_desc>
       <long_desc>The amount of time in seconds the system should do open loop loiter and wait for gps recovery before it goes into flight termination.</long_desc>
       <min>0.0</min>
       <unit>seconds</unit>
     </parameter>
     <parameter default="15.0" name="NAV_GPSF_R" type="FLOAT">
-      <short_desc>Open loop loiter roll</short_desc>
+      <short_desc>Крен при свободном ожидании</short_desc>
       <long_desc>Roll in degrees during the open loop loiter</long_desc>
       <min>0.0</min>
       <max>30.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="0.0" name="NAV_GPSF_P" type="FLOAT">
-      <short_desc>Open loop loiter pitch</short_desc>
+      <short_desc>Тангаж при свободном ожидании</short_desc>
       <long_desc>Pitch in degrees during the open loop loiter</long_desc>
       <min>-30.0</min>
       <max>30.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="0.7" name="NAV_GPSF_TR" type="FLOAT">
-      <short_desc>Open loop loiter thrust</short_desc>
+      <short_desc>Тяга при свободном ожидании</short_desc>
       <long_desc>Thrust value which is set during the open loop loiter</long_desc>
       <min>0.0</min>
       <max>1.0</max>
@@ -1103,37 +1078,37 @@ replay messages for logging</short_desc>
   </group>
   <group name="Geofence">
     <parameter default="1" name="GF_ACTION" type="INT32">
-      <short_desc>Geofence violation action</short_desc>
+      <short_desc>Действие при нарушении геозоны</short_desc>
       <long_desc>0 = none, 1 = warning (default), 2 = loiter, 3 = return to launch, 4 = fight termination</long_desc>
       <min>0</min>
       <max>4</max>
     </parameter>
     <parameter default="0" name="GF_ALTMODE" type="INT32">
-      <short_desc>Geofence altitude mode</short_desc>
+      <short_desc>Режим высоты геозоны</short_desc>
       <long_desc>Select which altitude reference should be used 0 = WGS84, 1 = AMSL</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0" name="GF_SOURCE" type="INT32">
-      <short_desc>Geofence source</short_desc>
+      <short_desc>Источник данных для геозоны</short_desc>
       <long_desc>Select which position source should be used. Selecting GPS instead of global position makes sure that there is no dependence on the position estimator 0 = global position, 1 = GPS</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="-1" name="GF_COUNT" type="INT32">
-      <short_desc>Geofence counter limit</short_desc>
+      <short_desc>Предел счётчика нарушений геозоны</short_desc>
       <long_desc>Set how many subsequent position measurements outside of the fence are needed before geofence violation is triggered</long_desc>
       <min>-1</min>
       <max>10</max>
     </parameter>
     <parameter default="-1" name="GF_MAX_HOR_DIST" type="INT32">
-      <short_desc>Max horizontal distance in meters</short_desc>
+      <short_desc>Максимальная горизонтальная дистанция, м</short_desc>
       <long_desc>Set to &gt; 0 to activate a geofence action if horizontal distance to home exceeds this value.</long_desc>
       <min>-1</min>
       <unit>meters</unit>
     </parameter>
     <parameter default="-1" name="GF_MAX_VER_DIST" type="INT32">
-      <short_desc>Max vertical distance in meters</short_desc>
+      <short_desc>Максимальная вертикальная дистанция, м</short_desc>
       <long_desc>Set to &gt; 0 to activate a geofence action if vertical distance to home exceeds this value.</long_desc>
       <min>-1</min>
       <unit>meters</unit>
@@ -1496,109 +1471,109 @@ replay messages for logging</short_desc>
   </group>
   <group name="MAVLink">
     <parameter default="1" name="MAV_SYS_ID" type="INT32">
-      <short_desc>MAVLink system ID</short_desc>
+      <short_desc>Идентификатор системы MAVLink</short_desc>
       <min>1</min>
       <max>250</max>
     </parameter>
     <parameter default="1" name="MAV_COMP_ID" type="INT32">
-      <short_desc>MAVLink component ID</short_desc>
+      <short_desc>Идентификатор компонента MAVLink</short_desc>
       <min>1</min>
       <max>250</max>
     </parameter>
     <parameter default="0" name="MAV_RADIO_ID" type="INT32">
-      <short_desc>MAVLink Radio ID</short_desc>
-      <long_desc>When non-zero the MAVLink app will attempt to configure the radio to this ID and re-set the parameter to 0. If the value is negative it will reset the complete radio config to factory defaults.</long_desc>
+      <short_desc>Идентификатор радиомодуля MAVLink</short_desc>
+      <long_desc>Если значение отлично от нуля, приложение MAVLink попытается настроить радиомодуль на этот идентификатор и сбросит параметр в 0. Отрицательное значение приводит к сбросу конфигурации радиомодуля на заводские установки.</long_desc>
       <min>-1</min>
       <max>240</max>
     </parameter>
     <parameter default="1" name="MAV_TYPE" type="INT32">
-      <short_desc>MAVLink airframe type</short_desc>
+      <short_desc>Тип планера MAVLink</short_desc>
       <min>1</min>
     </parameter>
     <parameter default="0" name="MAV_USEHILGPS" type="INT32">
-      <short_desc>Use/Accept HIL GPS message even if not in HIL mode</short_desc>
-      <long_desc>If set to 1 incoming HIL GPS messages are parsed.</long_desc>
+      <short_desc>Принимать сообщения HIL GPS даже вне режима HIL</short_desc>
+      <long_desc>Если установлено 1, входящие сообщения HIL GPS будут обрабатываться.</long_desc>
     </parameter>
     <parameter default="1" name="MAV_FWDEXTSP" type="INT32">
-      <short_desc>Forward external setpoint messages</short_desc>
-      <long_desc>If set to 1 incoming external setpoint messages will be directly forwarded to the controllers if in offboard control mode</long_desc>
+      <short_desc>Пересылать внешние сообщения уставок</short_desc>
+      <long_desc>Если установлено 1, внешние сообщения с уставками будут напрямую передаваться контроллерам в режиме offboard.</long_desc>
     </parameter>
     <parameter default="1" name="MAV_TEST_PAR" type="INT32">
-      <short_desc>Test parameter</short_desc>
-      <long_desc>This parameter is not actively used by the system. Its purpose is to allow testing the parameter interface on the communication level.</long_desc>
+      <short_desc>Тестовый параметр</short_desc>
+      <long_desc>Этот параметр не используется системой и предназначен для проверки интерфейса параметров на уровне связи.</long_desc>
       <min>-1000</min>
       <max>1000</max>
     </parameter>
   </group>
   <group name="MKBLCTRL Testmode">
     <parameter default="0" name="MKBLCTRL_TEST" type="INT32">
-      <short_desc>Enables testmode (Identify) of MKBLCTRL Driver</short_desc>
+      <short_desc>Включает тестовый режим (Identify) драйвера MKBLCTRL</short_desc>
     </parameter>
   </group>
-  <group name="Mission">
+  <group name="Миссия">
     <parameter default="2.5" name="MIS_TAKEOFF_ALT" type="FLOAT">
-      <short_desc>Take-off altitude</short_desc>
-      <long_desc>Even if first waypoint has altitude less then MIS_TAKEOFF_ALT above home position, system will climb to MIS_TAKEOFF_ALT on takeoff, then go to waypoint.</long_desc>
+      <short_desc>Высота взлёта</short_desc>
+      <long_desc>Даже если первая точка имеет высоту ниже MIS_TAKEOFF_ALT относительно домашней, при взлёте аппарат наберёт эту высоту, затем полетит к точке.</long_desc>
       <unit>meters</unit>
     </parameter>
     <parameter default="1" name="MIS_ONBOARD_EN" type="INT32">
-      <short_desc>Enable persistent onboard mission storage</short_desc>
-      <long_desc>When enabled, missions that have been uploaded by the GCS are stored and reloaded after reboot persistently.</long_desc>
+      <short_desc>Постоянное хранение миссий на борту</short_desc>
+      <long_desc>При включении миссии, загруженные с наземной станции, сохраняются и восстанавливаются после перезагрузки.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="900" name="MIS_DIST_1WP" type="FLOAT">
-      <short_desc>Maximal horizontal distance from home to first waypoint</short_desc>
-      <long_desc>Failsafe check to prevent running mission stored from previous flight at a new takeoff location. Set a value of zero or less to disable. The mission will not be started if the current waypoint is more distant than MIS_DIS_1WP from the current position.</long_desc>
+      <short_desc>Максимальная дистанция до первой точки</short_desc>
+      <long_desc>Предотвращает запуск старой миссии в новом месте. Если текущая точка дальше MIS_DIS_1WP от положения аппарата, миссия не начнётся. Значение 0 или меньше отключает проверку.</long_desc>
       <min>0</min>
       <max>1000</max>
     </parameter>
     <parameter default="1" name="MIS_ALTMODE" type="INT32">
-      <short_desc>Altitude setpoint mode</short_desc>
-      <long_desc>0: the system will follow a zero order hold altitude setpoint 1: the system will follow a first order hold altitude setpoint values follow the definition in enum mission_altitude_mode</long_desc>
+      <short_desc>Режим задания высоты</short_desc>
+      <long_desc>0 — ступенчатое удержание высоты; 1 — фильтр первого порядка. Значения описаны в mission_altitude_mode.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="1" name="MIS_YAWMODE" type="INT32">
-      <short_desc>Multirotor only. Yaw setpoint mode</short_desc>
-      <long_desc>0: Set the yaw heading to the yaw value specified for the destination waypoint. 1: Maintain a yaw heading pointing towards the next waypoint. 2: Maintain a yaw heading that always points to the home location. 3: Maintain a yaw heading that always points away from the home location (ie: back always faces home). The values are defined in the enum mission_altitude_mode</long_desc>
+      <short_desc>Только для мультикоптеров. Режим рысканья</short_desc>
+      <long_desc>0 — курс по значению в точке; 1 — курс на следующую точку; 2 — курс на дом; 3 — курс от дома. Значения определены в mission_altitude_mode.</long_desc>
       <min>0</min>
       <max>3</max>
     </parameter>
     <parameter default="-1.0" name="MIS_YAW_TMT" type="FLOAT">
-      <short_desc>Time in seconds we wait on reaching target heading at a waypoint if it is forced</short_desc>
-      <long_desc>If set &gt; 0 it will ignore the target heading for normal waypoint acceptance. If the waypoint forces the heading the timeout will matter. For example on VTOL forwards transiton. Mainly useful for VTOLs that have less yaw authority and might not reach target yaw in wind. Disabled by default.</long_desc>
+      <short_desc>Время ожидания заданного курса в точке</short_desc>
+      <long_desc>Если &gt; 0, игнорирует курс при обычной проверке точки. При принудительном курсе тайм-аут задаёт максимум ожидания (например, для VTOL при переходе вперёд). По умолчанию функция отключена.</long_desc>
       <min>-1</min>
       <max>20</max>
     </parameter>
     <parameter default="12.0" name="MIS_YAW_ERR" type="FLOAT">
-      <short_desc>Max yaw error in degree needed for waypoint heading acceptance</short_desc>
+      <short_desc>Допустимая ошибка курса для принятия точки</short_desc>
       <min>0</min>
       <max>90</max>
     </parameter>
     <parameter default="50.0" name="NAV_LOITER_RAD" type="FLOAT">
-      <short_desc>Loiter radius (FW only)</short_desc>
-      <long_desc>Default value of loiter radius for missions, loiter, RTL, etc. (fixedwing only).</long_desc>
+      <short_desc>Радиус ожидания (только самолёты)</short_desc>
+      <long_desc>Используется по умолчанию для миссий, удержания, RTL и др. (только для самолётов).</long_desc>
       <min>25</min>
       <max>1000</max>
       <unit>meter</unit>
     </parameter>
     <parameter default="10.0" name="NAV_ACC_RAD" type="FLOAT">
-      <short_desc>Acceptance Radius</short_desc>
-      <long_desc>Default acceptance radius, overridden by acceptance radius of waypoint if set.</long_desc>
+      <short_desc>Радиус завершения</short_desc>
+      <long_desc>Радиус завершения по умолчанию; может быть переопределён параметром точки.</long_desc>
       <min>0.05</min>
       <max>200.0</max>
       <unit>meter</unit>
     </parameter>
     <parameter default="0" name="NAV_DLL_OBC" type="INT32">
-      <short_desc>Set OBC mode for data link loss</short_desc>
-      <long_desc>If set to 1 the behaviour on data link loss is set to a mode according to the OBC rules</long_desc>
+      <short_desc>Режим OBC при потере связи</short_desc>
+      <long_desc>Если установлено 1, при потере связи активируется режим согласно правилам OBC.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0" name="NAV_RCL_OBC" type="INT32">
-      <short_desc>Set OBC mode for rc loss</short_desc>
-      <long_desc>If set to 1 the behaviour on data link loss is set to a mode according to the OBC rules</long_desc>
+      <short_desc>Режим OBC при потере управления</short_desc>
+      <long_desc>Если установлено 1, при потере канала РУ используется режим согласно правилам OBC.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
@@ -3891,96 +3866,88 @@ replay messages for logging</short_desc>
       <unit>seconds</unit>
     </parameter>
   </group>
-  <group name="Runway Takeoff">
+  <group name="Взлёт с полосы">
     <parameter default="0" name="RWTO_TKOFF" type="INT32">
-      <short_desc>Enable or disable runway takeoff with landing gear</short_desc>
-      <long_desc>0: disabled, 1: enabled</long_desc>
+      <short_desc>Взлёт с полосы с шасси</short_desc>
+      <long_desc>0 — выключено, 1 — включено</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0" name="RWTO_HDG" type="INT32">
-      <short_desc>Specifies which heading should be held during runnway takeoff</short_desc>
-      <long_desc>0: airframe heading, 1: heading towards takeoff waypoint</long_desc>
+      <short_desc>Направление при взлёте</short_desc>
+      <long_desc>0 — курс самолёта, 1 — курс на точку взлёта</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="5.0" name="RWTO_NAV_ALT" type="FLOAT">
-      <short_desc>Altitude AGL at which we have enough ground clearance to allow some roll.
-Until RWTO_NAV_ALT is reached the plane is held level and only
-rudder is used to keep the heading (see RWTO_HDG). This should be below
-FW_CLMBOUT_DIFF if FW_CLMBOUT_DIFF &gt; 0</short_desc>
+      <short_desc>Высота, на которой допускается крен</short_desc>
+      <long_desc>До достижения RWTO_NAV_ALT самолёт удерживается горизонтально и курс поддерживается только рулём направления (см. RWTO_HDG). Значение должно быть меньше FW_CLMBOUT_DIFF, если тот &gt; 0.</long_desc>
       <min>0.0</min>
       <max>100.0</max>
       <unit>m</unit>
     </parameter>
     <parameter default="1.0" name="RWTO_MAX_THR" type="FLOAT">
-      <short_desc>Max throttle during runway takeoff.
-(Can be used to test taxi on runway)</short_desc>
+      <short_desc>Максимальный газ при взлёте с полосы</short_desc>
+      <long_desc>Можно использовать для проверки движения по полосе.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
     <parameter default="0.0" name="RWTO_PSP" type="FLOAT">
-      <short_desc>Pitch setpoint during taxi / before takeoff airspeed is reached.
-A taildragger with stearable wheel might need to pitch up
-a little to keep it's wheel on the ground before airspeed
-to takeoff is reached</short_desc>
+      <short_desc>Тангаж при рулении</short_desc>
+      <long_desc>Хвостовые аппараты со поворотным колесом могут требовать небольшой тангаж, чтобы колесо оставалось на земле до скорости взлёта.</long_desc>
       <min>0.0</min>
       <max>20.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="20.0" name="RWTO_MAX_PITCH" type="FLOAT">
-      <short_desc>Max pitch during takeoff.
-Fixed-wing settings are used if set to 0. Note that there is also a minimum
-pitch of 10 degrees during takeoff, so this must be larger if set</short_desc>
+      <short_desc>Максимальный тангаж при взлёте</short_desc>
+      <long_desc>При значении 0 используются настройки самолёта. Минимальный тангаж при взлёте — 10°, поэтому заданное значение должно быть больше.</long_desc>
       <min>0.0</min>
       <max>60.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="25.0" name="RWTO_MAX_ROLL" type="FLOAT">
-      <short_desc>Max roll during climbout.
-Roll is limited during climbout to ensure enough lift and prevents aggressive
-navigation before we're on a safe height</short_desc>
+      <short_desc>Максимальный крен при наборе высоты</short_desc>
+      <long_desc>Ограничение крена обеспечивает достаточную подъёмную силу и предотвращает манёвры до набора безопасной высоты.</long_desc>
       <min>0.0</min>
       <max>60.0</max>
       <unit>deg</unit>
     </parameter>
     <parameter default="1.3" name="RWTO_AIRSPD_SCL" type="FLOAT">
-      <short_desc>Min. airspeed scaling factor for takeoff.
-Pitch up will be commanded when the following airspeed is reached:
-FW_AIRSPD_MIN * RWTO_AIRSPD_SCL</short_desc>
+      <short_desc>Коэффициент минимальной скорости взлёта</short_desc>
+      <long_desc>Команда на тангаж выдаётся при скорости FW_AIRSPD_MIN * RWTO_AIRSPD_SCL.</long_desc>
       <min>0.0</min>
       <max>2.0</max>
     </parameter>
   </group>
-  <group name="SD Logging">
+  <group name="Запись на SD">
     <parameter default="-1" name="SDLOG_RATE" type="INT32">
-      <short_desc>Logging rate</short_desc>
-      <long_desc>A value of -1 indicates the commandline argument should be obeyed. A value of 0 sets the minimum rate, any other value is interpreted as rate in Hertz. This parameter is only read out before logging starts (which commonly is before arming).</long_desc>
+      <short_desc>Частота записи</short_desc>
+      <long_desc>Значение -1 берётся из аргумента командной строки. Ноль задаёт минимальную частоту, другие значения трактуются как частота в герцах. Параметр читается только до начала записи.</long_desc>
       <min>-1</min>
       <max>100</max>
     </parameter>
     <parameter default="-1" name="SDLOG_EXT" type="INT32">
-      <short_desc>Enable extended logging mode</short_desc>
-      <long_desc>A value of -1 indicates the commandline argument should be obeyed. A value of 0 disables extended logging mode, a value of 1 enables it. This parameter is only read out before logging starts (which commonly is before arming).</long_desc>
+      <short_desc>Расширенный режим логирования</short_desc>
+      <long_desc>Значение -1 берётся из командной строки. 0 выключает режим, 1 включает. Параметр читается лишь до начала записи.</long_desc>
       <min>-1</min>
       <max>1</max>
     </parameter>
     <parameter default="1" name="SDLOG_GPSTIME" type="INT32">
-      <short_desc>Use timestamps only if GPS 3D fix is available</short_desc>
-      <long_desc>A value of 1 constrains the log folder creation to only use the time stamp if a 3D GPS lock is present.</long_desc>
+      <short_desc>Использовать метку времени только при 3D фиксе GPS</short_desc>
+      <long_desc>Если значение 1, папка журнала создаётся с меткой времени только при наличии 3D фикса GPS.</long_desc>
       <min>0</min>
       <max>1</max>
     </parameter>
     <parameter default="0" name="SDLOG_UTC_OFFSET" type="INT32">
-      <short_desc>UTC offset (unit: min)</short_desc>
-      <long_desc>the difference in hours and minutes from Coordinated Universal Time (UTC) for a your place and date. for example, In case of South Korea(UTC+09:00), UTC offset is 540 min (9*60) refer to https://en.wikipedia.org/wiki/List_of_UTC_time_offsets</long_desc>
+      <short_desc>Смещение UTC (минуты)</short_desc>
+      <long_desc>Разница во времени относительно UTC. Например, для Кореи (UTC+09:00) смещение 540 минут. Список смещений: https://en.wikipedia.org/wiki/List_of_UTC_time_offsets</long_desc>
       <min>-1000</min>
       <max>1000</max>
     </parameter>
     <parameter default="0" name="SDLOG_PRIO_BOOST" type="INT32">
-      <short_desc>Give logging app higher thread priority to avoid data loss.
-This is used for gathering replay logs for the ekf2 module</short_desc>
-      <long_desc>A value of 0 indicates that the default priority is used. Increasing the parameter in steps of one increases the priority.</long_desc>
+      <short_desc>Повышенный приоритет потока записи</short_desc>
+      <long_desc>При 0 используется приоритет по умолчанию. Повышайте значение, чтобы увеличить приоритет и снизить риск потери данных.</long_desc>
       <min>0</min>
       <max>3</max>
     </parameter>
