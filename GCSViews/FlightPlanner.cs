@@ -5362,7 +5362,7 @@ namespace MissionPlanner.GCSViews
                     // not home
                     if (i != 0)
                     {
-                        CMB_altmode.SelectedValue = temp.frame;
+                        CMB_altmode.SelectedValue = (int) temp.frame;
                     }
                 }
 
