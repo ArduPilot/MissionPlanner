@@ -399,7 +399,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             CustomMessageBox.Show(
-                "Here are the detected radio options\nNOTE Channels not connected are displayed as 1500 +-2\nNormal values are around 1100 | 1900\nChannel:Min | Max \n" +
+                "Здесь отображаются обнаруженные параметры радиоуправления\nПРИМЕЧАНИЕ: не подключённые каналы показываются как 1500 ±2\nНормальные значения около 1100 | 1900\nКанал:Мин | Макс \n" +
                 data, "Radio");
 
             BUT_Calibrateradio.Text = Strings.Completed;

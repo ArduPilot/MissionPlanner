@@ -184,7 +184,7 @@
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TXT_info.Text" xml:space="preserve">
-    <value>NOTE: using this interface may reset some off your custom pids.</value>
+    <value>ПРИМЕЧАНИЕ: использование этого интерфейса может сбросить некоторые ваши пользовательские PID.</value>
   </data>
   <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>$this</value>

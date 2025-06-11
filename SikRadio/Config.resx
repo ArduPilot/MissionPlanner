@@ -238,7 +238,7 @@
     <value>3</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Baud</value>
+    <value>Скорость</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -268,7 +268,7 @@
     <value>4</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Port</value>
+    <value>Порт</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -292,7 +292,7 @@
     <value>7</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>ComPort</value>
+    <value>COM-порт</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
@@ -319,7 +319,7 @@
     <value>8</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Настройки</value>
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>
@@ -367,13 +367,13 @@
     <value>74, 24</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Настройки</value>
   </data>
   <data name="terminalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 24</value>
   </data>
   <data name="terminalToolStripMenuItem.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>Терминал</value>
   </data>
   <data name="rssiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 24</value>
@@ -385,19 +385,19 @@
     <value>166, 26</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>Help</value>
+    <value>Помощь</value>
   </data>
   <data name="projectPageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 26</value>
   </data>
   <data name="projectPageToolStripMenuItem.Text" xml:space="preserve">
-    <value>Project Page</value>
+    <value>Страница проекта</value>
   </data>
   <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 24</value>
   </data>
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
-    <value>About</value>
+    <value>О программе</value>
   </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -433,7 +433,7 @@
     <value>10</value>
   </data>
   <data name="btnConnect.Text" xml:space="preserve">
-    <value>Connect</value>
+    <value>Подключить</value>
   </data>
   <data name="&gt;&gt;btnConnect.Name" xml:space="preserve">
     <value>btnConnect</value>
@@ -1589,7 +1589,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>SikRadio Config 1.4 - by Michael Oborne</value>
+    <value>SikRadio Config 1.4 - от Майкла Оборна</value>
   </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Name" xml:space="preserve">
     <value>settingsToolStripMenuItem</value>

@@ -289,31 +289,31 @@
     <value>181, 22</value>
   </data>
   <data name="autoHideToolStripMenuItem.Text" xml:space="preserve">
-    <value>AutoHide</value>
+    <value>Автоскрытие</value>
   </data>
   <data name="fullScreenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
   </data>
   <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
-    <value>Full Screen</value>
+    <value>Полный экран</value>
   </data>
   <data name="readonlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
   </data>
   <data name="readonlyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Readonly</value>
+    <value>Только чтение</value>
   </data>
   <data name="connectionOptionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
   </data>
   <data name="connectionOptionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Connection Options</value>
+    <value>Параметры подключения</value>
   </data>
   <data name="connectionListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
   </data>
   <data name="connectionListToolStripMenuItem.Text" xml:space="preserve">
-    <value>Connection List</value>
+    <value>Список подключений</value>
   </data>
   <data name="CTX_mainmenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 114</value>
@@ -375,7 +375,7 @@
     <value>49, 47</value>
   </data>
   <data name="MenuFlightData.Text" xml:space="preserve">
-    <value>DATA</value>
+    <value>ДАННЫЕ</value>
   </data>
   <data name="MenuFlightData.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -384,7 +384,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="MenuFlightData.ToolTipText" xml:space="preserve">
-    <value>Flight Data</value>
+    <value>Данные полёта</value>
   </data>
   <data name="MenuFlightPlanner.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -442,7 +442,7 @@
     <value>49, 47</value>
   </data>
   <data name="MenuFlightPlanner.Text" xml:space="preserve">
-    <value>PLAN</value>
+    <value>ПЛАН</value>
   </data>
   <data name="MenuFlightPlanner.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -451,7 +451,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
-    <value>Flight Planner</value>
+    <value>Планировщик полёта</value>
   </data>
   <data name="MenuInitConfig.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -503,7 +503,7 @@
     <value>49, 47</value>
   </data>
   <data name="MenuInitConfig.Text" xml:space="preserve">
-    <value>SETUP</value>
+    <value>НАСТРОЙКА</value>
   </data>
   <data name="MenuInitConfig.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -512,7 +512,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
-    <value>Hardware Config</value>
+    <value>Конфигурация оборудования</value>
   </data>
   <data name="MenuConfigTune.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -564,7 +564,7 @@
     <value>51, 47</value>
   </data>
   <data name="MenuConfigTune.Text" xml:space="preserve">
-    <value>CONFIG</value>
+    <value>КОНФИГ</value>
   </data>
   <data name="MenuConfigTune.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -573,7 +573,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
-    <value>Software Config</value>
+    <value>Конфигурация ПО</value>
   </data>
   <data name="MenuSimulation.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -619,7 +619,7 @@
     <value>77, 47</value>
   </data>
   <data name="MenuSimulation.Text" xml:space="preserve">
-    <value>SIMULATION</value>
+    <value>СИМУЛЯЦИЯ</value>
   </data>
   <data name="MenuSimulation.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -628,7 +628,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="MenuSimulation.ToolTipText" xml:space="preserve">
-    <value>Simulation</value>
+    <value>Симуляция</value>
   </data>
   <data name="MenuHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -668,7 +668,7 @@
     <value>49, 47</value>
   </data>
   <data name="MenuHelp.Text" xml:space="preserve">
-    <value>HELP</value>
+    <value>СПРАВКА</value>
   </data>
   <data name="MenuHelp.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -677,7 +677,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
-    <value>Help</value>
+    <value>Помощь</value>
   </data>
   <data name="MenuConnect.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -721,7 +721,7 @@
     <value>63, 47</value>
   </data>
   <data name="MenuConnect.Text" xml:space="preserve">
-    <value>CONNECT</value>
+    <value>ПОДКЛЮЧИТЬ</value>
   </data>
   <data name="MenuConnect.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -2687,7 +2687,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Mission Planner - By Michael Oborne</value>
+    <value>Планировщик миссий - от Майкла Оборна</value>
   </data>
   <data name="&gt;&gt;autoHideToolStripMenuItem.Name" xml:space="preserve">
     <value>autoHideToolStripMenuItem</value>

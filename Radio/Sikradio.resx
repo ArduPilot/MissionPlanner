@@ -2561,8 +2561,8 @@ red LED solid - in firmware update mode</value>
     <value>3</value>
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
-    <value>NOTE: Always click "Copy required to remote" when modifying
-this ensures you wont lose radio link</value>
+    <value>ПРИМЕЧАНИЕ: при изменении всегда нажимайте «Копировать необходимое на удалённый»,
+это гарантирует сохранение радиосвязи</value>
   </data>
   <data name="&gt;&gt;lbl_status.Name" xml:space="preserve">
     <value>lbl_status</value>
@@ -4830,7 +4830,7 @@ this ensures you wont lose radio link</value>
     <value>95</value>
   </data>
   <data name="linkLabel_mavlink.Text" xml:space="preserve">
-    <value>Settings for Standard Mavlink</value>
+    <value>Настройки для стандартного MAVLink</value>
   </data>
   <data name="&gt;&gt;linkLabel_mavlink.Name" xml:space="preserve">
     <value>linkLabel_mavlink</value>
@@ -4860,7 +4860,7 @@ this ensures you wont lose radio link</value>
     <value>94</value>
   </data>
   <data name="linkLabel_lowlatency.Text" xml:space="preserve">
-    <value>Settings for Low Latency</value>
+    <value>Настройки для низкой задержки</value>
   </data>
   <data name="&gt;&gt;linkLabel_lowlatency.Name" xml:space="preserve">
     <value>linkLabel_lowlatency</value>
@@ -6966,7 +6966,7 @@ this ensures you wont lose radio link</value>
     <value>21</value>
   </data>
   <data name="BUT_savesettings.Text" xml:space="preserve">
-    <value>Save Settings</value>
+    <value>Сохранить настройки</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Name" xml:space="preserve">
     <value>BUT_savesettings</value>
@@ -6993,7 +6993,7 @@ this ensures you wont lose radio link</value>
     <value>6</value>
   </data>
   <data name="BUT_getcurrent.Text" xml:space="preserve">
-    <value>Load Settings</value>
+    <value>Загрузить настройки</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Name" xml:space="preserve">
     <value>BUT_getcurrent</value>
@@ -7053,7 +7053,7 @@ this ensures you wont lose radio link</value>
     <value>78</value>
   </data>
   <data name="BUT_Syncoptions.Text" xml:space="preserve">
-    <value>Copy required to remote</value>
+    <value>Скопировать необходимое на удалённый модуль</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Name" xml:space="preserve">
     <value>BUT_Syncoptions</value>

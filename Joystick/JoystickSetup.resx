@@ -364,7 +364,7 @@
     <value>21</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="&gt;&gt;BUT_save.Name" xml:space="preserve">
     <value>BUT_save</value>

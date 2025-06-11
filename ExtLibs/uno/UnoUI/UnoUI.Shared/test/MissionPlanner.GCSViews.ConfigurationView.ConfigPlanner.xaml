@@ -66,8 +66,7 @@ mc:Ignorable="d"
 <ComboBox Name="CMB_ratestatus" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="376,224,0,0" Width="40" Height="21"></ComboBox>
 <ComboBox Name="CMB_rateposition" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="255,224,0,0" Width="40" Height="21"></ComboBox>
 <ComboBox Name="CMB_rateattitude" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="153,224,0,0" Width="40" Height="21"></ComboBox>
-<TextBlock Name="label99" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="480,171,0,0" Width="241" Height="31">NOTE: The Configuration Tab will NOT display these units, as those are raw values.
-</TextBlock>
+<TextBlock Name="label99" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="480,171,0,0" Width="241" Height="31">ПРИМЕЧАНИЕ: на вкладке конфигурации эти единицы не отображаются, так как это исходные значения.</TextBlock>
 <TextBlock Name="label98" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,198,0,0" Width="66" Height="17">Speed Units</TextBlock>
 <TextBlock Name="label97" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,171,0,0" Width="53" Height="17">Dist Units</TextBlock>
 <ComboBox Name="CMB_speedunits" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,195,0,0" Width="138" Height="21"></ComboBox>

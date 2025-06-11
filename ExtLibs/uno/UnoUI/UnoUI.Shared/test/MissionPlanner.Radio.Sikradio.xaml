@@ -14,7 +14,7 @@ xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
 > <Grid><Button Name="BUT_loadcustom" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="527,3,0,0" Width="96" Height="39">Upload Custom Firmware</Button>
-<Button Name="BUT_resettodefault" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="439,3,0,0" Width="82" Height="39">Reset to Defaults</Button>
+<Button Name="BUT_resettodefault" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="439,3,0,0" Width="82" Height="39">Сбросить настройки</Button>
 <TextBlock Name="linkLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="689,11,0,0" Width="64" Height="17">Status Leds</TextBlock>
 <TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,11,0,0" Width="0" Height="16"></TextBlock>
 <Grid Name="groupBoxRemote" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="400,48,0,0" Width="367" Height="367">
@@ -120,11 +120,11 @@ mc:Ignorable="d"
 <TextBox Name="RSSI" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="59,38,0,0" Width="250" Height="39"></TextBox>
 <TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="18,50,0,0" Width="31" Height="17">RSSI</TextBlock>
 </Grid>
-<Button Name="BUT_Syncoptions" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="346,418,0,0" Width="102" Height="29">Copy required to remote</Button>
-<Button Name="BUT_savesettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="237,3,0,0" Width="69" Height="39">Save Settings</Button>
-<Button Name="BUT_getcurrent" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="162,3,0,0" Width="69" Height="39">Load Settings</Button>
-<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,418,0,0" Width="328" Height="28">NOTE: Always click "Copy required to remote" when modifying
-this ensures you wont lose radio link</TextBlock>
+<Button Name="BUT_Syncoptions" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="346,418,0,0" Width="102" Height="29">Скопировать необходимое на удалённый модуль</Button>
+<Button Name="BUT_savesettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="237,3,0,0" Width="69" Height="39">Сохранить настройки</Button>
+<Button Name="BUT_getcurrent" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="162,3,0,0" Width="69" Height="39">Загрузить настройки</Button>
+<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,418,0,0" Width="328" Height="28">ПРИМЕЧАНИЕ: Всегда нажимайте «Скопировать необходимое на удалённый модуль» при изменениях
+это гарантирует, что вы не потеряете радиосвязь</TextBlock>
 <ProgressBar Name="Progressbar" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,453,0,0" Width="755" Height="36"></ProgressBar>
-<Button Name="BUT_upload" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="312,3,0,0" Width="121" Height="39">Upload Firmware (Local)</Button>
+<Button Name="BUT_upload" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="312,3,0,0" Width="121" Height="39">Загрузить прошивку (локально)</Button>
 </Grid></UserControl>

@@ -132,9 +132,9 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>You cannot load new firmware while connected via MAVLink. 
+    <value>Невозможно загрузить новую прошивку во время подключения по MAVLink.
 
-Please press the Disconnect button at top right to end the current MAVLink session and enable the firmware loading screen.</value>
+Нажмите кнопку "Отключить" в правом верхнем углу, чтобы завершить текущую сессию MAVLink и включить экран загрузки прошивки.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -158,7 +158,7 @@ Please press the Disconnect button at top right to end the current MAVLink sessi
     <value>1</value>
   </data>
   <data name="but_bootloaderupdate.Text" xml:space="preserve">
-    <value>Bootloader Update</value>
+    <value>Обновление загрузчика</value>
   </data>
   <data name="&gt;&gt;but_bootloaderupdate.Name" xml:space="preserve">
     <value>but_bootloaderupdate</value>
@@ -185,7 +185,7 @@ Please press the Disconnect button at top right to end the current MAVLink sessi
     <value>2</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Update the bootloader on your hardware to the newest available.</value>
+    <value>Обновите загрузчик вашего оборудования до самой последней версии.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>

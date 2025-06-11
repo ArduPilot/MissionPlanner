@@ -2548,7 +2548,7 @@
     <value>130</value>
   </data>
   <data name="label44.Text" xml:space="preserve">
-    <value>NOTE: the gimbal type takes effect on the next reboot of the fight controller</value>
+    <value>ПРИМЕЧАНИЕ: выбранный тип подвеса будет применён после следующей перезагрузки полётного контроллера</value>
   </data>
   <data name="&gt;&gt;label44.Name" xml:space="preserve">
     <value>label44</value>

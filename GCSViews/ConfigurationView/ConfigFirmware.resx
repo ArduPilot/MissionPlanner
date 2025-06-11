@@ -256,7 +256,7 @@
     <value>7</value>
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
-    <value>Status</value>
+    <value>Статус</value>
   </data>
   <data name="&gt;&gt;lbl_status.Name" xml:space="preserve">
     <value>lbl_status</value>
@@ -310,7 +310,7 @@
     <value>9</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Images by Max Levine</value>
+    <value>Изобр. Max Levine</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -424,7 +424,7 @@
     <value>26</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Please click the images above for "Flight versions"</value>
+    <value>Пожалуйста, нажмите на изображения выше для версий полёта</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -475,7 +475,7 @@
     <value>28</value>
   </data>
   <data name="CMB_history_label.Text" xml:space="preserve">
-    <value>Pick previous firmware</value>
+    <value>Выберите предыдущую прошивку</value>
   </data>
   <data name="&gt;&gt;CMB_history_label.Name" xml:space="preserve">
     <value>CMB_history_label</value>
@@ -505,7 +505,7 @@
     <value>29</value>
   </data>
   <data name="lbl_Custom_firmware_label.Text" xml:space="preserve">
-    <value>Load custom firmware</value>
+    <value>Загрузить пользовательскую прошивку</value>
   </data>
   <data name="&gt;&gt;lbl_Custom_firmware_label.Name" xml:space="preserve">
     <value>lbl_Custom_firmware_label</value>
@@ -535,7 +535,7 @@
     <value>30</value>
   </data>
   <data name="lbl_devfw.Text" xml:space="preserve">
-    <value>Beta firmwares</value>
+    <value>Бета-прошивки</value>
   </data>
   <data name="&gt;&gt;lbl_devfw.Name" xml:space="preserve">
     <value>lbl_devfw</value>
@@ -565,7 +565,7 @@
     <value>32</value>
   </data>
   <data name="lbl_dlfw.Text" xml:space="preserve">
-    <value>Download firmwares</value>
+    <value>Скачать прошивки</value>
   </data>
   <data name="&gt;&gt;lbl_dlfw.Name" xml:space="preserve">
     <value>lbl_dlfw</value>
@@ -595,7 +595,7 @@
     <value>33</value>
   </data>
   <data name="lbl_px4bl.Text" xml:space="preserve">
-    <value>Force Bootloader</value>
+    <value>Форсировать загрузчик</value>
   </data>
   <data name="&gt;&gt;lbl_px4bl.Name" xml:space="preserve">
     <value>lbl_px4bl</value>
@@ -649,7 +649,7 @@
     <value>35</value>
   </data>
   <data name="lbl_licence.Text" xml:space="preserve">
-    <value>Ardupilot is free software. Click here to read the Open Source Firmware License.</value>
+    <value>Ardupilot — свободное ПО. Нажмите здесь, чтобы прочитать лицензию на прошивку с открытым исходным кодом.</value>
   </data>
   <data name="&gt;&gt;lbl_licence.Name" xml:space="preserve">
     <value>lbl_licence</value>
@@ -676,7 +676,7 @@
     <value>36</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Copter motor setup</value>
+    <value>Настройка моторов коптера</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>
