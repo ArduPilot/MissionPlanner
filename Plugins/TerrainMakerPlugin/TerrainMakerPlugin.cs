@@ -77,7 +77,7 @@ namespace TerrainMakerPlugin
             RectLatLng area = Host.FPGMapControl.SelectedArea;
             if (area.IsEmpty)
             {
-                var res = CustomMessageBox.Show("No area defined, use area displayed on screen?", "Terrain DAT",
+                var res = CustomMessageBox.Show("Область не выбрана. Использовать область на экране?", "Terrain DAT",
                     MessageBoxButtons.YesNo);
                 if (res == (int)DialogResult.Yes)
                 {
@@ -96,13 +96,13 @@ namespace TerrainMakerPlugin
                 int spacing = 30;
                 if (!int.TryParse(spacingstring, out spacing))
                 {
-                    CustomMessageBox.Show("Invalid Number", "ERROR");
+                    CustomMessageBox.Show("Неверное число", "ОШИБКА");
                     return;
                 }
 
                 if (spacing < 5 || spacing > 100)
                 {
-                    CustomMessageBox.Show("Spacing must be between 5 and 100 meters", "ERROR");
+                    CustomMessageBox.Show("Шаг должен быть от 5 до 100 метров", "ОШИБКА");
                     return;
                 }
 
@@ -144,7 +144,7 @@ namespace TerrainMakerPlugin
 
                         frmProgressReporter.Dispose();
 
-                        CustomMessageBox.Show("Terrain DAT created in Documents/Mission Planner/TerrainDat folder", "Terrain DAT");
+                        CustomMessageBox.Show("Файл Terrain DAT создан в папке Documents/Mission Planner/TerrainDat", "Terrain DAT");
 
 
                     }

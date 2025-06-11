@@ -65,7 +65,7 @@ namespace MissionPlanner
 
                 if ((GCSViews.FlightPlanner.altmode)Host.MainForm.FlightPlanner.CMB_altmode.SelectedValue == GCSViews.FlightPlanner.altmode.Terrain)
                 {
-                    CustomMessageBox.Show("Terrain following altitude mode cannot be used with the face mapping tool.", "Error");
+                    CustomMessageBox.Show("Режим высоты с учётом рельефа несовместим с инструментом Face Mapping.", "Ошибка");
                 }
                 else if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 2)
                 {
@@ -74,7 +74,7 @@ namespace MissionPlanner
                 else
                 {
                     if (
-                        CustomMessageBox.Show("No polygon defined. Load a file?", "Load File", MessageBoxButtons.YesNo) ==
+                        CustomMessageBox.Show("Полигон не определён. Загрузить файл?", "Загрузить файл", MessageBoxButtons.YesNo) ==
                         (int)DialogResult.Yes)
                     {
                         gridui.LoadFaceMap();

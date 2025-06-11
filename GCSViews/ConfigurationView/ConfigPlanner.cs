@@ -800,7 +800,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             ThemeManager.LoadTheme(CMB_theme.Text);
             ThemeManager.ApplyThemeTo(MainV2.instance);
-            CustomMessageBox.Show("You may need to select another tab or restart to see the full effect.");
+            CustomMessageBox.Show("Возможно, потребуется выбрать другую вкладку или перезапустить программу, чтобы увидеть результат.");
         }
 
         private void BUT_themecustom_Click(object sender, EventArgs e)

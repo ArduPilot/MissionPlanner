@@ -125,7 +125,7 @@ namespace MissionPlanner.Controls
             }
             catch
             {
-                CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                CustomMessageBox.Show("Ошибка подключения\nесли используется com0com, переименуйте порты в COM??");
                 return;
             }
 

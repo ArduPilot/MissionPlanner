@@ -54,7 +54,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                     catch(Exception ex)
                     {
-                        CustomMessageBox.Show("Error reading SerialOptionRules.json file: " + ex.Message);
+                        CustomMessageBox.Show("Ошибка чтения файла SerialOptionRules.json: " + ex.Message);
                     }
                 }
                 var baudOptions = ParameterMetaDataRepository.GetParameterOptionsInt("SERIAL1_BAUD", MainV2.comPort.MAV.cs.firmware.ToString());
@@ -475,7 +475,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, param_name, val);
                 if (!ans)
                 {
-                    CustomMessageBox.Show("Unable to set parameter " + param_name);
+                    CustomMessageBox.Show("Не удалось установить параметр " + param_name);
                     return false;
                 }
                 else
@@ -485,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                CustomMessageBox.Show("Parameter " + param_name + " not found");
+                CustomMessageBox.Show("Параметр " + param_name + " не найден");
                 return false;
             }
         }

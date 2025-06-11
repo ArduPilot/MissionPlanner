@@ -1023,7 +1023,7 @@ namespace MissionPlanner
 
             if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
-                CustomMessageBox.Show("NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
+                CustomMessageBox.Show("ВНИМАНИЕ: частота обновления углов равна 0, HUD не будет работать\nИзмените в Конфигурации > Планировщик > Скорости телеметрии");
             }
 
             // create log dir if it doesnt exist
@@ -1057,7 +1057,7 @@ namespace MissionPlanner
 
                     if (Framework < 4.0)
                     {
-                        CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " + Framework);
+                        CustomMessageBox.Show("Для работы программы требуется .NET Framework 4.0. У вас установлена версия " + Framework);
                     }
                 }
                 catch (Exception ex)
@@ -1315,14 +1315,14 @@ namespace MissionPlanner
             else
             {
                 var pw = "";
-                if (InputBox.Show("Enter Password", "Please enter your password", ref pw, true) ==
+                if (InputBox.Show("Введите пароль", "Пожалуйста, введите пароль", ref pw, true) ==
                     System.Windows.Forms.DialogResult.OK)
                 {
                     bool ans = Password.ValidatePassword(pw);
 
                     if (ans == false)
                     {
-                        CustomMessageBox.Show("Bad Password", "Bad Password");
+                        CustomMessageBox.Show("Неверный пароль", "Неверный пароль");
                     }
                 }
 
@@ -1347,14 +1347,14 @@ namespace MissionPlanner
             else
             {
                 var pw = "";
-                if (InputBox.Show("Enter Password", "Please enter your password", ref pw, true) ==
+                if (InputBox.Show("Введите пароль", "Пожалуйста, введите пароль", ref pw, true) ==
                     System.Windows.Forms.DialogResult.OK)
                 {
                     bool ans = Password.ValidatePassword(pw);
 
                     if (ans == false)
                     {
-                        CustomMessageBox.Show("Bad Password", "Bad Password");
+                        CustomMessageBox.Show("Неверный пароль", "Неверный пароль");
                     }
                 }
 
@@ -1816,7 +1816,7 @@ namespace MissionPlanner
                     log.Warn(ex2);
                 }
 
-                CustomMessageBox.Show($"Can not establish a connection\n\n{ex.Message}");
+                CustomMessageBox.Show($"Невозможно установить соединение\n\n{ex.Message}");
                 return;
             }
         }
@@ -2834,7 +2834,7 @@ namespace MissionPlanner
                                         (Action)
                                         delegate
                                         {
-                                            CustomMessageBox.Show("Failed to update home location (" +
+                                            CustomMessageBox.Show("Не удалось обновить домашнюю точку (" +
                                                                   MainV2.comPort.MAV.sysid + ")");
                                         });
                                 }
@@ -3681,7 +3681,7 @@ namespace MissionPlanner
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Start script failed: " + ex.ToString(), Strings.ERROR);
+                            CustomMessageBox.Show("Не удалось запустить скрипт: " + ex.ToString(), Strings.ERROR);
                         }
                     });
                 }
@@ -3714,7 +3714,7 @@ namespace MissionPlanner
                     }
                     else
                     {
-                        CustomMessageBox.Show("Failed to start joystick");
+                        CustomMessageBox.Show("Не удалось запустить джойстик");
                     }
                 }
 
@@ -4157,13 +4157,13 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Invalid command");
+                    CustomMessageBox.Show("Неверная команда");
                     return true;
                 }
 
                 //read
                 ///////MainV2.comPort.doCommand(MAVLink09.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-                CustomMessageBox.Show("Done MAV_ACTION_STORAGE_WRITE");
+                CustomMessageBox.Show("Команда MAV_ACTION_STORAGE_WRITE выполнена");
                 return true;
             }
 
@@ -4412,7 +4412,7 @@ namespace MissionPlanner
             }
             catch
             {
-                CustomMessageBox.Show("Link open failed. check your default webpage association");
+                CustomMessageBox.Show("Не удалось открыть ссылку. Проверьте ассоциацию веб-страниц по умолчанию");
             }
         }
 
@@ -4658,7 +4658,7 @@ namespace MissionPlanner
             }
             catch
             {
-                CustomMessageBox.Show("Failed to open url https://ardupilot.org");
+                CustomMessageBox.Show("Не удалось открыть ссылку https://ardupilot.org");
             }
         }
 

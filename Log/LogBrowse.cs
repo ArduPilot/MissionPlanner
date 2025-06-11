@@ -1561,7 +1561,7 @@ main()
                         log.Info("Bad Data : " + type + " " + col + " " + a);
                         if (error >= 500)
                         {
-                            CustomMessageBox.Show("There is to much bad data - failing");
+                            CustomMessageBox.Show("Слишком много поврежденных данных — остановка");
                             break;
                         }
                     }

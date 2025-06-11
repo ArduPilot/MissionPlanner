@@ -2597,11 +2597,11 @@ namespace GMap.NET.WindowsForms
                     bool ok = GMaps.Instance.ExportToGMDB(dlg.FileName);
                     if (ok)
                     {
-                        MessageBox.Show("Complete!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Завершено!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Failed!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Ошибка!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
                     return ok;
@@ -2636,12 +2636,12 @@ namespace GMap.NET.WindowsForms
                     bool ok = GMaps.Instance.ImportFromGMDB(dlg.FileName);
                     if (ok)
                     {
-                        MessageBox.Show("Complete!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Завершено!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ReloadMap();
                     }
                     else
                     {
-                        MessageBox.Show("Failed!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Ошибка!", "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
                     return ok;

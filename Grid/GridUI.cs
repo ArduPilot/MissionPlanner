@@ -1594,7 +1594,11 @@ namespace MissionPlanner.Grid
                 camera.sensorheight = float.Parse(TXT_sensheight.Text);
                 camera.sensorwidth = float.Parse(TXT_senswidth.Text);
             }
-            catch { CustomMessageBox.Show("One of your entries is not a valid number"); return; }
+            catch
+            {
+                CustomMessageBox.Show("Одно из введённых значений некорректно");
+                return;
+            }
 
             cameras[CMB_camera.Text] = camera;
 
@@ -1609,7 +1613,7 @@ namespace MissionPlanner.Grid
 
                 if (NUM_split.Value > 1 && CHK_toandland.Checked != true)
                 {
-                    CustomMessageBox.Show("You must use Land/RTL to split a mission", Strings.ERROR);
+                    CustomMessageBox.Show("Для разделения миссии необходимо использовать Land/RTL", Strings.ERROR);
                     return;
                 }
 

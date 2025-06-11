@@ -82,7 +82,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["FLOW_ENABLE"] == null)
                 {
-                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                    CustomMessageBox.Show("Недоступно на " + MainV2.comPort.MAV.cs.firmware);
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set FLOW_ENABLE Failed");
+                CustomMessageBox.Show("Не удалось установить FLOW_ENABLE");
             }
         }
 

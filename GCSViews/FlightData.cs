@@ -1022,10 +1022,10 @@ namespace MissionPlanner.GCSViews
             try
             {
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+                var action = MainV2.comPort.MAV.cs.armed ? "Разоружить" : "Взвести";
 
                 if (isitarmed)
-                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
+                    if (CustomMessageBox.Show("Вы уверены, что хотите " + action + "?", action,
                             CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
@@ -1723,7 +1723,7 @@ namespace MissionPlanner.GCSViews
             }
 
             if (
-                CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
+                CustomMessageBox.Show("Вы уверены, что хотите выполнить " + CMB_action.Text + "?", "Действие",
                     MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
             {
                 try
@@ -4803,8 +4803,8 @@ namespace MissionPlanner.GCSViews
                     }
 
                     if (CustomMessageBox.Show(
-                            "This will reset the onboard home position (effects RTL etc). Are you Sure?",
-                            "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
+                            "Это сбросит координаты домашней точки на борту (повлияет на RTL и т. д.). Вы уверены?",
+                            "Вы уверены?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
                         MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent,

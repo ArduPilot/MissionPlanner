@@ -419,7 +419,7 @@ S15: MAX_WINDOW=131
                     }
                     catch (Exception ex)
                     {
-                        MsgBox.CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
+                        MsgBox.CustomMessageBox.Show("Ошибка копирования файла\n" + ex, "ОШИБКА");
                         return false;
                     }
                     return true;
@@ -689,7 +689,7 @@ S15: MAX_WINDOW=131
             }
             else
             {
-                string ErrorMsg = Remote ? "Remote" : "Local" + " settings invalid, operation aborted:";
+                string ErrorMsg = (Remote ? "Удалённые" : "Локальные") + " настройки некорректны, операция прервана:";
 
                 foreach (var em in Errors)
                 {
@@ -749,7 +749,7 @@ S15: MAX_WINDOW=131
                         }
                         if (!cmdanswer.Contains("OK"))
                         {
-                            MsgBox.CustomMessageBox.Show("Set Command error");
+                            MsgBox.CustomMessageBox.Show("Ошибка выполнения команды");
                         }
 
                     }
@@ -763,7 +763,7 @@ S15: MAX_WINDOW=131
                         }
                         else
                         {
-                            MsgBox.CustomMessageBox.Show("Set Command error");
+                            MsgBox.CustomMessageBox.Show("Ошибка выполнения команды");
                         }
                     }
                 }
@@ -947,7 +947,7 @@ S15: MAX_WINDOW=131
                             {
                                 //Complain that encryption key invalid.
                                 lbl_status.Text = "Fail";
-                                MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
+                                MsgBox.CustomMessageBox.Show("Ключ шифрования не является допустимым шестнадцатеричным числом длиной не более " + MaxKeyLength.ToString() + " символов");
                             }
                         }
                         if (GetIsEncryptionEnabled(ENCRYPTION_LEVEL))
@@ -964,7 +964,7 @@ S15: MAX_WINDOW=131
                             {
                                 //Complain that encryption key invalid.
                                 lbl_status.Text = "Fail";
-                                MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
+                                MsgBox.CustomMessageBox.Show("Ключ шифрования не является допустимым шестнадцатеричным числом длиной не более " + MaxKeyLength.ToString() + " символов");
                             }
                         }
 
@@ -982,14 +982,14 @@ S15: MAX_WINDOW=131
                         var cmdwriteanswer = doCommand(Session.Port, "AT&W");
                         if (!cmdwriteanswer.Contains("OK"))
                         {
-                            MsgBox.CustomMessageBox.Show("Failed to save parameters");
+                            MsgBox.CustomMessageBox.Show("Не удалось сохранить параметры");
                         }
 
                         // return to normal mode
                         doCommand(Session.Port, "ATZ");
                     }
 
-                    lbl_status.Text = "Done";
+                    lbl_status.Text = "Готово";
                     EnableConfigControls(true, true);
                 }
                 else
@@ -998,7 +998,7 @@ S15: MAX_WINDOW=131
                     doCommand(Session.Port, "ATZ");
 
                     lbl_status.Text = "Fail";
-                    MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                    MsgBox.CustomMessageBox.Show("Не удалось перейти в режим команд");
                     EnableConfigControls(true, false);
                 }
 
@@ -1820,7 +1820,7 @@ S15: MAX_WINDOW=131
 
                         if ((RemoteFWVer != null) &&  (LocalFWVer != RemoteFWVer) && UsedAltRanges)
                         {
-                            MsgBox.CustomMessageBox.Show("The ranges and options shown for the remote modem may not be accurate.  To ensure accurate, use the same firmware version in both the local and remote modems");
+                            MsgBox.CustomMessageBox.Show("Диапазоны и параметры, отображаемые для удалённого модема, могут быть некорректны. Чтобы гарантировать корректность, используйте одинаковую версию прошивки на обоих модемах");
                         }
 
                         items = answer.Split('\n');
@@ -1864,11 +1864,11 @@ S15: MAX_WINDOW=131
 
                     if (SomeSettingsInvalid)
                     {
-                        lbl_status.Text = "Done.  Some settings in modem were invalid.";
+                        lbl_status.Text = "Готово. Некоторые параметры модема были некорректны.";
                     }
                     else
                     {
-                        lbl_status.Text = "Done";
+                        lbl_status.Text = "Готово";
                     }
                     EnableConfigControls(true, true);
 
@@ -1880,7 +1880,7 @@ S15: MAX_WINDOW=131
                     Session.PutIntoTransparentMode();
 
                     lbl_status.Text = "Fail";
-                    MsgBox.CustomMessageBox.Show("Failed to enter command mode.  Try power-cycling modem.");
+                    MsgBox.CustomMessageBox.Show("Не удалось перейти в режим команд. Попробуйте перезапустить модем.");
                     EnableConfigControls(true, false);
                 }
 
@@ -1895,7 +1895,7 @@ S15: MAX_WINDOW=131
             catch (Exception ex)
             {
                 lbl_status.Text = "Error";
-                MsgBox.CustomMessageBox.Show("Error during read " + ex);
+                MsgBox.CustomMessageBox.Show("Ошибка при чтении " + ex);
             }
             _AlreadyInEncCheckChangedEvtHdlr = false;
 
@@ -2089,12 +2089,12 @@ S15: MAX_WINDOW=131
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MsgBox.CustomMessageBox.Show(@"The Sik Radios have 2 status LEDs, one red and one green.
-green LED blinking - searching for another radio 
-green LED solid - link is established with another radio 
-red LED flashing - transmitting data 
-red LED solid - in firmware update mode");
-        }
+            MsgBox.CustomMessageBox.Show(@"На модемах Sik есть два светодиода: красный и зелёный.
+зелёный мигает — поиск другого модема
+зелёный горит — установлен канал связи
+красный мигает — идёт передача данных
+красный горит — режим обновления прошивки");
+       }
 
         void DoCommandShowErrorIfNotOK(ICommsSerial Port, string cmd, string ErrorMsg)
         {
@@ -2142,11 +2142,11 @@ red LED solid - in firmware update mode");
 
                 Session.Port.DiscardInBuffer();
 
-                lbl_status.Text = "Doing Command ATI & AT&F";
+                lbl_status.Text = "Выполняется команда ATI & AT&F";
 
-                DoCommandShowErrorIfNotOK(Session.Port, "AT&F", "Failed to reset parameters to factory defaults");
+                DoCommandShowErrorIfNotOK(Session.Port, "AT&F", "Не удалось сбросить параметры к заводским");
 
-                DoCommandShowErrorIfNotOK(Session.Port, "AT&W", "Failed to write parameters to EEPROM");
+                DoCommandShowErrorIfNotOK(Session.Port, "AT&W", "Не удалось записать параметры в EEPROM");
 
                 lbl_status.Text = "Reset";
                 doCommand(Session.Port, "ATZ");
@@ -2160,7 +2160,7 @@ red LED solid - in firmware update mode");
                 Session.PutIntoTransparentMode();
 
                 lbl_status.Text = "Fail";
-                MsgBox.CustomMessageBox.Show("Failed to enter command mode.  Try power-cycling modem.");
+                MsgBox.CustomMessageBox.Show("Не удалось перейти в режим команд. Попробуйте перезапустить модем.");
             }
         }
 
@@ -2264,8 +2264,8 @@ red LED solid - in firmware update mode");
 
                 if (RFD900 == null)
                 {
-                    UpdateStatus("Unknown modem");
-                    MsgBox.CustomMessageBox.Show("Couldn't communicate with modem.  Try power-cycling modem.");
+                    UpdateStatus("Неизвестный модем");
+                    MsgBox.CustomMessageBox.Show("Не удалось связаться с модемом. Попробуйте перезапустить модем.");
                     EndSession();
                 }
                 else
@@ -2332,7 +2332,7 @@ red LED solid - in firmware update mode");
         private void Progressbar_Click(object sender, EventArgs e)
         {
             beta = !beta;
-            MsgBox.CustomMessageBox.Show("Beta set to " + beta);
+            MsgBox.CustomMessageBox.Show("Бета режим: " + beta);
         }
 
         private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2408,7 +2408,7 @@ red LED solid - in firmware update mode");
 
                 if (Result)
                 {
-                    lbl_status.Text = "Done";
+                    lbl_status.Text = "Готово";
                 }
                 else
                 {
@@ -2421,7 +2421,7 @@ red LED solid - in firmware update mode");
                 //doCommand(Session.Port, "ATO");
 
                 lbl_status.Text = "Fail";
-                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Не удалось перейти в режим команд");
             }
         }
 
@@ -2447,7 +2447,7 @@ red LED solid - in firmware update mode");
                 }
                 catch
                 {
-                    MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
+                    MsgBox.CustomMessageBox.Show("Неверный COM-порт или порт занят");
                     return null;
                 }
             }
@@ -2653,11 +2653,11 @@ red LED solid - in firmware update mode");
             {
                 if (ToSave.SaveToFile(dlgSave.FileName))
                 {
-                    System.Windows.Forms.MessageBox.Show("Saved settings to " + dlgSave.FileName + " OK");
+                    System.Windows.Forms.MessageBox.Show("Настройки сохранены в " + dlgSave.FileName + " OK");
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Failed to save settings to " + dlgSave.FileName);
+                    System.Windows.Forms.MessageBox.Show("Не удалось сохранить настройки в " + dlgSave.FileName);
                 }
             }
         }
@@ -2683,7 +2683,7 @@ red LED solid - in firmware update mode");
 
                 if (x == null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Failed to load settings from " + dlgOpen.FileName);
+                    System.Windows.Forms.MessageBox.Show("Не удалось загрузить настройки из " + dlgOpen.FileName);
                 }
                 else
                 {

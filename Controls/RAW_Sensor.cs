@@ -260,7 +260,7 @@ namespace MissionPlanner.Controls
             }
             catch
             {
-                CustomMessageBox.Show("Comport open failed");
+                CustomMessageBox.Show("Не удалось открыть COM-порт");
                 return;
             }
             timer1.Start();

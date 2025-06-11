@@ -117,12 +117,12 @@ namespace MissionPlanner.InitialParamCalc
 
 
             //Add intro and some warnings
-            CustomMessageBox.Show("This plugin will calculate some initial parameters based on battery and prop size for a new copter setup.\r\n\r\n" +
-                                  "Please make sure that before running this plugin and updating calculated parameters:\r\n" +
-                                  "ALL INITIAL SETUPS ARE DONE (Calibrations, frame settings, motor tests)\r\n" +
-                                  "BATTERY VOLTAGE MONITORING IS SET AND WORKING\r\n\r\n" +
-                                  "Note: INS_GYRO_FILTER with a value other than 20 is optional and probably only for small frames/props " +
-                                  "At first you can keep it at 20\r\n", "Initial Parameter Calculator");
+            CustomMessageBox.Show("Этот плагин вычислит начальные параметры для нового коптера исходя из батареи и размера пропеллера.\r\n\r\n" +
+                                  "Перед запуском плагина и обновлением параметров убедитесь, что:\r\n" +
+                                  "ВСЕ НАЧАЛЬНЫЕ НАСТРОЙКИ ВЫПОЛНЕНЫ (калибровки, тип рамы, тесты моторов)\r\n" +
+                                  "МОНИТОРИНГ НАПРЯЖЕНИЯ БАТАРЕИ НАСТРОЕН И РАБОТАЕТ\r\n\r\n" +
+                                  "Примечание: значение INS_GYRO_FILTER, отличное от 20, возможно, потребуется только для маленьких рам/пропов. " +
+                                  "Сначала можно оставить его равным 20\r\n", "Калькулятор начальных параметров");
 
             //Check environment
 
@@ -133,16 +133,16 @@ namespace MissionPlanner.InitialParamCalc
             }
             if (Host.cs.firmware != ArduPilot.Firmwares.ArduCopter2)
             {
-                CustomMessageBox.Show("Initial parameter calculation works with Arducopter only!", "Initial paremeter calculator", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CustomMessageBox.Show("Расчёт начальных параметров работает только с ArduCopter!", "Калькулятор начальных параметров", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
 
             // Get input parameters
-            if (MissionPlanner.Controls.InputBox.Show("Initial parameter calculator", "Enter airscrew size in inch", ref prop) != DialogResult.OK) return;
-            if (MissionPlanner.Controls.InputBox.Show("Initial parameter calculator", "Enter battery cellcount", ref cellcount) != DialogResult.OK) return;
-            if (MissionPlanner.Controls.InputBox.Show("Initial parameter calculator", "Enter battery cell fully charged voltage\r\nLiPo - 4.2, LipoHV - 4.35, LiIon - 4.1 or 4.2", ref cellmax) != DialogResult.OK) return;
-            if (MissionPlanner.Controls.InputBox.Show("Initial parameter calculator", "Enter battery cell fully discharged voltage\r\nLiPo/LipoHV - 3.3, LiIon - 2.8", ref cellmin) != DialogResult.OK) return;
+            if (MissionPlanner.Controls.InputBox.Show("Калькулятор начальных параметров", "Введите размер пропеллера в дюймах", ref prop) != DialogResult.OK) return;
+            if (MissionPlanner.Controls.InputBox.Show("Калькулятор начальных параметров", "Введите количество ячеек батареи", ref cellcount) != DialogResult.OK) return;
+            if (MissionPlanner.Controls.InputBox.Show("Калькулятор начальных параметров", "Введите напряжение полностью заряженной ячейки\r\nLiPo - 4.2, LipoHV - 4.35, LiIon - 4.1 или 4.2", ref cellmax) != DialogResult.OK) return;
+            if (MissionPlanner.Controls.InputBox.Show("Калькулятор начальных параметров", "Введите напряжение полностью разряженной ячейки\r\nLiPo/LipoHV - 3.3, LiIon - 2.8", ref cellmin) != DialogResult.OK) return;
 
 
 
@@ -157,7 +157,7 @@ namespace MissionPlanner.InitialParamCalc
 
             if (prop_size <= 0 || batt_cells < 1)
             {
-                CustomMessageBox.Show("Invalid input data!", "Initial paremeter calculator", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CustomMessageBox.Show("Неверные исходные данные!", "Калькулятор начальных параметров", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

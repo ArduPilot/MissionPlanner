@@ -72,7 +72,7 @@ namespace MissionPlanner.NoFly
             {
                 Utilities.nfz.HK.ConfirmNoFly += () =>
                 {
-                    return CustomMessageBox.Show("Show Hong Kong No fly zones?", "NoFly Zones", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
+                    return CustomMessageBox.Show("Показать зоны запрета полётов Гонконга?", "Зоны запрета полётов", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
                 };
 
                 var nfzinfo = Utilities.nfz.HK.LoadNFZ().Result;
@@ -128,7 +128,7 @@ namespace MissionPlanner.NoFly
             {
                 Utilities.nfz.EU.ConfirmNoFly += () =>
                 {
-                    return CustomMessageBox.Show("Show European Union No fly zones?", "NoFly Zones", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
+                    return CustomMessageBox.Show("Показать зоны запрета полётов Евросоюза?", "Зоны запрета полётов", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
                 };
 
                 var nfzinfo = Utilities.nfz.EU.LoadNFZ().Result;

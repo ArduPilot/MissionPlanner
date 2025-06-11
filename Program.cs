@@ -105,7 +105,7 @@ namespace MissionPlanner
                 config.SaveToDir("C:\\Temp\\Snapshot");
                 DotTrace.Attach(config);
                 DotTrace.StartCollectingData();
-                CustomMessageBox.Show("Trace started");
+                CustomMessageBox.Show("Трассировка запущена");
             }
             else
             {
@@ -764,7 +764,7 @@ namespace MissionPlanner
                 // i get alot of error from people who click the exe from inside a zip file.
             {
                 CustomMessageBox.Show(
-                    "You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu " +
+                    "Отсутствуют некоторые DLL. Распакуйте архив в отдельную папку или используйте функцию обновления в меню " +
                     ex.ToString());
                 // return;
             }
@@ -780,8 +780,8 @@ namespace MissionPlanner
             log.Info("Th Name " + Thread?.Name);
 
             var dr =
-                CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???",
-                    "Send Error", MessageBoxButtons.YesNo);
+                CustomMessageBox.Show("Произошла ошибка\n" + ex.ToString() + "\n\nОтправить отчёт об ошибке?",
+                    "Отправить отчёт", MessageBoxButtons.YesNo);
             if ((int) DialogResult.Yes == dr)
             {
                 try
@@ -854,7 +854,7 @@ namespace MissionPlanner
                 {
                     Console.WriteLine(exp.ToString());
                     log.Error(exp);
-                    CustomMessageBox.Show("Could not send report! Typically due to lack of internet connection.");
+                    CustomMessageBox.Show("Не удалось отправить отчёт. Вероятно отсутствует подключение к интернету.");
                 }
             }
         }

@@ -613,7 +613,7 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     if (
-                        CustomMessageBox.Show("This will clear your existing points, Continue?", "Confirm",
+                        CustomMessageBox.Show("Это удалит текущие точки, продолжить?", "Подтверждение",
                             MessageBoxButtons.OKCancel) != (int) DialogResult.OK)
                     {
                         return;
@@ -624,11 +624,11 @@ namespace MissionPlanner.GCSViews
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = FormStartPosition.CenterScreen,
-                Text = "Receiving WP's"
+                Text = "Приём точек"
             };
 
             frmProgressReporter.DoWork += getWPs;
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Receiving WP's");
+            frmProgressReporter.UpdateProgressAndStatus(-1, "Приём точек");
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
@@ -647,7 +647,7 @@ namespace MissionPlanner.GCSViews
             if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
             {
                 if ((int) DialogResult.No ==
-                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
+                    CustomMessageBox.Show("Выбрана абсолютная высота, вы уверены?", "Режим высоты",
                         MessageBoxButtons.YesNo))
                 {
                     CMB_altmode.SelectedValue = (int) altmode.Relative;
@@ -666,7 +666,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show("Your home location is invalid", Strings.ERROR);
+                CustomMessageBox.Show("Неверные координаты дома", Strings.ERROR);
                 return;
             }
 
@@ -680,7 +680,7 @@ namespace MissionPlanner.GCSViews
                     {
                         if (!double.TryParse(Commands[b, a].Value.ToString(), out answer))
                         {
-                            CustomMessageBox.Show("There are errors in your mission");
+                            CustomMessageBox.Show("В вашей миссии есть ошибки");
                             return;
                         }
                     }
@@ -838,7 +838,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to get fence point", Strings.ERROR);
+                    CustomMessageBox.Show("Не удалось получить точку ограждения", Strings.ERROR);
                 }
 
                 return;
@@ -846,13 +846,13 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.param["FENCE_ACTION"] == null || MainV2.comPort.MAV.param["FENCE_TOTAL"] == null)
             {
-                CustomMessageBox.Show("Not Supported");
+                CustomMessageBox.Show("Не поддерживается");
                 return;
             }
 
             if (int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) <= 1)
             {
-                CustomMessageBox.Show("Nothing to download");
+                CustomMessageBox.Show("Нечего загружать");
                 return;
             }
 
@@ -870,7 +870,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to get fence point", Strings.ERROR);
+                    CustomMessageBox.Show("Не удалось получить точку ограждения", Strings.ERROR);
                     return;
                 }
             }
@@ -926,13 +926,13 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.param["RALLY_TOTAL"] == null)
             {
-                CustomMessageBox.Show("Not Supported");
+                CustomMessageBox.Show("Не поддерживается");
                 return;
             }
 
             if (int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) < 1)
             {
-                CustomMessageBox.Show("Rally points - Nothing to download");
+                CustomMessageBox.Show("Точки сбора - нечего загружать");
                 return;
             }
 
@@ -955,7 +955,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to get rally point", Strings.ERROR);
+                    CustomMessageBox.Show("Не удалось получить точку сбора", Strings.ERROR);
                     return;
                 }
             }
@@ -1004,7 +1004,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Can't open file! " + ex);
+                CustomMessageBox.Show("Не удалось открыть файл! " + ex);
             }
         }
 
@@ -1086,7 +1086,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("A invalid entry has been detected\n" + ex.Message, Strings.ERROR);
+                CustomMessageBox.Show("Обнаружена неверная запись\n" + ex.Message, Strings.ERROR);
             }
 
             // remove more than 40 revisions
@@ -1107,7 +1107,7 @@ namespace MissionPlanner.GCSViews
         {
             if (selectedrow > Commands.RowCount)
             {
-                CustomMessageBox.Show("Invalid coord, How did you do this?");
+                CustomMessageBox.Show("Некорректные координаты, как вы это сделали?");
                 return;
             }
 
@@ -1166,7 +1166,7 @@ namespace MissionPlanner.GCSViews
 
                     if (pass == false)
                     {
-                        CustomMessageBox.Show("You must have a home altitude");
+                        CustomMessageBox.Show("Необходимо задать высоту дома");
                         string homealt = "100";
                         if (DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
                             return;
@@ -1176,7 +1176,7 @@ namespace MissionPlanner.GCSViews
                     int results1;
                     if (!int.TryParse(TXT_DefaultAlt.Text, out results1))
                     {
-                        CustomMessageBox.Show("Your default alt is not valid");
+                        CustomMessageBox.Show("Значение высоты по умолчанию неверно");
                         return;
                     }
 
@@ -1234,7 +1234,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    CustomMessageBox.Show("Invalid Home or wp Alt");
+                    CustomMessageBox.Show("Неверная высота дома или точки маршрута");
                     cell.Style.BackColor = Color.Red;
                 }
             }
@@ -1826,7 +1826,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch
                         {
-                            CustomMessageBox.Show("Error opening File", Strings.ERROR);
+                            CustomMessageBox.Show("Ошибка при открытии файла", Strings.ERROR);
                             return;
                         }
                     }
@@ -1841,7 +1841,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch
                         {
-                            CustomMessageBox.Show("Error opening File", Strings.ERROR);
+                            CustomMessageBox.Show("Ошибка при открытии файла", Strings.ERROR);
                             return;
                         }
                     }
@@ -1892,7 +1892,7 @@ namespace MissionPlanner.GCSViews
             if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
             {
                 if ((int) DialogResult.No ==
-                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
+                    CustomMessageBox.Show("Выбрана абсолютная высота, вы уверены?", "Режим высоты",
                         MessageBoxButtons.YesNo))
                 {
                     CMB_altmode.SelectedValue = (int) altmode.Relative;
@@ -1901,7 +1901,7 @@ namespace MissionPlanner.GCSViews
 
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue != MAVLink.MAV_MISSION_TYPE.MISSION)
             {
-                CustomMessageBox.Show("Only available for missions");
+                CustomMessageBox.Show("Доступно только для миссий");
                 return;
             }
 
@@ -1916,7 +1916,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show("Your home location is invalid", Strings.ERROR);
+                CustomMessageBox.Show("Неверные координаты дома", Strings.ERROR);
                 return;
             }
 
@@ -1930,7 +1930,7 @@ namespace MissionPlanner.GCSViews
                     {
                         if (!double.TryParse(Commands[b, a].Value.ToString(), out answer))
                         {
-                            CustomMessageBox.Show("There are errors in your mission");
+                            CustomMessageBox.Show("В вашей миссии есть ошибки");
                             return;
                         }
                     }
@@ -2125,7 +2125,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show("Failed to set FENCE_ACTION");
+                CustomMessageBox.Show("Не удалось установить FENCE_ACTION");
                 return;
             }
 
@@ -2136,7 +2136,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show("Failed to set FENCE_TOTAL");
+                CustomMessageBox.Show("Не удалось установить FENCE_TOTAL");
                 return;
             }
 
@@ -2232,7 +2232,7 @@ namespace MissionPlanner.GCSViews
             catch (Exception ex)
             {
                 log.Error(ex);
-                CustomMessageBox.Show("Map change failed. try zooming out first.");
+                CustomMessageBox.Show("Не удалось изменить карту. Попробуйте отдалить изображение.");
             }
         }
 
@@ -2278,7 +2278,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception)
             {
-                CustomMessageBox.Show("Row error");
+                CustomMessageBox.Show("Ошибка строки");
             }
         }
 
@@ -2310,7 +2310,7 @@ namespace MissionPlanner.GCSViews
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show("Invalid Lat/Long, please fix", Strings.ERROR);
+                    CustomMessageBox.Show("Неверные координаты, исправьте", Strings.ERROR);
                 }
             }
 
@@ -2640,11 +2640,11 @@ namespace MissionPlanner.GCSViews
 
                 polygonsoverlay.Markers.Add(new GMarkerGoogle(MouseDownStart, GMarkerGoogleType.red));
                 MainMap.Invalidate();
-                CustomMessageBox.Show("Distance: " +
+                CustomMessageBox.Show("Расстояние: " +
                                       FormatDistance(
                                           MainMap.MapProvider.Projection.GetDistance(startmeasure, MouseDownStart),
                                           true) +
-                                      " AZ: " +
+                                      " Азимут: " +
                                       (MainMap.MapProvider.Projection.GetBearing(startmeasure, MouseDownStart)
                                           .ToString("0")));
                 polygonsoverlay.Polygons.Remove(line);
@@ -2878,25 +2878,25 @@ namespace MissionPlanner.GCSViews
             int altstep = 5;
             if (!int.TryParse(RadiusIn, out Radius))
             {
-                CustomMessageBox.Show("Bad Radius");
+                CustomMessageBox.Show("Неверный радиус");
                 return;
             }
 
             if (!int.TryParse(minaltin, out minalt))
             {
-                CustomMessageBox.Show("Bad min alt");
+                CustomMessageBox.Show("Неверная минимальная высота");
                 return;
             }
 
             if (!int.TryParse(maxaltin, out maxalt))
             {
-                CustomMessageBox.Show("Bad maxalt");
+                CustomMessageBox.Show("Неверная максимальная высота");
                 return;
             }
 
             if (!int.TryParse(altstepin, out altstep))
             {
-                CustomMessageBox.Show("Bad alt step");
+                CustomMessageBox.Show("Неверный шаг высоты");
                 return;
             }
 
@@ -2978,7 +2978,7 @@ namespace MissionPlanner.GCSViews
 
             if (!int.TryParse(RadiusIn, out Radius))
             {
-                CustomMessageBox.Show("Bad Radius");
+                CustomMessageBox.Show("Неверный радиус");
                 return;
             }
 
@@ -2986,19 +2986,19 @@ namespace MissionPlanner.GCSViews
 
             if (!int.TryParse(Pointsin, out Points))
             {
-                CustomMessageBox.Show("Bad Point value");
+                CustomMessageBox.Show("Неверное значение точки");
                 return;
             }
 
             if (!int.TryParse(Directionin, out Direction))
             {
-                CustomMessageBox.Show("Bad Direction value");
+                CustomMessageBox.Show("Неверное значение направления");
                 return;
             }
 
             if (!int.TryParse(startanglein, out startangle))
             {
-                CustomMessageBox.Show("Bad start angle value");
+                CustomMessageBox.Show("Неверное значение начального угла");
                 return;
             }
 
@@ -3126,7 +3126,7 @@ namespace MissionPlanner.GCSViews
                     catch (Exception ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("error selecting wp, please try again.");
+                        CustomMessageBox.Show("Ошибка выбора точки, повторите попытку.");
                     }
                 }
                 else if (int.TryParse(CurentRectMarker.InnerMarker.Tag.ToString().Replace("grid", ""), out no))
@@ -3162,7 +3162,7 @@ namespace MissionPlanner.GCSViews
                     catch (Exception ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("error selecting wp, please try again.");
+                        CustomMessageBox.Show("Ошибка выбора точки, повторите попытку.");
                     }
                 }
 
@@ -3623,7 +3623,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
             redrawPolygonSurvey(currentWaypoints);
-            if (CustomMessageBox.Show("Clear current waypoints?", "Confirm",
+            if (CustomMessageBox.Show("Очистить текущие точки маршрута?", "Подтверждение",
                                        MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 clearMissionToolStripMenuItem_Click(null, null);  // perhaps not best practice to directly call "click" events
@@ -3712,25 +3712,25 @@ namespace MissionPlanner.GCSViews
             if (!MainV2.comPort.MAV.param.ContainsKey("FENCE_ENABLE") &&
                 !MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION"))
             {
-                CustomMessageBox.Show("Not Supported");
+                CustomMessageBox.Show("Не поддерживается");
                 return;
             }
 
             if (drawnpolygon == null)
             {
-                CustomMessageBox.Show("No polygon to upload");
+                CustomMessageBox.Show("Полигон не задан");
                 return;
             }
 
             if (geofenceoverlay.Markers.Count == 0)
             {
-                CustomMessageBox.Show("No return location set");
+                CustomMessageBox.Show("Не указана точка возврата");
                 return;
             }
 
             if (drawnpolygon.Points.Count == 0)
             {
-                CustomMessageBox.Show("No polygon drawn");
+                CustomMessageBox.Show("Полигон не нарисован");
                 return;
             }
 
@@ -3743,7 +3743,7 @@ namespace MissionPlanner.GCSViews
                 !pnpoly(plll.ToArray(), geofenceoverlay.Markers[0].Position.Lat,
                     geofenceoverlay.Markers[0].Position.Lng))
             {
-                CustomMessageBox.Show("Your return location is outside the polygon");
+                CustomMessageBox.Show("Точка возврата находится вне полигона");
                 return;
             }
 
@@ -3761,7 +3761,7 @@ namespace MissionPlanner.GCSViews
 
                 if (!int.TryParse(minalts, out minalt))
                 {
-                    CustomMessageBox.Show("Bad Min Alt");
+                    CustomMessageBox.Show("Неверная минимальная высота");
                     return;
                 }
             }
@@ -3777,7 +3777,7 @@ namespace MissionPlanner.GCSViews
 
                 if (!int.TryParse(maxalts, out maxalt))
                 {
-                    CustomMessageBox.Show("Bad Max Alt");
+                    CustomMessageBox.Show("Неверная максимальная высота");
                     return;
                 }
             }
@@ -3794,7 +3794,7 @@ namespace MissionPlanner.GCSViews
             catch (Exception ex)
             {
                 log.Error(ex);
-                CustomMessageBox.Show("Failed to set min/max fence alt");
+                CustomMessageBox.Show("Не удалось установить min/max высоты забора");
                 return;
             }
 
@@ -3847,7 +3847,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to restore FENCE_ACTION");
+                    CustomMessageBox.Show("Не удалось восстановить FENCE_ACTION");
                     return;
                 }
 
@@ -3886,7 +3886,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to send new fence points " + ex, Strings.ERROR);
+                CustomMessageBox.Show("Не удалось отправить новые точки забора " + ex, Strings.ERROR);
             }
         }
 
@@ -4048,7 +4048,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("SPLINE_WAYPOINT command not supported.");
+                    CustomMessageBox.Show("Команда SPLINE_WAYPOINT не поддерживается.");
                     Commands.Rows.RemoveAt(selectedrow);
                     return;
                 }
@@ -4071,7 +4071,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Invalid insert position", Strings.ERROR);
+                    CustomMessageBox.Show("Неверная позиция вставки", Strings.ERROR);
                     return;
                 }
 
@@ -4316,7 +4316,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show("Failed to open url http://127.0.0.1:56781/network.kml");
+                CustomMessageBox.Show("Не удалось открыть URL http://127.0.0.1:56781/network.kml");
             }
         }
 
@@ -4722,7 +4722,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error opening File", Strings.ERROR);
+                    CustomMessageBox.Show("Ошибка при открытии файла", Strings.ERROR);
                     return;
                 }
             }
@@ -6541,7 +6541,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             if (!int.TryParse(alt, out alti))
             {
-                MessageBox.Show("Bad Alt");
+                MessageBox.Show("Неверная высота");
                 return;
             }
 
@@ -6558,7 +6558,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 if (!int.TryParse(top, out topi))
                 {
-                    MessageBox.Show("Bad Takeoff pitch");
+                    MessageBox.Show("Неверный угол взлёта");
                     return;
                 }
             }

@@ -133,14 +133,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (prop_size <= 0 )
             {
 
-                CustomMessageBox.Show("Prop size must be larger than zero.", "ERROR!");
+                CustomMessageBox.Show("Размер пропеллера должен быть больше нуля.", "ОШИБКА!");
                 return;
 
             }
 
             if (batt_cells < 1)
             {
-                CustomMessageBox.Show("Battery cell count must be at least 1.", "ERROR!");
+                CustomMessageBox.Show("Количество ячеек батареи должно быть не меньше 1.", "ОШИБКА!");
                 return;
             }
 
@@ -222,13 +222,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ThemeManager.ApplyThemeTo(paramCompareForm);
 
             MissionPlanner.Controls.MyButton button = paramCompareForm.Controls.Find("BUT_save", true).FirstOrDefault() as MissionPlanner.Controls.MyButton;
-            button.Text = "Write to FC";
+            button.Text = "Записать в контроллер";
             paramCompareForm.StartPosition = FormStartPosition.CenterParent;
             paramCompareForm.ShowDialog();
 
             if (paramCompareForm.DialogResult == DialogResult.OK)
             {
-                CustomMessageBox.Show("Initial Parameters succesfully updated.\r\nCheck parameters before flight!\r\n\r\nAfter test flight :\r\n\tSet ATC_THR_MIX_MAN to 0.5\r\n\tSet PSC_ACCZ_P to MOT_THST_HOVER\r\n\tSet PSC_ACCZ_I to 2*MOT_THST_HOVER\r\n\r\nHappy flying!", "Initial parameter calculator");
+                CustomMessageBox.Show("Начальные параметры успешно обновлены.\r\nПроверьте параметры перед полетом!\r\n\r\nПосле пробного полета:\r\n\tУстановите ATC_THR_MIX_MAN в 0.5\r\n\tУстановите PSC_ACCZ_P равным MOT_THST_HOVER\r\n\tУстановите PSC_ACCZ_I равным 2*MOT_THST_HOVER\r\n\r\nУдачных полетов!", "Калькулятор начальных параметров");
             }
 
             }

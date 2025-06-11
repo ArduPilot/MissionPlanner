@@ -264,7 +264,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else
                 {
                     UpdateStatus("Загрузка прошивки не удалась", (int)0);
-                    CustomMessageBox.Show("Web request failed: " + fwresp.ReasonPhrase);
+                    CustomMessageBox.Show("Сбой веб-запроса: " + fwresp.ReasonPhrase);
                     Console.WriteLine(await fwresp.Content.ReadAsStringAsync());
                 }
             }

@@ -243,7 +243,7 @@ namespace resedit
                 {
                     try
                     {
-                        CustomMessageBox.Show("Failed to save " + row.Cells[colOtherLang.Index].Value.ToString() + " " +
+                        CustomMessageBox.Show("Не удалось сохранить " + row.Cells[colOtherLang.Index].Value.ToString() + " " +
                                               ex.ToString());
                     }
                     catch
@@ -263,7 +263,7 @@ namespace resedit
         {
             if (!File.Exists("translation/output.html"))
             {
-                CustomMessageBox.Show("No existing translation has been done");
+                CustomMessageBox.Show("Перевод ещё не выполнен");
                 return;
             }
 
@@ -297,7 +297,7 @@ namespace resedit
 
             sr1.Close();
 
-            CustomMessageBox.Show("Modified " + a + " entries");
+            CustomMessageBox.Show("Изменено записей: " + a);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -376,7 +376,7 @@ namespace resedit
                 }
             }
 
-            CustomMessageBox.Show("Loaded Existing");
+            CustomMessageBox.Show("Загружены существующие данные");
         }
 
 

@@ -262,15 +262,15 @@ namespace MissionPlanner.Controls
             if (clashList.Count > 0)
             {
                 var clashMessage = new StringBuilder();
-                clashMessage.AppendLine("This binding is already used by the following:");
+                clashMessage.AppendLine("Эта привязка уже используется следующими:");
                 clashMessage.AppendLine();
                 foreach (var clash in clashList)
                 {
                     clashMessage.AppendLine($"- {clash.LabelText}");
                 }
                 clashMessage.AppendLine();
-                clashMessage.AppendLine("Are you sure you want to use this binding?");
-                return CustomMessageBox.Show(clashMessage.ToString(), "Key Binding Clash", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                clashMessage.AppendLine("Вы уверены, что хотите использовать эту привязку?");
+                return CustomMessageBox.Show(clashMessage.ToString(), "Конфликт назначений клавиш", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             }
 
             return (int)DialogResult.Yes;

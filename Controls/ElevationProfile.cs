@@ -231,7 +231,7 @@ namespace MissionPlanner.Controls
 
             if (list.Count < 2 || coords.Length > (2048 - 256))
             {
-                CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance / 1000) + "km", Strings.ERROR);
+                CustomMessageBox.Show("Слишком много/мало точек маршрута или слишком большое расстояние " + (distance / 1000) + "км", Strings.ERROR);
                 return answer;
             }
 
@@ -269,7 +269,7 @@ namespace MissionPlanner.Controls
             }
             catch
             {
-                CustomMessageBox.Show("Error getting GE data", Strings.ERROR);
+                CustomMessageBox.Show("Ошибка получения данных GE", Strings.ERROR);
             }
 
             return answer;
