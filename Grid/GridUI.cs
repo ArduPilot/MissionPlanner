@@ -971,7 +971,7 @@ namespace MissionPlanner.Grid
 
             if (polygon.Count == 0)
             {
-                CustomMessageBox.Show("Please define a polygon!");
+                CustomMessageBox.Show("Укажите полигон!");
                 return 0;
             }
 
@@ -1570,7 +1570,7 @@ namespace MissionPlanner.Grid
 
             string camname = "Default";
 
-            if (MissionPlanner.Controls.InputBox.Show("Camera Name", "Please and a camera name", ref camname) != System.Windows.Forms.DialogResult.OK)
+            if (MissionPlanner.Controls.InputBox.Show("Имя камеры", "Введите имя камеры", ref camname) != System.Windows.Forms.DialogResult.OK)
                 return;
 
             CMB_camera.Text = camname;
@@ -1884,7 +1884,7 @@ namespace MissionPlanner.Grid
             }
             else
             {
-                CustomMessageBox.Show("Bad Grid", "Error");
+                CustomMessageBox.Show("Некорректная сетка", "Ошибка");
             }
         }
 
@@ -1920,7 +1920,7 @@ namespace MissionPlanner.Grid
             if (CMB_startfrom.Text == Utilities.Grid.StartPosition.Point.ToString())
             {
                 int pnt = 1;
-                InputBox.Show("Enter point #", "Please enter a boundary point number", ref pnt);
+                InputBox.Show("Введите точку #", "Введите номер граничной точки", ref pnt);
 
                 if(list.Count > pnt)
                     Utilities.Grid.StartPointLatLngAlt = list[pnt - 1];

@@ -176,14 +176,14 @@ namespace MissionPlanner.Controls
         private async void But_login_Click(object sender, EventArgs e)
         {
             var un = Settings.Instance["DigitalSky_Username", ""];
-            if (InputBox.Show("Username", "Username", ref un) == DialogResult.OK)
+            if (InputBox.Show("Имя пользователя", "Имя пользователя", ref un) == DialogResult.OK)
             {
                 Settings.Instance["DigitalSky_Username"] = un;
                 // secures against copy of config to another pc, but not locally
                 var pw = "";
                 if (Settings.Instance["DigitalSky_Password", ""] != "")
                     pw = new Crypto().DecryptString(Settings.Instance["DigitalSky_Password", ""]);
-                if (InputBox.Show("Password", "Password", ref pw, true) == DialogResult.OK)
+                if (InputBox.Show("Пароль", "Пароль", ref pw, true) == DialogResult.OK)
                 {
                     Settings.Instance["DigitalSky_Password"] = new Crypto().EncryptString(pw);
 
@@ -199,11 +199,11 @@ namespace MissionPlanner.Controls
                         cmb_drones.ValueMember = "Key";
                         cmb_drones.DataSource = displaylist.ToList();
 
-                        CustomMessageBox.Show("Login Successful");
+                        CustomMessageBox.Show("Вход выполнен успешно");
                     }
                     else
                     {
-                        CustomMessageBox.Show("Login Failed");
+                        CustomMessageBox.Show("Ошибка входа");
                     }
                 }
             }

@@ -331,7 +331,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show("Please fix your default alt value");
+                CustomMessageBox.Show("Пожалуйста, исправьте значение высоты по умолчанию");
                 TXT_DefaultAlt.Text = (50 * CurrentState.multiplieralt).ToString("0");
             }
         }
@@ -699,8 +699,8 @@ namespace MissionPlanner.GCSViews
                             cmd != (ushort) MAVLink.MAV_CMD.LAND &&
                             cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
                         {
-                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
-                                                  "\nPlease reduce the alt warning, or increase the altitude");
+                            CustomMessageBox.Show("Низкая высота на точке WP#" + (a + 1) +
+                                                  "\nУменьшите предупреждение по высоте или увеличьте высоту");
                             return;
                         }
                     }
@@ -1949,8 +1949,8 @@ namespace MissionPlanner.GCSViews
                             cmd != (ushort) MAVLink.MAV_CMD.LAND &&
                             cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
                         {
-                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
-                                                  "\nPlease reduce the alt warning, or increase the altitude");
+                            CustomMessageBox.Show("Низкая высота на точке WP#" + (a + 1) +
+                                                  "\nУменьшите предупреждение по высоте или увеличьте высоту");
                             return;
                         }
                     }
@@ -1984,7 +1984,7 @@ namespace MissionPlanner.GCSViews
 
             if (polygon.Count == 0)
             {
-                CustomMessageBox.Show("Please define a polygon!");
+                CustomMessageBox.Show("Пожалуйста, определите полигон!");
                 return 0;
             }
 
@@ -2533,7 +2533,7 @@ namespace MissionPlanner.GCSViews
                 if (((ComboBox) sender).Text == "UNKNOWN")
                 {
                     string cmdid = "-1";
-                    if (InputBox.Show("Mavlink ID", "Please enter the command ID", ref cmdid) == DialogResult.OK)
+                    if (InputBox.Show("Mavlink ID", "Введите ID команды", ref cmdid) == DialogResult.OK)
                     {
                         if (cmdid != "-1")
                         {
@@ -3140,7 +3140,7 @@ namespace MissionPlanner.GCSViews
                     catch (Exception ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("Remove point Failed. Please try again.");
+                        CustomMessageBox.Show("Не удалось удалить точку. Повторите попытку.");
                     }
                 }
             }
@@ -3637,7 +3637,7 @@ namespace MissionPlanner.GCSViews
             }
             string meter = "0";
             double intmeter = 0;
-            if (InputBox.Show("Offset in Meters", "Please enter the offset in meters. Enter a negative value to make the polygon smaller", ref meter) == DialogResult.OK)
+            if (InputBox.Show("Смещение в метрах", "Введите смещение в метрах. Укажите отрицательное значение, чтобы уменьшить полигон", ref meter) == DialogResult.OK)
             {
                 if (meter != "0")
                 {
@@ -4182,7 +4182,7 @@ namespace MissionPlanner.GCSViews
                     else if (file.ToLower().EndsWith("dxf"))
                     {
                         string zone = "-99";
-                        InputBox.Show("Zone", "Please enter the UTM zone, or cancel to not change", ref zone);
+                        InputBox.Show("Зона", "Введите зону UTM или отмените, чтобы не изменять", ref zone);
 
                         dxf dxf = new dxf();
                         if (zone != "-99")
@@ -4914,8 +4914,8 @@ namespace MissionPlanner.GCSViews
         public void modifyAltToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string altdif = "0";
-            InputBox.Show("Alt Change",
-                "Please enter the alitude change you require.\n(20 = up 20, *2 = up by alt * 2)",
+            InputBox.Show("Изменение высоты",
+                "Введите требуемое изменение высоты.\n(20 = поднять на 20, *2 = увеличить высоту в 2 раза)",
                 ref altdif);
 
             float altchange = 0;
@@ -5626,7 +5626,7 @@ namespace MissionPlanner.GCSViews
         public void rotateMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string heading = "0";
-            if (DialogResult.Cancel == InputBox.Show("Rotate map to heading", "Enter new UP heading", ref heading))
+            if (DialogResult.Cancel == InputBox.Show("Повернуть карту", "Введите новое направление вверх", ref heading))
                 return;
             float ans = 0;
             if (float.TryParse(heading, out ans))
@@ -5725,7 +5725,7 @@ namespace MissionPlanner.GCSViews
         {
             if (geofenceoverlay.Markers.Count == 0)
             {
-                CustomMessageBox.Show("Please set a return location");
+                CustomMessageBox.Show("Пожалуйста, укажите точку возврата");
                 return;
             }
 
@@ -5786,7 +5786,7 @@ namespace MissionPlanner.GCSViews
         {
             if (rallypointoverlay.Markers.Count == 0)
             {
-                CustomMessageBox.Show("Please set some rally points");
+                CustomMessageBox.Show("Пожалуйста, задайте несколько точек ожидания");
                 return;
             }
             /*

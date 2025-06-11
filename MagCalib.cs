@@ -322,7 +322,7 @@ namespace MissionPlanner
                 catch (Exception ex)
                 {
                     log.Debug(ex.ToString());
-                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                     return;
                 }
 
@@ -761,7 +761,7 @@ namespace MissionPlanner
 
             if (datacompass1.Count < 10)
             {
-                sender.doWorkArgs.ErrorMessage = "Log does not contain enough data";
+                sender.doWorkArgs.ErrorMessage = "В логе недостаточно данных";
                 ans = null;
                 ans2 = null;
                 return;
@@ -978,7 +978,7 @@ namespace MissionPlanner
                 catch (Exception ex)
                 {
                     log.Debug(ex.ToString());
-                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                     return new double[] { 0 };
                 }
 
@@ -1069,8 +1069,8 @@ namespace MissionPlanner
 
             if (data.Count < 10)
             {
-                CustomMessageBox.Show("Log does not contain enough data");
-                throw new Exception("Not Enough Data");
+                CustomMessageBox.Show("В логе недостаточно данных");
+                throw new Exception("Недостаточно данных");
             }
 
             data.Sort(
@@ -1308,19 +1308,19 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Setting new offsets for compass #1 failed");
+                    CustomMessageBox.Show("Не удалось установить новые смещения для компаса №1");
                     return;
                 }
 
                 CustomMessageBox.Show(
-                    "New offsets for compass #1 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
-                    ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                    "Новые смещения для компаса №1: " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
+                    ofs[2].ToString("0") + "\nОни сохранены.", "Новые магнитные смещения");
             }
             else
             {
                 CustomMessageBox.Show(
-                    "New offsets for compass #1 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
-                    ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                    "Новые смещения для компаса №1: " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
+                    ofs[2].ToString("0") + "\n\nПожалуйста, запишите их для ручного ввода", "Новые магнитные смещения");
             }
         }
 
@@ -1363,19 +1363,19 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Setting new offsets for compass #2 failed");
+                    CustomMessageBox.Show("Не удалось установить новые смещения для компаса №2");
                     return;
                 }
 
                 CustomMessageBox.Show(
-                    "New offsets for compass #2 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
-                    ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                    "Новые смещения для компаса №2: " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
+                    ofs[2].ToString("0") + "\nОни сохранены.", "Новые магнитные смещения");
             }
             else
             {
                 CustomMessageBox.Show(
-                    "New offsets for compass #2 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
-                    ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                    "Новые смещения для компаса №2: " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
+                    ofs[2].ToString("0") + "\n\nПожалуйста, запишите их для ручного ввода", "Новые магнитные смещения");
             }
         }
 
@@ -1406,19 +1406,19 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Setting new offsets for compass #3 failed");
+                    CustomMessageBox.Show("Не удалось установить новые смещения для компаса №3");
                     return;
                 }
 
                 CustomMessageBox.Show(
-                    "New offsets for compass #3 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
-                    ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                    "Новые смещения для компаса №3: " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
+                    ofs[2].ToString("0") + "\nОни сохранены.", "Новые магнитные смещения");
             }
             else
             {
                 CustomMessageBox.Show(
-                    "New compass3 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
-                    ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                    "Новые смещения для компаса №3: " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " +
+                    ofs[2].ToString("0") + "\n\nПожалуйста, запишите их для ручного ввода", "Новые магнитные смещения");
             }
         }
 

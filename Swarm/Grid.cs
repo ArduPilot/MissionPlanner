@@ -373,7 +373,7 @@ namespace MissionPlanner.Swarm
             var mouseoverlocal = mouseover;
 
             string output = mouseover.z.ToString();
-            if (DialogResult.OK == InputBox.Show("Alt", "Enter New Alt", ref output))
+            if (DialogResult.OK == InputBox.Show("Высота", "Введите новую высоту", ref output))
             {
                 mouseoverlocal.z = float.Parse(output);
 

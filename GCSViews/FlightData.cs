@@ -800,7 +800,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                CustomMessageBox.Show("Please select a valid script", "Bad Script");
+                CustomMessageBox.Show("Пожалуйста, выберите корректный скрипт", "Неверный скрипт");
             }
         }
 
@@ -2392,7 +2392,7 @@ namespace MissionPlanner.GCSViews
                 if (Settings.Instance["hud1_useritem_" + checkbox.Name] != null)
                     prefix = Settings.Instance["hud1_useritem_" + checkbox.Name];
 
-                if (DialogResult.Cancel == InputBox.Show("Hud Header", "Please enter your item prefix", ref prefix))
+                if (DialogResult.Cancel == InputBox.Show("Заголовок HUD", "Введите префикс элемента", ref prefix))
                 {
                     checkbox.Checked = false;
                     return;
@@ -4417,7 +4417,7 @@ namespace MissionPlanner.GCSViews
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt(abs)' or 'lat;long'", ref location);
+            InputBox.Show("Введите координаты", "Введите значения 'lat;long;alt(abs)' или 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -4451,7 +4451,7 @@ namespace MissionPlanner.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Please Connect First");
+                CustomMessageBox.Show("Сначала подключитесь");
                 return;
             }
 
@@ -5877,7 +5877,7 @@ namespace MissionPlanner.GCSViews
         private void flyToCoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Fly To Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("Введите координаты полёта", "Введите значения 'lat;long;alt' или 'lat;long'", ref location);
 
             byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
             if (!MainV2.comPort.MAV.GuidedMode.Equals(new MAVLink.mavlink_mission_item_int_t()))
@@ -5950,7 +5950,7 @@ namespace MissionPlanner.GCSViews
         private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter POI Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("Введите координаты POI", "Введите значения 'lat;long;alt' или 'lat;long'", ref location);
 
             var split = location.Split(';');
 

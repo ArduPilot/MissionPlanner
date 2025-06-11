@@ -633,7 +633,7 @@ namespace GMap.NET.Internals
          }
          else
          {
-            throw new Exception("Please, do not call ReloadMap before form is loaded, it's useless");
+            throw new Exception("Не вызывайте ReloadMap до загрузки формы, это бессмысленно");
          }
       }
 

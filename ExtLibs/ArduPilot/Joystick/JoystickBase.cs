@@ -97,7 +97,7 @@ namespace MissionPlanner.Joystick
             {
                 _context.Send(delegate
                 {
-                    CustomMessageBox.Show("Lost Joystick", "Lost Joystick");
+                    CustomMessageBox.Show("Джойстик потерян", "Джойстик потерян");
                 }, null);
             });
         }
@@ -197,7 +197,7 @@ namespace MissionPlanner.Joystick
             var buttonsbefore = obj.GetButtons();
 
             CustomMessageBox.Show(
-                "Please press the joystick button you want assigned to this function after clicking ok");
+                "После нажатия OK нажмите кнопку джойстика, которую хотите назначить на эту функцию");
 
             DateTime start = DateTime.Now;
 
@@ -214,7 +214,7 @@ namespace MissionPlanner.Joystick
                 }
             }
 
-            CustomMessageBox.Show("No valid option was detected");
+            CustomMessageBox.Show("Не найден допустимый вариант");
 
             return -1;
         }
@@ -401,7 +401,7 @@ namespace MissionPlanner.Joystick
                                 }
                                 catch
                                 {
-                                    CustomMessageBox.Show("Failed to change Modes");
+                                    CustomMessageBox.Show("Не удалось изменить режим");
                                 }
                             }, null);
                         }
@@ -415,7 +415,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to change mount mode");
+                                CustomMessageBox.Show("Не удалось изменить режим подвеса");
                             }
                         }, null);
 
@@ -430,7 +430,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Arm");
+                                CustomMessageBox.Show("Не удалось включить");
                             }
                         }, null);
                         break;
@@ -451,7 +451,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to takeoff");
+                                CustomMessageBox.Show("Не удалось взлететь");
                             }
                         }, null);
                         break;
@@ -464,7 +464,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Disarm");
+                                CustomMessageBox.Show("Не удалось разоружить");
                             }
                         }, null);
                         break;
@@ -479,7 +479,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to DO_SET_RELAY");
+                                CustomMessageBox.Show("Не удалось выполнить DO_SET_RELAY");
                             }
                         }, null);
                         break;
@@ -499,7 +499,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to DO_REPEAT_RELAY");
+                                CustomMessageBox.Show("Не удалось выполнить DO_REPEAT_RELAY");
                             }
                         }, null);
                         break;
@@ -514,7 +514,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to DO_SET_SERVO");
+                                CustomMessageBox.Show("Не удалось выполнить DO_SET_SERVO");
                             }
                         }, null);
                         break;
@@ -532,7 +532,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to DO_REPEAT_SERVO");
+                                CustomMessageBox.Show("Не удалось выполнить DO_REPEAT_SERVO");
                             }
                         }, null);
                         break;
@@ -547,7 +547,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Toggle_Pan_Stab");
+                                CustomMessageBox.Show("Не удалось выполнить Toggle_Pan_Stab");
                             }
                         }, null);
                         break;
@@ -562,7 +562,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Gimbal_pnt_track");
+                                CustomMessageBox.Show("Не удалось выполнить Gimbal_pnt_track");
                             }
                         }, null);
                         break;
@@ -575,7 +575,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Mount_Control_0");
+                                CustomMessageBox.Show("Не удалось выполнить Mount_Control_0");
                             }
                         }, null);
                         break;
@@ -594,7 +594,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Button_axis0");
+                                CustomMessageBox.Show("Не удалось выполнить Button_axis0");
                             }
                         }, null);
                         break;
@@ -613,7 +613,7 @@ namespace MissionPlanner.Joystick
                             }
                             catch
                             {
-                                CustomMessageBox.Show("Failed to Button_axis1");
+                                CustomMessageBox.Show("Не удалось выполнить Button_axis1");
                             }
                         }, null);
                         break;
@@ -1197,7 +1197,7 @@ namespace MissionPlanner.Joystick
             values["Custom1"] = 0;
             values["Custom2"] = 0;
 
-            CustomMessageBox.Show("Please move the joystick axis you want assigned to this function after clicking ok");
+            CustomMessageBox.Show("После нажатия OK переместите ось джойстика, которую хотите назначить на эту функцию");
 
             DateTime start = DateTime.Now;
 
@@ -1262,7 +1262,7 @@ namespace MissionPlanner.Joystick
                 }
             }
 
-            CustomMessageBox.Show("No valid option was detected");
+            CustomMessageBox.Show("Не найден допустимый вариант");
 
             return joystickaxis.None;
         }

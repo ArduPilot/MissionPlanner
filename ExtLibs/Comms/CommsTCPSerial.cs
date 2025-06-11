@@ -122,10 +122,10 @@ namespace MissionPlanner.Comms
 
                     if (!reconnectnoprompt)
                     {
-                        if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
-                            "Enter host name/ip (ensure remote end is already started)", ref host))
+                        if (inputboxreturn.Cancel == OnInputBoxShow("удалённый хост",
+                            "Введите имя или IP хоста (убедитесь, что удалённая сторона уже запущена)", ref host))
                             throw new Exception("Canceled by request");
-                        if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                        if (inputboxreturn.Cancel == OnInputBoxShow("удалённый порт", "Введите удалённый порт", ref dest))
                             throw new Exception("Canceled by request");
                     }
                     Host = host;

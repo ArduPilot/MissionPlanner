@@ -57,7 +57,7 @@ namespace MissionPlanner.InitialParamCalc
 
         public override string Name
         {
-            get { return "Initial Parameters"; }
+            get { return "Начальные параметры"; }
         }
 
         public override string Version
@@ -128,7 +128,7 @@ namespace MissionPlanner.InitialParamCalc
 
             if (!Host.cs.connected)
             {
-                CustomMessageBox.Show("Please connect first!", "Initial paremeter calculator", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CustomMessageBox.Show("Сначала подключитесь!", "Калькулятор начальных параметров", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (Host.cs.firmware != ArduPilot.Firmwares.ArduCopter2)
@@ -208,10 +208,10 @@ namespace MissionPlanner.InitialParamCalc
             Form paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, new_params);
             ThemeManager.ApplyThemeTo(paramCompareForm);
             button = paramCompareForm.Controls.Find("BUT_save", true).FirstOrDefault() as MissionPlanner.Controls.MyButton;
-            button.Text = "Write to FC";
+            button.Text = "Записать в контроллер";
 
             paramCompareForm.ShowDialog();
-            CustomMessageBox.Show("Initial Parameters succesfully updated.\r\nCheck parameters before flight!\r\n\r\nAfter test flight :\r\n\tSet ATC_THR_MIX_MAN to 0.5\r\n\tSet PSC_ACCZ_P to MOT_THST_HOVER\r\n\tSet PSC_ACCZ_I to 2*MOT_THST_HOVER\r\n\r\nHappy flying!", "Initial parameter calculator");
+            CustomMessageBox.Show("Начальные параметры успешно обновлены.\r\nПроверьте параметры перед полётом!\r\n\r\nПосле тестового полёта:\r\n\tУстановите ATC_THR_MIX_MAN в 0.5\r\n\tУстановите PSC_ACCZ_P равным MOT_THST_HOVER\r\n\tУстановите PSC_ACCZ_I равным 2*MOT_THST_HOVER\r\n\r\nУдачных полётов!", "Калькулятор начальных параметров");
 
         }
 

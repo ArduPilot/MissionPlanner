@@ -1394,7 +1394,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_movingbase_CheckedChanged(object sender, EventArgs e)
         {
             if (comPort.IsOpen)
-                CustomMessageBox.Show("Please Disconnect and Reconnect to apply this change.");
+                CustomMessageBox.Show("Необходимо отключиться и подключиться заново для применения изменения.");
         }
 
         private void comboBoxConfigType_SelectedIndexChanged(object sender, EventArgs e)

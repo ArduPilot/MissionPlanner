@@ -867,7 +867,7 @@ namespace MissionPlanner
                 //System.ArgumentException: Font 'Arial' does not support style 'Regular'.
 
                 log.Fatal(e);
-                CustomMessageBox.Show($"{e}\n\n Font Issues? Please install this http://www.microsoft.com/en-us/download/details.aspx?id=16083");
+                CustomMessageBox.Show($"{e}\n\n Проблемы со шрифтами? Установите пакет по ссылке http://www.microsoft.com/en-us/download/details.aspx?id=16083");
                 //splash.Close();
                 //this.Close();
                 Application.Exit();
@@ -875,7 +875,7 @@ namespace MissionPlanner
             catch (Exception e)
             {
                 log.Fatal(e);
-                CustomMessageBox.Show($"A Major error has occured : {e}");
+                CustomMessageBox.Show($"Произошла серьёзная ошибка: {e}");
                 Application.Exit();
             }
 

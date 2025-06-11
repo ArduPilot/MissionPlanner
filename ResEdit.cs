@@ -256,7 +256,7 @@ namespace resedit
             sw.Write("</table></html>");
             sw.Close();
 
-            CustomMessageBox.Show("Saved");
+            CustomMessageBox.Show("Сохранено");
         }
 
         private void button3_Click(object sender, EventArgs e)

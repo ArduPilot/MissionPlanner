@@ -86,9 +86,9 @@ namespace Dowding
             this.chk_enable.AutoSize = true;
             this.chk_enable.Location = new System.Drawing.Point(226, 23);
             this.chk_enable.Name = "chk_enable";
-            this.chk_enable.Size = new System.Drawing.Size(96, 17);
+            this.chk_enable.Size = new System.Drawing.Size(126, 17);
             this.chk_enable.TabIndex = 8;
-            this.chk_enable.Text = "Enable at Start";
+            this.chk_enable.Text = "Включить при старте";
             this.chk_enable.UseVisualStyleBackColor = true;
             this.chk_enable.CheckedChanged += new System.EventHandler(this.chk_enable_CheckedChanged);
             // 
@@ -98,7 +98,7 @@ namespace Dowding
             this.myLabel1.Name = "myLabel1";
             this.myLabel1.Size = new System.Drawing.Size(75, 23);
             this.myLabel1.TabIndex = 0;
-            this.myLabel1.Text = "Username";
+            this.myLabel1.Text = "Имя пользователя";
             // 
             // txt_username
             // 
@@ -113,7 +113,7 @@ namespace Dowding
             this.myLabel3.Name = "myLabel3";
             this.myLabel3.Size = new System.Drawing.Size(75, 23);
             this.myLabel3.TabIndex = 2;
-            this.myLabel3.Text = "Password";
+            this.myLabel3.Text = "Пароль";
             // 
             // txt_password
             // 
@@ -130,7 +130,7 @@ namespace Dowding
             this.myLabel2.Name = "myLabel2";
             this.myLabel2.Size = new System.Drawing.Size(75, 23);
             this.myLabel2.TabIndex = 1;
-            this.myLabel2.Text = "Server";
+            this.myLabel2.Text = "Сервер";
             // 
             // cmb_server
             // 
@@ -146,7 +146,7 @@ namespace Dowding
             this.but_verify.Name = "but_verify";
             this.but_verify.Size = new System.Drawing.Size(181, 23);
             this.but_verify.TabIndex = 6;
-            this.but_verify.Text = "Verify";
+            this.but_verify.Text = "Проверить";
             this.but_verify.UseVisualStyleBackColor = true;
             this.but_verify.Click += new System.EventHandler(this.but_verify_Click);
             // 
@@ -156,7 +156,7 @@ namespace Dowding
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 23);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Or";
+            this.label1.Text = "Или";
             // 
             // but_token
             // 
@@ -164,7 +164,7 @@ namespace Dowding
             this.but_token.Name = "but_token";
             this.but_token.Size = new System.Drawing.Size(181, 23);
             this.but_token.TabIndex = 9;
-            this.but_token.Text = "Enter Token";
+            this.but_token.Text = "Введите токен";
             this.but_token.UseVisualStyleBackColor = true;
             this.but_token.Click += new System.EventHandler(this.but_token_Click);
             // 
@@ -174,7 +174,7 @@ namespace Dowding
             this.but_start.Name = "but_start";
             this.but_start.Size = new System.Drawing.Size(407, 23);
             this.but_start.TabIndex = 11;
-            this.but_start.Text = "Start";
+            this.but_start.Text = "Запустить";
             this.but_start.UseVisualStyleBackColor = true;
             this.but_start.Click += new System.EventHandler(this.but_start_Click);
             // 
@@ -247,7 +247,7 @@ namespace Dowding
             this.but_setathome.Name = "but_setathome";
             this.but_setathome.Size = new System.Drawing.Size(100, 23);
             this.but_setathome.TabIndex = 19;
-            this.but_setathome.Text = "Set Tracker Home";
+            this.but_setathome.Text = "Установить дом трекера";
             this.but_setathome.UseVisualStyleBackColor = true;
             this.but_setathome.Click += new System.EventHandler(this.but_setathome_Click);
             // 
@@ -257,7 +257,7 @@ namespace Dowding
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(75, 23);
             this.label9.TabIndex = 18;
-            this.label9.Text = "Tracker Long";
+            this.label9.Text = "Долгота трекера";
             // 
             // txt_trackerlong
             // 
@@ -272,7 +272,7 @@ namespace Dowding
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(75, 23);
             this.label8.TabIndex = 16;
-            this.label8.Text = "Tracker HAE";
+            this.label8.Text = "Высота HAE трекера";
             // 
             // txt_trackerhae
             // 
@@ -287,7 +287,7 @@ namespace Dowding
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 23);
             this.label7.TabIndex = 14;
-            this.label7.Text = "Tracker Lat";
+            this.label7.Text = "Широта трекера";
             // 
             // txt_trackerlat
             // 
@@ -303,7 +303,7 @@ namespace Dowding
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 23);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Antenna Tracker";
+            this.label2.Text = "Антенный трекер";
             // 
             // CMB_baudrate
             // 
@@ -330,7 +330,7 @@ namespace Dowding
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 4;
-            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.Text = "Подключить";
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
@@ -366,7 +366,7 @@ namespace Dowding
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(75, 23);
             this.label6.TabIndex = 14;
-            this.label6.Text = "Password";
+            this.label6.Text = "Пароль";
             // 
             // txt_onvifpassword
             // 
@@ -382,7 +382,7 @@ namespace Dowding
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 23);
             this.label5.TabIndex = 12;
-            this.label5.Text = "User";
+            this.label5.Text = "Пользователь";
             // 
             // txt_onvifuser
             // 
@@ -397,7 +397,7 @@ namespace Dowding
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(75, 23);
             this.label4.TabIndex = 10;
-            this.label4.Text = "IP:Port";
+            this.label4.Text = "IP:Порт";
             // 
             // txt_onvifip
             // 
@@ -422,7 +422,7 @@ namespace Dowding
             this.but_onvif.Name = "but_onvif";
             this.but_onvif.Size = new System.Drawing.Size(75, 23);
             this.but_onvif.TabIndex = 4;
-            this.but_onvif.Text = "Start";
+            this.but_onvif.Text = "Запустить";
             this.but_onvif.UseVisualStyleBackColor = true;
             this.but_onvif.Click += new System.EventHandler(this.but_onvif_Click);
             // 
@@ -471,7 +471,7 @@ namespace Dowding
             this.but_cotstart.Name = "but_cotstart";
             this.but_cotstart.Size = new System.Drawing.Size(75, 23);
             this.but_cotstart.TabIndex = 10;
-            this.but_cotstart.Text = "Connect";
+            this.but_cotstart.Text = "Подключить";
             this.but_cotstart.UseVisualStyleBackColor = true;
             this.but_cotstart.Click += new System.EventHandler(this.but_cotstart_Click);
             // 
@@ -498,7 +498,7 @@ namespace Dowding
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(75, 23);
             this.label11.TabIndex = 16;
-            this.label11.Text = "Yaw";
+            this.label11.Text = "Курс";
             // 
             // DowdingUI
             // 

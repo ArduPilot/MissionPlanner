@@ -5429,13 +5429,13 @@
     <value>176, 22</value>
   </data>
   <data name="setHomeHereToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Set Home Here</value>
+    <value>Установить Дом здесь</value>
   </data>
   <data name="setHomeHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 22</value>
   </data>
   <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Home Here</value>
+    <value>Установить Дом здесь</value>
   </data>
   <data name="takeOffToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 22</value>

@@ -373,7 +373,7 @@ namespace MissionPlanner.SimpleGrid
 
             if (polygon.Count == 0)
             {
-                CustomMessageBox.Show("Please define a polygon!");
+                CustomMessageBox.Show("Укажите полигон!");
                 return 0;
             }
 
@@ -452,7 +452,7 @@ namespace MissionPlanner.SimpleGrid
             }
             else
             {
-                CustomMessageBox.Show("Bad Grid", "Error");
+                CustomMessageBox.Show("Некорректная сетка", "Ошибка");
             }
         }
 

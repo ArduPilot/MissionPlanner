@@ -39,12 +39,12 @@
             // 
             // CB_auto_connect
             // 
-            this.CB_auto_connect.AutoSize = true;
+            this.CB_auto_connect.АвтоSize = true;
             this.CB_auto_connect.Location = new System.Drawing.Point(303, 42);
             this.CB_auto_connect.Name = "CB_auto_connect";
             this.CB_auto_connect.Size = new System.Drawing.Size(48, 17);
             this.CB_auto_connect.TabIndex = 46;
-            this.CB_auto_connect.Text = "Auto";
+            this.CB_auto_connect.Text = "Авто";
             this.CB_auto_connect.UseVisualStyleBackColor = true;
             this.CB_auto_connect.CheckedChanged += new System.EventHandler(this.CB_auto_connect_CheckedChanged);
             // 
@@ -82,19 +82,19 @@
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.Size = new System.Drawing.Size(115, 20);
             this.BUT_connect.TabIndex = 43;
-            this.BUT_connect.Text = "Connect Base GPS";
+            this.BUT_connect.Text = "Подключить базовый GPS";
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // LBL_gpsStatus
             // 
-            this.LBL_gpsStatus.AutoSize = true;
+            this.LBL_gpsStatus.АвтоSize = true;
             this.LBL_gpsStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_gpsStatus.Location = new System.Drawing.Point(3, 43);
             this.LBL_gpsStatus.Name = "LBL_gpsStatus";
             this.LBL_gpsStatus.Size = new System.Drawing.Size(368, 13);
             this.LBL_gpsStatus.TabIndex = 42;
-            this.LBL_gpsStatus.Text = "Not Yet Started                                                                  " +
+            this.LBL_gpsStatus.Text = "Ещё не запущено                                                                  " +
     "                              ";
             this.LBL_gpsStatus.DoubleClick += new System.EventHandler(this.LBL_gpsStatus_DoubleClick);
             // 
@@ -114,8 +114,8 @@
             // 
             // NMEA_GPS_Connection
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.АвтоScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.АвтоScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Name = "NMEA_GPS_Connection";
             this.Size = new System.Drawing.Size(369, 88);

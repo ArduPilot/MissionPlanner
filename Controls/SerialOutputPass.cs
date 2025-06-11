@@ -44,7 +44,7 @@ namespace MissionPlanner.Controls
                 Load();
             }
             catch (Exception ex) {
-                CustomMessageBox.Show("Failed to load list: " + ex.Message);
+                CustomMessageBox.Show("Не удалось загрузить список: " + ex.Message);
             }
         }
 
@@ -67,7 +67,7 @@ namespace MissionPlanner.Controls
                                 MainV2.comPort.MirrorStream = new TcpSerial();
                                 CMB_baudrate.SelectedIndex = 0;
                                 int port = 14550;
-                                if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                                if (InputBox.Show("Порт", "Введите порт", ref port) != DialogResult.OK)
                                     return;
                                 listener = new TcpListener(System.Net.IPAddress.Any, port);
                                 listener.Start(0);
@@ -84,7 +84,7 @@ namespace MissionPlanner.Controls
                         case "UDP Host - 14550":
                             {
                                 int port = 14550;
-                                if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                                if (InputBox.Show("Порт", "Введите порт", ref port) != DialogResult.OK)
                                     return;
                                 MainV2.comPort.MirrorStream = new UdpSerial()
                                 { ConfigRef = "SerialOutputPassUDP", Port = port.ToString() };
@@ -123,7 +123,7 @@ namespace MissionPlanner.Controls
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    CustomMessageBox.Show("Ошибка подключения\nесли используется com0com, переименуйте порты в COM??");
                     return;
                 }
             }
@@ -265,7 +265,7 @@ namespace MissionPlanner.Controls
                     Started.Add(e.RowIndex);
                 }
                 catch (Exception ex) {
-                    CustomMessageBox.Show("Error: " + ex.Message);
+                    CustomMessageBox.Show("Ошибка: " + ex.Message);
                 }
             }
         }

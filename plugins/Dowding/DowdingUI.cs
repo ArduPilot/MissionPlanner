@@ -127,7 +127,7 @@ namespace Dowding
         private void but_token_Click(object sender, EventArgs e)
         {
             var token = "";
-            if (InputBox.Show("Token", "Enter your token", ref token) == DialogResult.OK)
+            if (InputBox.Show("Токен", "Введите ваш токен", ref token) == DialogResult.OK)
             {
                 Settings.Instance["Dowding_token"] = token;
             }

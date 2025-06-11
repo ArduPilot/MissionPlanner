@@ -48,7 +48,7 @@ namespace MissionPlanner.Controls
             this.but_loadlog.Name = "but_loadlog";
             this.but_loadlog.Size = new System.Drawing.Size(75, 23);
             this.but_loadlog.TabIndex = 5;
-            this.but_loadlog.Text = "Load Log";
+            this.but_loadlog.Text = "Загрузить лог";
             this.but_loadlog.UseVisualStyleBackColor = true;
             this.but_loadlog.Click += new System.EventHandler(this.but_loadlog_Click);
             // 
@@ -143,7 +143,7 @@ namespace MissionPlanner.Controls
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(24, 13);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Min";
+            this.label1.Text = "Мин";
             // 
             // label2
             // 
@@ -152,7 +152,7 @@ namespace MissionPlanner.Controls
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(27, 13);
             this.label2.TabIndex = 10;
-            this.label2.Text = "Max";
+            this.label2.Text = "Макс";
             // 
             // but_redraw
             // 
@@ -160,7 +160,7 @@ namespace MissionPlanner.Controls
             this.but_redraw.Name = "but_redraw";
             this.but_redraw.Size = new System.Drawing.Size(75, 23);
             this.but_redraw.TabIndex = 11;
-            this.but_redraw.Text = "Update";
+            this.but_redraw.Text = "Обновить";
             this.but_redraw.UseVisualStyleBackColor = true;
             this.but_redraw.Click += new System.EventHandler(this.but_redraw_Click);
             // 
@@ -178,7 +178,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.cmb_sensor);
             this.Controls.Add(this.but_loadlog);
             this.Name = "SpectrogramUI";
-            this.Text = "SpectrogramUI";
+            this.Text = "Спектрограмма";
             this.Resize += new System.EventHandler(this.SpectrogramUI_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.num_min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_max)).EndInit();

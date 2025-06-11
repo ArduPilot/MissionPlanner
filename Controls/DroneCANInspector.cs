@@ -244,7 +244,7 @@ namespace MissionPlanner.Controls
             this.but_graphit.Name = "but_graphit";
             this.but_graphit.Size = new System.Drawing.Size(75, 23);
             this.but_graphit.TabIndex = 4;
-            this.but_graphit.Text = "Graph It";
+            this.but_graphit.Text = "Построить график";
             this.but_graphit.UseVisualStyleBackColor = true;
             this.but_graphit.Click += new System.EventHandler(this.but_graphit_Click);
             // 
@@ -254,7 +254,7 @@ namespace MissionPlanner.Controls
             this.but_subscribe.Name = "but_subscribe";
             this.but_subscribe.Size = new System.Drawing.Size(75, 23);
             this.but_subscribe.TabIndex = 5;
-            this.but_subscribe.Text = "Subscribe";
+            this.but_subscribe.Text = "Подписаться";
             this.but_subscribe.UseVisualStyleBackColor = true;
             this.but_subscribe.Click += new System.EventHandler(this.but_subscribe_Click);
             // 
@@ -265,7 +265,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.but_graphit);
             this.Controls.Add(this.groupBox1);
             this.Name = "UAVCANInspector";
-            this.Text = "UAVCAN Inspector";
+            this.Text = "Инспектор UAVCAN";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAVLinkInspector_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -353,7 +353,7 @@ namespace MissionPlanner.Controls
 
         private void but_graphit_Click(object sender, EventArgs e)
         {
-            InputBox.Show("Points", "Points of history?", ref history);
+            InputBox.Show("Точки", "Сколько точек истории?", ref history);
             var form = new Form() { Size = new Size(640, 480) };
             var zg1 = new ZedGraphControl() { Dock = DockStyle.Fill };
             var msgpath = selectedmsgid.Split('/');

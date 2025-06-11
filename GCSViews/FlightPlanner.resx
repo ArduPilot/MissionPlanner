@@ -2289,25 +2289,25 @@
     <value>155, 22</value>
   </data>
   <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>Modify Alt</value>
+    <value>Изменить высоту</value>
   </data>
   <data name="enterUTMCoordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 22</value>
   </data>
   <data name="enterUTMCoordToolStripMenuItem.Text" xml:space="preserve">
-    <value>Enter UTM Coord</value>
+    <value>Введите координату UTM</value>
   </data>
   <data name="switchDockingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 22</value>
   </data>
   <data name="switchDockingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Switch Docking</value>
+    <value>Переключить стыковку</value>
   </data>
   <data name="setHomeHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 22</value>
   </data>
   <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Home Here</value>
+    <value>Установить Дом здесь</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 516</value>

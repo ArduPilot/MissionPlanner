@@ -276,7 +276,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
                     {
-                        CustomMessageBox.Show("You are not connected", Strings.ERROR);
+                        CustomMessageBox.Show("Вы не подключены", Strings.ERROR);
                         return;
                     }
 
@@ -316,7 +316,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
                     {
-                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        CustomMessageBox.Show("Вы не подключены", Strings.ERROR);
                         return;
                     }
 
@@ -359,16 +359,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch
                 {
                     error++;
-                    CustomMessageBox.Show("Set " + value + " Failed");
+                    CustomMessageBox.Show("Не удалось установить " + value);
                 }
             }
 
             if (error > 0)
-                CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
+                CustomMessageBox.Show("Не все параметры успешно сохранены.", "Сохранено");
             else if (temp.Count>0)
-                CustomMessageBox.Show($"{temp.Count} parameters successfully saved.", "Saved");
+                CustomMessageBox.Show($"{temp.Count} параметров успешно сохранено.", "Сохранено");
             else
-                CustomMessageBox.Show("No parameters were changed.", "No changes");
+                CustomMessageBox.Show("Параметры не были изменены.", "Нет изменений");
 
             //Check if reboot is required
             if (reboot)

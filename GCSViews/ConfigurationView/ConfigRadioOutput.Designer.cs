@@ -101,7 +101,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 13);
             this.label6.TabIndex = 152;
-            this.label6.Text = "Max";
+            this.label6.Text = "Макс";
             // 
             // label5
             // 
@@ -110,7 +110,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(27, 13);
             this.label5.TabIndex = 151;
-            this.label5.Text = "Trim";
+            this.label5.Text = "Трим";
             // 
             // label4
             // 
@@ -119,7 +119,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(24, 13);
             this.label4.TabIndex = 150;
-            this.label4.Text = "Min";
+            this.label4.Text = "Мин";
             // 
             // label3
             // 
@@ -127,7 +127,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(160, 13);
             this.label3.TabIndex = 149;
-            this.label3.Text = "Function";
+            this.label3.Text = "Функция";
             // 
             // label2
             // 
@@ -136,7 +136,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 148;
-            this.label2.Text = "Reverse";
+            this.label2.Text = "Реверс";
             // 
             // label1
             // 
@@ -145,7 +145,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 147;
-            this.label1.Text = "Position";
+            this.label1.Text = "Позиция";
             // 
             // timer1
             // 

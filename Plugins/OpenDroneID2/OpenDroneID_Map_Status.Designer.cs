@@ -63,7 +63,7 @@ namespace MissionPlanner.Controls
             this.LBL_ODID_OK.Name = "LBL_ODID_OK";
             this.LBL_ODID_OK.Size = new System.Drawing.Size(71, 16);
             this.LBL_ODID_OK.TabIndex = 3;
-            this.LBL_ODID_OK.Text = "Remote ID";
+            this.LBL_ODID_OK.Text = "Удалённый ID";
             this.LBL_ODID_OK.DoubleClick += new System.EventHandler(this.OpenDroneID_Map_Status_DoubleClick);
             // 
             // OpenDroneID_Map_Status

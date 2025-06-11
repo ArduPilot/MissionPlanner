@@ -730,26 +730,26 @@ namespace MissionPlanner
 
             if (ex.Message.Contains("The port is closed"))
             {
-                CustomMessageBox.Show("Serial connection has been lost");
+                CustomMessageBox.Show("Последовательное соединение потеряно");
                 return;
             }
 
             if (ex.Message.Contains("Array.Empty"))
             {
-                CustomMessageBox.Show("Please install Microsoft Dot Net 4.6.2");
+                CustomMessageBox.Show("Установите Microsoft .NET 4.6.2");
                 Application.Exit();
                 return;
             }
 
             if (ex.Message.Contains("A device attached to the system is not functioning"))
             {
-                CustomMessageBox.Show("Serial connection has been lost");
+                CustomMessageBox.Show("Последовательное соединение потеряно");
                 return;
             }
 
             if (ex.GetType() == typeof(MissingMethodException) || ex.GetType() == typeof(TypeLoadException))
             {
-                CustomMessageBox.Show("Please Update - Some older library dlls are causing problems\n" + ex.Message);
+                CustomMessageBox.Show("Необходимо обновление — старые библиотеки вызывают проблемы\n" + ex.Message);
                 return;
             }
 
@@ -794,7 +794,7 @@ namespace MissionPlanner
 
                     try
                     {
-                        Controls.InputBox.Show("Message", "Please enter a message about this error if you can.",
+                        Controls.InputBox.Show("Сообщение", "При желании введите комментарий об этой ошибке.",
                             ref message);
                     }
                     catch

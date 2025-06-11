@@ -59,26 +59,26 @@
             // 
             // Command
             // 
-            this.Command.HeaderText = "Command";
+            this.Command.HeaderText = "Команда";
             this.Command.Name = "Command";
             this.Command.ReadOnly = true;
             // 
             // Value
             // 
-            this.Value.HeaderText = "Value";
+            this.Value.HeaderText = "Значение";
             this.Value.Name = "Value";
             this.Value.ReadOnly = true;
             // 
             // newvalue
             // 
-            this.newvalue.HeaderText = "New Value";
+            this.newvalue.HeaderText = "Новое значение";
             this.newvalue.Name = "newvalue";
             this.newvalue.ReadOnly = true;
             // 
             // Use
             // 
             this.Use.FillWeight = 30F;
-            this.Use.HeaderText = "Use";
+            this.Use.HeaderText = "Использ.";
             this.Use.Name = "Use";
             this.Use.Width = 50;
             // 
@@ -89,7 +89,7 @@
             this.BUT_save.Name = "BUT_save";
             this.BUT_save.Size = new System.Drawing.Size(75, 23);
             this.BUT_save.TabIndex = 1;
-            this.BUT_save.Text = "Continue";
+            this.BUT_save.Text = "Продолжить";
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -103,7 +103,7 @@
             this.CHK_toggleall.Name = "CHK_toggleall";
             this.CHK_toggleall.Size = new System.Drawing.Size(120, 17);
             this.CHK_toggleall.TabIndex = 2;
-            this.CHK_toggleall.Text = "Check/Uncheck All";
+            this.CHK_toggleall.Text = "Отметить/снять всё";
             this.CHK_toggleall.UseVisualStyleBackColor = true;
             this.CHK_toggleall.CheckedChanged += new System.EventHandler(this.CHK_toggleall_CheckedChanged);
             // 
@@ -118,7 +118,7 @@
             this.Controls.Add(this.Params);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "ParamCompare";
-            this.Text = "ParamCompare";
+            this.Text = "Сравнение параметров";
             ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

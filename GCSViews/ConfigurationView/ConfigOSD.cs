@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                CustomMessageBox.Show("Вы не подключены", Strings.ERROR);
                 return false;
             }
 
@@ -123,7 +123,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!CheckConnected())
                 return;
 
-            var dialog = new ProgressReporterDialogue() { StartPosition = FormStartPosition.CenterScreen, Text = "Updating Parameters..." };
+            var dialog = new ProgressReporterDialogue() { StartPosition = FormStartPosition.CenterScreen, Text = "Обновление параметров..." };
 
             var errors = new List<string>();
             int responseCount = 0;

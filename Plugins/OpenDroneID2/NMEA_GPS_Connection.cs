@@ -176,13 +176,13 @@ namespace MissionPlanner
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
                 threadrun = false;
-                LBL_gpsStatus.Text = "Disconnected";
+                LBL_gpsStatus.Text = "Отключено";
                 _thisData = new PointNMEA();
                 _thread.Abort();
             }
             else
             {
-                LBL_gpsStatus.Text = "Connecting to " + CMB_serialport.Text;
+                LBL_gpsStatus.Text = "Подключение к " + CMB_serialport.Text;
                 try
                 {
                     switch (CMB_serialport.Text)
@@ -236,14 +236,14 @@ namespace MissionPlanner
                 catch (Exception ex)
                 {
                     //CustomMessageBox.Show(Strings.ErrorConnecting + "\n" + ex.ToString(), Strings.ERROR);
-                    LBL_gpsStatus.Text = "Error Connecting to " + CMB_serialport.Text + ". Try again.";
+                    LBL_gpsStatus.Text = "Ошибка подключения к " + CMB_serialport.Text + ". Try again.";
                     return;
                 }
 
                 if (comPort != null && comPort.IsOpen)
                 {
                     Console.WriteLine("COM-порт подвижной базы открыт на порту " + comPort.PortName);
-                    LBL_gpsStatus.Text = "Connected to " + comPort.PortName + ". Waiting for fix";
+                    LBL_gpsStatus.Text = "Подключено к " + comPort.PortName + ". Waiting for fix";
 
                     start();
 
@@ -303,7 +303,7 @@ namespace MissionPlanner
 
                             if (items[6] == "0")
                             {
-                                LBL_gpsStatus.Text = "Connected, No Fix";
+                                LBL_gpsStatus.Text = "Подключено, нет фикса";
                                 continue;
                             }
 

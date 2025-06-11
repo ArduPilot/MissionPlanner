@@ -268,7 +268,7 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                MessageBox.Show("File does not exist");
+                MessageBox.Show("Файл не существует");
             }
         }
 
@@ -285,7 +285,7 @@ namespace MissionPlanner.Controls
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    CustomMessageBox.Show("Невозможно открыть лог. Вы всё ещё подключены?");
                     return;
                 }
                 mine.logreadmode = true;

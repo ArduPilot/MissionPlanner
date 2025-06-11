@@ -66,7 +66,7 @@ using TrackerHomeGPS;
                 if (_Available == false)
                 {
                     _Available = true;
-                    if (CustomMessageBox.Show("A GPS module was detected on your system. Would you like to use it to set your tracker home location?", "Tracker Home", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                    if (CustomMessageBox.Show("Обнаружен модуль GPS. Использовать его для задания домашней точки трекера?", "Домашняя точка трекера", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                     {
                         GPSPosition pos = gpsModule.GetCoordinates();
                         double alt = getGEAlt(pos.Lat, pos.Lng);
@@ -114,7 +114,7 @@ using TrackerHomeGPS;
             else
             {
                 _Available = false;
-                CustomMessageBox.Show("No GPS Device connected. Please verify it is connected and try again.");
+                CustomMessageBox.Show("GPS-устройство не подключено. Проверьте соединение и повторите попытку.");
             }
         }
 

@@ -206,7 +206,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!MainV2.comPort.BaseStream.IsOpen)
                 {
                     if (CustomMessageBox.Show(
-                            "You are not currently connected via mavlink. Please make sure the device is already in slcan mode or this is the slcan serialport.",
+                            "Сейчас нет подключения по mavlink. Убедитесь, что устройство уже в режиме slcan или это slcan-порт.",
                             "SLCAN", CustomMessageBox.MessageBoxButtons.OKCancel) != CustomMessageBox.DialogResult.OK)
                         return;
                 }
@@ -218,7 +218,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         "CAN_SLCAN_CPORT", canport, true);
                     if (cport == 0)
                     {
-                        CustomMessageBox.Show("Reboot required" + " after setting CPORT. Please reboot!",
+                        CustomMessageBox.Show("Требуется перезагрузка после установки CPORT. Пожалуйста, перезагрузите!",
                             Strings.ERROR);
                         return;
                     }
@@ -1616,7 +1616,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (selected == null)
             {
-                CustomMessageBox.Show("Please select an interface type");
+                CustomMessageBox.Show("Пожалуйста, выберите тип интерфейса");
                 return;
             }
 

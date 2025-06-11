@@ -697,7 +697,7 @@ namespace MissionPlanner.Utilities
                     catch (IOException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        CustomMessageBox.Show("потеряна связь с платой", "потеря связи");
                         uploader.close();
                         result = false;
                         return false;
@@ -705,7 +705,7 @@ namespace MissionPlanner.Utilities
                     catch (TimeoutException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "comms timeout");
+                        CustomMessageBox.Show("потеряна связь с платой", "тайм-аут");
                         uploader.close();
                         result = false;
                         return false;
@@ -963,9 +963,9 @@ namespace MissionPlanner.Utilities
                     {
                         //VR boards have no tone alarm
                         if (up.board_type == 1140)
-                            CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
+                            CustomMessageBox.Show("Загрузка завершена! Пожалуйста, отключите и заново подключите плату.");
                         else
-                            CustomMessageBox.Show("Upload complete!");
+                            CustomMessageBox.Show("Загрузка завершена!");
                     }
                     else
                     {
@@ -998,7 +998,7 @@ namespace MissionPlanner.Utilities
 
                 if (!ssidFound)
                 {
-                    CustomMessageBox.Show("Please connect to " + vehicleName + " Wifi now and after that press OK", vehicleName, MessageBoxButtons.OK);
+                    CustomMessageBox.Show("Подключитесь к Wi-Fi " + vehicleName + " и нажмите OK", vehicleName, MessageBoxButtons.OK);
                     ssidFound = isParrotWifiConnected(vehicleName);
                     pingReply = pingParrotVehicle(ping);
                 }
@@ -1007,12 +1007,12 @@ namespace MissionPlanner.Utilities
                 {
                     if (!ssidFound)
                     {
-                        if (CustomMessageBox.Show("You don't seem connected to " + vehicleName + " Wifi. Please connect to it and press OK to try again", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
+                        if (CustomMessageBox.Show("Похоже, вы не подключены к Wi-Fi " + vehicleName + ". Подключитесь и нажмите OK, чтобы попробовать снова", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
                         {
                             return false;
                         }
                     }
-                    else if (CustomMessageBox.Show("You seem connected to " + vehicleName + " Wifi but it didn't answer our request. Do you want to try again?", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
+                    else if (CustomMessageBox.Show("Вы подключены к Wi-Fi " + vehicleName + ", но ответа нет. Повторить попытку?", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
                     {
                         return false;
                     }
@@ -1038,12 +1038,12 @@ namespace MissionPlanner.Utilities
                         ntimes = "two";
                     }
 
-                    CustomMessageBox.Show("Please press " + vehicleName + " Power button " + ntimes + " times", vehicleName, MessageBoxButtons.OK);
+                    CustomMessageBox.Show("Нажмите кнопку питания " + vehicleName + " " + ntimes + " раз", vehicleName, MessageBoxButtons.OK);
                     response = adbClient.Connect(new DnsEndPoint("192.168.42.1", 9050));
 
                     while (!response.Contains("connected to 192.168.42.1:9050"))
                     {
-                        if (CustomMessageBox.Show("Couldn't contact " + vehicleName + ". Press the Power button " + ntimes + " times. Do you want to try to connect again?", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
+                        if (CustomMessageBox.Show("Не удалось связаться с " + vehicleName + ". Нажмите кнопку питания " + ntimes + " раз. Попробовать снова?", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
                         {
                             return false;
                         }
@@ -1220,8 +1220,8 @@ namespace MissionPlanner.Utilities
                     adbClient.ExecuteRemoteCommand("reboot.sh", device, consoleOut);
                 }
 
-                CustomMessageBox.Show("Firmware installed!");
-                updateProgress(-1, "Firmware installed");
+                CustomMessageBox.Show("Прошивка установлена!");
+                updateProgress(-1, "Прошивка установлена");
             }
             catch (Exception e)
             {
@@ -1304,7 +1304,7 @@ namespace MissionPlanner.Utilities
                 }
                 catch (MissingFieldException)
                 {
-                    CustomMessageBox.Show("Please update, your install is currupt", Strings.ERROR);
+                    CustomMessageBox.Show("Обновите программу, ваша установка повреждена", Strings.ERROR);
                     return false;
                 }
             }
@@ -1370,7 +1370,7 @@ namespace MissionPlanner.Utilities
             {
                 if (FLASH.Length > 126976)
                 {
-                    CustomMessageBox.Show("Firmware is to big for a 1280, Please upgrade your hardware!!");
+                    CustomMessageBox.Show("Прошивка слишком большая для 1280, обновите оборудование!");
                     return false;
                 }
                 //port = new ArduinoSTK();

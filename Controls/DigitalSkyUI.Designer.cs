@@ -74,7 +74,7 @@
             this.but_dlartifact.Name = "but_dlartifact";
             this.but_dlartifact.Size = new System.Drawing.Size(75, 23);
             this.but_dlartifact.TabIndex = 5;
-            this.but_dlartifact.Text = "Permission Artifact";
+            this.but_dlartifact.Text = "Артефакт разрешения";
             this.but_dlartifact.UseVisualStyleBackColor = true;
             this.but_dlartifact.Click += new System.EventHandler(this.But_dlartifact_Click);
             // 
@@ -85,7 +85,7 @@
             this.but_login.Name = "but_login";
             this.but_login.Size = new System.Drawing.Size(75, 23);
             this.but_login.TabIndex = 2;
-            this.but_login.Text = "Login";
+            this.but_login.Text = "Войти";
             this.but_login.UseVisualStyleBackColor = true;
             this.but_login.Click += new System.EventHandler(this.But_login_Click);
             // 
@@ -125,7 +125,7 @@
             this.but_uploadflightlog.Name = "but_uploadflightlog";
             this.but_uploadflightlog.Size = new System.Drawing.Size(75, 23);
             this.but_uploadflightlog.TabIndex = 6;
-            this.but_uploadflightlog.Text = "Upload Flight Log";
+            this.but_uploadflightlog.Text = "Загрузить лог полёта";
             this.but_uploadflightlog.UseVisualStyleBackColor = true;
             this.but_uploadflightlog.Click += new System.EventHandler(this.But_uploadflightlog_Click);
             // 
