@@ -552,7 +552,7 @@
     <value>45</value>
   </data>
   <data name="BUT_savecsv.Text" xml:space="preserve">
-    <value>Save CSV</value>
+    <value>Сохранить CSV</value>
   </data>
   <data name="&gt;&gt;BUT_savecsv.Name" xml:space="preserve">
     <value>BUT_savecsv</value>
@@ -1155,7 +1155,7 @@ when viewing via Xbee
     <value>0</value>
   </data>
   <data name="tabOrientation.Text" xml:space="preserve">
-    <value>Flight Data</value>
+    <value>Данные полёта</value>
   </data>
   <data name="&gt;&gt;tabOrientation.Name" xml:space="preserve">
     <value>tabOrientation</value>

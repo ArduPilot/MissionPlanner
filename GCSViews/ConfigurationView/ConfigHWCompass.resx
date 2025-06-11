@@ -724,7 +724,7 @@
     <value>2</value>
   </data>
   <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Отмена</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalcancel.Name" xml:space="preserve">
     <value>BUT_OBmagcalcancel</value>

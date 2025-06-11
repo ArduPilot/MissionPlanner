@@ -46,7 +46,7 @@
             this.label1.Size = new System.Drawing.Size(113, 13);
             this.label1.TabIndex = 0;
             this.label1.Tag = "custom";
-            this.label1.Text = "by Michael Oborne";
+            this.label1.Text = "от Майкла Оборна";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // TXT_version
@@ -57,7 +57,7 @@
             this.TXT_version.Name = "TXT_version";
             this.TXT_version.Size = new System.Drawing.Size(155, 25);
             this.TXT_version.TabIndex = 1;
-            this.TXT_version.Text = "Version: ";
+            this.TXT_version.Text = "Версия: ";
             this.TXT_version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pictureBox1
@@ -88,7 +88,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 375);
             this.Name = "Splash";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mission Planner";
+            this.Text = "Планировщик миссий";
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

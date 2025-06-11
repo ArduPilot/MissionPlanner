@@ -217,7 +217,7 @@
     <value>79</value>
   </data>
   <data name="BUT_btsettings.Text" xml:space="preserve">
-    <value>Save Settings</value>
+    <value>Сохранить настройки</value>
   </data>
   <data name="&gt;&gt;BUT_btsettings.Name" xml:space="preserve">
     <value>BUT_btsettings</value>

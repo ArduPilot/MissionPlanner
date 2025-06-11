@@ -217,7 +217,7 @@
     <value>79</value>
   </data>
   <data name="BUT_espsettings.Text" xml:space="preserve">
-    <value>Save Settings</value>
+    <value>Сохранить настройки</value>
   </data>
   <data name="&gt;&gt;BUT_espsettings.Name" xml:space="preserve">
     <value>BUT_espsettings</value>

@@ -172,7 +172,7 @@
     <value>1</value>
   </data>
   <data name="but_save.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="&gt;&gt;but_save.Name" xml:space="preserve">
     <value>but_save</value>

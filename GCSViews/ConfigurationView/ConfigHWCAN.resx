@@ -409,7 +409,7 @@
     <value>86</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>NOTE: a restart is required after changing this option</value>
+    <value>ПРИМЕЧАНИЕ: после изменения этой опции требуется перезапуск</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>

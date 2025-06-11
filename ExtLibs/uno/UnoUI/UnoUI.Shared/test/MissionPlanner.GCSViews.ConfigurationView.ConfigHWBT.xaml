@@ -19,7 +19,7 @@ mc:Ignorable="d"
 <TextBox Name="txt_pin" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="143,83,0,0" Width="121" Height="20"></TextBox>
 <TextBox Name="txt_name" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="Ardupilot" FontSize="8.25" Margin="143,34,0,0" Width="121" Height="20"></TextBox>
 <ComboBox Name="cmb_baud" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="143,58,0,0" Width="121" Height="21"></ComboBox>
-<Button Name="BUT_btsettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="270,58,0,0" Width="60" Height="21">Save Settings</Button>
+<Button Name="BUT_btsettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="270,58,0,0" Width="60" Height="21">Сохранить настройки</Button>
 <TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="95" Height="18">Bluetooth</TextBlock>
 <Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,21,0,0" Width="644" Height="5">
 </Grid>

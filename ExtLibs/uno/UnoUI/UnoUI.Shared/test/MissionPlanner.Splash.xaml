@@ -14,6 +14,6 @@ xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
 > <Grid><Image Name="pictureBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="207,25,0,0" Width="351" Height="89"></Image>
-<TextBlock Name="TXT_version" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="403,107,0,0" Width="155" Height="25">Version: 1.3.68.1</TextBlock>
-<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="447,132,0,0" Width="102" Height="17">by Michael Oborne</TextBlock>
+<TextBlock Name="TXT_version" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="403,107,0,0" Width="155" Height="25">Версия: 1.3.68.1</TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="447,132,0,0" Width="102" Height="17">от Майкла Оборна</TextBlock>
 </Grid></UserControl>

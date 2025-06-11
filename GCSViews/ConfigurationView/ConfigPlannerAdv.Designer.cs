@@ -95,7 +95,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(251, 13);
             this.label1.TabIndex = 70;
-            this.label1.Text = "NOTE: You can break the planner using this screen";
+            this.label1.Text = "ПРИМЕЧАНИЕ: Эта панель может нарушить работу планировщика";
             // 
             // ConfigPlannerAdv
             // 

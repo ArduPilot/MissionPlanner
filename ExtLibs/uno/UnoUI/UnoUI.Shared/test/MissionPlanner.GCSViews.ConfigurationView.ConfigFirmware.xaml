@@ -15,19 +15,19 @@ xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
 > <Grid><Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="810,176,0,0" Width="150" Height="167"></Controls:ImageLabel>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="810,0,0,0" Width="150" Height="150"></Controls:ImageLabel>
-<TextBlock Name="linkLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="708,0,0,0" Width="101" Height="17">Copter motor setup</TextBlock>
-<TextBlock Name="lbl_licence" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="348,349,0,0" Width="407" Height="17">Ardupilot is free software. Click here to read the Open Source Firmware License.</TextBlock>
+<TextBlock Name="linkLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="708,0,0,0" Width="101" Height="17">Настройка моторов коптера</TextBlock>
+<TextBlock Name="lbl_licence" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="348,349,0,0" Width="407" Height="17">Ardupilot — свободное ПО. Нажмите здесь, чтобы прочитать лицензию на прошивку с открытым исходным кодом.</TextBlock>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,176,0,0" Width="150" Height="150"></Controls:ImageLabel>
-<TextBlock Name="lbl_px4bl" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="738,393,0,0" Width="91" Height="17">Force Bootloader</TextBlock>
-<TextBlock Name="lbl_dlfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="738,373,0,0" Width="107" Height="17">Download firmwares</TextBlock>
-<TextBlock Name="lbl_devfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="630,393,0,0" Width="80" Height="17">Beta firmwares</TextBlock>
-<TextBlock Name="lbl_Custom_firmware_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="862,373,0,0" Width="115" Height="17">Load custom firmware</TextBlock>
-<TextBlock Name="CMB_history_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="862,393,0,0" Width="118" Height="17">Pick previous firmware</TextBlock>
+<TextBlock Name="lbl_px4bl" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="738,393,0,0" Width="91" Height="17">Форсировать загрузчик</TextBlock>
+<TextBlock Name="lbl_dlfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="738,373,0,0" Width="107" Height="17">Скачать прошивки</TextBlock>
+<TextBlock Name="lbl_devfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="630,393,0,0" Width="80" Height="17">Бета-прошивки</TextBlock>
+<TextBlock Name="lbl_Custom_firmware_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="862,373,0,0" Width="115" Height="17">Загрузить пользовательскую прошивку</TextBlock>
+<TextBlock Name="CMB_history_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="862,393,0,0" Width="118" Height="17">Выберите предыдущую прошивку</TextBlock>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0" Width="150" Height="150"></Controls:ImageLabel>
 <ComboBox Name="CMB_history" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="856,389,0,0" Width="121" Height="21"></ComboBox>
-<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="397,330,0,0" Width="257" Height="17">Please click the images above for "Flight versions"</TextBlock>
-<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="862,443,0,0" Width="117" Height="17">Images by Max Levine</TextBlock>
-<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,443,0,0" Width="36" Height="17">Status</TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="397,330,0,0" Width="257" Height="17">Пожалуйста, нажмите на изображения выше для версий полёта</TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="862,443,0,0" Width="117" Height="17">Изобр. Max Levine</TextBlock>
+<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,443,0,0" Width="36" Height="17">Статус</TextBlock>
 <ProgressBar Name="progress" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,417,0,0" Width="980" Height="23"></ProgressBar>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="654,0,0,0" Width="150" Height="150"></Controls:ImageLabel>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="654,176,0,0" Width="150" Height="150"></Controls:ImageLabel>

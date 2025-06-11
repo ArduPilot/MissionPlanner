@@ -100,7 +100,7 @@
             this.lbl_px4bl.Name = "lbl_px4bl";
             this.lbl_px4bl.Size = new System.Drawing.Size(88, 13);
             this.lbl_px4bl.TabIndex = 54;
-            this.lbl_px4bl.Text = "Force Bootloader";
+            this.lbl_px4bl.Text = "Форсировать загрузчик";
             this.lbl_px4bl.Click += new System.EventHandler(this.Lbl_px4bl_Click);
             // 
             // lbl_bootloaderupdate
@@ -110,7 +110,7 @@
             this.lbl_bootloaderupdate.Name = "lbl_bootloaderupdate";
             this.lbl_bootloaderupdate.Size = new System.Drawing.Size(96, 13);
             this.lbl_bootloaderupdate.TabIndex = 55;
-            this.lbl_bootloaderupdate.Text = "Bootloader Update";
+            this.lbl_bootloaderupdate.Text = "Обновление загрузчика";
             this.lbl_bootloaderupdate.Click += new System.EventHandler(this.Lbl_bootloaderupdate_Click);
             // 
             // imageLabel1

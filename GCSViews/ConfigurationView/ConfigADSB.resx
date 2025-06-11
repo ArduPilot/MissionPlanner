@@ -352,7 +352,7 @@
     <value>80</value>
   </data>
   <data name="but_saveacreg.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="&gt;&gt;but_saveacreg.Name" xml:space="preserve">
     <value>but_saveacreg</value>
@@ -382,7 +382,7 @@
     <value>81</value>
   </data>
   <data name="but_saveflid.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="&gt;&gt;but_saveflid.Name" xml:space="preserve">
     <value>but_saveflid</value>

@@ -132,7 +132,7 @@
     <value>0</value>
   </data>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>Load the default settings for standard frame types</value>
+    <value>Загрузить настройки по умолчанию для стандартных типов рам</value>
   </data>
   <data name="&gt;&gt;textBox1.Name" xml:space="preserve">
     <value>textBox1</value>
@@ -163,7 +163,7 @@
     <value>79</value>
   </data>
   <data name="BUT_paramfileload.Text" xml:space="preserve">
-    <value>Load Params</value>
+    <value>Загрузить параметры</value>
   </data>
   <data name="&gt;&gt;BUT_paramfileload.Name" xml:space="preserve">
     <value>BUT_paramfileload</value>
@@ -187,7 +187,7 @@
     <value>78</value>
   </data>
   <data name="CMB_paramfiles.Text" xml:space="preserve">
-    <value>Loading</value>
+    <value>Загрузка</value>
   </data>
   <data name="&gt;&gt;CMB_paramfiles.Name" xml:space="preserve">
     <value>CMB_paramfiles</value>
