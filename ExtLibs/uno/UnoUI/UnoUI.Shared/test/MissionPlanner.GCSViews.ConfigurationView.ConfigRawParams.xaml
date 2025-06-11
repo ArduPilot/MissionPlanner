@@ -22,10 +22,10 @@ mc:Ignorable="d"
 <ComboBox Name="CMB_paramfiles" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="630,207,0,0" Width="104" Height="21"></ComboBox>
 <TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,169,0,0" Width="114" Height="30">All Units are in raw 
 format with no scaling</TextBlock>
-<Button Name="BUT_compare" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,119,0,0" Width="103" Height="19">Compare Params</Button>
-<Button Name="BUT_rerequestparams" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,94,0,0" Width="103" Height="19">Refresh Params</Button>
-<Button Name="BUT_writePIDS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,69,0,0" Width="103" Height="19">Write Params</Button>
-<Button Name="BUT_save" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,35,0,0" Width="104" Height="19">Save to file</Button>
-<Button Name="BUT_load" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,7,0,0" Width="104" Height="19">Load from file</Button>
+<Button Name="BUT_compare" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,119,0,0" Width="103" Height="19">Сравнить параметры</Button>
+<Button Name="BUT_rerequestparams" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,94,0,0" Width="103" Height="19">Обновить параметры</Button>
+<Button Name="BUT_writePIDS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,69,0,0" Width="103" Height="19">Записать параметры</Button>
+<Button Name="BUT_save" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,35,0,0" Width="104" Height="19">Сохранить в файл</Button>
+<Button Name="BUT_load" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,7,0,0" Width="104" Height="19">Загрузить из файла</Button>
 <controls:DataGrid Name="Params" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,3,0,0" Width="611"></controls:DataGrid>
 </Grid></UserControl>

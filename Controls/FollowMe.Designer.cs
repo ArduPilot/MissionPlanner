@@ -73,7 +73,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(187, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Pick the Nmea gps port and baud rate\r\n";
+            this.label1.Text = "Выберите порт NMEA GPS и скорость\r\n";
             // 
             // LBL_location
             // 
@@ -116,7 +116,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(117, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Select your update rate\r\n";
+            this.label2.Text = "Выберите частоту обновления\r\n";
             // 
             // BUT_connect
             // 
@@ -143,7 +143,7 @@
             this.Controls.Add(this.CMB_serialport);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FollowMe";
-            this.Text = "Follow Me";
+            this.Text = "Следуй за мной";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialOutput_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -30,17 +30,17 @@ mc:Ignorable="d"
 <Button Name="but_sortlogs" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="305,566,0,0" Width="75" Height="23">ReSort All logs</Button>
 <Button Name="but_GDAL" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="386,566,0,0" Width="75" Height="23">Custom GDAL</Button>
 <Button Name="myButton3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,559,0,0" Width="75" Height="23">Custom DTED</Button>
-<Button Name="but_followswarm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,530,0,0" Width="75" Height="23">Follow Swarm</Button>
+<Button Name="but_followswarm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,530,0,0" Width="75" Height="23">Следовать за роем</Button>
 <Button Name="but_gpsinj" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,472,0,0" Width="75" Height="23">extract gps_inject</Button>
 <Button Name="BUT_magfit2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,443,0,0" Width="75" Height="23">mag calb log</Button>
 <Button Name="myButton2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,414,0,0" Width="75" Height="23">sphere</Button>
 <Button Name="but_optflowcalib" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,381,0,0" Width="75" Height="23">opticalflow calib</Button>
 <Button Name="but_signkey" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,352,0,0" Width="75" Height="23">signing</Button>
-<Button Name="myButton1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,323,0,0" Width="75" Height="23">Param gen cust</Button>
+<Button Name="myButton1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,323,0,0" Width="75" Height="23">Генератор параметров cust</Button>
 <Button Name="but_agemapdata" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,294,0,0" Width="75" Height="23">Age Map Data</Button>
 <Button Name="but_gstream" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,265,0,0" Width="75" Height="23">gstream</Button>
 <Button Name="myButton_vlc" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,236,0,0" Width="75" Height="23">vlc</Button>
-<Button Name="but_trimble" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,207,0,0" Width="75" Height="23">Sequence Swarm</Button>
+<Button Name="but_trimble" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,207,0,0" Width="75" Height="23">Последовательность роя</Button>
 <Button Name="BUT_QNH" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,178,0,0" Width="75" Height="23">QNH</Button>
 <Button Name="but_reboot" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,149,0,0" Width="75" Height="23">reboot pixhawk</Button>
 <Button Name="BUT_fft" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="537,91,0,0" Width="75" Height="23">FFT</Button>
@@ -85,17 +85,17 @@ mc:Ignorable="d"
 <Button Name="BUT_outputMavlink" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,108,0,0" Width="113" Height="15">Mavlink</Button>
 <Button Name="BUT_outputMD" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,87,0,0" Width="113" Height="15">MicroDrone</Button>
 <Button Name="BUT_outputnmea" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,66,0,0" Width="113" Height="15">NMEA</Button>
-<Button Name="BUT_georefimage" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,3,0,0" Width="113" Height="15">Geo ref images</Button>
-<Button Name="button3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="0,21,0,0" Width="119" Height="21">Warning Manager</Button>
-<Button Name="BUT_lang_edit" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,150,0,0" Width="113" Height="15">Lang Edit</Button>
-<Button Name="BUT_follow_me" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,45,0,0" Width="113" Height="15">Follow Me</Button>
-<Button Name="BUT_paramgen" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,129,0,0" Width="113" Height="15">Param gen</Button>
-<Button Name="but_osdvideo" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,171,0,0" Width="113" Height="15">OSDVideo</Button>
-<Button Name="BUT_movingbase" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,192,0,0" Width="113" Height="15">Moving Base</Button>
-<Button Name="BUT_shptopoly" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,213,0,0" Width="113" Height="15">Shp to Poly</Button>
-<Button Name="BUT_swarm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,255,0,0" Width="113" Height="15">Swarm</Button>
-<Button Name="BUT_followleader" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,276,0,0" Width="113" Height="15">Follow the leader</Button>
-<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,0,0,0" Width="112" Height="17">Geo Refrence photos</TextBlock>
-<Button Name="but_mavserialport" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,297,0,0" Width="113" Height="15">MAVSerial pass</Button>
+<Button Name="BUT_georefimage" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,3,0,0" Width="113" Height="15">Геопривязка изображений</Button>
+<Button Name="button3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="0,21,0,0" Width="119" Height="21">Менеджер предупреждений</Button>
+<Button Name="BUT_lang_edit" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,150,0,0" Width="113" Height="15">Редактор языка</Button>
+<Button Name="BUT_follow_me" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,45,0,0" Width="113" Height="15">Следуй за мной</Button>
+<Button Name="BUT_paramgen" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,129,0,0" Width="113" Height="15">Генератор параметров</Button>
+<Button Name="but_osdvideo" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,171,0,0" Width="113" Height="15">OSDВидео</Button>
+<Button Name="BUT_movingbase" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,192,0,0" Width="113" Height="15">Подвижная база</Button>
+<Button Name="BUT_shptopoly" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,213,0,0" Width="113" Height="15">Shp в Poly</Button>
+<Button Name="BUT_swarm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,255,0,0" Width="113" Height="15">Рой</Button>
+<Button Name="BUT_followleader" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,276,0,0" Width="113" Height="15">Следовать за лидером</Button>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,0,0,0" Width="112" Height="17">Геопривязка фотографий</TextBlock>
+<Button Name="but_mavserialport" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,297,0,0" Width="113" Height="15">Проброс MAVSerial</Button>
 </Grid>
 </Grid></UserControl>

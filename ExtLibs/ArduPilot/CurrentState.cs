@@ -1738,7 +1738,7 @@ namespace MissionPlanner
 
         [GroupText("Position")]
         [DisplayFieldName("DistFromMovingBase.Field")]
-        [DisplayText("Dist to Moving Base (dist)")]
+        [DisplayText("Дистанция до подвижной базы (dist)")]
         public float DistFromMovingBase
         {
             get

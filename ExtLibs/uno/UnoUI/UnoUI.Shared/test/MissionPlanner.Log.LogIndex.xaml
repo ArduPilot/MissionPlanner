@@ -15,5 +15,5 @@ xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
 > <Grid><TextBlock Name="lbStats" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="683,12,0,0" Width="372" Height="23">Selected: 0</TextBlock>
 <Button Name="btnDeleteLog" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="1061,13,0,0" Width="104" Height="23">Delete selected</Button>
-<Button Name="BUT_changedir" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="13,13,0,0" Width="102" Height="24">Change Directory</Button>
+<Button Name="BUT_changedir" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="13,13,0,0" Width="102" Height="24">Изменить каталог</Button>
 </Grid></UserControl>

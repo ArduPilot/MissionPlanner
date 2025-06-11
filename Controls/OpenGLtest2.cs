@@ -1061,7 +1061,7 @@ namespace MissionPlanner.Controls
             this.chk_locktomav.Name = "chk_locktomav";
             this.chk_locktomav.Size = new System.Drawing.Size(88, 17);
             this.chk_locktomav.TabIndex = 2;
-            this.chk_locktomav.Text = "Lock to MAV";
+            this.chk_locktomav.Text = "Фиксация на MAV";
             this.chk_locktomav.UseVisualStyleBackColor = true;
             //
             // timer1
@@ -1078,7 +1078,7 @@ namespace MissionPlanner.Controls
             this.chk_fog.Name = "chk_fog";
             this.chk_fog.Size = new System.Drawing.Size(44, 17);
             this.chk_fog.TabIndex = 3;
-            this.chk_fog.Text = "Fog";
+            this.chk_fog.Text = "Туман";
             this.chk_fog.UseVisualStyleBackColor = true;
             this.chk_fog.CheckedChanged += new System.EventHandler(this.chk_fog_CheckedChanged);
             //

@@ -13,23 +13,23 @@ xmlns:Custom="using:Custom"
 xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
-> <Grid><CheckBox Name="chk_relalt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="269,44,0,0" Width="78" Height="18">RelativeAlt</CheckBox>
-<CheckBox Name="CHK_updateRallyPnt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="140,44,0,0" Width="126" Height="18">Update Rally Point 0</CheckBox>
-<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="252,5,0,0" Width="127" Height="17">Select your update rate
+> <Grid><CheckBox Name="chk_relalt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="269,44,0,0" Width="78" Height="18">Относительная высота</CheckBox>
+<CheckBox Name="CHK_updateRallyPnt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="140,44,0,0" Width="126" Height="18">Обновить точку Rally 0</CheckBox>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="252,5,0,0" Width="127" Height="17">Выберите частоту обновления
 </TextBlock>
 <ComboBox Name="CMB_updaterate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="279,23,0,0" Width="75" Height="21"></ComboBox>
-<TextBox Name="textBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="What this does.
-1. gets the current gps coords from a nmea gps.
-2. updates the home position on the map. (note does not update home on the MAV)
+<TextBox Name="textBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="Что это делает.
+1. получает текущие координаты GPS из NMEA GPS.
+2. обновляет домашнюю позицию на карте (заметьте, что позиция на аппарате не обновляется).
 
-How to use it
-1. connect to ap.
-2. open this and pick your comport, and baud rate for your nmea gps.
-3. it should now be updating home." FontSize="8.25" Margin="19,126,0,0" Width="409" Height="162"></TextBox>
+Как использовать
+1. подключитесь к автопилоту.
+2. откройте это окно и выберите свой COM-порт и скорость для NMEA GPS.
+3. теперь позиция дома должна обновляться." FontSize="8.25" Margin="19,126,0,0" Width="409" Height="162"></TextBox>
 <TextBlock Name="LBL_location" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="14.25" Margin="3,64,0,0" Width="425" Height="59">0,0,0</TextBlock>
-<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,6,0,0" Width="200" Height="17">Pick the Nmea gps port and baud rate
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,6,0,0" Width="200" Height="17">Выберите порт NMEA GPS и скорость
 </TextBlock>
 <ComboBox Name="CMB_baudrate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="140,22,0,0" Width="97" Height="21"></ComboBox>
-<Button Name="BUT_connect" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="360,21,0,0" Width="75" Height="23">Connect</Button>
+<Button Name="BUT_connect" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="360,21,0,0" Width="75" Height="23">Подключить</Button>
 <ComboBox Name="CMB_serialport" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="13,23,0,0" Width="121" Height="21"></ComboBox>
 </Grid></UserControl>

@@ -62,13 +62,13 @@
             // 
             // colFile
             // 
-            this.colFile.HeaderText = "File";
+            this.colFile.HeaderText = "Файл";
             this.colFile.Name = "colFile";
             this.colFile.ReadOnly = true;
             // 
             // colInternal
             // 
-            this.colInternal.HeaderText = "Internal";
+            this.colInternal.HeaderText = "Внутренний";
             this.colInternal.Name = "colInternal";
             this.colInternal.ReadOnly = true;
             this.colInternal.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -76,7 +76,7 @@
             // 
             // colEnglish
             // 
-            this.colEnglish.HeaderText = "English";
+            this.colEnglish.HeaderText = "Английский";
             this.colEnglish.Name = "colEnglish";
             this.colEnglish.ReadOnly = true;
             this.colEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -84,7 +84,7 @@
             // 
             // colOtherLang
             // 
-            this.colOtherLang.HeaderText = "Other Lang";
+            this.colOtherLang.HeaderText = "Другой язык";
             this.colOtherLang.Name = "colOtherLang";
             this.colOtherLang.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.colOtherLang.Width = 150;
@@ -96,7 +96,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Load";
+            this.button1.Text = "Загрузить";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -107,7 +107,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = "Save";
+            this.button2.Text = "Сохранить";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -135,7 +135,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 5;
-            this.button3.Text = "Extra";
+            this.button3.Text = "Дополнительно";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -151,7 +151,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
-            this.Text = "Language Editor";
+            this.Text = "Редактор языков";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

@@ -183,8 +183,8 @@ namespace MissionPlanner.Controls.PreFlight
             if (addButtonClick == true)
             {
                 //set the text for the textboxes accordingly.
-                wrnctl.TXT_desc.Text = "add description";
-                wrnctl.TXT_text.Text = "add value";
+                wrnctl.TXT_desc.Text = "добавить описание";
+                wrnctl.TXT_text.Text = "добавить значение";
                 //Set the item's child to null if the Add button has been clicked
                 item.Child = null;
             }
@@ -605,7 +605,7 @@ namespace MissionPlanner.Controls.PreFlight
             //string for the Textbox's Text (The clicked on textbox)
             string itemClickedText = (sender as TextBox).Text;            
             //Check if the string equals the text of a new desc Textbox. If the same, make its value an empty string.
-            if (itemClickedText == "add description")
+            if (itemClickedText == "добавить описание")
             {
                 itemClickedText = string.Empty;
                 //loop until the textbox which was clicked on is reached. Update: starts from the last item in the list to loop through
@@ -625,7 +625,7 @@ namespace MissionPlanner.Controls.PreFlight
             //string for the Textbox's Text (The clicked on textbox)
             string itemClickedText = (sender as TextBox).Text;
             //Check if the string equals the text of a new text Textbox. If the same, make its value an empty string.
-            if (itemClickedText == "add value")
+            if (itemClickedText == "добавить значение")
             {
                 itemClickedText = string.Empty;
                 //loop until the textbox which was clicked on is reached.
@@ -650,11 +650,11 @@ namespace MissionPlanner.Controls.PreFlight
             for (int i = 0; i < panel1.Controls.Count; i++)
             {
                 //if the place holder text is the text in the textboxes, then the relevant event handlers are used.
-                if (wrnctlDescList[i].Text == "add description")
+                if (wrnctlDescList[i].Text == "добавить описание")
                 {
                     wrnctlDescList[i].Enter += new EventHandler(TXT_desc_Enter);
                 }
-                if (wrnctlTextList[i].Text == "add value")
+                if (wrnctlTextList[i].Text == "добавить значение")
                 {
                     wrnctlTextList[i].Enter += new EventHandler(TXT_text_Enter);
                 }

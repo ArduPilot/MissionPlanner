@@ -78,7 +78,7 @@ namespace MissionPlanner.Controls
             // 
             this.videoStreamToolStripMenuItem.Name = "videoStreamToolStripMenuItem";
             this.videoStreamToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.videoStreamToolStripMenuItem.Text = "Video Stream";
+            this.videoStreamToolStripMenuItem.Text = "Видеопоток";
             this.videoStreamToolStripMenuItem.Click += new System.EventHandler(this.videoStreamToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
@@ -90,35 +90,35 @@ namespace MissionPlanner.Controls
             // 
             this.retractToolStripMenuItem.Name = "retractToolStripMenuItem";
             this.retractToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.retractToolStripMenuItem.Text = "Retract";
+            this.retractToolStripMenuItem.Text = "Убрать";
             this.retractToolStripMenuItem.Click += new System.EventHandler(this.retractToolStripMenuItem_Click);
             // 
             // neutralToolStripMenuItem
             // 
             this.neutralToolStripMenuItem.Name = "neutralToolStripMenuItem";
             this.neutralToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.neutralToolStripMenuItem.Text = "Neutral";
+            this.neutralToolStripMenuItem.Text = "Нейтраль";
             this.neutralToolStripMenuItem.Click += new System.EventHandler(this.neutralToolStripMenuItem_Click);
             // 
             // pointDownToolStripMenuItem
             // 
             this.pointDownToolStripMenuItem.Name = "pointDownToolStripMenuItem";
             this.pointDownToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.pointDownToolStripMenuItem.Text = "Point Down";
+            this.pointDownToolStripMenuItem.Text = "Смотреть вниз";
             this.pointDownToolStripMenuItem.Click += new System.EventHandler(this.pointDownToolStripMenuItem_Click);
             // 
             // pointHomeToolStripMenuItem
             // 
             this.pointHomeToolStripMenuItem.Name = "pointHomeToolStripMenuItem";
             this.pointHomeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.pointHomeToolStripMenuItem.Text = "Point Home";
+            this.pointHomeToolStripMenuItem.Text = "Смотреть домой";
             this.pointHomeToolStripMenuItem.Click += new System.EventHandler(this.pointHomeToolStripMenuItem_Click);
             // 
             // yawLockToolStripMenuItem
             // 
             this.yawLockToolStripMenuItem.Name = "yawLockToolStripMenuItem";
             this.yawLockToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.yawLockToolStripMenuItem.Text = "Yaw Lock";
+            this.yawLockToolStripMenuItem.Text = "Фиксация рыскания";
             this.yawLockToolStripMenuItem.Click += new System.EventHandler(this.yawLockToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -130,21 +130,21 @@ namespace MissionPlanner.Controls
             // 
             this.takePictureToolStripMenuItem.Name = "takePictureToolStripMenuItem";
             this.takePictureToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.takePictureToolStripMenuItem.Text = "Take Picture";
+            this.takePictureToolStripMenuItem.Text = "Сделать снимок";
             this.takePictureToolStripMenuItem.Click += new System.EventHandler(this.takePictureToolStripMenuItem_Click);
             // 
             // startRecordingToolStripMenuItem
             // 
             this.startRecordingToolStripMenuItem.Name = "startRecordingToolStripMenuItem";
             this.startRecordingToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.startRecordingToolStripMenuItem.Text = "Start Recording";
+            this.startRecordingToolStripMenuItem.Text = "Начать запись";
             this.startRecordingToolStripMenuItem.Click += new System.EventHandler(this.startRecordingToolStripMenuItem_Click);
             // 
             // stopRecordingToolStripMenuItem
             // 
             this.stopRecordingToolStripMenuItem.Name = "stopRecordingToolStripMenuItem";
             this.stopRecordingToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.stopRecordingToolStripMenuItem.Text = "Stop Recording";
+            this.stopRecordingToolStripMenuItem.Text = "Остановить запись";
             this.stopRecordingToolStripMenuItem.Click += new System.EventHandler(this.stopRecordingToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
@@ -156,7 +156,7 @@ namespace MissionPlanner.Controls
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Text = "Настройки";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // UITimer

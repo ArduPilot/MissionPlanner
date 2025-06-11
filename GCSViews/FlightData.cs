@@ -4593,7 +4593,7 @@ namespace MissionPlanner.GCSViews
         {
             stopRecordToolStripMenuItem_Click(sender, e);
 
-            CustomMessageBox.Show("Output avi will be saved to the log folder");
+            CustomMessageBox.Show("Файл AVI будет сохранён в папке журналов");
 
             aviwriter = new AviWriter();
             try
@@ -4602,7 +4602,7 @@ namespace MissionPlanner.GCSViews
                 aviwriter.avi_start(Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                     DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".avi");
 
-                recordHudToAVIToolStripMenuItem.Text = "Recording";
+                recordHudToAVIToolStripMenuItem.Text = "Запись";
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -5059,7 +5059,7 @@ namespace MissionPlanner.GCSViews
 
         private void stopRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            recordHudToAVIToolStripMenuItem.Text = "Start Recording";
+            recordHudToAVIToolStripMenuItem.Text = "Начать запись";
 
             try
             {

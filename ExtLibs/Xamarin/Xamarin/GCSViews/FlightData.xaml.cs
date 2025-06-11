@@ -1114,7 +1114,7 @@ namespace Xamarin
                             addMissionRouteMarker(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot)
                             {
                                 Position = MainV2.comPort.MAV.cs.MovingBase,
-                                ToolTipText = "Moving Base",
+                                ToolTipText = "Подвижная база",
                                 ToolTipMode = MarkerTooltipMode.OnMouseOver
                             });
                         }
