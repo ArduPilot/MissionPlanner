@@ -166,7 +166,7 @@
     <value>93</value>
   </data>
   <data name="but_mavinspector.Text" xml:space="preserve">
-    <value>MAVLink Inspector</value>
+    <value>Инспектор MAVLink</value>
   </data>
   <data name="&gt;&gt;but_mavinspector.Name" xml:space="preserve">
     <value>but_mavinspector</value>
@@ -199,7 +199,7 @@
     <value>94</value>
   </data>
   <data name="but_warningmanager.Text" xml:space="preserve">
-    <value>Warning Manager</value>
+    <value>Менеджер предупреждений</value>
   </data>
   <data name="&gt;&gt;but_warningmanager.Name" xml:space="preserve">
     <value>but_warningmanager</value>
@@ -727,7 +727,7 @@
     <value>105</value>
   </data>
   <data name="BUT_follow_me.Text" xml:space="preserve">
-    <value>Follow Me</value>
+    <value>Следуй за мной</value>
   </data>
   <data name="&gt;&gt;BUT_follow_me.Name" xml:space="preserve">
     <value>BUT_follow_me</value>
@@ -826,7 +826,7 @@
     <value>107</value>
   </data>
   <data name="BUT_paramgen.Text" xml:space="preserve">
-    <value>Param gen</value>
+    <value>Генератор параметров</value>
   </data>
   <data name="&gt;&gt;BUT_paramgen.Name" xml:space="preserve">
     <value>BUT_paramgen</value>
@@ -892,7 +892,7 @@
     <value>109</value>
   </data>
   <data name="BUT_movingbase.Text" xml:space="preserve">
-    <value>Moving Base</value>
+    <value>Подвижная база</value>
   </data>
   <data name="&gt;&gt;BUT_movingbase.Name" xml:space="preserve">
     <value>BUT_movingbase</value>

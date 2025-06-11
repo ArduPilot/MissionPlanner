@@ -5124,7 +5124,7 @@ this ensures you wont lose radio link</value>
     <value>169</value>
   </data>
   <data name="btnRemoteSaveToFile.Text" xml:space="preserve">
-    <value>Save to File...</value>
+    <value>Сохранить в файл...</value>
   </data>
   <data name="&gt;&gt;btnRemoteSaveToFile.Name" xml:space="preserve">
     <value>btnRemoteSaveToFile</value>
@@ -7083,7 +7083,7 @@ this ensures you wont lose radio link</value>
     <value>163</value>
   </data>
   <data name="btnSaveToFile.Text" xml:space="preserve">
-    <value>Save to File...</value>
+    <value>Сохранить в файл...</value>
   </data>
   <data name="&gt;&gt;btnSaveToFile.Name" xml:space="preserve">
     <value>btnSaveToFile</value>

@@ -136,7 +136,7 @@
     <value>72</value>
   </data>
   <data name="BUT_compare.Text" xml:space="preserve">
-    <value>Compare Params</value>
+    <value>Сравнить параметры</value>
   </data>
   <data name="BUT_compare.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -169,7 +169,7 @@
     <value>67</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
-    <value>Refresh Params</value>
+    <value>Обновить параметры</value>
   </data>
   <data name="&gt;&gt;BUT_rerequestparams.Name" xml:space="preserve">
     <value>BUT_rerequestparams</value>
@@ -199,7 +199,7 @@
     <value>69</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Write Params</value>
+    <value>Записать параметры</value>
   </data>
   <data name="&gt;&gt;BUT_writePIDS.Name" xml:space="preserve">
     <value>BUT_writePIDS</value>
@@ -232,7 +232,7 @@
     <value>70</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>Save to file</value>
+    <value>Сохранить в файл</value>
   </data>
   <data name="&gt;&gt;BUT_save.Name" xml:space="preserve">
     <value>BUT_save</value>
@@ -265,7 +265,7 @@
     <value>71</value>
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>Load from file</value>
+    <value>Загрузить из файла</value>
   </data>
   <data name="&gt;&gt;BUT_load.Name" xml:space="preserve">
     <value>BUT_load</value>
@@ -362,7 +362,7 @@ format with no scaling</value>
     <value>82</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Search</value>
+    <value>Поиск</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -392,7 +392,7 @@ format with no scaling</value>
     <value>83</value>
   </data>
   <data name="BUT_commitToFlash.Text" xml:space="preserve">
-    <value>Commit Params</value>
+    <value>Записать в память</value>
   </data>
   <data name="&gt;&gt;BUT_commitToFlash.Name" xml:space="preserve">
     <value>BUT_commitToFlash</value>
@@ -425,7 +425,7 @@ format with no scaling</value>
     <value>84</value>
   </data>
   <data name="chk_modified.Text" xml:space="preserve">
-    <value>Modified</value>
+    <value>Изменённые</value>
   </data>
   <data name="&gt;&gt;chk_modified.Name" xml:space="preserve">
     <value>chk_modified</value>
@@ -455,7 +455,7 @@ format with no scaling</value>
     <value>78</value>
   </data>
   <data name="BUT_reset_params.Text" xml:space="preserve">
-    <value>Reset to Default</value>
+    <value>Сбросить по умолчанию</value>
   </data>
   <data name="BUT_reset_params.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -479,7 +479,7 @@ format with no scaling</value>
     <value>True</value>
   </metadata>
   <data name="Command.HeaderText" xml:space="preserve">
-    <value>Command</value>
+    <value>Команда</value>
   </data>
   <data name="Command.Width" type="System.Int32, mscorlib">
     <value>126</value>
@@ -488,7 +488,7 @@ format with no scaling</value>
     <value>True</value>
   </metadata>
   <data name="Value.HeaderText" xml:space="preserve">
-    <value>Value</value>
+    <value>Значение</value>
   </data>
   <data name="Value.Width" type="System.Int32, mscorlib">
     <value>69</value>
@@ -497,7 +497,7 @@ format with no scaling</value>
     <value>True</value>
   </metadata>
   <data name="Min.HeaderText" xml:space="preserve">
-    <value>Min</value>
+    <value>Мин</value>
   </data>
   <data name="Min.Width" type="System.Int32, mscorlib">
     <value>56</value>
@@ -506,7 +506,7 @@ format with no scaling</value>
     <value>True</value>
   </metadata>
   <data name="Max.HeaderText" xml:space="preserve">
-    <value>Max</value>
+    <value>Макс</value>
   </data>
   <data name="Max.Width" type="System.Int32, mscorlib">
     <value>175</value>
@@ -515,13 +515,13 @@ format with no scaling</value>
     <value>True</value>
   </metadata>
   <data name="Default.HeaderText" xml:space="preserve">
-    <value>Default</value>
+    <value>По умолчанию</value>
   </data>
   <metadata name="Fav.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="Fav.HeaderText" xml:space="preserve">
-    <value>Fav</value>
+    <value>Избр</value>
   </data>
   <data name="Fav.Width" type="System.Int32, mscorlib">
     <value>30</value>
@@ -563,37 +563,37 @@ format with no scaling</value>
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Command.Name" xml:space="preserve">
-    <value>Command</value>
+    <value>Команда</value>
   </data>
   <data name="&gt;&gt;Command.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Value.Name" xml:space="preserve">
-    <value>Value</value>
+    <value>Значение</value>
   </data>
   <data name="&gt;&gt;Value.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Min.Name" xml:space="preserve">
-    <value>Min</value>
+    <value>Мин</value>
   </data>
   <data name="&gt;&gt;Min.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Max.Name" xml:space="preserve">
-    <value>Max</value>
+    <value>Макс</value>
   </data>
   <data name="&gt;&gt;Max.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Default.Name" xml:space="preserve">
-    <value>Default</value>
+    <value>По умолчанию</value>
   </data>
   <data name="&gt;&gt;Default.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Fav.Name" xml:space="preserve">
-    <value>Fav</value>
+    <value>Избр</value>
   </data>
   <data name="&gt;&gt;Fav.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

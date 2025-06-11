@@ -628,7 +628,7 @@
     <value>105</value>
   </data>
   <data name="BUT_follow_me.Text" xml:space="preserve">
-    <value>Follow Me</value>
+    <value>Следуй за мной</value>
   </data>
   <data name="&gt;&gt;BUT_follow_me.Name" xml:space="preserve">
     <value>BUT_follow_me</value>

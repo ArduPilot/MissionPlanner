@@ -48,7 +48,7 @@ namespace MissionPlanner.Controls
 
         private async void PopulateTreeView()
         {
-            toolStripStatusLabel1.Text = "Updating Folders";
+            toolStripStatusLabel1.Text = "Обновление папок";
 
             treeView1.BeginUpdate();
 
@@ -67,7 +67,7 @@ namespace MissionPlanner.Controls
                 treeView1.Nodes.Add(rootNode);
             }
 
-            toolStripStatusLabel1.Text = "Ready";
+            toolStripStatusLabel1.Text = "Готово";
 
             treeView1.Enabled = true;
             
@@ -236,7 +236,7 @@ namespace MissionPlanner.Controls
         {
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
             {
-                toolStripStatusLabel1.Text = "Download " + listView1SelectedItem.Text;
+                toolStripStatusLabel1.Text = "Скачать " + listView1SelectedItem.Text;
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.FileName = listView1SelectedItem.Text;
                 sfd.RestoreDirectory = true;
@@ -249,7 +249,7 @@ namespace MissionPlanner.Controls
                     CancellationTokenSource cancel = new CancellationTokenSource();
                     prd.doWorkArgs.CancelRequestChanged += (o, args) =>
                     {
-                        prd.doWorkArgs.ErrorMessage = "User Cancel";
+                        prd.doWorkArgs.ErrorMessage = "Отмена пользователем";
                         cancel.Cancel();
                     };
                     prd.doWorkArgs.ForceExit = false;
@@ -275,7 +275,7 @@ namespace MissionPlanner.Controls
                     return;
                 }
             }
-            toolStripStatusLabel1.Text = "Ready";
+            toolStripStatusLabel1.Text = "Готово";
         }
 
         private async void UploadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -297,13 +297,13 @@ namespace MissionPlanner.Controls
 
         private async Task UploadFile(string ofdFileName)
         {
-            toolStripStatusLabel1.Text = "Upload " + Path.GetFileName(ofdFileName);
+            toolStripStatusLabel1.Text = "Загрузить " + Path.GetFileName(ofdFileName);
             var fn = treeView1.SelectedNode.FullPath + "/" + Path.GetFileName(ofdFileName);
             ProgressReporterDialogue prd = new ProgressReporterDialogue();
             CancellationTokenSource cancel = new CancellationTokenSource();
             prd.doWorkArgs.CancelRequestChanged += (o, args) =>
             {
-                prd.doWorkArgs.ErrorMessage = "User Cancel";
+                prd.doWorkArgs.ErrorMessage = "Отмена пользователем";
                 cancel.Cancel();
             };
             prd.doWorkArgs.ForceExit = false;
@@ -323,20 +323,20 @@ namespace MissionPlanner.Controls
             };
             prd.RunBackgroundOperationAsync();
             //_mavftp.Progress -= progress;
-            toolStripStatusLabel1.Text = "Ready";
+            toolStripStatusLabel1.Text = "Готово";
         }
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
             {
-                toolStripStatusLabel1.Text = "Delete " + listView1SelectedItem.Text;
+                toolStripStatusLabel1.Text = "Удалить " + listView1SelectedItem.Text;
                 //var success = _mavftp.kCmdRemoveFile(((DirectoryInfo)listView1SelectedItem.Tag).FullName + "/" + listView1SelectedItem.Text);
             }
 
             TreeView1_NodeMouseClick(null,
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
-            toolStripStatusLabel1.Text = "Ready";
+            toolStripStatusLabel1.Text = "Готово";
         }
 
         private void RenameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -354,19 +354,19 @@ namespace MissionPlanner.Controls
 
             TreeView1_NodeMouseClick(null,
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
-            toolStripStatusLabel1.Text = "Ready";
+            toolStripStatusLabel1.Text = "Готово";
         }
 
         private void NewFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string folder = "";
-            var dr = InputBox.Show("Folder Name", "Enter folder name", ref folder);
+            var dr = InputBox.Show("Имя папки", "Введите имя папки", ref folder);
             //if (dr == DialogResult.OK)
             // _mavftp.kCmdCreateDirectory(treeView1.SelectedNode.FullPath + "/" + folder);
 
             TreeView1_NodeMouseClick(null,
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
-            toolStripStatusLabel1.Text = "Ready";
+            toolStripStatusLabel1.Text = "Готово";
         }
 
         private void GetCRC32ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -375,7 +375,7 @@ namespace MissionPlanner.Controls
             CancellationTokenSource cancel = new CancellationTokenSource();
             prd.doWorkArgs.CancelRequestChanged += (o, args) =>
             {
-                prd.doWorkArgs.ErrorMessage = "User Cancel";
+                prd.doWorkArgs.ErrorMessage = "Отмена пользователем";
                 cancel.Cancel();
                 // _mavftp.kCmdResetSessions();
             };

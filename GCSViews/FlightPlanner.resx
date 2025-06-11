@@ -2061,7 +2061,7 @@
     <value>177, 22</value>
   </data>
   <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save to File</value>
+    <value>Сохранить в файл</value>
   </data>
   <data name="clearToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 22</value>

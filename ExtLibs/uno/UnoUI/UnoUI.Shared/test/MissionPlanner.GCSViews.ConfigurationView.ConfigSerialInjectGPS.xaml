@@ -47,10 +47,10 @@ mc:Ignorable="d"
 <TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,42,0,0" Width="173" Height="13">Survey In</TextBlock>
 </Grid>
 <Grid Name="panel2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,13,0,0" Width="545" Height="127">
-<CheckBox Name="chk_movingbase" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,3,0,0" Width="89" Height="18">Moving Base</CheckBox>
-<Button Name="but_restartsvin" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="227,22,0,0" Width="75" Height="23">Restart</Button>
+<CheckBox Name="chk_movingbase" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,3,0,0" Width="89" Height="18">Подвижная база</CheckBox>
+<Button Name="but_restartsvin" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="227,22,0,0" Width="75" Height="23">Перезапустить</Button>
 <CheckBox Name="chk_m8p_130p" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,3,0,0" Width="113" Height="18">M8P fw 130+/F9P</CheckBox>
-<Button Name="but_save_basepos" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="429,22,0,0" Width="75" Height="23">Save Current Position</Button>
+<Button Name="but_save_basepos" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="429,22,0,0" Width="75" Height="23">Сохранить текущую позицию</Button>
 <controls:DataGrid Name="dg_basepos" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,51,0,0" Width="539"></controls:DataGrid>
 <TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="137,29,0,0" Width="43" Height="17">Time(s)</TextBlock>
 <TextBox Name="txt_surveyinAcc" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="2.00" FontSize="8.25" Margin="94,25,0,0" Width="37" Height="20"></TextBox>

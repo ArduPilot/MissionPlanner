@@ -3827,7 +3827,7 @@ Control-O to load form file</value>
     <value>64</value>
   </data>
   <data name="CHK_FollowPathHome.Text" xml:space="preserve">
-    <value>Follow Survey Path Home</value>
+    <value>Следовать домой по маршруту обследования</value>
   </data>
   <data name="&gt;&gt;CHK_FollowPathHome.Name" xml:space="preserve">
     <value>CHK_FollowPathHome</value>

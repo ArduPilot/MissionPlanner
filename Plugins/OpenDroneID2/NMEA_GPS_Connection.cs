@@ -242,7 +242,7 @@ namespace MissionPlanner
 
                 if (comPort != null && comPort.IsOpen)
                 {
-                    Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
+                    Console.WriteLine("COM-порт подвижной базы открыт на порту " + comPort.PortName);
                     LBL_gpsStatus.Text = "Connected to " + comPort.PortName + ". Waiting for fix";
 
                     start();
@@ -357,7 +357,7 @@ namespace MissionPlanner
             }
             catch
             {
-                Console.WriteLine("Error Processing NMEA Data for Moving Base.");
+                Console.WriteLine("Ошибка обработки данных NMEA для подвижной базы.");
             }
         }
 

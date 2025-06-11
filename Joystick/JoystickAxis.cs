@@ -104,7 +104,7 @@ namespace MissionPlanner.Joystick
             this.BUT_detch.Name = "BUT_detch";
             this.BUT_detch.Size = new System.Drawing.Size(45, 23);
             this.BUT_detch.TabIndex = 62;
-            this.BUT_detch.Text = "Auto Detect";
+            this.BUT_detch.Text = "Автоопределение";
             this.BUT_detch.UseVisualStyleBackColor = true;
             this.BUT_detch.Click += new System.EventHandler(this.BUT_detch_Click);
             // 
@@ -127,7 +127,7 @@ namespace MissionPlanner.Joystick
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(22, 13);
             this.label13.TabIndex = 60;
-            this.label13.Text = "RC";
+            this.label13.Text = "Канал";
             // 
             // expo_ch
             // 

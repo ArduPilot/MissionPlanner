@@ -130,13 +130,13 @@
     <value>True</value>
   </metadata>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>How to use:
-First time
-if this is the first load, simple click load (ensure box next to it is blank)
-before you save ensure you pick your language and click save.
-More uses
-Pick your language and click load.
-before you save ensure you pick your language and click save.
+    <value>Как использовать:
+Первый запуск
+Если это первый запуск, просто нажмите «Загрузить» (убедитесь, что поле рядом пустое).
+Перед сохранением обязательно выберите язык и нажмите «Сохранить».
+Повторные запуски
+Выберите язык и нажмите «Загрузить».
+Перед сохранением обязательно выберите язык и нажмите «Сохранить».
 </value>
   </data>
 </root>

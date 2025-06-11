@@ -286,7 +286,7 @@
     <value>83</value>
   </data>
   <data name="but_followswarm.Text" xml:space="preserve">
-    <value>Follow Swarm</value>
+    <value>Следовать за роем</value>
   </data>
   <data name="&gt;&gt;but_followswarm.Name" xml:space="preserve">
     <value>but_followswarm</value>
@@ -856,7 +856,7 @@
     <value>64</value>
   </data>
   <data name="but_trimble.Text" xml:space="preserve">
-    <value>Sequence Swarm</value>
+    <value>Последовательность роя</value>
   </data>
   <data name="&gt;&gt;but_trimble.Name" xml:space="preserve">
     <value>but_trimble</value>
@@ -2296,7 +2296,7 @@
     <value>0</value>
   </data>
   <data name="BUT_georefimage.Text" xml:space="preserve">
-    <value>Geo ref images</value>
+    <value>Геопривязка изображений</value>
   </data>
   <data name="&gt;&gt;BUT_georefimage.Name" xml:space="preserve">
     <value>BUT_georefimage</value>
@@ -2326,7 +2326,7 @@
     <value>44</value>
   </data>
   <data name="button3.Text" xml:space="preserve">
-    <value>Warning Manager</value>
+    <value>Менеджер предупреждений</value>
   </data>
   <data name="&gt;&gt;button3.Name" xml:space="preserve">
     <value>button3</value>
@@ -2356,7 +2356,7 @@
     <value>16</value>
   </data>
   <data name="BUT_lang_edit.Text" xml:space="preserve">
-    <value>Lang Edit</value>
+    <value>Редактор языка</value>
   </data>
   <data name="&gt;&gt;BUT_lang_edit.Name" xml:space="preserve">
     <value>BUT_lang_edit</value>
@@ -2386,7 +2386,7 @@
     <value>17</value>
   </data>
   <data name="BUT_follow_me.Text" xml:space="preserve">
-    <value>Follow Me</value>
+    <value>Следуй за мной</value>
   </data>
   <data name="&gt;&gt;BUT_follow_me.Name" xml:space="preserve">
     <value>BUT_follow_me</value>
@@ -2416,7 +2416,7 @@
     <value>20</value>
   </data>
   <data name="BUT_paramgen.Text" xml:space="preserve">
-    <value>Param gen</value>
+    <value>Генератор параметров</value>
   </data>
   <data name="&gt;&gt;BUT_paramgen.Name" xml:space="preserve">
     <value>BUT_paramgen</value>
@@ -2446,7 +2446,7 @@
     <value>22</value>
   </data>
   <data name="but_osdvideo.Text" xml:space="preserve">
-    <value>OSDVideo</value>
+    <value>OSDВидео</value>
   </data>
   <data name="&gt;&gt;but_osdvideo.Name" xml:space="preserve">
     <value>but_osdvideo</value>
@@ -2476,7 +2476,7 @@
     <value>40</value>
   </data>
   <data name="BUT_movingbase.Text" xml:space="preserve">
-    <value>Moving Base</value>
+    <value>Подвижная база</value>
   </data>
   <data name="&gt;&gt;BUT_movingbase.Name" xml:space="preserve">
     <value>BUT_movingbase</value>
@@ -2506,7 +2506,7 @@
     <value>46</value>
   </data>
   <data name="BUT_shptopoly.Text" xml:space="preserve">
-    <value>Shp to Poly</value>
+    <value>Shp в Poly</value>
   </data>
   <data name="&gt;&gt;BUT_shptopoly.Name" xml:space="preserve">
     <value>BUT_shptopoly</value>
@@ -2536,7 +2536,7 @@
     <value>27</value>
   </data>
   <data name="BUT_swarm.Text" xml:space="preserve">
-    <value>Swarm</value>
+    <value>Рой</value>
   </data>
   <data name="&gt;&gt;BUT_swarm.Name" xml:space="preserve">
     <value>BUT_swarm</value>
@@ -2566,7 +2566,7 @@
     <value>33</value>
   </data>
   <data name="BUT_followleader.Text" xml:space="preserve">
-    <value>Follow the leader</value>
+    <value>Следовать за лидером</value>
   </data>
   <data name="&gt;&gt;BUT_followleader.Name" xml:space="preserve">
     <value>BUT_followleader</value>
@@ -2626,7 +2626,7 @@
     <value>44</value>
   </data>
   <data name="but_mavserialport.Text" xml:space="preserve">
-    <value>MAVSerial pass</value>
+    <value>Проброс MAVSerial</value>
   </data>
   <data name="&gt;&gt;but_mavserialport.Name" xml:space="preserve">
     <value>but_mavserialport</value>

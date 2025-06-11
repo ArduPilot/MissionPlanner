@@ -126,7 +126,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.TXT_text.Name = "TXT_text";
             this.TXT_text.Size = new System.Drawing.Size(236, 20);
             this.TXT_text.TabIndex = 4;
-            this.TXT_text.Text = "{name} is {value}";
+            this.TXT_text.Text = "{name} = {value}";
             this.TXT_text.TextChanged += new System.EventHandler(this.TXT_warningtext_TextChanged);
             // 
             // but_addchild
@@ -177,7 +177,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.TXT_desc.Name = "TXT_desc";
             this.TXT_desc.Size = new System.Drawing.Size(236, 20);
             this.TXT_desc.TabIndex = 3;
-            this.TXT_desc.Text = "GPS Hdop";
+            this.TXT_desc.Text = "HDOP GPS";
             this.TXT_desc.TextChanged += new System.EventHandler(this.TXT_desc_TextChanged);
             // 
             // CheckListInput

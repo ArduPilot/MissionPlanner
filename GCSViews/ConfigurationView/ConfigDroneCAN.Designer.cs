@@ -122,25 +122,25 @@
             // menu_parameters
             // 
             this.menu_parameters.Index = 0;
-            this.menu_parameters.Text = "Parameters";
+            this.menu_parameters.Text = "Параметры";
             this.menu_parameters.Click += new System.EventHandler(this.menu_parameters_Click);
             // 
             // menu_restart
             // 
             this.menu_restart.Index = 1;
-            this.menu_restart.Text = "Restart";
+            this.menu_restart.Text = "Перезапуск";
             this.menu_restart.Click += new System.EventHandler(this.menu_restart_Click);
             // 
             // menu_update
             // 
             this.menu_update.Index = 2;
-            this.menu_update.Text = "Update";
+            this.menu_update.Text = "Обновить";
             this.menu_update.Click += new System.EventHandler(this.menu_update_Click);
             // 
             // menu_updatebeta
             // 
             this.menu_updatebeta.Index = 3;
-            this.menu_updatebeta.Text = "Update Beta";
+            this.menu_updatebeta.Text = "Обновить бета";
             this.menu_updatebeta.Click += new System.EventHandler(this.menu_updatebeta_Click);
             // 
             // menu_passthrough
@@ -163,8 +163,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(359, 26);
             this.label1.TabIndex = 83;
-            this.label1.Text = "After enabling SLCAN, you will no longer be able to connect via MAVLINK.\r\nYou mus" +
-    "t leave this screen and wait 2 seconds before connecting again\r\n";
+            this.label1.Text = "После включения SLCAN вы больше не сможете подключаться через MAVLINK.\r\nНужно выйти с этого экрана и подождать 2 секунды перед повторным подключением\r\n";
             // 
             // but_uavcaninspector
             // 
@@ -172,7 +171,7 @@
             this.but_uavcaninspector.Name = "but_uavcaninspector";
             this.but_uavcaninspector.Size = new System.Drawing.Size(57, 23);
             this.but_uavcaninspector.TabIndex = 85;
-            this.but_uavcaninspector.Text = "Inspector";
+            this.but_uavcaninspector.Text = "Инспектор";
             this.but_uavcaninspector.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_uavcaninspector.UseVisualStyleBackColor = true;
             this.but_uavcaninspector.Click += new System.EventHandler(this.But_uavcaninspector_Click);
@@ -314,7 +313,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(133, 27);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Node ID / Name";
+            this.label2.Text = "ID узла / имя";
             // 
             // label3
             // 
@@ -324,7 +323,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(133, 27);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Mode / Health / Uptime";
+            this.label3.Text = "Режим / состояние / время работы";
             // 
             // label4
             // 
@@ -334,7 +333,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(133, 27);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Vendor-specific code";
+            this.label4.Text = "Код производителя";
             // 
             // label5
             // 
@@ -344,7 +343,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(133, 27);
             this.label5.TabIndex = 3;
-            this.label5.Text = "Software version/CRC64";
+            this.label5.Text = "Версия ПО/CRC64";
             // 
             // label7
             // 
@@ -354,7 +353,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(133, 28);
             this.label7.TabIndex = 4;
-            this.label7.Text = "Hardware version/UID";
+            this.label7.Text = "Версия аппаратуры/UID";
             // 
             // textBox1
             // 
@@ -372,7 +371,7 @@
             this.chk_log.Name = "chk_log";
             this.chk_log.Size = new System.Drawing.Size(44, 17);
             this.chk_log.TabIndex = 87;
-            this.chk_log.Text = "Log";
+            this.chk_log.Text = "Журнал";
             this.chk_log.UseVisualStyleBackColor = true;
             // 
             // DGDebug
@@ -429,7 +428,7 @@
             this.chk_canonclose.Name = "chk_canonclose";
             this.chk_canonclose.Size = new System.Drawing.Size(131, 17);
             this.chk_canonclose.TabIndex = 90;
-            this.chk_canonclose.Text = "Exit SLCAN on leave?";
+            this.chk_canonclose.Text = "Выход из SLCAN при закрытии?";
             this.chk_canonclose.UseVisualStyleBackColor = true;
             // 
             // but_filter
@@ -438,7 +437,7 @@
             this.but_filter.Name = "but_filter";
             this.but_filter.Size = new System.Drawing.Size(42, 23);
             this.but_filter.TabIndex = 92;
-            this.but_filter.Text = "Filter";
+            this.but_filter.Text = "Фильтр";
             this.but_filter.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_filter.UseVisualStyleBackColor = true;
             this.but_filter.Click += new System.EventHandler(this.but_filter_Click);
@@ -449,7 +448,7 @@
             this.but_stats.Name = "but_stats";
             this.but_stats.Size = new System.Drawing.Size(42, 23);
             this.but_stats.TabIndex = 93;
-            this.but_stats.Text = "Stats";
+            this.but_stats.Text = "Статистика";
             this.but_stats.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_stats.UseVisualStyleBackColor = true;
             this.but_stats.Click += new System.EventHandler(this.but_stats_Click);
@@ -478,7 +477,7 @@
             this.but_connect.Name = "but_connect";
             this.but_connect.Size = new System.Drawing.Size(75, 23);
             this.but_connect.TabIndex = 98;
-            this.but_connect.Text = "Connect";
+            this.but_connect.Text = "Подключить";
             this.but_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_connect.UseVisualStyleBackColor = true;
             this.but_connect.Click += new System.EventHandler(this.but_connect_Click);
@@ -529,7 +528,7 @@
             // nameDataGridViewTextBoxColumn
             // 
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Имя";
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             this.nameDataGridViewTextBoxColumn.ReadOnly = true;
             this.nameDataGridViewTextBoxColumn.Width = 110;
@@ -537,7 +536,7 @@
             // modeDataGridViewTextBoxColumn
             // 
             this.modeDataGridViewTextBoxColumn.DataPropertyName = "Mode";
-            this.modeDataGridViewTextBoxColumn.HeaderText = "Mode";
+            this.modeDataGridViewTextBoxColumn.HeaderText = "Режим";
             this.modeDataGridViewTextBoxColumn.Name = "modeDataGridViewTextBoxColumn";
             this.modeDataGridViewTextBoxColumn.ReadOnly = true;
             this.modeDataGridViewTextBoxColumn.Width = 90;
@@ -545,7 +544,7 @@
             // healthDataGridViewTextBoxColumn
             // 
             this.healthDataGridViewTextBoxColumn.DataPropertyName = "Health";
-            this.healthDataGridViewTextBoxColumn.HeaderText = "Health";
+            this.healthDataGridViewTextBoxColumn.HeaderText = "Состояние";
             this.healthDataGridViewTextBoxColumn.Name = "healthDataGridViewTextBoxColumn";
             this.healthDataGridViewTextBoxColumn.ReadOnly = true;
             this.healthDataGridViewTextBoxColumn.Width = 43;
@@ -553,7 +552,7 @@
             // uptimeDataGridViewTextBoxColumn
             // 
             this.uptimeDataGridViewTextBoxColumn.DataPropertyName = "Uptime";
-            this.uptimeDataGridViewTextBoxColumn.HeaderText = "Uptime";
+            this.uptimeDataGridViewTextBoxColumn.HeaderText = "Время работы";
             this.uptimeDataGridViewTextBoxColumn.Name = "uptimeDataGridViewTextBoxColumn";
             this.uptimeDataGridViewTextBoxColumn.ReadOnly = true;
             this.uptimeDataGridViewTextBoxColumn.Width = 60;
@@ -561,7 +560,7 @@
             // hardwareVersionDataGridViewTextBoxColumn
             // 
             this.hardwareVersionDataGridViewTextBoxColumn.DataPropertyName = "HardwareVersion";
-            this.hardwareVersionDataGridViewTextBoxColumn.HeaderText = "HW Version";
+            this.hardwareVersionDataGridViewTextBoxColumn.HeaderText = "Версия HW";
             this.hardwareVersionDataGridViewTextBoxColumn.Name = "hardwareVersionDataGridViewTextBoxColumn";
             this.hardwareVersionDataGridViewTextBoxColumn.ReadOnly = true;
             this.hardwareVersionDataGridViewTextBoxColumn.Width = 50;
@@ -569,7 +568,7 @@
             // SoftwareVersion
             // 
             this.SoftwareVersion.DataPropertyName = "SoftwareVersion";
-            this.SoftwareVersion.HeaderText = "SW Version";
+            this.SoftwareVersion.HeaderText = "Версия SW";
             this.SoftwareVersion.Name = "SoftwareVersion";
             this.SoftwareVersion.ReadOnly = true;
             this.SoftwareVersion.Width = 80;
@@ -580,7 +579,7 @@
             dataGridViewCellStyle3.Format = "X";
             dataGridViewCellStyle3.NullValue = null;
             this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle3;
-            this.SoftwareCRC.HeaderText = "SW CRC";
+            this.SoftwareCRC.HeaderText = "CRC ПО";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
             this.SoftwareCRC.Width = 110;
@@ -588,9 +587,9 @@
             // Menu
             // 
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.NullValue = "Menu";
+            dataGridViewCellStyle4.NullValue = "Меню";
             this.Menu.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Menu.HeaderText = "Menu";
+            this.Menu.HeaderText = "Меню";
             this.Menu.Name = "Menu";
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;

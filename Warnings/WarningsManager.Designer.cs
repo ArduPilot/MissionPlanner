@@ -71,7 +71,7 @@ namespace MissionPlanner.Warnings
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 13);
             this.label4.TabIndex = 5;
-            this.label4.Text = "Field";
+            this.label4.Text = "Поле";
             // 
             // BUT_Add
             // 
@@ -89,7 +89,7 @@ namespace MissionPlanner.Warnings
             this.BUT_save.Name = "BUT_save";
             this.BUT_save.Size = new System.Drawing.Size(75, 23);
             this.BUT_save.TabIndex = 2;
-            this.BUT_save.Text = "Save";
+            this.BUT_save.Text = "Сохранить";
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -100,7 +100,7 @@ namespace MissionPlanner.Warnings
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Field";
+            this.label1.Text = "Поле";
             // 
             // label2
             // 
@@ -109,7 +109,7 @@ namespace MissionPlanner.Warnings
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Comparison";
+            this.label2.Text = "Сравнение";
             // 
             // label3
             // 
@@ -118,7 +118,7 @@ namespace MissionPlanner.Warnings
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Trigger";
+            this.label3.Text = "Срабатывание";
             // 
             // label5
             // 
@@ -127,7 +127,7 @@ namespace MissionPlanner.Warnings
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Repeat Interval";
+            this.label5.Text = "Интервал повторения";
             // 
             // label6
             // 
@@ -136,7 +136,7 @@ namespace MissionPlanner.Warnings
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 7;
-            this.label6.Text = "Message";
+            this.label6.Text = "Сообщение";
             // 
             // label7
             // 
@@ -145,7 +145,7 @@ namespace MissionPlanner.Warnings
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(50, 13);
             this.label7.TabIndex = 8;
-            this.label7.Text = "Item type";
+            this.label7.Text = "Тип элемента";
             // 
             // label8
             // 
@@ -154,7 +154,7 @@ namespace MissionPlanner.Warnings
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(31, 13);
             this.label8.TabIndex = 9;
-            this.label8.Text = "Color";
+            this.label8.Text = "Цвет";
             // 
             // WarningsManager
             // 
@@ -170,7 +170,7 @@ namespace MissionPlanner.Warnings
             this.Controls.Add(this.BUT_Add);
             this.Controls.Add(this.panel1);
             this.Name = "WarningsManager";
-            this.Text = "Warning Manager";
+            this.Text = "Менеджер предупреждений";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
