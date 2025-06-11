@@ -70,7 +70,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to upload .
+        ///   Looks up a localized string similar to Вы уверены, что хотите загрузить .
         /// </summary>
         public static string AreYouSureYouWantToUpload {
             get {
@@ -223,7 +223,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad OptFlow Health.
+        ///   Looks up a localized string similar to Неисправность датчика оптического потока.
         /// </summary>
         public static string BadOptFlowHealth {
             get {
@@ -232,7 +232,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad or No Terrain Data.
+        ///   Looks up a localized string similar to Некорректные или отсутствующие данные рельефа.
         /// </summary>
         public static string BadorNoTerrainData {
             get {
@@ -259,7 +259,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to These are beta firmware, use at your own risk!!!.
+        ///   Looks up a localized string similar to Это бета-прошивка, используйте на свой риск!!!.
         /// </summary>
         public static string BetaWarning {
             get {
@@ -277,7 +277,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not connect to com port and detect board type.
+        ///   Looks up a localized string similar to Не удалось подключиться к COM-порту и определить тип платы.
         /// </summary>
         public static string CanNotConnectToComPortAnd {
             get {
@@ -413,7 +413,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continue.
+        ///   Looks up a localized string similar to Продолжить.
         /// </summary>
         public static string Continue {
             get {
@@ -677,7 +677,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error uploading firmware.
+        ///   Looks up a localized string similar to Ошибка загрузки прошивки.
         /// </summary>
         public static string ErrorUploadingFirmware {
             get {
@@ -803,7 +803,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Geofence Breach.
+        ///   Looks up a localized string similar to Нарушение геозоны.
         /// </summary>
         public static string GeofenceBreach {
             get {

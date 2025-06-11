@@ -289,54 +289,54 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   </data>
   <data name="Pleaseup" xml:space="preserve">
     <value>
-Please upgrade</value>
+Пожалуйста, обновите</value>
   </data>
   <data name="Stillmoving" xml:space="preserve">
-    <value>Your model is still moving are you sure you want to disconnect?</value>
+    <value>Модель еще движется. Вы уверены, что хотите отключиться?</value>
   </data>
   <data name="Timeout" xml:space="preserve">
-    <value>Timeout waiting for autoscan/no mavlink device connected</value>
+    <value>Истекло время ожидания автосканирования/нет mavlink соединения</value>
   </data>
   <data name="ConnectFailed" xml:space="preserve">
-    <value>Connect Failed</value>
+    <value>Не удалось подключиться</value>
   </data>
   <data name="ConnectingMavlink" xml:space="preserve">
-    <value>Connecting Mavlink</value>
+    <value>Подключение Mavlink</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>Готово</value>
   </data>
   <data name="GettingParams" xml:space="preserve">
-    <value>Getting Params</value>
+    <value>Получение параметров</value>
   </data>
   <data name="GettingParamsD" xml:space="preserve">
-    <value>Getting Params...</value>
+    <value>Получение параметров...</value>
   </data>
   <data name="Gotparam" xml:space="preserve">
-    <value>Got param </value>
+    <value>Получен параметр </value>
   </data>
   <data name="MavlinkConnecting" xml:space="preserve">
-    <value>Mavlink Connecting...</value>
+    <value>Подключение Mavlink...</value>
   </data>
   <data name="Only1Hb" xml:space="preserve">
-    <value>Only 1 Heatbeat Received</value>
+    <value>Получен только один пакет heartbeat</value>
   </data>
   <data name="Only1HbD" xml:space="preserve">
-    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
-Mission Planner waits for 2 valid heartbeat packets before connecting</value>
+    <value>С этого порта получен лишь один пакет heartbeat. Проверьте корректность настройки оборудования.
+Mission Planner ожидает два корректных heartbeat перед подключением</value>
   </data>
   <data name="Trying" xml:space="preserve">
-    <value>Trying to connect.
-Timeout in {0}</value>
+    <value>Попытка подключения.
+Тайм-аут через {0}</value>
   </data>
   <data name="CantDetectBoardVersion" xml:space="preserve">
-    <value>Cant detect your Board version. Please check your cabling</value>
+    <value>Не удалось определить версию платы. Проверьте кабели</value>
   </data>
   <data name="CheckPortSettingsOr" xml:space="preserve">
-    <value>Check port settings or Port in use?</value>
+    <value>Проверьте настройки порта или занят ли порт</value>
   </data>
   <data name="CommunicationErrorNoConnection" xml:space="preserve">
-    <value>Communication Error - no connection</value>
+    <value>Ошибка связи — нет соединения</value>
   </data>
   <data name="DetectedA" xml:space="preserve">
     <value>Detected a </value>
@@ -457,22 +457,22 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>Start</value>
   </data>
   <data name="AreYouSureYouWantToUpload" xml:space="preserve">
-    <value>Are you sure you want to upload </value>
+    <value>Вы уверены, что хотите загрузить </value>
   </data>
   <data name="Beta" xml:space="preserve">
-    <value>Beta</value>
+    <value>Бета</value>
   </data>
   <data name="BetaWarning" xml:space="preserve">
-    <value>These are beta firmware, use at your own risk!!!</value>
+    <value>Это бета-прошивка, используйте на свой риск!!!</value>
   </data>
   <data name="CanNotConnectToComPortAnd" xml:space="preserve">
-    <value>Can not connect to com port and detect board type</value>
+    <value>Не удалось подключиться к COM-порту и определить тип платы</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>Продолжить</value>
   </data>
   <data name="ErrorUploadingFirmware" xml:space="preserve">
-    <value>Error uploading firmware</value>
+    <value>Ошибка загрузки прошивки</value>
   </data>
   <data name="QuestionMark" xml:space="preserve">
     <value>?</value>
@@ -481,176 +481,176 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>trunk</value>
   </data>
   <data name="TrunkWarning" xml:space="preserve">
-    <value>These are the latest trunk firmware, use at your own risk!!!</value>
+    <value>Это последняя версия trunk, используйте на свой риск!!!</value>
   </data>
   <data name="BadGPSHealth" xml:space="preserve">
-    <value>Unhealthy GPS Signal</value>
+    <value>Плохой сигнал GPS</value>
   </data>
   <data name="BadAirspeed" xml:space="preserve">
-    <value>Unhealthy Airspeed</value>
+    <value>Некорректное показание скорости</value>
   </data>
   <data name="BadGyroHealth" xml:space="preserve">
-    <value>Bad Gyro Health</value>
+    <value>Неисправность гироскопа</value>
   </data>
   <data name="BadAccelHealth" xml:space="preserve">
-    <value>Bad Accel Health</value>
+    <value>Неисправность акселерометра</value>
   </data>
   <data name="BadCompassHealth" xml:space="preserve">
-    <value>Bad Compass Health</value>
+    <value>Неисправность компаса</value>
   </data>
   <data name="BadBaroHealth" xml:space="preserve">
-    <value>Bad Baro Health</value>
+    <value>Неисправность барометра</value>
   </data>
   <data name="BadLiDARHealth" xml:space="preserve">
-    <value>Bad LiDAR Health</value>
+    <value>Неисправность LiDAR</value>
   </data>
   <data name="BadOptFlowHealth" xml:space="preserve">
-    <value>Bad OptFlow Health</value>
+    <value>Неисправность датчика оптического потока</value>
   </data>
   <data name="BadorNoTerrainData" xml:space="preserve">
-    <value>Bad or No Terrain Data</value>
+    <value>Некорректные или отсутствующие данные рельефа</value>
   </data>
   <data name="GeofenceBreach" xml:space="preserve">
-    <value>Geofence Breach</value>
+    <value>Нарушение геозоны</value>
   </data>
   <data name="BadAHRS" xml:space="preserve">
-    <value>Unhealthy AHRS</value>
+    <value>Некорректный AHRS</value>
   </data>
   <data name="NORCReceiver" xml:space="preserve">
-    <value>NO RC Receiver</value>
+    <value>Нет приёмника RC</value>
   </data>
   <data name="AutoWP" xml:space="preserve">
-    <value>Auto WP</value>
+    <value>Авто точка пути</value>
   </data>
   <data name="EnsurePropsNotOn" xml:space="preserve">
-    <value>Ensure your props are not on the Plane/Quad</value>
+    <value>Убедитесь, что пропеллеры сняты с аппарата</value>
   </data>
   <data name="FailSafe" xml:space="preserve">
     <value>FailSafe</value>
   </data>
   <data name="Error_binding" xml:space="preserve">
-    <value>Error binding</value>
+    <value>Ошибка привязки</value>
   </data>
   <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
-    <value>Put the transmitter in bind mode. Receiver is waiting.</value>
+    <value>Переведите передатчик в режим привязки. Приемник ожидает.</value>
   </data>
   <data name="Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>Завершено</value>
   </data>
   <data name="Click_when_Done" xml:space="preserve">
-    <value>Click when Done</value>
+    <value>Нажмите после завершения</value>
   </data>
   <data name="Saving" xml:space="preserve">
-    <value>Saving</value>
+    <value>Сохранение</value>
   </data>
   <data name="InvalidCert" xml:space="preserve">
-    <value>Invalid Cert</value>
+    <value>Неверный сертификат</value>
   </data>
   <data name="Note" xml:space="preserve">
-    <value>Note</value>
+    <value>Примечание</value>
   </data>
   <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
-    <value>Please unplug the board, and then press OK and plug back in.
-Mission Planner will look for 30 seconds to find the board</value>
+    <value>Отключите плату, затем нажмите OK и снова подключите её.
+Mission Planner будет искать плату 30 секунд</value>
   </data>
   <data name="ThisBoardHasBeenRetired" xml:space="preserve">
-    <value>This board has been retired, Mission Planner this will upload the last available version to your board (AC 3.2.1/AP 3.4.0)</value>
+    <value>Эта плата снята с поддержки. Mission Planner загрузит последнюю доступную версию (AC 3.2.1/AP 3.4.0)</value>
   </data>
   <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
-    <value>You are using unsupported hardware.
-This board does not contain a valid certificate of authenticity.
-Please contact your hardware vendor about signing your hardware.</value>
+    <value>Вы используете неподдерживаемое оборудование.
+На плате отсутствует действительный сертификат подлинности.
+Обратитесь к производителю для подписания оборудования.</value>
   </data>
   <data name="NoNeedToUpload" xml:space="preserve">
-    <value>No need to upload. already on the board</value>
+    <value>Загрузка не требуется: уже находится на плате</value>
   </data>
   <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
-    <value>Please wait for the musical tones to finish before clicking OK</value>
+    <value>Дождитесь окончания музыкальных тонов перед нажатием OK</value>
   </data>
   <data name="ObtainFromModule" xml:space="preserve">
-    <value>Obtain From Module</value>
+    <value>Получить из модуля</value>
   </data>
   <data name="SetHere" xml:space="preserve">
-    <value>Set Here</value>
+    <value>Установить здесь</value>
   </data>
   <data name="TrackerHome" xml:space="preserve">
-    <value>Tracker Home</value>
+    <value>Дом трекера</value>
   </data>
   <data name="velocity_variance" xml:space="preserve">
-    <value>velocity variance</value>
+    <value>разброс скорости</value>
   </data>
   <data name="compass_variance" xml:space="preserve">
-    <value>compass variance</value>
+    <value>разброс компаса</value>
   </data>
   <data name="pos_horiz_variance" xml:space="preserve">
-    <value>pos horiz variance</value>
+    <value>разброс гориз. положения</value>
   </data>
   <data name="pos_vert_variance" xml:space="preserve">
-    <value>pos vert variance</value>
+    <value>разброс по высоте</value>
   </data>
   <data name="terrain_alt_variance" xml:space="preserve">
-    <value>terrain alt variance</value>
+    <value>разброс высоты рельефа</value>
   </data>
   <data name="ChangeThrottle" xml:space="preserve">
-    <value>Change Throttle</value>
+    <value>Изменить газ</value>
   </data>
   <data name="Invalid_home_location" xml:space="preserve">
-    <value>Invalid home location</value>
+    <value>Недопустимая домашняя точка</value>
   </data>
   <data name="Converting_bin_to_log" xml:space="preserve">
-    <value>Converting bin to log</value>
+    <value>Конвертация bin в log</value>
   </data>
   <data name="UpdateNotFound" xml:space="preserve">
-    <value>No update available.</value>
+    <value>Обновлений нет.</value>
   </data>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
-    <value>Failed to connect to SITL instance</value>
+    <value>Не удалось подключиться к экземпляру SITL</value>
   </data>
   <data name="Scanning_File" xml:space="preserve">
-    <value>Scanning File</value>
+    <value>Сканирование файла</value>
   </data>
   <data name="Zoom_to_the_center_or_the_loaded_file" xml:space="preserve">
-    <value>Zoom to the center or the loaded file?</value>
+    <value>Приблизить к центру или к загруженному файлу?</value>
   </data>
   <data name="Zoom_To" xml:space="preserve">
-    <value>Zoom To</value>
+    <value>Приблизить к</value>
   </data>
   <data name="Do_you_want_to_load_this_into_the_flight_data_screen" xml:space="preserve">
-    <value>Do you want to load this into the flight data screen?</value>
+    <value>Загрузить это на экран телеметрии?</value>
   </data>
   <data name="Load_data" xml:space="preserve">
-    <value>Load data</value>
+    <value>Загрузить данные</value>
   </data>
   <data name="Bad_KML_File" xml:space="preserve">
-    <value>Bad KML File :</value>
+    <value>Некорректный файл KML :</value>
   </data>
   <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
-    <value>No valid heartbeats read from port</value>
+    <value>Нет корректных пакетов heartbeat с порта</value>
   </data>
   <data name="Bad_Vision_Position" xml:space="preserve">
-    <value>Bad Vision Position</value>
+    <value>Некорректная позиция по камере</value>
   </data>
   <data name="BadLogging" xml:space="preserve">
-    <value>Bad Logging</value>
+    <value>Ошибка ведения лога</value>
   </data>
   <data name="ParamRefreshRequired" xml:space="preserve">
-    <value>A Param refresh is required - Please press F5
-old #{0}  new #{1}</value>
+    <value>Требуется обновление параметров — нажмите F5
+старые #{0}  новые #{1}</value>
   </data>
   <data name="Failed_to_download_the_SITL_image" xml:space="preserve">
-    <value>Failed to download the SITL image.</value>
+    <value>Не удалось загрузить образ SITL.</value>
   </data>
   <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
-    <value>Not available when used as a windows store app</value>
+    <value>Недоступно при использовании как приложение магазина Windows</value>
   </data>
   <data name="No_firmware_available_for_this_board" xml:space="preserve">
-    <value>No firmware available for this board!</value>
+    <value>Для этой платы прошивка недоступна!</value>
   </data>
   <data name="OnboardOSD" xml:space="preserve">
-    <value>Onboard OSD</value>
+    <value>Встроенный OSD</value>
   </data>
   <data name="User_Params" xml:space="preserve">
-    <value>User Params</value>
+    <value>Пользовательские параметры</value>
   </data>
   <data name="Planner" xml:space="preserve">
     <value>Планировщик</value>
@@ -659,25 +659,25 @@ old #{0}  new #{1}</value>
     <value>Отмена</value>
   </data>
   <data name="No_valid_sik_radio" xml:space="preserve">
-    <value>No valid sik radio</value>
+    <value>Нет корректного модема Sik</value>
   </data>
   <data name="MAVFtp" xml:space="preserve">
     <value>MAVFtp</value>
   </data>
   <data name="Bad_Battery" xml:space="preserve">
-    <value>Bad Battery</value>
+    <value>Плохая батарея</value>
   </data>
   <data name="Bad_Proximity" xml:space="preserve">
-    <value>Bad Proximity</value>
+    <value>Неисправность датчика приближения</value>
   </data>
   <data name="Bad_SatCom" xml:space="preserve">
-    <value>Bad SatCom</value>
+    <value>Неисправность спутниковой связи</value>
   </data>
   <data name="Prearm_check_failed" xml:space="preserve">
-    <value>Prearm check failed - check messages</value>
+    <value>Проверка перед взводом не пройдена — проверьте сообщения</value>
   </data>
   <data name="Invalid_Location" xml:space="preserve">
-    <value>Invalid Location</value>
+    <value>Некорректное местоположение</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>

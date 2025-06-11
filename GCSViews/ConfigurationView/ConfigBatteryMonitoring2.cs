@@ -84,7 +84,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT2_CAPACITY Failed", Strings.ERROR);
+                CustomMessageBox.Show("Не удалось установить BATT2_CAPACITY", Strings.ERROR);
             }
         }
 
@@ -114,7 +114,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT2_VOLT_MULT Failed", Strings.ERROR);
+                CustomMessageBox.Show("Не удалось установить BATT2_VOLT_MULT", Strings.ERROR);
             }
         }
 
@@ -128,7 +128,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT2_VOLT_MULT Failed", Strings.ERROR);
+                CustomMessageBox.Show("Не удалось установить BATT2_VOLT_MULT", Strings.ERROR);
             }
         }
 
@@ -142,7 +142,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT2_AMP_PERVOL Failed", Strings.ERROR);
+                CustomMessageBox.Show("Не удалось установить BATT2_AMP_PERVOL", Strings.ERROR);
             }
         }
 
@@ -247,7 +247,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT2_AMP_PERVOL Failed", Strings.ERROR);
+                CustomMessageBox.Show("Не удалось установить BATT2_AMP_PERVOL", Strings.ERROR);
             }
         }
     }

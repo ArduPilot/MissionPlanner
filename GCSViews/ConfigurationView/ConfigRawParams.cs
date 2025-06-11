@@ -303,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else if (temp.Count > maxdisplay)
             {
                 // Ask the user for confirmation without listing individual changes
-                if (CustomMessageBox.Show($"You are about to change {temp.Count} parameters. Are you sure you want to proceed?", "Confirm Parameter Changes",
+                if (CustomMessageBox.Show($"Вы собираетесь изменить {temp.Count} параметров. Продолжить?", "Подтверждение изменения параметров",
             CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
         CustomMessageBox.DialogResult.Yes)
                     return;
@@ -373,7 +373,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //Check if reboot is required
             if (reboot)
             {
-               CustomMessageBox.Show("Reboot is required for some parameters to take effect.", "Reboot Required");
+               CustomMessageBox.Show("Для применения некоторых параметров требуется перезагрузка.", "Требуется перезагрузка");
             }
 
             if (MainV2.comPort.MAV.param.TotalReceived != MainV2.comPort.MAV.param.TotalReported )
@@ -980,7 +980,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (
-                CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
+                CustomMessageBox.Show("Сбросить все параметры по умолчанию?\nВы уверены!!", "Сброс",
                     MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
@@ -992,7 +992,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
                     CustomMessageBox.Show(
-                        "Your board is now rebooting, You will be required to reconnect to the autopilot.");
+                        "Плата перезагружается. Необходимо заново подключиться к автопилоту.");
                 }
                 catch (Exception ex)
                 {

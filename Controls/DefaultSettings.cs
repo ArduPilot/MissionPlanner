@@ -83,7 +83,7 @@ namespace MissionPlanner.Controls
                 ThemeManager.ApplyThemeTo(paramCompareForm);
                 if (paramCompareForm.ShowDialog() == DialogResult.OK)
                 {
-                    CustomMessageBox.Show("Loaded parameters!", "Loaded");
+                    CustomMessageBox.Show("Параметры загружены!", "Загружено");
                 }
 
                 if (OnChange != null)
@@ -96,7 +96,7 @@ namespace MissionPlanner.Controls
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to load file.\n" + ex);
+                CustomMessageBox.Show("Не удалось загрузить файл.\n" + ex);
             }
         }
 

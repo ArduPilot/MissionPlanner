@@ -295,7 +295,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 10.0))
                 {
-                    CustomMessageBox.Show("Unable - UAV airborne");
+                    CustomMessageBox.Show("Невозможно – БПЛА в воздухе");
                     ((Button)sender).Enabled = true;
                     return;
                 }
@@ -305,7 +305,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("The Command failed to execute");
+                CustomMessageBox.Show("Не удалось выполнить команду");
             }
             ((Button)sender).Enabled = true;
         }
@@ -314,12 +314,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                var dr = CustomMessageBox.Show("Reset Flash to Factory Defaults?", "Continue", MessageBoxButtons.YesNo);
+                var dr = CustomMessageBox.Show("Сбросить флэш к заводским настройкам?", "Продолжить", MessageBoxButtons.YesNo);
                 if (dr == (int)DialogResult.Yes)
                 {
                     if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 7.0))
                     {
-                        MessageBox.Show("Unable - UAV airborne");
+                        MessageBox.Show("Невозможно – БПЛА в воздухе");
                         ((Button)sender).Enabled = true;
                         return;
                     }
@@ -329,7 +329,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("The Command failed to execute");
+                CustomMessageBox.Show("Не удалось выполнить команду");
             }
             ((Button)sender).Enabled = true;
         }

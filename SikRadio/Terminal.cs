@@ -98,7 +98,7 @@ namespace SikRadio
                 }
                 else
                 {
-                    MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to enter AT command mode.");
+                    MissionPlanner.MsgBox.CustomMessageBox.Show("Не удалось войти в режим AT-команд.");
                 }
             }
         }
@@ -291,7 +291,7 @@ namespace SikRadio
                     }
                     catch
                     {
-                        CustomMessageBox.Show("Error writing to com port", "Error");
+                        CustomMessageBox.Show("Ошибка записи в COM-порт", "Ошибка");
                     }
                 }
                 cmd = new StringBuilder();
