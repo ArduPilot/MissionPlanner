@@ -239,7 +239,7 @@ namespace MissionPlanner.Controls
             this.but_graphit.Name = "but_graphit";
             this.but_graphit.Size = new System.Drawing.Size(75, 23);
             this.but_graphit.TabIndex = 4;
-            this.but_graphit.Text = "Graph It";
+            this.but_graphit.Text = "Построить график";
             this.but_graphit.UseVisualStyleBackColor = true;
             this.but_graphit.Click += new System.EventHandler(this.but_graphit_Click);
             // 
@@ -250,7 +250,7 @@ namespace MissionPlanner.Controls
             this.chk_gcstraffic.Name = "chk_gcstraffic";
             this.chk_gcstraffic.Size = new System.Drawing.Size(111, 17);
             this.chk_gcstraffic.TabIndex = 5;
-            this.chk_gcstraffic.Text = "Show GCS Traffic";
+            this.chk_gcstraffic.Text = "Показывать трафик GCS";
             this.chk_gcstraffic.UseVisualStyleBackColor = true;
             this.chk_gcstraffic.CheckedChanged += new System.EventHandler(this.chk_gcstraffic_CheckedChanged);
             // 
@@ -263,7 +263,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox1);
             this.Name = "MAVLinkInspector";
-            this.Text = "Mavlink Inspector";
+            this.Text = "Инспектор Mavlink";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAVLinkInspector_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -340,7 +340,7 @@ namespace MissionPlanner.Controls
 
         private void but_graphit_Click(object sender, EventArgs e)
         {
-            InputBox.Show("Points", "Points of history?", ref history);
+            InputBox.Show("Точки", "Сколько точек истории?", ref history);
             var form = new Form() { Size = new Size(640, 480) };
             var zg1 = new ZedGraphControl() { Dock = DockStyle.Fill };
             var path = selectedmsgid.Split('\\');

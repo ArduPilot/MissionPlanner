@@ -323,7 +323,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var bitmask = ParameterMetaDataRepository.GetParameterBitMaskInt(param_name, MainV2.comPort.MAV.cs.firmware.ToString());
                 if (bitmask.Count > 0)
                 {
-                    MyButton optionsControl = new MyButton() { Text = "Set Bitmask" };
+                    MyButton optionsControl = new MyButton() { Text = "Установить битовую маску" };
                     optionsControl.Click += (s, a) =>
                     {
                         var mcb = new MavlinkCheckBoxBitMask();
@@ -360,7 +360,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //Add the message to the bottom of the table
             noteLabel = new Label()
             {
-                Text = "Note: Changes to the serial port settings will not take effect until the board is rebooted.",
+                Text = "Изменения настроек последовательного порта вступят в силу после перезагрузки платы.",
                 Anchor = AnchorStyles.None,
                 Dock = DockStyle.Fill,
                 AutoSize = true,

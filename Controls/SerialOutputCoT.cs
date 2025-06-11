@@ -98,7 +98,7 @@ namespace MissionPlanner.Controls
                 // if we're trying to open a port but another app, like WinTAK, is already running and using the port then our open-port attempt will fail.
                 // expected error string: "Only one usage of each socket address (protocol/network address/port) is normally permitted"
                 if (ex.Message.StartsWith("Only one usage"))
-                    CustomMessageBox.Show("TAK IP Port in use. Is another app on this system already using it?");
+                    CustomMessageBox.Show("Порт TAK IP занят. Возможно, другое приложение уже использует его?");
                 else
                     CustomMessageBox.Show(Strings.InvalidPortName);
                 return;

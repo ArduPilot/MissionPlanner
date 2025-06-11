@@ -87,14 +87,14 @@ namespace Dowding
                     }
                     else
                     {
-                        CustomMessageBox.Show("Dowding invalid settings");
+                        CustomMessageBox.Show("Недопустимые настройки Dowding");
                     }
 
                     ws = await dowd.Start(Settings.Instance["Dowding_server"]);
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to start Dowding");
+                    CustomMessageBox.Show("Не удалось запустить Dowding");
                 }
             });
         }
@@ -119,7 +119,7 @@ namespace Dowding
         private void men2_Click(object sender, EventArgs e)
         {
             double alt = 0;
-            InputBox.Show("Altitude", "Enter HAE altitude", ref alt);
+            InputBox.Show("Высота", "Введите высоту HAE", ref alt);
             UpdateOutput?.Invoke(this, this.Host.FDMenuMapPosition.ToPLLA(alt));
         }
 

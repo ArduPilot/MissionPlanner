@@ -135,8 +135,8 @@ namespace MissionPlanner.Controls
             if (!GStreamer.GstLaunchExists)
             {
                 var result = CustomMessageBox.Show(
-                    "This feature requires GStreamer. Would you like to download and install it now?",
-                    "GStreamer not found",
+                    "Эта функция требует GStreamer. Скачать и установить его сейчас?",
+                    "GStreamer не найден",
                     MessageBoxButtons.YesNo,
                     CustomMessageBox.MessageBoxIcon.Question
                 );
@@ -148,14 +148,14 @@ namespace MissionPlanner.Controls
                 // Check success
                 if (!GStreamer.GstLaunchExists)
                 {
-                    var message = "GStreamer was not found after installation. Please install it manually.";
+                    var message = "GStreamer не найден после установки. Установите его вручную.";
                     if (GStreamer.NativeMethods.Backend == GStreamer.NativeMethods.BackendEnum.Windows)
                     {
-                        message += "\n\nFor Windows, install the MinGW version from https://gstreamer.freedesktop.org/download/#windows";
+                        message += "\n\nДля Windows установите версию MinGW с https://gstreamer.freedesktop.org/download/#windows";
                     }
                     CustomMessageBox.Show(
                         message,
-                        "GStreamer not found",
+                        "GStreamer не найден",
                         MessageBoxButtons.OK,
                         CustomMessageBox.MessageBoxIcon.Error
                     );

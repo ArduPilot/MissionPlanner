@@ -135,7 +135,7 @@
             // 
             resources.ApplyResources(this.Go, "Go");
             this.Go.Name = "Go";
-            this.Go.Text = "Go";
+            this.Go.Text = "Выполнить";
             // 
             // SerialOutputPass
             // 

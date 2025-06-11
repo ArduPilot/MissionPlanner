@@ -53,7 +53,7 @@ namespace MissionPlanner.Controls
             this.btn_AddLine.Name = "btn_AddLine";
             this.btn_AddLine.Size = new System.Drawing.Size(75, 23);
             this.btn_AddLine.TabIndex = 1;
-            this.btn_AddLine.Text = "ADD";
+            this.btn_AddLine.Text = "Добавить";
             this.btn_AddLine.UseVisualStyleBackColor = true;
             this.btn_AddLine.Click += new System.EventHandler(this.btn_AddLine_Click);
             // 
@@ -63,7 +63,7 @@ namespace MissionPlanner.Controls
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(75, 23);
             this.btn_Save.TabIndex = 2;
-            this.btn_Save.Text = "Save && Exit";
+            this.btn_Save.Text = "Сохранить и выйти";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -98,7 +98,7 @@ namespace MissionPlanner.Controls
             // msgid
             // 
             this.msgid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.msgid.HeaderText = "MSG ID";
+            this.msgid.HeaderText = "ID сообщения";
             this.msgid.Name = "msgid";
             this.msgid.ReadOnly = true;
             this.msgid.Width = 70;
@@ -106,7 +106,7 @@ namespace MissionPlanner.Controls
             // msgname
             // 
             this.msgname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.msgname.HeaderText = "NAME";
+            this.msgname.HeaderText = "Имя";
             this.msgname.Name = "msgname";
             this.msgname.ReadOnly = true;
             this.msgname.Width = 63;
@@ -114,49 +114,49 @@ namespace MissionPlanner.Controls
             // param1
             // 
             this.param1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param1.HeaderText = "Param1 Name";
+            this.param1.HeaderText = "Параметр1";
             this.param1.Name = "param1";
             this.param1.Width = 99;
             // 
             // param2
             // 
             this.param2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param2.HeaderText = "Param2 Name";
+            this.param2.HeaderText = "Параметр2";
             this.param2.Name = "param2";
             this.param2.Width = 99;
             // 
             // param3
             // 
             this.param3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param3.HeaderText = "Param3 Name";
+            this.param3.HeaderText = "Параметр3";
             this.param3.Name = "param3";
             this.param3.Width = 99;
             // 
             // param4
             // 
             this.param4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param4.HeaderText = "Param4 Name";
+            this.param4.HeaderText = "Параметр4";
             this.param4.Name = "param4";
             this.param4.Width = 99;
             // 
             // param5
             // 
             this.param5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param5.HeaderText = "Param5 Name";
+            this.param5.HeaderText = "Параметр5";
             this.param5.Name = "param5";
             this.param5.Width = 99;
             // 
             // param6
             // 
             this.param6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param6.HeaderText = "Param6 Name";
+            this.param6.HeaderText = "Параметр6";
             this.param6.Name = "param6";
             this.param6.Width = 99;
             // 
             // param7
             // 
             this.param7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.param7.HeaderText = "Param7 Name";
+            this.param7.HeaderText = "Параметр7";
             this.param7.Name = "param7";
             this.param7.Width = 99;
             // 
@@ -170,7 +170,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.btn_AddLine);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "MavCommandSelection";
-            this.Text = "MavCommandSelection";
+            this.Text = "Выбор команды Mavlink";
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

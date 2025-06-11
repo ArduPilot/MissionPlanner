@@ -55,7 +55,7 @@ namespace MissionPlanner.Grid
                     }
                     else
                     {
-                        CustomMessageBox.Show("Please define a polygon.", "Error");
+                        CustomMessageBox.Show("Укажите полигон.", "Ошибка");
                     }
                 }
             }

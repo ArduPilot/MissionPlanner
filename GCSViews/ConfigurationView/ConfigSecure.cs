@@ -98,7 +98,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             listener?.Stop();
 
-            UpdateStatus("Login Done.", 100);
+            UpdateStatus("Вход завершён.", 100);
 
             // run a single scan incase its already in BL mode
             Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL);
@@ -126,8 +126,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.instance.DeviceChanged += Instance_DeviceChanged;
 
-            CustomMessageBox.Show("Please re-power to autopilot");
-            UpdateStatus("Please re-power to autopilot", 100);
+            CustomMessageBox.Show("Пожалуйста, перезапитайте автопилот");
+            UpdateStatus("Пожалуйста, перезапитайте автопилот", 100);
         }
 
         private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)

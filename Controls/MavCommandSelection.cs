@@ -105,7 +105,7 @@ namespace MissionPlanner.Controls
         private void btn_AddLine_Click(object sender, EventArgs e)
         {
             var cmdid = "-1";
-            InputBox.Show("Enter command ID","ID number of the command", ref cmdid);
+            InputBox.Show("ID команды","Введите номер команды", ref cmdid);
 
             try
             {
@@ -117,19 +117,19 @@ namespace MissionPlanner.Controls
 
                     if (checkIDandName(i, a))
                     {
-                        CustomMessageBox.Show("Name or ID exists");
+                        CustomMessageBox.Show("Имя или ID уже существует");
                         return;
                     }
 
                     if (a == i.ToString())
                     {
                         string cmdName = "NEW_COMMAND";
-                        InputBox.Show("What is the name", "Name", ref cmdName);
+                        InputBox.Show("Какое имя", "Имя", ref cmdName);
                         if (cmdName.Length > 0)
                         {
                             if (checkIDandName(i, cmdName))
                             {
-                                MessageBox.Show("Name or ID exists");
+                                MessageBox.Show("Имя или ID уже существует");
                                 return;
                             }
                             var selectedrow = myDataGridView1.Rows.Add();

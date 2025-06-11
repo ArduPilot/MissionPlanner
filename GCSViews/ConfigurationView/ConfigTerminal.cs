@@ -731,7 +731,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 term = new SSHTerminal(TXT_terminal);
                 SSHTerminal = true;
                 string ip = "";
-                InputBox.Show("SSH Remote", "Enter IP:port", ref ip);
+                InputBox.Show("Удалённый SSH", "Введите IP:порт", ref ip);
                 term.SSH_ConnectionInfo(ip);
             }
         }

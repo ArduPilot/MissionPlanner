@@ -65,7 +65,7 @@ namespace MissionPlanner.Controls
 
             if (CMB_paramfiles.SelectedValue == null)
             {
-                CustomMessageBox.Show("Please select an option first");
+                CustomMessageBox.Show("Пожалуйста, сначала выберите вариант");
                 return;
             }
 

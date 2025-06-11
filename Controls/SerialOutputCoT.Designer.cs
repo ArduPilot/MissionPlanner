@@ -266,21 +266,21 @@
             this.ContactCallsign.HeaderText = "ContactCallsign";
             this.ContactCallsign.MinimumWidth = 8;
             this.ContactCallsign.Name = "ContactCallsign";
-            this.ContactCallsign.ToolTipText = "If you don\'t know what this is then leave it blank or use the UID";
+            this.ContactCallsign.ToolTipText = "Если не знаете, что это, оставьте пустым или используйте UID";
             // 
             // ContactEndPointIP
             // 
             this.ContactEndPointIP.HeaderText = "ContactEndPointIP";
             this.ContactEndPointIP.MinimumWidth = 8;
             this.ContactEndPointIP.Name = "ContactEndPointIP";
-            this.ContactEndPointIP.ToolTipText = "If you don\'t know what this is then leave it blank";
+            this.ContactEndPointIP.ToolTipText = "Если не знаете, что это, оставьте пустым";
             // 
             // VMF
             // 
             this.VMF.HeaderText = "VMF";
             this.VMF.MinimumWidth = 8;
             this.VMF.Name = "VMF";
-            this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
+            this.VMF.ToolTipText = "Если не знаете, что это, оставьте пустым";
             // 
             // SerialOutputCoT
             // 

@@ -52,7 +52,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(583, 22);
             this.label6.TabIndex = 84;
-            this.label6.Text = "UAVCAN GPS Order";
+            this.label6.Text = "Порядок CAN GPS";
             // 
             // groupBox5
             // 
@@ -69,9 +69,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 13);
+            this.label1.Size = new System.Drawing.Size(167, 13);
             this.label1.TabIndex = 82;
-            this.label1.Text = "Set the GPS order if required\r\n";
+            this.label1.Text = "Установите порядок GPS при необходимости\r\n";
             // 
             // myDataGridView1
             // 
@@ -105,21 +105,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // orderDataGridViewTextBoxColumn
             // 
             this.orderDataGridViewTextBoxColumn.DataPropertyName = "Order";
-            this.orderDataGridViewTextBoxColumn.HeaderText = "Order";
+            this.orderDataGridViewTextBoxColumn.HeaderText = "Порядок";
             this.orderDataGridViewTextBoxColumn.Name = "orderDataGridViewTextBoxColumn";
             this.orderDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // nodeIDDataGridViewTextBoxColumn
             // 
             this.nodeIDDataGridViewTextBoxColumn.DataPropertyName = "NodeID";
-            this.nodeIDDataGridViewTextBoxColumn.HeaderText = "NodeID";
+            this.nodeIDDataGridViewTextBoxColumn.HeaderText = "ID узла";
             this.nodeIDDataGridViewTextBoxColumn.Name = "nodeIDDataGridViewTextBoxColumn";
             this.nodeIDDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // nameDataGridViewTextBoxColumn
             // 
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Имя";
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             this.nameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -128,14 +128,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.GPS1.HeaderText = "GPS1";
             this.GPS1.Name = "GPS1";
             this.GPS1.ReadOnly = true;
-            this.GPS1.Text = "Override 1";
+            this.GPS1.Text = "Переопределение 1";
             // 
             // GPS2
             // 
             this.GPS2.HeaderText = "GPS2";
             this.GPS2.Name = "GPS2";
             this.GPS2.ReadOnly = true;
-            this.GPS2.Text = "Override 2";
+            this.GPS2.Text = "Переопределение 2";
             // 
             // ConfigGPSOrder
             // 

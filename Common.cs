@@ -342,7 +342,7 @@ namespace MissionPlanner
                     }
                     catch (Exception)
                     {
-                        CustomMessageBox.Show($"Failed to open link {((LinkLabel)sender).Tag}");
+                        CustomMessageBox.Show($"Не удалось открыть ссылку {((LinkLabel)sender).Tag}");
                     }
                 };
 

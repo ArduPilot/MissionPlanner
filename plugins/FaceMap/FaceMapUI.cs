@@ -1228,7 +1228,7 @@ namespace MissionPlanner
 
             string camname = "Default";
 
-            if (MissionPlanner.Controls.InputBox.Show("Camera Name", "Please and a camera name", ref camname) != System.Windows.Forms.DialogResult.OK)
+            if (MissionPlanner.Controls.InputBox.Show("Имя камеры", "Введите имя камеры", ref camname) != System.Windows.Forms.DialogResult.OK)
                 return;
 
             CMB_camera.Text = camname;
@@ -1650,7 +1650,7 @@ namespace MissionPlanner
             }
             else
             {
-                CustomMessageBox.Show("Bad Grid", "Error");
+                CustomMessageBox.Show("Некорректная сетка", "Ошибка");
             }
         }
 

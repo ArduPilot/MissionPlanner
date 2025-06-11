@@ -155,7 +155,7 @@
             this.but_firmware.Name = "but_firmware";
             this.but_firmware.Size = new System.Drawing.Size(122, 23);
             this.but_firmware.TabIndex = 5;
-            this.but_firmware.Text = "Get Firmware";
+            this.but_firmware.Text = "Получить прошивку";
             this.but_firmware.UseVisualStyleBackColor = true;
             this.but_firmware.Click += new System.EventHandler(this.but_firmware_Click);
             // 
@@ -166,7 +166,7 @@
             this.but_dfu.Name = "but_dfu";
             this.but_dfu.Size = new System.Drawing.Size(122, 23);
             this.but_dfu.TabIndex = 4;
-            this.but_dfu.Text = "Enter DFU Mode";
+            this.but_dfu.Text = "Войти в режим DFU";
             this.but_dfu.UseVisualStyleBackColor = true;
             this.but_dfu.Click += new System.EventHandler(this.but_dfu_Click);
             // 
@@ -177,7 +177,7 @@
             this.but_bootloader.Name = "but_bootloader";
             this.but_bootloader.Size = new System.Drawing.Size(122, 23);
             this.but_bootloader.TabIndex = 2;
-            this.but_bootloader.Text = "Get Bootloader";
+            this.but_bootloader.Text = "Получить загрузчик";
             this.but_bootloader.UseVisualStyleBackColor = true;
             this.but_bootloader.Click += new System.EventHandler(this.but_bootloader_Click);
             // 
@@ -187,7 +187,7 @@
             this.but_login.Name = "but_login";
             this.but_login.Size = new System.Drawing.Size(122, 23);
             this.but_login.TabIndex = 0;
-            this.but_login.Text = "Login";
+            this.but_login.Text = "Войти";
             this.but_login.UseVisualStyleBackColor = true;
             this.but_login.Click += new System.EventHandler(this.but_login_Click);
             // 
@@ -198,7 +198,7 @@
             this.but_getsn.Name = "but_getsn";
             this.but_getsn.Size = new System.Drawing.Size(122, 23);
             this.but_getsn.TabIndex = 1;
-            this.but_getsn.Text = "Enter Bootloader Mode";
+            this.but_getsn.Text = "Войти в режим загрузчика";
             this.but_getsn.UseVisualStyleBackColor = true;
             this.but_getsn.Click += new System.EventHandler(this.but_getsn_Click);
             // 

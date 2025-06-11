@@ -186,7 +186,7 @@ namespace MissionPlanner.Log
             if (keyData == (Keys.Control | Keys.G))
             {
                 string lineno = "0";
-                InputBox.Show("Line no", "Enter Line Number", ref lineno);
+                InputBox.Show("Номер строки", "Введите номер строки", ref lineno);
 
                 int line = int.Parse(lineno);
 
@@ -196,7 +196,7 @@ namespace MissionPlanner.Log
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Line Doesn't Exist");
+                    CustomMessageBox.Show("Строка не существует");
                 }
 
                 return true;
@@ -270,7 +270,7 @@ namespace MissionPlanner.Log
             {
                 using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
-                    openFileDialog1.Filter = "Log Files|*.log;*.bin;*.BIN;*.LOG";
+                    openFileDialog1.Filter = "Файлы логов|*.log;*.bin;*.BIN;*.LOG";
                     openFileDialog1.FilterIndex = 2;
                     openFileDialog1.Multiselect = true;
                     openFileDialog1.InitialDirectory = lastLogDir ?? Settings.Instance.LogDir;
@@ -375,7 +375,7 @@ namespace MissionPlanner.Log
 
                 log.Info("process to datagrid " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                Loading.ShowLoading("Scanning coloum widths", this);
+                Loading.ShowLoading("Сканирование ширины столбцов", this);
 
                 colcount = 0;
 
@@ -393,7 +393,7 @@ namespace MissionPlanner.Log
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                CustomMessageBox.Show("Не удалось прочитать файл: " + ex.ToString());
                 return;
             }
 
@@ -402,7 +402,7 @@ namespace MissionPlanner.Log
 
         void LoadLog2(String FileName, DFLogBuffer logdata, int colcount)
         {
-            this.Text = "Log Browser - " + Path.GetFileName(FileName);
+            this.Text = "Просмотр лога - " + Path.GetFileName(FileName);
 
             CreateChart(zg1);
             chk_time_CheckedChanged(null, null);
@@ -1016,8 +1016,8 @@ namespace MissionPlanner.Log
             GraphPane myPane = zgc.GraphPane;
 
             // Set the titles and axis labels
-            myPane.Title.Text = "Value Graph";
-            myPane.XAxis.Title.Text = "Line Number";
+            myPane.Title.Text = "График значений";
+            myPane.XAxis.Title.Text = "Номер строки";
             myPane.YAxis.Title.Text = "";
             myPane.YAxis.Title.FontSpec.Size += 2;
             myPane.Y2Axis.Title.FontSpec.Size += 2;
@@ -1081,7 +1081,7 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph",
+                CustomMessageBox.Show("Выберите другую колонку и выделите ячейку, которую хотите построить на графике",
                     Strings.ERROR);
                 return;
             }
@@ -1267,7 +1267,7 @@ namespace MissionPlanner.Log
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
+                        CustomMessageBox.Show("Не удалось построить график: " + ex.Message, Strings.ERROR);
                     }
                 });
             }
@@ -3553,8 +3553,8 @@ main()
                 zg1.GraphPane.XAxis.Type = AxisType.Linear;
                 zg1.GraphPane.XAxis.Scale.Format = "f0";
                 zg1.GraphPane.XAxis.Scale.MagAuto = false;
-                zg1.GraphPane.Title.Text = "Value Graph";
-                zg1.GraphPane.XAxis.Title.Text = "Line Number";
+                zg1.GraphPane.Title.Text = "График значений";
+                zg1.GraphPane.XAxis.Title.Text = "Номер строки";
                 zg1.GraphPane.YAxis.Title.Text = "";
             }
 
@@ -3584,7 +3584,7 @@ main()
         private void exportVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "output.csv";
+            sfd.FileName = "вывод.csv";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 using (StreamWriter sw = new StreamWriter(sfd.OpenFile()))
@@ -3706,7 +3706,7 @@ main()
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                    CustomMessageBox.Show("Не удалось прочитать файл: " + ex.ToString());
                     return;
                 }
 
@@ -3854,7 +3854,7 @@ main()
         {
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = "Where to save the files";
+            fbd.Description = "Куда сохранить файлы";
             fbd.ShowNewFolderButton = true;
             if (fbd.ShowDialog() == DialogResult.OK)
             {

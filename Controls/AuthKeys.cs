@@ -56,13 +56,13 @@ namespace MissionPlanner.Controls
 
             string name = "";
 
-            if (InputBox.Show("Name", "Please enter a friendly name", ref name) == DialogResult.OK)
+            if (InputBox.Show("Имя", "Введите понятное имя", ref name) == DialogResult.OK)
             {
                 dataGridView1[FName.Index, row].Value = name;
 
                 string pass = "";
 
-                if (InputBox.Show("Input Seed", "Please enter your pass phrase/sentence\nNumbers, Lower Case, Upper Case, Symbols, and 12+ chars long using atleast 2 of each", ref pass) == DialogResult.OK)
+                if (InputBox.Show("Секретная фраза", "Введите парольную фразу/предложение\nЦифры, строчные и заглавные буквы, символы; не менее 12 символов, минимум по два каждого вида", ref pass) == DialogResult.OK)
                 {
                     var input = InputBox.value;
                     {
@@ -100,11 +100,11 @@ namespace MissionPlanner.Controls
                         score += len == n ? -len : 0;
 
                         if(score <= 40)
-                            CustomMessageBox.Show("Password Strength: " + score + " WEAK - it will be added, but please pick a better password");
+                            CustomMessageBox.Show("Сложность пароля: " + score + " СЛАБЫЙ - он будет добавлен, но выберите более сложный пароль");
                         else if (score <= 60)
-                            CustomMessageBox.Show("Password Strength: " + score + " Good");
+                            CustomMessageBox.Show("Сложность пароля: " + score + " Хороший");
                         else if (score > 60)
-                            CustomMessageBox.Show("Password Strength: " + score + " Strong");
+                            CustomMessageBox.Show("Сложность пароля: " + score + " Сильный");
                     }
                     MAVAuthKeys.AddKey(dataGridView1[FName.Index, row].Value.ToString(), input);
                 }
@@ -124,7 +124,7 @@ namespace MissionPlanner.Controls
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            dataGridView1[Use.Index, e.RowIndex].Value = "Use";
+            dataGridView1[Use.Index, e.RowIndex].Value = "Использовать";
         }
 
         private void but_disablesigning_Click(object sender, EventArgs e)
@@ -134,7 +134,7 @@ namespace MissionPlanner.Controls
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            var name = "None/Unknown";
+            var name = "Нет/Неизвестно";
             var key = MainV2.comPort.MAV.signingKey;
             if (key != null)
             {
@@ -148,7 +148,7 @@ namespace MissionPlanner.Controls
                 }
             }
             
-            lbl_sgnpkts.Text = "Using Key: " + name + ", Signed Packets: " + MainV2.comPort.Mavlink2Signed.ToString();
+            lbl_sgnpkts.Text = "Используется ключ: " + name + ", подписанных пакетов: " + MainV2.comPort.Mavlink2Signed.ToString();
         }
     }
 }

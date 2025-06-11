@@ -36,7 +36,7 @@ namespace MissionPlanner.Joystick
             }
             catch
             {
-                CustomMessageBox.Show("Error geting joystick list: do you have the directx redist installed?");
+                CustomMessageBox.Show("Ошибка получения списка джойстиков: установлен ли пакет DirectX?");
                 this.Close();
                 return;
             }
@@ -479,7 +479,7 @@ namespace MissionPlanner.Joystick
                     new Joy_Button_axis((string)cmb.Tag).ShowDialog();
                     break;
                 default:
-                    CustomMessageBox.Show("No settings to set", "No settings");
+                    CustomMessageBox.Show("Нет доступных настроек", "Нет настроек");
                     break;
             }
         }

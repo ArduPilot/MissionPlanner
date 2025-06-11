@@ -44,7 +44,7 @@ namespace MissionPlanner.Controls
 
             InitializeComponent();
 
-            this.Text = "UAVCAN Params - " + node;
+            this.Text = "Параметры UAVCAN - " + node;
 
             Params.CellValidating += CellValidatingEvtHdlr;
         }
@@ -244,7 +244,7 @@ namespace MissionPlanner.Controls
                 //If it's the value column, but the new value isn't in min-to-max range...
                 if (GetIsValue(e) && !GetIsInRange(e))
                 {
-                    CustomMessageBox.Show("Invalid value \"" + Params.EditingControl.Text + "\"");
+                    CustomMessageBox.Show("Недопустимое значение \"" + Params.EditingControl.Text + "\"");
                     //Replace the editor's text with the existing cell text.
                     Params.EditingControl.Text = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
                 }
@@ -259,15 +259,15 @@ namespace MissionPlanner.Controls
             try
             {
                 if (!_can.SaveConfig(_node))
-                    CustomMessageBox.Show("Failed to save");
+                    CustomMessageBox.Show("Не удалось сохранить");
             }
             catch
             {
-                CustomMessageBox.Show("Invalid command");
+                CustomMessageBox.Show("Недопустимая команда");
                 return;
             }
 
-            CustomMessageBox.Show("Parameters committed to non-volatile memory");
+            CustomMessageBox.Show("Параметры сохранены в энергонезависимой памяти");
             return;
         }
 
@@ -348,7 +348,7 @@ namespace MissionPlanner.Controls
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (
-                CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
+                CustomMessageBox.Show("Сбросить все параметры по умолчанию\nВы уверены?", "Reset",
                     MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
@@ -360,7 +360,7 @@ namespace MissionPlanner.Controls
 
 
                     CustomMessageBox.Show(
-                        "Your board is now rebooting, You will be required to reconnect to the autopilot.");
+                        "Плата перезагружается. Потребуется переподключиться к автопилоту.");
                 }
                 catch (Exception ex)
                 {
@@ -377,7 +377,7 @@ namespace MissionPlanner.Controls
                 AddExtension = true,
                 DefaultExt = ".param",
                 RestoreDirectory = true,
-                Filter = "Param List|*.param;*.parm"
+                Filter = "Список параметров|*.param;*.parm"
             })
             {
                 var dr = sfd.ShowDialog();
@@ -405,7 +405,7 @@ namespace MissionPlanner.Controls
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
+            if (Common.MessageShowAgain("Записать параметры", "Вы уверены?") != DialogResult.OK)
                 return;
 
             // sort with enable at the bottom - this ensures params are set before the function is disabled
@@ -459,16 +459,16 @@ namespace MissionPlanner.Controls
                 {
                     log.Error(ex);
                     failed++;
-                    CustomMessageBox.Show("Set " + value + " Failed " + ex.ToString());
+                    CustomMessageBox.Show("Не удалось установить " + value + " " + ex.ToString());
                 }
             }
 
             _can.SaveConfig(_node);
 
             if (failed > 0)
-                CustomMessageBox.Show("Some Parameters Failed to be saved.", "Saved");
+                CustomMessageBox.Show("Некоторые параметры не удалось сохранить.", "Сохранено");
             else
-                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+                CustomMessageBox.Show("Параметры успешно сохранены.", "Сохранено");
         }
 
         private void chk_modified_CheckedChanged(object sender, EventArgs e)
@@ -578,7 +578,7 @@ namespace MissionPlanner.Controls
                 {
                     list += item + " ";
                 }
-                CustomMessageBox.Show("Missing " + missed + " params\n" + list, "No matching Params", MessageBoxButtons.OK);
+                CustomMessageBox.Show("Отсутствует " + missed + " параметров\n" + list, "Нет соответствующих параметров", MessageBoxButtons.OK);
             }
         }
         private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)

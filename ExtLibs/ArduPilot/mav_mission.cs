@@ -19,7 +19,7 @@ namespace MissionPlanner.ArduPilot
             {
                 if (!port.BaseStream.IsOpen)
                 {
-                    throw new Exception("Please Connect First!");
+                    throw new Exception("Сначала подключитесь!");
                 }
 
                 bool use_supportfence = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
@@ -68,7 +68,7 @@ namespace MissionPlanner.ArduPilot
             {
                 if (!port.BaseStream.IsOpen)
                 {
-                    throw new Exception("Please connect first!");
+                    throw new Exception("Сначала подключитесь!");
                 }
 
                 bool use_supportfence = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
@@ -164,7 +164,7 @@ namespace MissionPlanner.ArduPilot
             {
                 if (!port.BaseStream.IsOpen)
                 {
-                    throw new Exception("Please connect first!");
+                    throw new Exception("Сначала подключитесь!");
                 }
 
                 bool use_supportfence = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;

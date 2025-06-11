@@ -41,8 +41,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(218, 60);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Paramaters are still loading. Many screens will not work untill all Parameters ar" +
-    "e loaded. ";
+            this.label1.Text = "Параметры ещё загружаются. Многие окна не будут работать, пока все параметры не загружены.";
             // 
             // timer1
             // 
@@ -54,7 +53,7 @@
             this.but_forceparams.Name = "but_forceparams";
             this.but_forceparams.Size = new System.Drawing.Size(75, 23);
             this.but_forceparams.TabIndex = 2;
-            this.but_forceparams.Text = "Retry Now";
+            this.but_forceparams.Text = "Повторить сейчас";
             this.but_forceparams.UseVisualStyleBackColor = true;
             this.but_forceparams.Click += new System.EventHandler(this.but_forceparams_Click);
             // 
