@@ -21,7 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_Find_Click(object sender, EventArgs e)
         {
             InputBox.TextChanged += InputBox_TextChanged;
-            if (InputBox.Show("Search For", "Enter a single word to search for", ref searchfor) == DialogResult.OK)
+            if (InputBox.Show("Поиск", "Введите одно слово для поиска", ref searchfor) == DialogResult.OK)
             {
                 filterList(searchfor);
             }
@@ -200,7 +200,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!errorThrown)
             {
                 _params_changed.Clear();
-                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+                CustomMessageBox.Show("Параметры успешно сохранены.", "Сохранено");
             }
         }
 

@@ -13,6 +13,6 @@ xmlns:Custom="using:Custom"
 xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
-> <Grid><TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="255,17,0,0" Width="262" Height="17">NOTE: You can break the planner using this screen</TextBlock>
+> <Grid><TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="255,17,0,0" Width="262" Height="17">ПРИМЕЧАНИЕ: Эта панель может нарушить работу планировщика</TextBlock>
 <controls:DataGrid Name="Params" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,33,0,0" Width="744"></controls:DataGrid>
 </Grid></UserControl>

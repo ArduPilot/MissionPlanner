@@ -210,8 +210,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
                         if (
-                            CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
-                                "Large Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                            CustomMessageBox.Show(value + " увеличилось более чем вдвое по сравнению с предыдущим. Вы уверены?",
+                                "Большое значение", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             try
                             {
@@ -232,7 +232,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
                     {
-                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        CustomMessageBox.Show("Вы не подключены", Strings.ERROR);
                         return;
                     }
 

@@ -206,7 +206,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!MainV2.comPort.BaseStream.IsOpen)
                 {
                     if (CustomMessageBox.Show(
-                            "You are not currently connected via mavlink. Please make sure the device is already in slcan mode or this is the slcan serialport.",
+                            "Сейчас нет подключения по mavlink. Убедитесь, что устройство уже в режиме slcan или это slcan-порт.",
                             "SLCAN", CustomMessageBox.MessageBoxButtons.OKCancel) != CustomMessageBox.DialogResult.OK)
                         return;
                 }
@@ -218,7 +218,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         "CAN_SLCAN_CPORT", canport, true);
                     if (cport == 0)
                     {
-                        CustomMessageBox.Show("Reboot required" + " after setting CPORT. Please reboot!",
+                        CustomMessageBox.Show("Требуется перезагрузка после установки CPORT. Пожалуйста, перезагрузите!",
                             Strings.ERROR);
                         return;
                     }
@@ -500,7 +500,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     can.NodeInfo[nodeID].hardware_version.major + "." + can.NodeInfo[nodeID].hardware_version.minor,
                     CultureInfo.InvariantCulture);
 
-            if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
+            if (CustomMessageBox.Show("Хотите найти обновление в интернете?", "Обновление",
                     CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
                 var url = can.LookForUpdate(devicename, hwversion, beta);
@@ -715,13 +715,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 menu_passthrough.Checked = false;
                 listener.Stop();
-                CustomMessageBox.Show("Stop", "Disabled forwarding");
+                CustomMessageBox.Show("Стоп", "Форвардинг отключён");
                 listener = null;
                 return;
             }
 
             var port = 500;
-            if (InputBox.Show("Enter TCP Port", "Enter TCP Port", ref port) == DialogResult.OK)
+            if (InputBox.Show("Введите TCP-порт", "Введите TCP-порт", ref port) == DialogResult.OK)
             {
                 menu_passthrough.Checked = true;
 
@@ -965,7 +965,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 menu_passthrough4.Checked = false;
                 listener.Stop();
-                CustomMessageBox.Show("Stop", "Disabled forwarding");
+                CustomMessageBox.Show("Стоп", "Форвардинг отключён");
                 listener = null;
                 return;
             }
@@ -974,12 +974,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var baudrate = 230400;
             var target_node =
                 byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString());
-            if (InputBox.Show("Enter TCP Port", "Enter TCP Port", ref port) != DialogResult.OK)
+            if (InputBox.Show("Введите TCP-порт", "Введите TCP-порт", ref port) != DialogResult.OK)
             {
                 return;
             }
 
-            if (InputBox.Show("Enter Baudrate", "Enter Baudrate", ref baudrate) != DialogResult.OK)
+            if (InputBox.Show("Введите скорость", "Введите скорость", ref baudrate) != DialogResult.OK)
             {
                 return;
             }
@@ -1480,7 +1480,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (inter == null)
             {
-                CustomMessageBox.Show("No network interfaces found");
+                CustomMessageBox.Show("Сетевые интерфейсы не найдены");
                 return;
             }
             BusInUse = bus;
@@ -1489,7 +1489,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var p = inter.GetIPProperties().GetIPv4Properties();
             if (p == null)
             {
-                CustomMessageBox.Show("No IPv4 properties found");
+                CustomMessageBox.Show("Свойства IPv4 не найдены");
                 return;
             }
 
@@ -1616,7 +1616,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (selected == null)
             {
-                CustomMessageBox.Show("Please select an interface type");
+                CustomMessageBox.Show("Пожалуйста, выберите тип интерфейса");
                 return;
             }
 

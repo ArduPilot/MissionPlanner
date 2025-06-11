@@ -13,11 +13,11 @@ xmlns:Custom="using:Custom"
 xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
-> <Grid><TextBlock Name="lbl_bootloaderupdate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="522,341,0,0" Width="99" Height="17">Bootloader Update</TextBlock>
-<TextBlock Name="lbl_px4bl" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="624,341,0,0" Width="91" Height="17">Force Bootloader</TextBlock>
-<TextBlock Name="lbl_Custom_firmware_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="736,341,0,0" Width="115" Height="17">Load custom firmware</TextBlock>
-<TextBlock Name="lbl_devfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="867,341,0,0" Width="80" Height="17">Beta firmwares</TextBlock>
-<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,341,0,0" Width="36" Height="17">Status</TextBlock>
+> <Grid><TextBlock Name="lbl_bootloaderupdate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="522,341,0,0" Width="99" Height="17">Обновление загрузчика</TextBlock>
+<TextBlock Name="lbl_px4bl" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="624,341,0,0" Width="91" Height="17">Форсировать загрузчик</TextBlock>
+<TextBlock Name="lbl_Custom_firmware_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="736,341,0,0" Width="115" Height="17">Загрузить пользовательскую прошивку</TextBlock>
+<TextBlock Name="lbl_devfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="867,341,0,0" Width="80" Height="17">Бета-прошивки</TextBlock>
+<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,341,0,0" Width="36" Height="17">Статус</TextBlock>
 <ProgressBar Name="progress" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,315,0,0" Width="940" Height="23"></ProgressBar>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="783,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
 <Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="783,3,0,0" Width="150" Height="150"></Controls:ImageLabel>

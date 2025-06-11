@@ -111,11 +111,11 @@ namespace Dowding
                 Settings.Instance["Dowding_server"] = cmb_server.Text;
                 Settings.Instance.Save();
 
-                CustomMessageBox.Show("Verified!");
+                CustomMessageBox.Show("Проверено!");
             }
             catch
             {
-                CustomMessageBox.Show("Username or password invalid");
+                CustomMessageBox.Show("Неверное имя пользователя или пароль");
             }
         }
 
@@ -127,7 +127,7 @@ namespace Dowding
         private void but_token_Click(object sender, EventArgs e)
         {
             var token = "";
-            if (InputBox.Show("Token", "Enter your token", ref token) == DialogResult.OK)
+            if (InputBox.Show("Токен", "Введите ваш токен", ref token) == DialogResult.OK)
             {
                 Settings.Instance["Dowding_token"] = token;
             }
@@ -230,7 +230,7 @@ namespace Dowding
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    CustomMessageBox.Show("Ошибка подключения\nесли используется com0com, переименуйте порты в COM??");
                     return;
                 }
 
@@ -260,7 +260,7 @@ namespace Dowding
             catch
             {
                 ATthreadrun = false;
-                CustomMessageBox.Show("Failed to detect antenna tracker");
+                CustomMessageBox.Show("Не удалось обнаружить антенный трекер");
             }
 
             starttime = DateTime.Now;
@@ -381,7 +381,7 @@ namespace Dowding
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Failed to connect/send to tracker " + ex.Message, Strings.ERROR);
+                    CustomMessageBox.Show("Не удалось подключиться или отправить данные трекеру " + ex.Message, Strings.ERROR);
                     return;
                 }
                 finally
@@ -436,7 +436,7 @@ namespace Dowding
             }
             catch
             {
-                CustomMessageBox.Show("Failed to send home location", Strings.ERROR);
+                CustomMessageBox.Show("Не удалось отправить домашнюю точку", Strings.ERROR);
             }
         }
 
@@ -518,7 +518,7 @@ namespace Dowding
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    CustomMessageBox.Show("Ошибка подключения\nесли используется com0com, переименуйте порты в COM??");
                     return;
                 }
 

@@ -298,7 +298,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to test motor\n" + ex);
+                CustomMessageBox.Show("Не удалось протестировать мотор\n" + ex);
             }
         }
 
@@ -317,7 +317,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         0,
                         0))
                 {
-                    CustomMessageBox.Show("Command was denied by the autopilot");
+                    CustomMessageBox.Show("Команда была отклонена автопилотом");
                 }
             }
             catch
@@ -334,7 +334,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Bad default system association", Strings.ERROR);
+                CustomMessageBox.Show("Неверная системная ассоциация", Strings.ERROR);
             }
         }
 
@@ -344,14 +344,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (!MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_ARM"))
             {
-                CustomMessageBox.Show("param MOT_SPIN_ARM missing", Strings.ERROR);
+                CustomMessageBox.Show("параметр MOT_SPIN_ARM отсутствует", Strings.ERROR);
                 return;
             }
 
             if (NUM_thr_percent.Value < 20)
             {
                 var value = (int)NUM_thr_percent.Value + 2;
-                if (InputBox.Show(Strings.ChangeThrottle, "Enter arm throttle % (deadzone + 2%)", ref value) == DialogResult.OK)
+                if (InputBox.Show(Strings.ChangeThrottle, "Введите значение газа при армировании % (deadzone + 2%)", ref value) == DialogResult.OK)
                 {
                     await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_ARM",
@@ -360,7 +360,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                CustomMessageBox.Show("Throttle percent above 20, too high", Strings.ERROR);
+                CustomMessageBox.Show("Значение газа выше 20%, слишком большое", Strings.ERROR);
             }
 
             this.Enabled = true;
@@ -372,14 +372,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (!MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_MIN"))
             {
-                CustomMessageBox.Show("param MOT_SPIN_MIN missing", Strings.ERROR);
+                CustomMessageBox.Show("параметр MOT_SPIN_MIN отсутствует", Strings.ERROR);
                 return;
             }
 
             if (NUM_thr_percent.Value < 20)
             {
                 var value = (int)MainV2.comPort.MAV.param["MOT_SPIN_MIN"].Value + 3;
-                if (InputBox.Show(Strings.ChangeThrottle, "Enter min spin throttle % (arm min + 3%)", ref value) ==
+                if (InputBox.Show(Strings.ChangeThrottle, "Введите минимальный газ % (arm min + 3%)", ref value) ==
                     DialogResult.OK)
                 {
                     await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
@@ -389,7 +389,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                CustomMessageBox.Show("Throttle percent above 20, too high", Strings.ERROR);
+                CustomMessageBox.Show("Значение газа выше 20%, слишком большое", Strings.ERROR);
             }
 
             this.Enabled = true;

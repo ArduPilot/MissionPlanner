@@ -1228,7 +1228,7 @@ namespace MissionPlanner
 
             string camname = "Default";
 
-            if (MissionPlanner.Controls.InputBox.Show("Camera Name", "Please and a camera name", ref camname) != System.Windows.Forms.DialogResult.OK)
+            if (MissionPlanner.Controls.InputBox.Show("Имя камеры", "Введите имя камеры", ref camname) != System.Windows.Forms.DialogResult.OK)
                 return;
 
             CMB_camera.Text = camname;
@@ -1252,7 +1252,11 @@ namespace MissionPlanner
                 camera.sensorheight = float.Parse(TXT_sensheight.Text);
                 camera.sensorwidth = float.Parse(TXT_senswidth.Text);
             }
-            catch { CustomMessageBox.Show("One of your entries is not a valid number"); return; }
+            catch
+            {
+                CustomMessageBox.Show("Одно из введённых значений некорректно");
+                return;
+            }
 
             cameras[CMB_camera.Text] = camera;
 
@@ -1270,7 +1274,7 @@ namespace MissionPlanner
 
                 if (NUM_split.Value > 1 && CHK_toandland.Checked != true)
                 {
-                    CustomMessageBox.Show("You must use Land/RTL to split a mission", Strings.ERROR);
+                    CustomMessageBox.Show("Для разделения миссии необходимо использовать Land/RTL", Strings.ERROR);
                     return;
                 }
 
@@ -1650,7 +1654,7 @@ namespace MissionPlanner
             }
             else
             {
-                CustomMessageBox.Show("Bad Grid", "Error");
+                CustomMessageBox.Show("Некорректная сетка", "Ошибка");
             }
         }
 

@@ -49,11 +49,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel1.RowCount = 0;
 
-            var button = new MyButton() { Text = "Modify", Name = "Modify" };
+            var button = new MyButton() { Text = "Изменить", Name = "Modify" };
             button.Click += (o, e) =>
             {
                 var opts = Options.Aggregate((a, b) => a + "\r\n" + b);
-                InputBox.Show("Params", "Enter Param Names", ref opts, false, true);
+                InputBox.Show("Параметры", "Введите имена параметров", ref opts, false, true);
                 Options = opts.Split(new[] { ',', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 Settings.Instance["UserParams"] = Options.Aggregate((a, b) => a.Trim() + "," + b.Trim());
                 Activate();

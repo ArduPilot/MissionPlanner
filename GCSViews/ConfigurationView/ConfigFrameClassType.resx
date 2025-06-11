@@ -466,7 +466,7 @@
     <value>90</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>NOTE: X and H are NOT interchangable the prop rotation changes</value>
+    <value>ПРИМЕЧАНИЕ: X и H НЕ взаимозаменяемы, направление вращения винтов отличается</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -577,7 +577,7 @@
     <value>94</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>NOTE: This is the Y6B and prop rotation changes from the old Y6A</value>
+    <value>ПРИМЕЧАНИЕ: это конфигурация Y6B, направление вращения винтов отличается от старой Y6A</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>

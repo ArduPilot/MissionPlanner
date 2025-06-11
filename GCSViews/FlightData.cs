@@ -800,7 +800,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                CustomMessageBox.Show("Please select a valid script", "Bad Script");
+                CustomMessageBox.Show("Пожалуйста, выберите корректный скрипт", "Неверный скрипт");
             }
         }
 
@@ -1022,10 +1022,10 @@ namespace MissionPlanner.GCSViews
             try
             {
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+                var action = MainV2.comPort.MAV.cs.armed ? "Разоружить" : "Взвести";
 
                 if (isitarmed)
-                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
+                    if (CustomMessageBox.Show("Вы уверены, что хотите " + action + "?", action,
                             CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
@@ -1723,7 +1723,7 @@ namespace MissionPlanner.GCSViews
             }
 
             if (
-                CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
+                CustomMessageBox.Show("Вы уверены, что хотите выполнить " + CMB_action.Text + "?", "Действие",
                     MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
             {
                 try
@@ -2392,7 +2392,7 @@ namespace MissionPlanner.GCSViews
                 if (Settings.Instance["hud1_useritem_" + checkbox.Name] != null)
                     prefix = Settings.Instance["hud1_useritem_" + checkbox.Name];
 
-                if (DialogResult.Cancel == InputBox.Show("Hud Header", "Please enter your item prefix", ref prefix))
+                if (DialogResult.Cancel == InputBox.Show("Заголовок HUD", "Введите префикс элемента", ref prefix))
                 {
                     checkbox.Checked = false;
                     return;
@@ -4417,7 +4417,7 @@ namespace MissionPlanner.GCSViews
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt(abs)' or 'lat;long'", ref location);
+            InputBox.Show("Введите координаты", "Введите значения 'lat;long;alt(abs)' или 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -4451,7 +4451,7 @@ namespace MissionPlanner.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Please Connect First");
+                CustomMessageBox.Show("Сначала подключитесь");
                 return;
             }
 
@@ -4593,7 +4593,7 @@ namespace MissionPlanner.GCSViews
         {
             stopRecordToolStripMenuItem_Click(sender, e);
 
-            CustomMessageBox.Show("Output avi will be saved to the log folder");
+            CustomMessageBox.Show("Файл AVI будет сохранён в папке журналов");
 
             aviwriter = new AviWriter();
             try
@@ -4602,7 +4602,7 @@ namespace MissionPlanner.GCSViews
                 aviwriter.avi_start(Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                     DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".avi");
 
-                recordHudToAVIToolStripMenuItem.Text = "Recording";
+                recordHudToAVIToolStripMenuItem.Text = "Запись";
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -4803,8 +4803,8 @@ namespace MissionPlanner.GCSViews
                     }
 
                     if (CustomMessageBox.Show(
-                            "This will reset the onboard home position (effects RTL etc). Are you Sure?",
-                            "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
+                            "Это сбросит координаты домашней точки на борту (повлияет на RTL и т. д.). Вы уверены?",
+                            "Вы уверены?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
                         MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent,
@@ -5059,7 +5059,7 @@ namespace MissionPlanner.GCSViews
 
         private void stopRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            recordHudToAVIToolStripMenuItem.Text = "Start Recording";
+            recordHudToAVIToolStripMenuItem.Text = "Начать запись";
 
             try
             {
@@ -5877,7 +5877,7 @@ namespace MissionPlanner.GCSViews
         private void flyToCoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Fly To Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("Введите координаты полёта", "Введите значения 'lat;long;alt' или 'lat;long'", ref location);
 
             byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
             if (!MainV2.comPort.MAV.GuidedMode.Equals(new MAVLink.mavlink_mission_item_int_t()))
@@ -5950,7 +5950,7 @@ namespace MissionPlanner.GCSViews
         private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter POI Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("Введите координаты POI", "Введите значения 'lat;long;alt' или 'lat;long'", ref location);
 
             var split = location.Split(';');
 

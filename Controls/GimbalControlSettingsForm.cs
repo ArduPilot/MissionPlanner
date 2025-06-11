@@ -262,15 +262,15 @@ namespace MissionPlanner.Controls
             if (clashList.Count > 0)
             {
                 var clashMessage = new StringBuilder();
-                clashMessage.AppendLine("This binding is already used by the following:");
+                clashMessage.AppendLine("Эта привязка уже используется следующими:");
                 clashMessage.AppendLine();
                 foreach (var clash in clashList)
                 {
                     clashMessage.AppendLine($"- {clash.LabelText}");
                 }
                 clashMessage.AppendLine();
-                clashMessage.AppendLine("Are you sure you want to use this binding?");
-                return CustomMessageBox.Show(clashMessage.ToString(), "Key Binding Clash", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                clashMessage.AppendLine("Вы уверены, что хотите использовать эту привязку?");
+                return CustomMessageBox.Show(clashMessage.ToString(), "Конфликт назначений клавиш", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             }
 
             return (int)DialogResult.Yes;
@@ -308,76 +308,76 @@ namespace MissionPlanner.Controls
     public class GimbalControlSettings
     {
         // Keybindings for various actions
-        [Preferences("Slew Left", ControlType.KeyBindingButton)]
+        [Preferences("Поворот влево", ControlType.KeyBindingButton)]
         public Keys SlewLeft { get; set; }
-        [Preferences("Slew Right", ControlType.KeyBindingButton)]
+        [Preferences("Поворот вправо", ControlType.KeyBindingButton)]
         public Keys SlewRight { get; set; }
-        [Preferences("Slew Up", ControlType.KeyBindingButton)]
+        [Preferences("Поворот вверх", ControlType.KeyBindingButton)]
         public Keys SlewUp { get; set; }
-        [Preferences("Slew Down", ControlType.KeyBindingButton)]
+        [Preferences("Поворот вниз", ControlType.KeyBindingButton)]
         public Keys SlewDown { get; set; }
-        [Preferences("Zoom In", ControlType.KeyBindingButton)]
+        [Preferences("Приближение", ControlType.KeyBindingButton)]
         public Keys ZoomIn { get; set; }
-        [Preferences("Zoom Out", ControlType.KeyBindingButton)]
+        [Preferences("Отдаление", ControlType.KeyBindingButton)]
         public Keys ZoomOut { get; set; }
 
-        [Preferences("Slew Fast Modifier", ControlType.ModifierBinding)]
+        [Preferences("Модификатор быстрого поворота", ControlType.ModifierBinding)]
         public Keys SlewFastModifier { get; set; }
-        [Preferences("Slew Slow Modifier", ControlType.ModifierBinding)]
+        [Preferences("Модификатор медленного поворота", ControlType.ModifierBinding)]
         public Keys SlewSlowModifier { get; set; }
 
-        [Preferences("Take Picture", ControlType.KeyBindingButton)]
+        [Preferences("Сделать фото", ControlType.KeyBindingButton)]
         public Keys TakePicture { get; set; }
-        [Preferences("Toggle Recording", ControlType.KeyBindingButton)]
+        [Preferences("Переключить запись", ControlType.KeyBindingButton)]
         public Keys ToggleRecording { get; set; }
-        [Preferences("Start Recording", ControlType.KeyBindingButton)]
+        [Preferences("Начать запись", ControlType.KeyBindingButton)]
         public Keys StartRecording { get; set; }
-        [Preferences("Stop Recording", ControlType.KeyBindingButton)]
+        [Preferences("Остановить запись", ControlType.KeyBindingButton)]
         public Keys StopRecording { get; set; }
 
-        [Preferences("Toggle Lock/Follow", ControlType.KeyBindingButton)]
+        [Preferences("Переключить слежение/блокировку", ControlType.KeyBindingButton)]
         public Keys ToggleLockFollow { get; set; }
-        [Preferences("Set Lock", ControlType.KeyBindingButton)]
+        [Preferences("Задать блокировку", ControlType.KeyBindingButton)]
         public Keys SetLock { get; set; }
-        [Preferences("Set Follow", ControlType.KeyBindingButton)]
+        [Preferences("Включить слежение", ControlType.KeyBindingButton)]
         public Keys SetFollow { get; set; }
-        [Preferences("Retract", ControlType.KeyBindingButton)]
+        [Preferences("Убрать", ControlType.KeyBindingButton)]
         public Keys Retract { get; set; }
-        [Preferences("Neutral", ControlType.KeyBindingButton)]
+        [Preferences("В нейтраль", ControlType.KeyBindingButton)]
         public Keys Neutral { get; set; }
-        [Preferences("Point Down", ControlType.KeyBindingButton)]
+        [Preferences("Смотреть вниз", ControlType.KeyBindingButton)]
         public Keys PointDown { get; set; }
-        [Preferences("Home", ControlType.KeyBindingButton)]
+        [Preferences("Домой", ControlType.KeyBindingButton)]
         public Keys Home { get; set; }
 
 
-        [Preferences("Click Pan/Tilt", ControlType.ClickBindingButton)]
+        [Preferences("Щелчок Пан/Наклон", ControlType.ClickBindingButton)]
         public (Keys, MouseButtons) MoveCameraToMouseLocation { get; set; }
-        [Preferences("Click Point-of-Interest", ControlType.ClickBindingButton)]
+        [Preferences("Щёлкнуть точку интереса", ControlType.ClickBindingButton)]
         public (Keys, MouseButtons) MoveCameraPOIToMouseLocation { get; set; }
-        [Preferences("Click Track Object", ControlType.ClickBindingButton)]
+        [Preferences("Щёлкнуть для отслеживания", ControlType.ClickBindingButton)]
         public (Keys, MouseButtons) TrackObjectUnderMouse { get; set; }
 
 
         // Speed settings
-        [Preferences("Slew Speed Slow (deg/s)", ControlType.DecimalUpDown, Min = 0.1, Max = 360, Increment = 1, DecimalPlaces = 1)]
+        [Preferences("Скорость поворота медленно (град/с)", ControlType.DecimalUpDown, Min = 0.1, Max = 360, Increment = 1, DecimalPlaces = 1)]
         public decimal SlewSpeedSlow { get; set; }
-        [Preferences("Slew Speed Normal (deg/s)", ControlType.DecimalUpDown, Min = 0.1, Max = 360, Increment = 1, DecimalPlaces = 1)]
+        [Preferences("Скорость поворота нормально (град/с)", ControlType.DecimalUpDown, Min = 0.1, Max = 360, Increment = 1, DecimalPlaces = 1)]
         public decimal SlewSpeedNormal { get; set; }
-        [Preferences("Slew Speed Fast (deg/s)", ControlType.DecimalUpDown, Min = 0.1, Max = 360, Increment = 1, DecimalPlaces = 1)]
+        [Preferences("Скорость поворота быстро (град/с)", ControlType.DecimalUpDown, Min = 0.1, Max = 360, Increment = 1, DecimalPlaces = 1)]
         public decimal SlewSpeedFast { get; set; }
 
-        [Preferences("Zoom Speed (unitless)", ControlType.DecimalUpDown, Min = 0.01, Max = 1, Increment = 0.1, DecimalPlaces = 2)]
+        [Preferences("Скорость зума", ControlType.DecimalUpDown, Min = 0.01, Max = 1, Increment = 0.1, DecimalPlaces = 2)]
         public decimal ZoomSpeed { get; set; }
-        [Preferences("Camera Horizontal FOV (deg)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
+        [Preferences("Горизонтальный угол камеры (град)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
         public decimal CameraHFOV { get; set; }
-        [Preferences("Camera Vertical FOV (deg)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
+        [Preferences("Вертикальный угол камеры (град)", ControlType.DecimalUpDown, Min = 0.01, Max = 180, Increment = 1, DecimalPlaces = 2)]
         public decimal CameraVFOV { get; set; }
 
         // Boolean options
-        [Preferences("Use FOV Reported by Camera", ControlType.Checkbox)]
+        [Preferences("Использовать угол обзора камеры", ControlType.Checkbox)]
         public bool UseFOVReportedByCamera { get; set; }
-        [Preferences("Default Locked Mode", ControlType.Checkbox)]
+        [Preferences("Режим блокировки по умолчанию", ControlType.Checkbox)]
         public bool DefaultLockedMode { get; set; }
 
         public GimbalControlSettings()

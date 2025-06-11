@@ -56,14 +56,14 @@ namespace MissionPlanner.Controls
             //Create a new theme based on the current theme. Nem theme will allways be a .mpusertheme
             string name = Path.GetFileNameWithoutExtension(ThemeManager.thmColor.strThemeName);
 
-            if (DialogResult.Cancel == InputBox.Show("Create Theme Copy", "Enter nem theme name (without extension)", ref name))
+            if (DialogResult.Cancel == InputBox.Show("Создать копию темы", "Введите название темы (без расширения)", ref name))
                 return;
 
             name = name + ".mpusertheme";
             var match = ThemeManager.ThemeNames.FirstOrDefault(stringToCheck => stringToCheck.Equals(name,StringComparison.OrdinalIgnoreCase));
             if (match != null)
             {
-                CustomMessageBox.Show("User theme named " + Path.GetFileNameWithoutExtension(name) + " exists.");
+                CustomMessageBox.Show("Тема пользователя с именем " + Path.GetFileNameWithoutExtension(name) + " уже существует.");
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace MissionPlanner.Controls
 
             ThemeManager.LoadTheme(ThemeManager.thmColor.strThemeName);
             ThemeManager.ApplyThemeTo(MainV2.instance);
-            CustomMessageBox.Show("You may need to select another tab or restart to see the full effect.");
+            CustomMessageBox.Show("Возможно, потребуется переключить вкладку или перезапустить программу, чтобы увидеть изменения.");
             this.Close();
         }
 

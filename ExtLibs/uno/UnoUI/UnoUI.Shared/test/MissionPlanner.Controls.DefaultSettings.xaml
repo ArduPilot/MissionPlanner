@@ -13,7 +13,7 @@ xmlns:Custom="using:Custom"
 xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
-> <Grid><Button Name="BUT_paramfileload" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="72,70,0,0" Width="103" Height="21">Load Params</Button>
+> <Grid><Button Name="BUT_paramfileload" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="72,70,0,0" Width="103" Height="21">Загрузить параметры</Button>
 <ComboBox Name="CMB_paramfiles" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="49,43,0,0" Width="147" Height="21"></ComboBox>
-<TextBox Name="textBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="Load the default settings for standard frame types" FontSize="8.25" Margin="5,3,0,0" Width="246" Height="34"></TextBox>
+<TextBox Name="textBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="Загрузить настройки по умолчанию для стандартных типов рам" FontSize="8.25" Margin="5,3,0,0" Width="246" Height="34"></TextBox>
 </Grid></UserControl>

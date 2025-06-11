@@ -122,7 +122,7 @@ namespace MissionPlanner.plugins
             payloadCheckboxList.Enabled = !MainV2.comPort.MAV.cs.armed;
             if (MainV2.comPort.MAV.cs.armed)
             {
-                CustomMessageBox.Show("The vehicle is armed. Payload selection is disabled.", "Payload Selection");
+                CustomMessageBox.Show("Аппарат вооружён. Выбор полезной нагрузки отключён.", "Выбор полезной нагрузки");
             }
         }
 
@@ -213,7 +213,7 @@ namespace MissionPlanner.plugins
         {
             if (MainV2.comPort.MAV.param.TotalReceived != MainV2.comPort.MAV.param.TotalReported)
             {
-                CustomMessageBox.Show("The number of available parameters changed. A full param refresh will be done.", "Params");
+                CustomMessageBox.Show("Количество доступных параметров изменилось. Будет выполнено полное обновление списка.", "Параметры");
                 try
                 {
                     MainV2.comPort.getParamList();

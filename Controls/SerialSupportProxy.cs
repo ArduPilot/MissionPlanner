@@ -91,7 +91,7 @@ namespace MissionPlanner.Controls
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error Connecting");
+                    CustomMessageBox.Show("Ошибка подключения");
                     return;
                 }
 

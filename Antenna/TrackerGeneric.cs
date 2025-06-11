@@ -177,7 +177,7 @@ namespace MissionPlanner.Antenna
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Failed to set initial pan and tilt\n" + ex.Message, Strings.ERROR);
+                        CustomMessageBox.Show("Не удалось установить начальный панорамный и наклонный углы\n" + ex.Message, Strings.ERROR);
                         tracker.Close();
                         return;
                     }

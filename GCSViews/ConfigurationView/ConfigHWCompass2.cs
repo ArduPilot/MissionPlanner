@@ -140,7 +140,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (anymissing)
             {
-                CustomMessageBox.Show("Your compass configuration has changed, please review the missing compass", Strings.ERROR);
+                CustomMessageBox.Show("Конфигурация компаса изменилась, проверьте отсутствующий компас", Strings.ERROR);
             }
         }
 
@@ -158,14 +158,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (rebootrequired)
             {
-                if (CustomMessageBox.Show("Reboot required, reboot now?", "Reboot",
+                if (CustomMessageBox.Show("Требуется перезагрузка, перезагрузить сейчас?", "Перезагрузка",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
                     try
                     {
                         if (MainV2.comPort.doReboot())
                         {
-                            CustomMessageBox.Show("Reboot failed. please manually reboot the hardware.", Strings.ERROR);
+                            CustomMessageBox.Show("Не удалось перезагрузить. Перезагрузите устройство вручную.", Strings.ERROR);
                         }
                         rebootrequired = false;
                     }
@@ -275,7 +275,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception ex)
             {
                 this.LogError(ex);
-                CustomMessageBox.Show("Failed to start MAG CAL, check the autopilot is still responding.\n" + ex.ToString(), Strings.ERROR);
+                CustomMessageBox.Show("Не удалось запустить калибровку магнитометра, проверьте отклик автопилота.\n" + ex.ToString(), Strings.ERROR);
                 return;
             }
 
@@ -459,7 +459,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 BUT_OBmagcalcancel.Enabled = false;
                 BUT_OBmagcalaccept.Enabled = false;
                 timer1.Stop();
-                CustomMessageBox.Show("Please reboot the autopilot");
+                CustomMessageBox.Show("Пожалуйста, перезагрузите автопилот");
             }
         }
 
@@ -476,7 +476,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_largemagcal_Click(object sender, EventArgs e)
         {
             double value = 0;
-            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required. Heading is true, not magnetic", ref value) == DialogResult.OK)
+            if (InputBox.Show("MagCal Yaw", "Введите текущий курс в градусах\nПРИМЕЧАНИЕ: требуется фиксация GPS. Курс истинный, не магнитный", ref value) == DialogResult.OK)
             {
                 try
                 {
@@ -499,7 +499,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_reboot_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Reboot?") == CustomMessageBox.DialogResult.OK)
+            if (CustomMessageBox.Show("Перезагрузить?") == CustomMessageBox.DialogResult.OK)
             {
                 MainV2.comPort.doReboot(false, true);
                 rebootrequired = false;

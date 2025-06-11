@@ -170,7 +170,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+                CustomMessageBox.Show("Не удалось загрузить и запустить SITL\n" + ex.ToString());
             }
         }
 
@@ -191,7 +191,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+                CustomMessageBox.Show("Не удалось загрузить и запустить SITL\n" + ex.ToString());
             }
         }
 
@@ -212,7 +212,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+                CustomMessageBox.Show("Не удалось загрузить и запустить SITL\n" + ex.ToString());
             }
         }
 
@@ -233,7 +233,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+                CustomMessageBox.Show("Не удалось загрузить и запустить SITL\n" + ex.ToString());
             }
         }
 
@@ -675,7 +675,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Failed to start the simulator\n" + ex.ToString(), Strings.ERROR);
+                    CustomMessageBox.Show("Не удалось запустить симулятор\n" + ex.ToString(), Strings.ERROR);
                     return;
                 }
             }
@@ -703,7 +703,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Failed to start the simulator\n" + ex.ToString(), Strings.ERROR);
+                    CustomMessageBox.Show("Не удалось запустить симулятор\n" + ex.ToString(), Strings.ERROR);
                     return;
                 }
             }

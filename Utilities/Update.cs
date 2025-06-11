@@ -103,12 +103,12 @@ namespace MissionPlanner.Utilities
             catch (AggregateException ex)
             {
                 log.Error("Update Failed", ex.InnerException);
-                CustomMessageBox.Show("Update Failed " + ex.InnerException?.Message);
+                CustomMessageBox.Show("Сбой обновления: " + ex.InnerException?.Message);
             }
             catch (Exception ex)
             {
                 log.Error("Update Failed", ex);
-                CustomMessageBox.Show("Update Failed " + ex.Message);
+                CustomMessageBox.Show("Сбой обновления: " + ex.Message);
             }
         }
 

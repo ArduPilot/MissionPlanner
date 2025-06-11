@@ -14,12 +14,12 @@ namespace MissionPlanner.Utilities
             int photos = 50;
             int startheading = 0;
 
-            InputBox.Show("", "startalt", ref startalt);
-            InputBox.Show("", "endalt", ref endalt);
-            InputBox.Show("", "seperation", ref seperation);
-            InputBox.Show("", "radius", ref radius);
-            InputBox.Show("", "photos", ref photos);
-            InputBox.Show("", "start heading", ref startheading);
+            InputBox.Show("", "начальная высота", ref startalt);
+            InputBox.Show("", "конечная высота", ref endalt);
+            InputBox.Show("", "интервал", ref seperation);
+            InputBox.Show("", "радиус", ref radius);
+            InputBox.Show("", "фотографии", ref photos);
+            InputBox.Show("", "начальный курс", ref startheading);
 
             MainV2.instance.FlightPlanner.quickadd = true;
 

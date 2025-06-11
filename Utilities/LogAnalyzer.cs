@@ -35,7 +35,7 @@ namespace MissionPlanner.Utilities
 
             //if (!File.Exists(runner))
             {
-                Loading.ShowLoading("Downloading LogAnalyzer");
+                Loading.ShowLoading("Загрузка LogAnalyzer");
                 bool gotit = false;
                 if (Environment.Is64BitOperatingSystem)
                 {
@@ -53,7 +53,7 @@ namespace MissionPlanner.Utilities
                 // download zip
                 if (gotit)
                 {
-                    Loading.ShowLoading("Extracting zip file");
+                    Loading.ShowLoading("Распаковка архива");
                     // extract zip
                     FastZip fzip = new FastZip();
                     fzip.ExtractZip(zip, dir, "");
@@ -62,7 +62,7 @@ namespace MissionPlanner.Utilities
                 {
                     if (!File.Exists(runner))
                     {
-                        CustomMessageBox.Show("Failed to download LogAnalyzer");
+                        CustomMessageBox.Show("Не удалось загрузить LogAnalyzer");
                         return "";
                     }
                 }
@@ -71,7 +71,7 @@ namespace MissionPlanner.Utilities
 
             if (!File.Exists(runner))
             {
-                CustomMessageBox.Show("Failed to download LogAnalyzer");
+                CustomMessageBox.Show("Не удалось загрузить LogAnalyzer");
                 return "";
             }
 
@@ -92,7 +92,7 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                Loading.ShowLoading("Running LogAnalyzer");
+                Loading.ShowLoading("Запуск LogAnalyzer");
 
                 P.Start();
 
@@ -106,7 +106,7 @@ namespace MissionPlanner.Utilities
             }
             catch
             {
-                CustomMessageBox.Show("Failed to start LogAnalyzer");
+                CustomMessageBox.Show("Не удалось запустить LogAnalyzer");
             }
 
             Loading.Close();

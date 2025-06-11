@@ -307,7 +307,7 @@
     <value>True</value>
   </metadata>
   <data name="Go.HeaderText" xml:space="preserve">
-    <value>Go</value>
+    <value>Выполнить</value>
   </data>
   <data name="Go.Width" type="System.Int32, mscorlib">
     <value>40</value>

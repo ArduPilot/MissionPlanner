@@ -88,7 +88,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_anonlog_Click(object sender, System.EventArgs e)
         {
-            CustomMessageBox.Show("This is beta, please confirm the output file");
+            CustomMessageBox.Show("Это бета-версия, подтвердите выходной файл");
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "tlog or bin/log|*.tlog;*.bin;*.log";

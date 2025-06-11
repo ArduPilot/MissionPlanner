@@ -258,7 +258,7 @@ namespace Core.Geometry
                     }
                 }
                 catch {
-                    throw new ArgumentException("Please enter a width and height seperated by a comma.");
+                    throw new ArgumentException("Введите ширину и высоту, разделённые запятой.");
                 }
             }
             return base.ConvertFrom(context, culture, value);

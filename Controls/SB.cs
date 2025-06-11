@@ -8,8 +8,8 @@ namespace MissionPlanner.Controls
     {
         public static void Show(string detectedvia)
         {
-            var l1 = "Your board has a Critical service bulletin - Via " + detectedvia;
-            var l2 = "To send us a report about your board, and to find out about this safety issue. Click bellow";
+            var l1 = "Для вашей платы опубликован критический бюллетень - через " + detectedvia;
+            var l2 = "Чтобы отправить нам отчёт о вашей плате и узнать об этой проблеме безопасности, нажмите ниже";
 
             Form frm = new Form() { Width = 250, Height = 250, AutoSize = true };
             FlowLayoutPanel flp = new FlowLayoutPanel() { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown };
@@ -17,13 +17,13 @@ namespace MissionPlanner.Controls
             Label link = new Label() { Text = l2, AutoSize = true };
 
 
-            Label nameLabel = new Label() { Text = "Enter your name (optional): ", AutoSize = true };
+            Label nameLabel = new Label() { Text = "Введите ваше имя (необязательно): ", AutoSize = true };
             TextBox nameTextBox = new TextBox()
             { Width = TextRenderer.MeasureText("thisismyname andmysurname", frm.Font).Width };
-            Label emailLabel = new Label() { Text = "Enter your email (optional): ", AutoSize = true };
+            Label emailLabel = new Label() { Text = "Введите ваш email (необязательно): ", AutoSize = true };
             TextBox emailTextBox = new TextBox()
             { Width = TextRenderer.MeasureText("thisisatest@thisdomain.com.fre.do", frm.Font).Width };
-            MyButton submitButton = new MyButton() { Text = "Service Bulletin" };
+            MyButton submitButton = new MyButton() { Text = "Бюллетень обслуживания" };
             frm.Controls.Add(flp);
 
             flp.Controls.Add(lb1);

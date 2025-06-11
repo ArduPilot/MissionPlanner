@@ -29,7 +29,7 @@ mc:Ignorable="d"
 <Image Name="pictureBoxVTail" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="378,173,0,0" Width="111" Height="78"></Image>
 <Image Name="pictureBoxPlus" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83,9,0,0" Width="248" Height="75"></Image>
 <Image Name="pictureBoxX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83,88,0,0" Width="406" Height="78"></Image>
-<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="200,356,0,0" Width="142" Height="43">NOTE: This is the Y6B and prop rotation changes from the old Y6A</TextBlock>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="200,356,0,0" Width="142" Height="43">ПРИМЕЧАНИЕ: это конфигурация Y6B, направление вращения винтов отличается от старой Y6A</TextBlock>
 <RadioButton Name="radioButton_Plus" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="62,38,0,0" Width="14" Height="13"></RadioButton>
 <TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="19,371,0,0" Width="30" Height="17">'Y6B'</TextBlock>
 <RadioButton Name="radioButton_X" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="62,118,0,0" Width="14" Height="13"></RadioButton>
@@ -37,7 +37,7 @@ mc:Ignorable="d"
 <TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="25,38,0,0" Width="31" Height="17">'Plus'</TextBlock>
 <Image Name="pictureBoxY" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83,341,0,0" Width="111" Height="77"></Image>
 <TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,118,0,0" Width="51" Height="17">'X' , 'Y6A'</TextBlock>
-<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="200,272,0,0" Width="131" Height="43">NOTE: X and H are NOT interchangable the prop rotation changes</TextBlock>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="200,272,0,0" Width="131" Height="43">ПРИМЕЧАНИЕ: X и H НЕ взаимозаменяемы, направление вращения винтов отличается</TextBlock>
 <Image Name="pictureBoxV" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83,173,0,0" Width="111" Height="78"></Image>
 <TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="38,287,0,0" Width="17" Height="17">'H'</TextBlock>
 <RadioButton Name="radioButton_V" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="62,203,0,0" Width="14" Height="13"></RadioButton>

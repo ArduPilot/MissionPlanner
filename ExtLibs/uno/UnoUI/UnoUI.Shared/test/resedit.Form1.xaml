@@ -13,18 +13,17 @@ xmlns:Custom="using:Custom"
 xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
 mc:Ignorable="d"
-> <Grid><Button Name="BUT_clipboard" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,459,0,0" Width="106" Height="23">Copy Clipboard</Button>
-<Button Name="button3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="781,457,0,0" Width="75" Height="23">Load trans</Button>
-<TextBlock Name="richTextBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,13,0,0" Width="844" Height="61">How to use:
-First time, if this is the first load, just pick your language down the bottom and edit. click save.
+> <Grid><Button Name="BUT_clipboard" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,459,0,0" Width="106" Height="23">Копировать в буфер</Button>
+<Button Name="button3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="781,457,0,0" Width="75" Height="23">Загрузить перевод</Button>
+<TextBlock Name="richTextBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,13,0,0" Width="844" Height="61">Как использовать:
+Если это первый запуск, просто выберите язык внизу и отредактируйте. Нажмите «Сохранить».
 
-More uses, Pick your language, and it will autoload, existing for that language
+При последующих запусках выберите язык, и для него автоматически загрузится существующий перевод.
 
-if you get halfway though, click the load trans button
+Если вы остановились на полпути, нажмите кнопку «Загрузить перевод».
 
-NOTE, the autoload only works after Michael has added it to the planner. otherwise you will need to use load trans
-</TextBlock>
+ПРИМЕЧАНИЕ: автозагрузка работает только после того, как Майкл добавит её в планировщик, иначе вам нужно использовать «Загрузить перевод».</TextBlock>
 <ComboBox Name="comboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="298,459,0,0" Width="274" Height="21"></ComboBox>
-<Button Name="button2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="578,457,0,0" Width="75" Height="23">Save</Button>
+<Button Name="button2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="578,457,0,0" Width="75" Height="23">Сохранить</Button>
 <controls:DataGrid Name="dataGridView1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,80,0,0" Width="844"></controls:DataGrid>
 </Grid></UserControl>

@@ -64,10 +64,10 @@ namespace Shortcuts
 
         void but_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("This is a sample plugin\nSee the source in the plugins folder");
+            CustomMessageBox.Show("Это пример плагина\nСмотрите исходный код в папке plugins");
 
 			string angle = "0";
-            InputBox.Show("Enter Angle", "This will be the heading", ref angle);
+            InputBox.Show("Введите угол", "Это будет курс", ref angle);
 		    int angle_in_number = Int32.Parse(angle);
 			
 			Host.InsertWP(0, MAVLink.MAV_CMD.DO_SET_SERVO, 9, angle_in_number, 0, 0, 0, 0, 0);

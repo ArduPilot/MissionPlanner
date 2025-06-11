@@ -236,7 +236,7 @@ namespace CameraControl
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Введите IP адрес herelink", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -268,7 +268,7 @@ namespace CameraControl
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Введите IP адрес herelink", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -300,7 +300,7 @@ namespace CameraControl
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Введите IP адрес herelink", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -331,7 +331,7 @@ namespace CameraControl
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Введите IP адрес herelink", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -362,7 +362,7 @@ namespace CameraControl
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Введите IP адрес herelink", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -393,7 +393,7 @@ namespace CameraControl
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Введите IP адрес herelink", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 

@@ -62,7 +62,7 @@
             this.but_doit.Name = "but_doit";
             this.but_doit.Size = new System.Drawing.Size(75, 23);
             this.but_doit.TabIndex = 0;
-            this.but_doit.Text = "Do It";
+            this.but_doit.Text = "Выполнить";
             this.but_doit.UseVisualStyleBackColor = true;
             this.but_doit.Click += new System.EventHandler(this.but_doit_Click);
             // 
@@ -119,7 +119,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 8;
-            this.label1.Text = "sysid";
+            this.label1.Text = "ID системы";
             // 
             // label2
             // 
@@ -128,7 +128,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "compid";
+            this.label2.Text = "ID компонента";
             // 
             // label3
             // 
@@ -137,7 +137,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 13);
             this.label3.TabIndex = 10;
-            this.label3.Text = "bus type";
+            this.label3.Text = "Тип шины";
             // 
             // dom_bustype
             // 
@@ -165,7 +165,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(24, 13);
             this.label4.TabIndex = 11;
-            this.label4.Text = "bus";
+            this.label4.Text = "Шина";
             // 
             // num_busno
             // 
@@ -181,7 +181,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 12;
-            this.label5.Text = "address";
+            this.label5.Text = "Адрес";
             // 
             // num_address
             // 
@@ -197,7 +197,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(42, 13);
             this.label6.TabIndex = 13;
-            this.label6.Text = "regstart";
+            this.label6.Text = "Нач. рег";
             // 
             // num_regstart
             // 
@@ -223,7 +223,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(34, 13);
             this.label7.TabIndex = 14;
-            this.label7.Text = "count";
+            this.label7.Text = "Кол-во";
             // 
             // num_count
             // 
@@ -246,7 +246,7 @@
             this.but_test.Name = "but_test";
             this.but_test.Size = new System.Drawing.Size(75, 23);
             this.but_test.TabIndex = 5;
-            this.but_test.Text = "test";
+            this.but_test.Text = "тест";
             this.but_test.UseVisualStyleBackColor = true;
             this.but_test.Click += new System.EventHandler(this.but_test_Click);
             // 

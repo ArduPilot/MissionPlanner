@@ -961,8 +961,7 @@
     <value>57</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
-    <value>NOTE: The Configuration Tab will NOT display these units, as those are raw values.
-</value>
+    <value>ПРИМЕЧАНИЕ: на вкладке конфигурации эти единицы не отображаются, так как это исходные значения.</value>
   </data>
   <data name="&gt;&gt;label99.Name" xml:space="preserve">
     <value>label99</value>
@@ -2498,7 +2497,7 @@
     <value>126</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>NOTE: Set the low level of SEVERITY to speak</value>
+    <value>ПРИМЕЧАНИЕ: установите минимальный уровень СЕРЬЁЗНОСТИ для озвучивания</value>
   </data>
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>

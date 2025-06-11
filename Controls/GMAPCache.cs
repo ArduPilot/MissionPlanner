@@ -71,7 +71,7 @@ namespace MissionPlanner.Controls
                 buttonColumn = new DataGridViewButtonColumn();
                 buttonColumn.HeaderText = "";
                 //buttonColumn.Name = "Status Request";
-                buttonColumn.Text = "Remove 30+days";
+                buttonColumn.Text = "Удалить старше 30 дней";
                 buttonColumn.UseColumnTextForButtonValue = true;
 
                 myDataGridView1.Columns.Add(buttonColumn);
@@ -82,7 +82,7 @@ namespace MissionPlanner.Controls
                 buttonColumn2 = new DataGridViewButtonColumn();
                 buttonColumn2.HeaderText = "";
                 //buttonColumn.Name = "Status Request";
-                buttonColumn2.Text = "Remove All";
+                buttonColumn2.Text = "Удалить всё";
                 buttonColumn2.UseColumnTextForButtonValue = true;
 
                 myDataGridView1.Columns.Add(buttonColumn2);
@@ -104,7 +104,7 @@ namespace MissionPlanner.Controls
                 var removed = ((PureImageCache) MyImageCache.Instance).DeleteOlderThan(DateTime.Now.AddDays(-30),
                     GMapProviders.List.First(a => a.Name == dir).DbId);
 
-                CustomMessageBox.Show("Removed " + removed + " images");
+                CustomMessageBox.Show("Удалено " + removed + " изображений");
 
                 Activate();
             }
@@ -116,7 +116,7 @@ namespace MissionPlanner.Controls
                 var removed = ((PureImageCache) MyImageCache.Instance).DeleteOlderThan(DateTime.Now.AddDays(0),
                     GMapProviders.List.First(a => a.Name == dir).DbId);
 
-                CustomMessageBox.Show("Removed " + removed + " images");
+                CustomMessageBox.Show("Удалено " + removed + " изображений");
 
                 Activate();
             }

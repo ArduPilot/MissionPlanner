@@ -91,7 +91,7 @@ namespace MissionPlanner.Controls
                 {
                     alt = (100 * CurrentState.multiplierdist).ToString("0");
                 }
-                if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Alt (relative to home alt)", ref alt))
+                if (DialogResult.Cancel == InputBox.Show("Введите высоту", "Введите высоту (относительно высоты дома)", ref alt))
                     return;
 
                 intalt = (int)(100 * CurrentState.multiplierdist);

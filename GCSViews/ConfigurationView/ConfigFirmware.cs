@@ -540,7 +540,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
                             if (solo.Solo.is_solo_alive &&
-                                CustomMessageBox.Show("Solo", "Is this a Solo?",
+                                CustomMessageBox.Show("Solo", "Это устройство Solo?",
                                     CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
                                 boardtype = BoardDetect.boards.solo;
@@ -625,7 +625,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     MainV2.comPort.doReboot(true, false);
-                    CustomMessageBox.Show("Please ignore the unplug and plug back in when uploading flight firmware.");
+                    CustomMessageBox.Show("При загрузке прошивки игнорируйте сообщение о необходимости отключить и подключить устройство заново.");
                 }
                 else
                 {

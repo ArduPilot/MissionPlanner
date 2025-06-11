@@ -247,12 +247,12 @@ namespace MissionPlanner.GCSViews
                 var rtcmStr = rm.GetString("backstageViewPageSerialInjectGPS.Text");
                 if(rtcmStr == null)
                     {
-                    rtcmStr = "RTK/GPS Inject";
+                    rtcmStr = "Ввод RTK/GPS";
                 }
                 AddBackstageViewPage(typeof(ConfigSerialInjectGPS), rtcmStr, true, opt);
             }
 
-            AddBackstageViewPage(typeof(ConfigCubeID), "CubeID Update",
+            AddBackstageViewPage(typeof(ConfigCubeID), "Обновление CubeID",
     isConnected, opt);
 
             if (MainV2.DisplayConfiguration.displaySikRadio)
@@ -264,7 +264,7 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigADSB), "ADSB", isConnected && gotAllParams, mand);
 
             if (MainV2.DisplayConfiguration.displayGPSOrder)
-                AddBackstageViewPage(typeof(ConfigGPSOrder), "CAN GPS Order", isConnected && gotAllParams, opt);
+                AddBackstageViewPage(typeof(ConfigGPSOrder), "Порядок CAN GPS", isConnected && gotAllParams, opt);
 
             if (MainV2.DisplayConfiguration.displayBattMonitor)
             {

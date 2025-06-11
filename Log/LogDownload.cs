@@ -124,7 +124,7 @@ namespace MissionPlanner.Log
             catch (Exception ex)
             {
                 log.Error("Error opening comport", ex);
-                CustomMessageBox.Show("Error opening comport");
+                CustomMessageBox.Show("Ошибка открытия порта");
                 return;
             }
 
@@ -284,7 +284,7 @@ namespace MissionPlanner.Log
                                 {
                                     log.Error(ex);
                                     CustomMessageBox.Show(
-                                        "Failed to rename file " + logfile + "\nto " + newlogfilename, Strings.ERROR);
+                                        "Не удалось переименовать файл " + logfile + "\nв " + newlogfilename, Strings.ERROR);
                                 }
                             }
 
@@ -294,7 +294,7 @@ namespace MissionPlanner.Log
 
                             this.Invoke(
                                 (System.Windows.Forms.MethodInvoker)
-                                    delegate () { TXT_seriallog.AppendText("Creating KML for " + logfile); });
+                                    delegate () { TXT_seriallog.AppendText("Создание KML для " + logfile); });
 
                             LogOutput lo = new LogOutput();
 
@@ -394,7 +394,7 @@ namespace MissionPlanner.Log
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error reading data" + ex.ToString());
+                CustomMessageBox.Show("Ошибка чтения данных" + ex.ToString());
             }
         }
 
@@ -420,7 +420,7 @@ namespace MissionPlanner.Log
             {
                 if (CHK_logs.Items.Count == 0)
                 {
-                    CustomMessageBox.Show("Nothing to download");
+                    CustomMessageBox.Show("Нечего загружать");
                     return;
                 }
 
@@ -542,7 +542,7 @@ namespace MissionPlanner.Log
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
+                        TXT_seriallog.AppendText("\n\nОбработка " + logfile + "\n");
                         this.Refresh();
                         LogOutput lo = new LogOutput();
                         try
@@ -557,13 +557,13 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" +
+                            CustomMessageBox.Show("Ошибка обработки файла. Убедитесь, что файл не используется.\n" +
                                                   ex.ToString());
                         }
 
                         lo.writeKML(logfile + ".kml");
 
-                        TXT_seriallog.AppendText("Done\n");
+                        TXT_seriallog.AppendText("Готово\n");
                     }
                 }
             }
@@ -590,7 +590,7 @@ namespace MissionPlanner.Log
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
+                        TXT_seriallog.AppendText("\n\nОбработка " + logfile + "\n");
                         this.Refresh();
 
                         LogOutput lo = new LogOutput();
@@ -609,13 +609,13 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                            CustomMessageBox.Show("Ошибка обработки лога. Он ещё загружается? " + ex.Message);
                             continue;
                         }
 
                         lo.writeKMLFirstPerson(logfile + "-fp.kml");
 
-                        TXT_seriallog.AppendText("Done\n");
+                        TXT_seriallog.AppendText("Готово\n");
                     }
                 }
             }

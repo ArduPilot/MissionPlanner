@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Копировать</value>
   </data>
   <data name="copied_to_clip" xml:space="preserve">
-    <value>Image copied to clipboard</value>
+    <value>Изображение скопировано в буфер обмена</value>
   </data>
   <data name="save_as" xml:space="preserve">
-    <value>Save Image As...</value>
+    <value>Сохранить изображение как...</value>
   </data>
   <data name="set_default" xml:space="preserve">
-    <value>Set Scale to Default</value>
+    <value>Сбросить масштаб по умолчанию</value>
   </data>
   <data name="show_val" xml:space="preserve">
     <value>Show Point Values</value>

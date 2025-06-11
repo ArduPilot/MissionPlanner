@@ -53,7 +53,7 @@
             this.but_arm.Name = "but_arm";
             this.but_arm.Size = new System.Drawing.Size(75, 23);
             this.but_arm.TabIndex = 0;
-            this.but_arm.Text = "Arm";
+            this.but_arm.Text = "Взвести";
             this.but_arm.UseVisualStyleBackColor = true;
             this.but_arm.Click += new System.EventHandler(this.but_arm_Click);
             // 
@@ -63,7 +63,7 @@
             this.but_takeoff.Name = "but_takeoff";
             this.but_takeoff.Size = new System.Drawing.Size(75, 23);
             this.but_takeoff.TabIndex = 1;
-            this.but_takeoff.Text = "TakeOff";
+            this.but_takeoff.Text = "Взлёт";
             this.but_takeoff.UseVisualStyleBackColor = true;
             this.but_takeoff.Click += new System.EventHandler(this.but_takeoff_Click);
             // 
@@ -73,7 +73,7 @@
             this.but_auto.Name = "but_auto";
             this.but_auto.Size = new System.Drawing.Size(75, 23);
             this.but_auto.TabIndex = 2;
-            this.but_auto.Text = "Auto";
+            this.but_auto.Text = "Авто";
             this.but_auto.UseVisualStyleBackColor = true;
             this.but_auto.Click += new System.EventHandler(this.but_auto_Click);
             // 
@@ -83,7 +83,7 @@
             this.but_master.Name = "but_master";
             this.but_master.Size = new System.Drawing.Size(75, 37);
             this.but_master.TabIndex = 3;
-            this.but_master.Text = "Set Ground Master";
+            this.but_master.Text = "Назначить наземным ведущим";
             this.but_master.UseVisualStyleBackColor = true;
             this.but_master.Click += new System.EventHandler(this.but_master_Click);
             // 
@@ -108,7 +108,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Seperation";
+            this.label1.Text = "Дистанция";
             // 
             // label2
             // 
@@ -117,7 +117,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Lead";
+            this.label2.Text = "Опережение";
             // 
             // numericUpDown2
             // 
@@ -144,7 +144,7 @@
             this.but_start.Name = "but_start";
             this.but_start.Size = new System.Drawing.Size(75, 23);
             this.but_start.TabIndex = 8;
-            this.but_start.Text = "Start";
+            this.but_start.Text = "Старт";
             this.but_start.UseVisualStyleBackColor = true;
             this.but_start.Click += new System.EventHandler(this.but_start_Click);
             // 
@@ -154,7 +154,7 @@
             this.but_guided.Name = "but_guided";
             this.but_guided.Size = new System.Drawing.Size(75, 23);
             this.but_guided.TabIndex = 9;
-            this.but_guided.Text = "Guided";
+            this.but_guided.Text = "Управляемый";
             this.but_guided.UseVisualStyleBackColor = true;
             this.but_guided.Click += new System.EventHandler(this.but_guided_Click);
             // 
@@ -165,7 +165,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Altitude";
+            this.label3.Text = "Высота";
             // 
             // numericUpDown3
             // 
@@ -197,7 +197,7 @@
             this.but_airmaster.Name = "but_airmaster";
             this.but_airmaster.Size = new System.Drawing.Size(75, 37);
             this.but_airmaster.TabIndex = 13;
-            this.but_airmaster.Text = "Set Air Master";
+            this.but_airmaster.Text = "Назначить воздушным ведущим";
             this.but_airmaster.UseVisualStyleBackColor = true;
             this.but_airmaster.Click += new System.EventHandler(this.but_airmaster_Click);
             // 

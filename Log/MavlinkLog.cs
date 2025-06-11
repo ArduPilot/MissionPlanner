@@ -90,7 +90,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                                 return;
                             }
 
@@ -228,7 +228,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                                 return;
                             }
 
@@ -362,7 +362,7 @@ namespace MissionPlanner.Log
                 catch (Exception ex)
                 {
                     log.Debug(ex.ToString());
-                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                     return options;
                 }
 
@@ -1015,7 +1015,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                                 return;
                             }
 
@@ -1098,7 +1098,7 @@ namespace MissionPlanner.Log
                                 catch (Exception ex)
                                 {
                                     log.Debug(ex.ToString());
-                                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                    CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                                     return;
                                 }
 
@@ -1136,11 +1136,11 @@ namespace MissionPlanner.Log
                                 mine.logplaybackfile = null;
                             }
 
-                            CustomMessageBox.Show("File Saved with log file");
+                            CustomMessageBox.Show("Файл сохранён вместе с логом");
                         }
                         catch
                         {
-                            CustomMessageBox.Show("Error Extracting params");
+                            CustomMessageBox.Show("Ошибка извлечения параметров");
                         }
                     }
                 }
@@ -1180,7 +1180,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                                 return;
                             }
 
@@ -1278,11 +1278,11 @@ namespace MissionPlanner.Log
                             {
                                 if (wplists == 0)
                                 {
-                                    CustomMessageBox.Show("No Waypoint found in file!");
+                                    CustomMessageBox.Show("Точки маршрута в файле не найдены!");
                                 }
                                 else
                                 {
-                                    CustomMessageBox.Show("File Saved with log file!");
+                                    CustomMessageBox.Show("Файл сохранён вместе с логом!");
                                 }
                             }
                         }
@@ -1426,7 +1426,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show("Не удалось открыть лог. Соединение активно?");
                                 return;
                             }
 

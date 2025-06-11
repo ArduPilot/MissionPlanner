@@ -153,7 +153,7 @@ namespace MissionPlanner
 
             var removed = MainMap.Manager.PrimaryCache.DeleteOlderThan(DateTime.Now, Custom.Instance.DbId);
 
-            CustomMessageBox.Show("Removed " + removed + " images");
+            CustomMessageBox.Show("Удалено " + removed + " изображений");
 
             log.InfoFormat("Removed {0} images", removed);
 
@@ -661,7 +661,7 @@ namespace MissionPlanner
 
         private void but_reboot_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            if (CustomMessageBox.Show("Вы уверены?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                 MainV2.comPort.doReboot(false, true);
         }
 
@@ -712,7 +712,7 @@ namespace MissionPlanner
             var removed = ((PureImageCache)MyImageCache.Instance).DeleteOlderThan(DateTime.Now.AddDays(-30),
                 FlightData.instance.gMapControl1.MapProvider.DbId);
 
-            CustomMessageBox.Show("Removed " + removed + " images");
+            CustomMessageBox.Show("Удалено " + removed + " изображений");
 
             log.InfoFormat("Removed {0} images", removed);
         }
@@ -977,11 +977,11 @@ namespace MissionPlanner
                             (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876,
                             0, 0))
                         {
-                            CustomMessageBox.Show("Upgraded bootloader");
+                            CustomMessageBox.Show("Загрузчик обновлён");
                         }
                         else
                         {
-                            CustomMessageBox.Show("Failed to upgrade bootloader");
+                            CustomMessageBox.Show("Не удалось обновить загрузчик");
                         }
                     }
                     catch (Exception ex)
@@ -998,7 +998,7 @@ namespace MissionPlanner
 
         private void but_anonlog_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("This is beta, please confirm the output file");
+            CustomMessageBox.Show("Это бета-версия, пожалуйста подтвердите имя выходного файла");
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "tlog or bin/log|*.tlog;*.bin;*.log";
@@ -1102,8 +1102,8 @@ namespace MissionPlanner
 
         private void but_disablearmswitch_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
-            {   
+            if (CustomMessageBox.Show("Вы уверены?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
                 var target_system = (byte)MainV2.comPort.sysidcurrent;
                 if (target_system == 0) {
                     log.Info("Not toggling safety on sysid 0");
@@ -1170,7 +1170,7 @@ namespace MissionPlanner
 
             var currentQNH = MainV2.comPort.GetParam(paramname).ToString();
             //338.6388 pa => 100' = 30.48m
-            CustomMessageBox.Show("use at your own risk!!!");
+            CustomMessageBox.Show("Используйте на свой страх и риск!!!");
 
             NumericUpDown mavlinkNumericUpDown = new NumericUpDown();
             mavlinkNumericUpDown.Minimum = -100;
@@ -1227,10 +1227,10 @@ namespace MissionPlanner
 
         private void but_lockup_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Lockup the autopilot??? this can cause a CRASH!!!!!!",
-                    "Lockup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
-                if (CustomMessageBox.Show("Lockup the autopilot??? this can cause a CRASH!!!!!!",
-                        "Lockup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
+            if (CustomMessageBox.Show("Заблокировать автопилот? Это может привести к КРАШУ!",
+                    "Блокировка", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
+                if (CustomMessageBox.Show("Заблокировать автопилот? Это может привести к КРАШУ!",
+                        "Блокировка", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
                     MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
                         MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
                         42, 24, 71, 93, 0, 0, 0, false);
@@ -1264,7 +1264,7 @@ namespace MissionPlanner
 
         private void but_paramrestore_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("This process make take a some time");
+            CustomMessageBox.Show("Этот процесс может занять некоторое время");
 
             using (var ofd = new OpenFileDialog
             {
@@ -1348,12 +1348,12 @@ namespace MissionPlanner
                         }
 
                         if (fails.Count > 0)
-                            CustomMessageBox.Show("Set " + set + " params \nAlready Set " 
-                                                  + alreadyset + " params \nFailed to set " 
+                            CustomMessageBox.Show("Установлено параметров: " + set + "\nУже было установлено: "
+                                                  + alreadyset + "\nНе удалось установить:" 
                                                   + fails.Aggregate((a, b) => a + "\n" + b));
                         else
-                            CustomMessageBox.Show("Set " + set + " params \nAlready Set "
-                                                  + alreadyset + " params");
+                            CustomMessageBox.Show("Установлено параметров: " + set + "\nУже было установлено: "
+                                                  + alreadyset);
 
                     };
 
@@ -1387,7 +1387,7 @@ namespace MissionPlanner
                 {
                     apj_tool.Process(ofd.FileName, ofd2.FileName);
 
-                    CustomMessageBox.Show("The new APJ has been saved with the source APJ");
+                    CustomMessageBox.Show("Новый файл APJ сохранён рядом с исходным");
                 }
             }
         }

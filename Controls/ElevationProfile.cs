@@ -43,7 +43,7 @@ namespace MissionPlanner.Controls
 
             if (planlocs.Count <= 1)
             {
-                CustomMessageBox.Show("Please plan something first", Strings.ERROR);
+                CustomMessageBox.Show("Сначала составьте план", Strings.ERROR);
                 return;
             }
 
@@ -231,7 +231,7 @@ namespace MissionPlanner.Controls
 
             if (list.Count < 2 || coords.Length > (2048 - 256))
             {
-                CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance / 1000) + "km", Strings.ERROR);
+                CustomMessageBox.Show("Слишком много/мало точек маршрута или слишком большое расстояние " + (distance / 1000) + "км", Strings.ERROR);
                 return answer;
             }
 
@@ -269,7 +269,7 @@ namespace MissionPlanner.Controls
             }
             catch
             {
-                CustomMessageBox.Show("Error getting GE data", Strings.ERROR);
+                CustomMessageBox.Show("Ошибка получения данных GE", Strings.ERROR);
             }
 
             return answer;
@@ -280,13 +280,13 @@ namespace MissionPlanner.Controls
             GraphPane myPane = zgc.GraphPane;
 
             // Set the titles and axis labels
-            myPane.Title.Text = "Elevation above ground";
-            myPane.XAxis.Title.Text = "Distance (" + CurrentState.DistanceUnit + ")";
-            myPane.YAxis.Title.Text = "Elevation (" + CurrentState.AltUnit + ")";
+            myPane.Title.Text = "Высота над землёй";
+            myPane.XAxis.Title.Text = "Расстояние (" + CurrentState.DistanceUnit + ")";
+            myPane.YAxis.Title.Text = "Высота (" + CurrentState.AltUnit + ")";
 
             LineItem myCurve;
 
-            myCurve = myPane.AddCurve("Planned Path", list1, Color.Red, SymbolType.None);
+            myCurve = myPane.AddCurve("Запланированный маршрут", list1, Color.Red, SymbolType.None);
             //myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
             myCurve = myPane.AddCurve("DEM", list3, Color.Blue, SymbolType.None);
 

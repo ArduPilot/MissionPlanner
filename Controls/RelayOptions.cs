@@ -18,7 +18,7 @@ namespace MissionPlanner.Controls
 
             thisrelay = relay;
 
-            TXT_rcchannel.Text = "Relay " + (thisrelay+1).ToString();
+            TXT_rcchannel.Text = "Реле " + (thisrelay+1).ToString();
 
             loadSettings();
 
@@ -129,7 +129,7 @@ namespace MissionPlanner.Controls
             Control sourcectl = ((ContextMenuStrip)renameToolStripMenuItem.Owner).SourceControl;
 
             string desc = sourcectl.Text;
-            MissionPlanner.Controls.InputBox.Show("Description", "Enter new Description", ref desc);
+            MissionPlanner.Controls.InputBox.Show("Описание", "Введите новое описание", ref desc);
             sourcectl.Text = desc;
 
             if (sourcectl == BUT_High)

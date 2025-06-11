@@ -105,7 +105,7 @@ namespace MissionPlanner.Comms
 
             var url = OnSettings("NTRIP_url", "");
 
-            if (OnInputBoxShow("remote host", "Enter url (eg http://user:pass@host:port/mount)", ref url) ==
+            if (OnInputBoxShow("удалённый хост", "Введите URL (например http://user:pass@host:port/mount)", ref url) ==
                 inputboxreturn.Cancel)
                 throw new Exception("Canceled by request");
 

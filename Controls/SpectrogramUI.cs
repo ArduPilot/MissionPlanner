@@ -27,18 +27,18 @@ namespace MissionPlanner.Controls
             InitializeComponent();
 
             zedGraphControl1.MasterPane[0].Title.Text = "X";
-            zedGraphControl1.MasterPane[0].XAxis.Title.Text = "T";
-            zedGraphControl1.MasterPane[0].YAxis.Title.Text = "Frequency";
+            zedGraphControl1.MasterPane[0].XAxis.Title.Text = "Время";
+            zedGraphControl1.MasterPane[0].YAxis.Title.Text = "Частота";
 
             zedGraphControl1.MasterPane.Add(new GraphPane());
             zedGraphControl1.MasterPane[1].Title.Text = "Y";
-            zedGraphControl1.MasterPane[1].XAxis.Title.Text = "T";
-            zedGraphControl1.MasterPane[1].YAxis.Title.Text = "Frequency";
+            zedGraphControl1.MasterPane[1].XAxis.Title.Text = "Время";
+            zedGraphControl1.MasterPane[1].YAxis.Title.Text = "Частота";
 
             zedGraphControl1.MasterPane.Add(new GraphPane());
             zedGraphControl1.MasterPane[2].Title.Text = "Z";
-            zedGraphControl1.MasterPane[2].XAxis.Title.Text = "T";
-            zedGraphControl1.MasterPane[2].YAxis.Title.Text = "Frequency";
+            zedGraphControl1.MasterPane[2].XAxis.Title.Text = "Время";
+            zedGraphControl1.MasterPane[2].YAxis.Title.Text = "Частота";
 
             zedGraphControl1.AxisChange();
 

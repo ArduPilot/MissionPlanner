@@ -139,7 +139,7 @@
     <value>143</value>
   </data>
   <data name="BUT_forcecal_accel.Text" xml:space="preserve">
-    <value>Force Accel Cal</value>
+    <value>Принудительная калибровка акселерометра</value>
   </data>
   <data name="&gt;&gt;BUT_forcecal_accel.Name" xml:space="preserve">
     <value>BUT_forcecal_accel</value>
@@ -169,7 +169,7 @@
     <value>142</value>
   </data>
   <data name="BUT_forcecal_mag.Text" xml:space="preserve">
-    <value>Force Compass Cal</value>
+    <value>Принудительная калибровка компаса</value>
   </data>
   <data name="&gt;&gt;BUT_forcecal_mag.Name" xml:space="preserve">
     <value>BUT_forcecal_mag</value>
@@ -196,7 +196,7 @@
     <value>137</value>
   </data>
   <data name="but_apjtool.Text" xml:space="preserve">
-    <value>APJ Tool</value>
+    <value>Инструмент APJ</value>
   </data>
   <data name="&gt;&gt;but_apjtool.Name" xml:space="preserve">
     <value>but_apjtool</value>
@@ -256,7 +256,7 @@
     <value>91</value>
   </data>
   <data name="but_proximity.Text" xml:space="preserve">
-    <value>Proximity</value>
+    <value>Близость</value>
   </data>
   <data name="&gt;&gt;but_proximity.Name" xml:space="preserve">
     <value>but_proximity</value>
@@ -286,7 +286,7 @@
     <value>83</value>
   </data>
   <data name="but_followswarm.Text" xml:space="preserve">
-    <value>Follow Swarm</value>
+    <value>Следовать за роем</value>
   </data>
   <data name="&gt;&gt;but_followswarm.Name" xml:space="preserve">
     <value>but_followswarm</value>
@@ -316,7 +316,7 @@
     <value>92</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
-    <value>mavlink2 signing configuration</value>
+    <value>настройка подписи mavlink2</value>
   </data>
   <data name="&gt;&gt;label16.Name" xml:space="preserve">
     <value>label16</value>
@@ -346,7 +346,7 @@
     <value>104</value>
   </data>
   <data name="but_lockup.Text" xml:space="preserve">
-    <value>Lockup MAV</value>
+    <value>Зависание MAV</value>
   </data>
   <data name="&gt;&gt;but_lockup.Name" xml:space="preserve">
     <value>but_lockup</value>
@@ -376,7 +376,7 @@
     <value>88</value>
   </data>
   <data name="but_td.Text" xml:space="preserve">
-    <value>grab threads.txt</value>
+    <value>получить threads.txt</value>
   </data>
   <data name="&gt;&gt;but_td.Name" xml:space="preserve">
     <value>but_td</value>
@@ -406,7 +406,7 @@
     <value>81</value>
   </data>
   <data name="but_gpsinj.Text" xml:space="preserve">
-    <value>extract gps_inject</value>
+    <value>извлечь gps_inject</value>
   </data>
   <data name="&gt;&gt;but_gpsinj.Name" xml:space="preserve">
     <value>but_gpsinj</value>
@@ -436,7 +436,7 @@
     <value>89</value>
   </data>
   <data name="but_dem.Text" xml:space="preserve">
-    <value>DEM</value>
+    <value>ЦМР</value>
   </data>
   <data name="&gt;&gt;but_dem.Name" xml:space="preserve">
     <value>but_dem</value>
@@ -466,7 +466,7 @@
     <value>79</value>
   </data>
   <data name="BUT_magfit2.Text" xml:space="preserve">
-    <value>mag calb log</value>
+    <value>журнал калибровки магн</value>
   </data>
   <data name="&gt;&gt;BUT_magfit2.Name" xml:space="preserve">
     <value>BUT_magfit2</value>
@@ -496,7 +496,7 @@
     <value>85</value>
   </data>
   <data name="but_GDAL.Text" xml:space="preserve">
-    <value>Custom GDAL</value>
+    <value>Пользовательский GDAL</value>
   </data>
   <data name="&gt;&gt;but_GDAL.Name" xml:space="preserve">
     <value>but_GDAL</value>
@@ -526,7 +526,7 @@
     <value>86</value>
   </data>
   <data name="but_sortlogs.Text" xml:space="preserve">
-    <value>ReSort All logs</value>
+    <value>Пересортировать все логи</value>
   </data>
   <data name="&gt;&gt;but_sortlogs.Name" xml:space="preserve">
     <value>but_sortlogs</value>
@@ -556,7 +556,7 @@
     <value>77</value>
   </data>
   <data name="but_optflowcalib.Text" xml:space="preserve">
-    <value>opticalflow calib</value>
+    <value>калибровка opticalflow</value>
   </data>
   <data name="&gt;&gt;but_optflowcalib.Name" xml:space="preserve">
     <value>but_optflowcalib</value>
@@ -586,7 +586,7 @@
     <value>87</value>
   </data>
   <data name="but_logdlscp.Text" xml:space="preserve">
-    <value>logdownload scp</value>
+    <value>загрузка логов SCP</value>
   </data>
   <data name="&gt;&gt;but_logdlscp.Name" xml:space="preserve">
     <value>but_logdlscp</value>
@@ -616,7 +616,7 @@
     <value>76</value>
   </data>
   <data name="but_signkey.Text" xml:space="preserve">
-    <value>signing</value>
+    <value>подпись</value>
   </data>
   <data name="&gt;&gt;but_signkey.Name" xml:space="preserve">
     <value>but_signkey</value>
@@ -646,7 +646,7 @@
     <value>101</value>
   </data>
   <data name="but_acbarohight.Text" xml:space="preserve">
-    <value>adjust aircraft baro height</value>
+    <value>корректировать высоту баро</value>
   </data>
   <data name="&gt;&gt;but_acbarohight.Name" xml:space="preserve">
     <value>but_acbarohight</value>
@@ -676,7 +676,7 @@
     <value>73</value>
   </data>
   <data name="myButton1.Text" xml:space="preserve">
-    <value>Split DFLog</value>
+    <value>Разделить DFLog</value>
   </data>
   <data name="&gt;&gt;myButton1.Name" xml:space="preserve">
     <value>myButton1</value>
@@ -706,7 +706,7 @@
     <value>103</value>
   </data>
   <data name="but_driverclean.Text" xml:space="preserve">
-    <value>driver clean</value>
+    <value>очистка драйверов</value>
   </data>
   <data name="&gt;&gt;but_driverclean.Name" xml:space="preserve">
     <value>but_driverclean</value>
@@ -736,7 +736,7 @@
     <value>75</value>
   </data>
   <data name="but_agemapdata.Text" xml:space="preserve">
-    <value>Age Map Data</value>
+    <value>Возраст данных карты</value>
   </data>
   <data name="&gt;&gt;but_agemapdata.Name" xml:space="preserve">
     <value>but_agemapdata</value>
@@ -766,7 +766,7 @@
     <value>100</value>
   </data>
   <data name="but_packetbytes.Text" xml:space="preserve">
-    <value>parse packet bytes</value>
+    <value>разбор байтов пакета</value>
   </data>
   <data name="&gt;&gt;but_packetbytes.Name" xml:space="preserve">
     <value>but_packetbytes</value>
@@ -796,7 +796,7 @@
     <value>65</value>
   </data>
   <data name="myButton_vlc.Text" xml:space="preserve">
-    <value>vlc</value>
+    <value>VLC</value>
   </data>
   <data name="&gt;&gt;myButton_vlc.Name" xml:space="preserve">
     <value>myButton_vlc</value>
@@ -826,7 +826,7 @@
     <value>98</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>Create dashware date input file</value>
+    <value>Создать входной файл dashware</value>
   </data>
   <data name="&gt;&gt;label22.Name" xml:space="preserve">
     <value>label22</value>
@@ -856,7 +856,7 @@
     <value>64</value>
   </data>
   <data name="but_trimble.Text" xml:space="preserve">
-    <value>Sequence Swarm</value>
+    <value>Последовательность роя</value>
   </data>
   <data name="&gt;&gt;but_trimble.Name" xml:space="preserve">
     <value>but_trimble</value>
@@ -886,7 +886,7 @@
     <value>99</value>
   </data>
   <data name="but_hwids.Text" xml:space="preserve">
-    <value>decode HWID's</value>
+    <value>декодировать HWID</value>
   </data>
   <data name="&gt;&gt;but_hwids.Name" xml:space="preserve">
     <value>but_hwids</value>
@@ -946,7 +946,7 @@
     <value>62</value>
   </data>
   <data name="but_reboot.Text" xml:space="preserve">
-    <value>reboot pixhawk</value>
+    <value>перезагрузить Pixhawk</value>
   </data>
   <data name="&gt;&gt;but_reboot.Name" xml:space="preserve">
     <value>but_reboot</value>
@@ -976,7 +976,7 @@
     <value>94</value>
   </data>
   <data name="but_3dmap.Text" xml:space="preserve">
-    <value>3D Map</value>
+    <value>3D карта</value>
   </data>
   <data name="&gt;&gt;but_3dmap.Name" xml:space="preserve">
     <value>but_3dmap</value>
@@ -1006,7 +1006,7 @@
     <value>97</value>
   </data>
   <data name="but_messageinterval.Text" xml:space="preserve">
-    <value>Message Interval</value>
+    <value>Интервал сообщений</value>
   </data>
   <data name="&gt;&gt;but_messageinterval.Name" xml:space="preserve">
     <value>but_messageinterval</value>
@@ -1036,7 +1036,7 @@
     <value>93</value>
   </data>
   <data name="but_blupdate.Text" xml:space="preserve">
-    <value>Bootloader Upgrade</value>
+    <value>Обновление загрузчика</value>
   </data>
   <data name="&gt;&gt;but_blupdate.Name" xml:space="preserve">
     <value>but_blupdate</value>
@@ -1066,7 +1066,7 @@
     <value>60</value>
   </data>
   <data name="BUT_fft.Text" xml:space="preserve">
-    <value>FFT</value>
+    <value>БПФ</value>
   </data>
   <data name="&gt;&gt;BUT_fft.Name" xml:space="preserve">
     <value>BUT_fft</value>
@@ -1096,7 +1096,7 @@
     <value>98</value>
   </data>
   <data name="but_disablearmswitch.Text" xml:space="preserve">
-    <value>Toggle Saftey Switch</value>
+    <value>Переключить предохранитель</value>
   </data>
   <data name="&gt;&gt;but_disablearmswitch.Name" xml:space="preserve">
     <value>but_disablearmswitch</value>
@@ -1126,7 +1126,7 @@
     <value>59</value>
   </data>
   <data name="but_paramrestore.Text" xml:space="preserve">
-    <value>Param Restore</value>
+    <value>Восстановить параметры</value>
   </data>
   <data name="&gt;&gt;but_paramrestore.Name" xml:space="preserve">
     <value>but_paramrestore</value>
@@ -1156,7 +1156,7 @@
     <value>92</value>
   </data>
   <data name="but_mavinspector.Text" xml:space="preserve">
-    <value>MAVLink Inspector</value>
+    <value>Инспектор MAVLink</value>
   </data>
   <data name="&gt;&gt;but_mavinspector.Name" xml:space="preserve">
     <value>but_mavinspector</value>
@@ -1186,7 +1186,7 @@
     <value>58</value>
   </data>
   <data name="but_sitl_comb.Text" xml:space="preserve">
-    <value>sitl streamcombiner</value>
+    <value>объединитель потоков SITL</value>
   </data>
   <data name="&gt;&gt;but_sitl_comb.Name" xml:space="preserve">
     <value>but_sitl_comb</value>
@@ -1216,7 +1216,7 @@
     <value>95</value>
   </data>
   <data name="but_anonlog.Text" xml:space="preserve">
-    <value>Anon Log</value>
+    <value>анонимный лог</value>
   </data>
   <data name="&gt;&gt;but_anonlog.Name" xml:space="preserve">
     <value>but_anonlog</value>
@@ -1276,7 +1276,7 @@
     <value>72</value>
   </data>
   <data name="label26.Text" xml:space="preserve">
-    <value>tlog browser</value>
+    <value>обзор tlog</value>
   </data>
   <data name="&gt;&gt;label26.Name" xml:space="preserve">
     <value>label26</value>
@@ -1306,7 +1306,7 @@
     <value>71</value>
   </data>
   <data name="label25.Text" xml:space="preserve">
-    <value>create map jpg's for all tlogs in a dir</value>
+    <value>создать карты для всех tlog в папке</value>
   </data>
   <data name="&gt;&gt;label25.Name" xml:space="preserve">
     <value>label25</value>
@@ -1336,7 +1336,7 @@
     <value>70</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
-    <value>run the gimbal pointing algo</value>
+    <value>запустить алгоритм наведения гимбала</value>
   </data>
   <data name="&gt;&gt;label24.Name" xml:space="preserve">
     <value>label24</value>
@@ -1636,7 +1636,7 @@
     <value>48</value>
   </data>
   <data name="but_gimbaltest.Text" xml:space="preserve">
-    <value>gimbal test</value>
+    <value>Тест подвеса</value>
   </data>
   <data name="&gt;&gt;but_gimbaltest.Name" xml:space="preserve">
     <value>but_gimbaltest</value>
@@ -1696,7 +1696,7 @@
     <value>61</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>create a exclusive passthrough to the gps (port 500)</value>
+    <value>создать эксклюзивный канал к GPS (порт 500)</value>
   </data>
   <data name="&gt;&gt;label15.Name" xml:space="preserve">
     <value>label15</value>
@@ -1726,7 +1726,7 @@
     <value>60</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>follow the leader swarm</value>
+    <value>следовать за лидером роя</value>
   </data>
   <data name="&gt;&gt;label14.Name" xml:space="preserve">
     <value>label14</value>
@@ -1756,7 +1756,7 @@
     <value>59</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>multi mav swarm interface</value>
+    <value>интерфейс роя MAV</value>
   </data>
   <data name="&gt;&gt;label13.Name" xml:space="preserve">
     <value>label13</value>
@@ -1786,7 +1786,7 @@
     <value>57</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>convert shp file ot a polygon file</value>
+    <value>преобразовать файл SHP в файл полигона</value>
   </data>
   <data name="&gt;&gt;label11.Name" xml:space="preserve">
     <value>label11</value>
@@ -1816,7 +1816,7 @@
     <value>56</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>show an extra icon on the map of your current location.</value>
+    <value>показывать дополнительную иконку на карте в вашей текущей позиции</value>
   </data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
@@ -1846,7 +1846,7 @@
     <value>55</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>overlay the hud into your recorded videos</value>
+    <value>наложить HUD на записанные видео</value>
   </data>
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
@@ -1876,7 +1876,7 @@
     <value>15</value>
   </data>
   <data name="BUT_clearcustommaps.Text" xml:space="preserve">
-    <value>Clear Custom Maps</value>
+    <value>Очистить пользовательские карты</value>
   </data>
   <data name="&gt;&gt;BUT_clearcustommaps.Name" xml:space="preserve">
     <value>BUT_clearcustommaps</value>
@@ -1906,7 +1906,7 @@
     <value>41</value>
   </data>
   <data name="but_getfw.Text" xml:space="preserve">
-    <value>rip all fw</value>
+    <value>скачать все прошивки</value>
   </data>
   <data name="&gt;&gt;but_getfw.Name" xml:space="preserve">
     <value>but_getfw</value>
@@ -1936,7 +1936,7 @@
     <value>14</value>
   </data>
   <data name="BUT_geinjection.Text" xml:space="preserve">
-    <value>Inject GE</value>
+    <value>Вставить GE</value>
   </data>
   <data name="&gt;&gt;BUT_geinjection.Name" xml:space="preserve">
     <value>BUT_geinjection</value>
@@ -1966,7 +1966,7 @@
     <value>54</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>translation language editor</value>
+    <value>редактор языков перевода</value>
   </data>
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>
@@ -1996,7 +1996,7 @@
     <value>53</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>regenerate the param info used inside mp</value>
+    <value>пересоздать информацию о параметрах для MP</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>
@@ -2026,7 +2026,7 @@
     <value>38</value>
   </data>
   <data name="BUT_sorttlogs.Text" xml:space="preserve">
-    <value>Sort TLogs</value>
+    <value>Сортировать TLog</value>
   </data>
   <data name="&gt;&gt;BUT_sorttlogs.Name" xml:space="preserve">
     <value>BUT_sorttlogs</value>
@@ -2056,7 +2056,7 @@
     <value>52</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>mirrors the mavlink stream received by mp</value>
+    <value>отражает поток mavlink, получаемый MP</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
@@ -2086,7 +2086,7 @@
     <value>51</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>outputs the mav location in microdrone format</value>
+    <value>выводит позицию MAV в формате MicroDrone</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -2116,7 +2116,7 @@
     <value>50</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>outputs the mav location in nmea</value>
+    <value>выводит позицию MAV в NMEA</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -2146,7 +2146,7 @@
     <value>49</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>use a nmea gps to follow me</value>
+    <value>использовать GPS NMEA для режима "Следуй за мной"</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -2176,7 +2176,7 @@
     <value>48</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Create custom audio warnings</value>
+    <value>Создание собственных звуковых предупреждений</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -2296,7 +2296,7 @@
     <value>0</value>
   </data>
   <data name="BUT_georefimage.Text" xml:space="preserve">
-    <value>Geo ref images</value>
+    <value>Геопривязка изображений</value>
   </data>
   <data name="&gt;&gt;BUT_georefimage.Name" xml:space="preserve">
     <value>BUT_georefimage</value>
@@ -2326,7 +2326,7 @@
     <value>44</value>
   </data>
   <data name="button3.Text" xml:space="preserve">
-    <value>Warning Manager</value>
+    <value>Менеджер предупреждений</value>
   </data>
   <data name="&gt;&gt;button3.Name" xml:space="preserve">
     <value>button3</value>
@@ -2356,7 +2356,7 @@
     <value>16</value>
   </data>
   <data name="BUT_lang_edit.Text" xml:space="preserve">
-    <value>Lang Edit</value>
+    <value>Редактор языка</value>
   </data>
   <data name="&gt;&gt;BUT_lang_edit.Name" xml:space="preserve">
     <value>BUT_lang_edit</value>
@@ -2386,7 +2386,7 @@
     <value>17</value>
   </data>
   <data name="BUT_follow_me.Text" xml:space="preserve">
-    <value>Follow Me</value>
+    <value>Следуй за мной</value>
   </data>
   <data name="&gt;&gt;BUT_follow_me.Name" xml:space="preserve">
     <value>BUT_follow_me</value>
@@ -2416,7 +2416,7 @@
     <value>20</value>
   </data>
   <data name="BUT_paramgen.Text" xml:space="preserve">
-    <value>Param gen</value>
+    <value>Генератор параметров</value>
   </data>
   <data name="&gt;&gt;BUT_paramgen.Name" xml:space="preserve">
     <value>BUT_paramgen</value>
@@ -2446,7 +2446,7 @@
     <value>22</value>
   </data>
   <data name="but_osdvideo.Text" xml:space="preserve">
-    <value>OSDVideo</value>
+    <value>OSDВидео</value>
   </data>
   <data name="&gt;&gt;but_osdvideo.Name" xml:space="preserve">
     <value>but_osdvideo</value>
@@ -2476,7 +2476,7 @@
     <value>40</value>
   </data>
   <data name="BUT_movingbase.Text" xml:space="preserve">
-    <value>Moving Base</value>
+    <value>Подвижная база</value>
   </data>
   <data name="&gt;&gt;BUT_movingbase.Name" xml:space="preserve">
     <value>BUT_movingbase</value>
@@ -2506,7 +2506,7 @@
     <value>46</value>
   </data>
   <data name="BUT_shptopoly.Text" xml:space="preserve">
-    <value>Shp to Poly</value>
+    <value>Shp в Poly</value>
   </data>
   <data name="&gt;&gt;BUT_shptopoly.Name" xml:space="preserve">
     <value>BUT_shptopoly</value>
@@ -2536,7 +2536,7 @@
     <value>27</value>
   </data>
   <data name="BUT_swarm.Text" xml:space="preserve">
-    <value>Swarm</value>
+    <value>Рой</value>
   </data>
   <data name="&gt;&gt;BUT_swarm.Name" xml:space="preserve">
     <value>BUT_swarm</value>
@@ -2566,7 +2566,7 @@
     <value>33</value>
   </data>
   <data name="BUT_followleader.Text" xml:space="preserve">
-    <value>Follow the leader</value>
+    <value>Следовать за лидером</value>
   </data>
   <data name="&gt;&gt;BUT_followleader.Name" xml:space="preserve">
     <value>BUT_followleader</value>
@@ -2626,7 +2626,7 @@
     <value>44</value>
   </data>
   <data name="but_mavserialport.Text" xml:space="preserve">
-    <value>MAVSerial pass</value>
+    <value>Проброс MAVSerial</value>
   </data>
   <data name="&gt;&gt;but_mavserialport.Name" xml:space="preserve">
     <value>but_mavserialport</value>

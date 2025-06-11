@@ -242,7 +242,7 @@ namespace MissionPlanner.Controls
             {
                 if (!MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.logreadmode)
                 {
-                    CustomMessageBox.Show("Please connect first");
+                    CustomMessageBox.Show("Сначала подключитесь");
                     this.Close();
                 }
 
@@ -260,7 +260,7 @@ namespace MissionPlanner.Controls
             }
             catch
             {
-                CustomMessageBox.Show("Comport open failed");
+                CustomMessageBox.Show("Не удалось открыть COM-порт");
                 return;
             }
             timer1.Start();

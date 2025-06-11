@@ -33,7 +33,7 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error converting file " + ex.ToString(), Strings.ERROR);
+                            CustomMessageBox.Show("Ошибка конвертации файла " + ex.ToString(), Strings.ERROR);
                         }
                     }
                 }
@@ -66,7 +66,7 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error converting file " + ex.ToString(), Strings.ERROR);
+                            CustomMessageBox.Show("Ошибка конвертации файла " + ex.ToString(), Strings.ERROR);
                         }
                     }
                 }

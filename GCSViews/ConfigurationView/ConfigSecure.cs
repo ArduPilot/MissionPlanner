@@ -52,7 +52,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             httpclient = new HttpClient();
             httpclient.DefaultRequestHeaders.ExpectContinue = false;
 
-            UpdateStatus("Waiting...", 0);
+            UpdateStatus("Ожидание...", 0);
 
             timer1.Start();
         }
@@ -65,11 +65,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             listener = new TcpListener(IPAddress.Loopback, port);
             listener.Start();
 
-            UpdateStatus("Started Auth", 0);
+            UpdateStatus("Начата аутентификация", 0);
 
             Common.OpenUrl(login.ToString() + $"?return_url=http://localhost:{port}{tokenurl.AbsolutePath}");
 
-            UpdateStatus("Waiting for Auth token", 50);
+            UpdateStatus("Ожидание токена авторизации", 50);
             var tcpClient = await listener.AcceptTcpClientAsync();
             tcpClient.NoDelay = true;
             var stream = tcpClient.GetStream();
@@ -98,7 +98,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             listener?.Stop();
 
-            UpdateStatus("Login Done.", 100);
+            UpdateStatus("Вход завершён.", 100);
 
             // run a single scan incase its already in BL mode
             Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL);
@@ -126,8 +126,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.instance.DeviceChanged += Instance_DeviceChanged;
 
-            CustomMessageBox.Show("Please re-power to autopilot");
-            UpdateStatus("Please re-power to autopilot", 100);
+            CustomMessageBox.Show("Пожалуйста, перезапитайте автопилот");
+            UpdateStatus("Пожалуйста, перезапитайте автопилот", 100);
         }
 
         private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
@@ -162,7 +162,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         up.identify();
                         up.close();
                         detectedport = port;
-                        UpdateStatus("Detected " + port, 100);
+                        UpdateStatus("Обнаружен " + port, 100);
                         this.InvokeIfRequired(() =>
                         {
                             this.textBox1.Text = BitConverter.ToString(up.sn).Replace("-", "");
@@ -189,7 +189,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             progressBar1.Value = 0;
-            UpdateStatus("Downloading DFU FW", 0);
+            UpdateStatus("Загрузка DFU прошивки", 0);
             var dfufw = await httpclient.GetByteArrayAsync(dfufirmware);
             MemoryStream ms = new MemoryStream(dfufw);
             var fw = Firmware.ProcessFirmware(new StreamReader(ms));
@@ -211,7 +211,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             textBox1.Text = BitConverter.ToString(sn).Replace("-", String.Empty);
 
-            UpdateStatus("Downloading Bootloader FW", 0);
+            UpdateStatus("Загрузка прошивки загрузчика", 0);
             var bl = await httpclient.PostAsync(bootloaderurl + $"?SN={textBox1.Text}", null);
             if (!bl.IsSuccessStatusCode)
             {
@@ -220,7 +220,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             var tempfile = Path.GetTempFileName();
             File.WriteAllBytes(tempfile, await bl.Content.ReadAsByteArrayAsync());
-            DFU.Progress += (i, s) => UpdateStatus("DFU Download Bootloader", (int)i);
+            DFU.Progress += (i, s) => UpdateStatus("Загрузка загрузчика DFU", (int)i);
             DFU.Flash(tempfile, 0x08000000);
         }
 
@@ -247,7 +247,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 filecontent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 var mp = new MultipartContent("form-data");
                 mp.Add(filecontent);
-                UpdateStatus("Uploading/Downloading FW", 0);
+                UpdateStatus("Загрузка/выгрузка прошивки", 0);
                 var fwresp = await httpclient.PostAsync(firmwareurl + $"?SN={textBox1.Text}", mp);
                 if (fwresp.IsSuccessStatusCode)
                 {                   
@@ -263,8 +263,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    UpdateStatus("Firmware Uploading FAILED", (int)0);
-                    CustomMessageBox.Show("Web request failed: " + fwresp.ReasonPhrase);
+                    UpdateStatus("Загрузка прошивки не удалась", (int)0);
+                    CustomMessageBox.Show("Сбой веб-запроса: " + fwresp.ReasonPhrase);
                     Console.WriteLine(await fwresp.Content.ReadAsStringAsync());
                 }
             }
@@ -280,7 +280,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     // is in dfu mode, enable BL upload
                     but_bootloader.Enabled = true;
                     but_getsn.Enabled = false;
-                    label4.Text = String.Format("Detected DFU Devices {0}", UsbDevice.AllDevices.Count);
+                    label4.Text = String.Format("Обнаружено DFU устройств {0}", UsbDevice.AllDevices.Count);
                 }
                 else
                 {
@@ -314,7 +314,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         but_bootloader.Enabled = false;
                     }
 
-                    label4.Text = String.Format("Detected DFU Devices {0}, Bootloader Devices {1}", UsbDevice.AllDevices.Count, validbl.Count());
+                    label4.Text = String.Format("DFU устройств {0}, устройств загрузчика {1}", UsbDevice.AllDevices.Count, validbl.Count());
                 }
             }
         }

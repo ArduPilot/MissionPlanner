@@ -27,11 +27,11 @@ mc:Ignorable="d"
 <ComboBox Name="cmb_baud" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="175,107,0,0" Width="121" Height="21"></ComboBox>
 <TextBox Name="txt_password" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="175,81,0,0" Width="121" Height="20"></TextBox>
 <TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,142,0,0" Width="46" Height="17">Channel</TextBlock>
-<CheckBox Name="chk_mode" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,34,0,0" Width="84" Height="18">Client Mode</CheckBox>
+<CheckBox Name="chk_mode" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,34,0,0" Width="84" Height="18">Режим клиента</CheckBox>
 <TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,165,0,0" Width="14" Height="17">...</TextBlock>
-<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,116,0,0" Width="31" Height="17">Baud</TextBlock>
-<Button Name="but_resetdefault" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,116,0,0" Width="60" Height="23">Reset to Defaults</Button>
-<Button Name="BUT_espsettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="278,213,0,0" Width="60" Height="23">Save Settings</Button>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,116,0,0" Width="31" Height="17">Скорость</TextBlock>
+<Button Name="but_resetdefault" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,116,0,0" Width="60" Height="23">Сбросить настройки</Button>
+<Button Name="BUT_espsettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="278,213,0,0" Width="60" Height="23">Сохранить настройки</Button>
 <ComboBox Name="cmb_channel" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="175,134,0,0" Width="121" Height="21"></ComboBox>
 <TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="95" Height="20">ESP8266</TextBlock>
 <Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,23,0,0" Width="644" Height="5">

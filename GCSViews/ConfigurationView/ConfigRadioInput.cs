@@ -324,11 +324,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                CustomMessageBox.Show("Bad channel 1 input, canceling");
+                CustomMessageBox.Show("Неверный ввод канала 1, отмена");
                 return;
             }
 
-            CustomMessageBox.Show("Ensure all your sticks are centered and throttle is down, and click ok to continue");
+            CustomMessageBox.Show("Убедитесь, что все стики по центру и газ убран, затем нажмите OK для продолжения");
 
             MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs), true, MainV2.comPort);
 
@@ -399,7 +399,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             CustomMessageBox.Show(
-                "Here are the detected radio options\nNOTE Channels not connected are displayed as 1500 +-2\nNormal values are around 1100 | 1900\nChannel:Min | Max \n" +
+                "Здесь отображаются обнаруженные параметры радиоуправления\nПРИМЕЧАНИЕ: не подключённые каналы показываются как 1500 ±2\nНормальные значения около 1100 | 1900\nКанал:Мин | Макс \n" +
                 data, "Radio");
 
             BUT_Calibrateradio.Text = Strings.Completed;
@@ -459,11 +459,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 try
                 {
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SWITCH_ENABLE", 0);
-                    CustomMessageBox.Show("Disabled Dip Switchs");
+                    CustomMessageBox.Show("Дип-переключатели отключены");
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error Disableing Dip Switch");
+                    CustomMessageBox.Show("Ошибка отключения дип-переключателя");
                 }
             }
         }

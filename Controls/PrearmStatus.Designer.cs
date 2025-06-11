@@ -62,7 +62,7 @@
             this.Name = "PrearmStatus";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.ShowIcon = false;
-            this.Text = "Prearm Checks";
+            this.Text = "Проверки перед взводом";
             this.ResumeLayout(false);
             this.PerformLayout();
 

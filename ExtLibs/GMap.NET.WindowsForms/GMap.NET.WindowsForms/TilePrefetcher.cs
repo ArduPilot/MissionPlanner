@@ -161,11 +161,11 @@ namespace GMap.NET
          {
             if(!e.Cancelled)
             {
-               MessageBox.Show(this, "Prefetch Complete! => " + ((int)e.Result).ToString() + " of " + all);
+               MessageBox.Show(this, "Предзагрузка завершена! => " + ((int)e.Result).ToString() + " из " + all);
             }
             else
             {
-               MessageBox.Show(this, "Prefetch Canceled! => " + ((int)e.Result).ToString() + " of " + all);
+               MessageBox.Show(this, "Предзагрузка отменена! => " + ((int)e.Result).ToString() + " из " + all);
             }
          }
 
@@ -355,7 +355,7 @@ namespace GMap.NET
 
       private void ConfirmUserAbort()
       {
-          if (MessageBox.Show("Are you sure you want to abort the pre-fetch process?", "Confirm Abort", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+          if (MessageBox.Show("Вы уверены, что хотите прервать процесс предварительной загрузки?", "Подтвердите прерывание", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
           {
               UserAborted = true;
               this.Close();

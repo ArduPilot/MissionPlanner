@@ -37,13 +37,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var list = new List<GPSCAN>();
 
             if (id1ovr.Value != 0)
-                list.Add(new GPSCAN() {Order = 1, NodeID = (int) id1ovr.Value, Name = "GPS Override 1"});
+                list.Add(new GPSCAN() {Order = 1, NodeID = (int) id1ovr.Value, Name = "Переопределение GPS 1"});
             if (id2ovr.Value != 0)
-                list.Add(new GPSCAN() {Order = 2, NodeID = (int) id2ovr.Value, Name = "GPS Override 2"});
+                list.Add(new GPSCAN() {Order = 2, NodeID = (int) id2ovr.Value, Name = "Переопределение GPS 2"});
             if (id1.Value != 0 && id1.Value != id1ovr.Value && id1.Value != id2ovr.Value)
-                list.Add(new GPSCAN() {Order = 98, NodeID = (int) id1.Value, Name = "GPS Detect 1"});
+                list.Add(new GPSCAN() {Order = 98, NodeID = (int) id1.Value, Name = "Обнаружен GPS 1"});
             if (id2.Value != 0 && id2.Value != id1ovr.Value && id2.Value != id2ovr.Value)
-                list.Add(new GPSCAN() {Order = 99, NodeID = (int) id2.Value, Name = "GPS Detect 2"});
+                list.Add(new GPSCAN() {Order = 99, NodeID = (int) id2.Value, Name = "Обнаружен GPS 2"});
 
             var bs = new BindingSource();
             bs.DataSource = list;

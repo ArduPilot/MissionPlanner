@@ -43,7 +43,7 @@ namespace MissionPlanner.Controls
                     { Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange };
 
                 int hz = 8000;
-                InputBox.Show("fft sample rate", "nter source file sample rate", ref hz);
+                InputBox.Show("частота FFT", "Введите частоту дискретизации файла", ref hz);
 
                 double[] buffer = new double[1 << bins];
 

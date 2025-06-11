@@ -89,7 +89,7 @@ namespace MissionPlanner.Controls
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Operator ID";
+            this.label1.Text = "ID оператора";
             // 
             // label2
             // 
@@ -99,7 +99,7 @@ namespace MissionPlanner.Controls
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "UAS ID";
+            this.label2.Text = "ID БПЛА";
             // 
             // TXT_UAS_ID
             // 
@@ -119,7 +119,7 @@ namespace MissionPlanner.Controls
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 10;
-            this.label3.Text = "UAS ID Type";
+            this.label3.Text = "Тип ID БПЛА";
             // 
             // label4
             // 
@@ -129,7 +129,7 @@ namespace MissionPlanner.Controls
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 11;
-            this.label4.Text = "UA Type";
+            this.label4.Text = "Тип БПЛА";
 
             // 
             // label4 info
@@ -140,7 +140,7 @@ namespace MissionPlanner.Controls
             this.label4_info.Name = "label4_info";
             this.label4_info.Size = new System.Drawing.Size(49, 13);
             this.label4_info.TabIndex = 12;
-            this.label4_info.Text = "Optional settings. Typically these are set in the ArduRemoteID\r\ndevice instead.";
+            this.label4_info.Text = "Необязательные настройки. Обычно задаются в устройстве ArduRemoteID.";
 
             // 
             // label12
@@ -151,7 +151,7 @@ namespace MissionPlanner.Controls
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(64, 13);
             this.label12.TabIndex = 31;
-            this.label12.Text = "ARM Status";
+            this.label12.Text = "Состояние ARM";
             // 
             // LED_ArmedError
             // 
@@ -171,7 +171,7 @@ namespace MissionPlanner.Controls
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(63, 13);
             this.label13.TabIndex = 33;
-            this.label13.Text = "RID Comms";
+            this.label13.Text = "Связь RID";
             // 
             // LED_RemoteID_Messages
             // 
@@ -201,7 +201,7 @@ namespace MissionPlanner.Controls
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(54, 13);
             this.label14.TabIndex = 35;
-            this.label14.Text = "GCS GPS";
+            this.label14.Text = "GPS ГЦС";
 
             // 
             // CMB_uas_id_type
@@ -230,7 +230,7 @@ namespace MissionPlanner.Controls
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(66, 13);
             this.label17.TabIndex = 44;
-            this.label17.Text = "Self ID Type";
+            this.label17.Text = "Тип собственного ID";
             // 
             // CMB_self_id_type
             // 
@@ -249,7 +249,7 @@ namespace MissionPlanner.Controls
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(67, 13);
             this.label18.TabIndex = 47;
-            this.label18.Text = "Self ID Desc";
+            this.label18.Text = "Описание собственного ID";
             // 
             // TXT_self_id_TXT
             // 
@@ -269,7 +269,7 @@ namespace MissionPlanner.Controls
             this.label18_info.Name = "label18_info";
             this.label18_info.Size = new System.Drawing.Size(273, 26);
             this.label18_info.TabIndex = 47;
-            this.label18_info.Text = "These fields are optional in the USA.\r\nThey can also be set in the ArduRemoteID device.";
+            this.label18_info.Text = "Эти поля не обязательны в США. Их можно задать в устройстве ArduRemoteID.";
 
             // 
             // groupBox2
@@ -287,7 +287,7 @@ namespace MissionPlanner.Controls
             this.groupBox2.Size = new System.Drawing.Size(197, 69);
             this.groupBox2.TabIndex = 53;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Remote ID Status";
+            this.groupBox2.Text = "Статус Remote ID";
             // 
             // ODOD_tabs
             // 
@@ -312,7 +312,7 @@ namespace MissionPlanner.Controls
             this.tabStatus.Name = "tabStatus";
             this.tabStatus.Size = new System.Drawing.Size(354, 183);
             this.tabStatus.TabIndex = 2;
-            this.tabStatus.Text = "Status";
+            this.tabStatus.Text = "Статус";
             this.tabStatus.UseVisualStyleBackColor = true;
             // 
             // LBL_version
@@ -335,8 +335,7 @@ namespace MissionPlanner.Controls
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(273, 26);
             this.label8.TabIndex = 12;
-            this.label8.Text = "This version of Open Drone ID Plugin is for Testing Only.\r\nDouble Click GPS Data " +
-    "for RAW NMEA Viewer. ";
+            this.label8.Text = "Эта версия плагина Open Drone ID предназначена только для тестирования.\r\nДважды щёлкните по данным GPS для просмотра RAW NMEA.";
             // 
             // TXT_RID_Status_Msg
             // 
@@ -354,7 +353,7 @@ namespace MissionPlanner.Controls
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 11;
-            this.label5.Text = "RID Armed Status";
+            this.label5.Text = "Состояние RID Arm";
             // 
             // TXT_ODID_Status
             // 
@@ -378,7 +377,7 @@ namespace MissionPlanner.Controls
             this.tab_uid.Padding = new System.Windows.Forms.Padding(3);
             this.tab_uid.Size = new System.Drawing.Size(354, 183);
             this.tab_uid.TabIndex = 0;
-            this.tab_uid.Text = "UAS ID";
+            this.tab_uid.Text = "ID БПЛА";
             this.tab_uid.UseVisualStyleBackColor = true;
             // 
             // tab_ops
@@ -398,7 +397,7 @@ namespace MissionPlanner.Controls
             this.tab_ops.Padding = new System.Windows.Forms.Padding(3);
             this.tab_ops.Size = new System.Drawing.Size(354, 183);
             this.tab_ops.TabIndex = 1;
-            this.tab_ops.Text = "Operations";
+            this.tab_ops.Text = "Операции";
             this.tab_ops.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -409,7 +408,7 @@ namespace MissionPlanner.Controls
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 13);
             this.label7.TabIndex = 50;
-            this.label7.Text = "Self ID: ";
+            this.label7.Text = "Собственный ID: ";
             // 
             // label6
             // 
@@ -419,7 +418,7 @@ namespace MissionPlanner.Controls
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(74, 13);
             this.label6.TabIndex = 48;
-            this.label6.Text = "Oper. ID Type";
+            this.label6.Text = "Тип ID оператора";
             // 
             // CMB_op_id_type
             // 

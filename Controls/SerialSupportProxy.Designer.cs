@@ -49,7 +49,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Server";
+            this.label1.Text = "Сервер";
             // 
             // label2
             // 
@@ -59,7 +59,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Support ID";
+            this.label2.Text = "ID поддержки";
             // 
             // TXT_host
             // 
@@ -131,7 +131,7 @@
             this.tableLayoutPanel1.SetRowSpan(this.BUT_connect, 2);
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 4;
-            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.Text = "Подключить";
             this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
@@ -144,7 +144,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Protocol";
+            this.label3.Text = "Протокол";
             // 
             // rad_udp
             // 
@@ -177,7 +177,7 @@
             this.MaximizeBox = false;
             this.Name = "SerialSupportProxy";
             this.ShowIcon = false;
-            this.Text = "Support Proxy Connection";
+            this.Text = "Подключение прокси поддержки";
             ((System.ComponentModel.ISupportInitialize)(this.NUM_port)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

@@ -53,7 +53,7 @@ namespace MissionPlanner.Log
             LoadLogList();
 
             if (MainV2.comPort.MAV.cs.armed)
-                CustomMessageBox.Show("Please disarm the drone before downloading logs!", Strings.ERROR);
+                CustomMessageBox.Show("Пожалуйста, разоружите дрон перед загрузкой логов!", Strings.ERROR);
         }
 
         void LoadLogList()

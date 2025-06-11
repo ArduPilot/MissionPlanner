@@ -499,7 +499,7 @@
     <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>NOTE: This is the Y6B and prop rotation changes from the old Y6A</value>
+    <value>ПРИМЕЧАНИЕ: это конфигурация Y6B, направление вращения винтов отличается от старой Y6A</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>'V Tail'</value>
@@ -751,7 +751,7 @@
     <value>True</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>NOTE: X and H are NOT interchangable the prop rotation changes</value>
+    <value>ПРИМЕЧАНИЕ: X и H НЕ взаимозаменяемы, направление вращения винтов отличается</value>
   </data>
   <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

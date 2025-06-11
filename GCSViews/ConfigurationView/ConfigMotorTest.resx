@@ -180,10 +180,10 @@
     <value>2</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>NOTE: PLEASE HOLD DOWN YOUR UAV
-This will test your motors are working.
-Motors are tested in a clockwise rotation 
-starting at the front right.</value>
+    <value>ПРИМЕЧАНИЕ: удерживайте БПЛА руками
+Это проверит работу моторов.
+Моторы тестируются по часовой стрелке,
+начиная с правого переднего.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>

@@ -392,7 +392,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["COMPASS_AUTODEC"] == null)
                 {
-                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                    CustomMessageBox.Show("Недоступно на " + MainV2.comPort.MAV.cs.firmware);
                 }
                 else
                 {
@@ -401,7 +401,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set COMPASS_AUTODEC Failed");
+                CustomMessageBox.Show("Не удалось установить COMPASS_AUTODEC");
             }
         }
 
@@ -459,7 +459,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception ex)
             {
                 this.LogError(ex);
-                CustomMessageBox.Show("Failed to start MAG CAL, check the autopilot is still responding.\n" + ex.ToString(), Strings.ERROR);
+                CustomMessageBox.Show("Не удалось запустить калибровку магнитометра, проверьте отклик автопилота.\n" + ex.ToString(), Strings.ERROR);
                 return;
             }
 
@@ -604,7 +604,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 BUT_OBmagcalcancel.Enabled = false;
                 BUT_OBmagcalaccept.Enabled = false;
                 timer1.Stop();
-                CustomMessageBox.Show("Please reboot the autopilot");
+                CustomMessageBox.Show("Пожалуйста, перезагрузите автопилот");
             }
 
         }
@@ -633,7 +633,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 1);
 
                 if (
-                    CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
+                    CustomMessageBox.Show("Версия прошивки выше APM:Copter 3.01 или APM:Plane 2.74?", "",
                         MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                 {
                     CMB_compass1_orient.SelectedIndex = (int)Rotation.ROTATION_NONE;
@@ -713,7 +713,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["COMPASS_LEARN"] == null)
                 {
-                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                    CustomMessageBox.Show("Недоступно на " + MainV2.comPort.MAV.cs.firmware);
                 }
                 else
                 {
@@ -722,7 +722,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set COMPASS_LEARN Failed");
+                CustomMessageBox.Show("Не удалось установить COMPASS_LEARN");
             }
         }
 
@@ -758,7 +758,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_largemagcal_Click(object sender, EventArgs e)
         {
             double value = 0;
-            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required. Heading is true, not magnetic", ref value) == DialogResult.OK)
+            if (InputBox.Show("MagCal Yaw", "Введите текущий курс в градусах\nПРИМЕЧАНИЕ: требуется фиксация GPS. Курс истинный, не магнитный", ref value) == DialogResult.OK)
             {
                 try
                 {

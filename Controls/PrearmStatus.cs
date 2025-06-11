@@ -60,7 +60,7 @@ namespace MissionPlanner.Controls
             // If prearm prearm checks are passing, display a message
             if (MainV2.comPort.MAV.cs.prearmstatus)
             {
-                TXT_PrearmErrors.Text = "Ready to Arm";
+                TXT_PrearmErrors.Text = "Готов к взлёту";
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace MissionPlanner.Controls
             var prearmMessages = MainV2.comPort.MAV.cs.messages.Where(m => m.time > searchTime && m.message.ToLower().StartsWith("prearm:")).Select(m => m.message).Distinct();
             // If there are no messages, inform the user
             if (!prearmMessages.Any())
-                prearmMessages = new[] { "Prearm checks failing", "Waiting for error messages..." };
+                prearmMessages = new[] { "Проверки перед взлётом не пройдены", "Ожидание сообщений об ошибках..." };
             TXT_PrearmErrors.Text = string.Join(Environment.NewLine, prearmMessages);
         }
     }

@@ -125,13 +125,13 @@
     <value>True</value>
   </metadata>
   <data name="colFile.HeaderText" xml:space="preserve">
-    <value>File</value>
+    <value>Файл</value>
   </data>
   <metadata name="colInternal.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="colInternal.HeaderText" xml:space="preserve">
-    <value>Internal</value>
+    <value>Внутренний</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="colInternal.Width" type="System.Int32, mscorlib">
@@ -141,7 +141,7 @@
     <value>True</value>
   </metadata>
   <data name="colEnglish.HeaderText" xml:space="preserve">
-    <value>English</value>
+    <value>Английский</value>
   </data>
   <data name="colEnglish.Width" type="System.Int32, mscorlib">
     <value>150</value>
@@ -150,7 +150,7 @@
     <value>True</value>
   </metadata>
   <data name="colOtherLang.HeaderText" xml:space="preserve">
-    <value>Other Lang</value>
+    <value>Другой язык</value>
   </data>
   <data name="colOtherLang.Width" type="System.Int32, mscorlib">
     <value>150</value>
@@ -190,7 +190,7 @@
     <value>2</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="&gt;&gt;button2.Name" xml:space="preserve">
     <value>button2</value>
@@ -238,14 +238,14 @@
     <value>4</value>
   </data>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>How to use:
-First time, if this is the first load, just pick your language down the bottom and edit. click save.
+    <value>Как использовать:
+Если это первый запуск, просто выберите язык внизу и отредактируйте. Нажмите «Сохранить».
 
-More uses, Pick your language, and it will autoload, existing for that language
+При последующих запусках выберите язык, и для него автоматически загрузится существующий перевод.
 
-if you get halfway though, click the load trans button
+Если вы остановились на полпути, нажмите кнопку «Загрузить перевод».
 
-NOTE, the autoload only works after Michael has added it to the planner. otherwise you will need to use load trans
+ПРИМЕЧАНИЕ: автозагрузка работает только после того, как Майкл добавит её в планировщик, иначе вам нужно использовать «Загрузить перевод».
 </value>
   </data>
   <data name="&gt;&gt;richTextBox1.Name" xml:space="preserve">
@@ -273,7 +273,7 @@ NOTE, the autoload only works after Michael has added it to the planner. otherwi
     <value>5</value>
   </data>
   <data name="button3.Text" xml:space="preserve">
-    <value>Load trans</value>
+    <value>Загрузить перевод</value>
   </data>
   <data name="&gt;&gt;button3.Name" xml:space="preserve">
     <value>button3</value>
@@ -300,7 +300,7 @@ NOTE, the autoload only works after Michael has added it to the planner. otherwi
     <value>6</value>
   </data>
   <data name="BUT_clipboard.Text" xml:space="preserve">
-    <value>Copy Clipboard</value>
+    <value>Копировать в буфер</value>
   </data>
   <data name="&gt;&gt;BUT_clipboard.Name" xml:space="preserve">
     <value>BUT_clipboard</value>
@@ -324,7 +324,7 @@ NOTE, the autoload only works after Michael has added it to the planner. otherwi
     <value>868, 484</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Language Editor</value>
+    <value>Редактор языков</value>
   </data>
   <data name="&gt;&gt;colFile.Name" xml:space="preserve">
     <value>colFile</value>

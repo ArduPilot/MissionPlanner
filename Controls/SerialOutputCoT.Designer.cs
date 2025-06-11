@@ -114,7 +114,7 @@
             this.BTN_clear_TB.Name = "BTN_clear_TB";
             this.BTN_clear_TB.Size = new System.Drawing.Size(88, 23);
             this.BTN_clear_TB.TabIndex = 16;
-            this.BTN_clear_TB.Text = "Clear Window";
+            this.BTN_clear_TB.Text = "Очистить окно";
             this.BTN_clear_TB.UseVisualStyleBackColor = true;
             this.BTN_clear_TB.Click += new System.EventHandler(this.BTN_clear_TB_Click);
             // 
@@ -128,7 +128,7 @@
             this.GB_connection.Size = new System.Drawing.Size(217, 81);
             this.GB_connection.TabIndex = 18;
             this.GB_connection.TabStop = false;
-            this.GB_connection.Text = "Connection";
+            this.GB_connection.Text = "Подключение";
             // 
             // BUT_connect
             // 
@@ -137,7 +137,7 @@
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 9;
-            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.Text = "Подключить";
             this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
@@ -149,7 +149,7 @@
             this.label_type.Name = "label_type";
             this.label_type.Size = new System.Drawing.Size(31, 13);
             this.label_type.TabIndex = 21;
-            this.label_type.Text = "Type";
+            this.label_type.Text = "Тип";
             // 
             // TB_xml_type
             // 
@@ -169,7 +169,7 @@
             this.CB_advancedMode.Name = "CB_advancedMode";
             this.CB_advancedMode.Size = new System.Drawing.Size(107, 17);
             this.CB_advancedMode.TabIndex = 23;
-            this.CB_advancedMode.Text = "Additional Details";
+            this.CB_advancedMode.Text = "Дополнительные детали";
             this.CB_advancedMode.UseVisualStyleBackColor = true;
             this.CB_advancedMode.CheckedChanged += new System.EventHandler(this.CB_advancedMode_CheckedChanged);
             // 
@@ -183,7 +183,7 @@
             this.chk_indent.Name = "chk_indent";
             this.chk_indent.Size = new System.Drawing.Size(100, 17);
             this.chk_indent.TabIndex = 24;
-            this.chk_indent.Text = "Nice Formatting";
+            this.chk_indent.Text = "Красивое форматирование";
             this.chk_indent.UseVisualStyleBackColor = true;
             this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
             // 
@@ -217,7 +217,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 26;
-            this.label2.Text = "Interval (sec)";
+            this.label2.Text = "Интервал (сек)";
             // 
             // myDataGridView1
             // 
@@ -266,21 +266,21 @@
             this.ContactCallsign.HeaderText = "ContactCallsign";
             this.ContactCallsign.MinimumWidth = 8;
             this.ContactCallsign.Name = "ContactCallsign";
-            this.ContactCallsign.ToolTipText = "If you don\'t know what this is then leave it blank or use the UID";
+            this.ContactCallsign.ToolTipText = "Если не знаете, что это, оставьте пустым или используйте UID";
             // 
             // ContactEndPointIP
             // 
             this.ContactEndPointIP.HeaderText = "ContactEndPointIP";
             this.ContactEndPointIP.MinimumWidth = 8;
             this.ContactEndPointIP.Name = "ContactEndPointIP";
-            this.ContactEndPointIP.ToolTipText = "If you don\'t know what this is then leave it blank";
+            this.ContactEndPointIP.ToolTipText = "Если не знаете, что это, оставьте пустым";
             // 
             // VMF
             // 
             this.VMF.HeaderText = "VMF";
             this.VMF.MinimumWidth = 8;
             this.VMF.Name = "VMF";
-            this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
+            this.VMF.ToolTipText = "Если не знаете, что это, оставьте пустым";
             // 
             // SerialOutputCoT
             // 
@@ -298,7 +298,7 @@
             this.Controls.Add(this.BTN_clear_TB);
             this.Controls.Add(this.TB_output);
             this.Name = "SerialOutputCoT";
-            this.Text = "Output Cursor on Target";
+            this.Text = "Вывод Cursor на цель";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialOutputCoT_FormClosing);
             this.Load += new System.EventHandler(this.SerialOutputCoT_Load);
             this.GB_connection.ResumeLayout(false);

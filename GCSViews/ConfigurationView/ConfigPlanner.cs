@@ -279,7 +279,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Camera Fail: " + ex.Message);
+                CustomMessageBox.Show("Ошибка камеры: " + ex.Message);
             }
         }
 
@@ -325,7 +325,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Can not add video source\n" + ex);
+                CustomMessageBox.Show("Не удаётся добавить источник видео\n" + ex);
                 return;
             }
 
@@ -337,7 +337,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var videoStreamConfig = o as IAMStreamConfig;
             if (videoStreamConfig == null)
             {
-                CustomMessageBox.Show("Failed to get IAMStreamConfig");
+                CustomMessageBox.Show("Не удалось получить IAMStreamConfig");
                 return;
             }
 
@@ -419,7 +419,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             MainV2.instance.changelanguage((CultureInfo)CMB_language.SelectedItem);
 
-            MessageBox.Show("Please Restart the Planner");
+            MessageBox.Show("Пожалуйста, перезапустите Mission Planner");
 
             MainV2.instance.Close();
             //Application.Exit();
@@ -451,7 +451,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechwaypoint"] != null)
                     speechstring = Settings.Instance["speechwaypoint"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                    InputBox.Show("Оповещение", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechwaypoint"] = speechstring;
             }
@@ -469,7 +469,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechmode"] != null)
                     speechstring = Settings.Instance["speechmode"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                    InputBox.Show("Оповещение", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechmode"] = speechstring;
             }
@@ -487,7 +487,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechcustom"] != null)
                     speechstring = Settings.Instance["speechcustom"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                    InputBox.Show("Оповещение", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechcustom"] = speechstring;
             }
@@ -504,7 +504,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Error: getting param list");
+                CustomMessageBox.Show("Ошибка: получение списка параметров");
             }
 
 
@@ -527,7 +527,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechbattery"] != null)
                     speechstring = Settings.Instance["speechbattery"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                    InputBox.Show("Оповещение", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechbattery"] = speechstring;
 
@@ -535,7 +535,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechbatteryvolt"] != null)
                     speechstring = Settings.Instance["speechbatteryvolt"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
+                    InputBox.Show("Уровень батареи", "При каком напряжении предупредить?", ref speechstring))
                     return;
                 Settings.Instance["speechbatteryvolt"] = speechstring;
 
@@ -543,7 +543,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechbatterypercent"] != null)
                     speechstring = Settings.Instance["speechbatterypercent"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Battery Level", "What percentage do you want to warn at?", ref speechstring))
+                    InputBox.Show("Уровень батареи", "При каком проценте предупредить?", ref speechstring))
                     return;
                 Settings.Instance["speechbatterypercent"] = speechstring;
             }
@@ -669,7 +669,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechalt"] != null)
                     speechstring = Settings.Instance["speechalt"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                    InputBox.Show("Оповещение", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechalt"] = speechstring;
 
@@ -677,7 +677,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechaltheight"] != null)
                     speechstring = Settings.Instance["speechaltheight"].ToString();
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)",
+                    InputBox.Show("Минимальная высота", "При какой высоте предупредить? (относительно дома)",
                         ref speechstring))
                     return;
                 Settings.Instance["speechaltheight"] = (double.Parse(speechstring) / CurrentState.multiplieralt).ToString();
@@ -699,7 +699,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            CustomMessageBox.Show("You need to restart the planner for this to take effect");
+            CustomMessageBox.Show("Необходимо перезапустить программу, чтобы изменения вступили в силу");
             Settings.Instance["CHK_GDIPlus"] = CHK_GDIPlus.Checked.ToString();
         }
 
@@ -800,7 +800,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             ThemeManager.LoadTheme(CMB_theme.Text);
             ThemeManager.ApplyThemeTo(MainV2.instance);
-            CustomMessageBox.Show("You may need to select another tab or restart to see the full effect.");
+            CustomMessageBox.Show("Возможно, потребуется выбрать другую вкладку или перезапустить программу, чтобы увидеть результат.");
         }
 
         private void BUT_themecustom_Click(object sender, EventArgs e)
@@ -819,14 +819,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var speechstring = "Armed";
                 if (Settings.Instance["speecharm"] != null)
                     speechstring = Settings.Instance["speecharm"];
-                if (DialogResult.Cancel == InputBox.Show("Arm", "What do you want it to say?", ref speechstring))
+                if (DialogResult.Cancel == InputBox.Show("Взвод", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speecharm"] = speechstring;
 
                 speechstring = "Disarmed";
                 if (Settings.Instance["speechdisarm"] != null)
                     speechstring = Settings.Instance["speechdisarm"];
-                if (DialogResult.Cancel == InputBox.Show("Disarmed", "What do you want it to say?", ref speechstring))
+                if (DialogResult.Cancel == InputBox.Show("Разоружено", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechdisarm"] = speechstring;
             }
@@ -868,7 +868,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // keep this one local
                 string pw = "";
 
-                InputBox.Show("Enter Password", "Please enter a password", ref pw, true);
+                InputBox.Show("Введите пароль", "Пожалуйста, введите пароль", ref pw, true);
 
                 Password.EnterPassword(pw);
             }
@@ -886,7 +886,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechlowgroundspeed"] != null)
                     speechstring = Settings.Instance["speechlowgroundspeed"];
                 if (DialogResult.Cancel ==
-                    InputBox.Show("Ground Speed", "What do you want it to say?", ref speechstring))
+                    InputBox.Show("Скорость по земле", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechlowgroundspeed"] = speechstring;
 
@@ -894,14 +894,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechlowgroundspeedtrigger"] != null)
                     speechstring = Settings.Instance["speechlowgroundspeedtrigger"];
                 if (DialogResult.Cancel ==
-                    InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                    InputBox.Show("порог скорости", "На какой скорости предупредить (м/с)?", ref speechstring))
                     return;
                 Settings.Instance["speechlowgroundspeedtrigger"] = speechstring;
 
                 speechstring = "Low Air Speed {asp}";
                 if (Settings.Instance["speechlowairspeed"] != null)
                     speechstring = Settings.Instance["speechlowairspeed"];
-                if (DialogResult.Cancel == InputBox.Show("Air Speed", "What do you want it to say?", ref speechstring))
+                if (DialogResult.Cancel == InputBox.Show("Воздушная скорость", "Что вы хотите произнести?", ref speechstring))
                     return;
                 Settings.Instance["speechlowairspeed"] = speechstring;
 
@@ -909,7 +909,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["speechlowairspeedtrigger"] != null)
                     speechstring = Settings.Instance["speechlowairspeedtrigger"];
                 if (DialogResult.Cancel ==
-                    InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                    InputBox.Show("порог скорости", "На какой скорости предупредить (м/с)?", ref speechstring))
                     return;
                 Settings.Instance["speechlowairspeedtrigger"] = speechstring;
             }
@@ -931,7 +931,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var server = "https://api.adsb.lol/"; // default to adsb.lol
                 if (Settings.Instance["adsbserver"] != null)
                     server = Settings.Instance["adsbserver"];
-                if (DialogResult.Cancel == InputBox.Show("ADSB Server", "Server IP or API base URL (see https://ardupilot.org/planner/docs/common-adsb.html)", ref server))
+                if (DialogResult.Cancel == InputBox.Show("Сервер ADSB", "IP сервера или базовый URL API (см. https://ardupilot.org/planner/docs/common-adsb.html)", ref server))
                     return;
                 // Strip ending slash off server
                 if (server.EndsWith("/"))
@@ -944,7 +944,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var port = "30003";
                     if (Settings.Instance["adsbport"] != null)
                         port = Settings.Instance["adsbport"];
-                    if (DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
+                    if (DialogResult.Cancel == InputBox.Show("Порт сервера", "Порт сервера?", ref port))
                         return;
                     Settings.Instance["adsbport"] = port;
                 }

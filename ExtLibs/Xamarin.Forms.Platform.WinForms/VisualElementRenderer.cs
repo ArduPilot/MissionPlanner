@@ -136,7 +136,7 @@ namespace Xamarin.Forms.Platform.WinForms
 				if (Element == null)
 					throw new InvalidOperationException(
 						"Cannot assign a native control without an Element; Renderer unbound and/or disposed. " +
-						"Please consult Xamarin.Forms renderers for reference implementation of OnElementChanged.");
+                                                "Обратитесь к примерам рендереров Xamarin.Forms для реализации OnElementChanged.");
 
 				Element.IsNativeStateConsistent = false;
 				control.HandleCreated += OnHandleCreated;

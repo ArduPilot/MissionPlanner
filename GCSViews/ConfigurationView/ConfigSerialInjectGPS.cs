@@ -441,12 +441,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch (Exception ex2)
                 {
-                    CustomMessageBox.Show("Error creating file to save base data into " + ex2.ToString());
+                    CustomMessageBox.Show("Ошибка создания файла для сохранения базовых данных: " + ex2.ToString());
                 }
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" +
+                CustomMessageBox.Show("Ошибка подключения\nесли используется com0com, переименуйте порты в COM??\n" +
                                       ex.ToString());
                 return;
             }
@@ -463,7 +463,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show("Error configuring\n" +
+                    CustomMessageBox.Show("Ошибка конфигурации\n" +
                                           ex.ToString());
                     return;
                 }
@@ -523,13 +523,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Utilities.Septentrio.FailedAckException)
             {
-                this.LogError("Automatic configuration of Septentrio receiver failed");
-                CustomMessageBox.Show("Automatic configuration of Septentrio receiver failed.");
+                this.LogError("Не удалось автоматически настроить приёмник Septentrio");
+                CustomMessageBox.Show("Не удалось автоматически настроить приёмник Septentrio.");
             }
             catch (InvalidOperationException)
             {
-                this.LogError("Septentrio fixed base position is invalid");
-                CustomMessageBox.Show("Septentrio fixed base position is invalid.");
+                this.LogError("Недопустимая фиксированная позиция Septentrio");
+                CustomMessageBox.Show("Недопустимая фиксированная позиция Septentrio.");
             }
             catch (FormatException)
             {
@@ -1220,7 +1220,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.MAV.cs.Base == null)
             {
-                CustomMessageBox.Show("No valid base position determined by gps yet", Strings.ERROR);
+                CustomMessageBox.Show("Базовая позиция ещё не определена приёмником GPS", Strings.ERROR);
                 return;
             }
 
@@ -1373,7 +1373,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show("Error configuring\n" +
+                    CustomMessageBox.Show("Ошибка конфигурации\n" +
                                           ex.ToString());
                     return;
                 }
@@ -1394,7 +1394,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_movingbase_CheckedChanged(object sender, EventArgs e)
         {
             if (comPort.IsOpen)
-                CustomMessageBox.Show("Please Disconnect and Reconnect to apply this change.");
+                CustomMessageBox.Show("Необходимо отключиться и подключиться заново для применения изменения.");
         }
 
         private void comboBoxConfigType_SelectedIndexChanged(object sender, EventArgs e)
@@ -1425,8 +1425,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Utilities.Septentrio.FailedAckException)
             {
-                this.LogError("Configuration of fixed position on Septentrio receiver failed");
-                CustomMessageBox.Show("Configuration of fixed position on Septentrio receiver failed.");
+                this.LogError("Не удалось настроить фиксированную позицию приёмника Septentrio");
+                CustomMessageBox.Show("Не удалось настроить фиксированную позицию приёмника Septentrio.");
             }
             catch (FormatException) { }
             catch (InvalidOperationException) { }
@@ -1442,8 +1442,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Settings.Instance["SerialInjectGPS_SeptentrioFixedAltitude"] = input_septentriofixedaltitude.Text;
             } catch (Utilities.Septentrio.FailedAckException)
             {
-                this.LogError("Configuration of fixed position on Septentrio receiver failed");
-                CustomMessageBox.Show("Configuration of fixed position on Septentrio receiver failed.");
+                this.LogError("Не удалось настроить фиксированную позицию приёмника Septentrio");
+                CustomMessageBox.Show("Не удалось настроить фиксированную позицию приёмника Septentrio.");
             }
         }
 
@@ -1487,8 +1487,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Utilities.Septentrio.FailedAckException)
             {
-                this.LogError("Configuration of fixed position on Septentrio receiver failed");
-                CustomMessageBox.Show("Configuration of fixed position on Septentrio receiver failed.");
+                this.LogError("Не удалось настроить фиксированную позицию приёмника Septentrio");
+                CustomMessageBox.Show("Не удалось настроить фиксированную позицию приёмника Septentrio.");
             }
             catch (FormatException) { }
             catch (InvalidOperationException) { }
@@ -1559,9 +1559,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Utilities.Septentrio.FailedAckException)
             {
-                this.LogError("Configuration of RTCM interval on Septentrio receiver failed");
-                CustomMessageBox.Show("Configuration of RTCM interval on Septentrio receiver failed.");
-            } 
+                this.LogError("Не удалось настроить интервал RTCM на приёмнике Septentrio");
+                CustomMessageBox.Show("Не удалось настроить интервал RTCM на приёмнике Septentrio.");
+            }
             catch (FormatException ex) {
                 log.Error(ex.Message);
                 CustomMessageBox.Show(ex.Message);

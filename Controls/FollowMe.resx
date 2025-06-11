@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>What this does.
-1. gets the current gps coords from a nmea gps.
-2. sends a guided mode WP to the AP at the hz you request. (remember this is limited to the gps you are using)
+    <value>Что это делает.
+1. получает текущие координаты GPS из NMEA GPS.
+2. отправляет точку режима Guided на автопилот с указанной вами частотой (учтите, что это ограничено используемым GPS).
 
-How to use it
-1. connect to ap.
-2. take off, test guided mode is working.
-3. open this and pick your comport, and baud rate for your nmea gps.
-4. it should now be following you.
-NOTE: you must put the ap into guided mode manually</value>
+Как использовать
+1. подключитесь к автопилоту.
+2. взлетите, убедитесь, что режим Guided работает.
+3. откройте это окно и выберите свой COM-порт и скорость для NMEA GPS.
+4. теперь аппарат должен следовать за вами.
+ПРИМЕЧАНИЕ: необходимо вручную перевести автопилот в режим Guided.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

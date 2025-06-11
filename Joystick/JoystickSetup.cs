@@ -36,7 +36,7 @@ namespace MissionPlanner.Joystick
             }
             catch
             {
-                CustomMessageBox.Show("Error geting joystick list: do you have the directx redist installed?");
+                CustomMessageBox.Show("Ошибка получения списка джойстиков: установлен ли пакет DirectX?");
                 this.Close();
                 return;
             }
@@ -120,7 +120,7 @@ namespace MissionPlanner.Joystick
             if (MainV2.joystick != null && MainV2.joystick.enabled)
             {
                 timer1.Start();
-                BUT_enable.Text = "Disable";
+                BUT_enable.Text = "Отключить";
             }
 
             startup = false;
@@ -158,7 +158,7 @@ namespace MissionPlanner.Joystick
                 //show error message if a joystick is not connected when Enable is clicked
                 if (!joy.start(CMB_joysticks.Text))
                 {
-                    CustomMessageBox.Show("Please Connect a Joystick", "No Joystick");
+                    CustomMessageBox.Show("Подключите джойстик", "Нет джойстика");
                     joy.Dispose();
                     return;
                 }
@@ -168,7 +168,7 @@ namespace MissionPlanner.Joystick
                 MainV2.joystick = joy;
                 MainV2.joystick.enabled = true;
 
-                BUT_enable.Text = "Disable";
+                BUT_enable.Text = "Отключить";
 
                 //timer1.Start();
             }
@@ -183,7 +183,7 @@ namespace MissionPlanner.Joystick
 
                 //timer1.Stop();
 
-                BUT_enable.Text = "Enable";
+                BUT_enable.Text = "Включить";
             }
         }
 
@@ -191,7 +191,7 @@ namespace MissionPlanner.Joystick
         {
             if (MainV2.joystick == null)
             {
-                CustomMessageBox.Show("Please select a joystick");
+                CustomMessageBox.Show("Выберите джойстик");
                 return;
             }
             MainV2.joystick.saveconfig();
@@ -367,7 +367,7 @@ namespace MissionPlanner.Joystick
 
             butlabel.Location = new Point(x, y);
             butlabel.Size = new Size(47, 13);
-            butlabel.Text = "But " + (int.Parse(name) + 1);
+            butlabel.Text = "Кнопка " + (int.Parse(name) + 1);
 
             butnumberlist.Location = new Point(butlabel.Right, y);
             butnumberlist.Size = new Size(70, 21);
@@ -393,7 +393,7 @@ namespace MissionPlanner.Joystick
 
             but_detect.Location = new Point(butnumberlist.Right, y);
             //but_detect.Size = BUT_detch1.Size;
-            but_detect.Text = "Detect";
+            but_detect.Text = "Определить";
             but_detect.AutoSize = true;
 
             but_detect.Name = "mybut" + name;
@@ -424,7 +424,7 @@ namespace MissionPlanner.Joystick
 
             but_settings.Location = new Point(cmbaction.Right + 5, y);
             //but_settings.Size = BUT_detch1.Size;
-            but_settings.Text = "Settings";
+            but_settings.Text = "Настройки";
             but_settings.Name = "butsettings" + name;
             but_settings.Click += but_settings_Click;
             but_settings.Tag = cmbaction;
@@ -479,7 +479,7 @@ namespace MissionPlanner.Joystick
                     new Joy_Button_axis((string)cmb.Tag).ShowDialog();
                     break;
                 default:
-                    CustomMessageBox.Show("No settings to set", "No settings");
+                    CustomMessageBox.Show("Нет доступных настроек", "Нет настроек");
                     break;
             }
         }
