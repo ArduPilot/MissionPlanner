@@ -297,30 +297,22 @@ namespace MissionPlanner.Controls
             try 
             {
                 // Check NMEA GPS information
-                NMEA_GPS_Connection.PointNMEA _gps_data = nmea_GPS_1.getPointNMEA();
+		NMEA_GPS_Connection.PointNMEA _gps_data = nmea_GPS_1.getPointNMEA();
 
-                
+		gotolocation.Lat = _gps_data.Lat;
+		gotolocation.Lng = _gps_data.Lng;
+		gotolocation.Alt = _gps_data.Alt;
 
-                // Sanity Check
-                if (_gps_data.Lat != 0.0 && _gps_data.Lng != 0.0)
-                {
+		if (_host != null)
+		    _host.comPort.MAV.cs.Base = gotolocation;
 
-                    gotolocation.Lat = _gps_data.Lat; 
-                    gotolocation.Lng = _gps_data.Lng;
-                    gotolocation.Alt = _gps_data.Alt; 
+		myDID.operator_latitude = _gps_data.Lat;
+		myDID.operator_longitude = _gps_data.Lng;
+		myDID.operator_altitude_geo = (float)_gps_data.Alt_WGS84;
+		myDID.operator_location_type = MAVLink.MAV_ODID_OPERATOR_LOCATION_TYPE.LIVE_GNSS;
 
-                    if (_host != null)
-                        _host.comPort.MAV.cs.Base = gotolocation;
-
-                    myDID.operator_latitude = _gps_data.Lat;
-                    myDID.operator_longitude = _gps_data.Lng;
-                    myDID.operator_altitude_geo = (float)_gps_data.Alt_WGS84;
-                    myDID.operator_location_type = MAVLink.MAV_ODID_OPERATOR_LOCATION_TYPE.LIVE_GNSS;
-
-                    myDID.since_last_msg_ms = nmea_GPS_1.last_gps_msg.ElapsedMilliseconds; 
-
-                }
-            } catch
+		myDID.since_last_msg_ms = nmea_GPS_1.last_gps_msg.ElapsedMilliseconds;
+	    } catch
             {
                 Console.WriteLine("Error Setting NMEA GPS Data");
             }
