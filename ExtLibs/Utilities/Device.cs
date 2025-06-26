@@ -184,9 +184,13 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_BARO_ICP101XX = 0x0F,
                 DEVTYPE_BARO_ICP201XX = 0x10,
                 DEVTYPE_BARO_MS5607 = 0x11,
-                DEVTYPE_BARO_MS5837 = 0x12,
+                DEVTYPE_BARO_MS5837_30BA = 0x12,
                 DEVTYPE_BARO_MS5637 = 0x13,
                 DEVTYPE_BARO_BMP390 = 0x14,
+                DEVTYPE_BARO_BMP581 = 0x15,
+                DEVTYPE_BARO_SPA06 = 0x16,
+                DEVTYPE_BARO_AUAV = 0x17,
+                DEVTYPE_BARO_MS5837_02BA = 0x18,
             };
 
             //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Airspeed/AP_Airspeed_Backend.h#L99
