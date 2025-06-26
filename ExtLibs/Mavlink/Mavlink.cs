@@ -33783,27 +33783,27 @@ public partial class MAVLink
         //[FieldOffset(12)]
         public  /*GPS_RAIM_STATE*/byte raim_state;
 
-        /// <summary>An abstract value representing the estimated quality of incoming corrections, or 255 if not available.   </summary>
+        /// <summary>An abstract value representing the estimated quality of incoming corrections from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.   </summary>
         [Units("")]
-        [Description("An abstract value representing the estimated quality of incoming corrections, or 255 if not available.")]
+        [Description("An abstract value representing the estimated quality of incoming corrections from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.")]
         //[FieldOffset(13)]
         public  byte corrections_quality;
 
-        /// <summary>An abstract value representing the overall status of the receiver, or 255 if not available.   </summary>
+        /// <summary>An abstract value representing the overall status of the receiver from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.   </summary>
         [Units("")]
-        [Description("An abstract value representing the overall status of the receiver, or 255 if not available.")]
+        [Description("An abstract value representing the overall status of the receiver from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.")]
         //[FieldOffset(14)]
         public  byte system_status_summary;
 
-        /// <summary>An abstract value representing the quality of incoming GNSS signals, or 255 if not available.   </summary>
+        /// <summary>An abstract value representing the quality of incoming GNSS signals from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.   </summary>
         [Units("")]
-        [Description("An abstract value representing the quality of incoming GNSS signals, or 255 if not available.")]
+        [Description("An abstract value representing the quality of incoming GNSS signals from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.")]
         //[FieldOffset(15)]
         public  byte gnss_signal_quality;
 
-        /// <summary>An abstract value representing the estimated PPK quality, or 255 if not available.   </summary>
+        /// <summary>An abstract value representing the estimated PPK quality from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.   </summary>
         [Units("")]
-        [Description("An abstract value representing the estimated PPK quality, or 255 if not available.")]
+        [Description("An abstract value representing the estimated PPK quality from 0 to 10, or 0 if not available. Values are encoded from 1 to 11.")]
         //[FieldOffset(16)]
         public  byte post_processing_quality;
     };
