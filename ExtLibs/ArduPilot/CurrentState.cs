@@ -2154,11 +2154,11 @@ namespace MissionPlanner
         public float efi_rpm { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelflow.Field")]
-        [DisplayText("EFI Fuel Flow (g/min)")]
+        [DisplayText("EFI Fuel Flow (cm3/min)")]
         public float efi_fuelflow { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelconsumed.Field")]
-        [DisplayText("EFI Fuel Consumed (g)")]
+        [DisplayText("EFI Fuel Consumed (cm3)")]
         public float efi_fuelconsumed { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelpressure.Field")]
