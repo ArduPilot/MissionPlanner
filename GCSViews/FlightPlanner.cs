@@ -6569,14 +6569,26 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 string top = "15";
+                bool skipPitch = false;
 
-                if (DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref top))
-                    return;
-
-                if (!int.TryParse(top, out topi))
+                // Check if Quadplane with Bit 1 not enabled — skip takeoff pitch input
+                if (MainV2.comPort.MAV.param.ContainsKey("Q_OPTIONS"))
                 {
-                    MessageBox.Show("Bad Takeoff pitch");
-                    return;
+                    if (((int)MainV2.comPort.MAV.param["Q_OPTIONS"] & (1 << 1)) == 0)
+                    {
+                        skipPitch = true;
+                    }
+                }
+                if (!skipPitch)
+                {
+                    if (DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref top))
+                        return;
+
+                    if (!int.TryParse(top, out topi))
+                    {
+                        MessageBox.Show("Bad Takeoff pitch");
+                        return;
+                    }
                 }
             }
 
