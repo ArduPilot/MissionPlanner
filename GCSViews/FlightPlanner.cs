@@ -6549,9 +6549,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void takeoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // altitude
-            string alt = "10";
+            string alt = CurrentState.AltUnit == "m" ? "10" : "30"; ;
 
-            if (DialogResult.Cancel == InputBox.Show("Altitude", "Please enter your takeoff altitude", ref alt))
+            if (DialogResult.Cancel == InputBox.Show("Altitude", "Please enter your takeoff altitude in " + CurrentState.AltUnit, ref alt))
                 return;
 
             int alti = -1;
