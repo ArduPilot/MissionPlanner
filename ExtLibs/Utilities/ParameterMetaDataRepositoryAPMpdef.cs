@@ -100,9 +100,9 @@ namespace MissionPlanner.Utilities
                         if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now && !force)
                             return;
                     // try just the xml
-                    file = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml");
-                    if (File.Exists(file))
-                        if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now && !force)
+                    var file2 = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml");
+                    if (File.Exists(file2))
+                        if (new FileInfo(file2).LastWriteTime.AddDays(7) > DateTime.Now && !force)
                             return;
                     var dltask = Download.getFilefromNetAsync(newurl, file);
                     tlist.Add(dltask);
@@ -164,11 +164,14 @@ namespace MissionPlanner.Utilities
             try
             {
                 if (File.Exists(paramMetaDataXMLFileName))
+                {
                     _parameterMetaDataXML[vehicle] = XDocument.Load(paramMetaDataXMLFileName);
+                }
 
             }
             catch (Exception ex)
             {
+                log.Error(paramMetaDataXMLFileName);
                 log.Error(ex);
             }
         }
