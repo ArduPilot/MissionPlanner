@@ -169,6 +169,17 @@ namespace MissionPlanner.Utilities
                 }
 
             }
+            catch (System.Xml.XmlException ex) 
+            {
+                try
+                {
+                    if (File.Exists(paramMetaDataXMLFileName))
+                        File.Delete(paramMetaDataXMLFileName);
+                }
+                catch { }
+                log.Error(paramMetaDataXMLFileName);
+                log.Error(ex);
+            }
             catch (Exception ex)
             {
                 log.Error(paramMetaDataXMLFileName);
