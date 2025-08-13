@@ -634,12 +634,12 @@ namespace Xamarin.Droid
             StartD2DInfo();
 
             //register the broadcast receivers
-            UsbBroadcastReceiver = new UsbDeviceReceiver(this);
+            UsbBroadcastReceiver = new UsbDeviceReceiver();
             RegisterReceiver(UsbBroadcastReceiver, new IntentFilter(UsbManager.ActionUsbDeviceDetached));
             RegisterReceiver(UsbBroadcastReceiver, new IntentFilter(UsbManager.ActionUsbDeviceAttached));
 
             // Register for broadcasts when a device is discovered
-            BTBroadcastReceiver = new DeviceDiscoveredReceiver(this);
+            BTBroadcastReceiver = new DeviceDiscoveredReceiver();
             RegisterReceiver(BTBroadcastReceiver, new IntentFilter(BluetoothDevice.ActionFound));
             RegisterReceiver(BTBroadcastReceiver, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
         }
