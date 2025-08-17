@@ -705,6 +705,18 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
+                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                //Check for zero alttitude
+                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
+                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
+                {
+                    if (DialogResult.OK != Common.MessageShowAgain("Zero Altitude Warning",
+                        "WP#" + (a + 1) + " has zero altitude, this means no altitude change! Do you want to continue or cancel wp upload ?",
+                        true))
+                    {
+                        return;
+                    }
+                }
             }
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
@@ -1953,6 +1965,18 @@ namespace MissionPlanner.GCSViews
                                                   "\nPlease reduce the alt warning, or increase the altitude");
                             return;
                         }
+                    }
+                }
+                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                //Check for zero alttitude
+                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
+                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
+                {
+                    if (DialogResult.OK != Common.MessageShowAgain("Zero Altitude Warning",
+                        "WP#" + (a + 1) + " has zero altitude, this means no altitude change! Do you want to continue or cancel wp upload ?",
+                        true))
+                    {
+                        return;
                     }
                 }
             }
