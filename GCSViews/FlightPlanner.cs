@@ -710,12 +710,8 @@ namespace MissionPlanner.GCSViews
                 if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
                     double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
                 {
-                    if (DialogResult.OK != Common.MessageShowAgain("Zero Altitude Warning",
-                        "WP#" + (a + 1) + " has zero altitude, this means no altitude change! Do you want to continue or cancel wp upload ?",
-                        true))
-                    {
+                    if (DialogResult.OK != zeroAltWarning(a))
                         return;
-                    }
                 }
             }
 
@@ -1972,12 +1968,9 @@ namespace MissionPlanner.GCSViews
                 if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
                     double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
                 {
-                    if (DialogResult.OK != Common.MessageShowAgain("Zero Altitude Warning",
-                        "WP#" + (a + 1) + " has zero altitude, this means no altitude change! Do you want to continue or cancel wp upload ?",
-                        true))
-                    {
+                    if (DialogResult.OK != zeroAltWarning(a))
                         return;
-                    }
+
                 }
             }
 
@@ -8269,6 +8262,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             results += Environment.NewLine + Environment.NewLine + count + " tile" + (count > 1 ? "s" : "") + " loaded !";
             CustomMessageBox.Show("Number of tiles loaded per zoom : " + Environment.NewLine + results, "Injecting Custom Map Results");
             map.Dispose();
+        }
+
+        //Put here since it used in multiple places
+        private DialogResult zeroAltWarning(int wpno)
+        {
+           return Common.MessageShowAgain(Strings.ZeroAltWarningTitle,String.Format(Strings.ZeroAltWarning, wpno + 1),true);
+
         }
     }
 }

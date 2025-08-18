@@ -672,4 +672,10 @@
   <data name="Loading" xml:space="preserve">
     <value>불러오는 중</value>
   </data>
+  <data name="ZeroAltWarning" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ZeroAltWarningTitle" xml:space="preserve">
+    <value />
+  </data>
 </root>

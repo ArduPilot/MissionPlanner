@@ -1700,6 +1700,24 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WP# {0} has zero altitude, this means no altitude change! If you want zero altitude, change it to a 0.01m. Do you want to continue or cancel wp upload ?.
+        /// </summary>
+        public static string ZeroAltWarning {
+            get {
+                return ResourceManager.GetString("ZeroAltWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zero Altitude Warning.
+        /// </summary>
+        public static string ZeroAltWarningTitle {
+            get {
+                return ResourceManager.GetString("ZeroAltWarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zoom To.
         /// </summary>
         public static string Zoom_To {
