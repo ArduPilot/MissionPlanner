@@ -64,7 +64,8 @@ namespace GMap.NET.MapProviders
 
       string MakeTileImageUrl(GPoint pos, int zoom, string language)
       {
-         return string.Format(UrlFormat, zoom, pos.X, pos.Y);
+         string url = string.Format(UrlFormat, zoom, pos.X, pos.Y);
+         return url;
       }
 
       static readonly string UrlFormat = "http://tiles.openseamap.org/seamark/{0}/{1}/{2}.png";
