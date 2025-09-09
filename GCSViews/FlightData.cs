@@ -1,8 +1,11 @@
 using DirectShowLib;
+using Dowding.Model;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using IronPython.Modules;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.GeoRef;
@@ -25,8 +28,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Dowding.Model;
-using Microsoft.Scripting.Utils;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
@@ -2495,48 +2496,39 @@ namespace MissionPlanner.GCSViews
 
             CMB_setwp.Items.Add("0 (Home)");
 
+            int max = 0;
+
             if (MainV2.comPort.MAV.param["CMD_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["CMD_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
             }
 
             if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["WP_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
             }
 
             if (MainV2.comPort.MAV.param["MIS_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["MIS_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
             }
 
             if (MainV2.comPort.MAV.wps.Count > 0)
             {
                 int wps = MainV2.comPort.MAV.wps.Count;
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
+            }
+
+            for (int z = 1; z <= max; z++)
+            {
+                CMB_setwp.Items.Add(z.ToString());
             }
         }
 
