@@ -228,6 +228,7 @@ namespace GMap.NET
             list.Clear();
             list = null;
          }
+         worker.ReportProgress(0, 0);
          list = provider.Projection.GetAreaTileList(area, zoom, 0);
          maxOfTiles = provider.Projection.GetTileMatrixMaxXY(zoom);
          all = list.Count;
