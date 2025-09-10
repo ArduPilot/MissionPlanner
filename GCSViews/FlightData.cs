@@ -3,7 +3,6 @@ using Dowding.Model;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-using IronPython.Modules;
 using log4net;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.ArduPilot;
