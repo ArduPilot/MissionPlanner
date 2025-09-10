@@ -54,7 +54,6 @@
             this.but_launch.Size = new System.Drawing.Size(75, 21);
             this.but_launch.TabIndex = 1;
             this.but_launch.Text = "Connect";
-            this.but_launch.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_launch.UseVisualStyleBackColor = true;
             this.but_launch.Click += new System.EventHandler(this.but_launch_Click);
             // 
