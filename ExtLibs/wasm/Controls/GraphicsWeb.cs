@@ -122,17 +122,17 @@ namespace MissionPlanner.Controls
             throw new NotImplementedException();
         }
 
-        public object BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
+        public GraphicsContainer BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
         {
             throw new NotImplementedException();
         }
 
-        public object BeginContainer()
+        public GraphicsContainer BeginContainer()
         {
             throw new NotImplementedException();
         }
 
-        public object BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
+        public GraphicsContainer BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
         {
             throw new NotImplementedException();
         }
@@ -752,7 +752,7 @@ namespace MissionPlanner.Controls
             throw new NotImplementedException();
         }
 
-        public void EndContainer(object container)
+        public void EndContainer(GraphicsContainer container)
         {
             throw new NotImplementedException();
         }

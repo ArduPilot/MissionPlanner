@@ -40,24 +40,24 @@
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="Excubo.Blazor.Canvas" Version="3.2.40" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.9" />
+    <PackageReference Include="System.Net.Http.Json" Version="9.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.1" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Reshiru.Blazor.IndexedDB.Framework" Version="1.0.1" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.9" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.2.23201" />
-    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="4.0.0" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.4.0.24340" />
+    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="5.0.1" />
     <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="10.3.1" />
     <PackageReference Include="WebGLDotNET" Version="2.1.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.9" />
 
   </ItemGroup>
 
