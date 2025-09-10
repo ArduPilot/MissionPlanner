@@ -138,7 +138,6 @@
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 9;
             this.BUT_connect.Text = "Connect";
-            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
