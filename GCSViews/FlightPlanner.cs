@@ -1886,10 +1886,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void BUT_Prefetch_Click(object sender, EventArgs e)
-        {
-        }
-
         public void BUT_saveWPFile_Click(object sender, EventArgs e)
         {
             SaveFile_Click(null, null);
@@ -5052,38 +5048,18 @@ namespace MissionPlanner.GCSViews
 
             if (!area.IsEmpty)
             {
-                string maxzoomstring = "20";
-                if (InputBox.Show("max zoom", "Enter the max zoom to prefetch to.", ref maxzoomstring) !=
-                    DialogResult.OK)
-                    return;
+                int maxzoom = MainMap.MaxZoom;
+                int minzoom = MainMap.MinZoom;
+                TilePrefetcherMenu tilePrefetcherMenu = new TilePrefetcherMenu(MainMap.MinZoom, MainMap.MaxZoom, area, MainMap.MapProvider);
 
-                int maxzoom = 20;
-                if (!int.TryParse(maxzoomstring, out maxzoom))
+                if (tilePrefetcherMenu.ShowDialog(this) != DialogResult.OK)
                 {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                    tilePrefetcherMenu.Dispose();
                     return;
                 }
-
-                maxzoom = Math.Min(maxzoom, MainMap.MaxZoom);
-
-                string minzoomstring = "1";
-                if (InputBox.Show("min zoom", "Enter the min zoom to prefetch to.", ref minzoomstring) !=
-                    DialogResult.OK)
-                    return;
-
-                int minzoom = 20;
-                if (!int.TryParse(minzoomstring, out minzoom))
-                {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
-                    return;
-                }
-                minzoom = Math.Max(minzoom, MainMap.MinZoom);
-
-                if (minzoom > maxzoom)
-                {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
-                    return;
-                }
+                minzoom = tilePrefetcherMenu.Minimum;
+                maxzoom = tilePrefetcherMenu.Maximum;
+                tilePrefetcherMenu.Dispose();
 
                 for (int i = minzoom; i <= maxzoom; i++)
                 {
