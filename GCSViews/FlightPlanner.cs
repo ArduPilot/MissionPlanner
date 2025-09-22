@@ -5148,7 +5148,7 @@ namespace MissionPlanner.GCSViews
                     {
                         GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
 
-                        var colorwidth = GetKMLLineColor(styleurl.OriginalString.TrimStart('#'), root);
+                        var colorwidth = GetKMLLineColor(styleurl?.OriginalString.TrimStart('#'), root);
                         kmlpolygon.Stroke = new Pen(colorwidth.Item1, colorwidth.Item2);
                         kmlpolygon.Fill = Brushes.Transparent;
 
@@ -5163,7 +5163,7 @@ namespace MissionPlanner.GCSViews
                     {
                         GMapRoute kmlroute = new GMapRoute(new List<PointLatLng>(), "kmlroute");
 
-                        var colorwidth = GetKMLLineColor(styleurl.OriginalString.TrimStart('#'), root);
+                        var colorwidth = GetKMLLineColor(styleurl?.OriginalString.TrimStart('#'), root);
                         kmlroute.Stroke = new Pen(colorwidth.Item1, colorwidth.Item2);
 
                         foreach (var loc in ((LineString)Element2).Coordinates)
@@ -5197,6 +5197,9 @@ namespace MissionPlanner.GCSViews
 
         private (Color,int) GetKMLLineColor(string styleurl, Document root)
         {
+            if (string.IsNullOrEmpty(styleurl))
+                return (Color.White, 2);
+
             var style2 = root.Styles.Where(a => a.Id == styleurl.TrimStart('#')).First();
 
             if (style2 is StyleMapCollection)
