@@ -538,10 +538,4 @@
   <data name="Saving" xml:space="preserve">
     <value>保存中</value>
   </data>
-  <data name="ZeroAltWarning" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ZeroAltWarningTitle" xml:space="preserve">
-    <value />
-  </data>
 </root>

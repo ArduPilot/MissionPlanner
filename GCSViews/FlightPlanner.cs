@@ -705,14 +705,8 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
-                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
-                //Check for zero alttitude
-                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
-                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
-                {
-                    if (DialogResult.OK != zeroAltWarning(a))
-                        return;
-                }
+                if (!checkZeroAlts(a))
+                    return;
             }
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
@@ -1963,15 +1957,8 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
-                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
-                //Check for zero alttitude
-                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
-                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
-                {
-                    if (DialogResult.OK != zeroAltWarning(a))
-                        return;
-
-                }
+                if (!checkZeroAlts(a))
+                    return;
             }
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
@@ -8279,11 +8266,45 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             map.Dispose();
         }
 
-        //Put here since it used in multiple places
-        private DialogResult zeroAltWarning(int wpno)
+        /// <summary>
+        /// Checks for certain commands with 0.000 altitudes and and warns the user of the nuiances of doing this
+        /// </summary>
+        /// <param name="wpno"></param>
+        /// <returns></returns>
+        private bool checkZeroAlts(int wpno)
         {
-           return Common.MessageShowAgain(Strings.ZeroAltWarningTitle,String.Format(Strings.ZeroAltWarning, wpno + 1),true);
+            ushort cmd_id = getCmdID(Commands.Rows[wpno].Cells[Command.Index].Value.ToString());
+            // This warning only applies to flying vehicles running ArduPilot
+            bool is_arduplane = MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane;
+            bool is_arducopter = MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2;
+            if (!is_arduplane && !is_arducopter)
+            {
+                return true;
+            }
 
+            // Check for zero altitude
+            if (double.Parse(Commands[Alt.Index, wpno].Value.ToString()) != 0)
+            {
+                return true;
+            }
+            
+            string warning = is_arduplane ? Strings.ZeroAltWarningPlane : Strings.ZeroAltWarningCopter;
+            if (cmd_id == (ushort)MAVLink.MAV_CMD.WAYPOINT ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TIME ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_UNLIM ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TURNS ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TO_ALT)
+            {
+                var result = Common.MessageShowAgain(
+                    Strings.ZeroAltWarningTitle,
+                    string.Format(warning, wpno + 1),
+                    show_cancel: true,
+                    tag: Strings.ZeroAltWarningTitle + (is_arduplane ? " Plane" : "")
+                );
+                return result == DialogResult.OK;
+            }
+
+            return true;
         }
     }
 }

@@ -1700,11 +1700,24 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WP# {0} has zero altitude, this means no altitude change! If you want zero altitude, change it to a 0.01m. Do you want to continue or cancel wp upload ?.
+        ///   Looks up a localized string similar to WP# {0} has zero altitude, this means no altitude change! If you want zero altitude, change it to 0.01. Do you want to continue or cancel wp upload?.
         /// </summary>
-        public static string ZeroAltWarning {
+        public static string ZeroAltWarningCopter {
             get {
-                return ResourceManager.GetString("ZeroAltWarning", resourceCulture);
+                return ResourceManager.GetString("ZeroAltWarningCopter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WP# {0} has zero altitude. If you actually want zero altitude, change it to 0.01 instead for predictable behavior.
+        ///
+        ///On ArduPlane, zero altitudes may interpreted in two different ways: actual zero altitude, or keep current altitude. WAYPOINT commands will generally honor a zero altitude and LOITER commands will generally interpret it as &quot;use current altitude&quot;, but only if the altitude frame is &quot;relative&quot;. There may be more exceptions and this could change in future versions.
+        ///
+        ///ONLY SET TO ZERO IF YOU REAL [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ZeroAltWarningPlane {
+            get {
+                return ResourceManager.GetString("ZeroAltWarningPlane", resourceCulture);
             }
         }
         
