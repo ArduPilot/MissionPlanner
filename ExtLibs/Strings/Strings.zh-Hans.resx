@@ -567,10 +567,4 @@ Mission Planner将会在30秒内寻找控制板。</value>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
     <value>无法连接到SITL实例</value>
   </data>
-  <data name="ZeroAltWarning" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ZeroAltWarningTitle" xml:space="preserve">
-    <value />
-  </data>
 </root>

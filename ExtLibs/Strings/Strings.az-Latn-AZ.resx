@@ -526,10 +526,4 @@
   <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
     <value>Windows app store istifadəyə uygun deyil</value>
   </data>
-  <data name="ZeroAltWarning" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ZeroAltWarningTitle" xml:space="preserve">
-    <value />
-  </data>
 </root>
