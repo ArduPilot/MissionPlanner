@@ -197,6 +197,7 @@ namespace MissionPlanner.GCSViews
             Do_Parachute,
             Engine_Start,
             Engine_Stop,
+            Terminate_Flight,
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
@@ -1746,6 +1747,13 @@ namespace MissionPlanner.GCSViews
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             param1 = 1; // gyro
                         param3 = 1; // baro / airspeed
+                    }
+
+                    if (CMB_action.Text == actions.Terminate_Flight.ToString())
+                    {
+                        MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.DO_FLIGHTTERMINATION, 1.0f, 0, 0, 0, 0, 0, 0);
+                        ((Control)sender).Enabled = true;
+                        return;
                     }
 
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
