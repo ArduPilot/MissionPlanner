@@ -1009,7 +1009,7 @@ namespace MissionPlanner.GCSViews
                 writeKML();
 
                 MainMap.ZoomAndCenterMarkers("WPOverlay");
-            }
+        }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Can't open file! " + ex);
@@ -5387,8 +5387,14 @@ namespace MissionPlanner.GCSViews
                 }
 
                 DataGridViewComboBoxCell cellframe = Commands.Rows[i].Cells[Frame.Index] as DataGridViewComboBoxCell;
-                var multipliers = cmdParamMultipliers[cellcmd.Value.ToString()];
-                cellframe.Value = (int) temp.frame;
+                var multipliers = new double[7] {1, 1, 1, 1, 1, 1, 1 };
+
+                if (cmdParamMultipliers.ContainsKey(cellcmd.Value.ToString()))
+                {
+                    multipliers = cmdParamMultipliers[cellcmd.Value.ToString()];
+                }
+
+                cellframe.Value = (int)temp.frame;
                 cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.alt * multipliers[6];
                 cell = Commands.Rows[i].Cells[Lat.Index] as DataGridViewTextBoxCell;
