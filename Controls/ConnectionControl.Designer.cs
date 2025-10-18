@@ -33,6 +33,7 @@
             this.cmb_Connection = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.cmb_sysid = new System.Windows.Forms.ComboBox();
+            this.chk_RTS = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cmb_Baud
@@ -90,9 +91,18 @@
             this.cmb_sysid.SelectedIndexChanged += new System.EventHandler(this.CMB_sysid_SelectedIndexChanged);
             this.cmb_sysid.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.cmb_sysid_Format);
             // 
+            // chk_RTS
+            // 
+            resources.ApplyResources(this.chk_RTS, "chk_RTS");
+            this.chk_RTS.BackColor = System.Drawing.Color.Black;
+            this.chk_RTS.ForeColor = System.Drawing.Color.White;
+            this.chk_RTS.Name = "chk_RTS";
+            this.chk_RTS.UseVisualStyleBackColor = false;
+            // 
             // ConnectionControl
             // 
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
+            this.Controls.Add(this.chk_RTS);
             this.Controls.Add(this.cmb_sysid);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.cmb_Connection);
@@ -112,5 +122,6 @@
         private System.Windows.Forms.ComboBox cmb_Connection;
         private System.Windows.Forms.LinkLabel linkLabel1;
         public System.Windows.Forms.ComboBox cmb_sysid;
+        private System.Windows.Forms.CheckBox chk_RTS;
     }
 }
