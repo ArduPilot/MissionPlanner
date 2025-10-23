@@ -285,8 +285,9 @@ namespace MissionPlanner.Comms
                     ports = ports.Select(p => p?.TrimEnd()).ToArray();
                     ports = ports.Select(FixBlueToothPortNameBug).ToArray();
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
 
                 if (ports != null)
@@ -298,8 +299,9 @@ namespace MissionPlanner.Comms
                     {
                         allPorts.AddRange(GetCustomPorts.Invoke());
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                 }
 

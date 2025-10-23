@@ -4,13 +4,11 @@ using Android.Content;
 
 namespace MissionPlanner.Comms
 {
+    [BroadcastReceiver(Enabled = true, Exported = false)]
     public class DeviceDiscoveredReceiver : BroadcastReceiver
     {
-        Activity chatActivity;
-
-        public DeviceDiscoveredReceiver(Activity chat)
+        public DeviceDiscoveredReceiver()
         {
-            this.chatActivity = chat;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -31,14 +29,6 @@ namespace MissionPlanner.Comms
             }
             else if (action == BluetoothAdapter.ActionDiscoveryFinished)
             {
-                //chatActivity.SetProgressBarIndeterminateVisibility(false);
-                // chatActivity.SetTitle(Resource.String.select_device);
-                // if (newDevicesArrayAdapter.Count == 0)
-                {
-                    //     var noDevices = chatActivity.Resources.GetText(Resource.String.none_found).ToString();
-                    //     newDevicesArrayAdapter.Add(noDevices);
-
-                }
             }
         }
     }

@@ -94,9 +94,15 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     var newurl = String.Format(url, a);
+                    // try the gzipped version first
                     var file = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml.gz");
                     if(File.Exists(file))
                         if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now && !force)
+                            return;
+                    // try just the xml
+                    var file2 = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml");
+                    if (File.Exists(file2))
+                        if (new FileInfo(file2).LastWriteTime.AddDays(7) > DateTime.Now && !force)
                             return;
                     var dltask = Download.getFilefromNetAsync(newurl, file);
                     tlist.Add(dltask);
@@ -114,6 +120,10 @@ namespace MissionPlanner.Utilities
                     var fileouttemp = Path.Combine(Path.GetTempFileName());
                     var file = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml.gz");
                     if (File.Exists(file))
+                    {
+                        // drop out to prevent unnessary fileio at startup
+                        if (File.Exists(fileout) && new FileInfo(fileout).LastWriteTime.AddDays(7) > DateTime.Now && !force)
+                            return;
                         using (var read = File.OpenRead(file))
                         {
                             //if (XZStream.IsXZStream(read))
@@ -130,6 +140,7 @@ namespace MissionPlanner.Utilities
                                 File.Move(fileouttemp, fileout);
                             }
                         }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -153,11 +164,25 @@ namespace MissionPlanner.Utilities
             try
             {
                 if (File.Exists(paramMetaDataXMLFileName))
+                {
                     _parameterMetaDataXML[vehicle] = XDocument.Load(paramMetaDataXMLFileName);
+                }
 
+            }
+            catch (System.Xml.XmlException ex) 
+            {
+                try
+                {
+                    if (File.Exists(paramMetaDataXMLFileName))
+                        File.Delete(paramMetaDataXMLFileName);
+                }
+                catch { }
+                log.Error(paramMetaDataXMLFileName);
+                log.Error(ex);
             }
             catch (Exception ex)
             {
+                log.Error(paramMetaDataXMLFileName);
                 log.Error(ex);
             }
         }

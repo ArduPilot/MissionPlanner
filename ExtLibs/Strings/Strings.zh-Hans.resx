@@ -149,7 +149,7 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>接收日志列表时错误</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>错误: 没有来自飞行器的响应</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
@@ -222,6 +222,18 @@
     <value>更新参数
 如果您的载具在空中，请不要这么做！
 </value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>正在检查 </value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>下载完毕</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>正在获取 </value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>正在获取更新的参数列表</value>
   </data>
   <data name="AdvancedParams" xml:space="preserve">
     <value>高级参数</value>
@@ -314,18 +326,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>尝试连接。
 在{0}秒后超时</value>
   </data>
-  <data name="Checking" xml:space="preserve">
-    <value>正在检查 </value>
-  </data>
-  <data name="DownloadedFromInternet" xml:space="preserve">
-    <value>下载完毕</value>
-  </data>
-  <data name="Getting" xml:space="preserve">
-    <value>正在获取 </value>
-  </data>
-  <data name="GettingUpdatedParams" xml:space="preserve">
-    <value>正在获取更新的参数列表</value>
-  </data>
   <data name="CantDetectBoardVersion" xml:space="preserve">
     <value>不能检测到您控制板的版本。 请检查连接</value>
   </data>
@@ -399,6 +399,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="ReadingHex" xml:space="preserve">
     <value>正在读取十六进制文件</value>
   </data>
+  <data name="Warningrallypointdistance" xml:space="preserve">
+    <value>警告，集结点放置在了比RALLY_LIMIT_KM还大的地方</value>
+  </data>
   <data name="Warning" xml:space="preserve">
     <value>警告</value>
   </data>
@@ -407,9 +410,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   </data>
   <data name="WarningAC31" xml:space="preserve">
     <value>警告，从AC 3.1起，电机将在解锁后转动，这可以通过MOT_SPIN_ARMED参数配置</value>
-  </data>
-  <data name="Warningrallypointdistance" xml:space="preserve">
-    <value>警告，集结点放置在了比RALLY_LIMIT_KM还大的地方</value>
   </data>
   <data name="MagCalibMsg" xml:space="preserve">
     <value>请单击确认并且将自动驾驶仪绕所有轴做圆周运动</value>
@@ -453,20 +453,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="Start" xml:space="preserve">
     <value>开始</value>
   </data>
+  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
+    <value>您确认要升级到</value>
+  </data>
   <data name="Beta" xml:space="preserve">
     <value>测试版</value>
   </data>
   <data name="BetaWarning" xml:space="preserve">
     <value>这些是测试版固件，请您自担风险！！！</value>
-  </data>
-  <data name="Trunk" xml:space="preserve">
-    <value>主干分支</value>
-  </data>
-  <data name="TrunkWarning" xml:space="preserve">
-    <value>这些是最新的主干分支（开发版）固件，请您自担风险！！！</value>
-  </data>
-  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
-    <value>您确认要升级到</value>
   </data>
   <data name="CanNotConnectToComPortAnd" xml:space="preserve">
     <value>不能连接COM口检测控制板类型</value>
@@ -479,6 +473,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   </data>
   <data name="QuestionMark" xml:space="preserve">
     <value>吗？</value>
+  </data>
+  <data name="Trunk" xml:space="preserve">
+    <value>主干分支</value>
+  </data>
+  <data name="TrunkWarning" xml:space="preserve">
+    <value>这些是最新的主干分支（开发版）固件，请您自担风险！！！</value>
   </data>
   <data name="AutoWP" xml:space="preserve">
     <value>自动航点</value>
@@ -504,6 +504,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="Saving" xml:space="preserve">
     <value>保存中</value>
   </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>证书无效</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>注意</value>
   </data>
@@ -513,9 +516,6 @@ Mission Planner将会在30秒内寻找控制板。</value>
   </data>
   <data name="ThisBoardHasBeenRetired" xml:space="preserve">
     <value>此控制板已经退出历史舞台了，Mission Planner将会上传最后一个支持的版本到您控制板。</value>
-  </data>
-  <data name="InvalidCert" xml:space="preserve">
-    <value>证书无效</value>
   </data>
   <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
     <value>您正在使用不受支持的硬件。
@@ -566,5 +566,11 @@ Mission Planner将会在30秒内寻找控制板。</value>
   </data>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
     <value>无法连接到SITL实例</value>
+  </data>
+  <data name="ZeroAltWarning" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ZeroAltWarningTitle" xml:space="preserve">
+    <value />
   </data>
 </root>

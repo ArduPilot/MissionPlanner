@@ -1833,7 +1833,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         MAVlist[sysid, compid].SoftwareVersions = logdata;
                     }
                     else if (logdata.ToLower().Contains("px4v2") ||
-                             Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
+                             (Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+") && !logdata.Contains("IOMCU")))
                     {
                         MAVlist[sysid, compid].SerialString = logdata;
                     }
@@ -1989,7 +1989,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         MAVlist[sysid, compid].SoftwareVersions = logdata;
                     }
                     else if (logdata.ToLower().Contains("px4v2") ||
-                             Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
+                             (Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+") && !logdata.Contains("IOMCU")))
                     {
                         MAVlist[sysid, compid].SerialString = logdata;
                     }

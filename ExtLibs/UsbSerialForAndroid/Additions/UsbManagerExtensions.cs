@@ -49,10 +49,15 @@ namespace Hoho.Android.UsbSerial.Util
             return completionSource.Task;
         }
 
+        [BroadcastReceiver(Enabled = true, Exported = false)]
         private class UsbPermissionReceiver
             : BroadcastReceiver
         {
             private readonly TaskCompletionSource<bool> completionSource;
+
+            public UsbPermissionReceiver()
+            {
+            }
 
             public UsbPermissionReceiver(TaskCompletionSource<bool> completionSource)
             {

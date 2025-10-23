@@ -236,7 +236,14 @@ namespace MissionPlanner.Comms
             if (!System.Environment.Is64BitOperatingSystem)
                 return ans;
 
-            if (!simpleble_adapter_is_bluetooth_enabled())
+            try
+            {
+                if (!simpleble_adapter_is_bluetooth_enabled())
+                {
+                    return new List<string>();
+                }
+            }
+            catch 
             {
                 return new List<string>();
             }

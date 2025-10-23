@@ -191,12 +191,6 @@ namespace MissionPlanner.GCSViews
                     mand);
             }
 
-            if ((isCopter || isQuadPlane) && MainV2.DisplayConfiguration.displayInitialParams)
-            {
-                AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
-            }
-
-
             if (MainV2.DisplayConfiguration.displayAccelCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigAccelerometerCalibration), rm.GetString("backstageViewPageaccel.Text"), isConnected && gotAllParams, mand);
@@ -236,6 +230,11 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayFailSafe)
             {
                 AddBackstageViewPage(typeof(ConfigFailSafe), rm.GetString("backstageViewPagefs.Text"), isConnected && gotAllParams, mand);
+            }
+
+            if ((isCopter || isQuadPlane) && MainV2.DisplayConfiguration.displayInitialParams)
+            {
+                AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
             }
 
             if (MainV2.DisplayConfiguration.displayHWIDs)

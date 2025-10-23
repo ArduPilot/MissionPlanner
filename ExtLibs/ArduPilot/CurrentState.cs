@@ -63,6 +63,7 @@ namespace MissionPlanner
 
         internal double _battery_voltage2;
 
+        private float _ch1percent = -1;
         private float _ch3percent = -1;
         private float _climbrate;
         private double _current;
@@ -927,7 +928,42 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc16_rpm { get; set; }
         [GroupText("ESC")] public float esc16_temp { get; set; }
 
+        [GroupText("RadioOut")]
+        public float ch1percent
+        {
+            get
+            {
+                if (_ch1percent != -1)
+                    return _ch1percent;
+                try
+                {
+                    if (parent != null && parent.parent.MAV.param.ContainsKey("SERVO1_MIN") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO1_TRIM") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO1_MAX") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO1_REVERSED"))
+                    {
+                        float ch1reversed = (float)parent.parent.MAV.param["SERVO1_REVERSED"].Value == 1 ? -100 : 100;
+                        float ch1diff = (ch1out - (float)parent.parent.MAV.param["SERVO1_TRIM"].Value);
+                        return
+                            ch1diff < 0 ? ch1diff / (float)(parent.parent.MAV.param["SERVO1_TRIM"].Value - 
+                            parent.parent.MAV.param["SERVO1_MIN"].Value) * ch1reversed :
+                            ch1diff / (float)(parent.parent.MAV.param["SERVO1_MAX"].Value -
+                            parent.parent.MAV.param["SERVO1_TRIM"].Value) * ch1reversed;
+                    }
+                    if (ch1out == 0)
+                        return 0;
+                    float diff = ch1out - 1500;
+                    return diff < 0 ? diff / (1500 - 1000) * 100 :
+                        diff / (2000 - 1500) * 100;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
 
+            set => _ch1percent = value;
+        }
 
         [GroupText("RadioOut")]
         public float ch3percent
@@ -938,17 +974,24 @@ namespace MissionPlanner
                     return _ch3percent;
                 try
                 {
-                    if (parent != null && parent.parent.MAV.param.ContainsKey("RC3_MIN") &&
-                        parent.parent.MAV.param.ContainsKey("RC3_MAX"))
+                    if (parent != null && parent.parent.MAV.param.ContainsKey("SERVO3_MIN") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO3_TRIM") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO3_MAX") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO3_REVERSED"))
+                    {
+                        float ch3reversed = (float)parent.parent.MAV.param["SERVO3_REVERSED"].Value == 1 ? -100 : 100;
+                        float ch3diff = (ch3out - (float)parent.parent.MAV.param["SERVO3_TRIM"].Value);
                         return
-                            (int)
-                            ((ch3out - parent.parent.MAV.param["RC3_MIN"].Value) /
-                             (parent.parent.MAV.param["RC3_MAX"].Value - parent.parent.MAV.param["RC3_MIN"].Value) *
-                             100);
-
+                            ch3diff < 0 ? ch3diff / (float)(parent.parent.MAV.param["SERVO3_TRIM"].Value -
+                            parent.parent.MAV.param["SERVO3_MIN"].Value) * ch3reversed :
+                            ch3diff / (float)(parent.parent.MAV.param["SERVO3_MAX"].Value -
+                            parent.parent.MAV.param["SERVO3_TRIM"].Value) * ch3reversed;
+                    }
                     if (ch3out == 0)
                         return 0;
-                    return (int)((ch3out - 1100) / (1900 - 1100) * 100);
+                    float diff = ch3out - 1500;
+                    return diff < 0 ? diff / (1500 - 1000) * 100 :
+                        diff / (2000 - 1500) * 100;
                 }
                 catch
                 {
@@ -2154,11 +2197,11 @@ namespace MissionPlanner
         public float efi_rpm { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelflow.Field")]
-        [DisplayText("EFI Fuel Flow (g/min)")]
+        [DisplayText("EFI Fuel Flow (cm3/min)")]
         public float efi_fuelflow { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelconsumed.Field")]
-        [DisplayText("EFI Fuel Consumed (g)")]
+        [DisplayText("EFI Fuel Consumed (cm3)")]
         public float efi_fuelconsumed { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelpressure.Field")]

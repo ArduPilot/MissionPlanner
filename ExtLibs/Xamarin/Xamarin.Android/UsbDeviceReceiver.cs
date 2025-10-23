@@ -8,17 +8,14 @@ using Hoho.Android.UsbSerial.Driver;
 
 namespace Xamarin.Droid
 {
+    [BroadcastReceiver(Enabled = true, Exported = false)]
     public class UsbDeviceReceiver
         : BroadcastReceiver
     {
-        readonly string TAG = "MP-"+typeof(UsbDeviceReceiver).Name;
-        readonly Activity activity;
-            
+        readonly string TAG = "MP-"+typeof(UsbDeviceReceiver).Name;           
 
-        public UsbDeviceReceiver(Activity activity)
+        public UsbDeviceReceiver()
         {
-            this.activity = activity;
-
         }
 
         public override void OnReceive(Context context, Intent intent)

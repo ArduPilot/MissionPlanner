@@ -705,6 +705,14 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
+                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                //Check for zero alttitude
+                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
+                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
+                {
+                    if (DialogResult.OK != zeroAltWarning(a))
+                        return;
+                }
             }
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
@@ -1954,6 +1962,15 @@ namespace MissionPlanner.GCSViews
                             return;
                         }
                     }
+                }
+                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                //Check for zero alttitude
+                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
+                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
+                {
+                    if (DialogResult.OK != zeroAltWarning(a))
+                        return;
+
                 }
             }
 
@@ -5131,7 +5148,7 @@ namespace MissionPlanner.GCSViews
                     {
                         GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
 
-                        var colorwidth = GetKMLLineColor(styleurl.OriginalString.TrimStart('#'), root);
+                        var colorwidth = GetKMLLineColor(styleurl?.OriginalString.TrimStart('#'), root);
                         kmlpolygon.Stroke = new Pen(colorwidth.Item1, colorwidth.Item2);
                         kmlpolygon.Fill = Brushes.Transparent;
 
@@ -5146,7 +5163,7 @@ namespace MissionPlanner.GCSViews
                     {
                         GMapRoute kmlroute = new GMapRoute(new List<PointLatLng>(), "kmlroute");
 
-                        var colorwidth = GetKMLLineColor(styleurl.OriginalString.TrimStart('#'), root);
+                        var colorwidth = GetKMLLineColor(styleurl?.OriginalString.TrimStart('#'), root);
                         kmlroute.Stroke = new Pen(colorwidth.Item1, colorwidth.Item2);
 
                         foreach (var loc in ((LineString)Element2).Coordinates)
@@ -5180,6 +5197,9 @@ namespace MissionPlanner.GCSViews
 
         private (Color,int) GetKMLLineColor(string styleurl, Document root)
         {
+            if (string.IsNullOrEmpty(styleurl))
+                return (Color.White, 2);
+
             var style2 = root.Styles.Where(a => a.Id == styleurl.TrimStart('#')).First();
 
             if (style2 is StyleMapCollection)
@@ -5362,7 +5382,7 @@ namespace MissionPlanner.GCSViews
                     // not home
                     if (i != 0)
                     {
-                        CMB_altmode.SelectedValue = temp.frame;
+                        CMB_altmode.SelectedValue = (int) temp.frame;
                     }
                 }
 
@@ -6532,9 +6552,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void takeoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // altitude
-            string alt = "10";
+            string alt = CurrentState.AltUnit == "m" ? "10" : "30"; ;
 
-            if (DialogResult.Cancel == InputBox.Show("Altitude", "Please enter your takeoff altitude", ref alt))
+            if (DialogResult.Cancel == InputBox.Show("Altitude", "Please enter your takeoff altitude in " + CurrentState.AltUnit, ref alt))
                 return;
 
             int alti = -1;
@@ -6552,14 +6572,26 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 string top = "15";
+                bool skipPitch = false;
 
-                if (DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref top))
-                    return;
-
-                if (!int.TryParse(top, out topi))
+                // Check if Quadplane with Bit 1 not enabled — skip takeoff pitch input
+                if (MainV2.comPort.MAV.param.ContainsKey("Q_OPTIONS"))
                 {
-                    MessageBox.Show("Bad Takeoff pitch");
-                    return;
+                    if (((int)MainV2.comPort.MAV.param["Q_OPTIONS"] & (1 << 1)) == 0)
+                    {
+                        skipPitch = true;
+                    }
+                }
+                if (!skipPitch)
+                {
+                    if (DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref top))
+                        return;
+
+                    if (!int.TryParse(top, out topi))
+                    {
+                        MessageBox.Show("Bad Takeoff pitch");
+                        return;
+                    }
                 }
             }
 
@@ -8245,6 +8277,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             results += Environment.NewLine + Environment.NewLine + count + " tile" + (count > 1 ? "s" : "") + " loaded !";
             CustomMessageBox.Show("Number of tiles loaded per zoom : " + Environment.NewLine + results, "Injecting Custom Map Results");
             map.Dispose();
+        }
+
+        //Put here since it used in multiple places
+        private DialogResult zeroAltWarning(int wpno)
+        {
+           return Common.MessageShowAgain(Strings.ZeroAltWarningTitle,String.Format(Strings.ZeroAltWarning, wpno + 1),true);
+
         }
     }
 }

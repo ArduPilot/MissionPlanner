@@ -149,8 +149,8 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>Error receiving log list</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
-    <value>Error: no responce from MAV</value>
+  <data name="ErrorNoResponse" xml:space="preserve">
+    <value>Error: no response from MAV</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
     <value>You are not connected.</value>
@@ -681,5 +681,11 @@ old #{0}  new #{1}</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>
+  </data>
+  <data name="ZeroAltWarning" xml:space="preserve">
+    <value>WP# {0} has zero altitude, this means no altitude change! If you want zero altitude, change it to a 0.01m. Do you want to continue or cancel wp upload ?</value>
+  </data>
+  <data name="ZeroAltWarningTitle" xml:space="preserve">
+    <value>Zero Altitude Warning</value>
   </data>
 </root>

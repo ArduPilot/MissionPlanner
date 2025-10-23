@@ -426,11 +426,13 @@ namespace MissionPlanner.GCSViews
 
                 load.Refresh();
 
-                var files = new string[] { 
+                var files = new string[] {
                     "cygatomic-1.dll",
                     "cyggcc_s-1.dll",
                     "cyggcc_s-seh-1.dll",
                     "cyggomp-1.dll",
+                    "cygiconv-2.dll",
+                    "cygintl-8.dll",
                     "cygquadmath-0.dll",
                     "cygssp-0.dll",
                     "cygstdc++-6.dll",

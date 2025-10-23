@@ -201,7 +201,7 @@ namespace Xamarin.GCSViews
                 return list1;
             };
 
-            if (Device.RuntimePlatform == Device.macOS)
+            if (Device.RuntimePlatform == Device.macOS || Device.RuntimePlatform == Device.Android)
             {
                 // support for fw upload
                 MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>

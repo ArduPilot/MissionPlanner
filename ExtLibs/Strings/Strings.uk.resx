@@ -149,7 +149,7 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>Помилка при отриманні списку лог-файлів</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>Помилка: М-БпЛА не відповідає</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
@@ -686,5 +686,11 @@ MissionPlanner очікує на дійсних 2 серцебиття пере�
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Завантаження</value>
+  </data>
+  <data name="ZeroAltWarning" xml:space="preserve">
+    <value>WP# {0} має нульову висоту, це означає відсутність змін висоти! Якщо вам потрібна нульова висота, змініть її на 0,01 м. Продовжити чи скасувати завантаження wp?</value>
+  </data>
+  <data name="ZeroAltWarningTitle" xml:space="preserve">
+    <value>Попередження про нульову висоту</value>
   </data>
 </root>

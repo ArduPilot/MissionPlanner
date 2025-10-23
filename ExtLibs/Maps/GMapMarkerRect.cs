@@ -78,7 +78,7 @@ namespace GMap.NET.WindowsForms
             GPoint loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth*wprad*2)), LocalPosition.Y);
             // MainMap.FromLatLngToLocal(wpradposition);
 
-            if (m2pixelheight > 0.001 && !double.IsInfinity(m2pixelheight))
+            if (m2pixelheight > 0.001 && !double.IsInfinity(m2pixelheight) && m2pixelheight < Int32.MaxValue)
             {
                 var rect = new System.Drawing.Rectangle(
                     LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X) / 2),

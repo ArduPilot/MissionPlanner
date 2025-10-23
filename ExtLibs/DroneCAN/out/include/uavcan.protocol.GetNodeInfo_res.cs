@@ -19,8 +19,8 @@ namespace DroneCAN
     public partial class DroneCAN 
     {
 //using uavcan.protocol.NodeStatus.cs
-//using uavcan.protocol.HardwareVersion.cs
 //using uavcan.protocol.SoftwareVersion.cs
+//using uavcan.protocol.HardwareVersion.cs
         public partial class uavcan_protocol_GetNodeInfo_res: IDroneCANSerialize 
         {
             public const int UAVCAN_PROTOCOL_GETNODEINFO_RES_MAX_PACK_SIZE = 377;

@@ -3100,7 +3100,7 @@ namespace MissionPlanner.Controls
 
                     var newfontsize = calcfontsize(message, font, fontsize + 10, (SolidBrush) brush, Width - 50 - 50);
 
-                    var size = calcsize(message, newfontsize, (SolidBrush)Brushes.Red);
+                    var size = calcsize(message, newfontsize, (SolidBrush) brush);
 
                     drawstring(message, font, newfontsize, (SolidBrush) brush, size.Width / -2,
                         halfheight / 3);
