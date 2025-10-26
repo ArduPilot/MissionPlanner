@@ -42,5 +42,8 @@ namespace SharpKml.Dom
         /// </summary>
         [KmlElement("altitudeMode", KmlNamespaces.GX22Namespace, 4)]
         public GX.AltitudeMode? GXAltitudeMode { get; set; }
+
+        [KmlElement("LatLonQuad", KmlNamespaces.GX22Namespace, 5)]
+        public GX.LatLonQuad GXLatLonQuad { get; set; }
     }
 }
