@@ -4243,10 +4243,6 @@ namespace MissionPlanner.GCSViews
                             kml = sr.ReadToEnd();
                             sr.Close();
 
-                            // cleanup after out
-                            if (tempdir != "")
-                                Directory.Delete(tempdir, true);
-
                             kml = kml.Replace("<Snippet/>", "");
 
                             var parser = new Parser();
@@ -4255,7 +4251,11 @@ namespace MissionPlanner.GCSViews
 
                             Kml rootnode = parser.Root as Kml;
 
-                            processKML(rootnode.Feature);
+                            processKML(rootnode.Feature, null, tempdir);
+
+                            // cleanup after out
+                            if (tempdir != "")
+                                Directory.Delete(tempdir, true);
 
                             if ((int) DialogResult.Yes ==
                                 CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen,
@@ -5119,13 +5119,13 @@ namespace MissionPlanner.GCSViews
             FetchPath();
         }
 
-        private void processKML(Element Element, Document root = null)
+        private void processKML(Element Element, Document root = null, string tempdir = null)
         {
             if (Element is Document)
             {
                 foreach (var feat in ((Document)Element).Features)
                 {
-                    processKML(feat, (Document)Element);
+                    processKML(feat, (Document)Element, tempdir);
                 }
 
                 return;
@@ -5134,7 +5134,7 @@ namespace MissionPlanner.GCSViews
             {
                 foreach (var feat in ((Folder)Element).Features)
                 {
-                    processKML(feat, root);
+                    processKML(feat, root, tempdir);
                 }
             }
             else if (Element is Placemark)
@@ -5193,6 +5193,196 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
+            else if (Element is GroundOverlay)
+            {
+                // has groundoverlay
+                var go = (GroundOverlay)Element;
+                var file = go.Icon?.Href?.ToString();
+                var latlonbox = go.GXLatLonQuad;
+
+                if (file != null && latlonbox != null)
+                {
+                    try
+                    {
+                        // Load the source image from file or tempdir
+                        string imagePath = file;
+                        if (!string.IsNullOrEmpty(tempdir) && !Path.IsPathRooted(file))
+                        {
+                            imagePath = Path.Combine(tempdir, file);
+                        }
+
+                        if (!File.Exists(imagePath))
+                        {
+                            log.Error($"GroundOverlay image not found: {imagePath}");
+                            return;
+                        }
+
+                        using (var sourceImg = System.Drawing.Image.FromFile(imagePath))
+                        {
+                            // Extract corner coordinates
+                            List<PointLatLngAlt> corners = new List<PointLatLngAlt>();
+                            foreach (var loc in latlonbox.Coordinates)
+                            {
+                                corners.Add(new PointLatLngAlt(loc.Latitude, loc.Longitude));
+                            }
+
+                            if (corners.Count != 4)
+                            {
+                                log.Error($"GroundOverlay requires exactly 4 corner coordinates, got {corners.Count}");
+                                return;
+                            }
+
+                            // Calculate bounding rectangle
+                            double minLat = corners.Min(c => c.Lat);
+                            double maxLat = corners.Max(c => c.Lat);
+                            double minLng = corners.Min(c => c.Lng);
+                            double maxLng = corners.Max(c => c.Lng);
+
+                            RectLatLng rect = RectLatLng.FromLTRB(minLng, maxLat, maxLng, minLat);
+
+                            // Determine output image dimensions based on aspect ratio
+                            int maxDimension = Math.Max(sourceImg.Width, sourceImg.Height); // Max size to prevent memory issues
+                            double aspectRatio = rect.WidthLng / rect.HeightLat;
+                            int outputWidth, outputHeight;
+
+                            if (aspectRatio > 1)
+                            {
+                                outputWidth = maxDimension;
+                                outputHeight = (int)(maxDimension / aspectRatio);
+                            }
+                            else
+                            {
+                                outputHeight = maxDimension;
+                                outputWidth = (int)(maxDimension * aspectRatio);
+                            }
+
+                            // Create the transformed image
+                            Bitmap transformedImg = TransformGroundOverlayImage(sourceImg, corners, rect, outputWidth, outputHeight);
+
+                            // Add marker with transformed image
+                            var marker = new GMapMarkerFill(transformedImg, rect, rect.LocationTopLeft);
+                            kmlpolygonsoverlay.Markers.Add(marker);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Error processing GroundOverlay", ex);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Transform an image with geographic corner coordinates into a properly mapped square image
+        /// </summary>
+        /// <param name="sourceImage">Source image to transform</param>
+        /// <param name="corners">Four corner coordinates in lat/lng (should be in order: SW, SE, NE, NW or similar)</param>
+        /// <param name="targetRect">Target geographic rectangle</param>
+        /// <param name="outputWidth">Output image width</param>
+        /// <param name="outputHeight">Output image height</param>
+        /// <returns>Transformed bitmap</returns>
+        private Bitmap TransformGroundOverlayImage(System.Drawing.Image sourceImage, List<PointLatLngAlt> corners,
+            RectLatLng targetRect, int outputWidth, int outputHeight)
+        {
+            // Sort corners in clockwise order starting from top-left
+            var sortedCorners = SortCornersClockwise(corners);
+
+            Bitmap output = new Bitmap(outputWidth, outputHeight);
+
+            using (Graphics g = Graphics.FromImage(output))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+
+                // Map corner coordinates to pixel positions in output image
+                PointF[] destPoints = new PointF[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    // Normalize corner position within target rectangle
+                    double normX = (sortedCorners[i].Lng - targetRect.Left) / targetRect.WidthLng;
+                    double normY = (targetRect.Top - sortedCorners[i].Lat) / targetRect.HeightLat;
+
+                    // Scale to output dimensions
+                    destPoints[i] = new PointF(
+                        (float)(normX * outputWidth),
+                        (float)(normY * outputHeight)
+                    );
+                }
+
+                // Only use first 3 points for DrawImage parallelogram transformation
+                PointF[] parallelogram = new PointF[3]
+                {
+            destPoints[0],  // Top-left
+            destPoints[1],  // Top-right
+            destPoints[3]   // Bottom-left
+                };
+
+                try
+                {
+                    // Draw transformed image
+                    g.DrawImage(sourceImage, parallelogram);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error drawing transformed ground overlay", ex);
+
+                    // Fallback: draw without transformation
+                    g.DrawImage(sourceImage, 0, 0, outputWidth, outputHeight);
+                }
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Sorts corners in clockwise order starting from top-left
+        /// </summary>
+        /// <param name="corners">Unsorted corner coordinates</param>
+        /// <returns>Corners sorted clockwise from top-left</returns>
+        private List<PointLatLngAlt> SortCornersClockwise(List<PointLatLngAlt> corners)
+        {
+            if (corners.Count != 4)
+                return corners;
+
+            // Find the centroid
+            double centerLat = corners.Average(c => c.Lat);
+            double centerLng = corners.Average(c => c.Lng);
+
+            // Calculate angle from center for each corner and sort
+            var sorted = corners
+                .Select(c => new
+                {
+                    Corner = c,
+                    Angle = Math.Atan2(c.Lat - centerLat, c.Lng - centerLng)
+                })
+                .OrderBy(x => x.Angle)
+                .Select(x => x.Corner)
+                .ToList();
+
+            // Find the top-left corner (highest latitude, lowest longitude)
+            int topLeftIndex = 0;
+            double maxLat = sorted[0].Lat;
+
+            for (int i = 1; i < sorted.Count; i++)
+            {
+                if (sorted[i].Lat > maxLat)
+                {
+                    maxLat = sorted[i].Lat;
+                    topLeftIndex = i;
+                }
+            }
+
+            // Rotate the list so top-left is first
+            var result = new List<PointLatLngAlt>();
+            for (int i = 0; i < sorted.Count; i++)
+            {
+                result.Add(sorted[(topLeftIndex + i) % sorted.Count]);
+            }
+
+            return result;
         }
 
         private (Color,int) GetKMLLineColor(string styleurl, Document root)
