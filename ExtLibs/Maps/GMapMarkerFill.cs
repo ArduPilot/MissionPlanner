@@ -55,6 +55,17 @@ namespace MissionPlanner.Maps
             elevation = bmp;
         }
 
+        public GMapMarkerFill(Bitmap imageData, RectLatLng rect, PointLatLng currentloc)
+        : base(currentloc)
+        {
+            this.rect = rect;
+
+            IsHitTestVisible = false;
+
+            //display
+            elevation = imageData;
+        }
+
         static GMapMarkerFill()
         {
             var bmp = new Bitmap(1, 1, PixelFormat.Format8bppIndexed);
