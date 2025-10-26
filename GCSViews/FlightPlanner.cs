@@ -5260,8 +5260,8 @@ namespace MissionPlanner.GCSViews
         private Bitmap TransformGroundOverlayImage(System.Drawing.Image sourceImage, List<PointLatLngAlt> corners,
             RectLatLng targetRect, int outputWidth, int outputHeight)
         {
-            // Sort corners in clockwise order starting from top-left
-            var sortedCorners = SortCornersClockwise(corners);
+            // Sort corners in anti-clockwise order starting from top-left
+            var sortedCorners = SortCornersAntiClockwise(corners);
 
             Bitmap output = new Bitmap(outputWidth, outputHeight);
 
@@ -5269,7 +5269,6 @@ namespace MissionPlanner.GCSViews
             {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
                 g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
 
                 // Map corner coordinates to pixel positions in output image
@@ -5314,11 +5313,11 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// Sorts corners in clockwise order starting from top-left
+        /// Sorts corners in anti-clockwise order starting from top-left
         /// </summary>
         /// <param name="corners">Unsorted corner coordinates</param>
-        /// <returns>Corners sorted clockwise from top-left</returns>
-        private List<PointLatLngAlt> SortCornersClockwise(List<PointLatLngAlt> corners)
+        /// <returns>Corners sorted anti-clockwise from top-left</returns>
+        private List<PointLatLngAlt> SortCornersAntiClockwise(List<PointLatLngAlt> corners)
         {
             if (corners.Count != 4)
                 return corners;
@@ -5334,19 +5333,22 @@ namespace MissionPlanner.GCSViews
                     Corner = c,
                     Angle = Math.Atan2(c.Lat - centerLat, c.Lng - centerLng)
                 })
-                .OrderBy(x => x.Angle)
+                .OrderByDescending(x => x.Angle)
                 .Select(x => x.Corner)
                 .ToList();
 
             // Find the top-left corner (highest latitude, lowest longitude)
             int topLeftIndex = 0;
             double maxLat = sorted[0].Lat;
+            double minLng = sorted[0].Lng;
 
             for (int i = 1; i < sorted.Count; i++)
             {
-                if (sorted[i].Lat > maxLat)
+                if (sorted[i].Lat > maxLat ||
+                    (sorted[i].Lat == maxLat && sorted[i].Lng < minLng))
                 {
                     maxLat = sorted[i].Lat;
+                    minLng = sorted[i].Lng;
                     topLeftIndex = i;
                 }
             }
