@@ -1072,6 +1072,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CHK_speechArmedOnly_CheckedChanged(object sender, EventArgs e)
         {
+            if (startup)
+                return;
             MainV2.speech_armed_only = CHK_speechArmedOnly.Checked;
             Settings.Instance["speech_armed_only"] = CHK_speechArmedOnly.Checked.ToString();
         }
@@ -1191,4 +1193,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
     }
+
 }
