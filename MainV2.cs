@@ -465,7 +465,7 @@ namespace MissionPlanner
             }
         }
 
-        public static bool speech_armed_only = false;
+        public static bool speech_armed_only = truw;
         public static bool speechEnabled()
         {
             if (speechEngine == null)
@@ -4800,3 +4800,4 @@ namespace MissionPlanner
         }
     }
 }
+
