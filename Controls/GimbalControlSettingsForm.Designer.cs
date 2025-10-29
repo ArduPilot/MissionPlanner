@@ -86,7 +86,6 @@
             this.but_cancel.Size = new System.Drawing.Size(75, 23);
             this.but_cancel.TabIndex = 1;
             this.but_cancel.Text = "Cancel";
-            this.but_cancel.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_cancel.UseVisualStyleBackColor = true;
             this.but_cancel.Click += new System.EventHandler(this.but_cancel_Click);
             // 
@@ -98,7 +97,6 @@
             this.but_save.Size = new System.Drawing.Size(75, 23);
             this.but_save.TabIndex = 0;
             this.but_save.Text = "Save";
-            this.but_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_save.UseVisualStyleBackColor = true;
             this.but_save.Click += new System.EventHandler(this.but_save_Click);
             // 
