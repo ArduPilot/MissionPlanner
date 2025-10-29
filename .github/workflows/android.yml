@@ -28,7 +28,8 @@ jobs:
             pwd
             cd latest
             cd bin            
-            .\sdkmanager.bat "platforms;android-33"
+            .\sdkmanager.bat --list
+            .\sdkmanager.bat "platforms;android-33" "build-tools;31.0.0"
 
 
           
@@ -117,8 +118,9 @@ jobs:
             gci
             pwd
             cd latest
-            cd bin            
-            .\sdkmanager.bat "platforms;android-33"
+            cd bin          
+            .\sdkmanager.bat --list  
+            .\sdkmanager.bat "platforms;android-33" "build-tools;31.0.0"
           
       - name: Cache multiple paths
         uses: actions/cache@v4
@@ -157,6 +159,15 @@ jobs:
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
           
           del ExtLibs\Xamarin\Xamarin.Android\bin\Release\*-Signed.apk
+          
+          $apks = Get-ChildItem -include *.apk -path ExtLibs\Xamarin\Xamarin.Android\bin\Release\ -Recurse
+          
+          ForEach($i in $apks) {
+            echo $i.FullName
+            Move-Item -path $i.FullName temp.apk
+            C:\Android\android-sdk\build-tools\31.0.0\zipalign.exe -p -f -v 4 temp.apk $i.FullName
+            Remove-Item temp.apk
+          }
 
       - name: Sign APK
         if: ${{ github.event_name == 'push' }}
@@ -184,7 +195,6 @@ jobs:
           prerelease: true
           title: "Android Development Build"
           files: '**/*-signed.apk'
-
 
 
 
