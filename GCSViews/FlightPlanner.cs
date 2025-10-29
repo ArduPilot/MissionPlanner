@@ -5200,6 +5200,12 @@ namespace MissionPlanner.GCSViews
                 var file = go.Icon?.Href?.ToString();
                 var latlonbox = go.GXLatLonQuad;
 
+                // If GXLatLonQuad is not present, try to convert from LatLonBox
+                if (latlonbox == null && go.Bounds != null)
+                {
+                    latlonbox = ConvertLatLonBoxToLatLonQuad(go.Bounds);
+                }
+
                 if (file != null && latlonbox != null)
                 {
                     try
@@ -5284,8 +5290,7 @@ namespace MissionPlanner.GCSViews
         private Bitmap TransformGroundOverlayImage(System.Drawing.Image sourceImage, List<PointLatLngAlt> corners,
             RectLatLng targetRect, int outputWidth, int outputHeight)
         {
-            // Sort corners in anti-clockwise order starting from top-left
-            var sortedCorners = SortCornersAntiClockwise(corners);
+            var sortedCorners = corners;
 
             Bitmap output = new Bitmap(outputWidth, outputHeight);
 
@@ -5314,9 +5319,10 @@ namespace MissionPlanner.GCSViews
                 // Only use first 3 points for DrawImage parallelogram transformation
                 PointF[] parallelogram = new PointF[3]
                 {
-            destPoints[0],  // Top-left
-            destPoints[1],  // Top-right
-            destPoints[3]   // Bottom-left
+            destPoints[3],   // Bottom-left
+            destPoints[2],  // Top-left
+            destPoints[0],  // Top-right
+            
                 };
 
                 try
@@ -5336,55 +5342,89 @@ namespace MissionPlanner.GCSViews
             return output;
         }
 
+
         /// <summary>
-        /// Sorts corners in anti-clockwise order starting from top-left
+        /// Converts a LatLonBox (with rotation support) to a LatLonQuad with 4 corner coordinates.
         /// </summary>
-        /// <param name="corners">Unsorted corner coordinates</param>
-        /// <returns>Corners sorted anti-clockwise from top-left</returns>
-        private List<PointLatLngAlt> SortCornersAntiClockwise(List<PointLatLngAlt> corners)
+        /// <param name="box">The LatLonBox containing North, South, East, West bounds and optional rotation</param>
+        /// <returns>A LatLonQuad with 4 corners in counter-clockwise order starting from lower-left, or null if box is invalid</returns>
+        private SharpKml.Dom.GX.LatLonQuad ConvertLatLonBoxToLatLonQuad(SharpKml.Dom.LatLonBox box)
         {
-            if (corners.Count != 4)
-                return corners;
-
-            // Find the centroid
-            double centerLat = corners.Average(c => c.Lat);
-            double centerLng = corners.Average(c => c.Lng);
-
-            // Calculate angle from center for each corner and sort
-            var sorted = corners
-                .Select(c => new
-                {
-                    Corner = c,
-                    Angle = Math.Atan2(c.Lat - centerLat, c.Lng - centerLng)
-                })
-                .OrderByDescending(x => x.Angle)
-                .Select(x => x.Corner)
-                .ToList();
-
-            // Find the top-left corner (highest latitude, lowest longitude)
-            int topLeftIndex = 0;
-            double maxLat = sorted[0].Lat;
-            double minLng = sorted[0].Lng;
-
-            for (int i = 1; i < sorted.Count; i++)
+            if (box == null || !box.North.HasValue || !box.South.HasValue ||
+                !box.East.HasValue || !box.West.HasValue)
             {
-                if (sorted[i].Lat > maxLat ||
-                    (sorted[i].Lat == maxLat && sorted[i].Lng < minLng))
+                return null;
+            }
+
+            double north = box.North.Value;
+            double south = box.South.Value;
+            double east = box.East.Value;
+            double west = box.West.Value;
+            double rotation = box.Rotation ?? 0.0; // Rotation in degrees, counter-clockwise
+
+            // Calculate center point
+            double centerLat = (north + south) / 2.0;
+            double centerLng = (east + west) / 2.0;
+
+            // Define the 4 corners of the unrotated box
+            // KML LatLonQuad expects: lower-left, lower-right, upper-right, upper-left (counter-clockwise)
+            var corners = new[]
+            {
+                new { Lat = south, Lng = west },  // Lower-left
+                new { Lat = south, Lng = east },  // Lower-right
+                new { Lat = north, Lng = east },  // Upper-right
+                new { Lat = north, Lng = west }   // Upper-left
+            };
+
+            // Create coordinate collection for LatLonQuad
+            var coordinates = new SharpKml.Dom.CoordinateCollection();
+
+            // If there's rotation, apply it to each corner
+            if (Math.Abs(rotation) > 0.001)
+            {
+                // Convert rotation to radians (KML rotation is counter-clockwise from north)
+                double rotationRad = -rotation * Math.PI / 180.0;
+                double cosTheta = Math.Cos(rotationRad);
+                double sinTheta = Math.Sin(rotationRad);
+
+                foreach (var corner in corners)
                 {
-                    maxLat = sorted[i].Lat;
-                    minLng = sorted[i].Lng;
-                    topLeftIndex = i;
+                    // Translate corner to origin (relative to center)
+                    double lat = corner.Lat - centerLat;
+                    double lng = corner.Lng - centerLng;
+
+                    // Apply rotation matrix
+                    // Note: For geographic coordinates, we need to account for latitude scaling
+                    double cosLat = Math.Cos(centerLat * Math.PI / 180.0);
+                    double lngScaled = lng * cosLat;
+
+                    double rotatedLat = lat * cosTheta - lngScaled * sinTheta;
+                    double rotatedLngScaled = lat * sinTheta + lngScaled * cosTheta;
+                    double rotatedLng = rotatedLngScaled / cosLat;
+
+                    // Translate back
+                    double finalLat = rotatedLat + centerLat;
+                    double finalLng = rotatedLng + centerLng;
+
+                    coordinates.Add(new SharpKml.Base.Vector(finalLat, finalLng));
+                }
+            }
+            else
+            {
+                // No rotation, just use the corners as-is
+                foreach (var corner in corners)
+                {
+                    coordinates.Add(new SharpKml.Base.Vector(corner.Lat, corner.Lng));
                 }
             }
 
-            // Rotate the list so top-left is first
-            var result = new List<PointLatLngAlt>();
-            for (int i = 0; i < sorted.Count; i++)
+            // Create and return the LatLonQuad
+            var quad = new SharpKml.Dom.GX.LatLonQuad
             {
-                result.Add(sorted[(topLeftIndex + i) % sorted.Count]);
-            }
+                Coordinates = coordinates
+            };
 
-            return result;
+            return quad;
         }
 
         private (Color,int) GetKMLLineColor(string styleurl, Document root)
