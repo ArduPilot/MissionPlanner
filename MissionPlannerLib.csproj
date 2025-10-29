@@ -524,9 +524,6 @@
       <Version>1.1.127808</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" /> <PackageReference Include="Autofac" Version="4.9.4" /> 
-    <PackageReference Include="GeoJSON.Net">
-      <Version>1.1.64</Version>
-    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
