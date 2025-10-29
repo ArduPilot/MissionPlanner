@@ -37,6 +37,7 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+		<BaseIntermediateOutputPath>obj3\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>bin\Debug\net461\</OutputPath>
@@ -56,6 +57,8 @@
     <Compile Remove="ExtLibs\**" />
     <Compile Remove="MissionPlannerTests\**" />
     <Compile Remove="Msi\**" />
+    <Compile Remove="obj2\**" />
+    <Compile Remove="obj\**" />
     <Compile Remove="plugins\**" />
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
@@ -65,6 +68,8 @@
     <EmbeddedResource Remove="ExtLibs\**" />
     <EmbeddedResource Remove="MissionPlannerTests\**" />
     <EmbeddedResource Remove="Msi\**" />
+    <EmbeddedResource Remove="obj2\**" />
+    <EmbeddedResource Remove="obj\**" />
     <EmbeddedResource Remove="plugins\**" />
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
@@ -74,6 +79,8 @@
     <None Remove="ExtLibs\**" />
     <None Remove="MissionPlannerTests\**" />
     <None Remove="Msi\**" />
+    <None Remove="obj2\**" />
+    <None Remove="obj\**" />
     <None Remove="plugins\**" />
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />

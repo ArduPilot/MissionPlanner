@@ -11,6 +11,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <BaseIntermediateOutputPath>obj2\</BaseIntermediateOutputPath>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -109,6 +111,7 @@
     <Compile Remove="ExtLibs\Zeroconf\**" />
     <Compile Remove="MissionPlannerTests\**" />
     <Compile Remove="Msi\**" />
+    <Compile Remove="obj3\**" />
     <Compile Remove="Plugins\**" />
     <Compile Remove="plugins\Dowding\**" />
     <Compile Remove="resedit\**" />
@@ -206,6 +209,7 @@
     <EmbeddedResource Remove="ExtLibs\Zeroconf\**" />
     <EmbeddedResource Remove="MissionPlannerTests\**" />
     <EmbeddedResource Remove="Msi\**" />
+    <EmbeddedResource Remove="obj3\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <EmbeddedResource Remove="plugins\Dowding\**" />
     <EmbeddedResource Remove="resedit\**" />
@@ -302,6 +306,7 @@
     <None Remove="ExtLibs\Zeroconf\**" />
     <None Remove="MissionPlannerTests\**" />
     <None Remove="Msi\**" />
+    <None Remove="obj3\**" />
     <None Remove="Plugins\**" />
     <None Remove="plugins\Dowding\**" />
     <None Remove="resedit\**" />
