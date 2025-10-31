@@ -265,50 +265,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             int error = 0;
             bool reboot = false;
-            int maxdisplay = 20;
-
-            if (temp.Count > 0 && temp.Count <= maxdisplay)
-            {
-                // List to track successfully saved parameters
-                List<string> savedParams = new List<string>();
-
-                foreach (string value in temp)
-                {
-                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
-                    {
-                        CustomMessageBox.Show("You are not connected", Strings.ERROR);
-                        return;
-                    }
-
-                    // Get the previous value of the param to display in 'param change info'
-                    // (a better way would be to get the value somewhere from inside the code, insted of recieving it over mavlink)
-                    string previousValue = MainV2.comPort.MAV.param[value].ToString();
-                    // new value of param
-                    double newValue = (double)_changes[value];
-
-                    // Add the parameter, previous and new values to the list for 'param change info'
-                    // remember, the 'value' here is key of param, while prev and new are actual values of param
-                    savedParams.Add($"{value}: {previousValue} -> {newValue}");
-                }
-
-                // Join the saved parameters list to a string
-                string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
-
-                // Ask the user for confirmation showing detailed changes
-                if (CustomMessageBox.Show($"You are about to change {savedParams.Count} parameters. Please review the changes below:\n\n{savedParamsMessage}\n\nDo you want to proceed?", "Confirm Parameter Changes",
-        CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
-    CustomMessageBox.DialogResult.Yes)
-                    return;
-            }
-            else if (temp.Count > maxdisplay)
-            {
-                // Ask the user for confirmation without listing individual changes
-                if (CustomMessageBox.Show($"You are about to change {temp.Count} parameters. Are you sure you want to proceed?", "Confirm Parameter Changes",
-            CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
-        CustomMessageBox.DialogResult.Yes)
-                    return;
-            }
-
 
             foreach (string value in temp)
             {
@@ -362,13 +318,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show("Set " + value + " Failed");
                 }
             }
-
-            if (error > 0)
-                CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
-            else if (temp.Count>0)
-                CustomMessageBox.Show($"{temp.Count} parameters successfully saved.", "Saved");
-            else
-                CustomMessageBox.Show("No parameters were changed.", "No changes");
 
             //Check if reboot is required
             if (reboot)

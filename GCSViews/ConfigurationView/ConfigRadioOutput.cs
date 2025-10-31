@@ -50,6 +50,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var min1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
             var trim1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
             var max1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
+            var minMaxFromTrim1 = new NumericUpDown() { Minimum = 0, Maximum = 700, Value = 0, Width = 50 };
 
             this.tableLayoutPanel1.Controls.Add(label, 0, servono);
             this.tableLayoutPanel1.Controls.Add(bAR1, 1, servono);
@@ -58,6 +59,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.Controls.Add(min1, 4, servono);
             this.tableLayoutPanel1.Controls.Add(trim1, 5, servono);
             this.tableLayoutPanel1.Controls.Add(max1, 6, servono);
+            this.tableLayoutPanel1.Controls.Add(minMaxFromTrim1, 7, servono);
 
             bAR1.DataBindings.Add("Value", bindingSource1, "ch" + servono + "out");
             rev1.setup(1, 0, servo + "_REVERSED", MainV2.comPort.MAV.param);
@@ -66,6 +68,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             min1.setup(800, 2200, 1, 1, servo + "_MIN", MainV2.comPort.MAV.param);
             trim1.setup(800, 2200, 1, 1, servo + "_TRIM", MainV2.comPort.MAV.param);
             max1.setup(800, 2200, 1, 1, servo + "_MAX", MainV2.comPort.MAV.param);
+
+            // Add event handler for min/max from trim control
+            minMaxFromTrim1.ValueChanged += (sender, e) =>
+            {
+                var trimValue = trim1.Value;
+                var offset = minMaxFromTrim1.Value;
+
+                // Calculate min = trim - offset
+                var newMin = trimValue - offset;
+                if (newMin < 800) newMin = 800;
+                if (newMin > 2200) newMin = 2200;
+
+                // Calculate max = trim + offset
+                var newMax = trimValue + offset;
+                if (newMax < 800) newMax = 800;
+                if (newMax > 2200) newMax = 2200;
+
+                // Update the controls
+                min1.Value = newMin;
+                max1.Value = newMax;
+            };
         }
 
         public void Activate()

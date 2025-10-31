@@ -30,6 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label15 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,7 +48,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 7;
+            this.tableLayoutPanel1.ColumnCount = 8;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -56,6 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.label15, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.label6, 6, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.label4, 4, 0);
@@ -93,16 +96,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label15.Size = new System.Drawing.Size(14, 13);
             this.label15.TabIndex = 184;
             this.label15.Text = "#";
-            // 
+            //
+            // label7
+            //
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(388, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 13);
+            this.label7.TabIndex = 153;
+            this.label7.Text = "Min/Max from Trim";
+            //
             // label6
-            // 
+            //
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(355, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 13);
             this.label6.TabIndex = 152;
             this.label6.Text = "Max";
-            // 
+            //
             // label5
             // 
             this.label5.AutoSize = true;
@@ -175,6 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.PerformLayout();
 
         }
+        private Label label7;
         private Label label6;
         private Label label5;
         private Label label4;

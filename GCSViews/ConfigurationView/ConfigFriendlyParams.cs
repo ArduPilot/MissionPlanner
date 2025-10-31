@@ -200,7 +200,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!errorThrown)
             {
                 _params_changed.Clear();
-                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
             }
         }
 

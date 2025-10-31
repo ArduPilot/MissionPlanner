@@ -7,6 +7,7 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>  <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +38,19 @@
     <WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
 		<NoWarn>1701;1702;NU1605</NoWarn>
 	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\net461\plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
+    <NoWarn>1701;1702;NU1605</NoWarn>
+  </PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>pdbonly</DebugType>
 		<Optimize>true</Optimize>
@@ -49,6 +63,18 @@
 		<WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
 		<NoWarn>1701;1702;NU1605</NoWarn>
   </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+	  <DebugType>pdbonly</DebugType>
+	  <Optimize>true</Optimize>
+	  <OutputPath>..\..\bin\Release\net461\plugins\</OutputPath>
+	  <DefineConstants>TRACE</DefineConstants>
+	  <ErrorReport>prompt</ErrorReport>
+	  <WarningLevel>4</WarningLevel>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <Prefer32Bit>false</Prefer32Bit>
+	  <WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
+	  <NoWarn>1701;1702;NU1605</NoWarn>
+	</PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
