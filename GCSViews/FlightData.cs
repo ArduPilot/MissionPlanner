@@ -4383,7 +4383,7 @@ namespace MissionPlanner.GCSViews
             int newalt = (int) modifyandSetAlt.Value;
             try
             {
-                MainV2.comPort.setNewWPAlt(new Locationwp {alt = newalt / CurrentState.multiplieralt});
+                MainV2.comPort.setNewAlt(newalt / CurrentState.multiplieralt);
             }
             catch
             {

@@ -4459,15 +4459,34 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
         }
 
         [Obsolete]
-        public void setNewWPAlt(Locationwp gotohere)
+        public void setNewAlt(float new_relhome_alt_m)
         {
-            setNewWPAlt((byte) sysidcurrent, (byte) compidcurrent, gotohere);
+            setNewAlt((byte) sysidcurrent, (byte) compidcurrent, new_relhome_alt_m);
         }
 
-        public void setNewWPAlt(byte sysid, byte compid, Locationwp gotohere)
+        public void setNewAlt(byte sysid, byte compid, float new_relhome_alt_m)
         {
+	    try
+	    {
+		if (doCommand(
+			(byte) sysid, (byte) compid,
+			MAV_CMD.DO_CHANGE_ALTITUDE,
+			new_relhome_alt_m,              // param1
+			(float)MAV_FRAME.GLOBAL_RELATIVE_ALT,  // param2
+			0, 0, 0, 0, 0)) {
+		    return;
+		}
+	    }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+	    // fall back to using a special mission item with a
+	    // super-special mission_current field value which
+	    // ArduPilot used for many years:
             try
             {
+                Locationwp gotohere = new Locationwp {alt = new_relhome_alt_m};
                 gotohere.id = (ushort) MAV_CMD.WAYPOINT;
 
                 log.InfoFormat("setNewWPAlt {0}:{1} lat {2} lng {3} alt {4}", sysid, compid, gotohere.lat, gotohere.lng,
