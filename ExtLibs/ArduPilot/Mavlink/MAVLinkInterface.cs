@@ -4516,16 +4516,69 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             }
         }
 
-        [Obsolete]
+        [Obsolete("Use setNewAlt(sysid, compid, alt)")]
         public void setNewWPAlt(Locationwp gotohere)
         {
-            setNewWPAlt(sysidcurrent, (byte) compidcurrent, gotohere);
+            setNewAlt(sysidcurrent, (byte) compidcurrent, gotohere.alt);
         }
 
+        [Obsolete("Use setNewAlt(sysid, compid, alt)")]
         public void setNewWPAlt(uint sysid, byte compid, Locationwp gotohere)
         {
+            setNewAlt(sysid, compid, gotohere.alt);
+        }
+
+        [Obsolete("Use setNewAlt(sysid, compid, alt)")]
+        public void setNewAlt(float new_relhome_alt_m)
+        {
+            setNewAlt(sysidcurrent, (byte) compidcurrent, new_relhome_alt_m);
+        }
+
+        public void setNewAlt(uint sysid, byte compid, float new_relhome_alt_m)
+        {
+            if (!MAVlist[sysid, compid].UnsupportedCommands.ContainsKey(MAV_CMD.DO_CHANGE_ALTITUDE))
+            {
+                MAV_RESULT? result = null;
+                try
+                {
+                    result = doCommandIntResult(sysid, compid, MAV_CMD.DO_CHANGE_ALTITUDE,
+                        new_relhome_alt_m,                     // param1 - altitude
+                        (float) MAV_FRAME.GLOBAL_RELATIVE_ALT, // param2 - frame
+                        0, 0, 0, 0, 0,
+                        true,                                  // require ack
+                        null,                                  // callback
+                        MAV_FRAME.GLOBAL_RELATIVE_ALT,
+                        // sent from the UI thread; a lost ack must not stall it for long
+                        retries: 1, timeoutms: 1000);
+                }
+                catch (Exception ex)
+                {
+                    // no ack - fall back to the legacy method
+                    log.Error(ex);
+                }
+
+                if (result == MAV_RESULT.ACCEPTED)
+                {
+                    return;
+                }
+
+                if (result == MAV_RESULT.UNSUPPORTED)
+                {
+                    MAVlist[sysid, compid].UnsupportedCommands[MAV_CMD.DO_CHANGE_ALTITUDE] = true;
+                }
+                else if (result != null && result != MAV_RESULT.COMMAND_LONG_ONLY)
+                {
+                    // the vehicle refused this altitude; don't bypass that
+                    throw new Exception("Alt Change Failed: " + result);
+                }
+            }
+
+            // fall back to using a special mission item with a
+            // super-special mission_current field value which
+            // ArduPilot used for many years:
             try
             {
+                Locationwp gotohere = new Locationwp {alt = new_relhome_alt_m};
                 gotohere.id = (ushort) MAV_CMD.WAYPOINT;
 
                 log.InfoFormat("setNewWPAlt {0}:{1} lat {2} lng {3} alt {4}", sysid, compid, gotohere.lat, gotohere.lng,
@@ -5753,6 +5806,17 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 MAVlist[targetSystem, targetComponent].GuidedMode = (Locationwp) setpos;
 
                 //Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
+            }
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_INT)
+            {
+                // guided targets sent by this or another gcs, and the same on tlog playback
+                var cmd = buffer.ToStructure<mavlink_command_int_t>();
+
+                if (cmd.command == (ushort) MAV_CMD.DO_CHANGE_ALTITUDE)
+                {
+                    MAVlist[targetSystem, targetComponent].GuidedMode.z = cmd.param1;
+                    MAVlist[targetSystem, targetComponent].GuidedMode.frame = (byte) cmd.param2;
+                }
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
