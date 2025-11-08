@@ -650,15 +650,20 @@ namespace Xamarin.Droid
 
             StopD2DInfo();
 
-            UnregisterReceiver(UsbBroadcastReceiver);
+            if (UsbBroadcastReceiver != null)
+                UnregisterReceiver(UsbBroadcastReceiver);
 
-            UnregisterReceiver(BTBroadcastReceiver);
+            if (BTBroadcastReceiver != null)
+                UnregisterReceiver(BTBroadcastReceiver);
         }
 
         public void StopD2DInfo()
         {
-            server.Close();
-            server = null;
+            if (server != null)
+            {
+                server.Close();
+                server = null;
+            }
         }
 
         public void StartD2DInfo()
