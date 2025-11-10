@@ -5285,7 +5285,7 @@ namespace MissionPlanner.GCSViews
             destPoints[3],   // Bottom-left
             destPoints[2],  // Top-left
             destPoints[0],  // Top-right
-            
+
                 };
 
                 try
@@ -5788,7 +5788,7 @@ namespace MissionPlanner.GCSViews
             }
 
             Dictionary<string, ushort> configCommands = new Dictionary<string, ushort>();
-            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"]);
+            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"] ?? "{}");
 
             return configCommands[cmdName];
 
@@ -8487,6 +8487,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         /// <returns></returns>
         private bool checkZeroAlts(int wpno)
         {
+
+            if (Commands.Rows[wpno].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+            {
+                return true;
+            }
+
             ushort cmd_id = getCmdID(Commands.Rows[wpno].Cells[Command.Index].Value.ToString());
             // This warning only applies to flying vehicles running ArduPilot
             bool is_arduplane = MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane;
@@ -8501,7 +8507,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 return true;
             }
-            
+
             string warning = is_arduplane ? Strings.ZeroAltWarningPlane : Strings.ZeroAltWarningCopter;
             if (cmd_id == (ushort)MAVLink.MAV_CMD.WAYPOINT ||
                 cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TIME ||
