@@ -30,6 +30,15 @@
       <Y></Y>
       <Z></Z>
     </RETURN_TO_LAUNCH>
+    <ARC_WAYPOINT>
+      <P1>Arc Angle</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z unitType="alt">Alt</Z>
+    </ARC_WAYPOINT>
     <ATTITUDE_TIME>
       <P1>Time (sec)</P1>
       <P2>Roll</P2>
