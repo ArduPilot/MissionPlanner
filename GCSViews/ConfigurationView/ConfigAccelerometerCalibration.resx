@@ -178,9 +178,6 @@ This will ask you to place your autopilot on each edge.</value>
   <data name="BUT_level.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 21</value>
   </data>
-  <data name="&gt;&gt;BUT_calib_accell.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="&gt;&gt;lineSeparator2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -224,9 +221,6 @@ This requires you to place your autopilot flat and level.</value>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="lbl_Accel_user.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 96</value>
-  </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -254,6 +248,9 @@ This requires you to place your autopilot flat and level.</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
+  </data>
+  <data name="BUT_level.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lineSeparator2.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 30</value>
@@ -285,14 +282,17 @@ This requires you to place your autopilot flat and level.</value>
   <data name="&gt;&gt;lbl_Accel_user.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;BUT_simpleAccelCal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
   <data name="&gt;&gt;lbl_Accel_user.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ConfigAccelerometerCalibration</value>
-  </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Accelerometer Calibration</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -303,14 +303,14 @@ This requires you to place your autopilot flat and level.</value>
   <data name="BUT_calib_accell.Location" type="System.Drawing.Point, System.Drawing">
     <value>188, 72</value>
   </data>
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
   <data name="&gt;&gt;BUT_level.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="lineSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 2</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
@@ -324,8 +324,8 @@ This requires you to place your autopilot flat and level.</value>
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;BUT_simpleAccelCal.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConfigAccelerometerCalibration</value>
   </data>
   <data name="lineSeparator2.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 2</value>
@@ -357,8 +357,8 @@ This requires you to place your autopilot flat and level.</value>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12pt</value>
+  <data name="&gt;&gt;BUT_calib_accell.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -375,11 +375,11 @@ This requires you to place your autopilot flat and level.</value>
   <data name="BUT_calib_accell.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Accelerometer Calibration</value>
+  <data name="lbl_Accel_user.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 96</value>
   </data>
-  <data name="BUT_level.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="lineSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>460, 2</value>
   </data>
   <data name="BUT_calib_accell.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 21</value>
