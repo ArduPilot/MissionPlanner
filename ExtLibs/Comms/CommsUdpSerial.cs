@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -36,6 +37,17 @@ namespace MissionPlanner.Comms
 
         public string ConfigRef { get; set; } = "";
 
+        public static bool IsInRange(string startIpAddr, string endIpAddr, string address)
+        {
+            long ipStart = BitConverter.ToInt32(IPAddress.Parse(startIpAddr).GetAddressBytes().Reverse().ToArray(), 0);
+
+            long ipEnd = BitConverter.ToInt32(IPAddress.Parse(endIpAddr).GetAddressBytes().Reverse().ToArray(), 0);
+
+            long ip = BitConverter.ToInt32(IPAddress.Parse(address).GetAddressBytes().Reverse().ToArray(), 0);
+
+            return ip >= ipStart && ip <= ipEnd;
+        }
+
         public UdpSerial()
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
@@ -43,6 +55,7 @@ namespace MissionPlanner.Comms
 
             Port = "14550";
             ReadTimeout = 500;
+            MCast = "0.0.0.0";
         }
 
         public UdpSerial(UdpClient client)
@@ -53,6 +66,7 @@ namespace MissionPlanner.Comms
         }
 
         public string Port { get; set; }
+        public string MCast { get; set; }
 
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
@@ -108,14 +122,22 @@ namespace MissionPlanner.Comms
             client.Close();
 
             var dest = Port;
+            var multicast_source = MCast;
 
             dest = OnSettings("UDP_port" + ConfigRef, dest);
+            multicast_source = OnSettings("Mcast_rx" + ConfigRef, multicast_source);
 
             if (inputboxreturn.Cancel == OnInputBoxShow("Listern Port",
                     "Enter Local port (ensure remote end is already sending)", ref dest)) return;
             Port = dest;
 
+            if (inputboxreturn.Cancel == OnInputBoxShow("Listen Multicast?",
+                    "Enter Multicast to Subscribe too", ref multicast_source)) return;
+            MCast = multicast_source;
+
+
             OnSettings("UDP_port" + ConfigRef, Port, true);
+            OnSettings("Mcast_rx" + ConfigRef, MCast, true);
 
             //######################################
 
@@ -128,6 +150,10 @@ namespace MissionPlanner.Comms
             }
 
             client = new UdpClient(int.Parse(Port));
+            if (IsInRange("224.0.0.0", "239.255.255.255", MCast))
+            {
+                client.JoinMulticastGroup(IPAddress.Parse(MCast));
+            }
 
             while (true)
             {
@@ -322,7 +348,14 @@ namespace MissionPlanner.Comms
         public void Close()
         {
             _isopen = false;
-            if (client != null) client.Close();
+            if (client != null)
+            {
+                if (IsInRange("224.0.0.0", "239.255.255.255", MCast))
+                {
+                    client.DropMulticastGroup(IPAddress.Parse(MCast));
+                }
+                client.Close();
+            }
 
             client = new UdpClient();
         }
