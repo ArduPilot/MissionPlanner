@@ -1490,6 +1490,7 @@
       <field type="int32_t" name="lng" units="degE7">Longitude.</field>
     </message>
     <message id="165" name="HWSTATUS">
+      <deprecated since="2022-09" replaced_by="POWER_STATUS">POWER_STATUS+SYS_STATUS form a superset of the fields in this message.</deprecated>
       <description>Status of key hardware.</description>
       <field type="uint16_t" name="Vcc" units="mV">Board voltage.</field>
       <field type="uint8_t" name="I2Cerr">I2C error count.</field>

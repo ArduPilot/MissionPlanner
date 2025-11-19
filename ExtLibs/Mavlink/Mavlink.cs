@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Mon Sep 08 2025";
+    public const string MAVLINK_BUILD_DATE = "Thu Nov 20 2025";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -276,6 +276,7 @@ public partial class MAVLink
         new message_info(335, "ISBD_LINK_STATUS", 225, 24, 24, typeof( mavlink_isbd_link_status_t )),
         new message_info(339, "RAW_RPM", 199, 5, 5, typeof( mavlink_raw_rpm_t )),
         new message_info(340, "UTM_GLOBAL_POSITION", 99, 70, 70, typeof( mavlink_utm_global_position_t )),
+        new message_info(345, "PARAM_ERROR", 209, 21, 21, typeof( mavlink_param_error_t )),
         new message_info(350, "DEBUG_FLOAT_ARRAY", 232, 20, 252, typeof( mavlink_debug_float_array_t )),
         new message_info(370, "SMART_BATTERY_INFO", 75, 87, 109, typeof( mavlink_smart_battery_info_t )),
         new message_info(373, "GENERATOR_STATUS", 117, 42, 42, typeof( mavlink_generator_status_t )),
@@ -661,6 +662,7 @@ public partial class MAVLink
         ISBD_LINK_STATUS = 335,
         RAW_RPM = 339,
         UTM_GLOBAL_POSITION = 340,
+        PARAM_ERROR = 345,
         DEBUG_FLOAT_ARRAY = 350,
         SMART_BATTERY_INFO = 370,
         GENERATOR_STATUS = 373,
@@ -876,6 +878,10 @@ public partial class MAVLink
         ///<summary> Reposition the MAV after a follow target command has been sent |Camera q1 (where 0 is on the ray from the camera to the tracking device)| Camera q2| Camera q3| Camera q4| altitude offset from target| X offset from target| Y offset from target|  </summary>
         [Description("Reposition the MAV after a follow target command has been sent")]
         DO_FOLLOW_REPOSITION=33, 
+        ///<summary> Circular arc path waypoint.           This defines the end/exit point and angle (param1) of an arc path from the previous waypoint. A position is required before this command to define the start of the arc (e.g. current position, a MAV_CMD_NAV_WAYPOINT, or a MAV_CMD_NAV_ARC_WAYPOINT).           The resulting path is a circular arc in the NE frame, with the difference in height being defined by the difference in waypoint altitudes.            |The angle in degrees from the starting position to the exit position of the arc in the NE frame. Positive values are CW arcs and negative values are CCW arcs.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Latitude| Longitude| Altitude|  </summary>
+        [Description("Circular arc path waypoint.           This defines the end/exit point and angle (param1) of an arc path from the previous waypoint. A position is required before this command to define the start of the arc (e.g. current position, a MAV_CMD_NAV_WAYPOINT, or a MAV_CMD_NAV_ARC_WAYPOINT).           The resulting path is a circular arc in the NE frame, with the difference in height being defined by the difference in waypoint altitudes.           ")]
+        [hasLocation()]
+        ARC_WAYPOINT=36, 
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         [Description("Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras.")]
         [hasLocation()]
@@ -1282,6 +1288,10 @@ public partial class MAVLink
         [Description("Circular fence area. The vehicle must stay outside this area.         ")]
         [hasLocation()]
         FENCE_CIRCLE_EXCLUSION=5004, 
+        ///<summary> Circular fence area centered on home. The vehicle must stay inside this area. If home is moved, the fence moves. |Radius.| Vehicle must be inside ALL inclusion zones in a single group, vehicle must be inside at least one group. Ignored when sent as a command.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Circular fence area centered on home. The vehicle must stay inside this area. If home is moved, the fence moves.")]
+        [Obsolete]
+        FENCE_HOME_CIRCLE_INCLUSION=5005, 
         ///<summary> Rally point. You can have multiple rally points defined.          |Reserved| Reserved| Reserved| Reserved| Latitude| Longitude| Altitude|  </summary>
         [Description("Rally point. You can have multiple rally points defined.         ")]
         [hasLocation()]
@@ -3593,6 +3603,30 @@ public partial class MAVLink
         ///<summary> 64-bit floating-point | </summary>
         [Description("64-bit floating-point")]
         REAL64=10, 
+        
+    };
+    
+    ///<summary> Parameter protocol error types (see PARAM_ERROR). </summary>
+    public enum MAV_PARAM_ERROR: byte
+    {
+        ///<summary> No error occurred (not expected in PARAM_ERROR but may be used in future implementations. | </summary>
+        [Description("No error occurred (not expected in PARAM_ERROR but may be used in future implementations.")]
+        NO_ERROR=0, 
+        ///<summary> Parameter does not exist | </summary>
+        [Description("Parameter does not exist")]
+        DOES_NOT_EXIST=1, 
+        ///<summary> Parameter value does not fit within accepted range | </summary>
+        [Description("Parameter value does not fit within accepted range")]
+        VALUE_OUT_OF_RANGE=2, 
+        ///<summary> Caller is not permitted to set the value of this parameter | </summary>
+        [Description("Caller is not permitted to set the value of this parameter")]
+        PERMISSION_DENIED=3, 
+        ///<summary> Unknown component specified | </summary>
+        [Description("Unknown component specified")]
+        COMPONENT_NOT_FOUND=4, 
+        ///<summary> Parameter is read-only | </summary>
+        [Description("Parameter is read-only")]
+        READ_ONLY=5, 
         
     };
     
@@ -6473,10 +6507,28 @@ public partial class MAVLink
         ///<summary> Winch | </summary>
         [Description("Winch")]
         WINCH=42, 
+        ///<summary> Generic multirotor that does not fit into a specific type or whose type is unknown | </summary>
+        [Description("Generic multirotor that does not fit into a specific type or whose type is unknown")]
+        GENERIC_MULTIROTOR=43, 
+        ///<summary> Illuminator. An illuminator is a light source that is used for lighting up dark areas external to the system: e.g. a torch or searchlight (as opposed to a light source for illuminating the system itself, e.g. an indicator light). | </summary>
+        [Description("Illuminator. An illuminator is a light source that is used for lighting up dark areas external to the system: e.g. a torch or searchlight (as opposed to a light source for illuminating the system itself, e.g. an indicator light).")]
+        ILLUMINATOR=44, 
+        ///<summary> Orbiter spacecraft. Includes satellites orbiting terrestrial and extra-terrestrial bodies. Follows NASA Spacecraft Classification. | </summary>
+        [Description("Orbiter spacecraft. Includes satellites orbiting terrestrial and extra-terrestrial bodies. Follows NASA Spacecraft Classification.")]
+        SPACECRAFT_ORBITER=45, 
+        ///<summary> A generic four-legged ground vehicle (e.g., a robot dog). | </summary>
+        [Description("A generic four-legged ground vehicle (e.g., a robot dog).")]
+        GROUND_QUADRUPED=46, 
+        ///<summary> VTOL hybrid of helicopter and autogyro. It has a main rotor for lift and separate propellers for forward flight. The rotor must be powered for hover but can autorotate in cruise flight. See: https://en.wikipedia.org/wiki/Gyrodyne | </summary>
+        [Description("VTOL hybrid of helicopter and autogyro. It has a main rotor for lift and separate propellers for forward flight. The rotor must be powered for hover but can autorotate in cruise flight. See: https://en.wikipedia.org/wiki/Gyrodyne")]
+        VTOL_GYRODYNE=47, 
+        ///<summary> Gripper | </summary>
+        [Description("Gripper")]
+        GRIPPER=48, 
         
     };
     
-    ///<summary> These flags encode the MAV mode. </summary>
+    ///<summary> These flags encode the MAV mode, see MAV_MODE enum for useful combinations. </summary>
     public enum MAV_MODE_FLAG: byte
     {
         ///<summary> 0b00000001 Reserved for future use. | </summary>
@@ -6554,17 +6606,17 @@ public partial class MAVLink
         ///<summary> System is active and might be already airborne. Motors are engaged. | </summary>
         [Description("System is active and might be already airborne. Motors are engaged.")]
         ACTIVE=4, 
-        ///<summary> System is in a non-normal flight mode. It can however still navigate. | </summary>
-        [Description("System is in a non-normal flight mode. It can however still navigate.")]
+        ///<summary> System is in a non-normal flight mode (failsafe). It can however still navigate. | </summary>
+        [Description("System is in a non-normal flight mode (failsafe). It can however still navigate.")]
         CRITICAL=5, 
-        ///<summary> System is in a non-normal flight mode. It lost control over parts or over the whole airframe. It is in mayday and going down. | </summary>
-        [Description("System is in a non-normal flight mode. It lost control over parts or over the whole airframe. It is in mayday and going down.")]
+        ///<summary> System is in a non-normal flight mode (failsafe). It lost control over parts or over the whole airframe. It is in mayday and going down. | </summary>
+        [Description("System is in a non-normal flight mode (failsafe). It lost control over parts or over the whole airframe. It is in mayday and going down.")]
         EMERGENCY=6, 
         ///<summary> System just initialized its power-down sequence, will shut down now. | </summary>
         [Description("System just initialized its power-down sequence, will shut down now.")]
         POWEROFF=7, 
-        ///<summary> System is terminating itself. | </summary>
-        [Description("System is terminating itself.")]
+        ///<summary> System is terminating itself (failsafe or commanded). | </summary>
+        [Description("System is terminating itself (failsafe or commanded).")]
         FLIGHT_TERMINATION=8, 
         
     };
@@ -6888,6 +6940,9 @@ public partial class MAVLink
         ///<summary> Parachute component. | </summary>
         [Description("Parachute component.")]
         MAV_COMP_ID_PARACHUTE=161, 
+        ///<summary> Winch component. | </summary>
+        [Description("Winch component.")]
+        MAV_COMP_ID_WINCH=169, 
         ///<summary> Gimbal #2. | </summary>
         [Description("Gimbal #2.")]
         MAV_COMP_ID_GIMBAL2=171, 
@@ -6972,8 +7027,11 @@ public partial class MAVLink
         ///<summary> Component handling TUNNEL messages (e.g. vendor specific GUI of a component). | </summary>
         [Description("Component handling TUNNEL messages (e.g. vendor specific GUI of a component).")]
         MAV_COMP_ID_TUNNEL_NODE=242, 
-        ///<summary> Component for handling system messages (e.g. to ARM, takeoff, etc.). | </summary>
-        [Description("Component for handling system messages (e.g. to ARM, takeoff, etc.).")]
+        ///<summary> Illuminator | </summary>
+        [Description("Illuminator")]
+        MAV_COMP_ID_ILLUMINATOR=243, 
+        ///<summary> Deprecated, don't use. Component for handling system messages (e.g. to ARM, takeoff, etc.). | </summary>
+        [Description("Deprecated, don't use. Component for handling system messages (e.g. to ARM, takeoff, etc.).")]
         [Obsolete]
         MAV_COMP_ID_SYSTEM_CONTROL=250, 
         
@@ -6997,8 +7055,8 @@ public partial class MAVLink
     [Flags]
 	public enum MAV_PROTOCOL_CAPABILITY: ulong
     {
-        ///<summary> Autopilot supports the MISSION_ITEM float message type.           Note that MISSION_ITEM is deprecated, and autopilots should use MISSION_INT instead.          | </summary>
-        [Description("Autopilot supports the MISSION_ITEM float message type.           Note that MISSION_ITEM is deprecated, and autopilots should use MISSION_INT instead.         ")]
+        ///<summary> Autopilot supports the MISSION_ITEM float message type.           Note that MISSION_ITEM is deprecated, and autopilots should use MISSION_ITEM_INT instead.          | </summary>
+        [Description("Autopilot supports the MISSION_ITEM float message type.           Note that MISSION_ITEM is deprecated, and autopilots should use MISSION_ITEM_INT instead.         ")]
         MISSION_FLOAT=1, 
         ///<summary> Autopilot supports the new param float message type. | </summary>
         [Description("Autopilot supports the new param float message type.")]
@@ -8947,7 +9005,7 @@ public partial class MAVLink
         public  int lng;
     };
 
-    
+    [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Status of key hardware. </summary>
@@ -16336,7 +16394,7 @@ public partial class MAVLink
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
-    ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right). </summary>
+    ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, Y-right, X-front, ZYX, intrinsic). </summary>
     public struct mavlink_attitude_t
     {
         /// packet ordered constructor
@@ -16585,101 +16643,6 @@ public partial class MAVLink
         [Description("Z Speed")]
         //[FieldOffset(24)]
         public  float vz;
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
-    ///<summary> The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It                is designed as scaled integer message since the resolution of float is not sufficient. </summary>
-    public struct mavlink_global_position_int_t
-    {
-        /// packet ordered constructor
-        public mavlink_global_position_int_t(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
-        {
-            this.time_boot_ms = time_boot_ms;
-            this.lat = lat;
-            this.lon = lon;
-            this.alt = alt;
-            this.relative_alt = relative_alt;
-            this.vx = vx;
-            this.vy = vy;
-            this.vz = vz;
-            this.hdg = hdg;
-            
-        }
-        
-        /// packet xml order
-        public static mavlink_global_position_int_t PopulateXMLOrder(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
-        {
-            var msg = new mavlink_global_position_int_t();
-
-            msg.time_boot_ms = time_boot_ms;
-            msg.lat = lat;
-            msg.lon = lon;
-            msg.alt = alt;
-            msg.relative_alt = relative_alt;
-            msg.vx = vx;
-            msg.vy = vy;
-            msg.vz = vz;
-            msg.hdg = hdg;
-            
-            return msg;
-        }
-        
-
-        /// <summary>Timestamp (time since system boot).  [ms] </summary>
-        [Units("[ms]")]
-        [Description("Timestamp (time since system boot).")]
-        //[FieldOffset(0)]
-        public  uint time_boot_ms;
-
-        /// <summary>Latitude, expressed  [degE7] </summary>
-        [Units("[degE7]")]
-        [Description("Latitude, expressed")]
-        //[FieldOffset(4)]
-        public  int lat;
-
-        /// <summary>Longitude, expressed  [degE7] </summary>
-        [Units("[degE7]")]
-        [Description("Longitude, expressed")]
-        //[FieldOffset(8)]
-        public  int lon;
-
-        /// <summary>Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.  [mm] </summary>
-        [Units("[mm]")]
-        [Description("Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.")]
-        //[FieldOffset(12)]
-        public  int alt;
-
-        /// <summary>Altitude above home  [mm] </summary>
-        [Units("[mm]")]
-        [Description("Altitude above home")]
-        //[FieldOffset(16)]
-        public  int relative_alt;
-
-        /// <summary>Ground X Speed (Latitude, positive north)  [cm/s] </summary>
-        [Units("[cm/s]")]
-        [Description("Ground X Speed (Latitude, positive north)")]
-        //[FieldOffset(20)]
-        public  short vx;
-
-        /// <summary>Ground Y Speed (Longitude, positive east)  [cm/s] </summary>
-        [Units("[cm/s]")]
-        [Description("Ground Y Speed (Longitude, positive east)")]
-        //[FieldOffset(22)]
-        public  short vy;
-
-        /// <summary>Ground Z Speed (Altitude, positive down)  [cm/s] </summary>
-        [Units("[cm/s]")]
-        [Description("Ground Z Speed (Altitude, positive down)")]
-        //[FieldOffset(24)]
-        public  short vz;
-
-        /// <summary>Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
-        [Units("[cdeg]")]
-        [Description("Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX")]
-        //[FieldOffset(26)]
-        public  ushort hdg;
     };
 
     
@@ -31632,6 +31595,70 @@ public partial class MAVLink
         public  /*UTM_DATA_AVAIL_FLAGS*/byte flags;
     };
 
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=21)]
+    ///<summary> Parameter set/get error. Returned from a MAVLink node in response to an error in the parameter protocol, for example failing to set a parameter because it does not exist.        </summary>
+    public struct mavlink_param_error_t
+    {
+        /// packet ordered constructor
+        public mavlink_param_error_t(short param_index,byte target_system,byte target_component,byte[] param_id,/*MAV_PARAM_ERROR*/byte error) 
+        {
+            this.param_index = param_index;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.param_id = param_id;
+            this.error = error;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_param_error_t PopulateXMLOrder(byte target_system,byte target_component,byte[] param_id,short param_index,/*MAV_PARAM_ERROR*/byte error) 
+        {
+            var msg = new mavlink_param_error_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.param_id = param_id;
+            msg.param_index = param_index;
+            msg.error = error;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Parameter index. Will be -1 if the param ID field should be used as an identifier (else the param id will be ignored)   </summary>
+        [Units("")]
+        [Description("Parameter index. Will be -1 if the param ID field should be used as an identifier (else the param id will be ignored)")]
+        //[FieldOffset(0)]
+        public  short param_index;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(2)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(3)]
+        public  byte target_component;
+
+        /// <summary>Parameter id. Terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+        [Units("")]
+        [Description("Parameter id. Terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(4)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+
+        /// <summary>Error being returned to client. MAV_PARAM_ERROR  </summary>
+        [Units("")]
+        [Description("Error being returned to client.")]
+        //[FieldOffset(20)]
+        public  /*MAV_PARAM_ERROR*/byte error;
+    };
+
     
     /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=252)]
@@ -34000,7 +34027,7 @@ public partial class MAVLink
         //[FieldOffset(5)]
         public  /*MAV_AUTOPILOT*/byte autopilot;
 
-        /// <summary>System mode bitmap. MAV_MODE_FLAG  bitmask</summary>
+        /// <summary>System mode bitmap. MAV_MODE_FLAG  </summary>
         [Units("")]
         [Description("System mode bitmap.")]
         //[FieldOffset(6)]
@@ -34518,6 +34545,101 @@ public partial class MAVLink
         //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
 		public ushort[] ar_u16;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
+    ///<summary> The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It is designed as scaled integer message since the resolution of float is not sufficient. </summary>
+    public struct mavlink_global_position_int_t
+    {
+        /// packet ordered constructor
+        public mavlink_global_position_int_t(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
+        {
+            this.time_boot_ms = time_boot_ms;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.relative_alt = relative_alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.hdg = hdg;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_global_position_int_t PopulateXMLOrder(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
+        {
+            var msg = new mavlink_global_position_int_t();
+
+            msg.time_boot_ms = time_boot_ms;
+            msg.lat = lat;
+            msg.lon = lon;
+            msg.alt = alt;
+            msg.relative_alt = relative_alt;
+            msg.vx = vx;
+            msg.vy = vy;
+            msg.vz = vz;
+            msg.hdg = hdg;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
+        public  uint time_boot_ms;
+
+        /// <summary>Latitude, expressed  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude, expressed")]
+        //[FieldOffset(4)]
+        public  int lat;
+
+        /// <summary>Longitude, expressed  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude, expressed")]
+        //[FieldOffset(8)]
+        public  int lon;
+
+        /// <summary>Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.")]
+        //[FieldOffset(12)]
+        public  int alt;
+
+        /// <summary>Altitude above home  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude above home")]
+        //[FieldOffset(16)]
+        public  int relative_alt;
+
+        /// <summary>Ground X Speed (Latitude, positive north)  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Ground X Speed (Latitude, positive north)")]
+        //[FieldOffset(20)]
+        public  short vx;
+
+        /// <summary>Ground Y Speed (Longitude, positive east)  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Ground Y Speed (Longitude, positive east)")]
+        //[FieldOffset(22)]
+        public  short vy;
+
+        /// <summary>Ground Z Speed (Altitude, positive down)  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Ground Z Speed (Altitude, positive down)")]
+        //[FieldOffset(24)]
+        public  short vz;
+
+        /// <summary>Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(26)]
+        public  ushort hdg;
     };
 
     

@@ -131,7 +131,6 @@ messageName = {
     [30] = 'ATTITUDE',
     [31] = 'ATTITUDE_QUATERNION',
     [32] = 'LOCAL_POSITION_NED',
-    [33] = 'GLOBAL_POSITION_INT',
     [34] = 'RC_CHANNELS_SCALED',
     [35] = 'RC_CHANNELS_RAW',
     [36] = 'SERVO_OUTPUT_RAW',
@@ -293,6 +292,7 @@ messageName = {
     [335] = 'ISBD_LINK_STATUS',
     [339] = 'RAW_RPM',
     [340] = 'UTM_GLOBAL_POSITION',
+    [345] = 'PARAM_ERROR',
     [350] = 'DEBUG_FLOAT_ARRAY',
     [370] = 'SMART_BATTERY_INFO',
     [373] = 'GENERATOR_STATUS',
@@ -332,6 +332,7 @@ messageName = {
     [17156] = 'ARRAY_TEST_6',
     [17157] = 'ARRAY_TEST_7',
     [17158] = 'ARRAY_TEST_8',
+    [33] = 'GLOBAL_POSITION_INT',
     [148] = 'AUTOPILOT_VERSION',
     [17000] = 'TEST_TYPES',
     [220] = 'NAV_FILTER_BIAS',
@@ -402,6 +403,7 @@ local enumEntryName = {
         [31] = "MAV_CMD_NAV_LOITER_TO_ALT",
         [32] = "MAV_CMD_DO_FOLLOW",
         [33] = "MAV_CMD_DO_FOLLOW_REPOSITION",
+        [36] = "MAV_CMD_NAV_ARC_WAYPOINT",
         [80] = "MAV_CMD_NAV_ROI",
         [81] = "MAV_CMD_NAV_PATHPLANNING",
         [82] = "MAV_CMD_NAV_SPLINE_WAYPOINT",
@@ -526,6 +528,7 @@ local enumEntryName = {
         [5002] = "MAV_CMD_NAV_FENCE_POLYGON_VERTEX_EXCLUSION",
         [5003] = "MAV_CMD_NAV_FENCE_CIRCLE_INCLUSION",
         [5004] = "MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION",
+        [5005] = "MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION",
         [5100] = "MAV_CMD_NAV_RALLY_POINT",
         [5200] = "MAV_CMD_UAVCAN_GET_NODE_INFO",
         [5300] = "MAV_CMD_DO_SET_SAFETY_SWITCH_STATE",
@@ -1282,6 +1285,14 @@ local enumEntryName = {
         [8] = "MAV_PARAM_TYPE_INT64",
         [9] = "MAV_PARAM_TYPE_REAL32",
         [10] = "MAV_PARAM_TYPE_REAL64",
+    },
+    ["MAV_PARAM_ERROR"] = {
+        [0] = "MAV_PARAM_ERROR_NO_ERROR",
+        [1] = "MAV_PARAM_ERROR_DOES_NOT_EXIST",
+        [2] = "MAV_PARAM_ERROR_VALUE_OUT_OF_RANGE",
+        [3] = "MAV_PARAM_ERROR_PERMISSION_DENIED",
+        [4] = "MAV_PARAM_ERROR_COMPONENT_NOT_FOUND",
+        [5] = "MAV_PARAM_ERROR_READ_ONLY",
     },
     ["MAV_PARAM_EXT_TYPE"] = {
         [1] = "MAV_PARAM_EXT_TYPE_UINT8",
@@ -2236,6 +2247,12 @@ local enumEntryName = {
         [40] = "MAV_TYPE_IMU",
         [41] = "MAV_TYPE_GPS",
         [42] = "MAV_TYPE_WINCH",
+        [43] = "MAV_TYPE_GENERIC_MULTIROTOR",
+        [44] = "MAV_TYPE_ILLUMINATOR",
+        [45] = "MAV_TYPE_SPACECRAFT_ORBITER",
+        [46] = "MAV_TYPE_GROUND_QUADRUPED",
+        [47] = "MAV_TYPE_VTOL_GYRODYNE",
+        [48] = "MAV_TYPE_GRIPPER",
     },
     ["MAV_MODE_FLAG"] = {
         [1] = "MAV_MODE_FLAG_CUSTOM_MODE_ENABLED",
@@ -2374,6 +2391,7 @@ local enumEntryName = {
         [159] = "MAV_COMP_ID_QX1_GIMBAL",
         [160] = "MAV_COMP_ID_FLARM",
         [161] = "MAV_COMP_ID_PARACHUTE",
+        [169] = "MAV_COMP_ID_WINCH",
         [171] = "MAV_COMP_ID_GIMBAL2",
         [172] = "MAV_COMP_ID_GIMBAL3",
         [173] = "MAV_COMP_ID_GIMBAL4",
@@ -2402,6 +2420,7 @@ local enumEntryName = {
         [240] = "MAV_COMP_ID_UDP_BRIDGE",
         [241] = "MAV_COMP_ID_UART_BRIDGE",
         [242] = "MAV_COMP_ID_TUNNEL_NODE",
+        [243] = "MAV_COMP_ID_ILLUMINATOR",
         [250] = "MAV_COMP_ID_SYSTEM_CONTROL",
     },
     ["MAV_BOOL"] = {
@@ -2783,6 +2802,11 @@ f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param4 = ProtoField.new("param4: Camera Q4 (f
 f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param5 = ProtoField.new("param5: Altitude Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param6 = ProtoField.new("param6: X Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7 = ProtoField.new("param7: Y Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param1 = ProtoField.new("param1: Arc Angle (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param5", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param6", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param7", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_NAV_ROI_param1 = ProtoField.new("param1: ROI Mode (MAV_ROI)", "mavlink_proto.cmd_MAV_CMD_NAV_ROI_param1", ftypes.UINT32, enumEntryName.MAV_ROI)
 f.cmd_MAV_CMD_NAV_ROI_param2 = ProtoField.new("param2: WP Index (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ROI_param2", ftypes.FLOAT, nil)
@@ -3295,6 +3319,9 @@ f.cmd_MAV_CMD_NAV_FENCE_CIRCLE_INCLUSION_param6 = ProtoField.new("param6: Longit
 f.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param1 = ProtoField.new("param1: Radius (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param6", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param1 = ProtoField.new("param1: Radius (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param2 = ProtoField.new("param2: Inclusion Group (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param2", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_NAV_RALLY_POINT_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_RALLY_POINT_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_RALLY_POINT_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_RALLY_POINT_param6", ftypes.FLOAT, nil)
@@ -5883,16 +5910,6 @@ f.LOCAL_POSITION_NED_z = ProtoField.new("z (float)", "mavlink_proto.LOCAL_POSITI
 f.LOCAL_POSITION_NED_vx = ProtoField.new("vx (float)", "mavlink_proto.LOCAL_POSITION_NED_vx", ftypes.FLOAT, nil)
 f.LOCAL_POSITION_NED_vy = ProtoField.new("vy (float)", "mavlink_proto.LOCAL_POSITION_NED_vy", ftypes.FLOAT, nil)
 f.LOCAL_POSITION_NED_vz = ProtoField.new("vz (float)", "mavlink_proto.LOCAL_POSITION_NED_vz", ftypes.FLOAT, nil)
-
-f.GLOBAL_POSITION_INT_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.GLOBAL_POSITION_INT_time_boot_ms", ftypes.UINT32, nil)
-f.GLOBAL_POSITION_INT_lat = ProtoField.new("lat (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_lat", ftypes.INT32, nil)
-f.GLOBAL_POSITION_INT_lon = ProtoField.new("lon (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_lon", ftypes.INT32, nil)
-f.GLOBAL_POSITION_INT_alt = ProtoField.new("alt (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_alt", ftypes.INT32, nil)
-f.GLOBAL_POSITION_INT_relative_alt = ProtoField.new("relative_alt (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_relative_alt", ftypes.INT32, nil)
-f.GLOBAL_POSITION_INT_vx = ProtoField.new("vx (int16_t)", "mavlink_proto.GLOBAL_POSITION_INT_vx", ftypes.INT16, nil)
-f.GLOBAL_POSITION_INT_vy = ProtoField.new("vy (int16_t)", "mavlink_proto.GLOBAL_POSITION_INT_vy", ftypes.INT16, nil)
-f.GLOBAL_POSITION_INT_vz = ProtoField.new("vz (int16_t)", "mavlink_proto.GLOBAL_POSITION_INT_vz", ftypes.INT16, nil)
-f.GLOBAL_POSITION_INT_hdg = ProtoField.new("hdg (uint16_t)", "mavlink_proto.GLOBAL_POSITION_INT_hdg", ftypes.UINT16, nil)
 
 f.RC_CHANNELS_SCALED_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.RC_CHANNELS_SCALED_time_boot_ms", ftypes.UINT32, nil)
 f.RC_CHANNELS_SCALED_port = ProtoField.new("port (uint8_t)", "mavlink_proto.RC_CHANNELS_SCALED_port", ftypes.UINT8, nil)
@@ -10307,6 +10324,12 @@ f.UTM_GLOBAL_POSITION_flags_flagUTM_DATA_AVAIL_FLAGS_HORIZONTAL_VELO_AVAILABLE =
 f.UTM_GLOBAL_POSITION_flags_flagUTM_DATA_AVAIL_FLAGS_VERTICAL_VELO_AVAILABLE = ProtoField.bool("mavlink_proto.UTM_GLOBAL_POSITION_flags.UTM_DATA_AVAIL_FLAGS_VERTICAL_VELO_AVAILABLE", "UTM_DATA_AVAIL_FLAGS_VERTICAL_VELO_AVAILABLE", 8, nil, 64)
 f.UTM_GLOBAL_POSITION_flags_flagUTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE = ProtoField.bool("mavlink_proto.UTM_GLOBAL_POSITION_flags.UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE", "UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE", 8, nil, 128)
 
+f.PARAM_ERROR_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.PARAM_ERROR_target_system", ftypes.UINT8, nil)
+f.PARAM_ERROR_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.PARAM_ERROR_target_component", ftypes.UINT8, nil)
+f.PARAM_ERROR_param_id = ProtoField.new("param_id (char)", "mavlink_proto.PARAM_ERROR_param_id", ftypes.STRING, nil)
+f.PARAM_ERROR_param_index = ProtoField.new("param_index (int16_t)", "mavlink_proto.PARAM_ERROR_param_index", ftypes.INT16, nil)
+f.PARAM_ERROR_error = ProtoField.new("error (MAV_PARAM_ERROR)", "mavlink_proto.PARAM_ERROR_error", ftypes.UINT8, enumEntryName.MAV_PARAM_ERROR)
+
 f.DEBUG_FLOAT_ARRAY_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.DEBUG_FLOAT_ARRAY_time_usec", ftypes.UINT64, nil)
 f.DEBUG_FLOAT_ARRAY_name = ProtoField.new("name (char)", "mavlink_proto.DEBUG_FLOAT_ARRAY_name", ftypes.STRING, nil)
 f.DEBUG_FLOAT_ARRAY_array_id = ProtoField.new("array_id (uint16_t)", "mavlink_proto.DEBUG_FLOAT_ARRAY_array_id", ftypes.UINT16, nil)
@@ -11418,6 +11441,16 @@ f.ARRAY_TEST_8_ar_d_0 = ProtoField.new("ar_d[0] (double)", "mavlink_proto.ARRAY_
 f.ARRAY_TEST_8_ar_d_1 = ProtoField.new("ar_d[1] (double)", "mavlink_proto.ARRAY_TEST_8_ar_d_1", ftypes.DOUBLE, nil)
 f.ARRAY_TEST_8_ar_u16_0 = ProtoField.new("ar_u16[0] (uint16_t)", "mavlink_proto.ARRAY_TEST_8_ar_u16_0", ftypes.UINT16, nil)
 f.ARRAY_TEST_8_ar_u16_1 = ProtoField.new("ar_u16[1] (uint16_t)", "mavlink_proto.ARRAY_TEST_8_ar_u16_1", ftypes.UINT16, nil)
+
+f.GLOBAL_POSITION_INT_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.GLOBAL_POSITION_INT_time_boot_ms", ftypes.UINT32, nil)
+f.GLOBAL_POSITION_INT_lat = ProtoField.new("lat (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_lat", ftypes.INT32, nil)
+f.GLOBAL_POSITION_INT_lon = ProtoField.new("lon (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_lon", ftypes.INT32, nil)
+f.GLOBAL_POSITION_INT_alt = ProtoField.new("alt (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_alt", ftypes.INT32, nil)
+f.GLOBAL_POSITION_INT_relative_alt = ProtoField.new("relative_alt (int32_t)", "mavlink_proto.GLOBAL_POSITION_INT_relative_alt", ftypes.INT32, nil)
+f.GLOBAL_POSITION_INT_vx = ProtoField.new("vx (int16_t)", "mavlink_proto.GLOBAL_POSITION_INT_vx", ftypes.INT16, nil)
+f.GLOBAL_POSITION_INT_vy = ProtoField.new("vy (int16_t)", "mavlink_proto.GLOBAL_POSITION_INT_vy", ftypes.INT16, nil)
+f.GLOBAL_POSITION_INT_vz = ProtoField.new("vz (int16_t)", "mavlink_proto.GLOBAL_POSITION_INT_vz", ftypes.INT16, nil)
+f.GLOBAL_POSITION_INT_hdg = ProtoField.new("hdg (uint16_t)", "mavlink_proto.GLOBAL_POSITION_INT_hdg", ftypes.UINT16, nil)
 
 f.AUTOPILOT_VERSION_capabilities = ProtoField.new("capabilities (MAV_PROTOCOL_CAPABILITY)", "mavlink_proto.AUTOPILOT_VERSION_capabilities", ftypes.UINT64, nil)
 f.AUTOPILOT_VERSION_capabilities_flagMAV_PROTOCOL_CAPABILITY_MISSION_FLOAT = ProtoField.bool("mavlink_proto.AUTOPILOT_VERSION_capabilities.MAV_PROTOCOL_CAPABILITY_MISSION_FLOAT", "MAV_PROTOCOL_CAPABILITY_MISSION_FLOAT", 21, nil, 1)
@@ -20637,44 +20670,6 @@ function payload_fns.payload_32(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.LOCAL_POSITION_NED_vz, tvbrange, value)
 end
--- dissect payload of message type GLOBAL_POSITION_INT
-function payload_fns.payload_33(buffer, tree, msgid, offset, limit, pinfo)
-    local padded, field_offset, value, subtree, tvbrange
-    if (offset + 28 > limit) then
-        padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 28)
-        padded = padded:tvb("Untruncated payload")
-    else
-        padded = buffer
-    end
-    tvbrange = padded(offset + 0, 4)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_time_boot_ms, tvbrange, value)
-    tvbrange = padded(offset + 4, 4)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_lat, tvbrange, value)
-    tvbrange = padded(offset + 8, 4)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_lon, tvbrange, value)
-    tvbrange = padded(offset + 12, 4)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_alt, tvbrange, value)
-    tvbrange = padded(offset + 16, 4)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_relative_alt, tvbrange, value)
-    tvbrange = padded(offset + 20, 2)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_vx, tvbrange, value)
-    tvbrange = padded(offset + 22, 2)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_vy, tvbrange, value)
-    tvbrange = padded(offset + 24, 2)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_vz, tvbrange, value)
-    tvbrange = padded(offset + 26, 2)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.GLOBAL_POSITION_INT_hdg, tvbrange, value)
-end
 -- dissect payload of message type RC_CHANNELS_SCALED
 function payload_fns.payload_34(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -22739,6 +22734,56 @@ function payload_fns.payload_75_cmd33(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_NAV_ARC_WAYPOINT
+function payload_fns.payload_75_cmd36(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param7, tvbrange, value)
 end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_NAV_ROI
 function payload_fns.payload_75_cmd80(buffer, tree, msgid, offset, limit, pinfo)
@@ -28971,6 +29016,56 @@ function payload_fns.payload_75_cmd5004(buffer, tree, msgid, offset, limit, pinf
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION
+function payload_fns.payload_75_cmd5005(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_NAV_RALLY_POINT
 function payload_fns.payload_75_cmd5100(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -32999,6 +33094,50 @@ function payload_fns.payload_76_cmd33(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_NAV_ARC_WAYPOINT
+function payload_fns.payload_76_cmd36(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param7, tvbrange, value)
 end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_NAV_ROI
 function payload_fns.payload_76_cmd80(buffer, tree, msgid, offset, limit, pinfo)
@@ -38483,6 +38622,50 @@ function payload_fns.payload_76_cmd5004(buffer, tree, msgid, offset, limit, pinf
     tvbrange = padded(offset + 20, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_NAV_FENCE_CIRCLE_EXCLUSION_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION
+function payload_fns.payload_76_cmd5005(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
@@ -53707,6 +53890,32 @@ function payload_fns.payload_340(buffer, tree, msgid, offset, limit, pinfo)
     subtree = tree:add_le(f.UTM_GLOBAL_POSITION_flags, tvbrange, value)
     dissect_flags_UTM_DATA_AVAIL_FLAGS(subtree, "UTM_GLOBAL_POSITION_flags", tvbrange, value)
 end
+-- dissect payload of message type PARAM_ERROR
+function payload_fns.payload_345(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 21 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 21)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 2, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.PARAM_ERROR_target_system, tvbrange, value)
+    tvbrange = padded(offset + 3, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.PARAM_ERROR_target_component, tvbrange, value)
+    tvbrange = padded(offset + 4, 16)
+    value = tvbrange:string()
+    subtree = tree:add_le(f.PARAM_ERROR_param_id, tvbrange, value)
+    tvbrange = padded(offset + 0, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.PARAM_ERROR_param_index, tvbrange, value)
+    tvbrange = padded(offset + 20, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.PARAM_ERROR_error, tvbrange, value)
+end
 -- dissect payload of message type DEBUG_FLOAT_ARRAY
 function payload_fns.payload_350(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -57217,6 +57426,44 @@ function payload_fns.payload_17158(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 22, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.ARRAY_TEST_8_ar_u16_1, tvbrange, value)
+end
+-- dissect payload of message type GLOBAL_POSITION_INT
+function payload_fns.payload_33(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 28 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 28)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_time_boot_ms, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_lat, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_lon, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_alt, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_relative_alt, tvbrange, value)
+    tvbrange = padded(offset + 20, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_vx, tvbrange, value)
+    tvbrange = padded(offset + 22, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_vy, tvbrange, value)
+    tvbrange = padded(offset + 24, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_vz, tvbrange, value)
+    tvbrange = padded(offset + 26, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_INT_hdg, tvbrange, value)
 end
 -- dissect payload of message type AUTOPILOT_VERSION
 function payload_fns.payload_148(buffer, tree, msgid, offset, limit, pinfo)

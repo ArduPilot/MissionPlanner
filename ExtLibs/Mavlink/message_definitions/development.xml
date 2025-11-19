@@ -128,6 +128,17 @@
     <!--  * the data payload of mavlink commands (as used in the COMMAND_INT and COMMAND_LONG messages) -->
     <!-- ALL the entries in the MAV_CMD enum have a maximum of 7 parameters -->
     <enum name="MAV_CMD">
+      <entry value="36" name="MAV_CMD_NAV_ARC_WAYPOINT" hasLocation="true" isDestination="true">
+        <!-- This message is work-in-progress it can therefore change, and should NOT be used in stable production environments -->
+        <description>Circular arc path waypoint.
+          This defines the end/exit point and angle (param1) of an arc path from the previous waypoint. A position is required before this command to define the start of the arc (e.g. current position, a MAV_CMD_NAV_WAYPOINT, or a MAV_CMD_NAV_ARC_WAYPOINT).
+          The resulting path is a circular arc in the NE frame, with the difference in height being defined by the difference in waypoint altitudes.
+          </description>
+        <param index="1" label="Arc Angle" units="deg" minValue="-359" maxValue="359" increment="1">The angle in degrees from the starting position to the exit position of the arc in the NE frame. Positive values are CW arcs and negative values are CCW arcs.</param>
+        <param index="5" label="Latitude">Latitude</param>
+        <param index="6" label="Longitude">Longitude</param>
+        <param index="7" label="Altitude" units="m">Altitude</param>
+      </entry>
       <entry value="610" name="MAV_CMD_DO_SET_SYS_CMP_ID" hasLocation="false" isDestination="false">
         <description>
           Set system and component id.
@@ -177,6 +188,13 @@
         <param index="5" reserved="true" default="0"/>
         <param index="6" reserved="true" default="0"/>
         <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="5005" name="MAV_CMD_NAV_FENCE_HOME_CIRCLE_INCLUSION" hasLocation="false" isDestination="false">
+        <wip/>
+        <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+        <description>Circular fence area centered on home. The vehicle must stay inside this area. If home is moved, the fence moves.</description>
+        <param index="1" label="Radius" units="m">Radius.</param>
+        <param index="2" label="Inclusion Group" minValue="0" increment="1">Vehicle must be inside ALL inclusion zones in a single group, vehicle must be inside at least one group. Ignored when sent as a command.</param>
       </entry>
     </enum>
     <enum name="GPS_SYSTEM_ERROR_FLAGS" bitmask="true">
