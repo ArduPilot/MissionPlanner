@@ -1091,6 +1091,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
             this.txt_messagebox.Name = "txt_messagebox";
+            this.txt_messagebox.ReadOnly = true;
             // 
             // tabActionsSimple
             // 
