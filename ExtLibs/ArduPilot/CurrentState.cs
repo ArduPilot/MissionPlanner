@@ -1484,6 +1484,16 @@ namespace MissionPlanner
         public double battery_mahperkm => battery_usedmah / (distTraveled / 1000.0f);
 
         [GroupText("Battery")]
+        [DisplayFieldName("battery_usedwh.Field")]
+        [DisplayText("Bat used EST (wh)")]
+        public double battery_usedwh => battery_usedmah * battery_voltage / 1000.0;
+
+        [GroupText("Battery")]
+        [DisplayFieldName("battery_whperkm.Field")]
+        [DisplayText("Bat efficiency (wh/km)")]
+        public double battery_whperkm => battery_usedwh / (distTraveled / 1000.0f);
+
+        [GroupText("Battery")]
         [DisplayFieldName("battery_kmleft.Field")]
         [DisplayText("Bat km left EST (km)")]
         public double battery_kmleft => (100.0f / (100.0f - battery_remaining) * battery_usedmah - battery_usedmah) /
