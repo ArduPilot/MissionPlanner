@@ -36,6 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var servo = String.Format("SERVO{0}", servono);
             var initializing = true;
+            var applyingEquidistant = false;
 
             var label = new Label()
                 {Text = servono.ToString(), AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleCenter};
@@ -51,8 +52,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var min1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
             var trim1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
             var max1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
-            var minMaxFromTrim1 = new NumericUpDown() { Minimum = 0, Maximum = 700, Value = 0, Width = 50, Visible = false, Increment = 10 };
-            var equidistantCheck = new CheckBox() { Text = "", AutoSize = true };
+            var minMaxFromTrim1 = new NumericUpDown() { Minimum = 0, Maximum = 700, Value = 0, Width = 50, Visible = false, Increment = 10, Margin = new System.Windows.Forms.Padding(4, 0, 0, 0) };
+            var equidistantCheck = new CheckBox() { Text = "", AutoSize = true, Margin = new System.Windows.Forms.Padding(0) };
             var equidistantPanel = new FlowLayoutPanel()
             {
                 AutoSize = true,
@@ -92,7 +93,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (checkedState)
                 {
+                    applyingEquidistant = true;
                     ApplyEquidistantRange(servo, trim1, min1, max1, minMaxFromTrim1);
+                    applyingEquidistant = false;
                 }
             };
 
@@ -105,7 +108,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!equidistantCheck.Checked)
                     return;
 
+                applyingEquidistant = true;
                 ApplyEquidistantRange(servo, trim1, min1, max1, minMaxFromTrim1);
+                applyingEquidistant = false;
+            };
+
+            // Add event handler for trim changes - uncheck equidistant when trim is manually changed
+            trim1.ValueChanged += (sender, e) =>
+            {
+                if (initializing || applyingEquidistant)
+                    return;
+
+                if (equidistantCheck.Checked)
+                {
+                    equidistantCheck.Checked = false;
+                }
+            };
+
+            // Add event handlers for min/max changes - uncheck equidistant if values change
+            min1.ValueChanged += (sender, e) =>
+            {
+                if (initializing || applyingEquidistant)
+                    return;
+
+                if (equidistantCheck.Checked)
+                {
+                    equidistantCheck.Checked = false;
+                }
+            };
+
+            max1.ValueChanged += (sender, e) =>
+            {
+                if (initializing || applyingEquidistant)
+                    return;
+
+                if (equidistantCheck.Checked)
+                {
+                    equidistantCheck.Checked = false;
+                }
             };
 
             if (IsEquidistant(min1.Value, trim1.Value, max1.Value, out var offset))

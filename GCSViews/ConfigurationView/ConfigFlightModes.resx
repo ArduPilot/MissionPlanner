@@ -412,6 +412,30 @@
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="&gt;&gt;labelModeCh.Name" xml:space="preserve">
+    <value>labelModeCh</value>
+  </data>
+  <data name="&gt;&gt;labelModeCh.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;labelModeCh.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelModeCh.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CMB_modeChannel.Name" xml:space="preserve">
+    <value>CMB_modeChannel</value>
+  </data>
+  <data name="&gt;&gt;CMB_modeChannel.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;CMB_modeChannel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_modeChannel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="&gt;&gt;labelfm1.Name" xml:space="preserve">
     <value>labelfm1</value>
   </data>
@@ -527,7 +551,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_SaveModes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 153</value>
+    <value>113, 178</value>
   </data>
   <data name="BUT_SaveModes.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 41</value>
@@ -545,7 +569,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 2</value>
+    <value>222, 27</value>
   </data>
   <data name="CB_simple1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -566,7 +590,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 27</value>
+    <value>222, 52</value>
   </data>
   <data name="CB_simple2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -587,7 +611,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 52</value>
+    <value>222, 77</value>
   </data>
   <data name="CB_simple3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -608,7 +632,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 77</value>
+    <value>222, 102</value>
   </data>
   <data name="CB_simple4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -629,7 +653,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 102</value>
+    <value>222, 127</value>
   </data>
   <data name="CB_simple5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -650,7 +674,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 127</value>
+    <value>222, 152</value>
   </data>
   <data name="CB_simple6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -664,11 +688,23 @@
   <data name="CB_simple6.Text" xml:space="preserve">
     <value>Simple Mode</value>
   </data>
+  <data name="CMB_modeChannel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CMB_modeChannel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 3</value>
+  </data>
+  <data name="CMB_modeChannel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 20</value>
+  </data>
+  <data name="CMB_modeChannel.TabIndex" type="System.Int32, mscorlib">
+    <value>119</value>
+  </data>
   <data name="CMB_fmode1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="CMB_fmode1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 3</value>
+    <value>113, 28</value>
   </data>
   <data name="CMB_fmode1.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -680,7 +716,7 @@
     <value>Fill</value>
   </data>
   <data name="CMB_fmode2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 28</value>
+    <value>113, 53</value>
   </data>
   <data name="CMB_fmode2.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -692,7 +728,7 @@
     <value>Fill</value>
   </data>
   <data name="CMB_fmode3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 53</value>
+    <value>113, 78</value>
   </data>
   <data name="CMB_fmode3.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -704,7 +740,7 @@
     <value>Fill</value>
   </data>
   <data name="CMB_fmode4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 78</value>
+    <value>113, 103</value>
   </data>
   <data name="CMB_fmode4.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -716,7 +752,7 @@
     <value>Fill</value>
   </data>
   <data name="CMB_fmode5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 103</value>
+    <value>113, 128</value>
   </data>
   <data name="CMB_fmode5.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -728,7 +764,7 @@
     <value>Fill</value>
   </data>
   <data name="CMB_fmode6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 128</value>
+    <value>113, 153</value>
   </data>
   <data name="CMB_fmode6.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -761,7 +797,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_ss1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 2</value>
+    <value>332, 27</value>
   </data>
   <data name="chk_ss1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -782,7 +818,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_ss2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 27</value>
+    <value>332, 52</value>
   </data>
   <data name="chk_ss2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -803,7 +839,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_ss3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 52</value>
+    <value>332, 77</value>
   </data>
   <data name="chk_ss3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -824,7 +860,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_ss4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 77</value>
+    <value>332, 102</value>
   </data>
   <data name="chk_ss4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -845,7 +881,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_ss5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 102</value>
+    <value>332, 127</value>
   </data>
   <data name="chk_ss5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -866,7 +902,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_ss6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 127</value>
+    <value>332, 152</value>
   </data>
   <data name="chk_ss6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -887,7 +923,7 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 100</value>
+    <value>473, 125</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 12</value>
@@ -905,7 +941,7 @@
     <value>NoControl</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 125</value>
+    <value>473, 150</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 12</value>
@@ -923,7 +959,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 0</value>
+    <value>473, 25</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 12</value>
@@ -977,7 +1013,7 @@
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 25</value>
+    <value>473, 50</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 12</value>
@@ -995,7 +1031,7 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 50</value>
+    <value>473, 75</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 12</value>
@@ -1013,7 +1049,7 @@
     <value>NoControl</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 75</value>
+    <value>473, 100</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 12</value>
@@ -1023,6 +1059,18 @@
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>PWM 1491 - 1620</value>
+  </data>
+  <data name="labelModeCh.Text" xml:space="preserve">
+    <value>Mode Channel</value>
+  </data>
+  <data name="labelModeCh.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="labelModeCh.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="labelModeCh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 25</value>
   </data>
   <data name="labelfm1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1034,7 +1082,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelfm1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 0</value>
+    <value>3, 25</value>
   </data>
   <data name="labelfm1.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 25</value>
@@ -1058,7 +1106,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelfm2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 25</value>
+    <value>3, 50</value>
   </data>
   <data name="labelfm2.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 25</value>
@@ -1082,7 +1130,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelfm3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 50</value>
+    <value>3, 75</value>
   </data>
   <data name="labelfm3.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 25</value>
@@ -1106,7 +1154,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelfm4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 75</value>
+    <value>3, 100</value>
   </data>
   <data name="labelfm4.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 25</value>
@@ -1130,7 +1178,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelfm5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 100</value>
+    <value>3, 125</value>
   </data>
   <data name="labelfm5.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 25</value>
@@ -1154,7 +1202,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelfm6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 125</value>
+    <value>3, 150</value>
   </data>
   <data name="labelfm6.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 25</value>
@@ -1190,7 +1238,7 @@
     <value>True</value>
   </data>
   <data name="linkLabel1_ss.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 150</value>
+    <value>333, 175</value>
   </data>
   <data name="linkLabel1_ss.Size" type="System.Drawing.Size, System.Drawing">
     <value>132, 24</value>
@@ -1202,13 +1250,13 @@
     <value>Simple and Super Simple description</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelfm1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss6" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode1" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss5" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="5" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss4" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss1" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss3" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label12" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss2" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple5" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="labelfm2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple4" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode2" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple3" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple2" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="labelfm3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm4" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm6" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode3" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode4" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_SaveModes" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple1" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple6" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="linkLabel1_ss" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,110,Absolute,110,Absolute,110,Absolute,140,Absolute,88" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelModeCh" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CMB_modeChannel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelfm1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss6" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode1" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss5" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="6" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss4" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="5" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss1" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss3" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label12" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss2" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple5" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="labelfm2" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple4" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode2" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple3" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple2" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="labelfm3" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm4" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm5" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm6" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode3" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode4" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode5" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode6" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_SaveModes" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple1" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple6" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="linkLabel1_ss" Row="7" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,110,Absolute,110,Absolute,110,Absolute,140,Absolute,88" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 48</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>593, 197</value>
+    <value>593, 222</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

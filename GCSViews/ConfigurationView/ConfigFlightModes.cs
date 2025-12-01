@@ -2,6 +2,7 @@
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private readonly Timer _timer = new Timer();
+        private bool _modeChannelInitializing;
 
         public ConfigFlightModes()
         {
@@ -229,6 +231,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Enabled = true;
             _timer.Interval = 100;
             _timer.Start();
+
+            SetupModeChannelSelector();
         }
 
         public void Deactivate()
@@ -473,6 +477,57 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (items.Length > 0)
             {
                 items[0].Enabled = enable;
+            }
+        }
+
+        private void SetupModeChannelSelector()
+        {
+            _modeChannelInitializing = true;
+
+            CMB_modeChannel.DisplayMember = "Value";
+            CMB_modeChannel.ValueMember = "Key";
+            CMB_modeChannel.DataSource = null;
+
+            var list = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<int, string>>();
+            list.Add(new System.Collections.Generic.KeyValuePair<int, string>(0, "0 - Disabled"));
+            for (var i = 1; i <= 16; i++)
+            {
+                list.Add(new System.Collections.Generic.KeyValuePair<int, string>(i, i.ToString()));
+            }
+
+            CMB_modeChannel.DataSource = list;
+
+            var current = 0;
+            if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
+                current = (int)MainV2.comPort.MAV.param["FLTMODE_CH"].Value;
+            else if (MainV2.comPort.MAV.param.ContainsKey("MODE_CH"))
+                current = (int)MainV2.comPort.MAV.param["MODE_CH"].Value;
+
+            if (current < 0) current = 0;
+            if (current > 16) current = 16;
+
+            CMB_modeChannel.SelectedValue = current;
+
+            _modeChannelInitializing = false;
+        }
+
+        private void CMB_modeChannel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_modeChannelInitializing)
+                return;
+
+            var selected = (int)CMB_modeChannel.SelectedValue;
+
+            try
+            {
+                if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE_CH", selected);
+                else if (MainV2.comPort.MAV.param.ContainsKey("MODE_CH"))
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE_CH", selected);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
         }
     }
