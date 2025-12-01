@@ -821,9 +821,11 @@ namespace MissionPlanner.GCSViews
             this.BUT_abortland.Click += new System.EventHandler(this.BUT_abortland_Click);
             // 
             // modifyandSetLoiterRad
-            // 
+            //
             resources.ApplyResources(this.modifyandSetLoiterRad, "modifyandSetLoiterRad");
-            this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
+            this.modifyandSetLoiterRad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.modifyandSetLoiterRad.Margin = new System.Windows.Forms.Padding(4);
+            this.modifyandSetLoiterRad.ButtonText = "Set Loit Rad";
             this.modifyandSetLoiterRad.DecimalPlaces = 0;
             this.modifyandSetLoiterRad.Increment = new decimal(new int[] {
             10,
@@ -892,9 +894,11 @@ namespace MissionPlanner.GCSViews
             this.BUT_resumemis.Click += new System.EventHandler(this.BUT_resumemis_Click);
             // 
             // modifyandSetAlt
-            // 
+            //
             resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
-            this.modifyandSetAlt.ButtonText = "Change Alt";
+            this.modifyandSetAlt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.modifyandSetAlt.Margin = new System.Windows.Forms.Padding(4);
+            this.modifyandSetAlt.ButtonText = "Set Alt";
             this.modifyandSetAlt.DecimalPlaces = 1;
             this.modifyandSetAlt.Increment = new decimal(new int[] {
             1,
@@ -920,9 +924,11 @@ namespace MissionPlanner.GCSViews
             this.modifyandSetAlt.Click += new System.EventHandler(this.modifyandSetAlt_Click);
             // 
             // modifyandSetSpeed
-            // 
+            //
             resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
-            this.modifyandSetSpeed.ButtonText = "Change Speed";
+            this.modifyandSetSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.modifyandSetSpeed.Margin = new System.Windows.Forms.Padding(4);
+            this.modifyandSetSpeed.ButtonText = "Set Speed";
             this.modifyandSetSpeed.DecimalPlaces = 1;
             this.modifyandSetSpeed.Increment = new decimal(new int[] {
             1,
