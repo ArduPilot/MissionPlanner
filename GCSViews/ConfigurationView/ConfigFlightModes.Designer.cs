@@ -67,9 +67,9 @@
             this.chk_ss2 = new System.Windows.Forms.CheckBox();
             this.chk_ss1 = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.linkLabel1_ss = new System.Windows.Forms.LinkLabel();
             this.labelModeCh = new System.Windows.Forms.Label();
             this.CMB_modeChannel = new System.Windows.Forms.ComboBox();
+            this.linkLabel1_ss = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -259,6 +259,7 @@
             // 
             resources.ApplyResources(this.BUT_SaveModes, "BUT_SaveModes");
             this.BUT_SaveModes.Name = "BUT_SaveModes";
+            this.BUT_SaveModes.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_SaveModes.UseVisualStyleBackColor = true;
             this.BUT_SaveModes.Click += new System.EventHandler(this.BUT_SaveModes_Click);
             // 
@@ -337,26 +338,25 @@
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
+            // labelModeCh
+            // 
+            resources.ApplyResources(this.labelModeCh, "labelModeCh");
+            this.labelModeCh.Name = "labelModeCh";
+            // 
+            // CMB_modeChannel
+            // 
+            resources.ApplyResources(this.CMB_modeChannel, "CMB_modeChannel");
+            this.CMB_modeChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_modeChannel.FormattingEnabled = true;
+            this.CMB_modeChannel.Name = "CMB_modeChannel";
+            this.CMB_modeChannel.SelectedIndexChanged += new System.EventHandler(this.CMB_modeChannel_SelectedIndexChanged);
+            // 
             // linkLabel1_ss
             // 
             resources.ApplyResources(this.linkLabel1_ss, "linkLabel1_ss");
             this.linkLabel1_ss.Name = "linkLabel1_ss";
             this.linkLabel1_ss.TabStop = true;
             this.linkLabel1_ss.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_ss_LinkClicked);
-            // 
-            // labelModeCh
-            // 
-            resources.ApplyResources(this.labelModeCh, "labelModeCh");
-            this.labelModeCh.Name = "labelModeCh";
-            this.labelModeCh.Text = "Mode Channel";
-            // 
-            // CMB_modeChannel
-            // 
-            this.CMB_modeChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CMB_modeChannel.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_modeChannel, "CMB_modeChannel");
-            this.CMB_modeChannel.Name = "CMB_modeChannel";
-            this.CMB_modeChannel.SelectedIndexChanged += new System.EventHandler(this.CMB_modeChannel_SelectedIndexChanged);
             // 
             // ConfigFlightModes
             // 

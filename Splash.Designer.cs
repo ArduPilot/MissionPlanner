@@ -64,7 +64,7 @@
             // 
             this.titanLogo.BackColor = System.Drawing.Color.Transparent;
             this.titanLogo.Image = ((System.Drawing.Image)(resources.GetObject("titanLogo.Image")));
-            this.titanLogo.Location = new System.Drawing.Point(89, 79);
+            this.titanLogo.Location = new System.Drawing.Point(96, 83);
             this.titanLogo.Name = "titanLogo";
             this.titanLogo.Size = new System.Drawing.Size(413, 187);
             this.titanLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
