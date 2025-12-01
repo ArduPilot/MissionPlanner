@@ -260,6 +260,9 @@ namespace MissionPlanner.Controls
 
         public void Deactivate()
         {
+            timer1?.Stop();
+            started = false;
+
             foreach (var tileInfo in textureid)
             {
                 try
@@ -272,6 +275,16 @@ namespace MissionPlanner.Controls
             }
 
             textureid.Clear();
+        }
+
+        public void Activate()
+        {
+            if (!started)
+            {
+                timer1?.Start();
+                started = true;
+            }
+            this.Invalidate();
         }
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)

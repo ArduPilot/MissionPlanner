@@ -121,7 +121,7 @@
     <value>Elevation Graph</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fly To Here</value>
+    <value>GUIDED To Here</value>
   </data>
   <data name="CHK_geheight.Text" xml:space="preserve">
     <value>Valider hauteur</value>

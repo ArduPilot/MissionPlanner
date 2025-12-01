@@ -454,6 +454,67 @@ namespace MissionPlanner.GCSViews
             btnPropagation.BringToFront();
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
+            // Add 3D Map toggle button to the right of Propagation
+            var btn3DMap = new Controls.MyButton
+            {
+                Text = "3D Map",
+                Size = new Size(60, 23),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left
+            };
+            Controls.OpenGLtest2 map3D = null;
+            btn3DMap.Click += (s, e) =>
+            {
+                if (map3D == null || map3D.IsDisposed)
+                {
+                    // Create and show 3D map
+                    map3D = new Controls.OpenGLtest2
+                    {
+                        Dock = DockStyle.Fill
+                    };
+                    splitContainer1.Panel2.Controls.Add(map3D);
+                    map3D.BringToFront();
+                    map3D.Activate();
+                    btn3DMap.Text = "2D Map";
+
+                    // Bring overlay controls to front of 3D map
+                    lbl_hdop.BringToFront();
+                    lbl_sats.BringToFront();
+                    btn3DMap.BringToFront();
+                    // Hide tools and propagation buttons on 3D map
+                    btnTools.Visible = false;
+                    btnPropagation.Visible = false;
+                }
+                else if (map3D.Visible)
+                {
+                    // Hide 3D map, show 2D
+                    map3D.Deactivate();
+                    map3D.Visible = false;
+                    btn3DMap.Text = "3D Map";
+                    // Show tools and propagation buttons on 2D map
+                    btnTools.Visible = true;
+                    btnPropagation.Visible = true;
+                }
+                else
+                {
+                    // Show 3D map
+                    map3D.Visible = true;
+                    map3D.BringToFront();
+                    map3D.Activate();
+                    btn3DMap.Text = "2D Map";
+
+                    // Bring overlay controls to front of 3D map
+                    lbl_hdop.BringToFront();
+                    lbl_sats.BringToFront();
+                    btn3DMap.BringToFront();
+                    // Hide tools and propagation buttons on 3D map
+                    btnTools.Visible = false;
+                    btnPropagation.Visible = false;
+                }
+            };
+            splitContainer1.Panel2.Controls.Add(btn3DMap);
+            btn3DMap.BringToFront();
+            btn3DMap.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 25);
+
         }
 
         public void Activate()
