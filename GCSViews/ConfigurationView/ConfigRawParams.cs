@@ -32,7 +32,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static Hashtable tooltips = new Hashtable();
         // Changes made to the params between writing to the copter
         private readonly Hashtable _changes = new Hashtable();
-        private static List<GitHubContent.FileInfo> paramfiles;
         // ?
         internal static bool startup = true;
         internal static List<DataGridViewRow> rowlist = new List<DataGridViewRow>();
@@ -61,10 +60,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_commitToFlash.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
             BUT_refreshTable.Visible = Settings.Instance.GetBoolean("SlowMachine", false);
 
-            CMB_paramfiles.Enabled = false;
-            BUT_paramfileload.Enabled = false;
-            ThreadPool.QueueUserWorkItem(updatedefaultlist);
-
             Params.Enabled = false;
 
             foreach (DataGridViewColumn col in Params.Columns)
@@ -82,7 +77,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
             splitContainer1.SplitterDistance = Settings.Instance.GetInt32("rawparam_splitterdistance", 180);
-            splitContainer1.Panel1Collapsed = Settings.Instance.GetBoolean("rawparam_panel1collapsed", false);
+            splitContainer1.Panel1Collapsed = Settings.Instance.GetBoolean("rawparam_panel1collapsed", true);
             but_collapse.Text = splitContainer1.Panel1Collapsed ? ">" : "<";
 
             processToScreen();
@@ -806,35 +801,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 args.SortResult = fav1.CompareTo(fav2) * (Params.SortOrder == SortOrder.Ascending ? -1 : 1);
         }
 
-        private void updatedefaultlist(object crap)
-        {
-            try
-            {
-                if (paramfiles == null)
-                {
-                    string subdir = "";
-                    if (MainV2.comPort.MAV.param.ContainsKey("Q_ENABLE") &&
-                        MainV2.comPort.MAV.param["Q_ENABLE"].Value >= 1.0)
-                    {
-                        subdir = "QuadPlanes/";
-                    }
-                    paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/" + subdir, ".param");
-                }
-
-                BeginInvoke((Action)delegate
-               {
-                   CMB_paramfiles.DataSource = paramfiles.ToArray();
-                   CMB_paramfiles.DisplayMember = "name";
-                   CMB_paramfiles.Enabled = true;
-                   BUT_paramfileload.Enabled = true;
-               });
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-
         void filterList(string searchfor)
         {
             DateTime start = DateTime.Now;
@@ -890,40 +856,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.Visible = true;
 
             log.InfoFormat("Filter: {0}ms", (DateTime.Now - start).TotalMilliseconds);
-        }
-
-        private void BUT_paramfileload_Click(object sender, EventArgs e)
-        {
-            var filepath = Settings.GetUserDataDirectory() + CMB_paramfiles.Text;
-
-            try
-            {
-                var data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
-                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
-
-                File.WriteAllBytes(filepath, data);
-
-                var param2 = ParamFile.loadParamFile(filepath);
-
-                Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
-
-                ThemeManager.ApplyThemeTo(paramCompareForm);
-                if (paramCompareForm.ShowDialog() == DialogResult.OK)
-                {
-                    CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
-                }
-
-                // no activate the user needs to click write.
-                //this.Activate();
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Failed to load file.\n" + ex);
-            }
-        }
-
-        private void CMB_paramfiles_SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
 
         private void BUT_reset_params_Click(object sender, EventArgs e)

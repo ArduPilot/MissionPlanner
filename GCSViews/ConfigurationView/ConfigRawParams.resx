@@ -316,60 +316,6 @@ format with no scaling</value>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="BUT_paramfileload.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="BUT_paramfileload.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_paramfileload.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 228</value>
-  </data>
-  <data name="BUT_paramfileload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
-  </data>
-  <data name="BUT_paramfileload.TabIndex" type="System.Int32, mscorlib">
-    <value>77</value>
-  </data>
-  <data name="BUT_paramfileload.Text" xml:space="preserve">
-    <value>Load Presaved</value>
-  </data>
-  <data name="&gt;&gt;BUT_paramfileload.Name" xml:space="preserve">
-    <value>BUT_paramfileload</value>
-  </data>
-  <data name="&gt;&gt;BUT_paramfileload.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_paramfileload.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;BUT_paramfileload.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="CMB_paramfiles.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="CMB_paramfiles.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 201</value>
-  </data>
-  <data name="CMB_paramfiles.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
-  </data>
-  <data name="CMB_paramfiles.TabIndex" type="System.Int32, mscorlib">
-    <value>76</value>
-  </data>
-  <data name="&gt;&gt;CMB_paramfiles.Name" xml:space="preserve">
-    <value>CMB_paramfiles</value>
-  </data>
-  <data name="&gt;&gt;CMB_paramfiles.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CMB_paramfiles.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;CMB_paramfiles.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
   <data name="BUT_reset_params.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>

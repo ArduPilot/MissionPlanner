@@ -43,8 +43,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_load = new MissionPlanner.Controls.MyButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
-            this.CMB_paramfiles = new System.Windows.Forms.ComboBox();
             this.BUT_reset_params = new MissionPlanner.Controls.MyButton();
             this.txt_search = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -122,22 +120,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
-            // BUT_paramfileload
-            // 
-            resources.ApplyResources(this.BUT_paramfileload, "BUT_paramfileload");
-            this.BUT_paramfileload.Name = "BUT_paramfileload";
-            this.BUT_paramfileload.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_paramfileload.UseVisualStyleBackColor = true;
-            this.BUT_paramfileload.Click += new System.EventHandler(this.BUT_paramfileload_Click);
-            // 
-            // CMB_paramfiles
-            // 
-            resources.ApplyResources(this.CMB_paramfiles, "CMB_paramfiles");
-            this.CMB_paramfiles.FormattingEnabled = true;
-            this.CMB_paramfiles.Name = "CMB_paramfiles";
-            this.CMB_paramfiles.SelectedIndexChanged += new System.EventHandler(this.CMB_paramfiles_SelectedIndexChanged);
-            // 
+            //
             // BUT_reset_params
             // 
             resources.ApplyResources(this.BUT_reset_params, "BUT_reset_params");
@@ -331,9 +314,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
@@ -364,8 +345,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyDataGridView Params;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
-        private Controls.MyButton BUT_paramfileload;
-        private System.Windows.Forms.ComboBox CMB_paramfiles;
         private Controls.MyButton BUT_reset_params;
         private System.Windows.Forms.TextBox txt_search;
         private System.Windows.Forms.Label label2;
