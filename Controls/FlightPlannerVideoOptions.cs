@@ -319,6 +319,9 @@ namespace MissionPlanner.Controls
                 MainV2.cam.Dispose();
                 MainV2.cam = null;
             }
+
+            // Clear the HUD background image to prevent stale frames
+            GCSViews.FlightData.myhud.bgimage = null;
         }
 
         private void ChkHudShow_CheckedChanged(object sender, EventArgs e)
