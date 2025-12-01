@@ -1436,7 +1436,7 @@
     <value>73</value>
   </data>
   <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>Enable HUD Overlay</value>
+    <value>HUD Overlay</value>
   </data>
   <data name="&gt;&gt;CHK_hudshow.Name" xml:space="preserve">
     <value>CHK_hudshow</value>

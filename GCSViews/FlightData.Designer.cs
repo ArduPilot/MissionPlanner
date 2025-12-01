@@ -75,6 +75,8 @@ namespace MissionPlanner.GCSViews
             this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tabParams = new System.Windows.Forms.TabPage();
             this.configRawParams1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRawParams();
+            this.tabPlanner = new System.Windows.Forms.TabPage();
+            this.flightPlannerVideoOptions1 = new MissionPlanner.Controls.FlightPlannerVideoOptions();
             this.tabActionsSimple = new System.Windows.Forms.TabPage();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
@@ -265,6 +267,7 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.SuspendLayout();
             this.tabPagemessages.SuspendLayout();
             this.tabParams.SuspendLayout();
+            this.tabPlanner.SuspendLayout();
             this.tabActionsSimple.SuspendLayout();
             this.tabPagePreFlight.SuspendLayout();
             this.tabGauges.SuspendLayout();
@@ -605,6 +608,7 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabActions);
             this.tabControlactions.Controls.Add(this.tabPagemessages);
             this.tabControlactions.Controls.Add(this.tabParams);
+            this.tabControlactions.Controls.Add(this.tabPlanner);
             this.tabControlactions.Controls.Add(this.tabActionsSimple);
             this.tabControlactions.Controls.Add(this.tabPagePreFlight);
             this.tabControlactions.Controls.Add(this.tabGauges);
@@ -1114,6 +1118,18 @@ namespace MissionPlanner.GCSViews
             //
             resources.ApplyResources(this.configRawParams1, "configRawParams1");
             this.configRawParams1.Name = "configRawParams1";
+            //
+            // tabPlanner
+            //
+            this.tabPlanner.Controls.Add(this.flightPlannerVideoOptions1);
+            resources.ApplyResources(this.tabPlanner, "tabPlanner");
+            this.tabPlanner.Name = "tabPlanner";
+            this.tabPlanner.UseVisualStyleBackColor = true;
+            //
+            // flightPlannerVideoOptions1
+            //
+            resources.ApplyResources(this.flightPlannerVideoOptions1, "flightPlannerVideoOptions1");
+            this.flightPlannerVideoOptions1.Name = "flightPlannerVideoOptions1";
             //
             // tabActionsSimple
             // 
@@ -2978,6 +2994,7 @@ namespace MissionPlanner.GCSViews
             this.tabPagemessages.ResumeLayout(false);
             this.tabPagemessages.PerformLayout();
             this.tabParams.ResumeLayout(false);
+            this.tabPlanner.ResumeLayout(false);
             this.tabActionsSimple.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
@@ -3163,6 +3180,8 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.Timer Messagetabtimer;
         public System.Windows.Forms.TabPage tabParams;
         private ConfigurationView.ConfigRawParams configRawParams1;
+        public System.Windows.Forms.TabPage tabPlanner;
+        private Controls.FlightPlannerVideoOptions flightPlannerVideoOptions1;
         public System.Windows.Forms.TabPage tabActionsSimple;
         private Controls.MyButton myButton1;
         private Controls.MyButton myButton2;

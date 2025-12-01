@@ -196,7 +196,7 @@
     <value>Mode/Status</value>
   </data>
   <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>Enable HUD Overlay</value>
+    <value>HUD Overlay</value>
   </data>
   <data name="label108.Text" xml:space="preserve">
     <value>APM Reset</value>

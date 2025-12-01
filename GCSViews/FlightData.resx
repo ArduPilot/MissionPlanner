@@ -1491,6 +1491,45 @@
   <data name="&gt;&gt;configRawParams1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="tabPlanner.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="tabPlanner.Text" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="&gt;&gt;tabPlanner.Name" xml:space="preserve">
+    <value>tabPlanner</value>
+  </data>
+  <data name="&gt;&gt;tabPlanner.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPlanner.Parent" xml:space="preserve">
+    <value>tabControlactions</value>
+  </data>
+  <data name="&gt;&gt;tabPlanner.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="flightPlannerVideoOptions1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="flightPlannerVideoOptions1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="flightPlannerVideoOptions1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;flightPlannerVideoOptions1.Name" xml:space="preserve">
+    <value>flightPlannerVideoOptions1</value>
+  </data>
+  <data name="&gt;&gt;flightPlannerVideoOptions1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.FlightPlannerVideoOptions, MissionPlanner, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;flightPlannerVideoOptions1.Parent" xml:space="preserve">
+    <value>tabPlanner</value>
+  </data>
+  <data name="&gt;&gt;flightPlannerVideoOptions1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="myButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>

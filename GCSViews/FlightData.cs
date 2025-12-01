@@ -1844,7 +1844,7 @@ namespace MissionPlanner.GCSViews
             ((Control) sender).Enabled = true;
         }
 
-        void cam_camimage(Image camimage)
+        public void cam_camimage(Image camimage)
         {
             hud1.bgimage = camimage;
         }
@@ -6142,6 +6142,7 @@ namespace MissionPlanner.GCSViews
             TabControl tab = new TabControl();
             dropout.FormBorderStyle = FormBorderStyle.Sizable;
             dropout.ShowInTaskbar = false;
+            dropout.TopMost = true;
             dropout.Size = new Size(300, 450);
             tabQuickDetached = true;
             tab.Appearance = TabAppearance.FlatButtons;
