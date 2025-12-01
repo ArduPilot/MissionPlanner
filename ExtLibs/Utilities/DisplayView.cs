@@ -62,6 +62,9 @@ namespace MissionPlanner.Utilities
         public Boolean displayTransponderTab { get; set; }
         public Boolean displayAuxFunctionTab { get; set; }
         public Boolean displayPayloadTab { get; set; }
+        public Boolean displayParamsTab { get; set; }
+        public Boolean displayVideoTab { get; set; }
+        public Boolean displayTuningTab { get; set; }
 
         //flight plan
         public Boolean displayRallyPointsMenu { get; set; }
@@ -157,6 +160,9 @@ namespace MissionPlanner.Utilities
             displayTransponderTab = true;
             displayAuxFunctionTab = true;
             displayPayloadTab = true;
+            displayParamsTab = true;
+            displayVideoTab = true;
+            displayTuningTab = true;
 
             //flight plan
             displayRallyPointsMenu = true;
@@ -290,6 +296,9 @@ namespace MissionPlanner.Utilities
                 displayTransponderTab = true,
                 displayAuxFunctionTab = true,
                 displayPayloadTab = true,
+                displayParamsTab = true,
+                displayVideoTab = true,
+                displayTuningTab = true,
 
                 //flight plan
                 displayRallyPointsMenu = true,
@@ -377,6 +386,9 @@ namespace MissionPlanner.Utilities
                 displayTransponderTab = true,
                 displayAuxFunctionTab = true,
                 displayPayloadTab = true,
+                displayParamsTab = true,
+                displayVideoTab = true,
+                displayTuningTab = true,
 
                 //flight plan
                 displayRallyPointsMenu = true,

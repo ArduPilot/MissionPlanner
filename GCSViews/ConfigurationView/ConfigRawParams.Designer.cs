@@ -50,8 +50,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.chk_none_default = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.but_collapse = new MissionPlanner.Controls.MyButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,13 +58,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.but_collapse = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.txt_search = new MissionPlanner.Controls.PlaceholderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_compare
@@ -180,28 +180,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.treeView1.Name = "treeView1";
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
-            // but_collapse
-            // 
-            resources.ApplyResources(this.but_collapse, "but_collapse");
-            this.but_collapse.Name = "but_collapse";
-            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_collapse.UseVisualStyleBackColor = true;
-            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.BUT_load);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_save);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_compare);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params);
-            this.tableLayoutPanel1.Controls.Add(this.txt_search);
-            this.tableLayoutPanel1.Controls.Add(this.chk_modified);
-            this.tableLayoutPanel1.Controls.Add(this.chk_none_default);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
             // Params
             // 
             this.Params.AllowUserToAddRows = false;
@@ -302,6 +280,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Fav.Name = "Fav";
             this.Fav.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // but_collapse
+            // 
+            resources.ApplyResources(this.but_collapse, "but_collapse");
+            this.but_collapse.Name = "but_collapse";
+            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_collapse.UseVisualStyleBackColor = true;
+            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.BUT_load);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_save);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_compare);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params);
+            this.tableLayoutPanel1.Controls.Add(this.txt_search);
+            this.tableLayoutPanel1.Controls.Add(this.chk_modified);
+            this.tableLayoutPanel1.Controls.Add(this.chk_none_default);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
             // txt_search
             // 
             resources.ApplyResources(this.txt_search, "txt_search");
@@ -320,9 +320,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
 
         }

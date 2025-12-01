@@ -720,6 +720,12 @@ namespace MissionPlanner.GCSViews
             TabListDisplay.Add(tabAuxFunction.Name, MainV2.DisplayConfiguration.displayAuxFunctionTab);
 
             TabListDisplay.Add(tabPayload.Name, MainV2.DisplayConfiguration.displayPayloadTab);
+
+            TabListDisplay.Add(tabParams.Name, MainV2.DisplayConfiguration.displayParamsTab);
+
+            TabListDisplay.Add(tabVideo.Name, MainV2.DisplayConfiguration.displayVideoTab);
+
+            TabListDisplay.Add(tabTuning.Name, MainV2.DisplayConfiguration.displayTuningTab);
         }
 
         private void loadTabControlActions()
