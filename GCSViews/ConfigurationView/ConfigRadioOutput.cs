@@ -38,6 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var initializing = true;
             var applyingEquidistant = false;
             var syncingTrimSlider = false;
+            System.Windows.Forms.Timer sliderDebounceTimer = null;
 
             const int controlHeight = 25;
             var horizontalMargin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -250,13 +251,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             };
 
-            // Add event handler for slider changes - sync with trim
+            // Add event handler for slider changes - sync with trim (debounced)
             trimSlider.ValueChanged += (sender, e) =>
             {
                 if (initializing || syncingTrimSlider)
                     return;
 
-                // Round to nearest 10
+                // Round to nearest 10 immediately for visual feedback
                 var roundedValue = (int)(Math.Round(trimSlider.Value / 10.0) * 10);
                 if (trimSlider.Value != roundedValue)
                 {
@@ -272,19 +273,36 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
-                // Sync trim with slider value
-                syncingTrimSlider = true;
-                try
+                // Debounce: wait 0.5 seconds before syncing to trim
+                if (sliderDebounceTimer != null)
                 {
-                    if (trim1.Value != trimSlider.Value)
+                    sliderDebounceTimer.Stop();
+                    sliderDebounceTimer.Dispose();
+                }
+
+                sliderDebounceTimer = new System.Windows.Forms.Timer();
+                sliderDebounceTimer.Interval = 500; // 0.5 seconds
+                sliderDebounceTimer.Tick += (s, args) =>
+                {
+                    sliderDebounceTimer.Stop();
+                    sliderDebounceTimer.Dispose();
+                    sliderDebounceTimer = null;
+
+                    // Sync trim with slider value
+                    syncingTrimSlider = true;
+                    try
                     {
-                        trim1.Value = trimSlider.Value;
+                        if (trim1.Value != trimSlider.Value)
+                        {
+                            trim1.Value = trimSlider.Value;
+                        }
                     }
-                }
-                finally
-                {
-                    syncingTrimSlider = false;
-                }
+                    finally
+                    {
+                        syncingTrimSlider = false;
+                    }
+                };
+                sliderDebounceTimer.Start();
             };
 
             // Add event handlers for min/max changes - uncheck equidistant if values change
