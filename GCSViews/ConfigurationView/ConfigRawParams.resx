@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BUT_compare.Location" type="System.Drawing.Point, System.Drawing">
-    <value>229, 6</value>
+    <value>452, 6</value>
   </data>
   <data name="BUT_compare.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 26</value>
@@ -163,7 +163,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_rerequestparams.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 6</value>
+    <value>212, 6</value>
   </data>
   <data name="BUT_rerequestparams.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 26</value>
@@ -196,7 +196,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_writePIDS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 38</value>
+    <value>332, 6</value>
   </data>
   <data name="BUT_writePIDS.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 26</value>
@@ -229,7 +229,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 38</value>
+    <value>109, 6</value>
   </data>
   <data name="BUT_save.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 26</value>
@@ -298,7 +298,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_reset_params.Location" type="System.Drawing.Point, System.Drawing">
-    <value>229, 38</value>
+    <value>581, 6</value>
   </data>
   <data name="BUT_reset_params.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 26</value>
@@ -321,33 +321,6 @@
   <data name="&gt;&gt;BUT_reset_params.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="txt_search.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
-  <data name="txt_search.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9pt</value>
-  </data>
-  <data name="txt_search.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 38</value>
-  </data>
-  <data name="txt_search.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 24</value>
-  </data>
-  <data name="txt_search.TabIndex" type="System.Int32, mscorlib">
-    <value>79</value>
-  </data>
-  <data name="&gt;&gt;txt_search.Name" xml:space="preserve">
-    <value>txt_search</value>
-  </data>
-  <data name="&gt;&gt;txt_search.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_search.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;txt_search.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
   </data>
@@ -358,16 +331,16 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 3</value>
+    <value>710, 3</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 32</value>
+    <value>53, 32</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>82</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Search Params</value>
+    <value>Search:</value>
   </data>
   <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -377,12 +350,6 @@
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="BUT_commitToFlash.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -418,7 +385,10 @@
     <value>NoControl</value>
   </data>
   <data name="chk_modified.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 9</value>
+    <value>150, 38</value>
+  </data>
+  <data name="chk_modified.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 3, 3, 3</value>
   </data>
   <data name="chk_modified.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>No</value>
@@ -442,7 +412,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;chk_modified.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="BUT_refreshTable.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -478,7 +448,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_none_default.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 41</value>
+    <value>237, 38</value>
   </data>
   <data name="chk_none_default.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 20</value>
@@ -502,7 +472,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;chk_none_default.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -637,10 +607,10 @@
     <value>Fill</value>
   </data>
   <data name="Params.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 70</value>
+    <value>18, 64</value>
   </data>
   <data name="Params.Size" type="System.Drawing.Size, System.Drawing">
-    <value>788, 458</value>
+    <value>788, 464</value>
   </data>
   <data name="Params.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -649,7 +619,7 @@
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9466.11730, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9466.12777, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -664,7 +634,7 @@
     <value>NoControl</value>
   </data>
   <data name="but_collapse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 70</value>
+    <value>0, 64</value>
   </data>
   <data name="but_collapse.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>18, 18</value>
@@ -696,6 +666,33 @@
   <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="txt_search.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="txt_search.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="txt_search.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 38</value>
+  </data>
+  <data name="txt_search.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 24</value>
+  </data>
+  <data name="txt_search.TabIndex" type="System.Int32, mscorlib">
+    <value>79</value>
+  </data>
+  <data name="&gt;&gt;txt_search.Name" xml:space="preserve">
+    <value>txt_search</value>
+  </data>
+  <data name="&gt;&gt;txt_search.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.PlaceholderTextBox, MissionPlanner, Version=1.3.9466.12777, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;txt_search.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;txt_search.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -706,7 +703,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>806, 40</value>
+    <value>806, 64</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

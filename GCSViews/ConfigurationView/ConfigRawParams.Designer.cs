@@ -43,7 +43,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_load = new MissionPlanner.Controls.MyButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.BUT_reset_params = new MissionPlanner.Controls.MyButton();
-            this.txt_search = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BUT_commitToFlash = new MissionPlanner.Controls.MyButton();
             this.chk_modified = new System.Windows.Forms.CheckBox();
@@ -61,6 +60,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.txt_search = new MissionPlanner.Controls.PlaceholderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -122,12 +122,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_reset_params.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_reset_params.UseVisualStyleBackColor = true;
             this.BUT_reset_params.Click += new System.EventHandler(this.BUT_reset_params_Click);
-            // 
-            // txt_search
-            // 
-            resources.ApplyResources(this.txt_search, "txt_search");
-            this.txt_search.Name = "txt_search";
-            this.txt_search.TextChanged += new System.EventHandler(this.txt_search_TextChanged);
             // 
             // label2
             // 
@@ -195,7 +189,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
             // 
             // tableLayoutPanel1
-            //
+            // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.BUT_load);
             this.tableLayoutPanel1.Controls.Add(this.BUT_save);
@@ -203,7 +197,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
             this.tableLayoutPanel1.Controls.Add(this.BUT_compare);
             this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params);
-            this.tableLayoutPanel1.Controls.Add(this.label2);
             this.tableLayoutPanel1.Controls.Add(this.txt_search);
             this.tableLayoutPanel1.Controls.Add(this.chk_modified);
             this.tableLayoutPanel1.Controls.Add(this.chk_none_default);
@@ -309,6 +302,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Fav.Name = "Fav";
             this.Fav.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // txt_search
+            // 
+            resources.ApplyResources(this.txt_search, "txt_search");
+            this.txt_search.Name = "txt_search";
+            this.txt_search.PlaceholderColor = System.Drawing.Color.Gray;
+            this.txt_search.PlaceholderText = "Search";
+            this.txt_search.TextChanged += new System.EventHandler(this.txt_search_TextChanged);
+            // 
             // ConfigRawParams
             // 
             this.Controls.Add(this.splitContainer1);
@@ -336,7 +337,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyDataGridView Params;
         private System.Windows.Forms.ToolTip toolTip1;
         private Controls.MyButton BUT_reset_params;
-        private System.Windows.Forms.TextBox txt_search;
+        private MissionPlanner.Controls.PlaceholderTextBox txt_search;
         private System.Windows.Forms.Label label2;
         private MyButton BUT_commitToFlash;
         private System.Windows.Forms.CheckBox chk_modified;
