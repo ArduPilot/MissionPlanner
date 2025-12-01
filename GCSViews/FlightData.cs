@@ -1851,17 +1851,68 @@ namespace MissionPlanner.GCSViews
 
         private void CB_tuning_CheckedChanged(object sender, EventArgs e)
         {
-            if (CB_tuning.Checked)
+            UpdateSplitContainerLayout();
+        }
+
+        private void CB_params_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSplitContainerLayout();
+        }
+
+        private void UpdateSplitContainerLayout()
+        {
+            bool tuningChecked = CB_tuning.Checked;
+            bool paramsChecked = CB_params.Checked;
+
+            if (tuningChecked && paramsChecked)
             {
+                // Both checked: 3-way split (tuning, params, map)
                 splitContainer1.Panel1Collapsed = false;
+                splitContainer2.Panel1Collapsed = false;
+                splitContainer2.Panel2Collapsed = false;
+
+                // Split into thirds
+                int totalHeight = splitContainer1.Height;
+                splitContainer1.SplitterDistance = (totalHeight * 2) / 3; // Top 2/3 for tuning+params
+                splitContainer2.SplitterDistance = splitContainer1.SplitterDistance / 2; // Split top half equally
+
+                ZedGraphTimer.Enabled = true;
+                ZedGraphTimer.Start();
+                zg1.Visible = true;
+                zg1.Refresh();
+                configRawParams2.Activate();
+            }
+            else if (tuningChecked && !paramsChecked)
+            {
+                // Only tuning checked: 2-way split (tuning, map)
+                splitContainer1.Panel1Collapsed = false;
+                splitContainer2.Panel1Collapsed = false;
+                splitContainer2.Panel2Collapsed = true;
+
                 ZedGraphTimer.Enabled = true;
                 ZedGraphTimer.Start();
                 zg1.Visible = true;
                 zg1.Refresh();
             }
+            else if (!tuningChecked && paramsChecked)
+            {
+                // Only params checked: 2-way split (params, map)
+                splitContainer1.Panel1Collapsed = false;
+                splitContainer2.Panel1Collapsed = true;
+                splitContainer2.Panel2Collapsed = false;
+
+                ZedGraphTimer.Enabled = false;
+                ZedGraphTimer.Stop();
+                zg1.Visible = false;
+                configRawParams2.Activate();
+            }
             else
             {
+                // Neither checked: hide both
                 splitContainer1.Panel1Collapsed = true;
+                splitContainer2.Panel1Collapsed = true;
+                splitContainer2.Panel2Collapsed = true;
+
                 ZedGraphTimer.Enabled = false;
                 ZedGraphTimer.Stop();
                 zg1.Visible = false;

@@ -2501,11 +2501,11 @@ namespace MissionPlanner.GCSViews
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.zg1);
-            // 
+            //
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            //
             // splitContainer1.Panel2
-            // 
+            //
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
@@ -2521,9 +2521,22 @@ namespace MissionPlanner.GCSViews
             this.splitContainer1.Panel2.Controls.Add(this.lbl_sats);
             this.splitContainer1.Panel2.Controls.Add(this.gMapControl1);
             this.splitContainer1.Panel2.Resize += new System.EventHandler(this.splitContainer1_Panel2_Resize);
-            // 
+            //
+            // splitContainer2
+            //
+            resources.ApplyResources(this.splitContainer2, "splitContainer2");
+            this.splitContainer2.Name = "splitContainer2";
+            //
+            // splitContainer2.Panel1
+            //
+            this.splitContainer2.Panel1.Controls.Add(this.zg1);
+            //
+            // splitContainer2.Panel2
+            //
+            this.splitContainer2.Panel2.Controls.Add(this.configRawParams2);
+            //
             // zg1
-            // 
+            //
             resources.ApplyResources(this.zg1, "zg1");
             this.zg1.Name = "zg1";
             this.zg1.ScrollGrace = 0D;
@@ -2534,7 +2547,12 @@ namespace MissionPlanner.GCSViews
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
             this.zg1.DoubleClick += new System.EventHandler(this.zg1_DoubleClick);
-            // 
+            //
+            // configRawParams2
+            //
+            resources.ApplyResources(this.configRawParams2, "configRawParams2");
+            this.configRawParams2.Name = "configRawParams2";
+            //
             // contextMenuStripMap
             // 
             this.contextMenuStripMap.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2859,6 +2877,7 @@ namespace MissionPlanner.GCSViews
             this.panel1.Controls.Add(this.coords1);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
+            this.panel1.Controls.Add(this.CB_params);
             this.panel1.Name = "panel1";
             // 
             // coords1
@@ -2892,7 +2911,15 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.CB_tuning, resources.GetString("CB_tuning.ToolTip"));
             this.CB_tuning.UseVisualStyleBackColor = true;
             this.CB_tuning.CheckedChanged += new System.EventHandler(this.CB_tuning_CheckedChanged);
-            // 
+            //
+            // CB_params
+            //
+            resources.ApplyResources(this.CB_params, "CB_params");
+            this.CB_params.Name = "CB_params";
+            this.toolTip1.SetToolTip(this.CB_params, resources.GetString("CB_params.ToolTip"));
+            this.CB_params.UseVisualStyleBackColor = true;
+            this.CB_params.CheckedChanged += new System.EventHandler(this.CB_params_CheckedChanged);
+            //
             // ZedGraphTimer
             // 
             this.ZedGraphTimer.Tick += new System.EventHandler(this.ZedGraphTimer_Tick);
@@ -2985,6 +3012,10 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableMap.ResumeLayout(false);
             this.tableMap.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -3011,6 +3042,7 @@ namespace MissionPlanner.GCSViews
         private Controls.HUD hud1;
         private Controls.MyButton BUT_clear_track;
         private System.Windows.Forms.CheckBox CB_tuning;
+        private System.Windows.Forms.CheckBox CB_params;
         private Controls.MyButton BUT_RAWSensor;
         private Controls.MyButton BUTactiondo;
         private Controls.MyButton BUTrestartmission;
@@ -3047,6 +3079,8 @@ namespace MissionPlanner.GCSViews
         private Label lbl_logpercent;
         private System.Windows.Forms.ToolStripMenuItem pointCameraHereToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private ConfigurationView.ConfigRawParams configRawParams2;
         private Controls.MyLabel lbl_hdop;
         private Controls.MyLabel lbl_sats;
         private Controls.HSI Gheading;
