@@ -6759,5 +6759,10 @@ namespace MissionPlanner.GCSViews
             // Pass `this` to keep the pop-out always on top
             form.Show(this);
         }
+
+        private void propagationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new PropagationSettings().Show();
+        }
     }
 }
