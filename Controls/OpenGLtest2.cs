@@ -598,7 +598,7 @@ namespace MissionPlanner.Controls
                                 if (point == null)
                                     continue;
                                 var co = convertCoords(point);
-                                _flightPlanLines.Add(co[0], co[1], co[2], 1, 0, 0, 1);
+                                _flightPlanLines.Add(co[0], co[1], co[2], 1, 1, 0, 1);
                             }
                             _flightPlanLinesCount = pointlistCount;
                         }
@@ -649,17 +649,17 @@ namespace MissionPlanner.Controls
                         wpmarker.idtexture = green;
 
                         //tr
-                        wpmarker.vertex.Add(new Vertex(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2 + co[0],
-                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2 + co[1], co[2] + 10, 0, 0, 0, 1, 0, 0));
+                        wpmarker.vertex.Add(new Vertex(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10 + co[0],
+                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10 + co[1], co[2] + 50, 0, 0, 0, 1, 0, 0));
                         //tl
-                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] + 10, 0, 0, 0, 1, 1, 0));
+                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
+                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, co[2] + 50, 0, 0, 0, 1, 1, 0));
                         //br
-                        wpmarker.vertex.Add(new Vertex(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1, 0, 0, 0, 1, 0, 1));
+                        wpmarker.vertex.Add(new Vertex(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
+                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, co[2] - 5, 0, 0, 0, 1, 0, 1));
                         //bl
-                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1, 0, 0, 0, 1, 1, 1));
+                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
+                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, co[2] - 5, 0, 0, 0, 1, 1, 1));
 
                         var startindex = (uint)wpmarker.vertex.Count - 4;
                         wpmarker.indices.AddRange(new[]
