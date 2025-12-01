@@ -5135,6 +5135,10 @@ namespace MissionPlanner.GCSViews
             {
                 Messagetabtimer.Start();
             }
+            else if (tabControlactions.SelectedTab == tabParams)
+            {
+                configRawParams1.Activate();
+            }
             else
             {
                 // foreach (Control temp in tabStatus.Controls)
