@@ -86,6 +86,8 @@ namespace MissionPlanner.Controls
         public int zoom { get; set; } = 20;
         private NumericUpDown num_minzoom;
         private NumericUpDown num_maxzoom;
+        private Label lbl_minzoom;
+        private Label lbl_maxzoom;
         private SemaphoreSlim textureSemaphore = new SemaphoreSlim(1, 1);
         private Timer timer1;
         private System.ComponentModel.IContainer components;
@@ -452,6 +454,9 @@ namespace MissionPlanner.Controls
         private SimpleKalmanFilter _kalmanPosX = new SimpleKalmanFilter(0.05, 0.5);
         private SimpleKalmanFilter _kalmanPosY = new SimpleKalmanFilter(0.05, 0.5);
         private SimpleKalmanFilter _kalmanPosZ = new SimpleKalmanFilter(0.05, 0.5);
+
+        // Default ground plane (shown before tiles load)
+        private Lines _defaultGround;
         private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
@@ -536,7 +541,8 @@ namespace MissionPlanner.Controls
 
                 var beforeclear = DateTime.Now;
                 //GL.Viewport(0, 0, Width, Height);
-                GL.ClearColor(Color.CornflowerBlue);
+                // Sky blue color
+                GL.ClearColor(Color.FromArgb(255, 52, 152, 219));
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit |
                          ClearBufferMask.AccumBufferBit);
 
@@ -548,7 +554,13 @@ namespace MissionPlanner.Controls
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
 
+                // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
+                if (texlist.Count == 0)
+                {
+                    // No tiles loaded yet - draw a large green ground plane
+                    DrawDefaultGround(projMatrix, modelMatrix);
+                }
                 int lastzoom = texlist.Count == 0 ? 0 : texlist[0].Value.zoom;
                 var beforedraw = DateTime.Now;
                 foreach (var tidict in texlist)
@@ -747,6 +759,43 @@ namespace MissionPlanner.Controls
         private int Comparison(KeyValuePair<GPoint, tileInfo> x, KeyValuePair<GPoint, tileInfo> y)
         {
             return x.Value.zoom.CompareTo(y.Value.zoom);
+        }
+
+        private void DrawDefaultGround(Matrix4 projection, Matrix4 modelView)
+        {
+            // Create a large green ground plane centered at camera position
+            if (_defaultGround == null)
+            {
+                _defaultGround = new Lines();
+            }
+
+            // Draw a simple colored ground quad using the existing tileInfo infrastructure
+            // This creates a large flat green surface at altitude 0
+            float groundSize = 2000f; // meters
+            float groundAlt = 0f;
+
+            // Dark grass green color
+            float r = 0.2f, g = 0.45f, b = 0.15f, a = 1.0f;
+
+            var groundTile = new tileInfo(Context, WindowInfo, textureSemaphore);
+
+            // Create a quad (two triangles)
+            // Bottom-left
+            groundTile.vertex.Add(new Vertex(-groundSize, -groundSize, groundAlt, r, g, b, a, 0, 0));
+            // Top-left
+            groundTile.vertex.Add(new Vertex(-groundSize, groundSize, groundAlt, r, g, b, a, 0, 1));
+            // Bottom-right
+            groundTile.vertex.Add(new Vertex(groundSize, -groundSize, groundAlt, r, g, b, a, 1, 0));
+            // Top-right
+            groundTile.vertex.Add(new Vertex(groundSize, groundSize, groundAlt, r, g, b, a, 1, 1));
+
+            // Two triangles: 0-1-2 and 1-3-2
+            groundTile.indices.AddRange(new uint[] { 0, 1, 2, 1, 3, 2 });
+
+            // Draw without texture
+            GL.Disable(EnableCap.Texture2D);
+            groundTile.Draw(projection, modelView);
+            groundTile.Cleanup(true);
         }
 
         private void generateTextures()
@@ -1029,67 +1078,53 @@ namespace MissionPlanner.Controls
             this.components = new System.ComponentModel.Container();
             this.num_minzoom = new System.Windows.Forms.NumericUpDown();
             this.num_maxzoom = new System.Windows.Forms.NumericUpDown();
+            this.lbl_minzoom = new System.Windows.Forms.Label();
+            this.lbl_maxzoom = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).BeginInit();
             this.SuspendLayout();
+            //
+            // lbl_minzoom
+            //
+            this.lbl_minzoom.AutoSize = true;
+            this.lbl_minzoom.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_minzoom.ForeColor = System.Drawing.Color.White;
+            this.lbl_minzoom.Location = new System.Drawing.Point(3, 5);
+            this.lbl_minzoom.Name = "lbl_minzoom";
+            this.lbl_minzoom.Size = new System.Drawing.Size(54, 13);
+            this.lbl_minzoom.Text = "Min Zoom";
             //
             // num_minzoom
             //
-            this.num_minzoom.Location = new System.Drawing.Point(3, 3);
-            this.num_minzoom.Maximum = new decimal(new int[]
-            {
-                20,
-                0,
-                0,
-                0
-            });
-            this.num_minzoom.Minimum = new decimal(new int[]
-            {
-                1,
-                0,
-                0,
-                0
-            });
+            this.num_minzoom.Location = new System.Drawing.Point(63, 3);
+            this.num_minzoom.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
+            this.num_minzoom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.num_minzoom.Name = "num_minzoom";
-            this.num_minzoom.Size = new System.Drawing.Size(54, 20);
+            this.num_minzoom.Size = new System.Drawing.Size(45, 20);
             this.num_minzoom.TabIndex = 0;
-            this.num_minzoom.Value = new decimal(new int[]
-            {
-                12,
-                0,
-                0,
-                0
-            });
+            this.num_minzoom.Value = new decimal(new int[] { 12, 0, 0, 0 });
             this.num_minzoom.ValueChanged += new System.EventHandler(this.num_minzoom_ValueChanged);
+            //
+            // lbl_maxzoom
+            //
+            this.lbl_maxzoom.AutoSize = true;
+            this.lbl_maxzoom.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_maxzoom.ForeColor = System.Drawing.Color.White;
+            this.lbl_maxzoom.Location = new System.Drawing.Point(3, 28);
+            this.lbl_maxzoom.Name = "lbl_maxzoom";
+            this.lbl_maxzoom.Size = new System.Drawing.Size(57, 13);
+            this.lbl_maxzoom.Text = "Max Zoom";
             //
             // num_maxzoom
             //
-            this.num_maxzoom.Location = new System.Drawing.Point(3, 29);
-            this.num_maxzoom.Maximum = new decimal(new int[]
-            {
-                20,
-                0,
-                0,
-                0
-            });
-            this.num_maxzoom.Minimum = new decimal(new int[]
-            {
-                1,
-                0,
-                0,
-                0
-            });
+            this.num_maxzoom.Location = new System.Drawing.Point(63, 26);
+            this.num_maxzoom.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
+            this.num_maxzoom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.num_maxzoom.Name = "num_maxzoom";
-            this.num_maxzoom.Size = new System.Drawing.Size(54, 20);
+            this.num_maxzoom.Size = new System.Drawing.Size(45, 20);
             this.num_maxzoom.TabIndex = 1;
-            this.num_maxzoom.Value = new decimal(new int[]
-            {
-                20,
-                0,
-                0,
-                0
-            });
+            this.num_maxzoom.Value = new decimal(new int[] { 20, 0, 0, 0 });
             this.num_maxzoom.ValueChanged += new System.EventHandler(this.num_maxzoom_ValueChanged);
             //
             // timer1
@@ -1100,14 +1135,16 @@ namespace MissionPlanner.Controls
             // OpenGLtest2
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.num_maxzoom);
+            this.Controls.Add(this.lbl_minzoom);
             this.Controls.Add(this.num_minzoom);
+            this.Controls.Add(this.lbl_maxzoom);
+            this.Controls.Add(this.num_maxzoom);
             this.Name = "OpenGLtest2";
             this.Size = new System.Drawing.Size(640, 480);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
-            ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -1141,7 +1178,12 @@ namespace MissionPlanner.Controls
 
         private void num_minzoom_ValueChanged(object sender, EventArgs e)
         {
-            minzoom = (int) num_minzoom.Value;
+            minzoom = (int)num_minzoom.Value;
+        }
+
+        private void num_maxzoom_ValueChanged(object sender, EventArgs e)
+        {
+            zoom = (int)num_maxzoom.Value;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -1151,11 +1193,6 @@ namespace MissionPlanner.Controls
                 this.Invalidate();
                 onpaintrun = false;
             }
-        }
-
-        private void num_maxzoom_ValueChanged(object sender, EventArgs e)
-        {
-            zoom = (int) num_maxzoom.Value;
         }
 
         private void test_Resize(object sender, EventArgs e)
