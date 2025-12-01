@@ -59,6 +59,9 @@ namespace MissionPlanner.GCSViews
         //The file path of the selected script
         internal string selectedscript = "";
 
+        // 3D Map control reference for proper disposal
+        private Controls.OpenGLtest2 _map3D;
+
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         AviWriter aviwriter;
         private bool CameraOverlap;
@@ -461,19 +464,18 @@ namespace MissionPlanner.GCSViews
                 Size = new Size(60, 23),
                 Anchor = AnchorStyles.Top | AnchorStyles.Left
             };
-            Controls.OpenGLtest2 map3D = null;
             btn3DMap.Click += (s, e) =>
             {
-                if (map3D == null || map3D.IsDisposed)
+                if (_map3D == null || _map3D.IsDisposed)
                 {
                     // Create and show 3D map
-                    map3D = new Controls.OpenGLtest2
+                    _map3D = new Controls.OpenGLtest2
                     {
                         Dock = DockStyle.Fill
                     };
-                    splitContainer1.Panel2.Controls.Add(map3D);
-                    map3D.BringToFront();
-                    map3D.Activate();
+                    splitContainer1.Panel2.Controls.Add(_map3D);
+                    _map3D.BringToFront();
+                    _map3D.Activate();
                     btn3DMap.Text = "2D Map";
 
                     // Bring overlay controls to front of 3D map
@@ -484,11 +486,11 @@ namespace MissionPlanner.GCSViews
                     btnTools.Visible = false;
                     btnPropagation.Visible = false;
                 }
-                else if (map3D.Visible)
+                else if (_map3D.Visible)
                 {
                     // Hide 3D map, show 2D
-                    map3D.Deactivate();
-                    map3D.Visible = false;
+                    _map3D.Deactivate();
+                    _map3D.Visible = false;
                     btn3DMap.Text = "3D Map";
                     // Show tools and propagation buttons on 2D map
                     btnTools.Visible = true;
@@ -497,9 +499,9 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     // Show 3D map
-                    map3D.Visible = true;
-                    map3D.BringToFront();
-                    map3D.Activate();
+                    _map3D.Visible = true;
+                    _map3D.BringToFront();
+                    _map3D.Activate();
                     btn3DMap.Text = "2D Map";
 
                     // Bring overlay controls to front of 3D map
@@ -751,6 +753,14 @@ namespace MissionPlanner.GCSViews
             Settings.Instance["maplast_zoom"] = gMapControl1.Zoom.ToString();
 
             ZedGraphTimer.Stop();
+
+            // Dispose 3D map if active
+            if (_map3D != null && !_map3D.IsDisposed)
+            {
+                _map3D.Deactivate();
+                _map3D.Dispose();
+                _map3D = null;
+            }
         }
 
         public void LoadLogFile(string file)

@@ -287,6 +287,26 @@ namespace MissionPlanner.Controls
             this.Invalidate();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                timer1?.Stop();
+                timer1?.Dispose();
+
+                // Clean up textures
+                Deactivate();
+
+                // Clean up the image loader thread context
+                try
+                {
+                    IMGContext?.Dispose();
+                }
+                catch { }
+            }
+            base.Dispose(disposing);
+        }
+
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
         {
             var dir = Vector3.Cross(b - a, c - a);
