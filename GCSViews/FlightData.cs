@@ -4367,12 +4367,8 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    StringBuilder message = new StringBuilder();
-                    MainV2.comPort.MAV.cs.messages.ForEach(x =>
-                    {
-                        message.Insert(0, x.Item1 + " : " + x.Item2 + "\r\n");
-                    });
-                    txt_messagebox.Text = message.ToString();
+                    // Update the new MessagesList control
+                    messagesList1.UpdateMessages(MainV2.comPort.MAV.cs.messages);
 
                     messagecount = messagetime.toUnixTime();
                 }

@@ -385,7 +385,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_modified.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 38</value>
+    <value>150, 41</value>
   </data>
   <data name="chk_modified.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>8, 3, 3, 3</value>
@@ -448,7 +448,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_none_default.Location" type="System.Drawing.Point, System.Drawing">
-    <value>237, 38</value>
+    <value>237, 41</value>
   </data>
   <data name="chk_none_default.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 20</value>
@@ -607,10 +607,10 @@
     <value>Fill</value>
   </data>
   <data name="Params.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 64</value>
+    <value>18, 70</value>
   </data>
   <data name="Params.Size" type="System.Drawing.Size, System.Drawing">
-    <value>788, 464</value>
+    <value>788, 458</value>
   </data>
   <data name="Params.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -619,7 +619,7 @@
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9466.12777, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9466.16911, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -634,7 +634,7 @@
     <value>NoControl</value>
   </data>
   <data name="but_collapse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 64</value>
+    <value>0, 70</value>
   </data>
   <data name="but_collapse.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>18, 18</value>
@@ -675,8 +675,14 @@
   <data name="txt_search.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 38</value>
   </data>
+  <data name="txt_search.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>133, 26</value>
+  </data>
+  <data name="txt_search.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="txt_search.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 24</value>
+    <value>133, 26</value>
   </data>
   <data name="txt_search.TabIndex" type="System.Int32, mscorlib">
     <value>79</value>
@@ -685,7 +691,7 @@
     <value>txt_search</value>
   </data>
   <data name="&gt;&gt;txt_search.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PlaceholderTextBox, MissionPlanner, Version=1.3.9466.12777, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PlaceholderTextBox, MissionPlanner, Version=1.3.9466.16911, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;txt_search.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -703,7 +709,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>806, 64</value>
+    <value>806, 70</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

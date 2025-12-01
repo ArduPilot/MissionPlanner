@@ -72,6 +72,7 @@ namespace MissionPlanner.GCSViews
             this.BUT_quickauto = new MissionPlanner.Controls.MyButton();
             this.BUT_setmode = new MissionPlanner.Controls.MyButton();
             this.tabPagemessages = new System.Windows.Forms.TabPage();
+            this.messagesList1 = new MissionPlanner.Controls.MessagesList();
             this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tabParams = new System.Windows.Forms.TabPage();
             this.configRawParams1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRawParams();
@@ -1094,14 +1095,19 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.BUT_setmode, resources.GetString("BUT_setmode.ToolTip"));
             this.BUT_setmode.UseVisualStyleBackColor = true;
             this.BUT_setmode.Click += new System.EventHandler(this.BUT_setmode_Click);
-            // 
+            //
             // tabPagemessages
-            // 
-            this.tabPagemessages.Controls.Add(this.txt_messagebox);
+            //
+            this.tabPagemessages.Controls.Add(this.messagesList1);
             resources.ApplyResources(this.tabPagemessages, "tabPagemessages");
             this.tabPagemessages.Name = "tabPagemessages";
             this.tabPagemessages.UseVisualStyleBackColor = true;
-            // 
+            //
+            // messagesList1
+            //
+            this.messagesList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.messagesList1.Name = "messagesList1";
+            //
             // txt_messagebox
             //
             resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
@@ -3176,6 +3182,7 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton but_dflogtokml;
         private Controls.MyButton BUT_DFMavlink;
         public System.Windows.Forms.TabPage tabPagemessages;
+        private Controls.MessagesList messagesList1;
         private System.Windows.Forms.TextBox txt_messagebox;
         private System.Windows.Forms.Timer Messagetabtimer;
         public System.Windows.Forms.TabPage tabParams;

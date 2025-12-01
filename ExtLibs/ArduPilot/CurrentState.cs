@@ -1250,7 +1250,7 @@ namespace MissionPlanner
 
         [JsonIgnore]
         [IgnoreDataMember]
-        public List<(DateTime time, string message)> messages { get; set; } = new List<(DateTime, string)>();
+        public List<(DateTime time, string message, byte severity)> messages { get; set; } = new List<(DateTime, string, byte)>();
 
         /// <summary>
         /// a message that originates from the mav
@@ -4239,7 +4239,7 @@ namespace MissionPlanner
             {
                 mode = "Unknown";
                 _mode = 99999;
-                messages = new List<(DateTime time, string message)>();
+                messages = new List<(DateTime time, string message, byte severity)>();
                 useLocation = false;
                 rateattitude = rateattitudebackup;
                 rateposition = ratepositionbackup;
