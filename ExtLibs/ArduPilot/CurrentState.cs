@@ -391,6 +391,15 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float gpshdop { get; set; }
 
+        [DisplayFieldName("gpsvdop.Field")]
+        [DisplayText("Gps VDOP")]
+        [GroupText("Position")]
+        public float gpsvdop { get; set; }
+
+        [DisplayText("HDOP/VDOP")]
+        [GroupText("Position")]
+        public string gpshdopvdop => $"HDOP: {gpshdop:0.0} VDOP: {gpsvdop:0.0}";
+
         [DisplayFieldName("satcount.Field")]
         [DisplayText("Sat Count")]
         [GroupText("Position")]
@@ -440,6 +449,10 @@ namespace MissionPlanner
         [DisplayText("Gps HDOP2")]
         [GroupText("Position")]
         public float gpshdop2 { get; set; }
+
+        [DisplayText("Gps VDOP2")]
+        [GroupText("Position")]
+        public float gpsvdop2 { get; set; }
 
         [DisplayText("Sat Count2")]
         [GroupText("Position")]
@@ -2520,7 +2533,7 @@ namespace MissionPlanner
                             wind_vel = highlatency.windspeed / 5.0f;
                             wind_dir = highlatency.wind_heading * 2;
                             gpshdop = highlatency.eph;
-                            // epv
+                            gpsvdop = highlatency.epv;
                             airspeed1_temp = highlatency.temperature_air;
                             climbrate = highlatency.climb_rate * 10;
                             battery_remaining = highlatency.battery;
@@ -3265,6 +3278,9 @@ namespace MissionPlanner
                             if (gps.eph != ushort.MaxValue)
                                 gpshdop = (float)Math.Round(gps.eph / 100.0, 2);
 
+                            if (gps.epv != ushort.MaxValue)
+                                gpsvdop = (float)Math.Round(gps.epv / 100.0, 2);
+
                             if (gps.satellites_visible != byte.MaxValue)
                                 satcount = gps.satellites_visible;
 
@@ -3306,6 +3322,7 @@ namespace MissionPlanner
 
                             gpsstatus2 = gps.fix_type;
                             gpshdop2 = (float)Math.Round(gps.eph / 100.0, 2);
+                            gpsvdop2 = (float)Math.Round(gps.epv / 100.0, 2);
 
                             satcount2 = gps.satellites_visible;
 

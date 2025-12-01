@@ -6116,19 +6116,19 @@
     <value>NoControl</value>
   </data>
   <data name="lbl_hdop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-1, 149</value>
+    <value>-1, 147</value>
   </data>
   <data name="lbl_hdop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 12</value>
+    <value>160, 18</value>
   </data>
   <data name="lbl_hdop.TabIndex" type="System.Int32, mscorlib">
     <value>70</value>
   </data>
   <data name="lbl_hdop.Text" xml:space="preserve">
-    <value>hdop: 0</value>
+    <value>HDOP: 0.0 VDOP: 0.0</value>
   </data>
   <data name="lbl_hdop.ToolTip" xml:space="preserve">
-    <value>gps hdop</value>
+    <value>GPS HDOP (Horizontal) and VDOP (Vertical) Dilution of Precision</value>
   </data>
   <data name="&gt;&gt;lbl_hdop.Name" xml:space="preserve">
     <value>lbl_hdop</value>
@@ -6149,10 +6149,10 @@
     <value>NoControl</value>
   </data>
   <data name="lbl_sats.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-1, 168</value>
+    <value>-1, 166</value>
   </data>
   <data name="lbl_sats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 12</value>
+    <value>70, 18</value>
   </data>
   <data name="lbl_sats.TabIndex" type="System.Int32, mscorlib">
     <value>71</value>
