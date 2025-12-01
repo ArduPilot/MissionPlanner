@@ -1416,7 +1416,9 @@ namespace MissionPlanner
                     return;
                 }
 
-                battery_usedmah += value * 1000.0 * (datetime - _lastcurrent).TotalHours;
+                var hoursElapsed = (datetime - _lastcurrent).TotalHours;
+                battery_usedmah += value * 1000.0 * hoursElapsed;
+                battery_usedwh += battery_voltage * value * hoursElapsed;
                 _current = value;
                 _lastcurrent = datetime;
             }
@@ -1485,12 +1487,12 @@ namespace MissionPlanner
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_usedwh.Field")]
-        [DisplayText("Bat used EST (wh)")]
-        public double battery_usedwh => battery_usedmah * battery_voltage / 1000.0;
+        [DisplayText("Bat used (Wh)")]
+        public double battery_usedwh { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_whperkm.Field")]
-        [DisplayText("Bat efficiency (wh/km)")]
+        [DisplayText("Bat efficiency (Wh/km)")]
         public double battery_whperkm => battery_usedwh / (distTraveled / 1000.0f);
 
         [GroupText("Battery")]
@@ -1501,7 +1503,7 @@ namespace MissionPlanner
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_usedmah.Field")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat used (mah)")]
         public double battery_usedmah { get; set; }
 
         [GroupText("Battery")] public double battery_cell1 { get; set; }

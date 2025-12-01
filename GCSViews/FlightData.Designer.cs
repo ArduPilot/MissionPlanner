@@ -826,7 +826,7 @@ namespace MissionPlanner.GCSViews
             this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
             this.modifyandSetLoiterRad.DecimalPlaces = 0;
             this.modifyandSetLoiterRad.Increment = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});
