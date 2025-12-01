@@ -76,19 +76,52 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var offset = minMaxFromTrim1.Value;
 
                 // Calculate min = trim - offset
-                var newMin = trimValue - offset;
-                if (newMin < 800) newMin = 800;
-                if (newMin > 2200) newMin = 2200;
+                var newMin = ClampServoValue(trimValue - offset);
 
                 // Calculate max = trim + offset
-                var newMax = trimValue + offset;
-                if (newMax < 800) newMax = 800;
-                if (newMax > 2200) newMax = 2200;
+                var newMax = ClampServoValue(trimValue + offset);
 
                 // Update the controls
                 min1.Value = newMin;
                 max1.Value = newMax;
+
+                // Explicitly write the new limits so the change is not UI-only
+                WriteServoRange(servo, newMin, newMax);
             };
+        }
+
+        private static decimal ClampServoValue(decimal value)
+        {
+            if (value < 800) return 800;
+            if (value > 2200) return 2200;
+            return value;
+        }
+
+        private static void WriteServoRange(string servo, decimal newMin, decimal newMax)
+        {
+            if (MainV2.comPort?.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            var minParam = servo + "_MIN";
+            var maxParam = servo + "_MAX";
+
+            if (MainV2.comPort.MAV?.param == null)
+                return;
+
+            try
+            {
+                if (MainV2.comPort.MAV.param.ContainsKey(minParam))
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                        minParam, (double)newMin);
+
+                if (MainV2.comPort.MAV.param.ContainsKey(maxParam))
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                        maxParam, (double)newMax);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to set {servo} min/max from trim: {ex}");
+            }
         }
 
         public void Activate()
