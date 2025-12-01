@@ -1880,6 +1880,7 @@ namespace MissionPlanner.GCSViews
                 ZedGraphTimer.Start();
                 zg1.Visible = true;
                 zg1.Refresh();
+                configRawParams2.InitialTreeCollapsed = true;
                 configRawParams2.Activate();
             }
             else if (tuningChecked && !paramsChecked)
@@ -1904,6 +1905,7 @@ namespace MissionPlanner.GCSViews
                 ZedGraphTimer.Enabled = false;
                 ZedGraphTimer.Stop();
                 zg1.Visible = false;
+                configRawParams2.InitialTreeCollapsed = true;
                 configRawParams2.Activate();
             }
             else
@@ -5188,6 +5190,7 @@ namespace MissionPlanner.GCSViews
             }
             else if (tabControlactions.SelectedTab == tabParams)
             {
+                configRawParams1.InitialTreeCollapsed = true;
                 configRawParams1.Activate();
             }
             else

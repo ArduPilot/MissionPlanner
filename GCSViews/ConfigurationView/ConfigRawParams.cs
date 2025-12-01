@@ -41,6 +41,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private NaturalStringComparer naturalsorter = new NaturalStringComparer();
 
+        // Allow override of initial tree collapsed state (used by MainV2 instances)
+        public bool? InitialTreeCollapsed { get; set; } = null;
+
         public ConfigRawParams()
         {
             InitializeComponent();
@@ -77,7 +80,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
             splitContainer1.SplitterDistance = Settings.Instance.GetInt32("rawparam_splitterdistance", 180);
-            splitContainer1.Panel1Collapsed = Settings.Instance.GetBoolean("rawparam_panel1collapsed", true);
+            // Use InitialTreeCollapsed if set, otherwise use saved setting (default false)
+            splitContainer1.Panel1Collapsed = InitialTreeCollapsed ?? Settings.Instance.GetBoolean("rawparam_panel1collapsed", false);
             but_collapse.Text = splitContainer1.Panel1Collapsed ? ">" : "<";
 
             processToScreen();
