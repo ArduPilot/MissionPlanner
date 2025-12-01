@@ -62,6 +62,9 @@ namespace MissionPlanner.GCSViews
         // 3D Map control reference for proper disposal
         private Controls.OpenGLtest2 _map3D;
 
+        // Double-click fly to here feature
+        private bool _doubleClickFlyToHereEnabled = false;
+
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         AviWriter aviwriter;
         private bool CameraOverlap;
@@ -457,6 +460,20 @@ namespace MissionPlanner.GCSViews
             btnPropagation.BringToFront();
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
+            // Add double-click fly to here checkbox (declare first so it can be referenced in 3D map handler)
+            var chkDoubleClickFlyToHere = new CheckBox
+            {
+                Text = "Double-click Fly to Here",
+                AutoSize = true,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White
+            };
+            chkDoubleClickFlyToHere.CheckedChanged += (s, e) =>
+            {
+                _doubleClickFlyToHereEnabled = chkDoubleClickFlyToHere.Checked;
+            };
+
             // Add 3D Map toggle button to the right of Propagation
             var btn3DMap = new Controls.MyButton
             {
@@ -482,9 +499,10 @@ namespace MissionPlanner.GCSViews
                     lbl_hdop.BringToFront();
                     lbl_sats.BringToFront();
                     btn3DMap.BringToFront();
-                    // Hide tools and propagation buttons on 3D map
+                    // Hide tools, propagation, and double-click checkbox on 3D map
                     btnTools.Visible = false;
                     btnPropagation.Visible = false;
+                    chkDoubleClickFlyToHere.Visible = false;
                 }
                 else if (_map3D.Visible)
                 {
@@ -492,9 +510,10 @@ namespace MissionPlanner.GCSViews
                     _map3D.Deactivate();
                     _map3D.Visible = false;
                     btn3DMap.Text = "3D Map";
-                    // Show tools and propagation buttons on 2D map
+                    // Show tools, propagation, and double-click checkbox on 2D map
                     btnTools.Visible = true;
                     btnPropagation.Visible = true;
+                    chkDoubleClickFlyToHere.Visible = true;
                 }
                 else
                 {
@@ -508,14 +527,29 @@ namespace MissionPlanner.GCSViews
                     lbl_hdop.BringToFront();
                     lbl_sats.BringToFront();
                     btn3DMap.BringToFront();
-                    // Hide tools and propagation buttons on 3D map
+                    // Hide tools, propagation, and double-click checkbox on 3D map
                     btnTools.Visible = false;
                     btnPropagation.Visible = false;
+                    chkDoubleClickFlyToHere.Visible = false;
                 }
             };
             splitContainer1.Panel2.Controls.Add(btn3DMap);
             btn3DMap.BringToFront();
             btn3DMap.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 25);
+
+            // Add checkbox to map panel
+            splitContainer1.Panel2.Controls.Add(chkDoubleClickFlyToHere);
+            chkDoubleClickFlyToHere.BringToFront();
+            chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5 + btn3DMap.Width + 10, 28);
+
+            // Add double-click handler for map
+            gMapControl1.DoubleClick += (s, e) =>
+            {
+                if (_doubleClickFlyToHereEnabled)
+                {
+                    goHereToolStripMenuItem_Click(null, null);
+                }
+            };
 
         }
 
