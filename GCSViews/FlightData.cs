@@ -726,6 +726,8 @@ namespace MissionPlanner.GCSViews
             TabListDisplay.Add(tabVideo.Name, MainV2.DisplayConfiguration.displayVideoTab);
 
             TabListDisplay.Add(tabTuning.Name, MainV2.DisplayConfiguration.displayTuningTab);
+
+            TabListDisplay.Add(tabInspector.Name, MainV2.DisplayConfiguration.displayInspectorTab);
         }
 
         private void loadTabControlActions()
@@ -5240,6 +5242,10 @@ namespace MissionPlanner.GCSViews
                     configArducopter1.Visible = true;
                     configArducopter1.Activate();
                 }
+            }
+            else if (tabControlactions.SelectedTab == tabInspector)
+            {
+                mavlinkInspectorControl1.Activate();
             }
             else
             {

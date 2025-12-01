@@ -1641,6 +1641,54 @@
   <data name="&gt;&gt;configArdurover1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="tabInspector.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 25</value>
+  </data>
+  <data name="tabInspector.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabInspector.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 241</value>
+  </data>
+  <data name="tabInspector.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="tabInspector.Text" xml:space="preserve">
+    <value>Inspector</value>
+  </data>
+  <data name="&gt;&gt;tabInspector.Name" xml:space="preserve">
+    <value>tabInspector</value>
+  </data>
+  <data name="&gt;&gt;tabInspector.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabInspector.Parent" xml:space="preserve">
+    <value>tabControlactions</value>
+  </data>
+  <data name="&gt;&gt;tabInspector.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="mavlinkInspectorControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mavlinkInspectorControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="mavlinkInspectorControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mavlinkInspectorControl1.Name" xml:space="preserve">
+    <value>mavlinkInspectorControl1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkInspectorControl1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MAVLinkInspectorControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkInspectorControl1.Parent" xml:space="preserve">
+    <value>tabInspector</value>
+  </data>
+  <data name="&gt;&gt;mavlinkInspectorControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="myButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>

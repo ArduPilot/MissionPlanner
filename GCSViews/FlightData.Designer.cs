@@ -83,6 +83,8 @@ namespace MissionPlanner.GCSViews
             this.configArduplane1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigArduplane();
             this.configArducopter1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter();
             this.configArdurover1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigArdurover();
+            this.tabInspector = new System.Windows.Forms.TabPage();
+            this.mavlinkInspectorControl1 = new MissionPlanner.Controls.MAVLinkInspectorControl();
             this.tabActionsSimple = new System.Windows.Forms.TabPage();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
@@ -275,6 +277,7 @@ namespace MissionPlanner.GCSViews
             this.tabParams.SuspendLayout();
             this.tabVideo.SuspendLayout();
             this.tabTuning.SuspendLayout();
+            this.tabInspector.SuspendLayout();
             this.tabActionsSimple.SuspendLayout();
             this.tabPagePreFlight.SuspendLayout();
             this.tabGauges.SuspendLayout();
@@ -617,6 +620,7 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabParams);
             this.tabControlactions.Controls.Add(this.tabVideo);
             this.tabControlactions.Controls.Add(this.tabTuning);
+            this.tabControlactions.Controls.Add(this.tabInspector);
             this.tabControlactions.Controls.Add(this.tabActionsSimple);
             this.tabControlactions.Controls.Add(this.tabPagePreFlight);
             this.tabControlactions.Controls.Add(this.tabGauges);
@@ -1185,6 +1189,19 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.configArdurover1, "configArdurover1");
             this.configArdurover1.Name = "configArdurover1";
             this.configArdurover1.Visible = false;
+            //
+            // tabInspector
+            //
+            this.tabInspector.Controls.Add(this.mavlinkInspectorControl1);
+            resources.ApplyResources(this.tabInspector, "tabInspector");
+            this.tabInspector.Name = "tabInspector";
+            this.tabInspector.UseVisualStyleBackColor = true;
+            //
+            // mavlinkInspectorControl1
+            //
+            this.mavlinkInspectorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            resources.ApplyResources(this.mavlinkInspectorControl1, "mavlinkInspectorControl1");
+            this.mavlinkInspectorControl1.Name = "mavlinkInspectorControl1";
             //
             // tabActionsSimple
             // 
@@ -3051,6 +3068,7 @@ namespace MissionPlanner.GCSViews
             this.tabParams.ResumeLayout(false);
             this.tabVideo.ResumeLayout(false);
             this.tabTuning.ResumeLayout(false);
+            this.tabInspector.ResumeLayout(false);
             this.tabActionsSimple.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
@@ -3244,6 +3262,8 @@ namespace MissionPlanner.GCSViews
         private ConfigurationView.ConfigArduplane configArduplane1;
         private ConfigurationView.ConfigArducopter configArducopter1;
         private ConfigurationView.ConfigArdurover configArdurover1;
+        public System.Windows.Forms.TabPage tabInspector;
+        private Controls.MAVLinkInspectorControl mavlinkInspectorControl1;
         public System.Windows.Forms.TabPage tabActionsSimple;
         private Controls.MyButton myButton1;
         private Controls.MyButton myButton2;
