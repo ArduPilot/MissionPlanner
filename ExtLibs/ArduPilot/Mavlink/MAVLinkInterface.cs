@@ -1784,16 +1784,20 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             frmProgressReporter.DoWork += FrmProgressReporterGetParams;
             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.GettingParamsD);
 
+            // Non-modal - dialog will self-close and cleanup happens in DoWork handler
             frmProgressReporter.RunBackgroundOperationAsync();
-
-            frmProgressReporter.Dispose();
-
-            _ParamListChanged?.Invoke(this, null);
         }
 
         private void FrmProgressReporterGetParams(IProgressReporterDialogue sender)
         {
-            getParamListMavftp(MAV.sysid, MAV.compid);
+            try
+            {
+                getParamListMavftp(MAV.sysid, MAV.compid);
+            }
+            finally
+            {
+                _ParamListChanged?.Invoke(this, null);
+            }
         }
 
         /// <summary>

@@ -54,7 +54,8 @@ namespace MissionPlanner.Controls
             if ((t != null))
                 this.Height += 25;
 
-            this.ShowDialog();
+            // Use non-modal Show() so UI remains interactive during param loading
+            this.Show();
         }
 
         private void RunBackgroundOperation(object o)
