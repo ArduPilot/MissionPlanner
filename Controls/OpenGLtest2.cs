@@ -29,6 +29,47 @@ using Vector3 = OpenTK.Vector3;
 
 namespace MissionPlanner.Controls
 {
+    /// <summary>
+    /// Simple 1D Kalman filter for smooth interpolation
+    /// </summary>
+    public class SimpleKalmanFilter
+    {
+        private double _q; // process noise covariance
+        private double _r; // measurement noise covariance
+        private double _x; // estimated value
+        private double _p; // estimation error covariance
+        private double _k; // kalman gain
+
+        public SimpleKalmanFilter(double q = 0.1, double r = 1.0, double initialValue = 0)
+        {
+            _q = q;
+            _r = r;
+            _x = initialValue;
+            _p = 1.0;
+        }
+
+        public double Update(double measurement)
+        {
+            // Prediction update
+            _p = _p + _q;
+
+            // Measurement update
+            _k = _p / (_p + _r);
+            _x = _x + _k * (measurement - _x);
+            _p = (1 - _k) * _p;
+
+            return _x;
+        }
+
+        public double Value => _x;
+
+        public void Reset(double value)
+        {
+            _x = value;
+            _p = 1.0;
+        }
+    }
+
     public class OpenGLtest2 : GLControl, IDeactivate
     {
         public static OpenGLtest2 instance;
@@ -46,10 +87,8 @@ namespace MissionPlanner.Controls
         private NumericUpDown num_minzoom;
         private NumericUpDown num_maxzoom;
         private SemaphoreSlim textureSemaphore = new SemaphoreSlim(1, 1);
-        private CheckBox chk_locktomav;
         private Timer timer1;
         private System.ComponentModel.IContainer components;
-        private CheckBox chk_fog;
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
 
         public PointLatLngAlt LocationCenter
@@ -110,6 +149,12 @@ namespace MissionPlanner.Controls
             type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             prj = type.Projection;
             LocationCenter = LocationCenter.newpos(0, 0.1);
+            // Disable VSync for smoother rendering
+            try
+            {
+                VSync = false;
+            }
+            catch { }
             this.Invalidate();
         }
 
@@ -397,10 +442,20 @@ namespace MissionPlanner.Controls
         private bool sizeChanged;
         private double[] mypos = new double[3];
         Vector3 myrpy = Vector3.UnitX;
-        private bool fogon = true;
+        private bool fogon = false;
         private Lines _flightPlanLines;
+        private int _flightPlanLinesCount = -1;
         private DateTime _centerTime;
         private List<tileZoomArea> tileArea = new List<tileZoomArea>();
+
+        // Kalman filters for smooth position and rotation interpolation
+        private SimpleKalmanFilter _kalmanPosX = new SimpleKalmanFilter(0.05, 0.5);
+        private SimpleKalmanFilter _kalmanPosY = new SimpleKalmanFilter(0.05, 0.5);
+        private SimpleKalmanFilter _kalmanPosZ = new SimpleKalmanFilter(0.05, 0.5);
+        private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
+        private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
+        private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
+        private bool _kalmanInitialized = false;
 
         double[] convertCoords(PointLatLngAlt plla)
         {
@@ -444,63 +499,8 @@ namespace MissionPlanner.Controls
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
                 campos = projectLocation(mypos);
-                var rpy = this.rpy;
-                // use mypos if we are not tracking the mav
-                if (!chk_locktomav.Checked)
-                {
-                    campos = mypos;
-                    rpy = new MissionPlanner.Utilities.Vector3((float) myrpy.X, (float) myrpy.Y, (float) myrpy.Z);
-                    KeyboardState input = Keyboard.GetState();
-                    float speed = (1.5f);
-                    Vector3 position = new Vector3((float) campos[0], (float) campos[1], (float) campos[2]);
-                    Vector3 front = Vector3.Normalize(new Vector3((float) Math.Sin(MathHelper.Radians(rpy.Z)) * 1,
-                        (float) Math.Cos(MathHelper.Radians(rpy.Z)) * 1, 0));
-                    Vector3 up = new Vector3(0.0f, 0.0f, 1.0f);
-                    if (input.IsKeyDown(Key.W))
-                    {
-                        position += front * speed; //Forward
-                    }
-
-                    if (input.IsKeyDown(Key.S))
-                    {
-                        position -= front * speed; //Backwards
-                    }
-
-                    if (input.IsKeyDown(Key.A))
-                    {
-                        position -= Vector3.Normalize(Vector3.Cross(front, up)) * speed; //Left
-                    }
-
-                    if (input.IsKeyDown(Key.D))
-                    {
-                        position += Vector3.Normalize(Vector3.Cross(front, up)) * speed; //Right
-                    }
-
-                    if (input.IsKeyDown(Key.Q))
-                    {
-                        rpy.Z -= speed;
-                    }
-
-                    if (input.IsKeyDown(Key.E))
-                    {
-                        rpy.Z += speed;
-                    }
-
-                    if (input.IsKeyDown(Key.R))
-                    {
-                        position.Z += speed / 2;
-                    }
-
-                    if (input.IsKeyDown(Key.F))
-                    {
-                        position.Z -= speed / 2;
-                    }
-
-                    campos[0] = position.X;
-                    campos[1] = position.Y;
-                    campos[2] = position.Z;
-                    _center.Alt = campos[2];
-                }
+                // Apply Kalman filter to rotation for smooth interpolation
+                var rpy = filterRotation(this.rpy);
 
                 // save the state
                 mypos = campos;
@@ -570,25 +570,32 @@ namespace MissionPlanner.Controls
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
-                    if (FlightPlanner.instance.pointlist.Count > 1)
+                    var pointlistCount = FlightPlanner.instance.pointlist.Count;
+                    if (pointlistCount > 1)
                     {
-                        if (_flightPlanLines != null)
-                            _flightPlanLines.Dispose();
-                        _flightPlanLines = new Lines();
-                        _flightPlanLines.Width = 3.0f;
-                        // render wps
-                        foreach (var point in FlightPlanner.instance.pointlist)
+                        // Only rebuild lines if pointlist changed
+                        if (_flightPlanLines == null || _flightPlanLinesCount != pointlistCount)
                         {
-                            if (point == null)
-                                continue;
-                            var co = convertCoords(point);
-                            _flightPlanLines.Add(co[0], co[1], co[2], 1, 0, 0, 1);
+                            if (_flightPlanLines != null)
+                                _flightPlanLines.Dispose();
+                            _flightPlanLines = new Lines();
+                            _flightPlanLines.Width = 3.0f;
+                            // render wps
+                            foreach (var point in FlightPlanner.instance.pointlist)
+                            {
+                                if (point == null)
+                                    continue;
+                                var co = convertCoords(point);
+                                _flightPlanLines.Add(co[0], co[1], co[2], 1, 0, 0, 1);
+                            }
+                            _flightPlanLinesCount = pointlistCount;
                         }
 
                         _flightPlanLines.Draw(projMatrix, modelMatrix);
                     }
                 }
                 var beforewpsmarkers = DateTime.Now;
+                // Draw green waypoint markers (hidden if within 200ft / 61m of camera)
                 {
                     if (green == 0)
                     {
@@ -601,6 +608,10 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, green);
+
+                    // 200 feet in meters
+                    const double minDistanceMeters = 61.0;
+
                     var list = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
                     if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
                         list.Add(new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
@@ -608,15 +619,18 @@ namespace MissionPlanner.Controls
                     if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)
                         list.Add(MainV2.comPort.MAV.cs.TargetLocation);
 
-                    if (MainV2.comPort.MAV.cs.Location != PointLatLngAlt.Zero)
-                        list.Add(MainV2.comPort.MAV.cs.Location);
-
                     foreach (var point in list.OrderBy((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
                     {
                         if (point == null)
                             continue;
                         if (point.Lat == 0 && point.Lng == 0)
                             continue;
+
+                        // Skip markers within 200ft of the camera/vehicle
+                        var distanceToCamera = point.GetDistance(_center);
+                        if (distanceToCamera < minDistanceMeters)
+                            continue;
+
                         var co = convertCoords(point);
 
                         var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
@@ -693,13 +707,41 @@ namespace MissionPlanner.Controls
         {
             var newloc = LocationProjection.Project(_center, _velocity, _centerTime, DateTime.Now);
             var newpos = convertCoords(newloc);
-            var factor = 0.3;
+
+            // Initialize Kalman filters on first run
+            if (!_kalmanInitialized)
+            {
+                _kalmanPosX.Reset(newpos[0]);
+                _kalmanPosY.Reset(newpos[1]);
+                _kalmanPosZ.Reset(newpos[2]);
+                _kalmanInitialized = true;
+            }
+
+            // Use Kalman filter for smooth interpolation
             return new double[]
             {
-                oldpos[0] * factor + newpos[0] * (1.0 - factor),
-                oldpos[1] * factor + newpos[1] * (1.0 - factor),
-                oldpos[2] * factor + newpos[2] * (1.0 - factor)
+                _kalmanPosX.Update(newpos[0]),
+                _kalmanPosY.Update(newpos[1]),
+                _kalmanPosZ.Update(newpos[2])
             };
+        }
+
+        private MissionPlanner.Utilities.Vector3 filterRotation(MissionPlanner.Utilities.Vector3 rawRpy)
+        {
+            // Handle yaw wraparound for smooth interpolation
+            double yaw = rawRpy.Z;
+            double currentYaw = _kalmanYaw.Value;
+
+            // Normalize yaw difference to prevent jumps at 0/360 boundary
+            double yawDiff = yaw - currentYaw;
+            if (yawDiff > 180) yaw -= 360;
+            else if (yawDiff < -180) yaw += 360;
+
+            return new MissionPlanner.Utilities.Vector3(
+                (float)_kalmanRoll.Update(rawRpy.X),
+                (float)_kalmanPitch.Update(rawRpy.Y),
+                (float)_kalmanYaw.Update(yaw)
+            );
         }
 
         private int Comparison(KeyValuePair<GPoint, tileInfo> x, KeyValuePair<GPoint, tileInfo> y)
@@ -987,9 +1029,7 @@ namespace MissionPlanner.Controls
             this.components = new System.ComponentModel.Container();
             this.num_minzoom = new System.Windows.Forms.NumericUpDown();
             this.num_maxzoom = new System.Windows.Forms.NumericUpDown();
-            this.chk_locktomav = new System.Windows.Forms.CheckBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.chk_fog = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).BeginInit();
             this.SuspendLayout();
@@ -1052,41 +1092,14 @@ namespace MissionPlanner.Controls
             });
             this.num_maxzoom.ValueChanged += new System.EventHandler(this.num_maxzoom_ValueChanged);
             //
-            // chk_locktomav
-            //
-            this.chk_locktomav.AutoSize = true;
-            this.chk_locktomav.Checked = true;
-            this.chk_locktomav.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_locktomav.Location = new System.Drawing.Point(63, 6);
-            this.chk_locktomav.Name = "chk_locktomav";
-            this.chk_locktomav.Size = new System.Drawing.Size(88, 17);
-            this.chk_locktomav.TabIndex = 2;
-            this.chk_locktomav.Text = "Lock to MAV";
-            this.chk_locktomav.UseVisualStyleBackColor = true;
-            //
             // timer1
             //
-            this.timer1.Interval = 40;
+            this.timer1.Interval = 33;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            //
-            // chk_fog
-            //
-            this.chk_fog.AutoSize = true;
-            this.chk_fog.Checked = true;
-            this.chk_fog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_fog.Location = new System.Drawing.Point(63, 32);
-            this.chk_fog.Name = "chk_fog";
-            this.chk_fog.Size = new System.Drawing.Size(44, 17);
-            this.chk_fog.TabIndex = 3;
-            this.chk_fog.Text = "Fog";
-            this.chk_fog.UseVisualStyleBackColor = true;
-            this.chk_fog.CheckedChanged += new System.EventHandler(this.chk_fog_CheckedChanged);
             //
             // OpenGLtest2
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.chk_fog);
-            this.Controls.Add(this.chk_locktomav);
             this.Controls.Add(this.num_maxzoom);
             this.Controls.Add(this.num_minzoom);
             this.Name = "OpenGLtest2";
@@ -1138,11 +1151,6 @@ namespace MissionPlanner.Controls
                 this.Invalidate();
                 onpaintrun = false;
             }
-        }
-
-        private void chk_fog_CheckedChanged(object sender, EventArgs e)
-        {
-            fogon = chk_fog.Checked;
         }
 
         private void num_maxzoom_ValueChanged(object sender, EventArgs e)
