@@ -1483,10 +1483,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.INS_HNTCH_ENABLE.ParamName = null;
             this.INS_HNTCH_ENABLE.SubControl = null;
             this.INS_HNTCH_ENABLE.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
-            // 
+            //
             // ConfigArducopter
-            // 
+            //
             resources.ApplyResources(this, "$this");
+            this.AutoScroll = true;
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.label52);

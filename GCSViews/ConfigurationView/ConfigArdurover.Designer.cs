@@ -665,9 +665,10 @@
             this.CH10_OPTION.Name = "CH10_OPTION";
             this.CH10_OPTION.ParamName = null;
             this.CH10_OPTION.SubControl = null;
-            // 
+            //
             // ConfigArdurover
-            // 
+            //
+            this.AutoScroll = true;
             this.Controls.Add(this.label27);
             this.Controls.Add(this.CH10_OPTION);
             this.Controls.Add(this.label26);

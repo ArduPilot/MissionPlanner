@@ -1491,22 +1491,22 @@
   <data name="&gt;&gt;configRawParams1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tabPlanner.TabIndex" type="System.Int32, mscorlib">
+  <data name="tabVideo.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="tabPlanner.Text" xml:space="preserve">
+  <data name="tabVideo.Text" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="&gt;&gt;tabPlanner.Name" xml:space="preserve">
-    <value>tabPlanner</value>
+  <data name="&gt;&gt;tabVideo.Name" xml:space="preserve">
+    <value>tabVideo</value>
   </data>
-  <data name="&gt;&gt;tabPlanner.Type" xml:space="preserve">
+  <data name="&gt;&gt;tabVideo.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabPlanner.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tabVideo.Parent" xml:space="preserve">
     <value>tabControlactions</value>
   </data>
-  <data name="&gt;&gt;tabPlanner.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tabVideo.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="flightPlannerVideoOptions1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -1525,10 +1525,91 @@
     <value>MissionPlanner.Controls.FlightPlannerVideoOptions, MissionPlanner, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;flightPlannerVideoOptions1.Parent" xml:space="preserve">
-    <value>tabPlanner</value>
+    <value>tabVideo</value>
   </data>
   <data name="&gt;&gt;flightPlannerVideoOptions1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="tabTuning.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="tabTuning.Text" xml:space="preserve">
+    <value>Tuning</value>
+  </data>
+  <data name="&gt;&gt;tabTuning.Name" xml:space="preserve">
+    <value>tabTuning</value>
+  </data>
+  <data name="&gt;&gt;tabTuning.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabTuning.Parent" xml:space="preserve">
+    <value>tabControlactions</value>
+  </data>
+  <data name="&gt;&gt;tabTuning.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="configArduplane1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configArduplane1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configArduplane1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;configArduplane1.Name" xml:space="preserve">
+    <value>configArduplane1</value>
+  </data>
+  <data name="&gt;&gt;configArduplane1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigArduplane, MissionPlanner, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;configArduplane1.Parent" xml:space="preserve">
+    <value>tabTuning</value>
+  </data>
+  <data name="&gt;&gt;configArduplane1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="configArducopter1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configArducopter1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configArducopter1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;configArducopter1.Name" xml:space="preserve">
+    <value>configArducopter1</value>
+  </data>
+  <data name="&gt;&gt;configArducopter1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter, MissionPlanner, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;configArducopter1.Parent" xml:space="preserve">
+    <value>tabTuning</value>
+  </data>
+  <data name="&gt;&gt;configArducopter1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="configArdurover1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configArdurover1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configArdurover1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;configArdurover1.Name" xml:space="preserve">
+    <value>configArdurover1</value>
+  </data>
+  <data name="&gt;&gt;configArdurover1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigArdurover, MissionPlanner, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;configArdurover1.Parent" xml:space="preserve">
+    <value>tabTuning</value>
+  </data>
+  <data name="&gt;&gt;configArdurover1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="myButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

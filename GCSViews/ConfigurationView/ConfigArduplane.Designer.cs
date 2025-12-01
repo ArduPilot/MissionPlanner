@@ -997,9 +997,10 @@
             this.BUT_refreshpart.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_refreshpart.UseVisualStyleBackColor = true;
             this.BUT_refreshpart.Click += new System.EventHandler(this.BUT_refreshpart_Click);
-            // 
+            //
             // ConfigArduplane
-            // 
+            //
+            this.AutoScroll = true;
             this.Controls.Add(this.BUT_refreshpart);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);

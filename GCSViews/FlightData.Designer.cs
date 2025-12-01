@@ -76,8 +76,12 @@ namespace MissionPlanner.GCSViews
             this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tabParams = new System.Windows.Forms.TabPage();
             this.configRawParams1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRawParams();
-            this.tabPlanner = new System.Windows.Forms.TabPage();
+            this.tabVideo = new System.Windows.Forms.TabPage();
             this.flightPlannerVideoOptions1 = new MissionPlanner.Controls.FlightPlannerVideoOptions();
+            this.tabTuning = new System.Windows.Forms.TabPage();
+            this.configArduplane1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigArduplane();
+            this.configArducopter1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter();
+            this.configArdurover1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigArdurover();
             this.tabActionsSimple = new System.Windows.Forms.TabPage();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
@@ -268,7 +272,8 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.SuspendLayout();
             this.tabPagemessages.SuspendLayout();
             this.tabParams.SuspendLayout();
-            this.tabPlanner.SuspendLayout();
+            this.tabVideo.SuspendLayout();
+            this.tabTuning.SuspendLayout();
             this.tabActionsSimple.SuspendLayout();
             this.tabPagePreFlight.SuspendLayout();
             this.tabGauges.SuspendLayout();
@@ -609,7 +614,8 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabActions);
             this.tabControlactions.Controls.Add(this.tabPagemessages);
             this.tabControlactions.Controls.Add(this.tabParams);
-            this.tabControlactions.Controls.Add(this.tabPlanner);
+            this.tabControlactions.Controls.Add(this.tabVideo);
+            this.tabControlactions.Controls.Add(this.tabTuning);
             this.tabControlactions.Controls.Add(this.tabActionsSimple);
             this.tabControlactions.Controls.Add(this.tabPagePreFlight);
             this.tabControlactions.Controls.Add(this.tabGauges);
@@ -1125,17 +1131,47 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.configRawParams1, "configRawParams1");
             this.configRawParams1.Name = "configRawParams1";
             //
-            // tabPlanner
+            // tabVideo
             //
-            this.tabPlanner.Controls.Add(this.flightPlannerVideoOptions1);
-            resources.ApplyResources(this.tabPlanner, "tabPlanner");
-            this.tabPlanner.Name = "tabPlanner";
-            this.tabPlanner.UseVisualStyleBackColor = true;
+            this.tabVideo.Controls.Add(this.flightPlannerVideoOptions1);
+            resources.ApplyResources(this.tabVideo, "tabVideo");
+            this.tabVideo.Name = "tabVideo";
+            this.tabVideo.UseVisualStyleBackColor = true;
             //
             // flightPlannerVideoOptions1
             //
             resources.ApplyResources(this.flightPlannerVideoOptions1, "flightPlannerVideoOptions1");
             this.flightPlannerVideoOptions1.Name = "flightPlannerVideoOptions1";
+            //
+            // tabTuning
+            //
+            this.tabTuning.Controls.Add(this.configArduplane1);
+            this.tabTuning.Controls.Add(this.configArducopter1);
+            this.tabTuning.Controls.Add(this.configArdurover1);
+            resources.ApplyResources(this.tabTuning, "tabTuning");
+            this.tabTuning.Name = "tabTuning";
+            this.tabTuning.UseVisualStyleBackColor = true;
+            //
+            // configArduplane1
+            //
+            this.configArduplane1.Dock = System.Windows.Forms.DockStyle.Fill;
+            resources.ApplyResources(this.configArduplane1, "configArduplane1");
+            this.configArduplane1.Name = "configArduplane1";
+            this.configArduplane1.Visible = false;
+            //
+            // configArducopter1
+            //
+            this.configArducopter1.Dock = System.Windows.Forms.DockStyle.Fill;
+            resources.ApplyResources(this.configArducopter1, "configArducopter1");
+            this.configArducopter1.Name = "configArducopter1";
+            this.configArducopter1.Visible = false;
+            //
+            // configArdurover1
+            //
+            this.configArdurover1.Dock = System.Windows.Forms.DockStyle.Fill;
+            resources.ApplyResources(this.configArdurover1, "configArdurover1");
+            this.configArdurover1.Name = "configArdurover1";
+            this.configArdurover1.Visible = false;
             //
             // tabActionsSimple
             // 
@@ -3000,7 +3036,8 @@ namespace MissionPlanner.GCSViews
             this.tabPagemessages.ResumeLayout(false);
             this.tabPagemessages.PerformLayout();
             this.tabParams.ResumeLayout(false);
-            this.tabPlanner.ResumeLayout(false);
+            this.tabVideo.ResumeLayout(false);
+            this.tabTuning.ResumeLayout(false);
             this.tabActionsSimple.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
@@ -3187,8 +3224,12 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.Timer Messagetabtimer;
         public System.Windows.Forms.TabPage tabParams;
         private ConfigurationView.ConfigRawParams configRawParams1;
-        public System.Windows.Forms.TabPage tabPlanner;
+        public System.Windows.Forms.TabPage tabVideo;
         private Controls.FlightPlannerVideoOptions flightPlannerVideoOptions1;
+        public System.Windows.Forms.TabPage tabTuning;
+        private ConfigurationView.ConfigArduplane configArduplane1;
+        private ConfigurationView.ConfigArducopter configArducopter1;
+        private ConfigurationView.ConfigArdurover configArdurover1;
         public System.Windows.Forms.TabPage tabActionsSimple;
         private Controls.MyButton myButton1;
         private Controls.MyButton myButton2;

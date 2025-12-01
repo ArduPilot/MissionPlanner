@@ -5189,6 +5189,37 @@ namespace MissionPlanner.GCSViews
                 configRawParams1.InitialTreeCollapsed = true;
                 configRawParams1.Activate();
             }
+            else if (tabControlactions.SelectedTab == tabTuning)
+            {
+                // Hide all tuning controls first
+                configArduplane1.Visible = false;
+                configArducopter1.Visible = false;
+                configArdurover1.Visible = false;
+
+                // Show and activate the appropriate tuning control based on firmware type
+                var firmware = MainV2.comPort.MAV.cs.firmware;
+                if (firmware == Firmwares.ArduPlane)
+                {
+                    configArduplane1.Visible = true;
+                    configArduplane1.Activate();
+                }
+                else if (firmware == Firmwares.ArduCopter2)
+                {
+                    configArducopter1.Visible = true;
+                    configArducopter1.Activate();
+                }
+                else if (firmware == Firmwares.ArduRover)
+                {
+                    configArdurover1.Visible = true;
+                    configArdurover1.Activate();
+                }
+                else
+                {
+                    // Default to copter for unknown firmware types
+                    configArducopter1.Visible = true;
+                    configArducopter1.Activate();
+                }
+            }
             else
             {
                 // foreach (Control temp in tabStatus.Controls)
