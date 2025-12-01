@@ -230,7 +230,6 @@ namespace MissionPlanner.GCSViews
             this.gimbalVideoFullSizedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimbalVideoMiniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimbalVideoPopOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.propagationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
             this.Zoomlevel = new System.Windows.Forms.NumericUpDown();
@@ -2657,8 +2656,7 @@ namespace MissionPlanner.GCSViews
             this.takeOffToolStripMenuItem,
             this.onOffCameraOverlapToolStripMenuItem,
             this.jumpToTagToolStripMenuItem,
-            this.gimbalVideoToolStripMenuItem,
-            this.propagationSettingsToolStripMenuItem});
+            this.gimbalVideoToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -2804,12 +2802,6 @@ namespace MissionPlanner.GCSViews
             this.gimbalVideoPopOutToolStripMenuItem.Name = "gimbalVideoPopOutToolStripMenuItem";
             resources.ApplyResources(this.gimbalVideoPopOutToolStripMenuItem, "gimbalVideoPopOutToolStripMenuItem");
             this.gimbalVideoPopOutToolStripMenuItem.Click += new System.EventHandler(this.gimbalVideoPopOutToolStripMenuItem_Click);
-            //
-            // propagationSettingsToolStripMenuItem
-            //
-            this.propagationSettingsToolStripMenuItem.Name = "propagationSettingsToolStripMenuItem";
-            this.propagationSettingsToolStripMenuItem.Text = "Propagation Settings";
-            this.propagationSettingsToolStripMenuItem.Click += new System.EventHandler(this.propagationSettingsToolStripMenuItem_Click);
             //
             // label1
             // 
@@ -3383,6 +3375,5 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem gimbalVideoFullSizedToolStripMenuItem;
         private ToolStripMenuItem gimbalVideoMiniToolStripMenuItem;
         private ToolStripMenuItem gimbalVideoPopOutToolStripMenuItem;
-        private ToolStripMenuItem propagationSettingsToolStripMenuItem;
     }
 }

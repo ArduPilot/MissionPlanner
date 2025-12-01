@@ -420,6 +420,40 @@ namespace MissionPlanner.GCSViews
 
             tabControlactions.Multiline = Settings.Instance.GetBoolean("tabControlactions_Multiline", false);
 
+            // Add Tools button to top-right of map
+            var btnTools = new Controls.MyButton
+            {
+                Text = "Tools",
+                Size = new Size(50, 23),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            btnTools.Click += (s, e) =>
+            {
+                Form frm = new temp();
+                ThemeManager.ApplyThemeTo(frm);
+                frm.Show();
+            };
+            splitContainer1.Panel2.Controls.Add(btnTools);
+            btnTools.BringToFront();
+            // Position it at top-left
+            btnTools.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            btnTools.Location = new Point(70, 25);
+
+            // Add Propagation button to the right of Tools
+            var btnPropagation = new Controls.MyButton
+            {
+                Text = "Propagation",
+                Size = new Size(80, 23),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left
+            };
+            btnPropagation.Click += (s, e) =>
+            {
+                new PropagationSettings().Show();
+            };
+            splitContainer1.Panel2.Controls.Add(btnPropagation);
+            btnPropagation.BringToFront();
+            btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
+
         }
 
         public void Activate()
@@ -6760,9 +6794,5 @@ namespace MissionPlanner.GCSViews
             form.Show(this);
         }
 
-        private void propagationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new PropagationSettings().Show();
-        }
     }
 }
