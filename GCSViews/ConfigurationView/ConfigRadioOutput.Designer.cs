@@ -104,7 +104,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(90, 13);
             this.label7.TabIndex = 153;
-            this.label7.Text = "Min/Max from Trim";
+            this.label7.Text = "Equidistant from Trim";
             //
             // label6
             //

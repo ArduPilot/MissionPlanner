@@ -35,6 +35,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void setup(int servono)
         {
             var servo = String.Format("SERVO{0}", servono);
+            var initializing = true;
 
             var label = new Label()
                 {Text = servono.ToString(), AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleCenter};
@@ -50,7 +51,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var min1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
             var trim1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
             var max1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
-            var minMaxFromTrim1 = new NumericUpDown() { Minimum = 0, Maximum = 700, Value = 0, Width = 50 };
+            var minMaxFromTrim1 = new NumericUpDown() { Minimum = 0, Maximum = 700, Value = 0, Width = 50, Visible = false, Increment = 10 };
+            var equidistantCheck = new CheckBox() { Text = "", AutoSize = true };
+            var equidistantPanel = new FlowLayoutPanel()
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Dock = DockStyle.Fill
+            };
+            equidistantPanel.Controls.Add(equidistantCheck);
+            equidistantPanel.Controls.Add(minMaxFromTrim1);
 
             this.tableLayoutPanel1.Controls.Add(label, 0, servono);
             this.tableLayoutPanel1.Controls.Add(bAR1, 1, servono);
@@ -59,7 +70,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.Controls.Add(min1, 4, servono);
             this.tableLayoutPanel1.Controls.Add(trim1, 5, servono);
             this.tableLayoutPanel1.Controls.Add(max1, 6, servono);
-            this.tableLayoutPanel1.Controls.Add(minMaxFromTrim1, 7, servono);
+            this.tableLayoutPanel1.Controls.Add(equidistantPanel, 7, servono);
 
             bAR1.DataBindings.Add("Value", bindingSource1, "ch" + servono + "out");
             rev1.setup(1, 0, servo + "_REVERSED", MainV2.comPort.MAV.param);
@@ -69,25 +80,62 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             trim1.setup(800, 2200, 1, 1, servo + "_TRIM", MainV2.comPort.MAV.param);
             max1.setup(800, 2200, 1, 1, servo + "_MAX", MainV2.comPort.MAV.param);
 
+            equidistantCheck.CheckedChanged += (sender, e) =>
+            {
+                if (initializing)
+                    return;
+
+                var checkedState = equidistantCheck.Checked;
+                min1.Enabled = !checkedState;
+                max1.Enabled = !checkedState;
+                minMaxFromTrim1.Visible = checkedState;
+
+                if (checkedState)
+                {
+                    ApplyEquidistantRange(servo, trim1, min1, max1, minMaxFromTrim1);
+                }
+            };
+
             // Add event handler for min/max from trim control
             minMaxFromTrim1.ValueChanged += (sender, e) =>
             {
-                var trimValue = trim1.Value;
-                var offset = minMaxFromTrim1.Value;
+                if (initializing)
+                    return;
 
-                // Calculate min = trim - offset
-                var newMin = ClampServoValue(trimValue - offset);
+                if (!equidistantCheck.Checked)
+                    return;
 
-                // Calculate max = trim + offset
-                var newMax = ClampServoValue(trimValue + offset);
-
-                // Update the controls
-                min1.Value = newMin;
-                max1.Value = newMax;
-
-                // Explicitly write the new limits so the change is not UI-only
-                WriteServoRange(servo, newMin, newMax);
+                ApplyEquidistantRange(servo, trim1, min1, max1, minMaxFromTrim1);
             };
+
+            if (IsEquidistant(min1.Value, trim1.Value, max1.Value, out var offset))
+            {
+                minMaxFromTrim1.Value = Math.Min(minMaxFromTrim1.Maximum, Math.Max(minMaxFromTrim1.Minimum, offset));
+                equidistantCheck.Checked = true;
+            }
+
+            initializing = false;
+
+            if (equidistantCheck.Checked)
+            {
+                min1.Enabled = false;
+                max1.Enabled = false;
+                minMaxFromTrim1.Visible = true;
+            }
+        }
+
+        private static void ApplyEquidistantRange(string servo, NumericUpDown trim, NumericUpDown min, NumericUpDown max,
+            NumericUpDown offset)
+        {
+            var trimValue = trim.Value;
+            var newMin = ClampServoValue(trimValue - offset.Value);
+            var newMax = ClampServoValue(trimValue + offset.Value);
+
+            min.Value = newMin;
+            max.Value = newMax;
+
+            // Explicitly write the new limits so the change is not UI-only
+            WriteServoRange(servo, newMin, newMax);
         }
 
         private static decimal ClampServoValue(decimal value)
@@ -95,6 +143,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (value < 800) return 800;
             if (value > 2200) return 2200;
             return value;
+        }
+
+        private static bool IsEquidistant(decimal min, decimal trim, decimal max, out decimal offset)
+        {
+            offset = 0;
+            if (trim < min || trim > max)
+                return false;
+
+            var diffLow = trim - min;
+            var diffHigh = max - trim;
+
+            if (diffLow == diffHigh)
+            {
+                offset = diffLow;
+                return true;
+            }
+
+            return false;
         }
 
         private static void WriteServoRange(string servo, decimal newMin, decimal newMax)
