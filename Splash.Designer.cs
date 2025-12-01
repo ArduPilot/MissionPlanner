@@ -43,7 +43,7 @@
             this.label1.ForeColor = System.Drawing.Color.OliveDrab;
             this.label1.Location = new System.Drawing.Point(22, 324);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(302, 13);
+            this.label1.Size = new System.Drawing.Size(383, 17);
             this.label1.TabIndex = 0;
             this.label1.Tag = "custom";
             this.label1.Text = "by Michael Oborne | Modified by Titan Dynamics Inc";
@@ -64,9 +64,9 @@
             // 
             this.titanLogo.BackColor = System.Drawing.Color.Transparent;
             this.titanLogo.Image = ((System.Drawing.Image)(resources.GetObject("titanLogo.Image")));
-            this.titanLogo.Location = new System.Drawing.Point(159, 81);
+            this.titanLogo.Location = new System.Drawing.Point(89, 79);
             this.titanLogo.Name = "titanLogo";
-            this.titanLogo.Size = new System.Drawing.Size(267, 187);
+            this.titanLogo.Size = new System.Drawing.Size(413, 187);
             this.titanLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.titanLogo.TabIndex = 2;
             this.titanLogo.TabStop = false;
