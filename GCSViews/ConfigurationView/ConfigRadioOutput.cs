@@ -37,6 +37,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var servo = String.Format("SERVO{0}", servono);
             var initializing = true;
             var applyingEquidistant = false;
+            var syncingTrimSlider = false;
 
             const int controlHeight = 25;
             var horizontalMargin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -68,9 +69,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false,
                 AutoSize = false,
                 Height = controlHeight,
-                Width = 50,
+                Width = 20,
                 Anchor = AnchorStyles.None,
-                Margin = horizontalMargin
+                Margin = horizontalMargin,
+                CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
             };
             var func1 = new MavlinkComboBox()
             {
@@ -146,7 +148,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Height = controlHeight,
                 Width = 20,
                 Anchor = AnchorStyles.None,
-                Margin = new System.Windows.Forms.Padding(0)
+                Margin = new System.Windows.Forms.Padding(8, 0, 0, 0)
             };
             var equidistantPanel = new FlowLayoutPanel()
             {
@@ -218,42 +220,70 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 applyingEquidistant = false;
             };
 
-            // Add event handler for trim changes - uncheck equidistant when trim is manually changed
+            // Add event handler for trim changes - uncheck equidistant when trim changes in ANY way
             trim1.ValueChanged += (sender, e) =>
             {
                 if (initializing || applyingEquidistant)
                     return;
 
-                // Sync slider with trim value
-                if (trimSlider.Value != (int)trim1.Value)
+                // Sync slider with trim value (only if not already syncing)
+                if (!syncingTrimSlider)
                 {
-                    trimSlider.Value = (int)trim1.Value;
+                    syncingTrimSlider = true;
+                    try
+                    {
+                        if (trimSlider.Value != (int)trim1.Value)
+                        {
+                            trimSlider.Value = (int)trim1.Value;
+                        }
+                    }
+                    finally
+                    {
+                        syncingTrimSlider = false;
+                    }
                 }
 
+                // Always uncheck equidistant when trim changes
                 if (equidistantCheck.Checked)
                 {
                     equidistantCheck.Checked = false;
                 }
             };
 
-            // Add event handler for slider changes - sync with trim and write param
+            // Add event handler for slider changes - sync with trim
             trimSlider.ValueChanged += (sender, e) =>
             {
-                if (initializing)
+                if (initializing || syncingTrimSlider)
                     return;
 
                 // Round to nearest 10
                 var roundedValue = (int)(Math.Round(trimSlider.Value / 10.0) * 10);
                 if (trimSlider.Value != roundedValue)
                 {
-                    trimSlider.Value = roundedValue;
+                    syncingTrimSlider = true;
+                    try
+                    {
+                        trimSlider.Value = roundedValue;
+                    }
+                    finally
+                    {
+                        syncingTrimSlider = false;
+                    }
                     return;
                 }
 
                 // Sync trim with slider value
-                if (trim1.Value != trimSlider.Value)
+                syncingTrimSlider = true;
+                try
                 {
-                    trim1.Value = trimSlider.Value;
+                    if (trim1.Value != trimSlider.Value)
+                    {
+                        trim1.Value = trimSlider.Value;
+                    }
+                }
+                finally
+                {
+                    syncingTrimSlider = false;
                 }
             };
 
