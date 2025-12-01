@@ -946,7 +946,7 @@
     <value>62</value>
   </data>
   <data name="but_reboot.Text" xml:space="preserve">
-    <value>reboot pixhawk</value>
+    <value>reboot vehicle</value>
   </data>
   <data name="&gt;&gt;but_reboot.Name" xml:space="preserve">
     <value>but_reboot</value>

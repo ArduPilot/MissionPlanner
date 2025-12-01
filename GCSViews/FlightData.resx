@@ -993,6 +993,36 @@
   <data name="&gt;&gt;BUT_mountmode.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
+  <data name="BUT_Reboot.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="BUT_Reboot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Reboot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 148</value>
+  </data>
+  <data name="BUT_Reboot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 30</value>
+  </data>
+  <data name="BUT_Reboot.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="BUT_Reboot.Text" xml:space="preserve">
+    <value>Reboot</value>
+  </data>
+  <data name="&gt;&gt;BUT_Reboot.Name" xml:space="preserve">
+    <value>BUT_Reboot</value>
+  </data>
+  <data name="&gt;&gt;BUT_Reboot.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Reboot.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_Reboot.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
   <data name="BUT_joystick.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>

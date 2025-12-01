@@ -1406,6 +1406,21 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void BUT_Reboot_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure you want to reboot the autopilot?", "Reboot", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                try
+                {
+                    MainV2.comPort.doReboot(false, true);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+        }
+
         private void BUT_quickauto_Click(object sender, EventArgs e)
         {
             try

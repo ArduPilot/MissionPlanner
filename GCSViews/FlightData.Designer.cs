@@ -60,6 +60,7 @@ namespace MissionPlanner.GCSViews
             this.CMB_setwp = new System.Windows.Forms.ComboBox();
             this.BUT_ARM = new MissionPlanner.Controls.MyButton();
             this.BUT_mountmode = new MissionPlanner.Controls.MyButton();
+            this.BUT_Reboot = new MissionPlanner.Controls.MyButton();
             this.BUT_joystick = new MissionPlanner.Controls.MyButton();
             this.BUT_RAWSensor = new MissionPlanner.Controls.MyButton();
             this.BUT_Homealt = new MissionPlanner.Controls.MyButton();
@@ -777,6 +778,7 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.CMB_setwp, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.BUT_ARM, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_mountmode, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_Reboot, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_joystick, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_RAWSensor, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.BUT_Homealt, 3, 0);
@@ -976,7 +978,18 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.BUT_mountmode, resources.GetString("BUT_mountmode.ToolTip"));
             this.BUT_mountmode.UseVisualStyleBackColor = true;
             this.BUT_mountmode.Click += new System.EventHandler(this.BUT_mountmode_Click);
-            // 
+            //
+            // BUT_Reboot
+            //
+            this.BUT_Reboot.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_Reboot.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_Reboot.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_Reboot, "BUT_Reboot");
+            this.BUT_Reboot.Name = "BUT_Reboot";
+            this.BUT_Reboot.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_Reboot.UseVisualStyleBackColor = true;
+            this.BUT_Reboot.Click += new System.EventHandler(this.BUT_Reboot_Click);
+            //
             // BUT_joystick
             // 
             this.BUT_joystick.ColorMouseDown = System.Drawing.Color.Empty;
@@ -3214,6 +3227,7 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton BUT_matlab;
         private System.Windows.Forms.ComboBox CMB_mountmode;
         private Controls.MyButton BUT_mountmode;
+        private Controls.MyButton BUT_Reboot;
         public Controls.WindDir windDir1;
         private Controls.MyButton but_bintolog;
         private Controls.MyButton but_dflogtokml;
