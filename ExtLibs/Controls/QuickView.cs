@@ -74,36 +74,64 @@ namespace MissionPlanner.Controls
         {
             var e = new SkiaGraphics(e2.Surface);
             e2.Surface.Canvas.Clear();
-            int y = 0;
+
+            // Calculate description area - fixed height based on font
+            Size descExtent = e.MeasureString(desc, this.Font).ToSize();
+            int descHeight = descExtent.Height + 10; // 5px padding top and bottom
+
+            // Draw description centered at top
+            var descMid = descExtent.Width / 2;
+            e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - descMid, 5);
+
+            // Calculate available space for number (below description)
+            int numberAreaTop = descHeight;
+            int numberAreaHeight = this.Height - numberAreaTop;
+
+            if (numberAreaHeight <= 0)
+                return;
+
+            // Draw number - calculate font size to fit available space
+            var numb = number.ToString(numberformat);
+
+            // Use a reference string for consistent sizing (prevents jumping when digits change)
+            string refString = "0".PadLeft(Math.Max(numb.Length + 1, 5), '0');
+
+            // Start with a base font size and calculate the optimal size
+            float fontSize = 8f;
+            float maxFontSize = 200f;
+            float optimalSize = fontSize;
+
+            // Binary search for optimal font size that fits
+            while (fontSize <= maxFontSize)
             {
-                Size extent = e.MeasureString(desc, this.Font).ToSize();
+                using (var testFont = new Font(this.Font.FontFamily, fontSize, this.Font.Style))
+                {
+                    Size testExtent = e.MeasureString(refString, testFont).ToSize();
 
-                var mid = extent.Width / 2;
-
-                e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - mid, 5);
-
-                y = extent.Height;
+                    if (testExtent.Width <= this.Width * 0.95f && testExtent.Height <= numberAreaHeight * 0.9f)
+                    {
+                        optimalSize = fontSize;
+                        fontSize += 2f;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
-            //
+
+            // Round down to nearest 2 for stability
+            optimalSize = Math.Max(8f, optimalSize - (optimalSize % 2));
+
+            using (var numberFont = new Font(this.Font.FontFamily, optimalSize, this.Font.Style))
             {
-                var numb = number.ToString(numberformat);
+                Size extent = e.MeasureString(numb, numberFont).ToSize();
 
-                Size extent = e.MeasureString("0".PadLeft(numb.Length+1,'0'), new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+                // Center the number in the available space below the description
+                float x = this.Width / 2 - extent.Width / 2;
+                float y = numberAreaTop + (numberAreaHeight / 2 - extent.Height / 2);
 
-                float hRatio = (this.Height - y) / (float)(extent.Height);
-                float wRatio = this.Width / (float)extent.Width;
-                float ratio = (hRatio < wRatio) ? hRatio : wRatio;
-
-                newSize = (newSize * ratio);// * 0.75f; // pixel to points
-
-                newSize -= newSize % 5;
-
-                if (newSize < 8 || newSize > 999999)
-                    newSize = 8;
-
-                extent = e.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
-
-                e.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width / 2, y + ((this.Height - y) / 2 - extent.Height / 2));
+                e.DrawString(numb, numberFont, new SolidBrush(this.numberColor), x, y);
             }
         }
 
@@ -127,8 +155,6 @@ namespace MissionPlanner.Controls
             if (this.Visible && this.ThisReallyVisible())
                 base.OnInvalidated(e);
         }
-
-        float newSize = 8;
 
         protected override void OnResize(EventArgs e)
         {
