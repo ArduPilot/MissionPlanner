@@ -6071,7 +6071,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>325, 3</value>
+    <value>397, 3</value>
   </data>
   <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 17</value>
@@ -6143,7 +6143,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_params.Location" type="System.Drawing.Point, System.Drawing">
-    <value>405, 3</value>
+    <value>327, 3</value>
   </data>
   <data name="CB_params.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 17</value>
