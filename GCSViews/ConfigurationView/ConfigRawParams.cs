@@ -528,78 +528,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 rowlist.Clear();
 
                 bool has_defaults = false;
+                var fav_params = Settings.Instance.GetList("fav_params");
+                var firmware = MainV2.comPort.MAV.cs.firmware.ToString();
 
-                Parallel.ForEach(list, value =>
+                // Create rows with minimal data first (fast)
+                foreach (var value in list)
                 {
-                    if (value == null || value == "")
-                        return;
+                    if (string.IsNullOrEmpty(value))
+                        continue;
 
                     var row = new DataGridViewRow() { Height = 36 };
-                    lock (rowlist)
-                        rowlist.Add(row);
                     row.CreateCells(Params);
                     row.Cells[Command.Index].Value = value;
                     row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
-                    var fav_params = Settings.Instance.GetList("fav_params");
                     row.Cells[Fav.Index].Value = fav_params.Contains(value);
 
-                    if (MainV2.comPort.MAV.param[value].default_value.HasValue) {
+                    if (MainV2.comPort.MAV.param[value].default_value.HasValue)
+                    {
                         has_defaults = true;
                         row.Cells[Default_value.Index].Value = MainV2.comPort.MAV.param[value].default_value_to_string();
-                    } else {
+                    }
+                    else
+                    {
                         row.Cells[Default_value.Index].Value = "NaN";
                     }
-                    try
-                    {
-                        var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
-                        if (!string.IsNullOrEmpty(metaDataDescription))
-                        {
-                            row.Cells[Command.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
-                            row.Cells[Value.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
 
-                            var range = ParameterMetaDataRepository.GetParameterMetaData(value,
-                                ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
-                            var options = ParameterMetaDataRepository.GetParameterMetaData(value,
-                                ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
-                            var units = ParameterMetaDataRepository.GetParameterMetaData(value,
-                                ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
-
-                            row.Cells[Units.Index].Value = units;
-                            row.Cells[Options.Index].Value = (range + "\n" + options.Replace(",", "\n")).Trim();
-                            if (options.Length > 0) row.Cells[Options.Index].ToolTipText = options.Replace(',', '\n');
-                            int N = options.Count(c => c.Equals(','));
-                            if (N > 50)
-                            {
-                                int columns = (N - 1) / 50 + 1;
-                                StringBuilder ans = new StringBuilder();
-                                var opts = options.Split(',');
-                                int i = 0;
-                                while(true)
-                                {
-                                    for(int j=0; j<columns; j++)
-                                    {
-                                        ans.Append(opts[i] + ", ");
-                                        i++;
-                                        if (i >= N) break;
-                                    }
-                                    if (i >= N) break;
-                                    ans.Append("\n");
-                                }
-                                row.Cells[Options.Index].ToolTipText = ans.ToInvariantString();
-                            }
-                            row.Cells[Desc.Index].Value = metaDataDescription;
-                            row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-                });
+                    rowlist.Add(row);
+                }
 
                 Default_value.Visible = has_defaults;
                 chk_none_default.Visible = has_defaults;
+
+                // Load metadata in background after grid is displayed
+                Task.Run(() => LoadMetadataAsync(firmware));
             }
             //update values in rowlist
             if (!startup)
@@ -613,6 +574,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             log.Info("about to add all");
 
+            Params.SuspendLayout();
             Params.Visible = false;
 
             Params.Rows.AddRange(rowlist.ToArray());
@@ -624,6 +586,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
 
             Params.Visible = true;
+            Params.ResumeLayout();
 
             if (splitContainer1.Panel1Collapsed == false)
             {
@@ -631,6 +594,64 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             log.Info("Done");
+        }
+
+        private void LoadMetadataAsync(string firmware)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in rowlist.ToArray())
+                {
+                    try
+                    {
+                        var value = row.Cells[Command.Index].Value?.ToString();
+                        if (string.IsNullOrEmpty(value))
+                            continue;
+
+                        var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
+                            ParameterMetaDataConstants.Description, firmware);
+                        if (!string.IsNullOrEmpty(metaDataDescription))
+                        {
+                            var range = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Range, firmware);
+                            var options = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Values, firmware);
+                            var units = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Units, firmware);
+
+                            // Update cells on UI thread
+                            if (Params.IsHandleCreated && !Params.IsDisposed)
+                            {
+                                Params.BeginInvoke((Action)(() =>
+                                {
+                                    try
+                                    {
+                                        if (row.Index >= 0)
+                                        {
+                                            row.Cells[Command.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
+                                            row.Cells[Value.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
+                                            row.Cells[Units.Index].Value = units;
+                                            row.Cells[Options.Index].Value = (range + "\n" + options.Replace(",", "\n")).Trim();
+                                            if (options.Length > 0) row.Cells[Options.Index].ToolTipText = options.Replace(',', '\n');
+                                            row.Cells[Desc.Index].Value = metaDataDescription;
+                                            row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
+                                        }
+                                    }
+                                    catch { }
+                                }));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("LoadMetadataAsync error", ex);
+            }
         }
 
         private void BuildTree()
