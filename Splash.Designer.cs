@@ -63,10 +63,11 @@
             // titanLogo
             // 
             this.titanLogo.BackColor = System.Drawing.Color.Transparent;
+            this.titanLogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titanLogo.Image = ((System.Drawing.Image)(resources.GetObject("titanLogo.Image")));
-            this.titanLogo.Location = new System.Drawing.Point(96, 83);
+            this.titanLogo.Location = new System.Drawing.Point(0, 0);
             this.titanLogo.Name = "titanLogo";
-            this.titanLogo.Size = new System.Drawing.Size(413, 187);
+            this.titanLogo.Size = new System.Drawing.Size(600, 375);
             this.titanLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.titanLogo.TabIndex = 2;
             this.titanLogo.TabStop = false;
@@ -77,9 +78,9 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(600, 375);
             this.ControlBox = false;
-            this.Controls.Add(this.titanLogo);
             this.Controls.Add(this.TXT_version);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.titanLogo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
