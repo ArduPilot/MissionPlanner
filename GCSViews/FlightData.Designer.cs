@@ -47,6 +47,7 @@ namespace MissionPlanner.GCSViews
             this.quickView2 = new MissionPlanner.Controls.QuickView();
             this.quickView1 = new MissionPlanner.Controls.QuickView();
             this.tabActions = new System.Windows.Forms.TabPage();
+            this.panelActionsSpacer = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_SendMSG = new MissionPlanner.Controls.MyButton();
             this.BUT_abortland = new MissionPlanner.Controls.MyButton();
@@ -763,14 +764,29 @@ namespace MissionPlanner.GCSViews
             // 
             // tabActions
             // 
+            this.tabActions.Controls.Add(this.panelActionsSpacer);
             this.tabActions.Controls.Add(this.tableLayoutPanel1);
             resources.ApplyResources(this.tabActions, "tabActions");
             this.tabActions.Name = "tabActions";
+            this.tabActions.Padding = new System.Windows.Forms.Padding(4);
             this.tabActions.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.AutoScroll = true;
+            this.tableLayoutPanel1.ColumnStyles.Clear();
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Controls.Add(this.BUT_SendMSG, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_abortland, 4, 4);
             this.tableLayoutPanel1.Controls.Add(this.modifyandSetLoiterRad, 4, 2);
@@ -796,6 +812,15 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.BUT_quickauto, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUT_setmode, 1, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
+            // 
+            // panelActionsSpacer
+            // 
+            this.panelActionsSpacer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelActionsSpacer.Location = new System.Drawing.Point(4, 4);
+            this.panelActionsSpacer.Name = "panelActionsSpacer";
+            this.panelActionsSpacer.Size = new System.Drawing.Size(0, 0);
+            this.panelActionsSpacer.TabIndex = 79;
             // 
             // BUT_SendMSG
             // 
@@ -3335,6 +3360,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem poiatcoordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flyToCoordsToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panelActionsSpacer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem setBatteryCellCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undockToolStripMenuItem;
