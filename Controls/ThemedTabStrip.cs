@@ -64,6 +64,7 @@ namespace MissionPlanner.Controls
             _contentPanel.Name = "themedTabStrip_contentPanel";
             _contentPanel.Visible = true;
             _contentPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            _contentPanel.Padding = new Padding(8);
 
             // Add ToolStrip first
             this.Controls.Add(_toolStrip);
@@ -381,6 +382,17 @@ namespace MissionPlanner.Controls
     {
         public ThemedToolStripRenderer() : base(new ThemedColorTable()) { }
 
+        private static Color DarkenColor(Color color, double factor = 0.85)
+        {
+            return Color.FromArgb(
+                color.A,
+                (int)(color.R * factor),
+                (int)(color.G * factor),
+                (int)(color.B * factor));
+        }
+
+        public static Color TabStripBackColor => DarkenColor(ThemeManager.BGColor, 0.85);
+
         protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
         {
             var button = e.Item as ToolStripButton;
@@ -400,11 +412,11 @@ namespace MissionPlanner.Controls
             }
             else if (button.Selected)
             {
-                bgColor = Color.FromArgb(60, ThemeManager.ControlBGColor);
+                bgColor = Color.FromArgb(100, ThemeManager.ControlBGColor);
             }
             else
             {
-                bgColor = ThemeManager.BGColor;
+                bgColor = TabStripBackColor;
             }
 
             using (var brush = new SolidBrush(bgColor))
@@ -415,7 +427,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
-            using (var brush = new SolidBrush(ThemeManager.BGColor))
+            using (var brush = new SolidBrush(TabStripBackColor))
             {
                 e.Graphics.FillRectangle(brush, e.AffectedBounds);
             }
@@ -435,11 +447,11 @@ namespace MissionPlanner.Controls
 
     public class ThemedColorTable : ProfessionalColorTable
     {
-        public override Color ToolStripGradientBegin => ThemeManager.BGColor;
-        public override Color ToolStripGradientMiddle => ThemeManager.BGColor;
-        public override Color ToolStripGradientEnd => ThemeManager.BGColor;
-        public override Color MenuStripGradientBegin => ThemeManager.BGColor;
-        public override Color MenuStripGradientEnd => ThemeManager.BGColor;
+        public override Color ToolStripGradientBegin => ThemedToolStripRenderer.TabStripBackColor;
+        public override Color ToolStripGradientMiddle => ThemedToolStripRenderer.TabStripBackColor;
+        public override Color ToolStripGradientEnd => ThemedToolStripRenderer.TabStripBackColor;
+        public override Color MenuStripGradientBegin => ThemedToolStripRenderer.TabStripBackColor;
+        public override Color MenuStripGradientEnd => ThemedToolStripRenderer.TabStripBackColor;
         public override Color ToolStripBorder => ThemeManager.BGColor;
     }
 }
