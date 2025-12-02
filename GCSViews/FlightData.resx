@@ -943,7 +943,7 @@
     <value>79</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
-    <value>Arm/ Disarm</value>
+    <value>Arm | Disarm</value>
   </data>
   <data name="BUT_ARM.ToolTip" xml:space="preserve">
     <value>Arm the Mav</value>
