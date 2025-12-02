@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
@@ -24,14 +25,11 @@ namespace MissionPlanner.Controls
 
         public ThemedTabStrip()
         {
-            // Prevent the UserControl from auto-sizing to just the ToolStrip height
             this.AutoSize = false;
             this.AutoScaleMode = AutoScaleMode.None;
-            this.BackColor = Color.Blue; // DEBUG: Make the UserControl itself visible
 
             InitializeComponent();
 
-            // Also handle Load and Layout events to ensure proper sizing
             this.Load += (s, e) => UpdateContentPanelSize();
             this.Layout += (s, e) => UpdateContentPanelSize();
         }
@@ -42,7 +40,6 @@ namespace MissionPlanner.Controls
             {
                 _contentPanel.Location = new Point(0, _toolStrip.Height);
                 _contentPanel.Size = new Size(this.Width, Math.Max(0, this.Height - _toolStrip.Height));
-                System.Diagnostics.Debug.WriteLine($"UpdateContentPanelSize: This={this.Size}, ToolStrip={_toolStrip.Height}, ContentPanel={_contentPanel.Size}");
             }
         }
 
@@ -63,8 +60,7 @@ namespace MissionPlanner.Controls
             _toolStrip.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
             _toolStrip.Name = "themedTabStrip_toolStrip";
 
-            // Content panel setup - use anchoring instead of docking
-            _contentPanel.BackColor = Color.Red; // DEBUG: Make it visible
+            _contentPanel.BackColor = ThemeManager.BGColor;
             _contentPanel.Name = "themedTabStrip_contentPanel";
             _contentPanel.Visible = true;
             _contentPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -80,16 +76,8 @@ namespace MissionPlanner.Controls
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            // Handle resize to reposition content panel
-            this.Resize += (s, e) => {
-                _contentPanel.Location = new Point(0, _toolStrip.Height);
-                _contentPanel.Size = new Size(this.Width, Math.Max(0, this.Height - _toolStrip.Height));
-            };
-
-            _toolStrip.Resize += (s, e) => {
-                _contentPanel.Location = new Point(0, _toolStrip.Height);
-                _contentPanel.Size = new Size(this.Width, Math.Max(0, this.Height - _toolStrip.Height));
-            };
+            this.Resize += (s, e) => UpdateContentPanelSize();
+            _toolStrip.Resize += (s, e) => UpdateContentPanelSize();
         }
 
         public ContextMenuStrip TabContextMenuStrip
@@ -165,12 +153,9 @@ namespace MissionPlanner.Controls
             _tabPages[button] = content;
             _toolStrip.Items.Add(button);
 
-            // Suspend layout while adding
             _contentPanel.SuspendLayout();
             _contentPanel.Controls.Add(content);
             _contentPanel.ResumeLayout(false);
-
-            System.Diagnostics.Debug.WriteLine($"AddTab: {text}, ContentPanel size after add: {_contentPanel.Size}");
 
             // Select first tab by default
             if (_selectedButton == null)
@@ -181,33 +166,51 @@ namespace MissionPlanner.Controls
 
         public void AddTab(TabPage tabPage)
         {
-            // Create a panel to hold the tab page's controls
-            // (TabPage can only be parented to TabControl, so we need a wrapper)
-            var panel = new Panel();
-            panel.Dock = DockStyle.Fill;
-            panel.BackColor = tabPage.BackColor != System.Drawing.Color.Empty ? tabPage.BackColor : ThemeManager.BGColor;
-            panel.Name = tabPage.Name + "_content";
-            panel.Tag = tabPage;
-            panel.Padding = tabPage.Padding;
-
-            // Suspend layout during control transfer
-            panel.SuspendLayout();
-
-            // Move all controls from TabPage to Panel, preserving their properties
-            var controls = new List<Control>();
-            foreach (Control ctl in tabPage.Controls)
+            // Reuse the panel if we've already wrapped this TabPage before
+            // (stored in Tag to survive Clear/Add cycles)
+            Panel panel = null;
+            if (tabPage.Tag is Panel existingPanel)
             {
-                controls.Add(ctl);
+                panel = existingPanel;
+                // ensure it's detached from any previous parent before re-adding
+                if (panel.Parent != null)
+                {
+                    panel.Parent.Controls.Remove(panel);
+                }
             }
-
-            tabPage.Controls.Clear();
-
-            foreach (var ctl in controls)
+            else
             {
-                panel.Controls.Add(ctl);
-            }
+                // Create a panel to hold the tab page's controls
+                // (TabPage can only be parented to TabControl, so we need a wrapper)
+                panel = new Panel();
+                panel.Dock = DockStyle.Fill;
+                panel.BackColor = tabPage.BackColor != System.Drawing.Color.Empty ? tabPage.BackColor : ThemeManager.BGColor;
+                panel.Name = tabPage.Name + "_content";
+                panel.Tag = tabPage;
+                panel.Padding = tabPage.Padding;
 
-            panel.ResumeLayout(true);
+                // Suspend layout during control transfer
+                panel.SuspendLayout();
+
+                // Move all controls from TabPage to Panel, preserving their properties
+                var controls = new List<Control>();
+                foreach (Control ctl in tabPage.Controls)
+                {
+                    controls.Add(ctl);
+                }
+
+                tabPage.Controls.Clear();
+
+                foreach (var ctl in controls)
+                {
+                    panel.Controls.Add(ctl);
+                }
+
+                panel.ResumeLayout(true);
+
+                // Remember the panel so we can reuse it on Clear/Add cycles
+                tabPage.Tag = panel;
+            }
 
             // Track the original TabPage for compatibility
             _originalTabPages[panel] = tabPage;
@@ -255,7 +258,6 @@ namespace MissionPlanner.Controls
                     content.Visible = true;
                     content.BringToFront();
 
-                    // Ensure child controls are visible and properly laid out
                     foreach (Control child in content.Controls)
                     {
                         child.Visible = true;
@@ -264,8 +266,6 @@ namespace MissionPlanner.Controls
                     content.PerformLayout();
                     content.Invalidate(true);
                     content.Refresh();
-
-                    System.Diagnostics.Debug.WriteLine($"SelectTab: {button.Text}, Content size={content.Size}, ContentPanel size={_contentPanel.Size}, Children={content.Controls.Count}, Parent={content.Parent?.Name}");
                 }
             }
 
@@ -318,8 +318,17 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void Clear()
         {
+            // Detach content controls without disposing so they can be reused
+            foreach (var content in _tabPages.Values.ToList())
+            {
+                if (content.Parent != null)
+                {
+                    content.Parent.Controls.Remove(content);
+                }
+                content.Visible = false;
+            }
+
             _toolStrip.Items.Clear();
-            _contentPanel.Controls.Clear();
             _tabPages.Clear();
             _originalTabPages.Clear();
             _tabPagesList.Clear();

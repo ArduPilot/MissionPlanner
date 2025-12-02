@@ -706,12 +706,8 @@ namespace MissionPlanner.GCSViews
             // Remove all tab pages from old control (so controls aren't disposed)
             tabControlactions.TabPages.Clear();
 
-            // Replace the TabControl in the parent container FIRST so ThemedTabStrip gets proper size
             var parent = tabControlactions.Parent;
             var tabControlIndex = parent.Controls.GetChildIndex(tabControlactions);
-
-            // Debug: Show MessageBox with sizes
-            System.Windows.Forms.MessageBox.Show($"TabControl: Size={tabControlactions.Size}, Dock={tabControlactions.Dock}\nParent: {parent.Name}, Size={parent.Size}");
 
             parent.SuspendLayout();
             parent.Controls.Remove(tabControlactions);
@@ -719,22 +715,12 @@ namespace MissionPlanner.GCSViews
             parent.Controls.SetChildIndex(_themedTabStrip, tabControlIndex);
             parent.ResumeLayout(true);
 
-            // Now add each tab page to the ThemedTabStrip (after it has proper size)
             foreach (var tabPage in tabPages)
             {
                 _themedTabStrip.AddTab(tabPage);
             }
 
-            // Wire up the SelectedIndexChanged event
             _themedTabStrip.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
-
-            // Debug: Show final state
-            string ctrlInfo = "";
-            foreach (Control c in _themedTabStrip.Controls)
-            {
-                ctrlInfo += $"\n  - {c.Name} ({c.GetType().Name}): Size={c.Size}, Dock={c.Dock}";
-            }
-            System.Windows.Forms.MessageBox.Show($"ThemedTabStrip: Size={_themedTabStrip.Size}\nControls:{ctrlInfo}");
         }
 
         public void BUT_playlog_Click(object sender, EventArgs e)
