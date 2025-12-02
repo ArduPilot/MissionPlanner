@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -197,6 +198,94 @@ namespace MissionPlanner.Utilities
 
         public static List<String> ThemeNames;
 
+        #region Windows Dark Mode Title Bar Support
+
+        // Windows API for dark mode title bar (Windows 10 build 17763+ / Windows 11)
+        [DllImport("dwmapi.dll", PreserveSig = true)]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+        private const int DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 = 19;
+        private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
+
+        /// <summary>
+        /// Determines if the current theme is a dark theme based on background color luminance
+        /// </summary>
+        public static bool IsDarkTheme
+        {
+            get
+            {
+                // Calculate perceived luminance using the formula for relative luminance
+                // A value below 128 is considered dark
+                double luminance = 0.299 * BGColor.R + 0.587 * BGColor.G + 0.114 * BGColor.B;
+                return luminance < 128;
+            }
+        }
+
+        /// <summary>
+        /// Applies Windows dark mode to a form's title bar if using a dark theme.
+        /// Only works on Windows 10 build 17763+ and Windows 11.
+        /// If the handle is not yet created, it will be applied when the handle is created.
+        /// </summary>
+        /// <param name="form">The form to apply dark mode to</param>
+        public static void ApplyDarkModeToTitleBar(Form form)
+        {
+            if (form == null || form.IsDisposed)
+                return;
+
+            // Only apply on Windows platform
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                return;
+
+            // If handle isn't created yet, hook into HandleCreated event
+            if (!form.IsHandleCreated)
+            {
+                form.HandleCreated += Form_HandleCreated;
+                return;
+            }
+
+            ApplyDarkModeToTitleBarInternal(form);
+        }
+
+        /// <summary>
+        /// Event handler for forms whose handle wasn't created when ApplyDarkModeToTitleBar was called
+        /// </summary>
+        private static void Form_HandleCreated(object sender, EventArgs e)
+        {
+            if (sender is Form form)
+            {
+                form.HandleCreated -= Form_HandleCreated;
+                ApplyDarkModeToTitleBarInternal(form);
+            }
+        }
+
+        /// <summary>
+        /// Internal method that actually applies the dark mode attribute to the window
+        /// </summary>
+        private static void ApplyDarkModeToTitleBarInternal(Form form)
+        {
+            if (form == null || form.IsDisposed || !form.IsHandleCreated)
+                return;
+
+            try
+            {
+                int useDarkMode = IsDarkTheme ? 1 : 0;
+
+                // Try the newer attribute first (Windows 10 20H1+), then fall back to older one
+                int result = DwmSetWindowAttribute(form.Handle, DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, sizeof(int));
+
+                if (result != 0)
+                {
+                    // Fall back to the older attribute for Windows 10 versions before 20H1
+                    DwmSetWindowAttribute(form.Handle, DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, ref useDarkMode, sizeof(int));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Debug("Failed to apply dark mode to title bar: " + ex.Message);
+            }
+        }
+
+        #endregion
 
 
         public static void GetThemesList()
@@ -302,7 +391,7 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// Will recursively apply the current theme to 'control' unless the control has the 
+        /// Will recursively apply the current theme to 'control' unless the control has the
         /// PreventTheming attribute
         /// </summary>
         /// <param name="control"></param>
@@ -315,6 +404,12 @@ namespace MissionPlanner.Utilities
                 return;
 
             ApplyTheme(control, 0);
+
+            // Apply Windows dark mode to title bar if this is a form
+            if (control is Form form)
+            {
+                ApplyDarkModeToTitleBar(form);
+            }
         }
 
 
