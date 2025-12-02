@@ -238,6 +238,9 @@ namespace MissionPlanner.GCSViews
 
         private bool transponderNeverConnected = true;
 
+        // Themed tab strip to replace the TabControl
+        private Controls.ThemedTabStrip _themedTabStrip;
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -246,12 +249,15 @@ namespace MissionPlanner.GCSViews
 
             log.Info("Components Done");
 
+            // Replace TabControl with ThemedTabStrip
+            ReplaceTabControlWithThemedTabStrip();
+
             instance = this;
 
             this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
             this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
-            this.tabControlactions.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
-            this.tabControlactions.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
+            this._themedTabStrip.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this._themedTabStrip.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             this.panel_persistent.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
             this.panel_persistent.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             //    _serializer = new DockStateSerializer(dockContainer1);
@@ -265,7 +271,10 @@ namespace MissionPlanner.GCSViews
             mymap.Paint += mymap_Paint;
 
             // populate the unmodified base list
-            tabControlactions.TabPages.ForEach(i => { TabListOriginal.Add((TabPage) i); });
+            foreach (var tabPage in _themedTabStrip.TabPages)
+            {
+                TabListOriginal.Add(tabPage);
+            }
 
             //  mymap.Manager.UseMemoryCache = false;
 
@@ -424,7 +433,7 @@ namespace MissionPlanner.GCSViews
 
             hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
 
-            tabControlactions.Multiline = Settings.Instance.GetBoolean("tabControlactions_Multiline", false);
+            // Note: ThemedTabStrip handles overflow with ToolStrip's built-in dropdown, no need for Multiline setting
 
             // Add Tools button to top-right of map
             var btnTools = new Controls.MyButton
@@ -676,6 +685,58 @@ namespace MissionPlanner.GCSViews
             hud1.doResize();
         }
 
+        /// <summary>
+        /// Replaces the TabControl with a ThemedTabStrip for better theme support.
+        /// </summary>
+        private void ReplaceTabControlWithThemedTabStrip()
+        {
+            // Create the themed tab strip
+            _themedTabStrip = new Controls.ThemedTabStrip();
+            _themedTabStrip.Name = "themedTabStrip";
+            _themedTabStrip.Dock = DockStyle.Fill;  // Force Fill like original TabControl
+            _themedTabStrip.TabContextMenuStrip = contextMenuStripactionstab;
+
+            // Copy all tab pages from the TabControl
+            var tabPages = new List<TabPage>();
+            foreach (TabPage tabPage in tabControlactions.TabPages)
+            {
+                tabPages.Add(tabPage);
+            }
+
+            // Remove all tab pages from old control (so controls aren't disposed)
+            tabControlactions.TabPages.Clear();
+
+            // Replace the TabControl in the parent container FIRST so ThemedTabStrip gets proper size
+            var parent = tabControlactions.Parent;
+            var tabControlIndex = parent.Controls.GetChildIndex(tabControlactions);
+
+            // Debug: Show MessageBox with sizes
+            System.Windows.Forms.MessageBox.Show($"TabControl: Size={tabControlactions.Size}, Dock={tabControlactions.Dock}\nParent: {parent.Name}, Size={parent.Size}");
+
+            parent.SuspendLayout();
+            parent.Controls.Remove(tabControlactions);
+            parent.Controls.Add(_themedTabStrip);
+            parent.Controls.SetChildIndex(_themedTabStrip, tabControlIndex);
+            parent.ResumeLayout(true);
+
+            // Now add each tab page to the ThemedTabStrip (after it has proper size)
+            foreach (var tabPage in tabPages)
+            {
+                _themedTabStrip.AddTab(tabPage);
+            }
+
+            // Wire up the SelectedIndexChanged event
+            _themedTabStrip.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+
+            // Debug: Show final state
+            string ctrlInfo = "";
+            foreach (Control c in _themedTabStrip.Controls)
+            {
+                ctrlInfo += $"\n  - {c.Name} ({c.GetType().Name}): Size={c.Size}, Dock={c.Dock}";
+            }
+            System.Windows.Forms.MessageBox.Show($"ThemedTabStrip: Size={_themedTabStrip.Size}\nControls:{ctrlInfo}");
+        }
+
         public void BUT_playlog_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.logreadmode)
@@ -881,7 +942,7 @@ namespace MissionPlanner.GCSViews
             if (tabarray.Length == 0)
                 return;
 
-            tabControlactions.TabPages.Clear();
+            _themedTabStrip.Clear();
 
             foreach (var tabname in tabarray)
             {
@@ -890,7 +951,7 @@ namespace MissionPlanner.GCSViews
                 {
                     if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
-                        tabControlactions.TabPages.Add(tabPage);
+                        _themedTabStrip.AddTab(tabPage);
                         log.Debug("add tabControlactions " + tabPage.Name);
                         added = true;
                         break;
@@ -909,13 +970,13 @@ namespace MissionPlanner.GCSViews
             loadTabControlActions();
 
             //we want to at least have one tabpage
-            if (tabControlactions.TabPages.Count == 0)
+            if (_themedTabStrip.TabCount == 0)
             {
-                tabControlactions.TabPages.Add(tabQuick);
-                tabControlactions.SelectedIndex = 0;
+                _themedTabStrip.AddTab(tabQuick);
+                _themedTabStrip.SelectedIndex = 0;
             }
 
-            ThemeManager.ApplyThemeTo(tabControlactions);
+            _themedTabStrip.ApplyTheme();
         }
 
         internal void BUT_run_script_Click(object sender, EventArgs e)
@@ -1001,52 +1062,52 @@ namespace MissionPlanner.GCSViews
         {
             if (keyData == (Keys.Control | Keys.D1))
             {
-                tabControlactions.SelectedIndex = 0;
+                _themedTabStrip.SelectedIndex = 0;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D2))
             {
-                tabControlactions.SelectedIndex = 1;
+                _themedTabStrip.SelectedIndex = 1;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D3))
             {
-                tabControlactions.SelectedIndex = 2;
+                _themedTabStrip.SelectedIndex = 2;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D4))
             {
-                tabControlactions.SelectedIndex = 3;
+                _themedTabStrip.SelectedIndex = 3;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D5))
             {
-                tabControlactions.SelectedIndex = 4;
+                _themedTabStrip.SelectedIndex = 4;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D6))
             {
-                tabControlactions.SelectedIndex = 5;
+                _themedTabStrip.SelectedIndex = 5;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D7))
             {
-                tabControlactions.SelectedIndex = 6;
+                _themedTabStrip.SelectedIndex = 6;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D8))
             {
-                tabControlactions.SelectedIndex = 7;
+                _themedTabStrip.SelectedIndex = 7;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D9))
             {
-                tabControlactions.SelectedIndex = 8;
+                _themedTabStrip.SelectedIndex = 8;
                 return true;
             }
             else if (keyData == (Keys.Control | Keys.D0))
             {
-                tabControlactions.SelectedIndex = 9;
+                _themedTabStrip.SelectedIndex = 9;
                 return true;
             }
 
@@ -2931,6 +2992,9 @@ namespace MissionPlanner.GCSViews
             {
                 mainloop();
             }
+
+            // Apply theme to the themed tab strip
+            _themedTabStrip.ApplyTheme();
         }
 
         private void FlightData_ParentChanged(object sender, EventArgs e)
@@ -3495,7 +3559,7 @@ namespace MissionPlanner.GCSViews
             {
                 SubMainLeft.Panel1, // contains hud1
                 panel_persistent,   // might contain plugin controls
-                tabControlactions   // contains the tabs
+                _themedTabStrip     // contains the tabs
             };
 
             bool controlsEmpty = controlsToCheck.Sum(x => x.Controls.Count) == 0;
@@ -4894,7 +4958,7 @@ namespace MissionPlanner.GCSViews
         {
             string answer = "";
 
-            foreach (TabPage tabPage in tabControlactions.TabPages)
+            foreach (TabPage tabPage in _themedTabStrip.TabPages)
             {
                 answer += tabPage.Name + ";";
             }
@@ -5312,46 +5376,70 @@ namespace MissionPlanner.GCSViews
 
         void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
         {
-            // Draw the background of the ListBox control for each item.
-            //e.DrawBackground();
-            // Define the default color of the brush as black.
-            Brush myBrush = Brushes.Black;
+            var tabControl = (TabControl)sender;
+            var tabPage = tabControl.TabPages[e.Index];
+            var tabBounds = e.Bounds;
 
-            LinearGradientBrush linear = new LinearGradientBrush(e.Bounds, Color.FromArgb(0x94, 0xc1, 0x1f),
-                Color.FromArgb(0xcd, 0xe2, 0x96), LinearGradientMode.Vertical);
+            // On first tab, fill the entire tab header area background
+            if (e.Index == 0)
+            {
+                Rectangle headerRect = new Rectangle(0, 0, tabControl.Width, tabControl.ItemSize.Height + 4);
+                using (var headerBrush = new SolidBrush(ThemeManager.BGColor))
+                {
+                    e.Graphics.FillRectangle(headerBrush, headerRect);
+                }
+            }
 
-            e.Graphics.FillRectangle(linear, e.Bounds);
+            // Use theme colors for background
+            Color bgColor = ThemeManager.ControlBGColor;
+            Color textColor = ThemeManager.TextColor;
 
-            // Draw the current item text based on the current Font
-            // and the custom brush settings.
-            e.Graphics.DrawString(((TabControl) sender).TabPages[e.Index].Text,
-                e.Font, myBrush, e.Bounds, StringFormat.GenericDefault);
-            // If the ListBox has focus, draw a focus rectangle around the selected item.
-            e.DrawFocusRectangle();
+            // Highlight selected tab slightly differently
+            if (e.Index == tabControl.SelectedIndex)
+            {
+                bgColor = ThemeManager.BGColor;
+            }
+
+            // Fill background
+            using (var bgBrush = new SolidBrush(bgColor))
+            {
+                e.Graphics.FillRectangle(bgBrush, tabBounds);
+            }
+
+            // Draw text centered
+            using (var textBrush = new SolidBrush(textColor))
+            {
+                var textFormat = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+                e.Graphics.DrawString(tabPage.Text, e.Font, textBrush, tabBounds, textFormat);
+            }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Messagetabtimer.Stop();
 
-            if (tabControlactions.SelectedTab == tabStatus)
+            if (_themedTabStrip.SelectedTab == tabStatus)
             {
-                tabControlactions.Visible = false;
+                _themedTabStrip.Visible = false;
                 tabStatus.Visible = false;
                 tabStatus_Resize(sender, e);
                 tabStatus.Visible = true;
-                tabControlactions.Visible = true;
+                _themedTabStrip.Visible = true;
             }
-            else if (tabControlactions.SelectedTab == tabPagemessages)
+            else if (_themedTabStrip.SelectedTab == tabPagemessages)
             {
                 Messagetabtimer.Start();
             }
-            else if (tabControlactions.SelectedTab == tabParams)
+            else if (_themedTabStrip.SelectedTab == tabParams)
             {
                 configRawParams1.InitialTreeCollapsed = true;
                 configRawParams1.Activate();
             }
-            else if (tabControlactions.SelectedTab == tabTuning)
+            else if (_themedTabStrip.SelectedTab == tabTuning)
             {
                 // Hide all tuning controls first
                 configArduplane1.Visible = false;
@@ -5382,7 +5470,7 @@ namespace MissionPlanner.GCSViews
                     configArducopter1.Activate();
                 }
             }
-            else if (tabControlactions.SelectedTab == tabInspector)
+            else if (_themedTabStrip.SelectedTab == tabInspector)
             {
                 mavlinkInspectorControl1.Activate();
             }
@@ -5395,7 +5483,7 @@ namespace MissionPlanner.GCSViews
                 //  tabStatus.Controls.Remove(temp);
                 // }
 
-                if (tabControlactions.SelectedTab == tabQuick)
+                if (_themedTabStrip.SelectedTab == tabQuick)
                 {
                 }
             }
@@ -5655,28 +5743,28 @@ namespace MissionPlanner.GCSViews
                         bindingSourceHud.UpdateDataSource(MainV2.comPort.MAV.cs));
                     //Console.WriteLine("DONE ");
 
-                    if (tabControlactions.SelectedTab == tabStatus)
+                    if (_themedTabStrip.SelectedTab == tabStatus)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceStatusTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                         this.tabStatus.Invalidate();
                     }
-                    else if (tabControlactions.SelectedTab == tabQuick)
+                    else if (_themedTabStrip.SelectedTab == tabQuick)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
-                    else if (tabControlactions.SelectedTab == tabGauges)
+                    else if (_themedTabStrip.SelectedTab == tabGauges)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceGaugesTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
-                    else if (tabControlactions.SelectedTab == tabPagePreFlight)
+                    else if (_themedTabStrip.SelectedTab == tabPagePreFlight)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceGaugesTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
-                    else if (tabControlactions.SelectedTab == tabPayload)
+                    else if (_themedTabStrip.SelectedTab == tabPayload)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourcePayloadTab.UpdateDataSource(MainV2.comPort.MAV.cs));
@@ -6347,7 +6435,8 @@ namespace MissionPlanner.GCSViews
             tab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
             dropout.Text = "Flight DATA";
-            tabControlactions.Controls.Remove(tabQuick);
+            // Note: For undocking, we need to work with the content panel
+            // This is a complex operation with ThemedTabStrip - for now, hide the button
             tab.Controls.Add(tabQuick);
             tabQuick.BorderStyle = BorderStyle.Fixed3D;
             dropout.FormClosed += dropoutQuick_FormClosed;
@@ -6361,8 +6450,9 @@ namespace MissionPlanner.GCSViews
         void dropoutQuick_FormClosed(object sender, FormClosedEventArgs e)
         {
             (sender as Form).SaveStartupLocation();
-            tabControlactions.Controls.Add(tabQuick);
-            tabControlactions.SelectedTab = tabQuick;
+            // Re-add the tab when form closes
+            _themedTabStrip.AddTab(tabQuick);
+            _themedTabStrip.SelectTabByTabPage(tabQuick);
             tabQuickDetached = false;
             contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
         }
@@ -6685,8 +6775,8 @@ namespace MissionPlanner.GCSViews
 
         private void multiLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tabControlactions.Multiline = !tabControlactions.Multiline;
-            Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
+            // ThemedTabStrip uses ToolStrip's built-in overflow dropdown instead of multiline
+            // This option is no longer applicable
         }
 
         private void jumpToTagToolStripMenuItem_Click(object sender, EventArgs e)
