@@ -120,7 +120,7 @@
   <data name="ThisBoardHasBeenRetired" xml:space="preserve">
     <value>This board has been retired, Mission Planner this will upload the last available version to your board</value>
   </data>
-  <data name="ZeroAltWarning" xml:space="preserve">
+  <data name="ZeroAltWarningCopter" xml:space="preserve">
     <value>WP# {0} hat eine Höhe von null, d. h. keine Höhenänderung! Wenn Sie eine Höhe von null wünschen, ändern Sie sie auf 0,01 m. Möchten Sie den WP-Upload fortsetzen oder abbrechen?</value>
   </data>
   <data name="ZeroAltWarningTitle" xml:space="preserve">

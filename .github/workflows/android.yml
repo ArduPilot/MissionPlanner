@@ -18,7 +18,21 @@ jobs:
         with:
           submodules: true
           fetch-depth: 10
+          
+      - name: Install Android SDK Platform 33
+        run: |
+            gci
+            pwd
+            cd "C:\Program Files (x86)\Android\android-sdk\cmdline-tools"
+            gci
+            pwd
+            cd latest
+            cd bin            
+            .\sdkmanager.bat --list
+            .\sdkmanager.bat "platforms;android-33" "build-tools;31.0.0"
 
+
+          
       - name: Cache multiple paths
         uses: actions/cache@v4
         with:
@@ -95,7 +109,19 @@ jobs:
         with:
           submodules: true
           fetch-depth: 10
-
+          
+      - name: Install Android SDK Platform 33
+        run: |
+            gci
+            pwd
+            cd "C:\Program Files (x86)\Android\android-sdk\cmdline-tools"
+            gci
+            pwd
+            cd latest
+            cd bin          
+            .\sdkmanager.bat --list  
+            .\sdkmanager.bat "platforms;android-33" "build-tools;31.0.0"
+          
       - name: Cache multiple paths
         uses: actions/cache@v4
         with:
@@ -169,4 +195,11 @@ jobs:
           prerelease: true
           title: "Android Development Build"
           files: '**/*-signed.apk'
+
+
+
+
+
+
+
 

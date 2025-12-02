@@ -10000,7 +10000,6 @@ namespace Xamarin.Droid
 			global::Xamarin.Essentials.Resource.Id.text2 = global::Xamarin.Droid.Resource.Id.text2;
 			global::Xamarin.Essentials.Resource.Id.time = global::Xamarin.Droid.Resource.Id.time;
 			global::Xamarin.Essentials.Resource.Id.title = global::Xamarin.Droid.Resource.Id.title;
-			global::Xamarin.Essentials.Resource.Id.view_tree_lifecycle_owner = global::Xamarin.Droid.Resource.Id.view_tree_lifecycle_owner;
 			global::Xamarin.Essentials.Resource.Integer.status_bar_notification_info_maxnum = global::Xamarin.Droid.Resource.Integer.status_bar_notification_info_maxnum;
 			global::Xamarin.Essentials.Resource.Layout.browser_actions_context_menu_page = global::Xamarin.Droid.Resource.Layout.browser_actions_context_menu_page;
 			global::Xamarin.Essentials.Resource.Layout.browser_actions_context_menu_row = global::Xamarin.Droid.Resource.Layout.browser_actions_context_menu_row;

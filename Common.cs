@@ -257,128 +257,190 @@ namespace MissionPlanner
             return form;
         }
 
-        public static DialogResult MessageShowAgain(string title, string promptText, bool show_cancel = false)
+        public static DialogResult MessageShowAgain(string title, string promptText, bool show_cancel = false, string tag = "")
         {
-            Form form = new Form();
-            System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-            CheckBox chk = new CheckBox();
-            Controls.MyButton buttonOk = new Controls.MyButton();
-            Controls.MyButton buttonCancel = new Controls.MyButton();
-            System.ComponentModel.ComponentResourceManager resources =
-                new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
-            try
-            {
-                form.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-            } catch {}
+            // `tag` is the unique ID for this prompt, used to remember "show me again" state.
+            // If not provided, we use the title as the tag.
+            if (string.IsNullOrEmpty(tag))
+                tag = title;
 
+            // Early return if user has disabled this prompt
+            string showAgainKey = $"SHOWAGAIN_{tag.Replace(" ", "_").Replace('+', '_').Replace('-', '_').Replace('.', '_')}";
+            if (Settings.Instance.ContainsKey(showAgainKey) && Settings.Instance.GetBoolean(showAgainKey) == false)
+                return DialogResult.OK;
+
+            // Check if this was called on a non-UI thread, and marshal to the main UI thread if so
+            DialogResult dialogResult = DialogResult.Cancel;
+            Func<DialogResult> showFunc = () =>
+            {
+                using (var form = CreateMessageShowAgainForm(title, promptText, show_cancel, showAgainKey))
+                {
+                    return form.ShowDialog();
+                }
+            };
+            if (MainV2.instance != null && !MainV2.instance.IsDisposed && MainV2.instance.InvokeRequired)
+            {
+                MainV2.instance.Invoke(new Action(() => dialogResult = showFunc()));
+            }
+            else if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
+            {
+                Application.OpenForms[0].Invoke(new Action(() => dialogResult = showFunc()) );
+            }
+            else
+            {
+                dialogResult = showFunc();
+            }
+            return dialogResult;
+        }
+
+        private static Form CreateMessageShowAgainForm(string title, string promptText, bool show_cancel, string showAgainKey)
+        {
+            var form = new Form()
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Padding = new Padding(0),
+                StartPosition = FormStartPosition.CenterParent,
+                Text = title,
+            };
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
+            try { form.Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon"); } catch { /* ignore */ }
+
+            // Layout constants
+            int margin = 16;              // outer padding
+            int rowspacing = 8;           // space below each row
+            int buttonspacing = 6;        // space between buttons
+            int minContentWidth = 300;    // minimum dialog width
+            int maxContentWidth = 600;    // wrap width for long text
+
+            // Root table: 1 column, 3 rows (content, optional link, footer)
+            var table = new TableLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 1,
+                Dock = DockStyle.Fill,
+                Padding = new Padding(margin),
+                RowCount = 3,
+            };
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));  // message
+            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));  // link (optional)
+            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));  // footer
+
+            form.Controls.Add(table);
+
+            // Main message label
+            var label = new Label
+            {
+                AutoSize = true,
+                Margin = new Padding(0, 0, 0, rowspacing),
+                MaximumSize = new Size(maxContentWidth, 0),
+                MinimumSize = new Size(minContentWidth, 0),
+                Text = promptText,
+                TextAlign = ContentAlignment.TopLeft,
+            };
+            table.Controls.Add(label, 0, 0);
+
+            // Optional inline link parsing: [link;https://...;Link Text]
             string link = "";
             string linktext = "";
-
-
-            Regex linkregex = new Regex(@"(\[link;([^\]]+);([^\]]+)\])", RegexOptions.IgnoreCase);
-            Match match = linkregex.Match(promptText);
+            var linkregex = new Regex(@"(\[link;([^\]]+);([^\]]+)\])", RegexOptions.IgnoreCase);
+            var match = linkregex.Match(promptText);
             if (match.Success)
             {
                 link = match.Groups[2].Value;
                 linktext = match.Groups[3].Value;
-                promptText = promptText.Replace(match.Groups[1].Value, "");
-            }
 
-            form.Text = title;
-            label.Text = promptText;
+                // Show label text without the token, link sits on its own line beneath.
+                label.Text = promptText.Replace(match.Groups[1].Value, "");
 
-            chk.Tag = ($"SHOWAGAIN_{title.Replace(" ", "_").Replace('+', '_').Replace('-', '_').Replace('.', '_')}");
-            chk.AutoSize = true;
-            chk.Text = Strings.ShowMeAgain;
-            chk.Checked = true;
-            chk.Location = new Point(9, 80);
-
-            if (Settings.Instance.ContainsKey((string)chk.Tag) && Settings.Instance.GetBoolean((string)chk.Tag) == false)
-            // skip it
-            {
-                form.Dispose();
-                chk.Dispose();
-                buttonOk.Dispose();
-                buttonCancel.Dispose();
-                label.Dispose();
-                return DialogResult.OK;
-            }
-
-            chk.CheckStateChanged += new EventHandler(chk_CheckStateChanged);
-
-            buttonOk.Text = Strings.OK;
-            buttonOk.DialogResult = DialogResult.OK;
-            buttonOk.Location = new Point(form.Right - (show_cancel ? 180 : 100), 80);
-
-            buttonCancel.Text = Strings.Cancel;
-            buttonCancel.DialogResult = DialogResult.Cancel;
-            buttonCancel.Location = new Point(form.Right - 90, 80);
-            buttonCancel.Visible = show_cancel;
-
-            label.SetBounds(9, 9, 372, 13);
-
-            label.AutoSize = true;
-
-            form.Controls.AddRange(new Control[] { label, chk, buttonOk, buttonCancel });
-
-            if (link != "" && linktext != "")
-            {
-                Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
                 var linklbl = new LinkLabel
                 {
-                    Left = 9,
-                    Top = label.Bottom,
-                    Width = textSize2.Width,
-                    Height = textSize2.Height,
+                    AutoSize = true,
+                    Margin = new Padding(0, 0, 0, rowspacing),
                     Text = linktext,
-                    Tag = link,
-                    AutoSize = true
                 };
-                linklbl.Click += (sender, args) =>
+                linklbl.LinkClicked += (sender, args) =>
                 {
-                    try
-                    {
-                        System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
-                    }
-                    catch (Exception)
-                    {
-                        CustomMessageBox.Show($"Failed to open link {((LinkLabel)sender).Tag}");
-                    }
+                    OpenUrl(link);
                 };
 
-                form.Controls.Add(linklbl);
-
-                form.Width = Math.Max(form.Width, linklbl.Right + 16);
+                table.Controls.Add(linklbl, 0, 1);
             }
 
-            form.ClientSize = new Size(396, 107);
+            // Footer: checkbox left, buttons right
+            var footer = new TableLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 2,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0),
+                RowCount = 1,
+            };
+            footer.ColumnCount = 2;
+            footer.ColumnStyles.Clear();
+            footer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            footer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
 
-            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
-            form.FormBorderStyle = FormBorderStyle.FixedDialog;
-            form.StartPosition = FormStartPosition.CenterScreen;
-            form.MinimizeBox = false;
-            form.MaximizeBox = false;
+            // "Show me again" checkbox
+            var chk = new CheckBox
+            {
+                Anchor = AnchorStyles.Left,
+                AutoSize = true,
+                Checked = true,
+                Margin = new Padding(0),
+                Tag = showAgainKey,
+                Text = Strings.ShowMeAgain,
+            };
+            chk.CheckStateChanged += chk_CheckStateChanged;
+            footer.Controls.Add(chk, 0, 0);
+
+            // Buttons, right-aligned via FlowLayout RightToLeft
+            var buttonPanel = new FlowLayoutPanel
+            {
+                Anchor = AnchorStyles.Right,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.RightToLeft,
+                Margin = new Padding(0),
+                WrapContents = false,
+            };
+
+            var buttonOk = new Controls.MyButton
+            {
+                DialogResult = DialogResult.OK,
+                Margin = new Padding(buttonspacing, 0, 0, 0),
+                Text = Strings.OK,
+            };
+            var buttonCancel = new Controls.MyButton
+            {
+                DialogResult = DialogResult.Cancel,
+                Margin = new Padding(buttonspacing, 0, 0, 0),
+                Text = Strings.Cancel,
+                Visible = show_cancel,
+            };
+
+            // Add in order that keeps Cancel at right edge when visible
+            if (show_cancel)
+                buttonPanel.Controls.Add(buttonCancel);
+            buttonPanel.Controls.Add(buttonOk);
+
+            footer.Controls.Add(buttonPanel, 2, 0);
+            table.Controls.Add(footer, 0, 2);
+
+            // Dialog keyboard behavior
+            form.AcceptButton = buttonOk;
+            form.CancelButton = show_cancel ? buttonCancel : null;
 
             ThemeManager.ApplyThemeTo(form);
 
-            DialogResult dialogResult = DialogResult.Cancel;
-            if (Application.OpenForms.Count > 0)
-            {
-                if (Application.OpenForms[0].InvokeRequired)
-                    Application.OpenForms[0].Invoke(new Action(() => { dialogResult = form.ShowDialog(); }));
-                else
-                    dialogResult = form.ShowDialog();
-            }
-            else
-            {
-                dialogResult = form.ShowDialog();
-            }
-
-            form.Dispose();
-
-            form = null;
-
-            return dialogResult;
+            return form;
         }
 
         static void chk_CheckStateChanged(object sender, EventArgs e)

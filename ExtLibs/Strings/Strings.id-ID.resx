@@ -594,10 +594,4 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
     <value>Failed to connect to SITL instance</value>
   </data>
-  <data name="ZeroAltWarning" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ZeroAltWarningTitle" xml:space="preserve">
-    <value />
-  </data>
 </root>

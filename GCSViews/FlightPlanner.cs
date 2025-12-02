@@ -705,14 +705,8 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
-                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
-                //Check for zero alttitude
-                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
-                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
-                {
-                    if (DialogResult.OK != zeroAltWarning(a))
-                        return;
-                }
+                if (!checkZeroAlts(a))
+                    return;
             }
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
@@ -1009,7 +1003,7 @@ namespace MissionPlanner.GCSViews
                 writeKML();
 
                 MainMap.ZoomAndCenterMarkers("WPOverlay");
-            }
+        }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Can't open file! " + ex);
@@ -1886,10 +1880,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void BUT_Prefetch_Click(object sender, EventArgs e)
-        {
-        }
-
         public void BUT_saveWPFile_Click(object sender, EventArgs e)
         {
             SaveFile_Click(null, null);
@@ -1963,15 +1953,8 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
-                ushort cmdtochk = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
-                //Check for zero alttitude
-                if (cmdtochk == (ushort)MAVLink.MAV_CMD.WAYPOINT &&
-                    double.Parse(Commands[Alt.Index, a].Value.ToString()) == 0)
-                {
-                    if (DialogResult.OK != zeroAltWarning(a))
-                        return;
-
-                }
+                if (!checkZeroAlts(a))
+                    return;
             }
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
@@ -4243,10 +4226,6 @@ namespace MissionPlanner.GCSViews
                             kml = sr.ReadToEnd();
                             sr.Close();
 
-                            // cleanup after out
-                            if (tempdir != "")
-                                Directory.Delete(tempdir, true);
-
                             kml = kml.Replace("<Snippet/>", "");
 
                             var parser = new Parser();
@@ -4255,7 +4234,11 @@ namespace MissionPlanner.GCSViews
 
                             Kml rootnode = parser.Root as Kml;
 
-                            processKML(rootnode.Feature);
+                            processKML(rootnode.Feature, null, tempdir);
+
+                            // cleanup after out
+                            if (tempdir != "")
+                                Directory.Delete(tempdir, true);
 
                             if ((int) DialogResult.Yes ==
                                 CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen,
@@ -5052,38 +5035,18 @@ namespace MissionPlanner.GCSViews
 
             if (!area.IsEmpty)
             {
-                string maxzoomstring = "20";
-                if (InputBox.Show("max zoom", "Enter the max zoom to prefetch to.", ref maxzoomstring) !=
-                    DialogResult.OK)
-                    return;
+                int maxzoom = MainMap.MaxZoom;
+                int minzoom = MainMap.MinZoom;
+                TilePrefetcherMenu tilePrefetcherMenu = new TilePrefetcherMenu(MainMap.MinZoom, MainMap.MaxZoom, area, MainMap.MapProvider);
 
-                int maxzoom = 20;
-                if (!int.TryParse(maxzoomstring, out maxzoom))
+                if (tilePrefetcherMenu.ShowDialog(this) != DialogResult.OK)
                 {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                    tilePrefetcherMenu.Dispose();
                     return;
                 }
-
-                maxzoom = Math.Min(maxzoom, MainMap.MaxZoom);
-
-                string minzoomstring = "1";
-                if (InputBox.Show("min zoom", "Enter the min zoom to prefetch to.", ref minzoomstring) !=
-                    DialogResult.OK)
-                    return;
-
-                int minzoom = 20;
-                if (!int.TryParse(minzoomstring, out minzoom))
-                {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
-                    return;
-                }
-                minzoom = Math.Max(minzoom, MainMap.MinZoom);
-
-                if (minzoom > maxzoom)
-                {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
-                    return;
-                }
+                minzoom = tilePrefetcherMenu.Minimum;
+                maxzoom = tilePrefetcherMenu.Maximum;
+                tilePrefetcherMenu.Dispose();
 
                 for (int i = minzoom; i <= maxzoom; i++)
                 {
@@ -5119,13 +5082,13 @@ namespace MissionPlanner.GCSViews
             FetchPath();
         }
 
-        private void processKML(Element Element, Document root = null)
+        private void processKML(Element Element, Document root = null, string tempdir = null)
         {
             if (Element is Document)
             {
                 foreach (var feat in ((Document)Element).Features)
                 {
-                    processKML(feat, (Document)Element);
+                    processKML(feat, (Document)Element, tempdir);
                 }
 
                 return;
@@ -5134,7 +5097,7 @@ namespace MissionPlanner.GCSViews
             {
                 foreach (var feat in ((Folder)Element).Features)
                 {
-                    processKML(feat, root);
+                    processKML(feat, root, tempdir);
                 }
             }
             else if (Element is Placemark)
@@ -5193,6 +5156,238 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
+            else if (Element is GroundOverlay)
+            {
+                // has groundoverlay
+                var go = (GroundOverlay)Element;
+                var file = go.Icon?.Href?.ToString();
+                var latlonbox = go.GXLatLonQuad;
+
+                // If GXLatLonQuad is not present, try to convert from LatLonBox
+                if (latlonbox == null && go.Bounds != null)
+                {
+                    latlonbox = ConvertLatLonBoxToLatLonQuad(go.Bounds);
+                }
+
+                if (file != null && latlonbox != null)
+                {
+                    try
+                    {
+                        // Load the source image from file or tempdir
+                        string imagePath = file;
+                        if (!string.IsNullOrEmpty(tempdir) && !Path.IsPathRooted(file))
+                        {
+                            imagePath = Path.Combine(tempdir, file);
+                        }
+
+                        if (!File.Exists(imagePath))
+                        {
+                            log.Error($"GroundOverlay image not found: {imagePath}");
+                            return;
+                        }
+
+                        using (var sourceImg = System.Drawing.Image.FromFile(imagePath))
+                        {
+                            // Extract corner coordinates
+                            List<PointLatLngAlt> corners = new List<PointLatLngAlt>();
+                            foreach (var loc in latlonbox.Coordinates)
+                            {
+                                corners.Add(new PointLatLngAlt(loc.Latitude, loc.Longitude));
+                            }
+
+                            if (corners.Count != 4)
+                            {
+                                log.Error($"GroundOverlay requires exactly 4 corner coordinates, got {corners.Count}");
+                                return;
+                            }
+
+                            // Calculate bounding rectangle
+                            double minLat = corners.Min(c => c.Lat);
+                            double maxLat = corners.Max(c => c.Lat);
+                            double minLng = corners.Min(c => c.Lng);
+                            double maxLng = corners.Max(c => c.Lng);
+
+                            RectLatLng rect = RectLatLng.FromLTRB(minLng, maxLat, maxLng, minLat);
+
+                            // Determine output image dimensions based on aspect ratio
+                            int maxDimension = Math.Max(sourceImg.Width, sourceImg.Height); // Max size to prevent memory issues
+                            double aspectRatio = rect.WidthLng / rect.HeightLat;
+                            int outputWidth, outputHeight;
+
+                            if (aspectRatio > 1)
+                            {
+                                outputWidth = maxDimension;
+                                outputHeight = (int)(maxDimension / aspectRatio);
+                            }
+                            else
+                            {
+                                outputHeight = maxDimension;
+                                outputWidth = (int)(maxDimension * aspectRatio);
+                            }
+
+                            // Create the transformed image
+                            Bitmap transformedImg = TransformGroundOverlayImage(sourceImg, corners, rect, outputWidth, outputHeight);
+
+                            // Add marker with transformed image
+                            var marker = new GMapMarkerFill(transformedImg, rect, rect.LocationTopLeft);
+                            kmlpolygonsoverlay.Markers.Add(marker);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Error processing GroundOverlay", ex);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Transform an image with geographic corner coordinates into a properly mapped square image
+        /// </summary>
+        /// <param name="sourceImage">Source image to transform</param>
+        /// <param name="corners">Four corner coordinates in lat/lng (should be in order: SW, SE, NE, NW or similar)</param>
+        /// <param name="targetRect">Target geographic rectangle</param>
+        /// <param name="outputWidth">Output image width</param>
+        /// <param name="outputHeight">Output image height</param>
+        /// <returns>Transformed bitmap</returns>
+        private Bitmap TransformGroundOverlayImage(System.Drawing.Image sourceImage, List<PointLatLngAlt> corners,
+            RectLatLng targetRect, int outputWidth, int outputHeight)
+        {
+            var sortedCorners = corners;
+
+            Bitmap output = new Bitmap(outputWidth, outputHeight);
+
+            using (Graphics g = Graphics.FromImage(output))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+
+                // Map corner coordinates to pixel positions in output image
+                PointF[] destPoints = new PointF[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    // Normalize corner position within target rectangle
+                    double normX = (sortedCorners[i].Lng - targetRect.Left) / targetRect.WidthLng;
+                    double normY = (targetRect.Top - sortedCorners[i].Lat) / targetRect.HeightLat;
+
+                    // Scale to output dimensions
+                    destPoints[i] = new PointF(
+                        (float)(normX * outputWidth),
+                        (float)(normY * outputHeight)
+                    );
+                }
+
+                // Only use first 3 points for DrawImage parallelogram transformation
+                PointF[] parallelogram = new PointF[3]
+                {
+            destPoints[3],   // Bottom-left
+            destPoints[2],  // Top-left
+            destPoints[0],  // Top-right
+
+                };
+
+                try
+                {
+                    // Draw transformed image
+                    g.DrawImage(sourceImage, parallelogram);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error drawing transformed ground overlay", ex);
+
+                    // Fallback: draw without transformation
+                    g.DrawImage(sourceImage, 0, 0, outputWidth, outputHeight);
+                }
+            }
+
+            return output;
+        }
+
+
+        /// <summary>
+        /// Converts a LatLonBox (with rotation support) to a LatLonQuad with 4 corner coordinates.
+        /// </summary>
+        /// <param name="box">The LatLonBox containing North, South, East, West bounds and optional rotation</param>
+        /// <returns>A LatLonQuad with 4 corners in counter-clockwise order starting from lower-left, or null if box is invalid</returns>
+        private SharpKml.Dom.GX.LatLonQuad ConvertLatLonBoxToLatLonQuad(SharpKml.Dom.LatLonBox box)
+        {
+            if (box == null || !box.North.HasValue || !box.South.HasValue ||
+                !box.East.HasValue || !box.West.HasValue)
+            {
+                return null;
+            }
+
+            double north = box.North.Value;
+            double south = box.South.Value;
+            double east = box.East.Value;
+            double west = box.West.Value;
+            double rotation = box.Rotation ?? 0.0; // Rotation in degrees, counter-clockwise
+
+            // Calculate center point
+            double centerLat = (north + south) / 2.0;
+            double centerLng = (east + west) / 2.0;
+
+            // Define the 4 corners of the unrotated box
+            // KML LatLonQuad expects: lower-left, lower-right, upper-right, upper-left (counter-clockwise)
+            var corners = new[]
+            {
+                new { Lat = south, Lng = west },  // Lower-left
+                new { Lat = south, Lng = east },  // Lower-right
+                new { Lat = north, Lng = east },  // Upper-right
+                new { Lat = north, Lng = west }   // Upper-left
+            };
+
+            // Create coordinate collection for LatLonQuad
+            var coordinates = new SharpKml.Dom.CoordinateCollection();
+
+            // If there's rotation, apply it to each corner
+            if (Math.Abs(rotation) > 0.001)
+            {
+                // Convert rotation to radians (KML rotation is counter-clockwise from north)
+                double rotationRad = -rotation * Math.PI / 180.0;
+                double cosTheta = Math.Cos(rotationRad);
+                double sinTheta = Math.Sin(rotationRad);
+
+                foreach (var corner in corners)
+                {
+                    // Translate corner to origin (relative to center)
+                    double lat = corner.Lat - centerLat;
+                    double lng = corner.Lng - centerLng;
+
+                    // Apply rotation matrix
+                    // Note: For geographic coordinates, we need to account for latitude scaling
+                    double cosLat = Math.Cos(centerLat * Math.PI / 180.0);
+                    double lngScaled = lng * cosLat;
+
+                    double rotatedLat = lat * cosTheta - lngScaled * sinTheta;
+                    double rotatedLngScaled = lat * sinTheta + lngScaled * cosTheta;
+                    double rotatedLng = rotatedLngScaled / cosLat;
+
+                    // Translate back
+                    double finalLat = rotatedLat + centerLat;
+                    double finalLng = rotatedLng + centerLng;
+
+                    coordinates.Add(new SharpKml.Base.Vector(finalLat, finalLng));
+                }
+            }
+            else
+            {
+                // No rotation, just use the corners as-is
+                foreach (var corner in corners)
+                {
+                    coordinates.Add(new SharpKml.Base.Vector(corner.Lat, corner.Lng));
+                }
+            }
+
+            // Create and return the LatLonQuad
+            var quad = new SharpKml.Dom.GX.LatLonQuad
+            {
+                Coordinates = coordinates
+            };
+
+            return quad;
         }
 
         private (Color,int) GetKMLLineColor(string styleurl, Document root)
@@ -5387,8 +5582,14 @@ namespace MissionPlanner.GCSViews
                 }
 
                 DataGridViewComboBoxCell cellframe = Commands.Rows[i].Cells[Frame.Index] as DataGridViewComboBoxCell;
-                var multipliers = cmdParamMultipliers[cellcmd.Value.ToString()];
-                cellframe.Value = (int) temp.frame;
+                var multipliers = new double[7] {1, 1, 1, 1, 1, 1, 1 };
+
+                if (cmdParamMultipliers.ContainsKey(cellcmd.Value.ToString()))
+                {
+                    multipliers = cmdParamMultipliers[cellcmd.Value.ToString()];
+                }
+
+                cellframe.Value = (int)temp.frame;
                 cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.alt * multipliers[6];
                 cell = Commands.Rows[i].Cells[Lat.Index] as DataGridViewTextBoxCell;
@@ -5587,7 +5788,7 @@ namespace MissionPlanner.GCSViews
             }
 
             Dictionary<string, ushort> configCommands = new Dictionary<string, ushort>();
-            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"]);
+            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"] ?? "{}");
 
             return configCommands[cmdName];
 
@@ -8279,11 +8480,51 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             map.Dispose();
         }
 
-        //Put here since it used in multiple places
-        private DialogResult zeroAltWarning(int wpno)
+        /// <summary>
+        /// Checks for certain commands with 0.000 altitudes and and warns the user of the nuiances of doing this
+        /// </summary>
+        /// <param name="wpno"></param>
+        /// <returns></returns>
+        private bool checkZeroAlts(int wpno)
         {
-           return Common.MessageShowAgain(Strings.ZeroAltWarningTitle,String.Format(Strings.ZeroAltWarning, wpno + 1),true);
 
+            if (Commands.Rows[wpno].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+            {
+                return true;
+            }
+
+            ushort cmd_id = getCmdID(Commands.Rows[wpno].Cells[Command.Index].Value.ToString());
+            // This warning only applies to flying vehicles running ArduPilot
+            bool is_arduplane = MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane;
+            bool is_arducopter = MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2;
+            if (!is_arduplane && !is_arducopter)
+            {
+                return true;
+            }
+
+            // Check for zero altitude
+            if (double.Parse(Commands[Alt.Index, wpno].Value.ToString()) != 0)
+            {
+                return true;
+            }
+
+            string warning = is_arduplane ? Strings.ZeroAltWarningPlane : Strings.ZeroAltWarningCopter;
+            if (cmd_id == (ushort)MAVLink.MAV_CMD.WAYPOINT ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TIME ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_UNLIM ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TURNS ||
+                cmd_id == (ushort)MAVLink.MAV_CMD.LOITER_TO_ALT)
+            {
+                var result = Common.MessageShowAgain(
+                    Strings.ZeroAltWarningTitle,
+                    string.Format(warning, wpno + 1),
+                    show_cancel: true,
+                    tag: Strings.ZeroAltWarningTitle + (is_arduplane ? " Plane" : "")
+                );
+                return result == DialogResult.OK;
+            }
+
+            return true;
         }
     }
 }

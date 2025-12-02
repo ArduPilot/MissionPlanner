@@ -607,10 +607,4 @@
   <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
     <value>Недоступно при использовании в качестве приложения для магазина Windows</value>
   </data>
-  <data name="ZeroAltWarning" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ZeroAltWarningTitle" xml:space="preserve">
-    <value />
-  </data>
 </root>

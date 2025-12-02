@@ -233,6 +233,16 @@ namespace GMap.NET
       }
 
       /// <summary>
+      /// get number of tiles in rect at specific zoom
+      /// </summary>
+      public long GetAreaTileNumber(RectLatLng rect, int zoom, int padding)
+      {
+         GPoint topLeft = FromPixelToTileXY(FromLatLngToPixel(rect.LocationTopLeft, zoom));
+         GPoint rightBottom = FromPixelToTileXY(FromLatLngToPixel(rect.LocationRightBottom, zoom));
+         return (rightBottom.X - topLeft.X + 1) * (rightBottom.Y - topLeft.Y + 1);
+      }
+
+      /// <summary>
       /// The ground resolution indicates the distance (in meters) on the ground that’s represented by a single pixel in the map.
       /// For example, at a ground resolution of 10 meters/pixel, each pixel represents a ground distance of 10 meters.
       /// </summary>
