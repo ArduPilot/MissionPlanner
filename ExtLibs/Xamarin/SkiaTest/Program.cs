@@ -1,4 +1,13 @@
-﻿using System;
+﻿using Microsoft.Scripting.Utils;
+using MissionPlanner;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,22 +20,14 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MissionPlanner;
-using MissionPlanner.Controls;
-using SkiaSharp.Views.Desktop;
-using SkiaSharp;
 using WinApi.Desktop;
 using WinApi.Gdi32;
 using WinApi.User32;
 using WinApi.Utils;
 using WinApi.Windows;
 using WinApi.Windows.Helpers;
-using Microsoft.Scripting.Utils;
-using MissionPlanner.Utilities;
+using static MissionPlanner.Utilities.rtcm3;
 using Rectangle = NetCoreEx.Geometry.Rectangle;
-using System.Collections;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace SkiaTest
 {
@@ -90,7 +91,7 @@ namespace SkiaTest
             foreach (var child in this.Children)
             {
                 var ans = child.FindID(handle);
-                if(ans != null)
+                if (ans != null)
                     return ans;
             }
 
@@ -120,23 +121,23 @@ namespace SkiaTest
                 var file = File.ReadAllText("SkiaTest.deps.json");
                 var fileobject = JsonConvert.DeserializeObject(file) as JObject;
                 var baditem =
-                    ((JObject) fileobject["targets"][".NETCoreApp,Version=v6.0"]).Property(
+                    ((JObject)fileobject["targets"][".NETCoreApp,Version=v6.0"]).Property(
                         "System.Drawing.Common/5.0.0");
                 if (baditem != null)
                     baditem.Remove();
-                baditem = ((JObject) fileobject["libraries"]).Property("System.Drawing.Common/5.0.0");
+                baditem = ((JObject)fileobject["libraries"]).Property("System.Drawing.Common/5.0.0");
                 if (baditem != null)
                     baditem.Remove();
 
-                baditem = ((JObject) fileobject["libraries"]).Property("System.Drawing.Common/6.0.0");
+                baditem = ((JObject)fileobject["libraries"]).Property("System.Drawing.Common/6.0.0");
                 if (baditem != null)
                     baditem.Remove();
 
-                baditem = ((JObject) fileobject["libraries"]).Property("System.Windows.Extensions/5.0.0");
+                baditem = ((JObject)fileobject["libraries"]).Property("System.Windows.Extensions/5.0.0");
                 if (baditem != null)
                     baditem.Remove();
 
-                baditem = ((JObject) fileobject["targets"]).Property("System.Windows.Extensions/5.0.0");
+                baditem = ((JObject)fileobject["targets"]).Property("System.Windows.Extensions/5.0.0");
                 if (baditem != null)
                     baditem.Remove();
 
@@ -231,7 +232,7 @@ namespace SkiaTest
 
                             var max = pixelBuffer.Stride * size.Height / 4;
 
-                            int* arr = (int*) pixelBuffer.Handle.ToPointer();
+                            int* arr = (int*)pixelBuffer.Handle.ToPointer();
                             unchecked
                             {
                                 var a = 0;
@@ -274,8 +275,10 @@ namespace SkiaTest
             private void start()
             {
 
-                //AddTypeConverter(typeof(System.Drawing.Bitmap), typeof(BitmapClassConverter));
-                //AddTypeConverter(typeof(System.Drawing.Icon), typeof(IconClassConverter));
+                AddTypeConverter(typeof(System.Drawing.Bitmap), typeof(BitmapClassConverter));
+                AddTypeConverter(typeof(System.Drawing.Icon), typeof(IconClassConverter));
+                AddTypeConverter(typeof(System.Drawing.Font), typeof(FontClassConverter));
+
 
                 //var convert = TypeDescriptor.GetConverter(typeof(System.Drawing.Bitmap));
                 //convert.ConvertTo()
@@ -335,7 +338,7 @@ namespace SkiaTest
                     {
                         hnd = IntPtr.Zero;
 
-                        Msg msgid = (Msg) msg.Id;
+                        Msg msgid = (Msg)msg.Id;
                         var wparam = msg.WParam;
                         var lparam = msg.LParam;
 
@@ -398,20 +401,20 @@ namespace SkiaTest
 
                     canvas.Clear(SKColors.Gray);
 
-                    canvas.Scale((float) scale.Width, (float) scale.Height);
+                    canvas.Scale((float)scale.Width, (float)scale.Height);
 
                     canvas.Save();
 
                     var treeflat = Hwnd.windows
                         .OfType<DictionaryEntry>()
-                        .Select(a=>new KeyValuePair<IntPtr,Hwnd>((IntPtr)a.Key,(Hwnd)a.Value))
+                        .Select(a => new KeyValuePair<IntPtr, Hwnd>((IntPtr)a.Key, (Hwnd)a.Value))
                         .Where(a => a.Value.Mapped && a.Value.Visible && !a.Value.zombie)
                         .Select((a, idx) => new TreeNode()
-                    {
-                        Id = (int?)a.Key,
-                        Value = a.Value,
-                        Parent = (int?)(a.Value.Parent?.Handle.ToInt64())
-                    });
+                        {
+                            Id = (int?)a.Key,
+                            Value = a.Value,
+                            Parent = (int?)(a.Value.Parent?.Handle.ToInt64())
+                        });
 
                     var newtree = TreeNode.BuildTree(treeflat.ToList());
 
@@ -461,18 +464,20 @@ namespace SkiaTest
 
                         canvas.DrawPath(path,
                             new SKPaint()
-                                {Color = SKColors.White, Style = SKPaintStyle.Fill, StrokeJoin = SKStrokeJoin.Miter});
+                            { Color = SKColors.White, Style = SKPaintStyle.Fill, StrokeJoin = SKStrokeJoin.Miter });
                         canvas.DrawPath(path,
                             new SKPaint()
                             {
-                                Color = SKColors.Black, Style = SKPaintStyle.Stroke, StrokeJoin = SKStrokeJoin.Miter,
+                                Color = SKColors.Black,
+                                Style = SKPaintStyle.Stroke,
+                                StrokeJoin = SKStrokeJoin.Miter,
                                 IsAntialias = true
                             });
 
 
-                        { 
+                        {
                             Control ctl = null;
-                          
+
                             var cnt = Application.OpenForms.Count;
                             while (cnt > 0 && ctl == null)
                             {
@@ -484,15 +489,15 @@ namespace SkiaTest
                                     continue;
                                 }
                                 var hwnd = Hwnd.ObjectFromHandle(Application.OpenForms[cnt - 1].Handle);
-                                if (x < hwnd.X || y < hwnd.Y || x > hwnd.x+hwnd.width || y > hwnd.y+hwnd.height)
+                                if (x < hwnd.X || y < hwnd.Y || x > hwnd.x + hwnd.width || y > hwnd.y + hwnd.height)
                                 {
                                     cnt--;
                                     continue;
                                 }
-                                
+
                                 XplatUI.driver.ScreenToClient(Application.OpenForms[cnt - 1].Handle,
                                     ref x, ref y);
-                                
+
                                 ctl = XplatUIMine.FindControlAtPoint(Application.OpenForms[cnt - 1],
                                     new Point(x, y));
                                 if (ctl == null)
@@ -501,13 +506,13 @@ namespace SkiaTest
                                 cnt--;
                             }
 
-                            canvas.DrawText(""+ctl?.Name + "HERE!!!",
+                            canvas.DrawText("" + ctl?.Name + "HERE!!!",
                                 new SKPoint(100, 100), new SKPaint() { Color = SKColor.Parse("ffff00") });
                         }
                     }
 
                     canvas.DrawText("" + DateTime.Now.ToString("HH:mm:ss.fff"),
-                        new SKPoint(10, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
+                        new SKPoint(10, 10), new SKPaint() { Color = SKColor.Parse("ffff00") });
 
                     canvas.Flush();
 
@@ -599,21 +604,54 @@ namespace SkiaTest
         }
         */
     }
-    /*
-    [TypeConverter(typeof(BitmapClassConverter))]
-    public class BitmapClassConverter : TypeConverter
+
+    [TypeConverter(typeof(IconClassConverter))]
+    public class IconClassConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context,
             Type sourceType)
         {
-            if (sourceType == typeof(System.Drawing.Bitmap))
+            if (sourceType == typeof(byte[]))
             {
                 return true;
             }
             return base.CanConvertFrom(context, sourceType);
         }
+
         public override object ConvertFrom(ITypeDescriptorContext context,
-            CultureInfo culture, object value)
+                CultureInfo culture, object value)
+        {
+            if (value is byte[])
+            {
+                return new Icon(new MemoryStream((byte[])value));
+            }
+            return base.ConvertFrom(context, culture, value);
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context,
+    CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(string)) { return "___"; }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
+
+    [TypeConverter(typeof(BitmapClassConverter))]
+    public class BitmapClassConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context,
+                Type sourceType)
+        {
+            if (sourceType == typeof(byte[]))
+            {
+                return true;
+            }
+            return base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context,
+        CultureInfo culture, object value)
         {
             if (value is byte[])
             {
@@ -621,39 +659,64 @@ namespace SkiaTest
             }
             return base.ConvertFrom(context, culture, value);
         }
+
         public override object ConvertTo(ITypeDescriptorContext context,
-            CultureInfo culture, object value, Type destinationType)
+    CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string)) { return "___"; }
             return base.ConvertTo(context, culture, value, destinationType);
         }
     }
-    [TypeConverter(typeof(IconClassConverter))]
-    public class IconClassConverter : TypeConverter
+
+    [TypeConverter(typeof(FontClassConverter))]
+    public class FontClassConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context,
-            Type sourceType)
+         Type sourceType)
         {
-            if (sourceType == typeof(System.Drawing.Icon))
+            if (sourceType == typeof(string))
             {
                 return true;
             }
             return base.CanConvertFrom(context, sourceType);
         }
+
         public override object ConvertFrom(ITypeDescriptorContext context,
-            CultureInfo culture, object value)
+CultureInfo culture, object value)
         {
-            if (value is byte[])
+            if (value is string str)
             {
-                return new System.Drawing.Icon(new MemoryStream((byte[]) value));
+                // Parse font string format: "FontFamily, Size[, Style]"
+                // Example: "Arial, 12" or "Arial, 12, Bold"
+                var parts = str.Split(',');
+                if (parts.Length >= 2)
+                {
+                    string fontFamily = parts[0].Trim();
+                    if (float.TryParse(parts[1].Trim().TrimEnd('p', 't'), NumberStyles.Float, CultureInfo.InvariantCulture, out float size))
+                    {
+                        FontStyle style = FontStyle.Regular;
+                        if (parts.Length >= 3)
+                        {
+                            if (Enum.TryParse<FontStyle>(parts[2].Trim(), true, out FontStyle parsedStyle))
+                            {
+                                style = parsedStyle;
+                            }
+                        }
+                        return new Font(fontFamily, size, style, GraphicsUnit.Point);
+                    }
+                }
             }
             return base.ConvertFrom(context, culture, value);
         }
+
         public override object ConvertTo(ITypeDescriptorContext context,
             CultureInfo culture, object value, Type destinationType)
         {
-            if (destinationType == typeof(string)) { return "___"; }
+            if (destinationType == typeof(string) && value is Font font)
+            {
+                return $"{font.Name}, {font.Size}, {font.Style}";
+            }
             return base.ConvertTo(context, culture, value, destinationType);
         }
-    }*/
+    }
 }

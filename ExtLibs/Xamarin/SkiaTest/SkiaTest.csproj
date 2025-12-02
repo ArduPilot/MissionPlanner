@@ -39,6 +39,7 @@
     </PackageReference>
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
     <PackageReference Include="WinApi" Version="4.0.0" />
     <PackageReference Include="WinApi.Desktop" Version="4.0.0" />
