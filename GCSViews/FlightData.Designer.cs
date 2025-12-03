@@ -1928,12 +1928,11 @@ namespace MissionPlanner.GCSViews
             resources.GetString("Mode_clb.Items2"),
             resources.GetString("Mode_clb.Items3")});
             this.Mode_clb.Name = "Mode_clb";
-            // 
+            //
             // tabStatus
-            // 
+            //
             resources.ApplyResources(this.tabStatus, "tabStatus");
             this.tabStatus.Name = "tabStatus";
-            this.tabStatus.Paint += new System.Windows.Forms.PaintEventHandler(this.tabStatus_Paint);
             // 
             // tabServo
             // 

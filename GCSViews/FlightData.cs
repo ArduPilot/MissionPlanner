@@ -249,6 +249,9 @@ namespace MissionPlanner.GCSViews
         // Themed tab strip to replace the TabControl
         private Controls.ThemedTabStrip _themedTabStrip;
 
+        // Status tab control
+        private Controls.StatusControl _statusControl;
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -256,6 +259,11 @@ namespace MissionPlanner.GCSViews
             InitializeComponent();
 
             log.Info("Components Done");
+
+            // Initialize and add StatusControl to tabStatus BEFORE replacing with ThemedTabStrip
+            _statusControl = new Controls.StatusControl();
+            _statusControl.Dock = DockStyle.Fill;
+            tabStatus.Controls.Add(_statusControl);
 
             // Replace TabControl with ThemedTabStrip
             ReplaceTabControlWithThemedTabStrip();
@@ -5923,13 +5931,15 @@ namespace MissionPlanner.GCSViews
 
             if (_themedTabStrip.SelectedTab == tabStatus)
             {
-                _themedTabStrip.Visible = false;
-                tabStatus.Visible = false;
-                tabStatus_Resize(sender, e);
-                tabStatus.Visible = true;
-                _themedTabStrip.Visible = true;
+                _statusControl.Start();
+                _statusControl.ApplyTheme();
             }
-            else if (_themedTabStrip.SelectedTab == tabPagemessages)
+            else
+            {
+                _statusControl.Stop();
+            }
+
+            if (_themedTabStrip.SelectedTab == tabPagemessages)
             {
                 Messagetabtimer.Start();
             }
@@ -6246,13 +6256,7 @@ namespace MissionPlanner.GCSViews
 
                     if (_themedTabStrip.SelectedTab == tabStatus)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(
-                            bindingSourceStatusTab.UpdateDataSource(MainV2.comPort.MAV.cs));
-                        // Invalidate the wrapper panel (stored in Tag) instead of the TabPage
-                        if (tabStatus.Tag is Control wrapper)
-                            wrapper.Invalidate();
-                        else
-                            this.tabStatus.Invalidate();
+                        // StatusControl handles its own updates via timer
                     }
                     else if (_themedTabStrip.SelectedTab == tabQuick)
                     {
@@ -6821,95 +6825,6 @@ namespace MissionPlanner.GCSViews
         private void hud1_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void tabStatus_Paint(object sender, PaintEventArgs e)
-        {
-            // sender could be tabStatus or the wrapper Panel from ThemedTabStrip
-            var control = sender as Control ?? tabStatus;
-
-            int width = control.ClientSize.Width;
-            int height = control.ClientSize.Height;
-
-            if (width <= 0 || height <= 0)
-                return;
-
-            // Enable double buffering
-            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-                                                         | BindingFlags.Instance | BindingFlags.NonPublic, null,
-                control, new object[] { true });
-
-            var list = MainV2.comPort.MAV.cs.GetItemList(true);
-            var cs = bindingSourceStatusTab.Current as CurrentState;
-
-            // Calculate layout - fill columns then wrap to next column
-            int columnWidth = 200;
-            int rowHeight = 15;
-            int padding = 10;
-            // Use the visible client area height, accounting for horizontal scrollbar if present
-            int scrollBarHeight = SystemInformation.HorizontalScrollBarHeight;
-            int availableHeight = height - scrollBarHeight;
-            // Calculate how many rows fit in the available height
-            int rowsPerColumn = Math.Max(1, (availableHeight - padding * 2) / rowHeight);
-            int maxY = padding + (rowsPerColumn * rowHeight);
-
-            int x = padding;
-            int y = padding;
-            int maxX = x;
-
-            // First pass: calculate total width needed
-            foreach (var field in list)
-            {
-                if (y + rowHeight > maxY)
-                {
-                    x += columnWidth;
-                    y = padding;
-                }
-                y += rowHeight;
-                maxX = Math.Max(maxX, x + columnWidth);
-            }
-
-            int totalWidth = maxX + padding;
-            int totalHeight = maxY + padding;
-
-            // Set auto scroll size for both directions
-            if (control is ScrollableControl scrollable)
-            {
-                scrollable.AutoScrollMinSize = new Size(totalWidth, totalHeight);
-                e.Graphics.TranslateTransform(scrollable.AutoScrollPosition.X,
-                    scrollable.AutoScrollPosition.Y);
-            }
-
-            // Clear background
-            e.Graphics.Clear(control.BackColor);
-
-            // Second pass: draw
-            x = padding;
-            y = padding;
-
-            using (var br = new SolidBrush(control.ForeColor))
-            {
-                foreach (var field in list)
-                {
-                    if (y + rowHeight > maxY)
-                    {
-                        x += columnWidth;
-                        y = padding;
-                    }
-
-                    e.Graphics.DrawString(field, this.Font, br, new RectangleF(x, y, 120, rowHeight));
-
-                    if (cs != null)
-                    {
-                        var prop = typeof(CurrentState).GetProperty(field);
-                        if (prop != null)
-                            e.Graphics.DrawString(prop.GetValue(cs)?.ToString(), this.Font,
-                                br, new RectangleF(x + 120, y, 50, rowHeight));
-                    }
-
-                    y += rowHeight;
-                }
-            }
         }
 
         private void gMapControl1_MouseUp(object sender, MouseEventArgs e)
