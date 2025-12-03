@@ -524,9 +524,6 @@ namespace MissionPlanner.GCSViews
                     _map3D.Activate();
                     btn3DMap.Text = "2D Map";
 
-                    // Bring overlay controls to front of 3D map
-                    lbl_hdop.BringToFront();
-                    lbl_sats.BringToFront();
                     btn3DMap.BringToFront();
                     // Hide tools, propagation, and double-click checkbox on 3D map
                     btnTools.Visible = false;
@@ -552,9 +549,6 @@ namespace MissionPlanner.GCSViews
                     _map3D.Activate();
                     btn3DMap.Text = "2D Map";
 
-                    // Bring overlay controls to front of 3D map
-                    lbl_hdop.BringToFront();
-                    lbl_sats.BringToFront();
                     btn3DMap.BringToFront();
                     // Hide tools, propagation, and double-click checkbox on 3D map
                     btnTools.Visible = false;
