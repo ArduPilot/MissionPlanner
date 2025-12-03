@@ -594,6 +594,12 @@ namespace MissionPlanner.GCSViews
                 hud1.Dock = DockStyle.Fill;
             }
 
+            // Apply default QuickView settings if no config exists (must happen before setQuickViewRowsCols)
+            if (!Settings.Instance.ContainsKey("quickView1"))
+            {
+                ApplyDefaultQuickViewSettings();
+            }
+
             if (Settings.Instance.ContainsKey("quickViewRows"))
             {
                 setQuickViewRowsCols(Settings.Instance["quickViewCols"], Settings.Instance["quickViewRows"]);
@@ -604,10 +610,10 @@ namespace MissionPlanner.GCSViews
                 setQuickViewRowsCols("5", "3");
             }
 
-            // Apply default QuickView settings if no config exists
-            if (!Settings.Instance.ContainsKey("quickView1"))
+            // If we loaded from CSV, convert position-based settings to control-name-based settings
+            if (Settings.Instance["quickViewPos_0_0"] != null)
             {
-                ApplyDefaultQuickViewSettings();
+                ApplyDefaultQuickViewSettingsToControls();
             }
 
             for (int f = 1; f < 30; f++)
@@ -5162,7 +5168,7 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// Apply default QuickView settings for fresh installs from embedded CSV resource.
         /// CSV format is a visual grid where each row is a row in the dashboard.
-        /// Cell format: field|color|label|scale (color/label/scale are optional)
+        /// CSV format: each row is a dashboard row, each cell is field|color|label|scale
         /// Lines starting with # are comments.
         /// </summary>
         private void ApplyDefaultQuickViewSettings()
@@ -5182,8 +5188,9 @@ namespace MissionPlanner.GCSViews
                     {
                         int rowIndex = 0;
                         int maxCols = 0;
-                        int itemIndex = 1;
+                        var csvData = new List<string[]>();
 
+                        // First pass: read all data and determine dimensions
                         while (!reader.EndOfStream)
                         {
                             var line = reader.ReadLine();
@@ -5194,47 +5201,89 @@ namespace MissionPlanner.GCSViews
 
                             var cells = line.Split(',');
                             maxCols = Math.Max(maxCols, cells.Length);
-
-                            for (int col = 0; col < cells.Length; col++)
-                            {
-                                var cell = cells[col].Trim();
-                                if (string.IsNullOrEmpty(cell))
-                                {
-                                    itemIndex++;
-                                    continue;
-                                }
-
-                                // Parse cell: field|color|label|scale
-                                var parts = cell.Split('|');
-                                string field = parts[0];
-                                string color = parts.Length > 1 ? parts[1] : null;
-                                string label = parts.Length > 2 ? parts[2] : null;
-                                string scale = parts.Length > 3 ? parts[3] : null;
-
-                                string key = "quickView" + itemIndex;
-                                Settings.Instance[key] = field;
-
-                                if (!string.IsNullOrEmpty(color))
-                                    Settings.Instance[key + "_color"] = color;
-                                if (!string.IsNullOrEmpty(label))
-                                    Settings.Instance[key + "_label"] = label;
-                                if (!string.IsNullOrEmpty(scale))
-                                    Settings.Instance[key + "_scale"] = scale;
-
-                                itemIndex++;
-                            }
-
+                            csvData.Add(cells);
                             rowIndex++;
                         }
 
                         Settings.Instance["quickViewCols"] = maxCols.ToString();
                         Settings.Instance["quickViewRows"] = rowIndex.ToString();
+
+                        // Store settings using row_col keys for position-based lookup
+                        for (int row = 0; row < csvData.Count; row++)
+                        {
+                            var cells = csvData[row];
+                            for (int col = 0; col < cells.Length; col++)
+                            {
+                                var cell = cells[col].Trim();
+                                if (string.IsNullOrEmpty(cell))
+                                    continue;
+
+                                // Parse cell: field|color|label|scale
+                                var parts = cell.Split('|');
+                                string field = parts[0].Trim();
+                                string color = parts.Length > 1 ? parts[1].Trim() : null;
+                                string label = parts.Length > 2 ? parts[2].Trim() : null;
+                                string scale = parts.Length > 3 ? parts[3].Trim() : null;
+
+                                // Use position-based key: quickViewPos_row_col
+                                string posKey = "quickViewPos_" + row + "_" + col;
+                                Settings.Instance[posKey] = field;
+
+                                if (!string.IsNullOrWhiteSpace(color))
+                                    Settings.Instance[posKey + "_color"] = color;
+                                if (!string.IsNullOrWhiteSpace(label))
+                                    Settings.Instance[posKey + "_label"] = label;
+                                if (!string.IsNullOrWhiteSpace(scale))
+                                    Settings.Instance[posKey + "_scale"] = scale;
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 log.Error("Error loading default QuickView settings", ex);
+            }
+        }
+
+        /// <summary>
+        /// Apply position-based default settings to QuickView controls after they are created.
+        /// </summary>
+        private void ApplyDefaultQuickViewSettingsToControls()
+        {
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView QV)
+                {
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(QV);
+                    string posKey = "quickViewPos_" + pos.Row + "_" + pos.Column;
+
+                    if (Settings.Instance[posKey] != null)
+                    {
+                        string field = Settings.Instance[posKey];
+
+                        // Copy position-based settings to control-name-based settings
+                        Settings.Instance[QV.Name] = field;
+
+                        string color = Settings.Instance[posKey + "_color"];
+                        if (!string.IsNullOrWhiteSpace(color))
+                            Settings.Instance[QV.Name + "_color"] = color;
+
+                        string label = Settings.Instance[posKey + "_label"];
+                        if (!string.IsNullOrWhiteSpace(label))
+                            Settings.Instance[QV.Name + "_label"] = label;
+
+                        string scale = Settings.Instance[posKey + "_scale"];
+                        if (!string.IsNullOrWhiteSpace(scale))
+                            Settings.Instance[QV.Name + "_scale"] = scale;
+
+                        // Clean up position-based keys
+                        Settings.Instance.Remove(posKey);
+                        Settings.Instance.Remove(posKey + "_color");
+                        Settings.Instance.Remove(posKey + "_label");
+                        Settings.Instance.Remove(posKey + "_scale");
+                    }
+                }
             }
         }
 
