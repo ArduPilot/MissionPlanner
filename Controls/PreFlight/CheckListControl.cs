@@ -258,6 +258,10 @@ namespace MissionPlanner.Controls.PreFlight
 
         public void Controls_Resize(object sender, EventArgs e)
         {
+            // Guard against empty lists
+            if (groupboxes.Count == 0 || descLabels.Count == 0 || labels.Count == 0 || checkboxes.Count == 0)
+                return;
+
             //initialize controls x and y
             int gbsX = 0;
             int gbsY = 0;
