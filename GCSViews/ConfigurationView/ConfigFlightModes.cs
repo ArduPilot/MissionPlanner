@@ -46,28 +46,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 InitializeComponent();
 
-                // Add "Flight Modes" header at the top - shift all existing controls down by 1 row
+                // Set table margin to 32px top and left
+                tableLayoutPanel1.Margin = new Padding(32, 32, 0, 0);
+                tableLayoutPanel1.Location = new System.Drawing.Point(32, 32);
+                tableLayoutPanel1.AutoSize = true;
+                tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                // Add "Flight Modes" header and PWM row at the top - shift all existing controls down by 2 rows
                 foreach (Control ctrl in tableLayoutPanel1.Controls)
                 {
                     int currentRow = tableLayoutPanel1.GetRow(ctrl);
-                    tableLayoutPanel1.SetRow(ctrl, currentRow + 1);
+                    tableLayoutPanel1.SetRow(ctrl, currentRow + 2);
                 }
-                tableLayoutPanel1.RowCount++;
+                tableLayoutPanel1.RowCount += 2;
 
+                // Row 0: Flight Modes header
                 var flightModesHeader = new Label
                 {
                     Text = "Flight Modes",
                     Font = new System.Drawing.Font(this.Font.FontFamily, 10, System.Drawing.FontStyle.Bold),
-                    AutoSize = true,
-                    Padding = new System.Windows.Forms.Padding(0, 0, 0, 0)
+                    AutoSize = true
                 };
                 tableLayoutPanel1.Controls.Add(flightModesHeader, 0, 0);
                 tableLayoutPanel1.SetColumnSpan(flightModesHeader, 5);
 
-                // Position PWM label next to the header
+                // Row 1: PWM label
                 LBL_flightmodepwm.AutoSize = true;
-                this.Controls.Add(LBL_flightmodepwm);
-                LBL_flightmodepwm.BringToFront();
+                tableLayoutPanel1.Controls.Add(LBL_flightmodepwm, 0, 1);
+                tableLayoutPanel1.SetColumnSpan(LBL_flightmodepwm, 5);
 
                 // Load user-defined params from settings
                 if (Settings.Instance.ContainsKey("FlightModeUserParams"))
