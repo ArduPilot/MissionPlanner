@@ -6048,7 +6048,9 @@ namespace MissionPlanner.GCSViews
 
         private void tabQuick_Resize(object sender, EventArgs e)
         {
-            tableLayoutPanelQuick.Width = tabQuick.Width;
+            // Constrain dashboard to tab size - prevent it from ever going wider
+            tableLayoutPanelQuick.MaximumSize = new Size(tabQuick.ClientSize.Width, tabQuick.ClientSize.Height);
+            tableLayoutPanelQuick.Size = tabQuick.ClientSize;
             tableLayoutPanelQuick.AutoScroll = false;
         }
 
