@@ -5796,6 +5796,7 @@ namespace MissionPlanner.GCSViews
                         return;
 
                     new QuickViewOptions(qv).ShowDialog();
+                    Activate(); // Update new settings
                 }
             }
         }
