@@ -34,6 +34,11 @@ namespace MissionPlanner.Controls
         public double gaugeMin = 0;
         public double gaugeMax = 100;
 
+        // Blink state for out-of-range values
+        private Timer _blinkTimer;
+        private bool _blinkVisible = true;
+        private bool _isOutOfRange = false;
+
         [System.ComponentModel.Browsable(true)]
         public double number
         {
@@ -83,6 +88,15 @@ namespace MissionPlanner.Controls
             PaintSurface+= OnPaintSurface;
 
             DoubleBuffered = true;
+
+            // Initialize blink timer (2Hz = 250ms interval for on/off cycle)
+            _blinkTimer = new Timer();
+            _blinkTimer.Interval = 250;
+            _blinkTimer.Tick += (s, e) =>
+            {
+                _blinkVisible = !_blinkVisible;
+                Invalidate();
+            };
         }
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e2)
@@ -91,13 +105,25 @@ namespace MissionPlanner.Controls
             var canvas = e2.Surface.Canvas;
             canvas.Clear();
 
-            // Calculate description area - fixed height based on font
-            Size descExtent = e.MeasureString(desc, this.Font).ToSize();
+            // Calculate description font size that fits the available width
+            float descFontSize = this.Font.Size;
+            Size descExtent;
+            Font descFont = this.Font;
+
+            // Scale down description font if it doesn't fit
+            descExtent = e.MeasureString(desc, descFont).ToSize();
+            while (descExtent.Width > this.Width * 0.95f && descFontSize > 6)
+            {
+                descFontSize -= 1;
+                descFont = new Font(this.Font.FontFamily, descFontSize, this.Font.Style);
+                descExtent = e.MeasureString(desc, descFont).ToSize();
+            }
+
             int descHeight = descExtent.Height + 10; // 5px padding top and bottom
 
             // Draw description centered at top
             var descMid = descExtent.Width / 2;
-            e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - descMid, 5);
+            e.DrawString(desc, descFont, new SolidBrush(this.ForeColor), this.Width / 2 - descMid, 5);
 
             // Calculate available space for content (below description)
             int contentAreaTop = descHeight;
@@ -186,48 +212,56 @@ namespace MissionPlanner.Controls
 
         private void DrawGauge(SkiaSharp.SKCanvas canvas, SkiaGraphics e, int contentAreaTop, int contentAreaHeight, double value, string formattedValue)
         {
-            // 8px padding on sides and bottom, top is anchored 8px below label
+            // Check if value is out of range and manage blink timer
+            bool outOfRange = value < gaugeMin || value > gaugeMax;
+            if (outOfRange != _isOutOfRange)
+            {
+                _isOutOfRange = outOfRange;
+                if (outOfRange)
+                {
+                    _blinkVisible = true;
+                    _blinkTimer.Start();
+                }
+                else
+                {
+                    _blinkTimer.Stop();
+                    _blinkVisible = true;
+                }
+            }
+
+            // 8px padding on all sides
             float padding = 8;
-            float valueGap = 12; // Gap between arc center and value text
             float availableWidth = this.Width - padding * 2;
+            float availableHeight = contentAreaHeight - padding * 2;
 
-            // Top of gauge area starts 8px below the label
-            float gaugeTop = contentAreaTop + padding;
-            // Bottom of gauge area is 8px from view bottom
-            float gaugeBottom = this.Height - padding;
-            float totalGaugeHeight = gaugeBottom - gaugeTop;
+            // For 270-degree arc: the arc spans from 135° (bottom-left) to 405° (bottom-right)
+            // The gap is at the bottom (45° on each side)
+            // Height needed = radius + radius * sin(45°) = radius * (1 + 0.707) ≈ 1.707 * radius
+            // Width needed = 2 * radius
 
-            // Estimate value text height to reserve space below the arc
-            float estimatedValueFontSize = Math.Max(12, totalGaugeHeight * 0.15f);
-            float valueTextHeight = estimatedValueFontSize * 1.4f;
-
-            // The gauge content height = arc (radius) + valueGap + valueTextHeight
-            // We need to fit this within totalGaugeHeight
-            // Arc area height is what's left after value text and gap
-            float arcAreaHeight = totalGaugeHeight - valueTextHeight - valueGap;
-
-            // The arc should be a half-circle, so radius is constrained by both width and height
-            // For a half-circle: height = radius, width = 2*radius
-            float arcRadius = Math.Min(availableWidth / 2, arcAreaHeight);
-
-            // Total content height (arc + gap + value text)
-            float totalContentHeight = arcRadius + valueGap + valueTextHeight;
-
-            // Center the content vertically within the gauge area
-            float verticalOffset = (totalGaugeHeight - totalContentHeight) / 2;
+            // Calculate radius that fits in available space
+            float radiusFromWidth = availableWidth / 2;
+            float radiusFromHeight = availableHeight / 1.707f;
+            float arcRadius = Math.Min(radiusFromWidth, radiusFromHeight);
 
             float centerX = this.Width / 2;
-            float centerY = gaugeTop + verticalOffset + arcRadius;
+            // Position center so the arc is vertically centered in available space
+            // The arc extends from -radius (top) to radius * sin(45°) ≈ 0.707 * radius (bottom)
+            float arcTopExtent = arcRadius;
+            float arcBottomExtent = arcRadius * 0.707f;
+            float totalArcHeight = arcTopExtent + arcBottomExtent;
+            float centerY = contentAreaTop + padding + arcTopExtent + (availableHeight - totalArcHeight) / 2;
 
-            // Clamp value to min/max range
+            // Clamp value to min/max range for arc drawing
             double clampedValue = Math.Max(gaugeMin, Math.Min(gaugeMax, value));
 
-            // Calculate needle angle (180 degrees = left to right, 0 = min, 180 = max)
+            // Calculate sweep angle (270 degrees total, starting from 135°)
             double range = gaugeMax - gaugeMin;
             double normalizedValue = range > 0 ? (clampedValue - gaugeMin) / range : 0;
-            float needleAngle = (float)(180 - normalizedValue * 180); // 180 = left (min), 0 = right (max)
 
             float arcStrokeWidth = Math.Max(6, arcRadius * 0.12f);
+            float startAngle = 135; // Bottom-left (45° below horizontal)
+            float totalSweep = 270; // 270 degrees
 
             // Draw arc background (gray track)
             using (var arcPaint = new SkiaSharp.SKPaint())
@@ -246,7 +280,7 @@ namespace MissionPlanner.Controls
 
                 using (var path = new SkiaSharp.SKPath())
                 {
-                    path.AddArc(arcRect, 180, 180);
+                    path.AddArc(arcRect, startAngle, totalSweep);
                     canvas.DrawPath(path, arcPaint);
                 }
             }
@@ -266,15 +300,15 @@ namespace MissionPlanner.Controls
                     centerX + arcRadius,
                     centerY + arcRadius);
 
-                float sweepAngle = (float)(normalizedValue * 180);
+                float sweepAngle = (float)(normalizedValue * totalSweep);
                 using (var path = new SkiaSharp.SKPath())
                 {
-                    path.AddArc(arcRect, 180, sweepAngle);
+                    path.AddArc(arcRect, startAngle, sweepAngle);
                     canvas.DrawPath(path, valuePaint);
                 }
             }
 
-            // Draw 20 tick marks along the arc (on top of the dial) with major and minor ticks
+            // Draw tick marks along the 270-degree arc
             using (var tickPaint = new SkiaSharp.SKPaint())
             {
                 tickPaint.Style = SkiaSharp.SKPaintStyle.Stroke;
@@ -285,8 +319,9 @@ namespace MissionPlanner.Controls
 
                 for (int i = 0; i <= 20; i++)
                 {
-                    float tickAngle = 180 - (i * 180f / 20); // From 180 (left) to 0 (right)
-                    float angleRad = (float)(tickAngle * Math.PI / 180);
+                    // Map tick position to angle: 0 = 135° (min), 20 = 405° (max)
+                    float tickAngle = startAngle + (i * totalSweep / 20);
+                    float angleRad = tickAngle * (float)Math.PI / 180;
 
                     // Major ticks at 0, 5, 10, 15, 20 (every 5th) - longer and thicker
                     bool isMajor = (i % 5 == 0);
@@ -295,67 +330,36 @@ namespace MissionPlanner.Controls
 
                     float tickInnerRadius = tickOuterRadius - tickLength;
 
-                    float outerX = centerX + (float)(tickOuterRadius * Math.Cos(angleRad));
-                    float outerY = centerY - (float)(tickOuterRadius * Math.Sin(angleRad));
-                    float innerX = centerX + (float)(tickInnerRadius * Math.Cos(angleRad));
-                    float innerY = centerY - (float)(tickInnerRadius * Math.Sin(angleRad));
+                    float outerX = centerX + tickOuterRadius * (float)Math.Cos(angleRad);
+                    float outerY = centerY + tickOuterRadius * (float)Math.Sin(angleRad);
+                    float innerX = centerX + tickInnerRadius * (float)Math.Cos(angleRad);
+                    float innerY = centerY + tickInnerRadius * (float)Math.Sin(angleRad);
 
                     canvas.DrawLine(innerX, innerY, outerX, outerY, tickPaint);
                 }
             }
 
-            // Draw needle
-            using (var needlePaint = new SkiaSharp.SKPaint())
+            // Draw value centered in the middle of the arc - blinks when out of range
+            // Scale font to fit within the inner arc area
+            float maxValueWidth = arcRadius * 1.4f; // Allow value to span most of the inner circle
+            float valueFontSize = Math.Max(12, arcRadius * 0.40f);
+            Font valueFont = new Font(this.Font.FontFamily, valueFontSize, this.Font.Style);
+            Size extent = e.MeasureString(formattedValue, valueFont).ToSize();
+
+            // Scale down if value doesn't fit
+            while (extent.Width > maxValueWidth && valueFontSize > 8)
             {
-                needlePaint.Style = SkiaSharp.SKPaintStyle.Stroke;
-                needlePaint.StrokeWidth = 3;
-                needlePaint.Color = new SkiaSharp.SKColor(numberColor.R, numberColor.G, numberColor.B);
-                needlePaint.IsAntialias = true;
-                needlePaint.StrokeCap = SkiaSharp.SKStrokeCap.Round;
-
-                float needleLength = arcRadius * 0.75f;
-                float angleRad = (float)(needleAngle * Math.PI / 180);
-                float needleEndX = centerX + (float)(needleLength * Math.Cos(angleRad));
-                float needleEndY = centerY - (float)(needleLength * Math.Sin(angleRad));
-
-                canvas.DrawLine(centerX, centerY, needleEndX, needleEndY, needlePaint);
-
-                // Draw center dot
-                needlePaint.Style = SkiaSharp.SKPaintStyle.Fill;
-                canvas.DrawCircle(centerX, centerY, 5, needlePaint);
+                valueFontSize -= 1;
+                valueFont = new Font(this.Font.FontFamily, valueFontSize, this.Font.Style);
+                extent = e.MeasureString(formattedValue, valueFont).ToSize();
             }
 
-            // Draw min/max labels at arc endpoints
-            using (var labelPaint = new SkiaSharp.SKPaint())
+            float x = centerX - extent.Width / 2;
+            // Position value slightly above center to give more visual padding
+            float y = centerY - extent.Height / 2 - arcRadius * 0.05f;
+
+            if (_blinkVisible)
             {
-                labelPaint.Color = new SkiaSharp.SKColor(ForeColor.R, ForeColor.G, ForeColor.B);
-                labelPaint.IsAntialias = true;
-                labelPaint.TextSize = Math.Max(10, arcRadius * 0.18f);
-
-                string minLabel = gaugeMin.ToString("0.#");
-                string maxLabel = gaugeMax.ToString("0.#");
-
-                float labelY = centerY + labelPaint.TextSize + 6; // 6px padding from arc bottom
-
-                // Min label (left side, hugging the arc endpoint)
-                float minX = centerX - arcRadius - 3;
-                canvas.DrawText(minLabel, minX, labelY, labelPaint);
-
-                // Max label (right side, hugging the arc endpoint)
-                float maxLabelWidth = labelPaint.MeasureText(maxLabel);
-                float maxX = centerX + arcRadius - maxLabelWidth + 3;
-                canvas.DrawText(maxLabel, maxX, labelY, labelPaint);
-            }
-
-            // Draw value below the arc, centered horizontally
-            float valueFontSize = Math.Max(12, arcRadius * 0.35f);
-
-            using (var valueFont = new Font(this.Font.FontFamily, valueFontSize, this.Font.Style))
-            {
-                Size extent = e.MeasureString(formattedValue, valueFont).ToSize();
-                float x = centerX - extent.Width / 2;
-                // Position value below the center point with 4px gap
-                float y = centerY + valueGap;
                 e.DrawString(formattedValue, valueFont, new SolidBrush(this.numberColor), x, y);
             }
         }
