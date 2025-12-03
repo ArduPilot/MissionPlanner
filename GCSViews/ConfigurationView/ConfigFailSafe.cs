@@ -3,7 +3,6 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -121,20 +120,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void lbl_armed_Paint(object sender, PaintEventArgs e)
-        {
-            lbl_armed.SuspendLayout();
-            if (lbl_armed.Text == "True")
-            {
-                lbl_armed.Text = "Armed";
-            }
-            else if (lbl_armed.Text == "False")
-            {
-                lbl_armed.Text = "Disarmed";
-            }
-            lbl_armed.ResumeLayout();
-        }
-
         private void lbl_gpslock_Paint(object sender, PaintEventArgs e)
         {
             var _gpsfix = 0;
@@ -170,25 +155,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             lbl_gpslock.ResumeLayout();
         }
 
-        private void lbl_currentmode_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (MainV2.comPort.MAV.param.ContainsKey("FS_THR_VALUE"))
-                {
-                    if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["FS_THR_VALUE"])
-                    {
-                        lbl_currentmode.ForeColor = Color.Red;
-                    }
-                    else
-                    {
-                        lbl_currentmode.ForeColor = Color.White;
-                    }
-                }
-            }
-            catch
-            {
-            }
-        }
     }
 }
