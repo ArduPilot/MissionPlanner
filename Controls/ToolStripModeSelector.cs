@@ -25,6 +25,9 @@ namespace MissionPlanner.Controls
         private Timer _updateTimer;
         private const string PinnedSettingsKey = "ModeSelectorPinned";
         private const string FavoritesSettingsKey = "ModeSelectorFavorites";
+        private int _visiblePinnedCount = 0;
+        private int _idealWidth = 0;
+        private MenuStrip _parentMenuStrip = null;
 
         /// <summary>
         /// Gets the current mode text displayed.
@@ -83,8 +86,103 @@ namespace MissionPlanner.Controls
 
         public override Size GetPreferredSize(Size constrainingSize)
         {
-            UpdateContainerWidth();
             return new Size(_container.Width, _container.Height);
+        }
+
+        protected override void OnOwnerChanged(EventArgs e)
+        {
+            base.OnOwnerChanged(e);
+
+            // Unsubscribe from old parent
+            if (_parentMenuStrip != null)
+            {
+                _parentMenuStrip.Resize -= ParentMenuStrip_Resize;
+            }
+
+            // Subscribe to new parent's resize
+            _parentMenuStrip = Owner as MenuStrip;
+            if (_parentMenuStrip != null)
+            {
+                _parentMenuStrip.Resize += ParentMenuStrip_Resize;
+            }
+        }
+
+        private void ParentMenuStrip_Resize(object sender, EventArgs e)
+        {
+            if (!this.Visible || _parentMenuStrip == null)
+                return;
+
+            AdjustWidthToAvailableSpace();
+        }
+
+        /// <summary>
+        /// Calculates available space and adjusts the control width accordingly.
+        /// Progressively hides pinned buttons when space is limited.
+        /// </summary>
+        private void AdjustWidthToAvailableSpace()
+        {
+            if (_parentMenuStrip == null || _modeDropdown == null)
+                return;
+
+            // Calculate space used by other items in the menu strip
+            int otherItemsWidth = 0;
+            foreach (ToolStripItem item in _parentMenuStrip.Items)
+            {
+                if (item != this && item.Visible)
+                {
+                    otherItemsWidth += item.Width + item.Margin.Horizontal;
+                }
+            }
+
+            // Available space for mode selector (with some padding for safety)
+            int availableWidth = _parentMenuStrip.Width - otherItemsWidth - 20;
+
+            // Calculate dropdown width (always shown)
+            int dropdownWidth = Math.Max(MinimumModeWidth, TextRenderer.MeasureText(_modeDropdown.Text, _modeDropdown.Font).Width + 40);
+
+            // Calculate width needed for all pinned buttons
+            var pinnedButtonWidths = new List<int>();
+            foreach (var mode in _pinnedModes)
+            {
+                int btnWidth = TextRenderer.MeasureText(mode, new Font("Segoe UI", 9F)).Width + 40;
+                pinnedButtonWidths.Add(btnWidth);
+            }
+
+            // Determine how many pinned buttons can fit
+            int pinnedWidth = 0;
+            int visiblePinned = 0;
+            int basePadding = 12; // padding around dropdown
+
+            for (int i = 0; i < pinnedButtonWidths.Count; i++)
+            {
+                int testWidth = basePadding + dropdownWidth + pinnedWidth + pinnedButtonWidths[i];
+                if (testWidth <= availableWidth)
+                {
+                    pinnedWidth += pinnedButtonWidths[i];
+                    visiblePinned++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // Only rebuild if visible count changed
+            if (visiblePinned != _visiblePinnedCount)
+            {
+                _visiblePinnedCount = visiblePinned;
+                UpdatePinnedButtons();
+            }
+
+            // Update width
+            int totalWidth = basePadding + dropdownWidth + pinnedWidth;
+            totalWidth = Math.Max(totalWidth, MinimumModeWidth + basePadding);
+
+            if (_container.Width != totalWidth)
+            {
+                _container.Width = totalWidth;
+                this.Size = new Size(totalWidth, _container.Height);
+            }
         }
 
         private bool IsDesignMode()
@@ -203,7 +301,15 @@ namespace MissionPlanner.Controls
         {
             _pinnedPanel.Controls.Clear();
             _pinnedPanel.ColumnStyles.Clear();
-            _pinnedPanel.ColumnCount = _pinnedModes.Count;
+
+            // Determine how many pinned buttons to show
+            // If _visiblePinnedCount is 0 and we haven't calculated yet, show all
+            int maxVisible = _visiblePinnedCount > 0 || _parentMenuStrip != null
+                ? _visiblePinnedCount
+                : _pinnedModes.Count;
+
+            var modesToShow = _pinnedModes.Take(maxVisible).ToList();
+            _pinnedPanel.ColumnCount = modesToShow.Count;
 
             Color textColor, darkBgColor, greenColor;
             try
@@ -225,7 +331,7 @@ namespace MissionPlanner.Controls
             }
 
             int col = 0;
-            foreach (var mode in _pinnedModes)
+            foreach (var mode in modesToShow)
             {
                 string displayName = mode;
                 int btnWidth = TextRenderer.MeasureText(displayName, new Font("Segoe UI", 9F)).Width + 32;
@@ -404,9 +510,16 @@ namespace MissionPlanner.Controls
         {
             this.Visible = isConnected;
 
-            // Reset mode display when disconnected
-            if (!isConnected)
+            if (isConnected)
             {
+                // Recalculate width when becoming visible
+                _visiblePinnedCount = _pinnedModes.Count; // Reset to show all initially
+                UpdatePinnedButtons();
+                AdjustWidthToAvailableSpace();
+            }
+            else
+            {
+                // Reset mode display when disconnected
                 _lastMode = "";
                 _modeDropdown.Text = "---";
                 _modeDropdown.CurrentMode = "";
@@ -429,6 +542,13 @@ namespace MissionPlanner.Controls
             {
                 _updateTimer?.Stop();
                 _updateTimer?.Dispose();
+
+                // Unsubscribe from parent resize
+                if (_parentMenuStrip != null)
+                {
+                    _parentMenuStrip.Resize -= ParentMenuStrip_Resize;
+                    _parentMenuStrip = null;
+                }
             }
             base.Dispose(disposing);
         }
