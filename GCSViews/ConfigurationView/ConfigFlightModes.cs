@@ -4,6 +4,7 @@ using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -24,12 +25,53 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private readonly Timer _timer = new Timer();
         private bool _modeChannelInitializing;
+        private TableLayoutPanel _userParamsPanel;
+
+        // User-defined parameters section
+        public string[] UserParamOptions { get; set; } = new string[]
+        {
+            "RC5_OPTION",
+            "RC6_OPTION",
+            "RC7_OPTION",
+            "RC8_OPTION",
+            "RC9_OPTION",
+            "RC10_OPTION",
+            "RC11_OPTION",
+            "RC12_OPTION"
+        };
 
         public ConfigFlightModes()
         {
             try
             {
                 InitializeComponent();
+
+                // Add "Flight Modes" header at the top - shift all existing controls down by 1 row
+                foreach (Control ctrl in tableLayoutPanel1.Controls)
+                {
+                    int currentRow = tableLayoutPanel1.GetRow(ctrl);
+                    tableLayoutPanel1.SetRow(ctrl, currentRow + 1);
+                }
+                tableLayoutPanel1.RowCount++;
+
+                var flightModesHeader = new Label
+                {
+                    Text = "Flight Modes",
+                    Font = new System.Drawing.Font(this.Font.FontFamily, 10, System.Drawing.FontStyle.Bold),
+                    AutoSize = true,
+                    Padding = new System.Windows.Forms.Padding(0, 0, 0, 0)
+                };
+                tableLayoutPanel1.Controls.Add(flightModesHeader, 0, 0);
+                tableLayoutPanel1.SetColumnSpan(flightModesHeader, 5);
+
+                // Position PWM label next to the header
+                LBL_flightmodepwm.AutoSize = true;
+                this.Controls.Add(LBL_flightmodepwm);
+                LBL_flightmodepwm.BringToFront();
+
+                // Load user-defined params from settings
+                if (Settings.Instance.ContainsKey("FlightModeUserParams"))
+                    UserParamOptions = Settings.Instance["FlightModeUserParams"].Split(',');
             }
             catch (Exception ex)
             {
@@ -233,6 +275,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Start();
 
             SetupModeChannelSelector();
+            LoadUserParams();
         }
 
         public void Deactivate()
@@ -320,14 +363,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         break;
                 }
 
-                if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
-                {
-                    LBL_flightmodepwm.Text = MainV2.comPort.MAV.param["FLTMODE_CH"] + ": " + pwm;
-                }
-                else
-                {
-                    LBL_flightmodepwm.Text = MainV2.comPort.MAV.param["MODE_CH"] + ": " + pwm;
-                }
+                LBL_flightmodepwm.Text = "PWM: " + pwm;
             }
 
             Control[] fmodelist = { CMB_fmode1, CMB_fmode2, CMB_fmode3, CMB_fmode4, CMB_fmode5, CMB_fmode6 };
@@ -529,6 +565,88 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
+        }
+
+        private void LoadUserParams()
+        {
+            // Remove existing panel if present
+            if (_userParamsPanel != null)
+            {
+                this.Controls.Remove(_userParamsPanel);
+                _userParamsPanel.Dispose();
+            }
+
+            // Create user params panel
+            _userParamsPanel = new TableLayoutPanel
+            {
+                ColumnCount = 2,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Padding = new System.Windows.Forms.Padding(0, 10, 0, 0)
+            };
+            _userParamsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            _userParamsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+
+            // Add header/separator
+            var headerLabel = new Label
+            {
+                Text = "RC Options",
+                Font = new System.Drawing.Font(this.Font.FontFamily, 10, System.Drawing.FontStyle.Bold),
+                AutoSize = true,
+                Padding = new System.Windows.Forms.Padding(0, 5, 0, 5)
+            };
+            _userParamsPanel.RowCount++;
+            _userParamsPanel.Controls.Add(headerLabel, 0, _userParamsPanel.RowCount - 1);
+            _userParamsPanel.SetColumnSpan(headerLabel, 2);
+
+            // Add Modify button
+            var modifyButton = new MyButton { Text = "Modify", AutoSize = true };
+            modifyButton.Click += (o, e) =>
+            {
+                var opts = UserParamOptions.Aggregate((a, b) => a + "\r\n" + b);
+                InputBox.Show("Params", "Enter Param Names", ref opts, false, true);
+                UserParamOptions = opts.Split(new[] { ',', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                Settings.Instance["FlightModeUserParams"] = UserParamOptions.Aggregate((a, b) => a.Trim() + "," + b.Trim());
+                LoadUserParams();
+            };
+            _userParamsPanel.RowCount++;
+            _userParamsPanel.Controls.Add(modifyButton, 0, _userParamsPanel.RowCount - 1);
+            _userParamsPanel.SetColumnSpan(modifyButton, 2);
+
+            // Add each user param
+            foreach (var option in UserParamOptions)
+            {
+                if (!MainV2.comPort.MAV.param.ContainsKey(option))
+                    continue;
+
+                _userParamsPanel.RowCount++;
+                var label = new Label { Text = option, AutoSize = true, Anchor = AnchorStyles.Left };
+                _userParamsPanel.Controls.Add(label, 0, _userParamsPanel.RowCount - 1);
+
+                var options = ParameterMetaDataRepository.GetParameterOptionsInt(option, MainV2.comPort.MAV.cs.firmware.ToString());
+                if (options.Count == 0)
+                {
+                    double min = 0, max = 0;
+                    ParameterMetaDataRepository.GetParameterRange(option, ref min, ref max, MainV2.comPort.MAV.cs.firmware.ToString());
+                    var num = new MavlinkNumericUpDown();
+                    num.setup((float)min, (float)max, 1, 1, option, MainV2.comPort.MAV.param);
+                    _userParamsPanel.Controls.Add(num, 1, _userParamsPanel.RowCount - 1);
+                }
+                else
+                {
+                    var cmb = new MavlinkComboBox();
+                    cmb.setup(options, option, MainV2.comPort.MAV.param);
+                    _userParamsPanel.Controls.Add(cmb, 1, _userParamsPanel.RowCount - 1);
+                }
+            }
+
+            // Position the panel below the existing tableLayoutPanel1
+            _userParamsPanel.Location = new System.Drawing.Point(
+                tableLayoutPanel1.Location.X,
+                tableLayoutPanel1.Location.Y + tableLayoutPanel1.Height + 10);
+
+            this.Controls.Add(_userParamsPanel);
+            ThemeManager.ApplyThemeTo(_userParamsPanel);
         }
     }
 }

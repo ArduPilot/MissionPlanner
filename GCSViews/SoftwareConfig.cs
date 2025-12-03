@@ -216,10 +216,6 @@ namespace MissionPlanner.GCSViews
                             }
                         }
 
-                        if (MainV2.DisplayConfiguration.displayUserParam)
-                        {
-                            AddBackstageViewPage(typeof(ConfigUserDefined), Strings.User_Params);
-                        }
                     }
                 }
 

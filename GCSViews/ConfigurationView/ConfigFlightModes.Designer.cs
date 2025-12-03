@@ -36,10 +36,7 @@
             this.CB_simple3 = new System.Windows.Forms.CheckBox();
             this.CB_simple2 = new System.Windows.Forms.CheckBox();
             this.CB_simple1 = new System.Windows.Forms.CheckBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.LBL_flightmodepwm = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.lbl_currentmode = new System.Windows.Forms.Label();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -110,26 +107,10 @@
             this.CB_simple1.Name = "CB_simple1";
             this.CB_simple1.UseVisualStyleBackColor = true;
             // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
             // LBL_flightmodepwm
             // 
             resources.ApplyResources(this.LBL_flightmodepwm, "LBL_flightmodepwm");
             this.LBL_flightmodepwm.Name = "LBL_flightmodepwm";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // lbl_currentmode
-            // 
-            resources.ApplyResources(this.lbl_currentmode, "lbl_currentmode");
-            this.lbl_currentmode.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.currentStateBindingSource, "mode", true));
-            this.lbl_currentmode.Name = "lbl_currentmode";
             // 
             // currentStateBindingSource
             // 
@@ -361,17 +342,12 @@
             // ConfigFlightModes
             // 
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.LBL_flightmodepwm);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.lbl_currentmode);
             this.Name = "ConfigFlightModes";
             resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -383,10 +359,7 @@
         private System.Windows.Forms.CheckBox CB_simple3;
         private System.Windows.Forms.CheckBox CB_simple2;
         private System.Windows.Forms.CheckBox CB_simple1;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label LBL_flightmodepwm;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label lbl_currentmode;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
