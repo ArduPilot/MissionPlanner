@@ -182,11 +182,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             trim1.setup(800, 2200, 1, 1, servo + "_TRIM", MainV2.comPort.MAV.param);
             max1.setup(800, 2200, 1, 1, servo + "_MAX", MainV2.comPort.MAV.param);
 
-            // Enable slider and set initial value if trim parameter exists
+            // Enable slider if trim parameter exists
             if (MainV2.comPort.MAV.param.ContainsKey(servo + "_TRIM"))
             {
                 trimSlider.Enabled = true;
-                trimSlider.Value = (int)trim1.Value;
             }
 
             equidistantCheck.CheckedChanged += (sender, e) =>
@@ -233,9 +232,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     syncingTrimSlider = true;
                     try
                     {
-                        if (trimSlider.Value != (int)trim1.Value)
+                        var newSliderValue = Math.Max(trimSlider.Minimum, Math.Min(trimSlider.Maximum, (int)trim1.Value));
+                        if (trimSlider.Value != newSliderValue)
                         {
-                            trimSlider.Value = (int)trim1.Value;
+                            trimSlider.Value = newSliderValue;
                         }
                     }
                     finally
@@ -270,18 +270,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         syncingTrimSlider = false;
                     }
-                    return;
+                    // Don't return - continue to debounce with the rounded value
                 }
 
-                // Debounce: wait 0.5 seconds before syncing to trim
+                // Debounce: wait 0.3 seconds before syncing to trim
                 if (sliderDebounceTimer != null)
                 {
                     sliderDebounceTimer.Stop();
                     sliderDebounceTimer.Dispose();
+                    sliderDebounceTimer = null;
                 }
 
+                var currentSliderValue = trimSlider.Value;
                 sliderDebounceTimer = new System.Windows.Forms.Timer();
-                sliderDebounceTimer.Interval = 500; // 0.5 seconds
+                sliderDebounceTimer.Interval = 300; // 0.3 seconds
                 sliderDebounceTimer.Tick += (s, args) =>
                 {
                     sliderDebounceTimer.Stop();
@@ -292,9 +294,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     syncingTrimSlider = true;
                     try
                     {
-                        if (trim1.Value != trimSlider.Value)
+                        if (trim1.Value != currentSliderValue)
                         {
-                            trim1.Value = trimSlider.Value;
+                            trim1.Value = currentSliderValue;
                         }
                     }
                     finally
@@ -334,6 +336,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 equidistantCheck.Checked = true;
             }
 
+            // Sync slider with trim value after all setup is complete
+            if (MainV2.comPort.MAV.param.ContainsKey(servo + "_TRIM"))
+            {
+                trimSlider.Value = Math.Max(trimSlider.Minimum, Math.Min(trimSlider.Maximum, (int)trim1.Value));
+            }
+
             initializing = false;
 
             if (equidistantCheck.Checked)
@@ -342,6 +350,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 max1.Enabled = false;
                 minMaxFromTrim1.Visible = true;
             }
+
+            // Subscribe to trim1 value changes that happen after setup (e.g., param refresh)
+            trim1.EnabledChanged += (sender, e) =>
+            {
+                if (trim1.Enabled && !syncingTrimSlider)
+                {
+                    syncingTrimSlider = true;
+                    try
+                    {
+                        var newValue = Math.Max(trimSlider.Minimum, Math.Min(trimSlider.Maximum, (int)trim1.Value));
+                        if (trimSlider.Value != newValue)
+                        {
+                            trimSlider.Value = newValue;
+                        }
+                    }
+                    finally
+                    {
+                        syncingTrimSlider = false;
+                    }
+                }
+            };
         }
 
         private static void ApplyEquidistantRange(string servo, NumericUpDown trim, NumericUpDown min, NumericUpDown max,
