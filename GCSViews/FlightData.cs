@@ -6248,7 +6248,11 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceStatusTab.UpdateDataSource(MainV2.comPort.MAV.cs));
-                        this.tabStatus.Invalidate();
+                        // Invalidate the wrapper panel (stored in Tag) instead of the TabPage
+                        if (tabStatus.Tag is Control wrapper)
+                            wrapper.Invalidate();
+                        else
+                            this.tabStatus.Invalidate();
                     }
                     else if (_themedTabStrip.SelectedTab == tabQuick)
                     {
@@ -6821,46 +6825,91 @@ namespace MissionPlanner.GCSViews
 
         private void tabStatus_Paint(object sender, PaintEventArgs e)
         {
-            var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);
-            var g = Graphics.FromImage(bmp);
-            g.Clear(Color.Transparent);
+            // sender could be tabStatus or the wrapper Panel from ThemedTabStrip
+            var control = sender as Control ?? tabStatus;
 
-            int x = 10;
-            int y = 10;
+            int width = control.ClientSize.Width;
+            int height = control.ClientSize.Height;
+
+            if (width <= 0 || height <= 0)
+                return;
+
+            // Enable double buffering
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                                                         | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                control, new object[] { true });
 
             var list = MainV2.comPort.MAV.cs.GetItemList(true);
             var cs = bindingSourceStatusTab.Current as CurrentState;
-            var br = new SolidBrush(tabStatus.ForeColor);
 
+            // Calculate layout - fill columns then wrap to next column
+            int columnWidth = 200;
+            int rowHeight = 15;
+            int padding = 10;
+            // Use the visible client area height, accounting for horizontal scrollbar if present
+            int scrollBarHeight = SystemInformation.HorizontalScrollBarHeight;
+            int availableHeight = height - scrollBarHeight;
+            // Calculate how many rows fit in the available height
+            int rowsPerColumn = Math.Max(1, (availableHeight - padding * 2) / rowHeight);
+            int maxY = padding + (rowsPerColumn * rowHeight);
+
+            int x = padding;
+            int y = padding;
+            int maxX = x;
+
+            // First pass: calculate total width needed
             foreach (var field in list)
             {
-                g.DrawString(field, this.Font, br, new RectangleF(x, y, 120, 15));
-
-                if (cs != null)
-                    g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
-                        br, new RectangleF(x + 120, y, 50, 15));
-
-                x += 0;
-                y += 15;
-
-                if (y > tabStatus.Height - 30)
+                if (y + rowHeight > maxY)
                 {
-                    x += 190;
-                    y = 10;
+                    x += columnWidth;
+                    y = padding;
+                }
+                y += rowHeight;
+                maxX = Math.Max(maxX, x + columnWidth);
+            }
+
+            int totalWidth = maxX + padding;
+            int totalHeight = maxY + padding;
+
+            // Set auto scroll size for both directions
+            if (control is ScrollableControl scrollable)
+            {
+                scrollable.AutoScrollMinSize = new Size(totalWidth, totalHeight);
+                e.Graphics.TranslateTransform(scrollable.AutoScrollPosition.X,
+                    scrollable.AutoScrollPosition.Y);
+            }
+
+            // Clear background
+            e.Graphics.Clear(control.BackColor);
+
+            // Second pass: draw
+            x = padding;
+            y = padding;
+
+            using (var br = new SolidBrush(control.ForeColor))
+            {
+                foreach (var field in list)
+                {
+                    if (y + rowHeight > maxY)
+                    {
+                        x += columnWidth;
+                        y = padding;
+                    }
+
+                    e.Graphics.DrawString(field, this.Font, br, new RectangleF(x, y, 120, rowHeight));
+
+                    if (cs != null)
+                    {
+                        var prop = typeof(CurrentState).GetProperty(field);
+                        if (prop != null)
+                            e.Graphics.DrawString(prop.GetValue(cs)?.ToString(), this.Font,
+                                br, new RectangleF(x + 120, y, 50, rowHeight));
+                    }
+
+                    y += rowHeight;
                 }
             }
-
-            if (tabStatus.AutoScrollMinSize.Width < x)
-            {
-                typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-                                                             | BindingFlags.Instance | BindingFlags.NonPublic, null,
-                    tabStatus, new object[] { true });
-
-                tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
-            }
-            e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
-                tabStatus.AutoScrollPosition.Y);
-            e.Graphics.DrawImageUnscaled(bmp, 0, 0);
         }
 
         private void gMapControl1_MouseUp(object sender, MouseEventArgs e)
