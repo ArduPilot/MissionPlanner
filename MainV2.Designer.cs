@@ -48,6 +48,7 @@ namespace MissionPlanner
             this.MenuInitConfig = new System.Windows.Forms.ToolStripButton();
             this.MenuConfigTune = new System.Windows.Forms.ToolStripButton();
             this.MenuSimulation = new System.Windows.Forms.ToolStripButton();
+            this.toolStripModeSelector = new MissionPlanner.Controls.ToolStripModeSelector();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
@@ -73,6 +74,7 @@ namespace MissionPlanner
             this.MenuConfigTune,
             this.MenuSimulation,
             this.MenuHelp,
+            this.toolStripModeSelector,
             this.MenuConnect,
             this.toolStripConnectionControl,
             this.MenuArduPilot});
@@ -165,6 +167,13 @@ namespace MissionPlanner
             this.MenuSimulation.Margin = new System.Windows.Forms.Padding(0);
             this.MenuSimulation.Name = "MenuSimulation";
             this.MenuSimulation.Click += new System.EventHandler(this.MenuSimulation_Click);
+            //
+            // toolStripModeSelector
+            //
+            this.toolStripModeSelector.BackColor = System.Drawing.Color.Transparent;
+            this.toolStripModeSelector.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.toolStripModeSelector.Name = "toolStripModeSelector";
+            this.toolStripModeSelector.Size = new System.Drawing.Size(120, 32);
             // 
             // MenuHelp
             // 
@@ -265,5 +274,6 @@ namespace MissionPlanner
         public System.Windows.Forms.ToolStripButton MenuHelp;
         public System.Windows.Forms.ToolStripButton MenuArduPilot;
         public Controls.Status status1;
+        private Controls.ToolStripModeSelector toolStripModeSelector;
     }
 }

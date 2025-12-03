@@ -85,6 +85,76 @@ namespace MissionPlanner.ArduPilot
             };
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        // Acronyms that should stay uppercase in mode names
+        private static readonly HashSet<string> ModeAcronyms = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "RTL", "FBWA", "FBWB", "QRTL", "QLAND", "QLOITER", "QHOVER", "QSTABILIZE", "QACRO", "QAUTOTUNE"
+        };
+
+        /// <summary>
+        /// Formats a mode name to Title Case, preserving known acronyms
+        /// </summary>
+        public static string FormatModeName(string modeName)
+        {
+            if (string.IsNullOrEmpty(modeName))
+                return modeName;
+
+            // Check if it's a known acronym
+            if (ModeAcronyms.Contains(modeName))
+                return modeName.ToUpperInvariant();
+
+            // Handle underscore-separated names (e.g., "POSITION_HOLD" -> "Position Hold")
+            if (modeName.Contains("_"))
+            {
+                var parts = modeName.Split('_');
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    parts[i] = ModeAcronyms.Contains(parts[i])
+                        ? parts[i].ToUpperInvariant()
+                        : ToTitleCase(parts[i]);
+                }
+                return string.Join(" ", parts);
+            }
+
+            // Handle already spaced names
+            if (modeName.Contains(" "))
+            {
+                var parts = modeName.Split(' ');
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    parts[i] = ModeAcronyms.Contains(parts[i])
+                        ? parts[i].ToUpperInvariant()
+                        : ToTitleCase(parts[i]);
+                }
+                return string.Join(" ", parts);
+            }
+
+            // Single word - check if acronym, otherwise title case
+            return ModeAcronyms.Contains(modeName) ? modeName.ToUpperInvariant() : ToTitleCase(modeName);
+        }
+
+        private static string ToTitleCase(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return s;
+            return char.ToUpperInvariant(s[0]) + s.Substring(1).ToLowerInvariant();
+        }
+
+        /// <summary>
+        /// Applies FormatModeName to all modes in a list and sorts alphabetically
+        /// </summary>
+        private static List<KeyValuePair<int, string>> FormatAndSortModes(List<KeyValuePair<int, string>> modes)
+        {
+            if (modes == null)
+                return null;
+
+            return modes
+                .Select(m => new KeyValuePair<int, string>(m.Key, FormatModeName(m.Value)))
+                .OrderBy(m => m.Value)
+                .ToList();
+        }
+
         public static List<KeyValuePair<int, string>> getModesList(Firmwares firmware)
         {
             //log.Info("getModesList Called");
@@ -138,7 +208,7 @@ union px4_custom_mode {
                         (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_LAND << 24, "Auto: Landing")
                 };
 
-                return temp;
+                return FormatAndSortModes(temp);
             }
             else if (firmware == Firmwares.ArduPlane)
             {
@@ -146,25 +216,25 @@ union px4_custom_mode {
                     firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
-                return flightModes;
+                return FormatAndSortModes(flightModes);
             }
             else if (firmware == Firmwares.Ateryx)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
                     firmware.ToString()); //same as apm
-                return flightModes;
+                return FormatAndSortModes(flightModes);
             }
             else if (firmware == Firmwares.ArduCopter2)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
                     firmware.ToString());
-                return flightModes;
+                return FormatAndSortModes(flightModes);
             }
             else if (firmware == Firmwares.ArduRover)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1",
                     firmware.ToString());
-                return flightModes;
+                return FormatAndSortModes(flightModes);
             }
             else if (firmware == Firmwares.ArduTracker)
             {
@@ -176,7 +246,7 @@ union px4_custom_mode {
                 temp.Add(new KeyValuePair<int, string>(10, "AUTO"));
                 temp.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
-                return temp;
+                return FormatAndSortModes(temp);
             }
 
             return null;

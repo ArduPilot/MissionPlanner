@@ -681,6 +681,9 @@
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="toolStripModeSelector.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 58</value>
+  </data>
   <data name="MenuConnect.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAD4AAAAtCAYAAAD2g9hxAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -889,7 +892,7 @@
 </value>
   </data>
   <data name="toolStripConnectionControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 58</value>
+    <value>241, 58</value>
   </data>
   <data name="MenuArduPilot.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -985,7 +988,7 @@
     <value>status1</value>
   </data>
   <data name="&gt;&gt;status1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.9435.20135, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.9468.8704, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;status1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -2754,6 +2757,12 @@
   <data name="&gt;&gt;MenuSimulation.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripModeSelector.Name" xml:space="preserve">
+    <value>toolStripModeSelector</value>
+  </data>
+  <data name="&gt;&gt;toolStripModeSelector.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.ToolStripModeSelector, MissionPlanner, Version=1.3.9468.8704, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;MenuHelp.Name" xml:space="preserve">
     <value>MenuHelp</value>
   </data>
@@ -2770,7 +2779,7 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.9435.20135, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.9468.8704, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MenuArduPilot.Name" xml:space="preserve">
     <value>MenuArduPilot</value>
