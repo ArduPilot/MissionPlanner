@@ -719,6 +719,15 @@ namespace MissionPlanner
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
+            // Configure autohide menu button - thin gray bar with green hover
+            menu.Text = "";
+            menu.Height = 4;
+            menu.Dock = DockStyle.Top;
+            var grayColor = Color.FromArgb(0x55, 0x55, 0x55);
+            menu.BGGradTop = grayColor;
+            menu.BGGradBot = grayColor;
+            menu.Outline = grayColor;
+            menu.ColorMouseOver = Color.FromArgb(100, 0x94, 0xc1, 0x1f); // Semi-transparent green on hover
 
             // define default basestream
             comPort.BaseStream = new SerialPort();

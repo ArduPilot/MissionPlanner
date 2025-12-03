@@ -63,7 +63,7 @@ namespace MissionPlanner.GCSViews
         private Controls.OpenGLtest2 _map3D;
 
         // Double-click fly to here feature
-        private bool _doubleClickFlyToHereEnabled = false;
+        private bool _doubleClickFlyToHereEnabled = true;
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         AviWriter aviwriter;
@@ -478,17 +478,21 @@ namespace MissionPlanner.GCSViews
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
             // Add double-click fly to here checkbox (declare first so it can be referenced in 3D map handler)
+            // Load setting from config (default to true for fresh installs)
+            _doubleClickFlyToHereEnabled = Settings.Instance.GetBoolean("DoubleClickFlyToHere", true);
             var chkDoubleClickFlyToHere = new CheckBox
             {
                 Text = "Double-click Fly to Here",
                 AutoSize = true,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left,
                 BackColor = Color.Transparent,
-                ForeColor = Color.White
+                ForeColor = Color.White,
+                Checked = _doubleClickFlyToHereEnabled
             };
             chkDoubleClickFlyToHere.CheckedChanged += (s, e) =>
             {
                 _doubleClickFlyToHereEnabled = chkDoubleClickFlyToHere.Checked;
+                Settings.Instance["DoubleClickFlyToHere"] = _doubleClickFlyToHereEnabled.ToString();
             };
 
             // Add 3D Map toggle button to the right of Propagation
