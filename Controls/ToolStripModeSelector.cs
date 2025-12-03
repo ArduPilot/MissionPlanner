@@ -19,6 +19,7 @@ namespace MissionPlanner.Controls
         private ModeDropdownButton _modeDropdown;
         private TableLayoutPanel _pinnedPanel;
         private string _lastMode = "";
+        private bool _lastConnectionState = false;
         private List<string> _pinnedModes = new List<string>();
         private List<string> _favoriteModes = new List<string>();
         private Timer _updateTimer;
@@ -65,6 +66,10 @@ namespace MissionPlanner.Controls
 
             if (!IsDesignMode())
             {
+                // Start hidden - will show when vehicle connects
+                this.Visible = false;
+                _lastConnectionState = false;
+
                 LoadSettings();
                 StartUpdateTimer();
             }
@@ -322,24 +327,91 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                string currentMode = MainV2.comPort?.MAV?.cs?.mode ?? "---";
+                // Check connection state
+                bool isConnected = IsVehicleConnected();
 
-                if (currentMode != _lastMode)
+                // Update visibility if connection state changed
+                if (isConnected != _lastConnectionState)
                 {
-                    _lastMode = currentMode;
+                    _lastConnectionState = isConnected;
 
-                    if (_modeDropdown.InvokeRequired)
+                    if (_container.InvokeRequired)
                     {
-                        _modeDropdown.BeginInvoke((Action)(() => UpdateModeDisplay(currentMode)));
+                        _container.BeginInvoke((Action)(() => UpdateVisibility(isConnected)));
                     }
                     else
                     {
-                        UpdateModeDisplay(currentMode);
+                        UpdateVisibility(isConnected);
+                    }
+                }
+
+                // Only update mode display if connected
+                if (isConnected)
+                {
+                    string currentMode = MainV2.comPort?.MAV?.cs?.mode ?? "---";
+
+                    if (currentMode != _lastMode)
+                    {
+                        _lastMode = currentMode;
+
+                        if (_modeDropdown.InvokeRequired)
+                        {
+                            _modeDropdown.BeginInvoke((Action)(() => UpdateModeDisplay(currentMode)));
+                        }
+                        else
+                        {
+                            UpdateModeDisplay(currentMode);
+                        }
                     }
                 }
             }
             catch
             {
+            }
+        }
+
+        /// <summary>
+        /// Checks if a vehicle is currently connected.
+        /// </summary>
+        private bool IsVehicleConnected()
+        {
+            try
+            {
+                // Check if we have an open connection
+                if (MainV2.comPort?.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    return false;
+
+                // Also verify we have valid MAV data (not just serial connection)
+                if (MainV2.comPort.MAV?.cs == null)
+                    return false;
+
+                // Check that we have received heartbeats (sysid > 0 indicates real vehicle)
+                if (MainV2.comPort.MAV.sysid == 0)
+                    return false;
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Updates the visibility of the mode selector based on connection state.
+        /// </summary>
+        private void UpdateVisibility(bool isConnected)
+        {
+            this.Visible = isConnected;
+
+            // Reset mode display when disconnected
+            if (!isConnected)
+            {
+                _lastMode = "";
+                _modeDropdown.Text = "---";
+                _modeDropdown.CurrentMode = "";
+                // Close any open popup when disconnecting
+                _modeDropdown.ClosePopup();
             }
         }
 
@@ -428,6 +500,22 @@ namespace MissionPlanner.Controls
                 _popup.CurrentMode = CurrentMode;
                 _popup.RefreshCurrentMode();
             }
+        }
+
+        /// <summary>
+        /// Closes the popup if it's open (used when disconnecting).
+        /// </summary>
+        public void ClosePopup()
+        {
+            if (_isDropdownOpen && _popup != null && !_popup.IsDisposed)
+            {
+                try
+                {
+                    _popup.Close();
+                }
+                catch { }
+            }
+            _isDropdownOpen = false;
         }
 
         protected override void OnMouseEnter(EventArgs e)
