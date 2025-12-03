@@ -269,7 +269,7 @@ namespace MissionPlanner
 
         [GroupText("Attitude")]
         [DisplayFieldName("yaw.Field")]
-        [DisplayText("Yaw (deg)")]
+        [DisplayText("Heading (deg)")]
         public float yaw
         {
             get => _yaw;
