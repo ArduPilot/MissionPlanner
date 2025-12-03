@@ -4503,9 +4503,21 @@ namespace MissionPlanner.GCSViews
                                                             "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "Heading: " + pllau.Heading.ToString("0") + "°" +
                                                             (pllau.IsOnGround ? " (On Ground)" : "") + "\n";
-                                    // Add distance
+                                    // Add distance and altitude delta
                                     if (MainV2.comPort.MAV.cs.Location.Lat != 0 && MainV2.comPort.MAV.cs.Location.Lng != 0)
-                                        adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
+                                    {
+                                        double distanceM = pllau.GetDistance(MainV2.comPort.MAV.cs.Location);
+                                        string distanceStr;
+                                        if (distanceM >= 1000)
+                                            distanceStr = (distanceM / 1000).ToString("0.#") + " km";
+                                        else
+                                            distanceStr = (distanceM * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
+                                        adsbplane.ToolTipText += "\n" + "Distance: " + distanceStr;
+                                        // Altitude delta (ADSB plane alt - my alt), positive means ADSB plane is above
+                                        double altDelta = (pllau.Alt - MainV2.comPort.MAV.cs.alt) * CurrentState.multiplieralt;
+                                        string altDeltaStr = (altDelta >= 0 ? "+" : "") + altDelta.ToString("0");
+                                        adsbplane.ToolTipText += "\n" + "Alt Delta: " + altDeltaStr + " " + CurrentState.AltUnit;
+                                    }
                                     // Add collision threat level
                                     if (pllau.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
                                         adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger");
