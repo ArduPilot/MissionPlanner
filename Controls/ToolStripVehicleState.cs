@@ -20,9 +20,17 @@ namespace MissionPlanner.Controls
         private ArmIndicatorButton _armButton;
         private ModeDropdownButton _modeDropdown;
         private TableLayoutPanel _pinnedPanel;
+        private Panel _gpsPanel;
+        private PictureBox _gpsIcon;
+        private Label _gpsSatsLabel;
+        private Label _gpsDopLabel;
         private string _lastMode = "";
         private bool _lastArmedState = false;
         private bool _lastConnectionState = false;
+        private float _lastSatCount = -1;
+        private float _lastGpsStatus = -1;
+        private float _lastHdop = -1;
+        private float _lastVdop = -1;
         private List<string> _pinnedModes = new List<string>();
         private List<string> _favoriteModes = new List<string>();
         private Timer _updateTimer;
@@ -145,6 +153,15 @@ namespace MissionPlanner.Controls
             // Calculate dropdown width (always shown)
             int dropdownWidth = Math.Max(MinimumModeWidth, TextRenderer.MeasureText(_modeDropdown.Text, _modeDropdown.Font).Width + 24);
 
+            // Calculate GPS panel width (always shown)
+            int gpsWidth = 32; // icon width + margin
+            if (_gpsSatsLabel != null && _gpsDopLabel != null)
+            {
+                int satsWidth = TextRenderer.MeasureText(_gpsSatsLabel.Text, _gpsSatsLabel.Font).Width;
+                int dopWidth = TextRenderer.MeasureText(_gpsDopLabel.Text, _gpsDopLabel.Font).Width;
+                gpsWidth += Math.Max(satsWidth, dopWidth) + 8;
+            }
+
             // Calculate width needed for all pinned buttons
             var pinnedButtonWidths = new List<int>();
             foreach (var mode in _pinnedModes)
@@ -160,7 +177,7 @@ namespace MissionPlanner.Controls
 
             for (int i = 0; i < pinnedButtonWidths.Count; i++)
             {
-                int testWidth = basePadding + armWidth + dropdownWidth + pinnedWidth + pinnedButtonWidths[i];
+                int testWidth = basePadding + armWidth + dropdownWidth + pinnedWidth + pinnedButtonWidths[i] + gpsWidth;
                 if (testWidth <= availableWidth)
                 {
                     pinnedWidth += pinnedButtonWidths[i];
@@ -180,7 +197,7 @@ namespace MissionPlanner.Controls
             }
 
             // Update width
-            int totalWidth = basePadding + armWidth + dropdownWidth + pinnedWidth;
+            int totalWidth = basePadding + armWidth + dropdownWidth + pinnedWidth + gpsWidth;
             totalWidth = Math.Max(totalWidth, 180);
 
             if (_container.Width != totalWidth)
@@ -201,7 +218,7 @@ namespace MissionPlanner.Controls
             var table = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 3,
+                ColumnCount = 4,
                 RowCount = 1,
                 BackColor = Color.Transparent,
                 Margin = new Padding(0),
@@ -210,6 +227,7 @@ namespace MissionPlanner.Controls
             table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Arm button
             table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Dropdown
             table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Pinned buttons
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // GPS status
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
             // Arm/Disarm button
@@ -245,9 +263,82 @@ namespace MissionPlanner.Controls
             };
             _pinnedPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
+            // GPS status panel
+            _gpsPanel = new Panel
+            {
+                AutoSize = true,
+                BackColor = Color.Transparent,
+                Margin = new Padding(8, 0, 0, 0),
+                Padding = new Padding(0)
+            };
+
+            // GPS icon
+            _gpsIcon = new PictureBox
+            {
+                Width = 28,
+                Height = 28,
+                Location = new Point(0, 2),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                BackColor = Color.Transparent
+            };
+
+            // Try to load GPS icon
+            try
+            {
+                _gpsIcon.Image = MissionPlanner.Properties.Resources.gps;
+            }
+            catch
+            {
+                // Icon not found
+            }
+
+            Color textColor;
+            try
+            {
+                textColor = ThemeManager.TextColor;
+            }
+            catch
+            {
+                textColor = Color.White;
+            }
+
+            // Top label: Sats: X: <fix type>
+            _gpsSatsLabel = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 8F),
+                ForeColor = textColor,
+                BackColor = Color.Transparent,
+                Text = "Sats: --: ---",
+                Location = new Point(32, 0),
+                Margin = new Padding(0),
+                Padding = new Padding(0)
+            };
+
+            // Bottom label: H: <hdop> | V: <vdop>
+            _gpsDopLabel = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 8F),
+                ForeColor = textColor,
+                BackColor = Color.Transparent,
+                Text = "H: -- | V: --",
+                Location = new Point(32, 16),
+                Margin = new Padding(0),
+                Padding = new Padding(0)
+            };
+
+            _gpsPanel.Controls.Add(_gpsIcon);
+            _gpsPanel.Controls.Add(_gpsSatsLabel);
+            _gpsPanel.Controls.Add(_gpsDopLabel);
+
+            // Set initial GPS panel width
+            _gpsPanel.Width = 120;
+
             table.Controls.Add(_armButton, 0, 0);
             table.Controls.Add(_modeDropdown, 1, 0);
             table.Controls.Add(_pinnedPanel, 2, 0);
+            table.Controls.Add(_gpsPanel, 3, 0);
             _container.Controls.Add(table);
         }
 
@@ -457,7 +548,7 @@ namespace MissionPlanner.Controls
 
         private void UpdateContainerWidth()
         {
-            if (_armButton == null || _modeDropdown == null || _pinnedPanel == null)
+            if (_armButton == null || _modeDropdown == null || _pinnedPanel == null || _gpsPanel == null)
                 return;
 
             int armWidth = TextRenderer.MeasureText(_armButton.Text, _armButton.Font).Width + 24;
@@ -473,8 +564,18 @@ namespace MissionPlanner.Controls
                     pinnedWidth += (int)cs.Width;
             }
 
+            // Calculate GPS panel width based on label content
+            int gpsWidth = 32; // icon width + margin
+            if (_gpsSatsLabel != null && _gpsDopLabel != null)
+            {
+                int satsWidth = TextRenderer.MeasureText(_gpsSatsLabel.Text, _gpsSatsLabel.Font).Width;
+                int dopWidth = TextRenderer.MeasureText(_gpsDopLabel.Text, _gpsDopLabel.Font).Width;
+                gpsWidth += Math.Max(satsWidth, dopWidth) + 8; // margin for GPS panel
+            }
+            _gpsPanel.Width = gpsWidth;
+
             int padding = 8; // table padding
-            int totalWidth = padding + armWidth + dropdownWidth + pinnedWidth + 8;
+            int totalWidth = padding + armWidth + dropdownWidth + pinnedWidth + gpsWidth + 8;
 
             _container.Width = totalWidth;
             this.Size = new Size(totalWidth, _container.Height);
@@ -544,8 +645,10 @@ namespace MissionPlanner.Controls
                 // Only update state if connected
                 if (isConnected)
                 {
+                    var cs = MainV2.comPort?.MAV?.cs;
+
                     // Update arm state
-                    bool isArmed = MainV2.comPort?.MAV?.cs?.armed ?? false;
+                    bool isArmed = cs?.armed ?? false;
                     if (isArmed != _lastArmedState)
                     {
                         _lastArmedState = isArmed;
@@ -565,7 +668,7 @@ namespace MissionPlanner.Controls
                     }
 
                     // Update mode
-                    string currentMode = MainV2.comPort?.MAV?.cs?.mode ?? "---";
+                    string currentMode = cs?.mode ?? "---";
 
                     if (currentMode != _lastMode)
                     {
@@ -578,6 +681,33 @@ namespace MissionPlanner.Controls
                         else
                         {
                             UpdateModeDisplay(currentMode);
+                        }
+                    }
+
+                    // Update GPS status
+                    if (cs != null)
+                    {
+                        float satCount = cs.satcount;
+                        float gpsStatus = cs.gpsstatus;
+                        float hdop = cs.gpshdop;
+                        float vdop = cs.gpsvdop;
+
+                        if (satCount != _lastSatCount || gpsStatus != _lastGpsStatus ||
+                            hdop != _lastHdop || vdop != _lastVdop)
+                        {
+                            _lastSatCount = satCount;
+                            _lastGpsStatus = gpsStatus;
+                            _lastHdop = hdop;
+                            _lastVdop = vdop;
+
+                            if (_gpsSatsLabel.InvokeRequired)
+                            {
+                                _gpsSatsLabel.BeginInvoke((Action)(() => UpdateGpsDisplay(satCount, gpsStatus, hdop, vdop)));
+                            }
+                            else
+                            {
+                                UpdateGpsDisplay(satCount, gpsStatus, hdop, vdop);
+                            }
                         }
                     }
                 }
@@ -638,9 +768,17 @@ namespace MissionPlanner.Controls
                 // Reset state when disconnected
                 _lastMode = "";
                 _lastArmedState = false;
+                _lastSatCount = -1;
+                _lastGpsStatus = -1;
+                _lastHdop = -1;
+                _lastVdop = -1;
                 _modeDropdown.Text = "---";
                 _modeDropdown.CurrentMode = "";
                 UpdateArmButtonAppearance(false);
+                // Reset GPS display
+                _gpsSatsLabel.Text = "Sats: --: ---";
+                _gpsDopLabel.Text = "H: -- | V: --";
+                try { _gpsSatsLabel.ForeColor = ThemeManager.TextColor; } catch { _gpsSatsLabel.ForeColor = Color.White; }
                 // Close any open popup when disconnecting
                 _modeDropdown.ClosePopup();
             }
@@ -652,6 +790,54 @@ namespace MissionPlanner.Controls
             _modeDropdown.CurrentMode = mode; // Keep original for comparison
             _modeDropdown.RefreshPopupIfOpen();
             UpdateContainerWidth();
+        }
+
+        private void UpdateGpsDisplay(float satCount, float gpsStatus, float hdop, float vdop)
+        {
+            string fixType = GetFixTypeString((int)gpsStatus);
+            _gpsSatsLabel.Text = $"Sats: {satCount:0}: {fixType}";
+            _gpsDopLabel.Text = $"H: {hdop:0.0} | V: {vdop:0.0}";
+
+            // Update label color based on fix quality
+            _gpsSatsLabel.ForeColor = GetFixColor((int)gpsStatus);
+
+            UpdateContainerWidth();
+        }
+
+        private string GetFixTypeString(int fixType)
+        {
+            switch (fixType)
+            {
+                case 0: return "No GPS";
+                case 1: return "No Fix";
+                case 2: return "2D Fix";
+                case 3: return "3D Fix";
+                case 4: return "DGPS";
+                case 5: return "RTK Float";
+                case 6: return "RTK Fixed";
+                default: return fixType.ToString();
+            }
+        }
+
+        private Color GetFixColor(int fixType)
+        {
+            switch (fixType)
+            {
+                case 0:
+                case 1:
+                    return Color.Red;
+                case 2:
+                    return Color.Orange;
+                case 3:
+                case 4:
+                    try { return ThemeManager.TextColor; } catch { return Color.White; }
+                case 5:
+                    return Color.FromArgb(0, 200, 255); // Cyan for RTK Float
+                case 6:
+                    return Color.FromArgb(0, 255, 100); // Green for RTK Fixed
+                default:
+                    try { return ThemeManager.TextColor; } catch { return Color.White; }
+            }
         }
 
         protected override void Dispose(bool disposing)
