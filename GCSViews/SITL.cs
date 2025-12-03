@@ -127,16 +127,20 @@ namespace MissionPlanner.GCSViews
 
         public void Activate()
         {
+            // Default to Woodley location
             if(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat == 0 && MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng == 0)
-                homemarker.Position = new PointLatLng(-35.3633515, 149.1652412);
+                homemarker.Position = new PointLatLng(34.174424, -118.480992);
             else
                 homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
 
             myGMAP1.Position = homemarker.Position;
 
+            // Set default heading to 324
+            NUM_heading.Value = 324;
+
             myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
             myGMAP1.MaxZoom = 22;
-            myGMAP1.Zoom = 16;
+            myGMAP1.Zoom = 17;
             myGMAP1.DisableFocusOnMouseEnter = true;
 
             markeroverlay = new GMapOverlay("markers");
@@ -237,10 +241,10 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
+        string BuildHomeLocation(PointLatLng homelocation, int heading = 0, int altitude = 10)
         {
             return String.Format("{0},{1},{2},{3}", homelocation.Lat.ToString(CultureInfo.InvariantCulture), homelocation.Lng.ToString(CultureInfo.InvariantCulture),
-                srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
+                altitude.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
         }
 
         [DllImport("libc", SetLastError = true)]
