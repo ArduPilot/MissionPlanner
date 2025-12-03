@@ -6026,8 +6026,9 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                         bindingSourceHud.UpdateDataSource(MainV2.comPort.MAV.cs));
                 }
-                //if the tab detached wi have to update it
-                if (tabQuickDetached) MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
+                //if the tab is undocked we have to update it
+                if (_undockedQuickForm != null && !_undockedQuickForm.IsDisposed)
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
 
                 lastscreenupdate = DateTime.UtcNow;
             }
@@ -6663,48 +6664,90 @@ namespace MissionPlanner.GCSViews
             hud1.displayCellVoltage = true;
             hud1.batterycellcount = iCellCount;
         }
-        private bool tabQuickDetached = false;
         private bool tuningwasrightclick;
+
+        private Form _undockedQuickForm = null;
 
         private void undockDockToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // If already undocked, just bring the existing window to front
+            if (_undockedQuickForm != null && !_undockedQuickForm.IsDisposed)
+            {
+                _undockedQuickForm.BringToFront();
+                return;
+            }
 
             Form dropout = new Form();
-            TabControl tab = new TabControl();
             dropout.FormBorderStyle = FormBorderStyle.Sizable;
             dropout.ShowInTaskbar = false;
             dropout.TopMost = true;
             dropout.Size = new Size(300, 450);
-            tabQuickDetached = true;
-            tab.Appearance = TabAppearance.FlatButtons;
-            tab.ItemSize = new Size(0, 0);
-            tab.SizeMode = TabSizeMode.Fixed;
-            tab.Size = new Size(dropout.ClientSize.Width, dropout.ClientSize.Height + 22);
-            tab.Location = new Point(0, -22);
+            dropout.Text = "Quick";
+            dropout.BackColor = ThemeManager.BGColor;
+            dropout.Icon = this.ParentForm?.Icon;
 
-            tab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            // Create a TableLayoutPanel to hold copies of QuickViews
+            var tableLayout = new TableLayoutPanel();
+            tableLayout.Dock = DockStyle.Fill;
+            tableLayout.BackColor = ThemeManager.BGColor;
+            tableLayout.ColumnCount = tableLayoutPanelQuick.ColumnCount;
+            tableLayout.RowCount = tableLayoutPanelQuick.RowCount;
 
-            dropout.Text = "Flight DATA";
-            // Note: For undocking, we need to work with the content panel
-            // This is a complex operation with ThemedTabStrip - for now, hide the button
-            tab.Controls.Add(tabQuick);
-            tabQuick.BorderStyle = BorderStyle.Fixed3D;
+            // Copy column and row styles
+            tableLayout.ColumnStyles.Clear();
+            foreach (ColumnStyle cs in tableLayoutPanelQuick.ColumnStyles)
+                tableLayout.ColumnStyles.Add(new ColumnStyle(cs.SizeType, cs.Width));
+
+            tableLayout.RowStyles.Clear();
+            foreach (RowStyle rs in tableLayoutPanelQuick.RowStyles)
+                tableLayout.RowStyles.Add(new RowStyle(rs.SizeType, rs.Height));
+
+            // Create QuickView copies that share the same data binding
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView originalQV)
+                {
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(originalQV);
+
+                    var copyQV = new QuickView();
+                    copyQV.Name = originalQV.Name + "_copy";
+                    copyQV.desc = originalQV.desc;
+                    copyQV.numberformat = originalQV.numberformat;
+                    copyQV.numberColor = originalQV.numberColor;
+                    copyQV.numberColorBackup = originalQV.numberColorBackup;
+                    copyQV.charWidth = originalQV.charWidth;
+                    copyQV.scale = originalQV.scale;
+                    copyQV.offset = originalQV.offset;
+                    copyQV.Dock = DockStyle.Fill;
+                    copyQV.Tag = originalQV.Tag;
+
+                    // Bind to the same data source
+                    if (originalQV.Tag != null)
+                    {
+                        try
+                        {
+                            var b = new Binding("number", bindingSourceQuickTab, (string)originalQV.Tag, true);
+                            copyQV.DataBindings.Add(b);
+                        }
+                        catch { }
+                    }
+
+                    tableLayout.Controls.Add(copyQV, pos.Column, pos.Row);
+                }
+            }
+
+            dropout.Controls.Add(tableLayout);
             dropout.FormClosed += dropoutQuick_FormClosed;
-            dropout.Controls.Add(tab);
             dropout.RestoreStartupLocation();
             dropout.Show();
-            tabQuickDetached = true;
-            (sender as ToolStripMenuItem).Visible = false;
+
+            _undockedQuickForm = dropout;
         }
 
         void dropoutQuick_FormClosed(object sender, FormClosedEventArgs e)
         {
             (sender as Form).SaveStartupLocation();
-            // Re-add the tab when form closes
-            _themedTabStrip.AddTab(tabQuick);
-            _themedTabStrip.SelectTabByTabPage(tabQuick);
-            tabQuickDetached = false;
-            contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
+            _undockedQuickForm = null;
         }
 
         private void IDENT_btn_Click(object sender, EventArgs e)

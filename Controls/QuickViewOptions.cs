@@ -19,6 +19,7 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
             _qv = qv;
+            this.Icon = qv.FindForm()?.Icon;
         }
 
         List<Tuple<string, string>> all_fields = new List<Tuple<string, string>>();

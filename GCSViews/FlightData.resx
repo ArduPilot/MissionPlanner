@@ -334,7 +334,7 @@
     <value>154, 22</value>
   </data>
   <data name="undockToolStripMenuItem.Text" xml:space="preserve">
-    <value>Undock</value>
+    <value>Pop Out</value>
   </data>
   <data name="contextMenuStripQuickView.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 48</value>
