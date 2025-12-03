@@ -40,6 +40,11 @@ namespace MissionPlanner.GCSViews
             this.contextMenuStripQuickView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setViewCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorMove = new System.Windows.Forms.ToolStripSeparator();
+            this.moveLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
             this.quickView5 = new MissionPlanner.Controls.QuickView();
             this.quickView4 = new MissionPlanner.Controls.QuickView();
@@ -673,24 +678,63 @@ namespace MissionPlanner.GCSViews
             this.quickView6.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // contextMenuStripQuickView
-            // 
+            //
             this.contextMenuStripQuickView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.setViewCountToolStripMenuItem,
-            this.undockToolStripMenuItem});
+            this.undockToolStripMenuItem,
+            this.toolStripSeparatorMove,
+            this.moveLeftToolStripMenuItem,
+            this.moveRightToolStripMenuItem,
+            this.moveUpToolStripMenuItem,
+            this.moveDownToolStripMenuItem});
             this.contextMenuStripQuickView.Name = "contextMenuStripQuickView";
             resources.ApplyResources(this.contextMenuStripQuickView, "contextMenuStripQuickView");
-            // 
+            this.contextMenuStripQuickView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripQuickView_Opening);
+            //
             // setViewCountToolStripMenuItem
-            // 
+            //
             this.setViewCountToolStripMenuItem.Name = "setViewCountToolStripMenuItem";
             resources.ApplyResources(this.setViewCountToolStripMenuItem, "setViewCountToolStripMenuItem");
             this.setViewCountToolStripMenuItem.Click += new System.EventHandler(this.setViewCountToolStripMenuItem_Click);
-            // 
+            //
             // undockToolStripMenuItem
-            // 
+            //
             this.undockToolStripMenuItem.Name = "undockToolStripMenuItem";
             resources.ApplyResources(this.undockToolStripMenuItem, "undockToolStripMenuItem");
             this.undockToolStripMenuItem.Click += new System.EventHandler(this.undockDockToolStripMenuItem_Click);
+            //
+            // toolStripSeparatorMove
+            //
+            this.toolStripSeparatorMove.Name = "toolStripSeparatorMove";
+            resources.ApplyResources(this.toolStripSeparatorMove, "toolStripSeparatorMove");
+            //
+            // moveLeftToolStripMenuItem
+            //
+            this.moveLeftToolStripMenuItem.Name = "moveLeftToolStripMenuItem";
+            this.moveLeftToolStripMenuItem.Text = "Move Left";
+            resources.ApplyResources(this.moveLeftToolStripMenuItem, "moveLeftToolStripMenuItem");
+            this.moveLeftToolStripMenuItem.Click += new System.EventHandler(this.moveLeftToolStripMenuItem_Click);
+            //
+            // moveRightToolStripMenuItem
+            //
+            this.moveRightToolStripMenuItem.Name = "moveRightToolStripMenuItem";
+            this.moveRightToolStripMenuItem.Text = "Move Right";
+            resources.ApplyResources(this.moveRightToolStripMenuItem, "moveRightToolStripMenuItem");
+            this.moveRightToolStripMenuItem.Click += new System.EventHandler(this.moveRightToolStripMenuItem_Click);
+            //
+            // moveUpToolStripMenuItem
+            //
+            this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
+            this.moveUpToolStripMenuItem.Text = "Move Up";
+            resources.ApplyResources(this.moveUpToolStripMenuItem, "moveUpToolStripMenuItem");
+            this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.moveUpToolStripMenuItem_Click);
+            //
+            // moveDownToolStripMenuItem
+            //
+            this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
+            this.moveDownToolStripMenuItem.Text = "Move Down";
+            resources.ApplyResources(this.moveDownToolStripMenuItem, "moveDownToolStripMenuItem");
+            this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
             // 
             // bindingSourceQuickTab
             // 
@@ -3364,6 +3408,11 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem setBatteryCellCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undockToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorMove;
+        private System.Windows.Forms.ToolStripMenuItem moveLeftToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveRightToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveDownToolStripMenuItem;
         private System.Windows.Forms.Button ALT_btn;
         private System.Windows.Forms.Button STBY_btn;
         private System.Windows.Forms.Button ON_btn;

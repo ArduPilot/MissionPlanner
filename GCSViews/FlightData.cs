@@ -172,6 +172,12 @@ namespace MissionPlanner.GCSViews
         //works well for dark background
         Color[] colorsForDefaultQuickView = new Color[] { Color.Blue, Color.Yellow, Color.Pink, Color.LimeGreen, Color.Orange, Color.Aqua, Color.LightCoral, Color.LightSteelBlue, Color.DarkKhaki, Color.LightYellow, Color.Violet, Color.YellowGreen, Color.OrangeRed, Color.Tomato, Color.Teal, Color.CornflowerBlue };
 
+        // Drag and drop for QuickView rearrangement
+        private QuickView _draggedQuickView = null;
+        private Point _dragStartPoint;
+        private Form _dragPreviewForm = null;
+        private System.Windows.Forms.Timer _dragPreviewTimer = null;
+
         Thread thisthread;
 
         int tickStart;
@@ -649,6 +655,9 @@ namespace MissionPlanner.GCSViews
             }
 
             CheckBatteryShow();
+
+            // Enable drag and drop for all existing QuickView controls
+            EnableQuickViewDragDrop();
 
             // make sure the hud user items/warnings/checklist are using the current state
             HUD.Custom.src = MainV2.comPort.MAV.cs;
@@ -5254,6 +5263,13 @@ namespace MissionPlanner.GCSViews
                 QV.numberColorBackup = QV.numberColor;
                 QV.number = 0;
 
+                // Enable drag and drop for rearranging
+                QV.AllowDrop = true;
+                QV.MouseDown += QuickView_MouseDown;
+                QV.MouseMove += QuickView_MouseMove;
+                QV.DragEnter += QuickView_DragEnter;
+                QV.DragDrop += QuickView_DragDrop;
+
                 tableLayoutPanelQuick.Controls.Add(QV);
                 QV.Invalidate();
             }
@@ -5320,6 +5336,298 @@ namespace MissionPlanner.GCSViews
                 }
             }
         }
+
+        #region QuickView Drag and Drop / Move
+
+        // Form that allows mouse events to pass through (click-through)
+        private class DragPreviewForm : Form
+        {
+            protected override CreateParams CreateParams
+            {
+                get
+                {
+                    const int WS_EX_TRANSPARENT = 0x20;
+                    const int WS_EX_LAYERED = 0x80000;
+                    CreateParams cp = base.CreateParams;
+                    cp.ExStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
+                    return cp;
+                }
+            }
+        }
+
+        private void EnableQuickViewDragDrop()
+        {
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    qv.AllowDrop = true;
+                    qv.MouseDown -= QuickView_MouseDown;
+                    qv.MouseMove -= QuickView_MouseMove;
+                    qv.DragEnter -= QuickView_DragEnter;
+                    qv.DragDrop -= QuickView_DragDrop;
+                    qv.MouseDown += QuickView_MouseDown;
+                    qv.MouseMove += QuickView_MouseMove;
+                    qv.DragEnter += QuickView_DragEnter;
+                    qv.DragDrop += QuickView_DragDrop;
+                }
+            }
+        }
+
+        private void QuickView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                _draggedQuickView = sender as QuickView;
+                _dragStartPoint = e.Location;
+            }
+        }
+
+        private void QuickView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            if (_draggedQuickView != null && e.Button == MouseButtons.Left)
+            {
+                // Check if we've moved far enough to start a drag
+                if (Math.Abs(e.X - _dragStartPoint.X) > 10 || Math.Abs(e.Y - _dragStartPoint.Y) > 10)
+                {
+                    // Create visual preview that follows cursor
+                    CreateDragPreview(_draggedQuickView);
+
+                    _draggedQuickView.DoDragDrop(_draggedQuickView, DragDropEffects.Move);
+
+                    // Clean up preview after drag ends
+                    DisposeDragPreview();
+                    _draggedQuickView = null;
+                }
+            }
+        }
+
+        private void CreateDragPreview(QuickView source)
+        {
+            if (_dragPreviewForm != null)
+                return;
+
+            _dragPreviewForm = new DragPreviewForm
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                ShowInTaskbar = false,
+                TopMost = true,
+                Size = source.Size,
+                Opacity = 0.7,
+                StartPosition = FormStartPosition.Manual,
+                BackColor = source.BackColor
+            };
+
+            // Take a bitmap snapshot of the QuickView
+            using (Bitmap bmp = new Bitmap(source.Width, source.Height))
+            {
+                source.DrawToBitmap(bmp, new Rectangle(0, 0, source.Width, source.Height));
+                _dragPreviewForm.BackgroundImage = new Bitmap(bmp);
+                _dragPreviewForm.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+
+            // Position at cursor
+            var cursorPos = Cursor.Position;
+            _dragPreviewForm.Location = new Point(cursorPos.X - source.Width / 2, cursorPos.Y - source.Height / 2);
+            _dragPreviewForm.Show();
+
+            // Use a timer to update position during drag
+            _dragPreviewTimer = new System.Windows.Forms.Timer();
+            _dragPreviewTimer.Interval = 16; // ~60fps
+            _dragPreviewTimer.Tick += DragPreviewTimer_Tick;
+            _dragPreviewTimer.Start();
+        }
+
+        private void DragPreviewTimer_Tick(object sender, EventArgs e)
+        {
+            if (_dragPreviewForm != null && !_dragPreviewForm.IsDisposed)
+            {
+                var cursorPos = Cursor.Position;
+                _dragPreviewForm.Location = new Point(
+                    cursorPos.X - _dragPreviewForm.Width / 2,
+                    cursorPos.Y - _dragPreviewForm.Height / 2);
+            }
+        }
+
+        private void DisposeDragPreview()
+        {
+            if (_dragPreviewTimer != null)
+            {
+                _dragPreviewTimer.Stop();
+                _dragPreviewTimer.Tick -= DragPreviewTimer_Tick;
+                _dragPreviewTimer.Dispose();
+                _dragPreviewTimer = null;
+            }
+
+            if (_dragPreviewForm != null)
+            {
+                if (_dragPreviewForm.BackgroundImage != null)
+                {
+                    _dragPreviewForm.BackgroundImage.Dispose();
+                    _dragPreviewForm.BackgroundImage = null;
+                }
+                _dragPreviewForm.Close();
+                _dragPreviewForm.Dispose();
+                _dragPreviewForm = null;
+            }
+        }
+
+        private void QuickView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            if (e.Data.GetDataPresent(typeof(QuickView)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void QuickView_DragDrop(object sender, DragEventArgs e)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            var targetQV = sender as QuickView;
+            var sourceQV = e.Data.GetData(typeof(QuickView)) as QuickView;
+
+            if (targetQV == null || sourceQV == null || targetQV == sourceQV)
+                return;
+
+            SwapQuickViews(sourceQV, targetQV);
+        }
+
+        private void SwapQuickViews(QuickView source, QuickView target)
+        {
+            // Get positions in the table layout
+            var sourcePos = tableLayoutPanelQuick.GetPositionFromControl(source);
+            var targetPos = tableLayoutPanelQuick.GetPositionFromControl(target);
+
+            // Swap positions in the table
+            tableLayoutPanelQuick.SuspendLayout();
+            tableLayoutPanelQuick.SetCellPosition(source, targetPos);
+            tableLayoutPanelQuick.SetCellPosition(target, sourcePos);
+            tableLayoutPanelQuick.ResumeLayout(true);
+
+            // Save the new arrangement
+            SaveQuickViewArrangement();
+        }
+
+        private void MoveQuickView(QuickView qv, int colDelta, int rowDelta)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            var currentPos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+            int newCol = currentPos.Column + colDelta;
+            int newRow = currentPos.Row + rowDelta;
+
+            // Bounds check
+            if (newCol < 0 || newCol >= tableLayoutPanelQuick.ColumnCount ||
+                newRow < 0 || newRow >= tableLayoutPanelQuick.RowCount)
+                return;
+
+            // Find the control at the target position
+            var targetControl = tableLayoutPanelQuick.GetControlFromPosition(newCol, newRow);
+            if (targetControl is QuickView targetQV)
+            {
+                SwapQuickViews(qv, targetQV);
+            }
+        }
+
+        private void SaveQuickViewArrangement()
+        {
+            // Save each QuickView's position based on its cell position
+            // The arrangement is saved by storing which property is at which position
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                    int index = pos.Row * tableLayoutPanelQuick.ColumnCount + pos.Column + 1;
+                    string settingName = "quickView" + index;
+
+                    // Save the property this QuickView displays
+                    if (qv.Tag != null)
+                    {
+                        Settings.Instance[settingName] = qv.Tag.ToString();
+                    }
+
+                    // Update the control's name to match its new position
+                    qv.Name = settingName;
+                }
+            }
+        }
+
+        private void moveLeftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    MoveQuickView(qv, -1, 0);
+                }
+            }
+        }
+
+        private void moveRightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    MoveQuickView(qv, 1, 0);
+                }
+            }
+        }
+
+        private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    MoveQuickView(qv, 0, -1);
+                }
+            }
+        }
+
+        private void moveDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    MoveQuickView(qv, 0, 1);
+                }
+            }
+        }
+
+        private void contextMenuStripQuickView_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (sender is ContextMenuStrip menu && menu.SourceControl is QuickView qv)
+            {
+                var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+
+                // Enable/disable move options based on position
+                moveLeftToolStripMenuItem.Enabled = pos.Column > 0;
+                moveRightToolStripMenuItem.Enabled = pos.Column < tableLayoutPanelQuick.ColumnCount - 1;
+                moveUpToolStripMenuItem.Enabled = pos.Row > 0;
+                moveDownToolStripMenuItem.Enabled = pos.Row < tableLayoutPanelQuick.RowCount - 1;
+            }
+        }
+
+        #endregion
 
         private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
