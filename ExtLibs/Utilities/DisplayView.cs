@@ -151,7 +151,7 @@ namespace MissionPlanner.Utilities
             displayPreFlightTab = true;
             displayAdvActionsTab = false;
             displaySimpleActionsTab = true;
-            displayGaugesTab = true;
+            displayGaugesTab = false;
             displayStatusTab = false;
             displayServoTab = false;
             displayScriptsTab = false;
@@ -288,7 +288,7 @@ namespace MissionPlanner.Utilities
                 displayPreFlightTab = true,
                 displayAdvActionsTab = false,
                 displaySimpleActionsTab = true,
-                displayGaugesTab = true,
+                displayGaugesTab = false,
                 displayStatusTab = false,
                 displayServoTab = false,
                 displayScriptsTab = false,
@@ -379,7 +379,7 @@ namespace MissionPlanner.Utilities
                 displayPreFlightTab = true,
                 displayAdvActionsTab = true,
                 displaySimpleActionsTab = false,
-                displayGaugesTab = true,
+                displayGaugesTab = false,
                 displayStatusTab = true,
                 displayServoTab = true,
                 displayScriptsTab = true,
