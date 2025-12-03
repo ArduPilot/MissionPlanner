@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -52,6 +55,49 @@ namespace MissionPlanner.Controls
             this.Height = 24;
 
             this.SetStyle(ControlStyles.UserPaint, false);
+
+            // Apply theme colors
+            ApplyTheme();
+        }
+
+        /// <summary>
+        /// Sets up autocomplete with a custom list of suggestions.
+        /// Note: Autocomplete requires Multiline to be false.
+        /// </summary>
+        public void SetAutoCompleteSource(IEnumerable<string> items)
+        {
+            // Autocomplete doesn't work with multiline textboxes
+            // We need to disable multiline but preserve the height
+            int currentHeight = this.Height;
+            this.Multiline = false;
+            this.Height = currentHeight;
+
+            var collection = new AutoCompleteStringCollection();
+            collection.AddRange(items.ToArray());
+
+            this.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            this.AutoCompleteCustomSource = collection;
+        }
+
+        /// <summary>
+        /// Disables autocomplete
+        /// </summary>
+        public void DisableAutoComplete()
+        {
+            this.AutoCompleteMode = AutoCompleteMode.None;
+            this.AutoCompleteSource = AutoCompleteSource.None;
+        }
+
+        /// <summary>
+        /// Applies theme colors to the textbox
+        /// </summary>
+        public void ApplyTheme()
+        {
+            this.BackColor = ThemeManager.ControlBGColor;
+            this.ForeColor = ThemeManager.TextColor;
+            _placeholderColor = Color.FromArgb(128, ThemeManager.TextColor);
+            Invalidate();
         }
 
         protected override void OnHandleCreated(EventArgs e)
