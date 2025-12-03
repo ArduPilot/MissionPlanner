@@ -258,18 +258,18 @@ namespace MissionPlanner
 
         // orientation - rads
         [DisplayFieldName("roll.Field")]
-        [DisplayText("Roll (deg)")]
+        [DisplayText("Roll (°)")]
         [GroupText("Attitude")]
         public float roll { get; set; }
 
         [GroupText("Attitude")]
         [DisplayFieldName("pitch.Field")]
-        [DisplayText("Pitch (deg)")]
+        [DisplayText("Pitch (°)")]
         public float pitch { get; set; }
 
         [GroupText("Attitude")]
         [DisplayFieldName("yaw.Field")]
-        [DisplayText("Heading (deg)")]
+        [DisplayText("Heading (°)")]
         public float yaw
         {
             get => _yaw;
@@ -284,17 +284,17 @@ namespace MissionPlanner
 
         [GroupText("Attitude")]
         [DisplayFieldName("SSA.Field")]
-        [DisplayText("SSA (deg)")]
+        [DisplayText("SSA (°)")]
         public float SSA { get; set; }
 
         [GroupText("Attitude")]
         [DisplayFieldName("AOA.Field")]
-        [DisplayText("AOA (deg)")]
+        [DisplayText("AOA (°)")]
         public float AOA { get; set; }
 
         [GroupText("Position")]
         [DisplayFieldName("groundcourse.Field")]
-        [DisplayText("GroundCourse (deg)")]
+        [DisplayText("GroundCourse (°)")]
         public float groundcourse
         {
             get => _groundcourse;
@@ -425,7 +425,7 @@ namespace MissionPlanner
         public float gpshdg_acc { get; private set; }
 
         [DisplayFieldName("gpsyaw.Field")]
-        [DisplayText("GPS Yaw (deg)")]
+        [DisplayText("GPS Heading (°)")]
         [GroupText("Position")]
         public float gpsyaw { get; private set; }
 
@@ -461,7 +461,7 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float groundspeed2 { get; set; }
 
-        [DisplayText("GroundCourse2 (deg)")]
+        [DisplayText("GroundCourse2 (°)")]
         [DisplayFieldName("groundcourse2.Field")]
         [GroupText("Position")]
         public float groundcourse2 { get; set; }
@@ -484,7 +484,7 @@ namespace MissionPlanner
         public float gpshdg_acc2 { get; private set; }
 
         [DisplayFieldName("gpsyaw2.Field")]
-        [DisplayText("GPS Yaw (deg)")]
+        [DisplayText("GPS2 Heading (°)")]
         [GroupText("Position")]
         public float gpsyaw2 { get; private set; }
 
@@ -1023,7 +1023,7 @@ namespace MissionPlanner
 
         [GroupText("Attitude")]
         [DisplayFieldName("crit_AOA.Field")]
-        [DisplayText("Crit AOA (deg)")]
+        [DisplayText("Crit AOA (°)")]
         public float crit_AOA
         {
             get
@@ -1077,22 +1077,22 @@ namespace MissionPlanner
         //nav state
         [GroupText("NAV")]
         [DisplayFieldName("nav_roll.Field")]
-        [DisplayText("Roll Target (deg)")]
+        [DisplayText("Roll Target (°)")]
         public float nav_roll { get; set; }
 
         [GroupText("NAV")]
         [DisplayFieldName("nav_pitch.Field")]
-        [DisplayText("Pitch Target (deg)")]
+        [DisplayText("Pitch Target (°)")]
         public float nav_pitch { get; set; }
 
         [GroupText("NAV")]
         [DisplayFieldName("nav_bearing.Field")]
-        [DisplayText("Bearing Target (deg)")]
+        [DisplayText("Bearing Target (°)")]
         public float nav_bearing { get; set; }
 
         [GroupText("NAV")]
         [DisplayFieldName("target_bearing.Field")]
-        [DisplayText("Bearing Target (deg)")]
+        [DisplayText("Bearing Target (°)")]
         public float target_bearing { get; set; }
 
         [GroupText("NAV")]
@@ -1120,7 +1120,7 @@ namespace MissionPlanner
 
         [GroupText("NAV")]
         [DisplayFieldName("ber_error.Field")]
-        [DisplayText("Bearing Error (deg)")]
+        [DisplayText("Bearing Error (°)")]
         public float ber_error
         {
             get => target_bearing - yaw;
@@ -1827,7 +1827,7 @@ namespace MissionPlanner
         }
 
         [DisplayFieldName("ELToMAV.Field")]
-        [DisplayText("Elevation to Mav (deg)")]
+        [DisplayText("Elevation to Mav (°)")]
         [GroupText("Position")]
         public float ELToMAV
         {
@@ -1847,7 +1847,7 @@ namespace MissionPlanner
         }
 
         [DisplayFieldName("AZToMAV.Field")]
-        [DisplayText("Bearing to Mav (deg)")]
+        [DisplayText("Bearing to Mav (°)")]
         [GroupText("Position")]
         public float AZToMAV
         {
