@@ -48,6 +48,11 @@ namespace MissionPlanner.Controls
             this.TXT_offset = new System.Windows.Forms.TextBox();
             this.TXT_scale = new System.Windows.Forms.TextBox();
             this.CHK_customformat = new System.Windows.Forms.CheckBox();
+            this.CHK_gauge = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TXT_gaugeMin = new System.Windows.Forms.TextBox();
+            this.TXT_gaugeMax = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_precision)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -144,7 +149,7 @@ namespace MissionPlanner.Controls
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(12, 39);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(257, 200);
+            this.groupBox1.Size = new System.Drawing.Size(257, 300);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Advanced";
@@ -168,10 +173,17 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.Controls.Add(this.TXT_offset, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.TXT_scale, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.CHK_customformat, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_gauge, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMin, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMax, 1, 8);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 9;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -179,7 +191,7 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 181);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 280);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
             // label1
@@ -313,7 +325,7 @@ namespace MissionPlanner.Controls
             this.TXT_scale.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_scale_offset_KeyPress);
             // 
             // CHK_customformat
-            // 
+            //
             this.CHK_customformat.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CHK_customformat.AutoSize = true;
             this.CHK_customformat.Location = new System.Drawing.Point(3, 66);
@@ -324,20 +336,83 @@ namespace MissionPlanner.Controls
             this.toolTip1.SetToolTip(this.CHK_customformat, "Custom format specifier, e.g. \"0.0\" or \"m:ss\"");
             this.CHK_customformat.UseVisualStyleBackColor = true;
             this.CHK_customformat.CheckedChanged += new System.EventHandler(this.CHK_customformat_CheckedChanged);
-            // 
+            //
+            // CHK_gauge
+            //
+            this.CHK_gauge.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CHK_gauge.AutoSize = true;
+            this.CHK_gauge.Location = new System.Drawing.Point(3, 186);
+            this.CHK_gauge.Name = "CHK_gauge";
+            this.CHK_gauge.Size = new System.Drawing.Size(57, 17);
+            this.CHK_gauge.TabIndex = 19;
+            this.CHK_gauge.Text = "Gauge";
+            this.toolTip1.SetToolTip(this.CHK_gauge, "Display as a 180-degree gauge with needle");
+            this.CHK_gauge.UseVisualStyleBackColor = true;
+            this.CHK_gauge.CheckedChanged += new System.EventHandler(this.CHK_gauge_CheckedChanged);
+            //
+            // label3
+            //
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 218);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(24, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Min";
+            this.toolTip1.SetToolTip(this.label3, "Minimum value for gauge scale");
+            //
+            // label4
+            //
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 248);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(27, 13);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Max";
+            this.toolTip1.SetToolTip(this.label4, "Maximum value for gauge scale");
+            //
+            // TXT_gaugeMin
+            //
+            this.TXT_gaugeMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.TXT_gaugeMin.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TXT_gaugeMin.Location = new System.Drawing.Point(105, 218);
+            this.TXT_gaugeMin.Name = "TXT_gaugeMin";
+            this.TXT_gaugeMin.Size = new System.Drawing.Size(118, 13);
+            this.TXT_gaugeMin.TabIndex = 22;
+            this.TXT_gaugeMin.Text = "0";
+            this.TXT_gaugeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.TXT_gaugeMin, "Minimum value for gauge scale");
+            this.TXT_gaugeMin.TextChanged += new System.EventHandler(this.TXT_gaugeMin_TextChanged);
+            this.TXT_gaugeMin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_scale_offset_KeyPress);
+            //
+            // TXT_gaugeMax
+            //
+            this.TXT_gaugeMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.TXT_gaugeMax.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TXT_gaugeMax.Location = new System.Drawing.Point(105, 248);
+            this.TXT_gaugeMax.Name = "TXT_gaugeMax";
+            this.TXT_gaugeMax.Size = new System.Drawing.Size(118, 13);
+            this.TXT_gaugeMax.TabIndex = 23;
+            this.TXT_gaugeMax.Text = "100";
+            this.TXT_gaugeMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.TXT_gaugeMax, "Maximum value for gauge scale");
+            this.TXT_gaugeMax.TextChanged += new System.EventHandler(this.TXT_gaugeMax_TextChanged);
+            this.TXT_gaugeMax.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_scale_offset_KeyPress);
+            //
             // QuickViewOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(281, 251);
+            this.ClientSize = new System.Drawing.Size(281, 355);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.LBL_precision);
             this.Controls.Add(this.NUM_precision);
             this.Controls.Add(this.CMB_Source);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(5000, 290);
+            this.MaximumSize = new System.Drawing.Size(5000, 395);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(16, 290);
+            this.MinimumSize = new System.Drawing.Size(16, 395);
             this.Name = "QuickViewOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Item";
@@ -373,5 +448,10 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.TextBox TXT_offset;
         private System.Windows.Forms.TextBox TXT_scale;
+        private System.Windows.Forms.CheckBox CHK_gauge;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox TXT_gaugeMin;
+        private System.Windows.Forms.TextBox TXT_gaugeMax;
     }
 }

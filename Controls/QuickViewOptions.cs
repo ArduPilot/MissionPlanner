@@ -148,6 +148,15 @@ namespace MissionPlanner.Controls
             double offset = _qv.offset;
             TXT_scale.Text = scale.ToString("0.0########");
             TXT_offset.Text = offset.ToString("0.0########");
+
+            // Initialize gauge settings
+            CHK_gauge.Checked = _qv.isGauge;
+            TXT_gaugeMin.Text = _qv.gaugeMin.ToString("0.#######");
+            TXT_gaugeMax.Text = _qv.gaugeMax.ToString("0.#######");
+            TXT_gaugeMin.Enabled = CHK_gauge.Checked;
+            TXT_gaugeMax.Enabled = CHK_gauge.Checked;
+            label3.Enabled = CHK_gauge.Checked;
+            label4.Enabled = CHK_gauge.Checked;
         }
 
         private void NUM_precision_ValueChanged(object sender, EventArgs e)
@@ -377,6 +386,70 @@ namespace MissionPlanner.Controls
             }
         }
 
+        private void CHK_gauge_CheckedChanged(object sender, EventArgs e)
+        {
+            bool is_checked = CHK_gauge.Checked;
+            string setting_name = _qv.Name + "_gauge";
+            TXT_gaugeMin.Enabled = is_checked;
+            TXT_gaugeMax.Enabled = is_checked;
+            label3.Enabled = is_checked;
+            label4.Enabled = is_checked;
+
+            if (is_checked)
+            {
+                Settings.Instance[setting_name] = "true";
+                // Save min/max values
+                TXT_gaugeMin_TextChanged(null, null);
+                TXT_gaugeMax_TextChanged(null, null);
+            }
+            else
+            {
+                Settings.Instance.Remove(setting_name);
+                Settings.Instance.Remove(_qv.Name + "_gaugeMin");
+                Settings.Instance.Remove(_qv.Name + "_gaugeMax");
+            }
+        }
+
+        private void TXT_gaugeMin_TextChanged(object sender, EventArgs e)
+        {
+            if (!CHK_gauge.Checked)
+                return;
+
+            string setting_name = _qv.Name + "_gaugeMin";
+
+            double result;
+            if (!double.TryParse(TXT_gaugeMin.Text, out result))
+            {
+                TXT_gaugeMin.BackColor = Color.Red;
+                Settings.Instance.Remove(setting_name);
+            }
+            else
+            {
+                TXT_gaugeMin.BackColor = backup_backcolor;
+                Settings.Instance[setting_name] = TXT_gaugeMin.Text;
+            }
+        }
+
+        private void TXT_gaugeMax_TextChanged(object sender, EventArgs e)
+        {
+            if (!CHK_gauge.Checked)
+                return;
+
+            string setting_name = _qv.Name + "_gaugeMax";
+
+            double result;
+            if (!double.TryParse(TXT_gaugeMax.Text, out result))
+            {
+                TXT_gaugeMax.BackColor = Color.Red;
+                Settings.Instance.Remove(setting_name);
+            }
+            else
+            {
+                TXT_gaugeMax.BackColor = backup_backcolor;
+                Settings.Instance[setting_name] = TXT_gaugeMax.Text;
+            }
+        }
+
         // Runs when the user types in the box, but not when the text is changed programatically
         private void CMB_Source_TextUpdate(object sender, EventArgs e)
         {
@@ -474,6 +547,16 @@ namespace MissionPlanner.Controls
 
             string offset = Settings.Instance[qvName + "_offset"];
             _qv.offset = offset != null ? double.Parse(offset) : 0;
+
+            // Apply gauge settings
+            string gauge = Settings.Instance[qvName + "_gauge"];
+            _qv.isGauge = gauge == "true";
+
+            string gaugeMin = Settings.Instance[qvName + "_gaugeMin"];
+            _qv.gaugeMin = gaugeMin != null ? double.Parse(gaugeMin) : 0;
+
+            string gaugeMax = Settings.Instance[qvName + "_gaugeMax"];
+            _qv.gaugeMax = gaugeMax != null ? double.Parse(gaugeMax) : 100;
 
             // Update the data binding if source changed
             string desc = Settings.Instance[qvName];

@@ -669,6 +669,14 @@ namespace MissionPlanner.GCSViews
                         string offset = Settings.Instance["quickView" + f + "_offset"];
                         QV.offset = offset != null ? double.Parse(offset) : 0;
 
+                        // Set gauge settings
+                        string gauge = Settings.Instance["quickView" + f + "_gauge"];
+                        QV.isGauge = gauge == "true";
+                        string gaugeMin = Settings.Instance["quickView" + f + "_gaugeMin"];
+                        QV.gaugeMin = gaugeMin != null ? double.Parse(gaugeMin) : 0;
+                        string gaugeMax = Settings.Instance["quickView" + f + "_gaugeMax"];
+                        QV.gaugeMax = gaugeMax != null ? double.Parse(gaugeMax) : 100;
+
                         // set databinding for value
                         QV.DataBindings.Clear();
                         try
@@ -3065,6 +3073,11 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance.ContainsKey("HudSwap") && Settings.Instance["HudSwap"] == "true")
                 SwapHud1AndMap();
 
+            // Set minimum panel sizes to 25% of width
+            int minPanelSize = MainH.Width / 4;
+            MainH.Panel1MinSize = minPanelSize;
+            MainH.Panel2MinSize = minPanelSize;
+
             if (Settings.Instance.ContainsKey("FlightSplitter"))
             {
                 MainH.SplitterDistance = Settings.Instance.GetInt32("FlightSplitter");
@@ -3191,10 +3204,13 @@ namespace MissionPlanner.GCSViews
 
         private void FlightData_Resize(object sender, EventArgs e)
         {
-            //Gspeed;
-            //Galt;
-            //Gheading;
-            //attitudeIndicatorInstrumentControl1;
+            // Update minimum panel sizes to 25% of width on resize
+            if (MainH != null && MainH.Width > 0)
+            {
+                int minPanelSize = MainH.Width / 4;
+                MainH.Panel1MinSize = minPanelSize;
+                MainH.Panel2MinSize = minPanelSize;
+            }
         }
 
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6897,6 +6913,9 @@ namespace MissionPlanner.GCSViews
                     copyQV.charWidth = originalQV.charWidth;
                     copyQV.scale = originalQV.scale;
                     copyQV.offset = originalQV.offset;
+                    copyQV.isGauge = originalQV.isGauge;
+                    copyQV.gaugeMin = originalQV.gaugeMin;
+                    copyQV.gaugeMax = originalQV.gaugeMax;
                     copyQV.Dock = DockStyle.Fill;
                     copyQV.Tag = originalQV.Tag;
 
