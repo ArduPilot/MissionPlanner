@@ -5542,6 +5542,20 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void editQuickViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    if (MainV2.DisplayConfiguration.lockQuickView)
+                        return;
+
+                    new QuickViewOptions(qv).ShowDialog();
+                }
+            }
+        }
+
         #endregion
 
         private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)

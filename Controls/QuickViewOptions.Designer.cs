@@ -339,8 +339,9 @@ namespace MissionPlanner.Controls
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(16, 290);
             this.Name = "QuickViewOptions";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "QuickViewOptions";
+            this.Text = "";
             this.Shown += new System.EventHandler(this.QuickViewOptions_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_precision)).EndInit();
             this.groupBox1.ResumeLayout(false);

@@ -38,6 +38,7 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanelQuick = new System.Windows.Forms.TableLayoutPanel();
             this.quickView6 = new MissionPlanner.Controls.QuickView();
             this.contextMenuStripQuickView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editQuickViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setViewCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMove = new System.Windows.Forms.ToolStripSeparator();
@@ -680,6 +681,7 @@ namespace MissionPlanner.GCSViews
             // contextMenuStripQuickView
             //
             this.contextMenuStripQuickView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editQuickViewToolStripMenuItem,
             this.setViewCountToolStripMenuItem,
             this.undockToolStripMenuItem,
             this.toolStripSeparatorMove,
@@ -690,6 +692,12 @@ namespace MissionPlanner.GCSViews
             this.contextMenuStripQuickView.Name = "contextMenuStripQuickView";
             resources.ApplyResources(this.contextMenuStripQuickView, "contextMenuStripQuickView");
             this.contextMenuStripQuickView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripQuickView_Opening);
+            //
+            // editQuickViewToolStripMenuItem
+            //
+            this.editQuickViewToolStripMenuItem.Name = "editQuickViewToolStripMenuItem";
+            this.editQuickViewToolStripMenuItem.Text = "Edit";
+            this.editQuickViewToolStripMenuItem.Click += new System.EventHandler(this.editQuickViewToolStripMenuItem_Click);
             //
             // setViewCountToolStripMenuItem
             //
@@ -3372,6 +3380,7 @@ namespace MissionPlanner.GCSViews
         private Controls.ModifyandSet modifyandSetLoiterRad;
         private System.Windows.Forms.ToolStripMenuItem onOffCameraOverlapToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripQuickView;
+        private System.Windows.Forms.ToolStripMenuItem editQuickViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setViewCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setGStreamerSourceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setEKFHomeHereToolStripMenuItem;

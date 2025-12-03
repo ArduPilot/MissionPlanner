@@ -425,5 +425,103 @@ namespace MissionPlanner.Controls
                 CMB_Source.SelectedItem = field;
             }
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            ApplySettingsToQuickView();
+        }
+
+        private void ApplySettingsToQuickView()
+        {
+            string qvName = _qv.Name;
+
+            // Apply label
+            string label = Settings.Instance[qvName + "_label"];
+            if (label != null)
+            {
+                _qv.desc = label;
+            }
+            else if (_qv.Tag != null)
+            {
+                _qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit((string)_qv.Tag);
+            }
+
+            // Apply color
+            string colorStr = Settings.Instance[qvName + "_color"];
+            if (colorStr != null)
+            {
+                try
+                {
+                    _qv.numberColor = System.Drawing.ColorTranslator.FromHtml(colorStr);
+                    _qv.numberColorBackup = _qv.numberColor;
+                }
+                catch { }
+            }
+
+            // Apply format
+            string format = Settings.Instance[qvName + "_format"];
+            _qv.numberformat = format ?? "0.00";
+
+            // Apply charWidth
+            string charWidth = Settings.Instance[qvName + "_charWidth"];
+            _qv.charWidth = charWidth != null ? int.Parse(charWidth) : -1;
+
+            // Apply scale and offset
+            string scale = Settings.Instance[qvName + "_scale"];
+            _qv.scale = scale != null ? double.Parse(scale) : 1;
+
+            string offset = Settings.Instance[qvName + "_offset"];
+            _qv.offset = offset != null ? double.Parse(offset) : 0;
+
+            // Update the data binding if source changed
+            string desc = Settings.Instance[qvName];
+            if (desc != null)
+            {
+                // Check if customfield is specified by fieldname
+                if (desc.StartsWith("customfield:"))
+                {
+                    desc = CurrentState.GetCustomField(desc.Substring(12));
+                }
+
+                _qv.Tag = desc;
+
+                // Update label if not custom
+                if (Settings.Instance[qvName + "_label"] == null)
+                {
+                    _qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                }
+
+                // Rebind to new source
+                _qv.DataBindings.Clear();
+                try
+                {
+                    var bindingSource = _qv.Parent?.Parent?.Controls.OfType<System.Windows.Forms.BindingSource>().FirstOrDefault();
+                    if (bindingSource == null)
+                    {
+                        // Try to find it from the form
+                        var form = _qv.FindForm();
+                        if (form != null)
+                        {
+                            var field = form.GetType().GetField("bindingSourceQuickTab",
+                                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                            if (field != null)
+                            {
+                                bindingSource = field.GetValue(form) as System.Windows.Forms.BindingSource;
+                            }
+                        }
+                    }
+
+                    if (bindingSource != null)
+                    {
+                        var b = new System.Windows.Forms.Binding("number", bindingSource, desc, true);
+                        _qv.DataBindings.Add(b);
+                    }
+                }
+                catch { }
+            }
+
+            _qv.Invalidate();
+        }
     }
 }
