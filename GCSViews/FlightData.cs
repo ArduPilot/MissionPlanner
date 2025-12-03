@@ -598,6 +598,17 @@ namespace MissionPlanner.GCSViews
             {
                 setQuickViewRowsCols(Settings.Instance["quickViewCols"], Settings.Instance["quickViewRows"]);
             }
+            else
+            {
+                // Apply default layout: 5 columns, 3 rows
+                setQuickViewRowsCols("5", "3");
+            }
+
+            // Apply default QuickView settings if no config exists
+            if (!Settings.Instance.ContainsKey("quickView1"))
+            {
+                ApplyDefaultQuickViewSettings();
+            }
 
             for (int f = 1; f < 30; f++)
             {
@@ -5118,6 +5129,85 @@ namespace MissionPlanner.GCSViews
             else
             {
                 CaptureMJPEG.Stop();
+            }
+        }
+
+        /// <summary>
+        /// Apply default QuickView settings for fresh installs from embedded CSV resource.
+        /// CSV format is a visual grid where each row is a row in the dashboard.
+        /// Cell format: field|color|label|scale (color/label/scale are optional)
+        /// Lines starting with # are comments.
+        /// </summary>
+        private void ApplyDefaultQuickViewSettings()
+        {
+            try
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                using (var stream = assembly.GetManifestResourceStream("MissionPlanner.Resources.DefaultQuickViewSettings.csv"))
+                {
+                    if (stream == null)
+                    {
+                        log.Warn("DefaultQuickViewSettings.csv not found in embedded resources");
+                        return;
+                    }
+
+                    using (var reader = new System.IO.StreamReader(stream))
+                    {
+                        int rowIndex = 0;
+                        int maxCols = 0;
+                        int itemIndex = 1;
+
+                        while (!reader.EndOfStream)
+                        {
+                            var line = reader.ReadLine();
+
+                            // Skip empty lines and comments
+                            if (string.IsNullOrWhiteSpace(line) || line.TrimStart().StartsWith("#"))
+                                continue;
+
+                            var cells = line.Split(',');
+                            maxCols = Math.Max(maxCols, cells.Length);
+
+                            for (int col = 0; col < cells.Length; col++)
+                            {
+                                var cell = cells[col].Trim();
+                                if (string.IsNullOrEmpty(cell))
+                                {
+                                    itemIndex++;
+                                    continue;
+                                }
+
+                                // Parse cell: field|color|label|scale
+                                var parts = cell.Split('|');
+                                string field = parts[0];
+                                string color = parts.Length > 1 ? parts[1] : null;
+                                string label = parts.Length > 2 ? parts[2] : null;
+                                string scale = parts.Length > 3 ? parts[3] : null;
+
+                                string key = "quickView" + itemIndex;
+                                Settings.Instance[key] = field;
+
+                                if (!string.IsNullOrEmpty(color))
+                                    Settings.Instance[key + "_color"] = color;
+                                if (!string.IsNullOrEmpty(label))
+                                    Settings.Instance[key + "_label"] = label;
+                                if (!string.IsNullOrEmpty(scale))
+                                    Settings.Instance[key + "_scale"] = scale;
+
+                                itemIndex++;
+                            }
+
+                            rowIndex++;
+                        }
+
+                        Settings.Instance["quickViewCols"] = maxCols.ToString();
+                        Settings.Instance["quickViewRows"] = rowIndex.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error loading default QuickView settings", ex);
             }
         }
 

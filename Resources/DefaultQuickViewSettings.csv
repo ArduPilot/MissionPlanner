@@ -1,0 +1,5 @@
+# Default Dashboard Layout - Each cell format: field|color|label|scale (color/label/scale are optional)
+# Empty cells will be skipped
+battery_voltage|#ffff80,current|#ff8080||1.0,watts,battery_usedmah,battery_mahperkm
+airspeed|#ff80ff,groundspeed|#408080|GroundSpeed (m/s)|1.0,verticalspeed|#ffff80,alt|#0080c0,yaw|#8080c0||1.0
+timeInAirMinSec,distTraveled||Dist to WP (m),DistToHome,distTraveled|Fuchsia,rxrssi
