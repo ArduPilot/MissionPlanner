@@ -32,7 +32,6 @@ namespace MissionPlanner.GCSViews
             this.bindingSourceHud = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStripactionstab = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.multiLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlactions = new System.Windows.Forms.TabControl();
             this.tabQuick = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelQuick = new System.Windows.Forms.TableLayoutPanel();
@@ -601,22 +600,15 @@ namespace MissionPlanner.GCSViews
             // contextMenuStripactionstab
             // 
             this.contextMenuStripactionstab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.customizeToolStripMenuItem,
-            this.multiLineToolStripMenuItem});
+            this.customizeToolStripMenuItem});
             this.contextMenuStripactionstab.Name = "contextMenuStripactionstab";
             resources.ApplyResources(this.contextMenuStripactionstab, "contextMenuStripactionstab");
-            // 
+            //
             // customizeToolStripMenuItem
-            // 
+            //
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
             resources.ApplyResources(this.customizeToolStripMenuItem, "customizeToolStripMenuItem");
             this.customizeToolStripMenuItem.Click += new System.EventHandler(this.customizeToolStripMenuItem_Click);
-            // 
-            // multiLineToolStripMenuItem
-            // 
-            this.multiLineToolStripMenuItem.Name = "multiLineToolStripMenuItem";
-            resources.ApplyResources(this.multiLineToolStripMenuItem, "multiLineToolStripMenuItem");
-            this.multiLineToolStripMenuItem.Click += new System.EventHandler(this.multiLineToolStripMenuItem_Click);
             // 
             // tabControlactions
             // 
@@ -3439,7 +3431,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.TextBox NACp_tb;
         private System.Windows.Forms.TextBox NIC_tb;
         private ToolStripMenuItem showIconsToolStripMenuItem;
-        private ToolStripMenuItem multiLineToolStripMenuItem;
         private Controls.MyButton BUT_SendMSG;
         public Panel panel_persistent;
         public System.Windows.Forms.TabPage tabAuxFunction;

@@ -970,17 +970,31 @@ namespace MissionPlanner.GCSViews
 
         private void loadTabControlActions()
         {
+            if (TabListOriginal == null || TabListOriginal.Count == 0)
+                return;
+
             string tabs = Settings.Instance["tabcontrolactions"];
 
-            if (String.IsNullOrEmpty(tabs) || TabListOriginal == null || TabListOriginal.Count == 0)
+            _themedTabStrip.Clear();
+
+            // If no saved configuration, show all tabs by default
+            if (String.IsNullOrEmpty(tabs))
+            {
+                foreach (TabPage tabPage in TabListOriginal)
+                {
+                    if ((TabListDisplay.ContainsKey(tabPage.Name) && TabListDisplay[tabPage.Name] == true) || !TabListDisplay.ContainsKey(tabPage.Name))
+                    {
+                        _themedTabStrip.AddTab(tabPage);
+                        log.Debug("add tabControlactions (default) " + tabPage.Name);
+                    }
+                }
                 return;
+            }
 
             string[] tabarray = tabs.Split(';');
 
             if (tabarray.Length == 0)
                 return;
-
-            _themedTabStrip.Clear();
 
             foreach (var tabname in tabarray)
             {
@@ -2842,11 +2856,25 @@ namespace MissionPlanner.GCSViews
         {
             using (Form customForm = new Form())
             {
-                CheckedListBox left = new CheckedListBox();
-                left.Dock = DockStyle.Fill;
-                left.CheckOnClick = true;
+                customForm.Text = "Customize Tabs";
+                customForm.StartPosition = FormStartPosition.CenterParent;
+                customForm.Icon = this.ParentForm?.Icon;
+                customForm.Padding = new Padding(4);
+                customForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                customForm.MaximizeBox = false;
+                customForm.MinimizeBox = false;
 
-                customForm.Controls.Add(left);
+                // Create a 3-column table layout
+                TableLayoutPanel tableLayout = new TableLayoutPanel();
+                tableLayout.Dock = DockStyle.Fill;
+                tableLayout.ColumnCount = 3;
+                tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34F));
+                tableLayout.AutoSize = true;
+                tableLayout.Padding = new Padding(4);
+
+                customForm.Controls.Add(tableLayout);
 
                 string tabs = Settings.Instance["tabcontrolactions"];
 
@@ -2859,25 +2887,59 @@ namespace MissionPlanner.GCSViews
 
                 string[] tabarray = tabs.Split(';').Distinct().ToArray();
 
+                // Map checkboxes to TabPages for lookup when saving
+                var checkboxMap = new Dictionary<CheckBox, TabPage>();
+                var checkboxes = new List<CheckBox>();
+
                 foreach (TabPage tabPage in TabListOriginal)
                 {
-                    if((TabListDisplay.ContainsKey(tabPage.Name) && TabListDisplay[tabPage.Name] == true) || !TabListDisplay.ContainsKey(tabPage.Name))
+                    if ((TabListDisplay.ContainsKey(tabPage.Name) && TabListDisplay[tabPage.Name] == true) || !TabListDisplay.ContainsKey(tabPage.Name))
                     {
-                        if (tabarray.Contains(tabPage.Name))
-                            left.Items.Add(tabPage.Name, true);
-                        else
-                            left.Items.Add(tabPage.Name, false);
+                        // Use the tab's Text (display name) for the checkbox, but track by Name
+                        string displayName = string.IsNullOrEmpty(tabPage.Text) ? tabPage.Name : tabPage.Text;
+
+                        CheckBox chk = new CheckBox();
+                        chk.Text = displayName;
+                        chk.Checked = tabarray.Contains(tabPage.Name);
+                        chk.AutoSize = true;
+                        chk.Margin = new Padding(4);
+
+                        checkboxMap[chk] = tabPage;
+                        checkboxes.Add(chk);
                     }
+                }
+
+                // Calculate rows needed for 3 columns
+                int rowCount = (int)Math.Ceiling(checkboxes.Count / 3.0);
+                tableLayout.RowCount = rowCount;
+                for (int i = 0; i < rowCount; i++)
+                {
+                    tableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                }
+
+                // Add checkboxes to table in column order
+                for (int i = 0; i < checkboxes.Count; i++)
+                {
+                    int col = i % 3;
+                    int row = i / 3;
+                    tableLayout.Controls.Add(checkboxes[i], col, row);
                 }
 
                 ThemeManager.ApplyThemeTo(customForm);
 
+                // Auto-size the form to fit content
+                customForm.AutoSize = true;
+                customForm.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
                 customForm.ShowDialog();
 
                 string answer = "";
-                foreach (var tabPage in left.CheckedItems)
+                foreach (var kvp in checkboxMap)
                 {
-                    answer += tabPage + ";";
+                    if (kvp.Key.Checked)
+                    {
+                        answer += kvp.Value.Name + ";";
+                    }
                 }
 
                 Settings.Instance["tabcontrolactions"] = answer;
@@ -6682,7 +6744,7 @@ namespace MissionPlanner.GCSViews
             dropout.ShowInTaskbar = false;
             dropout.TopMost = true;
             dropout.Size = new Size(300, 450);
-            dropout.Text = "Quick";
+            dropout.Text = "Dashboard";
             dropout.BackColor = ThemeManager.BGColor;
             dropout.Icon = this.ParentForm?.Icon;
 
@@ -7066,11 +7128,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void multiLineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // ThemedTabStrip uses ToolStrip's built-in overflow dropdown instead of multiline
-            // This option is no longer applicable
-        }
 
         private void jumpToTagToolStripMenuItem_Click(object sender, EventArgs e)
         {

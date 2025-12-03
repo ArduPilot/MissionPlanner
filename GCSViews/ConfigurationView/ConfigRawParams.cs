@@ -88,8 +88,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Params.Enabled = true;
 
-            Common.MessageShowAgain(Strings.RawParamWarning, Strings.RawParamWarningi);
-
             startup = false;
 
             txt_search.Focus();
