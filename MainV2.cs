@@ -956,6 +956,11 @@ namespace MissionPlanner
                         this.Location = new Point(100, 100);
                     }
                 }
+                else
+                {
+                    // Default to maximized on fresh install
+                    this.WindowState = FormWindowState.Maximized;
+                }
 
                 if (Settings.Instance["MainHeight"] != null)
                     this.Height = Settings.Instance.GetInt32("MainHeight");

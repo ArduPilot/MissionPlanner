@@ -3069,6 +3069,11 @@ namespace MissionPlanner.GCSViews
             {
                 MainH.SplitterDistance = Settings.Instance.GetInt32("FlightSplitter");
             }
+            else
+            {
+                // Default to 50% width for HUD panel on fresh install
+                MainH.SplitterDistance = MainH.Width / 2;
+            }
 
             if (Settings.Instance.ContainsKey("russian_hud"))
             {
