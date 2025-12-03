@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using MissionPlanner.Utilities;
@@ -10,15 +11,17 @@ using MissionPlanner.Utilities;
 namespace MissionPlanner.Controls
 {
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.MenuStrip | ToolStripItemDesignerAvailability.StatusStrip)]
-    [Description("A mode selector control that displays the current flight mode and favorite modes.")]
+    [Description("A vehicle state control that displays arm state, flight mode, and pinned modes.")]
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(ToolStripComboBox))]
-    public class ToolStripModeSelector : ToolStripControlHost
+    public class ToolStripVehicleState : ToolStripControlHost
     {
         private Panel _container;
+        private ArmIndicatorButton _armButton;
         private ModeDropdownButton _modeDropdown;
         private TableLayoutPanel _pinnedPanel;
         private string _lastMode = "";
+        private bool _lastArmedState = false;
         private bool _lastConnectionState = false;
         private List<string> _pinnedModes = new List<string>();
         private List<string> _favoriteModes = new List<string>();
@@ -26,7 +29,6 @@ namespace MissionPlanner.Controls
         private const string PinnedSettingsKey = "ModeSelectorPinned";
         private const string FavoritesSettingsKey = "ModeSelectorFavorites";
         private int _visiblePinnedCount = 0;
-        private int _idealWidth = 0;
         private MenuStrip _parentMenuStrip = null;
 
         /// <summary>
@@ -48,19 +50,19 @@ namespace MissionPlanner.Controls
         [Category("Layout")]
         [Description("The minimum width of the mode dropdown.")]
         [DefaultValue(100)]
-        public int MinimumModeWidth { get; set; } = 100;
+        public int MinimumModeWidth { get; set; } = 0;
 
         private static Panel CreateControlPanel()
         {
             return new Panel();
         }
 
-        public ToolStripModeSelector() : base(CreateControlPanel())
+        public ToolStripVehicleState() : base(CreateControlPanel())
         {
             _container = (Panel)Control;
             _container.AutoSize = false;
             _container.Height = 32;
-            _container.MinimumSize = new Size(100, 32);
+            _container.MinimumSize = new Size(180, 32);
             _container.BackColor = Color.Transparent;
 
             this.AutoSize = false;
@@ -78,7 +80,7 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                _container.Width = 120;
+                _container.Width = 200;
             }
 
             UpdateContainerWidth();
@@ -134,28 +136,31 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            // Available space for mode selector (with some padding for safety)
+            // Available space for this control (with some padding for safety)
             int availableWidth = _parentMenuStrip.Width - otherItemsWidth - 20;
 
+            // Calculate arm button width
+            int armWidth = TextRenderer.MeasureText(_armButton.Text, _armButton.Font).Width + 24;
+
             // Calculate dropdown width (always shown)
-            int dropdownWidth = Math.Max(MinimumModeWidth, TextRenderer.MeasureText(_modeDropdown.Text, _modeDropdown.Font).Width + 40);
+            int dropdownWidth = Math.Max(MinimumModeWidth, TextRenderer.MeasureText(_modeDropdown.Text, _modeDropdown.Font).Width + 24);
 
             // Calculate width needed for all pinned buttons
             var pinnedButtonWidths = new List<int>();
             foreach (var mode in _pinnedModes)
             {
-                int btnWidth = TextRenderer.MeasureText(mode, new Font("Segoe UI", 9F)).Width + 40;
+                int btnWidth = TextRenderer.MeasureText(mode, new Font("Segoe UI", 9F)).Width + 20;
                 pinnedButtonWidths.Add(btnWidth);
             }
 
             // Determine how many pinned buttons can fit
             int pinnedWidth = 0;
             int visiblePinned = 0;
-            int basePadding = 12; // padding around dropdown
+            int basePadding = 16; // padding around controls
 
             for (int i = 0; i < pinnedButtonWidths.Count; i++)
             {
-                int testWidth = basePadding + dropdownWidth + pinnedWidth + pinnedButtonWidths[i];
+                int testWidth = basePadding + armWidth + dropdownWidth + pinnedWidth + pinnedButtonWidths[i];
                 if (testWidth <= availableWidth)
                 {
                     pinnedWidth += pinnedButtonWidths[i];
@@ -175,8 +180,8 @@ namespace MissionPlanner.Controls
             }
 
             // Update width
-            int totalWidth = basePadding + dropdownWidth + pinnedWidth;
-            totalWidth = Math.Max(totalWidth, MinimumModeWidth + basePadding);
+            int totalWidth = basePadding + armWidth + dropdownWidth + pinnedWidth;
+            totalWidth = Math.Max(totalWidth, 180);
 
             if (_container.Width != totalWidth)
             {
@@ -196,15 +201,25 @@ namespace MissionPlanner.Controls
             var table = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 2,
+                ColumnCount = 3,
                 RowCount = 1,
                 BackColor = Color.Transparent,
                 Margin = new Padding(0),
                 Padding = new Padding(4, 1, 0, 1)
             };
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Arm button
             table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Dropdown
             table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Pinned buttons
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+            // Arm/Disarm button
+            _armButton = new ArmIndicatorButton
+            {
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 8, 0),
+                Width = 80
+            };
+            _armButton.Click += ArmButton_Click;
 
             // Custom dropdown button for mode selection
             _modeDropdown = new ModeDropdownButton
@@ -230,9 +245,78 @@ namespace MissionPlanner.Controls
             };
             _pinnedPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
-            table.Controls.Add(_modeDropdown, 0, 0);
-            table.Controls.Add(_pinnedPanel, 1, 0);
+            table.Controls.Add(_armButton, 0, 0);
+            table.Controls.Add(_modeDropdown, 1, 0);
+            table.Controls.Add(_pinnedPanel, 2, 0);
             _container.Controls.Add(table);
+        }
+
+        private void ArmButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort?.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    return;
+
+                bool isArmed = MainV2.comPort.MAV?.cs?.armed ?? false;
+                string action = isArmed ? "Disarm" : "Arm";
+
+                // Show confirmation dialog when arming (with "show me again" option)
+                if (!isArmed)
+                {
+                    var confirmResult = Common.MessageShowAgain(
+                        "Arm Vehicle",
+                        "Please confirm you'd like to ARM the vehicle.",
+                        true,
+                        "ArmVehicleConfirmation");
+
+                    if (confirmResult != System.Windows.Forms.DialogResult.OK)
+                        return;
+                }
+
+                StringBuilder sb = new StringBuilder();
+                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+                {
+                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text).TrimEnd('\0'));
+                    return true;
+                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+
+                bool result = MainV2.comPort.doARM(!isArmed);
+                MainV2.comPort.UnSubscribeToPacketType(sub);
+
+                if (!result)
+                {
+                    if (CustomMessageBox.Show(
+                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
+                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
+                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
+                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                        CustomMessageBox.DialogResult.Yes)
+                    {
+                        result = MainV2.comPort.doARM(!isArmed, true);
+                        if (!result)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show($"Failed to arm/disarm: {ex.Message}", Strings.ERROR);
+            }
+        }
+
+        private void UpdateArmButtonAppearance(bool isArmed)
+        {
+            if (_armButton == null)
+                return;
+
+            _armButton.IsArmed = isArmed;
+
+            // Update arm button width
+            int armWidth = TextRenderer.MeasureText(_armButton.Text, _armButton.Font).Width + 24;
+            _armButton.Width = armWidth;
         }
 
         private void ModeDropdown_ModeSelected(object sender, string mode)
@@ -265,7 +349,10 @@ namespace MissionPlanner.Controls
                 _pinnedModes.Add(mode);
             }
             SaveSettings();
+            // Reset visible count to show all, then recalculate
+            _visiblePinnedCount = _pinnedModes.Count;
             UpdatePinnedButtons();
+            AdjustWidthToAvailableSpace();
             _modeDropdown.SetPinned(_pinnedModes);
         }
 
@@ -334,8 +421,8 @@ namespace MissionPlanner.Controls
             foreach (var mode in modesToShow)
             {
                 string displayName = mode;
-                int btnWidth = TextRenderer.MeasureText(displayName, new Font("Segoe UI", 9F)).Width + 32;
-                _pinnedPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, btnWidth + 8));
+                int btnWidth = TextRenderer.MeasureText(displayName, new Font("Segoe UI", 9F)).Width + 16;
+                _pinnedPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, btnWidth + 4));
 
                 var btn = new Label
                 {
@@ -347,7 +434,7 @@ namespace MissionPlanner.Controls
                     BackColor = darkBgColor,
                     Cursor = Cursors.Hand,
                     Dock = DockStyle.Fill,
-                    Margin = new Padding(4, 1, 4, 1),
+                    Margin = new Padding(2, 1, 2, 1),
                     Tag = mode // Keep original mode name for setting
                 };
 
@@ -370,10 +457,13 @@ namespace MissionPlanner.Controls
 
         private void UpdateContainerWidth()
         {
-            if (_modeDropdown == null || _pinnedPanel == null)
+            if (_armButton == null || _modeDropdown == null || _pinnedPanel == null)
                 return;
 
-            int dropdownWidth = Math.Max(MinimumModeWidth, TextRenderer.MeasureText(_modeDropdown.Text, _modeDropdown.Font).Width + 40);
+            int armWidth = TextRenderer.MeasureText(_armButton.Text, _armButton.Font).Width + 24;
+            _armButton.Width = armWidth;
+
+            int dropdownWidth = Math.Max(MinimumModeWidth, TextRenderer.MeasureText(_modeDropdown.Text, _modeDropdown.Font).Width + 24);
             _modeDropdown.Width = dropdownWidth;
 
             int pinnedWidth = 0;
@@ -383,8 +473,8 @@ namespace MissionPlanner.Controls
                     pinnedWidth += (int)cs.Width;
             }
 
-            int padding = 4; // table left padding
-            int totalWidth = padding + dropdownWidth + pinnedWidth + 8;
+            int padding = 8; // table padding
+            int totalWidth = padding + armWidth + dropdownWidth + pinnedWidth + 8;
 
             _container.Width = totalWidth;
             this.Size = new Size(totalWidth, _container.Height);
@@ -451,9 +541,30 @@ namespace MissionPlanner.Controls
                     }
                 }
 
-                // Only update mode display if connected
+                // Only update state if connected
                 if (isConnected)
                 {
+                    // Update arm state
+                    bool isArmed = MainV2.comPort?.MAV?.cs?.armed ?? false;
+                    if (isArmed != _lastArmedState)
+                    {
+                        _lastArmedState = isArmed;
+
+                        if (_armButton.InvokeRequired)
+                        {
+                            _armButton.BeginInvoke((Action)(() => {
+                                UpdateArmButtonAppearance(isArmed);
+                                UpdateContainerWidth();
+                            }));
+                        }
+                        else
+                        {
+                            UpdateArmButtonAppearance(isArmed);
+                            UpdateContainerWidth();
+                        }
+                    }
+
+                    // Update mode
                     string currentMode = MainV2.comPort?.MAV?.cs?.mode ?? "---";
 
                     if (currentMode != _lastMode)
@@ -504,7 +615,7 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>
-        /// Updates the visibility of the mode selector based on connection state.
+        /// Updates the visibility of the control based on connection state.
         /// </summary>
         private void UpdateVisibility(bool isConnected)
         {
@@ -512,6 +623,11 @@ namespace MissionPlanner.Controls
 
             if (isConnected)
             {
+                // Update arm state
+                bool isArmed = MainV2.comPort?.MAV?.cs?.armed ?? false;
+                _lastArmedState = isArmed;
+                UpdateArmButtonAppearance(isArmed);
+
                 // Recalculate width when becoming visible
                 _visiblePinnedCount = _pinnedModes.Count; // Reset to show all initially
                 UpdatePinnedButtons();
@@ -519,10 +635,12 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                // Reset mode display when disconnected
+                // Reset state when disconnected
                 _lastMode = "";
+                _lastArmedState = false;
                 _modeDropdown.Text = "---";
                 _modeDropdown.CurrentMode = "";
+                UpdateArmButtonAppearance(false);
                 // Close any open popup when disconnecting
                 _modeDropdown.ClosePopup();
             }
@@ -734,12 +852,12 @@ namespace MissionPlanner.Controls
 
             // Draw text
             var textSize = TextRenderer.MeasureText(Text, Font);
-            var textRect = new Rectangle(8, (Height - textSize.Height) / 2, Width - 24, textSize.Height);
+            var textRect = new Rectangle(4, (Height - textSize.Height) / 2, Width - 16, textSize.Height);
             TextRenderer.DrawText(e.Graphics, Text, Font, textRect, textColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
 
             // Draw dropdown arrow
             int arrowSize = 6;
-            int arrowX = Width - 12;
+            int arrowX = Width - 8;
             int arrowY = (Height - arrowSize / 2) / 2;
             var arrowPoints = new Point[]
             {
@@ -1010,6 +1128,116 @@ namespace MissionPlanner.Controls
             {
                 e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
             }
+        }
+    }
+
+    /// <summary>
+    /// Custom button for arm/disarm indicator with red border
+    /// </summary>
+    internal class ArmIndicatorButton : Control
+    {
+        private bool _isHovered = false;
+        private bool _isArmed = false;
+        private static readonly Color RedBorder = Color.FromArgb(200, 35, 51);
+
+        public bool IsArmed
+        {
+            get => _isArmed;
+            set
+            {
+                if (_isArmed != value)
+                {
+                    _isArmed = value;
+                    Text = _isArmed ? "ARMED" : "DISARMED";
+                    Invalidate();
+                }
+            }
+        }
+
+        public ArmIndicatorButton()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
+            Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            Cursor = Cursors.Hand;
+            Text = "DISARMED";
+        }
+
+        public override string Text
+        {
+            get => base.Text;
+            set
+            {
+                if (base.Text != value)
+                {
+                    base.Text = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            _isHovered = true;
+            Invalidate();
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            _isHovered = false;
+            Invalidate();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Color bgColor, textColor;
+
+            if (_isArmed)
+            {
+                // Armed: Red background, white text
+                bgColor = _isHovered ? Color.FromArgb(220, 53, 69) : Color.FromArgb(200, 35, 51);
+                textColor = Color.White;
+            }
+            else
+            {
+                // Disarmed: Gray background like pinned buttons
+                try
+                {
+                    var themeBg = ThemeManager.ControlBGColor;
+                    bgColor = _isHovered
+                        ? ThemeManager.ButBG
+                        : Color.FromArgb(
+                            Math.Max(0, themeBg.R - 20),
+                            Math.Max(0, themeBg.G - 20),
+                            Math.Max(0, themeBg.B - 20));
+                    textColor = ThemeManager.TextColor;
+                }
+                catch
+                {
+                    bgColor = _isHovered ? Color.FromArgb(148, 193, 31) : Color.FromArgb(0x32, 0x33, 0x34);
+                    textColor = Color.White;
+                }
+            }
+
+            // Fill background
+            using (var bgBrush = new SolidBrush(bgColor))
+            {
+                e.Graphics.FillRectangle(bgBrush, ClientRectangle);
+            }
+
+            // Draw 1px red border (always)
+            using (var borderPen = new Pen(RedBorder, 1))
+            {
+                e.Graphics.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+            }
+
+            // Draw text centered
+            var textSize = TextRenderer.MeasureText(Text, Font);
+            var textRect = new Rectangle(0, (Height - textSize.Height) / 2, Width, textSize.Height);
+            TextRenderer.DrawText(e.Graphics, Text, Font, textRect, textColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
         }
     }
 }

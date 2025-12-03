@@ -48,7 +48,7 @@ namespace MissionPlanner
             this.MenuInitConfig = new System.Windows.Forms.ToolStripButton();
             this.MenuConfigTune = new System.Windows.Forms.ToolStripButton();
             this.MenuSimulation = new System.Windows.Forms.ToolStripButton();
-            this.toolStripModeSelector = new MissionPlanner.Controls.ToolStripModeSelector();
+            this.toolStripVehicleState = new MissionPlanner.Controls.ToolStripVehicleState();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
@@ -74,7 +74,7 @@ namespace MissionPlanner
             this.MenuConfigTune,
             this.MenuSimulation,
             this.MenuHelp,
-            this.toolStripModeSelector,
+            this.toolStripVehicleState,
             this.MenuConnect,
             this.toolStripConnectionControl,
             this.MenuArduPilot});
@@ -168,12 +168,12 @@ namespace MissionPlanner
             this.MenuSimulation.Name = "MenuSimulation";
             this.MenuSimulation.Click += new System.EventHandler(this.MenuSimulation_Click);
             //
-            // toolStripModeSelector
+            // toolStripVehicleState
             //
-            this.toolStripModeSelector.BackColor = System.Drawing.Color.Transparent;
-            this.toolStripModeSelector.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.toolStripModeSelector.Name = "toolStripModeSelector";
-            this.toolStripModeSelector.Size = new System.Drawing.Size(120, 32);
+            this.toolStripVehicleState.BackColor = System.Drawing.Color.Transparent;
+            this.toolStripVehicleState.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.toolStripVehicleState.Name = "toolStripVehicleState";
+            this.toolStripVehicleState.Size = new System.Drawing.Size(200, 32);
             // 
             // MenuHelp
             // 
@@ -274,6 +274,6 @@ namespace MissionPlanner
         public System.Windows.Forms.ToolStripButton MenuHelp;
         public System.Windows.Forms.ToolStripButton MenuArduPilot;
         public Controls.Status status1;
-        private Controls.ToolStripModeSelector toolStripModeSelector;
+        private Controls.ToolStripVehicleState toolStripVehicleState;
     }
 }
