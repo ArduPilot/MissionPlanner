@@ -318,8 +318,6 @@ namespace MissionPlanner.GCSViews
             panel1.Resize += (s, e) => Position3DMapCheckbox();
 
             // Restore saved state
-            if (Settings.Instance.ContainsKey("FD_Show3DMap"))
-                _cb3DMap.Checked = Settings.Instance.GetBoolean("FD_Show3DMap");
         }
 
         private void Position3DMapCheckbox()
@@ -2364,12 +2362,34 @@ namespace MissionPlanner.GCSViews
                 if (CB_tuning.Checked) CB_tuning.Checked = false;
                 if (CB_params.Checked) CB_params.Checked = false;
             }
-            Settings.Instance["FD_Show3DMap"] = _cb3DMap.Checked.ToString();
             Toggle3DMap(_cb3DMap.Checked);
             UpdateSplitContainerLayout();
         }
 
-        private void Toggle3DMap(bool enable)
+        public bool Is3DMapEnabled => _cb3DMap != null && _cb3DMap.Checked;
+
+        // Force-hide the 3D map (used during app shutdown to ensure GL resources are released cleanly)
+        public void ForceHide3DMap()
+        {
+            try
+            {
+                if (_cb3DMap != null && _cb3DMap.Checked)
+                    _cb3DMap.Checked = false;
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                Toggle3DMap(false);
+            }
+            catch
+            {
+            }
+        }
+
+        public void Toggle3DMap(bool enable)
         {
             if (enable)
             {
@@ -2398,7 +2418,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void Dispose3DMap()
+        public void Dispose3DMap()
         {
             if (map3DControl != null)
             {

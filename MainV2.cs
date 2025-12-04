@@ -1988,6 +1988,23 @@ namespace MissionPlanner
 
 
         /// <summary>
+        /// Ensure we hide/tear down 3D map first so close doesn't get "consumed" by its window.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            try
+            {
+                FlightData?.ForceHide3DMap();
+                FlightData?.Dispose3DMap();
+            }
+            catch
+            {
+            }
+
+            base.OnFormClosing(e);
+        }
+
+        /// <summary>
         /// overriding the OnCLosing is a bit cleaner than handling the event, since it
         /// is this object.
         ///
@@ -2125,6 +2142,15 @@ namespace MissionPlanner
             }
 
             log.Info("closing MyView");
+
+            try
+            {
+                // Ensure the 3D map is torn down before disposing views to avoid lingering GL contexts
+                FlightData?.Dispose3DMap();
+            }
+            catch
+            {
+            }
 
             // close all tabs
             MyView.Dispose();

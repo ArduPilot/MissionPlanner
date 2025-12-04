@@ -74,6 +74,7 @@ namespace MissionPlanner.Controls
     {
         public static OpenGLtest2 instance;
         int green = 0;
+        private Dictionary<int, int> wpNumberTextures = new Dictionary<int, int>();
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -302,6 +303,17 @@ namespace MissionPlanner.Controls
                 }
                 catch { }
 
+                try
+                {
+                    _imageLoaderWindow?.Close();
+                    _imageLoaderWindow?.Dispose();
+                }
+                catch
+                {
+                }
+
+                _imageLoaderWindow = null;
+
                 // Clean up textures
                 Deactivate();
 
@@ -341,6 +353,52 @@ namespace MissionPlanner.Controls
             }
 
             return texture;
+        }
+
+        private int getWpNumberTexture(int wpNumber)
+        {
+            if (wpNumberTextures.ContainsKey(wpNumber))
+                return wpNumberTextures[wpNumber];
+
+            // Create a bitmap with the waypoint number
+            int size = 128;
+            using (Bitmap bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.Transparent);
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+                    string text = wpNumber.ToString();
+                    using (Font font = new Font("Arial", 48, FontStyle.Bold))
+                    using (StringFormat sf = new StringFormat())
+                    {
+                        sf.Alignment = StringAlignment.Center;
+                        sf.LineAlignment = StringAlignment.Center;
+
+                        // Draw white text with black outline
+                        RectangleF rect = new RectangleF(0, 0, size, size);
+
+                        // Draw outline
+                        using (System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath())
+                        {
+                            path.AddString(text, font.FontFamily, (int)font.Style, font.Size,
+                                rect, sf);
+                            using (Pen outlinePen = new Pen(Color.Black, 6))
+                            {
+                                outlinePen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
+                                g.DrawPath(outlinePen, path);
+                            }
+                            g.FillPath(Brushes.White, path);
+                        }
+                    }
+                }
+
+                int texture = generateTexture(new Bitmap(bmp));
+                wpNumberTextures[wpNumber] = texture;
+                return texture;
+            }
         }
 
         static void ConvertColorSpace(BitmapData _data)
@@ -423,9 +481,9 @@ namespace MissionPlanner.Controls
             GMaps.Instance.CacheOnIdleRead = false;
             GMaps.Instance.BoostCacheEngine = true;
             // shared context
-            var win = new OpenTK.GameWindow(640, 480, Context.GraphicsMode);
-            win.Visible = false;
-            IMGContext = win.Context;
+            _imageLoaderWindow = new OpenTK.GameWindow(640, 480, Context.GraphicsMode);
+            _imageLoaderWindow.Visible = false;
+            IMGContext = _imageLoaderWindow.Context;
             core.Zoom = 20;
 
             while (!_stopRequested && !this.IsDisposed)
@@ -476,6 +534,7 @@ namespace MissionPlanner.Controls
         private double[] utmcenter = new double[2];
         private PointLatLngAlt mouseDownPos;
         private Thread _imageloaderThread;
+        private OpenTK.GameWindow _imageLoaderWindow;
         private int mousex;
         private int mousey;
         private IGraphicsContext IMGContext;
@@ -653,7 +712,7 @@ namespace MissionPlanner.Controls
                 {
                     if (green == 0)
                     {
-                        green = generateTexture(GMap.NET.Drawing.Properties.Resources.green.ToBitmap());
+                        green = generateTexture(GMap.NET.Drawing.Properties.Resources.wp_3d.ToBitmap());
                     }
 
                     GL.Enable(EnableCap.DepthTest);
@@ -672,6 +731,9 @@ namespace MissionPlanner.Controls
                             {Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt});
                     if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)
                         list.Add(MainV2.comPort.MAV.cs.TargetLocation);
+
+                    // Get pointlist for wp number lookup
+                    var pointlist = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
 
                     foreach (var point in list.OrderBy((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
                     {
@@ -693,18 +755,38 @@ namespace MissionPlanner.Controls
                         var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
                         wpmarker.idtexture = green;
 
-                        //tr
-                        wpmarker.vertex.Add(new Vertex(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10 + co[0],
-                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10 + co[1], wpAlt + 50, 0, 0, 0, 1, 0, 0));
-                        //tl
-                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, wpAlt + 50, 0, 0, 0, 1, 1, 0));
-                        //br
-                        wpmarker.vertex.Add(new Vertex(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
-                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, wpAlt - 5, 0, 0, 0, 1, 0, 1));
-                        //bl
-                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, wpAlt - 5, 0, 0, 0, 1, 1, 1));
+                        double markerHalfSize = 60;
+                        double sinAngle = Math.Sin(MathHelper.Radians(rpy.Z + 90));
+                        double cosAngle = Math.Cos(MathHelper.Radians(rpy.Z + 90));
+
+                        // Rotation around the axis facing the camera (perpendicular to billboard)
+                        double rotationAngle = (DateTime.Now.TimeOfDay.TotalSeconds * 30.0) % 360.0;
+                        double rotRad = MathHelper.Radians(rotationAngle);
+                        double cosRot = Math.Cos(rotRad);
+                        double sinRot = Math.Sin(rotRad);
+
+                        // Corner offsets in local 2D space (horizontal, vertical)
+                        // tr: (+1, +1), tl: (-1, +1), br: (+1, -1), bl: (-1, -1)
+                        double[][] corners = new double[][] {
+                            new double[] { 1, 1, 1, 0 },   // tr + tex coords (flipped U)
+                            new double[] { -1, 1, 0, 0 },  // tl
+                            new double[] { 1, -1, 1, 1 },  // br
+                            new double[] { -1, -1, 0, 1 }  // bl
+                        };
+
+                        foreach (var corner in corners)
+                        {
+                            // Rotate in local 2D space (horizontal = along billboard width, vertical = along Z)
+                            double localH = corner[0] * cosRot - corner[1] * sinRot;
+                            double localV = corner[0] * sinRot + corner[1] * cosRot;
+
+                            // Transform to world coordinates
+                            wpmarker.vertex.Add(new Vertex(
+                                co[0] + sinAngle * localH * markerHalfSize,
+                                co[1] + cosAngle * localH * markerHalfSize,
+                                wpAlt + localV * markerHalfSize,
+                                0, 0, 0, 1, corner[2], corner[3]));
+                        }
 
                         var startindex = (uint)wpmarker.vertex.Count - 4;
                         wpmarker.indices.AddRange(new[]
@@ -717,6 +799,41 @@ namespace MissionPlanner.Controls
                         wpmarker.Draw(projMatrix, modelMatrix);
 
                         wpmarker.Cleanup(true);
+
+                        // Draw waypoint number at top of sprite (no rotation)
+                        int wpIndex = pointlist.IndexOf(point);
+                        if (wpIndex >= 0)
+                        {
+                            int wpNumberTex = getWpNumberTexture(wpIndex + 1); // 1-based numbering
+                            if (wpNumberTex != 0)
+                            {
+                                var wpnumber = new tileInfo(Context, WindowInfo, textureSemaphore);
+                                wpnumber.idtexture = wpNumberTex;
+
+                                double numberHalfSize = markerHalfSize * 0.4; // Smaller for top placement
+                                double numberOffsetZ = markerHalfSize * 0.5; // Offset to top of sprite
+
+                                // Static corners (no rotation applied), shifted up
+                                foreach (var corner in corners)
+                                {
+                                    wpnumber.vertex.Add(new Vertex(
+                                        co[0] + sinAngle * corner[0] * numberHalfSize,
+                                        co[1] + cosAngle * corner[0] * numberHalfSize,
+                                        wpAlt + corner[1] * numberHalfSize + numberOffsetZ,
+                                        0, 0, 0, 1, corner[2], corner[3]));
+                                }
+
+                                var numStartindex = (uint)wpnumber.vertex.Count - 4;
+                                wpnumber.indices.AddRange(new[]
+                                {
+                                    numStartindex + 1, numStartindex + 2, numStartindex + 0,
+                                    numStartindex + 1, numStartindex + 3, numStartindex + 2
+                                });
+
+                                wpnumber.Draw(projMatrix, modelMatrix);
+                                wpnumber.Cleanup(true);
+                            }
+                        }
                     }
 
                     GL.Disable(EnableCap.Blend);
