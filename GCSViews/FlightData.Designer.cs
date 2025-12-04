@@ -52,6 +52,7 @@ namespace MissionPlanner.GCSViews
             this.quickView2 = new MissionPlanner.Controls.QuickView();
             this.quickView1 = new MissionPlanner.Controls.QuickView();
             this.tabActions = new System.Windows.Forms.TabPage();
+            this.flightDataActions1 = new MissionPlanner.Controls.FlightDataActions();
             this.panelActionsSpacer = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_SendMSG = new MissionPlanner.Controls.MyButton();
@@ -805,15 +806,21 @@ namespace MissionPlanner.GCSViews
             this.quickView1.numberformat = "0.00";
             this.toolTip1.SetToolTip(this.quickView1, resources.GetString("quickView1.ToolTip"));
             this.quickView1.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
-            // 
+            //
             // tabActions
-            // 
-            this.tabActions.Controls.Add(this.panelActionsSpacer);
-            this.tabActions.Controls.Add(this.tableLayoutPanel1);
+            //
+            this.tabActions.Controls.Add(this.flightDataActions1);
             resources.ApplyResources(this.tabActions, "tabActions");
             this.tabActions.Name = "tabActions";
             this.tabActions.Padding = new System.Windows.Forms.Padding(4);
             this.tabActions.UseVisualStyleBackColor = true;
+            //
+            // flightDataActions1
+            //
+            this.flightDataActions1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flightDataActions1.Location = new System.Drawing.Point(4, 4);
+            this.flightDataActions1.Name = "flightDataActions1";
+            this.flightDataActions1.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
@@ -3403,6 +3410,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem flyToCoordsToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panelActionsSpacer;
+        private Controls.FlightDataActions flightDataActions1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem setBatteryCellCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undockToolStripMenuItem;
