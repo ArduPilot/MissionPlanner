@@ -1497,11 +1497,6 @@ namespace MissionPlanner
         }
 
         [GroupText("Battery")]
-        [DisplayFieldName("battery_mahperkm_avg.Field")]
-        [DisplayText("Bat efficiency avg (mah/km)")]
-        public double battery_mahperkm_avg => battery_usedmah / (distTraveled / multiplierdist / 1000.0f);
-
-        [GroupText("Battery")]
         [DisplayFieldName("battery_usedwh.Field")]
         [DisplayText("Bat used (Wh)")]
         public double battery_usedwh { get; set; }
@@ -1517,11 +1512,6 @@ namespace MissionPlanner
                 return _instantWhperkm;
             }
         }
-
-        [GroupText("Battery")]
-        [DisplayFieldName("battery_whperkm_avg.Field")]
-        [DisplayText("Bat efficiency avg (Wh/km)")]
-        public double battery_whperkm_avg => battery_usedwh / (distTraveled / multiplierdist / 1000.0f);
 
         private void UpdateInstantaneousEfficiency()
         {

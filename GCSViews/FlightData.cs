@@ -810,18 +810,7 @@ namespace MissionPlanner.GCSViews
 
                         // set databinding for value
                         QV.DataBindings.Clear();
-                        try
-                        {
-                            var b = new Binding("number", bindingSourceQuickTab, (string)QV.Tag, true);
-                            b.Format += new ConvertEventHandler(BindingTypeToNumber);
-                            b.Parse += new ConvertEventHandler(NumberToBindingType);
-
-                            QV.DataBindings.Add(b);
-                        }
-                        catch (Exception ex)
-                        {
-                            log.Debug(ex);
-                        }
+                        BindQuickView(QV);
                     }
                 }
                 else
@@ -7912,5 +7901,49 @@ namespace MissionPlanner.GCSViews
             form.Show(this);
         }
 
+        private void BindQuickView(QuickView qv)
+        {
+            qv.DataBindings.Clear();
+
+            var fieldName = qv.Tag as string;
+            var property = typeof(CurrentState).GetProperty(fieldName ?? string.Empty);
+            if (property == null)
+            {
+                // fallback to default embedded settings for this layout
+                ApplyDefaultQuickViewSettings();
+                ApplyDefaultQuickViewSettingsToControls();
+
+                // Try to pick up the default field assigned to this control name
+                var defaultField = Settings.Instance[qv.Name];
+                if (!string.IsNullOrWhiteSpace(defaultField))
+                {
+                    fieldName = defaultField;
+                    qv.Tag = defaultField;
+                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(defaultField);
+                    property = typeof(CurrentState).GetProperty(fieldName);
+                }
+
+                // Absolute fallback to a safe field
+                if (property == null)
+                {
+                    fieldName = "battery_voltage";
+                    qv.Tag = fieldName;
+                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(fieldName);
+                    property = typeof(CurrentState).GetProperty(fieldName);
+                }
+            }
+
+            try
+            {
+                var b = new Binding("number", bindingSourceQuickTab, fieldName, true);
+                b.Format += new ConvertEventHandler(BindingTypeToNumber);
+                b.Parse += new ConvertEventHandler(NumberToBindingType);
+                qv.DataBindings.Add(b);
+            }
+            catch (Exception ex)
+            {
+                log.Debug(ex);
+            }
+        }
     }
 }
