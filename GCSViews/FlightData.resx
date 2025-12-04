@@ -6239,10 +6239,10 @@
     <value>True</value>
   </data>
   <data name="coords1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 2</value>
+    <value>3, 2</value>
   </data>
   <data name="coords1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 21</value>
+    <value>255, 21</value>
   </data>
   <data name="coords1.TabIndex" type="System.Int32, mscorlib">
     <value>71</value>
@@ -6269,7 +6269,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>397, 3</value>
+    <value>405, 5</value>
   </data>
   <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 17</value>
@@ -6305,7 +6305,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_tuning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>260, 3</value>
+    <value>268, 5</value>
   </data>
   <data name="CB_tuning.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 17</value>
@@ -6341,7 +6341,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_params.Location" type="System.Drawing.Point, System.Drawing">
-    <value>327, 3</value>
+    <value>335, 5</value>
   </data>
   <data name="CB_params.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 17</value>
