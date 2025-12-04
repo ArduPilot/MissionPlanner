@@ -3295,6 +3295,9 @@ namespace MissionPlanner.GCSViews
         {
             threadrun = false;
 
+            // Ensure 3D map is torn down to avoid hanging threads
+            try { Toggle3DMap(false); } catch { }
+
             DateTime end = DateTime.Now.AddSeconds(5);
 
             if (thisthread == null)

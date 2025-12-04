@@ -90,6 +90,7 @@ namespace MissionPlanner.Controls
         private Label lbl_zoom;
         private SemaphoreSlim textureSemaphore = new SemaphoreSlim(1, 1);
         private Timer timer1;
+        private bool _stopRequested;
         private System.ComponentModel.IContainer components;
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
 
@@ -291,8 +292,15 @@ namespace MissionPlanner.Controls
         {
             if (disposing)
             {
+                _stopRequested = true;
                 timer1?.Stop();
                 timer1?.Dispose();
+
+                try
+                {
+                    _imageloaderThread?.Join(200);
+                }
+                catch { }
 
                 // Clean up textures
                 Deactivate();
@@ -420,7 +428,7 @@ namespace MissionPlanner.Controls
             IMGContext = win.Context;
             core.Zoom = 20;
 
-            while (!this.IsDisposed)
+            while (!_stopRequested && !this.IsDisposed)
             {
                 if (sizeChanged)
                 {
