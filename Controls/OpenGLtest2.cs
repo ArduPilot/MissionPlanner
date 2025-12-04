@@ -638,7 +638,9 @@ namespace MissionPlanner.Controls
                                 if (point == null)
                                     continue;
                                 var co = convertCoords(point);
-                                _flightPlanLines.Add(co[0], co[1], co[2], 1, 1, 0, 1);
+                                // Add terrain altitude to waypoint altitude
+                                var terrainAlt = srtm.getAltitude(point.Lat, point.Lng).alt;
+                                _flightPlanLines.Add(co[0], co[1], co[2] + terrainAlt, 1, 1, 0, 1);
                             }
                             _flightPlanLinesCount = pointlistCount;
                         }
@@ -684,22 +686,25 @@ namespace MissionPlanner.Controls
                             continue;
 
                         var co = convertCoords(point);
+                        // Add terrain altitude to waypoint altitude
+                        var terrainAlt = srtm.getAltitude(point.Lat, point.Lng).alt;
+                        var wpAlt = co[2] + terrainAlt;
 
                         var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
                         wpmarker.idtexture = green;
 
                         //tr
                         wpmarker.vertex.Add(new Vertex(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10 + co[0],
-                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10 + co[1], co[2] + 50, 0, 0, 0, 1, 0, 0));
+                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10 + co[1], wpAlt + 50, 0, 0, 0, 1, 0, 0));
                         //tl
                         wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, co[2] + 50, 0, 0, 0, 1, 1, 0));
+                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, wpAlt + 50, 0, 0, 0, 1, 1, 0));
                         //br
                         wpmarker.vertex.Add(new Vertex(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
-                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, co[2] - 5, 0, 0, 0, 1, 0, 1));
+                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, wpAlt - 5, 0, 0, 0, 1, 0, 1));
                         //bl
                         wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 10,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, co[2] - 5, 0, 0, 0, 1, 1, 1));
+                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 10, wpAlt - 5, 0, 0, 0, 1, 1, 1));
 
                         var startindex = (uint)wpmarker.vertex.Count - 4;
                         wpmarker.indices.AddRange(new[]

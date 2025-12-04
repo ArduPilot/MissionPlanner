@@ -5630,10 +5630,13 @@ namespace MissionPlanner.GCSViews
                     {
                         if (cellhome.Value.ToString() != TXT_homelat.Text && cellhome.Value.ToString() != "0")
                         {
-                            var dr = CustomMessageBox.Show("Reset Home to loaded coords", "Reset Home Coords",
-                                MessageBoxButtons.YesNo);
+                            var dr = Common.MessageShowAgain(
+                               "Reset Home Coords",
+                               "Reset Home to loaded coords",
+                               true,
+                               "RESET_HOME_FROM_LOADED_COORDS");
 
-                            if (dr == (int) DialogResult.Yes)
+                            if (dr == DialogResult.OK)
                             {
                                 TXT_homelat.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                                 cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
