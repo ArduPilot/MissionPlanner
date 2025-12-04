@@ -97,6 +97,10 @@ namespace MissionPlanner.Controls
         private Color _planeColor = Color.White;
         private string _planeSTLPath = ""; // Empty = use embedded resource
         private int _whitePlaneTexture = 0; // White texture for plane rendering
+        // Heading indicator line options
+        private bool _showHeadingLine = true;
+        private bool _showNavBearingLine = true;
+        private bool _showGpsHeadingLine = true;
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -181,6 +185,9 @@ namespace MissionPlanner.Controls
                 _planeColor = Color.FromArgb(colorArgb);
             }
             catch { _planeColor = Color.White; }
+            _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
+            _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
+            _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
 
             InitializeComponent();
             Click += OnClick;
@@ -694,6 +701,61 @@ namespace MissionPlanner.Controls
             GL.DeleteBuffer(vbo);
         }
 
+        private void DrawHeadingLines(Matrix4 projMatrix, Matrix4 viewMatrix)
+        {
+            const double lineLength = 100; // 100 meters
+
+            // Get current heading (yaw), nav bearing, and GPS heading
+            double heading = MainV2.comPort?.MAV?.cs?.yaw ?? 0;
+            double navBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
+            double gpsHeading = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
+
+            // Heading line (red)
+            if (_showHeadingLine)
+            {
+                double headingRad = MathHelper.Radians(heading);
+                double headingEndX = _planeDrawX + Math.Sin(headingRad) * lineLength;
+                double headingEndY = _planeDrawY + Math.Cos(headingRad) * lineLength;
+
+                _headingLine?.Dispose();
+                _headingLine = new Lines();
+                _headingLine.Width = 1.5f;
+                _headingLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, 1, 0, 0, 1);
+                _headingLine.Add(headingEndX, headingEndY, _planeDrawZ, 1, 0, 0, 1);
+                _headingLine.Draw(projMatrix, viewMatrix);
+            }
+
+            // Nav bearing line (orange)
+            if (_showNavBearingLine)
+            {
+                double navBearingRad = MathHelper.Radians(navBearing);
+                double navEndX = _planeDrawX + Math.Sin(navBearingRad) * lineLength;
+                double navEndY = _planeDrawY + Math.Cos(navBearingRad) * lineLength;
+
+                _navBearingLine?.Dispose();
+                _navBearingLine = new Lines();
+                _navBearingLine.Width = 1.5f;
+                _navBearingLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, 1, 0.5f, 0, 1);
+                _navBearingLine.Add(navEndX, navEndY, _planeDrawZ, 1, 0.5f, 0, 1);
+                _navBearingLine.Draw(projMatrix, viewMatrix);
+            }
+
+            // GPS heading line (black)
+            if (_showGpsHeadingLine)
+            {
+                double gpsRad = MathHelper.Radians(gpsHeading);
+                double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * lineLength;
+                double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * lineLength;
+
+                _gpsHeadingLine?.Dispose();
+                _gpsHeadingLine = new Lines();
+                _gpsHeadingLine.Width = 1.5f;
+                _gpsHeadingLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, 0, 0, 0, 1);
+                _gpsHeadingLine.Add(gpsEndX, gpsEndY, _planeDrawZ, 0, 0, 0, 1);
+                _gpsHeadingLine.Draw(projMatrix, viewMatrix);
+            }
+        }
+
         static int CreateTexture(BitmapData data)
         {
             int texture = 0;
@@ -840,6 +902,10 @@ namespace MissionPlanner.Controls
         private Lines _defaultGround;
         // Sky gradient quad
         private Lines _skyGradient;
+        // Heading and nav bearing indicator lines
+        private Lines _headingLine;
+        private Lines _navBearingLine;
+        private Lines _gpsHeadingLine;
         private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
@@ -1005,6 +1071,9 @@ namespace MissionPlanner.Controls
                 }
                 // Draw the plane model
                 DrawPlane(projMatrix, modelMatrix);
+
+                // Draw heading (red) and nav bearing (orange) lines from plane center
+                DrawHeadingLines(projMatrix, modelMatrix);
 
                 var beforewpsmarkers = DateTime.Now;
                 // Draw waypoint markers (hidden if within 200ft / 61m of camera)
@@ -1844,6 +1913,18 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(btnSTL);
                 y += 30;
 
+                var chkHeading = new CheckBox { Text = "Heading Line (Red)", Location = new Point(margin, y), AutoSize = true, Checked = _showHeadingLine };
+                dialog.Controls.Add(chkHeading);
+                y += 24;
+
+                var chkNavBearing = new CheckBox { Text = "Nav Bearing Line (Orange)", Location = new Point(margin, y), AutoSize = true, Checked = _showNavBearingLine };
+                dialog.Controls.Add(chkNavBearing);
+                y += 24;
+
+                var chkGpsHeading = new CheckBox { Text = "GPS Heading Line (Black)", Location = new Point(margin, y), AutoSize = true, Checked = _showGpsHeadingLine };
+                dialog.Controls.Add(chkGpsHeading);
+                y += 30;
+
                 int btnWidth = 75;
                 int btnGap = 10;
                 int totalBtnWidth = btnWidth * 2 + btnGap;
@@ -1866,6 +1947,9 @@ namespace MissionPlanner.Controls
                     pnlColor.BackColor = Color.White;
                     selectedSTLPath = "";
                     btnSTL.Text = "Default";
+                    chkHeading.Checked = true;
+                    chkNavBearing.Checked = true;
+                    chkGpsHeading.Checked = true;
                 };
                 dialog.Controls.Add(btnReset);
                 y += 23;
@@ -1883,6 +1967,9 @@ namespace MissionPlanner.Controls
                     _planeScaleMultiplier = (float)numScale.Value;
                     _cameraFOV = (float)numFOV.Value;
                     _planeColor = selectedColor;
+                    _showHeadingLine = chkHeading.Checked;
+                    _showNavBearingLine = chkNavBearing.Checked;
+                    _showGpsHeadingLine = chkGpsHeading.Checked;
 
                     bool stlChanged = _planeSTLPath != selectedSTLPath;
                     _planeSTLPath = selectedSTLPath;
@@ -1897,6 +1984,9 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
                     Settings.Instance["map3d_plane_color"] = _planeColor.ToArgb().ToString();
                     Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
+                    Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
+                    Settings.Instance["map3d_show_nav_bearing"] = _showNavBearingLine.ToString();
+                    Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
                     Settings.Instance.Save();
 
                     test_Resize(null, null);
