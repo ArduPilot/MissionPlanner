@@ -275,6 +275,8 @@ namespace MissionPlanner.GCSViews
 
             instance = this;
 
+            ConfigureScriptsButtonsLayout();
+
             this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
             this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             this._themedTabStrip.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
@@ -1387,9 +1389,22 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_abort_script_Click(object sender, EventArgs e)
         {
-            scriptthread.Abort();
+            if (scriptthread == null || !scriptthread.IsAlive)
+            {
+                scriptrunning = false;
+                return;
+            }
+
+            try
+            {
+                scriptthread.Abort();
+            }
+            catch (ThreadStateException)
+            {
+                // ignore if thread is not in a state that can be aborted
+            }
+
             scriptrunning = false;
-            BUT_abort_script.Visible = false;
         }
 
         private void BUT_abortland_Click(object sender, EventArgs e)
@@ -3143,6 +3158,31 @@ namespace MissionPlanner.GCSViews
             // you cannot call join on the main thread, and invoke on the thread. as it just hangs on the invoke.
 
             //thisthread.Join();
+        }
+
+        private void ConfigureScriptsButtonsLayout()
+        {
+            var buttons = new[] {BUT_select_script, BUT_run_script, BUT_abort_script, BUT_edit_selected};
+
+            if (buttons.Any(b => b == null))
+                return;
+
+            foreach (var button in buttons)
+            {
+                button.AutoSize = true;
+                button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                button.Size = button.GetPreferredSize(Size.Empty);
+            }
+
+            int startX = buttons.Min(b => b.Location.X);
+            int y = buttons.Min(b => b.Location.Y);
+            int currentX = startX;
+
+            foreach (var button in buttons)
+            {
+                button.Location = new Point(currentX, y);
+                currentX += button.Width + 8;
+            }
         }
 
         private void FlightData_Load(object sender, EventArgs e)
