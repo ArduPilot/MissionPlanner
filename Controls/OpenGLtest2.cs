@@ -92,6 +92,7 @@ namespace MissionPlanner.Controls
         private double _cameraHeight = 2;
         private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
         private float _cameraFOV = 60f; // Field of view in degrees
+        private int _whitePlaneTexture = 0; // White texture for plane rendering
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -574,29 +575,32 @@ namespace MissionPlanner.Controls
             GL.UniformMatrix4(tileInfo.modelViewSlot, 1, false, ref modelViewMatrix.Row0.X);
             GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
 
-            // Disable texture
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-            GL.Disable(EnableCap.Texture2D);
+            // Create white texture if not exists
+            if (_whitePlaneTexture == 0)
+            {
+                using (var whiteBmp = new Bitmap(1, 1))
+                {
+                    whiteBmp.SetPixel(0, 0, Color.White);
+                    var data = whiteBmp.LockBits(new Rectangle(0, 0, 1, 1), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    _whitePlaneTexture = CreateTexture(data);
+                    whiteBmp.UnlockBits(data);
+                }
+            }
 
-            // Build vertex array with color (gray-blue for plane with simple lighting)
+            // Bind white texture
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.Enable(EnableCap.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, _whitePlaneTexture);
+
+            // Build vertex array with bright white color
             var planeVerts = new List<Vertex>();
             for (int i = 0; i < _planeVertices.Count; i += 3)
             {
                 float vx = _planeVertices[i];
                 float vy = _planeVertices[i + 1];
                 float vz = _planeVertices[i + 2];
-                // Use normal for simple shading - light from above and front
-                float nx = _planeNormals[i];
-                float ny = _planeNormals[i + 1];
-                float nz = _planeNormals[i + 2];
-                // Normalize the normal vector
-                float len = (float)Math.Sqrt(nx * nx + ny * ny + nz * nz);
-                if (len > 0) { nx /= len; ny /= len; nz /= len; }
-                // Light direction: from above (Z+) and slightly from front
-                float light = Math.Abs(nz) * 0.5f + Math.Abs(ny) * 0.3f + 0.4f; // Ambient + directional
-                light = Math.Min(1.0f, light);
-                // Gray-blue color
-                planeVerts.Add(new Vertex(vx, vy, vz, 0.6 * light, 0.6 * light, 0.75 * light, 1.0, 0, 0));
+                // Bright white color - full brightness
+                planeVerts.Add(new Vertex(vx, vy, vz, 1.0, 1.0, 1.0, 1.0, 0, 0));
             }
 
             // Create temporary VBO
@@ -1674,7 +1678,7 @@ namespace MissionPlanner.Controls
                 projMatrix = OpenTK.Matrix4.CreatePerspectiveFieldOfView(
                     (float) (_cameraFOV * MathHelper.deg2rad),
                     (float) Width / Height, 0.1f,
-                    (float) 20000);
+                    (float) 50000); // 50km render distance
                 GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
                 {
                     // for unproject - updated on every draw
