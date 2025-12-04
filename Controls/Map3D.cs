@@ -101,7 +101,12 @@ namespace MissionPlanner.Controls
         private bool _showHeadingLine = true;
         private bool _showNavBearingLine = true;
         private bool _showGpsHeadingLine = true;
+        private bool _showTrail = true;
         private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
+        // Trail (flight path history) - stored as absolute UTM coordinates (X, Y, Z)
+        private List<double[]> _trailPoints = new List<double[]>();
+        private int _trailUtmZone = -999;
+        private Lines _trailLine = null;
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -189,6 +194,7 @@ namespace MissionPlanner.Controls
             _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
             _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
+            _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", true);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
 
             InitializeComponent();
@@ -727,18 +733,58 @@ namespace MissionPlanner.Controls
                 _headingLine.Draw(projMatrix, viewMatrix);
             }
 
-            // Nav bearing line (orange)
+            // Nav bearing line (orange) - draws from plane to target waypoint
             if (_showNavBearingLine)
             {
-                double navBearingRad = MathHelper.Radians(navBearing);
-                double navEndX = _planeDrawX + Math.Sin(navBearingRad) * lineLength;
-                double navEndY = _planeDrawY + Math.Cos(navBearingRad) * lineLength;
+                double navEndX, navEndY, navEndZ;
+                PointLatLngAlt targetWp = null;
+
+                // Find the target waypoint using the same logic as waypoint marker rendering
+                var mode = MainV2.comPort?.MAV?.cs?.mode?.ToLower() ?? "";
+                if (mode == "guided" && MainV2.comPort?.MAV?.GuidedMode.x != 0)
+                {
+                    // In guided mode, target is the guided waypoint (same as line ~1244)
+                    targetWp = new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
+                        { Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt };
+                }
+                else if (mode == "rtl" || mode == "land" || mode == "smart_rtl")
+                {
+                    // In RTL/Land modes, target is Home
+                    var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
+                    targetWp = pointlist?.FirstOrDefault(p => p.Tag == "H");
+                }
+                else
+                {
+                    // Normal auto mode - use current waypoint number
+                    int wpno = (int)(MainV2.comPort?.MAV?.cs?.wpno ?? 0);
+                    var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
+                    if (pointlist != null && wpno > 0 && wpno < pointlist.Count)
+                        targetWp = pointlist[wpno];
+                }
+
+                if (targetWp != null && targetWp.Lat != 0 && targetWp.Lng != 0)
+                {
+                    // Calculate position exactly as waypoint markers are drawn
+                    var co = convertCoords(targetWp);
+                    var targetTerrainAlt = srtm.getAltitude(targetWp.Lat, targetWp.Lng).alt;
+                    navEndX = co[0];
+                    navEndY = co[1];
+                    navEndZ = co[2] + targetTerrainAlt;
+                }
+                else
+                {
+                    // Fallback: use nav bearing direction with fixed length (flat line)
+                    double navBearingRad = MathHelper.Radians(navBearing);
+                    navEndX = _planeDrawX + Math.Sin(navBearingRad) * lineLength;
+                    navEndY = _planeDrawY + Math.Cos(navBearingRad) * lineLength;
+                    navEndZ = _planeDrawZ;
+                }
 
                 _navBearingLine?.Dispose();
                 _navBearingLine = new Lines();
                 _navBearingLine.Width = 1.5f;
                 _navBearingLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, 1, 0.5f, 0, 1);
-                _navBearingLine.Add(navEndX, navEndY, _planeDrawZ, 1, 0.5f, 0, 1);
+                _navBearingLine.Add(navEndX, navEndY, navEndZ, 1, 0.5f, 0, 1);
                 _navBearingLine.Draw(projMatrix, viewMatrix);
             }
 
@@ -756,6 +802,70 @@ namespace MissionPlanner.Controls
                 _gpsHeadingLine.Add(gpsEndX, gpsEndY, _planeDrawZ, 0, 0, 0, 1);
                 _gpsHeadingLine.Draw(projMatrix, viewMatrix);
             }
+        }
+
+        private void DrawTrail(Matrix4 projMatrix, Matrix4 viewMatrix)
+        {
+            if (!_showTrail || _trailPoints.Count < 2)
+                return;
+
+            _trailLine?.Dispose();
+            _trailLine = new Lines();
+            _trailLine.Width = 5f;
+
+            // MidnightBlue color with alpha (same as 2D map GMapRoute default)
+            float r = 25f / 255f;
+            float g = 25f / 255f;
+            float b = 112f / 255f;
+            float a = 144f / 255f;
+
+            // Convert trail points to relative coordinates
+            var relPoints = new List<double[]>();
+            foreach (var pt in _trailPoints)
+            {
+                relPoints.Add(new double[] { pt[0] - utmcenter[0], pt[1] - utmcenter[1], pt[2] });
+            }
+            // Add current plane position
+            relPoints.Add(new double[] { _planeDrawX, _planeDrawY, _planeDrawZ });
+
+            // Apply moving average smoothing (window size 61 for very heavy smoothing)
+            int windowSize = 61;
+            var smoothed = new List<double[]>();
+
+            for (int i = 0; i < relPoints.Count; i++)
+            {
+                double sumX = 0, sumY = 0, sumZ = 0;
+                int count = 0;
+                int halfWindow = windowSize / 2;
+
+                for (int j = Math.Max(0, i - halfWindow); j <= Math.Min(relPoints.Count - 1, i + halfWindow); j++)
+                {
+                    sumX += relPoints[j][0];
+                    sumY += relPoints[j][1];
+                    sumZ += relPoints[j][2];
+                    count++;
+                }
+
+                smoothed.Add(new double[] { sumX / count, sumY / count, sumZ / count });
+            }
+
+            // Draw smoothed points, but force the last point to be exact plane position
+            for (int i = 0; i < smoothed.Count - 1; i++)
+            {
+                _trailLine.Add(smoothed[i][0], smoothed[i][1], smoothed[i][2], r, g, b, a);
+            }
+            // Last point is always the exact plane position
+            _trailLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, r, g, b, a);
+
+            _trailLine.Draw(projMatrix, viewMatrix);
+        }
+
+        /// <summary>
+        /// Clears the 3D map trail. Called from FlightData when clearing the 2D track.
+        /// </summary>
+        public void ClearTrail()
+        {
+            _trailPoints.Clear();
         }
 
         static int CreateTexture(BitmapData data)
@@ -974,6 +1084,30 @@ namespace MissionPlanner.Controls
                 _planePitch = (float)rpy.Y;
                 _planeYaw = (float)rpy.Z;
 
+                // Update trail points using the smoothly rendered plane position (every frame)
+                // This gives us smooth trails since _planeDrawX/Y/Z is already Kalman filtered
+                if (_showTrail && _center.Lat != 0 && _center.Lng != 0)
+                {
+                    // Store absolute UTM coordinates (add back utmcenter offset)
+                    double absX = _planeDrawX + utmcenter[0];
+                    double absY = _planeDrawY + utmcenter[1];
+                    double absZ = _planeDrawZ;
+
+                    // Clear trail if UTM zone changed
+                    if (_trailUtmZone != utmzone)
+                    {
+                        _trailPoints.Clear();
+                        _trailUtmZone = utmzone;
+                    }
+
+                    // Add point every frame - the positions are already smooth from Kalman filter
+                    // Use a larger point count since we're adding every frame (~30fps)
+                    int numTrackLength = Settings.Instance.GetInt32("NUM_tracklength", 200) * 15; // 3000 points for smooth 3D trail
+                    if (_trailPoints.Count > numTrackLength)
+                        _trailPoints.RemoveRange(0, _trailPoints.Count - numTrackLength);
+                    _trailPoints.Add(new double[] { absX, absY, absZ });
+                }
+
                 // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
                 double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
                 cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
@@ -1083,6 +1217,9 @@ namespace MissionPlanner.Controls
 
                 // Draw heading (red) and nav bearing (orange) lines from plane center
                 DrawHeadingLines(projMatrix, modelMatrix);
+
+                // Draw flight path trail
+                DrawTrail(projMatrix, modelMatrix);
 
                 var beforewpsmarkers = DateTime.Now;
                 // Draw waypoint markers (hidden if within 200ft / 61m of camera)
@@ -1933,6 +2070,10 @@ namespace MissionPlanner.Controls
 
                 var chkGpsHeading = new CheckBox { Text = "GPS Heading Line (Black)", Location = new Point(margin, y), AutoSize = true, Checked = _showGpsHeadingLine };
                 dialog.Controls.Add(chkGpsHeading);
+                y += 24;
+
+                var chkTrail = new CheckBox { Text = "Flight Path Trail", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
+                dialog.Controls.Add(chkTrail);
                 y += 30;
 
                 int btnWidth = 75;
@@ -1961,6 +2102,7 @@ namespace MissionPlanner.Controls
                     chkHeading.Checked = true;
                     chkNavBearing.Checked = true;
                     chkGpsHeading.Checked = true;
+                    chkTrail.Checked = true;
                 };
                 dialog.Controls.Add(btnReset);
                 y += 23;
@@ -1982,6 +2124,7 @@ namespace MissionPlanner.Controls
                     _showHeadingLine = chkHeading.Checked;
                     _showNavBearingLine = chkNavBearing.Checked;
                     _showGpsHeadingLine = chkGpsHeading.Checked;
+                    _showTrail = chkTrail.Checked;
 
                     bool stlChanged = _planeSTLPath != selectedSTLPath;
                     _planeSTLPath = selectedSTLPath;
@@ -2000,6 +2143,7 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
                     Settings.Instance["map3d_show_nav_bearing"] = _showNavBearingLine.ToString();
                     Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
+                    Settings.Instance["map3d_show_trail"] = _showTrail.ToString();
                     Settings.Instance.Save();
 
                     test_Resize(null, null);
