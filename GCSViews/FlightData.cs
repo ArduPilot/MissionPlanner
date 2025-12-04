@@ -47,6 +47,10 @@ namespace MissionPlanner.GCSViews
         public static bool threadrun;
         public SplitContainer MainHcopy;
         private SplitterPanel MapPanel => splitContainer1.Panel1;
+        private SplitContainer map3DSplitContainer;
+        private Control MapContentPanel => map3DSplitContainer?.Panel1 ?? (Control)MapPanel;
+        private Panel map3DHost;
+        private OpenGLtest2 map3DControl;
         internal static GMapOverlay geofence;
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI");
@@ -255,6 +259,8 @@ namespace MissionPlanner.GCSViews
         // Status tab control
         private Controls.StatusControl _statusControl;
 
+        private CheckBox _cb3DMap;
+
         private void MoveMapControlsAboveTuning()
         {
             splitContainer1.Panel2.Resize -= splitContainer1_Panel2_Resize;
@@ -269,15 +275,60 @@ namespace MissionPlanner.GCSViews
             splitContainer1.Panel1.Controls.Clear();
             splitContainer1.Panel2.Controls.Add(splitContainer2);
 
+            map3DSplitContainer = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                Orientation = Orientation.Horizontal,
+                FixedPanel = FixedPanel.Panel2,
+                Panel2Collapsed = true,
+                SplitterWidth = 4,
+                Name = "map3DSplitContainer"
+            };
+
+            MapPanel.Controls.Add(map3DSplitContainer);
+            map3DSplitContainer.BringToFront();
+
             foreach (var control in mapControls)
             {
-                MapPanel.Controls.Add(control);
+                map3DSplitContainer.Panel1.Controls.Add(control);
             }
 
-            MapPanel.ContextMenuStrip = contextMenuStripMap;
+            map3DSplitContainer.Panel1.ContextMenuStrip = contextMenuStripMap;
+            MapPanel.ContextMenuStrip = null;
             splitContainer1.Panel2.ContextMenuStrip = null;
 
-            MapPanel.Resize += splitContainer1_Panel2_Resize;
+            map3DSplitContainer.Panel1.Resize += splitContainer1_Panel2_Resize;
+
+            // Host for 3D map in the bottom area (shared with params/tuning)
+            map3DHost = new Panel { Dock = DockStyle.Fill, Visible = false, Name = "map3DHost" };
+            splitContainer2.Panel2.Controls.Add(map3DHost);
+        }
+
+        private void Add3DMapCheckbox()
+        {
+            _cb3DMap = new CheckBox
+            {
+                Text = "3D Map",
+                AutoSize = true
+            };
+            _cb3DMap.CheckedChanged += CB_3dmap_CheckedChanged;
+
+            panel1.Controls.Add(_cb3DMap);
+            Position3DMapCheckbox();
+            panel1.Resize += (s, e) => Position3DMapCheckbox();
+
+            // Restore saved state
+            if (Settings.Instance.ContainsKey("FD_Show3DMap"))
+                _cb3DMap.Checked = Settings.Instance.GetBoolean("FD_Show3DMap");
+        }
+
+        private void Position3DMapCheckbox()
+        {
+            if (_cb3DMap == null || CB_params == null || CHK_autopan == null)
+                return;
+
+            _cb3DMap.Location = new Point(CB_params.Right + 10, CB_params.Top);
+            CHK_autopan.Location = new Point(_cb3DMap.Right + 10, CHK_autopan.Top);
         }
 
         public FlightData()
@@ -286,6 +337,7 @@ namespace MissionPlanner.GCSViews
 
             InitializeComponent();
             MoveMapControlsAboveTuning();
+            Add3DMapCheckbox();
 
             log.Info("Components Done");
 
@@ -523,7 +575,7 @@ namespace MissionPlanner.GCSViews
                 ThemeManager.ApplyThemeTo(frm);
                 frm.Show();
             };
-            MapPanel.Controls.Add(btnTools);
+            MapContentPanel.Controls.Add(btnTools);
             btnTools.BringToFront();
             // Position it at top-left
             btnTools.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -540,7 +592,7 @@ namespace MissionPlanner.GCSViews
             {
                 new PropagationSettings().Show();
             };
-            MapPanel.Controls.Add(btnPropagation);
+            MapContentPanel.Controls.Add(btnPropagation);
             btnPropagation.BringToFront();
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
@@ -563,7 +615,7 @@ namespace MissionPlanner.GCSViews
             };
 
             // Add checkbox to map panel
-            MapPanel.Controls.Add(chkDoubleClickFlyToHere);
+            MapContentPanel.Controls.Add(chkDoubleClickFlyToHere);
             chkDoubleClickFlyToHere.BringToFront();
             chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 28);
 
@@ -1167,6 +1219,8 @@ namespace MissionPlanner.GCSViews
             {
                 if (hud1 != null)
                     Settings.Instance["FlightSplitter"] = MainH.SplitterDistance.ToString();
+
+                Dispose3DMap();
             }
             catch
             {
@@ -1462,8 +1516,8 @@ namespace MissionPlanner.GCSViews
             {
                 if (sc.Name == "FlightPlanner")
                 {
-                    MapPanel.Controls.Remove(sc.Control);
-                    MapPanel.Controls.Remove((Control) sender);
+                    MapContentPanel.Controls.Remove(sc.Control);
+                    MapContentPanel.Controls.Remove((Control) sender);
                     sc.Control.Visible = false;
 
                     if (sc.Control is IDeactivate)
@@ -1475,7 +1529,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            foreach (Control ctl in MapPanel.Controls)
+            foreach (Control ctl in MapContentPanel.Controls)
             {
                 ctl.Visible = true;
             }
@@ -2285,18 +2339,82 @@ namespace MissionPlanner.GCSViews
 
         private void CB_tuning_CheckedChanged(object sender, EventArgs e)
         {
+            if (CB_tuning.Checked)
+            {
+                if (CB_params.Checked) CB_params.Checked = false;
+                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+            }
             UpdateSplitContainerLayout();
         }
 
         private void CB_params_CheckedChanged(object sender, EventArgs e)
         {
+            if (CB_params.Checked)
+            {
+                if (CB_tuning.Checked) CB_tuning.Checked = false;
+                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+            }
             UpdateSplitContainerLayout();
+        }
+
+        private void CB_3dmap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_cb3DMap.Checked)
+            {
+                if (CB_tuning.Checked) CB_tuning.Checked = false;
+                if (CB_params.Checked) CB_params.Checked = false;
+            }
+            Settings.Instance["FD_Show3DMap"] = _cb3DMap.Checked.ToString();
+            Toggle3DMap(_cb3DMap.Checked);
+            UpdateSplitContainerLayout();
+        }
+
+        private void Toggle3DMap(bool enable)
+        {
+            if (enable)
+            {
+                if (map3DControl == null || map3DControl.IsDisposed)
+                {
+                    Dispose3DMap();
+                    map3DControl = new OpenGLtest2();
+                    map3DControl.Dock = DockStyle.Fill;
+                }
+
+                if (map3DHost != null)
+                {
+                    map3DHost.Controls.Clear();
+                    map3DHost.Controls.Add(map3DControl);
+                    map3DHost.Visible = true;
+                }
+            }
+            else
+            {
+                Dispose3DMap();
+                if (map3DHost != null)
+                {
+                    map3DHost.Controls.Clear();
+                    map3DHost.Visible = false;
+                }
+            }
+        }
+
+        private void Dispose3DMap()
+        {
+            if (map3DControl != null)
+            {
+                map3DHost?.Controls.Remove(map3DControl);
+                try { map3DControl.Dispose(); } catch { }
+                map3DControl = null;
+            }
+
+            OpenGLtest2.instance = null;
         }
 
         private void UpdateSplitContainerLayout()
         {
             bool tuningChecked = CB_tuning.Checked;
             bool paramsChecked = CB_params.Checked;
+            bool map3DChecked = _cb3DMap != null && _cb3DMap.Checked;
 
             splitContainer1.Panel1Collapsed = false;
 
@@ -2308,7 +2426,47 @@ namespace MissionPlanner.GCSViews
             int topHeight = Math.Max(0, Math.Min(totalHeight, hudHeightPixels - 5)); // slight nudge to align lines
             int bottomHeight = Math.Max(0, totalHeight - topHeight);
 
-            if (tuningChecked || paramsChecked)
+            // Reset visibility defaults
+            if (map3DHost != null)
+                map3DHost.Visible = false;
+            if (configRawParams2 != null)
+                configRawParams2.Visible = true;
+            if (zg1 != null)
+                zg1.Visible = true;
+
+            if (!map3DChecked)
+            {
+                Dispose3DMap();
+                if (map3DHost != null)
+                {
+                    map3DHost.Controls.Clear();
+                    map3DHost.Visible = false;
+                }
+            }
+
+            if (map3DChecked)
+            {
+                splitContainer1.Panel2Collapsed = false;
+                splitContainer2.Panel1Collapsed = true;
+                splitContainer2.Panel2Collapsed = false;
+
+                // Show only the 3D host
+                if (configRawParams2 != null)
+                    configRawParams2.Visible = false;
+                if (zg1 != null)
+                    zg1.Visible = false;
+                if (map3DHost != null)
+                {
+                    map3DHost.Visible = true;
+                    map3DHost.BringToFront();
+                }
+
+                ZedGraphTimer.Enabled = false;
+                ZedGraphTimer.Stop();
+
+                splitContainer1.SplitterDistance = Math.Max(0, Math.Min(totalHeight, topHeight));
+            }
+            else if (tuningChecked || paramsChecked)
             {
                 splitContainer1.Panel2Collapsed = false;
 
@@ -3423,7 +3581,7 @@ namespace MissionPlanner.GCSViews
 
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Control ctl in MapPanel.Controls)
+            foreach (Control ctl in MapContentPanel.Controls)
             {
                 ctl.Visible = false;
             }
@@ -3434,13 +3592,13 @@ namespace MissionPlanner.GCSViews
                 {
                     MyButton but = new MyButton
                     {
-                        Location = new Point(MapPanel.Width / 2, 0),
+                        Location = new Point(MapContentPanel.Width / 2, 0),
                         Text = "Close"
                     };
                     but.Click += but_Click;
 
-                    MapPanel.Controls.Add(but);
-                    MapPanel.Controls.Add(sc.Control);
+                    MapContentPanel.Controls.Add(but);
+                    MapContentPanel.Controls.Add(sc.Control);
                     ThemeManager.ApplyThemeTo(sc.Control);
                     ThemeManager.ApplyThemeTo(this);
 
@@ -7607,30 +7765,30 @@ namespace MissionPlanner.GCSViews
         // Resize the mini video or mini map when the container is resized
         private void splitContainer1_Panel2_Resize(object sender, EventArgs e)
         {
-            bool miniVideo = MapPanel.Contains(_gimbalVideoControl)
+            bool miniVideo = MapContentPanel.Contains(_gimbalVideoControl)
                 && _gimbalVideoControl?.Dock == DockStyle.None
                 && _gimbalVideoControl.Visible;
             bool miniMap = gMapControl1.Dock == DockStyle.None && gMapControl1.Visible;
             if (miniVideo)
             {
-                var width = (int)(MapPanel.Width * 0.3);
-                var height = (int)(MapPanel.Height * 0.3);
+                var width = (int)(MapContentPanel.Width * 0.3);
+                var height = (int)(MapContentPanel.Height * 0.3);
                 var aspectRatio = _gimbalVideoControl.VideoBox.Image.Width / (double)_gimbalVideoControl.VideoBox.Image.Height;
                 (width, height) = (
                     Math.Min(width, (int)(height * aspectRatio)),
                     Math.Min(height, (int)(width / aspectRatio))
                 );
-                var x = MapPanel.Width - width - TRK_zoom.Width;
-                var y = MapPanel.Height - height;
+                var x = MapContentPanel.Width - width - TRK_zoom.Width;
+                var y = MapContentPanel.Height - height;
                 _gimbalVideoControl.Location = new Point(x, y);
                 _gimbalVideoControl.Size = new Size(width, height);
             }
             else if (miniMap)
             {
-                var width = (int)(MapPanel.Width * 0.3);
-                var height = (int)(MapPanel.Height * 0.3);
-                var x = MapPanel.Width - width;
-                var y = MapPanel.Height - height;
+                var width = (int)(MapContentPanel.Width * 0.3);
+                var height = (int)(MapContentPanel.Height * 0.3);
+                var x = MapContentPanel.Width - width;
+                var y = MapContentPanel.Height - height;
                 gMapControl1.Location = new Point(x, y);
                 gMapControl1.Size = new Size(width, height);
             }
@@ -7644,7 +7802,7 @@ namespace MissionPlanner.GCSViews
             var containingForm = gimbalVideoControl.Parent as Form;
 
             // Fill the panel with the gimbal video control
-            MapPanel.Controls.Add(gimbalVideoControl);
+            MapContentPanel.Controls.Add(gimbalVideoControl);
             gimbalVideoControl.Dock = DockStyle.Fill;
             gimbalVideoControl.BringToFront(); // Place on top of all map overlay controls
             gimbalVideoControl.Visible = true;
@@ -7676,7 +7834,7 @@ namespace MissionPlanner.GCSViews
             gMapControl1.SendToBack(); // Behind the map overlay controls
 
             // Add the gimbal video control to the mini video panel
-            MapPanel.Controls.Add(gimbalVideoControl);
+            MapContentPanel.Controls.Add(gimbalVideoControl);
             gimbalVideoControl.Dock = DockStyle.None;
             gimbalVideoControl.BringToFront();
             gimbalVideoControl.Visible = true;
