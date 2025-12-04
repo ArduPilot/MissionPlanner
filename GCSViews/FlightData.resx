@@ -4859,7 +4859,7 @@
     <value>3</value>
   </data>
   <data name="tabTLogs.Text" xml:space="preserve">
-    <value>Telemetry Logs</value>
+    <value>Logs</value>
   </data>
   <data name="&gt;&gt;tabTLogs.Name" xml:space="preserve">
     <value>tabTLogs</value>
@@ -4889,7 +4889,7 @@
     <value>11</value>
   </data>
   <data name="BUT_DFMavlink.Text" xml:space="preserve">
-    <value>Download DataFlash Log Via Mavlink</value>
+    <value>Download via Mavlink</value>
   </data>
   <data name="&gt;&gt;BUT_DFMavlink.Name" xml:space="preserve">
     <value>BUT_DFMavlink</value>
@@ -4970,7 +4970,7 @@
     <value>8</value>
   </data>
   <data name="BUT_matlab.Text" xml:space="preserve">
-    <value>Create Matlab File</value>
+    <value>MATLAB File</value>
   </data>
   <data name="&gt;&gt;BUT_matlab.Name" xml:space="preserve">
     <value>BUT_matlab</value>
@@ -4997,7 +4997,7 @@
     <value>9</value>
   </data>
   <data name="but_bintolog.Text" xml:space="preserve">
-    <value>Convert .Bin to .Log</value>
+    <value>Convert .bin to .log</value>
   </data>
   <data name="&gt;&gt;but_bintolog.Name" xml:space="preserve">
     <value>but_bintolog</value>
@@ -5024,7 +5024,7 @@
     <value>10</value>
   </data>
   <data name="but_dflogtokml.Text" xml:space="preserve">
-    <value>Create KML + gpx</value>
+    <value>Create kml + gpx</value>
   </data>
   <data name="&gt;&gt;but_dflogtokml.Name" xml:space="preserve">
     <value>but_dflogtokml</value>

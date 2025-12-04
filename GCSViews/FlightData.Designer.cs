@@ -169,6 +169,9 @@ namespace MissionPlanner.GCSViews
             this.labelScriptStatus = new System.Windows.Forms.Label();
             this.BUT_select_script = new MissionPlanner.Controls.MyButton();
             this.tabTLogs = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelLogs = new System.Windows.Forms.TableLayoutPanel();
+            this.grpDataflash = new System.Windows.Forms.GroupBox();
+            this.grpTelemetry = new System.Windows.Forms.GroupBox();
             this.tableLayoutPaneltlogs = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanelTLogControls = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanelTrackRow = new System.Windows.Forms.TableLayoutPanel();
@@ -182,7 +185,6 @@ namespace MissionPlanner.GCSViews
             this.LBL_logfn = new System.Windows.Forms.Label();
             this.BUT_log2kml = new MissionPlanner.Controls.MyButton();
             this.BUT_playlog = new MissionPlanner.Controls.MyButton();
-            this.tablogbrowse = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_DFMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_georefimage = new MissionPlanner.Controls.MyButton();
@@ -280,12 +282,14 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanel1.SuspendLayout();
             this.tabScripts.SuspendLayout();
             this.tabTLogs.SuspendLayout();
+            this.tableLayoutPanelLogs.SuspendLayout();
+            this.grpDataflash.SuspendLayout();
+            this.grpTelemetry.SuspendLayout();
             this.tableLayoutPaneltlogs.SuspendLayout();
             this.flowLayoutPanelTLogControls.SuspendLayout();
             this.tableLayoutPanelTrackRow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).BeginInit();
             this.flowLayoutPanelSpeed.SuspendLayout();
-            this.tablogbrowse.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -608,7 +612,6 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabAuxFunction);
             this.tabControlactions.Controls.Add(this.tabScripts);
             this.tabControlactions.Controls.Add(this.tabTLogs);
-            this.tabControlactions.Controls.Add(this.tablogbrowse);
             resources.ApplyResources(this.tabControlactions, "tabControlactions");
             this.tabControlactions.Name = "tabControlactions";
             this.tabControlactions.SelectedIndex = 0;
@@ -2255,14 +2258,52 @@ namespace MissionPlanner.GCSViews
             this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
             //
             // tabTLogs
-            // 
-            this.tabTLogs.Controls.Add(this.tableLayoutPaneltlogs);
+            //
+            this.tabTLogs.Controls.Add(this.tableLayoutPanelLogs);
             resources.ApplyResources(this.tabTLogs, "tabTLogs");
             this.tabTLogs.Name = "tabTLogs";
             this.tabTLogs.UseVisualStyleBackColor = true;
-            // 
+            //
+            // tableLayoutPanelLogs
+            //
+            this.tableLayoutPanelLogs.ColumnCount = 2;
+            this.tableLayoutPanelLogs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanelLogs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanelLogs.Controls.Add(this.grpDataflash, 0, 0);
+            this.tableLayoutPanelLogs.Controls.Add(this.grpTelemetry, 1, 0);
+            this.tableLayoutPanelLogs.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanelLogs.AutoSize = true;
+            this.tableLayoutPanelLogs.Name = "tableLayoutPanelLogs";
+            this.tableLayoutPanelLogs.Padding = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanelLogs.RowCount = 1;
+            this.tableLayoutPanelLogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            //
+            // grpDataflash
+            //
+            this.grpDataflash.Controls.Add(this.tableLayoutPanel2);
+            this.grpDataflash.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpDataflash.AutoSize = true;
+            this.grpDataflash.MinimumSize = new System.Drawing.Size(0, 150);
+            this.grpDataflash.Name = "grpDataflash";
+            this.grpDataflash.Padding = new System.Windows.Forms.Padding(6);
+            this.grpDataflash.TabIndex = 0;
+            this.grpDataflash.TabStop = false;
+            this.grpDataflash.Text = "Dataflash Logs";
+            //
+            // grpTelemetry
+            //
+            this.grpTelemetry.Controls.Add(this.tableLayoutPaneltlogs);
+            this.grpTelemetry.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpTelemetry.AutoSize = true;
+            this.grpTelemetry.MinimumSize = new System.Drawing.Size(0, 150);
+            this.grpTelemetry.Name = "grpTelemetry";
+            this.grpTelemetry.Padding = new System.Windows.Forms.Padding(6);
+            this.grpTelemetry.TabIndex = 1;
+            this.grpTelemetry.TabStop = false;
+            this.grpTelemetry.Text = "Telemetry Logs";
+            //
             // tableLayoutPaneltlogs
-            // 
+            //
             resources.ApplyResources(this.tableLayoutPaneltlogs, "tableLayoutPaneltlogs");
             this.tableLayoutPaneltlogs.ColumnCount = 1;
             this.tableLayoutPaneltlogs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -2270,36 +2311,37 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPaneltlogs.Controls.Add(this.tableLayoutPanelTrackRow, 0, 1);
             this.tableLayoutPaneltlogs.Controls.Add(this.flowLayoutPanelSpeed, 0, 2);
             this.tableLayoutPaneltlogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPaneltlogs.MinimumSize = new System.Drawing.Size(400, 0);
+            this.tableLayoutPaneltlogs.MinimumSize = new System.Drawing.Size(300, 0);
             this.tableLayoutPaneltlogs.Name = "tableLayoutPaneltlogs";
             this.tableLayoutPaneltlogs.RowCount = 3;
             this.tableLayoutPaneltlogs.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPaneltlogs.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPaneltlogs.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            // 
+            //
             // flowLayoutPanelTLogControls
-            // 
+            //
             resources.ApplyResources(this.flowLayoutPanelTLogControls, "flowLayoutPanelTLogControls");
             this.flowLayoutPanelTLogControls.AutoSize = true;
             this.flowLayoutPanelTLogControls.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanelTLogControls.Controls.Add(this.BUT_loadtelem);
-            this.flowLayoutPanelTLogControls.Controls.Add(this.BUT_playlog);
             this.flowLayoutPanelTLogControls.Controls.Add(this.BUT_log2kml);
             this.flowLayoutPanelTLogControls.Controls.Add(this.LBL_logfn);
             this.flowLayoutPanelTLogControls.Name = "flowLayoutPanelTLogControls";
             this.flowLayoutPanelTLogControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanelTLogControls.WrapContents = false;
-            // 
+            //
             // tableLayoutPanelTrackRow
-            // 
+            //
             resources.ApplyResources(this.tableLayoutPanelTrackRow, "tableLayoutPanelTrackRow");
             this.tableLayoutPanelTrackRow.AutoSize = true;
             this.tableLayoutPanelTrackRow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanelTrackRow.ColumnCount = 2;
+            this.tableLayoutPanelTrackRow.ColumnCount = 3;
+            this.tableLayoutPanelTrackRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelTrackRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTrackRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelTrackRow.Controls.Add(this.tracklog, 0, 0);
-            this.tableLayoutPanelTrackRow.Controls.Add(this.lbl_logpercent, 1, 0);
+            this.tableLayoutPanelTrackRow.Controls.Add(this.BUT_playlog, 0, 0);
+            this.tableLayoutPanelTrackRow.Controls.Add(this.tracklog, 1, 0);
+            this.tableLayoutPanelTrackRow.Controls.Add(this.lbl_logpercent, 2, 0);
             this.tableLayoutPanelTrackRow.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanelTrackRow.Name = "tableLayoutPanelTrackRow";
             this.tableLayoutPanelTrackRow.RowCount = 1;
@@ -2313,12 +2355,13 @@ namespace MissionPlanner.GCSViews
             this.tracklog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tracklog.TickFrequency = 5;
             this.tracklog.Scroll += new System.EventHandler(this.tracklog_Scroll);
-            // 
+            //
             // lbl_logpercent
-            // 
+            //
             resources.ApplyResources(this.lbl_logpercent, "lbl_logpercent");
             this.lbl_logpercent.Name = "lbl_logpercent";
-            this.lbl_logpercent.MinimumSize = new System.Drawing.Size(50, 0);
+            this.lbl_logpercent.MinimumSize = new System.Drawing.Size(46, 0);
+            this.lbl_logpercent.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
             // 
             // flowLayoutPanelSpeed
             // 
@@ -2331,17 +2374,19 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanelSpeed.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanelSpeed.Name = "flowLayoutPanelSpeed";
             this.flowLayoutPanelSpeed.WrapContents = false;
-            // 
+            //
             // label2
-            // 
+            //
             resources.ApplyResources(this.label2, "label2");
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 10);
             this.label2.Name = "label2";
-            // 
+            //
             // comboPlaybackSpeed
-            // 
+            //
             resources.ApplyResources(this.comboPlaybackSpeed, "comboPlaybackSpeed");
             this.comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPlaybackSpeed.FormattingEnabled = true;
+            this.comboPlaybackSpeed.Margin = new System.Windows.Forms.Padding(3, 16, 3, 0);
             this.comboPlaybackSpeed.Name = "comboPlaybackSpeed";
             this.comboPlaybackSpeed.SelectedIndexChanged += new System.EventHandler(this.comboPlaybackSpeed_SelectedIndexChanged);
             // 
@@ -2357,10 +2402,11 @@ namespace MissionPlanner.GCSViews
             this.BUT_loadtelem.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_loadtelem.UseVisualStyleBackColor = true;
             this.BUT_loadtelem.Click += new System.EventHandler(this.BUT_loadtelem_Click);
-            // 
+            //
             // lbl_playbackspeed
-            // 
+            //
             resources.ApplyResources(this.lbl_playbackspeed, "lbl_playbackspeed");
+            this.lbl_playbackspeed.Margin = new System.Windows.Forms.Padding(3, 0, 3, 10);
             this.lbl_playbackspeed.Name = "lbl_playbackspeed";
             // 
             // LBL_logfn
@@ -2393,93 +2439,101 @@ namespace MissionPlanner.GCSViews
             this.BUT_playlog.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_playlog.UseVisualStyleBackColor = true;
             this.BUT_playlog.Click += new System.EventHandler(this.BUT_playlog_Click);
-            // 
-            // tablogbrowse
-            // 
-            this.tablogbrowse.Controls.Add(this.tableLayoutPanel2);
-            resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
-            this.tablogbrowse.Name = "tablogbrowse";
-            this.tablogbrowse.UseVisualStyleBackColor = true;
-            // 
+            //
             // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            //
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel2.Controls.Add(this.BUT_DFMavlink, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.BUT_georefimage, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.BUT_logbrowse, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.BUT_matlab, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.but_bintolog, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.but_dflogtokml, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.BUT_loganalysis, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.but_dflogtokml, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.but_bintolog, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_matlab, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_georefimage, 0, 2);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
+            //
             // BUT_DFMavlink
-            // 
+            //
             this.BUT_DFMavlink.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_DFMavlink.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_DFMavlink.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.BUT_DFMavlink.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.BUT_DFMavlink, "BUT_DFMavlink");
             this.BUT_DFMavlink.Name = "BUT_DFMavlink";
             this.BUT_DFMavlink.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_DFMavlink.UseVisualStyleBackColor = true;
             this.BUT_DFMavlink.Click += new System.EventHandler(this.BUT_DFMavlink_Click);
-            // 
+            //
             // BUT_georefimage
-            // 
+            //
+            this.BUT_georefimage.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
             this.BUT_georefimage.Name = "BUT_georefimage";
             this.BUT_georefimage.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
-            // 
+            //
             // BUT_logbrowse
-            // 
+            //
             this.BUT_logbrowse.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_logbrowse.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_logbrowse.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.BUT_logbrowse.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.BUT_logbrowse, "BUT_logbrowse");
             this.BUT_logbrowse.Name = "BUT_logbrowse";
             this.BUT_logbrowse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_logbrowse.UseVisualStyleBackColor = true;
             this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
-            // 
+            //
             // BUT_matlab
-            // 
+            //
             this.BUT_matlab.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_matlab.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_matlab.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.BUT_matlab.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
             this.BUT_matlab.Name = "BUT_matlab";
             this.BUT_matlab.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_matlab.UseVisualStyleBackColor = true;
             this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
-            // 
+            //
             // but_bintolog
-            // 
+            //
             this.but_bintolog.ColorMouseDown = System.Drawing.Color.Empty;
             this.but_bintolog.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_bintolog.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.but_bintolog.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.but_bintolog, "but_bintolog");
             this.but_bintolog.Name = "but_bintolog";
             this.but_bintolog.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_bintolog.UseVisualStyleBackColor = true;
             this.but_bintolog.Click += new System.EventHandler(this.but_bintolog_Click);
-            // 
+            //
             // but_dflogtokml
-            // 
+            //
             this.but_dflogtokml.ColorMouseDown = System.Drawing.Color.Empty;
             this.but_dflogtokml.ColorMouseOver = System.Drawing.Color.Empty;
             this.but_dflogtokml.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.but_dflogtokml.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.but_dflogtokml, "but_dflogtokml");
             this.but_dflogtokml.Name = "but_dflogtokml";
             this.but_dflogtokml.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_dflogtokml.UseVisualStyleBackColor = true;
             this.but_dflogtokml.Click += new System.EventHandler(this.but_dflogtokml_Click);
-            // 
+            //
             // BUT_loganalysis
-            // 
+            //
             this.BUT_loganalysis.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_loganalysis.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_loganalysis.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.BUT_loganalysis.Dock = System.Windows.Forms.DockStyle.Fill;
             resources.ApplyResources(this.BUT_loganalysis, "BUT_loganalysis");
             this.BUT_loganalysis.Name = "BUT_loganalysis";
             this.BUT_loganalysis.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -3000,6 +3054,9 @@ namespace MissionPlanner.GCSViews
             this.tabScripts.ResumeLayout(false);
             this.tabScripts.PerformLayout();
             this.tabTLogs.ResumeLayout(false);
+            this.tableLayoutPanelLogs.ResumeLayout(false);
+            this.grpDataflash.ResumeLayout(false);
+            this.grpTelemetry.ResumeLayout(false);
             this.tableLayoutPaneltlogs.ResumeLayout(false);
             this.tableLayoutPaneltlogs.PerformLayout();
             this.flowLayoutPanelTLogControls.ResumeLayout(false);
@@ -3009,7 +3066,6 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanelSpeed.ResumeLayout(false);
             this.flowLayoutPanelSpeed.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).EndInit();
-            this.tablogbrowse.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableMap.ResumeLayout(false);
             this.tableMap.PerformLayout();
@@ -3109,6 +3165,9 @@ namespace MissionPlanner.GCSViews
         private Controls.ServoOptions servoOptions3;
         private Controls.ServoOptions servoOptions4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPaneltlogs;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelLogs;
+        private System.Windows.Forms.GroupBox grpDataflash;
+        private System.Windows.Forms.GroupBox grpTelemetry;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTLogControls;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTrackRow;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelSpeed;
@@ -3124,7 +3183,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelQuick;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboPlaybackSpeed;
-        public System.Windows.Forms.TabPage tablogbrowse;
         private Controls.MyButton BUT_logbrowse;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
