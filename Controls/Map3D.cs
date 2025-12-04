@@ -1372,12 +1372,17 @@ namespace MissionPlanner.Controls
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
-                for (int a = zoom; a >= minzoom; a--)
+
+                // High altitude mode: >500m loads tiles up to 100km but caps max zoom at zoom-5
+                bool highAltitude = _center.Alt > 500;
+                int effectiveMaxZoom = highAltitude ? Math.Max(1, zoom - 5) : zoom;
+                double maxDist = highAltitude ? 100000 : 3000; // 100km at high alt, 3km normal
+
+                for (int a = effectiveMaxZoom; a >= minzoom; a--)
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
-                    // 50m at max zoom
-                    // step at 0 zoom
-                    var distm = MathHelper.map(a, 0, zoom, 3000, 50);
+                    // 50m at max zoom, maxDist at min zoom
+                    var distm = MathHelper.map(a, 0, effectiveMaxZoom, maxDist, 50);
                     var offset = _center.newpos(45, distm);
                     area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
                     var extratile = 0;
