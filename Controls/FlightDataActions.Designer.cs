@@ -49,6 +49,19 @@ namespace MissionPlanner.Controls
             this.btnClearTrack = new MissionPlanner.Controls.MyButton();
             this.btnReboot = new MissionPlanner.Controls.MyButton();
             this.btnAbortLanding = new MissionPlanner.Controls.MyButton();
+            this.grpPayload = new System.Windows.Forms.GroupBox();
+            this.tablePayload = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBoxPitch = new System.Windows.Forms.GroupBox();
+            this.trackBarPitch = new System.Windows.Forms.TrackBar();
+            this.txtPitchPos = new System.Windows.Forms.TextBox();
+            this.groupBoxYaw = new System.Windows.Forms.GroupBox();
+            this.trackBarYaw = new System.Windows.Forms.TrackBar();
+            this.txtYawPos = new System.Windows.Forms.TextBox();
+            this.groupBoxRoll = new System.Windows.Forms.GroupBox();
+            this.trackBarRoll = new System.Windows.Forms.TrackBar();
+            this.txtRollPos = new System.Windows.Forms.TextBox();
+            this.btnResetGimbal = new MissionPlanner.Controls.MyButton();
+            this.btnGimbalVideo = new MissionPlanner.Controls.MyButton();
             this.scrollPanel.SuspendLayout();
             this.mainFlowLayout.SuspendLayout();
             this.grpCommand.SuspendLayout();
@@ -57,6 +70,14 @@ namespace MissionPlanner.Controls
             this.tableSetpoints.SuspendLayout();
             this.grpTools.SuspendLayout();
             this.tableTools.SuspendLayout();
+            this.grpPayload.SuspendLayout();
+            this.tablePayload.SuspendLayout();
+            this.groupBoxPitch.SuspendLayout();
+            this.groupBoxYaw.SuspendLayout();
+            this.groupBoxRoll.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPitch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarRoll)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarYaw)).BeginInit();
             this.SuspendLayout();
             // 
             // scrollPanel
@@ -76,6 +97,7 @@ namespace MissionPlanner.Controls
             this.mainFlowLayout.Controls.Add(this.grpCommand);
             this.mainFlowLayout.Controls.Add(this.grpSetpoints);
             this.mainFlowLayout.Controls.Add(this.grpTools);
+            this.mainFlowLayout.Controls.Add(this.grpPayload);
             this.mainFlowLayout.Dock = System.Windows.Forms.DockStyle.Top;
             this.mainFlowLayout.Location = new System.Drawing.Point(0, 0);
             this.mainFlowLayout.Name = "mainFlowLayout";
@@ -89,7 +111,7 @@ namespace MissionPlanner.Controls
             this.grpCommand.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpCommand.Controls.Add(this.tableCommand);
             this.grpCommand.Location = new System.Drawing.Point(7, 7);
-            this.grpCommand.MinimumSize = new System.Drawing.Size(320, 0);
+            this.grpCommand.MinimumSize = new System.Drawing.Size(360, 0);
             this.grpCommand.Name = "grpCommand";
             this.grpCommand.Padding = new System.Windows.Forms.Padding(6);
             this.grpCommand.Size = new System.Drawing.Size(320, 227);
@@ -250,7 +272,7 @@ namespace MissionPlanner.Controls
             this.grpSetpoints.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpSetpoints.Controls.Add(this.tableSetpoints);
             this.grpSetpoints.Location = new System.Drawing.Point(333, 7);
-            this.grpSetpoints.MinimumSize = new System.Drawing.Size(320, 0);
+            this.grpSetpoints.MinimumSize = new System.Drawing.Size(360, 0);
             this.grpSetpoints.Name = "grpSetpoints";
             this.grpSetpoints.Padding = new System.Windows.Forms.Padding(6);
             this.grpSetpoints.Size = new System.Drawing.Size(320, 227);
@@ -435,7 +457,7 @@ namespace MissionPlanner.Controls
             this.grpTools.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpTools.Controls.Add(this.tableTools);
             this.grpTools.Location = new System.Drawing.Point(7, 240);
-            this.grpTools.MinimumSize = new System.Drawing.Size(320, 0);
+            this.grpTools.MinimumSize = new System.Drawing.Size(360, 0);
             this.grpTools.Name = "grpTools";
             this.grpTools.Padding = new System.Windows.Forms.Padding(6);
             this.grpTools.Size = new System.Drawing.Size(320, 177);
@@ -529,9 +551,162 @@ namespace MissionPlanner.Controls
             this.btnAbortLanding.Text = "Abort Land";
             this.btnAbortLanding.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btnAbortLanding.UseVisualStyleBackColor = true;
-            // 
+            //
+            // grpPayload
+            //
+            this.grpPayload.AutoSize = true;
+            this.grpPayload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.grpPayload.Controls.Add(this.tablePayload);
+            this.grpPayload.Location = new System.Drawing.Point(333, 240);
+            this.grpPayload.MinimumSize = new System.Drawing.Size(360, 0);
+            this.grpPayload.Name = "grpPayload";
+            this.grpPayload.Padding = new System.Windows.Forms.Padding(6);
+            this.grpPayload.Size = new System.Drawing.Size(320, 200);
+            this.grpPayload.TabIndex = 3;
+            this.grpPayload.TabStop = false;
+            this.grpPayload.Text = "Payload";
+            //
+            // tablePayload
+            //
+            this.tablePayload.ColumnCount = 2;
+            this.tablePayload.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tablePayload.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePayload.Controls.Add(this.groupBoxPitch, 0, 0);
+            this.tablePayload.SetRowSpan(this.groupBoxPitch, 2);
+            this.tablePayload.Controls.Add(this.groupBoxYaw, 1, 0);
+            this.tablePayload.Controls.Add(this.groupBoxRoll, 1, 1);
+            this.tablePayload.Controls.Add(this.btnResetGimbal, 0, 2);
+            this.tablePayload.Controls.Add(this.btnGimbalVideo, 1, 2);
+            this.tablePayload.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tablePayload.Location = new System.Drawing.Point(6, 21);
+            this.tablePayload.Name = "tablePayload";
+            this.tablePayload.RowCount = 3;
+            this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tablePayload.Size = new System.Drawing.Size(308, 210);
+            this.tablePayload.TabIndex = 0;
+            //
+            // groupBoxPitch
+            //
+            this.groupBoxPitch.Controls.Add(this.trackBarPitch);
+            this.groupBoxPitch.Controls.Add(this.txtPitchPos);
+            this.groupBoxPitch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxPitch.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxPitch.Name = "groupBoxPitch";
+            this.groupBoxPitch.Size = new System.Drawing.Size(124, 154);
+            this.groupBoxPitch.TabIndex = 0;
+            this.groupBoxPitch.TabStop = false;
+            this.groupBoxPitch.Text = "Tilt";
+            //
+            // trackBarPitch
+            //
+            this.trackBarPitch.LargeChange = 10;
+            this.trackBarPitch.Location = new System.Drawing.Point(62, 11);
+            this.trackBarPitch.Maximum = 90;
+            this.trackBarPitch.Minimum = -90;
+            this.trackBarPitch.Name = "trackBarPitch";
+            this.trackBarPitch.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBarPitch.Size = new System.Drawing.Size(56, 130);
+            this.trackBarPitch.SmallChange = 5;
+            this.trackBarPitch.TabIndex = 1;
+            this.trackBarPitch.TickFrequency = 10;
+            //
+            // txtPitchPos
+            //
+            this.txtPitchPos.Location = new System.Drawing.Point(6, 18);
+            this.txtPitchPos.Name = "txtPitchPos";
+            this.txtPitchPos.Size = new System.Drawing.Size(50, 22);
+            this.txtPitchPos.TabIndex = 0;
+            //
+            // groupBoxYaw
+            //
+            this.groupBoxYaw.Controls.Add(this.txtYawPos);
+            this.groupBoxYaw.Controls.Add(this.trackBarYaw);
+            this.groupBoxYaw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxYaw.Location = new System.Drawing.Point(133, 3);
+            this.groupBoxYaw.Name = "groupBoxYaw";
+            this.groupBoxYaw.Size = new System.Drawing.Size(172, 74);
+            this.groupBoxYaw.TabIndex = 1;
+            this.groupBoxYaw.TabStop = false;
+            this.groupBoxYaw.Text = "Pan";
+            //
+            // txtYawPos
+            //
+            this.txtYawPos.Location = new System.Drawing.Point(6, 18);
+            this.txtYawPos.Name = "txtYawPos";
+            this.txtYawPos.Size = new System.Drawing.Size(51, 22);
+            this.txtYawPos.TabIndex = 0;
+            //
+            // trackBarYaw
+            //
+            this.trackBarYaw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBarYaw.LargeChange = 10;
+            this.trackBarYaw.Location = new System.Drawing.Point(63, 18);
+            this.trackBarYaw.Maximum = 180;
+            this.trackBarYaw.Minimum = -180;
+            this.trackBarYaw.Name = "trackBarYaw";
+            this.trackBarYaw.Size = new System.Drawing.Size(103, 56);
+            this.trackBarYaw.TabIndex = 1;
+            this.trackBarYaw.TickFrequency = 10;
+            //
+            // groupBoxRoll
+            //
+            this.groupBoxRoll.Controls.Add(this.txtRollPos);
+            this.groupBoxRoll.Controls.Add(this.trackBarRoll);
+            this.groupBoxRoll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxRoll.Location = new System.Drawing.Point(133, 83);
+            this.groupBoxRoll.Name = "groupBoxRoll";
+            this.groupBoxRoll.Size = new System.Drawing.Size(172, 74);
+            this.groupBoxRoll.TabIndex = 2;
+            this.groupBoxRoll.TabStop = false;
+            this.groupBoxRoll.Text = "Roll";
+            //
+            // txtRollPos
+            //
+            this.txtRollPos.Location = new System.Drawing.Point(6, 19);
+            this.txtRollPos.Name = "txtRollPos";
+            this.txtRollPos.Size = new System.Drawing.Size(51, 22);
+            this.txtRollPos.TabIndex = 0;
+            //
+            // trackBarRoll
+            //
+            this.trackBarRoll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBarRoll.LargeChange = 10;
+            this.trackBarRoll.Location = new System.Drawing.Point(63, 19);
+            this.trackBarRoll.Maximum = 90;
+            this.trackBarRoll.Minimum = -90;
+            this.trackBarRoll.Name = "trackBarRoll";
+            this.trackBarRoll.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.trackBarRoll.RightToLeftLayout = true;
+            this.trackBarRoll.Size = new System.Drawing.Size(103, 56);
+            this.trackBarRoll.TabIndex = 1;
+            this.trackBarRoll.TickFrequency = 10;
+            //
+            // btnResetGimbal
+            //
+            this.btnResetGimbal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnResetGimbal.Location = new System.Drawing.Point(3, 163);
+            this.btnResetGimbal.Name = "btnResetGimbal";
+            this.btnResetGimbal.Size = new System.Drawing.Size(124, 44);
+            this.btnResetGimbal.TabIndex = 3;
+            this.btnResetGimbal.Text = "Reset Position";
+            this.btnResetGimbal.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.btnResetGimbal.UseVisualStyleBackColor = true;
+            //
+            // btnGimbalVideo
+            //
+            this.btnGimbalVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGimbalVideo.Location = new System.Drawing.Point(133, 163);
+            this.btnGimbalVideo.Name = "btnGimbalVideo";
+            this.btnGimbalVideo.Size = new System.Drawing.Size(172, 44);
+            this.btnGimbalVideo.TabIndex = 4;
+            this.btnGimbalVideo.Text = "Video Control";
+            this.btnGimbalVideo.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.btnGimbalVideo.UseVisualStyleBackColor = true;
+            //
             // FlightDataActions
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.scrollPanel);
@@ -549,6 +724,17 @@ namespace MissionPlanner.Controls
             this.tableSetpoints.PerformLayout();
             this.grpTools.ResumeLayout(false);
             this.tableTools.ResumeLayout(false);
+            this.grpPayload.ResumeLayout(false);
+            this.tablePayload.ResumeLayout(false);
+            this.groupBoxPitch.ResumeLayout(false);
+            this.groupBoxPitch.PerformLayout();
+            this.groupBoxYaw.ResumeLayout(false);
+            this.groupBoxYaw.PerformLayout();
+            this.groupBoxRoll.ResumeLayout(false);
+            this.groupBoxRoll.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPitch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarRoll)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarYaw)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -593,5 +779,20 @@ namespace MissionPlanner.Controls
         private MissionPlanner.Controls.MyButton btnClearTrack;
         private MissionPlanner.Controls.MyButton btnReboot;
         private MissionPlanner.Controls.MyButton btnAbortLanding;
+
+        // Payload group
+        private System.Windows.Forms.GroupBox grpPayload;
+        private System.Windows.Forms.TableLayoutPanel tablePayload;
+        private System.Windows.Forms.GroupBox groupBoxPitch;
+        private System.Windows.Forms.TrackBar trackBarPitch;
+        private System.Windows.Forms.TextBox txtPitchPos;
+        private System.Windows.Forms.GroupBox groupBoxYaw;
+        private System.Windows.Forms.TrackBar trackBarYaw;
+        private System.Windows.Forms.TextBox txtYawPos;
+        private System.Windows.Forms.GroupBox groupBoxRoll;
+        private System.Windows.Forms.TrackBar trackBarRoll;
+        private System.Windows.Forms.TextBox txtRollPos;
+        private MissionPlanner.Controls.MyButton btnResetGimbal;
+        private MissionPlanner.Controls.MyButton btnGimbalVideo;
     }
 }

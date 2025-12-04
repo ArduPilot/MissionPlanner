@@ -1086,8 +1086,6 @@ namespace MissionPlanner.GCSViews
 
             TabListDisplay.Add(tabAuxFunction.Name, MainV2.DisplayConfiguration.displayAuxFunctionTab);
 
-            TabListDisplay.Add(tabPayload.Name, MainV2.DisplayConfiguration.displayPayloadTab);
-
             TabListDisplay.Add(tabParams.Name, MainV2.DisplayConfiguration.displayParamsTab);
 
             TabListDisplay.Add(tabVideo.Name, MainV2.DisplayConfiguration.displayVideoTab);
@@ -1862,12 +1860,12 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_resetGimbalPos_Click(object sender, EventArgs e)
         {
-            trackBarPitch.Value = 0;
-            trackBarRoll.Value = 0;
-            trackBarYaw.Value = 0;
+            flightDataActions1.TrackBarPitch.Value = 0;
+            flightDataActions1.TrackBarRoll.Value = 0;
+            flightDataActions1.TrackBarYaw.Value = 0;
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.MAVLINK_TARGETING, false, false, false);
-            MainV2.comPort.setMountControl((float) trackBarPitch.Value * 100.0f, (float) trackBarRoll.Value * 100.0f,
-                (float) trackBarYaw.Value * 100.0f, false);
+            MainV2.comPort.setMountControl((float) flightDataActions1.TrackBarPitch.Value * 100.0f, (float) flightDataActions1.TrackBarRoll.Value * 100.0f,
+                (float) flightDataActions1.TrackBarYaw.Value * 100.0f, false);
         }
 
         private void BUT_resumemis_Click(object sender, EventArgs e)
@@ -3409,8 +3407,8 @@ namespace MissionPlanner.GCSViews
 
         private void gimbalTrackbar_Scroll(object sender, EventArgs e)
         {
-            MainV2.comPort.setMountControl((float) trackBarPitch.Value * 100.0f, (float) trackBarRoll.Value * 100.0f,
-                (float) trackBarYaw.Value * 100.0f, false);
+            MainV2.comPort.setMountControl((float) flightDataActions1.TrackBarPitch.Value * 100.0f, (float) flightDataActions1.TrackBarRoll.Value * 100.0f,
+                (float) flightDataActions1.TrackBarYaw.Value * 100.0f, false);
         }
 
         private void gMapControl1_Click(object sender, EventArgs e)
@@ -6411,11 +6409,6 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceGaugesTab.UpdateDataSource(MainV2.comPort.MAV.cs));
-                    }
-                    else if (_themedTabStrip.SelectedTab == tabPayload)
-                    {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(
-                            bindingSourcePayloadTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                 }
                 else

@@ -168,19 +168,6 @@ namespace MissionPlanner.GCSViews
             this.BUT_abort_script = new MissionPlanner.Controls.MyButton();
             this.labelScriptStatus = new System.Windows.Forms.Label();
             this.BUT_select_script = new MissionPlanner.Controls.MyButton();
-            this.tabPayload = new System.Windows.Forms.TabPage();
-            this.BUT_GimbalVideo = new MissionPlanner.Controls.MyButton();
-            this.groupBoxRoll = new System.Windows.Forms.GroupBox();
-            this.TXT_gimbalRollPos = new System.Windows.Forms.TextBox();
-            this.bindingSourcePayloadTab = new System.Windows.Forms.BindingSource(this.components);
-            this.trackBarRoll = new System.Windows.Forms.TrackBar();
-            this.groupBoxYaw = new System.Windows.Forms.GroupBox();
-            this.TXT_gimbalYawPos = new System.Windows.Forms.TextBox();
-            this.trackBarYaw = new System.Windows.Forms.TrackBar();
-            this.BUT_resetGimbalPos = new MissionPlanner.Controls.MyButton();
-            this.groupBoxPitch = new System.Windows.Forms.GroupBox();
-            this.trackBarPitch = new System.Windows.Forms.TrackBar();
-            this.TXT_gimbalPitchPos = new System.Windows.Forms.TextBox();
             this.tabTLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPaneltlogs = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -296,14 +283,6 @@ namespace MissionPlanner.GCSViews
             this.tabAuxFunction.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabScripts.SuspendLayout();
-            this.tabPayload.SuspendLayout();
-            this.groupBoxRoll.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePayloadTab)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarRoll)).BeginInit();
-            this.groupBoxYaw.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarYaw)).BeginInit();
-            this.groupBoxPitch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPitch)).BeginInit();
             this.tabTLogs.SuspendLayout();
             this.tableLayoutPaneltlogs.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -630,7 +609,6 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabServo);
             this.tabControlactions.Controls.Add(this.tabAuxFunction);
             this.tabControlactions.Controls.Add(this.tabScripts);
-            this.tabControlactions.Controls.Add(this.tabPayload);
             this.tabControlactions.Controls.Add(this.tabTLogs);
             this.tabControlactions.Controls.Add(this.tablogbrowse);
             resources.ApplyResources(this.tabControlactions, "tabControlactions");
@@ -2277,111 +2255,7 @@ namespace MissionPlanner.GCSViews
             this.BUT_select_script.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_select_script.UseVisualStyleBackColor = true;
             this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
-            // 
-            // tabPayload
-            // 
-            this.tabPayload.Controls.Add(this.BUT_GimbalVideo);
-            this.tabPayload.Controls.Add(this.groupBoxRoll);
-            this.tabPayload.Controls.Add(this.groupBoxYaw);
-            this.tabPayload.Controls.Add(this.BUT_resetGimbalPos);
-            this.tabPayload.Controls.Add(this.groupBoxPitch);
-            resources.ApplyResources(this.tabPayload, "tabPayload");
-            this.tabPayload.Name = "tabPayload";
-            this.tabPayload.UseVisualStyleBackColor = true;
-            // 
-            // BUT_GimbalVideo
-            // 
-            resources.ApplyResources(this.BUT_GimbalVideo, "BUT_GimbalVideo");
-            this.BUT_GimbalVideo.Name = "BUT_GimbalVideo";
-            this.BUT_GimbalVideo.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_GimbalVideo.UseVisualStyleBackColor = true;
-            this.BUT_GimbalVideo.Click += new System.EventHandler(this.gimbalVideoPopOutToolStripMenuItem_Click);
-            // 
-            // groupBoxRoll
-            // 
-            this.groupBoxRoll.Controls.Add(this.TXT_gimbalRollPos);
-            this.groupBoxRoll.Controls.Add(this.trackBarRoll);
-            resources.ApplyResources(this.groupBoxRoll, "groupBoxRoll");
-            this.groupBoxRoll.Name = "groupBoxRoll";
-            this.groupBoxRoll.TabStop = false;
-            // 
-            // TXT_gimbalRollPos
-            // 
-            this.TXT_gimbalRollPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointb", true));
-            resources.ApplyResources(this.TXT_gimbalRollPos, "TXT_gimbalRollPos");
-            this.TXT_gimbalRollPos.Name = "TXT_gimbalRollPos";
-            // 
-            // bindingSourcePayloadTab
-            // 
-            this.bindingSourcePayloadTab.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
-            // trackBarRoll
-            // 
-            resources.ApplyResources(this.trackBarRoll, "trackBarRoll");
-            this.trackBarRoll.LargeChange = 10;
-            this.trackBarRoll.Maximum = 90;
-            this.trackBarRoll.Minimum = -90;
-            this.trackBarRoll.Name = "trackBarRoll";
-            this.trackBarRoll.TickFrequency = 10;
-            this.trackBarRoll.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
-            // 
-            // groupBoxYaw
-            // 
-            this.groupBoxYaw.Controls.Add(this.TXT_gimbalYawPos);
-            this.groupBoxYaw.Controls.Add(this.trackBarYaw);
-            resources.ApplyResources(this.groupBoxYaw, "groupBoxYaw");
-            this.groupBoxYaw.Name = "groupBoxYaw";
-            this.groupBoxYaw.TabStop = false;
-            // 
-            // TXT_gimbalYawPos
-            // 
-            this.TXT_gimbalYawPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointc", true));
-            resources.ApplyResources(this.TXT_gimbalYawPos, "TXT_gimbalYawPos");
-            this.TXT_gimbalYawPos.Name = "TXT_gimbalYawPos";
-            // 
-            // trackBarYaw
-            // 
-            resources.ApplyResources(this.trackBarYaw, "trackBarYaw");
-            this.trackBarYaw.LargeChange = 10;
-            this.trackBarYaw.Maximum = 180;
-            this.trackBarYaw.Minimum = -180;
-            this.trackBarYaw.Name = "trackBarYaw";
-            this.trackBarYaw.TickFrequency = 10;
-            this.trackBarYaw.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
-            // 
-            // BUT_resetGimbalPos
-            // 
-            resources.ApplyResources(this.BUT_resetGimbalPos, "BUT_resetGimbalPos");
-            this.BUT_resetGimbalPos.Name = "BUT_resetGimbalPos";
-            this.BUT_resetGimbalPos.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_resetGimbalPos.UseVisualStyleBackColor = true;
-            this.BUT_resetGimbalPos.Click += new System.EventHandler(this.BUT_resetGimbalPos_Click);
-            // 
-            // groupBoxPitch
-            // 
-            this.groupBoxPitch.Controls.Add(this.trackBarPitch);
-            this.groupBoxPitch.Controls.Add(this.TXT_gimbalPitchPos);
-            resources.ApplyResources(this.groupBoxPitch, "groupBoxPitch");
-            this.groupBoxPitch.Name = "groupBoxPitch";
-            this.groupBoxPitch.TabStop = false;
-            // 
-            // trackBarPitch
-            // 
-            resources.ApplyResources(this.trackBarPitch, "trackBarPitch");
-            this.trackBarPitch.LargeChange = 10;
-            this.trackBarPitch.Maximum = 90;
-            this.trackBarPitch.Minimum = -90;
-            this.trackBarPitch.Name = "trackBarPitch";
-            this.trackBarPitch.SmallChange = 5;
-            this.trackBarPitch.TickFrequency = 10;
-            this.trackBarPitch.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
-            // 
-            // TXT_gimbalPitchPos
-            // 
-            this.TXT_gimbalPitchPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointa", true));
-            resources.ApplyResources(this.TXT_gimbalPitchPos, "TXT_gimbalPitchPos");
-            this.TXT_gimbalPitchPos.Name = "TXT_gimbalPitchPos";
-            // 
+            //
             // tabTLogs
             // 
             this.tabTLogs.Controls.Add(this.tableLayoutPaneltlogs);
@@ -3166,17 +3040,6 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabScripts.ResumeLayout(false);
             this.tabScripts.PerformLayout();
-            this.tabPayload.ResumeLayout(false);
-            this.groupBoxRoll.ResumeLayout(false);
-            this.groupBoxRoll.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePayloadTab)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarRoll)).EndInit();
-            this.groupBoxYaw.ResumeLayout(false);
-            this.groupBoxYaw.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarYaw)).EndInit();
-            this.groupBoxPitch.ResumeLayout(false);
-            this.groupBoxPitch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPitch)).EndInit();
             this.tabTLogs.ResumeLayout(false);
             this.tableLayoutPaneltlogs.ResumeLayout(false);
             this.tableLayoutPaneltlogs.PerformLayout();
@@ -3380,19 +3243,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem setViewCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setGStreamerSourceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setEKFHomeHereToolStripMenuItem;
-        public System.Windows.Forms.TabPage tabPayload;
-        private System.Windows.Forms.BindingSource bindingSourcePayloadTab;
-        private System.Windows.Forms.TrackBar trackBarYaw;
-        private System.Windows.Forms.TrackBar trackBarRoll;
-        private System.Windows.Forms.TrackBar trackBarPitch;
-        private Controls.MyButton BUT_resetGimbalPos;
-        private System.Windows.Forms.TextBox TXT_gimbalPitchPos;
-        private System.Windows.Forms.TextBox TXT_gimbalYawPos;
-        private System.Windows.Forms.TextBox TXT_gimbalRollPos;
-        private System.Windows.Forms.GroupBox groupBoxRoll;
-        private System.Windows.Forms.GroupBox groupBoxYaw;
-        private System.Windows.Forms.GroupBox groupBoxPitch;
-        private Controls.MyButton BUT_GimbalVideo;
         private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem groundColorToolStripMenuItem;
         private Controls.RelayOptions relayOptions1;
