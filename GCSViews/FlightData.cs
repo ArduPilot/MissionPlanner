@@ -59,9 +59,6 @@ namespace MissionPlanner.GCSViews
         //The file path of the selected script
         internal string selectedscript = "";
 
-        // 3D Map control reference for proper disposal
-        private Controls.OpenGLtest2 _map3D;
-
         // Double-click fly to here feature
         private bool _doubleClickFlyToHereEnabled = true;
 
@@ -538,67 +535,10 @@ namespace MissionPlanner.GCSViews
                 Settings.Instance["DoubleClickFlyToHere"] = _doubleClickFlyToHereEnabled.ToString();
             };
 
-            // Add 3D Map toggle button to the right of Propagation
-            var btn3DMap = new Controls.MyButton
-            {
-                Text = "3D Map",
-                Size = new Size(60, 23),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left
-            };
-            btn3DMap.Click += (s, e) =>
-            {
-                if (_map3D == null || _map3D.IsDisposed)
-                {
-                    // Create and show 3D map
-                    _map3D = new Controls.OpenGLtest2
-                    {
-                        Dock = DockStyle.Fill
-                    };
-                    splitContainer1.Panel2.Controls.Add(_map3D);
-                    _map3D.BringToFront();
-                    _map3D.Activate();
-                    btn3DMap.Text = "2D Map";
-
-                    btn3DMap.BringToFront();
-                    // Hide tools, propagation, and double-click checkbox on 3D map
-                    btnTools.Visible = false;
-                    btnPropagation.Visible = false;
-                    chkDoubleClickFlyToHere.Visible = false;
-                }
-                else if (_map3D.Visible)
-                {
-                    // Hide 3D map, show 2D
-                    _map3D.Deactivate();
-                    _map3D.Visible = false;
-                    btn3DMap.Text = "3D Map";
-                    // Show tools, propagation, and double-click checkbox on 2D map
-                    btnTools.Visible = true;
-                    btnPropagation.Visible = true;
-                    chkDoubleClickFlyToHere.Visible = true;
-                }
-                else
-                {
-                    // Show 3D map
-                    _map3D.Visible = true;
-                    _map3D.BringToFront();
-                    _map3D.Activate();
-                    btn3DMap.Text = "2D Map";
-
-                    btn3DMap.BringToFront();
-                    // Hide tools, propagation, and double-click checkbox on 3D map
-                    btnTools.Visible = false;
-                    btnPropagation.Visible = false;
-                    chkDoubleClickFlyToHere.Visible = false;
-                }
-            };
-            splitContainer1.Panel2.Controls.Add(btn3DMap);
-            btn3DMap.BringToFront();
-            btn3DMap.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 25);
-
             // Add checkbox to map panel
             splitContainer1.Panel2.Controls.Add(chkDoubleClickFlyToHere);
             chkDoubleClickFlyToHere.BringToFront();
-            chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5 + btn3DMap.Width + 10, 28);
+            chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 28);
 
             // Add double-click handler for map (but not on zoom buttons)
             gMapControl1.DoubleClick += (s, e) =>
@@ -1019,14 +959,6 @@ namespace MissionPlanner.GCSViews
             Settings.Instance["maplast_zoom"] = gMapControl1.Zoom.ToString();
 
             ZedGraphTimer.Stop();
-
-            // Dispose 3D map if active
-            if (_map3D != null && !_map3D.IsDisposed)
-            {
-                _map3D.Deactivate();
-                _map3D.Dispose();
-                _map3D = null;
-            }
         }
 
         public void LoadLogFile(string file)
