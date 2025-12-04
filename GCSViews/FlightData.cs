@@ -4381,8 +4381,11 @@ namespace MissionPlanner.GCSViews
                         OpenGLtest2.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
+                        // Use terrain altitude + relative altitude for correct 3D positioning
+                        var terrainAlt = srtm.getAltitude(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng).alt;
+                        var relativeAlt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
                         OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
-                            MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt,
+                            MainV2.comPort.MAV.cs.lng, terrainAlt + relativeAlt,
                             "here");
                         OpenGLtest2.instance.Velocity = new Vector3(MainV2.comPort.MAV.cs.vx, MainV2.comPort.MAV.cs.vy,
                             MainV2.comPort.MAV.cs.vz);

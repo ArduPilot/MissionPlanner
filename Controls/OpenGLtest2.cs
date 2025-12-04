@@ -83,11 +83,11 @@ namespace MissionPlanner.Controls
         double lookX, lookY, lookZ; // camera look-at coordinates
 
         // image zoom level
-        public int zoom { get; set; } = 20;
-        private NumericUpDown num_minzoom;
-        private NumericUpDown num_maxzoom;
-        private Label lbl_minzoom;
-        private Label lbl_maxzoom;
+        public int zoom { get; set; } = 15;
+        private const int zoomLevelOffset = 5;
+        private int minzoom => Math.Max(1, zoom - zoomLevelOffset);
+        private NumericUpDown num_zoom;
+        private Label lbl_zoom;
         private SemaphoreSlim textureSemaphore = new SemaphoreSlim(1, 1);
         private Timer timer1;
         private System.ComponentModel.IContainer components;
@@ -455,7 +455,6 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public int minzoom { get; set; } = 12;
         public PointLatLngAlt mousePosition { get; private set; }
 
         public Utilities.Vector3 Velocity
@@ -840,7 +839,7 @@ namespace MissionPlanner.Controls
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
-                for (int a = minzoom; a <= zoom; a++)
+                for (int a = zoom; a >= minzoom; a--)
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
                     // 50m at max zoom
@@ -928,30 +927,89 @@ namespace MissionPlanner.Controls
                                             zoom = tilearea.zoom,
                                             img = (Image) img.Img.Clone()
                                         };
-                                        for (long x = xstart; x < xend; x += pxstep)
+
+                                        // Calculate grid dimensions for altitude caching
+                                        int gridWidth = (int)((xend - xstart) / pxstep) + 1;
+                                        int gridHeight = (int)((yend - ystart) / pxstep) + 1;
+
+                                        // Pre-cache all lat/lng coordinates and altitudes for this tile
+                                        var latlngGrid = new PointLatLng[gridWidth, gridHeight];
+                                        var altCache = new double[gridWidth, gridHeight];
+                                        var utmCache = new double[gridWidth, gridHeight][];
+                                        bool hasInvalidAlt = false;
+
+                                        // First pass: compute all coordinates
+                                        for (int gx = 0; gx < gridWidth && !hasInvalidAlt; gx++)
                                         {
-                                            long xnext = x + pxstep;
-                                            for (long y = ystart; y < yend; y += pxstep)
+                                            long px = xstart + gx * pxstep;
+                                            for (int gy = 0; gy < gridHeight; gy++)
                                             {
-                                                long ynext = y + pxstep;
-                                                var latlng1 = prj.FromPixelToLatLng(x, y, tilearea.zoom); //bl
-                                                var latlng2 = prj.FromPixelToLatLng(x, ynext, tilearea.zoom); //tl
-                                                var latlng3 = prj.FromPixelToLatLng(xnext, y, tilearea.zoom); // br
-                                                var latlng4 = prj.FromPixelToLatLng(xnext, ynext, tilearea.zoom); // tr
-                                                if (srtm.getAltitude(latlng1.Lat, latlng1.Lng).currenttype ==
-                                                    srtm.tiletype.invalid)
+                                                long py = ystart + gy * pxstep;
+                                                latlngGrid[gx, gy] = prj.FromPixelToLatLng(px, py, tilearea.zoom);
+                                            }
+                                        }
+
+                                        // Second pass: batch fetch altitudes using fast method
+                                        for (int gx = 0; gx < gridWidth && !hasInvalidAlt; gx++)
+                                        {
+                                            for (int gy = 0; gy < gridHeight; gy++)
+                                            {
+                                                var latlng = latlngGrid[gx, gy];
+                                                var altResult = srtm.getAltitudeFast(latlng.Lat, latlng.Lng);
+                                                if (altResult.currenttype == srtm.tiletype.invalid)
                                                 {
-                                                    ti = null;
-                                                    x = xend;
-                                                    y = yend;
+                                                    hasInvalidAlt = true;
                                                     break;
                                                 }
-
-                                                AddQuad(ti, latlng1, latlng2, latlng3, latlng4, xstart, x, xnext, xend,
-                                                    ystart, y, ynext, yend);
+                                                altCache[gx, gy] = altResult.alt;
+                                                utmCache[gx, gy] = convertCoords(latlng);
+                                                utmCache[gx, gy][2] = altResult.alt;
                                             }
-                                            if (ti == null)
-                                                break;
+                                        }
+
+                                        if (hasInvalidAlt)
+                                        {
+                                            ti = null;
+                                        }
+                                        else
+                                        {
+                                            // Third pass: build quads using cached data
+                                            var zindexmod = (20 - ti.zoom) * 0.30;
+                                            for (int gx = 0; gx < gridWidth - 1; gx++)
+                                            {
+                                                long x = xstart + gx * pxstep;
+                                                long xnext = x + pxstep;
+                                                for (int gy = 0; gy < gridHeight - 1; gy++)
+                                                {
+                                                    long y = ystart + gy * pxstep;
+                                                    long ynext = y + pxstep;
+
+                                                    // Reuse cached UTM coordinates and altitudes
+                                                    var utm1 = utmCache[gx, gy];       // bl
+                                                    var utm2 = utmCache[gx, gy + 1];   // tl
+                                                    var utm3 = utmCache[gx + 1, gy];   // br
+                                                    var utm4 = utmCache[gx + 1, gy + 1]; // tr
+
+                                                    var imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
+                                                    var imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
+                                                    ti.vertex.Add(new Vertex(utm4[0], utm4[1], utm4[2] - zindexmod, 1, 0, 0, 1, imgx, imgy));
+                                                    imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
+                                                    imgy = MathHelper.map(y, ystart, yend, 0, 1);
+                                                    ti.vertex.Add(new Vertex(utm3[0], utm3[1], utm3[2] - zindexmod, 0, 1, 0, 1, imgx, imgy));
+                                                    imgx = MathHelper.map(x, xstart, xend, 0, 1);
+                                                    imgy = MathHelper.map(y, ystart, yend, 0, 1);
+                                                    ti.vertex.Add(new Vertex(utm1[0], utm1[1], utm1[2] - zindexmod, 0, 0, 1, 1, imgx, imgy));
+                                                    imgx = MathHelper.map(x, xstart, xend, 0, 1);
+                                                    imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
+                                                    ti.vertex.Add(new Vertex(utm2[0], utm2[1], utm2[2] - zindexmod, 1, 1, 0, 1, imgx, imgy));
+                                                    var startindex = (uint)ti.vertex.Count - 4;
+                                                    ti.indices.AddRange(new[]
+                                                    {
+                                                        startindex + 0, startindex + 1, startindex + 3,
+                                                        startindex + 1, startindex + 2, startindex + 3
+                                                    });
+                                                }
+                                            }
                                         }
 
                                         if (ti != null)
@@ -1047,31 +1105,13 @@ namespace MissionPlanner.Controls
         {
             var zindexmod = (20 - ti.zoom) * 0.30;
             var utm1 = convertCoords(latlng1);
-            utm1[2] = srtm.getAltitude(latlng1.Lat, latlng1.Lng).alt;
-            //var imgx = MathHelper.map(x, xstart, xend, 0, 1);
-            //var imgy = MathHelper.map(y, ystart, yend, 0, 1);
-            //ti.texture.Add(new tileInfo.TextureCoords((float) imgx, (float) imgy));
-            //ti.vertex.Add(new tileInfo.Vertex((float) utm1[0], (float) utm1[1],(float) utm1[2]));
-            //
+            utm1[2] = srtm.getAltitudeFast(latlng1.Lat, latlng1.Lng).alt;
             var utm2 = convertCoords(latlng2);
-            utm2[2] = srtm.getAltitude(latlng2.Lat, latlng2.Lng).alt;
-            //imgx = MathHelper.map(x, xstart, xend, 0, 1);
-            //imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
-            //ti.texture.Add(new tileInfo.TextureCoords((float) imgx, (float) imgy));
-            //ti.vertex.Add(new tileInfo.Vertex((float) utm2[0], (float) utm2[1],(float) utm2[2]));
-            //
+            utm2[2] = srtm.getAltitudeFast(latlng2.Lat, latlng2.Lng).alt;
             var utm3 = convertCoords(latlng3);
-            utm3[2] = srtm.getAltitude(latlng3.Lat, latlng3.Lng).alt;
-            //imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
-            //imgy = MathHelper.map(y, ystart, yend, 0, 1);
-            //ti.texture.Add(new tileInfo.TextureCoords((float) imgx, (float) imgy));
-            //ti.vertex.Add(new tileInfo.Vertex((float) utm3[0], (float) utm3[1],(float) utm3[2]));
+            utm3[2] = srtm.getAltitudeFast(latlng3.Lat, latlng3.Lng).alt;
             var utm4 = convertCoords(latlng4);
-            utm4[2] = srtm.getAltitude(latlng4.Lat, latlng4.Lng).alt;
-            //imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
-            //imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
-            //ti.texture.Add(new tileInfo.TextureCoords((float)imgx, (float)imgy));
-            //ti.vertex.Add(new tileInfo.Vertex((float)utm4[0], (float)utm4[1],(float)utm4[2]));
+            utm4[2] = srtm.getAltitudeFast(latlng4.Lat, latlng4.Lng).alt;
             var imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
             var imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
             ti.vertex.Add(new Vertex(utm4[0], utm4[1], utm4[2] - zindexmod, 1, 0, 0, 1, imgx, imgy));
@@ -1109,56 +1149,32 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.num_minzoom = new System.Windows.Forms.NumericUpDown();
-            this.num_maxzoom = new System.Windows.Forms.NumericUpDown();
-            this.lbl_minzoom = new System.Windows.Forms.Label();
-            this.lbl_maxzoom = new System.Windows.Forms.Label();
+            this.num_zoom = new System.Windows.Forms.NumericUpDown();
+            this.lbl_zoom = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_zoom)).BeginInit();
             this.SuspendLayout();
             //
-            // lbl_minzoom
+            // lbl_zoom
             //
-            this.lbl_minzoom.AutoSize = true;
-            this.lbl_minzoom.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_minzoom.ForeColor = System.Drawing.Color.White;
-            this.lbl_minzoom.Location = new System.Drawing.Point(3, 5);
-            this.lbl_minzoom.Name = "lbl_minzoom";
-            this.lbl_minzoom.Size = new System.Drawing.Size(54, 13);
-            this.lbl_minzoom.Text = "Min Zoom";
+            this.lbl_zoom.AutoSize = true;
+            this.lbl_zoom.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_zoom.ForeColor = System.Drawing.Color.White;
+            this.lbl_zoom.Location = new System.Drawing.Point(3, 5);
+            this.lbl_zoom.Name = "lbl_zoom";
+            this.lbl_zoom.Size = new System.Drawing.Size(34, 13);
+            this.lbl_zoom.Text = "Zoom";
             //
-            // num_minzoom
+            // num_zoom
             //
-            this.num_minzoom.Location = new System.Drawing.Point(63, 3);
-            this.num_minzoom.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
-            this.num_minzoom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.num_minzoom.Name = "num_minzoom";
-            this.num_minzoom.Size = new System.Drawing.Size(45, 20);
-            this.num_minzoom.TabIndex = 0;
-            this.num_minzoom.Value = new decimal(new int[] { 12, 0, 0, 0 });
-            this.num_minzoom.ValueChanged += new System.EventHandler(this.num_minzoom_ValueChanged);
-            //
-            // lbl_maxzoom
-            //
-            this.lbl_maxzoom.AutoSize = true;
-            this.lbl_maxzoom.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_maxzoom.ForeColor = System.Drawing.Color.White;
-            this.lbl_maxzoom.Location = new System.Drawing.Point(3, 28);
-            this.lbl_maxzoom.Name = "lbl_maxzoom";
-            this.lbl_maxzoom.Size = new System.Drawing.Size(57, 13);
-            this.lbl_maxzoom.Text = "Max Zoom";
-            //
-            // num_maxzoom
-            //
-            this.num_maxzoom.Location = new System.Drawing.Point(63, 26);
-            this.num_maxzoom.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
-            this.num_maxzoom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.num_maxzoom.Name = "num_maxzoom";
-            this.num_maxzoom.Size = new System.Drawing.Size(45, 20);
-            this.num_maxzoom.TabIndex = 1;
-            this.num_maxzoom.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            this.num_maxzoom.ValueChanged += new System.EventHandler(this.num_maxzoom_ValueChanged);
+            this.num_zoom.Location = new System.Drawing.Point(43, 3);
+            this.num_zoom.Maximum = new decimal(new int[] { 24, 0, 0, 0 });
+            this.num_zoom.Minimum = new decimal(new int[] { 6, 0, 0, 0 });
+            this.num_zoom.Name = "num_zoom";
+            this.num_zoom.Size = new System.Drawing.Size(45, 20);
+            this.num_zoom.TabIndex = 0;
+            this.num_zoom.Value = new decimal(new int[] { 15, 0, 0, 0 });
+            this.num_zoom.ValueChanged += new System.EventHandler(this.num_zoom_ValueChanged);
             //
             // timer1
             //
@@ -1168,22 +1184,30 @@ namespace MissionPlanner.Controls
             // OpenGLtest2
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.lbl_minzoom);
-            this.Controls.Add(this.num_minzoom);
-            this.Controls.Add(this.lbl_maxzoom);
-            this.Controls.Add(this.num_maxzoom);
+            this.Controls.Add(this.lbl_zoom);
+            this.Controls.Add(this.num_zoom);
             this.Name = "OpenGLtest2";
             this.Size = new System.Drawing.Size(640, 480);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_zoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
 
         private void test_Load(object sender, EventArgs e)
         {
+            // Load saved zoom level
+            if (Settings.Instance.ContainsKey("3d_map_zoom_level"))
+            {
+                int savedZoom = Settings.Instance.GetInt32("3d_map_zoom_level", 15);
+                if (savedZoom >= (int)num_zoom.Minimum && savedZoom <= (int)num_zoom.Maximum)
+                {
+                    zoom = savedZoom;
+                    num_zoom.Value = savedZoom;
+                }
+            }
+
             if (!Context.IsCurrent)
                 Context.MakeCurrent(this.WindowInfo);
 
@@ -1209,14 +1233,10 @@ namespace MissionPlanner.Controls
             test_Resize(null, null);
         }
 
-        private void num_minzoom_ValueChanged(object sender, EventArgs e)
+        private void num_zoom_ValueChanged(object sender, EventArgs e)
         {
-            minzoom = (int)num_minzoom.Value;
-        }
-
-        private void num_maxzoom_ValueChanged(object sender, EventArgs e)
-        {
-            zoom = (int)num_maxzoom.Value;
+            zoom = (int)num_zoom.Value;
+            Settings.Instance["3d_map_zoom_level"] = zoom.ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
