@@ -1835,37 +1835,37 @@ namespace MissionPlanner.Controls
                 int contentWidth = inputX + inputWidth;
 
                 var lblZoom = new Label { Text = "Map Zoom:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numZoom = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 6, Maximum = 24, Value = zoom };
+                var numZoom = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 6, Maximum = 24, Value = Math.Max(6, Math.Min(24, zoom)) };
                 dialog.Controls.Add(lblZoom);
                 dialog.Controls.Add(numZoom);
                 y += 30;
 
                 var lblDist = new Label { Text = "Camera Dist:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
+                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(0.1, Math.Min(100, _cameraDist)) };
                 dialog.Controls.Add(lblDist);
                 dialog.Controls.Add(numDist);
                 y += 30;
 
                 var lblAngle = new Label { Text = "Camera Angle:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numAngle = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -180, Maximum = 180, DecimalPlaces = 0, Increment = 15, Value = (decimal)_cameraAngle };
+                var numAngle = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -360, Maximum = 360, DecimalPlaces = 0, Increment = 15, Value = (decimal)Math.Max(-360, Math.Min(360, _cameraAngle)) };
                 dialog.Controls.Add(lblAngle);
                 dialog.Controls.Add(numAngle);
                 y += 30;
 
                 var lblHeight = new Label { Text = "Camera Height:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraHeight };
+                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(-100, Math.Min(100, _cameraHeight)) };
                 dialog.Controls.Add(lblHeight);
                 dialog.Controls.Add(numHeight);
                 y += 30;
 
                 var lblFOV = new Label { Text = "Camera FoV:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numFOV = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 30, Maximum = 120, Increment = 5, Value = (decimal)_cameraFOV };
+                var numFOV = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 30, Maximum = 120, Increment = 5, Value = (decimal)Math.Max(30, Math.Min(120, _cameraFOV)) };
                 dialog.Controls.Add(lblFOV);
                 dialog.Controls.Add(numFOV);
                 y += 30;
 
                 var lblScale = new Label { Text = "Plane Scale (m):", Location = new Point(margin, y + 3), AutoSize = true };
-                var numScale = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 10, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_planeScaleMultiplier };
+                var numScale = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 10, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(0.1, Math.Min(10, _planeScaleMultiplier)) };
                 dialog.Controls.Add(lblScale);
                 dialog.Controls.Add(numScale);
                 y += 30;
