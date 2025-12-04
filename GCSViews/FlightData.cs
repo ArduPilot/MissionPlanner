@@ -478,6 +478,7 @@ namespace MissionPlanner.GCSViews
             myhud.skyColor2 = ThemeManager.HudSkyBot;
             myhud.hudcolor = ThemeManager.HudText;
 
+            hud1.SixteenXNine = Settings.Instance.GetBoolean("HUD_SixteenXNine", hud1.SixteenXNine);
             hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
 
             // Note: ThemedTabStrip handles overflow with ToolStrip's built-in dropdown, no need for Multiline setting
@@ -5202,6 +5203,7 @@ namespace MissionPlanner.GCSViews
         private void setAspectRatioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             hud1.SixteenXNine = !hud1.SixteenXNine;
+            Settings.Instance["HUD_SixteenXNine"] = hud1.SixteenXNine.ToString();
             hud1.doResize();
         }
 
