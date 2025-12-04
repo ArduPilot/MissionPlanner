@@ -74,6 +74,7 @@ namespace MissionPlanner.Controls
     {
         public static Map3D instance;
         int green = 0;
+        int greenAlt = 0;
 
         // Plane STL model
         private List<float> _planeVertices;
@@ -88,9 +89,9 @@ namespace MissionPlanner.Controls
         private double _planeDrawX, _planeDrawY, _planeDrawZ;
         private float _planeRoll, _planePitch, _planeYaw;
         // Configurable camera and plane settings
-        private double _cameraDist = 0.8;    // Camera X - distance behind plane
-        private double _cameraSide = 0.0;    // Camera Y - side offset (left/right)
-        private double _cameraHeight = 0.2;  // Camera Z - height above plane
+        private double _cameraDist = 0.8;    // Distance from plane
+        private double _cameraAngle = 0.0;   // Angle offset from behind plane (degrees, 0=behind, 90=right, -90=left)
+        private double _cameraHeight = 0.2;  // Height above plane
         private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
         private float _cameraFOV = 60f; // Field of view in degrees
         private Color _planeColor = Color.White;
@@ -169,7 +170,7 @@ namespace MissionPlanner.Controls
             // Load settings early, before any rendering
             zoom = Settings.Instance.GetInt32("map3d_zoom_level", 15);
             _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-            _cameraSide = Settings.Instance.GetDouble("map3d_camera_side", 0.0);
+            _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
             _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_plane_scale", 1.0);
             _cameraFOV = (float)Settings.Instance.GetDouble("map3d_fov", 60);
@@ -226,17 +227,14 @@ namespace MissionPlanner.Controls
             mousex = e.X;
             mousey = e.Y;
 
-            // Handle left-drag to adjust camera Y (side) and Z (height)
+            // Handle left-drag to rotate camera around vehicle (X) and adjust height (Y)
             if (_isDragging)
             {
-                int deltaX = _dragStartX - mousex; // Positive = dragged left = move camera right
+                int deltaX = mousex - _dragStartX; // Positive = dragged right = rotate camera right
                 int deltaY = mousey - _dragStartY; // Positive = dragged down = increase height
 
-                double adjustX = deltaX * 0.005; // Scale factor for sensitivity
-                double adjustY = deltaY * 0.005;
-
-                _cameraSide = Math.Max(-5.0, Math.Min(5.0, _cameraSide + adjustX));
-                _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + adjustY));
+                _cameraAngle += deltaX * 0.5; // Degrees per pixel
+                _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
 
                 _dragStartX = mousex;
                 _dragStartY = mousey;
@@ -254,7 +252,7 @@ namespace MissionPlanner.Controls
             if (e.Button == MouseButtons.Left)
             {
                 _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-                _cameraSide = Settings.Instance.GetDouble("map3d_camera_side", 0.0);
+                _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
                 _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
@@ -908,15 +906,10 @@ namespace MissionPlanner.Controls
                 _planePitch = (float)rpy.Y;
                 _planeYaw = (float)rpy.Z;
 
-                // Camera positioned behind and above the plane
-                // X = distance behind, Y = side offset, Z = height
-                double headingRad = MathHelper.Radians(rpy.Z);
-                // Camera behind plane (along heading direction)
-                cameraX = _planeDrawX - Math.Sin(headingRad) * _cameraDist;
-                cameraY = _planeDrawY - Math.Cos(headingRad) * _cameraDist;
-                // Add side offset (perpendicular to heading)
-                cameraX += Math.Cos(headingRad) * _cameraSide;
-                cameraY -= Math.Sin(headingRad) * _cameraSide;
+                // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
+                double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
+                cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
+                cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
                 cameraZ = _planeDrawZ + _cameraHeight;
 
                 // Look at the plane
@@ -1014,19 +1007,18 @@ namespace MissionPlanner.Controls
                 DrawPlane(projMatrix, modelMatrix);
 
                 var beforewpsmarkers = DateTime.Now;
-                // Draw green waypoint markers (hidden if within 200ft / 61m of camera)
+                // Draw waypoint markers (hidden if within 200ft / 61m of camera)
                 {
                     if (green == 0)
-                    {
                         green = generateTexture(GMap.NET.Drawing.Properties.Resources.wp_3d.ToBitmap());
-                    }
+                    if (greenAlt == 0)
+                        greenAlt = generateTexture(GMap.NET.Drawing.Properties.Resources.wp_3d_alt.ToBitmap());
 
                     GL.Enable(EnableCap.DepthTest);
                     GL.DepthMask(false);
                     GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
-                    GL.BindTexture(TextureTarget.Texture2D, green);
 
                     // 200 feet in meters
                     const double minDistanceMeters = 61.0;
@@ -1041,7 +1033,7 @@ namespace MissionPlanner.Controls
                     // Get pointlist for wp number lookup
                     var pointlist = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
 
-                    foreach (var point in list.OrderBy((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
+                    foreach (var point in list.OrderByDescending((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
                     {
                         if (point == null)
                             continue;
@@ -1058,8 +1050,23 @@ namespace MissionPlanner.Controls
                         var terrainAlt = srtm.getAltitude(point.Lat, point.Lng).alt;
                         var wpAlt = co[2] + terrainAlt;
 
+                        // Determine label first to choose correct marker texture
+                        int wpIndex = pointlist.IndexOf(point);
+                        string wpLabel = null;
+                        if (point.Tag == "H")
+                            wpLabel = "H";
+                        else if (point.Tag != null && point.Tag.StartsWith("ROI"))
+                            wpLabel = "R";
+                        else if (IsGuidedWaypoint(point))
+                            wpLabel = "G";
+                        else if (wpIndex >= 0)
+                            wpLabel = wpIndex.ToString();
+
+                        // Use alt texture for non-number labels (H, R, G, etc.)
+                        bool isSpecialLabel = wpLabel != null && !char.IsDigit(wpLabel[0]);
+
                         var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
-                        wpmarker.idtexture = green;
+                        wpmarker.idtexture = isSpecialLabel ? greenAlt : green;
 
                         double markerHalfSize = 60;
                         // Calculate angle from waypoint to camera so marker always faces camera
@@ -1110,26 +1117,17 @@ namespace MissionPlanner.Controls
 
                         wpmarker.Cleanup(true);
 
-                        // Draw waypoint number at top of sprite (no rotation)
-                        int wpIndex = pointlist.IndexOf(point);
-                        if (wpIndex >= 0)
+                        // Draw waypoint label at top of sprite (no rotation)
+                        if (wpLabel != null)
                         {
-                            // Use Tag directly if it's a special marker (H, ROI, etc.), otherwise use index
-                            string wpLabel;
-                            if (point.Tag == "H")
-                                wpLabel = "H";
-                            else if (point.Tag != null && point.Tag.StartsWith("ROI"))
-                                wpLabel = "R"; // Show "R" for ROI waypoints
-                            else
-                                wpLabel = wpIndex.ToString();
                             int wpNumberTex = getWpLabelTexture(wpLabel);
                             if (wpNumberTex != 0)
                             {
                                 var wpnumber = new tileInfo(Context, WindowInfo, textureSemaphore);
                                 wpnumber.idtexture = wpNumberTex;
 
-                                // H and R labels are centered, numbers are at top
-                                bool centerLabel = (wpLabel == "H" || wpLabel == "R");
+                                // H, R, G labels are centered, numbers are at top
+                                bool centerLabel = isSpecialLabel;
                                 double numberHalfSize = centerLabel ? markerHalfSize * 0.6 : markerHalfSize * 0.4;
                                 double numberOffsetZ = centerLabel ? 0 : markerHalfSize * 0.5;
 
@@ -1252,6 +1250,20 @@ namespace MissionPlanner.Controls
         private int Comparison(KeyValuePair<GPoint, tileInfo> x, KeyValuePair<GPoint, tileInfo> y)
         {
             return x.Value.zoom.CompareTo(y.Value.zoom);
+        }
+
+        private bool IsGuidedWaypoint(PointLatLngAlt point)
+        {
+            var guided = MainV2.comPort?.MAV?.GuidedMode;
+            if (guided == null || guided.Value.x == 0 && guided.Value.y == 0)
+                return false;
+
+            double guidedLat = guided.Value.x / 1e7;
+            double guidedLng = guided.Value.y / 1e7;
+
+            const double tolerance = 0.0001;
+            return Math.Abs(point.Lat - guidedLat) < tolerance &&
+                   Math.Abs(point.Lng - guidedLng) < tolerance;
         }
 
         private void DrawSkyGradient()
@@ -1752,19 +1764,19 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(numZoom);
                 y += 30;
 
-                var lblDist = new Label { Text = "Camera X:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
+                var lblDist = new Label { Text = "Camera Dist:", Location = new Point(margin, y + 3), AutoSize = true };
+                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
                 dialog.Controls.Add(lblDist);
                 dialog.Controls.Add(numDist);
                 y += 30;
 
-                var lblSide = new Label { Text = "Camera Y:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numSide = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraSide };
-                dialog.Controls.Add(lblSide);
-                dialog.Controls.Add(numSide);
+                var lblAngle = new Label { Text = "Camera Angle:", Location = new Point(margin, y + 3), AutoSize = true };
+                var numAngle = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -180, Maximum = 180, DecimalPlaces = 0, Increment = 15, Value = (decimal)_cameraAngle };
+                dialog.Controls.Add(lblAngle);
+                dialog.Controls.Add(numAngle);
                 y += 30;
 
-                var lblHeight = new Label { Text = "Camera Z:", Location = new Point(margin, y + 3), AutoSize = true };
+                var lblHeight = new Label { Text = "Camera Height:", Location = new Point(margin, y + 3), AutoSize = true };
                 var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraHeight };
                 dialog.Controls.Add(lblHeight);
                 dialog.Controls.Add(numHeight);
@@ -1841,7 +1853,7 @@ namespace MissionPlanner.Controls
                 {
                     numZoom.Value = 15;
                     numDist.Value = (decimal)0.8;
-                    numSide.Value = 0;
+                    numAngle.Value = 0;
                     numHeight.Value = (decimal)0.2;
                     numFOV.Value = 60;
                     numScale.Value = 1;
@@ -1861,21 +1873,20 @@ namespace MissionPlanner.Controls
                 {
                     zoom = (int)numZoom.Value;
                     _cameraDist = (double)numDist.Value;
-                    _cameraSide = (double)numSide.Value;
+                    _cameraAngle = (double)numAngle.Value;
                     _cameraHeight = (double)numHeight.Value;
                     _planeScaleMultiplier = (float)numScale.Value;
                     _cameraFOV = (float)numFOV.Value;
                     _planeColor = selectedColor;
 
-                    // Check if STL path changed - need to reload
                     bool stlChanged = _planeSTLPath != selectedSTLPath;
                     _planeSTLPath = selectedSTLPath;
                     if (stlChanged)
-                        _planeLoaded = false; // Force reload
+                        _planeLoaded = false;
 
                     Settings.Instance["map3d_zoom_level"] = zoom.ToString();
                     Settings.Instance["map3d_camera_dist"] = _cameraDist.ToString();
-                    Settings.Instance["map3d_camera_side"] = _cameraSide.ToString();
+                    Settings.Instance["map3d_camera_angle"] = _cameraAngle.ToString();
                     Settings.Instance["map3d_camera_height"] = _cameraHeight.ToString();
                     Settings.Instance["map3d_plane_scale"] = _planeScaleMultiplier.ToString();
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
@@ -1883,7 +1894,6 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
                     Settings.Instance.Save();
 
-                    // Update projection matrix with new FOV
                     test_Resize(null, null);
                 };
 
