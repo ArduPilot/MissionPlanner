@@ -572,6 +572,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             log.Info("about to add all");
 
+            // Set up autocomplete for search box with parameter names
+            txt_search.SetAutoCompleteSource(list);
+
             Params.SuspendLayout();
             Params.Visible = false;
 

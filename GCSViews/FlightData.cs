@@ -63,7 +63,12 @@ namespace MissionPlanner.GCSViews
         private Controls.OpenGLtest2 _map3D;
 
         // Double-click fly to here feature
-        private bool _doubleClickFlyToHereEnabled = false;
+        private bool _doubleClickFlyToHereEnabled = true;
+
+        // Map scale bar and zoom buttons
+        private Controls.MapScaleBar _mapScaleBar;
+        private bool _zoomInHover;
+        private bool _zoomOutHover;
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         AviWriter aviwriter;
@@ -249,6 +254,9 @@ namespace MissionPlanner.GCSViews
         // Themed tab strip to replace the TabControl
         private Controls.ThemedTabStrip _themedTabStrip;
 
+        // Status tab control
+        private Controls.StatusControl _statusControl;
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -257,10 +265,17 @@ namespace MissionPlanner.GCSViews
 
             log.Info("Components Done");
 
+            // Initialize and add StatusControl to tabStatus BEFORE replacing with ThemedTabStrip
+            _statusControl = new Controls.StatusControl();
+            _statusControl.Dock = DockStyle.Fill;
+            tabStatus.Controls.Add(_statusControl);
+
             // Replace TabControl with ThemedTabStrip
             ReplaceTabControlWithThemedTabStrip();
 
             instance = this;
+
+            ConfigureScriptsButtonsLayout();
 
             this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
             this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
@@ -363,16 +378,42 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            CMB_action.DataSource = Enum.GetNames(typeof(actions));
+            // Initialize FlightDataActions control
+            flightDataActions1.Initialize();
 
-            CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
-            CMB_modes.ValueMember = "Key";
-            CMB_modes.DisplayMember = "Value";
+            // Set up action combobox through FlightDataActions
+            flightDataActions1.CMB_action.DataSource = Enum.GetNames(typeof(actions));
+
+            flightDataActions1.CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
+            flightDataActions1.CMB_modes.ValueMember = "Key";
+            flightDataActions1.CMB_modes.DisplayMember = "Value";
 
             //default to auto
-            CMB_modes.Text = "Auto";
+            flightDataActions1.CMB_modes.Text = "Auto";
 
-            CMB_setwp.SelectedIndex = 0;
+            // Add initial waypoint item and select it
+            flightDataActions1.CMB_setwp.Items.Add("0 (Home)");
+            flightDataActions1.CMB_setwp.SelectedIndex = 0;
+
+            // Wire up event handlers to FlightDataActions controls
+            flightDataActions1.BUTactiondo.Click += BUTactiondo_Click;
+            flightDataActions1.BUT_setwp.Click += BUT_setwp_Click;
+            flightDataActions1.BUT_setmode.Click += BUT_setmode_Click;
+            flightDataActions1.BUT_mountmode.Click += BUT_mountmode_Click;
+            flightDataActions1.BUTrestartmission.Click += BUTrestartmission_Click;
+            flightDataActions1.BUT_resumemis.Click += BUT_resumemis_Click;
+            flightDataActions1.modifyandSetSpeed.Click += modifyandSetSpeed_Click;
+            flightDataActions1.modifyandSetAlt.Click += modifyandSetAlt_Click;
+            flightDataActions1.modifyandSetLoiterRad.Click += modifyandSetLoiterRad_Click;
+            flightDataActions1.BUT_Homealt.Click += BUT_Homealt_Click;
+            flightDataActions1.BUT_RAWSensor.Click += BUT_RAWSensor_Click;
+            flightDataActions1.BUT_joystick.Click += BUT_joystick_Click;
+            flightDataActions1.BUT_SendMSG.Click += BUT_SendMSG_Click;
+            flightDataActions1.BUT_clear_track.Click += BUT_clear_track_Click;
+            flightDataActions1.BUT_Reboot.Click += BUT_Reboot_Click;
+            flightDataActions1.BUT_abortland.Click += BUT_abortland_Click;
+            flightDataActions1.CMB_setwp.Click += CMB_setwp_Click;
+            flightDataActions1.CMB_modes.Click += CMB_modes_Click;
 
             log.Info("Graph Setup");
             CreateChart(zg1);
@@ -439,6 +480,7 @@ namespace MissionPlanner.GCSViews
             myhud.skyColor2 = ThemeManager.HudSkyBot;
             myhud.hudcolor = ThemeManager.HudText;
 
+            hud1.SixteenXNine = Settings.Instance.GetBoolean("HUD_SixteenXNine", hud1.SixteenXNine);
             hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
 
             // Note: ThemedTabStrip handles overflow with ToolStrip's built-in dropdown, no need for Multiline setting
@@ -478,17 +520,21 @@ namespace MissionPlanner.GCSViews
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
             // Add double-click fly to here checkbox (declare first so it can be referenced in 3D map handler)
+            // Load setting from config (default to true for fresh installs)
+            _doubleClickFlyToHereEnabled = Settings.Instance.GetBoolean("DoubleClickFlyToHere", true);
             var chkDoubleClickFlyToHere = new CheckBox
             {
                 Text = "Double-click Fly to Here",
                 AutoSize = true,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left,
                 BackColor = Color.Transparent,
-                ForeColor = Color.White
+                ForeColor = Color.White,
+                Checked = _doubleClickFlyToHereEnabled
             };
             chkDoubleClickFlyToHere.CheckedChanged += (s, e) =>
             {
                 _doubleClickFlyToHereEnabled = chkDoubleClickFlyToHere.Checked;
+                Settings.Instance["DoubleClickFlyToHere"] = _doubleClickFlyToHereEnabled.ToString();
             };
 
             // Add 3D Map toggle button to the right of Propagation
@@ -512,9 +558,6 @@ namespace MissionPlanner.GCSViews
                     _map3D.Activate();
                     btn3DMap.Text = "2D Map";
 
-                    // Bring overlay controls to front of 3D map
-                    lbl_hdop.BringToFront();
-                    lbl_sats.BringToFront();
                     btn3DMap.BringToFront();
                     // Hide tools, propagation, and double-click checkbox on 3D map
                     btnTools.Visible = false;
@@ -540,9 +583,6 @@ namespace MissionPlanner.GCSViews
                     _map3D.Activate();
                     btn3DMap.Text = "2D Map";
 
-                    // Bring overlay controls to front of 3D map
-                    lbl_hdop.BringToFront();
-                    lbl_sats.BringToFront();
                     btn3DMap.BringToFront();
                     // Hide tools, propagation, and double-click checkbox on 3D map
                     btnTools.Visible = false;
@@ -559,12 +599,79 @@ namespace MissionPlanner.GCSViews
             chkDoubleClickFlyToHere.BringToFront();
             chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5 + btn3DMap.Width + 10, 28);
 
-            // Add double-click handler for map
+            // Add double-click handler for map (but not on zoom buttons)
             gMapControl1.DoubleClick += (s, e) =>
             {
+                var me = e as MouseEventArgs;
+                if (me != null && (GetZoomInRect().Contains(me.Location) || GetZoomOutRect().Contains(me.Location)))
+                {
+                    return; // Don't fly-to-here when double-clicking zoom buttons
+                }
                 if (_doubleClickFlyToHereEnabled)
                 {
                     goHereToolStripMenuItem_Click(null, null);
+                }
+            };
+
+            // Add zoom controls and scale bar at bottom-left of map
+            // Draw directly on map for true transparency
+            _mapScaleBar = new Controls.MapScaleBar();
+            _mapScaleBar.DrawY = 20;
+            _mapScaleBar.SetMapControl(gMapControl1);
+
+            // Track zoom button states and positions
+            _zoomInHover = false;
+            _zoomOutHover = false;
+
+            // Handle mouse events on the map for zoom buttons
+            gMapControl1.MouseMove += (s, e) =>
+            {
+                var zoomInRect = GetZoomInRect();
+                var zoomOutRect = GetZoomOutRect();
+
+                bool newZoomInHover = zoomInRect.Contains(e.Location);
+                bool newZoomOutHover = zoomOutRect.Contains(e.Location);
+
+                if (newZoomInHover != _zoomInHover || newZoomOutHover != _zoomOutHover)
+                {
+                    _zoomInHover = newZoomInHover;
+                    _zoomOutHover = newZoomOutHover;
+                    gMapControl1.Invalidate();
+                }
+
+                // Change cursor when over buttons
+                gMapControl1.Cursor = (newZoomInHover || newZoomOutHover) ? Cursors.Hand : Cursors.Default;
+            };
+
+            gMapControl1.MouseLeave += (s, e) =>
+            {
+                if (_zoomInHover || _zoomOutHover)
+                {
+                    _zoomInHover = false;
+                    _zoomOutHover = false;
+                    gMapControl1.Invalidate();
+                }
+            };
+
+            gMapControl1.MouseClick += (s, e) =>
+            {
+                if (GetZoomInRect().Contains(e.Location))
+                {
+                    if (gMapControl1.Zoom < gMapControl1.MaxZoom)
+                    {
+                        gMapControl1.Zoom += 1;
+                        TRK_zoom.Value = (float)gMapControl1.Zoom;
+                        Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
+                    }
+                }
+                else if (GetZoomOutRect().Contains(e.Location))
+                {
+                    if (gMapControl1.Zoom > gMapControl1.MinZoom)
+                    {
+                        gMapControl1.Zoom -= 1;
+                        TRK_zoom.Value = (float)gMapControl1.Zoom;
+                        Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
+                    }
                 }
             };
 
@@ -982,8 +1089,6 @@ namespace MissionPlanner.GCSViews
 
             TabListDisplay.Add(tabAuxFunction.Name, MainV2.DisplayConfiguration.displayAuxFunctionTab);
 
-            TabListDisplay.Add(tabPayload.Name, MainV2.DisplayConfiguration.displayPayloadTab);
-
             TabListDisplay.Add(tabParams.Name, MainV2.DisplayConfiguration.displayParamsTab);
 
             TabListDisplay.Add(tabVideo.Name, MainV2.DisplayConfiguration.displayVideoTab);
@@ -1284,9 +1389,22 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_abort_script_Click(object sender, EventArgs e)
         {
-            scriptthread.Abort();
+            if (scriptthread == null || !scriptthread.IsAlive)
+            {
+                scriptrunning = false;
+                return;
+            }
+
+            try
+            {
+                scriptthread.Abort();
+            }
+            catch (ThreadStateException)
+            {
+                // ignore if thread is not in a state that can be aborted
+            }
+
             scriptrunning = false;
-            BUT_abort_script.Visible = false;
         }
 
         private void BUT_abortland_Click(object sender, EventArgs e)
@@ -1669,14 +1787,14 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.MAV.param.ContainsKey("MNT_MODE"))
                 {
                     MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
-                        "MNT_MODE", (int) CMB_mountmode.SelectedValue);
+                        "MNT_MODE", (int) flightDataActions1.CMB_mountmode.SelectedValue);
                 }
                 else
                 {
                     // copter 3.3 acks with an error, but is ok
                     MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.DO_MOUNT_CONTROL, 0, 0, 0, 0, 0, 0,
-                        (int) CMB_mountmode.SelectedValue);
+                        (int) flightDataActions1.CMB_mountmode.SelectedValue);
                 }
             }
             catch
@@ -1758,12 +1876,12 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_resetGimbalPos_Click(object sender, EventArgs e)
         {
-            trackBarPitch.Value = 0;
-            trackBarRoll.Value = 0;
-            trackBarYaw.Value = 0;
+            flightDataActions1.TrackBarPitch.Value = 0;
+            flightDataActions1.TrackBarRoll.Value = 0;
+            flightDataActions1.TrackBarYaw.Value = 0;
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.MAVLINK_TARGETING, false, false, false);
-            MainV2.comPort.setMountControl((float) trackBarPitch.Value * 100.0f, (float) trackBarRoll.Value * 100.0f,
-                (float) trackBarYaw.Value * 100.0f, false);
+            MainV2.comPort.setMountControl((float) flightDataActions1.TrackBarPitch.Value * 100.0f, (float) flightDataActions1.TrackBarRoll.Value * 100.0f,
+                (float) flightDataActions1.TrackBarYaw.Value * 100.0f, false);
         }
 
         private void BUT_resumemis_Click(object sender, EventArgs e)
@@ -1940,7 +2058,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            MainV2.comPort.setMode(CMB_modes.Text);
+            MainV2.comPort.setMode(flightDataActions1.CMB_modes.Text);
         }
 
         private void BUT_setwp_Click(object sender, EventArgs e)
@@ -1949,7 +2067,7 @@ namespace MissionPlanner.GCSViews
             {
                 ((Control) sender).Enabled = false;
                 MainV2.comPort.setWPCurrent(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
-                    (ushort) CMB_setwp.SelectedIndex); // set nav to
+                    (ushort) flightDataActions1.CMB_setwp.SelectedIndex); // set nav to
             }
             catch
             {
@@ -1969,7 +2087,7 @@ namespace MissionPlanner.GCSViews
         {
 
 
-            if (CMB_action.Text == actions.Format_SD_Card.ToString())
+            if (flightDataActions1.CMB_action.Text == actions.Format_SD_Card.ToString())
             {
                  try
                 {
@@ -1987,7 +2105,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                if (CMB_action.Text == actions.Trigger_Camera.ToString())
+                if (flightDataActions1.CMB_action.Text == actions.Trigger_Camera.ToString())
                 {
                     MainV2.comPort.setDigicamControl(true);
                     return;
@@ -1999,7 +2117,7 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            if (CMB_action.Text == actions.Scripting_cmd_stop_and_restart.ToString())
+            if (flightDataActions1.CMB_action.Text == actions.Scripting_cmd_stop_and_restart.ToString())
             {
                 try
                 {
@@ -2013,7 +2131,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if (CMB_action.Text == actions.Scripting_cmd_stop.ToString())
+            if (flightDataActions1.CMB_action.Text == actions.Scripting_cmd_stop.ToString())
             {
                 try
                 {
@@ -2027,7 +2145,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if (CMB_action.Text == actions.System_Time.ToString())
+            if (flightDataActions1.CMB_action.Text == actions.System_Time.ToString())
             {
                 var now = DateTime.UtcNow;
                 var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -2047,7 +2165,7 @@ namespace MissionPlanner.GCSViews
             }
 
             if (
-                CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
+                CustomMessageBox.Show("Are you sure you want to do " + flightDataActions1.CMB_action.Text + " ?", "Action",
                     MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
             {
                 try
@@ -2059,39 +2177,39 @@ namespace MissionPlanner.GCSViews
                     int param3 = 1;
 
                     // request gyro
-                    if (CMB_action.Text == actions.Preflight_Calibration.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Preflight_Calibration.ToString())
                     {
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             param1 = 1; // gyro
                         param3 = 1; // baro / airspeed
                     }
 
-                    if (CMB_action.Text == actions.Terminate_Flight.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Terminate_Flight.ToString())
                     {
                         MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.DO_FLIGHTTERMINATION, 1.0f, 0, 0, 0, 0, 0, 0);
                         ((Control)sender).Enabled = true;
                         return;
                     }
 
-                    if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
                         MainV2.comPort.doReboot();
                         ((Control) sender).Enabled = true;
                         return;
                     }
-                    if (CMB_action.Text == actions.HighLatency_Enable.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.HighLatency_Enable.ToString())
                     {
                         MainV2.comPort.doHighLatency(true);
                         ((Control)sender).Enabled = true;
                         return;
                     }
-                    if (CMB_action.Text == actions.HighLatency_Disable.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.HighLatency_Disable.ToString())
                     {
                         MainV2.comPort.doHighLatency(false);
                         ((Control)sender).Enabled = true;
                         return;
                     }
-                    if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
                     {
                         var target_system = (byte)MainV2.comPort.sysidcurrent;
                         if (target_system == 0) {
@@ -2104,20 +2222,20 @@ namespace MissionPlanner.GCSViews
                         ((Control)sender).Enabled = true;
                         return;
                     }
-                    if (CMB_action.Text == actions.Engine_Start.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Engine_Start.ToString())
                     {
                         MainV2.comPort.doEngineControl((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
                         ((Control)sender).Enabled = true;
                         return;
                     }
-                    if (CMB_action.Text == actions.Engine_Stop.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Engine_Stop.ToString())
                     {
                         MainV2.comPort.doEngineControl((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
                         ((Control)sender).Enabled = true;
                         return;
                     }
 
-                    if (CMB_action.Text == actions.Battery_Reset.ToString())
+                    if (flightDataActions1.CMB_action.Text == actions.Battery_Reset.ToString())
                     {
                         param1 = 0xff; // batt 1
                         param2 = 100; // 100%
@@ -2127,12 +2245,12 @@ namespace MissionPlanner.GCSViews
                     MAVLink.MAV_CMD cmd;
                     try
                     {
-                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper(CultureInfo.InvariantCulture));
+                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), flightDataActions1.CMB_action.Text.ToUpper(CultureInfo.InvariantCulture));
                     }
                     catch (ArgumentException ex)
                     {
                         cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
-                            "DO_START_" + CMB_action.Text.ToUpper(CultureInfo.InvariantCulture));
+                            "DO_START_" + flightDataActions1.CMB_action.Text.ToUpper(CultureInfo.InvariantCulture));
                     }
 
                     if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
@@ -2828,18 +2946,18 @@ namespace MissionPlanner.GCSViews
 
         private void CMB_modes_Click(object sender, EventArgs e)
         {
-            string current_value = CMB_modes.Text;
-            CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
-            CMB_modes.ValueMember = "Key";
-            CMB_modes.DisplayMember = "Value";
-            CMB_modes.Text = current_value;
+            string current_value = flightDataActions1.CMB_modes.Text;
+            flightDataActions1.CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
+            flightDataActions1.CMB_modes.ValueMember = "Key";
+            flightDataActions1.CMB_modes.DisplayMember = "Value";
+            flightDataActions1.CMB_modes.Text = current_value;
         }
 
         private void CMB_setwp_Click(object sender, EventArgs e)
         {
-            CMB_setwp.Items.Clear();
+            flightDataActions1.CMB_setwp.Items.Clear();
 
-            CMB_setwp.Items.Add("0 (Home)");
+            flightDataActions1.CMB_setwp.Items.Add("0 (Home)");
 
             int max = 0;
 
@@ -2873,7 +2991,7 @@ namespace MissionPlanner.GCSViews
 
             for (int z = 1; z <= max; z++)
             {
-                CMB_setwp.Items.Add(z.ToString());
+                flightDataActions1.CMB_setwp.Items.Add(z.ToString());
             }
         }
 
@@ -3042,6 +3160,31 @@ namespace MissionPlanner.GCSViews
             //thisthread.Join();
         }
 
+        private void ConfigureScriptsButtonsLayout()
+        {
+            var buttons = new[] {BUT_select_script, BUT_run_script, BUT_abort_script, BUT_edit_selected};
+
+            if (buttons.Any(b => b == null))
+                return;
+
+            foreach (var button in buttons)
+            {
+                button.AutoSize = true;
+                button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                button.Size = button.GetPreferredSize(Size.Empty);
+            }
+
+            int startX = buttons.Min(b => b.Location.X);
+            int y = buttons.Min(b => b.Location.Y);
+            int currentX = startX;
+
+            foreach (var button in buttons)
+            {
+                button.Location = new Point(currentX, y);
+                currentX += button.Width + 8;
+            }
+        }
+
         private void FlightData_Load(object sender, EventArgs e)
         {
             POI.POIModified += POI_POIModified;
@@ -3066,9 +3209,9 @@ namespace MissionPlanner.GCSViews
                 var item = ParameterMetaDataRepository.GetParameterOptionsInt(name, MainV2.comPort.MAV.cs.firmware.ToString());
                 if (item.Count > 0)
                 {
-                    CMB_mountmode.DataSource = item;
-                    CMB_mountmode.DisplayMember = "Value";
-                    CMB_mountmode.ValueMember = "Key";
+                    flightDataActions1.CMB_mountmode.DataSource = item;
+                    flightDataActions1.CMB_mountmode.DisplayMember = "Value";
+                    flightDataActions1.CMB_mountmode.ValueMember = "Key";
                     break;
                 }
             }
@@ -3137,11 +3280,11 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["WP_SPEED_MAX"] / 100.0);
+                    flightDataActions1.modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["WP_SPEED_MAX"] / 100.0);
                 }
                 catch
                 {
-                    modifyandSetSpeed.Enabled = false;
+                    flightDataActions1.modifyandSetSpeed.Enabled = false;
                 }
             }
             // plane 3.7 and below with airspeed, uses ARSPD_ENABLE:
@@ -3159,11 +3302,11 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["TRIM_ARSPD_CM"] / 100.0);
+                    flightDataActions1.modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["TRIM_ARSPD_CM"] / 100.0);
                 }
                 catch
                 {
-                    modifyandSetSpeed.Enabled = false;
+                    flightDataActions1.modifyandSetSpeed.Enabled = false;
                 }
             } // plane without airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_THROTTLE") &&
@@ -3172,39 +3315,39 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    modifyandSetSpeed.Value = (decimal) (float) MainV2.comPort.MAV.param["TRIM_THROTTLE"];
+                    flightDataActions1.modifyandSetSpeed.Value = (decimal) (float) MainV2.comPort.MAV.param["TRIM_THROTTLE"];
                 }
                 catch
                 {
-                    modifyandSetSpeed.Enabled = false;
+                    flightDataActions1.modifyandSetSpeed.Enabled = false;
                 }
 
                 // percent
-                modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
+                flightDataActions1.modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
             }
 
             try
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("LOITER_RAD"))
-                    modifyandSetLoiterRad.Value =
+                    flightDataActions1.modifyandSetLoiterRad.Value =
                         (decimal) ((float) MainV2.comPort.MAV.param["LOITER_RAD"] * CurrentState.multiplierdist);
             }
             catch
             {
-                modifyandSetLoiterRad.Enabled = false;
+                flightDataActions1.modifyandSetLoiterRad.Enabled = false;
             }
 
             try
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("WP_LOITER_RAD"))
                 {
-                    modifyandSetLoiterRad.Value =
+                    flightDataActions1.modifyandSetLoiterRad.Value =
                         (decimal) ((float) MainV2.comPort.MAV.param["WP_LOITER_RAD"] * CurrentState.multiplierdist);
                 }
             }
             catch
             {
-                modifyandSetLoiterRad.Enabled = false;
+                flightDataActions1.modifyandSetLoiterRad.Enabled = false;
             }
         }
 
@@ -3305,8 +3448,8 @@ namespace MissionPlanner.GCSViews
 
         private void gimbalTrackbar_Scroll(object sender, EventArgs e)
         {
-            MainV2.comPort.setMountControl((float) trackBarPitch.Value * 100.0f, (float) trackBarRoll.Value * 100.0f,
-                (float) trackBarYaw.Value * 100.0f, false);
+            MainV2.comPort.setMountControl((float) flightDataActions1.TrackBarPitch.Value * 100.0f, (float) flightDataActions1.TrackBarRoll.Value * 100.0f,
+                (float) flightDataActions1.TrackBarYaw.Value * 100.0f, false);
         }
 
         private void gMapControl1_Click(object sender, EventArgs e)
@@ -4762,7 +4905,7 @@ namespace MissionPlanner.GCSViews
 
         private void modifyandSetAlt_Click(object sender, EventArgs e)
         {
-            int newalt = (int) modifyandSetAlt.Value;
+            int newalt = (int) flightDataActions1.modifyandSetAlt.Value;
             try
             {
                 MainV2.comPort.setNewWPAlt(new Locationwp {alt = newalt / CurrentState.multiplieralt});
@@ -4775,7 +4918,7 @@ namespace MissionPlanner.GCSViews
 
         private void modifyandSetLoiterRad_Click(object sender, EventArgs e)
         {
-            int newrad = (int) modifyandSetLoiterRad.Value;
+            int newrad = (int) flightDataActions1.modifyandSetLoiterRad.Value;
 
             try
             {
@@ -4792,7 +4935,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 await MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
-                        MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0)
+                        MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) flightDataActions1.modifyandSetSpeed.Value, 0, 0, 0, 0, 0)
                     .ConfigureAwait(true);
             }
             catch
@@ -4808,6 +4951,53 @@ namespace MissionPlanner.GCSViews
         void mymap_Paint(object sender, PaintEventArgs e)
         {
             distanceBar1.DoPaintRemote(e);
+            _mapScaleBar?.DoPaintRemote(e, gMapControl1);
+            DrawZoomButtons(e);
+        }
+
+        private Rectangle GetZoomInRect()
+        {
+            int bottom = gMapControl1.Height - 20;
+            return new Rectangle(8, bottom - 26, 26, 26);
+        }
+
+        private Rectangle GetZoomOutRect()
+        {
+            int bottom = gMapControl1.Height - 20;
+            return new Rectangle(36, bottom - 26, 26, 26);
+        }
+
+        private void DrawZoomButtons(PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            var zoomInRect = GetZoomInRect();
+            var zoomOutRect = GetZoomOutRect();
+
+            // Draw zoom in button
+            using (var bgBrush = new SolidBrush(_zoomInHover ? Color.FromArgb(0xAA, 0x00, 0x00, 0x00) : Color.FromArgb(0x88, 0x00, 0x00, 0x00)))
+            {
+                g.FillRectangle(bgBrush, zoomInRect);
+            }
+            using (var font = new Font("Segoe UI", 12f, FontStyle.Bold))
+            using (var brush = new SolidBrush(Color.White))
+            {
+                var size = g.MeasureString("+", font);
+                g.DrawString("+", font, brush, zoomInRect.X + (zoomInRect.Width - size.Width) / 2, zoomInRect.Y + (zoomInRect.Height - size.Height) / 2);
+            }
+
+            // Draw zoom out button
+            using (var bgBrush = new SolidBrush(_zoomOutHover ? Color.FromArgb(0xAA, 0x00, 0x00, 0x00) : Color.FromArgb(0x88, 0x00, 0x00, 0x00)))
+            {
+                g.FillRectangle(bgBrush, zoomOutRect);
+            }
+            using (var font = new Font("Segoe UI", 12f, FontStyle.Bold))
+            using (var brush = new SolidBrush(Color.White))
+            {
+                var size = g.MeasureString("−", font);
+                g.DrawString("−", font, brush, zoomOutRect.X + (zoomOutRect.Width - size.Width) / 2, zoomOutRect.Y + (zoomOutRect.Height - size.Height) / 2);
+            }
         }
 
         void NoFly_NoFlyEvent(object sender, NoFly.NoFly.NoFlyEventArgs e)
@@ -5053,6 +5243,7 @@ namespace MissionPlanner.GCSViews
         private void setAspectRatioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             hud1.SixteenXNine = !hud1.SixteenXNine;
+            Settings.Instance["HUD_SixteenXNine"] = hud1.SixteenXNine.ToString();
             hud1.doResize();
         }
 
@@ -5919,13 +6110,15 @@ namespace MissionPlanner.GCSViews
 
             if (_themedTabStrip.SelectedTab == tabStatus)
             {
-                _themedTabStrip.Visible = false;
-                tabStatus.Visible = false;
-                tabStatus_Resize(sender, e);
-                tabStatus.Visible = true;
-                _themedTabStrip.Visible = true;
+                _statusControl.Start();
+                _statusControl.ApplyTheme();
             }
-            else if (_themedTabStrip.SelectedTab == tabPagemessages)
+            else
+            {
+                _statusControl.Stop();
+            }
+
+            if (_themedTabStrip.SelectedTab == tabPagemessages)
             {
                 Messagetabtimer.Start();
             }
@@ -6242,9 +6435,7 @@ namespace MissionPlanner.GCSViews
 
                     if (_themedTabStrip.SelectedTab == tabStatus)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(
-                            bindingSourceStatusTab.UpdateDataSource(MainV2.comPort.MAV.cs));
-                        this.tabStatus.Invalidate();
+                        // StatusControl handles its own updates via timer
                     }
                     else if (_themedTabStrip.SelectedTab == tabQuick)
                     {
@@ -6260,11 +6451,6 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceGaugesTab.UpdateDataSource(MainV2.comPort.MAV.cs));
-                    }
-                    else if (_themedTabStrip.SelectedTab == tabPayload)
-                    {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(
-                            bindingSourcePayloadTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                 }
                 else
@@ -6813,50 +6999,6 @@ namespace MissionPlanner.GCSViews
         private void hud1_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void tabStatus_Paint(object sender, PaintEventArgs e)
-        {
-            var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);
-            var g = Graphics.FromImage(bmp);
-            g.Clear(Color.Transparent);
-
-            int x = 10;
-            int y = 10;
-
-            var list = MainV2.comPort.MAV.cs.GetItemList(true);
-            var cs = bindingSourceStatusTab.Current as CurrentState;
-            var br = new SolidBrush(tabStatus.ForeColor);
-
-            foreach (var field in list)
-            {
-                g.DrawString(field, this.Font, br, new RectangleF(x, y, 120, 15));
-
-                if (cs != null)
-                    g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
-                        br, new RectangleF(x + 120, y, 50, 15));
-
-                x += 0;
-                y += 15;
-
-                if (y > tabStatus.Height - 30)
-                {
-                    x += 190;
-                    y = 10;
-                }
-            }
-
-            if (tabStatus.AutoScrollMinSize.Width < x)
-            {
-                typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-                                                             | BindingFlags.Instance | BindingFlags.NonPublic, null,
-                    tabStatus, new object[] { true });
-
-                tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
-            }
-            e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
-                tabStatus.AutoScrollPosition.Y);
-            e.Graphics.DrawImageUnscaled(bmp, 0, 0);
         }
 
         private void gMapControl1_MouseUp(object sender, MouseEventArgs e)

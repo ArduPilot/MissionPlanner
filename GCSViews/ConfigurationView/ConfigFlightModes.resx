@@ -318,53 +318,20 @@
   <data name="&gt;&gt;CB_simple1.ZOrder" xml:space="preserve">
     <value>31</value>
   </data>
-  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 32</value>
-  </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 16</value>
-  </data>
-  <data name="label14.TabIndex" type="System.Int32, mscorlib">
-    <value>142</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Current PWM:</value>
-  </data>
-  <data name="&gt;&gt;label14.Name" xml:space="preserve">
-    <value>label14</value>
-  </data>
-  <data name="&gt;&gt;label14.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="LBL_flightmodepwm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="LBL_flightmodepwm.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="LBL_flightmodepwm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 32</value>
+    <value>0, 0</value>
   </data>
   <data name="LBL_flightmodepwm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 16</value>
+    <value>100, 23</value>
   </data>
   <data name="LBL_flightmodepwm.TabIndex" type="System.Int32, mscorlib">
-    <value>141</value>
+    <value>0</value>
   </data>
   <data name="LBL_flightmodepwm.Text" xml:space="preserve">
-    <value>0</value>
+    <value>PWM: 0</value>
   </data>
   <data name="&gt;&gt;LBL_flightmodepwm.Name" xml:space="preserve">
     <value>LBL_flightmodepwm</value>
@@ -372,75 +339,9 @@
   <data name="&gt;&gt;LBL_flightmodepwm.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LBL_flightmodepwm.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LBL_flightmodepwm.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 15</value>
-  </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 16</value>
-  </data>
-  <data name="label13.TabIndex" type="System.Int32, mscorlib">
-    <value>140</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Current Mode:</value>
-  </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
-  </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lbl_currentmode.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="lbl_currentmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lbl_currentmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 15</value>
-  </data>
-  <data name="lbl_currentmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 16</value>
-  </data>
-  <data name="lbl_currentmode.TabIndex" type="System.Int32, mscorlib">
-    <value>139</value>
-  </data>
-  <data name="lbl_currentmode.Text" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="&gt;&gt;lbl_currentmode.Name" xml:space="preserve">
-    <value>lbl_currentmode</value>
-  </data>
-  <data name="&gt;&gt;lbl_currentmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lbl_currentmode.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lbl_currentmode.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>

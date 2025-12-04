@@ -189,6 +189,33 @@ namespace MissionPlanner.Controls
                 panel.Name = tabPage.Name + "_content";
                 panel.Tag = tabPage;
                 panel.Padding = tabPage.Padding;
+                panel.AutoScroll = true;
+
+                // Forward Paint events from the panel to the original TabPage's Paint handler
+                // This is needed for tabs like tabStatus that render via Paint instead of controls
+                panel.Paint += (sender, e) =>
+                {
+                    // Invoke the TabPage's OnPaint via reflection since it may have Paint event handlers
+                    var paintEvent = tabPage.GetType().GetEvent("Paint");
+                    if (paintEvent != null)
+                    {
+                        var field = typeof(Control).GetField("EventPaint", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+                        if (field != null)
+                        {
+                            var key = field.GetValue(null);
+                            var eventsProperty = typeof(System.ComponentModel.Component).GetProperty("Events", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                            if (eventsProperty != null)
+                            {
+                                var events = eventsProperty.GetValue(tabPage) as System.ComponentModel.EventHandlerList;
+                                if (events != null)
+                                {
+                                    var handler = events[key] as PaintEventHandler;
+                                    handler?.Invoke(panel, e);
+                                }
+                            }
+                        }
+                    }
+                };
 
                 // Suspend layout during control transfer
                 panel.SuspendLayout();

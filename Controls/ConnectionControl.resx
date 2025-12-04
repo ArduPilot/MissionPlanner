@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cmb_Baud.ItemHeight" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>16</value>
   </data>
   <data name="cmb_Baud.Items" xml:space="preserve">
     <value>1200</value>
@@ -177,7 +177,7 @@
     <value>15</value>
   </data>
   <data name="cmb_Baud.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 21</value>
+    <value>111, 24</value>
   </data>
   <data name="cmb_Baud.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -201,7 +201,7 @@
     <value>12</value>
   </data>
   <data name="cmb_Connection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>121, 23</value>
   </data>
   <data name="cmb_Connection.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -225,13 +225,13 @@
     <value>3, 32</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 13</value>
+    <value>64, 16</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Stats...</value>
+    <value>Link Stats</value>
   </data>
   <data name="linkLabel1.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -249,10 +249,10 @@
     <value>1</value>
   </data>
   <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 27</value>
+    <value>83, 27</value>
   </data>
   <data name="cmb_sysid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>155, 24</value>
   </data>
   <data name="cmb_sysid.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>

@@ -44,6 +44,7 @@ namespace MissionPlanner.GCSViews
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cmb_version = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -58,7 +59,6 @@ namespace MissionPlanner.GCSViews
             this.cmb_model = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
-            this.cmb_version = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -200,6 +200,12 @@ namespace MissionPlanner.GCSViews
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // cmb_version
+            // 
+            this.cmb_version.FormattingEnabled = true;
+            resources.ApplyResources(this.cmb_version, "cmb_version");
+            this.cmb_version.Name = "cmb_version";
             // 
             // label1
             // 
@@ -346,12 +352,6 @@ namespace MissionPlanner.GCSViews
             0,
             0,
             0});
-            // 
-            // cmb_version
-            // 
-            this.cmb_version.FormattingEnabled = true;
-            resources.ApplyResources(this.cmb_version, "cmb_version");
-            this.cmb_version.Name = "cmb_version";
             // 
             // SITL
             // 

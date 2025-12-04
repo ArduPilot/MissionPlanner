@@ -251,7 +251,7 @@ DON'T DO THIS IF YOU ARE IN THE AIR
     <value>Flight Modes</value>
   </data>
   <data name="FullParameterList" xml:space="preserve">
-    <value>Full Parameter List</value>
+    <value>Parameters</value>
   </data>
   <data name="FullParameterTree" xml:space="preserve">
     <value>Full Parameter Tree</value>
