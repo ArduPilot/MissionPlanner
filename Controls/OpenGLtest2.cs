@@ -75,6 +75,23 @@ namespace MissionPlanner.Controls
         public static OpenGLtest2 instance;
         int green = 0;
         private Dictionary<int, int> wpNumberTextures = new Dictionary<int, int>();
+
+        // Plane STL model
+        private List<float> _planeVertices;
+        private List<float> _planeNormals;
+        private int _planeVBO = 0;
+        private int _planeNormalVBO = 0;
+        private int _planeVertexCount = 0;
+        private float _planeScale = 1.0f;
+        private bool _planeLoaded = false;
+        // Plane position and rotation for current frame
+        private double _planeDrawX, _planeDrawY, _planeDrawZ;
+        private float _planeRoll, _planePitch, _planeYaw;
+        // Configurable camera and plane settings
+        private double _cameraDist = 5;
+        private double _cameraHeight = 2;
+        private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
+        private float _cameraFOV = 60f; // Field of view in degrees
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -87,8 +104,7 @@ namespace MissionPlanner.Controls
         public int zoom { get; set; } = 15;
         private const int zoomLevelOffset = 5;
         private int minzoom => Math.Max(1, zoom - zoomLevelOffset);
-        private NumericUpDown num_zoom;
-        private Label lbl_zoom;
+        private MyButton btn_configure;
         private SemaphoreSlim textureSemaphore = new SemaphoreSlim(1, 1);
         private Timer timer1;
         private bool _stopRequested;
@@ -415,6 +431,193 @@ namespace MissionPlanner.Controls
             }
         }
 
+        private void LoadPlaneSTL()
+        {
+            if (_planeLoaded) return;
+
+            try
+            {
+                string stlContent = MissionPlanner.Properties.Resources.plane_stl;
+                if (string.IsNullOrEmpty(stlContent))
+                {
+                    MessageBox.Show("plane.stl resource not found", "STL Load Error");
+                    return;
+                }
+
+                _planeVertices = new List<float>();
+                _planeNormals = new List<float>();
+
+                float minX = float.MaxValue, maxX = float.MinValue;
+                float minY = float.MaxValue, maxY = float.MinValue;
+                float minZ = float.MaxValue, maxZ = float.MinValue;
+
+                var lines = stlContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                float nx = 0, ny = 0, nz = 0;
+
+                foreach (var line in lines)
+                {
+                    var trimmed = line.Trim();
+                    if (trimmed.StartsWith("facet normal"))
+                    {
+                        var parts = trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        nx = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
+                        ny = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
+                        nz = float.Parse(parts[4], System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    else if (trimmed.StartsWith("vertex"))
+                    {
+                        var parts = trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        float vx = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+                        float vy = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
+                        float vz = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
+
+                        _planeVertices.Add(vx);
+                        _planeVertices.Add(vy);
+                        _planeVertices.Add(vz);
+
+                        _planeNormals.Add(nx);
+                        _planeNormals.Add(ny);
+                        _planeNormals.Add(nz);
+
+                        minX = Math.Min(minX, vx); maxX = Math.Max(maxX, vx);
+                        minY = Math.Min(minY, vy); maxY = Math.Max(maxY, vy);
+                        minZ = Math.Min(minZ, vz); maxZ = Math.Max(maxZ, vz);
+                    }
+                }
+
+                // Calculate scale to make model 1 meter wide
+                float modelWidth = Math.Max(maxX - minX, Math.Max(maxY - minY, maxZ - minZ));
+                _planeScale = 1.0f / modelWidth; // 1 meter wide
+
+                // Center the model
+                float centerX = (minX + maxX) / 2;
+                float centerY = (minY + maxY) / 2;
+                float centerZ = (minZ + maxZ) / 2;
+
+                for (int i = 0; i < _planeVertices.Count; i += 3)
+                {
+                    _planeVertices[i] -= centerX;
+                    _planeVertices[i + 1] -= centerY;
+                    _planeVertices[i + 2] -= centerZ;
+                }
+
+                RotatePlane();
+
+                _planeVertexCount = _planeVertices.Count / 3;
+                _planeLoaded = true;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading plane.stl: " + ex.Message, "STL Load Error");
+            }
+        }
+
+        private void RotatePlane()
+        {
+            // Rotate STL -90 degrees around Z axis (swap X and Y, negate new Y)
+            for (int i = 0; i < _planeVertices.Count; i += 3)
+            {
+                float x = _planeVertices[i];
+                float y = _planeVertices[i + 1];
+                _planeVertices[i] = y;
+                _planeVertices[i + 1] = -x;
+            }
+            // Also rotate normals
+            for (int i = 0; i < _planeNormals.Count; i += 3)
+            {
+                float normX = _planeNormals[i];
+                float normY = _planeNormals[i + 1];
+                _planeNormals[i] = normY;
+                _planeNormals[i + 1] = -normX;
+            }
+        }
+
+        private void DrawPlane(Matrix4 projMatrix, Matrix4 viewMatrix)
+        {
+            if (!_planeLoaded || _planeVertices == null || _planeVertices.Count == 0)
+            {
+                LoadPlaneSTL();
+                if (!_planeLoaded)
+                    return;
+            }
+
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthMask(true);
+            GL.Disable(EnableCap.CullFace); // Show both sides
+
+            // STL is in mm, _planeScale normalizes to 1 meter, then apply user scale multiplier
+            float scale = _planeScale * _planeScaleMultiplier;
+
+            // Create model matrix for the plane
+            // Build in order: Scale -> Rotate -> Translate
+            var planeModelMatrix = Matrix4.CreateScale(scale);
+
+            // Rotate: roll, pitch, then yaw (negate pitch and yaw for correct direction)
+            planeModelMatrix = Matrix4.Mult(planeModelMatrix, Matrix4.CreateRotationY((float)MathHelper.Radians(_planeRoll)));
+            planeModelMatrix = Matrix4.Mult(planeModelMatrix, Matrix4.CreateRotationX((float)MathHelper.Radians(_planePitch)));
+            planeModelMatrix = Matrix4.Mult(planeModelMatrix, Matrix4.CreateRotationZ((float)MathHelper.Radians(-_planeYaw)));
+
+            // Translate to position
+            planeModelMatrix = Matrix4.Mult(planeModelMatrix, Matrix4.CreateTranslation((float)_planeDrawX, (float)_planeDrawY, (float)_planeDrawZ));
+
+            // Combine model with view matrix (like other objects in the scene)
+            var modelViewMatrix = Matrix4.Mult(planeModelMatrix, viewMatrix);
+
+            // Use same shader approach as tileInfo - separate projection and modelview
+            GL.UseProgram(tileInfo.Program);
+
+            GL.EnableVertexAttribArray(0); // position
+            GL.EnableVertexAttribArray(1); // color (we'll use for normals/color)
+
+            // set matrices using same slots as tileInfo
+            GL.UniformMatrix4(tileInfo.modelViewSlot, 1, false, ref modelViewMatrix.Row0.X);
+            GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
+
+            // Disable texture
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.Disable(EnableCap.Texture2D);
+
+            // Build vertex array with color (gray-blue for plane with simple lighting)
+            var planeVerts = new List<Vertex>();
+            for (int i = 0; i < _planeVertices.Count; i += 3)
+            {
+                float vx = _planeVertices[i];
+                float vy = _planeVertices[i + 1];
+                float vz = _planeVertices[i + 2];
+                // Use normal for simple shading - light from above and front
+                float nx = _planeNormals[i];
+                float ny = _planeNormals[i + 1];
+                float nz = _planeNormals[i + 2];
+                // Normalize the normal vector
+                float len = (float)Math.Sqrt(nx * nx + ny * ny + nz * nz);
+                if (len > 0) { nx /= len; ny /= len; nz /= len; }
+                // Light direction: from above (Z+) and slightly from front
+                float light = Math.Abs(nz) * 0.5f + Math.Abs(ny) * 0.3f + 0.4f; // Ambient + directional
+                light = Math.Min(1.0f, light);
+                // Gray-blue color
+                planeVerts.Add(new Vertex(vx, vy, vz, 0.6 * light, 0.6 * light, 0.75 * light, 1.0, 0, 0));
+            }
+
+            // Create temporary VBO
+            int vbo;
+            GL.GenBuffers(1, out vbo);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, planeVerts.Count * Vertex.Stride, planeVerts.ToArray(), BufferUsageHint.StreamDraw);
+
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, Vertex.Stride, IntPtr.Zero);
+            GL.VertexAttribPointer(1, 4, VertexAttribPointerType.Float, false, Vertex.Stride, (IntPtr)(sizeof(float) * 3));
+
+            GL.DrawArrays(BeginMode.Triangles, 0, _planeVertexCount);
+
+            GL.DisableVertexAttribArray(0);
+            GL.DisableVertexAttribArray(1);
+
+            // Cleanup
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.DeleteBuffer(vbo);
+        }
+
         static int CreateTexture(BitmapData data)
         {
             int texture = 0;
@@ -610,27 +813,37 @@ namespace MissionPlanner.Controls
                 mypos = campos;
                 myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
 
-                cameraX = campos[0];
-                cameraY = campos[1];
-                cameraZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
+                // Plane position (where camera used to be)
+                _planeDrawX = campos[0];
+                _planeDrawY = campos[1];
+                _planeDrawZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
                     ? (srtm.getAltitude(_center.Lat, _center.Lng).alt + 1) * heightscale
-                    : _center.Alt * heightscale; // (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
-                lookX = campos[0] + Math.Sin(MathHelper.Radians(rpy.Z)) * 100;
-                lookY = campos[1] + Math.Cos(MathHelper.Radians(rpy.Z)) * 100;
-                lookZ = cameraZ;
+                    : _center.Alt * heightscale;
+
+                // Store plane rotation
+                _planeRoll = (float)rpy.X;
+                _planePitch = (float)rpy.Y;
+                _planeYaw = (float)rpy.Z;
+
+                // Camera positioned behind and above the plane
+                double headingRad = MathHelper.Radians(rpy.Z);
+                cameraX = _planeDrawX - Math.Sin(headingRad) * _cameraDist;
+                cameraY = _planeDrawY - Math.Cos(headingRad) * _cameraDist;
+                cameraZ = _planeDrawZ + _cameraHeight;
+
+                // Look at the plane
+                lookX = _planeDrawX;
+                lookY = _planeDrawY;
+                lookZ = _planeDrawZ;
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
                 /*Console.WriteLine("cam: {0} {1} {2} lookat: {3} {4} {5}", (float) cameraX, (float) cameraY, (float) cameraZ,
                     (float) lookX,
                     (float) lookY, (float) lookZ);
                   */
-                modelMatrix = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ + 100f * 0,
+                modelMatrix = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ,
                     (float) lookX, (float) lookY, (float) lookZ,
                     0, 0, 1);
-                // roll
-                modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationZ((float) (rpy.X * MathHelper.deg2rad)));
-                // pitch
-                modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationX((float) (rpy.Y * -MathHelper.deg2rad)));
 
                 {
                     // for unproject - updated on every draw
@@ -707,6 +920,9 @@ namespace MissionPlanner.Controls
                         _flightPlanLines.Draw(projMatrix, modelMatrix);
                     }
                 }
+                // Draw the plane model
+                DrawPlane(projMatrix, modelMatrix);
+
                 var beforewpsmarkers = DateTime.Now;
                 // Draw green waypoint markers (hidden if within 200ft / 61m of camera)
                 {
@@ -756,8 +972,12 @@ namespace MissionPlanner.Controls
                         wpmarker.idtexture = green;
 
                         double markerHalfSize = 60;
-                        double sinAngle = Math.Sin(MathHelper.Radians(rpy.Z + 90));
-                        double cosAngle = Math.Cos(MathHelper.Radians(rpy.Z + 90));
+                        // Calculate angle from waypoint to camera so marker always faces camera
+                        double dx = cameraX - co[0];
+                        double dy = cameraY - co[1];
+                        double angleToCamera = Math.Atan2(dx, dy);
+                        double sinAngle = Math.Sin(angleToCamera + Math.PI / 2);
+                        double cosAngle = Math.Cos(angleToCamera + Math.PI / 2);
 
                         // Rotation around the axis facing the camera (perpendicular to billboard)
                         double rotationAngle = (DateTime.Now.TimeOfDay.TotalSeconds * 30.0) % 360.0;
@@ -814,11 +1034,12 @@ namespace MissionPlanner.Controls
                                 double numberOffsetZ = markerHalfSize * 0.5; // Offset to top of sprite
 
                                 // Static corners (no rotation applied), shifted up
+                                // Flip horizontally by negating corner[0] to unmirror the number
                                 foreach (var corner in corners)
                                 {
                                     wpnumber.vertex.Add(new Vertex(
-                                        co[0] + sinAngle * corner[0] * numberHalfSize,
-                                        co[1] + cosAngle * corner[0] * numberHalfSize,
+                                        co[0] - sinAngle * corner[0] * numberHalfSize,
+                                        co[1] - cosAngle * corner[0] * numberHalfSize,
                                         wpAlt + corner[1] * numberHalfSize + numberOffsetZ,
                                         0, 0, 0, 1, corner[2], corner[3]));
                                 }
@@ -900,8 +1121,18 @@ namespace MissionPlanner.Controls
             };
         }
 
+        private bool _rotationKalmanInitialized = false;
         private MissionPlanner.Utilities.Vector3 filterRotation(MissionPlanner.Utilities.Vector3 rawRpy)
         {
+            // Initialize rotation Kalman filters on first run to prevent slow rotation from 0
+            if (!_rotationKalmanInitialized)
+            {
+                _kalmanRoll.Reset(rawRpy.X);
+                _kalmanPitch.Reset(rawRpy.Y);
+                _kalmanYaw.Reset(rawRpy.Z);
+                _rotationKalmanInitialized = true;
+            }
+
             // Handle yaw wraparound for smooth interpolation
             double yaw = rawRpy.Z;
             double currentYaw = _kalmanYaw.Value;
@@ -1279,32 +1510,19 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.num_zoom = new System.Windows.Forms.NumericUpDown();
-            this.lbl_zoom = new System.Windows.Forms.Label();
+            this.btn_configure = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.num_zoom)).BeginInit();
             this.SuspendLayout();
             //
-            // lbl_zoom
+            // btn_configure
             //
-            this.lbl_zoom.AutoSize = true;
-            this.lbl_zoom.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_zoom.ForeColor = System.Drawing.Color.White;
-            this.lbl_zoom.Location = new System.Drawing.Point(3, 5);
-            this.lbl_zoom.Name = "lbl_zoom";
-            this.lbl_zoom.Size = new System.Drawing.Size(34, 13);
-            this.lbl_zoom.Text = "Zoom";
-            //
-            // num_zoom
-            //
-            this.num_zoom.Location = new System.Drawing.Point(43, 3);
-            this.num_zoom.Maximum = new decimal(new int[] { 24, 0, 0, 0 });
-            this.num_zoom.Minimum = new decimal(new int[] { 6, 0, 0, 0 });
-            this.num_zoom.Name = "num_zoom";
-            this.num_zoom.Size = new System.Drawing.Size(45, 20);
-            this.num_zoom.TabIndex = 0;
-            this.num_zoom.Value = new decimal(new int[] { 15, 0, 0, 0 });
-            this.num_zoom.ValueChanged += new System.EventHandler(this.num_zoom_ValueChanged);
+            this.btn_configure.Location = new System.Drawing.Point(3, 3);
+            this.btn_configure.Name = "btn_configure";
+            this.btn_configure.Size = new System.Drawing.Size(75, 23);
+            this.btn_configure.TabIndex = 0;
+            this.btn_configure.Text = "Configure";
+            this.btn_configure.UseVisualStyleBackColor = true;
+            this.btn_configure.Click += new System.EventHandler(this.btn_configure_Click);
             //
             // timer1
             //
@@ -1314,29 +1532,28 @@ namespace MissionPlanner.Controls
             // OpenGLtest2
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.lbl_zoom);
-            this.Controls.Add(this.num_zoom);
+            this.Controls.Add(this.btn_configure);
             this.Name = "OpenGLtest2";
             this.Size = new System.Drawing.Size(640, 480);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.num_zoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
 
         private void test_Load(object sender, EventArgs e)
         {
-            // Load saved zoom level
+            // Load saved settings
             if (Settings.Instance.ContainsKey("3d_map_zoom_level"))
-            {
-                int savedZoom = Settings.Instance.GetInt32("3d_map_zoom_level", 15);
-                if (savedZoom >= (int)num_zoom.Minimum && savedZoom <= (int)num_zoom.Maximum)
-                {
-                    zoom = savedZoom;
-                    num_zoom.Value = savedZoom;
-                }
-            }
+                zoom = Settings.Instance.GetInt32("3d_map_zoom_level", 15);
+            if (Settings.Instance.ContainsKey("3d_map_camera_dist"))
+                _cameraDist = Settings.Instance.GetDouble("3d_map_camera_dist", 5);
+            if (Settings.Instance.ContainsKey("3d_map_camera_height"))
+                _cameraHeight = Settings.Instance.GetDouble("3d_map_camera_height", 2);
+            if (Settings.Instance.ContainsKey("3d_map_plane_scale"))
+                _planeScaleMultiplier = (float)Settings.Instance.GetDouble("3d_map_plane_scale", 1.0);
+            if (Settings.Instance.ContainsKey("3d_map_fov"))
+                _cameraFOV = (float)Settings.Instance.GetDouble("3d_map_fov", 60);
 
             if (!Context.IsCurrent)
                 Context.MakeCurrent(this.WindowInfo);
@@ -1363,10 +1580,78 @@ namespace MissionPlanner.Controls
             test_Resize(null, null);
         }
 
-        private void num_zoom_ValueChanged(object sender, EventArgs e)
+        private void btn_configure_Click(object sender, EventArgs e)
         {
-            zoom = (int)num_zoom.Value;
-            Settings.Instance["3d_map_zoom_level"] = zoom.ToString();
+            using (var dialog = new Form())
+            {
+                dialog.Text = "3D Map Settings";
+                dialog.Size = new Size(300, 250);
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.StartPosition = FormStartPosition.CenterParent;
+                dialog.MaximizeBox = false;
+                dialog.MinimizeBox = false;
+
+                int y = 15;
+                int labelWidth = 100;
+                int inputX = 110;
+                int inputWidth = 80;
+
+                // Zoom
+                var lblZoom = new Label { Text = "Zoom:", Location = new Point(15, y + 3), AutoSize = true };
+                var numZoom = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 6, Maximum = 24, Value = zoom };
+                dialog.Controls.Add(lblZoom);
+                dialog.Controls.Add(numZoom);
+                y += 30;
+
+                // Camera Distance
+                var lblDist = new Label { Text = "Camera Distance:", Location = new Point(15, y + 3), AutoSize = true };
+                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
+                dialog.Controls.Add(lblDist);
+                dialog.Controls.Add(numDist);
+                y += 30;
+
+                // Camera Height
+                var lblHeight = new Label { Text = "Camera Height:", Location = new Point(15, y + 3), AutoSize = true };
+                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 0, Maximum = 50, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraHeight };
+                dialog.Controls.Add(lblHeight);
+                dialog.Controls.Add(numHeight);
+                y += 30;
+
+                // Plane Scale
+                var lblScale = new Label { Text = "Plane Scale (m):", Location = new Point(15, y + 3), AutoSize = true };
+                var numScale = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 10, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_planeScaleMultiplier };
+                dialog.Controls.Add(lblScale);
+                dialog.Controls.Add(numScale);
+                y += 30;
+
+                // FOV
+                var lblFOV = new Label { Text = "Field of View:", Location = new Point(15, y + 3), AutoSize = true };
+                var numFOV = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 30, Maximum = 120, Increment = 5, Value = (decimal)_cameraFOV };
+                dialog.Controls.Add(lblFOV);
+                dialog.Controls.Add(numFOV);
+                y += 40;
+
+                // OK Button
+                var btnOK = new Button { Text = "OK", DialogResult = DialogResult.OK, Location = new Point(110, y), Width = 75 };
+                dialog.Controls.Add(btnOK);
+                dialog.AcceptButton = btnOK;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    zoom = (int)numZoom.Value;
+                    _cameraDist = (double)numDist.Value;
+                    _cameraHeight = (double)numHeight.Value;
+                    _planeScaleMultiplier = (float)numScale.Value;
+                    _cameraFOV = (float)numFOV.Value;
+
+                    // Save settings
+                    Settings.Instance["3d_map_zoom_level"] = zoom.ToString();
+                    Settings.Instance["3d_map_camera_dist"] = _cameraDist.ToString();
+                    Settings.Instance["3d_map_camera_height"] = _cameraHeight.ToString();
+                    Settings.Instance["3d_map_plane_scale"] = _planeScaleMultiplier.ToString();
+                    Settings.Instance["3d_map_fov"] = _cameraFOV.ToString();
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -1387,8 +1672,8 @@ namespace MissionPlanner.Controls
                     Context.MakeCurrent(this.WindowInfo);
                 GL.Viewport(0, 0, this.Width, this.Height);
                 projMatrix = OpenTK.Matrix4.CreatePerspectiveFieldOfView(
-                    (float) (90 * MathHelper.deg2rad),
-                    (float) Width / Height, 2f,
+                    (float) (_cameraFOV * MathHelper.deg2rad),
+                    (float) Width / Height, 0.1f,
                     (float) 20000);
                 GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
                 {

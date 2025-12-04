@@ -1825,5 +1825,15 @@ namespace MissionPlanner.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string plane_stl {
+            get {
+                object obj = ResourceManager.GetObject("plane_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
     }
 }
