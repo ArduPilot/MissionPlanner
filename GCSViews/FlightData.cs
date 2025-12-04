@@ -2300,16 +2300,19 @@ namespace MissionPlanner.GCSViews
 
             splitContainer1.Panel1Collapsed = false;
 
+            // Match the vertical split to the current HUD/FlightData split (pixel aligned)
+            int totalHeight = splitContainer1.Height;
+            int hudHeightPixels = (SubMainLeft != null && SubMainLeft.SplitterDistance > 0)
+                ? SubMainLeft.SplitterDistance
+                : totalHeight / 2;
+            int topHeight = Math.Max(0, Math.Min(totalHeight, hudHeightPixels - 5)); // slight nudge to align lines
+            int bottomHeight = Math.Max(0, totalHeight - topHeight);
+
             if (tuningChecked || paramsChecked)
             {
                 splitContainer1.Panel2Collapsed = false;
 
-                int totalHeight = splitContainer1.Height;
-                int bottomHeight = tuningChecked && paramsChecked
-                    ? (totalHeight * 2) / 3
-                    : totalHeight / 3;
-
-                splitContainer1.SplitterDistance = Math.Max(0, totalHeight - bottomHeight);
+                splitContainer1.SplitterDistance = Math.Max(0, Math.Min(totalHeight, topHeight));
 
                 splitContainer2.Panel1Collapsed = !tuningChecked;
                 splitContainer2.Panel2Collapsed = !paramsChecked;
