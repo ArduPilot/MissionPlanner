@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
 
@@ -7,9 +8,45 @@ namespace MissionPlanner.Controls
 {
     public partial class FlightDataActions : UserControl
     {
+        private const int MinGroupBoxWidth = 320;
+        private const int GroupBoxMargin = 6; // FlowLayoutPanel default margin per side
+
         public FlightDataActions()
         {
             InitializeComponent();
+            this.Resize += FlightDataActions_Resize;
+            this.Load += FlightDataActions_Load;
+        }
+
+        private void FlightDataActions_Load(object sender, EventArgs e)
+        {
+            UpdateGroupBoxWidths();
+        }
+
+        private void FlightDataActions_Resize(object sender, EventArgs e)
+        {
+            UpdateGroupBoxWidths();
+        }
+
+        private void UpdateGroupBoxWidths()
+        {
+            if (mainFlowLayout == null) return;
+
+            int availableWidth = mainFlowLayout.ClientSize.Width - mainFlowLayout.Padding.Horizontal;
+            int totalMargin = GroupBoxMargin * 2 * 3; // margin on both sides for 3 boxes
+            int usableWidth = availableWidth - totalMargin;
+
+            // Calculate how many boxes fit per row at minimum width
+            int boxesPerRow = Math.Max(1, usableWidth / MinGroupBoxWidth);
+            if (boxesPerRow > 3) boxesPerRow = 3;
+
+            // Calculate the width for each box to fill the row
+            int boxWidth = (usableWidth / boxesPerRow) - 1; // -1 to prevent wrapping due to rounding
+            boxWidth = Math.Max(boxWidth, MinGroupBoxWidth);
+
+            grpCommand.Width = boxWidth;
+            grpSetpoints.Width = boxWidth;
+            grpTools.Width = boxWidth;
         }
 
         public void Initialize()
