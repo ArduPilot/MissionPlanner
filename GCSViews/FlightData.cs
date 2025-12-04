@@ -1495,6 +1495,9 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.camerapoints != null)
                 MainV2.comPort.MAV.camerapoints.Clear();
+
+            // Clear 3D map trail as well
+            MissionPlanner.Controls.Map3D.instance?.ClearTrail();
         }
 
         void but_Click(object sender, EventArgs e)
