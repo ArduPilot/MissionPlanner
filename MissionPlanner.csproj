@@ -469,7 +469,7 @@
     <Compile Update="Controls\OpenGLtest.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\OpenGLtest2.cs" />
+    <Compile Update="Controls\Map3D.cs" />
     <Compile Update="GCSViews\ConfigurationView\ConfigSerialInjectGPS.cs">
       <SubType>UserControl</SubType>
     </Compile>

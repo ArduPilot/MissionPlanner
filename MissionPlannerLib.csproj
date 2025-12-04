@@ -345,13 +345,13 @@
 
  <ItemGroup>
    <Compile Remove="Controls\OpenGLtest.cs" />
-   <Compile Remove="Controls\OpenGLtest2.cs" />
+   <Compile Remove="Controls\Map3D.cs" />
    <Compile Remove="Utilities\ImageMatch.cs" />
  </ItemGroup>
 
  <ItemGroup>
    <EmbeddedResource Remove="Controls\OpenGLtest.resx" />
-   <EmbeddedResource Remove="Controls\OpenGLtest2.resx" />
+   <EmbeddedResource Remove="Controls\Map3D.resx" />
  </ItemGroup>
 
 

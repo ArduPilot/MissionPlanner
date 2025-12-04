@@ -46,6 +46,11 @@ namespace MissionPlanner.GCSViews
         public static myGMAP mymap;
         public static bool threadrun;
         public SplitContainer MainHcopy;
+        private SplitterPanel MapPanel => splitContainer1.Panel1;
+        private SplitContainer map3DSplitContainer;
+        private Control MapContentPanel => map3DSplitContainer?.Panel1 ?? (Control)MapPanel;
+        private Panel map3DHost;
+        private Map3D map3DControl;
         internal static GMapOverlay geofence;
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI");
@@ -58,9 +63,6 @@ namespace MissionPlanner.GCSViews
 
         //The file path of the selected script
         internal string selectedscript = "";
-
-        // 3D Map control reference for proper disposal
-        private Controls.OpenGLtest2 _map3D;
 
         // Double-click fly to here feature
         private bool _doubleClickFlyToHereEnabled = true;
@@ -257,11 +259,83 @@ namespace MissionPlanner.GCSViews
         // Status tab control
         private Controls.StatusControl _statusControl;
 
+        private CheckBox _cb3DMap;
+
+        private void MoveMapControlsAboveTuning()
+        {
+            splitContainer1.Panel2.Resize -= splitContainer1_Panel2_Resize;
+            MapPanel.Resize -= splitContainer1_Panel2_Resize;
+
+            var mapControls = splitContainer1.Panel2.Controls.Cast<Control>().ToList();
+
+            MapPanel.Controls.Clear();
+            splitContainer1.Panel2.Controls.Clear();
+
+            // Move tuning container to the bottom panel
+            splitContainer1.Panel1.Controls.Clear();
+            splitContainer1.Panel2.Controls.Add(splitContainer2);
+
+            map3DSplitContainer = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                Orientation = Orientation.Horizontal,
+                FixedPanel = FixedPanel.Panel2,
+                Panel2Collapsed = true,
+                SplitterWidth = 4,
+                Name = "map3DSplitContainer"
+            };
+
+            MapPanel.Controls.Add(map3DSplitContainer);
+            map3DSplitContainer.BringToFront();
+
+            foreach (var control in mapControls)
+            {
+                map3DSplitContainer.Panel1.Controls.Add(control);
+            }
+
+            map3DSplitContainer.Panel1.ContextMenuStrip = contextMenuStripMap;
+            MapPanel.ContextMenuStrip = null;
+            splitContainer1.Panel2.ContextMenuStrip = null;
+
+            map3DSplitContainer.Panel1.Resize += splitContainer1_Panel2_Resize;
+
+            // Host for 3D map in the bottom area (shared with params/tuning)
+            map3DHost = new Panel { Dock = DockStyle.Fill, Visible = false, Name = "map3DHost" };
+            splitContainer2.Panel2.Controls.Add(map3DHost);
+        }
+
+        private void Add3DMapCheckbox()
+        {
+            _cb3DMap = new CheckBox
+            {
+                Text = "3D Map",
+                AutoSize = true
+            };
+            _cb3DMap.CheckedChanged += CB_3dmap_CheckedChanged;
+
+            panel1.Controls.Add(_cb3DMap);
+            Position3DMapCheckbox();
+            panel1.Resize += (s, e) => Position3DMapCheckbox();
+
+            // Restore saved state
+        }
+
+        private void Position3DMapCheckbox()
+        {
+            if (_cb3DMap == null || CB_params == null || CHK_autopan == null)
+                return;
+
+            _cb3DMap.Location = new Point(CB_params.Right + 10, CB_params.Top);
+            CHK_autopan.Location = new Point(_cb3DMap.Right + 10, CHK_autopan.Top);
+        }
+
         public FlightData()
         {
             log.Info("Ctor Start");
 
             InitializeComponent();
+            MoveMapControlsAboveTuning();
+            Add3DMapCheckbox();
 
             log.Info("Components Done");
 
@@ -276,6 +350,7 @@ namespace MissionPlanner.GCSViews
             instance = this;
 
             ConfigureScriptsButtonsLayout();
+            ConfigureTelemetryLogLayout();
 
             this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
             this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
@@ -498,7 +573,7 @@ namespace MissionPlanner.GCSViews
                 ThemeManager.ApplyThemeTo(frm);
                 frm.Show();
             };
-            splitContainer1.Panel2.Controls.Add(btnTools);
+            MapContentPanel.Controls.Add(btnTools);
             btnTools.BringToFront();
             // Position it at top-left
             btnTools.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -515,7 +590,7 @@ namespace MissionPlanner.GCSViews
             {
                 new PropagationSettings().Show();
             };
-            splitContainer1.Panel2.Controls.Add(btnPropagation);
+            MapContentPanel.Controls.Add(btnPropagation);
             btnPropagation.BringToFront();
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
@@ -537,67 +612,10 @@ namespace MissionPlanner.GCSViews
                 Settings.Instance["DoubleClickFlyToHere"] = _doubleClickFlyToHereEnabled.ToString();
             };
 
-            // Add 3D Map toggle button to the right of Propagation
-            var btn3DMap = new Controls.MyButton
-            {
-                Text = "3D Map",
-                Size = new Size(60, 23),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left
-            };
-            btn3DMap.Click += (s, e) =>
-            {
-                if (_map3D == null || _map3D.IsDisposed)
-                {
-                    // Create and show 3D map
-                    _map3D = new Controls.OpenGLtest2
-                    {
-                        Dock = DockStyle.Fill
-                    };
-                    splitContainer1.Panel2.Controls.Add(_map3D);
-                    _map3D.BringToFront();
-                    _map3D.Activate();
-                    btn3DMap.Text = "2D Map";
-
-                    btn3DMap.BringToFront();
-                    // Hide tools, propagation, and double-click checkbox on 3D map
-                    btnTools.Visible = false;
-                    btnPropagation.Visible = false;
-                    chkDoubleClickFlyToHere.Visible = false;
-                }
-                else if (_map3D.Visible)
-                {
-                    // Hide 3D map, show 2D
-                    _map3D.Deactivate();
-                    _map3D.Visible = false;
-                    btn3DMap.Text = "3D Map";
-                    // Show tools, propagation, and double-click checkbox on 2D map
-                    btnTools.Visible = true;
-                    btnPropagation.Visible = true;
-                    chkDoubleClickFlyToHere.Visible = true;
-                }
-                else
-                {
-                    // Show 3D map
-                    _map3D.Visible = true;
-                    _map3D.BringToFront();
-                    _map3D.Activate();
-                    btn3DMap.Text = "2D Map";
-
-                    btn3DMap.BringToFront();
-                    // Hide tools, propagation, and double-click checkbox on 3D map
-                    btnTools.Visible = false;
-                    btnPropagation.Visible = false;
-                    chkDoubleClickFlyToHere.Visible = false;
-                }
-            };
-            splitContainer1.Panel2.Controls.Add(btn3DMap);
-            btn3DMap.BringToFront();
-            btn3DMap.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 25);
-
             // Add checkbox to map panel
-            splitContainer1.Panel2.Controls.Add(chkDoubleClickFlyToHere);
+            MapContentPanel.Controls.Add(chkDoubleClickFlyToHere);
             chkDoubleClickFlyToHere.BringToFront();
-            chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5 + btn3DMap.Width + 10, 28);
+            chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 28);
 
             // Add double-click handler for map (but not on zoom buttons)
             gMapControl1.DoubleClick += (s, e) =>
@@ -792,18 +810,7 @@ namespace MissionPlanner.GCSViews
 
                         // set databinding for value
                         QV.DataBindings.Clear();
-                        try
-                        {
-                            var b = new Binding("number", bindingSourceQuickTab, (string)QV.Tag, true);
-                            b.Format += new ConvertEventHandler(BindingTypeToNumber);
-                            b.Parse += new ConvertEventHandler(NumberToBindingType);
-
-                            QV.DataBindings.Add(b);
-                        }
-                        catch (Exception ex)
-                        {
-                            log.Debug(ex);
-                        }
+                        BindQuickView(QV);
                     }
                 }
                 else
@@ -1018,14 +1025,6 @@ namespace MissionPlanner.GCSViews
             Settings.Instance["maplast_zoom"] = gMapControl1.Zoom.ToString();
 
             ZedGraphTimer.Stop();
-
-            // Dispose 3D map if active
-            if (_map3D != null && !_map3D.IsDisposed)
-            {
-                _map3D.Deactivate();
-                _map3D.Dispose();
-                _map3D = null;
-            }
         }
 
         public void LoadLogFile(string file)
@@ -1080,8 +1079,6 @@ namespace MissionPlanner.GCSViews
             TabListDisplay.Add(tabScripts.Name, MainV2.DisplayConfiguration.displayScriptsTab);
 
             TabListDisplay.Add(tabTLogs.Name, MainV2.DisplayConfiguration.displayTelemetryTab);
-
-            TabListDisplay.Add(tablogbrowse.Name, MainV2.DisplayConfiguration.displayDataflashTab);
 
             TabListDisplay.Add(tabPagemessages.Name, MainV2.DisplayConfiguration.displayMessagesTab);
 
@@ -1209,6 +1206,8 @@ namespace MissionPlanner.GCSViews
             {
                 if (hud1 != null)
                     Settings.Instance["FlightSplitter"] = MainH.SplitterDistance.ToString();
+
+                Dispose3DMap();
             }
             catch
             {
@@ -1504,8 +1503,8 @@ namespace MissionPlanner.GCSViews
             {
                 if (sc.Name == "FlightPlanner")
                 {
-                    splitContainer1.Panel2.Controls.Remove(sc.Control);
-                    splitContainer1.Panel2.Controls.Remove((Control) sender);
+                    MapContentPanel.Controls.Remove(sc.Control);
+                    MapContentPanel.Controls.Remove((Control) sender);
                     sc.Control.Visible = false;
 
                     if (sc.Control is IDeactivate)
@@ -1517,7 +1516,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
+            foreach (Control ctl in MapContentPanel.Controls)
             {
                 ctl.Visible = true;
             }
@@ -2051,8 +2050,13 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.failsafe)
             {
-                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe", MessageBoxButtons.YesNo) !=
-                    (int) DialogResult.Yes)
+                var confirmResult = Common.MessageShowAgain(
+                    "Failsafe",
+                    "You are in failsafe, are you sure you want to change mode?",
+                    true,
+                    "FailsafeModeChangeConfirmation");
+
+                if (confirmResult != DialogResult.OK)
                 {
                     return;
                 }
@@ -2079,8 +2083,36 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_speed1_Click(object sender, EventArgs e)
         {
-            LogPlayBackSpeed = double.Parse(((MyButton) sender).Tag.ToString(), CultureInfo.InvariantCulture);
-            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
+            if (sender is MyButton btn && double.TryParse(btn.Tag.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var speed))
+            {
+                SetPlaybackSpeed(speed);
+            }
+        }
+
+        private void comboPlaybackSpeed_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (double.TryParse(comboPlaybackSpeed.SelectedItem?.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var speed))
+            {
+                SetPlaybackSpeed(speed);
+            }
+        }
+
+        private void SetPlaybackSpeed(double speed)
+        {
+            LogPlayBackSpeed = speed;
+            if (comboPlaybackSpeed != null)
+            {
+                var formatted = speed.ToString(CultureInfo.InvariantCulture);
+                int idx = comboPlaybackSpeed.Items.IndexOf(formatted);
+                if (idx >= 0 && comboPlaybackSpeed.SelectedIndex != idx)
+                    comboPlaybackSpeed.SelectedIndex = idx;
+            }
+            UpdatePlaybackSpeedLabel();
+        }
+
+        private void UpdatePlaybackSpeedLabel()
+        {
+            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed.ToString(CultureInfo.InvariantCulture);
         }
 
         private void BUTactiondo_Click(object sender, EventArgs e)
@@ -2294,76 +2326,203 @@ namespace MissionPlanner.GCSViews
 
         private void CB_tuning_CheckedChanged(object sender, EventArgs e)
         {
+            if (CB_tuning.Checked)
+            {
+                if (CB_params.Checked) CB_params.Checked = false;
+                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+            }
             UpdateSplitContainerLayout();
         }
 
         private void CB_params_CheckedChanged(object sender, EventArgs e)
         {
+            if (CB_params.Checked)
+            {
+                if (CB_tuning.Checked) CB_tuning.Checked = false;
+                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+            }
             UpdateSplitContainerLayout();
+        }
+
+        private void CB_3dmap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_cb3DMap.Checked)
+            {
+                if (CB_tuning.Checked) CB_tuning.Checked = false;
+                if (CB_params.Checked) CB_params.Checked = false;
+            }
+            Toggle3DMap(_cb3DMap.Checked);
+            UpdateSplitContainerLayout();
+        }
+
+        public bool Is3DMapEnabled => _cb3DMap != null && _cb3DMap.Checked;
+
+        // Force-hide the 3D map (used during app shutdown to ensure GL resources are released cleanly)
+        public void ForceHide3DMap()
+        {
+            try
+            {
+                if (_cb3DMap != null && _cb3DMap.Checked)
+                    _cb3DMap.Checked = false;
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                Toggle3DMap(false);
+            }
+            catch
+            {
+            }
+        }
+
+        public void Toggle3DMap(bool enable)
+        {
+            if (enable)
+            {
+                if (map3DControl == null || map3DControl.IsDisposed)
+                {
+                    Dispose3DMap();
+                    map3DControl = new Map3D();
+                    map3DControl.Dock = DockStyle.Fill;
+                }
+
+                if (map3DHost != null)
+                {
+                    map3DHost.Controls.Clear();
+                    map3DHost.Controls.Add(map3DControl);
+                    map3DHost.Visible = true;
+                }
+            }
+            else
+            {
+                Dispose3DMap();
+                if (map3DHost != null)
+                {
+                    map3DHost.Controls.Clear();
+                    map3DHost.Visible = false;
+                }
+            }
+        }
+
+        public void Dispose3DMap()
+        {
+            if (map3DControl != null)
+            {
+                map3DHost?.Controls.Remove(map3DControl);
+                try { map3DControl.Dispose(); } catch { }
+                map3DControl = null;
+            }
+
+            Map3D.instance = null;
         }
 
         private void UpdateSplitContainerLayout()
         {
             bool tuningChecked = CB_tuning.Checked;
             bool paramsChecked = CB_params.Checked;
+            bool map3DChecked = _cb3DMap != null && _cb3DMap.Checked;
 
-            if (tuningChecked && paramsChecked)
-            {
-                // Both checked: 3-way split (tuning, params, map)
-                splitContainer1.Panel1Collapsed = false;
-                splitContainer2.Panel1Collapsed = false;
-                splitContainer2.Panel2Collapsed = false;
+            splitContainer1.Panel1Collapsed = false;
 
-                // Split into thirds
-                int totalHeight = splitContainer1.Height;
-                splitContainer1.SplitterDistance = (totalHeight * 2) / 3; // Top 2/3 for tuning+params
-                splitContainer2.SplitterDistance = splitContainer1.SplitterDistance / 2; // Split top half equally
+            // Match the vertical split to the current HUD/FlightData split (pixel aligned)
+            int totalHeight = splitContainer1.Height;
+            int hudHeightPixels = (SubMainLeft != null && SubMainLeft.SplitterDistance > 0)
+                ? SubMainLeft.SplitterDistance
+                : totalHeight / 2;
+            int topHeight = Math.Max(0, Math.Min(totalHeight, hudHeightPixels - 5)); // slight nudge to align lines
+            int bottomHeight = Math.Max(0, totalHeight - topHeight);
 
-                ZedGraphTimer.Enabled = true;
-                ZedGraphTimer.Start();
+            // Reset visibility defaults
+            if (map3DHost != null)
+                map3DHost.Visible = false;
+            if (configRawParams2 != null)
+                configRawParams2.Visible = true;
+            if (zg1 != null)
                 zg1.Visible = true;
-                zg1.Refresh();
-                configRawParams2.InitialTreeCollapsed = true;
-                configRawParams2.Activate();
-            }
-            else if (tuningChecked && !paramsChecked)
-            {
-                // Only tuning checked: 2-way split (tuning, map)
-                splitContainer1.Panel1Collapsed = false;
-                splitContainer2.Panel1Collapsed = false;
-                splitContainer2.Panel2Collapsed = true;
 
-                ZedGraphTimer.Enabled = true;
-                ZedGraphTimer.Start();
-                zg1.Visible = true;
-                zg1.Refresh();
-            }
-            else if (!tuningChecked && paramsChecked)
+            if (!map3DChecked)
             {
-                // Only params checked: 2-way split (params, map)
-                splitContainer1.Panel1Collapsed = false;
+                Dispose3DMap();
+                if (map3DHost != null)
+                {
+                    map3DHost.Controls.Clear();
+                    map3DHost.Visible = false;
+                }
+            }
+
+            if (map3DChecked)
+            {
+                splitContainer1.Panel2Collapsed = false;
                 splitContainer2.Panel1Collapsed = true;
                 splitContainer2.Panel2Collapsed = false;
 
+                // Show only the 3D host
+                if (configRawParams2 != null)
+                    configRawParams2.Visible = false;
+                if (zg1 != null)
+                    zg1.Visible = false;
+                if (map3DHost != null)
+                {
+                    map3DHost.Visible = true;
+                    map3DHost.BringToFront();
+                }
+
                 ZedGraphTimer.Enabled = false;
                 ZedGraphTimer.Stop();
-                zg1.Visible = false;
-                configRawParams2.InitialTreeCollapsed = true;
-                configRawParams2.Activate();
+
+                splitContainer1.SplitterDistance = Math.Max(0, Math.Min(totalHeight, topHeight));
+            }
+            else if (tuningChecked || paramsChecked)
+            {
+                splitContainer1.Panel2Collapsed = false;
+
+                splitContainer1.SplitterDistance = Math.Max(0, Math.Min(totalHeight, topHeight));
+
+                splitContainer2.Panel1Collapsed = !tuningChecked;
+                splitContainer2.Panel2Collapsed = !paramsChecked;
+
+                if (tuningChecked && paramsChecked)
+                {
+                    splitContainer2.SplitterDistance = Math.Max(0, bottomHeight / 2);
+                    ZedGraphTimer.Enabled = true;
+                    ZedGraphTimer.Start();
+                    zg1.Visible = true;
+                    zg1.Refresh();
+                    configRawParams2.InitialTreeCollapsed = true;
+                    configRawParams2.Activate();
+                }
+                else if (tuningChecked)
+                {
+                    ZedGraphTimer.Enabled = true;
+                    ZedGraphTimer.Start();
+                    zg1.Visible = true;
+                    zg1.Refresh();
+                }
+                else
+                {
+                    ZedGraphTimer.Enabled = false;
+                    ZedGraphTimer.Stop();
+                    zg1.Visible = false;
+                    configRawParams2.InitialTreeCollapsed = true;
+                    configRawParams2.Activate();
+                }
             }
             else
             {
-                // Neither checked: hide both
-                splitContainer1.Panel1Collapsed = true;
+                splitContainer1.Panel2Collapsed = true;
                 splitContainer2.Panel1Collapsed = true;
                 splitContainer2.Panel2Collapsed = true;
 
                 ZedGraphTimer.Enabled = false;
                 ZedGraphTimer.Stop();
                 zg1.Visible = false;
+
+                splitContainer1.SplitterDistance = splitContainer1.Height;
             }
 
-            // Fire the splitContainer1_Panel2_Resize event
             splitContainer1_Panel2_Resize(null, null);
         }
 
@@ -3145,6 +3304,9 @@ namespace MissionPlanner.GCSViews
         {
             threadrun = false;
 
+            // Ensure 3D map is torn down to avoid hanging threads
+            try { Toggle3DMap(false); } catch { }
+
             DateTime end = DateTime.Now.AddSeconds(5);
 
             if (thisthread == null)
@@ -3182,6 +3344,73 @@ namespace MissionPlanner.GCSViews
             {
                 button.Location = new Point(currentX, y);
                 currentX += button.Width + 8;
+            }
+        }
+
+        private void ConfigureTelemetryLogLayout()
+        {
+            var buttons = new[] {BUT_loadtelem, BUT_playlog, BUT_log2kml};
+            foreach (var button in buttons.Where(b => b != null))
+            {
+                button.AutoSize = false;
+                button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                button.Height = 26;
+                button.MinimumSize = new Size(140, 26);
+                if (button == BUT_loadtelem || button == BUT_playlog)
+                {
+                    button.Width = Math.Max(100, button.MinimumSize.Width);
+                }
+                else
+                {
+                    button.Width = Math.Max(button.Width, button.MinimumSize.Width);
+                }
+                button.TextAlign = ContentAlignment.MiddleCenter;
+                if (button == BUT_log2kml && button.Width < 170)
+                {
+                    button.Width = 170; // extra room so text doesn't wrap/clip
+                }
+
+                if (string.IsNullOrWhiteSpace(button.Text))
+                {
+                    if (button == BUT_loadtelem)
+                        button.Text = "Load Tlog";
+                    else if (button == BUT_playlog)
+                        button.Text = "Play";
+                    else if (button == BUT_log2kml)
+                        button.Text = "Tlog > KML/Graph";
+                }
+            }
+
+            if (LBL_logfn != null)
+            {
+                var margin = LBL_logfn.Margin;
+                LBL_logfn.Margin = new Padding(margin.Left, margin.Top + 12, margin.Right, margin.Bottom);
+            }
+
+            if (comboPlaybackSpeed != null)
+            {
+                var speedOptions = new[] {"0.1", "0.25", "0.5", "1", "2", "5", "10"};
+                comboPlaybackSpeed.Items.Clear();
+                comboPlaybackSpeed.Items.AddRange(speedOptions);
+
+                var current = LogPlayBackSpeed.ToString(CultureInfo.InvariantCulture);
+                int index = Array.IndexOf(speedOptions, current);
+                comboPlaybackSpeed.SelectedIndex = index >= 0 ? index : Array.IndexOf(speedOptions, "1");
+            }
+
+            UpdatePlaybackSpeedLabel();
+
+            // Nudge speed labels down to align visually with buttons
+            if (label2 != null)
+            {
+                var m = label2.Margin;
+                label2.Margin = new Padding(m.Left, m.Top + 20, m.Right, m.Bottom);
+            }
+
+            if (lbl_playbackspeed != null)
+            {
+                var m = lbl_playbackspeed.Margin;
+                lbl_playbackspeed.Margin = new Padding(m.Left, m.Top + 20, m.Right, m.Bottom);
             }
         }
 
@@ -3250,7 +3479,7 @@ namespace MissionPlanner.GCSViews
 
             prop = new Propagation(gMapControl1);
 
-            splitContainer1.Panel1Collapsed = true;
+            UpdateSplitContainerLayout();
 
             try
             {
@@ -3364,7 +3593,7 @@ namespace MissionPlanner.GCSViews
 
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
+            foreach (Control ctl in MapContentPanel.Controls)
             {
                 ctl.Visible = false;
             }
@@ -3375,13 +3604,13 @@ namespace MissionPlanner.GCSViews
                 {
                     MyButton but = new MyButton
                     {
-                        Location = new Point(splitContainer1.Panel2.Width / 2, 0),
+                        Location = new Point(MapContentPanel.Width / 2, 0),
                         Text = "Close"
                     };
                     but.Click += but_Click;
 
-                    splitContainer1.Panel2.Controls.Add(but);
-                    splitContainer1.Panel2.Controls.Add(sc.Control);
+                    MapContentPanel.Controls.Add(but);
+                    MapContentPanel.Controls.Add(sc.Control);
                     ThemeManager.ApplyThemeTo(sc.Control);
                     ThemeManager.ApplyThemeTo(this);
 
@@ -4158,18 +4387,21 @@ namespace MissionPlanner.GCSViews
                             "here");
                     }
 
-                    // update opengltest2
-                    if (OpenGLtest2.instance != null)
+                    // update 3D map
+                    if (Map3D.instance != null)
                     {
-                        OpenGLtest2.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
+                        Map3D.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
-                        OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
-                            MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt,
+                        // Use terrain altitude + relative altitude for correct 3D positioning
+                        var terrainAlt = srtm.getAltitude(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng).alt;
+                        var relativeAlt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                        Map3D.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
+                            MainV2.comPort.MAV.cs.lng, terrainAlt + relativeAlt,
                             "here");
-                        OpenGLtest2.instance.Velocity = new Vector3(MainV2.comPort.MAV.cs.vx, MainV2.comPort.MAV.cs.vy,
+                        Map3D.instance.Velocity = new Vector3(MainV2.comPort.MAV.cs.vx, MainV2.comPort.MAV.cs.vy,
                             MainV2.comPort.MAV.cs.vz);
-                        OpenGLtest2.instance.WPs = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
+                        Map3D.instance.WPs = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
                     }
 
                     // update vario info
@@ -7548,30 +7780,30 @@ namespace MissionPlanner.GCSViews
         // Resize the mini video or mini map when the container is resized
         private void splitContainer1_Panel2_Resize(object sender, EventArgs e)
         {
-            bool miniVideo = splitContainer1.Panel2.Contains(_gimbalVideoControl)
+            bool miniVideo = MapContentPanel.Contains(_gimbalVideoControl)
                 && _gimbalVideoControl?.Dock == DockStyle.None
                 && _gimbalVideoControl.Visible;
             bool miniMap = gMapControl1.Dock == DockStyle.None && gMapControl1.Visible;
             if (miniVideo)
             {
-                var width = (int)(splitContainer1.Panel2.Width * 0.3);
-                var height = (int)(splitContainer1.Panel2.Height * 0.3);
+                var width = (int)(MapContentPanel.Width * 0.3);
+                var height = (int)(MapContentPanel.Height * 0.3);
                 var aspectRatio = _gimbalVideoControl.VideoBox.Image.Width / (double)_gimbalVideoControl.VideoBox.Image.Height;
                 (width, height) = (
                     Math.Min(width, (int)(height * aspectRatio)),
                     Math.Min(height, (int)(width / aspectRatio))
                 );
-                var x = splitContainer1.Panel2.Width - width - TRK_zoom.Width;
-                var y = splitContainer1.Panel2.Height - height;
+                var x = MapContentPanel.Width - width - TRK_zoom.Width;
+                var y = MapContentPanel.Height - height;
                 _gimbalVideoControl.Location = new Point(x, y);
                 _gimbalVideoControl.Size = new Size(width, height);
             }
             else if (miniMap)
             {
-                var width = (int)(splitContainer1.Panel2.Width * 0.3);
-                var height = (int)(splitContainer1.Panel2.Height * 0.3);
-                var x = splitContainer1.Panel2.Width - width;
-                var y = splitContainer1.Panel2.Height - height;
+                var width = (int)(MapContentPanel.Width * 0.3);
+                var height = (int)(MapContentPanel.Height * 0.3);
+                var x = MapContentPanel.Width - width;
+                var y = MapContentPanel.Height - height;
                 gMapControl1.Location = new Point(x, y);
                 gMapControl1.Size = new Size(width, height);
             }
@@ -7585,7 +7817,7 @@ namespace MissionPlanner.GCSViews
             var containingForm = gimbalVideoControl.Parent as Form;
 
             // Fill the panel with the gimbal video control
-            splitContainer1.Panel2.Controls.Add(gimbalVideoControl);
+            MapContentPanel.Controls.Add(gimbalVideoControl);
             gimbalVideoControl.Dock = DockStyle.Fill;
             gimbalVideoControl.BringToFront(); // Place on top of all map overlay controls
             gimbalVideoControl.Visible = true;
@@ -7617,7 +7849,7 @@ namespace MissionPlanner.GCSViews
             gMapControl1.SendToBack(); // Behind the map overlay controls
 
             // Add the gimbal video control to the mini video panel
-            splitContainer1.Panel2.Controls.Add(gimbalVideoControl);
+            MapContentPanel.Controls.Add(gimbalVideoControl);
             gimbalVideoControl.Dock = DockStyle.None;
             gimbalVideoControl.BringToFront();
             gimbalVideoControl.Visible = true;
@@ -7669,5 +7901,49 @@ namespace MissionPlanner.GCSViews
             form.Show(this);
         }
 
+        private void BindQuickView(QuickView qv)
+        {
+            qv.DataBindings.Clear();
+
+            var fieldName = qv.Tag as string;
+            var property = typeof(CurrentState).GetProperty(fieldName ?? string.Empty);
+            if (property == null)
+            {
+                // fallback to default embedded settings for this layout
+                ApplyDefaultQuickViewSettings();
+                ApplyDefaultQuickViewSettingsToControls();
+
+                // Try to pick up the default field assigned to this control name
+                var defaultField = Settings.Instance[qv.Name];
+                if (!string.IsNullOrWhiteSpace(defaultField))
+                {
+                    fieldName = defaultField;
+                    qv.Tag = defaultField;
+                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(defaultField);
+                    property = typeof(CurrentState).GetProperty(fieldName);
+                }
+
+                // Absolute fallback to a safe field
+                if (property == null)
+                {
+                    fieldName = "battery_voltage";
+                    qv.Tag = fieldName;
+                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(fieldName);
+                    property = typeof(CurrentState).GetProperty(fieldName);
+                }
+            }
+
+            try
+            {
+                var b = new Binding("number", bindingSourceQuickTab, fieldName, true);
+                b.Format += new ConvertEventHandler(BindingTypeToNumber);
+                b.Parse += new ConvertEventHandler(NumberToBindingType);
+                qv.DataBindings.Add(b);
+            }
+            catch (Exception ex)
+            {
+                log.Debug(ex);
+            }
+        }
     }
 }

@@ -120,6 +120,21 @@ namespace MissionPlanner.Utilities
             frm.Controls.Add(ctl);
             frm.Load += Frm_Load;
             frm.Closing += Frm_Closing;
+            // Special-case windowed 3D map: set title/icon to match main app
+            if (ctl is MissionPlanner.Controls.Map3D)
+            {
+                frm.Text = "3D Map";
+                frm.TopMost = true;
+                try
+                {
+                    frm.Icon = MainV2.instance?.Icon ??
+                               (System.Drawing.Icon)new System.ComponentModel.ComponentResourceManager(typeof(MainV2)).GetObject("$this.Icon");
+                }
+                catch
+                {
+                }
+            }
+
             ThemeManager.ApplyThemeTo(frm);
             if (showit)
                 frm.Show();
