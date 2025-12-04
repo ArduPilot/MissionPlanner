@@ -94,7 +94,7 @@ namespace MissionPlanner.Controls
         private double _cameraHeight = 0.2;  // Height above plane
         private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
         private float _cameraFOV = 60f; // Field of view in degrees
-        private Color _planeColor = Color.White;
+        private Color _planeColor = Color.Red;
         private string _planeSTLPath = ""; // Empty = use embedded resource
         private int _whitePlaneTexture = 0; // White texture for plane rendering
         // Heading indicator line options
@@ -181,10 +181,10 @@ namespace MissionPlanner.Controls
             _planeSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
             try
             {
-                int colorArgb = Settings.Instance.GetInt32("map3d_plane_color", Color.White.ToArgb());
+                int colorArgb = Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb());
                 _planeColor = Color.FromArgb(colorArgb);
             }
-            catch { _planeColor = Color.White; }
+            catch { _planeColor = Color.Red; }
             _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
             _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
@@ -259,7 +259,7 @@ namespace MissionPlanner.Controls
             if (e.Button == MouseButtons.Left)
             {
                 _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-                _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
+                _cameraAngle = 0.0; // Always reset rotation to behind vehicle
                 _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
@@ -992,6 +992,13 @@ namespace MissionPlanner.Controls
                     (float) lookX, (float) lookY, (float) lookZ,
                     0, 0, 1);
 
+                // Update projection matrix based on altitude - 100km render distance when >500m altitude
+                float renderDistance = _center.Alt > 500 ? 100000f : 50000f;
+                projMatrix = OpenTK.Matrix4.CreatePerspectiveFieldOfView(
+                    (float) (_cameraFOV * MathHelper.deg2rad),
+                    (float) Width / Height, 0.1f,
+                    renderDistance);
+
                 {
                     // for unproject - updated on every draw
                     GL.GetInteger(GetPName.Viewport, viewport);
@@ -1441,17 +1448,12 @@ namespace MissionPlanner.Controls
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
-
-                // High altitude mode: >500m loads tiles up to 100km but caps max zoom at zoom-5
-                bool highAltitude = _center.Alt > 500;
-                int effectiveMaxZoom = highAltitude ? Math.Max(1, zoom - 5) : zoom;
-                double maxDist = highAltitude ? 100000 : 3000; // 100km at high alt, 3km normal
-
-                for (int a = effectiveMaxZoom; a >= minzoom; a--)
+                for (int a = zoom; a >= minzoom; a--)
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
-                    // 50m at max zoom, maxDist at min zoom
-                    var distm = MathHelper.map(a, 0, effectiveMaxZoom, maxDist, 50);
+                    // 50m at max zoom
+                    // step at 0 zoom
+                    var distm = MathHelper.map(a, 0, zoom, 3000, 50);
                     var offset = _center.newpos(45, distm);
                     area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
                     var extratile = 0;
@@ -2013,10 +2015,11 @@ namespace MissionPlanner.Controls
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
                 GL.Viewport(0, 0, this.Width, this.Height);
+                float renderDistance = _center.Alt > 500 ? 100000f : 50000f;
                 projMatrix = OpenTK.Matrix4.CreatePerspectiveFieldOfView(
                     (float) (_cameraFOV * MathHelper.deg2rad),
                     (float) Width / Height, 0.1f,
-                    (float) 50000); // 50km render distance
+                    renderDistance);
                 GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
                 {
                     // for unproject - updated on every draw
