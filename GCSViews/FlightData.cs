@@ -2050,8 +2050,13 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.failsafe)
             {
-                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe", MessageBoxButtons.YesNo) !=
-                    (int) DialogResult.Yes)
+                var confirmResult = Common.MessageShowAgain(
+                    "Failsafe",
+                    "You are in failsafe, are you sure you want to change mode?",
+                    true,
+                    "FailsafeModeChangeConfirmation");
+
+                if (confirmResult != DialogResult.OK)
                 {
                     return;
                 }
