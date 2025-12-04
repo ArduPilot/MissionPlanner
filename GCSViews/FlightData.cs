@@ -46,6 +46,7 @@ namespace MissionPlanner.GCSViews
         public static myGMAP mymap;
         public static bool threadrun;
         public SplitContainer MainHcopy;
+        private SplitterPanel MapPanel => splitContainer1.Panel1;
         internal static GMapOverlay geofence;
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI");
@@ -254,11 +255,37 @@ namespace MissionPlanner.GCSViews
         // Status tab control
         private Controls.StatusControl _statusControl;
 
+        private void MoveMapControlsAboveTuning()
+        {
+            splitContainer1.Panel2.Resize -= splitContainer1_Panel2_Resize;
+            MapPanel.Resize -= splitContainer1_Panel2_Resize;
+
+            var mapControls = splitContainer1.Panel2.Controls.Cast<Control>().ToList();
+
+            MapPanel.Controls.Clear();
+            splitContainer1.Panel2.Controls.Clear();
+
+            // Move tuning container to the bottom panel
+            splitContainer1.Panel1.Controls.Clear();
+            splitContainer1.Panel2.Controls.Add(splitContainer2);
+
+            foreach (var control in mapControls)
+            {
+                MapPanel.Controls.Add(control);
+            }
+
+            MapPanel.ContextMenuStrip = contextMenuStripMap;
+            splitContainer1.Panel2.ContextMenuStrip = null;
+
+            MapPanel.Resize += splitContainer1_Panel2_Resize;
+        }
+
         public FlightData()
         {
             log.Info("Ctor Start");
 
             InitializeComponent();
+            MoveMapControlsAboveTuning();
 
             log.Info("Components Done");
 
@@ -496,7 +523,7 @@ namespace MissionPlanner.GCSViews
                 ThemeManager.ApplyThemeTo(frm);
                 frm.Show();
             };
-            splitContainer1.Panel2.Controls.Add(btnTools);
+            MapPanel.Controls.Add(btnTools);
             btnTools.BringToFront();
             // Position it at top-left
             btnTools.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -513,7 +540,7 @@ namespace MissionPlanner.GCSViews
             {
                 new PropagationSettings().Show();
             };
-            splitContainer1.Panel2.Controls.Add(btnPropagation);
+            MapPanel.Controls.Add(btnPropagation);
             btnPropagation.BringToFront();
             btnPropagation.Location = new Point(70 + btnTools.Width + 5, 25);
 
@@ -536,7 +563,7 @@ namespace MissionPlanner.GCSViews
             };
 
             // Add checkbox to map panel
-            splitContainer1.Panel2.Controls.Add(chkDoubleClickFlyToHere);
+            MapPanel.Controls.Add(chkDoubleClickFlyToHere);
             chkDoubleClickFlyToHere.BringToFront();
             chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5, 28);
 
@@ -1435,8 +1462,8 @@ namespace MissionPlanner.GCSViews
             {
                 if (sc.Name == "FlightPlanner")
                 {
-                    splitContainer1.Panel2.Controls.Remove(sc.Control);
-                    splitContainer1.Panel2.Controls.Remove((Control) sender);
+                    MapPanel.Controls.Remove(sc.Control);
+                    MapPanel.Controls.Remove((Control) sender);
                     sc.Control.Visible = false;
 
                     if (sc.Control is IDeactivate)
@@ -1448,7 +1475,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
+            foreach (Control ctl in MapPanel.Controls)
             {
                 ctl.Visible = true;
             }
@@ -2271,63 +2298,61 @@ namespace MissionPlanner.GCSViews
             bool tuningChecked = CB_tuning.Checked;
             bool paramsChecked = CB_params.Checked;
 
-            if (tuningChecked && paramsChecked)
-            {
-                // Both checked: 3-way split (tuning, params, map)
-                splitContainer1.Panel1Collapsed = false;
-                splitContainer2.Panel1Collapsed = false;
-                splitContainer2.Panel2Collapsed = false;
+            splitContainer1.Panel1Collapsed = false;
 
-                // Split into thirds
+            if (tuningChecked || paramsChecked)
+            {
+                splitContainer1.Panel2Collapsed = false;
+
                 int totalHeight = splitContainer1.Height;
-                splitContainer1.SplitterDistance = (totalHeight * 2) / 3; // Top 2/3 for tuning+params
-                splitContainer2.SplitterDistance = splitContainer1.SplitterDistance / 2; // Split top half equally
+                int bottomHeight = tuningChecked && paramsChecked
+                    ? (totalHeight * 2) / 3
+                    : totalHeight / 3;
 
-                ZedGraphTimer.Enabled = true;
-                ZedGraphTimer.Start();
-                zg1.Visible = true;
-                zg1.Refresh();
-                configRawParams2.InitialTreeCollapsed = true;
-                configRawParams2.Activate();
-            }
-            else if (tuningChecked && !paramsChecked)
-            {
-                // Only tuning checked: 2-way split (tuning, map)
-                splitContainer1.Panel1Collapsed = false;
-                splitContainer2.Panel1Collapsed = false;
-                splitContainer2.Panel2Collapsed = true;
+                splitContainer1.SplitterDistance = Math.Max(0, totalHeight - bottomHeight);
 
-                ZedGraphTimer.Enabled = true;
-                ZedGraphTimer.Start();
-                zg1.Visible = true;
-                zg1.Refresh();
-            }
-            else if (!tuningChecked && paramsChecked)
-            {
-                // Only params checked: 2-way split (params, map)
-                splitContainer1.Panel1Collapsed = false;
-                splitContainer2.Panel1Collapsed = true;
-                splitContainer2.Panel2Collapsed = false;
+                splitContainer2.Panel1Collapsed = !tuningChecked;
+                splitContainer2.Panel2Collapsed = !paramsChecked;
 
-                ZedGraphTimer.Enabled = false;
-                ZedGraphTimer.Stop();
-                zg1.Visible = false;
-                configRawParams2.InitialTreeCollapsed = true;
-                configRawParams2.Activate();
+                if (tuningChecked && paramsChecked)
+                {
+                    splitContainer2.SplitterDistance = Math.Max(0, bottomHeight / 2);
+                    ZedGraphTimer.Enabled = true;
+                    ZedGraphTimer.Start();
+                    zg1.Visible = true;
+                    zg1.Refresh();
+                    configRawParams2.InitialTreeCollapsed = true;
+                    configRawParams2.Activate();
+                }
+                else if (tuningChecked)
+                {
+                    ZedGraphTimer.Enabled = true;
+                    ZedGraphTimer.Start();
+                    zg1.Visible = true;
+                    zg1.Refresh();
+                }
+                else
+                {
+                    ZedGraphTimer.Enabled = false;
+                    ZedGraphTimer.Stop();
+                    zg1.Visible = false;
+                    configRawParams2.InitialTreeCollapsed = true;
+                    configRawParams2.Activate();
+                }
             }
             else
             {
-                // Neither checked: hide both
-                splitContainer1.Panel1Collapsed = true;
+                splitContainer1.Panel2Collapsed = true;
                 splitContainer2.Panel1Collapsed = true;
                 splitContainer2.Panel2Collapsed = true;
 
                 ZedGraphTimer.Enabled = false;
                 ZedGraphTimer.Stop();
                 zg1.Visible = false;
+
+                splitContainer1.SplitterDistance = splitContainer1.Height;
             }
 
-            // Fire the splitContainer1_Panel2_Resize event
             splitContainer1_Panel2_Resize(null, null);
         }
 
@@ -3281,7 +3306,7 @@ namespace MissionPlanner.GCSViews
 
             prop = new Propagation(gMapControl1);
 
-            splitContainer1.Panel1Collapsed = true;
+            UpdateSplitContainerLayout();
 
             try
             {
@@ -3395,7 +3420,7 @@ namespace MissionPlanner.GCSViews
 
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
+            foreach (Control ctl in MapPanel.Controls)
             {
                 ctl.Visible = false;
             }
@@ -3406,13 +3431,13 @@ namespace MissionPlanner.GCSViews
                 {
                     MyButton but = new MyButton
                     {
-                        Location = new Point(splitContainer1.Panel2.Width / 2, 0),
+                        Location = new Point(MapPanel.Width / 2, 0),
                         Text = "Close"
                     };
                     but.Click += but_Click;
 
-                    splitContainer1.Panel2.Controls.Add(but);
-                    splitContainer1.Panel2.Controls.Add(sc.Control);
+                    MapPanel.Controls.Add(but);
+                    MapPanel.Controls.Add(sc.Control);
                     ThemeManager.ApplyThemeTo(sc.Control);
                     ThemeManager.ApplyThemeTo(this);
 
@@ -7579,30 +7604,30 @@ namespace MissionPlanner.GCSViews
         // Resize the mini video or mini map when the container is resized
         private void splitContainer1_Panel2_Resize(object sender, EventArgs e)
         {
-            bool miniVideo = splitContainer1.Panel2.Contains(_gimbalVideoControl)
+            bool miniVideo = MapPanel.Contains(_gimbalVideoControl)
                 && _gimbalVideoControl?.Dock == DockStyle.None
                 && _gimbalVideoControl.Visible;
             bool miniMap = gMapControl1.Dock == DockStyle.None && gMapControl1.Visible;
             if (miniVideo)
             {
-                var width = (int)(splitContainer1.Panel2.Width * 0.3);
-                var height = (int)(splitContainer1.Panel2.Height * 0.3);
+                var width = (int)(MapPanel.Width * 0.3);
+                var height = (int)(MapPanel.Height * 0.3);
                 var aspectRatio = _gimbalVideoControl.VideoBox.Image.Width / (double)_gimbalVideoControl.VideoBox.Image.Height;
                 (width, height) = (
                     Math.Min(width, (int)(height * aspectRatio)),
                     Math.Min(height, (int)(width / aspectRatio))
                 );
-                var x = splitContainer1.Panel2.Width - width - TRK_zoom.Width;
-                var y = splitContainer1.Panel2.Height - height;
+                var x = MapPanel.Width - width - TRK_zoom.Width;
+                var y = MapPanel.Height - height;
                 _gimbalVideoControl.Location = new Point(x, y);
                 _gimbalVideoControl.Size = new Size(width, height);
             }
             else if (miniMap)
             {
-                var width = (int)(splitContainer1.Panel2.Width * 0.3);
-                var height = (int)(splitContainer1.Panel2.Height * 0.3);
-                var x = splitContainer1.Panel2.Width - width;
-                var y = splitContainer1.Panel2.Height - height;
+                var width = (int)(MapPanel.Width * 0.3);
+                var height = (int)(MapPanel.Height * 0.3);
+                var x = MapPanel.Width - width;
+                var y = MapPanel.Height - height;
                 gMapControl1.Location = new Point(x, y);
                 gMapControl1.Size = new Size(width, height);
             }
@@ -7616,7 +7641,7 @@ namespace MissionPlanner.GCSViews
             var containingForm = gimbalVideoControl.Parent as Form;
 
             // Fill the panel with the gimbal video control
-            splitContainer1.Panel2.Controls.Add(gimbalVideoControl);
+            MapPanel.Controls.Add(gimbalVideoControl);
             gimbalVideoControl.Dock = DockStyle.Fill;
             gimbalVideoControl.BringToFront(); // Place on top of all map overlay controls
             gimbalVideoControl.Visible = true;
@@ -7648,7 +7673,7 @@ namespace MissionPlanner.GCSViews
             gMapControl1.SendToBack(); // Behind the map overlay controls
 
             // Add the gimbal video control to the mini video panel
-            splitContainer1.Panel2.Controls.Add(gimbalVideoControl);
+            MapPanel.Controls.Add(gimbalVideoControl);
             gimbalVideoControl.Dock = DockStyle.None;
             gimbalVideoControl.BringToFront();
             gimbalVideoControl.Visible = true;
