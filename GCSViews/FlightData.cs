@@ -3266,6 +3266,19 @@ namespace MissionPlanner.GCSViews
             }
 
             UpdatePlaybackSpeedLabel();
+
+            // Nudge speed labels down to align visually with buttons
+            if (label2 != null)
+            {
+                var m = label2.Margin;
+                label2.Margin = new Padding(m.Left, m.Top + 20, m.Right, m.Bottom);
+            }
+
+            if (lbl_playbackspeed != null)
+            {
+                var m = lbl_playbackspeed.Margin;
+                lbl_playbackspeed.Margin = new Padding(m.Left, m.Top + 20, m.Right, m.Bottom);
+            }
         }
 
         private void FlightData_Load(object sender, EventArgs e)

@@ -2318,6 +2318,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.lbl_logpercent, "lbl_logpercent");
             this.lbl_logpercent.Name = "lbl_logpercent";
+            this.lbl_logpercent.MinimumSize = new System.Drawing.Size(50, 0);
             // 
             // flowLayoutPanelSpeed
             // 
