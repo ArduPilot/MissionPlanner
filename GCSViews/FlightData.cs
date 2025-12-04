@@ -65,6 +65,11 @@ namespace MissionPlanner.GCSViews
         // Double-click fly to here feature
         private bool _doubleClickFlyToHereEnabled = true;
 
+        // Map scale bar and zoom buttons
+        private Controls.MapScaleBar _mapScaleBar;
+        private bool _zoomInHover;
+        private bool _zoomOutHover;
+
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         AviWriter aviwriter;
         private bool CameraOverlap;
@@ -565,12 +570,79 @@ namespace MissionPlanner.GCSViews
             chkDoubleClickFlyToHere.BringToFront();
             chkDoubleClickFlyToHere.Location = new Point(70 + btnTools.Width + 5 + btnPropagation.Width + 5 + btn3DMap.Width + 10, 28);
 
-            // Add double-click handler for map
+            // Add double-click handler for map (but not on zoom buttons)
             gMapControl1.DoubleClick += (s, e) =>
             {
+                var me = e as MouseEventArgs;
+                if (me != null && (GetZoomInRect().Contains(me.Location) || GetZoomOutRect().Contains(me.Location)))
+                {
+                    return; // Don't fly-to-here when double-clicking zoom buttons
+                }
                 if (_doubleClickFlyToHereEnabled)
                 {
                     goHereToolStripMenuItem_Click(null, null);
+                }
+            };
+
+            // Add zoom controls and scale bar at bottom-left of map
+            // Draw directly on map for true transparency
+            _mapScaleBar = new Controls.MapScaleBar();
+            _mapScaleBar.DrawY = 20;
+            _mapScaleBar.SetMapControl(gMapControl1);
+
+            // Track zoom button states and positions
+            _zoomInHover = false;
+            _zoomOutHover = false;
+
+            // Handle mouse events on the map for zoom buttons
+            gMapControl1.MouseMove += (s, e) =>
+            {
+                var zoomInRect = GetZoomInRect();
+                var zoomOutRect = GetZoomOutRect();
+
+                bool newZoomInHover = zoomInRect.Contains(e.Location);
+                bool newZoomOutHover = zoomOutRect.Contains(e.Location);
+
+                if (newZoomInHover != _zoomInHover || newZoomOutHover != _zoomOutHover)
+                {
+                    _zoomInHover = newZoomInHover;
+                    _zoomOutHover = newZoomOutHover;
+                    gMapControl1.Invalidate();
+                }
+
+                // Change cursor when over buttons
+                gMapControl1.Cursor = (newZoomInHover || newZoomOutHover) ? Cursors.Hand : Cursors.Default;
+            };
+
+            gMapControl1.MouseLeave += (s, e) =>
+            {
+                if (_zoomInHover || _zoomOutHover)
+                {
+                    _zoomInHover = false;
+                    _zoomOutHover = false;
+                    gMapControl1.Invalidate();
+                }
+            };
+
+            gMapControl1.MouseClick += (s, e) =>
+            {
+                if (GetZoomInRect().Contains(e.Location))
+                {
+                    if (gMapControl1.Zoom < gMapControl1.MaxZoom)
+                    {
+                        gMapControl1.Zoom += 1;
+                        TRK_zoom.Value = (float)gMapControl1.Zoom;
+                        Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
+                    }
+                }
+                else if (GetZoomOutRect().Contains(e.Location))
+                {
+                    if (gMapControl1.Zoom > gMapControl1.MinZoom)
+                    {
+                        gMapControl1.Zoom -= 1;
+                        TRK_zoom.Value = (float)gMapControl1.Zoom;
+                        Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
+                    }
                 }
             };
 
@@ -4814,6 +4886,53 @@ namespace MissionPlanner.GCSViews
         void mymap_Paint(object sender, PaintEventArgs e)
         {
             distanceBar1.DoPaintRemote(e);
+            _mapScaleBar?.DoPaintRemote(e, gMapControl1);
+            DrawZoomButtons(e);
+        }
+
+        private Rectangle GetZoomInRect()
+        {
+            int bottom = gMapControl1.Height - 20;
+            return new Rectangle(8, bottom - 26, 26, 26);
+        }
+
+        private Rectangle GetZoomOutRect()
+        {
+            int bottom = gMapControl1.Height - 20;
+            return new Rectangle(36, bottom - 26, 26, 26);
+        }
+
+        private void DrawZoomButtons(PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            var zoomInRect = GetZoomInRect();
+            var zoomOutRect = GetZoomOutRect();
+
+            // Draw zoom in button
+            using (var bgBrush = new SolidBrush(_zoomInHover ? Color.FromArgb(0xAA, 0x00, 0x00, 0x00) : Color.FromArgb(0x88, 0x00, 0x00, 0x00)))
+            {
+                g.FillRectangle(bgBrush, zoomInRect);
+            }
+            using (var font = new Font("Segoe UI", 12f, FontStyle.Bold))
+            using (var brush = new SolidBrush(Color.White))
+            {
+                var size = g.MeasureString("+", font);
+                g.DrawString("+", font, brush, zoomInRect.X + (zoomInRect.Width - size.Width) / 2, zoomInRect.Y + (zoomInRect.Height - size.Height) / 2);
+            }
+
+            // Draw zoom out button
+            using (var bgBrush = new SolidBrush(_zoomOutHover ? Color.FromArgb(0xAA, 0x00, 0x00, 0x00) : Color.FromArgb(0x88, 0x00, 0x00, 0x00)))
+            {
+                g.FillRectangle(bgBrush, zoomOutRect);
+            }
+            using (var font = new Font("Segoe UI", 12f, FontStyle.Bold))
+            using (var brush = new SolidBrush(Color.White))
+            {
+                var size = g.MeasureString("−", font);
+                g.DrawString("−", font, brush, zoomOutRect.X + (zoomOutRect.Width - size.Width) / 2, zoomOutRect.Y + (zoomOutRect.Height - size.Height) / 2);
+            }
         }
 
         void NoFly_NoFlyEvent(object sender, NoFly.NoFly.NoFlyEventArgs e)
