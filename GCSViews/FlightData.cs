@@ -276,6 +276,7 @@ namespace MissionPlanner.GCSViews
             instance = this;
 
             ConfigureScriptsButtonsLayout();
+            ConfigureTelemetryLogLayout();
 
             this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
             this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
@@ -2079,8 +2080,36 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_speed1_Click(object sender, EventArgs e)
         {
-            LogPlayBackSpeed = double.Parse(((MyButton) sender).Tag.ToString(), CultureInfo.InvariantCulture);
-            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
+            if (sender is MyButton btn && double.TryParse(btn.Tag.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var speed))
+            {
+                SetPlaybackSpeed(speed);
+            }
+        }
+
+        private void comboPlaybackSpeed_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (double.TryParse(comboPlaybackSpeed.SelectedItem?.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var speed))
+            {
+                SetPlaybackSpeed(speed);
+            }
+        }
+
+        private void SetPlaybackSpeed(double speed)
+        {
+            LogPlayBackSpeed = speed;
+            if (comboPlaybackSpeed != null)
+            {
+                var formatted = speed.ToString(CultureInfo.InvariantCulture);
+                int idx = comboPlaybackSpeed.Items.IndexOf(formatted);
+                if (idx >= 0 && comboPlaybackSpeed.SelectedIndex != idx)
+                    comboPlaybackSpeed.SelectedIndex = idx;
+            }
+            UpdatePlaybackSpeedLabel();
+        }
+
+        private void UpdatePlaybackSpeedLabel()
+        {
+            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed.ToString(CultureInfo.InvariantCulture);
         }
 
         private void BUTactiondo_Click(object sender, EventArgs e)
@@ -3183,6 +3212,60 @@ namespace MissionPlanner.GCSViews
                 button.Location = new Point(currentX, y);
                 currentX += button.Width + 8;
             }
+        }
+
+        private void ConfigureTelemetryLogLayout()
+        {
+            var buttons = new[] {BUT_loadtelem, BUT_playlog, BUT_log2kml};
+            foreach (var button in buttons.Where(b => b != null))
+            {
+                button.AutoSize = false;
+                button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                button.Height = 26;
+                button.MinimumSize = new Size(140, 26);
+                if (button == BUT_loadtelem || button == BUT_playlog)
+                {
+                    button.Width = Math.Max(100, button.MinimumSize.Width);
+                }
+                else
+                {
+                    button.Width = Math.Max(button.Width, button.MinimumSize.Width);
+                }
+                button.TextAlign = ContentAlignment.MiddleCenter;
+                if (button == BUT_log2kml && button.Width < 170)
+                {
+                    button.Width = 170; // extra room so text doesn't wrap/clip
+                }
+
+                if (string.IsNullOrWhiteSpace(button.Text))
+                {
+                    if (button == BUT_loadtelem)
+                        button.Text = "Load Tlog";
+                    else if (button == BUT_playlog)
+                        button.Text = "Play";
+                    else if (button == BUT_log2kml)
+                        button.Text = "Tlog > KML/Graph";
+                }
+            }
+
+            if (LBL_logfn != null)
+            {
+                var margin = LBL_logfn.Margin;
+                LBL_logfn.Margin = new Padding(margin.Left, margin.Top + 12, margin.Right, margin.Bottom);
+            }
+
+            if (comboPlaybackSpeed != null)
+            {
+                var speedOptions = new[] {"0.1", "0.25", "0.5", "1", "2", "5", "10"};
+                comboPlaybackSpeed.Items.Clear();
+                comboPlaybackSpeed.Items.AddRange(speedOptions);
+
+                var current = LogPlayBackSpeed.ToString(CultureInfo.InvariantCulture);
+                int index = Array.IndexOf(speedOptions, current);
+                comboPlaybackSpeed.SelectedIndex = index >= 0 ? index : Array.IndexOf(speedOptions, "1");
+            }
+
+            UpdatePlaybackSpeedLabel();
         }
 
         private void FlightData_Load(object sender, EventArgs e)

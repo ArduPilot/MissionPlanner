@@ -170,22 +170,18 @@ namespace MissionPlanner.GCSViews
             this.BUT_select_script = new MissionPlanner.Controls.MyButton();
             this.tabTLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPaneltlogs = new System.Windows.Forms.TableLayoutPanel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanelTLogControls = new System.Windows.Forms.FlowLayoutPanel();
+            this.tableLayoutPanelTrackRow = new System.Windows.Forms.TableLayoutPanel();
+            this.tracklog = new System.Windows.Forms.TrackBar();
+            this.lbl_logpercent = new System.Windows.Forms.Label();
+            this.flowLayoutPanelSpeed = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.BUT_speed10 = new MissionPlanner.Controls.MyButton();
-            this.BUT_speed5 = new MissionPlanner.Controls.MyButton();
-            this.BUT_speed2 = new MissionPlanner.Controls.MyButton();
-            this.BUT_speed1 = new MissionPlanner.Controls.MyButton();
-            this.BUT_speed1_2 = new MissionPlanner.Controls.MyButton();
-            this.BUT_speed1_4 = new MissionPlanner.Controls.MyButton();
-            this.BUT_speed1_10 = new MissionPlanner.Controls.MyButton();
+            this.comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
             this.BUT_loadtelem = new MissionPlanner.Controls.MyButton();
             this.lbl_playbackspeed = new System.Windows.Forms.Label();
-            this.lbl_logpercent = new System.Windows.Forms.Label();
             this.LBL_logfn = new System.Windows.Forms.Label();
             this.BUT_log2kml = new MissionPlanner.Controls.MyButton();
             this.BUT_playlog = new MissionPlanner.Controls.MyButton();
-            this.tracklog = new System.Windows.Forms.TrackBar();
             this.tablogbrowse = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_DFMavlink = new MissionPlanner.Controls.MyButton();
@@ -285,8 +281,10 @@ namespace MissionPlanner.GCSViews
             this.tabScripts.SuspendLayout();
             this.tabTLogs.SuspendLayout();
             this.tableLayoutPaneltlogs.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.flowLayoutPanelTLogControls.SuspendLayout();
+            this.tableLayoutPanelTrackRow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).BeginInit();
+            this.flowLayoutPanelSpeed.SuspendLayout();
             this.tablogbrowse.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableMap.SuspendLayout();
@@ -2266,120 +2264,90 @@ namespace MissionPlanner.GCSViews
             // tableLayoutPaneltlogs
             // 
             resources.ApplyResources(this.tableLayoutPaneltlogs, "tableLayoutPaneltlogs");
-            this.tableLayoutPaneltlogs.Controls.Add(this.panel2, 1, 2);
-            this.tableLayoutPaneltlogs.Controls.Add(this.BUT_loadtelem, 0, 0);
-            this.tableLayoutPaneltlogs.Controls.Add(this.lbl_playbackspeed, 2, 2);
-            this.tableLayoutPaneltlogs.Controls.Add(this.lbl_logpercent, 2, 1);
-            this.tableLayoutPaneltlogs.Controls.Add(this.LBL_logfn, 1, 0);
-            this.tableLayoutPaneltlogs.Controls.Add(this.BUT_log2kml, 0, 2);
-            this.tableLayoutPaneltlogs.Controls.Add(this.BUT_playlog, 0, 1);
-            this.tableLayoutPaneltlogs.Controls.Add(this.tracklog, 1, 1);
+            this.tableLayoutPaneltlogs.ColumnCount = 1;
+            this.tableLayoutPaneltlogs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPaneltlogs.Controls.Add(this.flowLayoutPanelTLogControls, 0, 0);
+            this.tableLayoutPaneltlogs.Controls.Add(this.tableLayoutPanelTrackRow, 0, 1);
+            this.tableLayoutPaneltlogs.Controls.Add(this.flowLayoutPanelSpeed, 0, 2);
+            this.tableLayoutPaneltlogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPaneltlogs.MinimumSize = new System.Drawing.Size(400, 0);
             this.tableLayoutPaneltlogs.Name = "tableLayoutPaneltlogs";
+            this.tableLayoutPaneltlogs.RowCount = 3;
+            this.tableLayoutPaneltlogs.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPaneltlogs.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPaneltlogs.RowStyles.Add(new System.Windows.Forms.RowStyle());
             // 
-            // panel2
+            // flowLayoutPanelTLogControls
             // 
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.BUT_speed10);
-            this.panel2.Controls.Add(this.BUT_speed5);
-            this.panel2.Controls.Add(this.BUT_speed2);
-            this.panel2.Controls.Add(this.BUT_speed1);
-            this.panel2.Controls.Add(this.BUT_speed1_2);
-            this.panel2.Controls.Add(this.BUT_speed1_4);
-            this.panel2.Controls.Add(this.BUT_speed1_10);
-            resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Name = "panel2";
+            resources.ApplyResources(this.flowLayoutPanelTLogControls, "flowLayoutPanelTLogControls");
+            this.flowLayoutPanelTLogControls.AutoSize = true;
+            this.flowLayoutPanelTLogControls.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanelTLogControls.Controls.Add(this.BUT_loadtelem);
+            this.flowLayoutPanelTLogControls.Controls.Add(this.BUT_playlog);
+            this.flowLayoutPanelTLogControls.Controls.Add(this.BUT_log2kml);
+            this.flowLayoutPanelTLogControls.Controls.Add(this.LBL_logfn);
+            this.flowLayoutPanelTLogControls.Name = "flowLayoutPanelTLogControls";
+            this.flowLayoutPanelTLogControls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanelTLogControls.WrapContents = false;
+            // 
+            // tableLayoutPanelTrackRow
+            // 
+            resources.ApplyResources(this.tableLayoutPanelTrackRow, "tableLayoutPanelTrackRow");
+            this.tableLayoutPanelTrackRow.AutoSize = true;
+            this.tableLayoutPanelTrackRow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanelTrackRow.ColumnCount = 2;
+            this.tableLayoutPanelTrackRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelTrackRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelTrackRow.Controls.Add(this.tracklog, 0, 0);
+            this.tableLayoutPanelTrackRow.Controls.Add(this.lbl_logpercent, 1, 0);
+            this.tableLayoutPanelTrackRow.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanelTrackRow.Name = "tableLayoutPanelTrackRow";
+            this.tableLayoutPanelTrackRow.RowCount = 1;
+            this.tableLayoutPanelTrackRow.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            // 
+            // tracklog
+            // 
+            resources.ApplyResources(this.tracklog, "tracklog");
+            this.tracklog.Maximum = 100;
+            this.tracklog.Name = "tracklog";
+            this.tracklog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tracklog.TickFrequency = 5;
+            this.tracklog.Scroll += new System.EventHandler(this.tracklog_Scroll);
+            // 
+            // lbl_logpercent
+            // 
+            resources.ApplyResources(this.lbl_logpercent, "lbl_logpercent");
+            this.lbl_logpercent.Name = "lbl_logpercent";
+            // 
+            // flowLayoutPanelSpeed
+            // 
+            resources.ApplyResources(this.flowLayoutPanelSpeed, "flowLayoutPanelSpeed");
+            this.flowLayoutPanelSpeed.AutoSize = true;
+            this.flowLayoutPanelSpeed.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanelSpeed.Controls.Add(this.label2);
+            this.flowLayoutPanelSpeed.Controls.Add(this.comboPlaybackSpeed);
+            this.flowLayoutPanelSpeed.Controls.Add(this.lbl_playbackspeed);
+            this.flowLayoutPanelSpeed.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanelSpeed.Name = "flowLayoutPanelSpeed";
+            this.flowLayoutPanelSpeed.WrapContents = false;
             // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
-            // BUT_speed10
+            // comboPlaybackSpeed
             // 
-            this.BUT_speed10.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed10.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed10.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed10, "BUT_speed10");
-            this.BUT_speed10.Name = "BUT_speed10";
-            this.BUT_speed10.Tag = "10";
-            this.BUT_speed10.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed10.UseVisualStyleBackColor = true;
-            this.BUT_speed10.Click += new System.EventHandler(this.BUT_speed1_Click);
-            // 
-            // BUT_speed5
-            // 
-            this.BUT_speed5.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed5.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed5.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed5, "BUT_speed5");
-            this.BUT_speed5.Name = "BUT_speed5";
-            this.BUT_speed5.Tag = "5";
-            this.BUT_speed5.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed5.UseVisualStyleBackColor = true;
-            this.BUT_speed5.Click += new System.EventHandler(this.BUT_speed1_Click);
-            // 
-            // BUT_speed2
-            // 
-            this.BUT_speed2.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed2.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed2.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed2, "BUT_speed2");
-            this.BUT_speed2.Name = "BUT_speed2";
-            this.BUT_speed2.Tag = "2";
-            this.BUT_speed2.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed2.UseVisualStyleBackColor = true;
-            this.BUT_speed2.Click += new System.EventHandler(this.BUT_speed1_Click);
-            // 
-            // BUT_speed1
-            // 
-            this.BUT_speed1.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed1.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed1.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed1, "BUT_speed1");
-            this.BUT_speed1.Name = "BUT_speed1";
-            this.BUT_speed1.Tag = "1";
-            this.BUT_speed1.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed1.UseVisualStyleBackColor = true;
-            this.BUT_speed1.Click += new System.EventHandler(this.BUT_speed1_Click);
-            // 
-            // BUT_speed1_2
-            // 
-            this.BUT_speed1_2.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed1_2.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed1_2.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed1_2, "BUT_speed1_2");
-            this.BUT_speed1_2.Name = "BUT_speed1_2";
-            this.BUT_speed1_2.Tag = "0.5";
-            this.BUT_speed1_2.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed1_2.UseVisualStyleBackColor = true;
-            this.BUT_speed1_2.Click += new System.EventHandler(this.BUT_speed1_Click);
-            // 
-            // BUT_speed1_4
-            // 
-            this.BUT_speed1_4.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed1_4.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed1_4.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed1_4, "BUT_speed1_4");
-            this.BUT_speed1_4.Name = "BUT_speed1_4";
-            this.BUT_speed1_4.Tag = "0.25";
-            this.BUT_speed1_4.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed1_4.UseVisualStyleBackColor = true;
-            this.BUT_speed1_4.Click += new System.EventHandler(this.BUT_speed1_Click);
-            // 
-            // BUT_speed1_10
-            // 
-            this.BUT_speed1_10.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_speed1_10.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_speed1_10.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_speed1_10, "BUT_speed1_10");
-            this.BUT_speed1_10.Name = "BUT_speed1_10";
-            this.BUT_speed1_10.Tag = "0.1";
-            this.BUT_speed1_10.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_speed1_10.UseVisualStyleBackColor = true;
-            this.BUT_speed1_10.Click += new System.EventHandler(this.BUT_speed1_Click);
+            resources.ApplyResources(this.comboPlaybackSpeed, "comboPlaybackSpeed");
+            this.comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPlaybackSpeed.FormattingEnabled = true;
+            this.comboPlaybackSpeed.Name = "comboPlaybackSpeed";
+            this.comboPlaybackSpeed.SelectedIndexChanged += new System.EventHandler(this.comboPlaybackSpeed_SelectedIndexChanged);
             // 
             // BUT_loadtelem
             // 
+            this.BUT_loadtelem.AutoSize = true;
+            this.BUT_loadtelem.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BUT_loadtelem.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_loadtelem.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_loadtelem.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2394,19 +2362,15 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.lbl_playbackspeed, "lbl_playbackspeed");
             this.lbl_playbackspeed.Name = "lbl_playbackspeed";
             // 
-            // lbl_logpercent
-            // 
-            resources.ApplyResources(this.lbl_logpercent, "lbl_logpercent");
-            this.lbl_logpercent.Name = "lbl_logpercent";
-            // 
             // LBL_logfn
             // 
-            this.tableLayoutPaneltlogs.SetColumnSpan(this.LBL_logfn, 2);
             resources.ApplyResources(this.LBL_logfn, "LBL_logfn");
             this.LBL_logfn.Name = "LBL_logfn";
             // 
             // BUT_log2kml
             // 
+            this.BUT_log2kml.AutoSize = true;
+            this.BUT_log2kml.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BUT_log2kml.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_log2kml.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_log2kml.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2418,6 +2382,8 @@ namespace MissionPlanner.GCSViews
             // 
             // BUT_playlog
             // 
+            this.BUT_playlog.AutoSize = true;
+            this.BUT_playlog.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BUT_playlog.ColorMouseDown = System.Drawing.Color.Empty;
             this.BUT_playlog.ColorMouseOver = System.Drawing.Color.Empty;
             this.BUT_playlog.ColorNotEnabled = System.Drawing.Color.Empty;
@@ -2426,14 +2392,6 @@ namespace MissionPlanner.GCSViews
             this.BUT_playlog.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_playlog.UseVisualStyleBackColor = true;
             this.BUT_playlog.Click += new System.EventHandler(this.BUT_playlog_Click);
-            // 
-            // tracklog
-            // 
-            resources.ApplyResources(this.tracklog, "tracklog");
-            this.tracklog.Maximum = 100;
-            this.tracklog.Name = "tracklog";
-            this.tracklog.TickFrequency = 5;
-            this.tracklog.Scroll += new System.EventHandler(this.tracklog_Scroll);
             // 
             // tablogbrowse
             // 
@@ -3043,8 +3001,12 @@ namespace MissionPlanner.GCSViews
             this.tabTLogs.ResumeLayout(false);
             this.tableLayoutPaneltlogs.ResumeLayout(false);
             this.tableLayoutPaneltlogs.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.flowLayoutPanelTLogControls.ResumeLayout(false);
+            this.flowLayoutPanelTLogControls.PerformLayout();
+            this.tableLayoutPanelTrackRow.ResumeLayout(false);
+            this.tableLayoutPanelTrackRow.PerformLayout();
+            this.flowLayoutPanelSpeed.ResumeLayout(false);
+            this.flowLayoutPanelSpeed.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).EndInit();
             this.tablogbrowse.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -3146,6 +3108,9 @@ namespace MissionPlanner.GCSViews
         private Controls.ServoOptions servoOptions3;
         private Controls.ServoOptions servoOptions4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPaneltlogs;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTLogControls;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTrackRow;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelSpeed;
         private Controls.ServoOptions servoOptions5;
         private Controls.ServoOptions servoOptions6;
         private Controls.ServoOptions servoOptions7;
@@ -3156,15 +3121,8 @@ namespace MissionPlanner.GCSViews
         private Controls.ServoOptions servoOptions12;
         private System.Windows.Forms.BindingSource bindingSourceHud;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelQuick;
-        private System.Windows.Forms.Panel panel2;
-        private Controls.MyButton BUT_speed10;
-        private Controls.MyButton BUT_speed5;
-        private Controls.MyButton BUT_speed2;
-        private Controls.MyButton BUT_speed1;
-        private Controls.MyButton BUT_speed1_2;
-        private Controls.MyButton BUT_speed1_4;
-        private Controls.MyButton BUT_speed1_10;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboPlaybackSpeed;
         public System.Windows.Forms.TabPage tablogbrowse;
         private Controls.MyButton BUT_logbrowse;
         private System.Windows.Forms.Label label6;
