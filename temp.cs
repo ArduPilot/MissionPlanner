@@ -992,7 +992,7 @@ namespace MissionPlanner
 
         private void but_3dmap_Click(object sender, EventArgs e)
         {
-            var ogl = new OpenGLtest2();
+            var ogl = new Map3D();
             var frm = ogl.ShowUserControl();
         }
 

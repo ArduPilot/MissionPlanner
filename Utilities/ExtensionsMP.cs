@@ -121,7 +121,7 @@ namespace MissionPlanner.Utilities
             frm.Load += Frm_Load;
             frm.Closing += Frm_Closing;
             // Special-case windowed 3D map: set title/icon to match main app
-            if (ctl is MissionPlanner.Controls.OpenGLtest2)
+            if (ctl is MissionPlanner.Controls.Map3D)
             {
                 frm.Text = "3D Map";
                 frm.TopMost = true;

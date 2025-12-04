@@ -515,9 +515,9 @@ public class OpenGLtest: UserControl
     public List<Locationwp> WPs { get; set; }
 }
 
-public class OpenGLtest2: OpenGLtest
+public class Map3D: OpenGLtest
 {
-    public static OpenGLtest2 instance;
+    public static Map3D instance;
 
 }
 

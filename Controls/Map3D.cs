@@ -70,9 +70,9 @@ namespace MissionPlanner.Controls
         }
     }
 
-    public class OpenGLtest2 : GLControl, IDeactivate
+    public class Map3D : GLControl, IDeactivate
     {
-        public static OpenGLtest2 instance;
+        public static Map3D instance;
         int green = 0;
         private Dictionary<int, int> wpNumberTextures = new Dictionary<int, int>();
 
@@ -88,8 +88,8 @@ namespace MissionPlanner.Controls
         private double _planeDrawX, _planeDrawY, _planeDrawZ;
         private float _planeRoll, _planePitch, _planeYaw;
         // Configurable camera and plane settings
-        private double _cameraDist = 5;
-        private double _cameraHeight = 2;
+        private double _cameraDist = 0.8;
+        private double _cameraHeight = 0.2;
         private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
         private float _cameraFOV = 60f; // Field of view in degrees
         private int _whitePlaneTexture = 0; // White texture for plane rendering
@@ -159,7 +159,7 @@ namespace MissionPlanner.Controls
 
         public List<Locationwp> WPs { get; set; }
 
-        public OpenGLtest2() : base()
+        public Map3D() : base()
         {
             instance = this;
             InitializeComponent();
@@ -263,7 +263,7 @@ namespace MissionPlanner.Controls
             return vec.Xyz;
         }
 
-        ~OpenGLtest2()
+        ~Map3D()
         {
             foreach (var tileInfo in textureid)
             {
@@ -1533,11 +1533,11 @@ namespace MissionPlanner.Controls
             this.timer1.Interval = 33;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             //
-            // OpenGLtest2
+            // Map3D
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.btn_configure);
-            this.Name = "OpenGLtest2";
+            this.Name = "Map3D";
             this.Size = new System.Drawing.Size(640, 480);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
@@ -1548,16 +1548,11 @@ namespace MissionPlanner.Controls
         private void test_Load(object sender, EventArgs e)
         {
             // Load saved settings
-            if (Settings.Instance.ContainsKey("3d_map_zoom_level"))
-                zoom = Settings.Instance.GetInt32("3d_map_zoom_level", 15);
-            if (Settings.Instance.ContainsKey("3d_map_camera_dist"))
-                _cameraDist = Settings.Instance.GetDouble("3d_map_camera_dist", 5);
-            if (Settings.Instance.ContainsKey("3d_map_camera_height"))
-                _cameraHeight = Settings.Instance.GetDouble("3d_map_camera_height", 2);
-            if (Settings.Instance.ContainsKey("3d_map_plane_scale"))
-                _planeScaleMultiplier = (float)Settings.Instance.GetDouble("3d_map_plane_scale", 1.0);
-            if (Settings.Instance.ContainsKey("3d_map_fov"))
-                _cameraFOV = (float)Settings.Instance.GetDouble("3d_map_fov", 60);
+            zoom = Settings.Instance.GetInt32("3d_map_zoom_level", 15);
+            _cameraDist = Settings.Instance.GetDouble("3d_map_camera_dist", 0.8);
+            _cameraHeight = Settings.Instance.GetDouble("3d_map_camera_height", 0.2);
+            _planeScaleMultiplier = (float)Settings.Instance.GetDouble("3d_map_plane_scale", 1.0);
+            _cameraFOV = (float)Settings.Instance.GetDouble("3d_map_fov", 60);
 
             if (!Context.IsCurrent)
                 Context.MakeCurrent(this.WindowInfo);
@@ -1609,14 +1604,14 @@ namespace MissionPlanner.Controls
 
                 // Camera Distance
                 var lblDist = new Label { Text = "Camera Distance:", Location = new Point(15, y + 3), AutoSize = true };
-                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
+                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
                 dialog.Controls.Add(lblDist);
                 dialog.Controls.Add(numDist);
                 y += 30;
 
                 // Camera Height
                 var lblHeight = new Label { Text = "Camera Height:", Location = new Point(15, y + 3), AutoSize = true };
-                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 0, Maximum = 50, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraHeight };
+                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraHeight };
                 dialog.Controls.Add(lblHeight);
                 dialog.Controls.Add(numHeight);
                 y += 30;

@@ -50,7 +50,7 @@ namespace MissionPlanner.GCSViews
         private SplitContainer map3DSplitContainer;
         private Control MapContentPanel => map3DSplitContainer?.Panel1 ?? (Control)MapPanel;
         private Panel map3DHost;
-        private OpenGLtest2 map3DControl;
+        private Map3D map3DControl;
         internal static GMapOverlay geofence;
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI");
@@ -2396,7 +2396,7 @@ namespace MissionPlanner.GCSViews
                 if (map3DControl == null || map3DControl.IsDisposed)
                 {
                     Dispose3DMap();
-                    map3DControl = new OpenGLtest2();
+                    map3DControl = new Map3D();
                     map3DControl.Dock = DockStyle.Fill;
                 }
 
@@ -2427,7 +2427,7 @@ namespace MissionPlanner.GCSViews
                 map3DControl = null;
             }
 
-            OpenGLtest2.instance = null;
+            Map3D.instance = null;
         }
 
         private void UpdateSplitContainerLayout()
@@ -4398,21 +4398,21 @@ namespace MissionPlanner.GCSViews
                             "here");
                     }
 
-                    // update opengltest2
-                    if (OpenGLtest2.instance != null)
+                    // update 3D map
+                    if (Map3D.instance != null)
                     {
-                        OpenGLtest2.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
+                        Map3D.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         // Use terrain altitude + relative altitude for correct 3D positioning
                         var terrainAlt = srtm.getAltitude(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng).alt;
                         var relativeAlt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
-                        OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
+                        Map3D.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
                             MainV2.comPort.MAV.cs.lng, terrainAlt + relativeAlt,
                             "here");
-                        OpenGLtest2.instance.Velocity = new Vector3(MainV2.comPort.MAV.cs.vx, MainV2.comPort.MAV.cs.vy,
+                        Map3D.instance.Velocity = new Vector3(MainV2.comPort.MAV.cs.vx, MainV2.comPort.MAV.cs.vy,
                             MainV2.comPort.MAV.cs.vz);
-                        OpenGLtest2.instance.WPs = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
+                        Map3D.instance.WPs = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
                     }
 
                     // update vario info
