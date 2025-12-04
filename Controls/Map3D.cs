@@ -101,6 +101,7 @@ namespace MissionPlanner.Controls
         private bool _showHeadingLine = true;
         private bool _showNavBearingLine = true;
         private bool _showGpsHeadingLine = true;
+        private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -188,6 +189,7 @@ namespace MissionPlanner.Controls
             _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
             _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
+            _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
 
             InitializeComponent();
             Click += OnClick;
@@ -1144,7 +1146,7 @@ namespace MissionPlanner.Controls
                         var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
                         wpmarker.idtexture = isSpecialLabel ? greenAlt : green;
 
-                        double markerHalfSize = 60;
+                        double markerHalfSize = _waypointMarkerSize;
                         // Calculate angle from waypoint to camera so marker always faces camera
                         double dx = cameraX - co[0];
                         double dy = cameraY - co[1];
@@ -1870,6 +1872,12 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(numScale);
                 y += 30;
 
+                var lblMarkerSize = new Label { Text = "WP Marker Size:", Location = new Point(margin, y + 3), AutoSize = true };
+                var numMarkerSize = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 10, Maximum = 500, DecimalPlaces = 0, Increment = 10, Value = (decimal)Math.Max(10, Math.Min(500, _waypointMarkerSize)) };
+                dialog.Controls.Add(lblMarkerSize);
+                dialog.Controls.Add(numMarkerSize);
+                y += 30;
+
                 var lblColor = new Label { Text = "Plane Color:", Location = new Point(margin, y + 3), AutoSize = true };
                 var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand };
                 Color selectedColor = _planeColor;
@@ -1945,6 +1953,7 @@ namespace MissionPlanner.Controls
                     numHeight.Value = (decimal)0.2;
                     numFOV.Value = 60;
                     numScale.Value = 1;
+                    numMarkerSize.Value = 60;
                     selectedColor = Color.White;
                     pnlColor.BackColor = Color.White;
                     selectedSTLPath = "";
@@ -1968,6 +1977,7 @@ namespace MissionPlanner.Controls
                     _cameraHeight = (double)numHeight.Value;
                     _planeScaleMultiplier = (float)numScale.Value;
                     _cameraFOV = (float)numFOV.Value;
+                    _waypointMarkerSize = (double)numMarkerSize.Value;
                     _planeColor = selectedColor;
                     _showHeadingLine = chkHeading.Checked;
                     _showNavBearingLine = chkNavBearing.Checked;
@@ -1984,6 +1994,7 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_camera_height"] = _cameraHeight.ToString();
                     Settings.Instance["map3d_plane_scale"] = _planeScaleMultiplier.ToString();
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
+                    Settings.Instance["map3d_waypoint_marker_size"] = _waypointMarkerSize.ToString();
                     Settings.Instance["map3d_plane_color"] = _planeColor.ToArgb().ToString();
                     Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
