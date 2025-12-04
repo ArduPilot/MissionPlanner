@@ -76,6 +76,13 @@ namespace MissionPlanner
 
         private DateTime _lastcurrent = DateTime.MinValue;
 
+        // For instantaneous mah/km and wh/km calculations
+        private DateTime _lastEfficiencyUpdate = DateTime.MinValue;
+        private double _lastEfficiencyMah = 0;
+        private double _lastEfficiencyWh = 0;
+        private float _lastEfficiencyDist = 0;
+        private double _instantMahperkm = 0;
+        private double _instantWhperkm = 0;
 
         private DateTime _lastcurrent2 = DateTime.MinValue;
         private float _localsnrdb;
@@ -1416,9 +1423,6 @@ namespace MissionPlanner
                     return;
                 }
 
-                var hoursElapsed = (datetime - _lastcurrent).TotalHours;
-                battery_usedmah += value * 1000.0 * hoursElapsed;
-                battery_usedwh += battery_voltage * value * hoursElapsed;
                 _current = value;
                 _lastcurrent = datetime;
             }
@@ -1483,7 +1487,19 @@ namespace MissionPlanner
         [GroupText("Battery")]
         [DisplayFieldName("battery_mahperkm.Field")]
         [DisplayText("Bat efficiency (mah/km)")]
-        public double battery_mahperkm => battery_usedmah / (distTraveled / 1000.0f);
+        public double battery_mahperkm
+        {
+            get
+            {
+                UpdateInstantaneousEfficiency();
+                return _instantMahperkm;
+            }
+        }
+
+        [GroupText("Battery")]
+        [DisplayFieldName("battery_mahperkm_avg.Field")]
+        [DisplayText("Bat efficiency avg (mah/km)")]
+        public double battery_mahperkm_avg => battery_usedmah / (distTraveled / multiplierdist / 1000.0f);
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_usedwh.Field")]
@@ -1493,7 +1509,51 @@ namespace MissionPlanner
         [GroupText("Battery")]
         [DisplayFieldName("battery_whperkm.Field")]
         [DisplayText("Bat efficiency (Wh/km)")]
-        public double battery_whperkm => battery_usedwh / (distTraveled / 1000.0f);
+        public double battery_whperkm
+        {
+            get
+            {
+                UpdateInstantaneousEfficiency();
+                return _instantWhperkm;
+            }
+        }
+
+        [GroupText("Battery")]
+        [DisplayFieldName("battery_whperkm_avg.Field")]
+        [DisplayText("Bat efficiency avg (Wh/km)")]
+        public double battery_whperkm_avg => battery_usedwh / (distTraveled / multiplierdist / 1000.0f);
+
+        private void UpdateInstantaneousEfficiency()
+        {
+            var now = datetime;
+            if (_lastEfficiencyUpdate == DateTime.MinValue)
+            {
+                _lastEfficiencyUpdate = now;
+                _lastEfficiencyMah = battery_usedmah;
+                _lastEfficiencyWh = battery_usedwh;
+                _lastEfficiencyDist = distTraveled;
+                return;
+            }
+
+            var elapsed = (now - _lastEfficiencyUpdate).TotalSeconds;
+            if (elapsed < 1.0) return; // Update at most once per second
+
+            var deltaMah = battery_usedmah - _lastEfficiencyMah;
+            var deltaWh = battery_usedwh - _lastEfficiencyWh;
+            var deltaDist = (distTraveled - _lastEfficiencyDist) / multiplierdist; // Convert back to meters
+
+            if (deltaDist > 0.1) // At least 0.1m traveled
+            {
+                var deltaKm = deltaDist / 1000.0;
+                _instantMahperkm = deltaMah / deltaKm;
+                _instantWhperkm = deltaWh / deltaKm;
+            }
+
+            _lastEfficiencyUpdate = now;
+            _lastEfficiencyMah = battery_usedmah;
+            _lastEfficiencyWh = battery_usedwh;
+            _lastEfficiencyDist = distTraveled;
+        }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_kmleft.Field")]
@@ -3100,6 +3160,7 @@ namespace MissionPlanner
                                 }
 
                                 battery_usedmah = bats.current_consumed;
+                                battery_usedwh = bats.energy_consumed / 36.0; // hJ to Wh
                                 battery_remaining = bats.battery_remaining;
                                 battery_voltage = temp_battery_voltage;
                                 _current = bats.current_battery / 100.0f;
