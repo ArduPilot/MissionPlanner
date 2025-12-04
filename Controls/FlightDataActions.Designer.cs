@@ -107,14 +107,14 @@ namespace MissionPlanner.Controls
             // 
             // grpCommand
             // 
-            this.grpCommand.AutoSize = true;
+            this.grpCommand.AutoSize = false;
             this.grpCommand.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpCommand.Controls.Add(this.tableCommand);
             this.grpCommand.Location = new System.Drawing.Point(7, 7);
-            this.grpCommand.MinimumSize = new System.Drawing.Size(360, 0);
+            this.grpCommand.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpCommand.Name = "grpCommand";
             this.grpCommand.Padding = new System.Windows.Forms.Padding(6);
-            this.grpCommand.Size = new System.Drawing.Size(320, 227);
+            this.grpCommand.Size = new System.Drawing.Size(350, 227);
             this.grpCommand.TabIndex = 0;
             this.grpCommand.TabStop = false;
             this.grpCommand.Text = "Control";
@@ -268,14 +268,14 @@ namespace MissionPlanner.Controls
             // 
             // grpSetpoints
             // 
-            this.grpSetpoints.AutoSize = true;
+            this.grpSetpoints.AutoSize = false;
             this.grpSetpoints.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpSetpoints.Controls.Add(this.tableSetpoints);
             this.grpSetpoints.Location = new System.Drawing.Point(333, 7);
-            this.grpSetpoints.MinimumSize = new System.Drawing.Size(360, 0);
+            this.grpSetpoints.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpSetpoints.Name = "grpSetpoints";
             this.grpSetpoints.Padding = new System.Windows.Forms.Padding(6);
-            this.grpSetpoints.Size = new System.Drawing.Size(320, 227);
+            this.grpSetpoints.Size = new System.Drawing.Size(350, 227);
             this.grpSetpoints.TabIndex = 1;
             this.grpSetpoints.TabStop = false;
             this.grpSetpoints.Text = "Setpoints";
@@ -453,14 +453,14 @@ namespace MissionPlanner.Controls
             // 
             // grpTools
             // 
-            this.grpTools.AutoSize = true;
+            this.grpTools.AutoSize = false;
             this.grpTools.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpTools.Controls.Add(this.tableTools);
             this.grpTools.Location = new System.Drawing.Point(7, 240);
-            this.grpTools.MinimumSize = new System.Drawing.Size(360, 0);
+            this.grpTools.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpTools.Name = "grpTools";
             this.grpTools.Padding = new System.Windows.Forms.Padding(6);
-            this.grpTools.Size = new System.Drawing.Size(320, 177);
+            this.grpTools.Size = new System.Drawing.Size(350, 177);
             this.grpTools.TabIndex = 2;
             this.grpTools.TabStop = false;
             this.grpTools.Text = "Tools";
@@ -551,17 +551,17 @@ namespace MissionPlanner.Controls
             this.btnAbortLanding.Text = "Abort Land";
             this.btnAbortLanding.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btnAbortLanding.UseVisualStyleBackColor = true;
-            //
+            // 
             // grpPayload
-            //
-            this.grpPayload.AutoSize = true;
+            // 
+            this.grpPayload.AutoSize = false;
             this.grpPayload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpPayload.Controls.Add(this.tablePayload);
             this.grpPayload.Location = new System.Drawing.Point(333, 240);
-            this.grpPayload.MinimumSize = new System.Drawing.Size(360, 0);
+            this.grpPayload.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpPayload.Name = "grpPayload";
             this.grpPayload.Padding = new System.Windows.Forms.Padding(6);
-            this.grpPayload.Size = new System.Drawing.Size(320, 200);
+            this.grpPayload.Size = new System.Drawing.Size(350, 200);
             this.grpPayload.TabIndex = 3;
             this.grpPayload.TabStop = false;
             this.grpPayload.Text = "Payload";

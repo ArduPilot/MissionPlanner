@@ -8,14 +8,48 @@ namespace MissionPlanner.Controls
 {
     public partial class FlightDataActions : UserControl
     {
+        private const int MinGroupBoxWidth = 350;
+
         public FlightDataActions()
         {
             InitializeComponent();
+            scrollPanel.Resize += ScrollPanel_Resize;
+        }
+
+        private void ScrollPanel_Resize(object sender, EventArgs e)
+        {
+            UpdateGroupBoxWidths();
+        }
+
+        private void UpdateGroupBoxWidths()
+        {
+            if (scrollPanel == null) return;
+
+            // Account for vertical scrollbar if visible
+            int scrollBarWidth = scrollPanel.VerticalScroll.Visible ? SystemInformation.VerticalScrollBarWidth : 0;
+            int availableWidth = scrollPanel.ClientSize.Width - scrollBarWidth - mainFlowLayout.Padding.Horizontal;
+
+            // FlowLayoutPanel default margin is 3 on each side = 6 total per control
+            int marginPerBox = 6;
+
+            // Calculate how many boxes fit per row at minimum width
+            int boxesPerRow = Math.Max(1, availableWidth / (MinGroupBoxWidth + marginPerBox));
+            if (boxesPerRow > 4) boxesPerRow = 4;
+
+            // Calculate the width for each box to fill the row
+            int boxWidth = (availableWidth / boxesPerRow) - marginPerBox;
+            boxWidth = Math.Max(boxWidth, MinGroupBoxWidth);
+
+            grpCommand.Width = boxWidth;
+            grpSetpoints.Width = boxWidth;
+            grpTools.Width = boxWidth;
+            grpPayload.Width = boxWidth;
         }
 
         public void Initialize()
         {
             ThemeManager.ApplyThemeTo(this);
+            UpdateGroupBoxWidths();
         }
 
         #region Exposed Controls - for FlightData.cs to wire up existing event handlers
