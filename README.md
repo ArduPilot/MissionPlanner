@@ -224,8 +224,8 @@ See [COPYING.txt](COPYING.txt) for details.
 
 ## Building the Installer
 * Setup Wix toolset
-* Build a release version of MissionPlanner and Plugins
-* Build the WIX project from the MissionPlanner solution, which outputs to the Msi folder of the repo
+* Clean Solution -> Build a release version of MissionPlanner -> Build solution
+* Build the 'wix' project from the MissionPlanner solution, which outputs to the Msi folder of the repo
 * Go to the Msi folder
 * Run installer.bat
 * Run create.bat

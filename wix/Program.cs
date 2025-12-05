@@ -63,13 +63,12 @@ namespace wix
         {
             Drivers.process();
 
-            if (args.Length == 0)
+            string path = ResolveBasePath(args.Length > 0 ? args[0] : null);
+            if (string.IsNullOrEmpty(path))
             {
                 Console.WriteLine("Bad Directory");
                 return;
             }
-
-            string path = args[0];
             basedir = path;
             //Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar+ 
             string file = "installer.wxs";
@@ -139,6 +138,33 @@ namespace wix
             //runProgram("create.bat");
 
 
+        }
+
+        static string ResolveBasePath(string input)
+        {
+            if (!string.IsNullOrEmpty(input) && Directory.Exists(input))
+            {
+                return Path.GetFullPath(input);
+            }
+
+            // Try common relative paths from the wix.exe location
+            var exeDir = AppDomain.CurrentDomain.BaseDirectory;
+            var candidates = new[]
+            {
+                Path.Combine(exeDir, @"..\..\bin\Release\net461"),
+                Path.Combine(exeDir, @"..\bin\Release\net461"),
+            };
+
+            foreach (var cand in candidates)
+            {
+                var full = Path.GetFullPath(cand);
+                if (Directory.Exists(full))
+                {
+                    return full;
+                }
+            }
+
+            return null;
         }
 
         static void runProgram(string run)
