@@ -73,6 +73,158 @@ namespace MissionPlanner.Controls
     public class Map3D : GLControl, IDeactivate
     {
         public static Map3D instance;
+
+        #region Constants
+        private const double HEADING_LINE_LENGTH = 100; // meters
+        private const double TURN_RADIUS_ARC_LENGTH = 200; // meters
+        private const int TURN_RADIUS_SEGMENTS = 50;
+        private const double ADSB_MAX_DISTANCE = 50000; // 50km
+        private const double ADSB_RED_DISTANCE = 5000; // 5km
+        private const double ADSB_YELLOW_DISTANCE = 10000; // 10km
+        private const double ADSB_GREEN_DISTANCE = 20000; // 20km
+        private const int ADSB_CIRCLE_SEGMENTS = 24;
+        private const int TRAIL_SMOOTHING_WINDOW = 61;
+        private const double WAYPOINT_MIN_DISTANCE = 61.0; // 200 feet in meters
+        #endregion
+
+        #region Helper Methods
+        /// <summary>
+        /// Gets a color based on distance for ADSB aircraft visualization.
+        /// Red for close aircraft, yellow for medium distance, green for far.
+        /// </summary>
+        /// <param name="distance">Distance to aircraft in meters</param>
+        /// <param name="isGrounded">Whether the aircraft is on the ground</param>
+        /// <returns>RGBA color values (0.0-1.0)</returns>
+        private (float r, float g, float b, float a) GetADSBDistanceColor(double distance, bool isGrounded)
+        {
+            if (isGrounded)
+            {
+                return (0.7f, 0.7f, 0.7f, 1.0f); // Light gray for grounded
+            }
+
+            if (distance <= ADSB_RED_DISTANCE)
+            {
+                return (1.0f, 0.0f, 0.0f, 1.0f); // Red
+            }
+            else if (distance <= ADSB_YELLOW_DISTANCE)
+            {
+                // Interpolate red to yellow
+                float t = (float)((distance - ADSB_RED_DISTANCE) / (ADSB_YELLOW_DISTANCE - ADSB_RED_DISTANCE));
+                return (1.0f, t, 0.0f, 1.0f);
+            }
+            else if (distance <= ADSB_GREEN_DISTANCE)
+            {
+                // Interpolate yellow to green
+                float t = (float)((distance - ADSB_YELLOW_DISTANCE) / (ADSB_GREEN_DISTANCE - ADSB_YELLOW_DISTANCE));
+                return (1.0f - t, 1.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                return (0.0f, 1.0f, 0.0f, 1.0f); // Green
+            }
+        }
+
+        /// <summary>
+        /// Calculates billboard orientation vectors for a point facing the camera.
+        /// </summary>
+        /// <param name="posX">Position X</param>
+        /// <param name="posY">Position Y</param>
+        /// <param name="posZ">Position Z</param>
+        /// <param name="camX">Camera X</param>
+        /// <param name="camY">Camera Y</param>
+        /// <param name="camZ">Camera Z</param>
+        /// <returns>Right and Up vectors for billboard orientation, or null if too close to camera</returns>
+        private (double rightX, double rightY, double rightZ, double upX, double upY, double upZ)?
+            CalculateBillboardOrientation(double posX, double posY, double posZ, double camX, double camY, double camZ)
+        {
+            // Calculate direction to camera
+            double dx = posX - camX;
+            double dy = posY - camY;
+            double dz = posZ - camZ;
+            double distance = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (distance < 1.0)
+                return null; // Too close to camera
+
+            // Normalize view direction
+            double viewDirX = dx / distance;
+            double viewDirY = dy / distance;
+            double viewDirZ = dz / distance;
+
+            // Right vector (cross product of view dir with world up [0,0,1])
+            double rightX = viewDirY;
+            double rightY = -viewDirX;
+            double rightZ = 0;
+            double rightLen = Math.Sqrt(rightX * rightX + rightY * rightY);
+
+            if (rightLen > 0.001)
+            {
+                rightX /= rightLen;
+                rightY /= rightLen;
+            }
+            else
+            {
+                // Looking straight up/down, use arbitrary right
+                rightX = 1;
+                rightY = 0;
+            }
+
+            // Up vector (cross product of right with view dir)
+            double upX = rightY * viewDirZ - rightZ * viewDirY;
+            double upY = rightZ * viewDirX - rightX * viewDirZ;
+            double upZ = rightX * viewDirY - rightY * viewDirX;
+
+            return (rightX, rightY, rightZ, upX, upY, upZ);
+        }
+
+        /// <summary>
+        /// Generates vertices for a billboarded circle facing the camera.
+        /// </summary>
+        /// <param name="centerX">Center X position</param>
+        /// <param name="centerY">Center Y position</param>
+        /// <param name="centerZ">Center Z position</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="segments">Number of segments</param>
+        /// <param name="r">Red color component (0-1)</param>
+        /// <param name="g">Green color component (0-1)</param>
+        /// <param name="b">Blue color component (0-1)</param>
+        /// <param name="a">Alpha component (0-1)</param>
+        /// <param name="vertices">List to add vertices to</param>
+        private void AddBillboardCircleVertices(
+            double centerX, double centerY, double centerZ,
+            double radius, int segments,
+            float r, float g, float b, float a,
+            double rightX, double rightY, double rightZ,
+            double upX, double upY, double upZ,
+            List<float> vertices)
+        {
+            for (int i = 0; i < segments; i++)
+            {
+                double angle1 = (2 * Math.PI * i) / segments;
+                double angle2 = (2 * Math.PI * (i + 1)) / segments;
+
+                double cos1 = Math.Cos(angle1);
+                double sin1 = Math.Sin(angle1);
+                double cos2 = Math.Cos(angle2);
+                double sin2 = Math.Sin(angle2);
+
+                // Point 1: center + radius * (cos * right + sin * up)
+                double x1 = centerX + radius * (cos1 * rightX + sin1 * upX);
+                double y1 = centerY + radius * (cos1 * rightY + sin1 * upY);
+                double z1 = centerZ + radius * (cos1 * rightZ + sin1 * upZ);
+
+                // Point 2
+                double x2 = centerX + radius * (cos2 * rightX + sin2 * upX);
+                double y2 = centerY + radius * (cos2 * rightY + sin2 * upY);
+                double z2 = centerZ + radius * (cos2 * rightZ + sin2 * upZ);
+
+                // Add as separate line segment (x, y, z, r, g, b, a for each vertex)
+                vertices.AddRange(new float[] { (float)x1, (float)y1, (float)z1, r, g, b, a });
+                vertices.AddRange(new float[] { (float)x2, (float)y2, (float)z2, r, g, b, a });
+            }
+        }
+        #endregion
+
         int green = 0;
         int greenAlt = 0;
 
@@ -812,8 +964,6 @@ namespace MissionPlanner.Controls
 
         private void DrawHeadingLines(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            const double lineLength = 100; // 100 meters
-
             // Get current heading (yaw), nav bearing, and GPS heading
             double heading = MainV2.comPort?.MAV?.cs?.yaw ?? 0;
             double navBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
@@ -823,8 +973,8 @@ namespace MissionPlanner.Controls
             if (_showHeadingLine)
             {
                 double headingRad = MathHelper.Radians(heading);
-                double headingEndX = _planeDrawX + Math.Sin(headingRad) * lineLength;
-                double headingEndY = _planeDrawY + Math.Cos(headingRad) * lineLength;
+                double headingEndX = _planeDrawX + Math.Sin(headingRad) * HEADING_LINE_LENGTH;
+                double headingEndY = _planeDrawY + Math.Cos(headingRad) * HEADING_LINE_LENGTH;
 
                 _headingLine?.Dispose();
                 _headingLine = new Lines();
@@ -883,8 +1033,8 @@ namespace MissionPlanner.Controls
                 {
                     // Not in navigation mode or no target: use nav_bearing direction with fixed length (like 2D map)
                     double navBearingRad = MathHelper.Radians(navBearing);
-                    navEndX = _planeDrawX + Math.Sin(navBearingRad) * lineLength;
-                    navEndY = _planeDrawY + Math.Cos(navBearingRad) * lineLength;
+                    navEndX = _planeDrawX + Math.Sin(navBearingRad) * HEADING_LINE_LENGTH;
+                    navEndY = _planeDrawY + Math.Cos(navBearingRad) * HEADING_LINE_LENGTH;
                     navEndZ = _planeDrawZ;
                 }
 
@@ -900,8 +1050,8 @@ namespace MissionPlanner.Controls
             if (_showGpsHeadingLine)
             {
                 double gpsRad = MathHelper.Radians(gpsHeading);
-                double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * lineLength;
-                double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * lineLength;
+                double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * HEADING_LINE_LENGTH;
+                double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * HEADING_LINE_LENGTH;
 
                 _gpsHeadingLine?.Dispose();
                 _gpsHeadingLine = new Lines();
@@ -918,8 +1068,7 @@ namespace MissionPlanner.Controls
 
                 if (Math.Abs(radius) > 1)
                 {
-                    const double desiredLeadDist = 200;
-                    double alpha = (desiredLeadDist / Math.Abs(radius)) * MathHelper.rad2deg;
+                    double alpha = (TURN_RADIUS_ARC_LENGTH / Math.Abs(radius)) * MathHelper.rad2deg;
                     if (alpha > 180) alpha = 180;
 
                     // Calculate center of turn circle perpendicular to travel direction
@@ -938,15 +1087,14 @@ namespace MissionPlanner.Controls
                     float g = 105f / 255f;
                     float b = 180f / 255f;
 
-                    int segments = 50;
                     double alphaRad = MathHelper.Radians(alpha);
-                    double angleStep = alphaRad / segments;
+                    double angleStep = alphaRad / TURN_RADIUS_SEGMENTS;
                     double direction = radius > 0 ? 1 : -1;
 
                     double prevX = _planeDrawX;
                     double prevY = _planeDrawY;
 
-                    for (int i = 1; i <= segments; i++)
+                    for (int i = 1; i <= TURN_RADIUS_SEGMENTS; i++)
                     {
                         double angle = startAngle + direction * angleStep * i;
                         double x = centerX + Math.Sin(angle) * Math.Abs(radius);
@@ -988,8 +1136,8 @@ namespace MissionPlanner.Controls
             // Add current plane position
             relPoints.Add(new double[] { _planeDrawX, _planeDrawY, _planeDrawZ });
 
-            // Apply moving average smoothing (window size 61 for very heavy smoothing)
-            int windowSize = 61;
+            // Apply moving average smoothing
+            int windowSize = TRAIL_SMOOTHING_WINDOW;
             var smoothed = new List<double[]>();
 
             for (int i = 0; i < relPoints.Count; i++)
@@ -1040,24 +1188,13 @@ namespace MissionPlanner.Controls
         /// </summary>
         private void DrawADSB(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            // Circle parameters
-            const int segments = 24;
-            double circleRadius = _adsbCircleSize / 2.0; // Radius is half of diameter
-            double groundedCircleRadius = circleRadius / 10.0; // 1/10th size for grounded
+            double circleRadius = _adsbCircleSize / 2.0;
+            double groundedCircleRadius = circleRadius / 10.0;
 
-            // Distance thresholds in meters
-            const double redDistance = 5000;    // 5km - red
-            const double yellowDistance = 10000; // 20km - yellow
-            const double greenDistance = 20000;  // 50km - green
-
-            // Get own aircraft position for distance calculation
             var ownPosition = MainV2.comPort?.MAV?.cs?.Location ?? PointLatLngAlt.Zero;
-            double ownAlt = MainV2.comPort?.MAV?.cs?.alt ?? 0;
 
-            // Clear previous screen positions for hit testing
             _adsbScreenPositions.Clear();
 
-            // Collect planes with their distances for sorting
             var planeList = new List<Tuple<adsb.PointLatLngAltHdg, double>>();
 
             lock (MainV2.instance.adsblock)
@@ -1068,19 +1205,16 @@ namespace MissionPlanner.Controls
                     if (plane == null)
                         continue;
 
-                    // Skip old entries (older than 30 seconds)
                     if (plane.Time < DateTime.Now.AddSeconds(-30))
                         continue;
 
-                    // Skip if position is invalid
                     if (plane.Lat == 0 && plane.Lng == 0)
                         continue;
 
                     var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
                     double distanceToOwn = ownPosition.GetDistance(plla);
 
-                    // Skip aircraft more than 50km away
-                    if (distanceToOwn > 50000)
+                    if (distanceToOwn > ADSB_MAX_DISTANCE)
                         continue;
 
                     planeList.Add(Tuple.Create(plane, distanceToOwn));
@@ -1090,7 +1224,6 @@ namespace MissionPlanner.Controls
             // Sort by distance descending (farthest first) so closer planes render on top
             planeList.Sort((a, b) => b.Item2.CompareTo(a.Item2));
 
-            // Collect all circle vertices
             var circleVertices = new List<float>();
 
             foreach (var item in planeList)
@@ -1098,70 +1231,34 @@ namespace MissionPlanner.Controls
                 var plane = item.Item1;
                 double distanceToOwn = item.Item2;
 
-                // Convert to UTM coordinates
-                // ADSB altitude is MSL (barometric), use directly without terrain adjustment
                 var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
                 var co = convertCoords(plla);
 
-                // Determine if grounded and set radius accordingly
                 bool isGrounded = plane.IsOnGround;
                 double radius = isGrounded ? groundedCircleRadius : circleRadius;
 
-                // Determine color based on distance (grounded = light gray)
-                float r, g, b, a = 1.0f;
-                if (isGrounded)
-                {
-                    // Light gray for grounded aircraft
-                    r = 0.7f; g = 0.7f; b = 0.7f;
-                }
-                else if (distanceToOwn <= redDistance)
-                {
-                    // Red
-                    r = 1.0f; g = 0.0f; b = 0.0f;
-                }
-                else if (distanceToOwn <= yellowDistance)
-                {
-                    // Interpolate red to yellow
-                    float t = (float)((distanceToOwn - redDistance) / (yellowDistance - redDistance));
-                    r = 1.0f;
-                    g = t; // 0 -> 1
-                    b = 0.0f;
-                }
-                else if (distanceToOwn <= greenDistance)
-                {
-                    // Interpolate yellow to green
-                    float t = (float)((distanceToOwn - yellowDistance) / (greenDistance - yellowDistance));
-                    r = 1.0f - t; // 1 -> 0
-                    g = 1.0f;
-                    b = 0.0f;
-                }
-                else
-                {
-                    // Green
-                    r = 0.0f; g = 1.0f; b = 0.0f;
-                }
+                var color = GetADSBDistanceColor(distanceToOwn, isGrounded);
 
-                // Calculate distance from camera for billboard orientation
+                var billboard = CalculateBillboardOrientation(co[0], co[1], co[2], cameraX, cameraY, cameraZ);
+                if (!billboard.HasValue)
+                    continue;
+
+                // Calculate distance to camera for screen position calculation
                 double dx = co[0] - cameraX;
                 double dy = co[1] - cameraY;
                 double dz = co[2] - cameraZ;
                 double distanceToCamera = Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
-                // Skip if too close to camera
-                if (distanceToCamera < 1.0)
-                    continue;
-
-                // Calculate screen position for hit testing
+                // Store screen position for hit testing
                 var worldPos = new Vector4((float)co[0], (float)co[1], (float)co[2], 1.0f);
                 var clipPos = Vector4.Transform(worldPos, viewMatrix * projMatrix);
-                if (clipPos.W > 0) // Only if in front of camera
+                if (clipPos.W > 0)
                 {
                     float ndcX = clipPos.X / clipPos.W;
                     float ndcY = clipPos.Y / clipPos.W;
                     float screenX = (ndcX + 1.0f) * 0.5f * Width;
                     float screenY = (1.0f - ndcY) * 0.5f * Height;
 
-                    // Calculate screen radius based on world radius and distance
                     double fovRad = _cameraFOV * MathHelper.deg2rad;
                     float screenRadius = (float)((radius / distanceToCamera) * (Height / 2.0) / Math.Tan(fovRad / 2.0));
 
@@ -1169,64 +1266,19 @@ namespace MissionPlanner.Controls
                     {
                         ScreenX = screenX,
                         ScreenY = screenY,
-                        Radius = Math.Max(screenRadius, 20), // Minimum 20px hit radius
+                        Radius = Math.Max(screenRadius, 20),
                         PlaneData = plane,
                         DistanceToOwn = distanceToOwn
                     });
                 }
 
-                // Calculate billboard orientation (circle faces camera)
-                double viewDirX = dx / distanceToCamera;
-                double viewDirY = dy / distanceToCamera;
-                double viewDirZ = dz / distanceToCamera;
-
-                // Right vector (cross product of view dir with world up [0,0,1])
-                double rightX = viewDirY;
-                double rightY = -viewDirX;
-                double rightZ = 0;
-                double rightLen = Math.Sqrt(rightX * rightX + rightY * rightY);
-                if (rightLen > 0.001)
-                {
-                    rightX /= rightLen;
-                    rightY /= rightLen;
-                }
-                else
-                {
-                    // Looking straight up/down, use arbitrary right
-                    rightX = 1;
-                    rightY = 0;
-                }
-
-                // Up vector (cross product of right with view dir)
-                double upX = rightY * viewDirZ - rightZ * viewDirY;
-                double upY = rightZ * viewDirX - rightX * viewDirZ;
-                double upZ = rightX * viewDirY - rightY * viewDirX;
-
-                // Draw a circle at the aircraft position (billboarded)
-                for (int i = 0; i < segments; i++)
-                {
-                    double angle1 = (2 * Math.PI * i) / segments;
-                    double angle2 = (2 * Math.PI * (i + 1)) / segments;
-
-                    double cos1 = Math.Cos(angle1);
-                    double sin1 = Math.Sin(angle1);
-                    double cos2 = Math.Cos(angle2);
-                    double sin2 = Math.Sin(angle2);
-
-                    // Point 1: center + radius * (cos * right + sin * up)
-                    double x1 = co[0] + radius * (cos1 * rightX + sin1 * upX);
-                    double y1 = co[1] + radius * (cos1 * rightY + sin1 * upY);
-                    double z1 = co[2] + radius * (cos1 * rightZ + sin1 * upZ);
-
-                    // Point 2
-                    double x2 = co[0] + radius * (cos2 * rightX + sin2 * upX);
-                    double y2 = co[1] + radius * (cos2 * rightY + sin2 * upY);
-                    double z2 = co[2] + radius * (cos2 * rightZ + sin2 * upZ);
-
-                    // Add as separate line segment (x, y, z, r, g, b, a for each vertex)
-                    circleVertices.AddRange(new float[] { (float)x1, (float)y1, (float)z1, r, g, b, a });
-                    circleVertices.AddRange(new float[] { (float)x2, (float)y2, (float)z2, r, g, b, a });
-                }
+                var (rightX, rightY, rightZ, upX, upY, upZ) = billboard.Value;
+                AddBillboardCircleVertices(
+                    co[0], co[1], co[2],
+                    radius, ADSB_CIRCLE_SEGMENTS,
+                    color.r, color.g, color.b, color.a,
+                    rightX, rightY, rightZ, upX, upY, upZ,
+                    circleVertices);
             }
 
             if (circleVertices.Count > 0)
@@ -1657,9 +1709,6 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
 
-                    // 200 feet in meters
-                    const double minDistanceMeters = 61.0;
-
                     var list = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
                     if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
                         list.Add(new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
@@ -1679,7 +1728,7 @@ namespace MissionPlanner.Controls
 
                         // Skip markers within 200ft of the camera/vehicle
                         var distanceToCamera = point.GetDistance(_center);
-                        if (distanceToCamera < minDistanceMeters)
+                        if (distanceToCamera < WAYPOINT_MIN_DISTANCE)
                             continue;
 
                         var co = convertCoords(point);
