@@ -1142,7 +1142,7 @@ namespace MissionPlanner.Controls
 
         private void DrawTrail(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            if (!_showTrail || _trailPoints.Count < 2)
+            if (!_showTrail || MainV2.comPort?.MAV?.cs?.armed != true || _trailPoints.Count < 2)
                 return;
 
             _trailLine?.Dispose();
@@ -1581,7 +1581,7 @@ namespace MissionPlanner.Controls
 
                     // Update trail points using the smoothly rendered plane position (every frame)
                     // This gives us smooth trails since _planeDrawX/Y/Z is already Kalman filtered
-                    if (_showTrail && _center.Lat != 0 && _center.Lng != 0)
+                    if (_showTrail && MainV2.comPort?.MAV?.cs?.armed == true && _center.Lat != 0 && _center.Lng != 0)
                     {
                         // Store absolute UTM coordinates (add back utmcenter offset)
                         double absX = _planeDrawX + utmcenter[0];
@@ -2583,7 +2583,7 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(chkTurnRadius);
                 y += 24;
 
-                var chkTrail = new CheckBox { Text = "Flight Path Trail", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
+                var chkTrail = new CheckBox { Text = "Flight Path Trail (armed only)", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
                 dialog.Controls.Add(chkTrail);
                 y += 30;
 
