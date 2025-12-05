@@ -259,7 +259,7 @@ namespace MissionPlanner.GCSViews
         // Status tab control
         private Controls.StatusControl _statusControl;
 
-        private CheckBox _cb3DMap;
+        private CheckBox CB_3dmap;
 
         private void MoveMapControlsAboveTuning()
         {
@@ -306,14 +306,14 @@ namespace MissionPlanner.GCSViews
 
         private void Add3DMapCheckbox()
         {
-            _cb3DMap = new CheckBox
+            CB_3dmap = new CheckBox
             {
                 Text = "3D Map",
                 AutoSize = true
             };
-            _cb3DMap.CheckedChanged += CB_3dmap_CheckedChanged;
+            CB_3dmap.CheckedChanged += CB_3dmap_CheckedChanged;
 
-            panel1.Controls.Add(_cb3DMap);
+            panel1.Controls.Add(CB_3dmap);
             Position3DMapCheckbox();
             panel1.Resize += (s, e) => Position3DMapCheckbox();
 
@@ -322,11 +322,11 @@ namespace MissionPlanner.GCSViews
 
         private void Position3DMapCheckbox()
         {
-            if (_cb3DMap == null || CB_params == null || CHK_autopan == null)
+            if (CB_3dmap == null || CB_params == null || CHK_autopan == null)
                 return;
 
-            _cb3DMap.Location = new Point(CB_params.Right + 10, CB_params.Top);
-            CHK_autopan.Location = new Point(_cb3DMap.Right + 10, CHK_autopan.Top);
+            CB_3dmap.Location = new Point(CB_params.Right + 10, CB_params.Top);
+            CHK_autopan.Location = new Point(CB_3dmap.Right + 10, CHK_autopan.Top);
         }
 
         public FlightData()
@@ -2332,8 +2332,9 @@ namespace MissionPlanner.GCSViews
             if (CB_tuning.Checked)
             {
                 if (CB_params.Checked) CB_params.Checked = false;
-                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+                if (CB_3dmap.Checked) CB_3dmap.Checked = false;
             }
+            Settings.Instance["CB_tuning"] = CB_tuning.Checked.ToString();
             UpdateSplitContainerLayout();
         }
 
@@ -2342,31 +2343,33 @@ namespace MissionPlanner.GCSViews
             if (CB_params.Checked)
             {
                 if (CB_tuning.Checked) CB_tuning.Checked = false;
-                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+                if (CB_3dmap.Checked) CB_3dmap.Checked = false;
             }
+            Settings.Instance["CB_params"] = CB_params.Checked.ToString();
             UpdateSplitContainerLayout();
         }
 
         private void CB_3dmap_CheckedChanged(object sender, EventArgs e)
         {
-            if (_cb3DMap.Checked)
+            if (CB_3dmap.Checked)
             {
                 if (CB_tuning.Checked) CB_tuning.Checked = false;
                 if (CB_params.Checked) CB_params.Checked = false;
             }
-            Toggle3DMap(_cb3DMap.Checked);
+            Settings.Instance["CB_3dmap"] = CB_3dmap.Checked.ToString();
+            Toggle3DMap(CB_3dmap.Checked);
             UpdateSplitContainerLayout();
         }
 
-        public bool Is3DMapEnabled => _cb3DMap != null && _cb3DMap.Checked;
+        public bool Is3DMapEnabled => CB_3dmap != null && CB_3dmap.Checked;
 
         // Force-hide the 3D map (used during app shutdown to ensure GL resources are released cleanly)
         public void ForceHide3DMap()
         {
             try
             {
-                if (_cb3DMap != null && _cb3DMap.Checked)
-                    _cb3DMap.Checked = false;
+                if (CB_3dmap != null && CB_3dmap.Checked)
+                    CB_3dmap.Checked = false;
             }
             catch
             {
@@ -2426,7 +2429,7 @@ namespace MissionPlanner.GCSViews
         {
             bool tuningChecked = CB_tuning.Checked;
             bool paramsChecked = CB_params.Checked;
-            bool map3DChecked = _cb3DMap != null && _cb3DMap.Checked;
+            bool map3DChecked = CB_3dmap != null && CB_3dmap.Checked;
 
             splitContainer1.Panel1Collapsed = false;
 
@@ -3450,6 +3453,15 @@ namespace MissionPlanner.GCSViews
 
             if (Settings.Instance["CHK_autopan"] != null)
                 CHK_autopan.Checked = Settings.Instance.GetBoolean("CHK_autopan");
+
+            if (Settings.Instance["CB_tuning"] != null)
+                CB_tuning.Checked = Settings.Instance.GetBoolean("CB_tuning");
+
+            if (Settings.Instance["CB_params"] != null)
+                CB_params.Checked = Settings.Instance.GetBoolean("CB_params");
+
+            if (Settings.Instance["CB_3dmap"] != null)
+                CB_3dmap.Checked = Settings.Instance.GetBoolean("CB_3dmap");
 
             if (Settings.Instance.ContainsKey("HudSwap") && Settings.Instance["HudSwap"] == "true")
                 SwapHud1AndMap();
