@@ -45,6 +45,9 @@ namespace MissionPlanner.GCSViews
             this.moveRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorReset = new System.Windows.Forms.ToolStripSeparator();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
             this.quickView5 = new MissionPlanner.Controls.QuickView();
             this.quickView4 = new MissionPlanner.Controls.QuickView();
@@ -660,7 +663,10 @@ namespace MissionPlanner.GCSViews
             this.moveLeftToolStripMenuItem,
             this.moveRightToolStripMenuItem,
             this.moveUpToolStripMenuItem,
-            this.moveDownToolStripMenuItem});
+            this.moveDownToolStripMenuItem,
+            this.toolStripSeparatorReset,
+            this.resetToolStripMenuItem,
+            this.resetAllToolStripMenuItem});
             this.contextMenuStripQuickView.Name = "contextMenuStripQuickView";
             resources.ApplyResources(this.contextMenuStripQuickView, "contextMenuStripQuickView");
             this.contextMenuStripQuickView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripQuickView_Opening);
@@ -715,7 +721,24 @@ namespace MissionPlanner.GCSViews
             this.moveDownToolStripMenuItem.Text = "Move Down";
             resources.ApplyResources(this.moveDownToolStripMenuItem, "moveDownToolStripMenuItem");
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
-            // 
+            //
+            // toolStripSeparatorReset
+            //
+            this.toolStripSeparatorReset.Name = "toolStripSeparatorReset";
+            resources.ApplyResources(this.toolStripSeparatorReset, "toolStripSeparatorReset");
+            //
+            // resetQuickViewToolStripMenuItem
+            //
+            this.resetToolStripMenuItem.Name = "resetQuickViewToolStripMenuItem";
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetQuickViewToolStripMenuItem_Click);
+            //
+            // resetAllQuickViewToolStripMenuItem
+            //
+            this.resetAllToolStripMenuItem.Name = "resetAllQuickViewToolStripMenuItem";
+            this.resetAllToolStripMenuItem.Text = "Reset All";
+            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllQuickViewToolStripMenuItem_Click);
+            //
             // bindingSourceQuickTab
             // 
             this.bindingSourceQuickTab.DataSource = typeof(MissionPlanner.CurrentState);
@@ -3286,6 +3309,9 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem moveRightToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorReset;
+        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetAllToolStripMenuItem;
         private System.Windows.Forms.Button ALT_btn;
         private System.Windows.Forms.Button STBY_btn;
         private System.Windows.Forms.Button ON_btn;

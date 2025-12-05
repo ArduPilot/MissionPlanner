@@ -6239,6 +6239,211 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void resetQuickViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    if (MainV2.DisplayConfiguration.lockQuickView)
+                        return;
+
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                    ResetQuickViewToDefault(qv, pos.Row, pos.Column);
+                }
+            }
+        }
+
+        private void resetAllQuickViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            // Load defaults from CSV and apply to all QuickViews
+            var defaults = LoadQuickViewDefaultsFromCSV();
+            if (defaults == null)
+                return;
+
+            // Reset rows and columns to defaults
+            int defaultRows = defaults.GetLength(0);
+            int defaultCols = defaults.GetLength(1);
+
+            // Clear all quickView settings first
+            for (int i = 1; i <= 30; i++)
+            {
+                Settings.Instance.Remove("quickView" + i);
+                Settings.Instance.Remove("quickView" + i + "_label");
+                Settings.Instance.Remove("quickView" + i + "_color");
+                Settings.Instance.Remove("quickView" + i + "_format");
+                Settings.Instance.Remove("quickView" + i + "_charWidth");
+                Settings.Instance.Remove("quickView" + i + "_scale");
+                Settings.Instance.Remove("quickView" + i + "_offset");
+                Settings.Instance.Remove("quickView" + i + "_gauge");
+                Settings.Instance.Remove("quickView" + i + "_gaugeMin");
+                Settings.Instance.Remove("quickView" + i + "_gaugeMax");
+            }
+
+            // Rebuild the grid with default dimensions
+            setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
+
+            // Apply defaults to each QuickView
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                    if (pos.Row < defaultRows && pos.Column < defaultCols)
+                    {
+                        var cellDefault = defaults[pos.Row, pos.Column];
+                        if (cellDefault != null)
+                        {
+                            ApplyQuickViewDefault(qv, cellDefault);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ResetQuickViewToDefault(QuickView qv, int row, int col)
+        {
+            var defaults = LoadQuickViewDefaultsFromCSV();
+            if (defaults == null || row >= defaults.GetLength(0) || col >= defaults.GetLength(1))
+            {
+                // Fallback to battery_voltage if no default exists
+                qv.Tag = "battery_voltage";
+                qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit("battery_voltage");
+                qv.numberformat = "0.00";
+                qv.numberColor = Color.White;
+                qv.scale = 1;
+                qv.offset = 0;
+                qv.isGauge = false;
+                qv.charWidth = 0;
+                BindQuickView(qv);
+                SaveQuickViewSettings(qv);
+                return;
+            }
+
+            var cellDefault = defaults[row, col];
+            if (cellDefault != null)
+            {
+                ApplyQuickViewDefault(qv, cellDefault);
+            }
+        }
+
+        private Random _quickViewRandomColor = new Random();
+
+        private void ApplyQuickViewDefault(QuickView qv, QuickViewDefault def)
+        {
+            qv.Tag = def.Field;
+            qv.desc = !string.IsNullOrWhiteSpace(def.Label) ? def.Label : MainV2.comPort.MAV.cs.GetNameandUnit(def.Field);
+            qv.numberformat = "0.00";
+            qv.numberColor = def.Color ?? colorsForDefaultQuickView[_quickViewRandomColor.Next(colorsForDefaultQuickView.Length)];
+            qv.scale = def.Scale;
+            qv.offset = 0;
+            qv.isGauge = false;
+            qv.charWidth = 0;
+
+            BindQuickView(qv);
+            SaveQuickViewSettings(qv);
+        }
+
+        private void SaveQuickViewSettings(QuickView qv)
+        {
+            Settings.Instance[qv.Name] = qv.Tag?.ToString() ?? "battery_voltage";
+            Settings.Instance[qv.Name + "_label"] = qv.desc;
+            Settings.Instance[qv.Name + "_color"] = ColorTranslator.ToHtml(qv.numberColor);
+            Settings.Instance[qv.Name + "_format"] = qv.numberformat;
+            Settings.Instance[qv.Name + "_charWidth"] = qv.charWidth.ToString();
+            Settings.Instance[qv.Name + "_scale"] = qv.scale.ToString();
+            Settings.Instance[qv.Name + "_offset"] = qv.offset.ToString();
+            Settings.Instance[qv.Name + "_gauge"] = qv.isGauge.ToString();
+            Settings.Instance[qv.Name + "_gaugeMin"] = qv.gaugeMin.ToString();
+            Settings.Instance[qv.Name + "_gaugeMax"] = qv.gaugeMax.ToString();
+        }
+
+        private class QuickViewDefault
+        {
+            public string Field { get; set; }
+            public Color? Color { get; set; }
+            public string Label { get; set; }
+            public double Scale { get; set; } = 1;
+        }
+
+        private QuickViewDefault[,] LoadQuickViewDefaultsFromCSV()
+        {
+            try
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                using (var stream = assembly.GetManifestResourceStream("MissionPlanner.Resources.DefaultQuickViewSettings.csv"))
+                {
+                    if (stream == null)
+                    {
+                        log.Warn("DefaultQuickViewSettings.csv not found in embedded resources");
+                        return null;
+                    }
+
+                    using (var reader = new System.IO.StreamReader(stream))
+                    {
+                        var csvData = new List<string[]>();
+                        int maxCols = 0;
+
+                        while (!reader.EndOfStream)
+                        {
+                            var line = reader.ReadLine();
+                            if (string.IsNullOrWhiteSpace(line) || line.TrimStart().StartsWith("#"))
+                                continue;
+
+                            var cells = line.Split(',');
+                            maxCols = Math.Max(maxCols, cells.Length);
+                            csvData.Add(cells);
+                        }
+
+                        var defaults = new QuickViewDefault[csvData.Count, maxCols];
+                        for (int row = 0; row < csvData.Count; row++)
+                        {
+                            var cells = csvData[row];
+                            for (int col = 0; col < cells.Length; col++)
+                            {
+                                var cell = cells[col].Trim();
+                                if (string.IsNullOrEmpty(cell))
+                                    continue;
+
+                                var parts = cell.Split('|');
+                                var def = new QuickViewDefault
+                                {
+                                    Field = parts[0].Trim()
+                                };
+
+                                if (parts.Length > 1 && !string.IsNullOrWhiteSpace(parts[1]))
+                                {
+                                    try
+                                    {
+                                        def.Color = ColorTranslator.FromHtml(parts[1].Trim());
+                                    }
+                                    catch { }
+                                }
+
+                                if (parts.Length > 2 && !string.IsNullOrWhiteSpace(parts[2]))
+                                    def.Label = parts[2].Trim();
+
+                                if (parts.Length > 3 && double.TryParse(parts[3].Trim(), out double scale))
+                                    def.Scale = scale;
+
+                                defaults[row, col] = def;
+                            }
+                        }
+
+                        return defaults;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error loading QuickView defaults from CSV", ex);
+                return null;
+            }
+        }
+
         #endregion
 
         private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
