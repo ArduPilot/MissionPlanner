@@ -299,14 +299,19 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
-            // Sync map position from DATA tab
+            // Sync map position and zoom from DATA tab
             try
             {
                 var lat = Settings.Instance.GetDouble("maplast_lat", 0);
                 var lng = Settings.Instance.GetDouble("maplast_lng", 0);
+                var zoom = Settings.Instance.GetDouble("maplast_zoom", 0);
                 if (lat != 0 || lng != 0)
                 {
                     MainMap.Position = new PointLatLng(lat, lng);
+                }
+                if (zoom >= MainMap.MinZoom && zoom <= MainMap.MaxZoom)
+                {
+                    MainMap.Zoom = zoom;
                 }
             }
             catch { }
@@ -1499,12 +1504,6 @@ namespace MissionPlanner.GCSViews
 
                     if (wpOverlay.pointlist.Count <= 1)
                     {
-                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(wpOverlay.overlay.Id);
-                        if (rect.HasValue)
-                        {
-                            MainMap.Position = rect.Value.LocationMiddle;
-                        }
-
                         MainMap_OnMapZoomChanged();
                     }
 
@@ -3498,19 +3497,6 @@ namespace MissionPlanner.GCSViews
             panelMap.Dock = DockStyle.Fill;
             panelMap_Resize(null, null);
 
-            //set home
-            try
-            {
-                if (TXT_homelat.Text != "")
-                {
-                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
-                    MainMap.Zoom = 16;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
 
             panelMap.Refresh();
 
