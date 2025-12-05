@@ -776,7 +776,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Full Parameter List.
+        ///   Looks up a localized string similar to Parameters.
         /// </summary>
         public static string FullParameterList {
             get {
@@ -1678,9 +1678,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update Params
-        ///DON&apos;T DO THIS IF YOU ARE IN THE AIR
-        ///.
+        ///   Looks up a localized string similar to Are you sure you want to do this while connected? It will update the parameter list from the board and discard any changes you have made..
         /// </summary>
         public static string WarningUpdateParamList {
             get {

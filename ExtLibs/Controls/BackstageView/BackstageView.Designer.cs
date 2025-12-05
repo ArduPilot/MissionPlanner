@@ -44,6 +44,7 @@
             // 
             // pnlMenu
             // 
+            this.pnlMenu.AutoScroll = true;
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Margin = new System.Windows.Forms.Padding(4);

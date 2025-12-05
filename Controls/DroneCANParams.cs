@@ -348,7 +348,7 @@ namespace MissionPlanner.Controls
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (
-                CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
+                CustomMessageBox.Show("This will reset all params to their default value\nAre you sure?", "Reset",
                     MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try

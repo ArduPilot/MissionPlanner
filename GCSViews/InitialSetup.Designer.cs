@@ -69,8 +69,8 @@ namespace MissionPlanner.GCSViews
             this.backstageView.HighlightColor1 = System.Drawing.SystemColors.Highlight;
             this.backstageView.HighlightColor2 = System.Drawing.SystemColors.MenuHighlight;
             this.backstageView.Name = "backstageView";
-            this.backstageView.WidthMenu = 172;
-            // 
+            this.backstageView.WidthMenu = 176;
+            //
             // backstageViewPageaccel
             // 
             resources.ApplyResources(this.backstageViewPageaccel, "backstageViewPageaccel");

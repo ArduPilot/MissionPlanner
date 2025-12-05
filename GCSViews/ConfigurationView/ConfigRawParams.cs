@@ -82,7 +82,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             splitContainer1.SplitterDistance = Settings.Instance.GetInt32("rawparam_splitterdistance", 180);
             // Use InitialTreeCollapsed if set, otherwise use saved setting (default false)
             splitContainer1.Panel1Collapsed = InitialTreeCollapsed ?? Settings.Instance.GetBoolean("rawparam_panel1collapsed", false);
-            but_collapse.Text = splitContainer1.Panel1Collapsed ? ">" : "<";
+            but_collapse.Text = splitContainer1.Panel1Collapsed ? "▶" : "◀";
 
             processToScreen();
 
@@ -902,7 +902,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (
-                CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
+                CustomMessageBox.Show("This will reset all params to their default value\nAre you sure?", "Reset",
                     MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
@@ -1057,16 +1057,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (splitContainer1.Panel1Collapsed)
             {
-                but_collapse.Text = "<";
+                but_collapse.Text = "◀";
                 splitContainer1.Panel1Collapsed = false;
                 BuildTree();
             }
             else
             {
-                but_collapse.Text = ">";
+                but_collapse.Text = "▶";
                 splitContainer1.Panel1Collapsed = true;
                 filterPrefix = "";
                 FilterTimerOnElapsed(null, null);
+            }
+        }
+
+        private void BUT_reboot_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure you want to reboot the autopilot?", "Reboot", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                try
+                {
+                    MainV2.comPort.doReboot(false, true);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
             }
         }
 

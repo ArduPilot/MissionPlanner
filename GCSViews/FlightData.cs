@@ -487,7 +487,7 @@ namespace MissionPlanner.GCSViews
             flightDataActions1.BUT_clear_track.Click += BUT_clear_track_Click;
             flightDataActions1.BUT_Reboot.Click += BUT_Reboot_Click;
             flightDataActions1.BUT_abortland.Click += BUT_abortland_Click;
-            flightDataActions1.CMB_setwp.Click += CMB_setwp_Click;
+            flightDataActions1.CMB_setwp.DropDown += CMB_setwp_Click;
             flightDataActions1.CMB_modes.Click += CMB_modes_Click;
 
             log.Info("Graph Setup");
@@ -3120,44 +3120,35 @@ namespace MissionPlanner.GCSViews
 
         private void CMB_setwp_Click(object sender, EventArgs e)
         {
-            flightDataActions1.CMB_setwp.Items.Clear();
+            UpdateWaypointDropdown();
+        }
 
-            flightDataActions1.CMB_setwp.Items.Add("0 (Home)");
+        private int _lastWaypointCount = -1;
 
-            int max = 0;
+        private void UpdateWaypointDropdown()
+        {
+            int count = MainV2.comPort.MAV.wps.Count;
 
-            if (MainV2.comPort.MAV.param["CMD_TOTAL"] != null)
+            if (count == _lastWaypointCount)
+                return;
+
+            _lastWaypointCount = count;
+
+            this.BeginInvoke((Action)(() =>
             {
-                int wps = int.Parse(MainV2.comPort.MAV.param["CMD_TOTAL"].ToString());
+                flightDataActions1.CMB_setwp.Items.Clear();
 
-                max = Math.Max(max, wps);
-            }
+                for (int z = 0; z < count; z++)
+                {
+                    if (z == 0)
+                        flightDataActions1.CMB_setwp.Items.Add("0 (Home)");
+                    else
+                        flightDataActions1.CMB_setwp.Items.Add(z.ToString());
+                }
 
-            if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
-            {
-                int wps = int.Parse(MainV2.comPort.MAV.param["WP_TOTAL"].ToString());
-
-                max = Math.Max(max, wps);
-            }
-
-            if (MainV2.comPort.MAV.param["MIS_TOTAL"] != null)
-            {
-                int wps = int.Parse(MainV2.comPort.MAV.param["MIS_TOTAL"].ToString());
-
-                max = Math.Max(max, wps);
-            }
-
-            if (MainV2.comPort.MAV.wps.Count > 0)
-            {
-                int wps = MainV2.comPort.MAV.wps.Count;
-
-                max = Math.Max(max, wps);
-            }
-
-            for (int z = 1; z <= max; z++)
-            {
-                flightDataActions1.CMB_setwp.Items.Add(z.ToString());
-            }
+                if (flightDataActions1.CMB_setwp.Items.Count > 0)
+                    flightDataActions1.CMB_setwp.SelectedIndex = 0;
+            }));
         }
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3567,7 +3558,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 // percent
-                flightDataActions1.modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
+                flightDataActions1.modifyandSetSpeed.ButtonText = "Apply";
             }
 
             try
@@ -4542,6 +4533,8 @@ namespace MissionPlanner.GCSViews
                         {
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
+
+                            UpdateWaypointDropdown();
 
                             var wps = MainV2.comPort.MAV.wps.Values.ToList();
                             if (wps.Count >= 1)

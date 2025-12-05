@@ -315,6 +315,7 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayMotorTest)
             {
                 AddBackstageViewPage(typeof(ConfigMotorTest), rm.GetString("backstageViewPageMotorTest.Text"), isConnected && gotAllParams, opt);
+                AddBackstageViewPage(typeof(ConfigAM32), "AM32", isConnected && gotAllParams, opt);
             }
             if (MainV2.DisplayConfiguration.displayBluetooth)
             {

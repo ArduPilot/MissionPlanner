@@ -113,7 +113,7 @@ namespace MissionPlanner.Controls
             this.grpCommand.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpCommand.Name = "grpCommand";
             this.grpCommand.Padding = new System.Windows.Forms.Padding(6);
-            this.grpCommand.Size = new System.Drawing.Size(350, 227);
+            this.grpCommand.Size = new System.Drawing.Size(350, 180);
             this.grpCommand.TabIndex = 0;
             this.grpCommand.TabStop = false;
             this.grpCommand.Text = "Control";
@@ -137,12 +137,12 @@ namespace MissionPlanner.Controls
             this.tableCommand.Location = new System.Drawing.Point(6, 21);
             this.tableCommand.Name = "tableCommand";
             this.tableCommand.RowCount = 5;
-            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableCommand.Size = new System.Drawing.Size(338, 200);
+            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableCommand.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableCommand.Size = new System.Drawing.Size(338, 160);
             this.tableCommand.TabIndex = 0;
             // 
             // cmbAction
@@ -163,7 +163,7 @@ namespace MissionPlanner.Controls
             this.btnDoAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDoAction.Location = new System.Drawing.Point(172, 3);
             this.btnDoAction.Name = "btnDoAction";
-            this.btnDoAction.Size = new System.Drawing.Size(163, 44);
+            this.btnDoAction.Size = new System.Drawing.Size(163, 34);
             this.btnDoAction.TabIndex = 1;
             this.btnDoAction.Text = "Do Action";
             this.btnDoAction.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -187,7 +187,7 @@ namespace MissionPlanner.Controls
             this.btnSetWP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSetWP.Location = new System.Drawing.Point(172, 53);
             this.btnSetWP.Name = "btnSetWP";
-            this.btnSetWP.Size = new System.Drawing.Size(163, 44);
+            this.btnSetWP.Size = new System.Drawing.Size(163, 34);
             this.btnSetWP.TabIndex = 3;
             this.btnSetWP.Text = "Set WP";
             this.btnSetWP.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -237,7 +237,7 @@ namespace MissionPlanner.Controls
             this.btnSetMount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSetMount.Location = new System.Drawing.Point(172, 103);
             this.btnSetMount.Name = "btnSetMount";
-            this.btnSetMount.Size = new System.Drawing.Size(163, 44);
+            this.btnSetMount.Size = new System.Drawing.Size(163, 34);
             this.btnSetMount.TabIndex = 7;
             this.btnSetMount.Text = "Set Mount";
             this.btnSetMount.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -248,7 +248,7 @@ namespace MissionPlanner.Controls
             this.btnRestartMission.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRestartMission.Location = new System.Drawing.Point(3, 153);
             this.btnRestartMission.Name = "btnRestartMission";
-            this.btnRestartMission.Size = new System.Drawing.Size(163, 44);
+            this.btnRestartMission.Size = new System.Drawing.Size(163, 34);
             this.btnRestartMission.TabIndex = 8;
             this.btnRestartMission.Text = "Restart Mission";
             this.btnRestartMission.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -259,7 +259,7 @@ namespace MissionPlanner.Controls
             this.btnResumeMission.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnResumeMission.Location = new System.Drawing.Point(172, 153);
             this.btnResumeMission.Name = "btnResumeMission";
-            this.btnResumeMission.Size = new System.Drawing.Size(163, 44);
+            this.btnResumeMission.Size = new System.Drawing.Size(163, 34);
             this.btnResumeMission.TabIndex = 9;
             this.btnResumeMission.Text = "Resume Mission";
             this.btnResumeMission.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -273,7 +273,7 @@ namespace MissionPlanner.Controls
             this.grpSetpoints.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpSetpoints.Name = "grpSetpoints";
             this.grpSetpoints.Padding = new System.Windows.Forms.Padding(6);
-            this.grpSetpoints.Size = new System.Drawing.Size(350, 227);
+            this.grpSetpoints.Size = new System.Drawing.Size(350, 180);
             this.grpSetpoints.TabIndex = 1;
             this.grpSetpoints.TabStop = false;
             this.grpSetpoints.Text = "Setpoints";
@@ -281,7 +281,7 @@ namespace MissionPlanner.Controls
             // tableSetpoints
             // 
             this.tableSetpoints.ColumnCount = 2;
-            this.tableSetpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableSetpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableSetpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableSetpoints.Controls.Add(this.lblHomeAlt, 0, 0);
             this.tableSetpoints.Controls.Add(this.btnHomeAlt, 1, 0);
@@ -295,11 +295,11 @@ namespace MissionPlanner.Controls
             this.tableSetpoints.Location = new System.Drawing.Point(6, 21);
             this.tableSetpoints.Name = "tableSetpoints";
             this.tableSetpoints.RowCount = 4;
-            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableSetpoints.Size = new System.Drawing.Size(338, 200);
+            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableSetpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableSetpoints.Size = new System.Drawing.Size(338, 160);
             this.tableSetpoints.TabIndex = 0;
             // 
             // lblHomeAlt
@@ -315,11 +315,12 @@ namespace MissionPlanner.Controls
             // btnHomeAlt
             // 
             this.btnHomeAlt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHomeAlt.Location = new System.Drawing.Point(83, 3);
+            this.btnHomeAlt.Location = new System.Drawing.Point(120, 3);
+            this.btnHomeAlt.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnHomeAlt.Name = "btnHomeAlt";
-            this.btnHomeAlt.Size = new System.Drawing.Size(252, 44);
+            this.btnHomeAlt.Size = new System.Drawing.Size(252, 34);
             this.btnHomeAlt.TabIndex = 1;
-            this.btnHomeAlt.Text = "Apply";
+            this.btnHomeAlt.Text = "Set Home Alt";
             this.btnHomeAlt.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btnHomeAlt.UseVisualStyleBackColor = true;
             // 
@@ -355,9 +356,9 @@ namespace MissionPlanner.Controls
             0,
             0,
             0});
-            this.modSetSpeed.MinimumSize = new System.Drawing.Size(26, 50);
+            this.modSetSpeed.MinimumSize = new System.Drawing.Size(26, 40);
             this.modSetSpeed.Name = "modSetSpeed";
-            this.modSetSpeed.Size = new System.Drawing.Size(258, 50);
+            this.modSetSpeed.Size = new System.Drawing.Size(258, 40);
             this.modSetSpeed.TabIndex = 3;
             this.modSetSpeed.Value = new decimal(new int[] {
             0,
@@ -397,9 +398,9 @@ namespace MissionPlanner.Controls
             0,
             0,
             0});
-            this.modSetAlt.MinimumSize = new System.Drawing.Size(26, 50);
+            this.modSetAlt.MinimumSize = new System.Drawing.Size(26, 40);
             this.modSetAlt.Name = "modSetAlt";
-            this.modSetAlt.Size = new System.Drawing.Size(258, 50);
+            this.modSetAlt.Size = new System.Drawing.Size(258, 40);
             this.modSetAlt.TabIndex = 5;
             this.modSetAlt.Value = new decimal(new int[] {
             100,
@@ -439,9 +440,9 @@ namespace MissionPlanner.Controls
             0,
             0,
             -2147483648});
-            this.modSetLoiterRad.MinimumSize = new System.Drawing.Size(26, 50);
+            this.modSetLoiterRad.MinimumSize = new System.Drawing.Size(26, 40);
             this.modSetLoiterRad.Name = "modSetLoiterRad";
-            this.modSetLoiterRad.Size = new System.Drawing.Size(258, 50);
+            this.modSetLoiterRad.Size = new System.Drawing.Size(258, 40);
             this.modSetLoiterRad.TabIndex = 7;
             this.modSetLoiterRad.Value = new decimal(new int[] {
             100,
@@ -457,7 +458,7 @@ namespace MissionPlanner.Controls
             this.grpTools.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpTools.Name = "grpTools";
             this.grpTools.Padding = new System.Windows.Forms.Padding(6);
-            this.grpTools.Size = new System.Drawing.Size(350, 177);
+            this.grpTools.Size = new System.Drawing.Size(350, 180);
             this.grpTools.TabIndex = 2;
             this.grpTools.TabStop = false;
             this.grpTools.Text = "Tools";
@@ -477,10 +478,10 @@ namespace MissionPlanner.Controls
             this.tableTools.Location = new System.Drawing.Point(6, 21);
             this.tableTools.Name = "tableTools";
             this.tableTools.RowCount = 3;
-            this.tableTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableTools.Size = new System.Drawing.Size(338, 150);
+            this.tableTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableTools.Size = new System.Drawing.Size(338, 120);
             this.tableTools.TabIndex = 0;
             // 
             // btnRawSensor
@@ -488,7 +489,7 @@ namespace MissionPlanner.Controls
             this.btnRawSensor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRawSensor.Location = new System.Drawing.Point(3, 3);
             this.btnRawSensor.Name = "btnRawSensor";
-            this.btnRawSensor.Size = new System.Drawing.Size(163, 44);
+            this.btnRawSensor.Size = new System.Drawing.Size(163, 34);
             this.btnRawSensor.TabIndex = 0;
             this.btnRawSensor.Text = "Raw Sensor";
             this.btnRawSensor.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -499,7 +500,7 @@ namespace MissionPlanner.Controls
             this.btnJoystick.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnJoystick.Location = new System.Drawing.Point(172, 3);
             this.btnJoystick.Name = "btnJoystick";
-            this.btnJoystick.Size = new System.Drawing.Size(163, 44);
+            this.btnJoystick.Size = new System.Drawing.Size(163, 34);
             this.btnJoystick.TabIndex = 1;
             this.btnJoystick.Text = "Joystick";
             this.btnJoystick.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -510,7 +511,7 @@ namespace MissionPlanner.Controls
             this.btnMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMessage.Location = new System.Drawing.Point(3, 53);
             this.btnMessage.Name = "btnMessage";
-            this.btnMessage.Size = new System.Drawing.Size(163, 44);
+            this.btnMessage.Size = new System.Drawing.Size(163, 34);
             this.btnMessage.TabIndex = 2;
             this.btnMessage.Text = "Message";
             this.btnMessage.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -521,7 +522,7 @@ namespace MissionPlanner.Controls
             this.btnClearTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClearTrack.Location = new System.Drawing.Point(172, 53);
             this.btnClearTrack.Name = "btnClearTrack";
-            this.btnClearTrack.Size = new System.Drawing.Size(163, 44);
+            this.btnClearTrack.Size = new System.Drawing.Size(163, 34);
             this.btnClearTrack.TabIndex = 3;
             this.btnClearTrack.Text = "Clear Track";
             this.btnClearTrack.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -532,7 +533,7 @@ namespace MissionPlanner.Controls
             this.btnReboot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReboot.Location = new System.Drawing.Point(3, 103);
             this.btnReboot.Name = "btnReboot";
-            this.btnReboot.Size = new System.Drawing.Size(163, 44);
+            this.btnReboot.Size = new System.Drawing.Size(163, 34);
             this.btnReboot.TabIndex = 4;
             this.btnReboot.Text = "Reboot";
             this.btnReboot.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -543,7 +544,7 @@ namespace MissionPlanner.Controls
             this.btnAbortLanding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAbortLanding.Location = new System.Drawing.Point(172, 103);
             this.btnAbortLanding.Name = "btnAbortLanding";
-            this.btnAbortLanding.Size = new System.Drawing.Size(163, 44);
+            this.btnAbortLanding.Size = new System.Drawing.Size(163, 34);
             this.btnAbortLanding.TabIndex = 5;
             this.btnAbortLanding.Text = "Abort Land";
             this.btnAbortLanding.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -557,10 +558,11 @@ namespace MissionPlanner.Controls
             this.grpPayload.MinimumSize = new System.Drawing.Size(350, 0);
             this.grpPayload.Name = "grpPayload";
             this.grpPayload.Padding = new System.Windows.Forms.Padding(6);
-            this.grpPayload.Size = new System.Drawing.Size(350, 236);
+            this.grpPayload.Size = new System.Drawing.Size(350, 180);
             this.grpPayload.TabIndex = 3;
             this.grpPayload.TabStop = false;
             this.grpPayload.Text = "Payload";
+            this.grpPayload.Visible = false;
             // 
             // tablePayload
             // 
@@ -578,8 +580,8 @@ namespace MissionPlanner.Controls
             this.tablePayload.RowCount = 3;
             this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tablePayload.Size = new System.Drawing.Size(338, 210);
+            this.tablePayload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tablePayload.Size = new System.Drawing.Size(338, 200);
             this.tablePayload.TabIndex = 0;
             // 
             // groupBoxPitch
@@ -684,7 +686,7 @@ namespace MissionPlanner.Controls
             this.btnResetGimbal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnResetGimbal.Location = new System.Drawing.Point(3, 163);
             this.btnResetGimbal.Name = "btnResetGimbal";
-            this.btnResetGimbal.Size = new System.Drawing.Size(124, 44);
+            this.btnResetGimbal.Size = new System.Drawing.Size(124, 34);
             this.btnResetGimbal.TabIndex = 3;
             this.btnResetGimbal.Text = "Reset Position";
             this.btnResetGimbal.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -695,7 +697,7 @@ namespace MissionPlanner.Controls
             this.btnGimbalVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGimbalVideo.Location = new System.Drawing.Point(133, 163);
             this.btnGimbalVideo.Name = "btnGimbalVideo";
-            this.btnGimbalVideo.Size = new System.Drawing.Size(202, 44);
+            this.btnGimbalVideo.Size = new System.Drawing.Size(202, 34);
             this.btnGimbalVideo.TabIndex = 4;
             this.btnGimbalVideo.Text = "Video Control";
             this.btnGimbalVideo.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));

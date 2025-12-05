@@ -134,7 +134,7 @@
 format with no scaling</value>
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>Load from file</value>
+    <value>Load File</value>
   </data>
   <data name="Units.HeaderText" xml:space="preserve">
     <value>Units</value>
@@ -164,7 +164,7 @@ format with no scaling</value>
     <value>Desc</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>Save to file</value>
+    <value>Save File</value>
   </data>
   <data name="BUT_writePIDS.ToolTip" xml:space="preserve">
     <value />
@@ -179,7 +179,7 @@ format with no scaling</value>
     <value />
   </data>
   <data name="BUT_reset_params.Text" xml:space="preserve">
-    <value>Reset to Default</value>
+    <value>Reset</value>
   </data>
   <data name="label2.ToolTip" xml:space="preserve">
     <value />

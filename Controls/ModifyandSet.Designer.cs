@@ -46,7 +46,7 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(150, 50);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(150, 40);
             this.tableLayoutPanel1.TabIndex = 2;
             this.tableLayoutPanel1.Controls.Add(this.numericUpDown1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.myButton1, 1, 0);
@@ -79,7 +79,7 @@ namespace MissionPlanner.Controls
             this.myButton1.Location = new System.Drawing.Point(78, 3);
             this.myButton1.Margin = new System.Windows.Forms.Padding(0);
             this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(72, 44);
+            this.myButton1.Size = new System.Drawing.Size(72, 34);
             this.myButton1.TabIndex = 1;
             this.myButton1.Text = "Set to This";
             this.myButton1.UseVisualStyleBackColor = true;
@@ -90,9 +90,9 @@ namespace MissionPlanner.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.MinimumSize = new System.Drawing.Size(26, 50);
+            this.MinimumSize = new System.Drawing.Size(26, 40);
             this.Name = "ModifyandSet";
-            this.Size = new System.Drawing.Size(150, 50);
+            this.Size = new System.Drawing.Size(150, 40);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
