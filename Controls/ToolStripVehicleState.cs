@@ -323,12 +323,10 @@ namespace MissionPlanner.Controls
                 BackColor = Color.Transparent
             };
 
-            // Try to load GPS icon
+            // GPS icon will be set in UpdateGpsIcon() when visibility changes
             try
             {
-                _gpsIcon.Image = ThemeManager.IsDarkTheme
-                    ? MissionPlanner.Properties.Resources.gps
-                    : MissionPlanner.Properties.Resources.gps_light;
+                _gpsIcon.Image = MissionPlanner.Properties.Resources.gps;
             }
             catch
             {
@@ -841,6 +839,9 @@ namespace MissionPlanner.Controls
 
             if (isConnected)
             {
+                // Update GPS icon based on theme
+                UpdateGpsIcon();
+
                 // Update arm state
                 bool isArmed = MainV2.comPort?.MAV?.cs?.armed ?? false;
                 _lastArmedState = isArmed;
@@ -878,6 +879,23 @@ namespace MissionPlanner.Controls
             _modeDropdown.CurrentMode = mode; // Keep original for comparison
             _modeDropdown.RefreshPopupIfOpen();
             UpdateContainerWidth();
+        }
+
+        private void UpdateGpsIcon()
+        {
+            try
+            {
+                _gpsIcon.Image = ThemeManager.IsDarkTheme
+                    ? MissionPlanner.Properties.Resources.gps
+                    : MissionPlanner.Properties.Resources.gps_light;
+
+                // Update DOP label color based on theme
+                _gpsDopLabel.ForeColor = ThemeManager.TextColor;
+            }
+            catch
+            {
+                // Icon not found
+            }
         }
 
         private void UpdateGpsDisplay(float satCount, float gpsStatus, float hdop, float vdop)
