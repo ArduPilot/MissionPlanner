@@ -368,7 +368,7 @@ namespace MissionPlanner.Controls
             if (e.Button == MouseButtons.Left)
             {
                 _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-                _cameraAngle = 0.0; // Always reset rotation to behind vehicle
+                _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
                 _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
@@ -1469,62 +1469,70 @@ namespace MissionPlanner.Controls
             var afterwait = DateTime.Now;
             try
             {
+                // Check if connected - stop updating plane position/camera when disconnected
+                bool isConnected = MainV2.comPort?.BaseStream?.IsOpen == true;
+
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
-                campos = projectLocation(mypos);
-                // Apply Kalman filter to rotation for smooth interpolation
-                var rpy = filterRotation(this.rpy);
 
-                // save the state
-                mypos = campos;
-                myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
-
-                // Plane position (where camera used to be)
-                _planeDrawX = campos[0];
-                _planeDrawY = campos[1];
-                _planeDrawZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
-                    ? (srtm.getAltitude(_center.Lat, _center.Lng).alt + 1) * heightscale
-                    : _center.Alt * heightscale;
-
-                // Store plane rotation
-                _planeRoll = (float)rpy.X;
-                _planePitch = (float)rpy.Y;
-                _planeYaw = (float)rpy.Z;
-
-                // Update trail points using the smoothly rendered plane position (every frame)
-                // This gives us smooth trails since _planeDrawX/Y/Z is already Kalman filtered
-                if (_showTrail && _center.Lat != 0 && _center.Lng != 0)
+                // Only update positions from Kalman filter when connected
+                if (isConnected)
                 {
-                    // Store absolute UTM coordinates (add back utmcenter offset)
-                    double absX = _planeDrawX + utmcenter[0];
-                    double absY = _planeDrawY + utmcenter[1];
-                    double absZ = _planeDrawZ;
+                    campos = projectLocation(mypos);
+                    // Apply Kalman filter to rotation for smooth interpolation
+                    var rpy = filterRotation(this.rpy);
 
-                    // Clear trail if UTM zone changed
-                    if (_trailUtmZone != utmzone)
+                    // save the state
+                    mypos = campos;
+                    myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
+
+                    // Plane position (where camera used to be)
+                    _planeDrawX = campos[0];
+                    _planeDrawY = campos[1];
+                    _planeDrawZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
+                        ? (srtm.getAltitude(_center.Lat, _center.Lng).alt + 1) * heightscale
+                        : _center.Alt * heightscale;
+
+                    // Store plane rotation
+                    _planeRoll = (float)rpy.X;
+                    _planePitch = (float)rpy.Y;
+                    _planeYaw = (float)rpy.Z;
+
+                    // Update trail points using the smoothly rendered plane position (every frame)
+                    // This gives us smooth trails since _planeDrawX/Y/Z is already Kalman filtered
+                    if (_showTrail && _center.Lat != 0 && _center.Lng != 0)
                     {
-                        _trailPoints.Clear();
-                        _trailUtmZone = utmzone;
+                        // Store absolute UTM coordinates (add back utmcenter offset)
+                        double absX = _planeDrawX + utmcenter[0];
+                        double absY = _planeDrawY + utmcenter[1];
+                        double absZ = _planeDrawZ;
+
+                        // Clear trail if UTM zone changed
+                        if (_trailUtmZone != utmzone)
+                        {
+                            _trailPoints.Clear();
+                            _trailUtmZone = utmzone;
+                        }
+
+                        // Add point every frame - the positions are already smooth from Kalman filter
+                        // Use a larger point count since we're adding every frame (~30fps)
+                        int numTrackLength = Settings.Instance.GetInt32("NUM_tracklength", 200) * 15; // 3000 points for smooth 3D trail
+                        if (_trailPoints.Count > numTrackLength)
+                            _trailPoints.RemoveRange(0, _trailPoints.Count - numTrackLength);
+                        _trailPoints.Add(new double[] { absX, absY, absZ });
                     }
 
-                    // Add point every frame - the positions are already smooth from Kalman filter
-                    // Use a larger point count since we're adding every frame (~30fps)
-                    int numTrackLength = Settings.Instance.GetInt32("NUM_tracklength", 200) * 15; // 3000 points for smooth 3D trail
-                    if (_trailPoints.Count > numTrackLength)
-                        _trailPoints.RemoveRange(0, _trailPoints.Count - numTrackLength);
-                    _trailPoints.Add(new double[] { absX, absY, absZ });
+                    // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
+                    double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
+                    cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
+                    cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
+                    cameraZ = _planeDrawZ + _cameraHeight;
+
+                    // Look at the plane
+                    lookX = _planeDrawX;
+                    lookY = _planeDrawY;
+                    lookZ = _planeDrawZ;
                 }
-
-                // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
-                double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
-                cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
-                cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
-                cameraZ = _planeDrawZ + _cameraHeight;
-
-                // Look at the plane
-                lookX = _planeDrawX;
-                lookY = _planeDrawY;
-                lookZ = _planeDrawZ;
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
                 /*Console.WriteLine("cam: {0} {1} {2} lookat: {3} {4} {5}", (float) cameraX, (float) cameraY, (float) cameraZ,
@@ -1622,14 +1630,18 @@ namespace MissionPlanner.Controls
                         _flightPlanLines.Draw(projMatrix, modelMatrix);
                     }
                 }
-                // Draw the plane model
-                DrawPlane(projMatrix, modelMatrix);
+                // Only draw plane and indicators when connected
+                if (isConnected)
+                {
+                    // Draw the plane model
+                    DrawPlane(projMatrix, modelMatrix);
 
-                // Draw heading (red) and nav bearing (orange) lines from plane center
-                DrawHeadingLines(projMatrix, modelMatrix);
+                    // Draw heading (red) and nav bearing (orange) lines from plane center
+                    DrawHeadingLines(projMatrix, modelMatrix);
 
-                // Draw flight path trail
-                DrawTrail(projMatrix, modelMatrix);
+                    // Draw flight path trail
+                    DrawTrail(projMatrix, modelMatrix);
+                }
 
                 var beforewpsmarkers = DateTime.Now;
                 // Draw waypoint markers (hidden if within 200ft / 61m of camera)
