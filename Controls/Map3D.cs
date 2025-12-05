@@ -101,6 +101,7 @@ namespace MissionPlanner.Controls
         private bool _showHeadingLine = true;
         private bool _showNavBearingLine = true;
         private bool _showGpsHeadingLine = true;
+        private bool _showTurnRadius = true;
         private bool _showTrail = true;
         private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
         private double _adsbCircleSize = 500; // Diameter of ADSB aircraft circles in meters
@@ -187,18 +188,19 @@ namespace MissionPlanner.Controls
             _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
             _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
             _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
-            _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_plane_scale", 1.0);
+            _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_mav_scale", Settings.Instance.GetDouble("map3d_plane_scale", 1.0));
             _cameraFOV = (float)Settings.Instance.GetDouble("map3d_fov", 60);
             _planeSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
             try
             {
-                int colorArgb = Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb());
+                int colorArgb = Settings.Instance.GetInt32("map3d_mav_color", Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb()));
                 _planeColor = Color.FromArgb(colorArgb);
             }
             catch { _planeColor = Color.Red; }
             _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
             _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
+            _showTurnRadius = Settings.Instance.GetBoolean("map3d_show_turn_radius", true);
             _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
             _adsbCircleSize = Settings.Instance.GetDouble("map3d_adsb_size", 500);
@@ -908,6 +910,58 @@ namespace MissionPlanner.Controls
                 _gpsHeadingLine.Add(gpsEndX, gpsEndY, _planeDrawZ, 0, 0, 0, 1);
                 _gpsHeadingLine.Draw(projMatrix, viewMatrix);
             }
+
+            // Turn radius arc (hot pink) - shows predicted turn path based on current bank angle
+            if (_showTurnRadius)
+            {
+                float radius = (float)(MainV2.comPort?.MAV?.cs?.radius ?? 0);
+
+                if (Math.Abs(radius) > 1)
+                {
+                    const double desiredLeadDist = 200;
+                    double alpha = (desiredLeadDist / Math.Abs(radius)) * MathHelper.rad2deg;
+                    if (alpha > 180) alpha = 180;
+
+                    // Calculate center of turn circle perpendicular to travel direction
+                    double cogRad = MathHelper.Radians(gpsHeading);
+                    double perpAngle = cogRad + (radius > 0 ? Math.PI / 2 : -Math.PI / 2);
+                    double centerX = _planeDrawX + Math.Sin(perpAngle) * Math.Abs(radius);
+                    double centerY = _planeDrawY + Math.Cos(perpAngle) * Math.Abs(radius);
+                    double startAngle = Math.Atan2(_planeDrawX - centerX, _planeDrawY - centerY);
+
+                    _turnRadiusLine?.Dispose();
+                    _turnRadiusLine = new Lines();
+                    _turnRadiusLine.Width = 2f;
+
+                    // HotPink color
+                    float r = 1.0f;
+                    float g = 105f / 255f;
+                    float b = 180f / 255f;
+
+                    int segments = 50;
+                    double alphaRad = MathHelper.Radians(alpha);
+                    double angleStep = alphaRad / segments;
+                    double direction = radius > 0 ? 1 : -1;
+
+                    double prevX = _planeDrawX;
+                    double prevY = _planeDrawY;
+
+                    for (int i = 1; i <= segments; i++)
+                    {
+                        double angle = startAngle + direction * angleStep * i;
+                        double x = centerX + Math.Sin(angle) * Math.Abs(radius);
+                        double y = centerY + Math.Cos(angle) * Math.Abs(radius);
+
+                        _turnRadiusLine.Add(prevX, prevY, _planeDrawZ, r, g, b, 1);
+                        _turnRadiusLine.Add(x, y, _planeDrawZ, r, g, b, 1);
+
+                        prevX = x;
+                        prevY = y;
+                    }
+
+                    _turnRadiusLine.Draw(projMatrix, viewMatrix);
+                }
+            }
         }
 
         private void DrawTrail(Matrix4 projMatrix, Matrix4 viewMatrix)
@@ -1370,6 +1424,7 @@ namespace MissionPlanner.Controls
         private Lines _headingLine;
         private Lines _navBearingLine;
         private Lines _gpsHeadingLine;
+        private Lines _turnRadiusLine;
         private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
@@ -2358,7 +2413,7 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(numFOV);
                 y += 30;
 
-                var lblScale = new Label { Text = "Plane Scale (m):", Location = new Point(margin, y + 3), AutoSize = true };
+                var lblScale = new Label { Text = "MAV Scale (m):", Location = new Point(margin, y + 3), AutoSize = true };
                 var numScale = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 10, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(0.1, Math.Min(10, _planeScaleMultiplier)) };
                 dialog.Controls.Add(lblScale);
                 dialog.Controls.Add(numScale);
@@ -2376,7 +2431,7 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(numADSBSize);
                 y += 30;
 
-                var lblColor = new Label { Text = "Plane Color:", Location = new Point(margin, y + 3), AutoSize = true };
+                var lblColor = new Label { Text = "MAV Color:", Location = new Point(margin, y + 3), AutoSize = true };
                 var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand };
                 Color selectedColor = _planeColor;
                 var colorToSet = _planeColor;
@@ -2433,6 +2488,10 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(chkGpsHeading);
                 y += 24;
 
+                var chkTurnRadius = new CheckBox { Text = "Turn Radius Arc (Pink)", Location = new Point(margin, y), AutoSize = true, Checked = _showTurnRadius };
+                dialog.Controls.Add(chkTurnRadius);
+                y += 24;
+
                 var chkTrail = new CheckBox { Text = "Flight Path Trail", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
                 dialog.Controls.Add(chkTrail);
                 y += 30;
@@ -2464,6 +2523,7 @@ namespace MissionPlanner.Controls
                     chkHeading.Checked = true;
                     chkNavBearing.Checked = true;
                     chkGpsHeading.Checked = true;
+                    chkTurnRadius.Checked = true;
                     chkTrail.Checked = false;
                 };
                 dialog.Controls.Add(btnReset);
@@ -2487,6 +2547,7 @@ namespace MissionPlanner.Controls
                     _showHeadingLine = chkHeading.Checked;
                     _showNavBearingLine = chkNavBearing.Checked;
                     _showGpsHeadingLine = chkGpsHeading.Checked;
+                    _showTurnRadius = chkTurnRadius.Checked;
                     _showTrail = chkTrail.Checked;
 
                     bool stlChanged = _planeSTLPath != selectedSTLPath;
@@ -2498,15 +2559,16 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_camera_dist"] = _cameraDist.ToString();
                     Settings.Instance["map3d_camera_angle"] = _cameraAngle.ToString();
                     Settings.Instance["map3d_camera_height"] = _cameraHeight.ToString();
-                    Settings.Instance["map3d_plane_scale"] = _planeScaleMultiplier.ToString();
+                    Settings.Instance["map3d_mav_scale"] = _planeScaleMultiplier.ToString();
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
                     Settings.Instance["map3d_waypoint_marker_size"] = _waypointMarkerSize.ToString();
                     Settings.Instance["map3d_adsb_size"] = _adsbCircleSize.ToString();
-                    Settings.Instance["map3d_plane_color"] = _planeColor.ToArgb().ToString();
+                    Settings.Instance["map3d_mav_color"] = _planeColor.ToArgb().ToString();
                     Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
                     Settings.Instance["map3d_show_nav_bearing"] = _showNavBearingLine.ToString();
                     Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
+                    Settings.Instance["map3d_show_turn_radius"] = _showTurnRadius.ToString();
                     Settings.Instance["map3d_show_trail"] = _showTrail.ToString();
                     Settings.Instance.Save();
 
