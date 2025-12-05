@@ -138,6 +138,7 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay top;
         public GMapPolygon wppolygon;
         private GMapMarker CurrentMidLine;
+        private List<Locationwp> _pendingWPs;
 
 
         public void Init()
@@ -297,6 +298,25 @@ namespace MissionPlanner.GCSViews
         public void Activate()
         {
             timer1.Start();
+
+            // Process any pending waypoints that were loaded before this tab was shown
+            if (_pendingWPs != null)
+            {
+                var pending = _pendingWPs;
+                _pendingWPs = null;
+                try
+                {
+                    log.Info("Processing pending WPs: " + pending.Count);
+                    processToScreen(pending);
+                    MainV2.comPort.giveComport = false;
+                    BUT_read.Enabled = true;
+                    writeKML();
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error processing pending WPs", ex);
+                }
+            }
 
             // hide altmode if old copter version
             if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
@@ -1349,6 +1369,14 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
+                if (!IsHandleCreated)
+                {
+                    // Handle not created yet, store commands for later processing when tab is shown
+                    _pendingWPs = cmds;
+                    MainV2.comPort.giveComport = false;
+                    return;
+                }
+
                 Invoke((MethodInvoker) delegate
                 {
                     try
@@ -3970,12 +3998,24 @@ namespace MissionPlanner.GCSViews
 
         private void getWPs(IProgressReporterDialogue sender)
         {
-            var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
+            MAVLink.MAV_MISSION_TYPE type;
+            if (IsHandleCreated)
             {
-                return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
-            });
+                type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
+                {
+                    return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
+                });
+            }
+            else
+            {
+                // Default to MISSION when handle isn't created (e.g., loading WPs on connect before tab is shown)
+                type = MAVLink.MAV_MISSION_TYPE.MISSION;
+            }
 
-            if (chk_usemavftp.Checked)
+            // Read from Settings when handle isn't created, otherwise from the checkbox
+            bool useMavFtp = IsHandleCreated ? chk_usemavftp.Checked : Settings.Instance.GetBoolean("UseMissionMAVFTP", false);
+
+            if (useMavFtp)
             {
                 try
                 {

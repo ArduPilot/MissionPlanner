@@ -1773,7 +1773,6 @@ namespace MissionPlanner
                         // only do it if we are connected.
                         if (comPort.BaseStream.IsOpen)
                         {
-                            MenuFlightPlanner_Click(null, null);
                             FlightPlanner.BUT_read_Click(null, null);
                         }
                     }
