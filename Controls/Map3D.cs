@@ -832,33 +832,40 @@ namespace MissionPlanner.Controls
                 _headingLine.Draw(projMatrix, viewMatrix);
             }
 
-            // Nav bearing line (orange) - draws from plane to target waypoint
+            // Nav bearing line (orange) - draws from plane to target waypoint or nav_bearing direction
             if (_showNavBearingLine)
             {
                 double navEndX, navEndY, navEndZ;
                 PointLatLngAlt targetWp = null;
 
-                // Find the target waypoint using the same logic as waypoint marker rendering
+                // Only connect to actual waypoint in Auto, Guided, or RTL modes
+                // In other modes, just draw a directional line like the 2D map does
                 var mode = MainV2.comPort?.MAV?.cs?.mode?.ToLower() ?? "";
-                if (mode == "guided" && MainV2.comPort?.MAV?.GuidedMode.x != 0)
+                bool isNavigatingMode = mode == "auto" || mode == "guided" || mode == "rtl" ||
+                                        mode == "land" || mode == "smart_rtl";
+
+                if (isNavigatingMode)
                 {
-                    // In guided mode, target is the guided waypoint (same as line ~1244)
-                    targetWp = new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
-                        { Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt };
-                }
-                else if (mode == "rtl" || mode == "land" || mode == "smart_rtl")
-                {
-                    // In RTL/Land modes, target is Home
-                    var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
-                    targetWp = pointlist?.FirstOrDefault(p => p.Tag == "H");
-                }
-                else
-                {
-                    // Normal auto mode - use current waypoint number
-                    int wpno = (int)(MainV2.comPort?.MAV?.cs?.wpno ?? 0);
-                    var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
-                    if (pointlist != null && wpno > 0 && wpno < pointlist.Count)
-                        targetWp = pointlist[wpno];
+                    if (mode == "guided" && MainV2.comPort?.MAV?.GuidedMode.x != 0)
+                    {
+                        // In guided mode, target is the guided waypoint
+                        targetWp = new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
+                            { Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt };
+                    }
+                    else if (mode == "rtl" || mode == "land" || mode == "smart_rtl")
+                    {
+                        // In RTL/Land modes, target is Home
+                        var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
+                        targetWp = pointlist?.FirstOrDefault(p => p.Tag == "H");
+                    }
+                    else if (mode == "auto")
+                    {
+                        // Auto mode - use current waypoint number
+                        int wpno = (int)(MainV2.comPort?.MAV?.cs?.wpno ?? 0);
+                        var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
+                        if (pointlist != null && wpno > 0 && wpno < pointlist.Count)
+                            targetWp = pointlist[wpno];
+                    }
                 }
 
                 if (targetWp != null && targetWp.Lat != 0 && targetWp.Lng != 0)
@@ -872,7 +879,7 @@ namespace MissionPlanner.Controls
                 }
                 else
                 {
-                    // Fallback: use nav bearing direction with fixed length (flat line)
+                    // Not in navigation mode or no target: use nav_bearing direction with fixed length (like 2D map)
                     double navBearingRad = MathHelper.Radians(navBearing);
                     navEndX = _planeDrawX + Math.Sin(navBearingRad) * lineLength;
                     navEndY = _planeDrawY + Math.Cos(navBearingRad) * lineLength;
