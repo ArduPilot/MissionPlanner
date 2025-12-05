@@ -534,20 +534,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.tableLayoutChannels, "tableLayoutChannels");
             this.tableLayoutChannels.Controls.Add(this.BARroll, 0, 0);
             this.tableLayoutChannels.Controls.Add(this.BARpitch, 1, 0);
-            this.tableLayoutChannels.Controls.Add(this.BARyaw, 2, 0);
-            this.tableLayoutChannels.Controls.Add(this.BARthrottle, 3, 0);
-            this.tableLayoutChannels.Controls.Add(this.BAR5, 0, 1);
-            this.tableLayoutChannels.Controls.Add(this.BAR6, 1, 1);
-            this.tableLayoutChannels.Controls.Add(this.BAR7, 2, 1);
-            this.tableLayoutChannels.Controls.Add(this.BAR8, 3, 1);
-            this.tableLayoutChannels.Controls.Add(this.BAR9, 0, 2);
-            this.tableLayoutChannels.Controls.Add(this.BAR10, 1, 2);
-            this.tableLayoutChannels.Controls.Add(this.BAR11, 2, 2);
-            this.tableLayoutChannels.Controls.Add(this.BAR12, 3, 2);
-            this.tableLayoutChannels.Controls.Add(this.BAR13, 0, 3);
-            this.tableLayoutChannels.Controls.Add(this.BAR14, 1, 3);
-            this.tableLayoutChannels.Controls.Add(this.BAR15, 2, 3);
-            this.tableLayoutChannels.Controls.Add(this.BAR16, 3, 3);
+            this.tableLayoutChannels.Controls.Add(this.BARyaw, 0, 1);
+            this.tableLayoutChannels.Controls.Add(this.BARthrottle, 1, 1);
+            this.tableLayoutChannels.Controls.Add(this.BAR5, 0, 2);
+            this.tableLayoutChannels.Controls.Add(this.BAR6, 1, 2);
+            this.tableLayoutChannels.Controls.Add(this.BAR7, 0, 3);
+            this.tableLayoutChannels.Controls.Add(this.BAR8, 1, 3);
+            this.tableLayoutChannels.Controls.Add(this.BAR9, 0, 4);
+            this.tableLayoutChannels.Controls.Add(this.BAR10, 1, 4);
+            this.tableLayoutChannels.Controls.Add(this.BAR11, 0, 5);
+            this.tableLayoutChannels.Controls.Add(this.BAR12, 1, 5);
+            this.tableLayoutChannels.Controls.Add(this.BAR13, 0, 6);
+            this.tableLayoutChannels.Controls.Add(this.BAR14, 1, 6);
+            this.tableLayoutChannels.Controls.Add(this.BAR15, 0, 7);
+            this.tableLayoutChannels.Controls.Add(this.BAR16, 1, 7);
             this.tableLayoutChannels.Name = "tableLayoutChannels";
             // 
             // panelControls

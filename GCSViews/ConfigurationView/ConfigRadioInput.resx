@@ -1036,7 +1036,7 @@
     <value>True</value>
   </data>
   <data name="tableLayoutChannels.ColumnCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="tableLayoutChannels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1045,10 +1045,10 @@
     <value>3, 18</value>
   </data>
   <data name="tableLayoutChannels.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="tableLayoutChannels.Size" type="System.Drawing.Size, System.Drawing">
-    <value>788, 160</value>
+    <value>788, 320</value>
   </data>
   <data name="tableLayoutChannels.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1066,7 +1066,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutChannels.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="groupBoxChannels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
