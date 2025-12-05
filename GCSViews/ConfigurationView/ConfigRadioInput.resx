@@ -121,28 +121,27 @@
   <data name="CHK_mixmode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CHK_mixmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CHK_mixmode.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CHK_mixmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 19</value>
+    <value>5, 20</value>
   </data>
   <data name="CHK_mixmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 17</value>
+    <value>49, 20</value>
   </data>
   <data name="CHK_mixmode.TabIndex" type="System.Int32, mscorlib">
-    <value>107</value>
+    <value>0</value>
   </data>
   <data name="CHK_mixmode.Text" xml:space="preserve">
-    <value>Elevons</value>
+    <value>Mix</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Name" xml:space="preserve">
     <value>CHK_mixmode</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -153,26 +152,26 @@
   <data name="CHK_elevonch2rev.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CHK_elevonch2rev.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CHK_elevonch2rev.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="CHK_elevonch2rev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 19</value>
+    <value>54, 20</value>
   </data>
   <data name="CHK_elevonch2rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 17</value>
+    <value>45, 20</value>
   </data>
   <data name="CHK_elevonch2rev.TabIndex" type="System.Int32, mscorlib">
-    <value>110</value>
+    <value>1</value>
   </data>
   <data name="CHK_elevonch2rev.Text" xml:space="preserve">
-    <value>Elevons CH2 Rev</value>
+    <value>C2</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Name" xml:space="preserve">
     <value>CHK_elevonch2rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -183,26 +182,26 @@
   <data name="CHK_elevonrev.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CHK_elevonrev.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CHK_elevonrev.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="CHK_elevonrev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 19</value>
+    <value>109, 20</value>
   </data>
   <data name="CHK_elevonrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 17</value>
+    <value>54, 20</value>
   </data>
   <data name="CHK_elevonrev.TabIndex" type="System.Int32, mscorlib">
-    <value>108</value>
+    <value>2</value>
   </data>
   <data name="CHK_elevonrev.Text" xml:space="preserve">
-    <value>Elevons Rev</value>
+    <value>Rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Name" xml:space="preserve">
     <value>CHK_elevonrev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -213,26 +212,26 @@
   <data name="CHK_elevonch1rev.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CHK_elevonch1rev.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CHK_elevonch1rev.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="CHK_elevonch1rev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 19</value>
+    <value>164, 20</value>
   </data>
   <data name="CHK_elevonch1rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 17</value>
+    <value>45, 20</value>
   </data>
   <data name="CHK_elevonch1rev.TabIndex" type="System.Int32, mscorlib">
-    <value>109</value>
+    <value>3</value>
   </data>
   <data name="CHK_elevonch1rev.Text" xml:space="preserve">
-    <value>Elevons CH1 Rev</value>
+    <value>C1</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Name" xml:space="preserve">
     <value>CHK_elevonch1rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -240,17 +239,27 @@
   <data name="&gt;&gt;CHK_elevonch1rev.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBoxElevons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="groupBoxElevons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 356</value>
+    <value>269, 5</value>
+  </data>
+  <data name="groupBoxElevons.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="groupBoxElevons.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="groupBoxElevons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 42</value>
+    <value>254, 49</value>
   </data>
   <data name="groupBoxElevons.TabIndex" type="System.Int32, mscorlib">
-    <value>125</value>
+    <value>1</value>
   </data>
   <data name="groupBoxElevons.Text" xml:space="preserve">
-    <value>Elevon Config</value>
+    <value>Elevons</value>
   </data>
   <data name="&gt;&gt;groupBoxElevons.Name" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -259,31 +268,28 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBoxElevons.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>controlsTableLayout</value>
   </data>
   <data name="&gt;&gt;groupBoxElevons.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="BUT_BindDSM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>1</value>
   </data>
   <data name="BUT_BindDSM8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>138, 15</value>
+    <value>98, 18</value>
   </data>
   <data name="BUT_BindDSM8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 23</value>
+    <value>40, 25</value>
   </data>
   <data name="BUT_BindDSM8.TabIndex" type="System.Int32, mscorlib">
-    <value>128</value>
+    <value>1</value>
   </data>
   <data name="BUT_BindDSM8.Text" xml:space="preserve">
-    <value>Bind DSM8</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM8.Name" xml:space="preserve">
     <value>BUT_BindDSM8</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM8.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -291,26 +297,23 @@
   <data name="&gt;&gt;BUT_BindDSM8.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="BUT_BindDSMX.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="BUT_BindDSMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>71, 15</value>
+    <value>52, 18</value>
   </data>
   <data name="BUT_BindDSMX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 23</value>
+    <value>40, 25</value>
   </data>
   <data name="BUT_BindDSMX.TabIndex" type="System.Int32, mscorlib">
-    <value>127</value>
+    <value>2</value>
   </data>
   <data name="BUT_BindDSMX.Text" xml:space="preserve">
-    <value>Bind DSMX</value>
+    <value>X</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSMX.Name" xml:space="preserve">
     <value>BUT_BindDSMX</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSMX.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -318,26 +321,23 @@
   <data name="&gt;&gt;BUT_BindDSMX.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="BUT_BindDSM2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="BUT_BindDSM2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
+    <value>6, 18</value>
   </data>
   <data name="BUT_BindDSM2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 23</value>
+    <value>40, 25</value>
   </data>
   <data name="BUT_BindDSM2.TabIndex" type="System.Int32, mscorlib">
-    <value>126</value>
+    <value>0</value>
   </data>
   <data name="BUT_BindDSM2.Text" xml:space="preserve">
-    <value>Bind DSM2</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM2.Name" xml:space="preserve">
     <value>BUT_BindDSM2</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM2.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -345,212 +345,251 @@
   <data name="&gt;&gt;BUT_BindDSM2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="BUT_Calibrateradio.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="BUT_Calibrateradio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="BUT_Calibrateradio.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="BUT_Calibrateradio.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="BUT_Calibrateradio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>491, 327</value>
+    <value>531, 12</value>
+  </data>
+  <data name="BUT_Calibrateradio.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 12, 3, 8</value>
   </data>
   <data name="BUT_Calibrateradio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 23</value>
+    <value>260, 39</value>
   </data>
   <data name="BUT_Calibrateradio.TabIndex" type="System.Int32, mscorlib">
-    <value>120</value>
+    <value>2</value>
   </data>
   <data name="BUT_Calibrateradio.Text" xml:space="preserve">
-    <value>Calibrate Radio</value>
+    <value>Radio Calibration</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.Name" xml:space="preserve">
     <value>BUT_Calibrateradio</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>controlsTableLayout</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>2</value>
+  </data>
+  <data name="BAR8.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 178</value>
+    <value>594, 43</value>
   </data>
   <data name="BAR8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR8.TabIndex" type="System.Int32, mscorlib">
-    <value>119</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;BAR8.Name" xml:space="preserve">
     <value>BAR8</value>
   </data>
   <data name="&gt;&gt;BAR8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR8.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR8.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>7</value>
+  </data>
+  <data name="BAR7.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 123</value>
+    <value>397, 43</value>
   </data>
   <data name="BAR7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR7.TabIndex" type="System.Int32, mscorlib">
-    <value>118</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;BAR7.Name" xml:space="preserve">
     <value>BAR7</value>
   </data>
   <data name="&gt;&gt;BAR7.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR7.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR7.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>6</value>
+  </data>
+  <data name="BAR6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 68</value>
+    <value>200, 43</value>
   </data>
   <data name="BAR6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR6.TabIndex" type="System.Int32, mscorlib">
-    <value>117</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;BAR6.Name" xml:space="preserve">
     <value>BAR6</value>
   </data>
   <data name="&gt;&gt;BAR6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR6.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR6.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>5</value>
+  </data>
+  <data name="BAR5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 13</value>
+    <value>3, 43</value>
   </data>
   <data name="BAR5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR5.TabIndex" type="System.Int32, mscorlib">
-    <value>116</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;BAR5.Name" xml:space="preserve">
     <value>BAR5</value>
   </data>
   <data name="&gt;&gt;BAR5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR5.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>4</value>
+  </data>
+  <data name="BARpitch.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BARpitch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 64</value>
+    <value>200, 3</value>
   </data>
   <data name="BARpitch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 211</value>
+    <value>191, 34</value>
   </data>
   <data name="BARpitch.TabIndex" type="System.Int32, mscorlib">
-    <value>115</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;BARpitch.Name" xml:space="preserve">
     <value>BARpitch</value>
   </data>
   <data name="&gt;&gt;BARpitch.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.VerticalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARpitch.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BARpitch.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>1</value>
+  </data>
+  <data name="BARthrottle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BARthrottle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>251, 64</value>
+    <value>594, 3</value>
   </data>
   <data name="BARthrottle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 211</value>
+    <value>191, 34</value>
   </data>
   <data name="BARthrottle.TabIndex" type="System.Int32, mscorlib">
-    <value>114</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;BARthrottle.Name" xml:space="preserve">
     <value>BARthrottle</value>
   </data>
   <data name="&gt;&gt;BARthrottle.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.VerticalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARthrottle.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BARthrottle.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>3</value>
+  </data>
+  <data name="BARyaw.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BARyaw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 307</value>
+    <value>397, 3</value>
   </data>
   <data name="BARyaw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>288, 23</value>
+    <value>191, 34</value>
   </data>
   <data name="BARyaw.TabIndex" type="System.Int32, mscorlib">
-    <value>113</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;BARyaw.Name" xml:space="preserve">
     <value>BARyaw</value>
   </data>
   <data name="&gt;&gt;BARyaw.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARyaw.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BARyaw.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>2</value>
+  </data>
+  <data name="BARroll.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BARroll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 13</value>
+    <value>3, 3</value>
   </data>
   <data name="BARroll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>288, 23</value>
+    <value>191, 34</value>
   </data>
   <data name="BARroll.TabIndex" type="System.Int32, mscorlib">
-    <value>112</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;BARroll.Name" xml:space="preserve">
     <value>BARroll</value>
   </data>
   <data name="&gt;&gt;BARroll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARroll.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BARroll.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>418, 356</value>
+    <value>5, 5</value>
+  </data>
+  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 42</value>
+    <value>254, 49</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>129</value>
+    <value>0</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Spektrum Bind</value>
+    <value>DSM Bind</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
@@ -559,319 +598,655 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>controlsTableLayout</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>0</value>
+  </data>
+  <data name="BAR9.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 234</value>
+    <value>3, 83</value>
   </data>
   <data name="BAR9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR9.TabIndex" type="System.Int32, mscorlib">
-    <value>130</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;BAR9.Name" xml:space="preserve">
     <value>BAR9</value>
   </data>
   <data name="&gt;&gt;BAR9.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR9.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR9.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
+  </data>
+  <data name="BAR16.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 290</value>
+    <value>594, 123</value>
   </data>
   <data name="BAR16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR16.TabIndex" type="System.Int32, mscorlib">
-    <value>137</value>
+    <value>15</value>
   </data>
   <data name="&gt;&gt;BAR16.Name" xml:space="preserve">
     <value>BAR16</value>
   </data>
   <data name="&gt;&gt;BAR16.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR16.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR16.ZOrder" xml:space="preserve">
-    <value>10001</value>
+    <value>15</value>
+  </data>
+  <data name="BAR15.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 290</value>
+    <value>397, 123</value>
   </data>
   <data name="BAR15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR15.TabIndex" type="System.Int32, mscorlib">
-    <value>136</value>
+    <value>14</value>
   </data>
   <data name="&gt;&gt;BAR15.Name" xml:space="preserve">
     <value>BAR15</value>
   </data>
   <data name="&gt;&gt;BAR15.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR15.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR15.ZOrder" xml:space="preserve">
-    <value>10000</value>
+    <value>14</value>
+  </data>
+  <data name="BAR14.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 234</value>
+    <value>200, 123</value>
   </data>
   <data name="BAR14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR14.TabIndex" type="System.Int32, mscorlib">
-    <value>135</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;BAR14.Name" xml:space="preserve">
     <value>BAR14</value>
   </data>
   <data name="&gt;&gt;BAR14.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR14.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR14.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>13</value>
+  </data>
+  <data name="BAR13.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 178</value>
+    <value>3, 123</value>
   </data>
   <data name="BAR13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR13.TabIndex" type="System.Int32, mscorlib">
-    <value>134</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;BAR13.Name" xml:space="preserve">
     <value>BAR13</value>
   </data>
   <data name="&gt;&gt;BAR13.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR13.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR13.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>12</value>
+  </data>
+  <data name="BAR12.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 123</value>
+    <value>594, 83</value>
   </data>
   <data name="BAR12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR12.TabIndex" type="System.Int32, mscorlib">
-    <value>133</value>
+    <value>11</value>
   </data>
   <data name="&gt;&gt;BAR12.Name" xml:space="preserve">
     <value>BAR12</value>
   </data>
   <data name="&gt;&gt;BAR12.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR12.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR12.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>11</value>
+  </data>
+  <data name="BAR11.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 68</value>
+    <value>397, 83</value>
   </data>
   <data name="BAR11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR11.TabIndex" type="System.Int32, mscorlib">
-    <value>132</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;BAR11.Name" xml:space="preserve">
     <value>BAR11</value>
   </data>
   <data name="&gt;&gt;BAR11.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR11.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR11.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>10</value>
+  </data>
+  <data name="BAR10.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="BAR10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 13</value>
+    <value>200, 83</value>
   </data>
   <data name="BAR10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 25</value>
+    <value>191, 34</value>
   </data>
   <data name="BAR10.TabIndex" type="System.Int32, mscorlib">
-    <value>131</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;BAR10.Name" xml:space="preserve">
     <value>BAR10</value>
   </data>
   <data name="&gt;&gt;BAR10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR10.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutChannels</value>
   </data>
   <data name="&gt;&gt;BAR10.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="CHK_revch3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_revch3.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_revch3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_revch3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>304, 161</value>
-  </data>
-  <data name="CHK_revch3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
-  </data>
-  <data name="CHK_revch3.TabIndex" type="System.Int32, mscorlib">
-    <value>124</value>
-  </data>
-  <data name="CHK_revch3.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch3.Name" xml:space="preserve">
-    <value>CHK_revch3</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch3.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="CHK_revch4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_revch4.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_revch4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_revch4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 313</value>
-  </data>
-  <data name="CHK_revch4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
-  </data>
-  <data name="CHK_revch4.TabIndex" type="System.Int32, mscorlib">
-    <value>123</value>
-  </data>
-  <data name="CHK_revch4.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch4.Name" xml:space="preserve">
-    <value>CHK_revch4</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch4.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch4.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="CHK_revch2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_revch2.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_revthr.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="CHK_revch2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CHK_revthr.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="CHK_revch2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>65, 161</value>
+  <data name="CHK_revthr.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="CHK_revch2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
+  <data name="CHK_revthr.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="CHK_revch2.TabIndex" type="System.Int32, mscorlib">
-    <value>122</value>
-  </data>
-  <data name="CHK_revch2.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch2.Name" xml:space="preserve">
-    <value>CHK_revch2</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch2.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="CHK_revch1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_revch1.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_revthr.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="CHK_revch1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;CHK_revthr.Name" xml:space="preserve">
+    <value>CHK_revthr</value>
   </data>
-  <data name="CHK_revch1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 19</value>
+  <data name="&gt;&gt;CHK_revthr.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="CHK_revch1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
-  </data>
-  <data name="CHK_revch1.TabIndex" type="System.Int32, mscorlib">
-    <value>121</value>
-  </data>
-  <data name="CHK_revch1.Text" xml:space="preserve">
-    <value>Reverse</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch1.Name" xml:space="preserve">
-    <value>CHK_revch1</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_revch1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_revthr.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CHK_revch1.ZOrder" xml:space="preserve">
-    <value>11</value>
+  <data name="&gt;&gt;CHK_revthr.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CHK_revyaw.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_revyaw.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CHK_revyaw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CHK_revyaw.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CHK_revyaw.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CHK_revyaw.Name" xml:space="preserve">
+    <value>CHK_revyaw</value>
+  </data>
+  <data name="&gt;&gt;CHK_revyaw.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_revyaw.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CHK_revyaw.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CHK_revpitch.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_revpitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CHK_revpitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CHK_revpitch.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CHK_revpitch.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CHK_revpitch.Name" xml:space="preserve">
+    <value>CHK_revpitch</value>
+  </data>
+  <data name="&gt;&gt;CHK_revpitch.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_revpitch.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CHK_revpitch.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_revroll.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_revroll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CHK_revroll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CHK_revroll.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CHK_revroll.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CHK_revroll.Name" xml:space="preserve">
+    <value>CHK_revroll</value>
+  </data>
+  <data name="&gt;&gt;CHK_revroll.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_revroll.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CHK_revroll.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="stickLeft.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="stickLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 3</value>
+  </data>
+  <data name="stickLeft.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickLeft.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickLeft.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Name" xml:space="preserve">
+    <value>stickLeft</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Parent" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="stickRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="stickRight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>455, 3</value>
+  </data>
+  <data name="stickRight.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickRight.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickRight.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Name" xml:space="preserve">
+    <value>stickRight</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.19767, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Parent" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;stickRight.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutMain.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutMain.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="sticksTableLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="sticksTableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="sticksTableLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="sticksTableLayout.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="sticksTableLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 284</value>
+  </data>
+  <data name="sticksTableLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.Name" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.Parent" xml:space="preserve">
+    <value>panelSticks</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="sticksTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="stickLeft" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="stickRight" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="panelSticks.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelSticks.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="panelSticks.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 284</value>
+  </data>
+  <data name="panelSticks.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelSticks.Name" xml:space="preserve">
+    <value>panelSticks</value>
+  </data>
+  <data name="&gt;&gt;panelSticks.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelSticks.Parent" xml:space="preserve">
+    <value>tableLayoutMain</value>
+  </data>
+  <data name="&gt;&gt;panelSticks.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBoxChannels.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutChannels.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutChannels.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutChannels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutChannels.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 18</value>
+  </data>
+  <data name="tableLayoutChannels.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutChannels.Size" type="System.Drawing.Size, System.Drawing">
+    <value>788, 160</value>
+  </data>
+  <data name="tableLayoutChannels.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutChannels.Name" xml:space="preserve">
+    <value>tableLayoutChannels</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutChannels.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutChannels.Parent" xml:space="preserve">
+    <value>groupBoxChannels</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutChannels.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutChannels.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="groupBoxChannels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBoxChannels.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 293</value>
+  </data>
+  <data name="groupBoxChannels.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 181</value>
+  </data>
+  <data name="groupBoxChannels.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBoxChannels.Text" xml:space="preserve">
+    <value>Radio Channels</value>
+  </data>
+  <data name="&gt;&gt;groupBoxChannels.Name" xml:space="preserve">
+    <value>groupBoxChannels</value>
+  </data>
+  <data name="&gt;&gt;groupBoxChannels.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxChannels.Parent" xml:space="preserve">
+    <value>tableLayoutMain</value>
+  </data>
+  <data name="&gt;&gt;groupBoxChannels.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="controlsTableLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="controlsTableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="controlsTableLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="controlsTableLayout.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="controlsTableLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 59</value>
+  </data>
+  <data name="controlsTableLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.Name" xml:space="preserve">
+    <value>controlsTableLayout</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.Parent" xml:space="preserve">
+    <value>panelControls</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="controlsTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxElevons" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Calibrateradio" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,33.33,Percent,33.33,Percent,33.34" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="panelControls.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelControls.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 480</value>
+  </data>
+  <data name="panelControls.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 59</value>
+  </data>
+  <data name="panelControls.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panelControls.Name" xml:space="preserve">
+    <value>panelControls</value>
+  </data>
+  <data name="&gt;&gt;panelControls.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelControls.Parent" xml:space="preserve">
+    <value>tableLayoutMain</value>
+  </data>
+  <data name="&gt;&gt;panelControls.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="tableLayoutMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutMain.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 542</value>
+  </data>
+  <data name="tableLayoutMain.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.Name" xml:space="preserve">
+    <value>tableLayoutMain</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.Parent" xml:space="preserve">
+    <value>contentPanel</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutMain.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="panelSticks" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxChannels" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="panelControls" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,290,AutoSize,0,Absolute,65" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="scrollPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="contentPanel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="contentPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="contentPanel.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>800, 0</value>
+  </data>
+  <data name="contentPanel.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>800, 0</value>
+  </data>
+  <data name="contentPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 542</value>
+  </data>
+  <data name="contentPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;contentPanel.Name" xml:space="preserve">
+    <value>contentPanel</value>
+  </data>
+  <data name="&gt;&gt;contentPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contentPanel.Parent" xml:space="preserve">
+    <value>scrollPanel</value>
+  </data>
+  <data name="&gt;&gt;contentPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scrollPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="scrollPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="scrollPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 560</value>
+  </data>
+  <data name="scrollPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;scrollPanel.Name" xml:space="preserve">
+    <value>scrollPanel</value>
+  </data>
+  <data name="&gt;&gt;scrollPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scrollPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;scrollPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>628, 406</value>
+    <value>800, 560</value>
   </data>
   <data name="&gt;&gt;currentStateBindingSource.Name" xml:space="preserve">
     <value>currentStateBindingSource</value>
@@ -883,6 +1258,6 @@
     <value>ConfigRadioInput</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

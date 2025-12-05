@@ -112,6 +112,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BARthrottle.Label = BARthrottle.Label + " (rc" + chthro.ToString() + ")";
             BARyaw.Label = BARyaw.Label + " (rc" + chyaw.ToString() + ")";
 
+            // Update stick control labels
+            stickLeft.HorizontalLabel = "Yaw (rc" + chyaw.ToString() + ")";
+            stickLeft.VerticalLabel = "Throttle (rc" + chthro.ToString() + ")";
+            stickRight.HorizontalLabel = "Roll (rc" + chroll.ToString() + ")";
+            stickRight.VerticalLabel = "Pitch (rc" + chpitch.ToString() + ")";
+
             try
             {
                 // force this screen to work
@@ -187,10 +193,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
+
+                // Update stick controls with current values
+                if (chyaw > 0 && chthro > 0 && chroll > 0 && chpitch > 0)
+                {
+                    stickLeft.HorizontalValue = GetChannelValue(chyaw);
+                    stickLeft.VerticalValue = GetChannelValue(chthro);
+                    stickRight.HorizontalValue = GetChannelValue(chroll);
+                    stickRight.VerticalValue = GetChannelValue(chpitch);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private int GetChannelValue(int channel)
+        {
+            switch (channel)
+            {
+                case 1: return (int)MainV2.comPort.MAV.cs.ch1in;
+                case 2: return (int)MainV2.comPort.MAV.cs.ch2in;
+                case 3: return (int)MainV2.comPort.MAV.cs.ch3in;
+                case 4: return (int)MainV2.comPort.MAV.cs.ch4in;
+                case 5: return (int)MainV2.comPort.MAV.cs.ch5in;
+                case 6: return (int)MainV2.comPort.MAV.cs.ch6in;
+                case 7: return (int)MainV2.comPort.MAV.cs.ch7in;
+                case 8: return (int)MainV2.comPort.MAV.cs.ch8in;
+                default: return 1500;
             }
         }
 
@@ -203,8 +234,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
+            // Combined dialog - merge the two calibration setup messages
             CustomMessageBox.Show(
-                "Ensure your transmitter is on and receiver is powered and connected\nEnsure your motor does not have power/no props!!!");
+                "Radio Calibration Setup:\n\n" +
+                "1. Ensure your transmitter is on and receiver is powered and connected\n" +
+                "2. Ensure your motor does not have power/no props!!!\n\n" +
+                "After clicking OK, move all RC sticks and switches to their\nextreme positions so the red bars hit the limits.\n\n" +
+                "Click 'Click when Done' button when finished moving sticks.");
 
             var oldrc = MainV2.comPort.MAV.cs.raterc;
             var oldatt = MainV2.comPort.MAV.cs.rateattitude;
@@ -225,9 +261,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             BUT_Calibrateradio.Text = Strings.Click_when_Done;
-
-            CustomMessageBox.Show(
-                "Click OK and move all RC sticks and switches to their\nextreme positions so the red bars hit the limits.");
 
             run = true;
 
@@ -316,6 +349,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     setBARStatus(BAR14, rcmin[13], rcmax[13]);
                     setBARStatus(BAR15, rcmin[14], rcmax[14]);
                     setBARStatus(BAR16, rcmin[15], rcmax[15]);
+
+                    // Update stick controls with min/max calibration lines
+                    stickLeft.HorizontalMinLine = (int)rcmin[chyaw - 1];
+                    stickLeft.HorizontalMaxLine = (int)rcmax[chyaw - 1];
+                    stickLeft.VerticalMinLine = (int)rcmin[chthro - 1];
+                    stickLeft.VerticalMaxLine = (int)rcmax[chthro - 1];
+
+                    stickRight.HorizontalMinLine = (int)rcmin[chroll - 1];
+                    stickRight.HorizontalMaxLine = (int)rcmax[chroll - 1];
+                    stickRight.VerticalMinLine = (int)rcmin[chpitch - 1];
+                    stickRight.VerticalMaxLine = (int)rcmax[chpitch - 1];
+
+                    // Update stick positions during calibration
+                    stickLeft.HorizontalValue = GetChannelValue(chyaw);
+                    stickLeft.VerticalValue = GetChannelValue(chthro);
+                    stickRight.HorizontalValue = GetChannelValue(chroll);
+                    stickRight.VerticalValue = GetChannelValue(chpitch);
                 }
             }
 
