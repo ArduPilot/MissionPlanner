@@ -151,7 +151,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_compare.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="BUT_rerequestparams.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -217,7 +217,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_writePIDS.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>8</value>
   </data>
   <data name="BUT_save.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -319,7 +319,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_reset_params.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
@@ -412,7 +412,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;chk_modified.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="BUT_refreshTable.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -457,7 +457,7 @@
     <value>86</value>
   </data>
   <data name="chk_none_default.Text" xml:space="preserve">
-    <value>None Default</value>
+    <value>Not Default</value>
   </data>
   <data name="chk_none_default.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -472,7 +472,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;chk_none_default.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -697,7 +697,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;txt_search.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>

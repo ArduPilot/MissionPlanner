@@ -294,12 +294,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.Controls.Add(this.BUT_load);
             this.tableLayoutPanel1.Controls.Add(this.BUT_save);
             this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
             this.tableLayoutPanel1.Controls.Add(this.BUT_compare);
             this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params);
             this.tableLayoutPanel1.Controls.Add(this.txt_search);
             this.tableLayoutPanel1.Controls.Add(this.chk_modified);
             this.tableLayoutPanel1.Controls.Add(this.chk_none_default);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // txt_search
