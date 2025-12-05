@@ -103,10 +103,15 @@ namespace MissionPlanner.Controls
         private bool _showGpsHeadingLine = true;
         private bool _showTrail = true;
         private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
+        private double _adsbCircleSize = 500; // Diameter of ADSB aircraft circles in meters
         // Trail (flight path history) - stored as absolute UTM coordinates (X, Y, Z)
         private List<double[]> _trailPoints = new List<double[]>();
         private int _trailUtmZone = -999;
         private Lines _trailLine = null;
+        // ADSB aircraft hit testing - stores screen positions and data for tooltip
+        private List<ADSBScreenPosition> _adsbScreenPositions = new List<ADSBScreenPosition>();
+        private ToolTip _adsbToolTip;
+        private adsb.PointLatLngAltHdg _lastHoveredADSB = null;
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -196,6 +201,7 @@ namespace MissionPlanner.Controls
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
             _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
+            _adsbCircleSize = Settings.Instance.GetDouble("map3d_adsb_size", 500);
 
             InitializeComponent();
             Click += OnClick;
@@ -204,6 +210,13 @@ namespace MissionPlanner.Controls
             MouseUp += OnMouseUp;
             MouseWheel += OnMouseWheel;
             MouseDoubleClick += OnMouseDoubleClick;
+
+            // Initialize ADSB tooltip
+            _adsbToolTip = new ToolTip();
+            _adsbToolTip.AutoPopDelay = 10000;
+            _adsbToolTip.InitialDelay = 0;
+            _adsbToolTip.ReshowDelay = 0;
+            _adsbToolTip.ShowAlways = true;
             core.OnMapOpen();
             type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             prj = type.Projection;
@@ -260,6 +273,92 @@ namespace MissionPlanner.Controls
             {
                 mousePosition = getMousePos(mousex, mousey);
             } catch { }
+
+            // Check for ADSB aircraft hover
+            CheckADSBHover(e.X, e.Y);
+        }
+
+        /// <summary>
+        /// Checks if the mouse is hovering over an ADSB aircraft circle and shows tooltip.
+        /// </summary>
+        private void CheckADSBHover(int mouseX, int mouseY)
+        {
+            adsb.PointLatLngAltHdg hoveredPlane = null;
+            double hoveredDistance = 0;
+
+            foreach (var pos in _adsbScreenPositions)
+            {
+                float dx = mouseX - pos.ScreenX;
+                float dy = mouseY - pos.ScreenY;
+                float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                if (dist <= pos.Radius)
+                {
+                    hoveredPlane = pos.PlaneData;
+                    hoveredDistance = pos.DistanceToOwn;
+                    break;
+                }
+            }
+
+            if (hoveredPlane != null)
+            {
+                if (!object.ReferenceEquals(_lastHoveredADSB, hoveredPlane))
+                {
+                    _lastHoveredADSB = hoveredPlane;
+
+                    // Build tooltip text similar to 2D map
+                    var sb = new System.Text.StringBuilder();
+                    sb.AppendLine("ICAO: " + hoveredPlane.Tag);
+                    sb.AppendLine("Callsign: " + hoveredPlane.CallSign);
+
+                    // Type/Category
+                    string typeCategory = "";
+                    try
+                    {
+                        var raw = hoveredPlane.Raw as Newtonsoft.Json.Linq.JObject;
+                        if (raw != null && raw.ContainsKey("t"))
+                        {
+                            typeCategory = raw["t"].ToString() + " ";
+                        }
+                    }
+                    catch { }
+                    typeCategory += hoveredPlane.GetCategoryFriendlyString();
+                    sb.AppendLine("Type\\Category: " + typeCategory);
+
+                    sb.AppendLine("Squawk: " + hoveredPlane.Squawk.ToString());
+                    sb.AppendLine("Altitude: " + (hoveredPlane.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit);
+                    sb.AppendLine("Speed: " + (hoveredPlane.Speed / 100.0 * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit);
+                    sb.AppendLine("Heading: " + hoveredPlane.Heading.ToString("0") + "°");
+
+                    // Distance
+                    string distanceStr;
+                    if (hoveredDistance > 1000)
+                        distanceStr = (hoveredDistance / 1000).ToString("0.#") + " km";
+                    else
+                        distanceStr = (hoveredDistance * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
+                    sb.AppendLine("Distance: " + distanceStr);
+
+                    // Altitude delta
+                    double ownAlt = MainV2.comPort?.MAV?.cs?.alt ?? 0;
+                    double altDelta = (hoveredPlane.Alt - ownAlt) * CurrentState.multiplieralt;
+                    string altDeltaStr = (altDelta >= 0 ? "+" : "") + altDelta.ToString("0");
+                    sb.AppendLine("Alt Delta: " + altDeltaStr + " " + CurrentState.AltUnit);
+
+                    // Collision threat level
+                    if (hoveredPlane.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                        sb.AppendLine("Collision risk: " + (hoveredPlane.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger"));
+
+                    _adsbToolTip.Show(sb.ToString().TrimEnd(), this, mouseX + 15, mouseY + 15);
+                }
+            }
+            else
+            {
+                if (_lastHoveredADSB != null)
+                {
+                    _lastHoveredADSB = null;
+                    _adsbToolTip.Hide(this);
+                }
+            }
         }
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e)
@@ -868,6 +967,252 @@ namespace MissionPlanner.Controls
             _trailPoints.Clear();
         }
 
+        /// <summary>
+        /// Draws ADSB aircraft as circles on the 3D map.
+        /// ADSB altitude is MSL (barometric), so no terrain adjustment needed.
+        /// Circle diameter is fixed at 250m (25m for grounded aircraft).
+        /// Color based on distance from own aircraft:
+        /// Red if within 5km, Yellow if within 20km, Green if > 50km, interpolated between.
+        /// Grounded aircraft are drawn as light gray circles.
+        /// Circles are billboarded to always face the camera.
+        /// Drawn in reverse order of distance (farthest first) for proper depth ordering.
+        /// </summary>
+        private void DrawADSB(Matrix4 projMatrix, Matrix4 viewMatrix)
+        {
+            // Circle parameters
+            const int segments = 24;
+            double circleRadius = _adsbCircleSize / 2.0; // Radius is half of diameter
+            double groundedCircleRadius = circleRadius / 10.0; // 1/10th size for grounded
+
+            // Distance thresholds in meters
+            const double redDistance = 5000;    // 5km - red
+            const double yellowDistance = 10000; // 20km - yellow
+            const double greenDistance = 20000;  // 50km - green
+
+            // Get own aircraft position for distance calculation
+            var ownPosition = MainV2.comPort?.MAV?.cs?.Location ?? PointLatLngAlt.Zero;
+            double ownAlt = MainV2.comPort?.MAV?.cs?.alt ?? 0;
+
+            // Clear previous screen positions for hit testing
+            _adsbScreenPositions.Clear();
+
+            // Collect planes with their distances for sorting
+            var planeList = new List<Tuple<adsb.PointLatLngAltHdg, double>>();
+
+            lock (MainV2.instance.adsblock)
+            {
+                foreach (var kvp in MainV2.instance.adsbPlanes)
+                {
+                    var plane = kvp.Value;
+                    if (plane == null)
+                        continue;
+
+                    // Skip old entries (older than 30 seconds)
+                    if (plane.Time < DateTime.Now.AddSeconds(-30))
+                        continue;
+
+                    // Skip if position is invalid
+                    if (plane.Lat == 0 && plane.Lng == 0)
+                        continue;
+
+                    var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
+                    double distanceToOwn = ownPosition.GetDistance(plla);
+
+                    // Skip aircraft more than 50km away
+                    if (distanceToOwn > 50000)
+                        continue;
+
+                    planeList.Add(Tuple.Create(plane, distanceToOwn));
+                }
+            }
+
+            // Sort by distance descending (farthest first) so closer planes render on top
+            planeList.Sort((a, b) => b.Item2.CompareTo(a.Item2));
+
+            // Collect all circle vertices
+            var circleVertices = new List<float>();
+
+            foreach (var item in planeList)
+            {
+                var plane = item.Item1;
+                double distanceToOwn = item.Item2;
+
+                // Convert to UTM coordinates
+                // ADSB altitude is MSL (barometric), use directly without terrain adjustment
+                var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
+                var co = convertCoords(plla);
+
+                // Determine if grounded and set radius accordingly
+                bool isGrounded = plane.IsOnGround;
+                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+
+                // Determine color based on distance (grounded = light gray)
+                float r, g, b, a = 1.0f;
+                if (isGrounded)
+                {
+                    // Light gray for grounded aircraft
+                    r = 0.7f; g = 0.7f; b = 0.7f;
+                }
+                else if (distanceToOwn <= redDistance)
+                {
+                    // Red
+                    r = 1.0f; g = 0.0f; b = 0.0f;
+                }
+                else if (distanceToOwn <= yellowDistance)
+                {
+                    // Interpolate red to yellow
+                    float t = (float)((distanceToOwn - redDistance) / (yellowDistance - redDistance));
+                    r = 1.0f;
+                    g = t; // 0 -> 1
+                    b = 0.0f;
+                }
+                else if (distanceToOwn <= greenDistance)
+                {
+                    // Interpolate yellow to green
+                    float t = (float)((distanceToOwn - yellowDistance) / (greenDistance - yellowDistance));
+                    r = 1.0f - t; // 1 -> 0
+                    g = 1.0f;
+                    b = 0.0f;
+                }
+                else
+                {
+                    // Green
+                    r = 0.0f; g = 1.0f; b = 0.0f;
+                }
+
+                // Calculate distance from camera for billboard orientation
+                double dx = co[0] - cameraX;
+                double dy = co[1] - cameraY;
+                double dz = co[2] - cameraZ;
+                double distanceToCamera = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+                // Skip if too close to camera
+                if (distanceToCamera < 1.0)
+                    continue;
+
+                // Calculate screen position for hit testing
+                var worldPos = new Vector4((float)co[0], (float)co[1], (float)co[2], 1.0f);
+                var clipPos = Vector4.Transform(worldPos, viewMatrix * projMatrix);
+                if (clipPos.W > 0) // Only if in front of camera
+                {
+                    float ndcX = clipPos.X / clipPos.W;
+                    float ndcY = clipPos.Y / clipPos.W;
+                    float screenX = (ndcX + 1.0f) * 0.5f * Width;
+                    float screenY = (1.0f - ndcY) * 0.5f * Height;
+
+                    // Calculate screen radius based on world radius and distance
+                    double fovRad = _cameraFOV * MathHelper.deg2rad;
+                    float screenRadius = (float)((radius / distanceToCamera) * (Height / 2.0) / Math.Tan(fovRad / 2.0));
+
+                    _adsbScreenPositions.Add(new ADSBScreenPosition
+                    {
+                        ScreenX = screenX,
+                        ScreenY = screenY,
+                        Radius = Math.Max(screenRadius, 20), // Minimum 20px hit radius
+                        PlaneData = plane,
+                        DistanceToOwn = distanceToOwn
+                    });
+                }
+
+                // Calculate billboard orientation (circle faces camera)
+                double viewDirX = dx / distanceToCamera;
+                double viewDirY = dy / distanceToCamera;
+                double viewDirZ = dz / distanceToCamera;
+
+                // Right vector (cross product of view dir with world up [0,0,1])
+                double rightX = viewDirY;
+                double rightY = -viewDirX;
+                double rightZ = 0;
+                double rightLen = Math.Sqrt(rightX * rightX + rightY * rightY);
+                if (rightLen > 0.001)
+                {
+                    rightX /= rightLen;
+                    rightY /= rightLen;
+                }
+                else
+                {
+                    // Looking straight up/down, use arbitrary right
+                    rightX = 1;
+                    rightY = 0;
+                }
+
+                // Up vector (cross product of right with view dir)
+                double upX = rightY * viewDirZ - rightZ * viewDirY;
+                double upY = rightZ * viewDirX - rightX * viewDirZ;
+                double upZ = rightX * viewDirY - rightY * viewDirX;
+
+                // Draw a circle at the aircraft position (billboarded)
+                for (int i = 0; i < segments; i++)
+                {
+                    double angle1 = (2 * Math.PI * i) / segments;
+                    double angle2 = (2 * Math.PI * (i + 1)) / segments;
+
+                    double cos1 = Math.Cos(angle1);
+                    double sin1 = Math.Sin(angle1);
+                    double cos2 = Math.Cos(angle2);
+                    double sin2 = Math.Sin(angle2);
+
+                    // Point 1: center + radius * (cos * right + sin * up)
+                    double x1 = co[0] + radius * (cos1 * rightX + sin1 * upX);
+                    double y1 = co[1] + radius * (cos1 * rightY + sin1 * upY);
+                    double z1 = co[2] + radius * (cos1 * rightZ + sin1 * upZ);
+
+                    // Point 2
+                    double x2 = co[0] + radius * (cos2 * rightX + sin2 * upX);
+                    double y2 = co[1] + radius * (cos2 * rightY + sin2 * upY);
+                    double z2 = co[2] + radius * (cos2 * rightZ + sin2 * upZ);
+
+                    // Add as separate line segment (x, y, z, r, g, b, a for each vertex)
+                    circleVertices.AddRange(new float[] { (float)x1, (float)y1, (float)z1, r, g, b, a });
+                    circleVertices.AddRange(new float[] { (float)x2, (float)y2, (float)z2, r, g, b, a });
+                }
+            }
+
+            if (circleVertices.Count > 0)
+            {
+                DrawADSBCircles(projMatrix, viewMatrix, circleVertices.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Draws ADSB circles using GL.Lines primitive (not LineStrip) so circles are not connected.
+        /// </summary>
+        private void DrawADSBCircles(Matrix4 projMatrix, Matrix4 viewMatrix, float[] vertices)
+        {
+            if (Lines.Program == 0)
+                return;
+
+            GL.UseProgram(Lines.Program);
+
+            GL.EnableVertexAttribArray(Lines.positionSlot);
+            GL.EnableVertexAttribArray(Lines.colorSlot);
+
+            GL.UniformMatrix4(Lines.modelViewSlot, 1, false, ref viewMatrix.Row0.X);
+            GL.UniformMatrix4(Lines.projectionSlot, 1, false, ref projMatrix.Row0.X);
+
+            GL.LineWidth(3f);
+
+            // Create and bind vertex buffer
+            int vbo;
+            GL.GenBuffers(1, out vbo);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
+
+            // Stride: 7 floats per vertex (x, y, z, r, g, b, a)
+            int stride = 7 * sizeof(float);
+            GL.VertexAttribPointer(Lines.positionSlot, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Zero);
+            GL.VertexAttribPointer(Lines.colorSlot, 4, VertexAttribPointerType.Float, false, stride, (IntPtr)(3 * sizeof(float)));
+
+            // Draw as GL.Lines (pairs of vertices form separate lines)
+            GL.DrawArrays(PrimitiveType.Lines, 0, vertices.Length / 7);
+
+            GL.DisableVertexAttribArray(Lines.positionSlot);
+            GL.DisableVertexAttribArray(Lines.colorSlot);
+
+            // Clean up
+            GL.DeleteBuffers(1, ref vbo);
+        }
+
         static int CreateTexture(BitmapData data)
         {
             int texture = 0;
@@ -1157,6 +1502,9 @@ namespace MissionPlanner.Controls
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
+
+                // Draw ADSB aircraft circles (before tiles so they appear behind terrain)
+                DrawADSB(projMatrix, modelMatrix);
 
                 // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
@@ -2015,6 +2363,12 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(numMarkerSize);
                 y += 30;
 
+                var lblADSBSize = new Label { Text = "ADSB Size:", Location = new Point(margin, y + 3), AutoSize = true };
+                var numADSBSize = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 50, Maximum = 2000, DecimalPlaces = 0, Increment = 50, Value = (decimal)Math.Max(50, Math.Min(2000, _adsbCircleSize)) };
+                dialog.Controls.Add(lblADSBSize);
+                dialog.Controls.Add(numADSBSize);
+                y += 30;
+
                 var lblColor = new Label { Text = "Plane Color:", Location = new Point(margin, y + 3), AutoSize = true };
                 var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand };
                 Color selectedColor = _planeColor;
@@ -2095,6 +2449,7 @@ namespace MissionPlanner.Controls
                     numFOV.Value = 60;
                     numScale.Value = 1;
                     numMarkerSize.Value = 60;
+                    numADSBSize.Value = 500;
                     selectedColor = Color.Red;
                     pnlColor.BackColor = Color.Red;
                     selectedSTLPath = "";
@@ -2120,6 +2475,7 @@ namespace MissionPlanner.Controls
                     _planeScaleMultiplier = (float)numScale.Value;
                     _cameraFOV = (float)numFOV.Value;
                     _waypointMarkerSize = (double)numMarkerSize.Value;
+                    _adsbCircleSize = (double)numADSBSize.Value;
                     _planeColor = selectedColor;
                     _showHeadingLine = chkHeading.Checked;
                     _showNavBearingLine = chkNavBearing.Checked;
@@ -2138,6 +2494,7 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_plane_scale"] = _planeScaleMultiplier.ToString();
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
                     Settings.Instance["map3d_waypoint_marker_size"] = _waypointMarkerSize.ToString();
+                    Settings.Instance["map3d_adsb_size"] = _adsbCircleSize.ToString();
                     Settings.Instance["map3d_plane_color"] = _planeColor.ToArgb().ToString();
                     Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
@@ -2786,6 +3143,18 @@ void main(void) {
             }
 
             public static readonly int Stride = System.Runtime.InteropServices.Marshal.SizeOf(new Vertex());
+        }
+
+        /// <summary>
+        /// Stores ADSB aircraft screen position for hit testing
+        /// </summary>
+        private struct ADSBScreenPosition
+        {
+            public float ScreenX;
+            public float ScreenY;
+            public float Radius; // Screen radius for hit testing
+            public adsb.PointLatLngAltHdg PlaneData;
+            public double DistanceToOwn; // Distance in meters to own aircraft
         }
     }
 }
