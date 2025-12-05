@@ -1488,6 +1488,7 @@ namespace MissionPlanner.Controls
         private bool fogon = false;
         private Lines _flightPlanLines;
         private int _flightPlanLinesCount = -1;
+        private int _flightPlanLinesHash = 0;
         private DateTime _centerTime;
         private List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
@@ -1687,8 +1688,9 @@ namespace MissionPlanner.Controls
                     var pointlistCount = FlightPlanner.instance.pointlist.Count;
                     if (pointlistCount > 1)
                     {
+                        var currentHash = ComputeWaypointHash(FlightPlanner.instance.pointlist);
                         // Only rebuild lines if pointlist changed
-                        if (_flightPlanLines == null || _flightPlanLinesCount != pointlistCount)
+                        if (_flightPlanLines == null || _flightPlanLinesCount != pointlistCount || _flightPlanLinesHash != currentHash)
                         {
                             if (_flightPlanLines != null)
                                 _flightPlanLines.Dispose();
@@ -1705,6 +1707,7 @@ namespace MissionPlanner.Controls
                                 _flightPlanLines.Add(co[0], co[1], co[2] + terrainAlt, 1, 1, 0, 1);
                             }
                             _flightPlanLinesCount = pointlistCount;
+                            _flightPlanLinesHash = currentHash;
                         }
 
                         _flightPlanLines.Draw(projMatrix, modelMatrix);
@@ -3312,6 +3315,25 @@ void main(void) {
             public float Radius; // Screen radius for hit testing
             public adsb.PointLatLngAltHdg PlaneData;
             public double DistanceToOwn; // Distance in meters to own aircraft
+        }
+
+        private int ComputeWaypointHash(IList<PointLatLngAlt> waypoints)
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (int i = 0; i < waypoints.Count; i++)
+                {
+                    var wp = waypoints[i];
+                    if (wp == null)
+                        continue;
+                    hash = hash * 31 + wp.Lat.GetHashCode();
+                    hash = hash * 31 + wp.Lng.GetHashCode();
+                    hash = hash * 31 + wp.Alt.GetHashCode();
+                    hash = hash * 31 + (wp.Tag?.GetHashCode() ?? 0);
+                }
+                return hash;
+            }
         }
     }
 }
