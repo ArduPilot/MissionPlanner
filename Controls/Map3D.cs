@@ -73,6 +73,7 @@ namespace MissionPlanner.Controls
     public class Map3D : GLControl, IDeactivate
     {
         public static Map3D instance;
+        private static GraphicsMode _graphicsMode;
 
         #region Constants
         private const double HEADING_LINE_LENGTH = 100; // meters
@@ -86,6 +87,33 @@ namespace MissionPlanner.Controls
         private const int TRAIL_SMOOTHING_WINDOW = 61;
         private const double WAYPOINT_MIN_DISTANCE = 61.0; // 200 feet in meters
         #endregion
+
+        private static GraphicsMode GetGraphicsMode()
+        {
+            if (_graphicsMode != null)
+                return _graphicsMode;
+
+            // Prefer a 32-bit color buffer, 24-bit depth, 8-bit stencil, and 4x MSAA.
+            try
+            {
+                _graphicsMode = new GraphicsMode(new ColorFormat(32), 24, 8, 4);
+                return _graphicsMode;
+            }
+            catch
+            {
+                // Fall back to no multisampling if the platform/driver rejects MSAA.
+                try
+                {
+                    _graphicsMode = new GraphicsMode(new ColorFormat(32), 24, 8, 0);
+                    return _graphicsMode;
+                }
+                catch
+                {
+                    _graphicsMode = GraphicsMode.Default;
+                    return _graphicsMode;
+                }
+            }
+        }
 
         #region Helper Methods
         /// <summary>
@@ -331,7 +359,7 @@ namespace MissionPlanner.Controls
 
         public List<Locationwp> WPs { get; set; }
 
-        public Map3D() : base()
+        public Map3D() : base(GetGraphicsMode())
         {
             instance = this;
 
@@ -2413,6 +2441,7 @@ namespace MissionPlanner.Controls
             };
             _imageloaderThread.Start();
 
+            // Request driver-side anti-aliasing (works when the context was created with samples).
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
