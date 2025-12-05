@@ -22,10 +22,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private List<CultureInfo> _languages;
         private bool startup;
         static temp temp;
+        private FlowLayoutPanel layoutRoot;
+        private readonly CheckBox CHK_startFullscreen;
 
         public ConfigPlanner()
         {
             startup = true;
+
+            CHK_startFullscreen = new CheckBox
+            {
+                Name = "CHK_startFullscreen",
+                AutoSize = true,
+                Text = "Always start fullscreen"
+            };
+            CHK_startFullscreen.CheckedChanged += CHK_startFullscreen_CheckedChanged;
 
             InitializeComponent();
             CMB_Layout.Items.Add(DisplayNames.Basic);
@@ -48,8 +58,359 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 "GMapMarkerBase_InactiveDisplayStyle",
                 Maps.GMapMarkerBase.InactiveDisplayStyleEnum.Normal.ToString()
             );
+
+            BuildLayout();
         }
 
+        private void BuildLayout()
+        {
+            SuspendLayout();
+
+            layoutRoot = new FlowLayoutPanel
+            {
+                Name = "layoutRoot",
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                Padding = new Padding(10),
+                Margin = new Padding(0),
+                MaximumSize = new Size(1000, 0)
+            };
+            layoutRoot.SizeChanged += (s, e) => ResizeGroupBoxes();
+
+            layoutRoot.Controls.Add(CreateVideoAndHudGroup());
+            layoutRoot.Controls.Add(CreateConnectivityGroup());
+            layoutRoot.Controls.Add(CreateLayoutAndAppearanceGroup());
+            layoutRoot.Controls.Add(CreateMapAndDisplayGroup());
+            layoutRoot.Controls.Add(CreateTelemetryGroup());
+            layoutRoot.Controls.Add(CreateUnitsGroup());
+            layoutRoot.Controls.Add(CreateSpeechAndAudioGroup());
+
+            Controls.Clear();
+            Controls.Add(layoutRoot);
+
+            ResizeGroupBoxes();
+
+            ResumeLayout(true);
+        }
+
+        private void ResizeGroupBoxes()
+        {
+            if (layoutRoot == null)
+            {
+                return;
+            }
+
+            var width = layoutRoot.ClientSize.Width - layoutRoot.Padding.Horizontal;
+            var minGroupWidth = 380;
+            var columns = Math.Max(1, Math.Min(3, width / minGroupWidth));
+            var columnWidth = columns > 0 ? (width - ((columns - 1) * 10)) / columns : width;
+
+            foreach (Control child in layoutRoot.Controls)
+            {
+                if (width > 0)
+                {
+                    child.Width = Math.Max(minGroupWidth, columnWidth);
+                }
+            }
+        }
+
+        private GroupBox CreateGroupBox(string title)
+        {
+            return new GroupBox
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Padding = new Padding(10),
+                Text = title,
+                Margin = new Padding(5)
+            };
+        }
+
+        private TableLayoutPanel CreateTableLayout(int columns)
+        {
+            var table = new TableLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Dock = DockStyle.Fill,
+                ColumnCount = columns
+            };
+
+            if (columns > 0)
+            {
+                table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            }
+            if (columns > 1)
+            {
+                table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            }
+            if (columns > 2)
+            {
+                table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            }
+
+            return table;
+        }
+
+        private FlowLayoutPanel CreateWrapFlow(FlowDirection direction = FlowDirection.LeftToRight)
+        {
+            return new FlowLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = direction,
+                WrapContents = true,
+                Dock = DockStyle.Top
+            };
+        }
+
+        private Control CreateLayoutAndAppearanceGroup()
+        {
+            var group = CreateGroupBox($"{label5.Text} / {label4.Text}");
+            var table = CreateTableLayout(3);
+
+            table.Controls.Add(label5, 0, 0);
+            table.Controls.Add(CMB_Layout, 1, 0);
+            table.SetColumnSpan(CMB_Layout, 2);
+
+            table.Controls.Add(label4, 0, 1);
+            table.Controls.Add(CMB_theme, 1, 1);
+            table.Controls.Add(BUT_themecustom, 2, 1);
+
+            table.Controls.Add(label93, 0, 2);
+            table.Controls.Add(CMB_language, 1, 2);
+            table.SetColumnSpan(CMB_language, 2);
+
+            table.Controls.Add(label94, 0, 3);
+            table.Controls.Add(CMB_osdcolor, 1, 3);
+            table.SetColumnSpan(CMB_osdcolor, 2);
+
+            var severityLabel = new Label { AutoSize = true, Text = "Severity" };
+            table.Controls.Add(severityLabel, 0, 4);
+            table.Controls.Add(CMB_severity, 1, 4);
+            table.SetColumnSpan(CMB_severity, 2);
+
+            table.Controls.Add(label8, 0, 5);
+            table.SetColumnSpan(label8, 3);
+
+            var optionsFlow = CreateWrapFlow();
+            optionsFlow.Controls.Add(chk_analytics);
+            optionsFlow.Controls.Add(CHK_beta);
+            optionsFlow.Controls.Add(CHK_Password);
+            optionsFlow.Controls.Add(CHK_params_bg);
+            optionsFlow.Controls.Add(CHK_AutoParamCommit);
+            optionsFlow.Controls.Add(chk_slowMachine);
+            optionsFlow.Controls.Add(CHK_startFullscreen);
+            table.Controls.Add(optionsFlow, 0, 6);
+            table.SetColumnSpan(optionsFlow, 3);
+
+            group.Controls.Add(table);
+            return group;
+        }
+
+        private Control CreateVideoAndHudGroup()
+        {
+            var group = CreateGroupBox("Video && HUD");
+            var table = CreateTableLayout(3);
+
+            table.Controls.Add(label92, 0, 0);
+            table.Controls.Add(CMB_videosources, 1, 0);
+            var videoButtons = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0)
+            };
+            videoButtons.Controls.Add(BUT_videostart);
+            videoButtons.Controls.Add(BUT_videostop);
+            table.Controls.Add(videoButtons, 2, 0);
+
+            table.Controls.Add(label26, 0, 1);
+            table.Controls.Add(CMB_videoresolutions, 1, 1);
+            table.SetColumnSpan(CMB_videoresolutions, 2);
+
+            table.Controls.Add(label12, 0, 2);
+            table.Controls.Add(CHK_hudshow, 1, 2);
+            table.SetColumnSpan(CHK_hudshow, 2);
+
+            table.Controls.Add(CHK_GDIPlus, 0, 3);
+            table.SetColumnSpan(CHK_GDIPlus, 3);
+
+            group.Controls.Add(table);
+            return group;
+        }
+
+        private Control CreateSpeechAndAudioGroup()
+        {
+            var group = CreateGroupBox(label95.Text);
+            var table = CreateTableLayout(1);
+
+            table.Controls.Add(CHK_enablespeech, 0, 0);
+
+            var speechFlow = CreateWrapFlow();
+            speechFlow.Controls.Add(CHK_speechArmedOnly);
+            speechFlow.Controls.Add(CHK_speechwaypoint);
+            speechFlow.Controls.Add(CHK_speechmode);
+            speechFlow.Controls.Add(CHK_speechcustom);
+            speechFlow.Controls.Add(CHK_speechbattery);
+            speechFlow.Controls.Add(CHK_speechaltwarning);
+            speechFlow.Controls.Add(CHK_speecharmdisarm);
+            speechFlow.Controls.Add(CHK_speechlowspeed);
+            speechFlow.Controls.Add(CHK_speechadsb);
+            table.Controls.Add(speechFlow, 0, 1);
+
+            var audioFlow = CreateWrapFlow();
+            audioFlow.Controls.Add(BUT_Vario);
+            table.Controls.Add(audioFlow, 0, 2);
+
+            group.Controls.Add(table);
+            return group;
+        }
+
+        private Control CreateTelemetryGroup()
+        {
+            var group = CreateGroupBox(label101.Text);
+            var table = CreateTableLayout(2);
+
+            table.Controls.Add(label102, 0, 0);
+            table.Controls.Add(CMB_rateattitude, 1, 0);
+
+            table.Controls.Add(label103, 0, 1);
+            table.Controls.Add(CMB_rateposition, 1, 1);
+
+            table.Controls.Add(label104, 0, 2);
+            table.Controls.Add(CMB_ratestatus, 1, 2);
+
+            table.Controls.Add(label107, 0, 3);
+            table.Controls.Add(CMB_raterc, 1, 3);
+
+            table.Controls.Add(label33, 0, 4);
+            table.Controls.Add(CMB_ratesensors, 1, 4);
+
+            group.Controls.Add(table);
+            return group;
+        }
+
+        private Control CreateUnitsGroup()
+        {
+            var group = CreateGroupBox("Units & Measurement");
+            var table = CreateTableLayout(2);
+
+            table.Controls.Add(label97, 0, 0);
+            table.Controls.Add(CMB_distunits, 1, 0);
+
+            table.Controls.Add(label98, 0, 1);
+            table.Controls.Add(CMB_speedunits, 1, 1);
+
+            table.Controls.Add(label6, 0, 2);
+            table.Controls.Add(CMB_altunits, 1, 2);
+
+            table.Controls.Add(label99, 0, 3);
+            table.SetColumnSpan(label99, 2);
+
+            group.Controls.Add(table);
+            return group;
+        }
+
+        private Control CreateMapAndDisplayGroup()
+        {
+            var group = CreateGroupBox("Map & Display");
+            var table = CreateTableLayout(3);
+
+            table.Controls.Add(label1, 0, 0);
+            table.Controls.Add(CHK_maprotation, 1, 0);
+            table.SetColumnSpan(CHK_maprotation, 2);
+
+            table.Controls.Add(label2, 0, 1);
+            table.Controls.Add(CHK_disttohomeflightdata, 1, 1);
+            table.SetColumnSpan(CHK_disttohomeflightdata, 2);
+
+            table.Controls.Add(label23, 0, 2);
+            table.Controls.Add(NUM_tracklength, 1, 2);
+            table.SetColumnSpan(NUM_tracklength, 2);
+
+            table.Controls.Add(label11, 0, 3);
+            table.Controls.Add(num_linelength, 1, 3);
+            table.SetColumnSpan(num_linelength, 2);
+
+            table.Controls.Add(label13, 0, 4);
+            table.Controls.Add(CMB_mapCache, 1, 4);
+            table.Controls.Add(BUT_mapCacheDir, 2, 4);
+
+            table.Controls.Add(label9, 0, 5);
+            table.Controls.Add(cmb_secondarydisplaystyle, 1, 5);
+            table.SetColumnSpan(cmb_secondarydisplaystyle, 2);
+
+            table.Controls.Add(label10, 0, 6);
+            var iconFlow = CreateWrapFlow();
+            iconFlow.Controls.Add(chk_displaycog);
+            iconFlow.Controls.Add(chk_displayheading);
+            iconFlow.Controls.Add(chk_displaynavbearing);
+            iconFlow.Controls.Add(chk_displayradius);
+            iconFlow.Controls.Add(chk_displaytarget);
+            iconFlow.Controls.Add(chk_displaytooltip);
+            table.Controls.Add(iconFlow, 1, 6);
+            table.SetColumnSpan(iconFlow, 2);
+
+            var overlaysFlow = CreateWrapFlow();
+            overlaysFlow.Controls.Add(CHK_showairports);
+            overlaysFlow.Controls.Add(chk_shownofly);
+            overlaysFlow.Controls.Add(chk_ADSB);
+            overlaysFlow.Controls.Add(chk_tfr);
+            overlaysFlow.Controls.Add(chk_temp);
+            table.Controls.Add(overlaysFlow, 0, 7);
+            table.SetColumnSpan(overlaysFlow, 3);
+
+            group.Controls.Add(table);
+            return group;
+        }
+
+        private Control CreateConnectivityGroup()
+        {
+            var group = CreateGroupBox("Connection && Data");
+            var table = CreateTableLayout(3);
+
+            table.Controls.Add(label7, 0, 0);
+            table.Controls.Add(num_gcsid, 1, 0);
+            table.SetColumnSpan(num_gcsid, 2);
+
+            table.Controls.Add(label24, 0, 1);
+            table.Controls.Add(CHK_loadwponconnect, 1, 1);
+            table.SetColumnSpan(CHK_loadwponconnect, 2);
+
+            table.Controls.Add(label108, 0, 2);
+            table.Controls.Add(CHK_resetapmonconnect, 1, 2);
+            table.SetColumnSpan(CHK_resetapmonconnect, 2);
+
+            table.Controls.Add(CHK_rtsresetesp32, 0, 3);
+            table.SetColumnSpan(CHK_rtsresetesp32, 3);
+
+            table.Controls.Add(CHK_autoconnectusb, 0, 4);
+            table.SetColumnSpan(CHK_autoconnectusb, 3);
+
+            table.Controls.Add(CHK_mavdebug, 0, 5);
+            table.SetColumnSpan(CHK_mavdebug, 3);
+
+            table.Controls.Add(chk_norcreceiver, 0, 6);
+            table.SetColumnSpan(chk_norcreceiver, 3);
+
+            txt_log_dir.Width = 260;
+            txt_log_dir.MaximumSize = new Size(500, txt_log_dir.Height);
+            table.Controls.Add(label3, 0, 7);
+            table.Controls.Add(txt_log_dir, 1, 7);
+            table.Controls.Add(BUT_logdirbrowse, 2, 7);
+
+            table.Controls.Add(BUT_Joystick, 0, 8);
+            table.SetColumnSpan(BUT_Joystick, 3);
+
+            group.Controls.Add(table);
+            return group;
+        }
 
         // Called every time that this control is made current in the backstage view
         public void Activate()
@@ -191,6 +552,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CHK_AutoParamCommit.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
 
+            CHK_startFullscreen.Checked = Settings.Instance.GetBoolean("always_fullscreen", true);
+
             //set hud color state
             var hudcolor = Settings.Instance["hudcolor"];
             if (hudcolor != null)
@@ -253,7 +616,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
             }
 
+            CHK_autoconnectusb.Checked = Settings.Instance.GetBoolean("auto_connect_usb", true);
+
+            EnsureVideoSourcesLoaded();
+
             startup = false;
+        }
+
+        private void EnsureVideoSourcesLoaded()
+        {
+            if (MainV2.MONO)
+                return;
+
+            try
+            {
+                if (CMB_videosources.Items.Count == 0)
+                {
+                    CMB_videosources_Click(this, null);
+                }
+
+                if (Settings.Instance["video_device"] != null)
+                {
+                    var device = Settings.Instance.GetInt32("video_device");
+                    if (CMB_videosources.Items.Count > device)
+                        CMB_videosources.SelectedIndex = device;
+                }
+
+                if (Settings.Instance["video_options"] != null && CMB_videosources.Text != "" && CMB_videoresolutions.Items.Count > 0)
+                {
+                    CMB_videoresolutions.SelectedIndex = Math.Min(Settings.Instance.GetInt32("video_options"), CMB_videoresolutions.Items.Count - 1);
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void BUT_videostart_Click(object sender, EventArgs e)
@@ -1199,6 +1595,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception)
             {
             }
+        }
+
+        private void CHK_autoconnectusb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["auto_connect_usb"] = CHK_autoconnectusb.Checked.ToString();
+            MainV2.instance?.SetAutoConnectUSB(CHK_autoconnectusb.Checked);
+        }
+
+        private void CHK_startFullscreen_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["always_fullscreen"] = CHK_startFullscreen.Checked.ToString();
         }
     }
 }

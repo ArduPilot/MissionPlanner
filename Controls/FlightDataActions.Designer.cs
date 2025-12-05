@@ -87,7 +87,7 @@ namespace MissionPlanner.Controls
             this.scrollPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scrollPanel.Location = new System.Drawing.Point(0, 0);
             this.scrollPanel.Name = "scrollPanel";
-            this.scrollPanel.Size = new System.Drawing.Size(900, 280);
+            this.scrollPanel.Size = new System.Drawing.Size(1065, 561);
             this.scrollPanel.TabIndex = 0;
             // 
             // mainFlowLayout
@@ -102,7 +102,7 @@ namespace MissionPlanner.Controls
             this.mainFlowLayout.Location = new System.Drawing.Point(0, 0);
             this.mainFlowLayout.Name = "mainFlowLayout";
             this.mainFlowLayout.Padding = new System.Windows.Forms.Padding(4);
-            this.mainFlowLayout.Size = new System.Drawing.Size(879, 483);
+            this.mainFlowLayout.Size = new System.Drawing.Size(1065, 483);
             this.mainFlowLayout.TabIndex = 0;
             // 
             // grpCommand
@@ -708,7 +708,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.scrollPanel);
             this.MinimumSize = new System.Drawing.Size(0, 280);
             this.Name = "FlightDataActions";
-            this.Size = new System.Drawing.Size(900, 280);
+            this.Size = new System.Drawing.Size(1065, 561);
             this.scrollPanel.ResumeLayout(false);
             this.scrollPanel.PerformLayout();
             this.mainFlowLayout.ResumeLayout(false);

@@ -6878,6 +6878,9 @@ namespace MissionPlanner.GCSViews
             {
                 if (this.Visible && !this.IsDisposed)
                 {
+                    // Update QuickView connection state
+                    UpdateQuickViewConnectionState();
+
                     //Console.Write("bindingSource1 ");
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));
                     //Console.Write("bindingSourceHud ");
@@ -8163,6 +8166,47 @@ namespace MissionPlanner.GCSViews
             catch (Exception ex)
             {
                 log.Debug(ex);
+            }
+        }
+
+        private bool _lastQuickViewConnectionState = false;
+
+        private void UpdateQuickViewConnectionState()
+        {
+            bool isConnected = MainV2.comPort.BaseStream.IsOpen;
+
+            if (isConnected == _lastQuickViewConnectionState)
+                return;
+
+            _lastQuickViewConnectionState = isConnected;
+
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    qv.IsConnected = isConnected;
+                }
+            }
+
+            // Also update undocked QuickView form if it exists
+            if (_undockedQuickForm != null && !_undockedQuickForm.IsDisposed)
+            {
+                foreach (Control ctrl in _undockedQuickForm.Controls)
+                {
+                    UpdateQuickViewConnectionStateRecursive(ctrl, isConnected);
+                }
+            }
+        }
+
+        private void UpdateQuickViewConnectionStateRecursive(Control parent, bool isConnected)
+        {
+            if (parent is QuickView qv)
+            {
+                qv.IsConnected = isConnected;
+            }
+            foreach (Control ctrl in parent.Controls)
+            {
+                UpdateQuickViewConnectionStateRecursive(ctrl, isConnected);
             }
         }
     }

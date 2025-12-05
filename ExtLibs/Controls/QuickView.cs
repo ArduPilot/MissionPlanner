@@ -19,7 +19,24 @@ namespace MissionPlanner.Controls
             get { return _desc; } set { if (_desc == value) return; _desc = value; Invalidate(); }
         }
 
-        double _number = -9999;
+        private double _number = 0;
+        private bool _isConnected = false;
+
+        /// <summary>
+        /// Set to true when connected to a device. When false, the view is dimmed.
+        /// </summary>
+        [System.ComponentModel.Browsable(true)]
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+            set
+            {
+                if (_isConnected == value)
+                    return;
+                _isConnected = value;
+                Invalidate();
+            }
+        }
 
         // Optionally set this value to force the text size to fit this many "0" characters 
         // in the view. This allows for matching the text size of adjacent views.
@@ -105,6 +122,16 @@ namespace MissionPlanner.Controls
             var canvas = e2.Surface.Canvas;
             canvas.Clear();
 
+            // Dim the view when not connected
+            if (!_isConnected)
+            {
+                using (var paint = new SkiaSharp.SKPaint())
+                {
+                    paint.Color = paint.Color.WithAlpha(128);
+                    canvas.SaveLayer(paint);
+                }
+            }
+
             // Calculate description font size that fits the available width
             float descFontSize = this.Font.Size;
             Size descExtent;
@@ -135,6 +162,7 @@ namespace MissionPlanner.Controls
             // Format the number with scale/offset and TimeSpan support
             string numb;
             double scaled_number = scale * number + offset;
+
             try
             {
                 if (numberformat.Contains(":"))
@@ -161,6 +189,11 @@ namespace MissionPlanner.Controls
             {
                 // Draw number mode (original behavior)
                 DrawNumber(e, contentAreaTop, contentAreaHeight, numb);
+            }
+
+            if (!_isConnected)
+            {
+                canvas.Restore();
             }
         }
 
