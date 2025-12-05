@@ -41,6 +41,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!_hasNavigated)
             {
                 _hasNavigated = true;
+
+                CustomMessageBox.Show("Make sure to disconnect from Mission Planner before using AM32 configurator.", "AM32 Configurator");
+
                 try
                 {
                     await webView.EnsureCoreWebView2Async(null);
