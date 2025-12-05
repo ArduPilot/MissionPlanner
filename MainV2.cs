@@ -1106,7 +1106,10 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
             }
 
-            MenuArduPilot.Image = new Bitmap(Properties.Resources.TD_MP,(int) (200), 31);
+            var logoImage = ThemeManager.IsDarkTheme
+                ? Properties.Resources.TD_MP
+                : Properties.Resources.TD_MP_light;
+            MenuArduPilot.Image = new Bitmap(logoImage, (int)(200), 31);
             MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
             Application.DoEvents();
@@ -5118,5 +5121,6 @@ namespace MissionPlanner
                 }
             }
         }
+
     }
 }

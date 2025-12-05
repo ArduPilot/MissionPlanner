@@ -184,7 +184,7 @@ namespace MissionPlanner.GCSViews
             //MainMap.MaxZoom = 18;
 
             // get zoom
-            MainMap.MinZoom = 0;
+            MainMap.MinZoom = 4;
             MainMap.MaxZoom = 24;
 
             // draw this layer first

@@ -326,7 +326,9 @@ namespace MissionPlanner.Controls
             // Try to load GPS icon
             try
             {
-                _gpsIcon.Image = MissionPlanner.Properties.Resources.gps;
+                _gpsIcon.Image = ThemeManager.IsDarkTheme
+                    ? MissionPlanner.Properties.Resources.gps
+                    : MissionPlanner.Properties.Resources.gps_light;
             }
             catch
             {
