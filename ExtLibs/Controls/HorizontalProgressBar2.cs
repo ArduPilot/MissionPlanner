@@ -246,8 +246,56 @@ System.ComponentModel.Description("values scaled for display")]
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            if (reverse)
+            {
+                // Custom drawing for reversed bar - draw from the right side
+                DrawReversedProgressBar(e.Graphics);
+            }
+            else
+            {
+                base.OnPaint(e);
+            }
             drawlbl(e.Graphics);
+        }
+
+        private void DrawReversedProgressBar(Graphics graphics)
+        {
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            Rectangle outerRect = this.ClientRectangle;
+            outerRect.Inflate(-1, -1);
+
+            // Draw background
+            using (var bgBrush = new SolidBrush(this.BackgroundColor))
+            {
+                graphics.FillRectangle(bgBrush, outerRect);
+            }
+
+            // Calculate value width
+            int range = base.Maximum - base.Minimum;
+            int valueRange = base.Value - base.Minimum;
+            int valueWidth = (int)((float)valueRange / (float)range * outerRect.Width);
+
+            if (valueWidth > 0)
+            {
+                // Draw value rectangle from the RIGHT side
+                Rectangle valueRect = new Rectangle(
+                    outerRect.Right - valueWidth,
+                    outerRect.Y,
+                    valueWidth,
+                    outerRect.Height);
+
+                using (var valueBrush = new SolidBrush(this.ValueColor))
+                {
+                    graphics.FillRectangle(valueBrush, valueRect);
+                }
+            }
+
+            // Draw border
+            using (var borderPen = new Pen(this.BorderColor))
+            {
+                graphics.DrawRectangle(borderPen, outerRect);
+            }
         }
         protected override void WndProc(ref Message m)
         {

@@ -57,18 +57,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BAR12 = new MissionPlanner.Controls.HorizontalProgressBar2();
             this.BAR11 = new MissionPlanner.Controls.HorizontalProgressBar2();
             this.BAR10 = new MissionPlanner.Controls.HorizontalProgressBar2();
-            this.CHK_revthr = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_revyaw = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_revpitch = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_revroll = new MissionPlanner.Controls.MavlinkCheckBox();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.stickLeft = new MissionPlanner.Controls.RCStickControl();
-            this.stickRight = new MissionPlanner.Controls.RCStickControl();
             this.tableLayoutMain = new System.Windows.Forms.TableLayoutPanel();
             this.panelSticks = new System.Windows.Forms.Panel();
             this.sticksTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.stickLeft = new MissionPlanner.Controls.RCStickControl();
+            this.stickRight = new MissionPlanner.Controls.RCStickControl();
             this.groupBoxChannels = new System.Windows.Forms.GroupBox();
             this.tableLayoutChannels = new System.Windows.Forms.TableLayoutPanel();
+            this.CHK_revroll = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev9 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revpitch = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev10 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revthr = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev11 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revyaw = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev12 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev5 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev13 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev6 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev14 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev7 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev15 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev8 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_rev16 = new MissionPlanner.Controls.MavlinkCheckBox();
             this.panelControls = new System.Windows.Forms.Panel();
             this.controlsTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.scrollPanel = new System.Windows.Forms.Panel();
@@ -430,76 +442,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BAR10.Value = 1500;
             this.BAR10.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             // 
-            // CHK_revthr
-            // 
-            resources.ApplyResources(this.CHK_revthr, "CHK_revthr");
-            this.CHK_revthr.Name = "CHK_revthr";
-            this.CHK_revthr.OffValue = 0D;
-            this.CHK_revthr.OnValue = 1D;
-            this.CHK_revthr.ParamName = null;
-            this.CHK_revthr.UseVisualStyleBackColor = true;
-            this.CHK_revthr.CheckedChanged += new System.EventHandler(this.CHK_revch3_CheckedChanged);
-            // 
-            // CHK_revyaw
-            // 
-            resources.ApplyResources(this.CHK_revyaw, "CHK_revyaw");
-            this.CHK_revyaw.Name = "CHK_revyaw";
-            this.CHK_revyaw.OffValue = 0D;
-            this.CHK_revyaw.OnValue = 1D;
-            this.CHK_revyaw.ParamName = null;
-            this.CHK_revyaw.UseVisualStyleBackColor = true;
-            this.CHK_revyaw.CheckedChanged += new System.EventHandler(this.CHK_revch4_CheckedChanged);
-            // 
-            // CHK_revpitch
-            // 
-            resources.ApplyResources(this.CHK_revpitch, "CHK_revpitch");
-            this.CHK_revpitch.Name = "CHK_revpitch";
-            this.CHK_revpitch.OffValue = 0D;
-            this.CHK_revpitch.OnValue = 1D;
-            this.CHK_revpitch.ParamName = null;
-            this.CHK_revpitch.UseVisualStyleBackColor = true;
-            this.CHK_revpitch.CheckedChanged += new System.EventHandler(this.CHK_revch2_CheckedChanged);
-            // 
-            // CHK_revroll
-            // 
-            resources.ApplyResources(this.CHK_revroll, "CHK_revroll");
-            this.CHK_revroll.Name = "CHK_revroll";
-            this.CHK_revroll.OffValue = 0D;
-            this.CHK_revroll.OnValue = 1D;
-            this.CHK_revroll.ParamName = null;
-            this.CHK_revroll.UseVisualStyleBackColor = true;
-            this.CHK_revroll.CheckedChanged += new System.EventHandler(this.CHK_revch1_CheckedChanged);
-            // 
             // currentStateBindingSource
             // 
             this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
-            // stickLeft
-            // 
-            resources.ApplyResources(this.stickLeft, "stickLeft");
-            this.stickLeft.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.stickLeft.HorizontalLabel = "Yaw";
-            this.stickLeft.HorizontalMaxLine = 0;
-            this.stickLeft.HorizontalMinLine = 0;
-            this.stickLeft.Name = "stickLeft";
-            this.stickLeft.StickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            this.stickLeft.VerticalLabel = "Throttle";
-            this.stickLeft.VerticalMaxLine = 0;
-            this.stickLeft.VerticalMinLine = 0;
-            this.stickLeft.VerticalValue = 1000;
-            // 
-            // stickRight
-            // 
-            resources.ApplyResources(this.stickRight, "stickRight");
-            this.stickRight.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.stickRight.HorizontalLabel = "Roll";
-            this.stickRight.HorizontalMaxLine = 0;
-            this.stickRight.HorizontalMinLine = 0;
-            this.stickRight.Name = "stickRight";
-            this.stickRight.StickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            this.stickRight.VerticalLabel = "Pitch";
-            this.stickRight.VerticalMaxLine = 0;
-            this.stickRight.VerticalMinLine = 0;
             // 
             // tableLayoutMain
             // 
@@ -521,6 +466,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.sticksTableLayout.Controls.Add(this.stickLeft, 0, 0);
             this.sticksTableLayout.Controls.Add(this.stickRight, 1, 0);
             this.sticksTableLayout.Name = "sticksTableLayout";
+            //
+            // stickLeft
+            //
+            resources.ApplyResources(this.stickLeft, "stickLeft");
+            this.stickLeft.HorizontalLabel = "Yaw";
+            this.stickLeft.HorizontalMaxLine = 0;
+            this.stickLeft.HorizontalMinLine = 0;
+            this.stickLeft.Name = "stickLeft";
+            this.stickLeft.VerticalLabel = "Throttle";
+            this.stickLeft.VerticalMaxLine = 0;
+            this.stickLeft.VerticalMinLine = 0;
+            this.stickLeft.VerticalValue = 1000;
+            //
+            // stickRight
+            //
+            resources.ApplyResources(this.stickRight, "stickRight");
+            this.stickRight.HorizontalLabel = "Roll";
+            this.stickRight.HorizontalMaxLine = 0;
+            this.stickRight.HorizontalMinLine = 0;
+            this.stickRight.Name = "stickRight";
+            this.stickRight.VerticalLabel = "Pitch";
+            this.stickRight.VerticalMaxLine = 0;
+            this.stickRight.VerticalMinLine = 0;
             // 
             // groupBoxChannels
             // 
@@ -533,22 +501,182 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.tableLayoutChannels, "tableLayoutChannels");
             this.tableLayoutChannels.Controls.Add(this.BARroll, 0, 0);
-            this.tableLayoutChannels.Controls.Add(this.BARpitch, 1, 0);
-            this.tableLayoutChannels.Controls.Add(this.BARyaw, 0, 1);
-            this.tableLayoutChannels.Controls.Add(this.BARthrottle, 1, 1);
-            this.tableLayoutChannels.Controls.Add(this.BAR5, 0, 2);
-            this.tableLayoutChannels.Controls.Add(this.BAR6, 1, 2);
-            this.tableLayoutChannels.Controls.Add(this.BAR7, 0, 3);
-            this.tableLayoutChannels.Controls.Add(this.BAR8, 1, 3);
-            this.tableLayoutChannels.Controls.Add(this.BAR9, 0, 4);
-            this.tableLayoutChannels.Controls.Add(this.BAR10, 1, 4);
-            this.tableLayoutChannels.Controls.Add(this.BAR11, 0, 5);
-            this.tableLayoutChannels.Controls.Add(this.BAR12, 1, 5);
-            this.tableLayoutChannels.Controls.Add(this.BAR13, 0, 6);
-            this.tableLayoutChannels.Controls.Add(this.BAR14, 1, 6);
-            this.tableLayoutChannels.Controls.Add(this.BAR15, 0, 7);
-            this.tableLayoutChannels.Controls.Add(this.BAR16, 1, 7);
+            this.tableLayoutChannels.Controls.Add(this.CHK_revroll, 1, 0);
+            this.tableLayoutChannels.Controls.Add(this.BAR9, 2, 0);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev9, 3, 0);
+            this.tableLayoutChannels.Controls.Add(this.BARpitch, 0, 1);
+            this.tableLayoutChannels.Controls.Add(this.CHK_revpitch, 1, 1);
+            this.tableLayoutChannels.Controls.Add(this.BAR10, 2, 1);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev10, 3, 1);
+            this.tableLayoutChannels.Controls.Add(this.BARthrottle, 0, 2);
+            this.tableLayoutChannels.Controls.Add(this.CHK_revthr, 1, 2);
+            this.tableLayoutChannels.Controls.Add(this.BAR11, 2, 2);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev11, 3, 2);
+            this.tableLayoutChannels.Controls.Add(this.BARyaw, 0, 3);
+            this.tableLayoutChannels.Controls.Add(this.CHK_revyaw, 1, 3);
+            this.tableLayoutChannels.Controls.Add(this.BAR12, 2, 3);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev12, 3, 3);
+            this.tableLayoutChannels.Controls.Add(this.BAR5, 0, 4);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev5, 1, 4);
+            this.tableLayoutChannels.Controls.Add(this.BAR13, 2, 4);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev13, 3, 4);
+            this.tableLayoutChannels.Controls.Add(this.BAR6, 0, 5);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev6, 1, 5);
+            this.tableLayoutChannels.Controls.Add(this.BAR14, 2, 5);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev14, 3, 5);
+            this.tableLayoutChannels.Controls.Add(this.BAR7, 0, 6);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev7, 1, 6);
+            this.tableLayoutChannels.Controls.Add(this.BAR15, 2, 6);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev15, 3, 6);
+            this.tableLayoutChannels.Controls.Add(this.BAR8, 0, 7);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev8, 1, 7);
+            this.tableLayoutChannels.Controls.Add(this.BAR16, 2, 7);
+            this.tableLayoutChannels.Controls.Add(this.CHK_rev16, 3, 7);
             this.tableLayoutChannels.Name = "tableLayoutChannels";
+            // 
+            // CHK_revroll
+            // 
+            resources.ApplyResources(this.CHK_revroll, "CHK_revroll");
+            this.CHK_revroll.Name = "CHK_revroll";
+            this.CHK_revroll.OffValue = 0D;
+            this.CHK_revroll.OnValue = 1D;
+            this.CHK_revroll.ParamName = null;
+            this.CHK_revroll.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev9
+            // 
+            resources.ApplyResources(this.CHK_rev9, "CHK_rev9");
+            this.CHK_rev9.Name = "CHK_rev9";
+            this.CHK_rev9.OffValue = 0D;
+            this.CHK_rev9.OnValue = 1D;
+            this.CHK_rev9.ParamName = null;
+            this.CHK_rev9.UseVisualStyleBackColor = true;
+            // 
+            // CHK_revpitch
+            // 
+            resources.ApplyResources(this.CHK_revpitch, "CHK_revpitch");
+            this.CHK_revpitch.Name = "CHK_revpitch";
+            this.CHK_revpitch.OffValue = 0D;
+            this.CHK_revpitch.OnValue = 1D;
+            this.CHK_revpitch.ParamName = null;
+            this.CHK_revpitch.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev10
+            // 
+            resources.ApplyResources(this.CHK_rev10, "CHK_rev10");
+            this.CHK_rev10.Name = "CHK_rev10";
+            this.CHK_rev10.OffValue = 0D;
+            this.CHK_rev10.OnValue = 1D;
+            this.CHK_rev10.ParamName = null;
+            this.CHK_rev10.UseVisualStyleBackColor = true;
+            // 
+            // CHK_revthr
+            // 
+            resources.ApplyResources(this.CHK_revthr, "CHK_revthr");
+            this.CHK_revthr.Name = "CHK_revthr";
+            this.CHK_revthr.OffValue = 0D;
+            this.CHK_revthr.OnValue = 1D;
+            this.CHK_revthr.ParamName = null;
+            this.CHK_revthr.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev11
+            // 
+            resources.ApplyResources(this.CHK_rev11, "CHK_rev11");
+            this.CHK_rev11.Name = "CHK_rev11";
+            this.CHK_rev11.OffValue = 0D;
+            this.CHK_rev11.OnValue = 1D;
+            this.CHK_rev11.ParamName = null;
+            this.CHK_rev11.UseVisualStyleBackColor = true;
+            // 
+            // CHK_revyaw
+            // 
+            resources.ApplyResources(this.CHK_revyaw, "CHK_revyaw");
+            this.CHK_revyaw.Name = "CHK_revyaw";
+            this.CHK_revyaw.OffValue = 0D;
+            this.CHK_revyaw.OnValue = 1D;
+            this.CHK_revyaw.ParamName = null;
+            this.CHK_revyaw.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev12
+            // 
+            resources.ApplyResources(this.CHK_rev12, "CHK_rev12");
+            this.CHK_rev12.Name = "CHK_rev12";
+            this.CHK_rev12.OffValue = 0D;
+            this.CHK_rev12.OnValue = 1D;
+            this.CHK_rev12.ParamName = null;
+            this.CHK_rev12.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev5
+            // 
+            resources.ApplyResources(this.CHK_rev5, "CHK_rev5");
+            this.CHK_rev5.Name = "CHK_rev5";
+            this.CHK_rev5.OffValue = 0D;
+            this.CHK_rev5.OnValue = 1D;
+            this.CHK_rev5.ParamName = null;
+            this.CHK_rev5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev13
+            // 
+            resources.ApplyResources(this.CHK_rev13, "CHK_rev13");
+            this.CHK_rev13.Name = "CHK_rev13";
+            this.CHK_rev13.OffValue = 0D;
+            this.CHK_rev13.OnValue = 1D;
+            this.CHK_rev13.ParamName = null;
+            this.CHK_rev13.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev6
+            // 
+            resources.ApplyResources(this.CHK_rev6, "CHK_rev6");
+            this.CHK_rev6.Name = "CHK_rev6";
+            this.CHK_rev6.OffValue = 0D;
+            this.CHK_rev6.OnValue = 1D;
+            this.CHK_rev6.ParamName = null;
+            this.CHK_rev6.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev14
+            // 
+            resources.ApplyResources(this.CHK_rev14, "CHK_rev14");
+            this.CHK_rev14.Name = "CHK_rev14";
+            this.CHK_rev14.OffValue = 0D;
+            this.CHK_rev14.OnValue = 1D;
+            this.CHK_rev14.ParamName = null;
+            this.CHK_rev14.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev7
+            // 
+            resources.ApplyResources(this.CHK_rev7, "CHK_rev7");
+            this.CHK_rev7.Name = "CHK_rev7";
+            this.CHK_rev7.OffValue = 0D;
+            this.CHK_rev7.OnValue = 1D;
+            this.CHK_rev7.ParamName = null;
+            this.CHK_rev7.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev15
+            // 
+            resources.ApplyResources(this.CHK_rev15, "CHK_rev15");
+            this.CHK_rev15.Name = "CHK_rev15";
+            this.CHK_rev15.OffValue = 0D;
+            this.CHK_rev15.OnValue = 1D;
+            this.CHK_rev15.ParamName = null;
+            this.CHK_rev15.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev8
+            // 
+            resources.ApplyResources(this.CHK_rev8, "CHK_rev8");
+            this.CHK_rev8.Name = "CHK_rev8";
+            this.CHK_rev8.OffValue = 0D;
+            this.CHK_rev8.OnValue = 1D;
+            this.CHK_rev8.ParamName = null;
+            this.CHK_rev8.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rev16
+            // 
+            resources.ApplyResources(this.CHK_rev16, "CHK_rev16");
+            this.CHK_rev16.Name = "CHK_rev16";
+            this.CHK_rev16.OffValue = 0D;
+            this.CHK_rev16.OnValue = 1D;
+            this.CHK_rev16.ParamName = null;
+            this.CHK_rev16.UseVisualStyleBackColor = true;
             // 
             // panelControls
             // 
@@ -580,10 +708,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.scrollPanel);
-            this.Controls.Add(this.CHK_revroll);
-            this.Controls.Add(this.CHK_revpitch);
-            this.Controls.Add(this.CHK_revyaw);
-            this.Controls.Add(this.CHK_revthr);
             this.Name = "ConfigRadioInput";
             this.groupBoxElevons.ResumeLayout(false);
             this.groupBoxElevons.PerformLayout();
@@ -596,6 +720,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBoxChannels.ResumeLayout(false);
             this.groupBoxChannels.PerformLayout();
             this.tableLayoutChannels.ResumeLayout(false);
+            this.tableLayoutChannels.PerformLayout();
             this.panelControls.ResumeLayout(false);
             this.controlsTableLayout.ResumeLayout(false);
             this.controlsTableLayout.PerformLayout();
@@ -640,6 +765,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private HorizontalProgressBar2 BAR12;
         private HorizontalProgressBar2 BAR11;
         private HorizontalProgressBar2 BAR10;
+        private MavlinkCheckBox CHK_rev5;
+        private MavlinkCheckBox CHK_rev6;
+        private MavlinkCheckBox CHK_rev7;
+        private MavlinkCheckBox CHK_rev8;
+        private MavlinkCheckBox CHK_rev9;
+        private MavlinkCheckBox CHK_rev10;
+        private MavlinkCheckBox CHK_rev11;
+        private MavlinkCheckBox CHK_rev12;
+        private MavlinkCheckBox CHK_rev13;
+        private MavlinkCheckBox CHK_rev14;
+        private MavlinkCheckBox CHK_rev15;
+        private MavlinkCheckBox CHK_rev16;
         private System.Windows.Forms.Panel panelSticks;
         private RCStickControl stickLeft;
         private RCStickControl stickRight;

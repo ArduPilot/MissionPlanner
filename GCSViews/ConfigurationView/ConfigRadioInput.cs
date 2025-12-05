@@ -152,32 +152,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_revyaw.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC" + chyaw + "_REV", "RC" + chyaw + "_REVERSED" },
                 MainV2.comPort.MAV.param);
 
-            if (MainV2.comPort.MAV.param["RC"+ chroll + "_REVERSED"]?.Value == 1)
-            {
-                reverseChannel(true, BARroll);
-            }
-            if (MainV2.comPort.MAV.param["RC" + chpitch + "_REVERSED"]?.Value == 1)
-            {
-                reverseChannel(true, BARpitch);
-            }
-            if (MainV2.comPort.MAV.param["RC" + chthro + "_REVERSED"]?.Value == 1)
-            {
-                reverseChannel(true, BARthrottle);
-            }
-            if (MainV2.comPort.MAV.param["RC" + chyaw + "_REVERSED"]?.Value == 1)
-            {
-                reverseChannel(true, BARyaw);
-            }
-
-
-            // run after to ensure they are disabled on copter
-            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-            {
-                CHK_revroll.Visible = false;
-                CHK_revpitch.Visible = false;
-                CHK_revthr.Visible = false;
-                CHK_revyaw.Visible = false;
-            }
+            // Setup reverse checkboxes for channels 5-16
+            CHK_rev5.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC5_REV", "RC5_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev6.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC6_REV", "RC6_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev7.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC7_REV", "RC7_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev8.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC8_REV", "RC8_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev9.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC9_REV", "RC9_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev10.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC10_REV", "RC10_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev11.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC11_REV", "RC11_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev12.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC12_REV", "RC12_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev13.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC13_REV", "RC13_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev14.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC14_REV", "RC14_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev15.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC15_REV", "RC15_REVERSED" }, MainV2.comPort.MAV.param);
+            CHK_rev16.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC16_REV", "RC16_REVERSED" }, MainV2.comPort.MAV.param);
 
             startup = false;
         }
@@ -194,11 +181,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
 
-                // Update stick controls with current values
+                // Update reverse state on bars based on Rev checkboxes
+                BARroll.reverse = CHK_revroll.Checked;
+                BARpitch.reverse = CHK_revpitch.Checked;
+                BARthrottle.reverse = CHK_revthr.Checked;
+                BARyaw.reverse = CHK_revyaw.Checked;
+                BAR5.reverse = CHK_rev5.Checked;
+                BAR6.reverse = CHK_rev6.Checked;
+                BAR7.reverse = CHK_rev7.Checked;
+                BAR8.reverse = CHK_rev8.Checked;
+                BAR9.reverse = CHK_rev9.Checked;
+                BAR10.reverse = CHK_rev10.Checked;
+                BAR11.reverse = CHK_rev11.Checked;
+                BAR12.reverse = CHK_rev12.Checked;
+                BAR13.reverse = CHK_rev13.Checked;
+                BAR14.reverse = CHK_rev14.Checked;
+                BAR15.reverse = CHK_rev15.Checked;
+                BAR16.reverse = CHK_rev16.Checked;
+
+                // Update stick controls with current values and reverse state
                 if (chyaw > 0 && chthro > 0 && chroll > 0 && chpitch > 0)
                 {
                     stickLeft.HorizontalValue = GetChannelValue(chyaw);
                     stickLeft.VerticalValue = GetChannelValue(chthro);
+
                     stickRight.HorizontalValue = GetChannelValue(chroll);
                     stickRight.VerticalValue = GetChannelValue(chpitch);
                 }
@@ -464,58 +470,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             bar.minline = (int)min;
             bar.maxline = (int)max;
-        }
-
-        private void CHK_revch1_CheckedChanged(object sender, EventArgs e)
-        {
-            reverseChannel(((CheckBox)sender).Checked, BARroll);
-        }
-
-        private void CHK_revch2_CheckedChanged(object sender, EventArgs e)
-        {
-            reverseChannel(((CheckBox)sender).Checked, BARpitch);
-        }
-
-        private void CHK_revch3_CheckedChanged(object sender, EventArgs e)
-        {
-            reverseChannel(((CheckBox)sender).Checked, BARthrottle);
-        }
-
-        private void CHK_revch4_CheckedChanged(object sender, EventArgs e)
-        {
-            reverseChannel(((CheckBox)sender).Checked, BARyaw);
-        }
-
-        private void reverseChannel(bool normalreverse, Control progressbar)
-        {
-            if (normalreverse)
-            {
-                ((HorizontalProgressBar2)progressbar).reverse = true;
-                ((HorizontalProgressBar2)progressbar).BackgroundColor = Color.FromArgb(148, 193, 31);
-                ((HorizontalProgressBar2)progressbar).ValueColor = Color.FromArgb(0x43, 0x44, 0x45);
-            }
-            else
-            {
-                ((HorizontalProgressBar2)progressbar).reverse = false;
-                ((HorizontalProgressBar2)progressbar).BackgroundColor = Color.FromArgb(0x43, 0x44, 0x45);
-                ((HorizontalProgressBar2)progressbar).ValueColor = Color.FromArgb(148, 193, 31);
-            }
-
-            if (startup)
-                return;
-            if (MainV2.comPort.MAV.param["SWITCH_ENABLE"] != null &&
-                (float)MainV2.comPort.MAV.param["SWITCH_ENABLE"] == 1)
-            {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SWITCH_ENABLE", 0);
-                    CustomMessageBox.Show("Disabled Dip Switchs");
-                }
-                catch
-                {
-                    CustomMessageBox.Show("Error Disableing Dip Switch");
-                }
-            }
         }
 
         private void BUT_Bindradiodsm2_Click(object sender, EventArgs e)

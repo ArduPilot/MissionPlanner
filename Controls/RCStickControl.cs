@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -17,10 +18,6 @@ namespace MissionPlanner.Controls
         private int _maximum = 2200;
         private string _horizontalLabel = "Roll";
         private string _verticalLabel = "Pitch";
-        private Color _stickColor = Color.FromArgb(148, 193, 31);
-        private Color _backgroundColor = Color.FromArgb(0x43, 0x44, 0x45);
-        private Color _borderColor = Color.FromArgb(0x79, 0x94, 0x29);
-        private Color _crosshairColor = Color.FromArgb(100, 255, 255, 255);
 
         // Calibration min/max lines
         private int _horizontalMinLine = 0;
@@ -74,27 +71,6 @@ namespace MissionPlanner.Controls
             set { _verticalLabel = value; Invalidate(); }
         }
 
-        [Browsable(true), Category("Colors")]
-        public Color StickColor
-        {
-            get => _stickColor;
-            set { _stickColor = value; Invalidate(); }
-        }
-
-        [Browsable(true), Category("Colors")]
-        public new Color BackColor
-        {
-            get => _backgroundColor;
-            set { _backgroundColor = value; Invalidate(); }
-        }
-
-        [Browsable(true), Category("Colors")]
-        public Color BorderColor
-        {
-            get => _borderColor;
-            set { _borderColor = value; Invalidate(); }
-        }
-
         // Calibration min/max line properties
         [Browsable(true), Category("Calibration")]
         public int HorizontalMinLine
@@ -140,24 +116,31 @@ namespace MissionPlanner.Controls
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
+            // Get theme colors
+            Color bgColor = ThemeManager.ControlBGColor;
+            Color borderColor = ThemeManager.BannerColor1;
+            Color stickColor = ThemeManager.HorizontalPBValueColor;
+            Color textColor = ThemeManager.TextColor;
+            Color crosshairColor = Color.FromArgb(100, textColor);
+
             int padding = 25;
             Rectangle stickArea = new Rectangle(padding, padding,
                 Width - 2 * padding, Height - 2 * padding);
 
             // Draw background
-            using (var bgBrush = new SolidBrush(_backgroundColor))
+            using (var bgBrush = new SolidBrush(bgColor))
             {
                 g.FillRectangle(bgBrush, stickArea);
             }
 
             // Draw border
-            using (var borderPen = new Pen(_borderColor, 2))
+            using (var borderPen = new Pen(borderColor, 2))
             {
                 g.DrawRectangle(borderPen, stickArea);
             }
 
             // Draw crosshairs
-            using (var crossPen = new Pen(_crosshairColor, 1))
+            using (var crossPen = new Pen(crosshairColor, 1))
             {
                 crossPen.DashStyle = DashStyle.Dash;
                 // Vertical center line
@@ -206,12 +189,12 @@ namespace MissionPlanner.Controls
 
             // Draw stick position indicator
             int stickRadius = 12;
-            using (var stickBrush = new SolidBrush(_stickColor))
+            using (var stickBrush = new SolidBrush(stickColor))
             {
                 g.FillEllipse(stickBrush, stickX - stickRadius, stickY - stickRadius,
                     stickRadius * 2, stickRadius * 2);
             }
-            using (var stickOutlinePen = new Pen(Color.White, 2))
+            using (var stickOutlinePen = new Pen(textColor, 2))
             {
                 g.DrawEllipse(stickOutlinePen, stickX - stickRadius, stickY - stickRadius,
                     stickRadius * 2, stickRadius * 2);
@@ -219,7 +202,7 @@ namespace MissionPlanner.Controls
 
             // Draw labels
             using (var font = new Font("Segoe UI", 9, FontStyle.Bold))
-            using (var labelBrush = new SolidBrush(Color.White))
+            using (var labelBrush = new SolidBrush(textColor))
             {
                 // Horizontal label (below)
                 var hLabelSize = g.MeasureString(_horizontalLabel, font);
