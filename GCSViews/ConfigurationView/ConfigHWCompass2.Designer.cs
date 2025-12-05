@@ -324,7 +324,7 @@
             this.but_largemagcal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.but_largemagcal.Location = new System.Drawing.Point(3, 523);
             this.but_largemagcal.Name = "but_largemagcal";
-            this.but_largemagcal.Size = new System.Drawing.Size(75, 23);
+            this.but_largemagcal.Size = new System.Drawing.Size(135, 23);
             this.but_largemagcal.TabIndex = 21;
             this.but_largemagcal.Text = "Large Vehicle MagCal";
             this.but_largemagcal.UseVisualStyleBackColor = true;
@@ -390,7 +390,7 @@
             // 
             this.CHK_compass_learn.AutoSize = true;
             this.CHK_compass_learn.Enabled = false;
-            this.CHK_compass_learn.Location = new System.Drawing.Point(414, 277);
+            this.CHK_compass_learn.Location = new System.Drawing.Point(454, 277);
             this.CHK_compass_learn.Name = "CHK_compass_learn";
             this.CHK_compass_learn.OffValue = 0D;
             this.CHK_compass_learn.OnValue = 1D;
@@ -542,7 +542,7 @@
             // 
             this.but_missing.Location = new System.Drawing.Point(321, 271);
             this.but_missing.Name = "but_missing";
-            this.but_missing.Size = new System.Drawing.Size(75, 23);
+            this.but_missing.Size = new System.Drawing.Size(115, 23);
             this.but_missing.TabIndex = 90;
             this.but_missing.Text = "Remove Missing";
             this.but_missing.UseVisualStyleBackColor = true;
