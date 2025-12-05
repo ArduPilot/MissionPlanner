@@ -215,19 +215,20 @@ System.ComponentModel.Description("values scaled for display")]
                 }
                 else
                 {
+                    float textY = (this.Height - SystemFonts.DefaultFont.Height) / 2f;
                     if (reverse)
                     {
                         e.DrawLine(redPen, (this.Maximum - minline) / range * range2 - 0, 0, (this.Maximum - minline) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (this.Maximum - maxline) / range * range2 - 0, 0, (this.Maximum - maxline) / range * range2 - 0, this.Height);
-                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
-                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, textY);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, textY);
                     }
                     else
                     {
                         e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 0, 0, (minline - this.Minimum) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 0, 0, (maxline - this.Minimum) / range * range2 - 0, this.Height);
-                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
-                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, textY);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, textY);
                     }
                 }
             }
