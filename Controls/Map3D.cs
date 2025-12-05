@@ -3,7 +3,6 @@ using GMap.NET.Internals;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using Microsoft.Scripting.Utils;
-using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 using OpenTK;
 using OpenTK.Graphics;
@@ -366,7 +365,6 @@ namespace MissionPlanner.Controls
             // Load settings early, before any rendering
             zoom = Settings.Instance.GetInt32("map3d_zoom_level", 15);
             _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-            _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
             _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_mav_scale", Settings.Instance.GetDouble("map3d_plane_scale", 1.0));
             _cameraFOV = (float)Settings.Instance.GetDouble("map3d_fov", 60);
@@ -548,7 +546,7 @@ namespace MissionPlanner.Controls
             if (e.Button == MouseButtons.Left)
             {
                 _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-                _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
+                _cameraAngle = 0.0;
                 _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
@@ -1035,16 +1033,16 @@ namespace MissionPlanner.Controls
                     else if (mode == "rtl" || mode == "land" || mode == "smart_rtl")
                     {
                         // In RTL/Land modes, target is Home
-                        var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
-                        targetWp = pointlist?.FirstOrDefault(p => p.Tag == "H");
+                        var waypointList = GetWaypointListFromMAV();
+                        targetWp = waypointList?.FirstOrDefault(p => p != null && p.Tag == "H");
                     }
                     else if (mode == "auto")
                     {
                         // Auto mode - use current waypoint number
                         int wpno = (int)(MainV2.comPort?.MAV?.cs?.wpno ?? 0);
-                        var pointlist = FlightPlanner.instance?.pointlist?.Where(a => a != null).ToList();
-                        if (pointlist != null && wpno > 0 && wpno < pointlist.Count)
-                            targetWp = pointlist[wpno];
+                        var waypointList = GetWaypointListFromMAV().Where(a => a != null).ToList();
+                        if (waypointList != null && wpno > 0 && wpno < waypointList.Count)
+                            targetWp = waypointList[wpno];
                     }
                 }
 
@@ -1686,10 +1684,11 @@ namespace MissionPlanner.Controls
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
-                    var pointlistCount = FlightPlanner.instance.pointlist.Count;
+                    var waypointList = GetWaypointListFromMAV();
+                    var pointlistCount = waypointList.Count;
                     if (pointlistCount > 1)
                     {
-                        var currentHash = ComputeWaypointHash(FlightPlanner.instance.pointlist);
+                        var currentHash = ComputeWaypointHash(waypointList);
                         // Only rebuild lines if pointlist changed
                         if (_flightPlanLines == null || _flightPlanLinesCount != pointlistCount || _flightPlanLinesHash != currentHash)
                         {
@@ -1698,7 +1697,7 @@ namespace MissionPlanner.Controls
                             _flightPlanLines = new Lines();
                             _flightPlanLines.Width = 3.0f;
                             // render wps
-                            foreach (var point in FlightPlanner.instance.pointlist)
+                            foreach (var point in waypointList)
                             {
                                 if (point == null)
                                     continue;
@@ -1741,7 +1740,8 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
 
-                    var list = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
+                    var waypointList = GetWaypointListFromMAV();
+                    var list = waypointList.Where(a => a != null).ToList();
                     if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
                         list.Add(new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
                             {Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt});
@@ -1749,7 +1749,7 @@ namespace MissionPlanner.Controls
                         list.Add(MainV2.comPort.MAV.cs.TargetLocation);
 
                     // Get pointlist for wp number lookup
-                    var pointlist = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
+                    var pointlist = waypointList.Where(a => a != null).ToList();
 
                     foreach (var point in list.OrderByDescending((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
                     {
@@ -2490,12 +2490,6 @@ namespace MissionPlanner.Controls
                 dialog.Controls.Add(numDist);
                 y += 30;
 
-                var lblAngle = new Label { Text = "Camera Angle:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numAngle = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -360, Maximum = 360, DecimalPlaces = 0, Increment = 15, Value = (decimal)Math.Max(-360, Math.Min(360, _cameraAngle)) };
-                dialog.Controls.Add(lblAngle);
-                dialog.Controls.Add(numAngle);
-                y += 30;
-
                 var lblHeight = new Label { Text = "Camera Height:", Location = new Point(margin, y + 3), AutoSize = true };
                 var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(-100, Math.Min(100, _cameraHeight)) };
                 dialog.Controls.Add(lblHeight);
@@ -2603,7 +2597,6 @@ namespace MissionPlanner.Controls
                 {
                     numZoom.Value = 15;
                     numDist.Value = (decimal)0.8;
-                    numAngle.Value = 0;
                     numHeight.Value = (decimal)0.2;
                     numFOV.Value = 60;
                     numScale.Value = 1;
@@ -2618,6 +2611,7 @@ namespace MissionPlanner.Controls
                     chkGpsHeading.Checked = true;
                     chkTurnRadius.Checked = true;
                     chkTrail.Checked = false;
+                    _cameraAngle = 0.0;
                 };
                 dialog.Controls.Add(btnReset);
                 y += 23;
@@ -2630,7 +2624,6 @@ namespace MissionPlanner.Controls
                 {
                     zoom = (int)numZoom.Value;
                     _cameraDist = (double)numDist.Value;
-                    _cameraAngle = (double)numAngle.Value;
                     _cameraHeight = (double)numHeight.Value;
                     _planeScaleMultiplier = (float)numScale.Value;
                     _cameraFOV = (float)numFOV.Value;
@@ -2650,7 +2643,6 @@ namespace MissionPlanner.Controls
 
                     Settings.Instance["map3d_zoom_level"] = zoom.ToString();
                     Settings.Instance["map3d_camera_dist"] = _cameraDist.ToString();
-                    Settings.Instance["map3d_camera_angle"] = _cameraAngle.ToString();
                     Settings.Instance["map3d_camera_height"] = _cameraHeight.ToString();
                     Settings.Instance["map3d_mav_scale"] = _planeScaleMultiplier.ToString();
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
@@ -3335,6 +3327,109 @@ void main(void) {
                     hash = hash * 31 + (wp.Tag?.GetHashCode() ?? 0);
                 }
                 return hash;
+            }
+        }
+
+        private List<PointLatLngAlt> _cachedWaypointList = new List<PointLatLngAlt>();
+        private int _cachedWpsHash = 0;
+
+        private List<PointLatLngAlt> GetWaypointListFromMAV()
+        {
+            try
+            {
+                var wps = MainV2.comPort.MAV.wps;
+                if (wps == null || wps.Count == 0)
+                {
+                    _cachedWaypointList.Clear();
+                    _cachedWpsHash = 0;
+                    return _cachedWaypointList;
+                }
+
+                // Compute hash to check if wps changed
+                int newHash;
+                unchecked
+                {
+                    newHash = 17;
+                    foreach (var kvp in wps)
+                    {
+                        var wp = kvp.Value;
+                        newHash = newHash * 31 + wp.seq.GetHashCode();
+                        newHash = newHash * 31 + wp.x.GetHashCode();
+                        newHash = newHash * 31 + wp.y.GetHashCode();
+                        newHash = newHash * 31 + wp.z.GetHashCode();
+                        newHash = newHash * 31 + wp.command.GetHashCode();
+                    }
+                }
+
+                if (newHash == _cachedWpsHash && _cachedWaypointList.Count > 0)
+                    return _cachedWaypointList;
+
+                _cachedWpsHash = newHash;
+                _cachedWaypointList.Clear();
+
+                // Get home location
+                var home = PointLatLngAlt.Zero;
+                if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 || MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+                {
+                    home = new PointLatLngAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat,
+                        MainV2.comPort.MAV.cs.HomeLocation.Lng,
+                        MainV2.comPort.MAV.cs.HomeLocation.Alt / CurrentState.multiplieralt, "H");
+                }
+                else if (MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat != 0 || MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng != 0)
+                {
+                    home = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng,
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt / CurrentState.multiplieralt, "H");
+                }
+
+                if (home != PointLatLngAlt.Zero)
+                    _cachedWaypointList.Add(home);
+
+                // Convert mission items to PointLatLngAlt, skipping home (index 0)
+                var wpsList = wps.Values.OrderBy(a => a.seq).ToList();
+                foreach (var wp in wpsList)
+                {
+                    if (wp.seq == 0) continue; // Skip home
+
+                    var cmd = wp.command;
+                    // Only include navigatable waypoints (similar to WPOverlay logic)
+                    if (cmd < (ushort)MAVLink.MAV_CMD.LAST &&
+                        cmd != (ushort)MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
+                        cmd != (ushort)MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
+                        cmd != (ushort)MAVLink.MAV_CMD.DELAY &&
+                        cmd != (ushort)MAVLink.MAV_CMD.GUIDED_ENABLE
+                        || cmd == (ushort)MAVLink.MAV_CMD.DO_SET_ROI || cmd == (ushort)MAVLink.MAV_CMD.DO_LAND_START)
+                    {
+                        double lat = wp.x / 1e7;
+                        double lng = wp.y / 1e7;
+                        double alt = wp.z;
+
+                        // Skip 0,0 locations for land commands
+                        if ((cmd == (ushort)MAVLink.MAV_CMD.LAND || cmd == (ushort)MAVLink.MAV_CMD.VTOL_LAND) && lat == 0 && lng == 0)
+                            continue;
+
+                        if (lat == 0 && lng == 0)
+                        {
+                            _cachedWaypointList.Add(null);
+                            continue;
+                        }
+
+                        var point = new PointLatLngAlt(lat, lng, alt, wp.seq.ToString());
+                        if (cmd == (ushort)MAVLink.MAV_CMD.DO_SET_ROI)
+                            point.Tag = "ROI" + wp.seq;
+                        _cachedWaypointList.Add(point);
+                    }
+                    else
+                    {
+                        _cachedWaypointList.Add(null);
+                    }
+                }
+
+                return _cachedWaypointList;
+            }
+            catch
+            {
+                return _cachedWaypointList;
             }
         }
 
