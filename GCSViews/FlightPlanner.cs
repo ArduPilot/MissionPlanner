@@ -299,6 +299,18 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
+            // Sync map position from DATA tab
+            try
+            {
+                var lat = Settings.Instance.GetDouble("maplast_lat", 0);
+                var lng = Settings.Instance.GetDouble("maplast_lng", 0);
+                if (lat != 0 || lng != 0)
+                {
+                    MainMap.Position = new PointLatLng(lat, lng);
+                }
+            }
+            catch { }
+
             // Process any pending waypoints that were loaded before this tab was shown
             if (_pendingWPs != null)
             {
