@@ -194,7 +194,7 @@ namespace MissionPlanner.Controls
             _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
             _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
-            _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", true);
+            _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
 
             InitializeComponent();
@@ -2095,14 +2095,14 @@ namespace MissionPlanner.Controls
                     numFOV.Value = 60;
                     numScale.Value = 1;
                     numMarkerSize.Value = 60;
-                    selectedColor = Color.White;
-                    pnlColor.BackColor = Color.White;
+                    selectedColor = Color.Red;
+                    pnlColor.BackColor = Color.Red;
                     selectedSTLPath = "";
                     btnSTL.Text = "Default";
                     chkHeading.Checked = true;
                     chkNavBearing.Checked = true;
                     chkGpsHeading.Checked = true;
-                    chkTrail.Checked = true;
+                    chkTrail.Checked = false;
                 };
                 dialog.Controls.Add(btnReset);
                 y += 23;
