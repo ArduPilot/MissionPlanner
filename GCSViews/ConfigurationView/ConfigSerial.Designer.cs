@@ -39,17 +39,17 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 307F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 500F));
             this.tableLayoutPanel1.Controls.Add(this.myLabel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLabel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLabel3, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLabel4, 3, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 10);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(28, 12);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 12;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
@@ -63,58 +63,70 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(789, 497);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1052, 612);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
+            //
             // myLabel1
-            // 
-            this.myLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel1.Location = new System.Drawing.Point(38, 9);
+            //
+            this.myLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.myLabel1.LeftPadding = 0;
+            this.myLabel1.Location = new System.Drawing.Point(4, 4);
+            this.myLabel1.Margin = new System.Windows.Forms.Padding(4);
             this.myLabel1.Name = "myLabel1";
             this.myLabel1.resize = false;
-            this.myLabel1.Size = new System.Drawing.Size(75, 23);
             this.myLabel1.TabIndex = 0;
             this.myLabel1.Text = "Port Name";
-            // 
+            this.myLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
             // myLabel2
-            // 
-            this.myLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel2.Location = new System.Drawing.Point(171, 9);
+            //
+            this.myLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.myLabel2.LeftPadding = 0;
+            this.myLabel2.Location = new System.Drawing.Point(112, 4);
+            this.myLabel2.Margin = new System.Windows.Forms.Padding(4);
             this.myLabel2.Name = "myLabel2";
             this.myLabel2.resize = false;
-            this.myLabel2.Size = new System.Drawing.Size(75, 23);
             this.myLabel2.TabIndex = 1;
             this.myLabel2.Text = "Speed";
-            // 
+            this.myLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
             // myLabel3
-            // 
-            this.myLabel3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel3.Location = new System.Drawing.Point(294, 9);
+            //
+            this.myLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.myLabel3.LeftPadding = 0;
+            this.myLabel3.Location = new System.Drawing.Point(220, 4);
+            this.myLabel3.Margin = new System.Windows.Forms.Padding(4);
             this.myLabel3.Name = "myLabel3";
             this.myLabel3.resize = false;
-            this.myLabel3.Size = new System.Drawing.Size(75, 23);
             this.myLabel3.TabIndex = 2;
-            this.myLabel3.Text = "Protcol";
-            // 
+            this.myLabel3.Text = "Protocol";
+            this.myLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
             // myLabel4
-            // 
-            this.myLabel4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.myLabel4.Location = new System.Drawing.Point(514, 9);
+            //
+            this.myLabel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.myLabel4.LeftPadding = 0;
+            this.myLabel4.Location = new System.Drawing.Point(328, 4);
+            this.myLabel4.Margin = new System.Windows.Forms.Padding(4);
             this.myLabel4.Name = "myLabel4";
             this.myLabel4.resize = false;
-            this.myLabel4.Size = new System.Drawing.Size(75, 23);
             this.myLabel4.TabIndex = 3;
             this.myLabel4.Text = "Options";
+            this.myLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ConfigSerial
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ConfigSerial";
-            this.Size = new System.Drawing.Size(812, 519);
+            this.Size = new System.Drawing.Size(1083, 639);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

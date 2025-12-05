@@ -296,12 +296,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     };
                 }
 
-                //Options label
+                //Options param name
                 string param_name = portName + "_OPTIONS";
 
-                var binlist = ParameterMetaDataRepository.GetParameterBitMaskInt(param_name, MainV2.comPort.MAV.cs.firmware.ToString());
-                var param_value = MainV2.comPort.MAV.param[param_name].Value;
-
+                //Options label
                 Label label1 = new Label()
                 {
                     Text = "",
@@ -316,14 +314,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //populate the label based on the options value
                 setLabelOptions(param_name, label1);
                 ThemeManager.ApplyThemeTo(label1);
-                tableLayoutPanel1.GetControlFromPosition(3, i)?.Dispose();
-                tableLayoutPanel1.Controls.Add(label1, 3, i);
+                tableLayoutPanel1.GetControlFromPosition(4, i)?.Dispose();
+                tableLayoutPanel1.Controls.Add(label1, 4, i);
 
                 //Bit setting button and form
                 var bitmask = ParameterMetaDataRepository.GetParameterBitMaskInt(param_name, MainV2.comPort.MAV.cs.firmware.ToString());
                 if (bitmask.Count > 0)
                 {
-                    MyButton optionsControl = new MyButton() { Text = "Set Bitmask" };
+                    MyButton optionsControl = new MyButton() { Text = "Set Bitmask", Height = 24, Anchor = AnchorStyles.None };
                     optionsControl.Click += (s, a) =>
                     {
                         var mcb = new MavlinkCheckBoxBitMask();
@@ -352,9 +350,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                                        (Screen.PrimaryScreen.WorkingArea.Height - frm.Height) / 2);
                     };
 
-                    ThemeManager.ApplyThemeTo(optionsControl);
-                    tableLayoutPanel1.GetControlFromPosition(4, i)?.Dispose();
-                    tableLayoutPanel1.Controls.Add(optionsControl, 4, i);
+                    // Apply theme to button manually since ApplyThemeTo only themes child controls
+                    optionsControl.BGGradTop = ThemeManager.ButBG;
+                    optionsControl.BGGradBot = ThemeManager.ButBGBot;
+                    optionsControl.TextColor = ThemeManager.ButtonTextColor;
+                    optionsControl.TextColorNotEnabled = ThemeManager.ButtonTextColorNotEnabled;
+                    optionsControl.Outline = ThemeManager.ButBorder;
+                    optionsControl.ColorMouseDown = ThemeManager.ColorMouseDown;
+                    optionsControl.ColorMouseOver = ThemeManager.ColorMouseOver;
+                    optionsControl.ColorNotEnabled = ThemeManager.ColorNotEnabled;
+                    tableLayoutPanel1.GetControlFromPosition(3, i)?.Dispose();
+                    tableLayoutPanel1.Controls.Add(optionsControl, 3, i);
                 }
             }
             //Add the message to the bottom of the table
@@ -401,7 +407,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     //set the options
                     setParam(portName + "_OPTIONS", rule.options.ToString());
-                    setLabelOptions(portName + "_OPTIONS", tableLayoutPanel1.GetControlFromPosition(3, port) as Label);
+                    var optLabel = tableLayoutPanel1.GetControlFromPosition(4, port) as Label;
+                    if (optLabel != null)
+                        setLabelOptions(portName + "_OPTIONS", optLabel);
                 }
                 noteLabel.Text = portName + " : " + rule.comment;
             }
@@ -417,10 +425,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             for (int i = 1; i <= serialPorts; i++)
             {
                 string protParamName = "SERIAL" + i.ToString() + "_PROTOCOL";
-                if (MainV2.comPort.MAV.param[protParamName].Value.ToString() == "1"
-                    || MainV2.comPort.MAV.param[protParamName].Value.ToString() == "2")
+                if (MainV2.comPort.MAV.param.ContainsKey(protParamName))
                 {
-                    mavlinkPorts++;
+                    var val = MainV2.comPort.MAV.param[protParamName].Value.ToString();
+                    if (val == "1" || val == "2")
+                    {
+                        mavlinkPorts++;
+                    }
                 }
             }
             if (mavlinkPorts >= 4)
