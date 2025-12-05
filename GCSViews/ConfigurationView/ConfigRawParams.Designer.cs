@@ -86,10 +86,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
             // BUT_writePIDS
-            // 
+            //
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
             this.BUT_writePIDS.Name = "BUT_writePIDS";
-            this.BUT_writePIDS.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_writePIDS.Font = new System.Drawing.Font(this.BUT_writePIDS.Font, System.Drawing.FontStyle.Bold);
+            this.BUT_writePIDS.IgnoreTheme = true;
+            this.BUT_writePIDS.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.BUT_writePIDS.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.BUT_writePIDS.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.BUT_writePIDS.TextColor = System.Drawing.Color.White;
+            this.BUT_writePIDS.ForeColor = System.Drawing.Color.White;
+            this.BUT_writePIDS.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
             // 

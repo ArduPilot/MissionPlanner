@@ -902,8 +902,11 @@ mc:Ignorable=""d""
             {
                 if (ctl.GetType() == typeof(Panel))
                 {
-                    ctl.BackColor = BGColor;
-                    ctl.ForeColor = TextColor;
+                    if (ctl.Tag?.ToString() != "IgnoreTheme")
+                    {
+                        ctl.BackColor = BGColor;
+                        ctl.ForeColor = TextColor;
+                    }
                 }
                 else if (ctl.GetType() == typeof(GroupBox))
                 {
@@ -943,16 +946,19 @@ mc:Ignorable=""d""
                 else if (ctl.GetType() == typeof(MyButton))
                 {
                     Controls.MyButton but = (MyButton)ctl;
-                    but.BGGradTop = ButBG;
-                    try
+                    if (!but.IgnoreTheme)
                     {
-                        but.BGGradBot = Color.FromArgb(ButBG.ToArgb() - 0x333333);
+                        but.BGGradTop = ButBG;
+                        try
+                        {
+                            but.BGGradBot = Color.FromArgb(ButBG.ToArgb() - 0x333333);
+                        }
+                        catch
+                        {
+                        }
+                        but.TextColor = TextColor;
+                        but.Outline = ButBorder;
                     }
-                    catch
-                    {
-                    }
-                    but.TextColor = TextColor;
-                    but.Outline = ButBorder;
                 }
                 else if (ctl.GetType() == typeof(TextBox))
                 {
@@ -1229,8 +1235,11 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof(Panel))
                 {
-                    ctl.BackColor = BGColor;
-                    ctl.ForeColor = TextColor;
+                    if (ctl.Tag?.ToString() != "IgnoreTheme")
+                    {
+                        ctl.BackColor = BGColor;
+                        ctl.ForeColor = TextColor;
+                    }
                 }
                 else if (ctl.GetType() == typeof(GroupBox))
                 {
@@ -1249,14 +1258,17 @@ mc:Ignorable=""d""
                 }
                 else if (ctl is MyButton but)
                 {
-                    but.BGGradTop = ButBG;
-                    but.BGGradBot = ButBGBot;
-                    but.TextColor = ButtonTextColor;
-                    but.TextColorNotEnabled = ButtonTextColorNotEnabled;
-                    but.Outline = ButBorder;
-                    but.ColorMouseDown = ColorMouseDown;        //sets the colour of buttons for different situations
-                    but.ColorMouseOver = ColorMouseOver;
-                    but.ColorNotEnabled = ColorNotEnabled;
+                    if (!but.IgnoreTheme)
+                    {
+                        but.BGGradTop = ButBG;
+                        but.BGGradBot = ButBGBot;
+                        but.TextColor = ButtonTextColor;
+                        but.TextColorNotEnabled = ButtonTextColorNotEnabled;
+                        but.Outline = ButBorder;
+                        but.ColorMouseDown = ColorMouseDown;
+                        but.ColorMouseOver = ColorMouseOver;
+                        but.ColorNotEnabled = ColorNotEnabled;
+                    }
                 }
                 else if (ctl.GetType() == typeof(TextBox))
                 {

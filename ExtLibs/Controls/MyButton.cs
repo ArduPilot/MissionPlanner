@@ -53,6 +53,10 @@ namespace MissionPlanner.Controls
         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
         public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
 
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Behavior")]
+        [DefaultValue(false)]
+        public bool IgnoreTheme { get; set; } = false;
+
         protected override Size DefaultSize => base.DefaultSize;
 
         public MyButton()

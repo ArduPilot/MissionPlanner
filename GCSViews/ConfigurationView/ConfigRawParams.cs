@@ -263,6 +263,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             int error = 0;
             bool reboot = false;
 
+            // Disable button and show writing status
+            string originalText = BUT_writePIDS.Text;
+            BUT_writePIDS.Enabled = false;
+            BUT_writePIDS.Text = "Writing...";
+            BUT_writePIDS.Refresh();
+
+            try
+            {
             foreach (string value in temp)
             {
                 try
@@ -336,6 +344,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //Click on refresh button
                     BUT_rerequestparams_Click(BUT_rerequestparams, null);
                 }
+            }
+            }
+            finally
+            {
+                // Restore button state
+                BUT_writePIDS.Text = originalText;
+                BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             }
         }
 

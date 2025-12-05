@@ -2432,10 +2432,8 @@ namespace MissionPlanner.Controls
                 y += 30;
 
                 var lblColor = new Label { Text = "MAV Color:", Location = new Point(margin, y + 3), AutoSize = true };
-                var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand };
+                var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand, Tag = "IgnoreTheme", BackColor = _planeColor };
                 Color selectedColor = _planeColor;
-                var colorToSet = _planeColor;
-                dialog.Shown += (s, ev) => { pnlColor.BackColor = colorToSet; };
                 pnlColor.Click += (s, ev) =>
                 {
                     using (var colorDialog = new ColorDialog())
