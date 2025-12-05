@@ -75,7 +75,7 @@ namespace MissionPlanner.Controls
             var collection = new AutoCompleteStringCollection();
             collection.AddRange(items.ToArray());
 
-            this.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.AutoCompleteSource = AutoCompleteSource.CustomSource;
             this.AutoCompleteCustomSource = collection;
         }
