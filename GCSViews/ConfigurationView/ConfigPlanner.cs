@@ -75,7 +75,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 WrapContents = true,
                 Padding = new Padding(10),
                 Margin = new Padding(0),
-                MaximumSize = new Size(1000, 0)
+                MaximumSize = new Size(800, 0)
             };
             layoutRoot.SizeChanged += (s, e) => ResizeGroupBoxes();
 
