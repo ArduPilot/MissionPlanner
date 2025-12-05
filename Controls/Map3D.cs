@@ -1489,6 +1489,7 @@ namespace MissionPlanner.Controls
         private Lines _flightPlanLines;
         private int _flightPlanLinesCount = -1;
         private int _flightPlanLinesHash = 0;
+        private readonly FpsOverlay _fpsOverlay = new FpsOverlay();
         private DateTime _centerTime;
         private List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
@@ -1875,6 +1876,7 @@ namespace MissionPlanner.Controls
                     GL.Disable(EnableCap.Blend);
                     GL.DepthMask(true);
                 }
+                _fpsOverlay.UpdateAndDraw();
                 var beforeswapbuffer = DateTime.Now;
                 try
                 {
@@ -3333,6 +3335,204 @@ void main(void) {
                     hash = hash * 31 + (wp.Tag?.GetHashCode() ?? 0);
                 }
                 return hash;
+            }
+        }
+
+        private class FpsOverlay
+        {
+            private readonly Stopwatch _watch = new Stopwatch();
+            private int _frameCount = 0;
+            private double _fpsValue = 0;
+            private int _textureId = 0;
+            private int _texWidth = 0;
+            private int _texHeight = 0;
+            private bool _dirty = true;
+            private const int Padding = 8;
+            private static int _program = 0;
+            private static int _posSlot = 0;
+            private static int _texSlot = 0;
+            private static int _samplerSlot = 0;
+
+            public FpsOverlay()
+            {
+                _watch.Start();
+            }
+
+            public void UpdateAndDraw()
+            {
+                var control = Map3D.instance;
+                if (control == null)
+                    return;
+
+                _frameCount++;
+                if (_watch.ElapsedMilliseconds >= 1000)
+                {
+                    _fpsValue = _frameCount / (_watch.ElapsedMilliseconds / 1000.0);
+                    _frameCount = 0;
+                    _watch.Restart();
+                    _dirty = true;
+                }
+
+                DrawOverlay(control);
+            }
+
+            private void DrawOverlay(Map3D control)
+            {
+                if (_textureId == 0 || _dirty)
+                {
+                    UpdateTexture();
+                }
+
+                if (_textureId == 0 || control.Width == 0 || control.Height == 0)
+                    return;
+
+                EnsureProgram();
+
+                // Convert pixel coords to NDC [-1, 1], origin top-left in pixels.
+                float left = -1f + (2f * Padding / control.Width);
+                float right = -1f + (2f * (Padding + _texWidth) / control.Width);
+                float top = 1f - (2f * (control.Height - Padding - _texHeight) / control.Height);
+                float bottom = 1f - (2f * (control.Height - Padding) / control.Height);
+
+                float[] quad =
+                {
+                    left,  bottom, 0f, 1f,
+                    right, bottom, 1f, 1f,
+                    left,  top,    0f, 0f,
+                    right, top,    1f, 0f
+                };
+
+                int vbo = 0;
+                GL.GenBuffers(1, out vbo);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+                GL.BufferData(BufferTarget.ArrayBuffer, quad.Length * sizeof(float), quad, BufferUsageHint.DynamicDraw);
+
+                GL.UseProgram(_program);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Disable(EnableCap.DepthTest);
+
+                GL.ActiveTexture(TextureUnit.Texture0);
+                GL.BindTexture(TextureTarget.Texture2D, _textureId);
+                GL.Uniform1(_samplerSlot, 0);
+
+                int stride = 4 * sizeof(float);
+                GL.VertexAttribPointer(_posSlot, 2, VertexAttribPointerType.Float, false, stride, IntPtr.Zero);
+                GL.EnableVertexAttribArray(_posSlot);
+                GL.VertexAttribPointer(_texSlot, 2, VertexAttribPointerType.Float, false, stride, (IntPtr)(2 * sizeof(float)));
+                GL.EnableVertexAttribArray(_texSlot);
+
+                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
+
+                GL.DisableVertexAttribArray(_posSlot);
+                GL.DisableVertexAttribArray(_texSlot);
+
+                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+                GL.DeleteBuffers(1, ref vbo);
+            }
+
+            private void UpdateTexture()
+            {
+                string text = $"FPS: {_fpsValue:F1}";
+
+                using (var dummy = new Bitmap(1, 1))
+                using (var g = Graphics.FromImage(dummy))
+                using (var font = new Font("Segoe UI", 10, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    var size = g.MeasureString(text, font);
+                    int width = (int)Math.Ceiling(size.Width + 8);
+                    int height = (int)Math.Ceiling(size.Height + 4);
+
+                    using (var bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                    using (var gbmp = Graphics.FromImage(bmp))
+                    {
+                        gbmp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        gbmp.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                        gbmp.Clear(Color.Transparent);
+                        using (var bgBrush = new SolidBrush(Color.FromArgb(160, 0, 0, 0)))
+                        {
+                            gbmp.FillRectangle(bgBrush, 0, 0, width, height);
+                        }
+                        using (var fgBrush = new SolidBrush(Color.White))
+                        {
+                            gbmp.DrawString(text, font, fgBrush, new PointF(4, 2));
+                        }
+
+                        var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                            ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                        if (_textureId != 0)
+                        {
+                            GL.DeleteTextures(1, ref _textureId);
+                            _textureId = 0;
+                        }
+
+                        _textureId = CreateTexture(data);
+
+                        // Ensure linear filtering for readability
+                        GL.BindTexture(TextureTarget.Texture2D, _textureId);
+                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+                        bmp.UnlockBits(data);
+
+                        _texWidth = bmp.Width;
+                        _texHeight = bmp.Height;
+                    }
+                }
+
+                _dirty = false;
+            }
+
+            private void EnsureProgram()
+            {
+                if (_program != 0)
+                    return;
+
+                int vShader = GL.CreateShader(ShaderType.VertexShader);
+                GL.ShaderSource(vShader, @"
+attribute vec2 Position;
+attribute vec2 TexCoordIn;
+varying vec2 TexCoord;
+void main(void) {
+    gl_Position = vec4(Position, 0.0, 1.0);
+    TexCoord = TexCoordIn;
+}");
+                GL.CompileShader(vShader);
+                GL.GetShader(vShader, ShaderParameter.CompileStatus, out var code);
+                if (code != (int)All.True)
+                {
+                    throw new Exception($"Overlay vertex shader compile error: {GL.GetShaderInfoLog(vShader)}");
+                }
+
+                int fShader = GL.CreateShader(ShaderType.FragmentShader);
+                GL.ShaderSource(fShader, @"
+precision mediump float;
+varying vec2 TexCoord;
+uniform sampler2D Texture;
+void main(void) {
+    gl_FragColor = texture2D(Texture, TexCoord);
+}");
+                GL.CompileShader(fShader);
+                GL.GetShader(fShader, ShaderParameter.CompileStatus, out code);
+                if (code != (int)All.True)
+                {
+                    throw new Exception($"Overlay fragment shader compile error: {GL.GetShaderInfoLog(fShader)}");
+                }
+
+                _program = GL.CreateProgram();
+                GL.AttachShader(_program, vShader);
+                GL.AttachShader(_program, fShader);
+                GL.LinkProgram(_program);
+                GL.GetProgram(_program, GetProgramParameterName.LinkStatus, out code);
+                if (code != (int)All.True)
+                {
+                    throw new Exception($"Overlay program link error: {GL.GetProgramInfoLog(_program)}");
+                }
+
+                _posSlot = GL.GetAttribLocation(_program, "Position");
+                _texSlot = GL.GetAttribLocation(_program, "TexCoordIn");
+                _samplerSlot = GL.GetUniformLocation(_program, "Texture");
             }
         }
     }
