@@ -159,9 +159,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (var panel in motorPanels)
             {
-                if (panel.GroupBox != null && flowLayoutPanelMotors.Controls.Contains(panel.GroupBox))
+                if (panel.GroupBox != null && tableLayoutPanelMotors.Controls.Contains(panel.GroupBox))
                 {
-                    flowLayoutPanelMotors.Controls.Remove(panel.GroupBox);
+                    tableLayoutPanelMotors.Controls.Remove(panel.GroupBox);
                     panel.GroupBox.Dispose();
                 }
             }
@@ -170,33 +170,91 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CreateMotorOutputPanels()
         {
-            // Find which servo outputs are assigned to motors
-            var motorAssignments = GetMotorAssignments();
+            // Suspend layout to prevent flickering during dynamic control creation
+            tableLayoutPanelMotors.SuspendLayout();
+            panel1.SuspendLayout();
+            this.SuspendLayout();
 
-            for (int motorIdx = 1; motorIdx <= motormax; motorIdx++)
+            try
             {
-                var motorPanel = CreateMotorPanel(motorIdx, motorAssignments);
-                motorPanels.Add(motorPanel);
-                flowLayoutPanelMotors.Controls.Add(motorPanel.GroupBox);
+                // Find which servo outputs are assigned to motors
+                var motorAssignments = GetMotorAssignments();
+
+                // Clear and reconfigure TableLayoutPanel
+                tableLayoutPanelMotors.Controls.Clear();
+                tableLayoutPanelMotors.RowStyles.Clear();
+                tableLayoutPanelMotors.ColumnStyles.Clear();
+
+                // Configure columns: 3 equal columns for the button row
+                tableLayoutPanelMotors.ColumnCount = 3;
+                tableLayoutPanelMotors.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tableLayoutPanelMotors.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                tableLayoutPanelMotors.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34F));
+
+                // Rows: one for each motor GroupBox (spanning all 3 columns) + one row for buttons
+                tableLayoutPanelMotors.RowCount = motormax + 1;
+                for (int i = 0; i < motormax; i++)
+                {
+                    tableLayoutPanelMotors.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
+                }
+                tableLayoutPanelMotors.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F)); // Button row
+
+                // Add motor GroupBoxes (each spans all 3 columns)
+                for (int motorIdx = 1; motorIdx <= motormax; motorIdx++)
+                {
+                    var motorPanel = CreateMotorPanel(motorIdx, motorAssignments);
+                    motorPanels.Add(motorPanel);
+                    motorPanel.GroupBox.Dock = DockStyle.Fill;
+                    tableLayoutPanelMotors.Controls.Add(motorPanel.GroupBox, 0, motorIdx - 1);
+                    tableLayoutPanelMotors.SetColumnSpan(motorPanel.GroupBox, 3);
+                }
+
+                // Add buttons to the last row
+                btnTestAll.Dock = DockStyle.Fill;
+                btnStopAll.Dock = DockStyle.Fill;
+                btnTestSequence.Dock = DockStyle.Fill;
+                tableLayoutPanelMotors.Controls.Add(btnTestAll, 0, motormax);
+                tableLayoutPanelMotors.Controls.Add(btnStopAll, 1, motormax);
+                tableLayoutPanelMotors.Controls.Add(btnTestSequence, 2, motormax);
+
+                // Position note labels below the table
+                int noteY = tableLayoutPanelMotors.Bottom + 6;
+                label2.Location = new Point(tableLayoutPanelMotors.Left, noteY);
+                linkLabel1.Location = new Point(tableLayoutPanelMotors.Left, noteY + 16);
+
+                // Position WebView to the right of the table with 32px spacing
+                PositionWebView();
+                tableLayoutPanelMotors.SizeChanged -= TableLayoutPanelMotors_SizeChanged;
+                tableLayoutPanelMotors.SizeChanged += TableLayoutPanelMotors_SizeChanged;
             }
+            finally
+            {
+                // Resume layout
+                this.ResumeLayout(false);
+                panel1.ResumeLayout(false);
+                tableLayoutPanelMotors.ResumeLayout(true);
+            }
+        }
 
-            // Resize flowLayoutPanel to fit content and position buttons/labels below
-            int totalHeight = motormax * 56; // Each GroupBox is 50px + 6px margin
-            flowLayoutPanelMotors.Height = Math.Min(totalHeight, 400); // Cap at 400 for scrolling
+        private void TableLayoutPanelMotors_SizeChanged(object sender, EventArgs e)
+        {
+            PositionWebView();
+        }
 
-            int buttonsY = flowLayoutPanelMotors.Bottom + 6;
-            panelButtons.Location = new Point(panelButtons.Location.X, buttonsY);
-
-            int noteY = panelButtons.Bottom + 6;
-            label2.Location = new Point(label2.Location.X, noteY);
-            linkLabel1.Location = new Point(linkLabel1.Location.X, noteY + 16);
+        private void PositionWebView()
+        {
+            // Position WebView 32px to the right of the table, aligned to table top
+            webViewFrame.Location = new Point(tableLayoutPanelMotors.Right + 32, tableLayoutPanelMotors.Top);
         }
 
         private Dictionary<int, int> GetMotorAssignments()
         {
-            // Returns a dictionary mapping motor index (1-12) to servo channel (1-16)
+            // Returns a dictionary mapping motor test order (1-12) to servo channel (1-16)
+            // Uses the motor_layout to map test order -> motor number -> servo channel
             var assignments = new Dictionary<int, int>();
 
+            // First, build a map of motor number -> servo channel
+            var motorToServo = new Dictionary<int, int>();
             for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
             {
                 string paramName = $"SERVO{servo}_FUNCTION";
@@ -207,9 +265,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (funcValue >= MOTOR_FUNCTION_BASE && funcValue < MOTOR_FUNCTION_BASE + 12)
                     {
                         int motorNum = funcValue - MOTOR_FUNCTION_BASE + 1;
-                        assignments[motorNum] = servo;
+                        motorToServo[motorNum] = servo;
                     }
                 }
+            }
+
+            // Now map test order -> servo channel using motor_layout
+            if (motor_layout.motors != null)
+            {
+                foreach (var motor in motor_layout.motors)
+                {
+                    if (motorToServo.ContainsKey(motor.Number))
+                    {
+                        assignments[motor.TestOrder] = motorToServo[motor.Number];
+                    }
+                }
+            }
+            else
+            {
+                // Fallback: assume test order = motor number
+                assignments = motorToServo;
             }
 
             return assignments;
@@ -220,15 +295,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             char motorLetter = (char)('A' + motorIdx - 1);
             int servoChannel = motorAssignments.ContainsKey(motorIdx) ? motorAssignments[motorIdx] : 0;
 
-            // Get rotation info if available from motor layout
+            // Get motor number and rotation info from motor layout
+            int motorNumber = motorIdx; // Default fallback
             string rotationInfo = "";
             if (motor_layout.motors != null)
             {
                 foreach (var motor in motor_layout.motors)
                 {
-                    if (motor.TestOrder == motorIdx && motor.Rotation != "?")
+                    if (motor.TestOrder == motorIdx)
                     {
-                        rotationInfo = motor.Rotation;
+                        motorNumber = motor.Number;
+                        if (motor.Rotation != "?")
+                        {
+                            rotationInfo = motor.Rotation;
+                        }
                         break;
                     }
                 }
@@ -241,62 +321,76 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var groupBox = new GroupBox
             {
                 Text = groupBoxTitle,
-                Width = 295,
                 Height = 50,
                 Margin = new Padding(3, 3, 3, 3)
             };
 
-            // Servo output label
-            var servoLabel = new Label
+            // Create TableLayoutPanel inside GroupBox for proper scaling
+            var innerLayout = new TableLayoutPanel
             {
-                Text = servoChannel > 0 ? $"Servo {servoChannel}" : "Not assigned",
-                Location = new Point(10, 20),
-                Width = 80,
-                AutoSize = false
+                Dock = DockStyle.Fill,
+                ColumnCount = 3,
+                RowCount = 1,
+                Margin = new Padding(0),
+                Padding = new Padding(3, 0, 3, 0)
+            };
+            innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));  // Motor number label
+            innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));  // Servo selector (stretches)
+            innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65F));  // Spin button
+            innerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+            // Motor number label
+            var motorLabel = new Label
+            {
+                Text = $"Motor {motorNumber}",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
             };
 
-            // Motor function selector
-            var motorSelector = new ComboBox
+            // Servo output selector
+            var servoSelector = new ComboBox
             {
-                Location = new Point(95, 17),
-                Width = 120,
-                DropDownStyle = ComboBoxStyle.DropDownList
+                Dock = DockStyle.Fill,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right
             };
 
-            // Populate motor selector with Motor1-Motor12 options
-            motorSelector.Items.Add(new ComboBoxItem { Text = "Disabled", Value = 0 });
-            for (int i = 1; i <= 12; i++)
+            // Prevent mouse wheel from changing selection
+            servoSelector.MouseWheel += (s, ev) => ((HandledMouseEventArgs)ev).Handled = true;
+
+            // Populate servo selector with Servo 1-16 options
+            servoSelector.Items.Add(new ComboBoxItem { Text = "Not assigned", Value = 0 });
+            for (int i = 1; i <= MAX_SERVO_CHANNELS; i++)
             {
-                motorSelector.Items.Add(new ComboBoxItem { Text = $"Motor{i}", Value = MOTOR_FUNCTION_BASE + i - 1 });
+                servoSelector.Items.Add(new ComboBoxItem { Text = $"Servo {i}", Value = i });
             }
-            motorSelector.DisplayMember = "Text";
+            servoSelector.DisplayMember = "Text";
 
-            // Select current value
-            int currentMotorFunc = MOTOR_FUNCTION_BASE + motorIdx - 1;
-            SelectMotorFunction(motorSelector, servoChannel > 0 ? currentMotorFunc : 0);
+            // Select current servo channel
+            SelectServoChannel(servoSelector, servoChannel);
 
-            motorSelector.Tag = new MotorSelectorTag { MotorIndex = motorIdx, ServoChannel = servoChannel };
-            motorSelector.SelectedIndexChanged += MotorSelector_SelectedIndexChanged;
+            servoSelector.Tag = new ServoSelectorTag { MotorIndex = motorIdx, MotorNumber = motorNumber };
+            servoSelector.SelectedIndexChanged += ServoSelector_SelectedIndexChanged;
 
             // Spin button
             var spinButton = new MyButton
             {
                 Text = "Spin",
-                Location = new Point(225, 16),
-                Size = new Size(60, 25)
+                Dock = DockStyle.Fill
             };
             spinButton.Tag = motorIdx;
             spinButton.Click += SpinButton_Click;
 
-            groupBox.Controls.Add(servoLabel);
-            groupBox.Controls.Add(motorSelector);
-            groupBox.Controls.Add(spinButton);
+            innerLayout.Controls.Add(motorLabel, 0, 0);
+            innerLayout.Controls.Add(servoSelector, 1, 0);
+            innerLayout.Controls.Add(spinButton, 2, 0);
+            groupBox.Controls.Add(innerLayout);
 
             return new MotorOutputPanel
             {
                 GroupBox = groupBox,
-                ServoLabel = servoLabel,
-                MotorSelector = motorSelector,
+                ServoLabel = motorLabel,
+                MotorSelector = servoSelector,
                 SpinButton = spinButton,
                 MotorIndex = motorIdx,
                 ServoChannel = servoChannel
@@ -316,6 +410,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public int ServoChannel { get; set; }
         }
 
+        private class ServoSelectorTag
+        {
+            public int MotorIndex { get; set; }
+            public int MotorNumber { get; set; }
+        }
+
         private void SelectMotorFunction(ComboBox combo, int functionValue)
         {
             for (int i = 0; i < combo.Items.Count; i++)
@@ -328,6 +428,149 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
             combo.SelectedIndex = 0;
+        }
+
+        private void SelectServoChannel(ComboBox combo, int servoChannel)
+        {
+            for (int i = 0; i < combo.Items.Count; i++)
+            {
+                var item = combo.Items[i] as ComboBoxItem;
+                if (item != null && item.Value == servoChannel)
+                {
+                    combo.SelectedIndex = i;
+                    return;
+                }
+            }
+            combo.SelectedIndex = 0;
+        }
+
+        private async void ServoSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var combo = sender as ComboBox;
+            if (combo == null) return;
+
+            var tag = combo.Tag as ServoSelectorTag;
+            if (tag == null) return;
+
+            var selectedItem = combo.SelectedItem as ComboBoxItem;
+            if (selectedItem == null) return;
+
+            int newServoChannel = selectedItem.Value;
+            int motorNumber = tag.MotorNumber;
+            int motorFunction = MOTOR_FUNCTION_BASE + motorNumber - 1;
+
+            if (newServoChannel <= 0)
+            {
+                // Find current servo assigned to this motor and clear it
+                for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
+                {
+                    string paramName = $"SERVO{servo}_FUNCTION";
+                    if (MainV2.comPort.MAV.param.ContainsKey(paramName))
+                    {
+                        int funcValue = (int)MainV2.comPort.MAV.param[paramName].Value;
+                        if (funcValue == motorFunction)
+                        {
+                            try
+                            {
+                                await MainV2.comPort.setParamAsync(
+                                    (byte)MainV2.comPort.sysidcurrent,
+                                    (byte)MainV2.comPort.compidcurrent,
+                                    paramName,
+                                    0).ConfigureAwait(true);
+                            }
+                            catch (Exception ex)
+                            {
+                                CustomMessageBox.Show($"Failed to clear {paramName}: " + ex.Message, Strings.ERROR);
+                            }
+                            break;
+                        }
+                    }
+                }
+                return;
+            }
+
+            string newParamName = $"SERVO{newServoChannel}_FUNCTION";
+
+            try
+            {
+                // Find current servo assigned to this motor (for swap)
+                int currentServoForThisMotor = 0;
+                for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
+                {
+                    string paramName = $"SERVO{servo}_FUNCTION";
+                    if (MainV2.comPort.MAV.param.ContainsKey(paramName))
+                    {
+                        int funcValue = (int)MainV2.comPort.MAV.param[paramName].Value;
+                        if (funcValue == motorFunction)
+                        {
+                            currentServoForThisMotor = servo;
+                            break;
+                        }
+                    }
+                }
+
+                // Check what function is currently on the target servo (for swap)
+                int existingFunctionOnTargetServo = 0;
+                if (MainV2.comPort.MAV.param.ContainsKey(newParamName))
+                {
+                    existingFunctionOnTargetServo = (int)MainV2.comPort.MAV.param[newParamName].Value;
+                }
+
+                // If target servo has a motor function and this motor has a servo, swap them
+                if (existingFunctionOnTargetServo >= MOTOR_FUNCTION_BASE &&
+                    existingFunctionOnTargetServo < MOTOR_FUNCTION_BASE + 12 &&
+                    currentServoForThisMotor > 0)
+                {
+                    // Swap: set the other motor's function to our current servo
+                    string oldServoParam = $"SERVO{currentServoForThisMotor}_FUNCTION";
+                    await MainV2.comPort.setParamAsync(
+                        (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent,
+                        oldServoParam,
+                        existingFunctionOnTargetServo).ConfigureAwait(true);
+
+                    // Update the UI for the swapped motor
+                    UpdateServoSelectorForMotor(existingFunctionOnTargetServo - MOTOR_FUNCTION_BASE + 1, currentServoForThisMotor);
+                }
+                else if (currentServoForThisMotor > 0)
+                {
+                    // Just clear old servo assignment (no swap needed)
+                    string oldServoParam = $"SERVO{currentServoForThisMotor}_FUNCTION";
+                    await MainV2.comPort.setParamAsync(
+                        (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent,
+                        oldServoParam,
+                        0).ConfigureAwait(true);
+                }
+
+                // Set the new servo to this motor function
+                await MainV2.comPort.setParamAsync(
+                    (byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
+                    newParamName,
+                    motorFunction).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show($"Failed to set {newParamName}: " + ex.Message, Strings.ERROR);
+            }
+        }
+
+        private void UpdateServoSelectorForMotor(int motorNumber, int newServoChannel)
+        {
+            // Find the motor panel that has this motor number and update its dropdown
+            foreach (var panel in motorPanels)
+            {
+                var tag = panel.MotorSelector?.Tag as ServoSelectorTag;
+                if (tag != null && tag.MotorNumber == motorNumber)
+                {
+                    // Temporarily remove event handler to avoid recursive updates
+                    panel.MotorSelector.SelectedIndexChanged -= ServoSelector_SelectedIndexChanged;
+                    SelectServoChannel(panel.MotorSelector, newServoChannel);
+                    panel.MotorSelector.SelectedIndexChanged += ServoSelector_SelectedIndexChanged;
+                    break;
+                }
+            }
         }
 
         private async void MotorSelector_SelectedIndexChanged(object sender, EventArgs e)

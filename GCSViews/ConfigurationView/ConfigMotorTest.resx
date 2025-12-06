@@ -119,10 +119,14 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="NUM_thr_percent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>66, 14</value>
+    <value>100, 48</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="NUM_thr_percent.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="NUM_thr_percent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>72, 22</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="NUM_thr_percent.TabIndex" type="System.Int32, mscorlib">
@@ -144,10 +148,13 @@
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 16</value>
+    <value>8, 50</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 13</value>
+    <value>67, 16</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -171,10 +178,13 @@
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>279, 75</value>
+    <value>8, 612</value>
+  </data>
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 13</value>
+    <value>135, 16</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -195,10 +205,13 @@
     <value>11</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>279, 88</value>
+    <value>8, 632</value>
+  </data>
+  <data name="linkLabel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 17</value>
+    <value>193, 21</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -222,10 +235,13 @@
     <value>12</value>
   </data>
   <data name="NUM_duration.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 14</value>
+    <value>285, 48</value>
+  </data>
+  <data name="NUM_duration.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="NUM_duration.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>72, 22</value>
   </data>
   <data name="NUM_duration.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -246,10 +262,13 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>129, 16</value>
+    <value>193, 50</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 13</value>
+    <value>75, 16</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -272,11 +291,47 @@
   <data name="panel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="tableLayoutPanelMotors.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanelMotors.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanelMotors.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 112</value>
+  </data>
+  <data name="tableLayoutPanelMotors.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="tableLayoutPanelMotors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>498, 431</value>
+  </data>
+  <data name="tableLayoutPanelMotors.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelMotors.Name" xml:space="preserve">
+    <value>tableLayoutPanelMotors</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelMotors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelMotors.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanelMotors.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanelMotors.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls /&gt;&lt;Columns Styles="Percent,33.33,Percent,33.33,Percent,33.34" /&gt;&lt;Rows Styles="" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
   <data name="webViewFrame.Location" type="System.Drawing.Point, System.Drawing">
-    <value>508, 14</value>
+    <value>514, 112</value>
+  </data>
+  <data name="webViewFrame.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="webViewFrame.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 400</value>
+    <value>533, 492</value>
   </data>
   <data name="webViewFrame.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -291,56 +346,28 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;webViewFrame.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="FrameType.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="FrameType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="FrameType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>129, 45</value>
-  </data>
-  <data name="FrameType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 13</value>
-  </data>
-  <data name="FrameType.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="FrameType.Text" xml:space="preserve">
-    <value>Type: unknown</value>
-  </data>
-  <data name="&gt;&gt;FrameType.Name" xml:space="preserve">
-    <value>FrameType</value>
-  </data>
-  <data name="&gt;&gt;FrameType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FrameType.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;FrameType.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="FrameClass.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="FrameClass.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="FrameClass.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
   </data>
   <data name="FrameClass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 45</value>
+    <value>8, 9</value>
+  </data>
+  <data name="FrameClass.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="FrameClass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 13</value>
+    <value>326, 25</value>
   </data>
   <data name="FrameClass.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="FrameClass.Text" xml:space="preserve">
-    <value>Class: unknown</value>
+    <value>Class: unknown, Type: unknown</value>
   </data>
   <data name="&gt;&gt;FrameClass.Name" xml:space="preserve">
     <value>FrameClass</value>
@@ -354,20 +381,23 @@
   <data name="&gt;&gt;FrameClass.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 45</value>
+    <value>193, 78</value>
+  </data>
+  <data name="label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 18</value>
+    <value>58, 16</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Motor Spin Min (0.00-1.00):</value>
+    <value>Spin Min</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -382,10 +412,13 @@
     <value>3</value>
   </data>
   <data name="NUM_mot_spin_min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>282, 43</value>
+    <value>285, 76</value>
+  </data>
+  <data name="NUM_mot_spin_min.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="NUM_mot_spin_min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 20</value>
+    <value>72, 22</value>
   </data>
   <data name="NUM_mot_spin_min.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -402,20 +435,23 @@
   <data name="&gt;&gt;NUM_mot_spin_min.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 16</value>
+    <value>8, 78</value>
+  </data>
+  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 41</value>
+    <value>61, 16</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Motor Spin Arm (0.00-1.00):</value>
+    <value>Spin Arm</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -430,10 +466,13 @@
     <value>5</value>
   </data>
   <data name="NUM_mot_spin_arm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>282, 14</value>
+    <value>100, 76</value>
+  </data>
+  <data name="NUM_mot_spin_arm.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="NUM_mot_spin_arm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 20</value>
+    <value>72, 22</value>
   </data>
   <data name="NUM_mot_spin_arm.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -456,8 +495,14 @@
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="panel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>43, 39, 43, 39</value>
+  </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1194, 583</value>
+    <value>1592, 718</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -474,14 +519,83 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="btnTestAll.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btnTestAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="btnTestAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 40</value>
+  </data>
+  <data name="btnTestAll.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="btnTestAll.Text" xml:space="preserve">
+    <value>Test All Motors</value>
+  </data>
+  <data name="&gt;&gt;btnTestAll.Name" xml:space="preserve">
+    <value>btnTestAll</value>
+  </data>
+  <data name="&gt;&gt;btnTestAll.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btnStopAll.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btnStopAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 4</value>
+  </data>
+  <data name="btnStopAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 40</value>
+  </data>
+  <data name="btnStopAll.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="btnStopAll.Text" xml:space="preserve">
+    <value>Stop All Motors</value>
+  </data>
+  <data name="&gt;&gt;btnStopAll.Name" xml:space="preserve">
+    <value>btnStopAll</value>
+  </data>
+  <data name="&gt;&gt;btnStopAll.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btnTestSequence.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btnTestSequence.Location" type="System.Drawing.Point, System.Drawing">
+    <value>292, 4</value>
+  </data>
+  <data name="btnTestSequence.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 40</value>
+  </data>
+  <data name="btnTestSequence.TabIndex" type="System.Int32, mscorlib">
+    <value>102</value>
+  </data>
+  <data name="btnTestSequence.Text" xml:space="preserve">
+    <value>Test Sequence</value>
+  </data>
+  <data name="&gt;&gt;btnTestSequence.Name" xml:space="preserve">
+    <value>btnTestSequence</value>
+  </data>
+  <data name="&gt;&gt;btnTestSequence.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>8, 16</value>
+  </data>
   <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1194, 583</value>
+    <value>1592, 718</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigMotorTest</value>
