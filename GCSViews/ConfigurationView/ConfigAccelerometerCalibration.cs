@@ -22,18 +22,87 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigAccelerometerCalibration()
         {
             InitializeComponent();
+            ClearOrientationImage();
+        }
+
+        private void ClearOrientationImage()
+        {
+            pictureBoxOrientation.Visible = false;
+            pictureBoxOrientation.Image?.Dispose();
+            pictureBoxOrientation.Image = null;
+            pictureBoxOrientation.Height = 0;
         }
 
         public void Activate()
         {
             BUT_calib_accell.Enabled = true;
             _incalibrate = false;
+            ClearOrientationImage();
         }
 
         public void Deactivate()
         {
             MainV2.comPort.giveComport = false;
             _incalibrate = false;
+            ClearOrientationImage();
+        }
+
+        private string GetOrientationImagePath(MAVLink.ACCELCAL_VEHICLE_POS position)
+        {
+            string imageName = null;
+
+            switch (position)
+            {
+                case MAVLink.ACCELCAL_VEHICLE_POS.LEVEL:
+                    imageName = "acc_flat.png";
+                    break;
+                case MAVLink.ACCELCAL_VEHICLE_POS.LEFT:
+                    imageName = "acc_left.png";
+                    break;
+                case MAVLink.ACCELCAL_VEHICLE_POS.RIGHT:
+                    imageName = "acc_right.png";
+                    break;
+                case MAVLink.ACCELCAL_VEHICLE_POS.NOSEDOWN:
+                    imageName = "acc_nose_down.png";
+                    break;
+                case MAVLink.ACCELCAL_VEHICLE_POS.NOSEUP:
+                    imageName = "acc_nose_up.png";
+                    break;
+                case MAVLink.ACCELCAL_VEHICLE_POS.BACK:
+                    imageName = "acc_upside_down.png";
+                    break;
+            }
+
+            if (imageName != null)
+            {
+                return System.IO.Path.Combine(Application.StartupPath, "Resources", imageName);
+            }
+
+            return null;
+        }
+
+        private void UpdateOrientationImage(MAVLink.ACCELCAL_VEHICLE_POS position)
+        {
+            try
+            {
+                string imagePath = GetOrientationImagePath(position);
+                if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+                {
+                    pictureBoxOrientation.Image?.Dispose();
+                    pictureBoxOrientation.Image = System.Drawing.Image.FromFile(imagePath);
+                    pictureBoxOrientation.Height = 400;
+                    pictureBoxOrientation.Visible = true;
+                }
+                else
+                {
+                    ClearOrientationImage();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                ClearOrientationImage();
+            }
         }
 
         private void BUT_calib_accell_Click(object sender, EventArgs e)
@@ -105,6 +174,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             BUT_calib_accell.Text = Strings.Done;
                             BUT_calib_accell.Enabled = false;
+                            ClearOrientationImage();
+                            groupBoxAccelCal.PerformLayout();
                         });
 
                         _incalibrate = false;
@@ -125,6 +196,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     pos = (MAVLink.ACCELCAL_VEHICLE_POS)message.param1;
 
                     UpdateUserMessage("Please place vehicle " + pos.ToString());
+
+                    Invoke((MethodInvoker)delegate
+                    {
+                        UpdateOrientationImage(pos);
+                    });
                 }
             }
 

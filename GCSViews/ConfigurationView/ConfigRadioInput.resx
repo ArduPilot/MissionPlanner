@@ -117,23 +117,104 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;CHK_mixmode.Name" xml:space="preserve">
+    <value>CHK_mixmode</value>
+  </data>
+  <data name="&gt;&gt;CHK_mixmode.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_mixmode.Parent" xml:space="preserve">
+    <value>groupBoxElevons</value>
+  </data>
+  <data name="&gt;&gt;CHK_mixmode.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch2rev.Name" xml:space="preserve">
+    <value>CHK_elevonch2rev</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch2rev.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch2rev.Parent" xml:space="preserve">
+    <value>groupBoxElevons</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch2rev.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonrev.Name" xml:space="preserve">
+    <value>CHK_elevonrev</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonrev.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonrev.Parent" xml:space="preserve">
+    <value>groupBoxElevons</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonrev.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch1rev.Name" xml:space="preserve">
+    <value>CHK_elevonch1rev</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch1rev.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch1rev.Parent" xml:space="preserve">
+    <value>groupBoxElevons</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevonch1rev.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBoxElevons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="groupBoxElevons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>269, 5</value>
+  </data>
+  <data name="groupBoxElevons.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="groupBoxElevons.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="groupBoxElevons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>254, 49</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBoxElevons.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBoxElevons.Text" xml:space="preserve">
+    <value>Elevons</value>
+  </data>
+  <data name="&gt;&gt;groupBoxElevons.Name" xml:space="preserve">
+    <value>groupBoxElevons</value>
+  </data>
+  <data name="&gt;&gt;groupBoxElevons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxElevons.Parent" xml:space="preserve">
+    <value>controlsTableLayout</value>
+  </data>
+  <data name="&gt;&gt;groupBoxElevons.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="CHK_mixmode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="CHK_mixmode.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CHK_mixmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CHK_mixmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 20</value>
   </data>
   <data name="CHK_mixmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 20</value>
+    <value>42, 17</value>
   </data>
   <data name="CHK_mixmode.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -145,7 +226,7 @@
     <value>CHK_mixmode</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -166,7 +247,7 @@
     <value>54, 20</value>
   </data>
   <data name="CHK_elevonch2rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 20</value>
+    <value>39, 17</value>
   </data>
   <data name="CHK_elevonch2rev.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -178,7 +259,7 @@
     <value>CHK_elevonch2rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -199,7 +280,7 @@
     <value>109, 20</value>
   </data>
   <data name="CHK_elevonrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_elevonrev.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -211,7 +292,7 @@
     <value>CHK_elevonrev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -232,7 +313,7 @@
     <value>164, 20</value>
   </data>
   <data name="CHK_elevonch1rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 20</value>
+    <value>39, 17</value>
   </data>
   <data name="CHK_elevonch1rev.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -244,46 +325,13 @@
     <value>CHK_elevonch1rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="groupBoxElevons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="groupBoxElevons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>269, 5</value>
-  </data>
-  <data name="groupBoxElevons.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 5, 5</value>
-  </data>
-  <data name="groupBoxElevons.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="groupBoxElevons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>254, 49</value>
-  </data>
-  <data name="groupBoxElevons.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="groupBoxElevons.Text" xml:space="preserve">
-    <value>Elevons</value>
-  </data>
-  <data name="&gt;&gt;groupBoxElevons.Name" xml:space="preserve">
-    <value>groupBoxElevons</value>
-  </data>
-  <data name="&gt;&gt;groupBoxElevons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxElevons.Parent" xml:space="preserve">
-    <value>controlsTableLayout</value>
-  </data>
-  <data name="&gt;&gt;groupBoxElevons.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="BUT_BindDSM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -876,84 +924,6 @@
   <data name="tableLayoutMain.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="sticksTableLayout.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="stickLeft.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="stickLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 3</value>
-  </data>
-  <data name="stickLeft.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>280, 280</value>
-  </data>
-  <data name="stickLeft.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>280, 280</value>
-  </data>
-  <data name="stickLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 280</value>
-  </data>
-  <data name="stickLeft.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;stickLeft.Name" xml:space="preserve">
-    <value>stickLeft</value>
-  </data>
-  <data name="&gt;&gt;stickLeft.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;stickLeft.Parent" xml:space="preserve">
-    <value>sticksTableLayout</value>
-  </data>
-  <data name="&gt;&gt;stickLeft.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="stickRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="stickRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>455, 3</value>
-  </data>
-  <data name="stickRight.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>280, 280</value>
-  </data>
-  <data name="stickRight.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>280, 280</value>
-  </data>
-  <data name="stickRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 280</value>
-  </data>
-  <data name="stickRight.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;stickRight.Name" xml:space="preserve">
-    <value>stickRight</value>
-  </data>
-  <data name="&gt;&gt;stickRight.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;stickRight.Parent" xml:space="preserve">
-    <value>sticksTableLayout</value>
-  </data>
-  <data name="&gt;&gt;stickRight.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="sticksTableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="sticksTableLayout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="sticksTableLayout.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="sticksTableLayout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>794, 284</value>
-  </data>
-  <data name="sticksTableLayout.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;sticksTableLayout.Name" xml:space="preserve">
     <value>sticksTableLayout</value>
   </data>
@@ -1015,10 +985,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_revroll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 10</value>
+    <value>337, 11</value>
   </data>
   <data name="CHK_revroll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_revroll.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1030,7 +1000,7 @@
     <value>CHK_revroll</value>
   </data>
   <data name="&gt;&gt;CHK_revroll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revroll.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1051,10 +1021,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 10</value>
+    <value>731, 11</value>
   </data>
   <data name="CHK_rev9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev9.TabIndex" type="System.Int32, mscorlib">
     <value>54</value>
@@ -1066,7 +1036,7 @@
     <value>CHK_rev9</value>
   </data>
   <data name="&gt;&gt;CHK_rev9.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev9.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1099,7 +1069,7 @@
     <value>CHK_revpitch</value>
   </data>
   <data name="&gt;&gt;CHK_revpitch.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revpitch.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1120,10 +1090,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 50</value>
+    <value>731, 51</value>
   </data>
   <data name="CHK_rev10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev10.TabIndex" type="System.Int32, mscorlib">
     <value>55</value>
@@ -1135,7 +1105,7 @@
     <value>CHK_rev10</value>
   </data>
   <data name="&gt;&gt;CHK_rev10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev10.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1168,7 +1138,7 @@
     <value>CHK_revthr</value>
   </data>
   <data name="&gt;&gt;CHK_revthr.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revthr.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1189,10 +1159,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 90</value>
+    <value>731, 91</value>
   </data>
   <data name="CHK_rev11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev11.TabIndex" type="System.Int32, mscorlib">
     <value>56</value>
@@ -1204,7 +1174,7 @@
     <value>CHK_rev11</value>
   </data>
   <data name="&gt;&gt;CHK_rev11.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev11.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1237,7 +1207,7 @@
     <value>CHK_revyaw</value>
   </data>
   <data name="&gt;&gt;CHK_revyaw.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revyaw.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1258,10 +1228,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 130</value>
+    <value>731, 131</value>
   </data>
   <data name="CHK_rev12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev12.TabIndex" type="System.Int32, mscorlib">
     <value>57</value>
@@ -1273,7 +1243,7 @@
     <value>CHK_rev12</value>
   </data>
   <data name="&gt;&gt;CHK_rev12.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev12.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1294,10 +1264,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 170</value>
+    <value>337, 171</value>
   </data>
   <data name="CHK_rev5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>54, 17</value>
   </data>
   <data name="CHK_rev5.TabIndex" type="System.Int32, mscorlib">
     <value>50</value>
@@ -1309,7 +1279,7 @@
     <value>CHK_rev5</value>
   </data>
   <data name="&gt;&gt;CHK_rev5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev5.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1330,10 +1300,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 170</value>
+    <value>731, 171</value>
   </data>
   <data name="CHK_rev13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev13.TabIndex" type="System.Int32, mscorlib">
     <value>58</value>
@@ -1345,7 +1315,7 @@
     <value>CHK_rev13</value>
   </data>
   <data name="&gt;&gt;CHK_rev13.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev13.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1366,10 +1336,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 210</value>
+    <value>337, 211</value>
   </data>
   <data name="CHK_rev6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev6.TabIndex" type="System.Int32, mscorlib">
     <value>51</value>
@@ -1381,7 +1351,7 @@
     <value>CHK_rev6</value>
   </data>
   <data name="&gt;&gt;CHK_rev6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev6.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1402,10 +1372,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 210</value>
+    <value>731, 211</value>
   </data>
   <data name="CHK_rev14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev14.TabIndex" type="System.Int32, mscorlib">
     <value>59</value>
@@ -1417,7 +1387,7 @@
     <value>CHK_rev14</value>
   </data>
   <data name="&gt;&gt;CHK_rev14.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev14.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1438,10 +1408,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 250</value>
+    <value>337, 251</value>
   </data>
   <data name="CHK_rev7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev7.TabIndex" type="System.Int32, mscorlib">
     <value>52</value>
@@ -1453,7 +1423,7 @@
     <value>CHK_rev7</value>
   </data>
   <data name="&gt;&gt;CHK_rev7.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev7.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1474,10 +1444,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 250</value>
+    <value>731, 251</value>
   </data>
   <data name="CHK_rev15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev15.TabIndex" type="System.Int32, mscorlib">
     <value>60</value>
@@ -1489,7 +1459,7 @@
     <value>CHK_rev15</value>
   </data>
   <data name="&gt;&gt;CHK_rev15.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev15.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1510,10 +1480,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 290</value>
+    <value>337, 291</value>
   </data>
   <data name="CHK_rev8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev8.TabIndex" type="System.Int32, mscorlib">
     <value>53</value>
@@ -1525,7 +1495,7 @@
     <value>CHK_rev8</value>
   </data>
   <data name="&gt;&gt;CHK_rev8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev8.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1546,10 +1516,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 290</value>
+    <value>731, 291</value>
   </data>
   <data name="CHK_rev16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>46, 17</value>
   </data>
   <data name="CHK_rev16.TabIndex" type="System.Int32, mscorlib">
     <value>61</value>
@@ -1561,7 +1531,7 @@
     <value>CHK_rev16</value>
   </data>
   <data name="&gt;&gt;CHK_rev16.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.25823, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev16.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1573,7 +1543,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutChannels.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 18</value>
+    <value>3, 16</value>
   </data>
   <data name="tableLayoutChannels.RowCount" type="System.Int32, mscorlib">
     <value>8</value>
@@ -1597,7 +1567,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutChannels.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revroll" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev9" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revpitch" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev10" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revthr" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev11" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revyaw" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev12" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev13" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev14" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev7" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev15" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev8" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev16" Row="7" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,40,AutoSize,0,Percent,40,AutoSize,0" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revroll" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev9" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revpitch" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev10" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revthr" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev11" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revyaw" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev12" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev13" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev14" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev7" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev15" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev8" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev16" Row="7" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,60,Percent,50,Absolute,60" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="groupBoxChannels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1606,7 +1576,7 @@
     <value>3, 293</value>
   </data>
   <data name="groupBoxChannels.Size" type="System.Drawing.Size, System.Drawing">
-    <value>794, 341</value>
+    <value>794, 339</value>
   </data>
   <data name="groupBoxChannels.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1624,6 +1594,192 @@
     <value>tableLayoutMain</value>
   </data>
   <data name="&gt;&gt;groupBoxChannels.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.Name" xml:space="preserve">
+    <value>controlsTableLayout</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.Parent" xml:space="preserve">
+    <value>panelControls</value>
+  </data>
+  <data name="&gt;&gt;controlsTableLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="controlsTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxElevons" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Calibrateradio" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,33.33,Percent,33.33,Percent,33.34" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="panelControls.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelControls.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 638</value>
+  </data>
+  <data name="panelControls.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 59</value>
+  </data>
+  <data name="panelControls.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panelControls.Name" xml:space="preserve">
+    <value>panelControls</value>
+  </data>
+  <data name="&gt;&gt;panelControls.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelControls.Parent" xml:space="preserve">
+    <value>tableLayoutMain</value>
+  </data>
+  <data name="&gt;&gt;panelControls.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="tableLayoutMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutMain.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 700</value>
+  </data>
+  <data name="tableLayoutMain.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.Name" xml:space="preserve">
+    <value>tableLayoutMain</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.Parent" xml:space="preserve">
+    <value>contentPanel</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutMain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutMain.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="panelSticks" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxChannels" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="panelControls" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,290,AutoSize,0,Absolute,65" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="sticksTableLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Name" xml:space="preserve">
+    <value>stickLeft</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Parent" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Name" xml:space="preserve">
+    <value>stickRight</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Parent" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;stickRight.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="sticksTableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="sticksTableLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="sticksTableLayout.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="sticksTableLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 284</value>
+  </data>
+  <data name="sticksTableLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.Name" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.Parent" xml:space="preserve">
+    <value>panelSticks</value>
+  </data>
+  <data name="&gt;&gt;sticksTableLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="sticksTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="stickLeft" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="stickRight" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="stickLeft.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="stickLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 3</value>
+  </data>
+  <data name="stickLeft.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickLeft.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickLeft.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Name" xml:space="preserve">
+    <value>stickLeft</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.Parent" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;stickLeft.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="stickRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="stickRight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>455, 3</value>
+  </data>
+  <data name="stickRight.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickRight.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 280</value>
+  </data>
+  <data name="stickRight.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Name" xml:space="preserve">
+    <value>stickRight</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stickRight.Parent" xml:space="preserve">
+    <value>sticksTableLayout</value>
+  </data>
+  <data name="&gt;&gt;stickRight.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="controlsTableLayout.ColumnCount" type="System.Int32, mscorlib">
@@ -1658,60 +1814,6 @@
   </data>
   <data name="controlsTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxElevons" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_Calibrateradio" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,33.33,Percent,33.33,Percent,33.34" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="panelControls.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelControls.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 640</value>
-  </data>
-  <data name="panelControls.Size" type="System.Drawing.Size, System.Drawing">
-    <value>794, 59</value>
-  </data>
-  <data name="panelControls.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;panelControls.Name" xml:space="preserve">
-    <value>panelControls</value>
-  </data>
-  <data name="&gt;&gt;panelControls.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelControls.Parent" xml:space="preserve">
-    <value>tableLayoutMain</value>
-  </data>
-  <data name="&gt;&gt;panelControls.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="tableLayoutMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tableLayoutMain.RowCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="tableLayoutMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>800, 702</value>
-  </data>
-  <data name="tableLayoutMain.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutMain.Name" xml:space="preserve">
-    <value>tableLayoutMain</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutMain.Parent" xml:space="preserve">
-    <value>contentPanel</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutMain.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutMain.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="panelSticks" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxChannels" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="panelControls" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,290,AutoSize,0,Absolute,65" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="scrollPanel.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>

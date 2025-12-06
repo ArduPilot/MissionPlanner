@@ -466,9 +466,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.sticksTableLayout.Controls.Add(this.stickLeft, 0, 0);
             this.sticksTableLayout.Controls.Add(this.stickRight, 1, 0);
             this.sticksTableLayout.Name = "sticksTableLayout";
-            //
+            // 
             // stickLeft
-            //
+            // 
             resources.ApplyResources(this.stickLeft, "stickLeft");
             this.stickLeft.HorizontalLabel = "Yaw";
             this.stickLeft.HorizontalMaxLine = 0;
@@ -478,9 +478,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.stickLeft.VerticalMaxLine = 0;
             this.stickLeft.VerticalMinLine = 0;
             this.stickLeft.VerticalValue = 1000;
-            //
+            // 
             // stickRight
-            //
+            // 
             resources.ApplyResources(this.stickRight, "stickRight");
             this.stickRight.HorizontalLabel = "Roll";
             this.stickRight.HorizontalMaxLine = 0;
