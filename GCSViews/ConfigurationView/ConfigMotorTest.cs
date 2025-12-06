@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -12,6 +13,63 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigMotorTest : MyUserControl, IActivate
     {
+        // Frame type SVG URLs from ArduPilot documentation
+        private static readonly Dictionary<(int frameClass, int frameType), string> FrameSvgUrls = new Dictionary<(int, int), string>
+        {
+            // QUAD (Class 1)
+            {(1, 0), "http://ardupilot.org/copter/_images/m_01_00_quad_plus.svg"},
+            {(1, 1), "http://ardupilot.org/copter/_images/m_01_01_quad_x.svg"},
+            {(1, 2), "http://ardupilot.org/copter/_images/m_01_02_quad_v.svg"},
+            {(1, 3), "http://ardupilot.org/copter/_images/m_01_03_quad_h.svg"},
+            {(1, 4), "http://ardupilot.org/copter/_images/m_01_04_quad_v_tail.svg"},
+            {(1, 5), "http://ardupilot.org/copter/_images/m_01_05_quad_a_tail.svg"},
+            {(1, 6), "http://ardupilot.org/copter/_images/m_01_06_quad_plus_rev.svg"},
+            {(1, 12), "http://ardupilot.org/copter/_images/m_01_12_quad_x_bf.svg"},
+            {(1, 13), "http://ardupilot.org/copter/_images/m_01_13_quad_x_dji.svg"},
+            {(1, 14), "http://ardupilot.org/copter/_images/m_01_14_quad_x_cw.svg"},
+            {(1, 16), "http://ardupilot.org/copter/_images/m_01_16_quad_plus_nyt.svg"},
+            {(1, 17), "http://ardupilot.org/copter/_images/m_01_17_quad_x_nyt.svg"},
+            {(1, 18), "http://ardupilot.org/copter/_images/m_01_18_quad_x_bf_rev.svg"},
+            {(1, 19), "http://ardupilot.org/copter/_images/m_01_19_quad_y4a.svg"},
+            // HEXA (Class 2)
+            {(2, 0), "http://ardupilot.org/copter/_images/m_02_00_hexa_plus.svg"},
+            {(2, 1), "http://ardupilot.org/copter/_images/m_02_01_hexa_x.svg"},
+            {(2, 3), "http://ardupilot.org/copter/_images/m_02_03_hexa_h.svg"},
+            {(2, 13), "http://ardupilot.org/copter/_images/m_02_13_hexa_x_dji.svg"},
+            {(2, 14), "http://ardupilot.org/copter/_images/m_02_14_hexa_x_cw.svg"},
+            // OCTA (Class 3)
+            {(3, 0), "http://ardupilot.org/copter/_images/m_03_00_octo_plus.svg"},
+            {(3, 1), "http://ardupilot.org/copter/_images/m_03_01_octo_x.svg"},
+            {(3, 2), "http://ardupilot.org/copter/_images/m_03_02_octo_v.svg"},
+            {(3, 3), "http://ardupilot.org/copter/_images/m_03_03_octo_h.svg"},
+            {(3, 13), "http://ardupilot.org/copter/_images/m_03_13_octo_x_dji.svg"},
+            {(3, 14), "http://ardupilot.org/copter/_images/m_03_14_octo_x_cw.svg"},
+            {(3, 15), "http://ardupilot.org/copter/_images/m_03_15_octo_i.svg"},
+            // OCTA QUAD (Class 4)
+            {(4, 0), "http://ardupilot.org/copter/_images/m_04_00_octo_quad_plus.svg"},
+            {(4, 1), "http://ardupilot.org/copter/_images/m_04_01_octo_quad_x.svg"},
+            {(4, 2), "http://ardupilot.org/copter/_images/m_04_02_octo_quad_v.svg"},
+            {(4, 3), "http://ardupilot.org/copter/_images/m_04_03_octo_quad_h.svg"},
+            {(4, 12), "http://ardupilot.org/copter/_images/m_04_12_octo_quad_x_bf.svg"},
+            {(4, 14), "http://ardupilot.org/copter/_images/m_04_14_octo_quad_x_cw.svg"},
+            {(4, 18), "http://ardupilot.org/copter/_images/m_04_18_octo_quad_x_bf_rev.svg"},
+            // Y6 (Class 5)
+            {(5, 0), "http://ardupilot.org/copter/_images/m_05_00_y6_a.svg"},
+            {(5, 10), "http://ardupilot.org/copter/_images/m_05_10_y6_b.svg"},
+            {(5, 11), "http://ardupilot.org/copter/_images/m_05_11_y6_f.svg"},
+            // TRI (Class 7)
+            {(7, 0), "http://ardupilot.org/copter/_images/m_07_00_tricopter.svg"},
+            {(7, 6), "http://ardupilot.org/copter/_images/m_07_06_tricopter_pitch_rev.svg"},
+            // BICOPTER (Class 10)
+            {(10, 0), "http://ardupilot.org/copter/_images/m_10_00_bicopter.svg"},
+            // DODECAHEXA (Class 12)
+            {(12, 0), "http://ardupilot.org/copter/_images/m_12_00_dodecahexa_plus.svg"},
+            {(12, 1), "http://ardupilot.org/copter/_images/m_12_01_dodecahexa_x.svg"},
+            // DECA (Class 14)
+            {(14, 0), "http://ardupilot.org/copter/_images/m_14_00_deca_plus.svg"},
+            {(14, 1), "http://ardupilot.org/copter/_images/m_14_01_deca_x_and_cw_x.svg"}
+        };
+
         public ConfigMotorTest()
         {
             InitializeComponent();
@@ -40,8 +98,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
         private _layouts motor_layout;
 
-        public void Activate()
+        public async void Activate()
         {
+            // Initialize WebView2
+            try
+            {
+                await webViewFrame.EnsureCoreWebView2Async(null);
+                webViewFrame.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("WebView2 initialization error: " + ex.Message);
+            }
+
             var x = 6;
             var y = 75;
 
@@ -228,10 +297,67 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             lookup_frame_layout(frame_class, frame_type);
+            UpdateFrameImage(frame_class, frame_type);
 
             return true;
         }
 
+        private void UpdateFrameImage(int frame_class, int frame_type)
+        {
+            try
+            {
+                if (webViewFrame.CoreWebView2 == null)
+                {
+                    Debug.WriteLine("WebView2 CoreWebView2 not initialized");
+                    return;
+                }
+
+                // Lookup SVG URL based on frame class and type
+                if (FrameSvgUrls.TryGetValue((frame_class, frame_type), out string svgUrl))
+                {
+                    // Create HTML to display SVG with proper sizing
+                    string html = $@"
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <style>
+                                body {{
+                                    margin: 0;
+                                    padding: 0;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 400px;
+                                    height: 400px;
+                                    overflow: hidden;
+                                }}
+                                img {{
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    object-fit: contain;
+                                }}
+                            </style>
+                        </head>
+                        <body>
+                            <img src='{svgUrl}' alt='Frame diagram' />
+                        </body>
+                        </html>";
+
+                    webViewFrame.CoreWebView2.NavigateToString(html);
+                    webViewFrame.Visible = true;
+                }
+                else
+                {
+                    Debug.WriteLine($"No SVG found for frame class {frame_class}, type {frame_type}");
+                    webViewFrame.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error updating frame image: " + ex.Message);
+                webViewFrame.Visible = false;
+            }
+        }
 
         private void lookup_frame_layout(int frame_class, int frame_type)
         {

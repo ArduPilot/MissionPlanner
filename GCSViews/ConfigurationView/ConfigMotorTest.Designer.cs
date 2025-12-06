@@ -42,8 +42,10 @@
             this.but_mot_spin_arm = new MissionPlanner.Controls.MyButton();
             this.FrameClass = new System.Windows.Forms.Label();
             this.FrameType = new System.Windows.Forms.Label();
+            this.webViewFrame = new Microsoft.Web.WebView2.WinForms.WebView2();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.webViewFrame)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,17 +151,25 @@
             this.FrameClass.Name = "FrameClass";
             // 
             // FrameType
-            // 
+            //
             resources.ApplyResources(this.FrameType, "FrameType");
             this.FrameType.Name = "FrameType";
-            // 
+            //
+            // webViewFrame
+            //
+            resources.ApplyResources(this.webViewFrame, "webViewFrame");
+            this.webViewFrame.Name = "webViewFrame";
+            this.webViewFrame.TabStop = false;
+            //
             // ConfigMotorTest
-            // 
+            //
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.webViewFrame);
             this.Controls.Add(this.groupBox1);
             this.Name = "ConfigMotorTest";
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.webViewFrame)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -182,5 +192,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label FrameType;
         private System.Windows.Forms.Label FrameClass;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webViewFrame;
     }
 }

@@ -445,6 +445,27 @@ scroll to the bottom of the page</value>
   <data name="&gt;&gt;but_mot_spin_arm.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="webViewFrame.Location" type="System.Drawing.Point, System.Drawing">
+    <value>540, 0</value>
+  </data>
+  <data name="webViewFrame.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 400</value>
+  </data>
+  <data name="webViewFrame.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;webViewFrame.Name" xml:space="preserve">
+    <value>webViewFrame</value>
+  </data>
+  <data name="&gt;&gt;webViewFrame.Type" xml:space="preserve">
+    <value>Microsoft.Web.WebView2.WinForms.WebView2, Microsoft.Web.WebView2.WinForms, Version=1.0.2739.15, Culture=neutral, PublicKeyToken=2a8ab48044d2601e</value>
+  </data>
+  <data name="&gt;&gt;webViewFrame.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;webViewFrame.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -467,7 +488,7 @@ scroll to the bottom of the page</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
