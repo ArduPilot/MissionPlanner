@@ -8,11 +8,16 @@ using System.Windows.Forms;
 using System.Reflection;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigMotorTest : MyUserControl, IActivate
     {
+        // Motor function values in ArduPilot (33 = Motor1, 34 = Motor2, etc.)
+        private const int MOTOR_FUNCTION_BASE = 33;
+        private const int MAX_SERVO_CHANNELS = 16;
+
         // Frame type SVG URLs from ArduPilot documentation
         private static readonly Dictionary<(int frameClass, int frameType), string> FrameSvgUrls = new Dictionary<(int, int), string>
         {
@@ -76,6 +81,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private int motormax = 0;
+        private List<MotorOutputPanel> motorPanels = new List<MotorOutputPanel>();
 
         private struct _motors
         {
@@ -98,6 +104,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
         private _layouts motor_layout;
 
+        private class MotorOutputPanel
+        {
+            public GroupBox GroupBox { get; set; }
+            public Label ServoLabel { get; set; }
+            public ComboBox MotorSelector { get; set; }
+            public MyButton SpinButton { get; set; }
+            public int MotorIndex { get; set; }  // 1-based motor index (A=1, B=2, etc.)
+            public int ServoChannel { get; set; }  // 1-based servo channel
+        }
+
         public async void Activate()
         {
             // Initialize WebView2
@@ -112,71 +128,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Debug.WriteLine("WebView2 initialization error: " + ex.Message);
             }
 
-            var x = 6;
-            var y = 75;
-
             motormax = this.get_motormax();
 
-            MyButton but;
-            for (var a = 1; a <= motormax; a++)
-            {
-                but = new MyButton();
-                but.Text = "Test motor " + (char)((a - 1) + 'A');
-                but.Location = new Point(x, y);
-                but.Click += but_Click;
-                but.Tag = a;
+            // Clear previous dynamic controls
+            ClearDynamicControls();
 
-                panel1.Controls.Add(but);
-
-                if (motor_layout.motors != null)
-                {
-                    foreach (var motor in motor_layout.motors)
-                    {
-                        if (motor.TestOrder == a)
-                        {
-                            var lab = new Label();
-                            lab.Text += "Motor Number: " + motor.Number;
-                            if (motor.Rotation != "?")
-                            {
-                                lab.Text += ", " + motor.Rotation;
-                            }
-                            lab.Location = new Point(x + 85, y + 5);
-                            lab.Width = 150;
-                            panel1.Controls.Add(lab);
-                        }
-                    }
-                }
-
-                y += 25;
-            }
-
-            but = new MyButton();
-            but.Text = "Test all motors";
-            but.Location = new Point(x, y);
-            but.Size = new Size(75, 37);
-            but.Click += but_TestAll;
-            panel1.Controls.Add(but);
-
-            y += 39;
-
-            but = new MyButton();
-            but.Text = "Stop all motors";
-            but.Location = new Point(x, y);
-            but.Size = new Size(75, 37);
-            but.Click += but_StopAll;
-            panel1.Controls.Add(but);
-
-            y += 39;
-
-            but = new MyButton();
-            but.Text = "Test all in Sequence";
-            but.Location = new Point(x, y);
-            but.Size = new Size(75, 37);
-            but.Click += but_TestAllSeq;
-            panel1.Controls.Add(but);
+            // Create motor output panels
+            CreateMotorOutputPanels();
 
             // Load MOT_SPIN_ARM and MOT_SPIN_MIN parameters
-            // Temporarily remove event handlers to avoid triggering parameter writes during load
             NUM_mot_spin_arm.ValueChanged -= NUM_mot_spin_arm_ValueChanged;
             NUM_mot_spin_min.ValueChanged -= NUM_mot_spin_min_ValueChanged;
 
@@ -189,11 +149,240 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 NUM_mot_spin_min.Value = (decimal)MainV2.comPort.MAV.param["MOT_SPIN_MIN"].Value;
             }
 
-            // Re-add event handlers
             NUM_mot_spin_arm.ValueChanged += NUM_mot_spin_arm_ValueChanged;
             NUM_mot_spin_min.ValueChanged += NUM_mot_spin_min_ValueChanged;
 
             Utilities.ThemeManager.ApplyThemeTo(this);
+        }
+
+        private void ClearDynamicControls()
+        {
+            foreach (var panel in motorPanels)
+            {
+                if (panel.GroupBox != null && flowLayoutPanelMotors.Controls.Contains(panel.GroupBox))
+                {
+                    flowLayoutPanelMotors.Controls.Remove(panel.GroupBox);
+                    panel.GroupBox.Dispose();
+                }
+            }
+            motorPanels.Clear();
+        }
+
+        private void CreateMotorOutputPanels()
+        {
+            // Find which servo outputs are assigned to motors
+            var motorAssignments = GetMotorAssignments();
+
+            for (int motorIdx = 1; motorIdx <= motormax; motorIdx++)
+            {
+                var motorPanel = CreateMotorPanel(motorIdx, motorAssignments);
+                motorPanels.Add(motorPanel);
+                flowLayoutPanelMotors.Controls.Add(motorPanel.GroupBox);
+            }
+
+            // Resize flowLayoutPanel to fit content and position buttons/labels below
+            int totalHeight = motormax * 56; // Each GroupBox is 50px + 6px margin
+            flowLayoutPanelMotors.Height = Math.Min(totalHeight, 400); // Cap at 400 for scrolling
+
+            int buttonsY = flowLayoutPanelMotors.Bottom + 6;
+            panelButtons.Location = new Point(panelButtons.Location.X, buttonsY);
+
+            int noteY = panelButtons.Bottom + 6;
+            label2.Location = new Point(label2.Location.X, noteY);
+            linkLabel1.Location = new Point(linkLabel1.Location.X, noteY + 16);
+        }
+
+        private Dictionary<int, int> GetMotorAssignments()
+        {
+            // Returns a dictionary mapping motor index (1-12) to servo channel (1-16)
+            var assignments = new Dictionary<int, int>();
+
+            for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
+            {
+                string paramName = $"SERVO{servo}_FUNCTION";
+                if (MainV2.comPort.MAV.param.ContainsKey(paramName))
+                {
+                    int funcValue = (int)MainV2.comPort.MAV.param[paramName].Value;
+                    // Motor1 = 33, Motor2 = 34, etc.
+                    if (funcValue >= MOTOR_FUNCTION_BASE && funcValue < MOTOR_FUNCTION_BASE + 12)
+                    {
+                        int motorNum = funcValue - MOTOR_FUNCTION_BASE + 1;
+                        assignments[motorNum] = servo;
+                    }
+                }
+            }
+
+            return assignments;
+        }
+
+        private MotorOutputPanel CreateMotorPanel(int motorIdx, Dictionary<int, int> motorAssignments)
+        {
+            char motorLetter = (char)('A' + motorIdx - 1);
+            int servoChannel = motorAssignments.ContainsKey(motorIdx) ? motorAssignments[motorIdx] : 0;
+
+            // Get rotation info if available from motor layout
+            string rotationInfo = "";
+            if (motor_layout.motors != null)
+            {
+                foreach (var motor in motor_layout.motors)
+                {
+                    if (motor.TestOrder == motorIdx && motor.Rotation != "?")
+                    {
+                        rotationInfo = motor.Rotation;
+                        break;
+                    }
+                }
+            }
+
+            string groupBoxTitle = string.IsNullOrEmpty(rotationInfo)
+                ? $"Motor {motorLetter}"
+                : $"Motor {motorLetter} ({rotationInfo})";
+
+            var groupBox = new GroupBox
+            {
+                Text = groupBoxTitle,
+                Width = 295,
+                Height = 50,
+                Margin = new Padding(3, 3, 3, 3)
+            };
+
+            // Servo output label
+            var servoLabel = new Label
+            {
+                Text = servoChannel > 0 ? $"Servo {servoChannel}" : "Not assigned",
+                Location = new Point(10, 20),
+                Width = 80,
+                AutoSize = false
+            };
+
+            // Motor function selector
+            var motorSelector = new ComboBox
+            {
+                Location = new Point(95, 17),
+                Width = 120,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            // Populate motor selector with Motor1-Motor12 options
+            motorSelector.Items.Add(new ComboBoxItem { Text = "Disabled", Value = 0 });
+            for (int i = 1; i <= 12; i++)
+            {
+                motorSelector.Items.Add(new ComboBoxItem { Text = $"Motor{i}", Value = MOTOR_FUNCTION_BASE + i - 1 });
+            }
+            motorSelector.DisplayMember = "Text";
+
+            // Select current value
+            int currentMotorFunc = MOTOR_FUNCTION_BASE + motorIdx - 1;
+            SelectMotorFunction(motorSelector, servoChannel > 0 ? currentMotorFunc : 0);
+
+            motorSelector.Tag = new MotorSelectorTag { MotorIndex = motorIdx, ServoChannel = servoChannel };
+            motorSelector.SelectedIndexChanged += MotorSelector_SelectedIndexChanged;
+
+            // Spin button
+            var spinButton = new MyButton
+            {
+                Text = "Spin",
+                Location = new Point(225, 16),
+                Size = new Size(60, 25)
+            };
+            spinButton.Tag = motorIdx;
+            spinButton.Click += SpinButton_Click;
+
+            groupBox.Controls.Add(servoLabel);
+            groupBox.Controls.Add(motorSelector);
+            groupBox.Controls.Add(spinButton);
+
+            return new MotorOutputPanel
+            {
+                GroupBox = groupBox,
+                ServoLabel = servoLabel,
+                MotorSelector = motorSelector,
+                SpinButton = spinButton,
+                MotorIndex = motorIdx,
+                ServoChannel = servoChannel
+            };
+        }
+
+        private class ComboBoxItem
+        {
+            public string Text { get; set; }
+            public int Value { get; set; }
+            public override string ToString() => Text;
+        }
+
+        private class MotorSelectorTag
+        {
+            public int MotorIndex { get; set; }
+            public int ServoChannel { get; set; }
+        }
+
+        private void SelectMotorFunction(ComboBox combo, int functionValue)
+        {
+            for (int i = 0; i < combo.Items.Count; i++)
+            {
+                var item = combo.Items[i] as ComboBoxItem;
+                if (item != null && item.Value == functionValue)
+                {
+                    combo.SelectedIndex = i;
+                    return;
+                }
+            }
+            combo.SelectedIndex = 0;
+        }
+
+        private async void MotorSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var combo = sender as ComboBox;
+            if (combo == null) return;
+
+            var tag = combo.Tag as MotorSelectorTag;
+            if (tag == null) return;
+
+            var selectedItem = combo.SelectedItem as ComboBoxItem;
+            if (selectedItem == null) return;
+
+            int newFunction = selectedItem.Value;
+            int servoChannel = tag.ServoChannel;
+
+            if (servoChannel <= 0)
+            {
+                CustomMessageBox.Show($"Motor {(char)('A' + tag.MotorIndex - 1)} is not assigned to a servo channel.", Strings.ERROR);
+                return;
+            }
+
+            string paramName = $"SERVO{servoChannel}_FUNCTION";
+
+            try
+            {
+                await MainV2.comPort.setParamAsync(
+                    (byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
+                    paramName,
+                    newFunction).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show($"Failed to set {paramName}: " + ex.Message, Strings.ERROR);
+            }
+        }
+
+        private void SpinButton_Click(object sender, EventArgs e)
+        {
+            var button = sender as MyButton;
+            if (button == null) return;
+
+            int motorIdx = (int)button.Tag;
+            int speed = (int)NUM_thr_percent.Value;
+            int time = (int)NUM_duration.Value;
+
+            try
+            {
+                testMotor(motorIdx, speed, time);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to test motor\n" + ex);
+            }
         }
 
         private int get_motormax()
@@ -294,26 +483,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return false;
             }
             var frame_class = (int)MainV2.comPort.MAV.param[class_param_name].Value;
+            var frame_type = (int)MainV2.comPort.MAV.param[type_param_name].Value;
+
+            string className = "unknown";
+            string typeName = "unknown";
+
             var class_list = ParameterMetaDataRepository.GetParameterOptionsInt(class_param_name, MainV2.comPort.MAV.cs.firmware.ToString());
             foreach (var item in class_list)
             {
                 if (item.Key == Convert.ToInt32(frame_class))
                 {
-                    FrameClass.Text = "Class: " + item.Value;
+                    className = item.Value;
                     break;
                 }
             }
 
-            var frame_type = (int)MainV2.comPort.MAV.param[type_param_name].Value;
             var type_list = ParameterMetaDataRepository.GetParameterOptionsInt(type_param_name, MainV2.comPort.MAV.cs.firmware.ToString());
             foreach (var item in type_list)
             {
                 if (item.Key == Convert.ToInt32(frame_type))
                 {
-                    FrameType.Text = "Type: " + item.Value;
+                    typeName = item.Value;
                     break;
                 }
             }
+
+            FrameClass.Text = $"Class: {className}, Type: {typeName}";
 
             lookup_frame_layout(frame_class, frame_type);
             UpdateFrameImage(frame_class, frame_type);
@@ -429,21 +624,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             for (int i = 1; i <= motormax; i++)
             {
                 testMotor(i, 0, 0);
-            }
-        }
-
-        private void but_Click(object sender, EventArgs e)
-        {
-            int speed = (int)NUM_thr_percent.Value;
-            int time = (int)NUM_duration.Value;
-            try
-            {
-                var motor = (int)((MyButton)sender).Tag;
-                this.testMotor(motor, speed, time);
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Failed to test motor\n" + ex);
             }
         }
 
