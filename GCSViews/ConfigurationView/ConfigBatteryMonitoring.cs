@@ -9,175 +9,56 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     public partial class ConfigBatteryMonitoring : MyUserControl, IActivate, IDeactivate
     {
         private bool startup;
+        private BatteryMonitorGB _gb1, _gb2;
+        private BatteryMonitorContent _content1, _content2;
+        private bool _initializedDual;
 
         public ConfigBatteryMonitoring()
         {
             InitializeComponent();
+            InitializeDualLayout();
+        }
+
+        private void InitializeDualLayout()
+        {
+            if (_initializedDual)
+                return;
+
+            _content1 = new BatteryMonitorContent("BATT", () => MainV2.comPort.MAV.cs.battery_voltage, () => MainV2.comPort.MAV.cs.current);
+            _content2 = new BatteryMonitorContent("BATT2", () => MainV2.comPort.MAV.cs.battery_voltage2, () => MainV2.comPort.MAV.cs.current2);
+
+            _gb1 = new BatteryMonitorGB { GroupTitle = "Battery 1", Dock = DockStyle.Fill, InnerControl = _content1 };
+            _gb2 = new BatteryMonitorGB { GroupTitle = "Battery 2", Dock = DockStyle.Fill, InnerControl = _content2 };
+
+            var tlp = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1
+            };
+            tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            tlp.Controls.Add(_gb1, 0, 0);
+            tlp.Controls.Add(_gb2, 1, 0);
+
+            this.Controls.Clear();
+            this.Controls.Add(tlp);
+
+            _initializedDual = true;
         }
 
         public void Activate()
         {
-            if (!MainV2.comPort.BaseStream.IsOpen || !MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR"))
-            {
-                Enabled = false;
-                return;
-            }
-
-            startup = true;
-
-            CMB_batmontype.setup(
-                ParameterMetaDataRepository.GetParameterOptionsInt("BATT_MONITOR",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "BATT_MONITOR", MainV2.comPort.MAV.param);
-
-            if (MainV2.comPort.MAV.param["BATT_CAPACITY"] != null)
-                TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
-
-            TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage.ToString();
-            TXT_measuredvoltage.Text = string.Empty; // do not prefill measured voltage
-
-            if (MainV2.comPort.MAV.param["BATT_AMP_PERVLT"] != null)
-                TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVLT"].ToString();
-            // new
-            if (MainV2.comPort.MAV.param["BATT_VOLT_MULT"] != null)
-                TXT_divider_VOLT_MULT.Text = MainV2.comPort.MAV.param["BATT_VOLT_MULT"].ToString();
-
-            if (MainV2.comPort.MAV.param["BATT_AMP_PERVOLT"] != null)
-                TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVOLT"].ToString();
-            // old
-            if (MainV2.comPort.MAV.param["VOLT_DIVIDER"] != null)
-                TXT_divider_VOLT_MULT.Text = MainV2.comPort.MAV.param["VOLT_DIVIDER"].ToString();
-
-            if (MainV2.comPort.MAV.param["AMP_PER_VOLT"] != null)
-                TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["AMP_PER_VOLT"].ToString();
-
-            if (Settings.Instance.GetBoolean("speechbatteryenabled") && Settings.Instance.GetBoolean("speechenable"))
-            {
-                CHK_speechbattery.Checked = true;
-            }
-            else
-            {
-                CHK_speechbattery.Checked = false;
-            }
-
-            //http://plane.ardupilot.com/wiki/common-pixhawk-overview/#pixhawk_analog_input_pins_virtual_pin_firmware_mapped_pin_id
-            // determine the sensor type
-            if (TXT_AMP_PERVLT.Text == (13.6612).ToString() && TXT_divider_VOLT_MULT.Text == (4.127115).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 1;
-            }
-            else if (TXT_AMP_PERVLT.Text == (27.3224).ToString() && TXT_divider_VOLT_MULT.Text == (15.70105).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 2;
-            }
-            else if (TXT_AMP_PERVLT.Text == (54.64481).ToString() && TXT_divider_VOLT_MULT.Text == (15.70105).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 3;
-            }
-            else if (TXT_AMP_PERVLT.Text == (18.0018).ToString() && TXT_divider_VOLT_MULT.Text == (10.10101).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 4;
-            }
-            else if (TXT_AMP_PERVLT.Text == (17).ToString() && TXT_divider_VOLT_MULT.Text == (12.02).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 5;
-            }
-            else if (TXT_AMP_PERVLT.Text == (24).ToString() && TXT_divider_VOLT_MULT.Text == (12.02).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 6;
-            }
-            else if (TXT_AMP_PERVLT.Text == (39.877).ToString() && TXT_divider_VOLT_MULT.Text == (12.02).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 7;
-            }
-            else if (TXT_AMP_PERVLT.Text == (24).ToString() && TXT_divider_VOLT_MULT.Text == (18).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 8;
-            }
-            else if (TXT_AMP_PERVLT.Text == (36.364).ToString() && TXT_divider_VOLT_MULT.Text == (18.182).ToString())
-            {
-                CMB_batmonsensortype.SelectedIndex = 9;
-            }
-            else
-            {
-                CMB_batmonsensortype.SelectedIndex = 0;
-            }
-
-            // determine the board type
-            if (MainV2.comPort.MAV.param["BATT_VOLT_PIN"] != null)
-            {
-                CMB_HWVersion.Enabled = true;
-
-                var value = (double)MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
-                if (value == 0) // apm1
-                {
-                    CMB_HWVersion.SelectedIndex = 0;
-                }
-                else if (value == 1) // apm2
-                {
-                    CMB_HWVersion.SelectedIndex = 1;
-                }
-                else if (value == 13) // apm2.5
-                {
-                    CMB_HWVersion.SelectedIndex = 2;
-                }
-                else if (value == 100) // px4
-                {
-                    CMB_HWVersion.SelectedIndex = 3;
-                }
-                else if (value == 2)
-                {
-                    // pixhawk
-                    CMB_HWVersion.SelectedIndex = 4;
-                }
-                else if (value == 6)
-                {
-                    // vrbrain4
-                    CMB_HWVersion.SelectedIndex = 7;
-                }
-                else if (value == 10)
-                {
-                    // vrbrain 5 or micro
-                    if ((double)MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
-                    {
-                        CMB_HWVersion.SelectedIndex = 5;
-                    }
-                    else
-                    {
-                        CMB_HWVersion.SelectedIndex = 6;
-                    }
-                }         
-                else if (value == 14)
-                {
-                    // cubeorange
-                    CMB_HWVersion.SelectedIndex = 8;
-                }
-                else if (value == 16)
-                {
-                    // durandal
-                    CMB_HWVersion.SelectedIndex = 9;
-                }
-                 else if (value == 8)
-                {
-                    // Pixhawk 6C/Pix32 v6
-                    CMB_HWVersion.SelectedIndex = 10;
-                }
-            }
-            else
-            {
-                CMB_HWVersion.Enabled = false;
-            }
-
-            startup = false;
-
-            CMB_batmontype_SelectedIndexChanged(null, null);
-            CMB_batmonsensortype_SelectedIndexChanged(null, null);
-
-            timer1.Start();
+            InitializeDualLayout();
+            _content1?.Activate();
+            _content2?.Activate();
         }
 
         public void Deactivate()
         {
-            timer1.Stop();
+            _content1?.Deactivate();
+            _content2?.Deactivate();
             startup = true;
         }
 
