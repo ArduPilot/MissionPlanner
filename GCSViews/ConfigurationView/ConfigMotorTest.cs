@@ -104,6 +104,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 await webViewFrame.EnsureCoreWebView2Async(null);
+                webViewFrame.DefaultBackgroundColor = System.Drawing.Color.Transparent;
                 webViewFrame.Visible = false;
             }
             catch (Exception ex)
@@ -125,7 +126,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 but.Click += but_Click;
                 but.Tag = a;
 
-                groupBox1.Controls.Add(but);
+                panel1.Controls.Add(but);
 
                 if (motor_layout.motors != null)
                 {
@@ -141,7 +142,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                             lab.Location = new Point(x + 85, y + 5);
                             lab.Width = 150;
-                            groupBox1.Controls.Add(lab);
+                            panel1.Controls.Add(lab);
                         }
                     }
                 }
@@ -154,7 +155,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_TestAll;
-            groupBox1.Controls.Add(but);
+            panel1.Controls.Add(but);
 
             y += 39;
 
@@ -163,7 +164,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_StopAll;
-            groupBox1.Controls.Add(but);
+            panel1.Controls.Add(but);
 
             y += 39;
 
@@ -172,7 +173,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_TestAllSeq;
-            groupBox1.Controls.Add(but);
+            panel1.Controls.Add(but);
+
+            // Load MOT_SPIN_ARM and MOT_SPIN_MIN parameters
+            // Temporarily remove event handlers to avoid triggering parameter writes during load
+            NUM_mot_spin_arm.ValueChanged -= NUM_mot_spin_arm_ValueChanged;
+            NUM_mot_spin_min.ValueChanged -= NUM_mot_spin_min_ValueChanged;
+
+            if (MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_ARM"))
+            {
+                NUM_mot_spin_arm.Value = (decimal)MainV2.comPort.MAV.param["MOT_SPIN_ARM"].Value;
+            }
+            if (MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_MIN"))
+            {
+                NUM_mot_spin_min.Value = (decimal)MainV2.comPort.MAV.param["MOT_SPIN_MIN"].Value;
+            }
+
+            // Re-add event handlers
+            NUM_mot_spin_arm.ValueChanged += NUM_mot_spin_arm_ValueChanged;
+            NUM_mot_spin_min.ValueChanged += NUM_mot_spin_min_ValueChanged;
 
             Utilities.ThemeManager.ApplyThemeTo(this);
         }
@@ -464,61 +483,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private async void but_mot_spin_arm_Click(object sender, EventArgs e)
+        private async void NUM_mot_spin_arm_ValueChanged(object sender, EventArgs e)
         {
-            this.Enabled = false;
-
             if (!MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_ARM"))
             {
-                CustomMessageBox.Show("param MOT_SPIN_ARM missing", Strings.ERROR);
                 return;
             }
 
-            if (NUM_thr_percent.Value < 20)
+            try
             {
-                var value = (int)NUM_thr_percent.Value + 2;
-                if (InputBox.Show(Strings.ChangeThrottle, "Enter arm throttle % (deadzone + 2%)", ref value) == DialogResult.OK)
-                {
-                    await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
-                        (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_ARM",
-                        (float)value / 100.0f).ConfigureAwait(true);
-                }
+                await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_ARM",
+                    (float)NUM_mot_spin_arm.Value).ConfigureAwait(true);
             }
-            else
+            catch (Exception ex)
             {
-                CustomMessageBox.Show("Throttle percent above 20, too high", Strings.ERROR);
+                CustomMessageBox.Show("Failed to set MOT_SPIN_ARM: " + ex.Message, Strings.ERROR);
             }
-
-            this.Enabled = true;
         }
 
-        private async void but_mot_spin_min_Click(object sender, EventArgs e)
+        private async void NUM_mot_spin_min_ValueChanged(object sender, EventArgs e)
         {
-            this.Enabled = false;
-
             if (!MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_MIN"))
             {
-                CustomMessageBox.Show("param MOT_SPIN_MIN missing", Strings.ERROR);
                 return;
             }
 
-            if (NUM_thr_percent.Value < 20)
+            try
             {
-                var value = (int)MainV2.comPort.MAV.param["MOT_SPIN_MIN"].Value + 3;
-                if (InputBox.Show(Strings.ChangeThrottle, "Enter min spin throttle % (arm min + 3%)", ref value) ==
-                    DialogResult.OK)
-                {
-                    await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
-                        (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_MIN",
-                        (float)value/100.0f).ConfigureAwait(true);
-                }
+                await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_MIN",
+                    (float)NUM_mot_spin_min.Value).ConfigureAwait(true);
             }
-            else
+            catch (Exception ex)
             {
-                CustomMessageBox.Show("Throttle percent above 20, too high", Strings.ERROR);
+                CustomMessageBox.Show("Failed to set MOT_SPIN_MIN: " + ex.Message, Strings.ERROR);
             }
-
-            this.Enabled = true;
         }
     }
 }

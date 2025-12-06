@@ -35,18 +35,20 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.NUM_duration = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.but_mot_spin_min = new MissionPlanner.Controls.MyButton();
-            this.label4 = new System.Windows.Forms.Label();
-            this.but_mot_spin_arm = new MissionPlanner.Controls.MyButton();
-            this.FrameClass = new System.Windows.Forms.Label();
-            this.FrameType = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.webViewFrame = new Microsoft.Web.WebView2.WinForms.WebView2();
+            this.FrameType = new System.Windows.Forms.Label();
+            this.FrameClass = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.NUM_mot_spin_min = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.NUM_mot_spin_arm = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webViewFrame)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_mot_spin_min)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_mot_spin_arm)).BeginInit();
             this.SuspendLayout();
             // 
             // NUM_thr_percent
@@ -101,77 +103,100 @@
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // groupBox1
+            // panel1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.FrameType);
-            this.groupBox1.Controls.Add(this.FrameClass);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.but_mot_spin_min);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.but_mot_spin_arm);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.NUM_thr_percent);
-            this.groupBox1.Controls.Add(this.NUM_duration);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.linkLabel1);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.webViewFrame);
+            this.panel1.Controls.Add(this.FrameType);
+            this.panel1.Controls.Add(this.FrameClass);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.NUM_mot_spin_min);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.NUM_mot_spin_arm);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.NUM_thr_percent);
+            this.panel1.Controls.Add(this.NUM_duration);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.linkLabel1);
+            this.panel1.Name = "panel1";
             // 
-            // label5
+            // webViewFrame
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            this.webViewFrame.AllowExternalDrop = true;
+            this.webViewFrame.CreationProperties = null;
+            this.webViewFrame.DefaultBackgroundColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.webViewFrame, "webViewFrame");
+            this.webViewFrame.Name = "webViewFrame";
+            this.webViewFrame.TabStop = false;
+            this.webViewFrame.ZoomFactor = 1D;
             // 
-            // but_mot_spin_min
+            // FrameType
             // 
-            resources.ApplyResources(this.but_mot_spin_min, "but_mot_spin_min");
-            this.but_mot_spin_min.Name = "but_mot_spin_min";
-            this.but_mot_spin_min.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_mot_spin_min.UseVisualStyleBackColor = true;
-            this.but_mot_spin_min.Click += new System.EventHandler(this.but_mot_spin_min_Click);
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // but_mot_spin_arm
-            // 
-            resources.ApplyResources(this.but_mot_spin_arm, "but_mot_spin_arm");
-            this.but_mot_spin_arm.Name = "but_mot_spin_arm";
-            this.but_mot_spin_arm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_mot_spin_arm.UseVisualStyleBackColor = true;
-            this.but_mot_spin_arm.Click += new System.EventHandler(this.but_mot_spin_arm_Click);
+            resources.ApplyResources(this.FrameType, "FrameType");
+            this.FrameType.Name = "FrameType";
             // 
             // FrameClass
             // 
             resources.ApplyResources(this.FrameClass, "FrameClass");
             this.FrameClass.Name = "FrameClass";
             // 
-            // FrameType
-            //
-            resources.ApplyResources(this.FrameType, "FrameType");
-            this.FrameType.Name = "FrameType";
-            //
-            // webViewFrame
-            //
-            resources.ApplyResources(this.webViewFrame, "webViewFrame");
-            this.webViewFrame.Name = "webViewFrame";
-            this.webViewFrame.TabStop = false;
-            //
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // NUM_mot_spin_min
+            // 
+            this.NUM_mot_spin_min.DecimalPlaces = 2;
+            this.NUM_mot_spin_min.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            resources.ApplyResources(this.NUM_mot_spin_min, "NUM_mot_spin_min");
+            this.NUM_mot_spin_min.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUM_mot_spin_min.Name = "NUM_mot_spin_min";
+            this.NUM_mot_spin_min.ValueChanged += new System.EventHandler(this.NUM_mot_spin_min_ValueChanged);
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // NUM_mot_spin_arm
+            // 
+            this.NUM_mot_spin_arm.DecimalPlaces = 2;
+            this.NUM_mot_spin_arm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            resources.ApplyResources(this.NUM_mot_spin_arm, "NUM_mot_spin_arm");
+            this.NUM_mot_spin_arm.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUM_mot_spin_arm.Name = "NUM_mot_spin_arm";
+            this.NUM_mot_spin_arm.ValueChanged += new System.EventHandler(this.NUM_mot_spin_arm_ValueChanged);
+            // 
             // ConfigMotorTest
-            //
+            // 
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.webViewFrame);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.panel1);
             this.Name = "ConfigMotorTest";
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webViewFrame)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_mot_spin_min)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_mot_spin_arm)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,10 +210,10 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.NumericUpDown NUM_duration;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private Controls.MyButton but_mot_spin_arm;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.NumericUpDown NUM_mot_spin_arm;
         private System.Windows.Forms.Label label5;
-        private Controls.MyButton but_mot_spin_min;
+        private System.Windows.Forms.NumericUpDown NUM_mot_spin_min;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label FrameType;
         private System.Windows.Forms.Label FrameClass;
