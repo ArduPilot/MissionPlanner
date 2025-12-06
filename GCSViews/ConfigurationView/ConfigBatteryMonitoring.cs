@@ -33,7 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
 
             TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage.ToString();
-            TXT_measuredvoltage.Text = TXT_voltage.Text;
+            TXT_measuredvoltage.Text = string.Empty; // do not prefill measured voltage
 
             if (MainV2.comPort.MAV.param["BATT_AMP_PERVLT"] != null)
                 TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVLT"].ToString();
@@ -218,13 +218,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     CMB_batmonsensortype.Enabled = true;
 
-                    TXT_voltage.Enabled = false;
+                    // leave voltage label enabled for normal appearance
 
                     if (selection == 0)
                     {
                         CMB_batmonsensortype.Enabled = false;
                         CMB_HWVersion.Enabled = false;
                         groupBox4.Enabled = false;
+                        if (groupBoxCalibrate != null) groupBoxCalibrate.Enabled = false;
                         MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", -1);
                         MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", -1);
                     }
@@ -233,11 +234,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         CMB_batmonsensortype.Enabled = true;
                         CMB_HWVersion.Enabled = true;
                         groupBox4.Enabled = true;
+                        if (groupBoxCalibrate != null) groupBoxCalibrate.Enabled = true;
                         TXT_AMP_PERVLT.Enabled = true;
                     }
                     else if (selection == 3)
                     {
                         groupBox4.Enabled = true;
+                        if (groupBoxCalibrate != null) groupBoxCalibrate.Enabled = true;
                         CMB_batmonsensortype.Enabled = false;
                         CMB_HWVersion.Enabled = true;
                         TXT_AMP_PERVLT.Enabled = false;
@@ -560,6 +563,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show("Set BATT_????_PIN Failed", Strings.ERROR);
             }
+        }
+
+        private void btnCalcVoltage_Click(object sender, EventArgs e)
+        {
+            // Trigger the same logic as leaving the measured voltage field
+            TXT_measuredvoltage_Validated(TXT_measuredvoltage, EventArgs.Empty);
+        }
+
+        private void btnCalcCurrent_Click(object sender, EventArgs e)
+        {
+            // Trigger the same logic as leaving the measured current field
+            txt_meascurrent_Validated(txt_meascurrent, EventArgs.Empty);
         }
 
         private void CHK_speechbattery_CheckedChanged(object sender, EventArgs e)

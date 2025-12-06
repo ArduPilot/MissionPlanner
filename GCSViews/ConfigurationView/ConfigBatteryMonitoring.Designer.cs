@@ -39,14 +39,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label30 = new System.Windows.Forms.Label();
             this.TXT_battcapacity = new System.Windows.Forms.TextBox();
             this.CMB_batmontype = new MissionPlanner.Controls.MavlinkComboBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.CMB_HWVersion = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CHK_speechbattery = new System.Windows.Forms.CheckBox();
             this.TXT_measuredvoltage = new System.Windows.Forms.TextBox();
-            this.TXT_voltage = new System.Windows.Forms.TextBox();
+            this.TXT_voltage = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.TXT_divider_VOLT_MULT = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
@@ -54,12 +53,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.txt_current = new System.Windows.Forms.TextBox();
+            this.txt_current = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_meascurrent = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.groupBoxCalibrate = new System.Windows.Forms.GroupBox();
+            this.btnCalcCurrent = new System.Windows.Forms.Button();
+            this.btnCalcVoltage = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
+            this.groupBoxCalibrate.SuspendLayout();
             this.SuspendLayout();
             // 
             // label47
@@ -117,14 +119,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CMB_batmontype.SubControl = null;
             this.CMB_batmontype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmontype_SelectedIndexChanged);
             // 
-            // pictureBox5
-            // 
-            this.pictureBox5.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.pictureBox5, "pictureBox5");
-            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.TabStop = false;
-            // 
             // timer1
             // 
             this.timer1.Interval = 1000;
@@ -171,14 +165,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.TXT_measuredvoltage, "TXT_measuredvoltage");
             this.TXT_measuredvoltage.Name = "TXT_measuredvoltage";
-            this.TXT_measuredvoltage.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_measuredvoltage_PreviewKeyDown);
-            this.TXT_measuredvoltage.Validated += new System.EventHandler(this.TXT_measuredvoltage_Validated);
             // 
             // TXT_voltage
             // 
             resources.ApplyResources(this.TXT_voltage, "TXT_voltage");
             this.TXT_voltage.Name = "TXT_voltage";
-            this.TXT_voltage.ReadOnly = true;
             // 
             // label35
             // 
@@ -218,16 +209,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.groupBox4.Controls.Add(this.txt_current);
             this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Controls.Add(this.txt_meascurrent);
-            this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Controls.Add(this.label32);
             this.groupBox4.Controls.Add(this.label33);
             this.groupBox4.Controls.Add(this.TXT_AMP_PERVLT);
             this.groupBox4.Controls.Add(this.label34);
             this.groupBox4.Controls.Add(this.TXT_divider_VOLT_MULT);
             this.groupBox4.Controls.Add(this.label35);
             this.groupBox4.Controls.Add(this.TXT_voltage);
-            this.groupBox4.Controls.Add(this.TXT_measuredvoltage);
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
@@ -236,7 +223,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.txt_current, "txt_current");
             this.txt_current.Name = "txt_current";
-            this.txt_current.ReadOnly = true;
             // 
             // label4
             // 
@@ -247,15 +233,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.txt_meascurrent, "txt_meascurrent");
             this.txt_meascurrent.Name = "txt_meascurrent";
-            this.txt_meascurrent.Validated += new System.EventHandler(this.txt_meascurrent_Validated);
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
+            // groupBoxCalibrate
+            // 
+            this.groupBoxCalibrate.Controls.Add(this.btnCalcCurrent);
+            this.groupBoxCalibrate.Controls.Add(this.btnCalcVoltage);
+            this.groupBoxCalibrate.Controls.Add(this.txt_meascurrent);
+            this.groupBoxCalibrate.Controls.Add(this.label3);
+            this.groupBoxCalibrate.Controls.Add(this.TXT_measuredvoltage);
+            this.groupBoxCalibrate.Controls.Add(this.label32);
+            resources.ApplyResources(this.groupBoxCalibrate, "groupBoxCalibrate");
+            this.groupBoxCalibrate.Name = "groupBoxCalibrate";
+            this.groupBoxCalibrate.TabStop = false;
+            // 
+            // btnCalcCurrent
+            // 
+            resources.ApplyResources(this.btnCalcCurrent, "btnCalcCurrent");
+            this.btnCalcCurrent.Name = "btnCalcCurrent";
+            this.btnCalcCurrent.Click += new System.EventHandler(this.btnCalcCurrent_Click);
+            // 
+            // btnCalcVoltage
+            // 
+            resources.ApplyResources(this.btnCalcVoltage, "btnCalcVoltage");
+            this.btnCalcVoltage.Name = "btnCalcVoltage";
+            this.btnCalcVoltage.Click += new System.EventHandler(this.btnCalcVoltage_Click);
+            // 
             // ConfigBatteryMonitoring
             // 
+            this.Controls.Add(this.groupBoxCalibrate);
             this.Controls.Add(this.CHK_speechbattery);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -267,12 +277,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.label30);
             this.Controls.Add(this.TXT_battcapacity);
             this.Controls.Add(this.CMB_batmontype);
-            this.Controls.Add(this.pictureBox5);
             this.Name = "ConfigBatteryMonitoring";
             resources.ApplyResources(this, "$this");
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBoxCalibrate.ResumeLayout(false);
+            this.groupBoxCalibrate.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,14 +296,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox TXT_battcapacity;
         private MavlinkComboBox CMB_batmontype;
-        private System.Windows.Forms.PictureBox pictureBox5;
+        
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ComboBox CMB_HWVersion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox CHK_speechbattery;
         private System.Windows.Forms.TextBox TXT_measuredvoltage;
-        private System.Windows.Forms.TextBox TXT_voltage;
+        private System.Windows.Forms.Label TXT_voltage;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TextBox TXT_divider_VOLT_MULT;
         private System.Windows.Forms.Label label34;
@@ -301,9 +311,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TextBox txt_current;
+        private System.Windows.Forms.Label txt_current;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_meascurrent;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBoxCalibrate;
+        private System.Windows.Forms.Button btnCalcVoltage;
+        private System.Windows.Forms.Button btnCalcCurrent;
     }
 }
