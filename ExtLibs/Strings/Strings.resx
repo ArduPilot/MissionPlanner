@@ -276,7 +276,7 @@ These appear to be missing from your log.</value>
     <value>DISCONNECT</value>
   </data>
   <data name="Failclog" xml:space="preserve">
-    <value>Failed to create ground station log - wont log this session</value>
+    <value>Failed to create ground station log - won't log this session</value>
   </data>
   <data name="NewFirmware" xml:space="preserve">
     <value>New Firmware</value>

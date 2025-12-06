@@ -1651,7 +1651,7 @@ namespace MissionPlanner
                 catch (Exception exp2)
                 {
                     log.Error(exp2);
-                    CustomMessageBox.Show(Strings.Failclog);
+                    Common.MessageShowAgain("Log Creation Failed", Strings.Failclog);
                 } // soft fail
 
                 // reset connect time - for timeout functions
