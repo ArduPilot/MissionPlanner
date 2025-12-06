@@ -250,13 +250,6 @@ namespace MissionPlanner.GCSViews
             }
 
             Commands.Columns[Delete.Index].CellTemplate.Value = "X";
-            Commands.Columns[Up.Index].CellTemplate.Value = Resources.up;
-            Commands.Columns[Down.Index].CellTemplate.Value = Resources.down;
-
-            Up.Image = Resources.up;
-            Down.Image = Resources.down;
-
-
             Frame.DisplayMember = "Value";
             Frame.ValueMember = "Key";
             Frame.DataSource = EnumTranslator.EnumToList<altmode>();

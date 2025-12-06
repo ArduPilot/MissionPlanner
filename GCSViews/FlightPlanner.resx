@@ -992,7 +992,7 @@
     <value>70</value>
   </data>
   <data name="Lat.Width" type="System.Int32, mscorlib">
-    <value>70</value>
+    <value>90</value>
   </data>
   <metadata name="Lon.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1004,7 +1004,7 @@
     <value>70</value>
   </data>
   <data name="Lon.Width" type="System.Int32, mscorlib">
-    <value>70</value>
+    <value>90</value>
   </data>
   <metadata name="Alt.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1016,7 +1016,7 @@
     <value>30</value>
   </data>
   <data name="Alt.Width" type="System.Int32, mscorlib">
-    <value>30</value>
+    <value>45</value>
   </data>
   <metadata name="Frame.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

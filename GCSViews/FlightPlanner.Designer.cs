@@ -101,8 +101,8 @@ namespace MissionPlanner.GCSViews
             this.coordNorthing = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MGRS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Up = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Down = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Up = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Down = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Grad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Angle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Dist = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -624,28 +624,32 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.MGRS, "MGRS");
             this.MGRS.Name = "MGRS";
-            // 
+            //
             // Delete
-            // 
+            //
             resources.ApplyResources(this.Delete, "Delete");
             this.Delete.Name = "Delete";
             this.Delete.Text = "X";
-            // 
+            this.Delete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Delete.Width = 25;
+            //
             // Up
-            // 
-            this.Up.DefaultCellStyle = dataGridViewCellStyle5;
+            //
             resources.ApplyResources(this.Up, "Up");
-            this.Up.Image = ((System.Drawing.Image)(resources.GetObject("Up.Image")));
-            this.Up.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Up.Name = "Up";
-            // 
+            this.Up.Text = "↑";
+            this.Up.UseColumnTextForButtonValue = true;
+            this.Up.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Up.Width = 25;
+            //
             // Down
-            // 
-            this.Down.DefaultCellStyle = dataGridViewCellStyle6;
+            //
             resources.ApplyResources(this.Down, "Down");
-            this.Down.Image = ((System.Drawing.Image)(resources.GetObject("Down.Image")));
-            this.Down.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Down.Name = "Down";
+            this.Down.Text = "↓";
+            this.Down.UseColumnTextForButtonValue = true;
+            this.Down.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Down.Width = 25;
             // 
             // Grad
             // 
@@ -1768,8 +1772,8 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn coordNorthing;
         private DataGridViewTextBoxColumn MGRS;
         private DataGridViewButtonColumn Delete;
-        private DataGridViewImageColumn Up;
-        private DataGridViewImageColumn Down;
+        private DataGridViewButtonColumn Up;
+        private DataGridViewButtonColumn Down;
         private DataGridViewTextBoxColumn Grad;
         private DataGridViewTextBoxColumn Angle;
         private DataGridViewTextBoxColumn Dist;
