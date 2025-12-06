@@ -3486,7 +3486,7 @@ namespace MissionPlanner.GCSViews
 
             Zoomlevel.Minimum = MainMap.MapProvider.MinZoom;
             Zoomlevel.Maximum = 24;
-            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
+            SetMapZoomLevel(MainMap.Zoom);
 
             updateCMDParams();
 
@@ -5002,10 +5002,20 @@ namespace MissionPlanner.GCSViews
             label11.Location = new Point(panelMap.Size.Width - 50, label11.Location.Y);
         }
 
+        private void SetMapZoomLevel(double zoom)
+        {
+            if (Zoomlevel.Maximum < (decimal)zoom)
+                zoom = (double)Zoomlevel.Maximum;
+            if (Zoomlevel.Minimum > (decimal)zoom)
+                zoom = (double)Zoomlevel.Minimum;
+
+            Zoomlevel.Value = Convert.ToDecimal(zoom);
+        }
+
         public void Planner_Resize(object sender, EventArgs e)
         {
             MainMap.Zoom = TRK_zoom.Value;
-            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
+            SetMapZoomLevel(MainMap.Zoom);
         }
 
         /// <summary>
@@ -6956,7 +6966,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 lock (thisLock)
                 {
                     MainMap.Zoom = TRK_zoom.Value;
-                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value);
+                    SetMapZoomLevel(TRK_zoom.Value);
                 }
             }
             catch (Exception ex)
@@ -8011,7 +8021,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 try
                 {
                     TRK_zoom.Value = (float)(MainMap.Zoom);
-                    Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
+                    SetMapZoomLevel(MainMap.Zoom);
                 }
                 catch (Exception ex)
                 {
