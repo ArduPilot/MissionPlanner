@@ -172,7 +172,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             // Suspend layout to prevent flickering during dynamic control creation
             tableLayoutPanelMotors.SuspendLayout();
-            panel1.SuspendLayout();
             this.SuspendLayout();
 
             try
@@ -184,6 +183,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 tableLayoutPanelMotors.Controls.Clear();
                 tableLayoutPanelMotors.RowStyles.Clear();
                 tableLayoutPanelMotors.ColumnStyles.Clear();
+
+                // Reset table height to force recalculation when motor count changes
+                tableLayoutPanelMotors.AutoSize = false;
+                tableLayoutPanelMotors.Height = 0;
 
                 // Configure columns: 3 equal columns for the button row
                 tableLayoutPanelMotors.ColumnCount = 3;
@@ -224,16 +227,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             finally
             {
-                // Resume layout
-                this.ResumeLayout(false);
-                panel1.ResumeLayout(false);
-                tableLayoutPanelMotors.ResumeLayout(true);
+                // Calculate and set the exact table height: 56px per motor row + 50px for button row
+                int calculatedHeight = (motormax * 56) + 50;
+                tableLayoutPanelMotors.Height = calculatedHeight;
 
-                // Ensure bottom row (buttons) is exactly 50px after layout
+                // Ensure bottom row (buttons) is exactly 50px
                 if (tableLayoutPanelMotors.RowStyles.Count > motormax)
                 {
                     tableLayoutPanelMotors.RowStyles[motormax] = new RowStyle(SizeType.Absolute, 50F);
                 }
+
+                // Resume layout
+                tableLayoutPanelMotors.ResumeLayout(true);
+                this.ResumeLayout(false);
             }
         }
 
