@@ -67,6 +67,9 @@ namespace MissionPlanner.GCSViews
         // Double-click fly to here feature
         private bool _doubleClickFlyToHereEnabled = true;
 
+        // Track param count to detect when params are loaded
+        private int _lastParamCount = 0;
+
         // Map scale bar and zoom buttons
         private Controls.MapScaleBar _mapScaleBar;
         private bool _zoomInHover;
@@ -4311,6 +4314,18 @@ namespace MissionPlanner.GCSViews
                     //int fixme;
                     updateBindingSource();
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
+
+                    // Check if params were just loaded and activate configRawParams2 if visible
+                    int currentParamCount = MainV2.comPort.MAV.param.Count;
+                    if (currentParamCount > 0 && _lastParamCount == 0 && configRawParams2 != null && configRawParams2.Visible)
+                    {
+                        this.BeginInvoke((Action)(() =>
+                        {
+                            configRawParams2.InitialTreeCollapsed = true;
+                            configRawParams2.Activate();
+                        }));
+                    }
+                    _lastParamCount = currentParamCount;
 
                     // battery warning.
                     // Use speech settings only if the following parameters are not set

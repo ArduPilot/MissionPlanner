@@ -63,6 +63,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_commitToFlash.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
             BUT_refreshTable.Visible = Settings.Instance.GetBoolean("SlowMachine", false);
 
+            // Apply theming to ensure controls are themed when dynamically added
+            ThemeManager.ApplyThemeTo(this);
+
             Params.Enabled = false;
 
             foreach (DataGridViewColumn col in Params.Columns)
