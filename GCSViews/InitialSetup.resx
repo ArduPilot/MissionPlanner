@@ -160,7 +160,7 @@
     <value>Accel Calibration</value>
   </data>
   <data name="backstageViewPageInitialParams.Text" xml:space="preserve">
-    <value>Initial Tune Parameter</value>
+    <value>Initial Tune Params</value>
   </data>
   <data name="backstageViewPageaccel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

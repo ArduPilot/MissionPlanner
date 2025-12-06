@@ -226,7 +226,7 @@
     <value>CHK_mixmode</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_mixmode.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -259,7 +259,7 @@
     <value>CHK_elevonch2rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch2rev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -292,7 +292,7 @@
     <value>CHK_elevonrev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonrev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -325,7 +325,7 @@
     <value>CHK_elevonch1rev</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_elevonch1rev.Parent" xml:space="preserve">
     <value>groupBoxElevons</value>
@@ -463,7 +463,7 @@
     <value>No</value>
   </data>
   <data name="BAR8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR8.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -490,7 +490,7 @@
     <value>No</value>
   </data>
   <data name="BAR7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR7.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -517,7 +517,7 @@
     <value>No</value>
   </data>
   <data name="BAR6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -544,7 +544,7 @@
     <value>No</value>
   </data>
   <data name="BAR5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -571,7 +571,7 @@
     <value>No</value>
   </data>
   <data name="BARpitch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BARpitch.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -598,7 +598,7 @@
     <value>No</value>
   </data>
   <data name="BARthrottle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BARthrottle.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -625,7 +625,7 @@
     <value>No</value>
   </data>
   <data name="BARyaw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BARyaw.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -652,7 +652,7 @@
     <value>No</value>
   </data>
   <data name="BARroll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BARroll.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -709,7 +709,7 @@
     <value>No</value>
   </data>
   <data name="BAR9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR9.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -736,7 +736,7 @@
     <value>No</value>
   </data>
   <data name="BAR16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR16.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -763,7 +763,7 @@
     <value>No</value>
   </data>
   <data name="BAR15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR15.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -790,7 +790,7 @@
     <value>No</value>
   </data>
   <data name="BAR14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR14.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -817,7 +817,7 @@
     <value>No</value>
   </data>
   <data name="BAR13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR13.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -844,7 +844,7 @@
     <value>No</value>
   </data>
   <data name="BAR12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR12.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -871,7 +871,7 @@
     <value>No</value>
   </data>
   <data name="BAR11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR11.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -898,7 +898,7 @@
     <value>No</value>
   </data>
   <data name="BAR10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 34</value>
+    <value>333, 34</value>
   </data>
   <data name="BAR10.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -985,7 +985,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_revroll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 11</value>
+    <value>342, 11</value>
   </data>
   <data name="CHK_revroll.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1000,7 +1000,7 @@
     <value>CHK_revroll</value>
   </data>
   <data name="&gt;&gt;CHK_revroll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revroll.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1021,7 +1021,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 11</value>
+    <value>736, 11</value>
   </data>
   <data name="CHK_rev9.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1036,7 +1036,7 @@
     <value>CHK_rev9</value>
   </data>
   <data name="&gt;&gt;CHK_rev9.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev9.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1054,10 +1054,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_revpitch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 51</value>
+    <value>342, 51</value>
   </data>
   <data name="CHK_revpitch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 17</value>
+    <value>49, 17</value>
   </data>
   <data name="CHK_revpitch.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1069,7 +1069,7 @@
     <value>CHK_revpitch</value>
   </data>
   <data name="&gt;&gt;CHK_revpitch.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revpitch.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1090,7 +1090,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 51</value>
+    <value>736, 51</value>
   </data>
   <data name="CHK_rev10.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1105,7 +1105,7 @@
     <value>CHK_rev10</value>
   </data>
   <data name="&gt;&gt;CHK_rev10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev10.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1123,10 +1123,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_revthr.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 91</value>
+    <value>342, 91</value>
   </data>
   <data name="CHK_revthr.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 17</value>
+    <value>49, 17</value>
   </data>
   <data name="CHK_revthr.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1138,7 +1138,7 @@
     <value>CHK_revthr</value>
   </data>
   <data name="&gt;&gt;CHK_revthr.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revthr.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1159,7 +1159,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 91</value>
+    <value>736, 91</value>
   </data>
   <data name="CHK_rev11.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1174,7 +1174,7 @@
     <value>CHK_rev11</value>
   </data>
   <data name="&gt;&gt;CHK_rev11.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev11.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1192,10 +1192,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_revyaw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 131</value>
+    <value>342, 131</value>
   </data>
   <data name="CHK_revyaw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 17</value>
+    <value>49, 17</value>
   </data>
   <data name="CHK_revyaw.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1207,7 +1207,7 @@
     <value>CHK_revyaw</value>
   </data>
   <data name="&gt;&gt;CHK_revyaw.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_revyaw.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1228,7 +1228,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 131</value>
+    <value>736, 131</value>
   </data>
   <data name="CHK_rev12.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1243,7 +1243,7 @@
     <value>CHK_rev12</value>
   </data>
   <data name="&gt;&gt;CHK_rev12.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev12.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1264,10 +1264,10 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 171</value>
+    <value>342, 171</value>
   </data>
   <data name="CHK_rev5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 17</value>
+    <value>49, 17</value>
   </data>
   <data name="CHK_rev5.TabIndex" type="System.Int32, mscorlib">
     <value>50</value>
@@ -1279,7 +1279,7 @@
     <value>CHK_rev5</value>
   </data>
   <data name="&gt;&gt;CHK_rev5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev5.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1300,7 +1300,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 171</value>
+    <value>736, 171</value>
   </data>
   <data name="CHK_rev13.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1315,7 +1315,7 @@
     <value>CHK_rev13</value>
   </data>
   <data name="&gt;&gt;CHK_rev13.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev13.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1336,7 +1336,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 211</value>
+    <value>342, 211</value>
   </data>
   <data name="CHK_rev6.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1351,7 +1351,7 @@
     <value>CHK_rev6</value>
   </data>
   <data name="&gt;&gt;CHK_rev6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev6.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1372,7 +1372,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 211</value>
+    <value>736, 211</value>
   </data>
   <data name="CHK_rev14.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1387,7 +1387,7 @@
     <value>CHK_rev14</value>
   </data>
   <data name="&gt;&gt;CHK_rev14.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev14.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1408,7 +1408,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 251</value>
+    <value>342, 251</value>
   </data>
   <data name="CHK_rev7.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1423,7 +1423,7 @@
     <value>CHK_rev7</value>
   </data>
   <data name="&gt;&gt;CHK_rev7.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev7.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1444,7 +1444,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 251</value>
+    <value>736, 251</value>
   </data>
   <data name="CHK_rev15.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1459,7 +1459,7 @@
     <value>CHK_rev15</value>
   </data>
   <data name="&gt;&gt;CHK_rev15.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev15.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1480,7 +1480,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 291</value>
+    <value>342, 291</value>
   </data>
   <data name="CHK_rev8.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1495,7 +1495,7 @@
     <value>CHK_rev8</value>
   </data>
   <data name="&gt;&gt;CHK_rev8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev8.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1516,7 +1516,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_rev16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>731, 291</value>
+    <value>736, 291</value>
   </data>
   <data name="CHK_rev16.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 17</value>
@@ -1531,7 +1531,7 @@
     <value>CHK_rev16</value>
   </data>
   <data name="&gt;&gt;CHK_rev16.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_rev16.Parent" xml:space="preserve">
     <value>tableLayoutChannels</value>
@@ -1567,7 +1567,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutChannels.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revroll" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev9" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revpitch" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev10" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revthr" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev11" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revyaw" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev12" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev13" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev14" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev7" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev15" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev8" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev16" Row="7" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,60,Percent,50,Absolute,60" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BARroll" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revroll" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR9" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev9" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARpitch" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revpitch" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR10" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev10" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARthrottle" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revthr" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR11" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev11" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BARyaw" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_revyaw" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR12" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev12" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR13" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev13" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR6" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR14" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev14" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR7" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev7" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR15" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev15" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="BAR8" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev8" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BAR16" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CHK_rev16" Row="7" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,55,Percent,50,Absolute,55" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="groupBoxChannels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1744,7 +1744,7 @@
     <value>stickLeft</value>
   </data>
   <data name="&gt;&gt;stickLeft.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stickLeft.Parent" xml:space="preserve">
     <value>sticksTableLayout</value>
@@ -1774,7 +1774,7 @@
     <value>stickRight</value>
   </data>
   <data name="&gt;&gt;stickRight.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.31952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.RCStickControl, MissionPlanner, Version=1.3.9470.32007, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stickRight.Parent" xml:space="preserve">
     <value>sticksTableLayout</value>

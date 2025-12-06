@@ -182,7 +182,7 @@ System.ComponentModel.Description("values scaled for display")]
                     drawFormat.FormatFlags = 0;
                 }
 
-                e.DrawString((m_Text + "  " + (Value * _displayscale).ToString()+" ").Trim(), this.Font, new SolidBrush(this.ForeColor), rect, drawFormat);
+                e.DrawString((m_Text + "  " + (displayvalue * _displayscale).ToString()+" ").Trim(), this.Font, new SolidBrush(this.ForeColor), rect, drawFormat);
                 e.Transform = tran;
             }
 

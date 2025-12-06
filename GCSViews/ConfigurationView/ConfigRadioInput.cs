@@ -166,7 +166,49 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_rev15.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC15_REV", "RC15_REVERSED" }, MainV2.comPort.MAV.param);
             CHK_rev16.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC16_REV", "RC16_REVERSED" }, MainV2.comPort.MAV.param);
 
+            // Add event handlers for immediate reverse updates
+            CHK_revroll.CheckedChanged += (s, e) => UpdateBarReverse(BARroll, CHK_revroll);
+            CHK_revpitch.CheckedChanged += (s, e) => UpdateBarReverse(BARpitch, CHK_revpitch);
+            CHK_revthr.CheckedChanged += (s, e) => UpdateBarReverse(BARthrottle, CHK_revthr);
+            CHK_revyaw.CheckedChanged += (s, e) => UpdateBarReverse(BARyaw, CHK_revyaw);
+            CHK_rev5.CheckedChanged += (s, e) => UpdateBarReverse(BAR5, CHK_rev5);
+            CHK_rev6.CheckedChanged += (s, e) => UpdateBarReverse(BAR6, CHK_rev6);
+            CHK_rev7.CheckedChanged += (s, e) => UpdateBarReverse(BAR7, CHK_rev7);
+            CHK_rev8.CheckedChanged += (s, e) => UpdateBarReverse(BAR8, CHK_rev8);
+            CHK_rev9.CheckedChanged += (s, e) => UpdateBarReverse(BAR9, CHK_rev9);
+            CHK_rev10.CheckedChanged += (s, e) => UpdateBarReverse(BAR10, CHK_rev10);
+            CHK_rev11.CheckedChanged += (s, e) => UpdateBarReverse(BAR11, CHK_rev11);
+            CHK_rev12.CheckedChanged += (s, e) => UpdateBarReverse(BAR12, CHK_rev12);
+            CHK_rev13.CheckedChanged += (s, e) => UpdateBarReverse(BAR13, CHK_rev13);
+            CHK_rev14.CheckedChanged += (s, e) => UpdateBarReverse(BAR14, CHK_rev14);
+            CHK_rev15.CheckedChanged += (s, e) => UpdateBarReverse(BAR15, CHK_rev15);
+            CHK_rev16.CheckedChanged += (s, e) => UpdateBarReverse(BAR16, CHK_rev16);
+
+            // Initialize reverse state immediately
+            BARroll.reverse = CHK_revroll.Checked;
+            BARpitch.reverse = CHK_revpitch.Checked;
+            BARthrottle.reverse = CHK_revthr.Checked;
+            BARyaw.reverse = CHK_revyaw.Checked;
+            BAR5.reverse = CHK_rev5.Checked;
+            BAR6.reverse = CHK_rev6.Checked;
+            BAR7.reverse = CHK_rev7.Checked;
+            BAR8.reverse = CHK_rev8.Checked;
+            BAR9.reverse = CHK_rev9.Checked;
+            BAR10.reverse = CHK_rev10.Checked;
+            BAR11.reverse = CHK_rev11.Checked;
+            BAR12.reverse = CHK_rev12.Checked;
+            BAR13.reverse = CHK_rev13.Checked;
+            BAR14.reverse = CHK_rev14.Checked;
+            BAR15.reverse = CHK_rev15.Checked;
+            BAR16.reverse = CHK_rev16.Checked;
+
             startup = false;
+        }
+
+        private void UpdateBarReverse(HorizontalProgressBar2 bar, CheckBox checkbox)
+        {
+            bar.reverse = checkbox.Checked;
+            bar.Invalidate();
         }
 
         public void Deactivate()
