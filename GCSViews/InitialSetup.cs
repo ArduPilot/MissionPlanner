@@ -210,7 +210,7 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigRadioInput), rm.GetString("backstageViewPageradio.Text"), isConnected && gotAllParams, mand);
             }
-            if (MainV2.DisplayConfiguration.displayMotorTest)
+            if (MainV2.DisplayConfiguration.displayMotorTest && (isCopter || isQuadPlane))
             {
                 AddBackstageViewPage(typeof(ConfigMotorTest), rm.GetString("backstageViewPageMotorTest.Text"), isConnected && gotAllParams, mand);
             }
