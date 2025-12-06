@@ -217,11 +217,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 tableLayoutPanelMotors.Controls.Add(btnStopAll, 1, motormax);
                 tableLayoutPanelMotors.Controls.Add(btnTestSequence, 2, motormax);
 
-                // Position note labels below the table
-                int noteY = tableLayoutPanelMotors.Bottom + 6;
-                label2.Location = new Point(tableLayoutPanelMotors.Left, noteY);
-                linkLabel1.Location = new Point(tableLayoutPanelMotors.Left, noteY + 16);
-
                 // Position WebView to the right of the table with 32px spacing
                 PositionWebView();
                 tableLayoutPanelMotors.SizeChanged -= TableLayoutPanelMotors_SizeChanged;
@@ -233,6 +228,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 this.ResumeLayout(false);
                 panel1.ResumeLayout(false);
                 tableLayoutPanelMotors.ResumeLayout(true);
+
+                // Ensure bottom row (buttons) is exactly 50px after layout
+                if (tableLayoutPanelMotors.RowStyles.Count > motormax)
+                {
+                    tableLayoutPanelMotors.RowStyles[motormax] = new RowStyle(SizeType.Absolute, 50F);
+                }
             }
         }
 
@@ -244,7 +245,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void PositionWebView()
         {
             // Position WebView 32px to the right of the table, aligned to table top
-            webViewFrame.Location = new Point(tableLayoutPanelMotors.Right + 32, tableLayoutPanelMotors.Top);
+            webViewFrame.Location = new Point(tableLayoutPanelMotors.Right + 12, tableLayoutPanelMotors.Top);
         }
 
         private Dictionary<int, int> GetMotorAssignments()
