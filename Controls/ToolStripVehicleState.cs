@@ -323,7 +323,7 @@ namespace MissionPlanner.Controls
                 BackColor = Color.Transparent
             };
 
-            // Try to load GPS icon
+            // GPS icon will be set in UpdateGpsIcon() when visibility changes
             try
             {
                 _gpsIcon.Image = MissionPlanner.Properties.Resources.gps;
@@ -839,6 +839,9 @@ namespace MissionPlanner.Controls
 
             if (isConnected)
             {
+                // Update GPS icon based on theme
+                UpdateGpsIcon();
+
                 // Update arm state
                 bool isArmed = MainV2.comPort?.MAV?.cs?.armed ?? false;
                 _lastArmedState = isArmed;
@@ -876,6 +879,23 @@ namespace MissionPlanner.Controls
             _modeDropdown.CurrentMode = mode; // Keep original for comparison
             _modeDropdown.RefreshPopupIfOpen();
             UpdateContainerWidth();
+        }
+
+        private void UpdateGpsIcon()
+        {
+            try
+            {
+                _gpsIcon.Image = ThemeManager.IsDarkTheme
+                    ? MissionPlanner.Properties.Resources.gps
+                    : MissionPlanner.Properties.Resources.gps_light;
+
+                // Update DOP label color based on theme
+                _gpsDopLabel.ForeColor = ThemeManager.TextColor;
+            }
+            catch
+            {
+                // Icon not found
+            }
         }
 
         private void UpdateGpsDisplay(float satCount, float gpsStatus, float hdop, float vdop)
@@ -1515,6 +1535,7 @@ namespace MissionPlanner.Controls
 
     /// <summary>
     /// Popup form displaying detailed GPS status information.
+    /// Updates values in real-time while the popup is open.
     /// </summary>
     internal class GpsStatusPopup : Form
     {
@@ -1523,6 +1544,7 @@ namespace MissionPlanner.Controls
         private Label _hdopLabel;
         private Label _vdopLabel;
         private Label _courseLabel;
+        private Timer _updateTimer;
 
         public GpsStatusPopup()
         {
@@ -1619,6 +1641,49 @@ namespace MissionPlanner.Controls
 
             // Close when clicking outside or losing focus
             Deactivate += (s, e) => Close();
+
+            // Start real-time update timer
+            _updateTimer = new Timer();
+            _updateTimer.Interval = 200;
+            _updateTimer.Tick += UpdateTimer_Tick;
+            _updateTimer.Start();
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                var cs = MainV2.comPort?.MAV?.cs;
+                if (cs != null)
+                {
+                    UpdateValues(
+                        (int)cs.satcount,
+                        GetFixTypeString((int)cs.gpsstatus),
+                        cs.gpshdop,
+                        cs.gpsvdop,
+                        cs.groundcourse
+                    );
+                }
+            }
+            catch
+            {
+                // Ignore errors during update
+            }
+        }
+
+        private string GetFixTypeString(int fixType)
+        {
+            switch (fixType)
+            {
+                case 0: return "No GPS";
+                case 1: return "No Fix";
+                case 2: return "2D Fix";
+                case 3: return "3D Fix";
+                case 4: return "DGPS";
+                case 5: return "RTK Float";
+                case 6: return "RTK Fixed";
+                default: return fixType.ToString();
+            }
         }
 
         public void UpdateValues(int satCount, string gpsLock, float hdop, float vdop, float course)
@@ -1628,6 +1693,13 @@ namespace MissionPlanner.Controls
             _hdopLabel.Text = $"HDOP: {hdop:0.00}";
             _vdopLabel.Text = $"VDOP: {vdop:0.00}";
             _courseLabel.Text = $"Course: {course:0.0}°";
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            _updateTimer?.Stop();
+            _updateTimer?.Dispose();
+            base.OnFormClosing(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)

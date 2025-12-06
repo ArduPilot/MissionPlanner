@@ -67,6 +67,9 @@ namespace MissionPlanner.GCSViews
         // Double-click fly to here feature
         private bool _doubleClickFlyToHereEnabled = true;
 
+        // Track param count to detect when params are loaded
+        private int _lastParamCount = 0;
+
         // Map scale bar and zoom buttons
         private Controls.MapScaleBar _mapScaleBar;
         private bool _zoomInHover;
@@ -259,7 +262,7 @@ namespace MissionPlanner.GCSViews
         // Status tab control
         private Controls.StatusControl _statusControl;
 
-        private CheckBox _cb3DMap;
+        private CheckBox CB_3dmap;
 
         private void MoveMapControlsAboveTuning()
         {
@@ -306,14 +309,14 @@ namespace MissionPlanner.GCSViews
 
         private void Add3DMapCheckbox()
         {
-            _cb3DMap = new CheckBox
+            CB_3dmap = new CheckBox
             {
                 Text = "3D Map",
                 AutoSize = true
             };
-            _cb3DMap.CheckedChanged += CB_3dmap_CheckedChanged;
+            CB_3dmap.CheckedChanged += CB_3dmap_CheckedChanged;
 
-            panel1.Controls.Add(_cb3DMap);
+            panel1.Controls.Add(CB_3dmap);
             Position3DMapCheckbox();
             panel1.Resize += (s, e) => Position3DMapCheckbox();
 
@@ -322,11 +325,11 @@ namespace MissionPlanner.GCSViews
 
         private void Position3DMapCheckbox()
         {
-            if (_cb3DMap == null || CB_params == null || CHK_autopan == null)
+            if (CB_3dmap == null || CB_params == null || CHK_autopan == null)
                 return;
 
-            _cb3DMap.Location = new Point(CB_params.Right + 10, CB_params.Top);
-            CHK_autopan.Location = new Point(_cb3DMap.Right + 10, CHK_autopan.Top);
+            CB_3dmap.Location = new Point(CB_params.Right + 10, CB_params.Top);
+            CHK_autopan.Location = new Point(CB_3dmap.Right + 10, CHK_autopan.Top);
         }
 
         public FlightData()
@@ -487,7 +490,7 @@ namespace MissionPlanner.GCSViews
             flightDataActions1.BUT_clear_track.Click += BUT_clear_track_Click;
             flightDataActions1.BUT_Reboot.Click += BUT_Reboot_Click;
             flightDataActions1.BUT_abortland.Click += BUT_abortland_Click;
-            flightDataActions1.CMB_setwp.Click += CMB_setwp_Click;
+            flightDataActions1.CMB_setwp.DropDown += CMB_setwp_Click;
             flightDataActions1.CMB_modes.Click += CMB_modes_Click;
 
             log.Info("Graph Setup");
@@ -497,7 +500,7 @@ namespace MissionPlanner.GCSViews
             log.Info("Map Setup");
             gMapControl1.CacheLocation = Settings.GetDataDirectory() +
                                          "gmapcache" + Path.DirectorySeparatorChar;
-            gMapControl1.MinZoom = 0;
+            gMapControl1.MinZoom = 4;
             gMapControl1.MaxZoom = 24;
             gMapControl1.Zoom = 3;
 
@@ -1495,6 +1498,9 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.camerapoints != null)
                 MainV2.comPort.MAV.camerapoints.Clear();
+
+            // Clear 3D map trail as well
+            MissionPlanner.Controls.Map3D.instance?.ClearTrail();
         }
 
         void but_Click(object sender, EventArgs e)
@@ -2329,8 +2335,9 @@ namespace MissionPlanner.GCSViews
             if (CB_tuning.Checked)
             {
                 if (CB_params.Checked) CB_params.Checked = false;
-                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+                if (CB_3dmap.Checked) CB_3dmap.Checked = false;
             }
+            Settings.Instance["CB_tuning"] = CB_tuning.Checked.ToString();
             UpdateSplitContainerLayout();
         }
 
@@ -2339,31 +2346,33 @@ namespace MissionPlanner.GCSViews
             if (CB_params.Checked)
             {
                 if (CB_tuning.Checked) CB_tuning.Checked = false;
-                if (_cb3DMap.Checked) _cb3DMap.Checked = false;
+                if (CB_3dmap.Checked) CB_3dmap.Checked = false;
             }
+            Settings.Instance["CB_params"] = CB_params.Checked.ToString();
             UpdateSplitContainerLayout();
         }
 
         private void CB_3dmap_CheckedChanged(object sender, EventArgs e)
         {
-            if (_cb3DMap.Checked)
+            if (CB_3dmap.Checked)
             {
                 if (CB_tuning.Checked) CB_tuning.Checked = false;
                 if (CB_params.Checked) CB_params.Checked = false;
             }
-            Toggle3DMap(_cb3DMap.Checked);
+            Settings.Instance["CB_3dmap"] = CB_3dmap.Checked.ToString();
+            Toggle3DMap(CB_3dmap.Checked);
             UpdateSplitContainerLayout();
         }
 
-        public bool Is3DMapEnabled => _cb3DMap != null && _cb3DMap.Checked;
+        public bool Is3DMapEnabled => CB_3dmap != null && CB_3dmap.Checked;
 
         // Force-hide the 3D map (used during app shutdown to ensure GL resources are released cleanly)
         public void ForceHide3DMap()
         {
             try
             {
-                if (_cb3DMap != null && _cb3DMap.Checked)
-                    _cb3DMap.Checked = false;
+                if (CB_3dmap != null && CB_3dmap.Checked)
+                    CB_3dmap.Checked = false;
             }
             catch
             {
@@ -2423,7 +2432,7 @@ namespace MissionPlanner.GCSViews
         {
             bool tuningChecked = CB_tuning.Checked;
             bool paramsChecked = CB_params.Checked;
-            bool map3DChecked = _cb3DMap != null && _cb3DMap.Checked;
+            bool map3DChecked = CB_3dmap != null && CB_3dmap.Checked;
 
             splitContainer1.Panel1Collapsed = false;
 
@@ -3114,44 +3123,35 @@ namespace MissionPlanner.GCSViews
 
         private void CMB_setwp_Click(object sender, EventArgs e)
         {
-            flightDataActions1.CMB_setwp.Items.Clear();
+            UpdateWaypointDropdown();
+        }
 
-            flightDataActions1.CMB_setwp.Items.Add("0 (Home)");
+        private int _lastWaypointCount = -1;
 
-            int max = 0;
+        private void UpdateWaypointDropdown()
+        {
+            int count = MainV2.comPort.MAV.wps.Count;
 
-            if (MainV2.comPort.MAV.param["CMD_TOTAL"] != null)
+            if (count == _lastWaypointCount)
+                return;
+
+            _lastWaypointCount = count;
+
+            this.BeginInvoke((Action)(() =>
             {
-                int wps = int.Parse(MainV2.comPort.MAV.param["CMD_TOTAL"].ToString());
+                flightDataActions1.CMB_setwp.Items.Clear();
 
-                max = Math.Max(max, wps);
-            }
+                for (int z = 0; z < count; z++)
+                {
+                    if (z == 0)
+                        flightDataActions1.CMB_setwp.Items.Add("0 (Home)");
+                    else
+                        flightDataActions1.CMB_setwp.Items.Add(z.ToString());
+                }
 
-            if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
-            {
-                int wps = int.Parse(MainV2.comPort.MAV.param["WP_TOTAL"].ToString());
-
-                max = Math.Max(max, wps);
-            }
-
-            if (MainV2.comPort.MAV.param["MIS_TOTAL"] != null)
-            {
-                int wps = int.Parse(MainV2.comPort.MAV.param["MIS_TOTAL"].ToString());
-
-                max = Math.Max(max, wps);
-            }
-
-            if (MainV2.comPort.MAV.wps.Count > 0)
-            {
-                int wps = MainV2.comPort.MAV.wps.Count;
-
-                max = Math.Max(max, wps);
-            }
-
-            for (int z = 1; z <= max; z++)
-            {
-                flightDataActions1.CMB_setwp.Items.Add(z.ToString());
-            }
+                if (flightDataActions1.CMB_setwp.Items.Count > 0)
+                    flightDataActions1.CMB_setwp.SelectedIndex = 0;
+            }));
         }
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3448,6 +3448,15 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance["CHK_autopan"] != null)
                 CHK_autopan.Checked = Settings.Instance.GetBoolean("CHK_autopan");
 
+            if (Settings.Instance["CB_tuning"] != null)
+                CB_tuning.Checked = Settings.Instance.GetBoolean("CB_tuning");
+
+            if (Settings.Instance["CB_params"] != null)
+                CB_params.Checked = Settings.Instance.GetBoolean("CB_params");
+
+            if (Settings.Instance["CB_3dmap"] != null)
+                CB_3dmap.Checked = Settings.Instance.GetBoolean("CB_3dmap");
+
             if (Settings.Instance.ContainsKey("HudSwap") && Settings.Instance["HudSwap"] == "true")
                 SwapHud1AndMap();
 
@@ -3552,7 +3561,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 // percent
-                flightDataActions1.modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
+                flightDataActions1.modifyandSetSpeed.ButtonText = "Apply";
             }
 
             try
@@ -4306,6 +4315,18 @@ namespace MissionPlanner.GCSViews
                     updateBindingSource();
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
 
+                    // Check if params were just loaded and activate configRawParams2 if visible
+                    int currentParamCount = MainV2.comPort.MAV.param.Count;
+                    if (currentParamCount > 0 && _lastParamCount == 0 && configRawParams2 != null && configRawParams2.Visible)
+                    {
+                        this.BeginInvoke((Action)(() =>
+                        {
+                            configRawParams2.InitialTreeCollapsed = true;
+                            configRawParams2.Activate();
+                        }));
+                    }
+                    _lastParamCount = currentParamCount;
+
                     // battery warning.
                     // Use speech settings only if the following parameters are not set
                     // BATT_LOW_VOLT
@@ -4527,6 +4548,8 @@ namespace MissionPlanner.GCSViews
                         {
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
+
+                            UpdateWaypointDropdown();
 
                             var wps = MainV2.comPort.MAV.wps.Values.ToList();
                             if (wps.Count >= 1)
@@ -6224,6 +6247,211 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void resetQuickViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem && menuItem.Owner is ContextMenuStrip menu)
+            {
+                if (menu.SourceControl is QuickView qv)
+                {
+                    if (MainV2.DisplayConfiguration.lockQuickView)
+                        return;
+
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                    ResetQuickViewToDefault(qv, pos.Row, pos.Column);
+                }
+            }
+        }
+
+        private void resetAllQuickViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainV2.DisplayConfiguration.lockQuickView)
+                return;
+
+            // Load defaults from CSV and apply to all QuickViews
+            var defaults = LoadQuickViewDefaultsFromCSV();
+            if (defaults == null)
+                return;
+
+            // Reset rows and columns to defaults
+            int defaultRows = defaults.GetLength(0);
+            int defaultCols = defaults.GetLength(1);
+
+            // Clear all quickView settings first
+            for (int i = 1; i <= 30; i++)
+            {
+                Settings.Instance.Remove("quickView" + i);
+                Settings.Instance.Remove("quickView" + i + "_label");
+                Settings.Instance.Remove("quickView" + i + "_color");
+                Settings.Instance.Remove("quickView" + i + "_format");
+                Settings.Instance.Remove("quickView" + i + "_charWidth");
+                Settings.Instance.Remove("quickView" + i + "_scale");
+                Settings.Instance.Remove("quickView" + i + "_offset");
+                Settings.Instance.Remove("quickView" + i + "_gauge");
+                Settings.Instance.Remove("quickView" + i + "_gaugeMin");
+                Settings.Instance.Remove("quickView" + i + "_gaugeMax");
+            }
+
+            // Rebuild the grid with default dimensions
+            setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
+
+            // Apply defaults to each QuickView
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                    if (pos.Row < defaultRows && pos.Column < defaultCols)
+                    {
+                        var cellDefault = defaults[pos.Row, pos.Column];
+                        if (cellDefault != null)
+                        {
+                            ApplyQuickViewDefault(qv, cellDefault);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ResetQuickViewToDefault(QuickView qv, int row, int col)
+        {
+            var defaults = LoadQuickViewDefaultsFromCSV();
+            if (defaults == null || row >= defaults.GetLength(0) || col >= defaults.GetLength(1))
+            {
+                // Fallback to battery_voltage if no default exists
+                qv.Tag = "battery_voltage";
+                qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit("battery_voltage");
+                qv.numberformat = "0.00";
+                qv.numberColor = Color.White;
+                qv.scale = 1;
+                qv.offset = 0;
+                qv.isGauge = false;
+                qv.charWidth = 0;
+                BindQuickView(qv);
+                SaveQuickViewSettings(qv);
+                return;
+            }
+
+            var cellDefault = defaults[row, col];
+            if (cellDefault != null)
+            {
+                ApplyQuickViewDefault(qv, cellDefault);
+            }
+        }
+
+        private Random _quickViewRandomColor = new Random();
+
+        private void ApplyQuickViewDefault(QuickView qv, QuickViewDefault def)
+        {
+            qv.Tag = def.Field;
+            qv.desc = !string.IsNullOrWhiteSpace(def.Label) ? def.Label : MainV2.comPort.MAV.cs.GetNameandUnit(def.Field);
+            qv.numberformat = "0.00";
+            qv.numberColor = def.Color ?? colorsForDefaultQuickView[_quickViewRandomColor.Next(colorsForDefaultQuickView.Length)];
+            qv.scale = def.Scale;
+            qv.offset = 0;
+            qv.isGauge = false;
+            qv.charWidth = 0;
+
+            BindQuickView(qv);
+            SaveQuickViewSettings(qv);
+        }
+
+        private void SaveQuickViewSettings(QuickView qv)
+        {
+            Settings.Instance[qv.Name] = qv.Tag?.ToString() ?? "battery_voltage";
+            Settings.Instance[qv.Name + "_label"] = qv.desc;
+            Settings.Instance[qv.Name + "_color"] = ColorTranslator.ToHtml(qv.numberColor);
+            Settings.Instance[qv.Name + "_format"] = qv.numberformat;
+            Settings.Instance[qv.Name + "_charWidth"] = qv.charWidth.ToString();
+            Settings.Instance[qv.Name + "_scale"] = qv.scale.ToString();
+            Settings.Instance[qv.Name + "_offset"] = qv.offset.ToString();
+            Settings.Instance[qv.Name + "_gauge"] = qv.isGauge.ToString();
+            Settings.Instance[qv.Name + "_gaugeMin"] = qv.gaugeMin.ToString();
+            Settings.Instance[qv.Name + "_gaugeMax"] = qv.gaugeMax.ToString();
+        }
+
+        private class QuickViewDefault
+        {
+            public string Field { get; set; }
+            public Color? Color { get; set; }
+            public string Label { get; set; }
+            public double Scale { get; set; } = 1;
+        }
+
+        private QuickViewDefault[,] LoadQuickViewDefaultsFromCSV()
+        {
+            try
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                using (var stream = assembly.GetManifestResourceStream("MissionPlanner.Resources.DefaultQuickViewSettings.csv"))
+                {
+                    if (stream == null)
+                    {
+                        log.Warn("DefaultQuickViewSettings.csv not found in embedded resources");
+                        return null;
+                    }
+
+                    using (var reader = new System.IO.StreamReader(stream))
+                    {
+                        var csvData = new List<string[]>();
+                        int maxCols = 0;
+
+                        while (!reader.EndOfStream)
+                        {
+                            var line = reader.ReadLine();
+                            if (string.IsNullOrWhiteSpace(line) || line.TrimStart().StartsWith("#"))
+                                continue;
+
+                            var cells = line.Split(',');
+                            maxCols = Math.Max(maxCols, cells.Length);
+                            csvData.Add(cells);
+                        }
+
+                        var defaults = new QuickViewDefault[csvData.Count, maxCols];
+                        for (int row = 0; row < csvData.Count; row++)
+                        {
+                            var cells = csvData[row];
+                            for (int col = 0; col < cells.Length; col++)
+                            {
+                                var cell = cells[col].Trim();
+                                if (string.IsNullOrEmpty(cell))
+                                    continue;
+
+                                var parts = cell.Split('|');
+                                var def = new QuickViewDefault
+                                {
+                                    Field = parts[0].Trim()
+                                };
+
+                                if (parts.Length > 1 && !string.IsNullOrWhiteSpace(parts[1]))
+                                {
+                                    try
+                                    {
+                                        def.Color = ColorTranslator.FromHtml(parts[1].Trim());
+                                    }
+                                    catch { }
+                                }
+
+                                if (parts.Length > 2 && !string.IsNullOrWhiteSpace(parts[2]))
+                                    def.Label = parts[2].Trim();
+
+                                if (parts.Length > 3 && double.TryParse(parts[3].Trim(), out double scale))
+                                    def.Scale = scale;
+
+                                defaults[row, col] = def;
+                            }
+                        }
+
+                        return defaults;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error loading QuickView defaults from CSV", ex);
+                return null;
+            }
+        }
+
         #endregion
 
         private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6658,6 +6886,9 @@ namespace MissionPlanner.GCSViews
             {
                 if (this.Visible && !this.IsDisposed)
                 {
+                    // Update QuickView connection state
+                    UpdateQuickViewConnectionState();
+
                     //Console.Write("bindingSource1 ");
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));
                     //Console.Write("bindingSourceHud ");
@@ -7943,6 +8174,47 @@ namespace MissionPlanner.GCSViews
             catch (Exception ex)
             {
                 log.Debug(ex);
+            }
+        }
+
+        private bool _lastQuickViewConnectionState = false;
+
+        private void UpdateQuickViewConnectionState()
+        {
+            bool isConnected = MainV2.comPort.BaseStream.IsOpen;
+
+            if (isConnected == _lastQuickViewConnectionState)
+                return;
+
+            _lastQuickViewConnectionState = isConnected;
+
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    qv.IsConnected = isConnected;
+                }
+            }
+
+            // Also update undocked QuickView form if it exists
+            if (_undockedQuickForm != null && !_undockedQuickForm.IsDisposed)
+            {
+                foreach (Control ctrl in _undockedQuickForm.Controls)
+                {
+                    UpdateQuickViewConnectionStateRecursive(ctrl, isConnected);
+                }
+            }
+        }
+
+        private void UpdateQuickViewConnectionStateRecursive(Control parent, bool isConnected)
+        {
+            if (parent is QuickView qv)
+            {
+                qv.IsConnected = isConnected;
+            }
+            foreach (Control ctrl in parent.Controls)
+            {
+                UpdateQuickViewConnectionStateRecursive(ctrl, isConnected);
             }
         }
     }

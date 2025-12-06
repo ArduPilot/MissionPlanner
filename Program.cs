@@ -261,6 +261,21 @@ namespace MissionPlanner
                 log.Error(ex);
             }
 
+            // Initialize theme before Splash so it can use theme colors
+            ThemeManager.thmColor = new ThemeColorTable();
+            ThemeManager.thmColor.InitColors();
+            ThemeManager.thmColor.SetTheme();
+
+            // Load user's preferred theme
+            if (Settings.Instance["theme"] == null)
+            {
+                if (File.Exists(Settings.GetRunningDirectory() + "custom.mpsystheme"))
+                    Settings.Instance["theme"] = "custom.mpsystheme";
+                else
+                    Settings.Instance["theme"] = "BurntKermit.mpsystheme";
+            }
+            ThemeManager.LoadTheme(Settings.Instance["theme"]);
+
             Splash = new MissionPlanner.Splash();
 
             string strVersion = File.Exists("version.txt")

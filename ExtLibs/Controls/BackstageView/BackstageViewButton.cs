@@ -8,6 +8,8 @@ namespace MissionPlanner.Controls.BackstageView
     public class BackstageViewButton : Control
     {
         private bool _isSelected;
+        private bool _hasChildren;
+        private bool _isExpanded;
 
         internal Color ContentPageColor = Color.Gray;
         internal Color PencilBorderColor = Color.White;
@@ -16,6 +18,32 @@ namespace MissionPlanner.Controls.BackstageView
         internal Color HighlightColor1 = SystemColors.Highlight;
         internal Color HighlightColor2 = SystemColors.MenuHighlight;
         private bool _isMouseOver;
+
+        public bool HasChildren
+        {
+            get { return _hasChildren; }
+            set
+            {
+                if (_hasChildren != value)
+                {
+                    _hasChildren = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (_isExpanded != value)
+                {
+                    _isExpanded = value;
+                    this.Invalidate();
+                }
+            }
+        }
 
         //internal Color HighlightColor1 = Color.FromArgb(0x94, 0xc1, 0x1f);
         //internal Color HighlightColor2 = Color.FromArgb(0xcd, 0xe2, 0x96);
@@ -116,8 +144,40 @@ namespace MissionPlanner.Controls.BackstageView
                    g.DrawLine(butPen, 0, 0, Width, 0);
                    g.DrawLine(butPen, 0, Height - 1, Width, Height - 1);
                }
-                
+
                 g.DrawString(Text, new Font(this.Font.FontFamily,10 * (100/g.DpiX), FontStyle.Bold), new SolidBrush(this.UnSelectedTextColor), 5, 6);
+           }
+
+           if (_hasChildren)
+           {
+               var arrowColor = _isSelected ? SelectedTextColor : UnSelectedTextColor;
+               var arrowBrush = new SolidBrush(arrowColor);
+               var midHeight = Height / 2;
+               var arrowSize = 5;
+               var rightMargin = 16;
+
+               Point[] arrowPoints;
+               if (_isExpanded)
+               {
+                   arrowPoints = new[]
+                   {
+                       new Point(Width - rightMargin - arrowSize, midHeight - arrowSize / 2),
+                       new Point(Width - rightMargin + arrowSize, midHeight - arrowSize / 2),
+                       new Point(Width - rightMargin, midHeight + arrowSize / 2)
+                   };
+               }
+               else
+               {
+                   arrowPoints = new[]
+                   {
+                       new Point(Width - rightMargin - arrowSize / 2, midHeight - arrowSize),
+                       new Point(Width - rightMargin + arrowSize / 2, midHeight),
+                       new Point(Width - rightMargin - arrowSize / 2, midHeight + arrowSize)
+                   };
+               }
+
+               g.SmoothingMode = SmoothingMode.AntiAlias;
+               g.FillPolygon(arrowBrush, arrowPoints);
            }
         }
 

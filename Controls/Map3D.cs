@@ -3,7 +3,6 @@ using GMap.NET.Internals;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using Microsoft.Scripting.Utils;
-using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 using OpenTK;
 using OpenTK.Graphics;
@@ -73,6 +72,186 @@ namespace MissionPlanner.Controls
     public class Map3D : GLControl, IDeactivate
     {
         public static Map3D instance;
+        private static GraphicsMode _graphicsMode;
+
+        #region Constants
+        private const double HEADING_LINE_LENGTH = 100; // meters
+        private const double TURN_RADIUS_ARC_LENGTH = 200; // meters
+        private const int TURN_RADIUS_SEGMENTS = 50;
+        private const double ADSB_MAX_DISTANCE = 50000; // 50km
+        private const double ADSB_RED_DISTANCE = 5000; // 5km
+        private const double ADSB_YELLOW_DISTANCE = 10000; // 10km
+        private const double ADSB_GREEN_DISTANCE = 20000; // 20km
+        private const int ADSB_CIRCLE_SEGMENTS = 24;
+        private const int TRAIL_SMOOTHING_WINDOW = 61;
+        private const double WAYPOINT_MIN_DISTANCE = 61.0; // 200 feet in meters
+        #endregion
+
+        private static GraphicsMode GetGraphicsMode()
+        {
+            if (_graphicsMode != null)
+                return _graphicsMode;
+
+            // Prefer a 32-bit color buffer, 24-bit depth, 8-bit stencil, and 4x MSAA.
+            try
+            {
+                _graphicsMode = new GraphicsMode(new ColorFormat(32), 24, 8, 4);
+                return _graphicsMode;
+            }
+            catch
+            {
+                // Fall back to no multisampling if the platform/driver rejects MSAA.
+                try
+                {
+                    _graphicsMode = new GraphicsMode(new ColorFormat(32), 24, 8, 0);
+                    return _graphicsMode;
+                }
+                catch
+                {
+                    _graphicsMode = GraphicsMode.Default;
+                    return _graphicsMode;
+                }
+            }
+        }
+
+        #region Helper Methods
+        /// <summary>
+        /// Gets a color based on distance for ADSB aircraft visualization.
+        /// Red for close aircraft, yellow for medium distance, green for far.
+        /// </summary>
+        /// <param name="distance">Distance to aircraft in meters</param>
+        /// <param name="isGrounded">Whether the aircraft is on the ground</param>
+        /// <returns>RGBA color values (0.0-1.0)</returns>
+        private (float r, float g, float b, float a) GetADSBDistanceColor(double distance, bool isGrounded)
+        {
+            if (isGrounded)
+            {
+                return (0.7f, 0.7f, 0.7f, 1.0f); // Light gray for grounded
+            }
+
+            if (distance <= ADSB_RED_DISTANCE)
+            {
+                return (1.0f, 0.0f, 0.0f, 1.0f); // Red
+            }
+            else if (distance <= ADSB_YELLOW_DISTANCE)
+            {
+                // Interpolate red to yellow
+                float t = (float)((distance - ADSB_RED_DISTANCE) / (ADSB_YELLOW_DISTANCE - ADSB_RED_DISTANCE));
+                return (1.0f, t, 0.0f, 1.0f);
+            }
+            else if (distance <= ADSB_GREEN_DISTANCE)
+            {
+                // Interpolate yellow to green
+                float t = (float)((distance - ADSB_YELLOW_DISTANCE) / (ADSB_GREEN_DISTANCE - ADSB_YELLOW_DISTANCE));
+                return (1.0f - t, 1.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                return (0.0f, 1.0f, 0.0f, 1.0f); // Green
+            }
+        }
+
+        /// <summary>
+        /// Calculates billboard orientation vectors for a point facing the camera.
+        /// </summary>
+        /// <param name="posX">Position X</param>
+        /// <param name="posY">Position Y</param>
+        /// <param name="posZ">Position Z</param>
+        /// <param name="camX">Camera X</param>
+        /// <param name="camY">Camera Y</param>
+        /// <param name="camZ">Camera Z</param>
+        /// <returns>Right and Up vectors for billboard orientation, or null if too close to camera</returns>
+        private (double rightX, double rightY, double rightZ, double upX, double upY, double upZ)?
+            CalculateBillboardOrientation(double posX, double posY, double posZ, double camX, double camY, double camZ)
+        {
+            // Calculate direction to camera
+            double dx = posX - camX;
+            double dy = posY - camY;
+            double dz = posZ - camZ;
+            double distance = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (distance < 1.0)
+                return null; // Too close to camera
+
+            // Normalize view direction
+            double viewDirX = dx / distance;
+            double viewDirY = dy / distance;
+            double viewDirZ = dz / distance;
+
+            // Right vector (cross product of view dir with world up [0,0,1])
+            double rightX = viewDirY;
+            double rightY = -viewDirX;
+            double rightZ = 0;
+            double rightLen = Math.Sqrt(rightX * rightX + rightY * rightY);
+
+            if (rightLen > 0.001)
+            {
+                rightX /= rightLen;
+                rightY /= rightLen;
+            }
+            else
+            {
+                // Looking straight up/down, use arbitrary right
+                rightX = 1;
+                rightY = 0;
+            }
+
+            // Up vector (cross product of right with view dir)
+            double upX = rightY * viewDirZ - rightZ * viewDirY;
+            double upY = rightZ * viewDirX - rightX * viewDirZ;
+            double upZ = rightX * viewDirY - rightY * viewDirX;
+
+            return (rightX, rightY, rightZ, upX, upY, upZ);
+        }
+
+        /// <summary>
+        /// Generates vertices for a billboarded circle facing the camera.
+        /// </summary>
+        /// <param name="centerX">Center X position</param>
+        /// <param name="centerY">Center Y position</param>
+        /// <param name="centerZ">Center Z position</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="segments">Number of segments</param>
+        /// <param name="r">Red color component (0-1)</param>
+        /// <param name="g">Green color component (0-1)</param>
+        /// <param name="b">Blue color component (0-1)</param>
+        /// <param name="a">Alpha component (0-1)</param>
+        /// <param name="vertices">List to add vertices to</param>
+        private void AddBillboardCircleVertices(
+            double centerX, double centerY, double centerZ,
+            double radius, int segments,
+            float r, float g, float b, float a,
+            double rightX, double rightY, double rightZ,
+            double upX, double upY, double upZ,
+            List<float> vertices)
+        {
+            for (int i = 0; i < segments; i++)
+            {
+                double angle1 = (2 * Math.PI * i) / segments;
+                double angle2 = (2 * Math.PI * (i + 1)) / segments;
+
+                double cos1 = Math.Cos(angle1);
+                double sin1 = Math.Sin(angle1);
+                double cos2 = Math.Cos(angle2);
+                double sin2 = Math.Sin(angle2);
+
+                // Point 1: center + radius * (cos * right + sin * up)
+                double x1 = centerX + radius * (cos1 * rightX + sin1 * upX);
+                double y1 = centerY + radius * (cos1 * rightY + sin1 * upY);
+                double z1 = centerZ + radius * (cos1 * rightZ + sin1 * upZ);
+
+                // Point 2
+                double x2 = centerX + radius * (cos2 * rightX + sin2 * upX);
+                double y2 = centerY + radius * (cos2 * rightY + sin2 * upY);
+                double z2 = centerZ + radius * (cos2 * rightZ + sin2 * upZ);
+
+                // Add as separate line segment (x, y, z, r, g, b, a for each vertex)
+                vertices.AddRange(new float[] { (float)x1, (float)y1, (float)z1, r, g, b, a });
+                vertices.AddRange(new float[] { (float)x2, (float)y2, (float)z2, r, g, b, a });
+            }
+        }
+        #endregion
+
         int green = 0;
         int greenAlt = 0;
 
@@ -101,6 +280,18 @@ namespace MissionPlanner.Controls
         private bool _showHeadingLine = true;
         private bool _showNavBearingLine = true;
         private bool _showGpsHeadingLine = true;
+        private bool _showTurnRadius = true;
+        private bool _showTrail = true;
+        private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
+        private double _adsbCircleSize = 500; // Diameter of ADSB aircraft circles in meters
+        // Trail (flight path history) - stored as absolute UTM coordinates (X, Y, Z)
+        private List<double[]> _trailPoints = new List<double[]>();
+        private int _trailUtmZone = -999;
+        private Lines _trailLine = null;
+        // ADSB aircraft hit testing - stores screen positions and data for tooltip
+        private List<ADSBScreenPosition> _adsbScreenPositions = new List<ADSBScreenPosition>();
+        private ToolTip _adsbToolTip;
+        private adsb.PointLatLngAltHdg _lastHoveredADSB = null;
         ConcurrentDictionary<GPoint, tileInfo> textureid = new ConcurrentDictionary<GPoint, tileInfo>();
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
         private GMapProvider type;
@@ -167,27 +358,30 @@ namespace MissionPlanner.Controls
 
         public List<Locationwp> WPs { get; set; }
 
-        public Map3D() : base()
+        public Map3D() : base(GetGraphicsMode())
         {
             instance = this;
 
             // Load settings early, before any rendering
             zoom = Settings.Instance.GetInt32("map3d_zoom_level", 15);
             _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-            _cameraAngle = Settings.Instance.GetDouble("map3d_camera_angle", 0.0);
             _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
-            _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_plane_scale", 1.0);
+            _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_mav_scale", Settings.Instance.GetDouble("map3d_plane_scale", 1.0));
             _cameraFOV = (float)Settings.Instance.GetDouble("map3d_fov", 60);
             _planeSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
             try
             {
-                int colorArgb = Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb());
+                int colorArgb = Settings.Instance.GetInt32("map3d_mav_color", Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb()));
                 _planeColor = Color.FromArgb(colorArgb);
             }
             catch { _planeColor = Color.Red; }
             _showHeadingLine = Settings.Instance.GetBoolean("map3d_show_heading", true);
             _showNavBearingLine = Settings.Instance.GetBoolean("map3d_show_nav_bearing", true);
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
+            _showTurnRadius = Settings.Instance.GetBoolean("map3d_show_turn_radius", true);
+            _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
+            _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
+            _adsbCircleSize = Settings.Instance.GetDouble("map3d_adsb_size", 500);
 
             InitializeComponent();
             Click += OnClick;
@@ -196,6 +390,13 @@ namespace MissionPlanner.Controls
             MouseUp += OnMouseUp;
             MouseWheel += OnMouseWheel;
             MouseDoubleClick += OnMouseDoubleClick;
+
+            // Initialize ADSB tooltip
+            _adsbToolTip = new ToolTip();
+            _adsbToolTip.AutoPopDelay = 10000;
+            _adsbToolTip.InitialDelay = 0;
+            _adsbToolTip.ReshowDelay = 0;
+            _adsbToolTip.ShowAlways = true;
             core.OnMapOpen();
             type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             prj = type.Projection;
@@ -252,6 +453,92 @@ namespace MissionPlanner.Controls
             {
                 mousePosition = getMousePos(mousex, mousey);
             } catch { }
+
+            // Check for ADSB aircraft hover
+            CheckADSBHover(e.X, e.Y);
+        }
+
+        /// <summary>
+        /// Checks if the mouse is hovering over an ADSB aircraft circle and shows tooltip.
+        /// </summary>
+        private void CheckADSBHover(int mouseX, int mouseY)
+        {
+            adsb.PointLatLngAltHdg hoveredPlane = null;
+            double hoveredDistance = 0;
+
+            foreach (var pos in _adsbScreenPositions)
+            {
+                float dx = mouseX - pos.ScreenX;
+                float dy = mouseY - pos.ScreenY;
+                float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                if (dist <= pos.Radius)
+                {
+                    hoveredPlane = pos.PlaneData;
+                    hoveredDistance = pos.DistanceToOwn;
+                    break;
+                }
+            }
+
+            if (hoveredPlane != null)
+            {
+                if (!object.ReferenceEquals(_lastHoveredADSB, hoveredPlane))
+                {
+                    _lastHoveredADSB = hoveredPlane;
+
+                    // Build tooltip text similar to 2D map
+                    var sb = new System.Text.StringBuilder();
+                    sb.AppendLine("ICAO: " + hoveredPlane.Tag);
+                    sb.AppendLine("Callsign: " + hoveredPlane.CallSign);
+
+                    // Type/Category
+                    string typeCategory = "";
+                    try
+                    {
+                        var raw = hoveredPlane.Raw as Newtonsoft.Json.Linq.JObject;
+                        if (raw != null && raw.ContainsKey("t"))
+                        {
+                            typeCategory = raw["t"].ToString() + " ";
+                        }
+                    }
+                    catch { }
+                    typeCategory += hoveredPlane.GetCategoryFriendlyString();
+                    sb.AppendLine("Type\\Category: " + typeCategory);
+
+                    sb.AppendLine("Squawk: " + hoveredPlane.Squawk.ToString());
+                    sb.AppendLine("Altitude: " + (hoveredPlane.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit);
+                    sb.AppendLine("Speed: " + (hoveredPlane.Speed / 100.0 * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit);
+                    sb.AppendLine("Heading: " + hoveredPlane.Heading.ToString("0") + "°");
+
+                    // Distance
+                    string distanceStr;
+                    if (hoveredDistance > 1000)
+                        distanceStr = (hoveredDistance / 1000).ToString("0.#") + " km";
+                    else
+                        distanceStr = (hoveredDistance * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
+                    sb.AppendLine("Distance: " + distanceStr);
+
+                    // Altitude delta
+                    double ownAlt = MainV2.comPort?.MAV?.cs?.alt ?? 0;
+                    double altDelta = (hoveredPlane.Alt - ownAlt) * CurrentState.multiplieralt;
+                    string altDeltaStr = (altDelta >= 0 ? "+" : "") + altDelta.ToString("0");
+                    sb.AppendLine("Alt Delta: " + altDeltaStr + " " + CurrentState.AltUnit);
+
+                    // Collision threat level
+                    if (hoveredPlane.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                        sb.AppendLine("Collision risk: " + (hoveredPlane.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger"));
+
+                    _adsbToolTip.Show(sb.ToString().TrimEnd(), this, mouseX + 15, mouseY + 15);
+                }
+            }
+            else
+            {
+                if (_lastHoveredADSB != null)
+                {
+                    _lastHoveredADSB = null;
+                    _adsbToolTip.Hide(this);
+                }
+            }
         }
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e)
@@ -259,7 +546,7 @@ namespace MissionPlanner.Controls
             if (e.Button == MouseButtons.Left)
             {
                 _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
-                _cameraAngle = 0.0; // Always reset rotation to behind vehicle
+                _cameraAngle = 0.0;
                 _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
@@ -703,8 +990,6 @@ namespace MissionPlanner.Controls
 
         private void DrawHeadingLines(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            const double lineLength = 100; // 100 meters
-
             // Get current heading (yaw), nav bearing, and GPS heading
             double heading = MainV2.comPort?.MAV?.cs?.yaw ?? 0;
             double navBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
@@ -714,8 +999,8 @@ namespace MissionPlanner.Controls
             if (_showHeadingLine)
             {
                 double headingRad = MathHelper.Radians(heading);
-                double headingEndX = _planeDrawX + Math.Sin(headingRad) * lineLength;
-                double headingEndY = _planeDrawY + Math.Cos(headingRad) * lineLength;
+                double headingEndX = _planeDrawX + Math.Sin(headingRad) * HEADING_LINE_LENGTH;
+                double headingEndY = _planeDrawY + Math.Cos(headingRad) * HEADING_LINE_LENGTH;
 
                 _headingLine?.Dispose();
                 _headingLine = new Lines();
@@ -725,18 +1010,65 @@ namespace MissionPlanner.Controls
                 _headingLine.Draw(projMatrix, viewMatrix);
             }
 
-            // Nav bearing line (orange)
+            // Nav bearing line (orange) - draws from plane to target waypoint or nav_bearing direction
             if (_showNavBearingLine)
             {
-                double navBearingRad = MathHelper.Radians(navBearing);
-                double navEndX = _planeDrawX + Math.Sin(navBearingRad) * lineLength;
-                double navEndY = _planeDrawY + Math.Cos(navBearingRad) * lineLength;
+                double navEndX, navEndY, navEndZ;
+                PointLatLngAlt targetWp = null;
+
+                // Only connect to actual waypoint in Auto, Guided, or RTL modes
+                // In other modes, just draw a directional line like the 2D map does
+                var mode = MainV2.comPort?.MAV?.cs?.mode?.ToLower() ?? "";
+                bool isNavigatingMode = mode == "auto" || mode == "guided" || mode == "rtl" ||
+                                        mode == "land" || mode == "smart_rtl";
+
+                if (isNavigatingMode)
+                {
+                    if (mode == "guided" && MainV2.comPort?.MAV?.GuidedMode.x != 0)
+                    {
+                        // In guided mode, target is the guided waypoint
+                        targetWp = new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
+                            { Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt };
+                    }
+                    else if (mode == "rtl" || mode == "land" || mode == "smart_rtl")
+                    {
+                        // In RTL/Land modes, target is Home
+                        var waypointList = GetWaypointListFromMAV();
+                        targetWp = waypointList?.FirstOrDefault(p => p != null && p.Tag == "H");
+                    }
+                    else if (mode == "auto")
+                    {
+                        // Auto mode - use current waypoint number
+                        int wpno = (int)(MainV2.comPort?.MAV?.cs?.wpno ?? 0);
+                        var waypointList = GetWaypointListFromMAV().Where(a => a != null).ToList();
+                        if (waypointList != null && wpno > 0 && wpno < waypointList.Count)
+                            targetWp = waypointList[wpno];
+                    }
+                }
+
+                if (targetWp != null && targetWp.Lat != 0 && targetWp.Lng != 0)
+                {
+                    // Calculate position exactly as waypoint markers are drawn
+                    var co = convertCoords(targetWp);
+                    var targetTerrainAlt = srtm.getAltitude(targetWp.Lat, targetWp.Lng).alt;
+                    navEndX = co[0];
+                    navEndY = co[1];
+                    navEndZ = co[2] + targetTerrainAlt;
+                }
+                else
+                {
+                    // Not in navigation mode or no target: use nav_bearing direction with fixed length (like 2D map)
+                    double navBearingRad = MathHelper.Radians(navBearing);
+                    navEndX = _planeDrawX + Math.Sin(navBearingRad) * HEADING_LINE_LENGTH;
+                    navEndY = _planeDrawY + Math.Cos(navBearingRad) * HEADING_LINE_LENGTH;
+                    navEndZ = _planeDrawZ;
+                }
 
                 _navBearingLine?.Dispose();
                 _navBearingLine = new Lines();
                 _navBearingLine.Width = 1.5f;
                 _navBearingLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, 1, 0.5f, 0, 1);
-                _navBearingLine.Add(navEndX, navEndY, _planeDrawZ, 1, 0.5f, 0, 1);
+                _navBearingLine.Add(navEndX, navEndY, navEndZ, 1, 0.5f, 0, 1);
                 _navBearingLine.Draw(projMatrix, viewMatrix);
             }
 
@@ -744,8 +1076,8 @@ namespace MissionPlanner.Controls
             if (_showGpsHeadingLine)
             {
                 double gpsRad = MathHelper.Radians(gpsHeading);
-                double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * lineLength;
-                double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * lineLength;
+                double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * HEADING_LINE_LENGTH;
+                double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * HEADING_LINE_LENGTH;
 
                 _gpsHeadingLine?.Dispose();
                 _gpsHeadingLine = new Lines();
@@ -754,6 +1086,270 @@ namespace MissionPlanner.Controls
                 _gpsHeadingLine.Add(gpsEndX, gpsEndY, _planeDrawZ, 0, 0, 0, 1);
                 _gpsHeadingLine.Draw(projMatrix, viewMatrix);
             }
+
+            // Turn radius arc (hot pink) - shows predicted turn path based on current bank angle
+            if (_showTurnRadius)
+            {
+                float radius = (float)(MainV2.comPort?.MAV?.cs?.radius ?? 0);
+
+                if (Math.Abs(radius) > 1)
+                {
+                    double alpha = (TURN_RADIUS_ARC_LENGTH / Math.Abs(radius)) * MathHelper.rad2deg;
+                    if (alpha > 180) alpha = 180;
+
+                    // Calculate center of turn circle perpendicular to travel direction
+                    double cogRad = MathHelper.Radians(gpsHeading);
+                    double perpAngle = cogRad + (radius > 0 ? Math.PI / 2 : -Math.PI / 2);
+                    double centerX = _planeDrawX + Math.Sin(perpAngle) * Math.Abs(radius);
+                    double centerY = _planeDrawY + Math.Cos(perpAngle) * Math.Abs(radius);
+                    double startAngle = Math.Atan2(_planeDrawX - centerX, _planeDrawY - centerY);
+
+                    _turnRadiusLine?.Dispose();
+                    _turnRadiusLine = new Lines();
+                    _turnRadiusLine.Width = 2f;
+
+                    // HotPink color
+                    float r = 1.0f;
+                    float g = 105f / 255f;
+                    float b = 180f / 255f;
+
+                    double alphaRad = MathHelper.Radians(alpha);
+                    double angleStep = alphaRad / TURN_RADIUS_SEGMENTS;
+                    double direction = radius > 0 ? 1 : -1;
+
+                    double prevX = _planeDrawX;
+                    double prevY = _planeDrawY;
+
+                    for (int i = 1; i <= TURN_RADIUS_SEGMENTS; i++)
+                    {
+                        double angle = startAngle + direction * angleStep * i;
+                        double x = centerX + Math.Sin(angle) * Math.Abs(radius);
+                        double y = centerY + Math.Cos(angle) * Math.Abs(radius);
+
+                        _turnRadiusLine.Add(prevX, prevY, _planeDrawZ, r, g, b, 1);
+                        _turnRadiusLine.Add(x, y, _planeDrawZ, r, g, b, 1);
+
+                        prevX = x;
+                        prevY = y;
+                    }
+
+                    _turnRadiusLine.Draw(projMatrix, viewMatrix);
+                }
+            }
+        }
+
+        private void DrawTrail(Matrix4 projMatrix, Matrix4 viewMatrix)
+        {
+            if (!_showTrail || MainV2.comPort?.MAV?.cs?.armed != true || _trailPoints.Count < 2)
+                return;
+
+            _trailLine?.Dispose();
+            _trailLine = new Lines();
+            _trailLine.Width = 5f;
+
+            // MidnightBlue color with alpha (same as 2D map GMapRoute default)
+            float r = 25f / 255f;
+            float g = 25f / 255f;
+            float b = 112f / 255f;
+            float a = 144f / 255f;
+
+            // Convert trail points to relative coordinates
+            var relPoints = new List<double[]>();
+            foreach (var pt in _trailPoints)
+            {
+                relPoints.Add(new double[] { pt[0] - utmcenter[0], pt[1] - utmcenter[1], pt[2] });
+            }
+            // Add current plane position
+            relPoints.Add(new double[] { _planeDrawX, _planeDrawY, _planeDrawZ });
+
+            // Apply moving average smoothing
+            int windowSize = TRAIL_SMOOTHING_WINDOW;
+            var smoothed = new List<double[]>();
+
+            for (int i = 0; i < relPoints.Count; i++)
+            {
+                double sumX = 0, sumY = 0, sumZ = 0;
+                int count = 0;
+                int halfWindow = windowSize / 2;
+
+                for (int j = Math.Max(0, i - halfWindow); j <= Math.Min(relPoints.Count - 1, i + halfWindow); j++)
+                {
+                    sumX += relPoints[j][0];
+                    sumY += relPoints[j][1];
+                    sumZ += relPoints[j][2];
+                    count++;
+                }
+
+                smoothed.Add(new double[] { sumX / count, sumY / count, sumZ / count });
+            }
+
+            // Draw smoothed points, but force the last point to be exact plane position
+            for (int i = 0; i < smoothed.Count - 1; i++)
+            {
+                _trailLine.Add(smoothed[i][0], smoothed[i][1], smoothed[i][2], r, g, b, a);
+            }
+            // Last point is always the exact plane position
+            _trailLine.Add(_planeDrawX, _planeDrawY, _planeDrawZ, r, g, b, a);
+
+            _trailLine.Draw(projMatrix, viewMatrix);
+        }
+
+        /// <summary>
+        /// Clears the 3D map trail. Called from FlightData when clearing the 2D track.
+        /// </summary>
+        public void ClearTrail()
+        {
+            _trailPoints.Clear();
+        }
+
+        /// <summary>
+        /// Draws ADSB aircraft as circles on the 3D map.
+        /// ADSB altitude is MSL (barometric), so no terrain adjustment needed.
+        /// Circle diameter is fixed at 250m (25m for grounded aircraft).
+        /// Color based on distance from own aircraft:
+        /// Red if within 5km, Yellow if within 20km, Green if > 50km, interpolated between.
+        /// Grounded aircraft are drawn as light gray circles.
+        /// Circles are billboarded to always face the camera.
+        /// Drawn in reverse order of distance (farthest first) for proper depth ordering.
+        /// </summary>
+        private void DrawADSB(Matrix4 projMatrix, Matrix4 viewMatrix)
+        {
+            double circleRadius = _adsbCircleSize / 2.0;
+            double groundedCircleRadius = circleRadius / 10.0;
+
+            var ownPosition = MainV2.comPort?.MAV?.cs?.Location ?? PointLatLngAlt.Zero;
+
+            _adsbScreenPositions.Clear();
+
+            var planeList = new List<Tuple<adsb.PointLatLngAltHdg, double>>();
+
+            lock (MainV2.instance.adsblock)
+            {
+                foreach (var kvp in MainV2.instance.adsbPlanes)
+                {
+                    var plane = kvp.Value;
+                    if (plane == null)
+                        continue;
+
+                    if (plane.Time < DateTime.Now.AddSeconds(-30))
+                        continue;
+
+                    if (plane.Lat == 0 && plane.Lng == 0)
+                        continue;
+
+                    var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
+                    double distanceToOwn = ownPosition.GetDistance(plla);
+
+                    if (distanceToOwn > ADSB_MAX_DISTANCE)
+                        continue;
+
+                    planeList.Add(Tuple.Create(plane, distanceToOwn));
+                }
+            }
+
+            // Sort by distance descending (farthest first) so closer planes render on top
+            planeList.Sort((a, b) => b.Item2.CompareTo(a.Item2));
+
+            var circleVertices = new List<float>();
+
+            foreach (var item in planeList)
+            {
+                var plane = item.Item1;
+                double distanceToOwn = item.Item2;
+
+                var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
+                var co = convertCoords(plla);
+
+                bool isGrounded = plane.IsOnGround;
+                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+
+                var color = GetADSBDistanceColor(distanceToOwn, isGrounded);
+
+                var billboard = CalculateBillboardOrientation(co[0], co[1], co[2], cameraX, cameraY, cameraZ);
+                if (!billboard.HasValue)
+                    continue;
+
+                // Calculate distance to camera for screen position calculation
+                double dx = co[0] - cameraX;
+                double dy = co[1] - cameraY;
+                double dz = co[2] - cameraZ;
+                double distanceToCamera = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+                // Store screen position for hit testing
+                var worldPos = new Vector4((float)co[0], (float)co[1], (float)co[2], 1.0f);
+                var clipPos = Vector4.Transform(worldPos, viewMatrix * projMatrix);
+                if (clipPos.W > 0)
+                {
+                    float ndcX = clipPos.X / clipPos.W;
+                    float ndcY = clipPos.Y / clipPos.W;
+                    float screenX = (ndcX + 1.0f) * 0.5f * Width;
+                    float screenY = (1.0f - ndcY) * 0.5f * Height;
+
+                    double fovRad = _cameraFOV * MathHelper.deg2rad;
+                    float screenRadius = (float)((radius / distanceToCamera) * (Height / 2.0) / Math.Tan(fovRad / 2.0));
+
+                    _adsbScreenPositions.Add(new ADSBScreenPosition
+                    {
+                        ScreenX = screenX,
+                        ScreenY = screenY,
+                        Radius = Math.Max(screenRadius, 20),
+                        PlaneData = plane,
+                        DistanceToOwn = distanceToOwn
+                    });
+                }
+
+                var (rightX, rightY, rightZ, upX, upY, upZ) = billboard.Value;
+                AddBillboardCircleVertices(
+                    co[0], co[1], co[2],
+                    radius, ADSB_CIRCLE_SEGMENTS,
+                    color.r, color.g, color.b, color.a,
+                    rightX, rightY, rightZ, upX, upY, upZ,
+                    circleVertices);
+            }
+
+            if (circleVertices.Count > 0)
+            {
+                DrawADSBCircles(projMatrix, viewMatrix, circleVertices.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Draws ADSB circles using GL.Lines primitive (not LineStrip) so circles are not connected.
+        /// </summary>
+        private void DrawADSBCircles(Matrix4 projMatrix, Matrix4 viewMatrix, float[] vertices)
+        {
+            if (Lines.Program == 0)
+                return;
+
+            GL.UseProgram(Lines.Program);
+
+            GL.EnableVertexAttribArray(Lines.positionSlot);
+            GL.EnableVertexAttribArray(Lines.colorSlot);
+
+            GL.UniformMatrix4(Lines.modelViewSlot, 1, false, ref viewMatrix.Row0.X);
+            GL.UniformMatrix4(Lines.projectionSlot, 1, false, ref projMatrix.Row0.X);
+
+            GL.LineWidth(3f);
+
+            // Create and bind vertex buffer
+            int vbo;
+            GL.GenBuffers(1, out vbo);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
+
+            // Stride: 7 floats per vertex (x, y, z, r, g, b, a)
+            int stride = 7 * sizeof(float);
+            GL.VertexAttribPointer(Lines.positionSlot, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Zero);
+            GL.VertexAttribPointer(Lines.colorSlot, 4, VertexAttribPointerType.Float, false, stride, (IntPtr)(3 * sizeof(float)));
+
+            // Draw as GL.Lines (pairs of vertices form separate lines)
+            GL.DrawArrays(PrimitiveType.Lines, 0, vertices.Length / 7);
+
+            GL.DisableVertexAttribArray(Lines.positionSlot);
+            GL.DisableVertexAttribArray(Lines.colorSlot);
+
+            // Clean up
+            GL.DeleteBuffers(1, ref vbo);
         }
 
         static int CreateTexture(BitmapData data)
@@ -890,6 +1486,8 @@ namespace MissionPlanner.Controls
         private bool fogon = false;
         private Lines _flightPlanLines;
         private int _flightPlanLinesCount = -1;
+        private int _flightPlanLinesHash = 0;
+        private readonly FpsOverlay _fpsOverlay = new FpsOverlay();
         private DateTime _centerTime;
         private List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
@@ -906,6 +1504,7 @@ namespace MissionPlanner.Controls
         private Lines _headingLine;
         private Lines _navBearingLine;
         private Lines _gpsHeadingLine;
+        private Lines _turnRadiusLine;
         private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
         private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
@@ -950,38 +1549,70 @@ namespace MissionPlanner.Controls
             var afterwait = DateTime.Now;
             try
             {
+                // Check if connected - stop updating plane position/camera when disconnected
+                bool isConnected = MainV2.comPort?.BaseStream?.IsOpen == true;
+
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
-                campos = projectLocation(mypos);
-                // Apply Kalman filter to rotation for smooth interpolation
-                var rpy = filterRotation(this.rpy);
 
-                // save the state
-                mypos = campos;
-                myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
+                // Only update positions from Kalman filter when connected
+                if (isConnected)
+                {
+                    campos = projectLocation(mypos);
+                    // Apply Kalman filter to rotation for smooth interpolation
+                    var rpy = filterRotation(this.rpy);
 
-                // Plane position (where camera used to be)
-                _planeDrawX = campos[0];
-                _planeDrawY = campos[1];
-                _planeDrawZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
-                    ? (srtm.getAltitude(_center.Lat, _center.Lng).alt + 1) * heightscale
-                    : _center.Alt * heightscale;
+                    // save the state
+                    mypos = campos;
+                    myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
 
-                // Store plane rotation
-                _planeRoll = (float)rpy.X;
-                _planePitch = (float)rpy.Y;
-                _planeYaw = (float)rpy.Z;
+                    // Plane position (where camera used to be)
+                    _planeDrawX = campos[0];
+                    _planeDrawY = campos[1];
+                    _planeDrawZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
+                        ? (srtm.getAltitude(_center.Lat, _center.Lng).alt + 1) * heightscale
+                        : _center.Alt * heightscale;
 
-                // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
-                double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
-                cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
-                cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
-                cameraZ = _planeDrawZ + _cameraHeight;
+                    // Store plane rotation
+                    _planeRoll = (float)rpy.X;
+                    _planePitch = (float)rpy.Y;
+                    _planeYaw = (float)rpy.Z;
 
-                // Look at the plane
-                lookX = _planeDrawX;
-                lookY = _planeDrawY;
-                lookZ = _planeDrawZ;
+                    // Update trail points using the smoothly rendered plane position (every frame)
+                    // This gives us smooth trails since _planeDrawX/Y/Z is already Kalman filtered
+                    if (_showTrail && MainV2.comPort?.MAV?.cs?.armed == true && _center.Lat != 0 && _center.Lng != 0)
+                    {
+                        // Store absolute UTM coordinates (add back utmcenter offset)
+                        double absX = _planeDrawX + utmcenter[0];
+                        double absY = _planeDrawY + utmcenter[1];
+                        double absZ = _planeDrawZ;
+
+                        // Clear trail if UTM zone changed
+                        if (_trailUtmZone != utmzone)
+                        {
+                            _trailPoints.Clear();
+                            _trailUtmZone = utmzone;
+                        }
+
+                        // Add point every frame - the positions are already smooth from Kalman filter
+                        // Use a larger point count since we're adding every frame (~30fps)
+                        int numTrackLength = Settings.Instance.GetInt32("NUM_tracklength", 200) * 15; // 3000 points for smooth 3D trail
+                        if (_trailPoints.Count > numTrackLength)
+                            _trailPoints.RemoveRange(0, _trailPoints.Count - numTrackLength);
+                        _trailPoints.Add(new double[] { absX, absY, absZ });
+                    }
+
+                    // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
+                    double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
+                    cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
+                    cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
+                    cameraZ = _planeDrawZ + _cameraHeight;
+
+                    // Look at the plane
+                    lookX = _planeDrawX;
+                    lookY = _planeDrawY;
+                    lookZ = _planeDrawZ;
+                }
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
                 /*Console.WriteLine("cam: {0} {1} {2} lookat: {3} {4} {5}", (float) cameraX, (float) cameraY, (float) cameraZ,
@@ -1022,6 +1653,9 @@ namespace MissionPlanner.Controls
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
 
+                // Draw ADSB aircraft circles (before tiles so they appear behind terrain)
+                DrawADSB(projMatrix, modelMatrix);
+
                 // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
                 if (texlist.Count == 0)
@@ -1050,18 +1684,20 @@ namespace MissionPlanner.Controls
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
-                    var pointlistCount = FlightPlanner.instance.pointlist.Count;
+                    var waypointList = GetWaypointListFromMAV();
+                    var pointlistCount = waypointList.Count;
                     if (pointlistCount > 1)
                     {
+                        var currentHash = ComputeWaypointHash(waypointList);
                         // Only rebuild lines if pointlist changed
-                        if (_flightPlanLines == null || _flightPlanLinesCount != pointlistCount)
+                        if (_flightPlanLines == null || _flightPlanLinesCount != pointlistCount || _flightPlanLinesHash != currentHash)
                         {
                             if (_flightPlanLines != null)
                                 _flightPlanLines.Dispose();
                             _flightPlanLines = new Lines();
                             _flightPlanLines.Width = 3.0f;
                             // render wps
-                            foreach (var point in FlightPlanner.instance.pointlist)
+                            foreach (var point in waypointList)
                             {
                                 if (point == null)
                                     continue;
@@ -1071,16 +1707,24 @@ namespace MissionPlanner.Controls
                                 _flightPlanLines.Add(co[0], co[1], co[2] + terrainAlt, 1, 1, 0, 1);
                             }
                             _flightPlanLinesCount = pointlistCount;
+                            _flightPlanLinesHash = currentHash;
                         }
 
                         _flightPlanLines.Draw(projMatrix, modelMatrix);
                     }
                 }
-                // Draw the plane model
-                DrawPlane(projMatrix, modelMatrix);
+                // Only draw plane and indicators when connected
+                if (isConnected)
+                {
+                    // Draw the plane model
+                    DrawPlane(projMatrix, modelMatrix);
 
-                // Draw heading (red) and nav bearing (orange) lines from plane center
-                DrawHeadingLines(projMatrix, modelMatrix);
+                    // Draw heading (red) and nav bearing (orange) lines from plane center
+                    DrawHeadingLines(projMatrix, modelMatrix);
+
+                    // Draw flight path trail
+                    DrawTrail(projMatrix, modelMatrix);
+                }
 
                 var beforewpsmarkers = DateTime.Now;
                 // Draw waypoint markers (hidden if within 200ft / 61m of camera)
@@ -1096,10 +1740,8 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
 
-                    // 200 feet in meters
-                    const double minDistanceMeters = 61.0;
-
-                    var list = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
+                    var waypointList = GetWaypointListFromMAV();
+                    var list = waypointList.Where(a => a != null).ToList();
                     if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
                         list.Add(new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
                             {Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt});
@@ -1107,7 +1749,7 @@ namespace MissionPlanner.Controls
                         list.Add(MainV2.comPort.MAV.cs.TargetLocation);
 
                     // Get pointlist for wp number lookup
-                    var pointlist = FlightPlanner.instance.pointlist.Where(a => a != null).ToList();
+                    var pointlist = waypointList.Where(a => a != null).ToList();
 
                     foreach (var point in list.OrderByDescending((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
                     {
@@ -1118,7 +1760,7 @@ namespace MissionPlanner.Controls
 
                         // Skip markers within 200ft of the camera/vehicle
                         var distanceToCamera = point.GetDistance(_center);
-                        if (distanceToCamera < minDistanceMeters)
+                        if (distanceToCamera < WAYPOINT_MIN_DISTANCE)
                             continue;
 
                         var co = convertCoords(point);
@@ -1144,7 +1786,7 @@ namespace MissionPlanner.Controls
                         var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
                         wpmarker.idtexture = isSpecialLabel ? greenAlt : green;
 
-                        double markerHalfSize = 60;
+                        double markerHalfSize = _waypointMarkerSize;
                         // Calculate angle from waypoint to camera so marker always faces camera
                         double dx = cameraX - co[0];
                         double dy = cameraY - co[1];
@@ -1234,6 +1876,7 @@ namespace MissionPlanner.Controls
                     GL.Disable(EnableCap.Blend);
                     GL.DepthMask(true);
                 }
+                _fpsOverlay.UpdateAndDraw();
                 var beforeswapbuffer = DateTime.Now;
                 try
                 {
@@ -1803,6 +2446,7 @@ namespace MissionPlanner.Controls
             };
             _imageloaderThread.Start();
 
+            // Request driver-side anti-aliasing (works when the context was created with samples).
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
@@ -1835,46 +2479,50 @@ namespace MissionPlanner.Controls
                 int contentWidth = inputX + inputWidth;
 
                 var lblZoom = new Label { Text = "Map Zoom:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numZoom = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 6, Maximum = 24, Value = zoom };
+                var numZoom = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 6, Maximum = 24, Value = Math.Max(6, Math.Min(24, zoom)) };
                 dialog.Controls.Add(lblZoom);
                 dialog.Controls.Add(numZoom);
                 y += 30;
 
                 var lblDist = new Label { Text = "Camera Dist:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraDist };
+                var numDist = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(0.1, Math.Min(100, _cameraDist)) };
                 dialog.Controls.Add(lblDist);
                 dialog.Controls.Add(numDist);
                 y += 30;
 
-                var lblAngle = new Label { Text = "Camera Angle:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numAngle = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -180, Maximum = 180, DecimalPlaces = 0, Increment = 15, Value = (decimal)_cameraAngle };
-                dialog.Controls.Add(lblAngle);
-                dialog.Controls.Add(numAngle);
-                y += 30;
-
                 var lblHeight = new Label { Text = "Camera Height:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_cameraHeight };
+                var numHeight = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = -100, Maximum = 100, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(-100, Math.Min(100, _cameraHeight)) };
                 dialog.Controls.Add(lblHeight);
                 dialog.Controls.Add(numHeight);
                 y += 30;
 
                 var lblFOV = new Label { Text = "Camera FoV:", Location = new Point(margin, y + 3), AutoSize = true };
-                var numFOV = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 30, Maximum = 120, Increment = 5, Value = (decimal)_cameraFOV };
+                var numFOV = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 30, Maximum = 120, Increment = 5, Value = (decimal)Math.Max(30, Math.Min(120, _cameraFOV)) };
                 dialog.Controls.Add(lblFOV);
                 dialog.Controls.Add(numFOV);
                 y += 30;
 
-                var lblScale = new Label { Text = "Plane Scale (m):", Location = new Point(margin, y + 3), AutoSize = true };
-                var numScale = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 10, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)_planeScaleMultiplier };
+                var lblScale = new Label { Text = "MAV Scale (m):", Location = new Point(margin, y + 3), AutoSize = true };
+                var numScale = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = (decimal)0.1, Maximum = 10, DecimalPlaces = 2, Increment = (decimal)0.05, Value = (decimal)Math.Max(0.1, Math.Min(10, _planeScaleMultiplier)) };
                 dialog.Controls.Add(lblScale);
                 dialog.Controls.Add(numScale);
                 y += 30;
 
-                var lblColor = new Label { Text = "Plane Color:", Location = new Point(margin, y + 3), AutoSize = true };
-                var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand };
+                var lblMarkerSize = new Label { Text = "WP Marker Size:", Location = new Point(margin, y + 3), AutoSize = true };
+                var numMarkerSize = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 10, Maximum = 500, DecimalPlaces = 0, Increment = 10, Value = (decimal)Math.Max(10, Math.Min(500, _waypointMarkerSize)) };
+                dialog.Controls.Add(lblMarkerSize);
+                dialog.Controls.Add(numMarkerSize);
+                y += 30;
+
+                var lblADSBSize = new Label { Text = "ADSB Size:", Location = new Point(margin, y + 3), AutoSize = true };
+                var numADSBSize = new NumericUpDown { Location = new Point(inputX, y), Width = inputWidth, Minimum = 50, Maximum = 2000, DecimalPlaces = 0, Increment = 50, Value = (decimal)Math.Max(50, Math.Min(2000, _adsbCircleSize)) };
+                dialog.Controls.Add(lblADSBSize);
+                dialog.Controls.Add(numADSBSize);
+                y += 30;
+
+                var lblColor = new Label { Text = "MAV Color:", Location = new Point(margin, y + 3), AutoSize = true };
+                var pnlColor = new Panel { Location = new Point(inputX, y), Width = inputWidth, Height = 23, BorderStyle = BorderStyle.FixedSingle, Cursor = Cursors.Hand, Tag = "IgnoreTheme", BackColor = _planeColor };
                 Color selectedColor = _planeColor;
-                var colorToSet = _planeColor;
-                dialog.Shown += (s, ev) => { pnlColor.BackColor = colorToSet; };
                 pnlColor.Click += (s, ev) =>
                 {
                     using (var colorDialog = new ColorDialog())
@@ -1925,6 +2573,14 @@ namespace MissionPlanner.Controls
 
                 var chkGpsHeading = new CheckBox { Text = "GPS Heading Line (Black)", Location = new Point(margin, y), AutoSize = true, Checked = _showGpsHeadingLine };
                 dialog.Controls.Add(chkGpsHeading);
+                y += 24;
+
+                var chkTurnRadius = new CheckBox { Text = "Turn Radius Arc (Pink)", Location = new Point(margin, y), AutoSize = true, Checked = _showTurnRadius };
+                dialog.Controls.Add(chkTurnRadius);
+                y += 24;
+
+                var chkTrail = new CheckBox { Text = "Flight Path Trail (armed only)", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
+                dialog.Controls.Add(chkTrail);
                 y += 30;
 
                 int btnWidth = 75;
@@ -1941,17 +2597,21 @@ namespace MissionPlanner.Controls
                 {
                     numZoom.Value = 15;
                     numDist.Value = (decimal)0.8;
-                    numAngle.Value = 0;
                     numHeight.Value = (decimal)0.2;
                     numFOV.Value = 60;
                     numScale.Value = 1;
-                    selectedColor = Color.White;
-                    pnlColor.BackColor = Color.White;
+                    numMarkerSize.Value = 60;
+                    numADSBSize.Value = 500;
+                    selectedColor = Color.Red;
+                    pnlColor.BackColor = Color.Red;
                     selectedSTLPath = "";
                     btnSTL.Text = "Default";
                     chkHeading.Checked = true;
                     chkNavBearing.Checked = true;
                     chkGpsHeading.Checked = true;
+                    chkTurnRadius.Checked = true;
+                    chkTrail.Checked = false;
+                    _cameraAngle = 0.0;
                 };
                 dialog.Controls.Add(btnReset);
                 y += 23;
@@ -1964,14 +2624,17 @@ namespace MissionPlanner.Controls
                 {
                     zoom = (int)numZoom.Value;
                     _cameraDist = (double)numDist.Value;
-                    _cameraAngle = (double)numAngle.Value;
                     _cameraHeight = (double)numHeight.Value;
                     _planeScaleMultiplier = (float)numScale.Value;
                     _cameraFOV = (float)numFOV.Value;
+                    _waypointMarkerSize = (double)numMarkerSize.Value;
+                    _adsbCircleSize = (double)numADSBSize.Value;
                     _planeColor = selectedColor;
                     _showHeadingLine = chkHeading.Checked;
                     _showNavBearingLine = chkNavBearing.Checked;
                     _showGpsHeadingLine = chkGpsHeading.Checked;
+                    _showTurnRadius = chkTurnRadius.Checked;
+                    _showTrail = chkTrail.Checked;
 
                     bool stlChanged = _planeSTLPath != selectedSTLPath;
                     _planeSTLPath = selectedSTLPath;
@@ -1980,15 +2643,18 @@ namespace MissionPlanner.Controls
 
                     Settings.Instance["map3d_zoom_level"] = zoom.ToString();
                     Settings.Instance["map3d_camera_dist"] = _cameraDist.ToString();
-                    Settings.Instance["map3d_camera_angle"] = _cameraAngle.ToString();
                     Settings.Instance["map3d_camera_height"] = _cameraHeight.ToString();
-                    Settings.Instance["map3d_plane_scale"] = _planeScaleMultiplier.ToString();
+                    Settings.Instance["map3d_mav_scale"] = _planeScaleMultiplier.ToString();
                     Settings.Instance["map3d_fov"] = _cameraFOV.ToString();
-                    Settings.Instance["map3d_plane_color"] = _planeColor.ToArgb().ToString();
+                    Settings.Instance["map3d_waypoint_marker_size"] = _waypointMarkerSize.ToString();
+                    Settings.Instance["map3d_adsb_size"] = _adsbCircleSize.ToString();
+                    Settings.Instance["map3d_mav_color"] = _planeColor.ToArgb().ToString();
                     Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
                     Settings.Instance["map3d_show_nav_bearing"] = _showNavBearingLine.ToString();
                     Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
+                    Settings.Instance["map3d_show_turn_radius"] = _showTurnRadius.ToString();
+                    Settings.Instance["map3d_show_trail"] = _showTrail.ToString();
                     Settings.Instance.Save();
 
                     test_Resize(null, null);
@@ -2631,6 +3297,338 @@ void main(void) {
             }
 
             public static readonly int Stride = System.Runtime.InteropServices.Marshal.SizeOf(new Vertex());
+        }
+
+        /// <summary>
+        /// Stores ADSB aircraft screen position for hit testing
+        /// </summary>
+        private struct ADSBScreenPosition
+        {
+            public float ScreenX;
+            public float ScreenY;
+            public float Radius; // Screen radius for hit testing
+            public adsb.PointLatLngAltHdg PlaneData;
+            public double DistanceToOwn; // Distance in meters to own aircraft
+        }
+
+        private int ComputeWaypointHash(IList<PointLatLngAlt> waypoints)
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (int i = 0; i < waypoints.Count; i++)
+                {
+                    var wp = waypoints[i];
+                    if (wp == null)
+                        continue;
+                    hash = hash * 31 + wp.Lat.GetHashCode();
+                    hash = hash * 31 + wp.Lng.GetHashCode();
+                    hash = hash * 31 + wp.Alt.GetHashCode();
+                    hash = hash * 31 + (wp.Tag?.GetHashCode() ?? 0);
+                }
+                return hash;
+            }
+        }
+
+        private List<PointLatLngAlt> _cachedWaypointList = new List<PointLatLngAlt>();
+        private int _cachedWpsHash = 0;
+
+        private List<PointLatLngAlt> GetWaypointListFromMAV()
+        {
+            try
+            {
+                var wps = MainV2.comPort.MAV.wps;
+                if (wps == null || wps.Count == 0)
+                {
+                    _cachedWaypointList.Clear();
+                    _cachedWpsHash = 0;
+                    return _cachedWaypointList;
+                }
+
+                // Compute hash to check if wps changed
+                int newHash;
+                unchecked
+                {
+                    newHash = 17;
+                    foreach (var kvp in wps)
+                    {
+                        var wp = kvp.Value;
+                        newHash = newHash * 31 + wp.seq.GetHashCode();
+                        newHash = newHash * 31 + wp.x.GetHashCode();
+                        newHash = newHash * 31 + wp.y.GetHashCode();
+                        newHash = newHash * 31 + wp.z.GetHashCode();
+                        newHash = newHash * 31 + wp.command.GetHashCode();
+                    }
+                }
+
+                if (newHash == _cachedWpsHash && _cachedWaypointList.Count > 0)
+                    return _cachedWaypointList;
+
+                _cachedWpsHash = newHash;
+                _cachedWaypointList.Clear();
+
+                // Get home location
+                var home = PointLatLngAlt.Zero;
+                if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 || MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+                {
+                    home = new PointLatLngAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat,
+                        MainV2.comPort.MAV.cs.HomeLocation.Lng,
+                        MainV2.comPort.MAV.cs.HomeLocation.Alt / CurrentState.multiplieralt, "H");
+                }
+                else if (MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat != 0 || MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng != 0)
+                {
+                    home = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng,
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt / CurrentState.multiplieralt, "H");
+                }
+
+                if (home != PointLatLngAlt.Zero)
+                    _cachedWaypointList.Add(home);
+
+                // Convert mission items to PointLatLngAlt, skipping home (index 0)
+                var wpsList = wps.Values.OrderBy(a => a.seq).ToList();
+                foreach (var wp in wpsList)
+                {
+                    if (wp.seq == 0) continue; // Skip home
+
+                    var cmd = wp.command;
+                    // Only include navigatable waypoints (similar to WPOverlay logic)
+                    if (cmd < (ushort)MAVLink.MAV_CMD.LAST &&
+                        cmd != (ushort)MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
+                        cmd != (ushort)MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
+                        cmd != (ushort)MAVLink.MAV_CMD.DELAY &&
+                        cmd != (ushort)MAVLink.MAV_CMD.GUIDED_ENABLE
+                        || cmd == (ushort)MAVLink.MAV_CMD.DO_SET_ROI || cmd == (ushort)MAVLink.MAV_CMD.DO_LAND_START)
+                    {
+                        double lat = wp.x / 1e7;
+                        double lng = wp.y / 1e7;
+                        double alt = wp.z;
+
+                        // Skip 0,0 locations for land commands
+                        if ((cmd == (ushort)MAVLink.MAV_CMD.LAND || cmd == (ushort)MAVLink.MAV_CMD.VTOL_LAND) && lat == 0 && lng == 0)
+                            continue;
+
+                        if (lat == 0 && lng == 0)
+                        {
+                            _cachedWaypointList.Add(null);
+                            continue;
+                        }
+
+                        var point = new PointLatLngAlt(lat, lng, alt, wp.seq.ToString());
+                        if (cmd == (ushort)MAVLink.MAV_CMD.DO_SET_ROI)
+                            point.Tag = "ROI" + wp.seq;
+                        _cachedWaypointList.Add(point);
+                    }
+                    else
+                    {
+                        _cachedWaypointList.Add(null);
+                    }
+                }
+
+                return _cachedWaypointList;
+            }
+            catch
+            {
+                return _cachedWaypointList;
+            }
+        }
+
+        private class FpsOverlay
+        {
+            private readonly Stopwatch _watch = new Stopwatch();
+            private int _frameCount = 0;
+            private double _fpsValue = 0;
+            private int _textureId = 0;
+            private int _texWidth = 0;
+            private int _texHeight = 0;
+            private bool _dirty = true;
+            private const int Padding = 8;
+            private static int _program = 0;
+            private static int _posSlot = 0;
+            private static int _texSlot = 0;
+            private static int _samplerSlot = 0;
+
+            public FpsOverlay()
+            {
+                _watch.Start();
+            }
+
+            public void UpdateAndDraw()
+            {
+                var control = Map3D.instance;
+                if (control == null)
+                    return;
+
+                _frameCount++;
+                if (_watch.ElapsedMilliseconds >= 1000)
+                {
+                    _fpsValue = _frameCount / (_watch.ElapsedMilliseconds / 1000.0);
+                    _frameCount = 0;
+                    _watch.Restart();
+                    _dirty = true;
+                }
+
+                DrawOverlay(control);
+            }
+
+            private void DrawOverlay(Map3D control)
+            {
+                if (_textureId == 0 || _dirty)
+                {
+                    UpdateTexture();
+                }
+
+                if (_textureId == 0 || control.Width == 0 || control.Height == 0)
+                    return;
+
+                EnsureProgram();
+
+                // Convert pixel coords to NDC [-1, 1], origin top-left in pixels.
+                float left = -1f + (2f * Padding / control.Width);
+                float right = -1f + (2f * (Padding + _texWidth) / control.Width);
+                float top = 1f - (2f * (control.Height - Padding - _texHeight) / control.Height);
+                float bottom = 1f - (2f * (control.Height - Padding) / control.Height);
+
+                float[] quad =
+                {
+                    left,  bottom, 0f, 1f,
+                    right, bottom, 1f, 1f,
+                    left,  top,    0f, 0f,
+                    right, top,    1f, 0f
+                };
+
+                int vbo = 0;
+                GL.GenBuffers(1, out vbo);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+                GL.BufferData(BufferTarget.ArrayBuffer, quad.Length * sizeof(float), quad, BufferUsageHint.DynamicDraw);
+
+                GL.UseProgram(_program);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Disable(EnableCap.DepthTest);
+
+                GL.ActiveTexture(TextureUnit.Texture0);
+                GL.BindTexture(TextureTarget.Texture2D, _textureId);
+                GL.Uniform1(_samplerSlot, 0);
+
+                int stride = 4 * sizeof(float);
+                GL.VertexAttribPointer(_posSlot, 2, VertexAttribPointerType.Float, false, stride, IntPtr.Zero);
+                GL.EnableVertexAttribArray(_posSlot);
+                GL.VertexAttribPointer(_texSlot, 2, VertexAttribPointerType.Float, false, stride, (IntPtr)(2 * sizeof(float)));
+                GL.EnableVertexAttribArray(_texSlot);
+
+                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
+
+                GL.DisableVertexAttribArray(_posSlot);
+                GL.DisableVertexAttribArray(_texSlot);
+
+                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+                GL.DeleteBuffers(1, ref vbo);
+            }
+
+            private void UpdateTexture()
+            {
+                string text = $"FPS: {_fpsValue:F1}";
+
+                using (var dummy = new Bitmap(1, 1))
+                using (var g = Graphics.FromImage(dummy))
+                using (var font = new Font("Segoe UI", 10, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    var size = g.MeasureString(text, font);
+                    int width = (int)Math.Ceiling(size.Width + 8);
+                    int height = (int)Math.Ceiling(size.Height + 4);
+
+                    using (var bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                    using (var gbmp = Graphics.FromImage(bmp))
+                    {
+                        gbmp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        gbmp.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                        gbmp.Clear(Color.Transparent);
+                        using (var bgBrush = new SolidBrush(Color.FromArgb(160, 0, 0, 0)))
+                        {
+                            gbmp.FillRectangle(bgBrush, 0, 0, width, height);
+                        }
+                        using (var fgBrush = new SolidBrush(Color.White))
+                        {
+                            gbmp.DrawString(text, font, fgBrush, new PointF(4, 2));
+                        }
+
+                        var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                            ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                        if (_textureId != 0)
+                        {
+                            GL.DeleteTextures(1, ref _textureId);
+                            _textureId = 0;
+                        }
+
+                        _textureId = CreateTexture(data);
+
+                        // Ensure linear filtering for readability
+                        GL.BindTexture(TextureTarget.Texture2D, _textureId);
+                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+                        bmp.UnlockBits(data);
+
+                        _texWidth = bmp.Width;
+                        _texHeight = bmp.Height;
+                    }
+                }
+
+                _dirty = false;
+            }
+
+            private void EnsureProgram()
+            {
+                if (_program != 0)
+                    return;
+
+                int vShader = GL.CreateShader(ShaderType.VertexShader);
+                GL.ShaderSource(vShader, @"
+attribute vec2 Position;
+attribute vec2 TexCoordIn;
+varying vec2 TexCoord;
+void main(void) {
+    gl_Position = vec4(Position, 0.0, 1.0);
+    TexCoord = TexCoordIn;
+}");
+                GL.CompileShader(vShader);
+                GL.GetShader(vShader, ShaderParameter.CompileStatus, out var code);
+                if (code != (int)All.True)
+                {
+                    throw new Exception($"Overlay vertex shader compile error: {GL.GetShaderInfoLog(vShader)}");
+                }
+
+                int fShader = GL.CreateShader(ShaderType.FragmentShader);
+                GL.ShaderSource(fShader, @"
+precision mediump float;
+varying vec2 TexCoord;
+uniform sampler2D Texture;
+void main(void) {
+    gl_FragColor = texture2D(Texture, TexCoord);
+}");
+                GL.CompileShader(fShader);
+                GL.GetShader(fShader, ShaderParameter.CompileStatus, out code);
+                if (code != (int)All.True)
+                {
+                    throw new Exception($"Overlay fragment shader compile error: {GL.GetShaderInfoLog(fShader)}");
+                }
+
+                _program = GL.CreateProgram();
+                GL.AttachShader(_program, vShader);
+                GL.AttachShader(_program, fShader);
+                GL.LinkProgram(_program);
+                GL.GetProgram(_program, GetProgramParameterName.LinkStatus, out code);
+                if (code != (int)All.True)
+                {
+                    throw new Exception($"Overlay program link error: {GL.GetProgramInfoLog(_program)}");
+                }
+
+                _posSlot = GL.GetAttribLocation(_program, "Position");
+                _texSlot = GL.GetAttribLocation(_program, "TexCoordIn");
+                _samplerSlot = GL.GetUniformLocation(_program, "Texture");
+            }
         }
     }
 }

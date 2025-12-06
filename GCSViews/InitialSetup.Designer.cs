@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
@@ -36,7 +36,6 @@ namespace MissionPlanner.GCSViews
             this.backstageViewPageairspeed = new System.Windows.Forms.Label();
             this.backstageViewPageAntTrack = new System.Windows.Forms.Label();
             this.backstageViewPagebatmon = new System.Windows.Forms.Label();
-            this.backstageViewPageBatt2 = new System.Windows.Forms.Label();
             this.backstageViewPagecompass = new System.Windows.Forms.Label();
             this.backstageViewPagecompassmot = new System.Windows.Forms.Label();
             this.backstageViewPageESC = new System.Windows.Forms.Label();
@@ -69,8 +68,8 @@ namespace MissionPlanner.GCSViews
             this.backstageView.HighlightColor1 = System.Drawing.SystemColors.Highlight;
             this.backstageView.HighlightColor2 = System.Drawing.SystemColors.MenuHighlight;
             this.backstageView.Name = "backstageView";
-            this.backstageView.WidthMenu = 172;
-            // 
+            this.backstageView.WidthMenu = 176;
+            //
             // backstageViewPageaccel
             // 
             resources.ApplyResources(this.backstageViewPageaccel, "backstageViewPageaccel");
@@ -90,11 +89,6 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.backstageViewPagebatmon, "backstageViewPagebatmon");
             this.backstageViewPagebatmon.Name = "backstageViewPagebatmon";
-            // 
-            // backstageViewPageBatt2
-            // 
-            resources.ApplyResources(this.backstageViewPageBatt2, "backstageViewPageBatt2");
-            this.backstageViewPageBatt2.Name = "backstageViewPageBatt2";
             // 
             // backstageViewPagecompass
             // 
@@ -222,7 +216,6 @@ namespace MissionPlanner.GCSViews
             this.Controls.Add(this.backstageViewPageairspeed);
             this.Controls.Add(this.backstageViewPageAntTrack);
             this.Controls.Add(this.backstageViewPagebatmon);
-            this.Controls.Add(this.backstageViewPageBatt2);
             this.Controls.Add(this.backstageViewPagecompass);
             this.Controls.Add(this.backstageViewPagecompassmot);
             this.Controls.Add(this.backstageViewPageESC);
@@ -264,7 +257,7 @@ namespace MissionPlanner.GCSViews
         private Label backstageViewPageairspeed;
         private Label backstageViewPageAntTrack;
         private Label backstageViewPagebatmon;
-        private Label backstageViewPageBatt2;
+
         private Label backstageViewPagecompass;
         private Label backstageViewPagecompassmot;
         private Label backstageViewPageESC;

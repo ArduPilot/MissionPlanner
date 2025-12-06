@@ -214,7 +214,7 @@ namespace MissionPlanner.Controls.BackstageView
             ButtonTopPos += spacerheight;
         }
 
-        private void CreateLinkButton(BackstageViewPage page, bool haschild = false, bool child = false)
+        private void CreateLinkButton(BackstageViewPage page, bool haschild = false, bool child = false, bool isExpanded = false)
         {
             if (!page.Show)
                 return;
@@ -222,10 +222,6 @@ namespace MissionPlanner.Controls.BackstageView
             string label = page.LinkText;
             int heightextra = 0;
 
-            if (haschild)
-            {
-                label = ">> " + label;
-            }
             if (child)
             {
                 int count = label.Split('\n').Count();
@@ -247,6 +243,8 @@ namespace MissionPlanner.Controls.BackstageView
                                     UnSelectedTextColor = _unSelectedTextColor,
                                     HighlightColor1 = _highlightColor1,
                                     HighlightColor2 = _highlightColor2,
+                                    HasChildren = haschild,
+                                    IsExpanded = isExpanded,
                                     //Dock = DockStyle.Bottom
                                 };
 
@@ -272,6 +270,7 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
+            pnlMenu.SuspendLayout();
             pnlMenu.Controls.Clear();
 
             // reset back to 0
@@ -292,9 +291,7 @@ namespace MissionPlanner.Controls.BackstageView
                     {
                         bool children = PageHasChildren(page);
 
-                        CreateLinkButton((BackstageViewPage)page, children);
-
-                        // remember whats expanded
+                        // toggle expanded state before creating button so arrow shows correct state
                         if (CurrentPage == page && children)
                         {
                             if (expanded.Contains((BackstageViewPage)page))
@@ -306,6 +303,9 @@ namespace MissionPlanner.Controls.BackstageView
                                 expanded.Add((BackstageViewPage)page);
                             }
                         }
+
+                        bool isExpanded = expanded.Contains((BackstageViewPage)page);
+                        CreateLinkButton((BackstageViewPage)page, children, false, isExpanded);
 
                         // check for children
                         foreach (BackstageViewPage childrenpage in _items)
@@ -339,7 +339,7 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
-            pnlMenu.Invalidate();
+            pnlMenu.ResumeLayout(true);
         }
 
         private bool PageHasChildren(BackstageViewPage parent)

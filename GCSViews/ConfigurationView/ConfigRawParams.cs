@@ -63,6 +63,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_commitToFlash.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
             BUT_refreshTable.Visible = Settings.Instance.GetBoolean("SlowMachine", false);
 
+            // Apply theming to ensure controls are themed when dynamically added
+            ThemeManager.ApplyThemeTo(this);
+
             Params.Enabled = false;
 
             foreach (DataGridViewColumn col in Params.Columns)
@@ -82,7 +85,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             splitContainer1.SplitterDistance = Settings.Instance.GetInt32("rawparam_splitterdistance", 180);
             // Use InitialTreeCollapsed if set, otherwise use saved setting (default false)
             splitContainer1.Panel1Collapsed = InitialTreeCollapsed ?? Settings.Instance.GetBoolean("rawparam_panel1collapsed", false);
-            but_collapse.Text = splitContainer1.Panel1Collapsed ? ">" : "<";
+            but_collapse.Text = splitContainer1.Panel1Collapsed ? "▶" : "◀";
 
             processToScreen();
 
@@ -263,6 +266,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             int error = 0;
             bool reboot = false;
 
+            // Disable button and show writing status
+            string originalText = BUT_writePIDS.Text;
+            BUT_writePIDS.Enabled = false;
+            BUT_writePIDS.Text = "Writing...";
+            BUT_writePIDS.Refresh();
+
+            try
+            {
             foreach (string value in temp)
             {
                 try
@@ -336,6 +347,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //Click on refresh button
                     BUT_rerequestparams_Click(BUT_rerequestparams, null);
                 }
+            }
+            }
+            finally
+            {
+                // Restore button state
+                BUT_writePIDS.Text = originalText;
+                BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             }
         }
 
@@ -887,7 +905,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (
-                CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
+                CustomMessageBox.Show("This will reset all params to their default value\nAre you sure?", "Reset",
                     MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
@@ -1042,16 +1060,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (splitContainer1.Panel1Collapsed)
             {
-                but_collapse.Text = "<";
+                but_collapse.Text = "◀";
                 splitContainer1.Panel1Collapsed = false;
                 BuildTree();
             }
             else
             {
-                but_collapse.Text = ">";
+                but_collapse.Text = "▶";
                 splitContainer1.Panel1Collapsed = true;
                 filterPrefix = "";
                 FilterTimerOnElapsed(null, null);
+            }
+        }
+
+        private void BUT_reboot_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure you want to reboot the autopilot?", "Reboot", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                try
+                {
+                    MainV2.comPort.doReboot(false, true);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
             }
         }
 

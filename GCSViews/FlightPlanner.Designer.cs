@@ -79,6 +79,8 @@ namespace MissionPlanner.GCSViews
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new System.Windows.Forms.Panel();
             this.chk_usemavftp = new System.Windows.Forms.CheckBox();
+            this.BUT_center_on_mav = new MissionPlanner.Controls.MyButton();
+            this.BUT_clear_all = new MissionPlanner.Controls.MyButton();
             this.but_mincommands = new MissionPlanner.Controls.MyButton();
             this.CMB_altmode = new System.Windows.Forms.ComboBox();
             this.CHK_splinedefault = new System.Windows.Forms.CheckBox();
@@ -99,8 +101,8 @@ namespace MissionPlanner.GCSViews
             this.coordNorthing = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MGRS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Up = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Down = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Up = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Down = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Grad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Angle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Dist = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -188,6 +190,7 @@ namespace MissionPlanner.GCSViews
             this.kMLOverlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elevationGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reverseWPsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gDALOpacityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileLoadSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadWPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadAndAppendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -224,7 +227,6 @@ namespace MissionPlanner.GCSViews
             this.zoomToVehicleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gDALOpacityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
@@ -414,6 +416,8 @@ namespace MissionPlanner.GCSViews
             // panelWaypoints
             // 
             this.panelWaypoints.Controls.Add(this.chk_usemavftp);
+            this.panelWaypoints.Controls.Add(this.BUT_center_on_mav);
+            this.panelWaypoints.Controls.Add(this.BUT_clear_all);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
             this.panelWaypoints.Controls.Add(this.CMB_altmode);
             this.panelWaypoints.Controls.Add(this.CHK_splinedefault);
@@ -438,7 +442,26 @@ namespace MissionPlanner.GCSViews
             this.chk_usemavftp.Name = "chk_usemavftp";
             this.chk_usemavftp.UseVisualStyleBackColor = true;
             this.chk_usemavftp.CheckedChanged += new System.EventHandler(this.chk_usemavftp_CheckedChanged);
-            // 
+            //
+            // BUT_clear_all
+            //
+            resources.ApplyResources(this.BUT_clear_all, "BUT_clear_all");
+            this.BUT_clear_all.Name = "BUT_clear_all";
+            this.BUT_clear_all.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_clear_all.UseVisualStyleBackColor = true;
+            this.BUT_clear_all.Click += new System.EventHandler(this.BUT_clear_all_Click);
+            //
+            // BUT_center_on_mav
+            //
+            this.BUT_center_on_mav.Location = new System.Drawing.Point(760, 10);
+            this.BUT_center_on_mav.Name = "BUT_center_on_mav";
+            this.BUT_center_on_mav.Size = new System.Drawing.Size(95, 23);
+            this.BUT_center_on_mav.TabIndex = 57;
+            this.BUT_center_on_mav.Text = "Center to Vehicle";
+            this.BUT_center_on_mav.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_center_on_mav.UseVisualStyleBackColor = true;
+            this.BUT_center_on_mav.Click += new System.EventHandler(this.BUT_center_on_mav_Click);
+            //
             // but_mincommands
             // 
             resources.ApplyResources(this.but_mincommands, "but_mincommands");
@@ -601,28 +624,32 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.MGRS, "MGRS");
             this.MGRS.Name = "MGRS";
-            // 
+            //
             // Delete
-            // 
+            //
             resources.ApplyResources(this.Delete, "Delete");
             this.Delete.Name = "Delete";
             this.Delete.Text = "X";
-            // 
+            this.Delete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Delete.Width = 25;
+            //
             // Up
-            // 
-            this.Up.DefaultCellStyle = dataGridViewCellStyle5;
+            //
             resources.ApplyResources(this.Up, "Up");
-            this.Up.Image = ((System.Drawing.Image)(resources.GetObject("Up.Image")));
-            this.Up.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Up.Name = "Up";
-            // 
+            this.Up.Text = "↑";
+            this.Up.UseColumnTextForButtonValue = true;
+            this.Up.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Up.Width = 25;
+            //
             // Down
-            // 
-            this.Down.DefaultCellStyle = dataGridViewCellStyle6;
+            //
             resources.ApplyResources(this.Down, "Down");
-            this.Down.Image = ((System.Drawing.Image)(resources.GetObject("Down.Image")));
-            this.Down.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Down.Name = "Down";
+            this.Down.Text = "↓";
+            this.Down.UseColumnTextForButtonValue = true;
+            this.Down.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Down.Width = 25;
             // 
             // Grad
             // 
@@ -718,6 +745,7 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.BUT_InjectCustomMap, "BUT_InjectCustomMap");
             this.BUT_InjectCustomMap.Name = "BUT_InjectCustomMap";
+            this.BUT_InjectCustomMap.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_InjectCustomMap.UseVisualStyleBackColor = true;
             this.BUT_InjectCustomMap.Click += new System.EventHandler(this.BUT_InjectCustomMap_Click);
             // 
@@ -896,6 +924,7 @@ namespace MissionPlanner.GCSViews
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteWPToolStripMenuItem,
             this.insertWpToolStripMenuItem,
@@ -1303,6 +1332,12 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.reverseWPsToolStripMenuItem, "reverseWPsToolStripMenuItem");
             this.reverseWPsToolStripMenuItem.Click += new System.EventHandler(this.reverseWPsToolStripMenuItem_Click);
             // 
+            // gDALOpacityToolStripMenuItem
+            // 
+            this.gDALOpacityToolStripMenuItem.Name = "gDALOpacityToolStripMenuItem";
+            resources.ApplyResources(this.gDALOpacityToolStripMenuItem, "gDALOpacityToolStripMenuItem");
+            this.gDALOpacityToolStripMenuItem.Click += new System.EventHandler(this.gDALOpacityToolStripMenuItem_Click);
+            // 
             // fileLoadSaveToolStripMenuItem
             // 
             this.fileLoadSaveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1466,6 +1501,7 @@ namespace MissionPlanner.GCSViews
             // 
             // contextMenuStripPoly
             // 
+            this.contextMenuStripPoly.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripPoly.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addPolygonPointToolStripMenuItem,
             this.clearPolygonToolStripMenuItem,
@@ -1511,6 +1547,7 @@ namespace MissionPlanner.GCSViews
             // 
             // contextMenuStripZoom
             // 
+            this.contextMenuStripZoom.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripZoom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToVehicleToolStripMenuItem,
             this.zoomToMissionToolStripMenuItem,
@@ -1535,12 +1572,6 @@ namespace MissionPlanner.GCSViews
             this.zoomToHomeToolStripMenuItem.Name = "zoomToHomeToolStripMenuItem";
             resources.ApplyResources(this.zoomToHomeToolStripMenuItem, "zoomToHomeToolStripMenuItem");
             this.zoomToHomeToolStripMenuItem.Click += new System.EventHandler(this.zoomToHomeToolStripMenuItem_Click);
-            // 
-            // gDALOpacityToolStripMenuItem
-            // 
-            this.gDALOpacityToolStripMenuItem.Name = "gDALOpacityToolStripMenuItem";
-            resources.ApplyResources(this.gDALOpacityToolStripMenuItem, "gDALOpacityToolStripMenuItem");
-            this.gDALOpacityToolStripMenuItem.Click += new System.EventHandler(this.gDALOpacityToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 
@@ -1725,6 +1756,8 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem offsetPolygonToolStripMenuItem;
         private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
         public CheckBox chk_usemavftp;
+        private Controls.MyButton BUT_center_on_mav;
+        private Controls.MyButton BUT_clear_all;
         private DataGridViewComboBoxColumn Command;
         private DataGridViewTextBoxColumn Param1;
         private DataGridViewTextBoxColumn Param2;
@@ -1739,8 +1772,8 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn coordNorthing;
         private DataGridViewTextBoxColumn MGRS;
         private DataGridViewButtonColumn Delete;
-        private DataGridViewImageColumn Up;
-        private DataGridViewImageColumn Down;
+        private DataGridViewButtonColumn Up;
+        private DataGridViewButtonColumn Down;
         private DataGridViewTextBoxColumn Grad;
         private DataGridViewTextBoxColumn Angle;
         private DataGridViewTextBoxColumn Dist;

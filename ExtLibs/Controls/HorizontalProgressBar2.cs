@@ -182,7 +182,7 @@ System.ComponentModel.Description("values scaled for display")]
                     drawFormat.FormatFlags = 0;
                 }
 
-                e.DrawString((m_Text + "  " + (Value * _displayscale).ToString()+" ").Trim(), this.Font, new SolidBrush(this.ForeColor), rect, drawFormat);
+                e.DrawString((m_Text + "  " + (displayvalue * _displayscale).ToString()+" ").Trim(), this.Font, new SolidBrush(this.ForeColor), rect, drawFormat);
                 e.Transform = tran;
             }
 
@@ -215,19 +215,20 @@ System.ComponentModel.Description("values scaled for display")]
                 }
                 else
                 {
+                    float textY = (this.Height - SystemFonts.DefaultFont.Height) / 2f;
                     if (reverse)
                     {
                         e.DrawLine(redPen, (this.Maximum - minline) / range * range2 - 0, 0, (this.Maximum - minline) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (this.Maximum - maxline) / range * range2 - 0, 0, (this.Maximum - maxline) / range * range2 - 0, this.Height);
-                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
-                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, textY);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, textY);
                     }
                     else
                     {
                         e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 0, 0, (minline - this.Minimum) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 0, 0, (maxline - this.Minimum) / range * range2 - 0, this.Height);
-                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
-                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, textY);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, textY);
                     }
                 }
             }
@@ -245,8 +246,56 @@ System.ComponentModel.Description("values scaled for display")]
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            if (reverse)
+            {
+                // Custom drawing for reversed bar - draw from the right side
+                DrawReversedProgressBar(e.Graphics);
+            }
+            else
+            {
+                base.OnPaint(e);
+            }
             drawlbl(e.Graphics);
+        }
+
+        private void DrawReversedProgressBar(Graphics graphics)
+        {
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            Rectangle outerRect = this.ClientRectangle;
+            outerRect.Inflate(-1, -1);
+
+            // Draw background
+            using (var bgBrush = new SolidBrush(this.BackgroundColor))
+            {
+                graphics.FillRectangle(bgBrush, outerRect);
+            }
+
+            // Calculate value width
+            int range = base.Maximum - base.Minimum;
+            int valueRange = base.Value - base.Minimum;
+            int valueWidth = (int)((float)valueRange / (float)range * outerRect.Width);
+
+            if (valueWidth > 0)
+            {
+                // Draw value rectangle from the RIGHT side
+                Rectangle valueRect = new Rectangle(
+                    outerRect.Right - valueWidth,
+                    outerRect.Y,
+                    valueWidth,
+                    outerRect.Height);
+
+                using (var valueBrush = new SolidBrush(this.ValueColor))
+                {
+                    graphics.FillRectangle(valueBrush, valueRect);
+                }
+            }
+
+            // Draw border
+            using (var borderPen = new Pen(this.BorderColor))
+            {
+                graphics.DrawRectangle(borderPen, outerRect);
+            }
         }
         protected override void WndProc(ref Message m)
         {

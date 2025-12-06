@@ -466,6 +466,14 @@ namespace MissionPlanner
         }
 
         public static bool speech_armed_only = false;
+
+        /// <summary>
+        /// Auto-connect to USB ArduPilot/MAVLink devices when plugged in
+        /// </summary>
+        private const int USB_ENUMERATION_DELAY_MS = 6000;
+        private bool _autoConnectUSB = false;
+        private int _autoConnectInProgress = 0;
+
         public static bool speechEnabled()
         {
             if (speechEngine == null)
@@ -931,50 +939,60 @@ namespace MissionPlanner
             if (Settings.Instance["CHK_hudshow"] != null)
                 GCSViews.FlightData.myhud.hudon = bool.Parse(Settings.Instance["CHK_hudshow"].ToString());
 
+            var startFullscreen = Settings.Instance.GetBoolean("always_fullscreen", true);
+
             try
             {
-                if (Settings.Instance["MainLocX"] != null && Settings.Instance["MainLocY"] != null)
+                if (!startFullscreen)
                 {
-                    this.StartPosition = FormStartPosition.Manual;
-                    Point startpos = new Point(Settings.Instance.GetInt32("MainLocX"),
-                        Settings.Instance.GetInt32("MainLocY"));
-
-                    // fix common bug which happens when user removes a monitor, the app shows up
-                    // offscreen and it is very hard to move it onscreen.  Also happens with
-                    // remote desktop a lot.  So this only restores position if the position
-                    // is visible.
-                    foreach (Screen s in Screen.AllScreens)
+                    if (Settings.Instance["MainLocX"] != null && Settings.Instance["MainLocY"] != null)
                     {
-                        if (s.WorkingArea.Contains(startpos))
+                        this.StartPosition = FormStartPosition.Manual;
+                        Point startpos = new Point(Settings.Instance.GetInt32("MainLocX"),
+                            Settings.Instance.GetInt32("MainLocY"));
+
+                        // fix common bug which happens when user removes a monitor, the app shows up
+                        // offscreen and it is very hard to move it onscreen.  Also happens with
+                        // remote desktop a lot.  So this only restores position if the position
+                        // is visible.
+                        foreach (Screen s in Screen.AllScreens)
                         {
-                            this.Location = startpos;
-                            break;
+                            if (s.WorkingArea.Contains(startpos))
+                            {
+                                this.Location = startpos;
+                                break;
+                            }
+                        }
+
+                    }
+
+                    if (Settings.Instance["MainMaximised"] != null)
+                    {
+                        this.WindowState =
+                            (FormWindowState) Enum.Parse(typeof(FormWindowState), Settings.Instance["MainMaximised"]);
+                        // dont allow minimised start state
+                        if (this.WindowState == FormWindowState.Minimized)
+                        {
+                            this.WindowState = FormWindowState.Normal;
+                            this.Location = new Point(100, 100);
                         }
                     }
-
-                }
-
-                if (Settings.Instance["MainMaximised"] != null)
-                {
-                    this.WindowState =
-                        (FormWindowState) Enum.Parse(typeof(FormWindowState), Settings.Instance["MainMaximised"]);
-                    // dont allow minimised start state
-                    if (this.WindowState == FormWindowState.Minimized)
+                    else
                     {
-                        this.WindowState = FormWindowState.Normal;
-                        this.Location = new Point(100, 100);
+                        // Default to maximized on fresh install
+                        this.WindowState = FormWindowState.Maximized;
                     }
+
+                    if (Settings.Instance["MainHeight"] != null)
+                        this.Height = Settings.Instance.GetInt32("MainHeight");
+                    if (Settings.Instance["MainWidth"] != null)
+                        this.Width = Settings.Instance.GetInt32("MainWidth");
                 }
                 else
                 {
-                    // Default to maximized on fresh install
+                    this.StartPosition = FormStartPosition.CenterScreen;
                     this.WindowState = FormWindowState.Maximized;
                 }
-
-                if (Settings.Instance["MainHeight"] != null)
-                    this.Height = Settings.Instance.GetInt32("MainHeight");
-                if (Settings.Instance["MainWidth"] != null)
-                    this.Width = Settings.Instance.GetInt32("MainWidth");
 
                 // set presaved default telem rates
                 if (Settings.Instance["CMB_rateattitude"] != null)
@@ -1088,7 +1106,10 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
             }
 
-            MenuArduPilot.Image = new Bitmap(Properties.Resources.TD_MP,(int) (200), 31);
+            var logoImage = ThemeManager.IsDarkTheme
+                ? Properties.Resources.TD_MP
+                : Properties.Resources.TD_MP_light;
+            MenuArduPilot.Image = new Bitmap(logoImage, (int)(200), 31);
             MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
             Application.DoEvents();
@@ -1387,6 +1408,10 @@ namespace MissionPlanner
         public void doDisconnect(MAVLinkInterface comPort)
         {
             log.Info("We are disconnecting");
+
+            // Reset auto-connect flag so it can try again on next plug-in
+            _autoConnectInProgress = 0;
+
             try
             {
                 if (speechEngine != null) // cancel all pending speech
@@ -1626,7 +1651,7 @@ namespace MissionPlanner
                 catch (Exception exp2)
                 {
                     log.Error(exp2);
-                    CustomMessageBox.Show(Strings.Failclog);
+                    Common.MessageShowAgain("Log Creation Failed", Strings.Failclog);
                 } // soft fail
 
                 // reset connect time - for timeout functions
@@ -1751,7 +1776,6 @@ namespace MissionPlanner
                         // only do it if we are connected.
                         if (comPort.BaseStream.IsOpen)
                         {
-                            MenuFlightPlanner_Click(null, null);
                             FlightPlanner.BUT_read_Click(null, null);
                         }
                     }
@@ -2022,12 +2046,15 @@ namespace MissionPlanner
             GMap.NET.GMaps.Instance.CacheOnIdleRead = false;
             GMap.NET.GMaps.Instance.BoostCacheEngine = true;
 
-            Settings.Instance["MainHeight"] = this.Height.ToString();
-            Settings.Instance["MainWidth"] = this.Width.ToString();
+            var startFullscreen = Settings.Instance.GetBoolean("always_fullscreen", true);
+            if (!startFullscreen)
+            {
+                Settings.Instance["MainHeight"] = this.Height.ToString();
+                Settings.Instance["MainWidth"] = this.Width.ToString();
+                Settings.Instance["MainLocX"] = this.Location.X.ToString();
+                Settings.Instance["MainLocY"] = this.Location.Y.ToString();
+            }
             Settings.Instance["MainMaximised"] = this.WindowState.ToString();
-
-            Settings.Instance["MainLocX"] = this.Location.X.ToString();
-            Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
             log.Info("close logs");
 
@@ -3950,6 +3977,191 @@ namespace MissionPlanner
             Enum.TryParse(inactiveDisplayStyleStr, out inactiveDisplayStyle);
             GMapMarkerBase.InactiveDisplayStyle = inactiveDisplayStyle;
             Settings.Instance["GMapMarkerBase_InactiveDisplayStyle"] = inactiveDisplayStyle.ToString();
+
+            // Initialize auto-connect USB feature (default ON)
+            SetAutoConnectUSB(Settings.Instance.GetBoolean("auto_connect_usb", true));
+        }
+
+        /// <summary>
+        /// Enables or disables auto-connect for USB ArduPilot/MAVLink devices.
+        /// </summary>
+        public void SetAutoConnectUSB(bool enabled)
+        {
+            if (enabled && !_autoConnectUSB)
+            {
+                DeviceChanged += OnUSBDeviceChanged;
+                CheckForExistingDevice();
+            }
+            else if (!enabled && _autoConnectUSB)
+            {
+                DeviceChanged -= OnUSBDeviceChanged;
+            }
+
+            _autoConnectUSB = enabled;
+        }
+
+        /// <summary>
+        /// Checks for already-connected ArduPilot devices on startup.
+        /// </summary>
+        private void CheckForExistingDevice()
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    if (comPort.BaseStream.IsOpen)
+                        return;
+
+                    var port = FindArduPilotPort();
+                    if (port != null)
+                    {
+                        SelectPortAndConnect(port);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Auto-connect startup error: " + ex.Message);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Handles USB device arrival for auto-connect.
+        /// </summary>
+        private void OnUSBDeviceChanged(WM_DEVICECHANGE_enum cause)
+        {
+            if (cause != WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
+                return;
+
+            if (comPort.BaseStream.IsOpen)
+                return;
+
+            if (System.Threading.Interlocked.CompareExchange(ref _autoConnectInProgress, 1, 0) != 0)
+                return;
+
+            var port = FindArduPilotPort();
+            if (port == null)
+            {
+                _autoConnectInProgress = 0;
+                return;
+            }
+
+            // Set dropdown immediately so user sees which port will be used
+            this.BeginInvokeIfRequired(() =>
+            {
+                PopulateSerialportList();
+                var portIndex = _connectionControl.CMB_serialport.Items.IndexOf(port);
+                if (portIndex >= 0)
+                {
+                    _connectionControl.CMB_serialport.SelectedIndex = portIndex;
+                }
+            });
+
+            // Wait for device to fully enumerate, then connect
+            System.Threading.ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    System.Threading.Thread.Sleep(USB_ENUMERATION_DELAY_MS);
+
+                    if (comPort.BaseStream.IsOpen)
+                    {
+                        _autoConnectInProgress = 0;
+                        return;
+                    }
+
+                    this.BeginInvokeIfRequired(() =>
+                    {
+                        try
+                        {
+                            if (!comPort.BaseStream.IsOpen)
+                            {
+                                MenuConnect_Click(null, null);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error("Auto-connect failed: " + ex.Message);
+                        }
+                        finally
+                        {
+                            _autoConnectInProgress = 0;
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Auto-connect error: " + ex.Message);
+                    _autoConnectInProgress = 0;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Finds the first connected ArduPilot device port.
+        /// </summary>
+        private string FindArduPilotPort()
+        {
+            var deviceList = Win32DeviceMgmt.GetAllCOMPorts();
+            foreach (var device in deviceList)
+            {
+                if (!string.IsNullOrEmpty(device.name) && IsArduPilotUSBDevice(device.hardwareid))
+                {
+                    return device.name;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Selects a port in the dropdown and initiates connection.
+        /// </summary>
+        private void SelectPortAndConnect(string port)
+        {
+            this.BeginInvokeIfRequired(() =>
+            {
+                try
+                {
+                    if (comPort.BaseStream.IsOpen)
+                        return;
+
+                    if (!SerialPort.GetPortNames().Contains(port))
+                        return;
+
+                    PopulateSerialportList();
+
+                    var portIndex = _connectionControl.CMB_serialport.Items.IndexOf(port);
+                    if (portIndex >= 0)
+                    {
+                        _connectionControl.CMB_serialport.SelectedIndex = portIndex;
+                        MenuConnect_Click(null, null);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Auto-connect failed: " + ex.Message);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Checks if a USB hardware ID matches known ArduPilot/MAVLink devices.
+        /// </summary>
+        private bool IsArduPilotUSBDevice(string hardwareId)
+        {
+            if (string.IsNullOrEmpty(hardwareId))
+                return false;
+
+            var hid = hardwareId.ToUpperInvariant();
+
+            return hid.Contains("VID_1209") ||  // ArduPilot ChibiOS
+                   hid.Contains("VID_0483") ||  // STM32 ChibiOS
+                   hid.Contains("VID_2DAE") ||  // Hex/ProfiCNC
+                   hid.Contains("VID_3162") ||  // Holybro
+                   hid.Contains("VID_26AC") ||  // 3DR/PX4
+                   hid.Contains("VID_27AC") ||  // CubePilot
+                   hid.Contains("VID_2341") ||  // Arduino (legacy APM)
+                   hid.Contains("VID_1FC9");    // NXP
         }
 
         private void BGLogMessagesMetaData(object nothing)
@@ -4909,5 +5121,6 @@ namespace MissionPlanner
                 }
             }
         }
+
     }
 }

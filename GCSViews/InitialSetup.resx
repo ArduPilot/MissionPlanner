@@ -160,7 +160,7 @@
     <value>Accel Calibration</value>
   </data>
   <data name="backstageViewPageInitialParams.Text" xml:space="preserve">
-    <value>Initial Tune Parameter</value>
+    <value>Initial Tune Params</value>
   </data>
   <data name="backstageViewPageaccel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -266,9 +266,6 @@
   </data>
   <data name="backstageViewPageBatt2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
-    <value>Battery Monitor 2</value>
   </data>
   <data name="backstageViewPageBatt2.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -646,7 +643,7 @@
     <value>18</value>
   </data>
   <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
-    <value>Motor Test</value>
+    <value>Motor Setup</value>
   </data>
   <data name="backstageViewPageMotorTest.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

@@ -9,6 +9,7 @@ namespace MissionPlanner.Controls
     public partial class FlightDataActions : UserControl
     {
         private const int MinGroupBoxWidth = 350;
+        private const int GroupBoxHeight = 154;
 
         public FlightDataActions()
         {
@@ -41,9 +42,13 @@ namespace MissionPlanner.Controls
             boxWidth = Math.Max(boxWidth, MinGroupBoxWidth);
 
             grpCommand.Width = boxWidth;
+            grpCommand.Height = GroupBoxHeight;
             grpSetpoints.Width = boxWidth;
+            grpSetpoints.Height = GroupBoxHeight;
             grpTools.Width = boxWidth;
+            grpTools.Height = GroupBoxHeight;
             grpPayload.Width = boxWidth;
+            grpPayload.Height = GroupBoxHeight;
         }
 
         public void Initialize()

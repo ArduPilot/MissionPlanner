@@ -331,7 +331,7 @@
     <value>65</value>
   </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>MP Alert on Low Battery</value>
+    <value>MP Low Batt Alert</value>
   </data>
   <data name="&gt;&gt;CHK_speechbattery.Name" xml:space="preserve">
     <value>CHK_speechbattery</value>

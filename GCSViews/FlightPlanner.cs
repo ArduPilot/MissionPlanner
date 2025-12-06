@@ -138,6 +138,7 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay top;
         public GMapPolygon wppolygon;
         private GMapMarker CurrentMidLine;
+        private List<Locationwp> _pendingWPs;
 
 
         public void Init()
@@ -183,7 +184,7 @@ namespace MissionPlanner.GCSViews
             //MainMap.MaxZoom = 18;
 
             // get zoom
-            MainMap.MinZoom = 0;
+            MainMap.MinZoom = 4;
             MainMap.MaxZoom = 24;
 
             // draw this layer first
@@ -249,13 +250,6 @@ namespace MissionPlanner.GCSViews
             }
 
             Commands.Columns[Delete.Index].CellTemplate.Value = "X";
-            Commands.Columns[Up.Index].CellTemplate.Value = Resources.up;
-            Commands.Columns[Down.Index].CellTemplate.Value = Resources.down;
-
-            Up.Image = Resources.up;
-            Down.Image = Resources.down;
-
-
             Frame.DisplayMember = "Value";
             Frame.ValueMember = "Key";
             Frame.DataSource = EnumTranslator.EnumToList<altmode>();
@@ -297,6 +291,46 @@ namespace MissionPlanner.GCSViews
         public void Activate()
         {
             timer1.Start();
+
+            // Initialize center on MAV button state
+            bool hasLocation = MainV2.comPort.MAV.cs.lat != 0 || MainV2.comPort.MAV.cs.lng != 0;
+            BUT_center_on_mav.Enabled = hasLocation;
+
+            // Sync map position and zoom from DATA tab
+            try
+            {
+                var lat = Settings.Instance.GetDouble("maplast_lat", 0);
+                var lng = Settings.Instance.GetDouble("maplast_lng", 0);
+                var zoom = Settings.Instance.GetDouble("maplast_zoom", 0);
+                if (lat != 0 || lng != 0)
+                {
+                    MainMap.Position = new PointLatLng(lat, lng);
+                }
+                if (zoom >= MainMap.MinZoom && zoom <= MainMap.MaxZoom)
+                {
+                    MainMap.Zoom = zoom;
+                }
+            }
+            catch { }
+
+            // Process any pending waypoints that were loaded before this tab was shown
+            if (_pendingWPs != null)
+            {
+                var pending = _pendingWPs;
+                _pendingWPs = null;
+                try
+                {
+                    log.Info("Processing pending WPs: " + pending.Count);
+                    processToScreen(pending);
+                    MainV2.comPort.giveComport = false;
+                    BUT_read.Enabled = true;
+                    writeKML();
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error processing pending WPs", ex);
+                }
+            }
 
             // hide altmode if old copter version
             if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
@@ -1349,6 +1383,14 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
+                if (!IsHandleCreated)
+                {
+                    // Handle not created yet, store commands for later processing when tab is shown
+                    _pendingWPs = cmds;
+                    MainV2.comPort.giveComport = false;
+                    return;
+                }
+
                 Invoke((MethodInvoker) delegate
                 {
                     try
@@ -1459,12 +1501,6 @@ namespace MissionPlanner.GCSViews
 
                     if (wpOverlay.pointlist.Count <= 1)
                     {
-                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(wpOverlay.overlay.Id);
-                        if (rect.HasValue)
-                        {
-                            MainMap.Position = rect.Value.LocationMiddle;
-                        }
-
                         MainMap_OnMapZoomChanged();
                     }
 
@@ -3447,7 +3483,7 @@ namespace MissionPlanner.GCSViews
 
             Zoomlevel.Minimum = MainMap.MapProvider.MinZoom;
             Zoomlevel.Maximum = 24;
-            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
+            SetMapZoomLevel(MainMap.Zoom);
 
             updateCMDParams();
 
@@ -3458,19 +3494,6 @@ namespace MissionPlanner.GCSViews
             panelMap.Dock = DockStyle.Fill;
             panelMap_Resize(null, null);
 
-            //set home
-            try
-            {
-                if (TXT_homelat.Text != "")
-                {
-                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
-                    MainMap.Zoom = 16;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
 
             panelMap.Refresh();
 
@@ -3970,12 +3993,24 @@ namespace MissionPlanner.GCSViews
 
         private void getWPs(IProgressReporterDialogue sender)
         {
-            var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
+            MAVLink.MAV_MISSION_TYPE type;
+            if (IsHandleCreated)
             {
-                return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
-            });
+                type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
+                {
+                    return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
+                });
+            }
+            else
+            {
+                // Default to MISSION when handle isn't created (e.g., loading WPs on connect before tab is shown)
+                type = MAVLink.MAV_MISSION_TYPE.MISSION;
+            }
 
-            if (chk_usemavftp.Checked)
+            // Read from Settings when handle isn't created, otherwise from the checkbox
+            bool useMavFtp = IsHandleCreated ? chk_usemavftp.Checked : Settings.Instance.GetBoolean("UseMissionMAVFTP", false);
+
+            if (useMavFtp)
             {
                 try
                 {
@@ -4964,10 +4999,20 @@ namespace MissionPlanner.GCSViews
             label11.Location = new Point(panelMap.Size.Width - 50, label11.Location.Y);
         }
 
+        private void SetMapZoomLevel(double zoom)
+        {
+            if (Zoomlevel.Maximum < (decimal)zoom)
+                zoom = (double)Zoomlevel.Maximum;
+            if (Zoomlevel.Minimum > (decimal)zoom)
+                zoom = (double)Zoomlevel.Minimum;
+
+            Zoomlevel.Value = Convert.ToDecimal(zoom);
+        }
+
         public void Planner_Resize(object sender, EventArgs e)
         {
             MainMap.Zoom = TRK_zoom.Value;
-            Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
+            SetMapZoomLevel(MainMap.Zoom);
         }
 
         /// <summary>
@@ -6869,6 +6914,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             try
             {
+                // Enable/disable center on MAV button based on vehicle location availability
+                bool hasLocation = MainV2.comPort.MAV.cs.lat != 0 || MainV2.comPort.MAV.cs.lng != 0;
+                if (BUT_center_on_mav.Enabled != hasLocation)
+                    BUT_center_on_mav.Enabled = hasLocation;
+
                 if (isMouseDown || CurentRectMarker != null)
                     return;
 
@@ -6918,7 +6968,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 lock (thisLock)
                 {
                     MainMap.Zoom = TRK_zoom.Value;
-                    Zoomlevel.Value = Convert.ToDecimal(TRK_zoom.Value);
+                    SetMapZoomLevel(TRK_zoom.Value);
                 }
             }
             catch (Exception ex)
@@ -7973,7 +8023,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 try
                 {
                     TRK_zoom.Value = (float)(MainMap.Zoom);
-                    Zoomlevel.Value = Convert.ToDecimal(MainMap.Zoom);
+                    SetMapZoomLevel(MainMap.Zoom);
                 }
                 catch (Exception ex)
                 {
@@ -8360,6 +8410,22 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void chk_usemavftp_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["UseMissionMAVFTP"] = chk_usemavftp.Checked.ToString();
+        }
+
+        private void BUT_clear_all_Click(object sender, EventArgs e)
+        {
+            clearMissionToolStripMenuItem_Click(sender, e);
+        }
+
+        private void BUT_center_on_mav_Click(object sender, EventArgs e)
+        {
+            double lat = MainV2.comPort.MAV.cs.lat;
+            double lng = MainV2.comPort.MAV.cs.lng;
+
+            if (lat != 0 || lng != 0)
+            {
+                MainMap.Position = new PointLatLng(lat, lng);
+            }
         }
 
         private void gDALOpacityToolStripMenuItem_Click(object sender, EventArgs e)

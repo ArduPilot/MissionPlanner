@@ -32,13 +32,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigRawParams));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.BUT_compare = new MissionPlanner.Controls.MyButton();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
+            this.BUT_reboot = new MissionPlanner.Controls.MyButton();
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.BUT_load = new MissionPlanner.Controls.MyButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -88,10 +89,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // BUT_writePIDS
             // 
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
+            this.BUT_writePIDS.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.BUT_writePIDS.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.BUT_writePIDS.ForeColor = System.Drawing.Color.White;
+            this.BUT_writePIDS.IgnoreTheme = true;
             this.BUT_writePIDS.Name = "BUT_writePIDS";
-            this.BUT_writePIDS.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_writePIDS.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.BUT_writePIDS.TextColor = System.Drawing.Color.White;
+            this.BUT_writePIDS.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
+            // 
+            // BUT_reboot
+            // 
+            resources.ApplyResources(this.BUT_reboot, "BUT_reboot");
+            this.BUT_reboot.Name = "BUT_reboot";
+            this.BUT_reboot.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_reboot.UseVisualStyleBackColor = true;
+            this.BUT_reboot.Click += new System.EventHandler(this.BUT_reboot_Click);
             // 
             // BUT_save
             // 
@@ -131,8 +146,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // BUT_commitToFlash
             // 
             resources.ApplyResources(this.BUT_commitToFlash, "BUT_commitToFlash");
+            this.BUT_commitToFlash.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(130)))), ((int)(((byte)(220)))));
+            this.BUT_commitToFlash.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(85)))), ((int)(((byte)(170)))));
+            this.BUT_commitToFlash.ForeColor = System.Drawing.Color.White;
+            this.BUT_commitToFlash.IgnoreTheme = true;
             this.BUT_commitToFlash.Name = "BUT_commitToFlash";
-            this.BUT_commitToFlash.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_commitToFlash.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(60)))), ((int)(((byte)(140)))));
+            this.BUT_commitToFlash.TextColor = System.Drawing.Color.White;
+            this.BUT_commitToFlash.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.BUT_commitToFlash.UseVisualStyleBackColor = true;
             this.BUT_commitToFlash.Click += new System.EventHandler(this.BUT_commitToFlash_Click);
             // 
@@ -184,14 +205,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.Params.AllowUserToAddRows = false;
             this.Params.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             resources.ApplyResources(this.Params, "Params");
             this.Params.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Command,
@@ -201,23 +222,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options,
             this.Desc,
             this.Fav});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.DefaultCellStyle = dataGridViewCellStyle7;
             this.Params.Name = "Params";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.Params.RowHeadersVisible = false;
             this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.Params.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.Params_CellBeginEdit);
@@ -265,8 +286,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Desc
             // 
             this.Desc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Desc.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Desc.DefaultCellStyle = dataGridViewCellStyle6;
             this.Desc.FillWeight = 25F;
             resources.ApplyResources(this.Desc, "Desc");
             this.Desc.Name = "Desc";
@@ -291,20 +312,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable);
             this.tableLayoutPanel1.Controls.Add(this.BUT_load);
             this.tableLayoutPanel1.Controls.Add(this.BUT_save);
             this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
             this.tableLayoutPanel1.Controls.Add(this.BUT_compare);
             this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params);
             this.tableLayoutPanel1.Controls.Add(this.txt_search);
             this.tableLayoutPanel1.Controls.Add(this.chk_modified);
             this.tableLayoutPanel1.Controls.Add(this.chk_none_default);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_reboot);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // txt_search
             // 
             resources.ApplyResources(this.txt_search, "txt_search");
+            this.txt_search.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(68)))), ((int)(((byte)(69)))));
+            this.txt_search.ForeColor = System.Drawing.Color.White;
             this.txt_search.Name = "txt_search";
             this.txt_search.PlaceholderColor = System.Drawing.Color.Gray;
             this.txt_search.PlaceholderText = "Search";
@@ -332,6 +358,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyButton BUT_compare;
         private Controls.MyButton BUT_rerequestparams;
         private Controls.MyButton BUT_writePIDS;
+        private Controls.MyButton BUT_reboot;
         private Controls.MyButton BUT_save;
         private Controls.MyButton BUT_load;
         private Controls.MyDataGridView Params;

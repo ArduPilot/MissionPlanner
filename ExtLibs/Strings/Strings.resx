@@ -219,9 +219,7 @@
 These appear to be missing from your log.</value>
   </data>
   <data name="WarningUpdateParamList" xml:space="preserve">
-    <value>Update Params
-DON'T DO THIS IF YOU ARE IN THE AIR
-</value>
+    <value>Are you sure you want to do this while connected? It will update the parameter list from the board and discard any changes you have made.</value>
   </data>
   <data name="Checking" xml:space="preserve">
     <value>Checking </value>
@@ -278,7 +276,7 @@ DON'T DO THIS IF YOU ARE IN THE AIR
     <value>DISCONNECT</value>
   </data>
   <data name="Failclog" xml:space="preserve">
-    <value>Failed to create ground station log - wont log this session</value>
+    <value>Failed to create ground station log - won't log this session</value>
   </data>
   <data name="NewFirmware" xml:space="preserve">
     <value>New Firmware</value>
