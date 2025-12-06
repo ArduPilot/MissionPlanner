@@ -380,8 +380,9 @@ namespace MissionPlanner
                 {
                     _adsb = new Utilities.adsb();
 
-                    if (Settings.Instance["adsbserver"] != null)
-                        Utilities.adsb.server = Settings.Instance["adsbserver"];
+                    var adsbServer = Settings.Instance["adsbserverv2"] ?? Settings.Instance["adsbserver"];
+                    if (adsbServer != null)
+                        Utilities.adsb.server = adsbServer;
                     if (Settings.Instance["adsbport"] != null)
                         Utilities.adsb.serverport = int.Parse(Settings.Instance["adsbport"].ToString());
                 }
