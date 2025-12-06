@@ -433,6 +433,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public ComboBox ServoSelector { get; set; }
         }
 
+        // Flag to prevent recursive updates when programmatically changing dropdowns
+        private bool _updatingServoSelectors = false;
+
         private void SelectMotorFunction(ComboBox combo, int functionValue)
         {
             for (int i = 0; i < combo.Items.Count; i++)
@@ -463,6 +466,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private async void ServoSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Prevent recursive updates
+            if (_updatingServoSelectors) return;
+
             var combo = sender as ComboBox;
             if (combo == null) return;
 
@@ -476,31 +482,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             int motorNumber = tag.MotorNumber;
             int motorFunction = MOTOR_FUNCTION_BASE + motorNumber - 1;
 
+            // Find current servo assigned to this motor
+            int currentServoForThisMotor = 0;
+            for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
+            {
+                string paramName = $"SERVO{servo}_FUNCTION";
+                if (MainV2.comPort.MAV.param.ContainsKey(paramName))
+                {
+                    int funcValue = (int)MainV2.comPort.MAV.param[paramName].Value;
+                    if (funcValue == motorFunction)
+                    {
+                        currentServoForThisMotor = servo;
+                        break;
+                    }
+                }
+            }
+
             if (newServoChannel <= 0)
             {
-                // Find current servo assigned to this motor and clear it
-                for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
+                // Setting to "Not assigned" - clear the current servo if any
+                if (currentServoForThisMotor > 0)
                 {
-                    string paramName = $"SERVO{servo}_FUNCTION";
-                    if (MainV2.comPort.MAV.param.ContainsKey(paramName))
+                    string paramName = $"SERVO{currentServoForThisMotor}_FUNCTION";
+                    try
                     {
-                        int funcValue = (int)MainV2.comPort.MAV.param[paramName].Value;
-                        if (funcValue == motorFunction)
-                        {
-                            try
-                            {
-                                await MainV2.comPort.setParamAsync(
-                                    (byte)MainV2.comPort.sysidcurrent,
-                                    (byte)MainV2.comPort.compidcurrent,
-                                    paramName,
-                                    0).ConfigureAwait(true);
-                            }
-                            catch (Exception ex)
-                            {
-                                CustomMessageBox.Show($"Failed to clear {paramName}: " + ex.Message, Strings.ERROR);
-                            }
-                            break;
-                        }
+                        await MainV2.comPort.setParamAsync(
+                            (byte)MainV2.comPort.sysidcurrent,
+                            (byte)MainV2.comPort.compidcurrent,
+                            paramName,
+                            0).ConfigureAwait(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show($"Failed to clear {paramName}: " + ex.Message, Strings.ERROR);
                     }
                 }
                 return;
@@ -510,65 +524,68 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                // Find current servo assigned to this motor (for swap)
-                int currentServoForThisMotor = 0;
-                for (int servo = 1; servo <= MAX_SERVO_CHANNELS; servo++)
-                {
-                    string paramName = $"SERVO{servo}_FUNCTION";
-                    if (MainV2.comPort.MAV.param.ContainsKey(paramName))
-                    {
-                        int funcValue = (int)MainV2.comPort.MAV.param[paramName].Value;
-                        if (funcValue == motorFunction)
-                        {
-                            currentServoForThisMotor = servo;
-                            break;
-                        }
-                    }
-                }
-
-                // Check what function is currently on the target servo (for swap)
+                // Check what function is currently on the target servo
                 int existingFunctionOnTargetServo = 0;
                 if (MainV2.comPort.MAV.param.ContainsKey(newParamName))
                 {
                     existingFunctionOnTargetServo = (int)MainV2.comPort.MAV.param[newParamName].Value;
                 }
 
-                // If target servo has a motor function and this motor has a servo, swap them
-                if (existingFunctionOnTargetServo >= MOTOR_FUNCTION_BASE &&
-                    existingFunctionOnTargetServo < MOTOR_FUNCTION_BASE + 12 &&
-                    currentServoForThisMotor > 0)
+                // Check if target servo is already assigned to another motor
+                bool targetHasMotorFunction = existingFunctionOnTargetServo >= MOTOR_FUNCTION_BASE &&
+                                               existingFunctionOnTargetServo < MOTOR_FUNCTION_BASE + 12;
+
+                _updatingServoSelectors = true;
+                try
                 {
-                    // Swap: set the other motor's function to our current servo
-                    string oldServoParam = $"SERVO{currentServoForThisMotor}_FUNCTION";
+                    if (targetHasMotorFunction && currentServoForThisMotor > 0)
+                    {
+                        // SWAP: Target servo has a motor, and this motor has a servo
+                        // Set the other motor's function to our current servo
+                        string oldServoParam = $"SERVO{currentServoForThisMotor}_FUNCTION";
+                        await MainV2.comPort.setParamAsync(
+                            (byte)MainV2.comPort.sysidcurrent,
+                            (byte)MainV2.comPort.compidcurrent,
+                            oldServoParam,
+                            existingFunctionOnTargetServo).ConfigureAwait(true);
+
+                        // Update the UI for the swapped motor
+                        int otherMotorNumber = existingFunctionOnTargetServo - MOTOR_FUNCTION_BASE + 1;
+                        UpdateServoSelectorForMotor(otherMotorNumber, currentServoForThisMotor);
+                    }
+                    else if (targetHasMotorFunction)
+                    {
+                        // Target servo has a motor, but this motor has no servo assigned
+                        // Set the other motor to "Not assigned" in UI
+                        int otherMotorNumber = existingFunctionOnTargetServo - MOTOR_FUNCTION_BASE + 1;
+                        UpdateServoSelectorForMotor(otherMotorNumber, 0);
+                    }
+                    else if (currentServoForThisMotor > 0)
+                    {
+                        // Just clear old servo assignment (target has no motor function)
+                        string oldServoParam = $"SERVO{currentServoForThisMotor}_FUNCTION";
+                        await MainV2.comPort.setParamAsync(
+                            (byte)MainV2.comPort.sysidcurrent,
+                            (byte)MainV2.comPort.compidcurrent,
+                            oldServoParam,
+                            0).ConfigureAwait(true);
+                    }
+
+                    // Set the new servo to this motor function
                     await MainV2.comPort.setParamAsync(
                         (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent,
-                        oldServoParam,
-                        existingFunctionOnTargetServo).ConfigureAwait(true);
-
-                    // Update the UI for the swapped motor
-                    UpdateServoSelectorForMotor(existingFunctionOnTargetServo - MOTOR_FUNCTION_BASE + 1, currentServoForThisMotor);
+                        newParamName,
+                        motorFunction).ConfigureAwait(true);
                 }
-                else if (currentServoForThisMotor > 0)
+                finally
                 {
-                    // Just clear old servo assignment (no swap needed)
-                    string oldServoParam = $"SERVO{currentServoForThisMotor}_FUNCTION";
-                    await MainV2.comPort.setParamAsync(
-                        (byte)MainV2.comPort.sysidcurrent,
-                        (byte)MainV2.comPort.compidcurrent,
-                        oldServoParam,
-                        0).ConfigureAwait(true);
+                    _updatingServoSelectors = false;
                 }
-
-                // Set the new servo to this motor function
-                await MainV2.comPort.setParamAsync(
-                    (byte)MainV2.comPort.sysidcurrent,
-                    (byte)MainV2.comPort.compidcurrent,
-                    newParamName,
-                    motorFunction).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
+                _updatingServoSelectors = false;
                 CustomMessageBox.Show($"Failed to set {newParamName}: " + ex.Message, Strings.ERROR);
             }
         }
@@ -576,15 +593,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void UpdateServoSelectorForMotor(int motorNumber, int newServoChannel)
         {
             // Find the motor panel that has this motor number and update its dropdown
+            // Note: _updatingServoSelectors flag should already be set by caller
             foreach (var panel in motorPanels)
             {
                 var tag = panel.MotorSelector?.Tag as ServoSelectorTag;
                 if (tag != null && tag.MotorNumber == motorNumber)
                 {
-                    // Temporarily remove event handler to avoid recursive updates
-                    panel.MotorSelector.SelectedIndexChanged -= ServoSelector_SelectedIndexChanged;
                     SelectServoChannel(panel.MotorSelector, newServoChannel);
-                    panel.MotorSelector.SelectedIndexChanged += ServoSelector_SelectedIndexChanged;
                     break;
                 }
             }
@@ -752,30 +767,62 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         int targetMotorIdx = selectedMotor.Value;
 
-                        // Find the target motor's panel and update its servo selector
+                        // If user selected the same motor, no changes needed
+                        if (targetMotorIdx == motorIdx)
+                        {
+                            return;
+                        }
+
+                        // Find the source motor's panel (the one we clicked "?" on)
+                        var sourcePanel = motorPanels.FirstOrDefault(p => p.MotorIndex == motorIdx);
+
+                        // Find the target motor's panel
                         var targetPanel = motorPanels.FirstOrDefault(p => p.MotorIndex == targetMotorIdx);
+
                         if (targetPanel != null)
                         {
-                            // Set the target motor's servo to the current servo channel
-                            SelectServoChannel(targetPanel.MotorSelector, currentServoChannel);
-
-                            // Trigger the change event to save to params
                             var targetTag = targetPanel.MotorSelector.Tag as ServoSelectorTag;
                             if (targetTag != null)
                             {
-                                // Manually trigger the update since we're setting programmatically
-                                var motorNum = targetTag.MotorNumber;
-                                int functionValue = MOTOR_FUNCTION_BASE + motorNum - 1;
+                                int targetMotorNumber = targetTag.MotorNumber;
+                                int targetFunctionValue = MOTOR_FUNCTION_BASE + targetMotorNumber - 1;
                                 string paramName = $"SERVO{currentServoChannel}_FUNCTION";
 
+                                _updatingServoSelectors = true;
                                 try
                                 {
+                                    // Check if target motor already has a different servo assigned
+                                    var targetCurrentItem = targetPanel.MotorSelector.SelectedItem as ComboBoxItem;
+                                    int targetCurrentServo = targetCurrentItem?.Value ?? 0;
+
+                                    if (targetCurrentServo > 0 && targetCurrentServo != currentServoChannel)
+                                    {
+                                        // Target motor has a different servo - clear it first
+                                        string oldTargetParam = $"SERVO{targetCurrentServo}_FUNCTION";
+                                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent,
+                                            (byte)MainV2.comPort.compidcurrent, oldTargetParam, 0);
+                                    }
+
+                                    // Set the servo to the target motor's function
                                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent,
-                                        (byte)MainV2.comPort.compidcurrent, paramName, functionValue);
+                                        (byte)MainV2.comPort.compidcurrent, paramName, targetFunctionValue);
+
+                                    // Update target motor's dropdown to show the servo
+                                    SelectServoChannel(targetPanel.MotorSelector, currentServoChannel);
+
+                                    // Clear source motor's dropdown (it no longer has this servo)
+                                    if (sourcePanel != null)
+                                    {
+                                        SelectServoChannel(sourcePanel.MotorSelector, 0);
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
                                     CustomMessageBox.Show($"Failed to set {paramName}: " + ex.Message, Strings.ERROR);
+                                }
+                                finally
+                                {
+                                    _updatingServoSelectors = false;
                                 }
                             }
                         }
