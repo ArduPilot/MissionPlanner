@@ -1,5 +1,13 @@
 name: DotNet Build
-on: [push, workflow_dispatch, pull_request]
+on:
+  push:
+    branches:
+      - development
+      - master
+    tags:
+      - 'beta'
+      - 'MissionPlanner-*'
+  workflow_dispatch:
 
 jobs:
   build:
