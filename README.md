@@ -226,6 +226,7 @@ See [COPYING.txt](COPYING.txt) for details.
 * Setup Wix toolset
 * Switch to Release mode
 * Clean Solution -> Build a release version of MissionPlanner -> Build solution
+* Copy Drivers into Msi folder so it lives in \Msi\Drivers
 * Build the 'wix' project from the MissionPlanner solution, which outputs to the Msi folder of the repo
 * Go to the Msi folder
 * Run installer.bat
