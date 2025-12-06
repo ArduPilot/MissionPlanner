@@ -191,6 +191,11 @@ namespace MissionPlanner
             }
         }
 
+        /// <summary>
+        /// Raised when a parameter write has been confirmed by the vehicle.
+        /// </summary>
+        public static event Action<string> ParamWritten;
+
         public event EventHandler MavChanged
         {
             add
@@ -1715,6 +1720,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     log.Info("setParam gotback " + st + " : " + MAVlist[sysid, compid].param[st]);
 
                     lastparamset = DateTime.UtcNow;
+
+                    ParamWritten?.Invoke(paramname);
 
                     // check if enabeling this param has added subparams, queue on gui thread
                     if (currentparamcount < par.param_count)

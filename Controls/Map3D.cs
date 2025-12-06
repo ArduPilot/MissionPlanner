@@ -83,7 +83,7 @@ namespace MissionPlanner.Controls
         private const double ADSB_YELLOW_DISTANCE = 10000; // 10km
         private const double ADSB_GREEN_DISTANCE = 20000; // 20km
         private const int ADSB_CIRCLE_SEGMENTS = 24;
-        private const int TRAIL_SMOOTHING_WINDOW = 61;
+        private const int TRAIL_SMOOTHING_WINDOW = 6;
         private const double WAYPOINT_MIN_DISTANCE = 61.0; // 200 feet in meters
         #endregion
 

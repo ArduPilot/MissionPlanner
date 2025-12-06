@@ -371,6 +371,9 @@ namespace MissionPlanner
 
         private Utilities.adsb _adsb;
 
+        private readonly System.Collections.Generic.List<string> _pendingParamToasts = new System.Collections.Generic.List<string>();
+        private readonly System.Windows.Forms.Timer _paramToastTimer = new System.Windows.Forms.Timer();
+
         public bool EnableADSB
         {
             get { return _adsb != null; }
@@ -685,6 +688,38 @@ namespace MissionPlanner
                         ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
                     }
                 }
+            };
+
+            MAVLinkInterface.ParamWritten += OnParamWritten;
+            _paramToastTimer.Interval = 500;
+            _paramToastTimer.Tick += (s, e) =>
+            {
+                _paramToastTimer.Stop();
+
+                var toDisplay = new List<string>(_pendingParamToasts);
+                _pendingParamToasts.Clear();
+
+                if (toDisplay.Count == 0 || IsDisposed)
+                    return;
+
+                var maxDisplay = 10;
+                var lines = toDisplay.Count > maxDisplay ? toDisplay.GetRange(0, maxDisplay) : toDisplay;
+                var extra = toDisplay.Count - lines.Count;
+
+                var builder = new StringBuilder();
+                builder.AppendLine("Params written:");
+                foreach (var name in lines)
+                {
+                    builder.AppendLine($"{name}");
+                }
+
+                if (extra > 0)
+                {
+                    builder.AppendLine($"+{extra} more...");
+                }
+
+                var toast = new ParamWriteToast(builder.ToString().TrimEnd(), this);
+                toast.Show(this);
             };
 
             MAVLinkInterface.gcssysid = (byte) Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
@@ -2011,6 +2046,24 @@ namespace MissionPlanner
             }
         }
 
+        private void OnParamWritten(string paramName)
+        {
+            if (IsDisposed)
+                return;
+
+            BeginInvoke((Action)(() =>
+            {
+                if (IsDisposed)
+                    return;
+
+                var namePart = string.IsNullOrWhiteSpace(paramName) ? "Param" : paramName;
+
+                _pendingParamToasts.Add(namePart);
+                _paramToastTimer.Stop();
+                _paramToastTimer.Start();
+            }));
+        }
+
 
         /// <summary>
         /// Ensure we hide/tear down 3D map first so close doesn't get "consumed" by its window.
@@ -2041,6 +2094,9 @@ namespace MissionPlanner
             base.OnClosing(e);
 
             log.Info("MainV2_FormClosing");
+
+            MAVLinkInterface.ParamWritten -= OnParamWritten;
+            _paramToastTimer.Stop();
 
             log.Info("GMaps write cache");
             // speed up tile saving on exit
