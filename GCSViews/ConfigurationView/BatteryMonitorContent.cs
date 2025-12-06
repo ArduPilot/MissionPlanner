@@ -52,8 +52,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 TXT_battcapacity.Text = MainV2.comPort.MAV.param[capParam].ToString();
 
             TXT_voltage.Text = _getVoltage().ToString();
-            // BATT uses empty prefill, BATT2 uses current voltage as prefill
-            TXT_measuredvoltage.Text = _prefix == "BATT2" ? TXT_voltage.Text : string.Empty;
 
             // BATT2 layout: reuse Battery1 positions for pin combos
             if (_prefix == "BATT2")
@@ -373,7 +371,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set " + P("VOLT_MULT") + " Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey(P("MONITOR")) &&
+                    (MainV2.comPort.MAV.param[P("MONITOR")].Value == 3 ||
+                     MainV2.comPort.MAV.param[P("MONITOR")].Value == 4))
+                {
+                    CustomMessageBox.Show("Set " + P("VOLT_MULT") + " Failed", Strings.ERROR);
+                }
             }
         }
 
@@ -395,7 +398,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set " + P("VOLT_MULT") + " Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey(P("MONITOR")) &&
+                    (MainV2.comPort.MAV.param[P("MONITOR")].Value == 3 ||
+                     MainV2.comPort.MAV.param[P("MONITOR")].Value == 4))
+                {
+                    CustomMessageBox.Show("Set " + P("VOLT_MULT") + " Failed", Strings.ERROR);
+                }
             }
         }
 
@@ -417,7 +425,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set " + (_prefix == "BATT" ? P("AMP_PERVOLT") : P("AMP_PERVOL")) + " Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey(P("MONITOR")) &&
+                    (MainV2.comPort.MAV.param[P("MONITOR")].Value == 3 ||
+                     MainV2.comPort.MAV.param[P("MONITOR")].Value == 4))
+                {
+                    CustomMessageBox.Show("Set " + (_prefix == "BATT" ? P("AMP_PERVOLT") : P("AMP_PERVOL")) + " Failed", Strings.ERROR);
+                }
             }
         }
 
@@ -610,8 +623,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else if (selection == 10)
                 {
+                    //Pixhawk 6C/Pix32 v6
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, P("VOLT_PIN"), 8);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, P("CURR_PIN"), 9);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, P("CURR_PIN"), 4);
                 }
             }
             catch
