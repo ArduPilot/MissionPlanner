@@ -79,6 +79,7 @@ namespace MissionPlanner.GCSViews
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new System.Windows.Forms.Panel();
             this.chk_usemavftp = new System.Windows.Forms.CheckBox();
+            this.BUT_clear_all = new MissionPlanner.Controls.MyButton();
             this.but_mincommands = new MissionPlanner.Controls.MyButton();
             this.CMB_altmode = new System.Windows.Forms.ComboBox();
             this.CHK_splinedefault = new System.Windows.Forms.CheckBox();
@@ -414,6 +415,7 @@ namespace MissionPlanner.GCSViews
             // panelWaypoints
             // 
             this.panelWaypoints.Controls.Add(this.chk_usemavftp);
+            this.panelWaypoints.Controls.Add(this.BUT_clear_all);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
             this.panelWaypoints.Controls.Add(this.CMB_altmode);
             this.panelWaypoints.Controls.Add(this.CHK_splinedefault);
@@ -438,7 +440,15 @@ namespace MissionPlanner.GCSViews
             this.chk_usemavftp.Name = "chk_usemavftp";
             this.chk_usemavftp.UseVisualStyleBackColor = true;
             this.chk_usemavftp.CheckedChanged += new System.EventHandler(this.chk_usemavftp_CheckedChanged);
-            // 
+            //
+            // BUT_clear_all
+            //
+            resources.ApplyResources(this.BUT_clear_all, "BUT_clear_all");
+            this.BUT_clear_all.Name = "BUT_clear_all";
+            this.BUT_clear_all.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_clear_all.UseVisualStyleBackColor = true;
+            this.BUT_clear_all.Click += new System.EventHandler(this.BUT_clear_all_Click);
+            //
             // but_mincommands
             // 
             resources.ApplyResources(this.but_mincommands, "but_mincommands");
@@ -1729,6 +1739,7 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem offsetPolygonToolStripMenuItem;
         private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
         public CheckBox chk_usemavftp;
+        private Controls.MyButton BUT_clear_all;
         private DataGridViewComboBoxColumn Command;
         private DataGridViewTextBoxColumn Param1;
         private DataGridViewTextBoxColumn Param2;

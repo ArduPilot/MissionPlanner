@@ -8410,6 +8410,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             Settings.Instance["UseMissionMAVFTP"] = chk_usemavftp.Checked.ToString();
         }
 
+        private void BUT_clear_all_Click(object sender, EventArgs e)
+        {
+            clearMissionToolStripMenuItem_Click(sender, e);
+        }
+
         private void gDALOpacityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ans = GDAL.GDALProvider.Instance.opacity;
