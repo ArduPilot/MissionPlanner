@@ -329,14 +329,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var innerLayout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 3,
+                ColumnCount = 4,
                 RowCount = 1,
                 Margin = new Padding(0),
                 Padding = new Padding(3, 0, 3, 0)
             };
             innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));  // Motor number label
             innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));  // Servo selector (stretches)
-            innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65F));  // Spin button
+            innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));  // Smart Assign button
+            innerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));  // Spin button
             innerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
             // Motor number label
@@ -372,6 +373,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             servoSelector.Tag = new ServoSelectorTag { MotorIndex = motorIdx, MotorNumber = motorNumber };
             servoSelector.SelectedIndexChanged += ServoSelector_SelectedIndexChanged;
 
+            // Smart Assign button
+            var smartAssignButton = new MyButton
+            {
+                Text = "?",
+                Dock = DockStyle.Fill
+            };
+            smartAssignButton.Tag = new SmartAssignTag { MotorIndex = motorIdx, ServoSelector = servoSelector };
+            smartAssignButton.Click += SmartAssignButton_Click;
+
             // Spin button
             var spinButton = new MyButton
             {
@@ -383,7 +393,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             innerLayout.Controls.Add(motorLabel, 0, 0);
             innerLayout.Controls.Add(servoSelector, 1, 0);
-            innerLayout.Controls.Add(spinButton, 2, 0);
+            innerLayout.Controls.Add(smartAssignButton, 2, 0);
+            innerLayout.Controls.Add(spinButton, 3, 0);
             groupBox.Controls.Add(innerLayout);
 
             return new MotorOutputPanel
@@ -414,6 +425,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             public int MotorIndex { get; set; }
             public int MotorNumber { get; set; }
+        }
+
+        private class SmartAssignTag
+        {
+            public int MotorIndex { get; set; }
+            public ComboBox ServoSelector { get; set; }
         }
 
         private void SelectMotorFunction(ComboBox combo, int functionValue)
@@ -625,6 +642,145 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Failed to test motor\n" + ex);
+            }
+        }
+
+        private void SmartAssignButton_Click(object sender, EventArgs e)
+        {
+            var button = sender as MyButton;
+            if (button == null) return;
+
+            var tag = button.Tag as SmartAssignTag;
+            if (tag == null) return;
+
+            int motorIdx = tag.MotorIndex;
+            var servoSelector = tag.ServoSelector;
+
+            // Get current servo channel for this motor
+            var selectedItem = servoSelector.SelectedItem as ComboBoxItem;
+            int currentServoChannel = selectedItem?.Value ?? 0;
+
+            if (currentServoChannel == 0)
+            {
+                CustomMessageBox.Show("Please assign a servo output first before using Smart Assign.", "No Servo Assigned");
+                return;
+            }
+
+            // Spin the motor
+            int speed = (int)NUM_thr_percent.Value;
+            int time = (int)NUM_duration.Value;
+
+            try
+            {
+                testMotor(motorIdx, speed, time);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to test motor\n" + ex);
+                return;
+            }
+
+            // Show dialog asking which motor actually spun
+            using (var dialog = new Form())
+            {
+                dialog.Text = "Smart Assign";
+                dialog.Size = new Size(350, 180);
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.StartPosition = FormStartPosition.CenterParent;
+                dialog.MaximizeBox = false;
+                dialog.MinimizeBox = false;
+
+                var label = new Label
+                {
+                    Text = $"Servo {currentServoChannel} was activated.\nWhich motor actually spun?",
+                    Location = new Point(20, 20),
+                    Size = new Size(300, 40)
+                };
+
+                var comboBox = new ComboBox
+                {
+                    Location = new Point(20, 70),
+                    Size = new Size(290, 25),
+                    DropDownStyle = ComboBoxStyle.DropDownList
+                };
+
+                // Populate with all motors in test order (Motor A, Motor B, etc.)
+                for (int i = 1; i <= motormax; i++)
+                {
+                    char letter = (char)('A' + i - 1);
+                    int motorNumber = i; // Default
+
+                    // Get actual motor number from layout
+                    if (motor_layout.motors != null)
+                    {
+                        foreach (var motor in motor_layout.motors)
+                        {
+                            if (motor.TestOrder == i)
+                            {
+                                motorNumber = motor.Number;
+                                break;
+                            }
+                        }
+                    }
+
+                    comboBox.Items.Add(new ComboBoxItem
+                    {
+                        Text = $"Motor {letter} (Motor {motorNumber})",
+                        Value = i
+                    });
+                }
+                comboBox.DisplayMember = "Text";
+                comboBox.SelectedIndex = 0;
+
+                var okButton = new MyButton
+                {
+                    Text = "OK",
+                    DialogResult = DialogResult.OK,
+                    Location = new Point(130, 105),
+                    Size = new Size(80, 30)
+                };
+
+                dialog.Controls.Add(label);
+                dialog.Controls.Add(comboBox);
+                dialog.Controls.Add(okButton);
+                dialog.AcceptButton = okButton;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    var selectedMotor = comboBox.SelectedItem as ComboBoxItem;
+                    if (selectedMotor != null)
+                    {
+                        int targetMotorIdx = selectedMotor.Value;
+
+                        // Find the target motor's panel and update its servo selector
+                        var targetPanel = motorPanels.FirstOrDefault(p => p.MotorIndex == targetMotorIdx);
+                        if (targetPanel != null)
+                        {
+                            // Set the target motor's servo to the current servo channel
+                            SelectServoChannel(targetPanel.MotorSelector, currentServoChannel);
+
+                            // Trigger the change event to save to params
+                            var targetTag = targetPanel.MotorSelector.Tag as ServoSelectorTag;
+                            if (targetTag != null)
+                            {
+                                // Manually trigger the update since we're setting programmatically
+                                var motorNum = targetTag.MotorNumber;
+                                int functionValue = MOTOR_FUNCTION_BASE + motorNum - 1;
+                                string paramName = $"SERVO{currentServoChannel}_FUNCTION";
+
+                                try
+                                {
+                                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent,
+                                        (byte)MainV2.comPort.compidcurrent, paramName, functionValue);
+                                }
+                                catch (Exception ex)
+                                {
+                                    CustomMessageBox.Show($"Failed to set {paramName}: " + ex.Message, Strings.ERROR);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
