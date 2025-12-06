@@ -13,6 +13,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private readonly string _prefix; // e.g. "BATT" or "BATT2"
         private readonly Func<double> _getVoltage;
         private readonly Func<double> _getCurrent;
+        private MavlinkComboBox _b2VoltPin;
+        private MavlinkComboBox _b2CurrPin;
+        private Label _b2VoltLabel;
+        private Label _b2CurrLabel;
+
+        private System.Drawing.Point _mahLabelBaseLoc;
 
         public BatteryMonitorContent(string prefix, Func<double> getVoltage, Func<double> getCurrent)
         {
@@ -20,6 +26,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _getVoltage = getVoltage;
             _getCurrent = getCurrent;
             InitializeComponent();
+            // record baseline for mAh label (label30) from designer
+            _mahLabelBaseLoc = label30 != null ? label30.Location : System.Drawing.Point.Empty;
         }
 
         private string P(string name)
@@ -47,7 +55,98 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 TXT_battcapacity.Text = MainV2.comPort.MAV.param[capParam].ToString();
 
             TXT_voltage.Text = _getVoltage().ToString();
-            TXT_measuredvoltage.Text = string.Empty; // do not prefill measured voltage
+            // BATT uses empty prefill, BATT2 uses current voltage as prefill
+            TXT_measuredvoltage.Text = _prefix == "BATT2" ? TXT_voltage.Text : string.Empty;
+
+            // BATT2 layout: reuse Battery1 positions for pin combos
+            if (_prefix == "BATT2")
+            {
+                // ensure mAh label shows at same baseline location as BM1
+                if (label30 != null)
+                {
+                    try
+                    {
+                        // load localized text from BM1 resources
+                        var rm = new System.ComponentModel.ComponentResourceManager(typeof(ConfigBatteryMonitoring));
+                        var txt = rm.GetString("label30.Text");
+                        label30.Text = string.IsNullOrEmpty(txt) ? "mAh" : txt;
+                    }
+                    catch { label30.Text = "mAh"; }
+
+                    label30.Visible = true;
+                    if (_mahLabelBaseLoc != System.Drawing.Point.Empty)
+                        label30.Location = _mahLabelBaseLoc;
+                    label30.BringToFront();
+                }
+                // hide MP Low Batt Alert for BM2 if no functional diff
+                if (CHK_speechbattery != null) CHK_speechbattery.Visible = false;
+                // Hide sensor type UI (not used by BATT2) but reuse its position
+                if (CMB_batmonsensortype != null) CMB_batmonsensortype.Visible = false;
+                var sensorLabelLoc = label47 != null ? label47.Location : new System.Drawing.Point(0, 0);
+                if (label47 != null) label47.Visible = false;
+
+                // Capture original HW Ver label position before reassigning
+                var hwVerLabelLoc = label1 != null ? label1.Location : new System.Drawing.Point(0, 0);
+
+                // Assign Volt Pin label at Sensor label position
+                if (label1 != null)
+                {
+                    label1.Text = "Volt Pin:";
+                    label1.Location = sensorLabelLoc;
+                    label1.Visible = true;
+                }
+                // Assign Curr Pin label at HW Ver label position
+                if (label2 != null)
+                {
+                    label2.Text = "Curr Pin:";
+                    label2.Location = hwVerLabelLoc;
+                    label2.Visible = true;
+                }
+
+                // Prepare BATT2 volt pin combo positioned exactly where HW Version sits
+                if (_b2VoltPin == null)
+                {
+                    _b2VoltPin = new MavlinkComboBox
+                    {
+                        DropDownStyle = ComboBoxStyle.DropDownList,
+                        DropDownWidth = 200,
+                        Width = 180
+                    };
+                    this.Controls.Add(_b2VoltPin);
+                }
+                if (CMB_batmonsensortype != null)
+                {
+                    // Place Volt Pin combo where Sensor Type combo was
+                    _b2VoltPin.Location = CMB_batmonsensortype.Location;
+                    _b2VoltPin.Size = CMB_batmonsensortype.Size;
+                    _b2VoltPin.Anchor = CMB_batmonsensortype.Anchor;
+                }
+                if (CMB_HWVersion != null)
+                {
+                    // Place Curr Pin combo where HW Version combo was
+                    _b2CurrPin.Location = CMB_HWVersion.Location;
+                    _b2CurrPin.Size = CMB_HWVersion.Size;
+                    _b2CurrPin.Anchor = CMB_HWVersion.Anchor;
+                    CMB_HWVersion.Visible = false;
+                }
+
+                // Prepare BATT2 curr pin combo positioned exactly where Sensor Type combo sits
+                if (_b2CurrPin == null)
+                {
+                    _b2CurrPin = new MavlinkComboBox
+                    {
+                        DropDownStyle = ComboBoxStyle.DropDownList,
+                        DropDownWidth = 200,
+                        Width = 180
+                    };
+                    this.Controls.Add(_b2CurrPin);
+                }
+                // CMB_batmonsensortype already hidden above
+
+                // bind to params
+                _b2VoltPin.setup(ParameterMetaDataRepository.GetParameterOptionsInt(P("VOLT_PIN"), MainV2.comPort.MAV.cs.firmware.ToString()), P("VOLT_PIN"), MainV2.comPort.MAV.param);
+                _b2CurrPin.setup(ParameterMetaDataRepository.GetParameterOptionsInt(P("CURR_PIN"), MainV2.comPort.MAV.cs.firmware.ToString()), P("CURR_PIN"), MainV2.comPort.MAV.param);
+            }
 
             // preferred names
             var ampPerVoltNew = _prefix == "BATT2" ? P("AMP_PERVOL") : P("AMP_PERVOLT");
@@ -81,7 +180,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechbattery.Checked = false;
             }
 
-            // determine the sensor type from current fields
+            // determine the sensor type from current fields (only for BATT)
+            if (_prefix != "BATT")
+                goto skipSensorType;
             if (TXT_AMP_PERVLT.Text == (13.6612).ToString() && TXT_divider_VOLT_MULT.Text == (4.127115).ToString())
                 CMB_batmonsensortype.SelectedIndex = 1;
             else if (TXT_AMP_PERVLT.Text == (27.3224).ToString() && TXT_divider_VOLT_MULT.Text == (15.70105).ToString())
@@ -103,10 +204,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
                 CMB_batmonsensortype.SelectedIndex = 0;
 
+        skipSensorType:
+
             // determine the board type
             var voltPinName = P("VOLT_PIN");
             var currPinName = P("CURR_PIN");
-            if (MainV2.comPort.MAV.param.ContainsKey(voltPinName) && MainV2.comPort.MAV.param[voltPinName] != null)
+            // Board type UI/logic only applies to BATT
+            if (_prefix == "BATT" && MainV2.comPort.MAV.param.ContainsKey(voltPinName) && MainV2.comPort.MAV.param[voltPinName] != null)
             {
                 CMB_HWVersion.Enabled = true;
 
@@ -137,7 +241,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
 
             CMB_batmontype_SelectedIndexChanged(null, null);
-            CMB_batmonsensortype_SelectedIndexChanged(null, null);
+            if (_prefix == "BATT")
+                CMB_batmonsensortype_SelectedIndexChanged(null, null);
 
             timer1.Start();
         }
@@ -172,6 +277,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CMB_batmontype_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // BATT2 uses direct pin combos in the legacy UI; avoid BATT-specific side effects here
+            if (_prefix == "BATT2")
+                return;
             if (startup)
                 return;
             try
@@ -321,6 +429,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CMB_batmonsensortype_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_prefix != "BATT")
+                return;
             var selection = int.Parse(CMB_batmonsensortype.Text.Substring(0, 1));
 
             if (selection == 1) // atto 45
@@ -445,6 +555,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CMB_apmversion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_prefix != "BATT")
+                return;
             if (startup)
                 return;
 
@@ -612,4 +724,3 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
     }
 }
-

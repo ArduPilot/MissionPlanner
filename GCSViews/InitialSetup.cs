@@ -268,7 +268,6 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayBattMonitor)
             {
                 AddBackstageViewPage(typeof(ConfigBatteryMonitoring), rm.GetString("backstageViewPagebatmon.Text"), isConnected && gotAllParams, opt);
-                AddBackstageViewPage(typeof(ConfigBatteryMonitoring2), rm.GetString("backstageViewPageBatt2.Text"), isConnected && gotAllParams, opt);
             }
             if (MainV2.DisplayConfiguration.displayCAN)
             {

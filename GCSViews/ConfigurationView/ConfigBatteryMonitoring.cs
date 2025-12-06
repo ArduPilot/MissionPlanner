@@ -27,18 +27,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _content1 = new BatteryMonitorContent("BATT", () => MainV2.comPort.MAV.cs.battery_voltage, () => MainV2.comPort.MAV.cs.current);
             _content2 = new BatteryMonitorContent("BATT2", () => MainV2.comPort.MAV.cs.battery_voltage2, () => MainV2.comPort.MAV.cs.current2);
 
-            _gb1 = new BatteryMonitorGB { GroupTitle = "Battery 1", Dock = DockStyle.Fill, InnerControl = _content1 };
-            _gb2 = new BatteryMonitorGB { GroupTitle = "Battery 2", Dock = DockStyle.Fill, InnerControl = _content2 };
+            _gb1 = new BatteryMonitorGB { GroupTitle = "Battery Monitor 1", InnerControl = _content1 };
+            _gb2 = new BatteryMonitorGB { GroupTitle = "Battery Monitor 2", InnerControl = _content2 };
+
+            _gb1.Dock = DockStyle.None;
+            _gb2.Dock = DockStyle.None;
 
             var tlp = new TableLayoutPanel
             {
-                Dock = DockStyle.Fill,
+                AutoSize = true,
+                Dock = DockStyle.None,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left,
                 ColumnCount = 2,
                 RowCount = 1
             };
-            tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             tlp.Controls.Add(_gb1, 0, 0);
             tlp.Controls.Add(_gb2, 1, 0);
 
