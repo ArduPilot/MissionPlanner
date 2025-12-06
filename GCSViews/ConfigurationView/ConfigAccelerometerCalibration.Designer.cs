@@ -34,6 +34,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBoxAccelCal = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanelAccel = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBoxOrientation = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.BUT_calib_accell = new MissionPlanner.Controls.MyButton();
@@ -46,6 +47,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBoxAccelCal.SuspendLayout();
+            this.flowLayoutPanelAccel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOrientation)).BeginInit();
             this.groupBoxLevel.SuspendLayout();
             this.groupBoxSimple.SuspendLayout();
@@ -66,14 +68,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // groupBoxAccelCal
-            // 
+            //
             resources.ApplyResources(this.groupBoxAccelCal, "groupBoxAccelCal");
-            this.groupBoxAccelCal.Controls.Add(this.pictureBoxOrientation);
-            this.groupBoxAccelCal.Controls.Add(this.label4);
-            this.groupBoxAccelCal.Controls.Add(this.BUT_calib_accell);
-            this.groupBoxAccelCal.Controls.Add(this.lbl_Accel_user);
+            this.groupBoxAccelCal.Controls.Add(this.flowLayoutPanelAccel);
             this.groupBoxAccelCal.Name = "groupBoxAccelCal";
             this.groupBoxAccelCal.TabStop = false;
+            //
+            // flowLayoutPanelAccel
+            //
+            resources.ApplyResources(this.flowLayoutPanelAccel, "flowLayoutPanelAccel");
+            this.flowLayoutPanelAccel.Controls.Add(this.pictureBoxOrientation);
+            this.flowLayoutPanelAccel.Controls.Add(this.label4);
+            this.flowLayoutPanelAccel.Controls.Add(this.BUT_calib_accell);
+            this.flowLayoutPanelAccel.Controls.Add(this.lbl_Accel_user);
+            this.flowLayoutPanelAccel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelAccel.Name = "flowLayoutPanelAccel";
             // 
             // pictureBoxOrientation
             // 
@@ -152,6 +161,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.PerformLayout();
             this.groupBoxAccelCal.ResumeLayout(false);
             this.groupBoxAccelCal.PerformLayout();
+            this.flowLayoutPanelAccel.ResumeLayout(false);
+            this.flowLayoutPanelAccel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOrientation)).EndInit();
             this.groupBoxLevel.ResumeLayout(false);
             this.groupBoxLevel.PerformLayout();
@@ -167,6 +178,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBoxAccelCal;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelAccel;
         private System.Windows.Forms.PictureBox pictureBoxOrientation;
         private System.Windows.Forms.Label lbl_Accel_user;
         private MyButton BUT_calib_accell;

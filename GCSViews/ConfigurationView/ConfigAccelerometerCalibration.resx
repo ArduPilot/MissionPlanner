@@ -162,6 +162,36 @@
   <data name="groupBoxAccelCal.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
+  <data name="flowLayoutPanelAccel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanelAccel.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="flowLayoutPanelAccel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="flowLayoutPanelAccel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 16</value>
+  </data>
+  <data name="flowLayoutPanelAccel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>414, 490</value>
+  </data>
+  <data name="flowLayoutPanelAccel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanelAccel.Name" xml:space="preserve">
+    <value>flowLayoutPanelAccel</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanelAccel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanelAccel.Parent" xml:space="preserve">
+    <value>groupBoxAccelCal</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanelAccel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="pictureBoxOrientation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -187,7 +217,7 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxOrientation.Parent" xml:space="preserve">
-    <value>groupBoxAccelCal</value>
+    <value>flowLayoutPanelAccel</value>
   </data>
   <data name="&gt;&gt;pictureBoxOrientation.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -221,7 +251,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBoxAccelCal</value>
+    <value>flowLayoutPanelAccel</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -245,7 +275,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.Parent" xml:space="preserve">
-    <value>groupBoxAccelCal</value>
+    <value>flowLayoutPanelAccel</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -275,7 +305,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbl_Accel_user.Parent" xml:space="preserve">
-    <value>groupBoxAccelCal</value>
+    <value>flowLayoutPanelAccel</value>
   </data>
   <data name="&gt;&gt;lbl_Accel_user.ZOrder" xml:space="preserve">
     <value>3</value>
