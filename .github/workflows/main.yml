@@ -5,9 +5,14 @@ jobs:
   build:
     name: Build Release
     runs-on: windows-latest
+    env:
+      IS_BETA: ${{ github.ref == 'refs/tags/beta' }}
+      IS_STABLE: ${{ startsWith(github.ref, 'refs/tags/MissionPlanner-') }}
+      MSI_NAME: ${{ startsWith(github.ref, 'refs/tags/MissionPlanner-') && github.ref_name || 'MissionPlanner-beta' }}.msi
+      ZIP_NAME: ${{ startsWith(github.ref, 'refs/tags/MissionPlanner-') && 'MissionPlanner-latest' || 'MissionPlanner-beta' }}.zip
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 10
@@ -24,38 +29,80 @@ jobs:
         shell: pwsh
         run: |
           cd bin\Release\net461
-          gci plugins | ForEach-Object {                 if (Test-Path $_.Name -PathType Leaf)                {                    Write-Host "Remove" $_.FullName   ;                 Remove-Item $_.FullName                            } else {                    Write-Host $_.Name                }            }
-
+          gci plugins | ForEach-Object { if (Test-Path $_.Name -PathType Leaf) { Write-Host "Remove" $_.FullName ; Remove-Item $_.FullName } else { Write-Host $_.Name } }
           copy version.txt ..\..\..\
-          7z a -tzip ..\..\..\MissionPlannerBeta.zip *
+          7z a -tzip ..\..\..\${{ env.ZIP_NAME }} *
           cd ..
           .\md5sum.exe net461 > ..\..\checksums.txt
-          
+
+      - name: Create MSI
+        shell: pwsh
+        run: |
+          cd Msi
+          if (Test-Path installer.wxs) { Remove-Item installer.wxs }
+          & ".\net472\wix.exe" "..\bin\Release\net461"
+          & "$env:WIX\bin\candle.exe" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension
+          & "$env:WIX\bin\light.exe" installer.wixobj "$env:WIX\bin\difxapp_x86.wixlib" -sval -o ${{ env.MSI_NAME }} -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension
+          Move-Item ${{ env.MSI_NAME }} ..\${{ env.MSI_NAME }}
+
       - uses: actions/upload-artifact@v4
         with:
           name: MissionPlannerBeta
           path: bin\Release\net461
-          
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MSI
+          path: ${{ env.MSI_NAME }}
+
       - uses: "marvinpinto/action-automatic-releases@v1.2.1"
-        if: ${{ github.ref == 'refs/tags/beta' }}
+        if: ${{ github.ref == 'refs/heads/development' }}
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "development"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            ${{ env.ZIP_NAME }}
+            ${{ env.MSI_NAME }}
+            checksums.txt
+            version.txt
+            ChangeLog.txt
+
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        if: ${{ env.IS_BETA == 'true' }}
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "betarelease"
           prerelease: true
           title: "Beta Build"
           files: |
-            MissionPlannerBeta.zip
+            ${{ env.ZIP_NAME }}
+            ${{ env.MSI_NAME }}
             checksums.txt
             version.txt
             ChangeLog.txt
 
+      - uses: marvinpinto/action-automatic-releases@v1.2.1
+        if: ${{ env.IS_STABLE == 'true' }}
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ github.ref_name }}
+          prerelease: false
+          title: "${{ github.ref_name }}"
+          files: |
+            ${{ env.ZIP_NAME }}
+            ${{ env.MSI_NAME }}
+            checksums.txt
+            version.txt
+            ChangeLog.txt
 
   buildDebug:
     name: Build Debug
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 10
@@ -79,4 +126,4 @@ jobs:
         shell: pwsh
         run: |
           cd bin\Debug\net461
-          gci plugins | ForEach-Object {                 if (Test-Path $_.Name -PathType Leaf)                {                    Write-Host "Remove" $_.FullName   ;                 Remove-Item $_.FullName                            } else {                    Write-Host $_.Name                }            }
+          gci plugins | ForEach-Object { if (Test-Path $_.Name -PathType Leaf) { Write-Host "Remove" $_.FullName ; Remove-Item $_.FullName } else { Write-Host $_.Name } }
