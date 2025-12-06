@@ -79,6 +79,7 @@ namespace MissionPlanner.GCSViews
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new System.Windows.Forms.Panel();
             this.chk_usemavftp = new System.Windows.Forms.CheckBox();
+            this.BUT_center_on_mav = new MissionPlanner.Controls.MyButton();
             this.BUT_clear_all = new MissionPlanner.Controls.MyButton();
             this.but_mincommands = new MissionPlanner.Controls.MyButton();
             this.CMB_altmode = new System.Windows.Forms.ComboBox();
@@ -415,6 +416,7 @@ namespace MissionPlanner.GCSViews
             // panelWaypoints
             // 
             this.panelWaypoints.Controls.Add(this.chk_usemavftp);
+            this.panelWaypoints.Controls.Add(this.BUT_center_on_mav);
             this.panelWaypoints.Controls.Add(this.BUT_clear_all);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
             this.panelWaypoints.Controls.Add(this.CMB_altmode);
@@ -448,6 +450,17 @@ namespace MissionPlanner.GCSViews
             this.BUT_clear_all.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_clear_all.UseVisualStyleBackColor = true;
             this.BUT_clear_all.Click += new System.EventHandler(this.BUT_clear_all_Click);
+            //
+            // BUT_center_on_mav
+            //
+            this.BUT_center_on_mav.Location = new System.Drawing.Point(760, 10);
+            this.BUT_center_on_mav.Name = "BUT_center_on_mav";
+            this.BUT_center_on_mav.Size = new System.Drawing.Size(95, 23);
+            this.BUT_center_on_mav.TabIndex = 57;
+            this.BUT_center_on_mav.Text = "Center to Vehicle";
+            this.BUT_center_on_mav.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_center_on_mav.UseVisualStyleBackColor = true;
+            this.BUT_center_on_mav.Click += new System.EventHandler(this.BUT_center_on_mav_Click);
             //
             // but_mincommands
             // 
@@ -1739,6 +1752,7 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem offsetPolygonToolStripMenuItem;
         private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
         public CheckBox chk_usemavftp;
+        private Controls.MyButton BUT_center_on_mav;
         private Controls.MyButton BUT_clear_all;
         private DataGridViewComboBoxColumn Command;
         private DataGridViewTextBoxColumn Param1;

@@ -299,6 +299,10 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
+            // Initialize center on MAV button state
+            bool hasLocation = MainV2.comPort.MAV.cs.lat != 0 || MainV2.comPort.MAV.cs.lng != 0;
+            BUT_center_on_mav.Enabled = hasLocation;
+
             // Sync map position and zoom from DATA tab
             try
             {
@@ -6917,6 +6921,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             try
             {
+                // Enable/disable center on MAV button based on vehicle location availability
+                bool hasLocation = MainV2.comPort.MAV.cs.lat != 0 || MainV2.comPort.MAV.cs.lng != 0;
+                if (BUT_center_on_mav.Enabled != hasLocation)
+                    BUT_center_on_mav.Enabled = hasLocation;
+
                 if (isMouseDown || CurentRectMarker != null)
                     return;
 
@@ -8413,6 +8422,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void BUT_clear_all_Click(object sender, EventArgs e)
         {
             clearMissionToolStripMenuItem_Click(sender, e);
+        }
+
+        private void BUT_center_on_mav_Click(object sender, EventArgs e)
+        {
+            double lat = MainV2.comPort.MAV.cs.lat;
+            double lng = MainV2.comPort.MAV.cs.lng;
+
+            if (lat != 0 || lng != 0)
+            {
+                MainMap.Position = new PointLatLng(lat, lng);
+            }
         }
 
         private void gDALOpacityToolStripMenuItem_Click(object sender, EventArgs e)
