@@ -45,6 +45,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Interval = 100;
             _timer.Start();
 
+            LoadChannelMapping();
+            SetupBarDataBindings();
+            SetupBarLabels();
+            SetupStickLabels();
+            RequestRCDataStream();
+            SetupElevonControls();
+            SetupReverseCheckboxes();
+
+            // Hide reversal checkboxes for main channels on copter (reversing would make it uncontrollable)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+            {
+                CHK_revroll.Visible = false;
+                CHK_revpitch.Visible = false;
+                CHK_revthr.Visible = false;
+                CHK_revyaw.Visible = false;
+            }
+
+            startup = false;
+        }
+
+        private void LoadChannelMapping()
+        {
             if (!MainV2.comPort.MAV.param.ContainsKey("RCMAP_ROLL"))
             {
                 chroll = 1;
@@ -56,7 +78,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    //setup bindings
                     chroll = (int)(float)MainV2.comPort.MAV.param["RCMAP_ROLL"];
                     chpitch = (int)(float)MainV2.comPort.MAV.param["RCMAP_PITCH"];
                     chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
@@ -66,67 +87,60 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
                     this.Enabled = false;
-                    return;
                 }
             }
+        }
 
-            BARroll.DataBindings.Clear();
-            BARpitch.DataBindings.Clear();
-            BARthrottle.DataBindings.Clear();
-            BARyaw.DataBindings.Clear();
-            BAR5.DataBindings.Clear();
-            BAR6.DataBindings.Clear();
-            BAR7.DataBindings.Clear();
-            BAR8.DataBindings.Clear();
-            BAR9.DataBindings.Clear();
-            BAR10.DataBindings.Clear();
-            BAR11.DataBindings.Clear();
-            BAR12.DataBindings.Clear();
-            BAR13.DataBindings.Clear();
-            BAR14.DataBindings.Clear();
-            BAR15.DataBindings.Clear();
-            BAR16.DataBindings.Clear();
+        private void SetupBarDataBindings()
+        {
+            var bars = new[] { BARroll, BARpitch, BARthrottle, BARyaw, BAR5, BAR6, BAR7, BAR8, BAR9, BAR10, BAR11, BAR12, BAR13, BAR14, BAR15, BAR16 };
+
+            foreach (var bar in bars)
+            {
+                bar.DataBindings.Clear();
+            }
 
             BARroll.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + chroll + "in", true));
             BARpitch.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + chpitch + "in", true));
             BARthrottle.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + chthro + "in", true));
             BARyaw.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + chyaw + "in", true));
 
-            BAR5.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch5in", true));
-            BAR6.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch6in", true));
-            BAR7.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch7in", true));
-            BAR8.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch8in", true));
+            for (int i = 5; i <= 16; i++)
+            {
+                var bar = (HorizontalProgressBar2)this.GetType().GetField("BAR" + i, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(this);
+                bar.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + i + "in", true));
+            }
+        }
 
-            BAR9.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch9in", true));
-            BAR10.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch10in", true));
-            BAR11.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch11in", true));
-            BAR12.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch12in", true));
-            BAR13.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch13in", true));
-            BAR14.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch14in", true));
-            BAR15.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch15in", true));
-            BAR16.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch16in", true));
+        private void SetupBarLabels()
+        {
+            BARroll.Label += " (rc" + chroll + ")";
+            BARpitch.Label += " (rc" + chpitch + ")";
+            BARthrottle.Label += " (rc" + chthro + ")";
+            BARyaw.Label += " (rc" + chyaw + ")";
+        }
 
-            //Add channel to pitch/roll/throttle/yaw bars labels
-            BARroll.Label = BARroll.Label + " (rc" + chroll.ToString() + ")";
-            BARpitch.Label = BARpitch.Label + " (rc" + chpitch.ToString() + ")";
-            BARthrottle.Label = BARthrottle.Label + " (rc" + chthro.ToString() + ")";
-            BARyaw.Label = BARyaw.Label + " (rc" + chyaw.ToString() + ")";
+        private void SetupStickLabels()
+        {
+            stickLeft.HorizontalLabel = "Yaw (rc" + chyaw + ")";
+            stickLeft.VerticalLabel = "Throttle (rc" + chthro + ")";
+            stickRight.HorizontalLabel = "Roll (rc" + chroll + ")";
+            stickRight.VerticalLabel = "Pitch (rc" + chpitch + ")";
+        }
 
-            // Update stick control labels
-            stickLeft.HorizontalLabel = "Yaw (rc" + chyaw.ToString() + ")";
-            stickLeft.VerticalLabel = "Throttle (rc" + chthro.ToString() + ")";
-            stickRight.HorizontalLabel = "Roll (rc" + chroll.ToString() + ")";
-            stickRight.VerticalLabel = "Pitch (rc" + chpitch.ToString() + ")";
-
+        private void RequestRCDataStream()
+        {
             try
             {
-                // force this screen to work
                 MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 2);
             }
             catch
             {
             }
+        }
 
+        private void SetupElevonControls()
+        {
             startup = true;
 
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
@@ -141,74 +155,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 groupBoxElevons.Visible = false;
             }
-
-            // this controls the direction of the output, not the input.
-            CHK_revroll.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC" + chroll + "_REV", "RC" + chroll + "_REVERSED" },
-                MainV2.comPort.MAV.param);
-            CHK_revpitch.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC" + chpitch + "_REV", "RC" + chpitch + "_REVERSED" },
-                MainV2.comPort.MAV.param);
-            CHK_revthr.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC" + chthro + "_REV", "RC" + chthro + "_REVERSED" },
-                MainV2.comPort.MAV.param);
-            CHK_revyaw.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC" + chyaw + "_REV", "RC" + chyaw + "_REVERSED" },
-                MainV2.comPort.MAV.param);
-
-            // Setup reverse checkboxes for channels 5-16
-            CHK_rev5.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC5_REV", "RC5_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev6.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC6_REV", "RC6_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev7.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC7_REV", "RC7_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev8.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC8_REV", "RC8_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev9.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC9_REV", "RC9_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev10.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC10_REV", "RC10_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev11.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC11_REV", "RC11_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev12.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC12_REV", "RC12_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev13.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC13_REV", "RC13_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev14.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC14_REV", "RC14_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev15.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC15_REV", "RC15_REVERSED" }, MainV2.comPort.MAV.param);
-            CHK_rev16.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC16_REV", "RC16_REVERSED" }, MainV2.comPort.MAV.param);
-
-            // Add event handlers for immediate reverse updates
-            CHK_revroll.CheckedChanged += (s, e) => UpdateBarReverse(BARroll, CHK_revroll);
-            CHK_revpitch.CheckedChanged += (s, e) => UpdateBarReverse(BARpitch, CHK_revpitch);
-            CHK_revthr.CheckedChanged += (s, e) => UpdateBarReverse(BARthrottle, CHK_revthr);
-            CHK_revyaw.CheckedChanged += (s, e) => UpdateBarReverse(BARyaw, CHK_revyaw);
-            CHK_rev5.CheckedChanged += (s, e) => UpdateBarReverse(BAR5, CHK_rev5);
-            CHK_rev6.CheckedChanged += (s, e) => UpdateBarReverse(BAR6, CHK_rev6);
-            CHK_rev7.CheckedChanged += (s, e) => UpdateBarReverse(BAR7, CHK_rev7);
-            CHK_rev8.CheckedChanged += (s, e) => UpdateBarReverse(BAR8, CHK_rev8);
-            CHK_rev9.CheckedChanged += (s, e) => UpdateBarReverse(BAR9, CHK_rev9);
-            CHK_rev10.CheckedChanged += (s, e) => UpdateBarReverse(BAR10, CHK_rev10);
-            CHK_rev11.CheckedChanged += (s, e) => UpdateBarReverse(BAR11, CHK_rev11);
-            CHK_rev12.CheckedChanged += (s, e) => UpdateBarReverse(BAR12, CHK_rev12);
-            CHK_rev13.CheckedChanged += (s, e) => UpdateBarReverse(BAR13, CHK_rev13);
-            CHK_rev14.CheckedChanged += (s, e) => UpdateBarReverse(BAR14, CHK_rev14);
-            CHK_rev15.CheckedChanged += (s, e) => UpdateBarReverse(BAR15, CHK_rev15);
-            CHK_rev16.CheckedChanged += (s, e) => UpdateBarReverse(BAR16, CHK_rev16);
-
-            // Initialize reverse state immediately
-            BARroll.reverse = CHK_revroll.Checked;
-            BARpitch.reverse = CHK_revpitch.Checked;
-            BARthrottle.reverse = CHK_revthr.Checked;
-            BARyaw.reverse = CHK_revyaw.Checked;
-            BAR5.reverse = CHK_rev5.Checked;
-            BAR6.reverse = CHK_rev6.Checked;
-            BAR7.reverse = CHK_rev7.Checked;
-            BAR8.reverse = CHK_rev8.Checked;
-            BAR9.reverse = CHK_rev9.Checked;
-            BAR10.reverse = CHK_rev10.Checked;
-            BAR11.reverse = CHK_rev11.Checked;
-            BAR12.reverse = CHK_rev12.Checked;
-            BAR13.reverse = CHK_rev13.Checked;
-            BAR14.reverse = CHK_rev14.Checked;
-            BAR15.reverse = CHK_rev15.Checked;
-            BAR16.reverse = CHK_rev16.Checked;
-
-            startup = false;
         }
 
-        private void UpdateBarReverse(HorizontalProgressBar2 bar, CheckBox checkbox)
+        private void SetupReverseCheckboxes()
         {
-            bar.reverse = checkbox.Checked;
-            bar.Invalidate();
+            // Setup reverse checkboxes for main control channels
+            SetupReverseCheckbox(CHK_revroll, chroll);
+            SetupReverseCheckbox(CHK_revpitch, chpitch);
+            SetupReverseCheckbox(CHK_revthr, chthro);
+            SetupReverseCheckbox(CHK_revyaw, chyaw);
+
+            // Setup reverse checkboxes for channels 5-16
+            var reverseCheckboxes = new[] { CHK_rev5, CHK_rev6, CHK_rev7, CHK_rev8, CHK_rev9, CHK_rev10, CHK_rev11, CHK_rev12, CHK_rev13, CHK_rev14, CHK_rev15, CHK_rev16 };
+            for (int i = 0; i < reverseCheckboxes.Length; i++)
+            {
+                SetupReverseCheckbox(reverseCheckboxes[i], i + 5);
+            }
+        }
+
+        private void SetupReverseCheckbox(MavlinkCheckBox checkbox, int channel)
+        {
+            checkbox.setup(
+                new double[] { -1, 1 },
+                new double[] { 1, 0 },
+                new string[] { "RC" + channel + "_REV", "RC" + channel + "_REVERSED" },
+                MainV2.comPort.MAV.param);
         }
 
         public void Deactivate()
@@ -223,25 +194,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
 
-                // Update reverse state on bars based on Rev checkboxes
-                BARroll.reverse = CHK_revroll.Checked;
-                BARpitch.reverse = CHK_revpitch.Checked;
-                BARthrottle.reverse = CHK_revthr.Checked;
-                BARyaw.reverse = CHK_revyaw.Checked;
-                BAR5.reverse = CHK_rev5.Checked;
-                BAR6.reverse = CHK_rev6.Checked;
-                BAR7.reverse = CHK_rev7.Checked;
-                BAR8.reverse = CHK_rev8.Checked;
-                BAR9.reverse = CHK_rev9.Checked;
-                BAR10.reverse = CHK_rev10.Checked;
-                BAR11.reverse = CHK_rev11.Checked;
-                BAR12.reverse = CHK_rev12.Checked;
-                BAR13.reverse = CHK_rev13.Checked;
-                BAR14.reverse = CHK_rev14.Checked;
-                BAR15.reverse = CHK_rev15.Checked;
-                BAR16.reverse = CHK_rev16.Checked;
-
-                // Update stick controls with current values and reverse state
+                // Update stick controls with current values
                 if (chyaw > 0 && chthro > 0 && chroll > 0 && chpitch > 0)
                 {
                     stickLeft.HorizontalValue = GetChannelValue(chyaw);
@@ -269,7 +222,79 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 case 6: return (int)MainV2.comPort.MAV.cs.ch6in;
                 case 7: return (int)MainV2.comPort.MAV.cs.ch7in;
                 case 8: return (int)MainV2.comPort.MAV.cs.ch8in;
+                case 9: return (int)MainV2.comPort.MAV.cs.ch9in;
+                case 10: return (int)MainV2.comPort.MAV.cs.ch10in;
+                case 11: return (int)MainV2.comPort.MAV.cs.ch11in;
+                case 12: return (int)MainV2.comPort.MAV.cs.ch12in;
+                case 13: return (int)MainV2.comPort.MAV.cs.ch13in;
+                case 14: return (int)MainV2.comPort.MAV.cs.ch14in;
+                case 15: return (int)MainV2.comPort.MAV.cs.ch15in;
+                case 16: return (int)MainV2.comPort.MAV.cs.ch16in;
                 default: return 1500;
+            }
+        }
+
+        private void UpdateChannelMinMax()
+        {
+            for (int i = 1; i <= 16; i++)
+            {
+                float channelValue = GetChannelValue(i);
+                rcmin[i - 1] = Math.Min(rcmin[i - 1], channelValue);
+                rcmax[i - 1] = Math.Max(rcmax[i - 1], channelValue);
+            }
+        }
+
+        private void UpdateCalibrationBars()
+        {
+            BARroll.minline = (int)rcmin[chroll - 1];
+            BARroll.maxline = (int)rcmax[chroll - 1];
+            BARpitch.minline = (int)rcmin[chpitch - 1];
+            BARpitch.maxline = (int)rcmax[chpitch - 1];
+            BARthrottle.minline = (int)rcmin[chthro - 1];
+            BARthrottle.maxline = (int)rcmax[chthro - 1];
+            BARyaw.minline = (int)rcmin[chyaw - 1];
+            BARyaw.maxline = (int)rcmax[chyaw - 1];
+
+            setBARStatus(BAR5, rcmin[4], rcmax[4]);
+            setBARStatus(BAR6, rcmin[5], rcmax[5]);
+            setBARStatus(BAR7, rcmin[6], rcmax[6]);
+            setBARStatus(BAR8, rcmin[7], rcmax[7]);
+            setBARStatus(BAR9, rcmin[8], rcmax[8]);
+            setBARStatus(BAR10, rcmin[9], rcmax[9]);
+            setBARStatus(BAR11, rcmin[10], rcmax[10]);
+            setBARStatus(BAR12, rcmin[11], rcmax[11]);
+            setBARStatus(BAR13, rcmin[12], rcmax[12]);
+            setBARStatus(BAR14, rcmin[13], rcmax[13]);
+            setBARStatus(BAR15, rcmin[14], rcmax[14]);
+            setBARStatus(BAR16, rcmin[15], rcmax[15]);
+        }
+
+        private void UpdateStickCalibrationLines()
+        {
+            stickLeft.HorizontalMinLine = (int)rcmin[chyaw - 1];
+            stickLeft.HorizontalMaxLine = (int)rcmax[chyaw - 1];
+            stickLeft.VerticalMinLine = (int)rcmin[chthro - 1];
+            stickLeft.VerticalMaxLine = (int)rcmax[chthro - 1];
+
+            stickRight.HorizontalMinLine = (int)rcmin[chroll - 1];
+            stickRight.HorizontalMaxLine = (int)rcmax[chroll - 1];
+            stickRight.VerticalMinLine = (int)rcmin[chpitch - 1];
+            stickRight.VerticalMaxLine = (int)rcmax[chpitch - 1];
+        }
+
+        private void UpdateStickPositions()
+        {
+            stickLeft.HorizontalValue = GetChannelValue(chyaw);
+            stickLeft.VerticalValue = GetChannelValue(chthro);
+            stickRight.HorizontalValue = GetChannelValue(chroll);
+            stickRight.VerticalValue = GetChannelValue(chpitch);
+        }
+
+        private void CaptureTrimValues()
+        {
+            for (int i = 1; i <= 16; i++)
+            {
+                rctrim[i - 1] = Constrain(GetChannelValue(i), i - 1);
             }
         }
 
@@ -324,96 +349,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // check for non 0 values
                 if (MainV2.comPort.MAV.cs.ch1in > 800 && MainV2.comPort.MAV.cs.ch1in < 2200)
                 {
-                    rcmin[0] = Math.Min(rcmin[0], MainV2.comPort.MAV.cs.ch1in);
-                    rcmax[0] = Math.Max(rcmax[0], MainV2.comPort.MAV.cs.ch1in);
-
-                    rcmin[1] = Math.Min(rcmin[1], MainV2.comPort.MAV.cs.ch2in);
-                    rcmax[1] = Math.Max(rcmax[1], MainV2.comPort.MAV.cs.ch2in);
-
-                    rcmin[2] = Math.Min(rcmin[2], MainV2.comPort.MAV.cs.ch3in);
-                    rcmax[2] = Math.Max(rcmax[2], MainV2.comPort.MAV.cs.ch3in);
-
-                    rcmin[3] = Math.Min(rcmin[3], MainV2.comPort.MAV.cs.ch4in);
-                    rcmax[3] = Math.Max(rcmax[3], MainV2.comPort.MAV.cs.ch4in);
-
-                    rcmin[4] = Math.Min(rcmin[4], MainV2.comPort.MAV.cs.ch5in);
-                    rcmax[4] = Math.Max(rcmax[4], MainV2.comPort.MAV.cs.ch5in);
-
-                    rcmin[5] = Math.Min(rcmin[5], MainV2.comPort.MAV.cs.ch6in);
-                    rcmax[5] = Math.Max(rcmax[5], MainV2.comPort.MAV.cs.ch6in);
-
-                    rcmin[6] = Math.Min(rcmin[6], MainV2.comPort.MAV.cs.ch7in);
-                    rcmax[6] = Math.Max(rcmax[6], MainV2.comPort.MAV.cs.ch7in);
-
-                    rcmin[7] = Math.Min(rcmin[7], MainV2.comPort.MAV.cs.ch8in);
-                    rcmax[7] = Math.Max(rcmax[7], MainV2.comPort.MAV.cs.ch8in);
-
-                    rcmin[8] = Math.Min(rcmin[8], MainV2.comPort.MAV.cs.ch9in);
-                    rcmax[8] = Math.Max(rcmax[8], MainV2.comPort.MAV.cs.ch9in);
-
-                    rcmin[9] = Math.Min(rcmin[9], MainV2.comPort.MAV.cs.ch10in);
-                    rcmax[9] = Math.Max(rcmax[9], MainV2.comPort.MAV.cs.ch10in);
-
-                    rcmin[10] = Math.Min(rcmin[10], MainV2.comPort.MAV.cs.ch11in);
-                    rcmax[10] = Math.Max(rcmax[10], MainV2.comPort.MAV.cs.ch11in);
-
-                    rcmin[11] = Math.Min(rcmin[11], MainV2.comPort.MAV.cs.ch12in);
-                    rcmax[11] = Math.Max(rcmax[11], MainV2.comPort.MAV.cs.ch12in);
-
-                    rcmin[12] = Math.Min(rcmin[12], MainV2.comPort.MAV.cs.ch13in);
-                    rcmax[12] = Math.Max(rcmax[12], MainV2.comPort.MAV.cs.ch13in);
-
-                    rcmin[13] = Math.Min(rcmin[13], MainV2.comPort.MAV.cs.ch14in);
-                    rcmax[13] = Math.Max(rcmax[13], MainV2.comPort.MAV.cs.ch14in);
-
-                    rcmin[14] = Math.Min(rcmin[14], MainV2.comPort.MAV.cs.ch15in);
-                    rcmax[14] = Math.Max(rcmax[14], MainV2.comPort.MAV.cs.ch15in);
-
-                    rcmin[15] = Math.Min(rcmin[15], MainV2.comPort.MAV.cs.ch16in);
-                    rcmax[15] = Math.Max(rcmax[15], MainV2.comPort.MAV.cs.ch16in);
-
-                    BARroll.minline = (int)rcmin[chroll - 1];
-                    BARroll.maxline = (int)rcmax[chroll - 1];
-
-                    BARpitch.minline = (int)rcmin[chpitch - 1];
-                    BARpitch.maxline = (int)rcmax[chpitch - 1];
-
-                    BARthrottle.minline = (int)rcmin[chthro - 1];
-                    BARthrottle.maxline = (int)rcmax[chthro - 1];
-
-                    BARyaw.minline = (int)rcmin[chyaw - 1];
-                    BARyaw.maxline = (int)rcmax[chyaw - 1];
-
-                    setBARStatus(BAR5, rcmin[4], rcmax[4]);
-                    setBARStatus(BAR6, rcmin[5], rcmax[5]);
-                    setBARStatus(BAR7, rcmin[6], rcmax[6]);
-                    setBARStatus(BAR8, rcmin[7], rcmax[7]);
-
-                    setBARStatus(BAR9, rcmin[8], rcmax[8]);
-                    setBARStatus(BAR10, rcmin[9], rcmax[9]);
-                    setBARStatus(BAR11, rcmin[10], rcmax[10]);
-                    setBARStatus(BAR12, rcmin[11], rcmax[11]);
-                    setBARStatus(BAR13, rcmin[12], rcmax[12]);
-                    setBARStatus(BAR14, rcmin[13], rcmax[13]);
-                    setBARStatus(BAR15, rcmin[14], rcmax[14]);
-                    setBARStatus(BAR16, rcmin[15], rcmax[15]);
-
-                    // Update stick controls with min/max calibration lines
-                    stickLeft.HorizontalMinLine = (int)rcmin[chyaw - 1];
-                    stickLeft.HorizontalMaxLine = (int)rcmax[chyaw - 1];
-                    stickLeft.VerticalMinLine = (int)rcmin[chthro - 1];
-                    stickLeft.VerticalMaxLine = (int)rcmax[chthro - 1];
-
-                    stickRight.HorizontalMinLine = (int)rcmin[chroll - 1];
-                    stickRight.HorizontalMaxLine = (int)rcmax[chroll - 1];
-                    stickRight.VerticalMinLine = (int)rcmin[chpitch - 1];
-                    stickRight.VerticalMaxLine = (int)rcmax[chpitch - 1];
-
-                    // Update stick positions during calibration
-                    stickLeft.HorizontalValue = GetChannelValue(chyaw);
-                    stickLeft.VerticalValue = GetChannelValue(chthro);
-                    stickRight.HorizontalValue = GetChannelValue(chroll);
-                    stickRight.VerticalValue = GetChannelValue(chpitch);
+                    UpdateChannelMinMax();
+                    UpdateCalibrationBars();
+                    UpdateStickCalibrationLines();
+                    UpdateStickPositions();
                 }
             }
 
@@ -430,23 +369,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs), true, MainV2.comPort);
 
-            rctrim[0] = Constrain(MainV2.comPort.MAV.cs.ch1in, 0);
-            rctrim[1] = Constrain(MainV2.comPort.MAV.cs.ch2in, 1);
-            rctrim[2] = Constrain(MainV2.comPort.MAV.cs.ch3in, 2);
-            rctrim[3] = Constrain(MainV2.comPort.MAV.cs.ch4in, 3);
-            rctrim[4] = Constrain(MainV2.comPort.MAV.cs.ch5in, 4);
-            rctrim[5] = Constrain(MainV2.comPort.MAV.cs.ch6in, 5);
-            rctrim[6] = Constrain(MainV2.comPort.MAV.cs.ch7in, 6);
-            rctrim[7] = Constrain(MainV2.comPort.MAV.cs.ch8in, 7);
-
-            rctrim[8] = Constrain(MainV2.comPort.MAV.cs.ch9in, 8);
-            rctrim[9] = Constrain(MainV2.comPort.MAV.cs.ch10in, 9);
-            rctrim[10] = Constrain(MainV2.comPort.MAV.cs.ch11in, 10);
-            rctrim[11] = Constrain(MainV2.comPort.MAV.cs.ch12in, 11);
-            rctrim[12] = Constrain(MainV2.comPort.MAV.cs.ch13in, 12);
-            rctrim[13] = Constrain(MainV2.comPort.MAV.cs.ch14in, 13);
-            rctrim[14] = Constrain(MainV2.comPort.MAV.cs.ch15in, 14);
-            rctrim[15] = Constrain(MainV2.comPort.MAV.cs.ch16in, 15);
+            CaptureTrimValues();
 
             var data = "---------------\n";
 
@@ -516,35 +439,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_Bindradiodsm2_Click(object sender, EventArgs e)
         {
-            try
-            {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
-                CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.Error_binding);
-            }
+            BindRadio(0);
         }
 
         private void BUT_BindradiodsmX_Click(object sender, EventArgs e)
         {
-            try
-            {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
-                CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.Error_binding);
-            }
+            BindRadio(1);
         }
 
         private void BUT_Bindradiodsm8_Click(object sender, EventArgs e)
         {
+            BindRadio(2);
+        }
+
+        private void BindRadio(int mode)
+        {
             try
             {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, mode, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
             catch
