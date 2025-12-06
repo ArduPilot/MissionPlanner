@@ -17,8 +17,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkComboBox _b2CurrPin;
         private Label _b2VoltLabel;
         private Label _b2CurrLabel;
-
-        private System.Drawing.Point _mahLabelBaseLoc;
+        private Label _b2MahLabel;
 
         public BatteryMonitorContent(string prefix, Func<double> getVoltage, Func<double> getCurrent)
         {
@@ -26,8 +25,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _getVoltage = getVoltage;
             _getCurrent = getCurrent;
             InitializeComponent();
-            // record baseline for mAh label (label30) from designer
-            _mahLabelBaseLoc = label30 != null ? label30.Location : System.Drawing.Point.Empty;
         }
 
         private string P(string name)
@@ -61,23 +58,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // BATT2 layout: reuse Battery1 positions for pin combos
             if (_prefix == "BATT2")
             {
-                // ensure mAh label shows at same baseline location as BM1
-                if (label30 != null)
+                // Create mAh label for BM2 at same position as label2 in BM1 (316, 47)
+                if (_b2MahLabel == null)
                 {
-                    try
+                    _b2MahLabel = new Label
                     {
-                        // load localized text from BM1 resources
-                        var rm = new System.ComponentModel.ComponentResourceManager(typeof(ConfigBatteryMonitoring));
-                        var txt = rm.GetString("label30.Text");
-                        label30.Text = string.IsNullOrEmpty(txt) ? "mAh" : txt;
-                    }
-                    catch { label30.Text = "mAh"; }
-
-                    label30.Visible = true;
-                    if (_mahLabelBaseLoc != System.Drawing.Point.Empty)
-                        label30.Location = _mahLabelBaseLoc;
-                    label30.BringToFront();
+                        Text = "mAh",
+                        AutoSize = true,
+                        Location = new System.Drawing.Point(316, 47)
+                    };
+                    this.Controls.Add(_b2MahLabel);
                 }
+                _b2MahLabel.Visible = true;
+                _b2MahLabel.BringToFront();
+
                 // hide MP Low Batt Alert for BM2 if no functional diff
                 if (CHK_speechbattery != null) CHK_speechbattery.Visible = false;
                 // Hide sensor type UI (not used by BATT2) but reuse its position
