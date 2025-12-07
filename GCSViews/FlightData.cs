@@ -792,11 +792,6 @@ namespace MissionPlanner.GCSViews
                             }
                         }
 
-                        // Set character width
-                        string charWidth = Settings.Instance["quickView" + f + "_charWidth"];
-                        QV.charWidth = charWidth != null ? int.Parse(charWidth) : -1;
-
-
                         // Set scale and offset
                         string scale = Settings.Instance["quickView" + f + "_scale"];
                         QV.scale = scale != null ? double.Parse(scale) : 1;
@@ -6166,7 +6161,7 @@ namespace MissionPlanner.GCSViews
             // We need to move ALL settings associated with each QuickView to its new position
 
             // Setting suffixes that need to be moved along with the QuickView
-            string[] settingSuffixes = { "", "_label", "_color", "_format", "_charWidth", "_scale", "_offset", "_gauge", "_gaugeMin", "_gaugeMax" };
+            string[] settingSuffixes = { "", "_label", "_color", "_format", "_scale", "_offset", "_gauge", "_gaugeMin", "_gaugeMax" };
 
             // First, collect all current settings into a temporary dictionary keyed by old name
             var oldSettings = new Dictionary<string, Dictionary<string, string>>();
@@ -6340,7 +6335,6 @@ namespace MissionPlanner.GCSViews
                 Settings.Instance.Remove("quickView" + i + "_label");
                 Settings.Instance.Remove("quickView" + i + "_color");
                 Settings.Instance.Remove("quickView" + i + "_format");
-                Settings.Instance.Remove("quickView" + i + "_charWidth");
                 Settings.Instance.Remove("quickView" + i + "_scale");
                 Settings.Instance.Remove("quickView" + i + "_offset");
                 Settings.Instance.Remove("quickView" + i + "_gauge");
@@ -6382,7 +6376,6 @@ namespace MissionPlanner.GCSViews
                 qv.scale = 1;
                 qv.offset = 0;
                 qv.isGauge = false;
-                qv.charWidth = 0;
                 BindQuickView(qv);
                 SaveQuickViewSettings(qv);
                 return;
@@ -6406,7 +6399,6 @@ namespace MissionPlanner.GCSViews
             qv.scale = def.Scale;
             qv.offset = 0;
             qv.isGauge = false;
-            qv.charWidth = 0;
 
             BindQuickView(qv);
             SaveQuickViewSettings(qv);
@@ -6414,16 +6406,19 @@ namespace MissionPlanner.GCSViews
 
         private void SaveQuickViewSettings(QuickView qv)
         {
+            // Only save the data source - other settings are only saved when explicitly customized
+            // via the Edit Item dialog, not when resetting to defaults
             Settings.Instance[qv.Name] = qv.Tag?.ToString() ?? "battery_voltage";
-            Settings.Instance[qv.Name + "_label"] = qv.desc;
-            Settings.Instance[qv.Name + "_color"] = ColorTranslator.ToHtml(qv.numberColor);
-            Settings.Instance[qv.Name + "_format"] = qv.numberformat;
-            Settings.Instance[qv.Name + "_charWidth"] = qv.charWidth.ToString();
-            Settings.Instance[qv.Name + "_scale"] = qv.scale.ToString();
-            Settings.Instance[qv.Name + "_offset"] = qv.offset.ToString();
-            Settings.Instance[qv.Name + "_gauge"] = qv.isGauge.ToString();
-            Settings.Instance[qv.Name + "_gaugeMin"] = qv.gaugeMin.ToString();
-            Settings.Instance[qv.Name + "_gaugeMax"] = qv.gaugeMax.ToString();
+
+            // Remove any custom settings so checkbox states are correct when editing
+            Settings.Instance.Remove(qv.Name + "_label");
+            Settings.Instance.Remove(qv.Name + "_color");
+            Settings.Instance.Remove(qv.Name + "_format");
+            Settings.Instance.Remove(qv.Name + "_scale");
+            Settings.Instance.Remove(qv.Name + "_offset");
+            Settings.Instance.Remove(qv.Name + "_gauge");
+            Settings.Instance.Remove(qv.Name + "_gaugeMin");
+            Settings.Instance.Remove(qv.Name + "_gaugeMax");
         }
 
         private class QuickViewDefault
@@ -7624,7 +7619,6 @@ namespace MissionPlanner.GCSViews
                     copyQV.numberformat = originalQV.numberformat;
                     copyQV.numberColor = originalQV.numberColor;
                     copyQV.numberColorBackup = originalQV.numberColorBackup;
-                    copyQV.charWidth = originalQV.charWidth;
                     copyQV.scale = originalQV.scale;
                     copyQV.offset = originalQV.offset;
                     copyQV.isGauge = originalQV.isGauge;

@@ -135,19 +135,6 @@ namespace MissionPlanner.Controls
             NUM_precision.Enabled = !CHK_customformat.Checked;
             TXT_customformat.Text = currentFormat.Replace("\\:", ":");
 
-            // Initialize custom width
-            int width = _qv.charWidth;
-            CHK_customwidth.Checked = width > 0;
-            NUM_customwidth.Enabled = CHK_customwidth.Checked;
-            if (width > NUM_customwidth.Maximum)
-            {
-                NUM_customwidth.Maximum = width;
-            }
-            if (CHK_customwidth.Checked)
-            {
-                NUM_customwidth.Value = width;
-            }
-            
             // Initialize offset and scale
             double scale = _qv.scale;
             double offset = _qv.offset;
@@ -240,21 +227,6 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private void CHK_customwidth_CheckedChanged(object sender, EventArgs e)
-        {
-            bool is_checked = CHK_customwidth.Checked;
-            string setting_name = _qv.Name + "_charWidth";
-            NUM_customwidth.Enabled = is_checked;
-            if (is_checked)
-            {
-                Settings.Instance[setting_name] = NUM_customwidth.Text;
-            }
-            else
-            {
-                Settings.Instance.Remove(setting_name);
-            }
-        }
-
         private void TXT_customlabel_TextChanged(object sender, EventArgs e)
         {
             if (!CHK_customlabel.Checked)
@@ -316,14 +288,6 @@ namespace MissionPlanner.Controls
                 ((Control)sender).BackColor = Color.Red;
                 Settings.Instance.Remove(setting_name);
             }
-        }
-
-        private void NUM_customwidth_ValueChanged(object sender, EventArgs e)
-        {
-            if (!CHK_customwidth.Checked)
-                return;
-
-            Settings.Instance[_qv.Name + "_charWidth"] = NUM_customwidth.Value.ToString();
         }
 
         private void BUT_colorpicker_Click(object sender, EventArgs e)
@@ -557,10 +521,6 @@ namespace MissionPlanner.Controls
             // Apply format
             string format = Settings.Instance[qvName + "_format"];
             _qv.numberformat = format ?? "0.00";
-
-            // Apply charWidth
-            string charWidth = Settings.Instance[qvName + "_charWidth"];
-            _qv.charWidth = charWidth != null ? int.Parse(charWidth) : -1;
 
             // Apply scale and offset
             string scale = Settings.Instance[qvName + "_scale"];

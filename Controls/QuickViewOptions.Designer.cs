@@ -40,8 +40,6 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.CHK_customwidth = new System.Windows.Forms.CheckBox();
-            this.NUM_customwidth = new System.Windows.Forms.NumericUpDown();
             this.CHK_customlabel = new System.Windows.Forms.CheckBox();
             this.TXT_customformat = new System.Windows.Forms.TextBox();
             this.TXT_customlabel = new System.Windows.Forms.TextBox();
@@ -57,7 +55,6 @@ namespace MissionPlanner.Controls
             ((System.ComponentModel.ISupportInitialize)(this.NUM_precision)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_customwidth)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_Source
@@ -160,29 +157,26 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_customwidth, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.NUM_customwidth, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.CHK_customcolor, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.TXT_color, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.BUT_colorpicker, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.CHK_customlabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TXT_customformat, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.TXT_customlabel, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_offset, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_scale, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_offset, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_scale, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.CHK_customformat, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_gauge, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMin, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMax, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_gauge, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMin, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMax, 1, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 9;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -191,7 +185,7 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 280);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 250);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
             // label1
@@ -215,48 +209,7 @@ namespace MissionPlanner.Controls
             this.label2.TabIndex = 12;
             this.label2.Text = "Offset";
             this.toolTip1.SetToolTip(this.label2, "Apply scale and offset to convert units.");
-            // 
-            // CHK_customwidth
-            // 
-            this.CHK_customwidth.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_customwidth.AutoSize = true;
-            this.CHK_customwidth.Location = new System.Drawing.Point(3, 96);
-            this.CHK_customwidth.Name = "CHK_customwidth";
-            this.CHK_customwidth.Size = new System.Drawing.Size(92, 17);
-            this.CHK_customwidth.TabIndex = 9;
-            this.CHK_customwidth.Text = "Custom Width";
-            this.toolTip1.SetToolTip(this.CHK_customwidth, "Specify the maximum number of digits wide you expect the number to be. This provi" +
-        "des more consistent text size.");
-            this.CHK_customwidth.UseVisualStyleBackColor = true;
-            this.CHK_customwidth.CheckedChanged += new System.EventHandler(this.CHK_customwidth_CheckedChanged);
-            // 
-            // NUM_customwidth
-            // 
-            this.NUM_customwidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUM_customwidth.Location = new System.Drawing.Point(105, 95);
-            this.NUM_customwidth.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.NUM_customwidth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUM_customwidth.Name = "NUM_customwidth";
-            this.NUM_customwidth.Size = new System.Drawing.Size(118, 20);
-            this.NUM_customwidth.TabIndex = 9;
-            this.NUM_customwidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip1.SetToolTip(this.NUM_customwidth, "Specify the maximum number of digits wide you expect the number to be. This provi" +
-        "des more consistent text size.");
-            this.NUM_customwidth.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.NUM_customwidth.ValueChanged += new System.EventHandler(this.NUM_customwidth_ValueChanged);
-            // 
+            //
             // CHK_customlabel
             // 
             this.CHK_customlabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -421,7 +374,6 @@ namespace MissionPlanner.Controls
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_customwidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -438,10 +390,8 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.CheckBox CHK_customformat;
-        private System.Windows.Forms.CheckBox CHK_customwidth;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown NUM_customwidth;
         private System.Windows.Forms.CheckBox CHK_customlabel;
         private System.Windows.Forms.TextBox TXT_customformat;
         private System.Windows.Forms.TextBox TXT_customlabel;
