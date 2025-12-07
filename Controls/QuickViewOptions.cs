@@ -367,100 +367,114 @@ namespace MissionPlanner.Controls
 
         private void ApplySettingsToQuickView()
         {
-            // Apply label from form
-            _qv.desc = TXT_customlabel.Text;
+            // Suspend layout on the parent TableLayoutPanel while applying changes
+            var parentTable = _qv.Parent as System.Windows.Forms.TableLayoutPanel;
+            parentTable?.SuspendLayout();
+            _qv.SuspendLayout();
 
-            // Apply color from form
-            _qv.numberColor = BUT_colorpicker.BackColor;
-            _qv.numberColorBackup = _qv.numberColor;
-
-            // Apply format from form
-            string format = TXT_customformat.Text.Replace(":", "\\:");
-            _qv.numberformat = !string.IsNullOrEmpty(format) ? format : "0.00";
-
-            // Apply scale and offset from form
-            if (double.TryParse(TXT_scale.Text, out double scale))
-                _qv.scale = scale;
-            else
-                _qv.scale = 1;
-
-            if (double.TryParse(TXT_offset.Text, out double offset))
-                _qv.offset = offset;
-            else
-                _qv.offset = 0;
-
-            // Apply gauge settings from form
-            _qv.isGauge = CHK_gauge.Checked;
-
-            if (double.TryParse(TXT_gaugeMin.Text, out double gaugeMin))
-                _qv.gaugeMin = gaugeMin;
-            else
-                _qv.gaugeMin = 0;
-
-            if (double.TryParse(TXT_gaugeMax.Text, out double gaugeMax))
-                _qv.gaugeMax = gaugeMax;
-            else
-                _qv.gaugeMax = 100;
-
-            // Update the data source if changed
-            if (CMB_Source.SelectedItem is Tuple<string, string> selectedField)
+            try
             {
-                string desc = selectedField.Item1;
+                // Apply label from form
+                _qv.desc = TXT_customlabel.Text;
 
-                // Handle customfield
-                if (desc.StartsWith("customfield"))
-                {
-                    _qv.Tag = "customfield:" + selectedField.Item2;
-                }
+                // Apply color from form
+                _qv.numberColor = BUT_colorpicker.BackColor;
+                _qv.numberColorBackup = _qv.numberColor;
+
+                // Apply format from form
+                string format = TXT_customformat.Text.Replace(":", "\\:");
+                _qv.numberformat = !string.IsNullOrEmpty(format) ? format : "0.00";
+
+                // Apply scale and offset from form
+                if (double.TryParse(TXT_scale.Text, out double scale))
+                    _qv.scale = scale;
                 else
-                {
-                    _qv.Tag = desc;
-                }
+                    _qv.scale = 1;
 
-                // Rebind to new source
-                _qv.DataBindings.Clear();
-                try
+                if (double.TryParse(TXT_offset.Text, out double offset))
+                    _qv.offset = offset;
+                else
+                    _qv.offset = 0;
+
+                // Apply gauge settings from form
+                _qv.isGauge = CHK_gauge.Checked;
+
+                if (double.TryParse(TXT_gaugeMin.Text, out double gaugeMin))
+                    _qv.gaugeMin = gaugeMin;
+                else
+                    _qv.gaugeMin = 0;
+
+                if (double.TryParse(TXT_gaugeMax.Text, out double gaugeMax))
+                    _qv.gaugeMax = gaugeMax;
+                else
+                    _qv.gaugeMax = 100;
+
+                // Update the data source if changed
+                if (CMB_Source.SelectedItem is Tuple<string, string> selectedField)
                 {
-                    var bindingSource = _qv.Parent?.Parent?.Controls.OfType<System.Windows.Forms.BindingSource>().FirstOrDefault();
-                    if (bindingSource == null)
+                    string desc = selectedField.Item1;
+
+                    // Handle customfield
+                    if (desc.StartsWith("customfield"))
                     {
-                        // Try to find it from the form
-                        var form = _qv.FindForm();
-                        if (form != null)
-                        {
-                            var field = form.GetType().GetField("bindingSourceQuickTab",
-                                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                            if (field != null)
-                            {
-                                bindingSource = field.GetValue(form) as System.Windows.Forms.BindingSource;
-                            }
-                        }
+                        _qv.Tag = "customfield:" + selectedField.Item2;
+                    }
+                    else
+                    {
+                        _qv.Tag = desc;
                     }
 
-                    if (bindingSource != null)
+                    // Rebind to new source
+                    _qv.DataBindings.Clear();
+                    try
                     {
-                        var b = new System.Windows.Forms.Binding("number", bindingSource, selectedField.Item1, true);
-                        _qv.DataBindings.Add(b);
+                        var bindingSource = _qv.Parent?.Parent?.Controls.OfType<System.Windows.Forms.BindingSource>().FirstOrDefault();
+                        if (bindingSource == null)
+                        {
+                            // Try to find it from the form
+                            var form = _qv.FindForm();
+                            if (form != null)
+                            {
+                                var field = form.GetType().GetField("bindingSourceQuickTab",
+                                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                                if (field != null)
+                                {
+                                    bindingSource = field.GetValue(form) as System.Windows.Forms.BindingSource;
+                                }
+                            }
+                        }
+
+                        if (bindingSource != null)
+                        {
+                            var b = new System.Windows.Forms.Binding("number", bindingSource, selectedField.Item1, true);
+                            _qv.DataBindings.Add(b);
+                        }
+                    }
+                    catch { }
+                }
+
+                _qv.Invalidate();
+
+                // Trigger save of all dashboard items
+                try
+                {
+                    // Find the FlightData instance
+                    if (MissionPlanner.GCSViews.FlightData.instance != null)
+                    {
+                        // Use reflection to call the private SaveQuickViewArrangement method
+                        var method = typeof(MissionPlanner.GCSViews.FlightData).GetMethod("SaveQuickViewArrangement",
+                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        method?.Invoke(MissionPlanner.GCSViews.FlightData.instance, null);
                     }
                 }
                 catch { }
             }
-
-            _qv.Invalidate();
-
-            // Trigger save of all dashboard items
-            try
+            finally
             {
-                // Find the FlightData instance
-                if (MissionPlanner.GCSViews.FlightData.instance != null)
-                {
-                    // Use reflection to call the private SaveQuickViewArrangement method
-                    var method = typeof(MissionPlanner.GCSViews.FlightData).GetMethod("SaveQuickViewArrangement",
-                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                    method?.Invoke(MissionPlanner.GCSViews.FlightData.instance, null);
-                }
+                // Resume layout
+                _qv.ResumeLayout(true);
+                parentTable?.ResumeLayout(true);
             }
-            catch { }
         }
     }
 }

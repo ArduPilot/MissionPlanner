@@ -177,9 +177,7 @@ namespace MissionPlanner.GCSViews
         public readonly List<TabPage> TabListOriginal = new List<TabPage>();
         public Dictionary<string,bool> TabListDisplay = new Dictionary<string, bool>();
 
-        //List for setting colors of quick tab numbers
-        List<Color> listQuickView = new List<Color>();
-        //works well for dark background
+        // Default colors for QuickView items (used when no color specified in CSV)
         Color[] colorsForDefaultQuickView = new Color[] { Color.Blue, Color.Yellow, Color.Pink, Color.LimeGreen, Color.Orange, Color.Aqua, Color.LightCoral, Color.LightSteelBlue, Color.DarkKhaki, Color.LightYellow, Color.Violet, Color.YellowGreen, Color.OrangeRed, Color.Tomato, Color.Teal, Color.CornflowerBlue };
 
         // Drag and drop for QuickView rearrangement
@@ -769,117 +767,126 @@ namespace MissionPlanner.GCSViews
 
         private void LoadDashboardItems()
         {
-            // Check if we have saved dashboard items
-            bool hasDashboardItems = Settings.Instance.ContainsKey("dashboardItem0");
+            tableLayoutPanelQuick.SuspendLayout();
 
-            if (!hasDashboardItems)
+            try
             {
-                // No saved config - load defaults from CSV directly
-                var defaults = LoadQuickViewDefaultsFromCSV();
-                if (defaults != null)
-                {
-                    int defaultRows = defaults.GetLength(0);
-                    int defaultCols = defaults.GetLength(1);
-                    setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
+                // Check if we have saved dashboard items
+                bool hasDashboardItems = Settings.Instance.ContainsKey("dashboardItem0");
 
-                    // Apply defaults to each QuickView
-                    foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+                if (!hasDashboardItems)
+                {
+                    // No saved config - load defaults from CSV directly
+                    var defaults = LoadQuickViewDefaultsFromCSV();
+                    if (defaults != null)
                     {
-                        if (ctrl is QuickView qv)
+                        int defaultRows = defaults.GetLength(0);
+                        int defaultCols = defaults.GetLength(1);
+                        setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
+
+                        // Apply defaults to each QuickView
+                        foreach (Control ctrl in tableLayoutPanelQuick.Controls)
                         {
-                            var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
-                            if (pos.Row < defaultRows && pos.Column < defaultCols)
+                            if (ctrl is QuickView qv)
                             {
-                                var cellDefault = defaults[pos.Row, pos.Column];
-                                if (cellDefault != null)
+                                var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                                if (pos.Row < defaultRows && pos.Column < defaultCols)
                                 {
-                                    ApplyQuickViewDefault(qv, cellDefault);
+                                    var cellDefault = defaults[pos.Row, pos.Column];
+                                    if (cellDefault != null)
+                                    {
+                                        ApplyQuickViewDefault(qv, cellDefault);
+                                    }
                                 }
                             }
                         }
+
+                        // Save in new format for next time
+                        SaveQuickViewArrangement();
                     }
-
-                    // Save in new format for next time
-                    SaveQuickViewArrangement();
-                }
-                else
-                {
-                    // Fallback to default 5x3 grid
-                    setQuickViewRowsCols("5", "3");
-                }
-                return;
-            }
-
-            // Load layout dimensions from saved settings
-            string rows = Settings.Instance["dashboardRows"] ?? "3";
-            string cols = Settings.Instance["dashboardCols"] ?? "5";
-            setQuickViewRowsCols(cols, rows);
-
-            // Load each dashboard item
-            // Format: row|col|source|label|color|format|scale|offset|isGauge|gaugeMin|gaugeMax
-            for (int i = 0; i < 30; i++)
-            {
-                string itemData = Settings.Instance["dashboardItem" + i];
-                if (string.IsNullOrEmpty(itemData))
-                    continue;
-
-                string[] parts = itemData.Split('|');
-                if (parts.Length < 11)
-                    continue;
-
-                int row = int.Parse(parts[0]);
-                int col = int.Parse(parts[1]);
-                string source = parts[2];
-                string label = parts[3];
-                string color = parts[4];
-                string format = parts[5];
-                double scale = double.Parse(parts[6]);
-                double offset = double.Parse(parts[7]);
-                bool isGauge = parts[8] == "1";
-                double gaugeMin = double.Parse(parts[9]);
-                double gaugeMax = double.Parse(parts[10]);
-
-                // Find the control at this position
-                var ctrl = tableLayoutPanelQuick.GetControlFromPosition(col, row);
-                if (ctrl is QuickView qv)
-                {
-                    // Handle customfield source
-                    string desc = source;
-                    if (desc.StartsWith("customfield:"))
+                    else
                     {
-                        desc = CurrentState.GetCustomField(desc.Substring(12));
+                        // Fallback to default 5x3 grid
+                        setQuickViewRowsCols("5", "3");
                     }
+                    return;
+                }
 
-                    qv.Tag = desc;
-                    qv.desc = !string.IsNullOrEmpty(label) ? label : MainV2.comPort.MAV.cs.GetNameandUnit(desc);
-                    qv.numberformat = !string.IsNullOrEmpty(format) ? format : "0.00";
+                // Load layout dimensions from saved settings
+                string rows = Settings.Instance["dashboardRows"] ?? "3";
+                string cols = Settings.Instance["dashboardCols"] ?? "5";
+                setQuickViewRowsCols(cols, rows);
 
-                    try
+                // Load each dashboard item
+                // Format: row|col|source|label|color|format|scale|offset|isGauge|gaugeMin|gaugeMax
+                for (int i = 0; i < 30; i++)
+                {
+                    string itemData = Settings.Instance["dashboardItem" + i];
+                    if (string.IsNullOrEmpty(itemData))
+                        continue;
+
+                    string[] parts = itemData.Split('|');
+                    if (parts.Length < 11)
+                        continue;
+
+                    int row = int.Parse(parts[0]);
+                    int col = int.Parse(parts[1]);
+                    string source = parts[2];
+                    string label = parts[3];
+                    string color = parts[4];
+                    string format = parts[5];
+                    double scale = double.Parse(parts[6]);
+                    double offset = double.Parse(parts[7]);
+                    bool isGauge = parts[8] == "1";
+                    double gaugeMin = double.Parse(parts[9]);
+                    double gaugeMax = double.Parse(parts[10]);
+
+                    // Find the control at this position
+                    var ctrl = tableLayoutPanelQuick.GetControlFromPosition(col, row);
+                    if (ctrl is QuickView qv)
                     {
-                        qv.numberColor = ColorTranslator.FromHtml(color);
-                        qv.numberColorBackup = qv.numberColor;
+                        // Handle customfield source
+                        string desc = source;
+                        if (desc.StartsWith("customfield:"))
+                        {
+                            desc = CurrentState.GetCustomField(desc.Substring(12));
+                        }
+
+                        qv.Tag = desc;
+                        qv.desc = !string.IsNullOrEmpty(label) ? label : MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                        qv.numberformat = !string.IsNullOrEmpty(format) ? format : "0.00";
+
+                        try
+                        {
+                            qv.numberColor = ColorTranslator.FromHtml(color);
+                            qv.numberColorBackup = qv.numberColor;
+                        }
+                        catch { }
+
+                        qv.scale = scale;
+                        qv.offset = offset;
+                        qv.isGauge = isGauge;
+                        qv.gaugeMin = gaugeMin;
+                        qv.gaugeMax = gaugeMax;
+
+                        qv.DataBindings.Clear();
+                        BindQuickView(qv);
                     }
-                    catch { }
+                }
 
-                    qv.scale = scale;
-                    qv.offset = offset;
-                    qv.isGauge = isGauge;
-                    qv.gaugeMin = gaugeMin;
-                    qv.gaugeMax = gaugeMax;
-
-                    qv.DataBindings.Clear();
-                    BindQuickView(qv);
+                // For any controls that weren't loaded from settings, set up their bindings
+                foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+                {
+                    if (ctrl is QuickView qv && qv.Tag != null && qv.DataBindings.Count == 0)
+                    {
+                        qv.DataBindings.Clear();
+                        BindQuickView(qv);
+                    }
                 }
             }
-
-            // For any controls that weren't loaded from settings, set up their bindings
-            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            finally
             {
-                if (ctrl is QuickView qv && qv.Tag != null && qv.DataBindings.Count == 0)
-                {
-                    qv.DataBindings.Clear();
-                    BindQuickView(qv);
-                }
+                tableLayoutPanelQuick.ResumeLayout(true);
             }
         }
 
@@ -5641,142 +5648,52 @@ namespace MissionPlanner.GCSViews
 
         private void setQuickViewRowsCols(string cols, string rows)
         {
-            tableLayoutPanelQuick.PerformLayout();
             tableLayoutPanelQuick.SuspendLayout();
+
+            // Clear all existing controls
+            tableLayoutPanelQuick.Controls.Clear();
+
             tableLayoutPanelQuick.ColumnCount = Math.Max(1, int.Parse(cols));
             tableLayoutPanelQuick.RowCount = Math.Max(1, int.Parse(rows));
 
             Settings.Instance["dashboardRows"] = tableLayoutPanelQuick.RowCount.ToString();
             Settings.Instance["dashboardCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
 
-            int total = tableLayoutPanelQuick.ColumnCount * tableLayoutPanelQuick.RowCount;
-
-            // clean up extra
-            var ctls = tableLayoutPanelQuick.Controls.Select(a => (Control) a).ToList();
-            // remove those in row/cols outside our selection
-            ctls.Select(a =>
-            {
-                try
-                {
-                    if (a == null)
-                        return default(TableLayoutPanelCellPosition);
-                    var pos = tableLayoutPanelQuick.GetPositionFromControl((Control) a);
-                    if (pos.Column >= tableLayoutPanelQuick.ColumnCount)
-                    {
-                        tableLayoutPanelQuick.Controls.Remove((Control) a);
-                    }
-                    else if (pos.Row >= tableLayoutPanelQuick.RowCount)
-                    {
-                        tableLayoutPanelQuick.Controls.Remove((Control) a);
-                    }
-
-                    return pos;
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                    return default(TableLayoutPanelCellPosition);
-                }
-            }).ToList();
-            //randomiser for colors
+            // Randomizer for colors
             Random random = new Random();
-            var controlCount = tableLayoutPanelQuick.Controls;
-            ////if the amount on the quickView Tab decreases, clear the colors List
-            if ((controlCount.Count <= total || controlCount.Count >= total) && listQuickView.Count() % 16 == 0)
+
+            // Create controls for each cell
+            int controlNum = 1;
+            for (int row = 0; row < tableLayoutPanelQuick.RowCount; row++)
             {
-                listQuickView.Clear();
-            }
-            // add extra
-            while (total > tableLayoutPanelQuick.Controls.Count)
-            {
-                //Variable to Set the name of the quickView Control/s
-                var NameQuickView = "quickView" +  (controlCount.Count + 1);
-
-                //if the 9 colors are equal in each list, then reset the colors in listQV
-                if ((listQuickView.ToList().OrderBy(x => Name) == colorsForDefaultQuickView.ToList().OrderBy(x => Name)) || (listQuickView.Count == colorsForDefaultQuickView.Length))
+                for (int col = 0; col < tableLayoutPanelQuick.ColumnCount; col++)
                 {
-                    listQuickView.Clear();
-                }
+                    var randomColor = colorsForDefaultQuickView[random.Next(colorsForDefaultQuickView.Length)];
 
-                //Generate a random color
-                var randomColorQuickView = colorsForDefaultQuickView[random.Next(colorsForDefaultQuickView.Length)];
-
-                //If the list contains the random color and the listQV list contains more than one item, exclude the color from the next color to be chosen
-                if (listQuickView.Contains(randomColorQuickView) && listQuickView.ToList().Count() > 1)
-                {
-                    //Change random color to be the next available color
-                    var differentColorQuickView = colorsForDefaultQuickView[random.Next(colorsForDefaultQuickView.Length)];
-                    //Variable to find the items that are in colorsForDefault array, but are not in ListQV list
-                    var colorsRemaining = colorsForDefaultQuickView.Except(listQuickView);
-
-                    //if differentColor is the same as randomColor, then select the next item in the list of colors which are still available to be chosen from.
-                    if (randomColorQuickView == differentColorQuickView)
+                    var QV = new QuickView()
                     {
-                        //make differentColor the next availaible color in the list of colors which are not yet in the listQV list
-                        differentColorQuickView = colorsRemaining.FirstOrDefault();
-                    }
-                    //if randomColor is not equal to differentColor, and check if either color is contained in the list of colors(listQV)
-                    if (randomColorQuickView != differentColorQuickView && (listQuickView.Contains(differentColorQuickView) || listQuickView.Contains(randomColorQuickView)))
-                    {
-                        //if differentColor and randomColor are both in the listQV list, then get the next color of remaining colors which have not yet been used
-                        if ((listQuickView.Contains(differentColorQuickView) && listQuickView.Contains(randomColorQuickView)))
-                        {
-                            //assign the next color available to the differentColorVariable
-                            differentColorQuickView = colorsRemaining.FirstOrDefault();
-                        }
-                        else
-                        {
-                            differentColorQuickView = colorsRemaining.FirstOrDefault();
-                        }
-                    }
-                    //assign the differentColor to randomColor
-                    randomColorQuickView = differentColorQuickView;
-                    //add the new randomColor into the list of colors(listQV)
-                    listQuickView.Add(randomColorQuickView);
-                    //if the list does not yet contain the randomColor, then add the random color into the list(listQV)
-                    if (!listQuickView.Contains(randomColorQuickView))
-                    {
-                        listQuickView.Add(randomColorQuickView);
-                    }
-                }
-                //if the random color is not in the list of Colors, then add it to the list
-                else if (!listQuickView.Contains(randomColorQuickView))
-                {
-                    //add the color to a list
-                    listQuickView.Add(randomColorQuickView);
-                }
-                //assigning the Name and NumberColor accordingly.
-                var QV = new QuickView()
-                {
-                    Name = NameQuickView,
-                    numberColor = randomColorQuickView,
-                };
-                if (!MainV2.DisplayConfiguration.lockQuickView)
-                    QV.DoubleClick += quickView_DoubleClick;
-                QV.ContextMenuStrip = contextMenuStripQuickView;
-                QV.Dock = DockStyle.Fill;
-                QV.numberColorBackup = QV.numberColor;
-                QV.number = 0;
-                QV.IsConnected = MainV2.comPort.BaseStream.IsOpen;
+                        Name = "quickView" + controlNum,
+                        numberColor = randomColor,
+                    };
+                    controlNum++;
 
-                // Enable drag and drop for rearranging
-                QV.AllowDrop = true;
-                QV.MouseDown += QuickView_MouseDown;
-                QV.MouseMove += QuickView_MouseMove;
-                QV.DragEnter += QuickView_DragEnter;
-                QV.DragDrop += QuickView_DragDrop;
+                    if (!MainV2.DisplayConfiguration.lockQuickView)
+                        QV.DoubleClick += quickView_DoubleClick;
+                    QV.ContextMenuStrip = contextMenuStripQuickView;
+                    QV.Dock = DockStyle.Fill;
+                    QV.numberColorBackup = QV.numberColor;
+                    QV.number = 0;
+                    QV.IsConnected = MainV2.comPort.BaseStream.IsOpen;
 
-                // Calculate explicit position based on control index (1-based index from name)
-                int controlIndex = controlCount.Count; // 0-based index for next control
-                int row = controlIndex / tableLayoutPanelQuick.ColumnCount;
-                int col = controlIndex % tableLayoutPanelQuick.ColumnCount;
-                tableLayoutPanelQuick.Controls.Add(QV, col, row);
-                QV.Invalidate();
-            }
-            //clear the listQV when the count of the list is divisible by 16
-            if (listQuickView.ToList().Count % 16 == 0)
-            {
-                listQuickView.Clear();
+                    // Enable drag and drop for rearranging
+                    QV.AllowDrop = true;
+                    QV.MouseDown += QuickView_MouseDown;
+                    QV.MouseMove += QuickView_MouseMove;
+                    QV.DragEnter += QuickView_DragEnter;
+                    QV.DragDrop += QuickView_DragDrop;
+
+                    tableLayoutPanelQuick.Controls.Add(QV, col, row);
+                }
             }
             for (int i = 0; i < tableLayoutPanelQuick.ColumnCount; i++)
             {
@@ -6192,57 +6109,78 @@ namespace MissionPlanner.GCSViews
             if (defaults == null)
                 return;
 
-            // Reset rows and columns to defaults
-            int defaultRows = defaults.GetLength(0);
-            int defaultCols = defaults.GetLength(1);
+            tableLayoutPanelQuick.SuspendLayout();
 
-            // Rebuild the grid with default dimensions
-            setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
-
-            // Apply defaults to each QuickView
-            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            try
             {
-                if (ctrl is QuickView qv)
+                // Reset rows and columns to defaults
+                int defaultRows = defaults.GetLength(0);
+                int defaultCols = defaults.GetLength(1);
+
+                // Rebuild the grid with default dimensions
+                setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
+
+                // Apply defaults to each QuickView
+                foreach (Control ctrl in tableLayoutPanelQuick.Controls)
                 {
-                    var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
-                    if (pos.Row < defaultRows && pos.Column < defaultCols)
+                    if (ctrl is QuickView qv)
                     {
-                        var cellDefault = defaults[pos.Row, pos.Column];
-                        if (cellDefault != null)
+                        var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                        if (pos.Row < defaultRows && pos.Column < defaultCols)
                         {
-                            ApplyQuickViewDefault(qv, cellDefault);
+                            var cellDefault = defaults[pos.Row, pos.Column];
+                            if (cellDefault != null)
+                            {
+                                ApplyQuickViewDefault(qv, cellDefault);
+                            }
                         }
                     }
                 }
-            }
 
-            // Save in new dashboard format
-            SaveQuickViewArrangement();
+                // Save in new dashboard format
+                SaveQuickViewArrangement();
+            }
+            finally
+            {
+                tableLayoutPanelQuick.ResumeLayout(true);
+            }
         }
 
         private void ResetQuickViewToDefault(QuickView qv, int row, int col)
         {
-            var defaults = LoadQuickViewDefaultsFromCSV();
-            if (defaults == null || row >= defaults.GetLength(0) || col >= defaults.GetLength(1))
-            {
-                // Fallback to battery_voltage if no default exists
-                qv.Tag = "battery_voltage";
-                qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit("battery_voltage");
-                qv.numberformat = "0.00";
-                qv.numberColor = Color.White;
-                qv.scale = 1;
-                qv.offset = 0;
-                qv.isGauge = false;
-                BindQuickView(qv);
-                SaveQuickViewArrangement();
-                return;
-            }
+            var parentTable = qv.Parent as TableLayoutPanel;
+            parentTable?.SuspendLayout();
+            qv.SuspendLayout();
 
-            var cellDefault = defaults[row, col];
-            if (cellDefault != null)
+            try
             {
-                ApplyQuickViewDefault(qv, cellDefault);
-                SaveQuickViewArrangement();
+                var defaults = LoadQuickViewDefaultsFromCSV();
+                if (defaults == null || row >= defaults.GetLength(0) || col >= defaults.GetLength(1))
+                {
+                    // Fallback to battery_voltage if no default exists
+                    qv.Tag = "battery_voltage";
+                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit("battery_voltage");
+                    qv.numberformat = "0.00";
+                    qv.numberColor = Color.White;
+                    qv.scale = 1;
+                    qv.offset = 0;
+                    qv.isGauge = false;
+                    BindQuickView(qv);
+                    SaveQuickViewArrangement();
+                    return;
+                }
+
+                var cellDefault = defaults[row, col];
+                if (cellDefault != null)
+                {
+                    ApplyQuickViewDefault(qv, cellDefault);
+                    SaveQuickViewArrangement();
+                }
+            }
+            finally
+            {
+                qv.ResumeLayout(true);
+                parentTable?.ResumeLayout(true);
             }
         }
 
