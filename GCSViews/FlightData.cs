@@ -722,115 +722,8 @@ namespace MissionPlanner.GCSViews
                 hud1.Dock = DockStyle.Fill;
             }
 
-            // Apply default QuickView settings if no config exists (must happen before setQuickViewRowsCols)
-            if (!Settings.Instance.ContainsKey("quickView1"))
-            {
-                ApplyDefaultQuickViewSettings();
-            }
-
-            if (Settings.Instance.ContainsKey("quickViewRows"))
-            {
-                setQuickViewRowsCols(Settings.Instance["quickViewCols"], Settings.Instance["quickViewRows"]);
-            }
-            else
-            {
-                // Apply default layout: 5 columns, 3 rows
-                setQuickViewRowsCols("5", "3");
-            }
-
-            // If we loaded from CSV, convert position-based settings to control-name-based settings
-            if (Settings.Instance["quickViewPos_0_0"] != null)
-            {
-                ApplyDefaultQuickViewSettingsToControls();
-            }
-
-            for (int f = 1; f < 30; f++)
-            {
-                // load settings
-                if (Settings.Instance["quickView" + f] != null)
-                {
-                    Control[] ctls = Controls.Find("quickView" + f, true);
-                    if (ctls.Length > 0)
-                    {
-                        QuickView QV = (QuickView) ctls[0];
-
-                        // set description and unit
-                        string desc = Settings.Instance["quickView" + f];
-
-                        // Check if customfield is specified by fieldname
-                        if(desc.StartsWith("customfield:"))
-                        {
-                            desc = CurrentState.GetCustomField(desc.Substring(12));
-                        }
-
-                        QV.Tag = desc;
-                        if (Settings.Instance["quickView" + f + "_label"] != null)
-                        {
-                            QV.desc = Settings.Instance["quickView" + f + "_label"];
-                        }
-                        else
-                        {
-                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
-                        }
-                    
-                        // set the number format
-                        string numberformat = Settings.Instance["quickView" + f + "_format"];
-                        QV.numberformat = numberformat != null ? numberformat : "0.00";
-
-                        // set the number color
-                        string numberColor = Settings.Instance["quickView" + f + "_color"];
-                        if (numberColor != null)
-                        {
-                            try
-                            {
-                                QV.numberColor = System.Drawing.ColorTranslator.FromHtml(numberColor);
-                                QV.numberColorBackup = QV.numberColor;
-                            }
-                            catch
-                            {
-                                Settings.Instance.Remove("quickView" + f + "_color");
-                            }
-                        }
-
-                        // Set scale and offset
-                        string scale = Settings.Instance["quickView" + f + "_scale"];
-                        QV.scale = scale != null ? double.Parse(scale) : 1;
-                        string offset = Settings.Instance["quickView" + f + "_offset"];
-                        QV.offset = offset != null ? double.Parse(offset) : 0;
-
-                        // Set gauge settings
-                        string gauge = Settings.Instance["quickView" + f + "_gauge"];
-                        QV.isGauge = gauge == "true";
-                        string gaugeMin = Settings.Instance["quickView" + f + "_gaugeMin"];
-                        QV.gaugeMin = gaugeMin != null ? double.Parse(gaugeMin) : 0;
-                        string gaugeMax = Settings.Instance["quickView" + f + "_gaugeMax"];
-                        QV.gaugeMax = gaugeMax != null ? double.Parse(gaugeMax) : 100;
-
-                        // set databinding for value
-                        QV.DataBindings.Clear();
-                        BindQuickView(QV);
-                    }
-                }
-                else
-                {
-                    // if no config, update description on predefined
-                    try
-                    {
-                        Control[] ctls = Controls.Find("quickView" + f, true);
-                        if (ctls.Length > 0)
-                        {
-                            QuickView QV = (QuickView) ctls[0];
-                            string desc = QV.desc;
-                            QV.Tag = desc;
-                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(QV.Tag.ToString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Debug(ex);
-                    }
-                }
-            }
+            // Load dashboard items
+            LoadDashboardItems();
 
             CheckBatteryShow();
 
@@ -872,6 +765,122 @@ namespace MissionPlanner.GCSViews
             updateDisplayView();
 
             hud1.doResize();
+        }
+
+        private void LoadDashboardItems()
+        {
+            // Check if we have saved dashboard items
+            bool hasDashboardItems = Settings.Instance.ContainsKey("dashboardItem0");
+
+            if (!hasDashboardItems)
+            {
+                // No saved config - load defaults from CSV directly
+                var defaults = LoadQuickViewDefaultsFromCSV();
+                if (defaults != null)
+                {
+                    int defaultRows = defaults.GetLength(0);
+                    int defaultCols = defaults.GetLength(1);
+                    setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
+
+                    // Apply defaults to each QuickView
+                    foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+                    {
+                        if (ctrl is QuickView qv)
+                        {
+                            var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
+                            if (pos.Row < defaultRows && pos.Column < defaultCols)
+                            {
+                                var cellDefault = defaults[pos.Row, pos.Column];
+                                if (cellDefault != null)
+                                {
+                                    ApplyQuickViewDefault(qv, cellDefault);
+                                }
+                            }
+                        }
+                    }
+
+                    // Save in new format for next time
+                    SaveQuickViewArrangement();
+                }
+                else
+                {
+                    // Fallback to default 5x3 grid
+                    setQuickViewRowsCols("5", "3");
+                }
+                return;
+            }
+
+            // Load layout dimensions from saved settings
+            string rows = Settings.Instance["dashboardRows"] ?? "3";
+            string cols = Settings.Instance["dashboardCols"] ?? "5";
+            setQuickViewRowsCols(cols, rows);
+
+            // Load each dashboard item
+            // Format: row|col|source|label|color|format|scale|offset|isGauge|gaugeMin|gaugeMax
+            for (int i = 0; i < 30; i++)
+            {
+                string itemData = Settings.Instance["dashboardItem" + i];
+                if (string.IsNullOrEmpty(itemData))
+                    continue;
+
+                string[] parts = itemData.Split('|');
+                if (parts.Length < 11)
+                    continue;
+
+                int row = int.Parse(parts[0]);
+                int col = int.Parse(parts[1]);
+                string source = parts[2];
+                string label = parts[3];
+                string color = parts[4];
+                string format = parts[5];
+                double scale = double.Parse(parts[6]);
+                double offset = double.Parse(parts[7]);
+                bool isGauge = parts[8] == "1";
+                double gaugeMin = double.Parse(parts[9]);
+                double gaugeMax = double.Parse(parts[10]);
+
+                // Find the control at this position
+                var ctrl = tableLayoutPanelQuick.GetControlFromPosition(col, row);
+                if (ctrl is QuickView qv)
+                {
+                    // Handle customfield source
+                    string desc = source;
+                    if (desc.StartsWith("customfield:"))
+                    {
+                        desc = CurrentState.GetCustomField(desc.Substring(12));
+                    }
+
+                    qv.Tag = desc;
+                    qv.desc = !string.IsNullOrEmpty(label) ? label : MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                    qv.numberformat = !string.IsNullOrEmpty(format) ? format : "0.00";
+
+                    try
+                    {
+                        qv.numberColor = ColorTranslator.FromHtml(color);
+                        qv.numberColorBackup = qv.numberColor;
+                    }
+                    catch { }
+
+                    qv.scale = scale;
+                    qv.offset = offset;
+                    qv.isGauge = isGauge;
+                    qv.gaugeMin = gaugeMin;
+                    qv.gaugeMax = gaugeMax;
+
+                    qv.DataBindings.Clear();
+                    BindQuickView(qv);
+                }
+            }
+
+            // For any controls that weren't loaded from settings, set up their bindings
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv && qv.Tag != null && qv.DataBindings.Count == 0)
+                {
+                    qv.DataBindings.Clear();
+                    BindQuickView(qv);
+                }
+            }
         }
 
         /// <summary>
@@ -5630,128 +5639,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        /// <summary>
-        /// Apply default QuickView settings for fresh installs from embedded CSV resource.
-        /// CSV format is a visual grid where each row is a row in the dashboard.
-        /// CSV format: each row is a dashboard row, each cell is field|color|label|scale
-        /// Lines starting with # are comments.
-        /// </summary>
-        private void ApplyDefaultQuickViewSettings()
-        {
-            try
-            {
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                using (var stream = assembly.GetManifestResourceStream("MissionPlanner.Resources.DefaultQuickViewSettings.csv"))
-                {
-                    if (stream == null)
-                    {
-                        log.Warn("DefaultQuickViewSettings.csv not found in embedded resources");
-                        return;
-                    }
-
-                    using (var reader = new System.IO.StreamReader(stream))
-                    {
-                        int rowIndex = 0;
-                        int maxCols = 0;
-                        var csvData = new List<string[]>();
-
-                        // First pass: read all data and determine dimensions
-                        while (!reader.EndOfStream)
-                        {
-                            var line = reader.ReadLine();
-
-                            // Skip empty lines and comments
-                            if (string.IsNullOrWhiteSpace(line) || line.TrimStart().StartsWith("#"))
-                                continue;
-
-                            var cells = line.Split(',');
-                            maxCols = Math.Max(maxCols, cells.Length);
-                            csvData.Add(cells);
-                            rowIndex++;
-                        }
-
-                        Settings.Instance["quickViewCols"] = maxCols.ToString();
-                        Settings.Instance["quickViewRows"] = rowIndex.ToString();
-
-                        // Store settings using row_col keys for position-based lookup
-                        for (int row = 0; row < csvData.Count; row++)
-                        {
-                            var cells = csvData[row];
-                            for (int col = 0; col < cells.Length; col++)
-                            {
-                                var cell = cells[col].Trim();
-                                if (string.IsNullOrEmpty(cell))
-                                    continue;
-
-                                // Parse cell: field|color|label|scale
-                                var parts = cell.Split('|');
-                                string field = parts[0].Trim();
-                                string color = parts.Length > 1 ? parts[1].Trim() : null;
-                                string label = parts.Length > 2 ? parts[2].Trim() : null;
-                                string scale = parts.Length > 3 ? parts[3].Trim() : null;
-
-                                // Use position-based key: quickViewPos_row_col
-                                string posKey = "quickViewPos_" + row + "_" + col;
-                                Settings.Instance[posKey] = field;
-
-                                if (!string.IsNullOrWhiteSpace(color))
-                                    Settings.Instance[posKey + "_color"] = color;
-                                if (!string.IsNullOrWhiteSpace(label))
-                                    Settings.Instance[posKey + "_label"] = label;
-                                if (!string.IsNullOrWhiteSpace(scale))
-                                    Settings.Instance[posKey + "_scale"] = scale;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Error loading default QuickView settings", ex);
-            }
-        }
-
-        /// <summary>
-        /// Apply position-based default settings to QuickView controls after they are created.
-        /// </summary>
-        private void ApplyDefaultQuickViewSettingsToControls()
-        {
-            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
-            {
-                if (ctrl is QuickView QV)
-                {
-                    var pos = tableLayoutPanelQuick.GetPositionFromControl(QV);
-                    string posKey = "quickViewPos_" + pos.Row + "_" + pos.Column;
-
-                    if (Settings.Instance[posKey] != null)
-                    {
-                        string field = Settings.Instance[posKey];
-
-                        // Copy position-based settings to control-name-based settings
-                        Settings.Instance[QV.Name] = field;
-
-                        string color = Settings.Instance[posKey + "_color"];
-                        if (!string.IsNullOrWhiteSpace(color))
-                            Settings.Instance[QV.Name + "_color"] = color;
-
-                        string label = Settings.Instance[posKey + "_label"];
-                        if (!string.IsNullOrWhiteSpace(label))
-                            Settings.Instance[QV.Name + "_label"] = label;
-
-                        string scale = Settings.Instance[posKey + "_scale"];
-                        if (!string.IsNullOrWhiteSpace(scale))
-                            Settings.Instance[QV.Name + "_scale"] = scale;
-
-                        // Clean up position-based keys
-                        Settings.Instance.Remove(posKey);
-                        Settings.Instance.Remove(posKey + "_color");
-                        Settings.Instance.Remove(posKey + "_label");
-                        Settings.Instance.Remove(posKey + "_scale");
-                    }
-                }
-            }
-        }
-
         private void setQuickViewRowsCols(string cols, string rows)
         {
             tableLayoutPanelQuick.PerformLayout();
@@ -5759,8 +5646,8 @@ namespace MissionPlanner.GCSViews
             tableLayoutPanelQuick.ColumnCount = Math.Max(1, int.Parse(cols));
             tableLayoutPanelQuick.RowCount = Math.Max(1, int.Parse(rows));
 
-            Settings.Instance["quickViewRows"] = tableLayoutPanelQuick.RowCount.ToString();
-            Settings.Instance["quickViewCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
+            Settings.Instance["dashboardRows"] = tableLayoutPanelQuick.RowCount.ToString();
+            Settings.Instance["dashboardCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
 
             int total = tableLayoutPanelQuick.ColumnCount * tableLayoutPanelQuick.RowCount;
 
@@ -5879,7 +5766,11 @@ namespace MissionPlanner.GCSViews
                 QV.DragEnter += QuickView_DragEnter;
                 QV.DragDrop += QuickView_DragDrop;
 
-                tableLayoutPanelQuick.Controls.Add(QV);
+                // Calculate explicit position based on control index (1-based index from name)
+                int controlIndex = controlCount.Count; // 0-based index for next control
+                int row = controlIndex / tableLayoutPanelQuick.ColumnCount;
+                int col = controlIndex % tableLayoutPanelQuick.ColumnCount;
+                tableLayoutPanelQuick.Controls.Add(QV, col, row);
                 QV.Invalidate();
             }
             //clear the listQV when the count of the list is divisible by 16
@@ -5928,10 +5819,10 @@ namespace MissionPlanner.GCSViews
         {
             string cols = "2", rows = "3";
 
-            if (Settings.Instance["quickViewRows"] != null)
+            if (Settings.Instance["dashboardRows"] != null)
             {
-                rows = Settings.Instance["quickViewRows"];
-                cols = Settings.Instance["quickViewCols"];
+                rows = Settings.Instance["dashboardRows"];
+                cols = Settings.Instance["dashboardCols"];
             }
 
             if (InputBox.Show("Columns", "Enter number of columns to have.", ref cols) == DialogResult.OK)
@@ -6156,72 +6047,49 @@ namespace MissionPlanner.GCSViews
 
         private void SaveQuickViewArrangement()
         {
-            // Save each QuickView's position based on its cell position
-            // The arrangement is saved by storing which property is at which position
-            // We need to move ALL settings associated with each QuickView to its new position
+            // Save layout dimensions
+            Settings.Instance["dashboardRows"] = tableLayoutPanelQuick.RowCount.ToString();
+            Settings.Instance["dashboardCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
 
-            // Setting suffixes that need to be moved along with the QuickView
-            string[] settingSuffixes = { "", "_label", "_color", "_format", "_scale", "_offset", "_gauge", "_gaugeMin", "_gaugeMax" };
-
-            // First, collect all current settings into a temporary dictionary keyed by old name
-            var oldSettings = new Dictionary<string, Dictionary<string, string>>();
-            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            // Clear old dashboard item settings
+            for (int i = 0; i < 30; i++)
             {
-                if (ctrl is QuickView qv)
-                {
-                    string oldName = qv.Name;
-                    oldSettings[oldName] = new Dictionary<string, string>();
-                    foreach (var suffix in settingSuffixes)
-                    {
-                        string key = oldName + suffix;
-                        if (Settings.Instance[key] != null)
-                        {
-                            oldSettings[oldName][suffix] = Settings.Instance[key];
-                        }
-                    }
-                }
+                Settings.Instance.Remove("dashboardItem" + i);
             }
 
-            // Clear all quickView settings to avoid conflicts
+            // Save each QuickView as a single setting with all properties
+            // Format: row|col|source|label|color|format|scale|offset|isGauge|gaugeMin|gaugeMax
+            int itemIndex = 0;
             foreach (Control ctrl in tableLayoutPanelQuick.Controls)
             {
                 if (ctrl is QuickView qv)
                 {
-                    string oldName = qv.Name;
-                    foreach (var suffix in settingSuffixes)
-                    {
-                        Settings.Instance.Remove(oldName + suffix);
-                    }
-                }
-            }
-
-            // Now save settings with new names based on position
-            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
-            {
-                if (ctrl is QuickView qv)
-                {
-                    string oldName = qv.Name;
                     var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
-                    int index = pos.Row * tableLayoutPanelQuick.ColumnCount + pos.Column + 1;
-                    string newName = "quickView" + index;
 
-                    // Copy all settings from old name to new name
-                    if (oldSettings.ContainsKey(oldName))
+                    // Build the item string with all properties
+                    var parts = new List<string>
                     {
-                        foreach (var kvp in oldSettings[oldName])
-                        {
-                            Settings.Instance[newName + kvp.Key] = kvp.Value;
-                        }
-                    }
+                        pos.Row.ToString(),
+                        pos.Column.ToString(),
+                        qv.Tag?.ToString() ?? "",
+                        qv.desc ?? "",
+                        ColorTranslator.ToHtml(qv.numberColor),
+                        qv.numberformat ?? "0.00",
+                        qv.scale.ToString(),
+                        qv.offset.ToString(),
+                        qv.isGauge ? "1" : "0",
+                        qv.gaugeMin.ToString(),
+                        qv.gaugeMax.ToString()
+                    };
 
-                    // If Tag is set but wasn't in settings, save it now
-                    if (qv.Tag != null && Settings.Instance[newName] == null)
-                    {
-                        Settings.Instance[newName] = qv.Tag.ToString();
-                    }
+                    // Use pipe as delimiter since it's unlikely to appear in values
+                    Settings.Instance["dashboardItem" + itemIndex] = string.Join("|", parts);
 
-                    // Update the control's name to match its new position
-                    qv.Name = newName;
+                    // Update control name based on position
+                    int posIndex = pos.Row * tableLayoutPanelQuick.ColumnCount + pos.Column + 1;
+                    qv.Name = "quickView" + posIndex;
+
+                    itemIndex++;
                 }
             }
         }
@@ -6328,20 +6196,6 @@ namespace MissionPlanner.GCSViews
             int defaultRows = defaults.GetLength(0);
             int defaultCols = defaults.GetLength(1);
 
-            // Clear all quickView settings first
-            for (int i = 1; i <= 30; i++)
-            {
-                Settings.Instance.Remove("quickView" + i);
-                Settings.Instance.Remove("quickView" + i + "_label");
-                Settings.Instance.Remove("quickView" + i + "_color");
-                Settings.Instance.Remove("quickView" + i + "_format");
-                Settings.Instance.Remove("quickView" + i + "_scale");
-                Settings.Instance.Remove("quickView" + i + "_offset");
-                Settings.Instance.Remove("quickView" + i + "_gauge");
-                Settings.Instance.Remove("quickView" + i + "_gaugeMin");
-                Settings.Instance.Remove("quickView" + i + "_gaugeMax");
-            }
-
             // Rebuild the grid with default dimensions
             setQuickViewRowsCols(defaultCols.ToString(), defaultRows.ToString());
 
@@ -6361,6 +6215,9 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
+
+            // Save in new dashboard format
+            SaveQuickViewArrangement();
         }
 
         private void ResetQuickViewToDefault(QuickView qv, int row, int col)
@@ -6377,7 +6234,7 @@ namespace MissionPlanner.GCSViews
                 qv.offset = 0;
                 qv.isGauge = false;
                 BindQuickView(qv);
-                SaveQuickViewSettings(qv);
+                SaveQuickViewArrangement();
                 return;
             }
 
@@ -6385,6 +6242,7 @@ namespace MissionPlanner.GCSViews
             if (cellDefault != null)
             {
                 ApplyQuickViewDefault(qv, cellDefault);
+                SaveQuickViewArrangement();
             }
         }
 
@@ -6395,30 +6253,15 @@ namespace MissionPlanner.GCSViews
             qv.Tag = def.Field;
             qv.desc = !string.IsNullOrWhiteSpace(def.Label) ? def.Label : MainV2.comPort.MAV.cs.GetNameandUnit(def.Field);
             qv.numberformat = "0.00";
-            qv.numberColor = def.Color ?? colorsForDefaultQuickView[_quickViewRandomColor.Next(colorsForDefaultQuickView.Length)];
+            if (def.Color != null)
+            {
+                qv.numberColor = def.Color.Value;
+            }
             qv.scale = def.Scale;
             qv.offset = 0;
             qv.isGauge = false;
 
             BindQuickView(qv);
-            SaveQuickViewSettings(qv);
-        }
-
-        private void SaveQuickViewSettings(QuickView qv)
-        {
-            // Only save the data source - other settings are only saved when explicitly customized
-            // via the Edit Item dialog, not when resetting to defaults
-            Settings.Instance[qv.Name] = qv.Tag?.ToString() ?? "battery_voltage";
-
-            // Remove any custom settings so checkbox states are correct when editing
-            Settings.Instance.Remove(qv.Name + "_label");
-            Settings.Instance.Remove(qv.Name + "_color");
-            Settings.Instance.Remove(qv.Name + "_format");
-            Settings.Instance.Remove(qv.Name + "_scale");
-            Settings.Instance.Remove(qv.Name + "_offset");
-            Settings.Instance.Remove(qv.Name + "_gauge");
-            Settings.Instance.Remove(qv.Name + "_gaugeMin");
-            Settings.Instance.Remove(qv.Name + "_gaugeMax");
         }
 
         private class QuickViewDefault
@@ -8191,28 +8034,10 @@ namespace MissionPlanner.GCSViews
             var property = typeof(CurrentState).GetProperty(fieldName ?? string.Empty);
             if (property == null)
             {
-                // fallback to default embedded settings for this layout
-                ApplyDefaultQuickViewSettings();
-                ApplyDefaultQuickViewSettingsToControls();
-
-                // Try to pick up the default field assigned to this control name
-                var defaultField = Settings.Instance[qv.Name];
-                if (!string.IsNullOrWhiteSpace(defaultField))
-                {
-                    fieldName = defaultField;
-                    qv.Tag = defaultField;
-                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(defaultField);
-                    property = typeof(CurrentState).GetProperty(fieldName);
-                }
-
-                // Absolute fallback to a safe field
-                if (property == null)
-                {
-                    fieldName = "battery_voltage";
-                    qv.Tag = fieldName;
-                    qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(fieldName);
-                    property = typeof(CurrentState).GetProperty(fieldName);
-                }
+                // Fallback to a safe field if the property doesn't exist
+                fieldName = "battery_voltage";
+                qv.Tag = fieldName;
+                qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(fieldName);
             }
 
             try

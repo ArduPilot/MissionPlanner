@@ -107,15 +107,10 @@ namespace MissionPlanner.Controls
                 NUM_precision.Value = 2;
             }
 
-            // Initialize custom label
-            CHK_customlabel.Checked = Settings.Instance[_qv.Name + "_label"] != null;
-            TXT_customlabel.Enabled = CHK_customlabel.Checked;
+            // Initialize label
             TXT_customlabel.Text = _qv.desc;
 
-            // Initialize custom color
-            CHK_customcolor.Checked = Settings.Instance[_qv.Name + "_color"] != null;
-            TXT_color.Enabled = CHK_customcolor.Checked;
-            BUT_colorpicker.Enabled = CHK_customcolor.Checked;
+            // Initialize color
             string colorname = _qv.numberColorBackup.Name;
             if (colorname.ToLower().StartsWith("ff") && colorname.Length == 8)
             {
@@ -127,12 +122,8 @@ namespace MissionPlanner.Controls
             }
             BUT_colorpicker.BackColor = _qv.numberColorBackup;
 
-            // Initialize custom format - if format is null or "0.00" (default), it's not custom
+            // Initialize format
             string currentFormat = _qv.numberformat;
-            bool isCustomFormat = !string.IsNullOrEmpty(currentFormat) && currentFormat != "0.00";
-            CHK_customformat.Checked = isCustomFormat;
-            TXT_customformat.Enabled = CHK_customformat.Checked;
-            NUM_precision.Enabled = !CHK_customformat.Checked;
             TXT_customformat.Text = currentFormat.Replace("\\:", ":");
 
             // Initialize offset and scale
@@ -157,95 +148,33 @@ namespace MissionPlanner.Controls
 
         private void NUM_precision_ValueChanged(object sender, EventArgs e)
         {
-            if (_initializing || CHK_customformat.Checked)
-                return;
-
-            if (NUM_precision.Value == 0)
-            {
-                Settings.Instance[_qv.Name + "_format"] = "0";
-            }
-            else if (NUM_precision.Value == 2)
-            {
-                Settings.Instance.Remove(_qv.Name + "_format");
-            }
-            else if (NUM_precision.Value >= 1)
-            {
-                Settings.Instance[_qv.Name + "_format"] = "0." + new string('0', (int)NUM_precision.Value);
-            }
-        }
-
-        private void CHK_customlabel_CheckedChanged(object sender, EventArgs e)
-        {
-            bool is_checked = CHK_customlabel.Checked;
-            string setting_name = _qv.Name + "_label";
-            TXT_customlabel.Enabled = is_checked;
-            if(is_checked)
-            {
-                Settings.Instance[setting_name] = TXT_customlabel.Text;
-            }
-            else
-            {
-                Settings.Instance.Remove(setting_name);
-            }
-        }
-
-        private void CHK_customcolor_CheckedChanged(object sender, EventArgs e)
-        {
-            bool is_checked = CHK_customcolor.Checked;
-            string setting_name = _qv.Name + "_color";
-            TXT_color.Enabled = is_checked;
-            BUT_colorpicker.Enabled = is_checked;
-            if (is_checked)
-            {
-                TXT_color_TextChanged(null, null);
-            }
-            else
-            {
-                Settings.Instance.Remove(setting_name);
-            }
-        }
-
-        private void CHK_customformat_CheckedChanged(object sender, EventArgs e)
-        {
             if (_initializing)
                 return;
 
-            bool is_checked = CHK_customformat.Checked;
-            string setting_name = _qv.Name + "_format";
-            TXT_customformat.Enabled = is_checked;
-            if (is_checked)
+            // Update the format textbox based on precision
+            if (NUM_precision.Value == 0)
             {
-                Settings.Instance[setting_name] = TXT_customformat.Text.Replace(":","\\:");
-                NUM_precision.Enabled = false;
+                TXT_customformat.Text = "0";
             }
             else
             {
-                // Reset to default "0.00" when unchecking custom format
-                Settings.Instance.Remove(setting_name);
-                NUM_precision.Value = 2;
-                NUM_precision.Enabled = true;
+                TXT_customformat.Text = "0." + new string('0', (int)NUM_precision.Value);
             }
         }
 
         private void TXT_customlabel_TextChanged(object sender, EventArgs e)
         {
-            if (!CHK_customlabel.Checked)
-                return;
-
-            Settings.Instance[_qv.Name + "_label"] = TXT_customlabel.Text;
+            // No action needed - value is read on form close
         }
 
         private void TXT_color_TextChanged(object sender, EventArgs e)
         {
-            if (!CHK_customcolor.Checked)
-            {
+            if (_initializing)
                 return;
-            }
-            
+
             if (Regex.Match(TXT_color.Text, "^(?:[0-9a-fA-F]{2}){3,4}$").Success)
             {
                 BUT_colorpicker.BackColor = System.Drawing.ColorTranslator.FromHtml("#"+TXT_color.Text);
-                Settings.Instance[_qv.Name + "_color"] = "#"+TXT_color.Text;
                 return;
             }
             try
@@ -255,20 +184,16 @@ namespace MissionPlanner.Controls
             catch(Exception)
             {
                 // Not a valid color string
-                return;
             }
-            Settings.Instance[_qv.Name + "_color"] = TXT_color.Text;
         }
 
         private void TXT_customformat_TextChanged(object sender, EventArgs e)
         {
-            if (_initializing || !CHK_customformat.Checked)
+            if (_initializing)
                 return;
 
-            string setting_name = _qv.Name + "_format";
-
             // Check if this is a valid format
-            string numberformat = ((Control)sender).Text.Replace(":", "\\:");
+            string numberformat = TXT_customformat.Text.Replace(":", "\\:");
             double test_number = 125.2;
             try
             {
@@ -280,13 +205,11 @@ namespace MissionPlanner.Controls
                 {
                     test_number.ToString(numberformat);
                 }
-                ((Control)sender).BackColor = backup_backcolor;
-                Settings.Instance[setting_name] = numberformat;
+                TXT_customformat.BackColor = backup_backcolor;
             }
             catch (FormatException)
             {
-                ((Control)sender).BackColor = Color.Red;
-                Settings.Instance.Remove(setting_name);
+                TXT_customformat.BackColor = Color.Red;
             }
         }
 
@@ -333,37 +256,27 @@ namespace MissionPlanner.Controls
 
         private void TXT_scale_TextChanged(object sender, EventArgs e)
         {
-            string setting_name = _qv.Name + "_scale";
-
-            // Try to parse the text as a number, and change background to red if invalid
-            double result;
-            if (!double.TryParse(((TextBox)sender).Text, out result))
+            // Validate input - show red if invalid
+            if (!double.TryParse(((TextBox)sender).Text, out _))
             {
                 ((Control)sender).BackColor = Color.Red;
-                Settings.Instance.Remove(setting_name);
             }
             else
             {
                 ((Control)sender).BackColor = backup_backcolor;
-                Settings.Instance[setting_name] = ((TextBox)sender).Text;
             }
         }
 
         private void TXT_offset_TextChanged(object sender, EventArgs e)
         {
-            string setting_name = _qv.Name + "_offset";
-
-            // Try to parse the text as a number, and change background to red if invalid
-            double result;
-            if (!double.TryParse(((TextBox)sender).Text, out result))
+            // Validate input - show red if invalid
+            if (!double.TryParse(((TextBox)sender).Text, out _))
             {
                 ((Control)sender).BackColor = Color.Red;
-                Settings.Instance.Remove(setting_name);
             }
             else
             {
                 ((Control)sender).BackColor = backup_backcolor;
-                Settings.Instance[setting_name] = ((TextBox)sender).Text;
             }
         }
 
@@ -374,64 +287,31 @@ namespace MissionPlanner.Controls
             TXT_gaugeMax.Enabled = is_checked;
             label3.Enabled = is_checked;
             label4.Enabled = is_checked;
-
-            // Don't save settings during form initialization
-            if (_initializing)
-                return;
-
-            string setting_name = _qv.Name + "_gauge";
-            if (is_checked)
-            {
-                Settings.Instance[setting_name] = "true";
-                // Save min/max values
-                TXT_gaugeMin_TextChanged(null, null);
-                TXT_gaugeMax_TextChanged(null, null);
-            }
-            else
-            {
-                Settings.Instance.Remove(setting_name);
-                Settings.Instance.Remove(_qv.Name + "_gaugeMin");
-                Settings.Instance.Remove(_qv.Name + "_gaugeMax");
-            }
         }
 
         private void TXT_gaugeMin_TextChanged(object sender, EventArgs e)
         {
-            if (_initializing || !CHK_gauge.Checked)
-                return;
-
-            string setting_name = _qv.Name + "_gaugeMin";
-
-            double result;
-            if (!double.TryParse(TXT_gaugeMin.Text, out result))
+            // Validate input - show red if invalid
+            if (!double.TryParse(TXT_gaugeMin.Text, out _))
             {
                 TXT_gaugeMin.BackColor = Color.Red;
-                Settings.Instance.Remove(setting_name);
             }
             else
             {
                 TXT_gaugeMin.BackColor = backup_backcolor;
-                Settings.Instance[setting_name] = TXT_gaugeMin.Text;
             }
         }
 
         private void TXT_gaugeMax_TextChanged(object sender, EventArgs e)
         {
-            if (_initializing || !CHK_gauge.Checked)
-                return;
-
-            string setting_name = _qv.Name + "_gaugeMax";
-
-            double result;
-            if (!double.TryParse(TXT_gaugeMax.Text, out result))
+            // Validate input - show red if invalid
+            if (!double.TryParse(TXT_gaugeMax.Text, out _))
             {
                 TXT_gaugeMax.BackColor = Color.Red;
-                Settings.Instance.Remove(setting_name);
             }
             else
             {
                 TXT_gaugeMax.BackColor = backup_backcolor;
-                Settings.Instance[setting_name] = TXT_gaugeMax.Text;
             }
         }
 
@@ -465,14 +345,8 @@ namespace MissionPlanner.Controls
             if(CMB_Source.SelectedItem != null)
             {
                 Tuple<string, string> field = CMB_Source.SelectedItem as Tuple<string, string>;
-                if (field.Item1.StartsWith("customfield"))
-                {
-                    Settings.Instance[_qv.Name] = "customfield:" + field.Item2;
-                }
-                else
-                {
-                    Settings.Instance[_qv.Name] = field.Item1;
-                }
+
+                // Update label to match selected source
                 TXT_customlabel.Text = MainV2.comPort.MAV.cs.GetNameandUnit((string)CMB_Source.SelectedValue);
 
                 // Reset scale and offset if we select a new variable
@@ -493,68 +367,54 @@ namespace MissionPlanner.Controls
 
         private void ApplySettingsToQuickView()
         {
-            string qvName = _qv.Name;
+            // Apply label from form
+            _qv.desc = TXT_customlabel.Text;
 
-            // Apply label
-            string label = Settings.Instance[qvName + "_label"];
-            if (label != null)
-            {
-                _qv.desc = label;
-            }
-            else if (_qv.Tag != null)
-            {
-                _qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit((string)_qv.Tag);
-            }
+            // Apply color from form
+            _qv.numberColor = BUT_colorpicker.BackColor;
+            _qv.numberColorBackup = _qv.numberColor;
 
-            // Apply color
-            string colorStr = Settings.Instance[qvName + "_color"];
-            if (colorStr != null)
+            // Apply format from form
+            string format = TXT_customformat.Text.Replace(":", "\\:");
+            _qv.numberformat = !string.IsNullOrEmpty(format) ? format : "0.00";
+
+            // Apply scale and offset from form
+            if (double.TryParse(TXT_scale.Text, out double scale))
+                _qv.scale = scale;
+            else
+                _qv.scale = 1;
+
+            if (double.TryParse(TXT_offset.Text, out double offset))
+                _qv.offset = offset;
+            else
+                _qv.offset = 0;
+
+            // Apply gauge settings from form
+            _qv.isGauge = CHK_gauge.Checked;
+
+            if (double.TryParse(TXT_gaugeMin.Text, out double gaugeMin))
+                _qv.gaugeMin = gaugeMin;
+            else
+                _qv.gaugeMin = 0;
+
+            if (double.TryParse(TXT_gaugeMax.Text, out double gaugeMax))
+                _qv.gaugeMax = gaugeMax;
+            else
+                _qv.gaugeMax = 100;
+
+            // Update the data source if changed
+            if (CMB_Source.SelectedItem is Tuple<string, string> selectedField)
             {
-                try
+                string desc = selectedField.Item1;
+
+                // Handle customfield
+                if (desc.StartsWith("customfield"))
                 {
-                    _qv.numberColor = System.Drawing.ColorTranslator.FromHtml(colorStr);
-                    _qv.numberColorBackup = _qv.numberColor;
+                    _qv.Tag = "customfield:" + selectedField.Item2;
                 }
-                catch { }
-            }
-
-            // Apply format
-            string format = Settings.Instance[qvName + "_format"];
-            _qv.numberformat = format ?? "0.00";
-
-            // Apply scale and offset
-            string scale = Settings.Instance[qvName + "_scale"];
-            _qv.scale = scale != null ? double.Parse(scale) : 1;
-
-            string offset = Settings.Instance[qvName + "_offset"];
-            _qv.offset = offset != null ? double.Parse(offset) : 0;
-
-            // Apply gauge settings
-            string gauge = Settings.Instance[qvName + "_gauge"];
-            _qv.isGauge = gauge == "true";
-
-            string gaugeMin = Settings.Instance[qvName + "_gaugeMin"];
-            _qv.gaugeMin = gaugeMin != null ? double.Parse(gaugeMin) : 0;
-
-            string gaugeMax = Settings.Instance[qvName + "_gaugeMax"];
-            _qv.gaugeMax = gaugeMax != null ? double.Parse(gaugeMax) : 100;
-
-            // Update the data binding if source changed
-            string desc = Settings.Instance[qvName];
-            if (desc != null)
-            {
-                // Check if customfield is specified by fieldname
-                if (desc.StartsWith("customfield:"))
+                else
                 {
-                    desc = CurrentState.GetCustomField(desc.Substring(12));
-                }
-
-                _qv.Tag = desc;
-
-                // Update label if not custom
-                if (Settings.Instance[qvName + "_label"] == null)
-                {
-                    _qv.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                    _qv.Tag = desc;
                 }
 
                 // Rebind to new source
@@ -579,7 +439,7 @@ namespace MissionPlanner.Controls
 
                     if (bindingSource != null)
                     {
-                        var b = new System.Windows.Forms.Binding("number", bindingSource, desc, true);
+                        var b = new System.Windows.Forms.Binding("number", bindingSource, selectedField.Item1, true);
                         _qv.DataBindings.Add(b);
                     }
                 }
@@ -587,6 +447,20 @@ namespace MissionPlanner.Controls
             }
 
             _qv.Invalidate();
+
+            // Trigger save of all dashboard items
+            try
+            {
+                // Find the FlightData instance
+                if (MissionPlanner.GCSViews.FlightData.instance != null)
+                {
+                    // Use reflection to call the private SaveQuickViewArrangement method
+                    var method = typeof(MissionPlanner.GCSViews.FlightData).GetMethod("SaveQuickViewArrangement",
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    method?.Invoke(MissionPlanner.GCSViews.FlightData.instance, null);
+                }
+            }
+            catch { }
         }
     }
 }
