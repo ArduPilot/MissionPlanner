@@ -545,9 +545,8 @@ namespace MissionPlanner.Controls
         {
             if (e.Button == MouseButtons.Left)
             {
-                _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
+                // Only reset the camera angle, not distance or height
                 _cameraAngle = 0.0;
-                _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
 
