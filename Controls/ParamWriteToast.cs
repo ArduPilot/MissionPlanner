@@ -97,7 +97,7 @@ namespace MissionPlanner.Controls
 
         private void PositionToast()
         {
-            const int margin = 16;
+            const int margin = 8;
             Rectangle bounds;
 
             if (_owner != null && !_owner.IsDisposed)
