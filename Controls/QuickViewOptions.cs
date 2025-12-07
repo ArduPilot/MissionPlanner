@@ -101,10 +101,10 @@ namespace MissionPlanner.Controls
                 }
                 NUM_precision.Value = precision;
             }
-            // If it doesn't match, then we are using a custom format instead of the precision box
             else
             {
-                NUM_precision.Enabled = false;
+                // Non-standard format - will be handled by custom format
+                NUM_precision.Value = 2;
             }
 
             // Initialize custom label
@@ -127,10 +127,13 @@ namespace MissionPlanner.Controls
             }
             BUT_colorpicker.BackColor = _qv.numberColorBackup;
 
-            // Initialize custom format
-            CHK_customformat.Checked = !NUM_precision.Enabled;
+            // Initialize custom format - if format is null or "0.00" (default), it's not custom
+            string currentFormat = _qv.numberformat;
+            bool isCustomFormat = !string.IsNullOrEmpty(currentFormat) && currentFormat != "0.00";
+            CHK_customformat.Checked = isCustomFormat;
             TXT_customformat.Enabled = CHK_customformat.Checked;
-            TXT_customformat.Text = _qv.numberformat.Replace("\\:", ":");
+            NUM_precision.Enabled = !CHK_customformat.Checked;
+            TXT_customformat.Text = currentFormat.Replace("\\:", ":");
 
             // Initialize custom width
             int width = _qv.charWidth;
@@ -167,6 +170,9 @@ namespace MissionPlanner.Controls
 
         private void NUM_precision_ValueChanged(object sender, EventArgs e)
         {
+            if (_initializing || CHK_customformat.Checked)
+                return;
+
             if (NUM_precision.Value == 0)
             {
                 Settings.Instance[_qv.Name + "_format"] = "0";
@@ -214,6 +220,9 @@ namespace MissionPlanner.Controls
 
         private void CHK_customformat_CheckedChanged(object sender, EventArgs e)
         {
+            if (_initializing)
+                return;
+
             bool is_checked = CHK_customformat.Checked;
             string setting_name = _qv.Name + "_format";
             TXT_customformat.Enabled = is_checked;
@@ -224,7 +233,9 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                NUM_precision_ValueChanged(null, null);
+                // Reset to default "0.00" when unchecking custom format
+                Settings.Instance.Remove(setting_name);
+                NUM_precision.Value = 2;
                 NUM_precision.Enabled = true;
             }
         }
@@ -279,7 +290,7 @@ namespace MissionPlanner.Controls
 
         private void TXT_customformat_TextChanged(object sender, EventArgs e)
         {
-            if (!CHK_customformat.Checked)
+            if (_initializing || !CHK_customformat.Checked)
                 return;
 
             string setting_name = _qv.Name + "_format";

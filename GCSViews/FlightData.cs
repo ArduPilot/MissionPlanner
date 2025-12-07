@@ -5875,6 +5875,7 @@ namespace MissionPlanner.GCSViews
                 QV.Dock = DockStyle.Fill;
                 QV.numberColorBackup = QV.numberColor;
                 QV.number = 0;
+                QV.IsConnected = MainV2.comPort.BaseStream.IsOpen;
 
                 // Enable drag and drop for rearranging
                 QV.AllowDrop = true;
