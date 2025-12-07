@@ -15,6 +15,8 @@ namespace MissionPlanner.Controls
     public partial class QuickViewOptions : Form
     {
         private QuickView _qv;
+        private bool _initializing = true;  // Flag to suppress event handlers during form setup
+
         public QuickViewOptions(QuickView qv)
         {
             InitializeComponent();
@@ -149,14 +151,18 @@ namespace MissionPlanner.Controls
             TXT_scale.Text = scale.ToString("0.0########");
             TXT_offset.Text = offset.ToString("0.0########");
 
-            // Initialize gauge settings
-            CHK_gauge.Checked = _qv.isGauge;
+            // Initialize gauge settings - set text values BEFORE checkbox to avoid
+            // triggering CHK_gauge_CheckedChanged with empty/default values
             TXT_gaugeMin.Text = _qv.gaugeMin.ToString("0.#######");
             TXT_gaugeMax.Text = _qv.gaugeMax.ToString("0.#######");
+            CHK_gauge.Checked = _qv.isGauge;
             TXT_gaugeMin.Enabled = CHK_gauge.Checked;
             TXT_gaugeMax.Enabled = CHK_gauge.Checked;
             label3.Enabled = CHK_gauge.Checked;
             label4.Enabled = CHK_gauge.Checked;
+
+            // Done initializing - now event handlers can save settings
+            _initializing = false;
         }
 
         private void NUM_precision_ValueChanged(object sender, EventArgs e)
@@ -389,12 +395,16 @@ namespace MissionPlanner.Controls
         private void CHK_gauge_CheckedChanged(object sender, EventArgs e)
         {
             bool is_checked = CHK_gauge.Checked;
-            string setting_name = _qv.Name + "_gauge";
             TXT_gaugeMin.Enabled = is_checked;
             TXT_gaugeMax.Enabled = is_checked;
             label3.Enabled = is_checked;
             label4.Enabled = is_checked;
 
+            // Don't save settings during form initialization
+            if (_initializing)
+                return;
+
+            string setting_name = _qv.Name + "_gauge";
             if (is_checked)
             {
                 Settings.Instance[setting_name] = "true";
@@ -412,7 +422,7 @@ namespace MissionPlanner.Controls
 
         private void TXT_gaugeMin_TextChanged(object sender, EventArgs e)
         {
-            if (!CHK_gauge.Checked)
+            if (_initializing || !CHK_gauge.Checked)
                 return;
 
             string setting_name = _qv.Name + "_gaugeMin";
@@ -432,7 +442,7 @@ namespace MissionPlanner.Controls
 
         private void TXT_gaugeMax_TextChanged(object sender, EventArgs e)
         {
-            if (!CHK_gauge.Checked)
+            if (_initializing || !CHK_gauge.Checked)
                 return;
 
             string setting_name = _qv.Name + "_gaugeMax";

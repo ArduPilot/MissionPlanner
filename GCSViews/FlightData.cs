@@ -6162,22 +6162,70 @@ namespace MissionPlanner.GCSViews
         {
             // Save each QuickView's position based on its cell position
             // The arrangement is saved by storing which property is at which position
+            // We need to move ALL settings associated with each QuickView to its new position
+
+            // Setting suffixes that need to be moved along with the QuickView
+            string[] settingSuffixes = { "", "_label", "_color", "_format", "_charWidth", "_scale", "_offset", "_gauge", "_gaugeMin", "_gaugeMax" };
+
+            // First, collect all current settings into a temporary dictionary keyed by old name
+            var oldSettings = new Dictionary<string, Dictionary<string, string>>();
             foreach (Control ctrl in tableLayoutPanelQuick.Controls)
             {
                 if (ctrl is QuickView qv)
                 {
+                    string oldName = qv.Name;
+                    oldSettings[oldName] = new Dictionary<string, string>();
+                    foreach (var suffix in settingSuffixes)
+                    {
+                        string key = oldName + suffix;
+                        if (Settings.Instance[key] != null)
+                        {
+                            oldSettings[oldName][suffix] = Settings.Instance[key];
+                        }
+                    }
+                }
+            }
+
+            // Clear all quickView settings to avoid conflicts
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    string oldName = qv.Name;
+                    foreach (var suffix in settingSuffixes)
+                    {
+                        Settings.Instance.Remove(oldName + suffix);
+                    }
+                }
+            }
+
+            // Now save settings with new names based on position
+            foreach (Control ctrl in tableLayoutPanelQuick.Controls)
+            {
+                if (ctrl is QuickView qv)
+                {
+                    string oldName = qv.Name;
                     var pos = tableLayoutPanelQuick.GetPositionFromControl(qv);
                     int index = pos.Row * tableLayoutPanelQuick.ColumnCount + pos.Column + 1;
-                    string settingName = "quickView" + index;
+                    string newName = "quickView" + index;
 
-                    // Save the property this QuickView displays
-                    if (qv.Tag != null)
+                    // Copy all settings from old name to new name
+                    if (oldSettings.ContainsKey(oldName))
                     {
-                        Settings.Instance[settingName] = qv.Tag.ToString();
+                        foreach (var kvp in oldSettings[oldName])
+                        {
+                            Settings.Instance[newName + kvp.Key] = kvp.Value;
+                        }
+                    }
+
+                    // If Tag is set but wasn't in settings, save it now
+                    if (qv.Tag != null && Settings.Instance[newName] == null)
+                    {
+                        Settings.Instance[newName] = qv.Tag.ToString();
                     }
 
                     // Update the control's name to match its new position
-                    qv.Name = settingName;
+                    qv.Name = newName;
                 }
             }
         }
