@@ -120,6 +120,25 @@ namespace MissionPlanner.Controls
             base.Invalidate();
         }
 
+        // Smooth mouse wheel zoom - 0.1 per scroll tick
+        private const double ZoomIncrement = 0.2;
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (!Core.IsDragging)
+            {
+                // Calculate zoom change - standard delta is 120, so normalize
+                double zoomChange = (e.Delta / 120.0) * ZoomIncrement;
+                double newZoom = Zoom + zoomChange;
+
+                // Clamp to valid range
+                if (newZoom < MinZoom) newZoom = MinZoom;
+                if (newZoom > MaxZoom) newZoom = MaxZoom;
+
+                Zoom = newZoom;
+            }
+        }
+
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
             try

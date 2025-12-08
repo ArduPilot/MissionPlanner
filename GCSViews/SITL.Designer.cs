@@ -44,9 +44,15 @@ namespace MissionPlanner.GCSViews
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cmb_version = new System.Windows.Forms.ComboBox();
+            this.findLoc = new MissionPlanner.Controls.MyButton();
+            this.removeCustomLoc = new MissionPlanner.Controls.MyButton();
+            this.addCustomLoc = new MissionPlanner.Controls.MyButton();
+            this.cmb_location = new System.Windows.Forms.ComboBox();
+            this.label_location = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmb_version = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.but_swarmrover = new MissionPlanner.Controls.MyButton();
             this.but_swarmplane = new MissionPlanner.Controls.MyButton();
@@ -83,7 +89,7 @@ namespace MissionPlanner.GCSViews
             this.myGMAP1.HoldInvalidation = false;
             this.myGMAP1.LevelsKeepInMemmory = 5;
             this.myGMAP1.MarkersEnabled = true;
-            this.myGMAP1.MaxZoom = 2;
+            this.myGMAP1.MaxZoom = 22;
             this.myGMAP1.MinZoom = 2;
             this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.myGMAP1.Name = "myGMAP1";
@@ -91,10 +97,10 @@ namespace MissionPlanner.GCSViews
             this.myGMAP1.PolygonsEnabled = true;
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
-            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
-            this.myGMAP1.Zoom = 0D;
+            this.myGMAP1.Zoom = 17D;
             this.myGMAP1.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.myGMAP1_OnMarkerEnter);
             this.myGMAP1.OnMarkerLeave += new GMap.NET.WindowsForms.MarkerLeave(this.myGMAP1_OnMarkerLeave);
             this.myGMAP1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.myGMAP1_MouseDown);
@@ -195,17 +201,52 @@ namespace MissionPlanner.GCSViews
             // groupBox3
             // 
             resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Controls.Add(this.cmb_version);
+            this.groupBox3.Controls.Add(this.findLoc);
+            this.groupBox3.Controls.Add(this.removeCustomLoc);
+            this.groupBox3.Controls.Add(this.addCustomLoc);
+            this.groupBox3.Controls.Add(this.cmb_location);
+            this.groupBox3.Controls.Add(this.label_location);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
-            // cmb_version
+            // findLoc
             // 
-            this.cmb_version.FormattingEnabled = true;
-            resources.ApplyResources(this.cmb_version, "cmb_version");
-            this.cmb_version.Name = "cmb_version";
+            resources.ApplyResources(this.findLoc, "findLoc");
+            this.findLoc.Name = "findLoc";
+            this.findLoc.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.findLoc.UseVisualStyleBackColor = true;
+            this.findLoc.Click += new System.EventHandler(this.findLoc_Click);
+            // 
+            // removeCustomLoc
+            // 
+            resources.ApplyResources(this.removeCustomLoc, "removeCustomLoc");
+            this.removeCustomLoc.Name = "removeCustomLoc";
+            this.removeCustomLoc.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.removeCustomLoc.UseVisualStyleBackColor = true;
+            this.removeCustomLoc.Click += new System.EventHandler(this.removeCustomLoc_Click);
+            // 
+            // addCustomLoc
+            // 
+            resources.ApplyResources(this.addCustomLoc, "addCustomLoc");
+            this.addCustomLoc.Name = "addCustomLoc";
+            this.addCustomLoc.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.addCustomLoc.UseVisualStyleBackColor = true;
+            this.addCustomLoc.Click += new System.EventHandler(this.addCustomLoc_Click);
+            // 
+            // cmb_location
+            // 
+            this.cmb_location.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_location.FormattingEnabled = true;
+            resources.ApplyResources(this.cmb_location, "cmb_location");
+            this.cmb_location.Name = "cmb_location";
+            this.cmb_location.SelectedIndexChanged += new System.EventHandler(this.cmb_location_SelectedIndexChanged);
+            // 
+            // label_location
+            // 
+            resources.ApplyResources(this.label_location, "label_location");
+            this.label_location.Name = "label_location";
             // 
             // label1
             // 
@@ -222,12 +263,25 @@ namespace MissionPlanner.GCSViews
             0});
             this.NUM_heading.Name = "NUM_heading";
             // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // cmb_version
+            // 
+            this.cmb_version.FormattingEnabled = true;
+            resources.ApplyResources(this.cmb_version, "cmb_version");
+            this.cmb_version.Name = "cmb_version";
+            // 
             // groupBox4
             // 
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.but_swarmrover);
             this.groupBox4.Controls.Add(this.but_swarmplane);
             this.groupBox4.Controls.Add(this.but_swarmseq);
+            this.groupBox4.Controls.Add(this.cmb_version);
             this.groupBox4.Controls.Add(this.but_swarmlink);
             this.groupBox4.Controls.Add(this.chk_wipe);
             this.groupBox4.Controls.Add(this.label8);
@@ -409,5 +463,11 @@ namespace MissionPlanner.GCSViews
         private MyButton but_swarmrover;
         private MyButton but_swarmplane;
         private System.Windows.Forms.ComboBox cmb_version;
+        private System.Windows.Forms.ComboBox cmb_location;
+        private System.Windows.Forms.Label label_location;
+        private System.Windows.Forms.Label label9;
+        private MyButton addCustomLoc;
+        private MyButton removeCustomLoc;
+        private MyButton findLoc;
     }
 }

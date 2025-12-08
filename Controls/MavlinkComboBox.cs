@@ -46,9 +46,11 @@ namespace MissionPlanner.Controls
 
                 _source2 = source;
 
+                this.BeginUpdate();
                 this.DisplayMember = "Value";
                 this.ValueMember = "Key";
                 this.DataSource = source;
+                this.EndUpdate();
 
                 this.ParamName = paramname;
                 this.Name = paramname;
@@ -76,9 +78,11 @@ namespace MissionPlanner.Controls
 
             _source2 = source;
 
+            this.BeginUpdate();
             this.DisplayMember = "Value";
             this.ValueMember = "Key";
             this.DataSource = source;
+            this.EndUpdate();
 
             this.ParamName = paramname;
             this.Name = paramname;
@@ -106,7 +110,9 @@ namespace MissionPlanner.Controls
 
             _source = source;
 
+            this.BeginUpdate();
             this.DataSource = Enum.GetNames(source);
+            this.EndUpdate();
 
             this.ParamName = paramname;
             this.Name = paramname;

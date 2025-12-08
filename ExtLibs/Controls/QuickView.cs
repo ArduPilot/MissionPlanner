@@ -38,10 +38,6 @@ namespace MissionPlanner.Controls
             }
         }
 
-        // Optionally set this value to force the text size to fit this many "0" characters 
-        // in the view. This allows for matching the text size of adjacent views.
-        public int charWidth = -1;
-
         // Optional offset and scale for unit conversions
         public double offset = 0;
         public double scale = 1;
@@ -200,9 +196,7 @@ namespace MissionPlanner.Controls
         private void DrawNumber(SkiaGraphics e, int numberAreaTop, int numberAreaHeight, string numb)
         {
             // Use a reference string for consistent sizing (prevents jumping when digits change)
-            // charWidth allows forcing consistent sizing across multiple QuickViews
-            var refCharWidth = Math.Max(this.charWidth, numb.Length) + 1;
-            string refString = "0".PadLeft(Math.Max(refCharWidth, 5), '0');
+            string refString = "0".PadLeft(Math.Max(numb.Length + 1, 5), '0');
 
             // Start with a base font size and calculate the optimal size
             float fontSize = 8f;

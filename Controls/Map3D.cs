@@ -28,47 +28,6 @@ using Vector3 = OpenTK.Vector3;
 
 namespace MissionPlanner.Controls
 {
-    /// <summary>
-    /// Simple 1D Kalman filter for smooth interpolation
-    /// </summary>
-    public class SimpleKalmanFilter
-    {
-        private double _q; // process noise covariance
-        private double _r; // measurement noise covariance
-        private double _x; // estimated value
-        private double _p; // estimation error covariance
-        private double _k; // kalman gain
-
-        public SimpleKalmanFilter(double q = 0.1, double r = 1.0, double initialValue = 0)
-        {
-            _q = q;
-            _r = r;
-            _x = initialValue;
-            _p = 1.0;
-        }
-
-        public double Update(double measurement)
-        {
-            // Prediction update
-            _p = _p + _q;
-
-            // Measurement update
-            _k = _p / (_p + _r);
-            _x = _x + _k * (measurement - _x);
-            _p = (1 - _k) * _p;
-
-            return _x;
-        }
-
-        public double Value => _x;
-
-        public void Reset(double value)
-        {
-            _x = value;
-            _p = 1.0;
-        }
-    }
-
     public class Map3D : GLControl, IDeactivate
     {
         public static Map3D instance;
@@ -83,7 +42,7 @@ namespace MissionPlanner.Controls
         private const double ADSB_YELLOW_DISTANCE = 10000; // 10km
         private const double ADSB_GREEN_DISTANCE = 20000; // 20km
         private const int ADSB_CIRCLE_SEGMENTS = 24;
-        private const int TRAIL_SMOOTHING_WINDOW = 61;
+        private const int TRAIL_SMOOTHING_WINDOW = 6;
         private const double WAYPOINT_MIN_DISTANCE = 61.0; // 200 feet in meters
         #endregion
 
@@ -256,17 +215,19 @@ namespace MissionPlanner.Controls
         int greenAlt = 0;
 
         // Plane STL model
-        private List<float> _planeVertices;
-        private List<float> _planeNormals;
+        private STLModelLoader _stlLoader = new STLModelLoader();
         private int _planeVBO = 0;
         private int _planeNormalVBO = 0;
-        private int _planeVertexCount = 0;
-        private float _planeScale = 1.0f;
-        private bool _planeLoaded = false;
         private bool _settingsLoaded = false;
         // Plane position and rotation for current frame
         private double _planeDrawX, _planeDrawY, _planeDrawZ;
         private float _planeRoll, _planePitch, _planeYaw;
+        // Disconnected mode camera look direction (yaw/pitch for free-look)
+        private double _disconnectedCameraYaw = 0.0;   // Horizontal look angle in degrees
+        private double _disconnectedCameraPitch = 0.0; // Vertical look angle in degrees (positive = up)
+        // Debounce for 2D map position updates when disconnected
+        private PointLatLngAlt _lastMap2DPosition = PointLatLngAlt.Zero;
+        private DateTime _lastMap2DPositionChangeTime = DateTime.MinValue;
         // Configurable camera and plane settings
         private double _cameraDist = 0.8;    // Distance from plane
         private double _cameraAngle = 0.0;   // Angle offset from behind plane (degrees, 0=behind, 90=right, -90=left)
@@ -274,7 +235,6 @@ namespace MissionPlanner.Controls
         private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
         private float _cameraFOV = 60f; // Field of view in degrees
         private Color _planeColor = Color.Red;
-        private string _planeSTLPath = ""; // Empty = use embedded resource
         private int _whitePlaneTexture = 0; // White texture for plane rendering
         // Heading indicator line options
         private bool _showHeadingLine = true;
@@ -282,6 +242,8 @@ namespace MissionPlanner.Controls
         private bool _showGpsHeadingLine = true;
         private bool _showTurnRadius = true;
         private bool _showTrail = true;
+        private bool _fpvMode = false; // First-person view mode - camera at aircraft position
+        private bool _diskCacheTiles = true; // Cache tiles to disk for faster loading
         private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
         private double _adsbCircleSize = 500; // Diameter of ADSB aircraft circles in meters
         // Trail (flight path history) - stored as absolute UTM coordinates (X, Y, Z)
@@ -309,34 +271,51 @@ namespace MissionPlanner.Controls
         private Timer timer1;
         private bool _stopRequested;
         private System.ComponentModel.IContainer components;
-        private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
+        private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(0, 0, 100);
+
+        /// <summary>
+        /// Returns true if the vehicle is connected and reporting a valid location (not 0,0)
+        /// </summary>
+        private bool IsVehicleConnected
+        {
+            get
+            {
+                if (MainV2.comPort?.BaseStream?.IsOpen != true)
+                    return false;
+                var loc = MainV2.comPort?.MAV?.cs?.Location;
+                if (loc == null || (loc.Lat == 0 && loc.Lng == 0))
+                    return false;
+                return true;
+            }
+        }
 
         public PointLatLngAlt LocationCenter
         {
             get { return _center; }
             set
             {
-                if (value.Lat == 0 && value.Lng == 0)
-                    return;
-                if (_center.Lat == value.Lat && _center.Lng == value.Lng)
-                    return;
+                bool positionChanged = _center.Lat != value.Lat || _center.Lng != value.Lng;
+
                 _centerTime = DateTime.Now;
                 _center.Lat = value.Lat;
                 _center.Lng = value.Lng;
                 _center.Alt = value.Alt;
-                if (utmzone != value.GetUTMZone() || llacenter.GetDistance(_center) > 10000)
+
+                // Initialize or update UTM zone if needed
+                if (utmzone == -999 || utmzone != value.GetUTMZone() || llacenter.GetDistance(_center) > 10000)
                 {
                     utmzone = value.GetUTMZone();
                     // set our pos
                     llacenter = value;
                     utmcenter = new double[] {0, 0};
-                    // update a virtual center bases on llacenter
+                    // update a virtual center based on llacenter
                     utmcenter = convertCoords(value);
                     textureid.ForEach(a => a.Value.Cleanup());
                     textureid.Clear();
                 }
 
-                this.Invalidate();
+                if (positionChanged)
+                    this.Invalidate();
             }
         }
 
@@ -368,7 +347,7 @@ namespace MissionPlanner.Controls
             _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_mav_scale", Settings.Instance.GetDouble("map3d_plane_scale", 1.0));
             _cameraFOV = (float)Settings.Instance.GetDouble("map3d_fov", 60);
-            _planeSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
+            _stlLoader.CustomSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
             try
             {
                 int colorArgb = Settings.Instance.GetInt32("map3d_mav_color", Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb()));
@@ -380,6 +359,8 @@ namespace MissionPlanner.Controls
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
             _showTurnRadius = Settings.Instance.GetBoolean("map3d_show_turn_radius", true);
             _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
+            _fpvMode = Settings.Instance.GetBoolean("map3d_fpv_mode", false);
+            _diskCacheTiles = Settings.Instance.GetBoolean("map3d_disk_cache_tiles", true);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
             _adsbCircleSize = Settings.Instance.GetDouble("map3d_adsb_size", 500);
 
@@ -435,14 +416,24 @@ namespace MissionPlanner.Controls
             mousex = e.X;
             mousey = e.Y;
 
-            // Handle left-drag to rotate camera around vehicle (X) and adjust height (Y)
+            // Handle left-drag behavior based on connection state
             if (_isDragging)
             {
-                int deltaX = mousex - _dragStartX; // Positive = dragged right = rotate camera right
-                int deltaY = mousey - _dragStartY; // Positive = dragged down = increase height
+                int deltaX = mousex - _dragStartX;
+                int deltaY = mousey - _dragStartY;
 
-                _cameraAngle += deltaX * 0.5; // Degrees per pixel
-                _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
+                if (IsVehicleConnected)
+                {
+                    // Connected: rotate camera around vehicle (X) and adjust height (Y)
+                    _cameraAngle += deltaX * 0.5; // Degrees per pixel
+                    _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
+                }
+                else
+                {
+                    // Disconnected: free-look - rotate camera view direction (reversed for natural feel)
+                    _disconnectedCameraYaw -= deltaX * 0.3; // Horizontal rotation (reversed)
+                    _disconnectedCameraPitch = Math.Max(-89.0, Math.Min(89.0, _disconnectedCameraPitch + deltaY * 0.3)); // Vertical rotation (reversed, clamped to avoid gimbal lock)
+                }
 
                 _dragStartX = mousex;
                 _dragStartY = mousey;
@@ -545,14 +536,17 @@ namespace MissionPlanner.Controls
         {
             if (e.Button == MouseButtons.Left)
             {
-                _cameraDist = Settings.Instance.GetDouble("map3d_camera_dist", 0.8);
+                // Only reset the camera angle, not distance or height
                 _cameraAngle = 0.0;
-                _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             }
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
+            // Only adjust camera distance when connected
+            if (!IsVehicleConnected)
+                return; // Ignore scroll wheel in disconnected state
+
             // Adjust camera distance with scroll wheel (temporary, not saved)
             // Scroll up (positive delta) = move camera closer (decrease distance)
             // Scroll down (negative delta) = move camera further (increase distance)
@@ -646,6 +640,11 @@ namespace MissionPlanner.Controls
                 timer1?.Start();
                 started = true;
             }
+
+            // Reset Kalman filters so position/rotation jumps to current values
+            // instead of slowly interpolating from stale state
+            ResetKalmanFilters();
+
             this.Invalidate();
         }
 
@@ -776,135 +775,19 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private void LoadPlaneSTL()
-        {
-            if (_planeLoaded) return;
-            if (!_settingsLoaded) return; // Wait for settings to load first
-
-            try
-            {
-                string stlContent;
-                if (!string.IsNullOrEmpty(_planeSTLPath) && File.Exists(_planeSTLPath))
-                {
-                    // Load from custom file path
-                    stlContent = File.ReadAllText(_planeSTLPath);
-                }
-                else
-                {
-                    // Load from embedded resource
-                    stlContent = MissionPlanner.Properties.Resources.plane_stl;
-                }
-
-                if (string.IsNullOrEmpty(stlContent))
-                {
-                    MessageBox.Show("plane.stl resource not found", "STL Load Error");
-                    return;
-                }
-
-                _planeVertices = new List<float>();
-                _planeNormals = new List<float>();
-
-                float minX = float.MaxValue, maxX = float.MinValue;
-                float minY = float.MaxValue, maxY = float.MinValue;
-                float minZ = float.MaxValue, maxZ = float.MinValue;
-
-                var lines = stlContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                float nx = 0, ny = 0, nz = 0;
-
-                foreach (var line in lines)
-                {
-                    var trimmed = line.Trim();
-                    if (trimmed.StartsWith("facet normal"))
-                    {
-                        var parts = trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        nx = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
-                        ny = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
-                        nz = float.Parse(parts[4], System.Globalization.CultureInfo.InvariantCulture);
-                    }
-                    else if (trimmed.StartsWith("vertex"))
-                    {
-                        var parts = trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        float vx = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
-                        float vy = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
-                        float vz = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
-
-                        _planeVertices.Add(vx);
-                        _planeVertices.Add(vy);
-                        _planeVertices.Add(vz);
-
-                        _planeNormals.Add(nx);
-                        _planeNormals.Add(ny);
-                        _planeNormals.Add(nz);
-
-                        minX = Math.Min(minX, vx); maxX = Math.Max(maxX, vx);
-                        minY = Math.Min(minY, vy); maxY = Math.Max(maxY, vy);
-                        minZ = Math.Min(minZ, vz); maxZ = Math.Max(maxZ, vz);
-                    }
-                }
-
-                // Calculate scale to make model 1 meter wide
-                float modelWidth = Math.Max(maxX - minX, Math.Max(maxY - minY, maxZ - minZ));
-                _planeScale = 1.0f / modelWidth; // 1 meter wide
-
-                // Center the model
-                float centerX = (minX + maxX) / 2;
-                float centerY = (minY + maxY) / 2;
-                float centerZ = (minZ + maxZ) / 2;
-
-                for (int i = 0; i < _planeVertices.Count; i += 3)
-                {
-                    _planeVertices[i] -= centerX;
-                    _planeVertices[i + 1] -= centerY;
-                    _planeVertices[i + 2] -= centerZ;
-                }
-
-                RotatePlane();
-
-                _planeVertexCount = _planeVertices.Count / 3;
-                _planeLoaded = true;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading plane.stl: " + ex.Message, "STL Load Error");
-            }
-        }
-
-        private void RotatePlane()
-        {
-            // Rotate STL -90 degrees around Z axis (swap X and Y, negate new Y)
-            for (int i = 0; i < _planeVertices.Count; i += 3)
-            {
-                float x = _planeVertices[i];
-                float y = _planeVertices[i + 1];
-                _planeVertices[i] = y;
-                _planeVertices[i + 1] = -x;
-            }
-            // Also rotate normals
-            for (int i = 0; i < _planeNormals.Count; i += 3)
-            {
-                float normX = _planeNormals[i];
-                float normY = _planeNormals[i + 1];
-                _planeNormals[i] = normY;
-                _planeNormals[i + 1] = -normX;
-            }
-        }
-
         private void DrawPlane(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            if (!_planeLoaded || _planeVertices == null || _planeVertices.Count == 0)
-            {
-                LoadPlaneSTL();
-                if (!_planeLoaded)
-                    return;
-            }
+            if (!_settingsLoaded) return;
+
+            if (!_stlLoader.EnsureLoaded() || _stlLoader.Vertices == null || _stlLoader.VertexCount == 0)
+                return;
 
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
             GL.Disable(EnableCap.CullFace); // Show both sides
 
-            // STL is in mm, _planeScale normalizes to 1 meter, then apply user scale multiplier
-            float scale = _planeScale * _planeScaleMultiplier;
+            // STL is in millimeters, convert to meters (divide by 1000) then apply user scale multiplier
+            float scale = _planeScaleMultiplier / 1000f;
 
             // Create model matrix for the plane
             // Build in order: Scale -> Rotate -> Translate
@@ -939,16 +822,18 @@ namespace MissionPlanner.Controls
 
             // Build vertex array with per-vertex lighting
             var planeVerts = new List<Vertex>();
-            for (int i = 0; i < _planeVertices.Count; i += 3)
+            var vertices = _stlLoader.Vertices;
+            var normals = _stlLoader.Normals;
+            for (int i = 0; i < vertices.Count; i += 3)
             {
-                float vx = _planeVertices[i];
-                float vy = _planeVertices[i + 1];
-                float vz = _planeVertices[i + 2];
+                float vx = vertices[i];
+                float vy = vertices[i + 1];
+                float vz = vertices[i + 2];
 
                 // Get normal for this vertex
-                float nx = _planeNormals[i];
-                float ny = _planeNormals[i + 1];
-                float nz = _planeNormals[i + 2];
+                float nx = normals[i];
+                float ny = normals[i + 1];
+                float nz = normals[i + 2];
 
                 // Normalize
                 float nlen = (float)Math.Sqrt(nx * nx + ny * ny + nz * nz);
@@ -978,7 +863,7 @@ namespace MissionPlanner.Controls
             GL.VertexAttribPointer(Lines.positionSlot, 3, VertexAttribPointerType.Float, false, Vertex.Stride, IntPtr.Zero);
             GL.VertexAttribPointer(Lines.colorSlot, 4, VertexAttribPointerType.Float, false, Vertex.Stride, (IntPtr)(sizeof(float) * 3));
 
-            GL.DrawArrays(BeginMode.Triangles, 0, _planeVertexCount);
+            GL.DrawArrays(BeginMode.Triangles, 0, _stlLoader.VertexCount);
 
             GL.DisableVertexAttribArray(Lines.positionSlot);
             GL.DisableVertexAttribArray(Lines.colorSlot);
@@ -990,15 +875,10 @@ namespace MissionPlanner.Controls
 
         private void DrawHeadingLines(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            // Get current heading (yaw), nav bearing, and GPS heading
-            double heading = MainV2.comPort?.MAV?.cs?.yaw ?? 0;
-            double navBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
-            double gpsHeading = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
-
-            // Heading line (red)
+            // Heading line (red) - uses Kalman-filtered yaw for smooth movement
             if (_showHeadingLine)
             {
-                double headingRad = MathHelper.Radians(heading);
+                double headingRad = MathHelper.Radians(_planeYaw);
                 double headingEndX = _planeDrawX + Math.Sin(headingRad) * HEADING_LINE_LENGTH;
                 double headingEndY = _planeDrawY + Math.Cos(headingRad) * HEADING_LINE_LENGTH;
 
@@ -1058,7 +938,9 @@ namespace MissionPlanner.Controls
                 else
                 {
                     // Not in navigation mode or no target: use nav_bearing direction with fixed length (like 2D map)
-                    double navBearingRad = MathHelper.Radians(navBearing);
+                    double rawNavBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
+                    double filteredNavBearing = _kalmanNavBearing.UpdateAngle(rawNavBearing);
+                    double navBearingRad = MathHelper.Radians(filteredNavBearing);
                     navEndX = _planeDrawX + Math.Sin(navBearingRad) * HEADING_LINE_LENGTH;
                     navEndY = _planeDrawY + Math.Cos(navBearingRad) * HEADING_LINE_LENGTH;
                     navEndZ = _planeDrawZ;
@@ -1075,7 +957,9 @@ namespace MissionPlanner.Controls
             // GPS heading line (black)
             if (_showGpsHeadingLine)
             {
-                double gpsRad = MathHelper.Radians(gpsHeading);
+                double rawGpsHeading = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
+                double filteredGpsHeading = _kalmanGpsHeading.UpdateAngle(rawGpsHeading);
+                double gpsRad = MathHelper.Radians(filteredGpsHeading);
                 double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * HEADING_LINE_LENGTH;
                 double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * HEADING_LINE_LENGTH;
 
@@ -1098,7 +982,10 @@ namespace MissionPlanner.Controls
                     if (alpha > 180) alpha = 180;
 
                     // Calculate center of turn circle perpendicular to travel direction
-                    double cogRad = MathHelper.Radians(gpsHeading);
+                    // Use the same filtered GPS heading for consistency
+                    double rawGpsCourse = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
+                    double filteredGpsCourse = _kalmanGpsHeading.UpdateAngle(rawGpsCourse);
+                    double cogRad = MathHelper.Radians(filteredGpsCourse);
                     double perpAngle = cogRad + (radius > 0 ? Math.PI / 2 : -Math.PI / 2);
                     double centerX = _planeDrawX + Math.Sin(perpAngle) * Math.Abs(radius);
                     double centerY = _planeDrawY + Math.Cos(perpAngle) * Math.Abs(radius);
@@ -1215,9 +1102,12 @@ namespace MissionPlanner.Controls
         private void DrawADSB(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
             double circleRadius = _adsbCircleSize / 2.0;
-            double groundedCircleRadius = circleRadius / 10.0;
+            double groundedCircleRadius = circleRadius / 5.0;
 
-            var ownPosition = MainV2.comPort?.MAV?.cs?.Location ?? PointLatLngAlt.Zero;
+            // Use vehicle location when connected, otherwise use 2D map center position
+            var ownPosition = IsVehicleConnected
+                ? (MainV2.comPort?.MAV?.cs?.Location ?? _center)
+                : _center;
 
             _adsbScreenPositions.Clear();
 
@@ -1257,11 +1147,21 @@ namespace MissionPlanner.Controls
                 var plane = item.Item1;
                 double distanceToOwn = item.Item2;
 
+                bool isGrounded = plane.IsOnGround;
+                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+
                 var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
                 var co = convertCoords(plla);
 
-                bool isGrounded = plane.IsOnGround;
-                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+                // For grounded aircraft, ensure they're visible above terrain
+                if (isGrounded)
+                {
+                    var terrainAlt = srtm.getAltitude(plane.Lat, plane.Lng).alt;
+                    if (co[2] < terrainAlt + 10)
+                    {
+                        co[2] = terrainAlt + 10; // Place at least 10m above terrain
+                    }
+                }
 
                 var color = GetADSBDistanceColor(distanceToOwn, isGrounded);
 
@@ -1320,6 +1220,11 @@ namespace MissionPlanner.Controls
         {
             if (Lines.Program == 0)
                 return;
+
+            // Enable depth testing so circles are properly occluded by terrain
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthMask(true);
+            GL.DepthFunc(DepthFunction.Lequal);
 
             GL.UseProgram(Lines.Program);
 
@@ -1417,6 +1322,7 @@ namespace MissionPlanner.Controls
             core.Zoom = minzoom;
             GMaps.Instance.CacheOnIdleRead = false;
             GMaps.Instance.BoostCacheEngine = true;
+            GMaps.Instance.MemoryCache.Capacity = 500; // 500MB tile cache
             // shared context
             _imageLoaderWindow = new OpenTK.GameWindow(640, 480, Context.GraphicsMode);
             _imageLoaderWindow.Visible = false;
@@ -1492,12 +1398,11 @@ namespace MissionPlanner.Controls
         private List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
         // Kalman filters for smooth position and rotation interpolation
-        private SimpleKalmanFilter _kalmanPosX = new SimpleKalmanFilter(0.05, 0.5);
-        private SimpleKalmanFilter _kalmanPosY = new SimpleKalmanFilter(0.05, 0.5);
-        private SimpleKalmanFilter _kalmanPosZ = new SimpleKalmanFilter(0.05, 0.5);
+        // Lower q = smoother output, higher r = trust measurements less (smoother)
+        private SimpleKalmanFilter _kalmanPosX = new SimpleKalmanFilter(0.02, 1.5);
+        private SimpleKalmanFilter _kalmanPosY = new SimpleKalmanFilter(0.02, 1.5);
+        private SimpleKalmanFilter _kalmanPosZ = new SimpleKalmanFilter(0.01, 2.0); // altitude is typically noisier
 
-        // Default ground plane (shown before tiles load)
-        private Lines _defaultGround;
         // Sky gradient quad
         private Lines _skyGradient;
         // Heading and nav bearing indicator lines
@@ -1505,9 +1410,13 @@ namespace MissionPlanner.Controls
         private Lines _navBearingLine;
         private Lines _gpsHeadingLine;
         private Lines _turnRadiusLine;
-        private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
-        private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
-        private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
+        // Rotation filters - extra smooth since jerky rotation is very noticeable
+        private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.015, 2.0);
+        private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.015, 2.0);
+        private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.015, 2.5); // yaw tends to be noisiest
+        // Filters for heading indicator lines
+        private SimpleKalmanFilter _kalmanNavBearing = new SimpleKalmanFilter(0.015, 2.0);
+        private SimpleKalmanFilter _kalmanGpsHeading = new SimpleKalmanFilter(0.015, 2.0);
         private bool _kalmanInitialized = false;
 
         double[] convertCoords(PointLatLngAlt plla)
@@ -1549,14 +1458,98 @@ namespace MissionPlanner.Controls
             var afterwait = DateTime.Now;
             try
             {
-                // Check if connected - stop updating plane position/camera when disconnected
-                bool isConnected = MainV2.comPort?.BaseStream?.IsOpen == true;
-
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
 
-                // Only update positions from Kalman filter when connected
-                if (isConnected)
+                if (!IsVehicleConnected)
+                {
+                    ResetKalmanFilters();
+
+                    // Vehicle is disconnected - use 2D map's center position and place camera 100m above terrain
+                    PointLatLng? map2DPosition = null;
+                    try
+                    {
+                        map2DPosition = GCSViews.FlightData.instance?.gMapControl1?.Position;
+                    }
+                    catch { }
+
+                    if (map2DPosition != null && map2DPosition.Value.Lat != 0 && map2DPosition.Value.Lng != 0)
+                    {
+                        var newCenter = new PointLatLngAlt(map2DPosition.Value.Lat, map2DPosition.Value.Lng, 0);
+
+                        // Check if this is the first update since disconnecting (large distance from current center to 2D map)
+                        // This ensures we immediately jump to the 2D map location on disconnect
+                        bool isFirstDisconnectUpdate = _center.GetDistance(newCenter) > 1000;
+
+                        // Check if 2D map position changed significantly
+                        bool map2DPositionChanged = _lastMap2DPosition == null ||
+                            (_lastMap2DPosition.Lat == 0 && _lastMap2DPosition.Lng == 0) ||
+                            _lastMap2DPosition.GetDistance(newCenter) > 30;
+
+                        if (map2DPositionChanged)
+                        {
+                            _lastMap2DPosition = newCenter;
+                            _lastMap2DPositionChangeTime = DateTime.Now;
+                        }
+
+                        // Update center immediately on first disconnect, or after 1s debounce for normal updates
+                        bool shouldUpdateCenter = _lastMap2DPosition != null &&
+                            _lastMap2DPosition.Lat != 0 && _lastMap2DPosition.Lng != 0 &&
+                            _center.GetDistance(_lastMap2DPosition) > 30 &&
+                            (isFirstDisconnectUpdate || (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 1000);
+
+                        if (shouldUpdateCenter)
+                        {
+                            // Check if UTM zone changed or large distance - need to reset coordinate system
+                            bool needsCoordinateReset = utmzone != _lastMap2DPosition.GetUTMZone() || llacenter.GetDistance(_lastMap2DPosition) > 10000;
+
+                            if (needsCoordinateReset)
+                            {
+                                // Use LocationCenter setter which handles cleanup properly
+                                // but do it via BeginInvoke to avoid blocking the paint thread
+                                var targetPos = _lastMap2DPosition;
+                                this.BeginInvoke((Action)(() =>
+                                {
+                                    LocationCenter = targetPos;
+                                }));
+                            }
+                            else
+                            {
+                                // Small distance change - update directly without full reset
+                                _center.Lat = _lastMap2DPosition.Lat;
+                                _center.Lng = _lastMap2DPosition.Lng;
+                                _center.Alt = _lastMap2DPosition.Alt;
+                            }
+                        }
+
+                        // Convert to local coordinates (use current _center which may have just been updated)
+                        var localPos = convertCoords(_center);
+
+                        // Get terrain altitude at this location
+                        var terrainAlt = srtm.getAltitude(_center.Lat, _center.Lng).alt;
+
+                        // Camera position at center, 100m above terrain
+                        cameraX = localPos[0];
+                        cameraY = localPos[1];
+                        cameraZ = terrainAlt + 100;
+
+                        // Calculate look direction based on base heading + free-look yaw/pitch
+                        // Base heading is last known plane yaw, or 0 (north) if never connected
+                        double baseHeading = _planeYaw;
+                        double totalYaw = baseHeading + _disconnectedCameraYaw;
+                        double yawRad = MathHelper.Radians(totalYaw);
+                        double pitchRad = MathHelper.Radians(_disconnectedCameraPitch);
+
+                        // Calculate look-at point based on yaw and pitch
+                        // Looking distance of 100m in the look direction
+                        double lookDist = 100.0;
+                        double cosPitch = Math.Cos(pitchRad);
+                        lookX = cameraX + Math.Sin(yawRad) * cosPitch * lookDist;
+                        lookY = cameraY + Math.Cos(yawRad) * cosPitch * lookDist;
+                        lookZ = cameraZ + Math.Sin(pitchRad) * lookDist;
+                    }
+                } 
+                else 
                 {
                     campos = projectLocation(mypos);
                     // Apply Kalman filter to rotation for smooth interpolation
@@ -1564,7 +1557,7 @@ namespace MissionPlanner.Controls
 
                     // save the state
                     mypos = campos;
-                    myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
+                    myrpy = new OpenTK.Vector3((float)rpy.x, (float)rpy.y, (float)rpy.z);
 
                     // Plane position (where camera used to be)
                     _planeDrawX = campos[0];
@@ -1602,16 +1595,33 @@ namespace MissionPlanner.Controls
                         _trailPoints.Add(new double[] { absX, absY, absZ });
                     }
 
-                    // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
-                    double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
-                    cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
-                    cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
-                    cameraZ = _planeDrawZ + _cameraHeight;
+                    if (_fpvMode)
+                    {
+                        // FPV mode: camera at aircraft position, looking in direction of flight
+                        // Based on OpenGLtest2.cs FPV camera logic
+                        cameraX = _planeDrawX;
+                        cameraY = _planeDrawY;
+                        cameraZ = _planeDrawZ;
 
-                    // Look at the plane
-                    lookX = _planeDrawX;
-                    lookY = _planeDrawY;
-                    lookZ = _planeDrawZ;
+                        // Look direction from yaw (no +180 offset, same as OpenGLtest2)
+                        double lookDist = 100;
+                        lookX = cameraX + Math.Sin(MathHelper.Radians(rpy.Z)) * lookDist;
+                        lookY = cameraY + Math.Cos(MathHelper.Radians(rpy.Z)) * lookDist;
+                        lookZ = cameraZ;
+                    }
+                    else
+                    {
+                        // Normal mode: Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
+                        double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
+                        cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
+                        cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
+                        cameraZ = _planeDrawZ + _cameraHeight;
+
+                        // Look at the plane
+                        lookX = _planeDrawX;
+                        lookY = _planeDrawY;
+                        lookZ = _planeDrawZ;
+                    }
                 }
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
@@ -1622,6 +1632,15 @@ namespace MissionPlanner.Controls
                 modelMatrix = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ,
                     (float) lookX, (float) lookY, (float) lookZ,
                     0, 0, 1);
+
+                if (_fpvMode && IsVehicleConnected)
+                {
+                    // In FPV mode, apply roll and pitch via matrix multiplication (same as OpenGLtest2.cs)
+                    // Roll around Z axis
+                    modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationZ((float)(rpy.X * MathHelper.deg2rad)));
+                    // Pitch around X axis (negated)
+                    modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationX((float)(rpy.Y * -MathHelper.deg2rad)));
+                }
 
                 // Update projection matrix based on altitude - 100km render distance when >500m altitude
                 float renderDistance = _center.Alt > 500 ? 100000f : 50000f;
@@ -1645,24 +1664,16 @@ namespace MissionPlanner.Controls
                 GL.Disable(EnableCap.DepthTest);
                 DrawSkyGradient();
 
-                // disable depth during terrain draw
-                GL.Disable(EnableCap.DepthTest);
+                // Enable depth testing for terrain so ADSB circles can be occluded
+                GL.Enable(EnableCap.DepthTest);
+                GL.DepthMask(true);
                 GL.DepthFunc(DepthFunction.Lequal);
 
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
 
-                // Draw ADSB aircraft circles (before tiles so they appear behind terrain)
-                DrawADSB(projMatrix, modelMatrix);
-
-                // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
-                if (texlist.Count == 0)
-                {
-                    // No tiles loaded yet - draw a large green ground plane
-                    DrawDefaultGround(projMatrix, modelMatrix);
-                }
                 int lastzoom = texlist.Count == 0 ? 0 : texlist[0].Value.zoom;
                 var beforedraw = DateTime.Now;
                 foreach (var tidict in texlist)
@@ -1681,6 +1692,10 @@ namespace MissionPlanner.Controls
                 var beforewps = DateTime.Now;
                 GL.Enable(EnableCap.DepthTest);
                 GL.Disable(EnableCap.Texture2D);
+
+                // Draw ADSB aircraft circles (after terrain with depth test so they render correctly)
+                DrawADSB(projMatrix, modelMatrix);
+
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
@@ -1714,10 +1729,13 @@ namespace MissionPlanner.Controls
                     }
                 }
                 // Only draw plane and indicators when connected
-                if (isConnected)
+                if (IsVehicleConnected)
                 {
-                    // Draw the plane model
-                    DrawPlane(projMatrix, modelMatrix);
+                    // Draw the plane model (skip in FPV mode since camera is at aircraft position)
+                    if (!_fpvMode)
+                    {
+                        DrawPlane(projMatrix, modelMatrix);
+                    }
 
                     // Draw heading (red) and nav bearing (orange) lines from plane center
                     DrawHeadingLines(projMatrix, modelMatrix);
@@ -1739,6 +1757,7 @@ namespace MissionPlanner.Controls
                     GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
+                    GL.Disable(EnableCap.CullFace);
 
                     var waypointList = GetWaypointListFromMAV();
                     var list = waypointList.Where(a => a != null).ToList();
@@ -1950,20 +1969,26 @@ namespace MissionPlanner.Controls
                 _rotationKalmanInitialized = true;
             }
 
-            // Handle yaw wraparound for smooth interpolation
-            double yaw = rawRpy.Z;
-            double currentYaw = _kalmanYaw.Value;
-
-            // Normalize yaw difference to prevent jumps at 0/360 boundary
-            double yawDiff = yaw - currentYaw;
-            if (yawDiff > 180) yaw -= 360;
-            else if (yawDiff < -180) yaw += 360;
-
             return new MissionPlanner.Utilities.Vector3(
-                (float)_kalmanRoll.Update(rawRpy.X),
-                (float)_kalmanPitch.Update(rawRpy.Y),
-                (float)_kalmanYaw.Update(yaw)
+                (float)_kalmanRoll.UpdateAngle(rawRpy.X),
+                (float)_kalmanPitch.UpdateAngle(rawRpy.Y),
+                (float)_kalmanYaw.UpdateAngle(rawRpy.Z)
             );
+        }
+
+        private void ResetKalmanFilters()
+        {
+            _kalmanInitialized = false;
+            _rotationKalmanInitialized = false;
+
+            _kalmanPosX.Reset(0);
+            _kalmanPosY.Reset(0);
+            _kalmanPosZ.Reset(0);
+            _kalmanRoll.Reset(0);
+            _kalmanPitch.Reset(0);
+            _kalmanYaw.Reset(0);
+            _kalmanNavBearing.Reset(0);
+            _kalmanGpsHeading.Reset(0);
         }
 
         private int Comparison(KeyValuePair<GPoint, tileInfo> x, KeyValuePair<GPoint, tileInfo> y)
@@ -2045,60 +2070,28 @@ namespace MissionPlanner.Controls
             GL.DeleteBuffer(vbo);
         }
 
-        private void DrawDefaultGround(Matrix4 projection, Matrix4 modelView)
-        {
-            // Create a large green ground plane centered at camera position
-            if (_defaultGround == null)
-            {
-                _defaultGround = new Lines();
-            }
-
-            // Draw a simple colored ground quad using the existing tileInfo infrastructure
-            // This creates a large flat green surface at altitude 0
-            float groundSize = 2000f; // meters
-            float groundAlt = 0f;
-
-            // Dark grass green color
-            float r = 0.2f, g = 0.45f, b = 0.15f, a = 1.0f;
-
-            var groundTile = new tileInfo(Context, WindowInfo, textureSemaphore);
-
-            // Create a quad (two triangles)
-            // Bottom-left
-            groundTile.vertex.Add(new Vertex(-groundSize, -groundSize, groundAlt, r, g, b, a, 0, 0));
-            // Top-left
-            groundTile.vertex.Add(new Vertex(-groundSize, groundSize, groundAlt, r, g, b, a, 0, 1));
-            // Bottom-right
-            groundTile.vertex.Add(new Vertex(groundSize, -groundSize, groundAlt, r, g, b, a, 1, 0));
-            // Top-right
-            groundTile.vertex.Add(new Vertex(groundSize, groundSize, groundAlt, r, g, b, a, 1, 1));
-
-            // Two triangles: 0-1-2 and 1-3-2
-            groundTile.indices.AddRange(new uint[] { 0, 1, 2, 1, 3, 2 });
-
-            // Draw without texture
-            GL.Disable(EnableCap.Texture2D);
-            groundTile.Draw(projection, modelView);
-            groundTile.Cleanup(true);
-        }
-
         private void generateTextures()
         {
             core.fillEmptyTiles = false;
             core.LevelsKeepInMemmory = 10;
             core.Provider = type;
             //core.ReloadMap();
+
+            // Use camera position for tile loading - works for both connected and disconnected states
+            var cameraPos = new utmpos(utmcenter[0] + cameraX, utmcenter[1] + cameraY, utmzone).ToLLA();
+
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
+                // Build tile areas from max zoom to min zoom
                 for (int a = zoom; a >= minzoom; a--)
                 {
-                    var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
+                    var area2 = new RectLatLng(cameraPos.Lat, cameraPos.Lng, 0, 0);
                     // 50m at max zoom
                     // step at 0 zoom
                     var distm = MathHelper.map(a, 0, zoom, 3000, 50);
-                    var offset = _center.newpos(45, distm);
-                    area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
+                    var offset = cameraPos.newpos(45, distm);
+                    area2.Inflate(Math.Abs(cameraPos.Lat - offset.Lat), Math.Abs(cameraPos.Lng - offset.Lng));
                     var extratile = 0;
                     if (a == minzoom)
                         extratile = 4;
@@ -2111,18 +2104,46 @@ namespace MissionPlanner.Controls
                     //Console.WriteLine("tiles z {0} max {1} dist {2} tiles {3} pxper100m {4} - {5}", a, zoom, distm,
                     //  tiles.points.Count, core.pxRes100m, core.Zoom);
                     tileArea.Add(tiles);
+                }
 
-                    // queue the tile load/fetch
-                    foreach (var p in tiles.points)
+                var allTasks = new List<(LoadTask task, int zoomLevel, double dist)>();
+
+                foreach (var ta in tileArea)
+                {
+                    foreach (var p in ta.points)
                     {
-                        LoadTask task = new LoadTask(p, a);
+                        LoadTask task = new LoadTask(p, ta.zoom);
+                        if (!core.tileLoadQueue.Contains(task))
                         {
-                            if (!core.tileLoadQueue.Contains(task))
-                            {
-                                core.tileLoadQueue.Push(task);
-                            }
+                            // Get tile center in lat/lng
+                            long tileCenterPxX = (p.X * prj.TileSize.Width) + (prj.TileSize.Width / 2);
+                            long tileCenterPxY = (p.Y * prj.TileSize.Height) + (prj.TileSize.Height / 2);
+                            var tileCenter = prj.FromPixelToLatLng(tileCenterPxX, tileCenterPxY, ta.zoom);
+
+                            // Calculate actual geographic distance from camera position
+                            double dLat = tileCenter.Lat - cameraPos.Lat;
+                            double dLng = tileCenter.Lng - cameraPos.Lng;
+                            double dist = dLat * dLat + dLng * dLng;
+                            allTasks.Add((task, ta.zoom, dist));
                         }
                     }
+                }
+
+                // Sort by combined priority: close tiles at high zoom should load first
+                // Priority = distance * zoom_weight, where higher zoom gets lower weight (more important)
+                // This way close high-zoom tiles beat far low-zoom tiles
+                allTasks.Sort((a, b) =>
+                {
+                    // Lower priority = load first. We want close (low dist) + high zoom to win
+                    // Multiply distance by inverse zoom factor so high zoom tiles get priority boost
+                    double priorityA = a.dist * (1.0 / (a.zoomLevel + 1));
+                    double priorityB = b.dist * (1.0 / (b.zoomLevel + 1));
+                    // For LIFO: higher priority pushed first (processed last)
+                    return priorityB.CompareTo(priorityA);
+                });
+                foreach (var t in allTasks)
+                {
+                    core.tileLoadQueue.Push(t.task);
                 }
 
                 //Minimumtile(tileArea);
@@ -2137,7 +2158,7 @@ namespace MissionPlanner.Controls
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             var C = 2 * Math.PI * 6378137.000;
             // horizontal distance by each tile square
-            var stile = C * Math.Cos(_center.Lat) / Math.Pow(2, zoom);
+            var stile = C * Math.Cos(cameraPos.Lat) / Math.Pow(2, zoom);
             var pxstep = 2;
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             // zoom 20 = 38m
@@ -2147,7 +2168,7 @@ namespace MissionPlanner.Controls
                 talist = tileArea.ToArray();
             foreach (var tilearea in talist)
             {
-                stile = C * Math.Cos(_center.Lat) / Math.Pow(2, tilearea.zoom);
+                stile = C * Math.Cos(cameraPos.Lat) / Math.Pow(2, tilearea.zoom);
                 pxstep = (int)(stile / 45);
                 pxstep = FloorPowerOf2(pxstep);
                 if (pxstep == int.MinValue) pxstep = 0;
@@ -2155,12 +2176,143 @@ namespace MissionPlanner.Controls
                     pxstep = 1;
                 foreach (var p in tilearea.points)
                 {
-                    core.tileDrawingListLock.AcquireReaderLock();
-                    core.Matrix.EnterReadLock();
+                    // Skip if we already have this tile loaded
+                    if (textureid.ContainsKey(p))
+                        continue;
+
                     long xstart = p.X * prj.TileSize.Width;
                     long ystart = p.Y * prj.TileSize.Width;
                     long xend = (p.X + 1) * prj.TileSize.Width;
                     long yend = (p.Y + 1) * prj.TileSize.Width;
+
+                    // Calculate grid dimensions
+                    int gridWidth = (int)((xend - xstart) / pxstep) + 1;
+                    int gridHeight = (int)((yend - ystart) / pxstep) + 1;
+
+                    // Try to load from disk cache first (exact zoom or better resolution)
+                    Map3DTileCache.CachedTileData cachedTile = null;
+                    if (_diskCacheTiles)
+                    {
+                        try
+                        {
+                            cachedTile = Map3DTileCache.LoadTileOrBetter(p.X, p.Y, tilearea.zoom, zoom);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to load tile from cache: {ex.Message}");
+                            cachedTile = null;
+                        }
+                    }
+
+                    if (cachedTile != null && cachedTile.Zoom == tilearea.zoom &&
+                        cachedTile.GridWidth == gridWidth && cachedTile.GridHeight == gridHeight &&
+                        cachedTile.PxStep == pxstep &&
+                        cachedTile.Altitudes != null && cachedTile.Altitudes.Length == gridWidth * gridHeight &&
+                        cachedTile.ImageData != null && cachedTile.ImageData.Length > 0)
+                    {
+                        // Load from disk cache - we have matching cached data
+                        try
+                        {
+                            // Reconstruct image from cached bytes
+                            // Note: We must copy the image since GDI+ requires the stream to stay open
+                            Image cachedImage;
+                            using (var ms = new MemoryStream(cachedTile.ImageData))
+                            using (var tempImage = Image.FromStream(ms))
+                            {
+                                cachedImage = new Bitmap(tempImage);
+                            }
+
+                            var ti = new tileInfo(Context, this.WindowInfo, textureSemaphore)
+                            {
+                                point = p,
+                                zoom = tilearea.zoom,
+                                img = cachedImage
+                            };
+
+                            // Pre-cache lat/lng coordinates (needed for UTM conversion)
+                            var latlngGrid = new PointLatLng[gridWidth, gridHeight];
+                            for (int gx = 0; gx < gridWidth; gx++)
+                            {
+                                long px = xstart + gx * pxstep;
+                                for (int gy = 0; gy < gridHeight; gy++)
+                                {
+                                    long py = ystart + gy * pxstep;
+                                    latlngGrid[gx, gy] = prj.FromPixelToLatLng(px, py, tilearea.zoom);
+                                }
+                            }
+
+                            // Build UTM cache using cached altitudes
+                            var utmCache = new double[gridWidth, gridHeight][];
+                            for (int gx = 0; gx < gridWidth; gx++)
+                            {
+                                for (int gy = 0; gy < gridHeight; gy++)
+                                {
+                                    utmCache[gx, gy] = convertCoords(latlngGrid[gx, gy]);
+                                    utmCache[gx, gy][2] = cachedTile.Altitudes[gx * gridHeight + gy];
+                                }
+                            }
+
+                            // Build quads using cached altitudes
+                            var zindexmod = (20 - ti.zoom) * 0.30;
+                            for (int gx = 0; gx < gridWidth - 1; gx++)
+                            {
+                                long x = xstart + gx * pxstep;
+                                long xnext = x + pxstep;
+                                for (int gy = 0; gy < gridHeight - 1; gy++)
+                                {
+                                    long y = ystart + gy * pxstep;
+                                    long ynext = y + pxstep;
+
+                                    var utm1 = utmCache[gx, gy];
+                                    var utm2 = utmCache[gx, gy + 1];
+                                    var utm3 = utmCache[gx + 1, gy];
+                                    var utm4 = utmCache[gx + 1, gy + 1];
+
+                                    var imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
+                                    var imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm4[0], utm4[1], utm4[2] - zindexmod, 1, 0, 0, 1, imgx, imgy));
+                                    imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
+                                    imgy = MathHelper.map(y, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm3[0], utm3[1], utm3[2] - zindexmod, 0, 1, 0, 1, imgx, imgy));
+                                    imgx = MathHelper.map(x, xstart, xend, 0, 1);
+                                    imgy = MathHelper.map(y, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm1[0], utm1[1], utm1[2] - zindexmod, 0, 0, 1, 1, imgx, imgy));
+                                    imgx = MathHelper.map(x, xstart, xend, 0, 1);
+                                    imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm2[0], utm2[1], utm2[2] - zindexmod, 1, 1, 0, 1, imgx, imgy));
+                                    var startindex = (uint)ti.vertex.Count - 4;
+                                    ti.indices.AddRange(new[]
+                                    {
+                                        startindex + 0, startindex + 1, startindex + 3,
+                                        startindex + 1, startindex + 2, startindex + 3
+                                    });
+                                }
+                            }
+
+                            // Initialize GPU buffers
+                            try
+                            {
+                                var temp2 = ti.idEBO;
+                                var temp3 = ti.idVBO;
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+
+                            textureid[p] = ti;
+                            continue; // Successfully loaded from cache
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to load tile from cache: {ex.Message}");
+                            // Fall through to load from GMap.NET
+                        }
+                    }
+
+                    // Not in cache or cache miss - load from GMap.NET and compute altitude
+                    core.tileDrawingListLock.AcquireReaderLock();
+                    core.Matrix.EnterReadLock();
                     try
                     {
                         GMap.NET.Internals.Tile t = core.Matrix.GetTileWithNoLock(tilearea.zoom, p);
@@ -2179,10 +2331,6 @@ namespace MissionPlanner.Controls
                                             zoom = tilearea.zoom,
                                             img = (Image) img.Img.Clone()
                                         };
-
-                                        // Calculate grid dimensions for altitude caching
-                                        int gridWidth = (int)((xend - xstart) / pxstep) + 1;
-                                        int gridHeight = (int)((yend - ystart) / pxstep) + 1;
 
                                         // Pre-cache all lat/lng coordinates and altitudes for this tile
                                         var latlngGrid = new PointLatLng[gridWidth, gridHeight];
@@ -2262,37 +2410,55 @@ namespace MissionPlanner.Controls
                                                     });
                                                 }
                                             }
+
+                                            // Save to disk cache for future use (if enabled)
+                                            if (_diskCacheTiles)
+                                            {
+                                                try
+                                                {
+                                                    // Clone image and altCache since they may be disposed/modified before ThreadPool executes
+                                                    var imgClone = (Image)img.Img.Clone();
+                                                    var altCacheClone = (double[,])altCache.Clone();
+                                                    var tileX = p.X;
+                                                    var tileY = p.Y;
+                                                    var tileZoom = tilearea.zoom;
+                                                    ThreadPool.QueueUserWorkItem(_ =>
+                                                    {
+                                                        try
+                                                        {
+                                                            Map3DTileCache.SaveTile(tileX, tileY, tileZoom,
+                                                                gridWidth, gridHeight, pxstep, altCacheClone, imgClone);
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Debug.WriteLine($"Failed to save tile to cache: {ex.Message}");
+                                                        }
+                                                        finally
+                                                        {
+                                                            imgClone?.Dispose();
+                                                        }
+                                                    });
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    Debug.WriteLine($"Failed to queue tile cache save: {ex.Message}");
+                                                }
+                                            }
                                         }
 
                                         if (ti != null)
                                         {
-                                            //textureSemaphore.Wait();
                                             try
                                             {
-                                                // do this on UI thread
-                                                //if (!Context.IsCurrent)
-                                                //Context.MakeCurrent(this.WindowInfo);
-                                                // load it all
-                                                //var temp = ti.idtexture; -- intel hd graphics cant share textures
                                                 var temp2 = ti.idEBO;
                                                 var temp3 = ti.idVBO;
-                                                //var temp4 = ti.idVAO;
-                                                // release it
-                                                //if (Context.IsCurrent)
-                                                //Context.MakeCurrent(null);
                                             }
                                             catch
                                             {
                                                 return;
                                             }
-                                            finally
-                                            {
-                                                //textureSemaphore.Release();
-                                            }
 
                                             textureid[p] = ti;
-
-                                            //File.WriteAllText(p.ToString(), ti.ToJSON());
                                         }
                                     }
                                     catch
@@ -2404,32 +2570,35 @@ namespace MissionPlanner.Controls
             this.btn_configure = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            //
+            // 
             // btn_configure
-            //
-            this.btn_configure.Location = new System.Drawing.Point(3, 3);
+            // 
+            this.btn_configure.Location = new System.Drawing.Point(4, 4);
+            this.btn_configure.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_configure.Name = "btn_configure";
-            this.btn_configure.Size = new System.Drawing.Size(75, 23);
+            this.btn_configure.Size = new System.Drawing.Size(70, 28);
             this.btn_configure.TabIndex = 0;
-            this.btn_configure.Text = "Configure";
+            this.btn_configure.Text = "Settings";
+            this.btn_configure.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btn_configure.UseVisualStyleBackColor = true;
             this.btn_configure.Click += new System.EventHandler(this.btn_configure_Click);
-            //
+            // 
             // timer1
-            //
-            this.timer1.Interval = 33;
+            // 
+            this.timer1.Interval = 15;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            //
+            // 
             // Map3D
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.Controls.Add(this.btn_configure);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "Map3D";
-            this.Size = new System.Drawing.Size(640, 480);
+            this.Size = new System.Drawing.Size(853, 591);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         private void test_Load(object sender, EventArgs e)
@@ -2541,7 +2710,7 @@ namespace MissionPlanner.Controls
                 y += 30;
 
                 var lblSTL = new Label { Text = "STL File:", Location = new Point(margin, y + 3), AutoSize = true };
-                string selectedSTLPath = _planeSTLPath;
+                string selectedSTLPath = _stlLoader.CustomSTLPath;
                 string stlButtonText = string.IsNullOrEmpty(selectedSTLPath) ? "Default" : Path.GetFileName(selectedSTLPath);
                 var btnSTL = new Button { Location = new Point(inputX, y), Width = inputWidth, Height = 23, Text = stlButtonText };
                 btnSTL.Click += (s, ev) =>
@@ -2581,6 +2750,23 @@ namespace MissionPlanner.Controls
 
                 var chkTrail = new CheckBox { Text = "Flight Path Trail (armed only)", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
                 dialog.Controls.Add(chkTrail);
+                y += 24;
+
+                var chkFPV = new CheckBox { Text = "FPV Mode (camera at aircraft)", Location = new Point(margin, y), AutoSize = true, Checked = _fpvMode };
+                chkFPV.CheckedChanged += (s, ev) =>
+                {
+                    // Disable distance/height controls when FPV is on
+                    numDist.Enabled = !chkFPV.Checked;
+                    numHeight.Enabled = !chkFPV.Checked;
+                };
+                // Set initial state
+                numDist.Enabled = !_fpvMode;
+                numHeight.Enabled = !_fpvMode;
+                dialog.Controls.Add(chkFPV);
+                y += 24;
+
+                var chkDiskCache = new CheckBox { Text = "Disk Cache Tiles", Location = new Point(margin, y), AutoSize = true, Checked = _diskCacheTiles };
+                dialog.Controls.Add(chkDiskCache);
                 y += 30;
 
                 int btnWidth = 75;
@@ -2611,6 +2797,8 @@ namespace MissionPlanner.Controls
                     chkGpsHeading.Checked = true;
                     chkTurnRadius.Checked = true;
                     chkTrail.Checked = false;
+                    chkFPV.Checked = false;
+                    chkDiskCache.Checked = true;
                     _cameraAngle = 0.0;
                 };
                 dialog.Controls.Add(btnReset);
@@ -2635,11 +2823,25 @@ namespace MissionPlanner.Controls
                     _showGpsHeadingLine = chkGpsHeading.Checked;
                     _showTurnRadius = chkTurnRadius.Checked;
                     _showTrail = chkTrail.Checked;
+                    _fpvMode = chkFPV.Checked;
 
-                    bool stlChanged = _planeSTLPath != selectedSTLPath;
-                    _planeSTLPath = selectedSTLPath;
-                    if (stlChanged)
-                        _planeLoaded = false;
+                    // Handle disk cache setting - clear cache if disabled
+                    bool oldDiskCache = _diskCacheTiles;
+                    _diskCacheTiles = chkDiskCache.Checked;
+                    if (oldDiskCache && !_diskCacheTiles)
+                    {
+                        // User disabled disk caching - clear the cache
+                        try
+                        {
+                            Map3DTileCache.ClearCache();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to clear tile cache: {ex.Message}");
+                        }
+                    }
+
+                    _stlLoader.CustomSTLPath = selectedSTLPath;
 
                     Settings.Instance["map3d_zoom_level"] = zoom.ToString();
                     Settings.Instance["map3d_camera_dist"] = _cameraDist.ToString();
@@ -2649,12 +2851,14 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_waypoint_marker_size"] = _waypointMarkerSize.ToString();
                     Settings.Instance["map3d_adsb_size"] = _adsbCircleSize.ToString();
                     Settings.Instance["map3d_mav_color"] = _planeColor.ToArgb().ToString();
-                    Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
+                    Settings.Instance["map3d_plane_stl_path"] = _stlLoader.CustomSTLPath;
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
                     Settings.Instance["map3d_show_nav_bearing"] = _showNavBearingLine.ToString();
                     Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
                     Settings.Instance["map3d_show_turn_radius"] = _showTurnRadius.ToString();
                     Settings.Instance["map3d_show_trail"] = _showTrail.ToString();
+                    Settings.Instance["map3d_fpv_mode"] = _fpvMode.ToString();
+                    Settings.Instance["map3d_disk_cache_tiles"] = _diskCacheTiles.ToString();
                     Settings.Instance.Save();
 
                     test_Resize(null, null);

@@ -210,6 +210,10 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigRadioInput), rm.GetString("backstageViewPageradio.Text"), isConnected && gotAllParams, mand);
             }
+            if (MainV2.DisplayConfiguration.displayMotorTest && (isCopter || isQuadPlane))
+            {
+                AddBackstageViewPage(typeof(ConfigMotorTest), rm.GetString("backstageViewPageMotorTest.Text"), isConnected && gotAllParams, mand);
+            }
             if (MainV2.DisplayConfiguration.displayServoOutput)
             {
                 AddBackstageViewPage(typeof(ConfigRadioOutput), "Servo Output", isConnected && gotAllParams, mand);
@@ -222,10 +226,6 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayEscCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigESCCalibration), "ESC Calibration", isConnected && gotAllParams, mand);
-            }
-            if (MainV2.DisplayConfiguration.displayMotorTest)
-            {
-                AddBackstageViewPage(typeof(ConfigMotorTest), rm.GetString("backstageViewPageMotorTest.Text"), isConnected && gotAllParams, mand);
             }
             if (MainV2.DisplayConfiguration.displayFlightModes)
             {

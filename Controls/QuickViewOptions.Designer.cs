@@ -33,21 +33,19 @@ namespace MissionPlanner.Controls
             this.CMB_Source = new System.Windows.Forms.ComboBox();
             this.NUM_precision = new System.Windows.Forms.NumericUpDown();
             this.LBL_precision = new System.Windows.Forms.Label();
-            this.CHK_customcolor = new System.Windows.Forms.CheckBox();
+            this.LBL_color = new System.Windows.Forms.Label();
             this.TXT_color = new System.Windows.Forms.TextBox();
             this.BUT_colorpicker = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.CHK_customwidth = new System.Windows.Forms.CheckBox();
-            this.NUM_customwidth = new System.Windows.Forms.NumericUpDown();
-            this.CHK_customlabel = new System.Windows.Forms.CheckBox();
+            this.LBL_label = new System.Windows.Forms.Label();
             this.TXT_customformat = new System.Windows.Forms.TextBox();
             this.TXT_customlabel = new System.Windows.Forms.TextBox();
             this.TXT_offset = new System.Windows.Forms.TextBox();
             this.TXT_scale = new System.Windows.Forms.TextBox();
-            this.CHK_customformat = new System.Windows.Forms.CheckBox();
+            this.LBL_format = new System.Windows.Forms.Label();
             this.CHK_gauge = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -57,7 +55,6 @@ namespace MissionPlanner.Controls
             ((System.ComponentModel.ISupportInitialize)(this.NUM_precision)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_customwidth)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_Source
@@ -102,19 +99,17 @@ namespace MissionPlanner.Controls
             this.LBL_precision.TabIndex = 4;
             this.LBL_precision.Text = "Precision:";
             this.toolTip1.SetToolTip(this.LBL_precision, "How many decimal places to show");
-            // 
-            // CHK_customcolor
-            // 
-            this.CHK_customcolor.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_customcolor.AutoSize = true;
-            this.CHK_customcolor.Location = new System.Drawing.Point(3, 36);
-            this.CHK_customcolor.Name = "CHK_customcolor";
-            this.CHK_customcolor.Size = new System.Drawing.Size(88, 17);
-            this.CHK_customcolor.TabIndex = 5;
-            this.CHK_customcolor.Text = "Custom Color";
-            this.toolTip1.SetToolTip(this.CHK_customcolor, "Apply custom text color");
-            this.CHK_customcolor.UseVisualStyleBackColor = true;
-            this.CHK_customcolor.CheckedChanged += new System.EventHandler(this.CHK_customcolor_CheckedChanged);
+            //
+            // LBL_color
+            //
+            this.LBL_color.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.LBL_color.AutoSize = true;
+            this.LBL_color.Location = new System.Drawing.Point(3, 38);
+            this.LBL_color.Name = "LBL_color";
+            this.LBL_color.Size = new System.Drawing.Size(31, 13);
+            this.LBL_color.TabIndex = 5;
+            this.LBL_color.Text = "Color";
+            this.toolTip1.SetToolTip(this.LBL_color, "Text color for the value");
             // 
             // TXT_color
             // 
@@ -160,29 +155,26 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_customwidth, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.NUM_customwidth, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_customcolor, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_color, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.TXT_color, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.BUT_colorpicker, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_customlabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TXT_customformat, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.TXT_customlabel, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_offset, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_scale, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_customformat, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.CHK_gauge, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMin, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMax, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_offset, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_scale, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_format, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_gauge, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMin, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.TXT_gaugeMax, 1, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 9;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -191,7 +183,7 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 280);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 250);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
             // label1
@@ -215,60 +207,17 @@ namespace MissionPlanner.Controls
             this.label2.TabIndex = 12;
             this.label2.Text = "Offset";
             this.toolTip1.SetToolTip(this.label2, "Apply scale and offset to convert units.");
-            // 
-            // CHK_customwidth
-            // 
-            this.CHK_customwidth.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_customwidth.AutoSize = true;
-            this.CHK_customwidth.Location = new System.Drawing.Point(3, 96);
-            this.CHK_customwidth.Name = "CHK_customwidth";
-            this.CHK_customwidth.Size = new System.Drawing.Size(92, 17);
-            this.CHK_customwidth.TabIndex = 9;
-            this.CHK_customwidth.Text = "Custom Width";
-            this.toolTip1.SetToolTip(this.CHK_customwidth, "Specify the maximum number of digits wide you expect the number to be. This provi" +
-        "des more consistent text size.");
-            this.CHK_customwidth.UseVisualStyleBackColor = true;
-            this.CHK_customwidth.CheckedChanged += new System.EventHandler(this.CHK_customwidth_CheckedChanged);
-            // 
-            // NUM_customwidth
-            // 
-            this.NUM_customwidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUM_customwidth.Location = new System.Drawing.Point(105, 95);
-            this.NUM_customwidth.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.NUM_customwidth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUM_customwidth.Name = "NUM_customwidth";
-            this.NUM_customwidth.Size = new System.Drawing.Size(118, 20);
-            this.NUM_customwidth.TabIndex = 9;
-            this.NUM_customwidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip1.SetToolTip(this.NUM_customwidth, "Specify the maximum number of digits wide you expect the number to be. This provi" +
-        "des more consistent text size.");
-            this.NUM_customwidth.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.NUM_customwidth.ValueChanged += new System.EventHandler(this.NUM_customwidth_ValueChanged);
-            // 
-            // CHK_customlabel
-            // 
-            this.CHK_customlabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_customlabel.AutoSize = true;
-            this.CHK_customlabel.Location = new System.Drawing.Point(3, 6);
-            this.CHK_customlabel.Name = "CHK_customlabel";
-            this.CHK_customlabel.Size = new System.Drawing.Size(90, 17);
-            this.CHK_customlabel.TabIndex = 15;
-            this.CHK_customlabel.Text = "Custom Label";
-            this.toolTip1.SetToolTip(this.CHK_customlabel, "Override the description at the top");
-            this.CHK_customlabel.UseVisualStyleBackColor = true;
-            this.CHK_customlabel.CheckedChanged += new System.EventHandler(this.CHK_customlabel_CheckedChanged);
+            //
+            // LBL_label
+            //
+            this.LBL_label.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.LBL_label.AutoSize = true;
+            this.LBL_label.Location = new System.Drawing.Point(3, 8);
+            this.LBL_label.Name = "LBL_label";
+            this.LBL_label.Size = new System.Drawing.Size(33, 13);
+            this.LBL_label.TabIndex = 15;
+            this.LBL_label.Text = "Label";
+            this.toolTip1.SetToolTip(this.LBL_label, "Description shown at the top of the item");
             // 
             // TXT_customformat
             // 
@@ -323,19 +272,17 @@ namespace MissionPlanner.Controls
             this.toolTip1.SetToolTip(this.TXT_scale, "Apply scale and offset to convert units.");
             this.TXT_scale.TextChanged += new System.EventHandler(this.TXT_scale_TextChanged);
             this.TXT_scale.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_scale_offset_KeyPress);
-            // 
-            // CHK_customformat
             //
-            this.CHK_customformat.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_customformat.AutoSize = true;
-            this.CHK_customformat.Location = new System.Drawing.Point(3, 66);
-            this.CHK_customformat.Name = "CHK_customformat";
-            this.CHK_customformat.Size = new System.Drawing.Size(96, 17);
-            this.CHK_customformat.TabIndex = 8;
-            this.CHK_customformat.Text = "Custom Format";
-            this.toolTip1.SetToolTip(this.CHK_customformat, "Custom format specifier, e.g. \"0.0\" or \"m:ss\"");
-            this.CHK_customformat.UseVisualStyleBackColor = true;
-            this.CHK_customformat.CheckedChanged += new System.EventHandler(this.CHK_customformat_CheckedChanged);
+            // LBL_format
+            //
+            this.LBL_format.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.LBL_format.AutoSize = true;
+            this.LBL_format.Location = new System.Drawing.Point(3, 68);
+            this.LBL_format.Name = "LBL_format";
+            this.LBL_format.Size = new System.Drawing.Size(39, 13);
+            this.LBL_format.TabIndex = 8;
+            this.LBL_format.Text = "Format";
+            this.toolTip1.SetToolTip(this.LBL_format, "Format specifier, e.g. \"0.00\" or \"m:ss\"");
             //
             // CHK_gauge
             //
@@ -421,7 +368,6 @@ namespace MissionPlanner.Controls
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_customwidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,17 +378,15 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ComboBox CMB_Source;
         private System.Windows.Forms.NumericUpDown NUM_precision;
         private System.Windows.Forms.Label LBL_precision;
-        private System.Windows.Forms.CheckBox CHK_customcolor;
+        private System.Windows.Forms.Label LBL_color;
         private System.Windows.Forms.TextBox TXT_color;
         private System.Windows.Forms.Button BUT_colorpicker;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.CheckBox CHK_customformat;
-        private System.Windows.Forms.CheckBox CHK_customwidth;
+        private System.Windows.Forms.Label LBL_format;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown NUM_customwidth;
-        private System.Windows.Forms.CheckBox CHK_customlabel;
+        private System.Windows.Forms.Label LBL_label;
         private System.Windows.Forms.TextBox TXT_customformat;
         private System.Windows.Forms.TextBox TXT_customlabel;
         private System.Windows.Forms.ToolTip toolTip1;

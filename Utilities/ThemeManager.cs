@@ -405,10 +405,12 @@ namespace MissionPlanner.Utilities
 
             ApplyTheme(control, 0);
 
-            // Apply Windows dark mode to title bar if this is a form
+            // Apply Windows dark mode and icon to title bar if this is a form
             if (control is Form form)
             {
                 ApplyDarkModeToTitleBar(form);
+                if (Program.IconFile != null)
+                    form.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
         }
 

@@ -27,6 +27,12 @@ namespace MissionPlanner.GCSViews
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        // Default Woodley location (always available)
+        private static readonly SITLLocation WoodleyLocation = new SITLLocation("Woodley", 34.174424, -118.480992, 324);
+
+        // List of saved locations
+        private List<SITLLocation> _savedLocations = new List<SITLLocation>();
+
         //https://regex101.com/r/cH3kV3/2
         //https://regex101.com/r/cH3kV3/3
         Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
@@ -46,9 +52,9 @@ namespace MissionPlanner.GCSViews
         GMapOverlay markeroverlay;
 
         GMapMarkerWP homemarker = new GMapMarkerWP(new PointLatLng(-34.98106, 117.85201), "H");
-        bool onmarker = false;
-        bool mousedown = false;
-        private PointLatLng MouseDownStart;
+        bool isDragging = false;
+        PointLatLng MouseDownStart;
+        bool _isInitializing = false;
 
         internal static UdpClient SITLSEND;
 
@@ -123,24 +129,297 @@ namespace MissionPlanner.GCSViews
             cmb_version.DisplayMember = "Key";
             cmb_version.ValueMember = "Value";
             cmb_version.SelectedIndex = Settings.Instance.GetInt32("sitl_download_version");
+
+            // Load saved locations and populate dropdown
+            LoadSavedLocations();
+            PopulateLocationDropdown();
+        }
+
+        /// <summary>
+        /// Loads saved locations from Settings
+        /// </summary>
+        private void LoadSavedLocations()
+        {
+            _savedLocations.Clear();
+            string json = Settings.Instance.GetString("sitl_saved_locations", "");
+            if (!string.IsNullOrEmpty(json))
+            {
+                try
+                {
+                    var locations = JsonConvert.DeserializeObject<List<SITLLocation>>(json);
+                    if (locations != null)
+                        _savedLocations = locations;
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Failed to load saved SITL locations", ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves locations to Settings
+        /// </summary>
+        private void SaveLocations()
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(_savedLocations);
+                Settings.Instance["sitl_saved_locations"] = json;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to save SITL locations", ex);
+            }
+        }
+
+        /// <summary>
+        /// Populates the location dropdown with Woodley (default) and saved locations
+        /// </summary>
+        private void PopulateLocationDropdown()
+        {
+            cmb_location.Items.Clear();
+
+            // Always add Woodley as first option (default)
+            cmb_location.Items.Add(WoodleyLocation);
+
+            // Add saved locations
+            foreach (var loc in _savedLocations)
+            {
+                cmb_location.Items.Add(loc);
+            }
+
+            // Select Woodley by default
+            cmb_location.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Event handler for location dropdown selection change - loads the selected location
+        /// </summary>
+        private void cmb_location_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Skip loading during initialization to avoid race conditions
+            if (_isInitializing)
+                return;
+
+            if (cmb_location.SelectedItem is SITLLocation location)
+            {
+                var newPos = new PointLatLng(location.Lat, location.Lng);
+
+                // Update heading
+                NUM_heading.Value = location.Heading;
+
+                // Move map and marker to the new location
+                myGMAP1.Position = newPos;
+                homemarker.Position = newPos;
+                myGMAP1.Zoom = 17;
+                myGMAP1.Invalidate();
+
+                // Save last selected location
+                Settings.Instance["sitl_last_location"] = location.Name;
+            }
+
+            // Update remove button state when selection changes
+            UpdateRemoveButtonState();
+        }
+
+        /// <summary>
+        /// Checks if a point is visible on the map
+        /// </summary>
+        private bool IsPointOnScreen(PointLatLng point)
+        {
+            var localPoint = myGMAP1.FromLatLngToLocal(point);
+            return localPoint.X >= 0 && localPoint.X <= myGMAP1.Width &&
+                   localPoint.Y >= 0 && localPoint.Y <= myGMAP1.Height;
+        }
+
+        /// <summary>
+        /// Event handler for Add Location button - saves current marker position as custom location
+        /// </summary>
+        private void addCustomLoc_Click(object sender, EventArgs e)
+        {
+            // Get current marker position
+            var currentPos = homemarker.Position;
+
+            // Check if marker is off screen
+            if (!IsPointOnScreen(currentPos))
+            {
+                if (CustomMessageBox.Show("Place home at map center?", "Home Off Screen", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                {
+                    currentPos = myGMAP1.Position;
+                    homemarker.Position = currentPos;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (currentPos.Lat == 0 && currentPos.Lng == 0)
+            {
+                CustomMessageBox.Show("Please set a valid home location on the map first.", "Invalid Location");
+                return;
+            }
+
+            // Ask for location name
+            string locationName = "";
+            if (InputBox.Show("Save Location", "Enter a name for this location:", ref locationName) != DialogResult.OK)
+                return;
+
+            if (string.IsNullOrWhiteSpace(locationName))
+            {
+                CustomMessageBox.Show("Location name cannot be empty.", "Invalid Name");
+                return;
+            }
+
+            // Don't allow overwriting Woodley
+            if (locationName.Equals("Woodley", StringComparison.OrdinalIgnoreCase))
+            {
+                CustomMessageBox.Show("Cannot overwrite the default Woodley location.", "Invalid Name");
+                return;
+            }
+
+            // Ask for heading
+            int heading = (int)NUM_heading.Value;
+            if (InputBox.Show("Heading", "Enter the heading (0-360):", ref heading) != DialogResult.OK)
+                return;
+
+            heading = Math.Max(0, Math.Min(360, heading));
+
+            // Remove existing location with same name (if any)
+            _savedLocations.RemoveAll(l => l.Name.Equals(locationName, StringComparison.OrdinalIgnoreCase));
+
+            // Create and save the new location
+            var newLocation = new SITLLocation(locationName, currentPos.Lat, currentPos.Lng, heading);
+            _savedLocations.Add(newLocation);
+            SaveLocations();
+
+            // Refresh dropdown and select the new location
+            PopulateLocationDropdown();
+
+            // Find and select the new location in dropdown
+            for (int i = 0; i < cmb_location.Items.Count; i++)
+            {
+                if (cmb_location.Items[i] is SITLLocation loc && loc.Name == newLocation.Name)
+                {
+                    cmb_location.SelectedIndex = i;
+                    break;
+                }
+            }
+
+            CustomMessageBox.Show($"Location '{locationName}' saved successfully.", "Location Saved");
+
+            // Update remove button state
+            UpdateRemoveButtonState();
+        }
+
+        /// <summary>
+        /// Event handler for Remove Location button - removes the selected custom location
+        /// </summary>
+        private void removeCustomLoc_Click(object sender, EventArgs e)
+        {
+            // Only allow removal if there's more than just Woodley
+            if (cmb_location.Items.Count <= 1)
+                return;
+
+            // Don't allow removing Woodley (index 0)
+            if (cmb_location.SelectedIndex == 0)
+            {
+                CustomMessageBox.Show("Cannot remove the default Woodley location.", "Cannot Remove");
+                return;
+            }
+
+            if (cmb_location.SelectedItem is SITLLocation location)
+            {
+                // Confirm removal
+                if (CustomMessageBox.Show($"Remove location '{location.Name}'?", "Confirm Remove", MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
+                    return;
+
+                // Remove from saved locations
+                _savedLocations.RemoveAll(l => l.Name == location.Name);
+                SaveLocations();
+
+                // Refresh dropdown and select Woodley
+                PopulateLocationDropdown();
+                cmb_location.SelectedIndex = 0;
+
+                // Update remove button state
+                UpdateRemoveButtonState();
+            }
+        }
+
+        /// <summary>
+        /// Updates the enabled state of the remove button based on available locations
+        /// </summary>
+        private void UpdateRemoveButtonState()
+        {
+            // Disable if only Woodley exists, or if Woodley is selected
+            removeCustomLoc.Enabled = cmb_location.Items.Count > 1 && cmb_location.SelectedIndex > 0;
+        }
+
+        /// <summary>
+        /// Event handler for Find Location button - searches for a location by keyword
+        /// </summary>
+        private void findLoc_Click(object sender, EventArgs e)
+        {
+            string place = "";
+            if (InputBox.Show("Find Location", "Enter a location to search for:", ref place) == DialogResult.OK)
+            {
+                if (string.IsNullOrWhiteSpace(place))
+                    return;
+
+                // Temporarily switch to OpenStreetMap for geocoding
+                var provider = myGMAP1.MapProvider;
+                myGMAP1.MapProvider = GMap.NET.MapProviders.GMapProviders.OpenStreetMap;
+
+                GMap.NET.GeoCoderStatusCode status = myGMAP1.SetPositionByKeywords(place);
+
+                // Restore the map provider
+                myGMAP1.MapProvider = provider;
+
+                if (status != GMap.NET.GeoCoderStatusCode.G_GEO_SUCCESS)
+                {
+                    CustomMessageBox.Show($"Could not find location: '{place}'\nReason: {status}", "Location Not Found");
+                }
+                else
+                {
+                    myGMAP1.Zoom = 17;
+                    // Move marker to the found location
+                    homemarker.Position = myGMAP1.Position;
+                    myGMAP1.Invalidate();
+                }
+            }
         }
 
         public void Activate()
         {
-            // Default to Woodley location
-            if(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat == 0 && MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng == 0)
-                homemarker.Position = new PointLatLng(34.174424, -118.480992);
-            else
-                homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
+            _isInitializing = true;
 
-            myGMAP1.Position = homemarker.Position;
+            // Load last selected location from settings
+            string lastLocationName = Settings.Instance.GetString("sitl_last_location", "Woodley");
+            SITLLocation selectedLocation = WoodleyLocation;
+            int selectedIndex = 0;
 
-            // Set default heading to 324
-            NUM_heading.Value = 324;
+            for (int i = 0; i < cmb_location.Items.Count; i++)
+            {
+                if (cmb_location.Items[i] is SITLLocation loc && loc.Name == lastLocationName)
+                {
+                    selectedLocation = loc;
+                    selectedIndex = i;
+                    break;
+                }
+            }
+
+            // Set map and marker to the selected location
+            var pos = new PointLatLng(selectedLocation.Lat, selectedLocation.Lng);
+            homemarker.Position = pos;
+            NUM_heading.Value = selectedLocation.Heading;
+            cmb_location.SelectedIndex = selectedIndex;
 
             myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
             myGMAP1.MaxZoom = 22;
             myGMAP1.Zoom = 17;
+            myGMAP1.Position = pos;
             myGMAP1.DisableFocusOnMouseEnter = true;
 
             markeroverlay = new GMapOverlay("markers");
@@ -149,6 +428,11 @@ namespace MissionPlanner.GCSViews
             markeroverlay.Markers.Add(homemarker);
 
             myGMAP1.Invalidate();
+
+            _isInitializing = false;
+
+            // Update remove button state
+            UpdateRemoveButtonState();
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
@@ -765,52 +1049,44 @@ namespace MissionPlanner.GCSViews
 
         private void myGMAP1_OnMarkerEnter(GMapMarker item)
         {
-            if (!mousedown)
-                onmarker = true;
         }
 
         private void myGMAP1_OnMarkerLeave(GMapMarker item)
         {
-            if (!mousedown)
-                onmarker = false;
         }
 
         private void myGMAP1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (onmarker)
+            if (e.Button == MouseButtons.Left)
             {
-                if (e.Button == MouseButtons.Left)
-                {
-                    homemarker.Position = myGMAP1.FromLocalToLatLng(e.X, e.Y);
-                }
-            }
-            else if (mousedown)
-            {
-                PointLatLng point = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+                isDragging = true;
 
+                // Dragging the map
+                PointLatLng point = myGMAP1.FromLocalToLatLng(e.X, e.Y);
                 double latdif = MouseDownStart.Lat - point.Lat;
                 double lngdif = MouseDownStart.Lng - point.Lng;
-
                 try
                 {
                     myGMAP1.Position = new PointLatLng(myGMAP1.Position.Lat + latdif, myGMAP1.Position.Lng + lngdif);
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 
         private void myGMAP1_MouseUp(object sender, MouseEventArgs e)
         {
-            mousedown = false;
-            onmarker = false;
+            // Only set marker on click (not drag)
+            if (!isDragging && e.Button == MouseButtons.Left)
+            {
+                homemarker.Position = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+            }
+            isDragging = false;
         }
 
         private void myGMAP1_MouseDown(object sender, MouseEventArgs e)
         {
-            mousedown = true;
             MouseDownStart = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+            isDragging = false;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -1139,5 +1415,28 @@ SIM_DRIFT_TIME=0
         {
             _ = StartSwarmSeperate(Firmwares.ArduRover);
         }
+    }
+
+    /// <summary>
+    /// Represents a saved SITL simulation location
+    /// </summary>
+    public class SITLLocation
+    {
+        public string Name { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
+        public int Heading { get; set; }
+
+        public SITLLocation() { }
+
+        public SITLLocation(string name, double lat, double lng, int heading)
+        {
+            Name = name;
+            Lat = lat;
+            Lng = lng;
+            Heading = heading;
+        }
+
+        public override string ToString() => Name;
     }
 }

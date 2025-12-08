@@ -192,7 +192,7 @@ namespace MissionPlanner.Controls
             int itemIndex = 0;
             int columnIndex = 0;
 
-            using (var nameBrush = new SolidBrush(Color.FromArgb(0x94, 0xC1, 0x1F))) // Green
+            using (var nameBrush = new SolidBrush(ThemeManager.BannerColor2))
             using (var valueBrush = new SolidBrush(_contentPanel.ForeColor))
             {
                 foreach (var item in _filteredItems)

@@ -513,9 +513,7 @@
     <Compile Update="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\SITL.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\SITL.cs" />
     <Compile Update="Controls\ToolStripConnectionControl.cs">
       <SubType>Component</SubType>
     </Compile>

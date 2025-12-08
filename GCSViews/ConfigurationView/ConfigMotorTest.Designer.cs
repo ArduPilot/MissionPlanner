@@ -1,13 +1,13 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigMotorTest
     {
-        /// <summary> 
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -22,8 +22,8 @@
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -36,13 +36,16 @@
             this.NUM_duration = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanelMotors = new System.Windows.Forms.TableLayoutPanel();
             this.webViewFrame = new Microsoft.Web.WebView2.WinForms.WebView2();
-            this.FrameType = new System.Windows.Forms.Label();
             this.FrameClass = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.NUM_mot_spin_min = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.NUM_mot_spin_arm = new System.Windows.Forms.NumericUpDown();
+            this.btnTestAll = new MissionPlanner.Controls.MyButton();
+            this.btnStopAll = new MissionPlanner.Controls.MyButton();
+            this.btnTestSequence = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).BeginInit();
             this.panel1.SuspendLayout();
@@ -106,8 +109,8 @@
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.tableLayoutPanelMotors);
             this.panel1.Controls.Add(this.webViewFrame);
-            this.panel1.Controls.Add(this.FrameType);
             this.panel1.Controls.Add(this.FrameClass);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.NUM_mot_spin_min);
@@ -121,6 +124,11 @@
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Name = "panel1";
             // 
+            // tableLayoutPanelMotors
+            // 
+            resources.ApplyResources(this.tableLayoutPanelMotors, "tableLayoutPanelMotors");
+            this.tableLayoutPanelMotors.Name = "tableLayoutPanelMotors";
+            // 
             // webViewFrame
             // 
             this.webViewFrame.AllowExternalDrop = true;
@@ -130,11 +138,6 @@
             this.webViewFrame.Name = "webViewFrame";
             this.webViewFrame.TabStop = false;
             this.webViewFrame.ZoomFactor = 1D;
-            // 
-            // FrameType
-            // 
-            resources.ApplyResources(this.FrameType, "FrameType");
-            this.FrameType.Name = "FrameType";
             // 
             // FrameClass
             // 
@@ -185,9 +188,34 @@
             this.NUM_mot_spin_arm.Name = "NUM_mot_spin_arm";
             this.NUM_mot_spin_arm.ValueChanged += new System.EventHandler(this.NUM_mot_spin_arm_ValueChanged);
             // 
+            // btnTestAll
+            // 
+            resources.ApplyResources(this.btnTestAll, "btnTestAll");
+            this.btnTestAll.Name = "btnTestAll";
+            this.btnTestAll.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.btnTestAll.UseVisualStyleBackColor = true;
+            this.btnTestAll.Click += new System.EventHandler(this.but_TestAll);
+            // 
+            // btnStopAll
+            // 
+            resources.ApplyResources(this.btnStopAll, "btnStopAll");
+            this.btnStopAll.Name = "btnStopAll";
+            this.btnStopAll.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.btnStopAll.UseVisualStyleBackColor = true;
+            this.btnStopAll.Click += new System.EventHandler(this.but_StopAll);
+            // 
+            // btnTestSequence
+            // 
+            resources.ApplyResources(this.btnTestSequence, "btnTestSequence");
+            this.btnTestSequence.Name = "btnTestSequence";
+            this.btnTestSequence.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.btnTestSequence.UseVisualStyleBackColor = true;
+            this.btnTestSequence.Click += new System.EventHandler(this.but_TestAllSeq);
+            // 
             // ConfigMotorTest
             // 
             resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Name = "ConfigMotorTest";
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).EndInit();
@@ -215,8 +243,11 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown NUM_mot_spin_min;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label FrameType;
         private System.Windows.Forms.Label FrameClass;
         private Microsoft.Web.WebView2.WinForms.WebView2 webViewFrame;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMotors;
+        private MissionPlanner.Controls.MyButton btnTestAll;
+        private MissionPlanner.Controls.MyButton btnStopAll;
+        private MissionPlanner.Controls.MyButton btnTestSequence;
     }
 }
