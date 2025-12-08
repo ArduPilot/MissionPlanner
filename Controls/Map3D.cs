@@ -1519,11 +1519,11 @@ namespace MissionPlanner.Controls
                             _lastMap2DPositionChangeTime = DateTime.Now;
                         }
 
-                        // Update center immediately on first disconnect, or after 250ms debounce for normal updates
+                        // Update center immediately on first disconnect, or after 1s debounce for normal updates
                         bool shouldUpdateCenter = _lastMap2DPosition != null &&
                             _lastMap2DPosition.Lat != 0 && _lastMap2DPosition.Lng != 0 &&
                             _center.GetDistance(_lastMap2DPosition) > 30 &&
-                            (isFirstDisconnectUpdate || (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 250);
+                            (isFirstDisconnectUpdate || (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 1000);
 
                         if (shouldUpdateCenter)
                         {
