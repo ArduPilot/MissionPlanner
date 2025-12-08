@@ -1500,23 +1500,28 @@ namespace MissionPlanner.Controls
 
                     if (map2DPosition != null && map2DPosition.Value.Lat != 0 && map2DPosition.Value.Lng != 0)
                     {
-                        // Debounce 2D map position updates - wait 5 seconds after last change before applying
                         var newCenter = new PointLatLngAlt(map2DPosition.Value.Lat, map2DPosition.Value.Lng, 0);
 
-                        // Check if 2D map position changed (initialize _lastMap2DPosition on first run)
-                        bool isFirstRun = _lastMap2DPosition == null || (_lastMap2DPosition.Lat == 0 && _lastMap2DPosition.Lng == 0);
-                        if (isFirstRun || _lastMap2DPosition.GetDistance(newCenter) > 30)
+                        // Check if this is the first update since disconnecting (large distance from current center to 2D map)
+                        // This ensures we immediately jump to the 2D map location on disconnect
+                        bool isFirstDisconnectUpdate = _center.GetDistance(newCenter) > 1000;
+
+                        // Check if 2D map position changed significantly
+                        bool map2DPositionChanged = _lastMap2DPosition == null ||
+                            (_lastMap2DPosition.Lat == 0 && _lastMap2DPosition.Lng == 0) ||
+                            _lastMap2DPosition.GetDistance(newCenter) > 30;
+
+                        if (map2DPositionChanged)
                         {
                             _lastMap2DPosition = newCenter;
                             _lastMap2DPositionChangeTime = DateTime.Now;
                         }
 
-                        // Only update LocationCenter if 250ms have passed since last 2D map movement
-                        // and the position is different from current center
+                        // Update center immediately on first disconnect, or after 250ms debounce for normal updates
                         bool shouldUpdateCenter = _lastMap2DPosition != null &&
                             _lastMap2DPosition.Lat != 0 && _lastMap2DPosition.Lng != 0 &&
                             _center.GetDistance(_lastMap2DPosition) > 30 &&
-                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 250;
+                            (isFirstDisconnectUpdate || (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 250);
 
                         if (shouldUpdateCenter)
                         {
@@ -1540,10 +1545,6 @@ namespace MissionPlanner.Controls
                                 _center.Lng = _lastMap2DPosition.Lng;
                                 _center.Alt = _lastMap2DPosition.Alt;
                             }
-
-                            // Reset free-look angles when position changes significantly
-                            _disconnectedCameraYaw = 0;
-                            _disconnectedCameraPitch = 0;
                         }
 
                         // Convert to local coordinates (use current _center which may have just been updated)
@@ -2107,18 +2108,22 @@ namespace MissionPlanner.Controls
             core.LevelsKeepInMemmory = 10;
             core.Provider = type;
             //core.ReloadMap();
+
+            // Use camera position for tile loading - works for both connected and disconnected states
+            var cameraPos = new utmpos(utmcenter[0] + cameraX, utmcenter[1] + cameraY, utmzone).ToLLA();
+
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
                 // Build tile areas from max zoom to min zoom
                 for (int a = zoom; a >= minzoom; a--)
                 {
-                    var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
+                    var area2 = new RectLatLng(cameraPos.Lat, cameraPos.Lng, 0, 0);
                     // 50m at max zoom
                     // step at 0 zoom
                     var distm = MathHelper.map(a, 0, zoom, 3000, 50);
-                    var offset = _center.newpos(45, distm);
-                    area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
+                    var offset = cameraPos.newpos(45, distm);
+                    area2.Inflate(Math.Abs(cameraPos.Lat - offset.Lat), Math.Abs(cameraPos.Lng - offset.Lng));
                     var extratile = 0;
                     if (a == minzoom)
                         extratile = 4;
@@ -2147,9 +2152,9 @@ namespace MissionPlanner.Controls
                             long tileCenterPxY = (p.Y * prj.TileSize.Height) + (prj.TileSize.Height / 2);
                             var tileCenter = prj.FromPixelToLatLng(tileCenterPxX, tileCenterPxY, ta.zoom);
 
-                            // Calculate actual geographic distance from map center
-                            double dLat = tileCenter.Lat - _center.Lat;
-                            double dLng = tileCenter.Lng - _center.Lng;
+                            // Calculate actual geographic distance from camera position
+                            double dLat = tileCenter.Lat - cameraPos.Lat;
+                            double dLng = tileCenter.Lng - cameraPos.Lng;
                             double dist = dLat * dLat + dLng * dLng;
                             allTasks.Add((task, ta.zoom, dist));
                         }
