@@ -5683,7 +5683,7 @@ namespace MissionPlanner.GCSViews
                     QV.Dock = DockStyle.Fill;
                     QV.numberColorBackup = QV.numberColor;
                     QV.number = 0;
-                    QV.IsConnected = MainV2.comPort.BaseStream.IsOpen;
+                    QV.IsConnected = MainV2.comPort.BaseStream?.IsOpen == true;
 
                     // Enable drag and drop for rearranging
                     QV.AllowDrop = true;
@@ -7405,6 +7405,7 @@ namespace MissionPlanner.GCSViews
                     copyQV.isGauge = originalQV.isGauge;
                     copyQV.gaugeMin = originalQV.gaugeMin;
                     copyQV.gaugeMax = originalQV.gaugeMax;
+                    copyQV.IsConnected = MainV2.comPort.BaseStream?.IsOpen == true;
                     copyQV.Dock = DockStyle.Fill;
                     copyQV.Tag = originalQV.Tag;
 
@@ -7991,16 +7992,9 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private bool _lastQuickViewConnectionState = false;
-
         private void UpdateQuickViewConnectionState()
         {
-            bool isConnected = MainV2.comPort.BaseStream.IsOpen;
-
-            if (isConnected == _lastQuickViewConnectionState)
-                return;
-
-            _lastQuickViewConnectionState = isConnected;
+            bool isConnected = MainV2.comPort.BaseStream?.IsOpen == true;
 
             foreach (Control ctrl in tableLayoutPanelQuick.Controls)
             {

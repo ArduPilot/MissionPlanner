@@ -1554,8 +1554,39 @@ namespace MissionPlanner.Controls
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
 
-                // Only update positions from Kalman filter when connected
-                if (isConnected)
+                if (!isConnected)
+                {
+                    // Vehicle is disconnected - use 2D map's center position and place camera 100m above terrain
+                    var map2DPosition = GCSViews.FlightData.instance?.gMapControl1?.Position;
+                    if (map2DPosition != null && map2DPosition.Value.Lat != 0 && map2DPosition.Value.Lng != 0)
+                    {
+                        // Update LocationCenter to 2D map's center to load tiles there
+                        var newCenter = new PointLatLngAlt(map2DPosition.Value.Lat, map2DPosition.Value.Lng, 0);
+                        LocationCenter = newCenter;
+
+                        // Convert to local coordinates
+                        var localPos = convertCoords(newCenter);
+
+                        // Get terrain altitude at this location
+                        var terrainAlt = srtm.getAltitude(map2DPosition.Value.Lat, map2DPosition.Value.Lng).alt;
+
+                        // Use last known heading (_planeYaw) or default to north (0 degrees)
+                        // Position camera behind the center point, looking forward in the heading direction
+                        double heading = _planeYaw; // Last known heading, defaults to 0 (north) if never set
+                        double cameraAngleRad = MathHelper.Radians(heading + _cameraAngle + 180); // +180 to position behind
+
+                        // Set camera behind the center point at 100m above terrain
+                        cameraX = localPos[0];
+                        cameraY = localPos[1];
+                        cameraZ = terrainAlt + 100; // 100m above terrain
+
+                        // Look at the center position (forward in the heading direction)
+                        lookX = localPos[0];
+                        lookY = localPos[1];
+                        lookZ = terrainAlt + 100; // Look at same altitude as camera for forward view
+                    }
+                } 
+                else 
                 {
                     campos = projectLocation(mypos);
                     // Apply Kalman filter to rotation for smooth interpolation
@@ -1563,7 +1594,7 @@ namespace MissionPlanner.Controls
 
                     // save the state
                     mypos = campos;
-                    myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
+                    myrpy = new OpenTK.Vector3((float)rpy.x, (float)rpy.y, (float)rpy.z);
 
                     // Plane position (where camera used to be)
                     _planeDrawX = campos[0];
