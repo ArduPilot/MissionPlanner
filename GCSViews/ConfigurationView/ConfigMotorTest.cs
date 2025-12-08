@@ -789,10 +789,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (targetPanel != null)
                         {
                             var targetTag = targetPanel.MotorSelector.Tag as ServoSelectorTag;
+                            var sourceTag = sourcePanel?.MotorSelector.Tag as ServoSelectorTag;
                             if (targetTag != null)
                             {
                                 int targetMotorNumber = targetTag.MotorNumber;
                                 int targetFunctionValue = MOTOR_FUNCTION_BASE + targetMotorNumber - 1;
+                                int sourceMotorNumber = sourceTag?.MotorNumber ?? motorIdx;
+                                int sourceFunctionValue = MOTOR_FUNCTION_BASE + sourceMotorNumber - 1;
                                 string paramName = $"SERVO{currentServoChannel}_FUNCTION";
 
                                 _updatingServoSelectors = true;
@@ -804,10 +807,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                     if (targetCurrentServo > 0 && targetCurrentServo != currentServoChannel)
                                     {
-                                        // Target motor has a different servo - clear it first
+                                        // Swap: move the target motor's existing servo to the source motor
                                         string oldTargetParam = $"SERVO{targetCurrentServo}_FUNCTION";
                                         MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent,
-                                            (byte)MainV2.comPort.compidcurrent, oldTargetParam, 0);
+                                            (byte)MainV2.comPort.compidcurrent, oldTargetParam, sourceFunctionValue);
+
+                                        if (sourcePanel != null)
+                                        {
+                                            SelectServoChannel(sourcePanel.MotorSelector, targetCurrentServo);
+                                        }
                                     }
 
                                     // Set the servo to the target motor's function
@@ -817,8 +825,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                     // Update target motor's dropdown to show the servo
                                     SelectServoChannel(targetPanel.MotorSelector, currentServoChannel);
 
-                                    // Clear source motor's dropdown (it no longer has this servo)
-                                    if (sourcePanel != null)
+                                    // If we didn't swap (target had no servo), clear the source motor's dropdown
+                                    if (sourcePanel != null && targetCurrentServo == 0)
                                     {
                                         SelectServoChannel(sourcePanel.MotorSelector, 0);
                                     }
