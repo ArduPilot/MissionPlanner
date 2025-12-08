@@ -267,6 +267,12 @@ namespace MissionPlanner.Controls
         // Plane position and rotation for current frame
         private double _planeDrawX, _planeDrawY, _planeDrawZ;
         private float _planeRoll, _planePitch, _planeYaw;
+        // Disconnected mode camera look direction (yaw/pitch for free-look)
+        private double _disconnectedCameraYaw = 0.0;   // Horizontal look angle in degrees
+        private double _disconnectedCameraPitch = 0.0; // Vertical look angle in degrees (positive = up)
+        // Debounce for 2D map position updates when disconnected
+        private PointLatLngAlt _lastMap2DPosition = PointLatLngAlt.Zero;
+        private DateTime _lastMap2DPositionChangeTime = DateTime.MinValue;
         // Configurable camera and plane settings
         private double _cameraDist = 0.8;    // Distance from plane
         private double _cameraAngle = 0.0;   // Angle offset from behind plane (degrees, 0=behind, 90=right, -90=left)
@@ -310,6 +316,11 @@ namespace MissionPlanner.Controls
         private bool _stopRequested;
         private System.ComponentModel.IContainer components;
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
+
+        /// <summary>
+        /// Returns true if the vehicle is connected (serial port is open)
+        /// </summary>
+        private bool IsVehicleConnected => MainV2.comPort?.BaseStream?.IsOpen == true;
 
         public PointLatLngAlt LocationCenter
         {
@@ -435,14 +446,24 @@ namespace MissionPlanner.Controls
             mousex = e.X;
             mousey = e.Y;
 
-            // Handle left-drag to rotate camera around vehicle (X) and adjust height (Y)
+            // Handle left-drag behavior based on connection state
             if (_isDragging)
             {
-                int deltaX = mousex - _dragStartX; // Positive = dragged right = rotate camera right
-                int deltaY = mousey - _dragStartY; // Positive = dragged down = increase height
+                int deltaX = mousex - _dragStartX;
+                int deltaY = mousey - _dragStartY;
 
-                _cameraAngle += deltaX * 0.5; // Degrees per pixel
-                _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
+                if (IsVehicleConnected)
+                {
+                    // Connected: rotate camera around vehicle (X) and adjust height (Y)
+                    _cameraAngle += deltaX * 0.5; // Degrees per pixel
+                    _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
+                }
+                else
+                {
+                    // Disconnected: free-look - rotate camera view direction (reversed for natural feel)
+                    _disconnectedCameraYaw -= deltaX * 0.3; // Horizontal rotation (reversed)
+                    _disconnectedCameraPitch = Math.Max(-89.0, Math.Min(89.0, _disconnectedCameraPitch + deltaY * 0.3)); // Vertical rotation (reversed, clamped to avoid gimbal lock)
+                }
 
                 _dragStartX = mousex;
                 _dragStartY = mousey;
@@ -552,6 +573,10 @@ namespace MissionPlanner.Controls
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
+            // Only adjust camera distance when connected
+            if (!IsVehicleConnected)
+                return; // Ignore scroll wheel in disconnected state
+
             // Adjust camera distance with scroll wheel (temporary, not saved)
             // Scroll up (positive delta) = move camera closer (decrease distance)
             // Scroll down (negative delta) = move camera further (increase distance)
@@ -1548,42 +1573,61 @@ namespace MissionPlanner.Controls
             var afterwait = DateTime.Now;
             try
             {
-                // Check if connected - stop updating plane position/camera when disconnected
-                bool isConnected = MainV2.comPort?.BaseStream?.IsOpen == true;
-
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
 
-                if (!isConnected)
+                if (!IsVehicleConnected)
                 {
                     // Vehicle is disconnected - use 2D map's center position and place camera 100m above terrain
                     var map2DPosition = GCSViews.FlightData.instance?.gMapControl1?.Position;
                     if (map2DPosition != null && map2DPosition.Value.Lat != 0 && map2DPosition.Value.Lng != 0)
                     {
-                        // Update LocationCenter to 2D map's center to load tiles there
+                        // Debounce 2D map position updates - wait 5 seconds after last change before applying
                         var newCenter = new PointLatLngAlt(map2DPosition.Value.Lat, map2DPosition.Value.Lng, 0);
-                        LocationCenter = newCenter;
 
-                        // Convert to local coordinates
-                        var localPos = convertCoords(newCenter);
+                        // Check if 2D map position changed
+                        if (_lastMap2DPosition.GetDistance(newCenter) > 30)
+                        {
+                            _lastMap2DPosition = newCenter;
+                            _lastMap2DPositionChangeTime = DateTime.Now;
+                        }
+
+                        // Only update LocationCenter if 5 seconds have passed since last 2D map movement
+                        // and the position is different from current center
+                        if (_center.GetDistance(_lastMap2DPosition) > 30 &&
+                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalSeconds >= 5)
+                        {
+                            LocationCenter = _lastMap2DPosition;
+                            // Reset free-look angles when position changes significantly
+                            _disconnectedCameraYaw = 0;
+                            _disconnectedCameraPitch = 0;
+                        }
+
+                        // Convert to local coordinates (use current _center which may have just been updated)
+                        var localPos = convertCoords(_center);
 
                         // Get terrain altitude at this location
-                        var terrainAlt = srtm.getAltitude(map2DPosition.Value.Lat, map2DPosition.Value.Lng).alt;
+                        var terrainAlt = srtm.getAltitude(_center.Lat, _center.Lng).alt;
 
-                        // Use last known heading (_planeYaw) or default to north (0 degrees)
-                        // Position camera behind the center point, looking forward in the heading direction
-                        double heading = _planeYaw; // Last known heading, defaults to 0 (north) if never set
-                        double cameraAngleRad = MathHelper.Radians(heading + _cameraAngle + 180); // +180 to position behind
-
-                        // Set camera behind the center point at 100m above terrain
+                        // Camera position at center, 100m above terrain
                         cameraX = localPos[0];
                         cameraY = localPos[1];
-                        cameraZ = terrainAlt + 100; // 100m above terrain
+                        cameraZ = terrainAlt + 100;
 
-                        // Look at the center position (forward in the heading direction)
-                        lookX = localPos[0];
-                        lookY = localPos[1];
-                        lookZ = terrainAlt + 100; // Look at same altitude as camera for forward view
+                        // Calculate look direction based on base heading + free-look yaw/pitch
+                        // Base heading is last known plane yaw, or 0 (north) if never connected
+                        double baseHeading = _planeYaw;
+                        double totalYaw = baseHeading + _disconnectedCameraYaw;
+                        double yawRad = MathHelper.Radians(totalYaw);
+                        double pitchRad = MathHelper.Radians(_disconnectedCameraPitch);
+
+                        // Calculate look-at point based on yaw and pitch
+                        // Looking distance of 100m in the look direction
+                        double lookDist = 100.0;
+                        double cosPitch = Math.Cos(pitchRad);
+                        lookX = cameraX + Math.Sin(yawRad) * cosPitch * lookDist;
+                        lookY = cameraY + Math.Cos(yawRad) * cosPitch * lookDist;
+                        lookZ = cameraZ + Math.Sin(pitchRad) * lookDist;
                     }
                 } 
                 else 
@@ -1744,7 +1788,7 @@ namespace MissionPlanner.Controls
                     }
                 }
                 // Only draw plane and indicators when connected
-                if (isConnected)
+                if (IsVehicleConnected)
                 {
                     // Draw the plane model
                     DrawPlane(projMatrix, modelMatrix);
