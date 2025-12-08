@@ -15,19 +15,24 @@ namespace GMap.NET
 
         private RectLatLng area;
         private GMapProvider provider;
+        private bool isInitialized = false;
 
         public TilePrefetcherMenu(int min, int max, RectLatLng area, GMapProvider provider)
         {
             InitializeComponent();
-            numericUpDownMinZoom.Minimum = numericUpDownMaxZoom.Minimum = trackBarMinZoom.Minimum = trackBarMaxZoom.Minimum = min;
-            numericUpDownMinZoom.Maximum = numericUpDownMaxZoom.Maximum = trackBarMinZoom.Maximum = trackBarMaxZoom.Maximum = max;
             this.area = area;
             this.provider = provider;
+            numericUpDownMinZoom.Minimum = numericUpDownMaxZoom.Minimum = trackBarMinZoom.Minimum = trackBarMaxZoom.Minimum = min;
+            numericUpDownMinZoom.Maximum = numericUpDownMaxZoom.Maximum = trackBarMinZoom.Maximum = trackBarMaxZoom.Maximum = max;
+            isInitialized = true;
             UpdateTilesCount();
         }
 
         private void UpdateTilesCount()
         {
+            if (!isInitialized)
+                return;
+
             long count = 0;
             string results = "";
             long total = 0;
