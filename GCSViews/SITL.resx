@@ -2062,7 +2062,7 @@
     <value>9</value>
   </data>
   <data name="findLoc.Text" xml:space="preserve">
-    <value>Find location</value>
+    <value>Find Location</value>
   </data>
   <data name="&gt;&gt;findLoc.Name" xml:space="preserve">
     <value>findLoc</value>
@@ -2089,7 +2089,7 @@
     <value>8</value>
   </data>
   <data name="removeCustomLoc.Text" xml:space="preserve">
-    <value>Remove location</value>
+    <value>Remove Location</value>
   </data>
   <data name="&gt;&gt;removeCustomLoc.Name" xml:space="preserve">
     <value>removeCustomLoc</value>
@@ -2116,7 +2116,7 @@
     <value>7</value>
   </data>
   <data name="addCustomLoc.Text" xml:space="preserve">
-    <value>Add location</value>
+    <value>Add Location</value>
   </data>
   <data name="&gt;&gt;addCustomLoc.Name" xml:space="preserve">
     <value>addCustomLoc</value>

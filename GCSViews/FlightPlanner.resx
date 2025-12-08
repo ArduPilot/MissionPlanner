@@ -148,7 +148,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;CHK_verifyheight.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>15</value>
   </data>
   <data name="TXT_WPRad.Location" type="System.Drawing.Point, System.Drawing">
     <value>23, 20</value>
@@ -172,7 +172,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_WPRad.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>16</value>
   </data>
   <data name="TXT_DefaultAlt.Location" type="System.Drawing.Point, System.Drawing">
     <value>154, 20</value>
@@ -196,7 +196,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_DefaultAlt.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>14</value>
   </data>
   <data name="LBL_WPRad.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -226,7 +226,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;LBL_WPRad.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>9</value>
   </data>
   <data name="LBL_defalutalt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -256,7 +256,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;LBL_defalutalt.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>12</value>
   </data>
   <data name="TXT_loiterrad.Location" type="System.Drawing.Point, System.Drawing">
     <value>89, 20</value>
@@ -280,7 +280,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_loiterrad.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>11</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -310,7 +310,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>10</value>
   </data>
   <data name="but_writewpfast.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -721,6 +721,36 @@
   <data name="&gt;&gt;lbl_status.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="findLoc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="findLoc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>861, 9</value>
+  </data>
+  <data name="findLoc.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="findLoc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 23</value>
+  </data>
+  <data name="findLoc.TabIndex" type="System.Int32, mscorlib">
+    <value>58</value>
+  </data>
+  <data name="findLoc.Text" xml:space="preserve">
+    <value>Find Location</value>
+  </data>
+  <data name="&gt;&gt;findLoc.Name" xml:space="preserve">
+    <value>findLoc</value>
+  </data>
+  <data name="&gt;&gt;findLoc.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;findLoc.Parent" xml:space="preserve">
+    <value>panelWaypoints</value>
+  </data>
+  <data name="&gt;&gt;findLoc.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="chk_usemavftp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -749,7 +779,37 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;chk_usemavftp.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
+  </data>
+  <data name="BUT_center_on_mav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_center_on_mav.Location" type="System.Drawing.Point, System.Drawing">
+    <value>760, 10</value>
+  </data>
+  <data name="BUT_center_on_mav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 23</value>
+  </data>
+  <data name="BUT_center_on_mav.TabIndex" type="System.Int32, mscorlib">
+    <value>57</value>
+  </data>
+  <data name="BUT_center_on_mav.Text" xml:space="preserve">
+    <value>Center to Vehicle</value>
+  </data>
+  <data name="&gt;&gt;BUT_center_on_mav.Name" xml:space="preserve">
+    <value>BUT_center_on_mav</value>
+  </data>
+  <data name="&gt;&gt;BUT_center_on_mav.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_center_on_mav.Parent" xml:space="preserve">
+    <value>panelWaypoints</value>
+  </data>
+  <data name="&gt;&gt;BUT_center_on_mav.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_clear_all.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="BUT_clear_all.Location" type="System.Drawing.Point, System.Drawing">
     <value>680, 10</value>
@@ -773,7 +833,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;BUT_clear_all.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="but_mincommands.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -803,7 +863,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;but_mincommands.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="CMB_altmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>213, 7</value>
@@ -827,7 +887,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;CMB_altmode.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="CHK_splinedefault.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -857,7 +917,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;CHK_splinedefault.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -887,7 +947,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="TXT_altwarn.Location" type="System.Drawing.Point, System.Drawing">
     <value>482, 20</value>
@@ -911,7 +971,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_altwarn.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="Commands.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -1111,14 +1171,6 @@
   <data name="Up.HeaderText" xml:space="preserve">
     <value />
   </data>
-  <data name="Up.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAGxJREFUOE+li0EOwDAIw/j/pzepdBLOaKGqLyjEsecC00fABvoN5J3PImoMkq/u
-        PtT7j3VBVEZoAP9o6ehY+4p6XFerej/29nq8MurKT+ptnrNCyLz0OSuEBvARGsBHaAAfoQH8GMq9ypKP
-        eAHkbkPZF2eZQgAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="Up.MinimumWidth" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
@@ -1133,14 +1185,6 @@
   </metadata>
   <data name="Down.HeaderText" xml:space="preserve">
     <value />
-  </data>
-  <data name="Down.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAGlJREFUOE+li0EOwDAIw/r/T2/SqNYZpYGpPhHijOuAkbMlywgN4CM0gI/QAD5C
-        A/gIypPPWSEoTz5nJY2grna1H0d7PN4ZdWUMA8a/9mvyXs09/G8o91lO2eyzJ8dyn40H/Q3MLHBdyQ2J
-        WEPZYCIN4QAAAABJRU5ErkJggg==
-</value>
   </data>
   <data name="Down.MinimumWidth" type="System.Int32, mscorlib">
     <value>30</value>
@@ -1230,13 +1274,13 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9470.6707, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.9473.5484, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;Commands.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>13</value>
   </data>
   <data name="BUT_Add.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1269,7 +1313,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;BUT_Add.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>17</value>
   </data>
   <data name="panelWaypoints.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -1348,6 +1392,9 @@
   </data>
   <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="progressBarInjectCustomMap.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="progressBarInjectCustomMap.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 97</value>
@@ -2570,132 +2617,6 @@
   <data name="&gt;&gt;dataGridViewImageColumn2.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Command.Name" xml:space="preserve">
-    <value>Command</value>
-  </data>
-  <data name="&gt;&gt;Command.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Param1.Name" xml:space="preserve">
-    <value>Param1</value>
-  </data>
-  <data name="&gt;&gt;Param1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Param2.Name" xml:space="preserve">
-    <value>Param2</value>
-  </data>
-  <data name="&gt;&gt;Param2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Param3.Name" xml:space="preserve">
-    <value>Param3</value>
-  </data>
-  <data name="&gt;&gt;Param3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Param4.Name" xml:space="preserve">
-    <value>Param4</value>
-  </data>
-  <data name="&gt;&gt;Param4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Lat.Name" xml:space="preserve">
-    <value>Lat</value>
-  </data>
-  <data name="&gt;&gt;Lat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Lon.Name" xml:space="preserve">
-    <value>Lon</value>
-  </data>
-  <data name="&gt;&gt;Lon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Alt.Name" xml:space="preserve">
-    <value>Alt</value>
-  </data>
-  <data name="&gt;&gt;Alt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Frame.Name" xml:space="preserve">
-    <value>Frame</value>
-  </data>
-  <data name="&gt;&gt;Frame.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;coordZone.Name" xml:space="preserve">
-    <value>coordZone</value>
-  </data>
-  <data name="&gt;&gt;coordZone.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;coordEasting.Name" xml:space="preserve">
-    <value>coordEasting</value>
-  </data>
-  <data name="&gt;&gt;coordEasting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;coordNorthing.Name" xml:space="preserve">
-    <value>coordNorthing</value>
-  </data>
-  <data name="&gt;&gt;coordNorthing.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MGRS.Name" xml:space="preserve">
-    <value>MGRS</value>
-  </data>
-  <data name="&gt;&gt;MGRS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Delete.Name" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="&gt;&gt;Delete.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Up.Name" xml:space="preserve">
-    <value>Up</value>
-  </data>
-  <data name="&gt;&gt;Up.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Down.Name" xml:space="preserve">
-    <value>Down</value>
-  </data>
-  <data name="&gt;&gt;Down.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Grad.Name" xml:space="preserve">
-    <value>Grad</value>
-  </data>
-  <data name="&gt;&gt;Grad.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Angle.Name" xml:space="preserve">
-    <value>Angle</value>
-  </data>
-  <data name="&gt;&gt;Angle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Dist.Name" xml:space="preserve">
-    <value>Dist</value>
-  </data>
-  <data name="&gt;&gt;Dist.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AZ.Name" xml:space="preserve">
-    <value>AZ</value>
-  </data>
-  <data name="&gt;&gt;AZ.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TagData.Name" xml:space="preserve">
-    <value>TagData</value>
-  </data>
-  <data name="&gt;&gt;TagData.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;deleteWPToolStripMenuItem.Name" xml:space="preserve">
     <value>deleteWPToolStripMenuItem</value>
   </data>
@@ -3235,6 +3156,132 @@
   </data>
   <data name="&gt;&gt;zoomToHomeToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Command.Name" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="&gt;&gt;Command.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param1.Name" xml:space="preserve">
+    <value>Param1</value>
+  </data>
+  <data name="&gt;&gt;Param1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param2.Name" xml:space="preserve">
+    <value>Param2</value>
+  </data>
+  <data name="&gt;&gt;Param2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param3.Name" xml:space="preserve">
+    <value>Param3</value>
+  </data>
+  <data name="&gt;&gt;Param3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param4.Name" xml:space="preserve">
+    <value>Param4</value>
+  </data>
+  <data name="&gt;&gt;Param4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lat.Name" xml:space="preserve">
+    <value>Lat</value>
+  </data>
+  <data name="&gt;&gt;Lat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lon.Name" xml:space="preserve">
+    <value>Lon</value>
+  </data>
+  <data name="&gt;&gt;Lon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Alt.Name" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="&gt;&gt;Alt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Frame.Name" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="&gt;&gt;Frame.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;coordZone.Name" xml:space="preserve">
+    <value>coordZone</value>
+  </data>
+  <data name="&gt;&gt;coordZone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;coordEasting.Name" xml:space="preserve">
+    <value>coordEasting</value>
+  </data>
+  <data name="&gt;&gt;coordEasting.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;coordNorthing.Name" xml:space="preserve">
+    <value>coordNorthing</value>
+  </data>
+  <data name="&gt;&gt;coordNorthing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MGRS.Name" xml:space="preserve">
+    <value>MGRS</value>
+  </data>
+  <data name="&gt;&gt;MGRS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Delete.Name" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="&gt;&gt;Delete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Up.Name" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="&gt;&gt;Up.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Down.Name" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="&gt;&gt;Down.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Grad.Name" xml:space="preserve">
+    <value>Grad</value>
+  </data>
+  <data name="&gt;&gt;Grad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Angle.Name" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="&gt;&gt;Angle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Dist.Name" xml:space="preserve">
+    <value>Dist</value>
+  </data>
+  <data name="&gt;&gt;Dist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AZ.Name" xml:space="preserve">
+    <value>AZ</value>
+  </data>
+  <data name="&gt;&gt;AZ.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TagData.Name" xml:space="preserve">
+    <value>TagData</value>
+  </data>
+  <data name="&gt;&gt;TagData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FlightPlanner</value>

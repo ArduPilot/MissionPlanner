@@ -44,6 +44,7 @@ namespace MissionPlanner.GCSViews
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.findLoc = new MissionPlanner.Controls.MyButton();
             this.removeCustomLoc = new MissionPlanner.Controls.MyButton();
             this.addCustomLoc = new MissionPlanner.Controls.MyButton();
             this.cmb_location = new System.Windows.Forms.ComboBox();
@@ -64,7 +65,6 @@ namespace MissionPlanner.GCSViews
             this.cmb_model = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
-            this.findLoc = new MissionPlanner.Controls.MyButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -210,6 +210,14 @@ namespace MissionPlanner.GCSViews
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // findLoc
+            // 
+            resources.ApplyResources(this.findLoc, "findLoc");
+            this.findLoc.Name = "findLoc";
+            this.findLoc.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.findLoc.UseVisualStyleBackColor = true;
+            this.findLoc.Click += new System.EventHandler(this.findLoc_Click);
             // 
             // removeCustomLoc
             // 
@@ -399,14 +407,6 @@ namespace MissionPlanner.GCSViews
             0,
             0});
             // 
-            // findLoc
-            // 
-            resources.ApplyResources(this.findLoc, "findLoc");
-            this.findLoc.Name = "findLoc";
-            this.findLoc.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.findLoc.UseVisualStyleBackColor = true;
-            this.findLoc.Click += new System.EventHandler(this.findLoc_Click);
-            //
             // SITL
             // 
             this.Controls.Add(this.groupBox4);

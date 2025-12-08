@@ -8351,9 +8351,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         public void zoomToToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string place = "Perth Airport, Australia";
-            if (DialogResult.OK == InputBox.Show("Location", "Enter your location", ref place))
+            string place = "";
+            if (DialogResult.OK == InputBox.Show("Find Location", "Enter a location to search for:", ref place))
             {
+                if (string.IsNullOrWhiteSpace(place))
+                    return;
+
                 // Create a backup of the map provider
                 var provider = MainMap.MapProvider;
                 // Set map provider to OpenStreetMap
@@ -8364,14 +8367,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 MainMap.MapProvider = provider;
                 if (status != GeoCoderStatusCode.G_GEO_SUCCESS)
                 {
-                    CustomMessageBox.Show("Google Maps Geocoder can't find: '" + place + "', reason: " + status,
-                        "GMap.NET", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    CustomMessageBox.Show($"Could not find location: '{place}'\nReason: {status}", "Location Not Found");
                 }
                 else
                 {
-                    MainMap.Zoom = 15;
+                    MainMap.Zoom = 17;
                 }
             }
+        }
+
+        private void findLoc_Click(object sender, EventArgs e)
+        {
+            zoomToToolStripMenuItem_Click(sender, e);
         }
 
         private void zoomToVehicleToolStripMenuItem_Click(object sender, EventArgs e)
