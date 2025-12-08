@@ -214,16 +214,12 @@ namespace MissionPlanner.Controls
 
         /// <summary>
         /// Parses ASCII STL content into vertices and normals.
-        /// Also centers the model and applies a -90 degree Z rotation.
+        /// Keeps the STL’s original origin and applies a -90 degree Z rotation.
         /// </summary>
         private void ParseSTL(string stlContent)
         {
             _vertices = new List<float>();
             _normals = new List<float>();
-
-            float minX = float.MaxValue, maxX = float.MinValue;
-            float minY = float.MaxValue, maxY = float.MinValue;
-            float minZ = float.MaxValue, maxZ = float.MinValue;
 
             var lines = stlContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             float nx = 0, ny = 0, nz = 0;
@@ -252,26 +248,10 @@ namespace MissionPlanner.Controls
                     _normals.Add(nx);
                     _normals.Add(ny);
                     _normals.Add(nz);
-
-                    minX = Math.Min(minX, vx); maxX = Math.Max(maxX, vx);
-                    minY = Math.Min(minY, vy); maxY = Math.Max(maxY, vy);
-                    minZ = Math.Min(minZ, vz); maxZ = Math.Max(maxZ, vz);
                 }
             }
 
             // STL is in millimeters - conversion to meters happens in Map3D.DrawPlane()
-
-            // Center the model
-            float centerX = (minX + maxX) / 2;
-            float centerY = (minY + maxY) / 2;
-            float centerZ = (minZ + maxZ) / 2;
-
-            for (int i = 0; i < _vertices.Count; i += 3)
-            {
-                _vertices[i] -= centerX;
-                _vertices[i + 1] -= centerY;
-                _vertices[i + 2] -= centerZ;
-            }
 
             // Rotate STL -90 degrees around Z axis (swap X and Y, negate new Y)
             RotateModel();
