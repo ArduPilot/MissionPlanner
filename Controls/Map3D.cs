@@ -2570,32 +2570,35 @@ namespace MissionPlanner.Controls
             this.btn_configure = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            //
+            // 
             // btn_configure
-            //
-            this.btn_configure.Location = new System.Drawing.Point(3, 3);
+            // 
+            this.btn_configure.Location = new System.Drawing.Point(4, 4);
+            this.btn_configure.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_configure.Name = "btn_configure";
-            this.btn_configure.Size = new System.Drawing.Size(75, 23);
+            this.btn_configure.Size = new System.Drawing.Size(70, 28);
             this.btn_configure.TabIndex = 0;
-            this.btn_configure.Text = "Configure";
+            this.btn_configure.Text = "Settings";
+            this.btn_configure.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btn_configure.UseVisualStyleBackColor = true;
             this.btn_configure.Click += new System.EventHandler(this.btn_configure_Click);
-            //
+            // 
             // timer1
-            //
-            this.timer1.Interval = 33;
+            // 
+            this.timer1.Interval = 15;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            //
+            // 
             // Map3D
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.Controls.Add(this.btn_configure);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "Map3D";
-            this.Size = new System.Drawing.Size(640, 480);
+            this.Size = new System.Drawing.Size(853, 591);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         private void test_Load(object sender, EventArgs e)
