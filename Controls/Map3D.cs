@@ -1240,6 +1240,7 @@ namespace MissionPlanner.Controls
         {
             double circleRadius = _adsbCircleSize / 2.0;
             double groundedCircleRadius = circleRadius / 10.0;
+            double groundedCircleRadius = circleRadius / 5.0;
 
             // Use vehicle location when connected, otherwise use 2D map center position
             var ownPosition = IsVehicleConnected
@@ -1357,6 +1358,11 @@ namespace MissionPlanner.Controls
         {
             if (Lines.Program == 0)
                 return;
+
+            // Enable depth testing so circles are properly occluded by terrain
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthMask(true);
+            GL.DepthFunc(DepthFunction.Lequal);
 
             GL.UseProgram(Lines.Program);
 
