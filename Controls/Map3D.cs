@@ -1239,7 +1239,6 @@ namespace MissionPlanner.Controls
         private void DrawADSB(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
             double circleRadius = _adsbCircleSize / 2.0;
-            double groundedCircleRadius = circleRadius / 10.0;
             double groundedCircleRadius = circleRadius / 5.0;
 
             // Use vehicle location when connected, otherwise use 2D map center position
