@@ -1241,7 +1241,10 @@ namespace MissionPlanner.Controls
             double circleRadius = _adsbCircleSize / 2.0;
             double groundedCircleRadius = circleRadius / 10.0;
 
-            var ownPosition = MainV2.comPort?.MAV?.cs?.Location ?? PointLatLngAlt.Zero;
+            // Use vehicle location when connected, otherwise use 2D map center position
+            var ownPosition = IsVehicleConnected
+                ? (MainV2.comPort?.MAV?.cs?.Location ?? _center)
+                : _center;
 
             _adsbScreenPositions.Clear();
 
@@ -1281,11 +1284,21 @@ namespace MissionPlanner.Controls
                 var plane = item.Item1;
                 double distanceToOwn = item.Item2;
 
+                bool isGrounded = plane.IsOnGround;
+                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+
                 var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
                 var co = convertCoords(plla);
 
-                bool isGrounded = plane.IsOnGround;
-                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+                // For grounded aircraft, ensure they're visible above terrain
+                if (isGrounded)
+                {
+                    var terrainAlt = srtm.getAltitude(plane.Lat, plane.Lng).alt;
+                    if (co[2] < terrainAlt + 10)
+                    {
+                        co[2] = terrainAlt + 10; // Place at least 10m above terrain
+                    }
+                }
 
                 var color = GetADSBDistanceColor(distanceToOwn, isGrounded);
 
@@ -1599,12 +1612,12 @@ namespace MissionPlanner.Controls
                             _lastMap2DPositionChangeTime = DateTime.Now;
                         }
 
-                        // Only update LocationCenter if 5 seconds have passed since last 2D map movement
+                        // Only update LocationCenter if 250ms have passed since last 2D map movement
                         // and the position is different from current center
                         bool shouldUpdateCenter = _lastMap2DPosition != null &&
                             _lastMap2DPosition.Lat != 0 && _lastMap2DPosition.Lng != 0 &&
                             _center.GetDistance(_lastMap2DPosition) > 30 &&
-                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalSeconds >= 5;
+                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 250;
 
                         if (shouldUpdateCenter)
                         {
@@ -1758,9 +1771,6 @@ namespace MissionPlanner.Controls
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
 
-                // Draw ADSB aircraft circles (before tiles so they appear behind terrain)
-                DrawADSB(projMatrix, modelMatrix);
-
                 // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
                 if (texlist.Count == 0)
@@ -1786,6 +1796,10 @@ namespace MissionPlanner.Controls
                 var beforewps = DateTime.Now;
                 GL.Enable(EnableCap.DepthTest);
                 GL.Disable(EnableCap.Texture2D);
+
+                // Draw ADSB aircraft circles (after terrain with depth test so they render correctly)
+                DrawADSB(projMatrix, modelMatrix);
+
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
