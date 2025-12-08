@@ -4427,8 +4427,9 @@ namespace MissionPlanner.GCSViews
                             "here");
                     }
 
-                    // update 3D map
-                    if (Map3D.instance != null)
+                    // update 3D map (only when connected with valid location - disconnected mode uses 2D map center)
+                    if (Map3D.instance != null && MainV2.comPort?.BaseStream?.IsOpen == true &&
+                        MainV2.comPort.MAV.cs.lat != 0 && MainV2.comPort.MAV.cs.lng != 0)
                     {
                         Map3D.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,
@@ -5683,7 +5684,7 @@ namespace MissionPlanner.GCSViews
                     QV.Dock = DockStyle.Fill;
                     QV.numberColorBackup = QV.numberColor;
                     QV.number = 0;
-                    QV.IsConnected = MainV2.comPort.BaseStream.IsOpen;
+                    QV.IsConnected = MainV2.comPort.BaseStream?.IsOpen == true;
 
                     // Enable drag and drop for rearranging
                     QV.AllowDrop = true;
@@ -7405,6 +7406,7 @@ namespace MissionPlanner.GCSViews
                     copyQV.isGauge = originalQV.isGauge;
                     copyQV.gaugeMin = originalQV.gaugeMin;
                     copyQV.gaugeMax = originalQV.gaugeMax;
+                    copyQV.IsConnected = MainV2.comPort.BaseStream?.IsOpen == true;
                     copyQV.Dock = DockStyle.Fill;
                     copyQV.Tag = originalQV.Tag;
 
@@ -7991,16 +7993,9 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private bool _lastQuickViewConnectionState = false;
-
         private void UpdateQuickViewConnectionState()
         {
-            bool isConnected = MainV2.comPort.BaseStream.IsOpen;
-
-            if (isConnected == _lastQuickViewConnectionState)
-                return;
-
-            _lastQuickViewConnectionState = isConnected;
+            bool isConnected = MainV2.comPort.BaseStream?.IsOpen == true;
 
             foreach (Control ctrl in tableLayoutPanelQuick.Controls)
             {

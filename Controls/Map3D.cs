@@ -263,6 +263,12 @@ namespace MissionPlanner.Controls
         // Plane position and rotation for current frame
         private double _planeDrawX, _planeDrawY, _planeDrawZ;
         private float _planeRoll, _planePitch, _planeYaw;
+        // Disconnected mode camera look direction (yaw/pitch for free-look)
+        private double _disconnectedCameraYaw = 0.0;   // Horizontal look angle in degrees
+        private double _disconnectedCameraPitch = 0.0; // Vertical look angle in degrees (positive = up)
+        // Debounce for 2D map position updates when disconnected
+        private PointLatLngAlt _lastMap2DPosition = PointLatLngAlt.Zero;
+        private DateTime _lastMap2DPositionChangeTime = DateTime.MinValue;
         // Configurable camera and plane settings
         private double _cameraDist = 0.8;    // Distance from plane
         private double _cameraAngle = 0.0;   // Angle offset from behind plane (degrees, 0=behind, 90=right, -90=left)
@@ -305,6 +311,22 @@ namespace MissionPlanner.Controls
         private bool _stopRequested;
         private System.ComponentModel.IContainer components;
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(0, 0, 100);
+
+        /// <summary>
+        /// Returns true if the vehicle is connected and reporting a valid location (not 0,0)
+        /// </summary>
+        private bool IsVehicleConnected
+        {
+            get
+            {
+                if (MainV2.comPort?.BaseStream?.IsOpen != true)
+                    return false;
+                var loc = MainV2.comPort?.MAV?.cs?.Location;
+                if (loc == null || (loc.Lat == 0 && loc.Lng == 0))
+                    return false;
+                return true;
+            }
+        }
 
         public PointLatLngAlt LocationCenter
         {
@@ -431,14 +453,24 @@ namespace MissionPlanner.Controls
             mousex = e.X;
             mousey = e.Y;
 
-            // Handle left-drag to rotate camera around vehicle (X) and adjust height (Y)
+            // Handle left-drag behavior based on connection state
             if (_isDragging)
             {
-                int deltaX = mousex - _dragStartX; // Positive = dragged right = rotate camera right
-                int deltaY = mousey - _dragStartY; // Positive = dragged down = increase height
+                int deltaX = mousex - _dragStartX;
+                int deltaY = mousey - _dragStartY;
 
-                _cameraAngle += deltaX * 0.5; // Degrees per pixel
-                _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
+                if (IsVehicleConnected)
+                {
+                    // Connected: rotate camera around vehicle (X) and adjust height (Y)
+                    _cameraAngle += deltaX * 0.5; // Degrees per pixel
+                    _cameraHeight = Math.Max(-5.0, Math.Min(5.0, _cameraHeight + deltaY * 0.005));
+                }
+                else
+                {
+                    // Disconnected: free-look - rotate camera view direction (reversed for natural feel)
+                    _disconnectedCameraYaw -= deltaX * 0.3; // Horizontal rotation (reversed)
+                    _disconnectedCameraPitch = Math.Max(-89.0, Math.Min(89.0, _disconnectedCameraPitch + deltaY * 0.3)); // Vertical rotation (reversed, clamped to avoid gimbal lock)
+                }
 
                 _dragStartX = mousex;
                 _dragStartY = mousey;
@@ -548,6 +580,10 @@ namespace MissionPlanner.Controls
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
+            // Only adjust camera distance when connected
+            if (!IsVehicleConnected)
+                return; // Ignore scroll wheel in disconnected state
+
             // Adjust camera distance with scroll wheel (temporary, not saved)
             // Scroll up (positive delta) = move camera closer (decrease distance)
             // Scroll down (negative delta) = move camera further (increase distance)
@@ -1096,9 +1132,12 @@ namespace MissionPlanner.Controls
         private void DrawADSB(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
             double circleRadius = _adsbCircleSize / 2.0;
-            double groundedCircleRadius = circleRadius / 10.0;
+            double groundedCircleRadius = circleRadius / 5.0;
 
-            var ownPosition = MainV2.comPort?.MAV?.cs?.Location ?? PointLatLngAlt.Zero;
+            // Use vehicle location when connected, otherwise use 2D map center position
+            var ownPosition = IsVehicleConnected
+                ? (MainV2.comPort?.MAV?.cs?.Location ?? _center)
+                : _center;
 
             _adsbScreenPositions.Clear();
 
@@ -1138,11 +1177,21 @@ namespace MissionPlanner.Controls
                 var plane = item.Item1;
                 double distanceToOwn = item.Item2;
 
+                bool isGrounded = plane.IsOnGround;
+                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+
                 var plla = new PointLatLngAlt(plane.Lat, plane.Lng, plane.Alt);
                 var co = convertCoords(plla);
 
-                bool isGrounded = plane.IsOnGround;
-                double radius = isGrounded ? groundedCircleRadius : circleRadius;
+                // For grounded aircraft, ensure they're visible above terrain
+                if (isGrounded)
+                {
+                    var terrainAlt = srtm.getAltitude(plane.Lat, plane.Lng).alt;
+                    if (co[2] < terrainAlt + 10)
+                    {
+                        co[2] = terrainAlt + 10; // Place at least 10m above terrain
+                    }
+                }
 
                 var color = GetADSBDistanceColor(distanceToOwn, isGrounded);
 
@@ -1201,6 +1250,11 @@ namespace MissionPlanner.Controls
         {
             if (Lines.Program == 0)
                 return;
+
+            // Enable depth testing so circles are properly occluded by terrain
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthMask(true);
+            GL.DepthFunc(DepthFunction.Lequal);
 
             GL.UseProgram(Lines.Program);
 
@@ -1298,6 +1352,7 @@ namespace MissionPlanner.Controls
             core.Zoom = minzoom;
             GMaps.Instance.CacheOnIdleRead = false;
             GMaps.Instance.BoostCacheEngine = true;
+            GMaps.Instance.MemoryCache.Capacity = 500; // 500MB tile cache
             // shared context
             _imageLoaderWindow = new OpenTK.GameWindow(640, 480, Context.GraphicsMode);
             _imageLoaderWindow.Visible = false;
@@ -1430,14 +1485,95 @@ namespace MissionPlanner.Controls
             var afterwait = DateTime.Now;
             try
             {
-                // Check if connected - stop updating plane position/camera when disconnected
-                bool isConnected = MainV2.comPort?.BaseStream?.IsOpen == true;
-
                 double heightscale = 1; //(step/90.0)*5;
                 var campos = convertCoords(_center);
 
-                // Only update positions from Kalman filter when connected
-                if (isConnected)
+                if (!IsVehicleConnected)
+                {
+                    // Vehicle is disconnected - use 2D map's center position and place camera 100m above terrain
+                    PointLatLng? map2DPosition = null;
+                    try
+                    {
+                        map2DPosition = GCSViews.FlightData.instance?.gMapControl1?.Position;
+                    }
+                    catch { }
+
+                    if (map2DPosition != null && map2DPosition.Value.Lat != 0 && map2DPosition.Value.Lng != 0)
+                    {
+                        // Debounce 2D map position updates - wait 5 seconds after last change before applying
+                        var newCenter = new PointLatLngAlt(map2DPosition.Value.Lat, map2DPosition.Value.Lng, 0);
+
+                        // Check if 2D map position changed (initialize _lastMap2DPosition on first run)
+                        bool isFirstRun = _lastMap2DPosition == null || (_lastMap2DPosition.Lat == 0 && _lastMap2DPosition.Lng == 0);
+                        if (isFirstRun || _lastMap2DPosition.GetDistance(newCenter) > 30)
+                        {
+                            _lastMap2DPosition = newCenter;
+                            _lastMap2DPositionChangeTime = DateTime.Now;
+                        }
+
+                        // Only update LocationCenter if 250ms have passed since last 2D map movement
+                        // and the position is different from current center
+                        bool shouldUpdateCenter = _lastMap2DPosition != null &&
+                            _lastMap2DPosition.Lat != 0 && _lastMap2DPosition.Lng != 0 &&
+                            _center.GetDistance(_lastMap2DPosition) > 30 &&
+                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalMilliseconds >= 250;
+
+                        if (shouldUpdateCenter)
+                        {
+                            // Check if UTM zone changed or large distance - need to reset coordinate system
+                            bool needsCoordinateReset = utmzone != _lastMap2DPosition.GetUTMZone() || llacenter.GetDistance(_lastMap2DPosition) > 10000;
+
+                            if (needsCoordinateReset)
+                            {
+                                // Use LocationCenter setter which handles cleanup properly
+                                // but do it via BeginInvoke to avoid blocking the paint thread
+                                var targetPos = _lastMap2DPosition;
+                                this.BeginInvoke((Action)(() =>
+                                {
+                                    LocationCenter = targetPos;
+                                }));
+                            }
+                            else
+                            {
+                                // Small distance change - update directly without full reset
+                                _center.Lat = _lastMap2DPosition.Lat;
+                                _center.Lng = _lastMap2DPosition.Lng;
+                                _center.Alt = _lastMap2DPosition.Alt;
+                            }
+
+                            // Reset free-look angles when position changes significantly
+                            _disconnectedCameraYaw = 0;
+                            _disconnectedCameraPitch = 0;
+                        }
+
+                        // Convert to local coordinates (use current _center which may have just been updated)
+                        var localPos = convertCoords(_center);
+
+                        // Get terrain altitude at this location
+                        var terrainAlt = srtm.getAltitude(_center.Lat, _center.Lng).alt;
+
+                        // Camera position at center, 100m above terrain
+                        cameraX = localPos[0];
+                        cameraY = localPos[1];
+                        cameraZ = terrainAlt + 100;
+
+                        // Calculate look direction based on base heading + free-look yaw/pitch
+                        // Base heading is last known plane yaw, or 0 (north) if never connected
+                        double baseHeading = _planeYaw;
+                        double totalYaw = baseHeading + _disconnectedCameraYaw;
+                        double yawRad = MathHelper.Radians(totalYaw);
+                        double pitchRad = MathHelper.Radians(_disconnectedCameraPitch);
+
+                        // Calculate look-at point based on yaw and pitch
+                        // Looking distance of 100m in the look direction
+                        double lookDist = 100.0;
+                        double cosPitch = Math.Cos(pitchRad);
+                        lookX = cameraX + Math.Sin(yawRad) * cosPitch * lookDist;
+                        lookY = cameraY + Math.Cos(yawRad) * cosPitch * lookDist;
+                        lookZ = cameraZ + Math.Sin(pitchRad) * lookDist;
+                    }
+                } 
+                else 
                 {
                     campos = projectLocation(mypos);
                     // Apply Kalman filter to rotation for smooth interpolation
@@ -1445,7 +1581,7 @@ namespace MissionPlanner.Controls
 
                     // save the state
                     mypos = campos;
-                    myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
+                    myrpy = new OpenTK.Vector3((float)rpy.x, (float)rpy.y, (float)rpy.z);
 
                     // Plane position (where camera used to be)
                     _planeDrawX = campos[0];
@@ -1494,22 +1630,6 @@ namespace MissionPlanner.Controls
                     lookY = _planeDrawY;
                     lookZ = _planeDrawZ;
                 }
-                else
-                {
-                    // Not connected - position camera at _center looking down
-                    _planeDrawX = campos[0];
-                    _planeDrawY = campos[1];
-                    _planeDrawZ = _center.Alt;
-
-                    // Camera above the center point, looking down
-                    cameraX = _planeDrawX;
-                    cameraY = _planeDrawY - _cameraDist;  // Offset behind
-                    cameraZ = _planeDrawZ + _cameraHeight + 50;  // Higher up when not connected
-
-                    lookX = _planeDrawX;
-                    lookY = _planeDrawY;
-                    lookZ = _planeDrawZ;
-                }
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
                 /*Console.WriteLine("cam: {0} {1} {2} lookat: {3} {4} {5}", (float) cameraX, (float) cameraY, (float) cameraZ,
@@ -1542,16 +1662,14 @@ namespace MissionPlanner.Controls
                 GL.Disable(EnableCap.DepthTest);
                 DrawSkyGradient();
 
-                // disable depth during terrain draw
-                GL.Disable(EnableCap.DepthTest);
+                // Enable depth testing for terrain so ADSB circles can be occluded
+                GL.Enable(EnableCap.DepthTest);
+                GL.DepthMask(true);
                 GL.DepthFunc(DepthFunction.Lequal);
 
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
-
-                // Draw ADSB aircraft circles (before tiles so they appear behind terrain)
-                DrawADSB(projMatrix, modelMatrix);
 
                 // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
@@ -1578,6 +1696,10 @@ namespace MissionPlanner.Controls
                 var beforewps = DateTime.Now;
                 GL.Enable(EnableCap.DepthTest);
                 GL.Disable(EnableCap.Texture2D);
+
+                // Draw ADSB aircraft circles (after terrain with depth test so they render correctly)
+                DrawADSB(projMatrix, modelMatrix);
+
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
@@ -1611,7 +1733,7 @@ namespace MissionPlanner.Controls
                     }
                 }
                 // Only draw plane and indicators when connected
-                if (isConnected)
+                if (IsVehicleConnected)
                 {
                     // Draw the plane model
                     DrawPlane(projMatrix, modelMatrix);
@@ -1988,6 +2110,7 @@ namespace MissionPlanner.Controls
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
+                // Build tile areas from max zoom to min zoom
                 for (int a = zoom; a >= minzoom; a--)
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
@@ -2008,18 +2131,46 @@ namespace MissionPlanner.Controls
                     //Console.WriteLine("tiles z {0} max {1} dist {2} tiles {3} pxper100m {4} - {5}", a, zoom, distm,
                     //  tiles.points.Count, core.pxRes100m, core.Zoom);
                     tileArea.Add(tiles);
+                }
 
-                    // queue the tile load/fetch
-                    foreach (var p in tiles.points)
+                var allTasks = new List<(LoadTask task, int zoomLevel, double dist)>();
+
+                foreach (var ta in tileArea)
+                {
+                    foreach (var p in ta.points)
                     {
-                        LoadTask task = new LoadTask(p, a);
+                        LoadTask task = new LoadTask(p, ta.zoom);
+                        if (!core.tileLoadQueue.Contains(task))
                         {
-                            if (!core.tileLoadQueue.Contains(task))
-                            {
-                                core.tileLoadQueue.Push(task);
-                            }
+                            // Get tile center in lat/lng
+                            long tileCenterPxX = (p.X * prj.TileSize.Width) + (prj.TileSize.Width / 2);
+                            long tileCenterPxY = (p.Y * prj.TileSize.Height) + (prj.TileSize.Height / 2);
+                            var tileCenter = prj.FromPixelToLatLng(tileCenterPxX, tileCenterPxY, ta.zoom);
+
+                            // Calculate actual geographic distance from map center
+                            double dLat = tileCenter.Lat - _center.Lat;
+                            double dLng = tileCenter.Lng - _center.Lng;
+                            double dist = dLat * dLat + dLng * dLng;
+                            allTasks.Add((task, ta.zoom, dist));
                         }
                     }
+                }
+
+                // Sort by combined priority: close tiles at high zoom should load first
+                // Priority = distance * zoom_weight, where higher zoom gets lower weight (more important)
+                // This way close high-zoom tiles beat far low-zoom tiles
+                allTasks.Sort((a, b) =>
+                {
+                    // Lower priority = load first. We want close (low dist) + high zoom to win
+                    // Multiply distance by inverse zoom factor so high zoom tiles get priority boost
+                    double priorityA = a.dist * (1.0 / (a.zoomLevel + 1));
+                    double priorityB = b.dist * (1.0 / (b.zoomLevel + 1));
+                    // For LIFO: higher priority pushed first (processed last)
+                    return priorityB.CompareTo(priorityA);
+                });
+                foreach (var t in allTasks)
+                {
+                    core.tileLoadQueue.Push(t.task);
                 }
 
                 //Minimumtile(tileArea);
