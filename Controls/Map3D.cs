@@ -2216,6 +2216,7 @@ namespace MissionPlanner.Controls
             lock (tileArea)
             {
                 tileArea = new List<tileZoomArea>();
+                // Build tile areas from max zoom to min zoom
                 for (int a = zoom; a >= minzoom; a--)
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
@@ -2236,18 +2237,34 @@ namespace MissionPlanner.Controls
                     //Console.WriteLine("tiles z {0} max {1} dist {2} tiles {3} pxper100m {4} - {5}", a, zoom, distm,
                     //  tiles.points.Count, core.pxRes100m, core.Zoom);
                     tileArea.Add(tiles);
+                }
 
-                    // queue the tile load/fetch
-                    foreach (var p in tiles.points)
+                var allTasks = new List<(LoadTask task, double dist)>();
+
+                foreach (var ta in tileArea)
+                {
+                    // Get center tile position at this zoom level
+                    var centerAtZoom = prj.FromLatLngToPixel(_center.Lat, _center.Lng, ta.zoom);
+                    double centerTileX = centerAtZoom.X / prj.TileSize.Width;
+                    double centerTileY = centerAtZoom.Y / prj.TileSize.Height;
+
+                    foreach (var p in ta.points)
                     {
-                        LoadTask task = new LoadTask(p, a);
+                        LoadTask task = new LoadTask(p, ta.zoom);
+                        if (!core.tileLoadQueue.Contains(task))
                         {
-                            if (!core.tileLoadQueue.Contains(task))
-                            {
-                                core.tileLoadQueue.Push(task);
-                            }
+                            // Calculate distance from center tile
+                            double dx = p.X - centerTileX;
+                            double dy = p.Y - centerTileY;
+                            double dist = dx * dx + dy * dy;
+                            allTasks.Add((task, dist));
                         }
                     }
+                }
+
+                allTasks.Sort((a, b) => b.dist.CompareTo(a.dist));
+                foreach (var t in allTasks)
+                    core.tileLoadQueue.Push(t.task);
                 }
 
                 //Minimumtile(tileArea);
