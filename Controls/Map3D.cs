@@ -2190,7 +2190,7 @@ namespace MissionPlanner.Controls
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             var C = 2 * Math.PI * 6378137.000;
             // horizontal distance by each tile square
-            var stile = C * Math.Cos(_center.Lat) / Math.Pow(2, zoom);
+            var stile = C * Math.Cos(cameraPos.Lat) / Math.Pow(2, zoom);
             var pxstep = 2;
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             // zoom 20 = 38m
@@ -2200,7 +2200,7 @@ namespace MissionPlanner.Controls
                 talist = tileArea.ToArray();
             foreach (var tilearea in talist)
             {
-                stile = C * Math.Cos(_center.Lat) / Math.Pow(2, tilearea.zoom);
+                stile = C * Math.Cos(cameraPos.Lat) / Math.Pow(2, tilearea.zoom);
                 pxstep = (int)(stile / 45);
                 pxstep = FloorPowerOf2(pxstep);
                 if (pxstep == int.MinValue) pxstep = 0;

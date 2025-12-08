@@ -3503,6 +3503,15 @@ namespace MissionPlanner
             {
                 try
                 {
+                    // Skip auto-connect if we already have an open MAVLink connection (e.g., user connected via UDP/serial)
+                    bool alreadyConnected = (MainV2.comPort?.BaseStream?.IsOpen == true) ||
+                                             (Comports?.Any(cp => cp?.BaseStream?.IsOpen == true) == true);
+                    if (alreadyConnected)
+                    {
+                        log.Info("AutoConnect ignored: MAVLink connection already active");
+                        return;
+                    }
+
                     log.Info("AutoConnect.NewMavlinkConnection " + serial.PortName);
                     MainV2.instance.BeginInvoke((Action) delegate
                     {
