@@ -4427,8 +4427,9 @@ namespace MissionPlanner.GCSViews
                             "here");
                     }
 
-                    // update 3D map (only when connected - disconnected mode uses 2D map center)
-                    if (Map3D.instance != null && MainV2.comPort?.BaseStream?.IsOpen == true)
+                    // update 3D map (only when connected with valid location - disconnected mode uses 2D map center)
+                    if (Map3D.instance != null && MainV2.comPort?.BaseStream?.IsOpen == true &&
+                        MainV2.comPort.MAV.cs.lat != 0 && MainV2.comPort.MAV.cs.lng != 0)
                     {
                         Map3D.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,

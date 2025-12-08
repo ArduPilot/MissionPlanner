@@ -318,9 +318,20 @@ namespace MissionPlanner.Controls
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
 
         /// <summary>
-        /// Returns true if the vehicle is connected (serial port is open)
+        /// Returns true if the vehicle is connected and reporting a valid location (not 0,0)
         /// </summary>
-        private bool IsVehicleConnected => MainV2.comPort?.BaseStream?.IsOpen == true;
+        private bool IsVehicleConnected
+        {
+            get
+            {
+                if (MainV2.comPort?.BaseStream?.IsOpen != true)
+                    return false;
+                var loc = MainV2.comPort?.MAV?.cs?.Location;
+                if (loc == null || (loc.Lat == 0 && loc.Lng == 0))
+                    return false;
+                return true;
+            }
+        }
 
         public PointLatLngAlt LocationCenter
         {
