@@ -1579,14 +1579,21 @@ namespace MissionPlanner.Controls
                 if (!IsVehicleConnected)
                 {
                     // Vehicle is disconnected - use 2D map's center position and place camera 100m above terrain
-                    var map2DPosition = GCSViews.FlightData.instance?.gMapControl1?.Position;
+                    PointLatLng? map2DPosition = null;
+                    try
+                    {
+                        map2DPosition = GCSViews.FlightData.instance?.gMapControl1?.Position;
+                    }
+                    catch { }
+
                     if (map2DPosition != null && map2DPosition.Value.Lat != 0 && map2DPosition.Value.Lng != 0)
                     {
                         // Debounce 2D map position updates - wait 5 seconds after last change before applying
                         var newCenter = new PointLatLngAlt(map2DPosition.Value.Lat, map2DPosition.Value.Lng, 0);
 
-                        // Check if 2D map position changed
-                        if (_lastMap2DPosition.GetDistance(newCenter) > 30)
+                        // Check if 2D map position changed (initialize _lastMap2DPosition on first run)
+                        bool isFirstRun = _lastMap2DPosition == null || (_lastMap2DPosition.Lat == 0 && _lastMap2DPosition.Lng == 0);
+                        if (isFirstRun || _lastMap2DPosition.GetDistance(newCenter) > 30)
                         {
                             _lastMap2DPosition = newCenter;
                             _lastMap2DPositionChangeTime = DateTime.Now;
@@ -1594,10 +1601,34 @@ namespace MissionPlanner.Controls
 
                         // Only update LocationCenter if 5 seconds have passed since last 2D map movement
                         // and the position is different from current center
-                        if (_center.GetDistance(_lastMap2DPosition) > 30 &&
-                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalSeconds >= 5)
+                        bool shouldUpdateCenter = _lastMap2DPosition != null &&
+                            _lastMap2DPosition.Lat != 0 && _lastMap2DPosition.Lng != 0 &&
+                            _center.GetDistance(_lastMap2DPosition) > 30 &&
+                            (DateTime.Now - _lastMap2DPositionChangeTime).TotalSeconds >= 5;
+
+                        if (shouldUpdateCenter)
                         {
-                            LocationCenter = _lastMap2DPosition;
+                            // Check if UTM zone changed or large distance - need to reset coordinate system
+                            bool needsCoordinateReset = utmzone != _lastMap2DPosition.GetUTMZone() || llacenter.GetDistance(_lastMap2DPosition) > 10000;
+
+                            if (needsCoordinateReset)
+                            {
+                                // Use LocationCenter setter which handles cleanup properly
+                                // but do it via BeginInvoke to avoid blocking the paint thread
+                                var targetPos = _lastMap2DPosition;
+                                this.BeginInvoke((Action)(() =>
+                                {
+                                    LocationCenter = targetPos;
+                                }));
+                            }
+                            else
+                            {
+                                // Small distance change - update directly without full reset
+                                _center.Lat = _lastMap2DPosition.Lat;
+                                _center.Lng = _lastMap2DPosition.Lng;
+                                _center.Alt = _lastMap2DPosition.Alt;
+                            }
+
                             // Reset free-look angles when position changes significantly
                             _disconnectedCameraYaw = 0;
                             _disconnectedCameraPitch = 0;
