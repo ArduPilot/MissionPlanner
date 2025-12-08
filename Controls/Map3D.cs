@@ -284,6 +284,7 @@ namespace MissionPlanner.Controls
         private bool _showTurnRadius = true;
         private bool _showTrail = true;
         private bool _fpvMode = false; // First-person view mode - camera at aircraft position
+        private bool _diskCacheTiles = true; // Cache tiles to disk for faster loading
         private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
         private double _adsbCircleSize = 500; // Diameter of ADSB aircraft circles in meters
         // Trail (flight path history) - stored as absolute UTM coordinates (X, Y, Z)
@@ -400,6 +401,7 @@ namespace MissionPlanner.Controls
             _showTurnRadius = Settings.Instance.GetBoolean("map3d_show_turn_radius", true);
             _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
             _fpvMode = Settings.Instance.GetBoolean("map3d_fpv_mode", false);
+            _diskCacheTiles = Settings.Instance.GetBoolean("map3d_disk_cache_tiles", true);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
             _adsbCircleSize = Settings.Instance.GetDouble("map3d_adsb_size", 500);
 
@@ -1792,6 +1794,7 @@ namespace MissionPlanner.Controls
                     GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
+                    GL.Disable(EnableCap.CullFace);
 
                     var waypointList = GetWaypointListFromMAV();
                     var list = waypointList.Where(a => a != null).ToList();
@@ -2268,20 +2271,36 @@ namespace MissionPlanner.Controls
                     int gridHeight = (int)((yend - ystart) / pxstep) + 1;
 
                     // Try to load from disk cache first (exact zoom or better resolution)
-                    var cachedTile = Map3DTileCache.LoadTileOrBetter(p.X, p.Y, tilearea.zoom, zoom);
+                    Map3DTileCache.CachedTileData cachedTile = null;
+                    if (_diskCacheTiles)
+                    {
+                        try
+                        {
+                            cachedTile = Map3DTileCache.LoadTileOrBetter(p.X, p.Y, tilearea.zoom, zoom);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to load tile from cache: {ex.Message}");
+                            cachedTile = null;
+                        }
+                    }
 
                     if (cachedTile != null && cachedTile.Zoom == tilearea.zoom &&
                         cachedTile.GridWidth == gridWidth && cachedTile.GridHeight == gridHeight &&
-                        cachedTile.PxStep == pxstep)
+                        cachedTile.PxStep == pxstep &&
+                        cachedTile.Altitudes != null && cachedTile.Altitudes.Length == gridWidth * gridHeight &&
+                        cachedTile.ImageData != null && cachedTile.ImageData.Length > 0)
                     {
                         // Load from disk cache - we have matching cached data
                         try
                         {
                             // Reconstruct image from cached bytes
+                            // Note: We must copy the image since GDI+ requires the stream to stay open
                             Image cachedImage;
                             using (var ms = new MemoryStream(cachedTile.ImageData))
+                            using (var tempImage = Image.FromStream(ms))
                             {
-                                cachedImage = Image.FromStream(ms);
+                                cachedImage = new Bitmap(tempImage);
                             }
 
                             var ti = new tileInfo(Context, this.WindowInfo, textureSemaphore)
@@ -2473,19 +2492,39 @@ namespace MissionPlanner.Controls
                                                 }
                                             }
 
-                                            // Save to disk cache for future use
-                                            ThreadPool.QueueUserWorkItem(_ =>
+                                            // Save to disk cache for future use (if enabled)
+                                            if (_diskCacheTiles)
                                             {
                                                 try
                                                 {
-                                                    Map3DTileCache.SaveTile(p.X, p.Y, tilearea.zoom,
-                                                        gridWidth, gridHeight, pxstep, altCache, img.Img);
+                                                    // Clone image and altCache since they may be disposed/modified before ThreadPool executes
+                                                    var imgClone = (Image)img.Img.Clone();
+                                                    var altCacheClone = (double[,])altCache.Clone();
+                                                    var tileX = p.X;
+                                                    var tileY = p.Y;
+                                                    var tileZoom = tilearea.zoom;
+                                                    ThreadPool.QueueUserWorkItem(_ =>
+                                                    {
+                                                        try
+                                                        {
+                                                            Map3DTileCache.SaveTile(tileX, tileY, tileZoom,
+                                                                gridWidth, gridHeight, pxstep, altCacheClone, imgClone);
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Debug.WriteLine($"Failed to save tile to cache: {ex.Message}");
+                                                        }
+                                                        finally
+                                                        {
+                                                            imgClone?.Dispose();
+                                                        }
+                                                    });
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    Debug.WriteLine($"Failed to save tile to cache: {ex.Message}");
+                                                    Debug.WriteLine($"Failed to queue tile cache save: {ex.Message}");
                                                 }
-                                            });
+                                            }
                                         }
 
                                         if (ti != null)
@@ -2802,6 +2841,10 @@ namespace MissionPlanner.Controls
                 numDist.Enabled = !_fpvMode;
                 numHeight.Enabled = !_fpvMode;
                 dialog.Controls.Add(chkFPV);
+                y += 24;
+
+                var chkDiskCache = new CheckBox { Text = "Disk Cache Tiles", Location = new Point(margin, y), AutoSize = true, Checked = _diskCacheTiles };
+                dialog.Controls.Add(chkDiskCache);
                 y += 30;
 
                 int btnWidth = 75;
@@ -2833,6 +2876,7 @@ namespace MissionPlanner.Controls
                     chkTurnRadius.Checked = true;
                     chkTrail.Checked = false;
                     chkFPV.Checked = false;
+                    chkDiskCache.Checked = true;
                     _cameraAngle = 0.0;
                 };
                 dialog.Controls.Add(btnReset);
@@ -2859,6 +2903,22 @@ namespace MissionPlanner.Controls
                     _showTrail = chkTrail.Checked;
                     _fpvMode = chkFPV.Checked;
 
+                    // Handle disk cache setting - clear cache if disabled
+                    bool oldDiskCache = _diskCacheTiles;
+                    _diskCacheTiles = chkDiskCache.Checked;
+                    if (oldDiskCache && !_diskCacheTiles)
+                    {
+                        // User disabled disk caching - clear the cache
+                        try
+                        {
+                            Map3DTileCache.ClearCache();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to clear tile cache: {ex.Message}");
+                        }
+                    }
+
                     _stlLoader.CustomSTLPath = selectedSTLPath;
 
                     Settings.Instance["map3d_zoom_level"] = zoom.ToString();
@@ -2876,6 +2936,7 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_show_turn_radius"] = _showTurnRadius.ToString();
                     Settings.Instance["map3d_show_trail"] = _showTrail.ToString();
                     Settings.Instance["map3d_fpv_mode"] = _fpvMode.ToString();
+                    Settings.Instance["map3d_disk_cache_tiles"] = _diskCacheTiles.ToString();
                     Settings.Instance.Save();
 
                     test_Resize(null, null);

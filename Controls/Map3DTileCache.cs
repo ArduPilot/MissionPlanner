@@ -120,7 +120,8 @@ namespace MissionPlanner.Controls
                 if (!File.Exists(path))
                     return null;
 
-                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                // Use FileShare.ReadWrite to avoid conflicts with concurrent writes
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (var br = new BinaryReader(fs))
                 {
                     var cached = new CachedTileData();
@@ -131,6 +132,11 @@ namespace MissionPlanner.Controls
                     cached.GridHeight = br.ReadInt32();
                     cached.PxStep = br.ReadInt32();
 
+                    // Validate grid dimensions to prevent huge allocations from corrupt files
+                    if (cached.GridWidth <= 0 || cached.GridWidth > 1000 ||
+                        cached.GridHeight <= 0 || cached.GridHeight > 1000)
+                        return null;
+
                     // Read altitudes
                     int altCount = cached.GridWidth * cached.GridHeight;
                     cached.Altitudes = new double[altCount];
@@ -138,6 +144,8 @@ namespace MissionPlanner.Controls
                         cached.Altitudes[i] = br.ReadDouble();
 
                     int imageLen = br.ReadInt32();
+                    if (imageLen <= 0 || imageLen > 10 * 1024 * 1024) // Max 10MB for image
+                        return null;
                     cached.ImageData = br.ReadBytes(imageLen);
 
                     return cached;
