@@ -33,11 +33,11 @@ namespace MissionPlanner.Controls
 
         public SimpleKalmanFilter(double q = 0.1, double r = 1.0, double initialValue = 0)
         {
-            // Map old parameters to new system with much smoother defaults
-            _processNoise = q * 0.5;       // reduced process noise for smoother tracking
-            _velocityNoise = q * 2.0;      // velocity can change more freely
-            _measurementNoise = r * 2.0;   // trust measurements less for smoother output
-            _smoothingFactor = 0.15;       // low smoothing factor for very smooth output
+            // Map parameters - balanced between smooth and responsive
+            _processNoise = q * 1.0;       // process noise for tracking
+            _velocityNoise = q * 3.0;      // velocity can change more freely
+            _measurementNoise = r * 1.0;   // trust measurements more for quicker response
+            _smoothingFactor = 0.3;        // higher = more responsive
 
             _x = initialValue;
             _v = 0;

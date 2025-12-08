@@ -640,6 +640,11 @@ namespace MissionPlanner.Controls
                 timer1?.Start();
                 started = true;
             }
+
+            // Reset Kalman filters so position/rotation jumps to current values
+            // instead of slowly interpolating from stale state
+            ResetKalmanFilters();
+
             this.Invalidate();
         }
 
@@ -870,15 +875,10 @@ namespace MissionPlanner.Controls
 
         private void DrawHeadingLines(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            // Get current heading (yaw), nav bearing, and GPS heading
-            double heading = MainV2.comPort?.MAV?.cs?.yaw ?? 0;
-            double navBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
-            double gpsHeading = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
-
-            // Heading line (red)
+            // Heading line (red) - uses Kalman-filtered yaw for smooth movement
             if (_showHeadingLine)
             {
-                double headingRad = MathHelper.Radians(heading);
+                double headingRad = MathHelper.Radians(_planeYaw);
                 double headingEndX = _planeDrawX + Math.Sin(headingRad) * HEADING_LINE_LENGTH;
                 double headingEndY = _planeDrawY + Math.Cos(headingRad) * HEADING_LINE_LENGTH;
 
@@ -938,7 +938,9 @@ namespace MissionPlanner.Controls
                 else
                 {
                     // Not in navigation mode or no target: use nav_bearing direction with fixed length (like 2D map)
-                    double navBearingRad = MathHelper.Radians(navBearing);
+                    double rawNavBearing = MainV2.comPort?.MAV?.cs?.nav_bearing ?? 0;
+                    double filteredNavBearing = _kalmanNavBearing.UpdateAngle(rawNavBearing);
+                    double navBearingRad = MathHelper.Radians(filteredNavBearing);
                     navEndX = _planeDrawX + Math.Sin(navBearingRad) * HEADING_LINE_LENGTH;
                     navEndY = _planeDrawY + Math.Cos(navBearingRad) * HEADING_LINE_LENGTH;
                     navEndZ = _planeDrawZ;
@@ -955,7 +957,9 @@ namespace MissionPlanner.Controls
             // GPS heading line (black)
             if (_showGpsHeadingLine)
             {
-                double gpsRad = MathHelper.Radians(gpsHeading);
+                double rawGpsHeading = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
+                double filteredGpsHeading = _kalmanGpsHeading.UpdateAngle(rawGpsHeading);
+                double gpsRad = MathHelper.Radians(filteredGpsHeading);
                 double gpsEndX = _planeDrawX + Math.Sin(gpsRad) * HEADING_LINE_LENGTH;
                 double gpsEndY = _planeDrawY + Math.Cos(gpsRad) * HEADING_LINE_LENGTH;
 
@@ -978,7 +982,10 @@ namespace MissionPlanner.Controls
                     if (alpha > 180) alpha = 180;
 
                     // Calculate center of turn circle perpendicular to travel direction
-                    double cogRad = MathHelper.Radians(gpsHeading);
+                    // Use the same filtered GPS heading for consistency
+                    double rawGpsCourse = MainV2.comPort?.MAV?.cs?.groundcourse ?? 0;
+                    double filteredGpsCourse = _kalmanGpsHeading.UpdateAngle(rawGpsCourse);
+                    double cogRad = MathHelper.Radians(filteredGpsCourse);
                     double perpAngle = cogRad + (radius > 0 ? Math.PI / 2 : -Math.PI / 2);
                     double centerX = _planeDrawX + Math.Sin(perpAngle) * Math.Abs(radius);
                     double centerY = _planeDrawY + Math.Cos(perpAngle) * Math.Abs(radius);
@@ -1407,6 +1414,9 @@ namespace MissionPlanner.Controls
         private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.015, 2.0);
         private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.015, 2.0);
         private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.015, 2.5); // yaw tends to be noisiest
+        // Filters for heading indicator lines
+        private SimpleKalmanFilter _kalmanNavBearing = new SimpleKalmanFilter(0.015, 2.0);
+        private SimpleKalmanFilter _kalmanGpsHeading = new SimpleKalmanFilter(0.015, 2.0);
         private bool _kalmanInitialized = false;
 
         double[] convertCoords(PointLatLngAlt plla)
@@ -1977,6 +1987,8 @@ namespace MissionPlanner.Controls
             _kalmanRoll.Reset(0);
             _kalmanPitch.Reset(0);
             _kalmanYaw.Reset(0);
+            _kalmanNavBearing.Reset(0);
+            _kalmanGpsHeading.Reset(0);
         }
 
         private int Comparison(KeyValuePair<GPoint, tileInfo> x, KeyValuePair<GPoint, tileInfo> y)
