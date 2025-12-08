@@ -69,6 +69,216 @@ namespace MissionPlanner.Controls
         }
     }
 
+    /// <summary>
+    /// Disk cache for Map3D tile altitude data.
+    /// Stores pre-computed altitude grids to avoid repeated SRTM lookups.
+    /// </summary>
+    public class Map3DTileCache
+    {
+        private static readonly object _lock = new object();
+        private static string _cacheDir;
+
+        /// <summary>
+        /// Gets or sets the cache directory. Defaults to LocalApplicationData/MissionPlanner/Map3DCache
+        /// </summary>
+        public static string CacheDirectory
+        {
+            get
+            {
+                if (_cacheDir == null)
+                {
+                    _cacheDir = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "MissionPlanner", "Map3DCache");
+                }
+                return _cacheDir;
+            }
+            set { _cacheDir = value; }
+        }
+
+        /// <summary>
+        /// Cached tile altitude data
+        /// </summary>
+        public class CachedTileData
+        {
+            public int Zoom { get; set; }
+            public long X { get; set; }
+            public long Y { get; set; }
+            public int GridWidth { get; set; }
+            public int GridHeight { get; set; }
+            public int PxStep { get; set; }
+            public double[] Altitudes { get; set; }  // Flattened altitude grid [gridWidth * gridHeight]
+            public byte[] ImageData { get; set; }    // PNG-encoded satellite image
+        }
+
+        /// <summary>
+        /// Gets the cache file path for a tile
+        /// </summary>
+        private static string GetCachePath(long x, long y, int zoom)
+        {
+            // Organize by zoom level for easier management
+            var zoomDir = Path.Combine(CacheDirectory, $"z{zoom}");
+            return Path.Combine(zoomDir, $"{x}_{y}.bin");
+        }
+
+        /// <summary>
+        /// Saves tile altitude data to disk cache
+        /// </summary>
+        public static void SaveTile(long x, long y, int zoom, int gridWidth, int gridHeight, int pxStep,
+            double[,] altitudes, Image image)
+        {
+            try
+            {
+                var path = GetCachePath(x, y, zoom);
+                var dir = Path.GetDirectoryName(path);
+
+                lock (_lock)
+                {
+                    if (!Directory.Exists(dir))
+                        Directory.CreateDirectory(dir);
+                }
+
+                // Convert image to PNG bytes
+                byte[] imageBytes;
+                using (var ms = new MemoryStream())
+                {
+                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    imageBytes = ms.ToArray();
+                }
+
+                // Write binary file
+                using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (var bw = new BinaryWriter(fs))
+                {
+                    bw.Write(zoom);
+                    bw.Write(x);
+                    bw.Write(y);
+                    bw.Write(gridWidth);
+                    bw.Write(gridHeight);
+                    bw.Write(pxStep);
+
+                    // Write altitudes
+                    for (int gx = 0; gx < gridWidth; gx++)
+                        for (int gy = 0; gy < gridHeight; gy++)
+                            bw.Write(altitudes[gx, gy]);
+
+                    bw.Write(imageBytes.Length);
+                    bw.Write(imageBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Map3DTileCache.SaveTile error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Tries to load a tile from disk cache at the exact zoom level
+        /// </summary>
+        public static CachedTileData LoadTile(long x, long y, int zoom)
+        {
+            try
+            {
+                var path = GetCachePath(x, y, zoom);
+                if (!File.Exists(path))
+                    return null;
+
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var br = new BinaryReader(fs))
+                {
+                    var cached = new CachedTileData();
+                    cached.Zoom = br.ReadInt32();
+                    cached.X = br.ReadInt64();
+                    cached.Y = br.ReadInt64();
+                    cached.GridWidth = br.ReadInt32();
+                    cached.GridHeight = br.ReadInt32();
+                    cached.PxStep = br.ReadInt32();
+
+                    // Read altitudes
+                    int altCount = cached.GridWidth * cached.GridHeight;
+                    cached.Altitudes = new double[altCount];
+                    for (int i = 0; i < altCount; i++)
+                        cached.Altitudes[i] = br.ReadDouble();
+
+                    int imageLen = br.ReadInt32();
+                    cached.ImageData = br.ReadBytes(imageLen);
+
+                    return cached;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Map3DTileCache.LoadTile error: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Tries to load a tile from disk cache, checking the requested zoom or better (higher) zoom levels.
+        /// Returns the best available cached tile data.
+        /// </summary>
+        public static CachedTileData LoadTileOrBetter(long x, long y, int requestedZoom, int maxZoom)
+        {
+            // First, try exact zoom
+            var cached = LoadTile(x, y, requestedZoom);
+            if (cached != null)
+                return cached;
+
+            // Try higher zoom levels (better resolution)
+            for (int z = requestedZoom + 1; z <= maxZoom; z++)
+            {
+                int zoomDiff = z - requestedZoom;
+                long scale = 1L << zoomDiff;
+                long higherX = x * scale + scale / 2;
+                long higherY = y * scale + scale / 2;
+
+                cached = LoadTile(higherX, higherY, z);
+                if (cached != null)
+                    return cached;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Clears all cached tiles
+        /// </summary>
+        public static void ClearCache()
+        {
+            try
+            {
+                if (Directory.Exists(CacheDirectory))
+                {
+                    Directory.Delete(CacheDirectory, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Map3DTileCache.ClearCache error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Gets the total size of the cache in bytes
+        /// </summary>
+        public static long GetCacheSize()
+        {
+            try
+            {
+                if (!Directory.Exists(CacheDirectory))
+                    return 0;
+
+                return new DirectoryInfo(CacheDirectory)
+                    .EnumerateFiles("*", SearchOption.AllDirectories)
+                    .Sum(f => f.Length);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+    }
+
     public class Map3D : GLControl, IDeactivate
     {
         public static Map3D instance;
@@ -2223,12 +2433,127 @@ namespace MissionPlanner.Controls
                     pxstep = 1;
                 foreach (var p in tilearea.points)
                 {
-                    core.tileDrawingListLock.AcquireReaderLock();
-                    core.Matrix.EnterReadLock();
+                    // Skip if we already have this tile loaded
+                    if (textureid.ContainsKey(p))
+                        continue;
+
                     long xstart = p.X * prj.TileSize.Width;
                     long ystart = p.Y * prj.TileSize.Width;
                     long xend = (p.X + 1) * prj.TileSize.Width;
                     long yend = (p.Y + 1) * prj.TileSize.Width;
+
+                    // Calculate grid dimensions
+                    int gridWidth = (int)((xend - xstart) / pxstep) + 1;
+                    int gridHeight = (int)((yend - ystart) / pxstep) + 1;
+
+                    // Try to load from disk cache first (exact zoom or better resolution)
+                    var cachedTile = Map3DTileCache.LoadTileOrBetter(p.X, p.Y, tilearea.zoom, zoom);
+
+                    if (cachedTile != null && cachedTile.Zoom == tilearea.zoom &&
+                        cachedTile.GridWidth == gridWidth && cachedTile.GridHeight == gridHeight &&
+                        cachedTile.PxStep == pxstep)
+                    {
+                        // Load from disk cache - we have matching cached data
+                        try
+                        {
+                            // Reconstruct image from cached bytes
+                            Image cachedImage;
+                            using (var ms = new MemoryStream(cachedTile.ImageData))
+                            {
+                                cachedImage = Image.FromStream(ms);
+                            }
+
+                            var ti = new tileInfo(Context, this.WindowInfo, textureSemaphore)
+                            {
+                                point = p,
+                                zoom = tilearea.zoom,
+                                img = cachedImage
+                            };
+
+                            // Pre-cache lat/lng coordinates (needed for UTM conversion)
+                            var latlngGrid = new PointLatLng[gridWidth, gridHeight];
+                            for (int gx = 0; gx < gridWidth; gx++)
+                            {
+                                long px = xstart + gx * pxstep;
+                                for (int gy = 0; gy < gridHeight; gy++)
+                                {
+                                    long py = ystart + gy * pxstep;
+                                    latlngGrid[gx, gy] = prj.FromPixelToLatLng(px, py, tilearea.zoom);
+                                }
+                            }
+
+                            // Build UTM cache using cached altitudes
+                            var utmCache = new double[gridWidth, gridHeight][];
+                            for (int gx = 0; gx < gridWidth; gx++)
+                            {
+                                for (int gy = 0; gy < gridHeight; gy++)
+                                {
+                                    utmCache[gx, gy] = convertCoords(latlngGrid[gx, gy]);
+                                    utmCache[gx, gy][2] = cachedTile.Altitudes[gx * gridHeight + gy];
+                                }
+                            }
+
+                            // Build quads using cached altitudes
+                            var zindexmod = (20 - ti.zoom) * 0.30;
+                            for (int gx = 0; gx < gridWidth - 1; gx++)
+                            {
+                                long x = xstart + gx * pxstep;
+                                long xnext = x + pxstep;
+                                for (int gy = 0; gy < gridHeight - 1; gy++)
+                                {
+                                    long y = ystart + gy * pxstep;
+                                    long ynext = y + pxstep;
+
+                                    var utm1 = utmCache[gx, gy];
+                                    var utm2 = utmCache[gx, gy + 1];
+                                    var utm3 = utmCache[gx + 1, gy];
+                                    var utm4 = utmCache[gx + 1, gy + 1];
+
+                                    var imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
+                                    var imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm4[0], utm4[1], utm4[2] - zindexmod, 1, 0, 0, 1, imgx, imgy));
+                                    imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
+                                    imgy = MathHelper.map(y, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm3[0], utm3[1], utm3[2] - zindexmod, 0, 1, 0, 1, imgx, imgy));
+                                    imgx = MathHelper.map(x, xstart, xend, 0, 1);
+                                    imgy = MathHelper.map(y, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm1[0], utm1[1], utm1[2] - zindexmod, 0, 0, 1, 1, imgx, imgy));
+                                    imgx = MathHelper.map(x, xstart, xend, 0, 1);
+                                    imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
+                                    ti.vertex.Add(new Vertex(utm2[0], utm2[1], utm2[2] - zindexmod, 1, 1, 0, 1, imgx, imgy));
+                                    var startindex = (uint)ti.vertex.Count - 4;
+                                    ti.indices.AddRange(new[]
+                                    {
+                                        startindex + 0, startindex + 1, startindex + 3,
+                                        startindex + 1, startindex + 2, startindex + 3
+                                    });
+                                }
+                            }
+
+                            // Initialize GPU buffers
+                            try
+                            {
+                                var temp2 = ti.idEBO;
+                                var temp3 = ti.idVBO;
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+
+                            textureid[p] = ti;
+                            continue; // Successfully loaded from cache
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to load tile from cache: {ex.Message}");
+                            // Fall through to load from GMap.NET
+                        }
+                    }
+
+                    // Not in cache or cache miss - load from GMap.NET and compute altitude
+                    core.tileDrawingListLock.AcquireReaderLock();
+                    core.Matrix.EnterReadLock();
                     try
                     {
                         GMap.NET.Internals.Tile t = core.Matrix.GetTileWithNoLock(tilearea.zoom, p);
@@ -2247,10 +2572,6 @@ namespace MissionPlanner.Controls
                                             zoom = tilearea.zoom,
                                             img = (Image) img.Img.Clone()
                                         };
-
-                                        // Calculate grid dimensions for altitude caching
-                                        int gridWidth = (int)((xend - xstart) / pxstep) + 1;
-                                        int gridHeight = (int)((yend - ystart) / pxstep) + 1;
 
                                         // Pre-cache all lat/lng coordinates and altitudes for this tile
                                         var latlngGrid = new PointLatLng[gridWidth, gridHeight];
@@ -2330,37 +2651,35 @@ namespace MissionPlanner.Controls
                                                     });
                                                 }
                                             }
+
+                                            // Save to disk cache for future use
+                                            ThreadPool.QueueUserWorkItem(_ =>
+                                            {
+                                                try
+                                                {
+                                                    Map3DTileCache.SaveTile(p.X, p.Y, tilearea.zoom,
+                                                        gridWidth, gridHeight, pxstep, altCache, img.Img);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    Debug.WriteLine($"Failed to save tile to cache: {ex.Message}");
+                                                }
+                                            });
                                         }
 
                                         if (ti != null)
                                         {
-                                            //textureSemaphore.Wait();
                                             try
                                             {
-                                                // do this on UI thread
-                                                //if (!Context.IsCurrent)
-                                                //Context.MakeCurrent(this.WindowInfo);
-                                                // load it all
-                                                //var temp = ti.idtexture; -- intel hd graphics cant share textures
                                                 var temp2 = ti.idEBO;
                                                 var temp3 = ti.idVBO;
-                                                //var temp4 = ti.idVAO;
-                                                // release it
-                                                //if (Context.IsCurrent)
-                                                //Context.MakeCurrent(null);
                                             }
                                             catch
                                             {
                                                 return;
                                             }
-                                            finally
-                                            {
-                                                //textureSemaphore.Release();
-                                            }
 
                                             textureid[p] = ti;
-
-                                            //File.WriteAllText(p.ToString(), ti.ToJSON());
                                         }
                                     }
                                     catch
