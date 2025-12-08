@@ -1855,5 +1855,125 @@ namespace MissionPlanner.Properties {
                 return ((string)(obj));
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string copter_stl {
+            get {
+                object obj = ResourceManager.GetObject("copter_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string quadrotor_stl {
+            get {
+                object obj = ResourceManager.GetObject("quadrotor_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string hexarotor_stl {
+            get {
+                object obj = ResourceManager.GetObject("hexarotor_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string octorotor_stl {
+            get {
+                object obj = ResourceManager.GetObject("octorotor_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string tricopter_stl {
+            get {
+                object obj = ResourceManager.GetObject("tricopter_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string coaxial_stl {
+            get {
+                object obj = ResourceManager.GetObject("coaxial_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string helicopter_stl {
+            get {
+                object obj = ResourceManager.GetObject("helicopter_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string dodecarotor_stl {
+            get {
+                object obj = ResourceManager.GetObject("dodecarotor_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string quadplane_stl {
+            get {
+                object obj = ResourceManager.GetObject("quadplane_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string rover_stl {
+            get {
+                object obj = ResourceManager.GetObject("rover_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string boat_stl {
+            get {
+                object obj = ResourceManager.GetObject("boat_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.String.
+        /// </summary>
+        internal static string sub_stl {
+            get {
+                object obj = ResourceManager.GetObject("sub_stl", resourceCulture);
+                return ((string)(obj));
+            }
+        }
     }
 }

@@ -695,4 +695,40 @@ Control-S - save grid file\par
   <data name="plane_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\plane.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="copter_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copter.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="quadrotor_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\quadrotor.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="hexarotor_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hexarotor.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="octorotor_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\octorotor.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="tricopter_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tricopter.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="coaxial_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\coaxial.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="helicopter_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helicopter.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="dodecarotor_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dodecarotor.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="quadplane_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\quadplane.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="rover_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rover.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="boat_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boat.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sub_stl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sub.stl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

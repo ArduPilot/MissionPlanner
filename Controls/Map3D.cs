@@ -256,13 +256,9 @@ namespace MissionPlanner.Controls
         int greenAlt = 0;
 
         // Plane STL model
-        private List<float> _planeVertices;
-        private List<float> _planeNormals;
+        private STLModelLoader _stlLoader = new STLModelLoader();
         private int _planeVBO = 0;
         private int _planeNormalVBO = 0;
-        private int _planeVertexCount = 0;
-        private float _planeScale = 1.0f;
-        private bool _planeLoaded = false;
         private bool _settingsLoaded = false;
         // Plane position and rotation for current frame
         private double _planeDrawX, _planeDrawY, _planeDrawZ;
@@ -274,7 +270,6 @@ namespace MissionPlanner.Controls
         private float _planeScaleMultiplier = 1.0f; // 1.0 = 1 meter wingspan
         private float _cameraFOV = 60f; // Field of view in degrees
         private Color _planeColor = Color.Red;
-        private string _planeSTLPath = ""; // Empty = use embedded resource
         private int _whitePlaneTexture = 0; // White texture for plane rendering
         // Heading indicator line options
         private bool _showHeadingLine = true;
@@ -309,34 +304,35 @@ namespace MissionPlanner.Controls
         private Timer timer1;
         private bool _stopRequested;
         private System.ComponentModel.IContainer components;
-        private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
+        private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(0, 0, 100);
 
         public PointLatLngAlt LocationCenter
         {
             get { return _center; }
             set
             {
-                if (value.Lat == 0 && value.Lng == 0)
-                    return;
-                if (_center.Lat == value.Lat && _center.Lng == value.Lng)
-                    return;
+                bool positionChanged = _center.Lat != value.Lat || _center.Lng != value.Lng;
+
                 _centerTime = DateTime.Now;
                 _center.Lat = value.Lat;
                 _center.Lng = value.Lng;
                 _center.Alt = value.Alt;
-                if (utmzone != value.GetUTMZone() || llacenter.GetDistance(_center) > 10000)
+
+                // Initialize or update UTM zone if needed
+                if (utmzone == -999 || utmzone != value.GetUTMZone() || llacenter.GetDistance(_center) > 10000)
                 {
                     utmzone = value.GetUTMZone();
                     // set our pos
                     llacenter = value;
                     utmcenter = new double[] {0, 0};
-                    // update a virtual center bases on llacenter
+                    // update a virtual center based on llacenter
                     utmcenter = convertCoords(value);
                     textureid.ForEach(a => a.Value.Cleanup());
                     textureid.Clear();
                 }
 
-                this.Invalidate();
+                if (positionChanged)
+                    this.Invalidate();
             }
         }
 
@@ -368,7 +364,7 @@ namespace MissionPlanner.Controls
             _cameraHeight = Settings.Instance.GetDouble("map3d_camera_height", 0.2);
             _planeScaleMultiplier = (float)Settings.Instance.GetDouble("map3d_mav_scale", Settings.Instance.GetDouble("map3d_plane_scale", 1.0));
             _cameraFOV = (float)Settings.Instance.GetDouble("map3d_fov", 60);
-            _planeSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
+            _stlLoader.CustomSTLPath = Settings.Instance.GetString("map3d_plane_stl_path", "");
             try
             {
                 int colorArgb = Settings.Instance.GetInt32("map3d_mav_color", Settings.Instance.GetInt32("map3d_plane_color", Color.Red.ToArgb()));
@@ -775,135 +771,19 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private void LoadPlaneSTL()
-        {
-            if (_planeLoaded) return;
-            if (!_settingsLoaded) return; // Wait for settings to load first
-
-            try
-            {
-                string stlContent;
-                if (!string.IsNullOrEmpty(_planeSTLPath) && File.Exists(_planeSTLPath))
-                {
-                    // Load from custom file path
-                    stlContent = File.ReadAllText(_planeSTLPath);
-                }
-                else
-                {
-                    // Load from embedded resource
-                    stlContent = MissionPlanner.Properties.Resources.plane_stl;
-                }
-
-                if (string.IsNullOrEmpty(stlContent))
-                {
-                    MessageBox.Show("plane.stl resource not found", "STL Load Error");
-                    return;
-                }
-
-                _planeVertices = new List<float>();
-                _planeNormals = new List<float>();
-
-                float minX = float.MaxValue, maxX = float.MinValue;
-                float minY = float.MaxValue, maxY = float.MinValue;
-                float minZ = float.MaxValue, maxZ = float.MinValue;
-
-                var lines = stlContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                float nx = 0, ny = 0, nz = 0;
-
-                foreach (var line in lines)
-                {
-                    var trimmed = line.Trim();
-                    if (trimmed.StartsWith("facet normal"))
-                    {
-                        var parts = trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        nx = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
-                        ny = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
-                        nz = float.Parse(parts[4], System.Globalization.CultureInfo.InvariantCulture);
-                    }
-                    else if (trimmed.StartsWith("vertex"))
-                    {
-                        var parts = trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        float vx = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
-                        float vy = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
-                        float vz = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
-
-                        _planeVertices.Add(vx);
-                        _planeVertices.Add(vy);
-                        _planeVertices.Add(vz);
-
-                        _planeNormals.Add(nx);
-                        _planeNormals.Add(ny);
-                        _planeNormals.Add(nz);
-
-                        minX = Math.Min(minX, vx); maxX = Math.Max(maxX, vx);
-                        minY = Math.Min(minY, vy); maxY = Math.Max(maxY, vy);
-                        minZ = Math.Min(minZ, vz); maxZ = Math.Max(maxZ, vz);
-                    }
-                }
-
-                // Calculate scale to make model 1 meter wide
-                float modelWidth = Math.Max(maxX - minX, Math.Max(maxY - minY, maxZ - minZ));
-                _planeScale = 1.0f / modelWidth; // 1 meter wide
-
-                // Center the model
-                float centerX = (minX + maxX) / 2;
-                float centerY = (minY + maxY) / 2;
-                float centerZ = (minZ + maxZ) / 2;
-
-                for (int i = 0; i < _planeVertices.Count; i += 3)
-                {
-                    _planeVertices[i] -= centerX;
-                    _planeVertices[i + 1] -= centerY;
-                    _planeVertices[i + 2] -= centerZ;
-                }
-
-                RotatePlane();
-
-                _planeVertexCount = _planeVertices.Count / 3;
-                _planeLoaded = true;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading plane.stl: " + ex.Message, "STL Load Error");
-            }
-        }
-
-        private void RotatePlane()
-        {
-            // Rotate STL -90 degrees around Z axis (swap X and Y, negate new Y)
-            for (int i = 0; i < _planeVertices.Count; i += 3)
-            {
-                float x = _planeVertices[i];
-                float y = _planeVertices[i + 1];
-                _planeVertices[i] = y;
-                _planeVertices[i + 1] = -x;
-            }
-            // Also rotate normals
-            for (int i = 0; i < _planeNormals.Count; i += 3)
-            {
-                float normX = _planeNormals[i];
-                float normY = _planeNormals[i + 1];
-                _planeNormals[i] = normY;
-                _planeNormals[i + 1] = -normX;
-            }
-        }
-
         private void DrawPlane(Matrix4 projMatrix, Matrix4 viewMatrix)
         {
-            if (!_planeLoaded || _planeVertices == null || _planeVertices.Count == 0)
-            {
-                LoadPlaneSTL();
-                if (!_planeLoaded)
-                    return;
-            }
+            if (!_settingsLoaded) return;
+
+            if (!_stlLoader.EnsureLoaded() || _stlLoader.Vertices == null || _stlLoader.VertexCount == 0)
+                return;
 
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
             GL.Disable(EnableCap.CullFace); // Show both sides
 
-            // STL is in mm, _planeScale normalizes to 1 meter, then apply user scale multiplier
-            float scale = _planeScale * _planeScaleMultiplier;
+            // STL is in millimeters, convert to meters (divide by 1000) then apply user scale multiplier
+            float scale = _planeScaleMultiplier / 1000f;
 
             // Create model matrix for the plane
             // Build in order: Scale -> Rotate -> Translate
@@ -938,16 +818,18 @@ namespace MissionPlanner.Controls
 
             // Build vertex array with per-vertex lighting
             var planeVerts = new List<Vertex>();
-            for (int i = 0; i < _planeVertices.Count; i += 3)
+            var vertices = _stlLoader.Vertices;
+            var normals = _stlLoader.Normals;
+            for (int i = 0; i < vertices.Count; i += 3)
             {
-                float vx = _planeVertices[i];
-                float vy = _planeVertices[i + 1];
-                float vz = _planeVertices[i + 2];
+                float vx = vertices[i];
+                float vy = vertices[i + 1];
+                float vz = vertices[i + 2];
 
                 // Get normal for this vertex
-                float nx = _planeNormals[i];
-                float ny = _planeNormals[i + 1];
-                float nz = _planeNormals[i + 2];
+                float nx = normals[i];
+                float ny = normals[i + 1];
+                float nz = normals[i + 2];
 
                 // Normalize
                 float nlen = (float)Math.Sqrt(nx * nx + ny * ny + nz * nz);
@@ -977,7 +859,7 @@ namespace MissionPlanner.Controls
             GL.VertexAttribPointer(Lines.positionSlot, 3, VertexAttribPointerType.Float, false, Vertex.Stride, IntPtr.Zero);
             GL.VertexAttribPointer(Lines.colorSlot, 4, VertexAttribPointerType.Float, false, Vertex.Stride, (IntPtr)(sizeof(float) * 3));
 
-            GL.DrawArrays(BeginMode.Triangles, 0, _planeVertexCount);
+            GL.DrawArrays(BeginMode.Triangles, 0, _stlLoader.VertexCount);
 
             GL.DisableVertexAttribArray(Lines.positionSlot);
             GL.DisableVertexAttribArray(Lines.colorSlot);
@@ -1608,6 +1490,22 @@ namespace MissionPlanner.Controls
                     cameraZ = _planeDrawZ + _cameraHeight;
 
                     // Look at the plane
+                    lookX = _planeDrawX;
+                    lookY = _planeDrawY;
+                    lookZ = _planeDrawZ;
+                }
+                else
+                {
+                    // Not connected - position camera at _center looking down
+                    _planeDrawX = campos[0];
+                    _planeDrawY = campos[1];
+                    _planeDrawZ = _center.Alt;
+
+                    // Camera above the center point, looking down
+                    cameraX = _planeDrawX;
+                    cameraY = _planeDrawY - _cameraDist;  // Offset behind
+                    cameraZ = _planeDrawZ + _cameraHeight + 50;  // Higher up when not connected
+
                     lookX = _planeDrawX;
                     lookY = _planeDrawY;
                     lookZ = _planeDrawZ;
@@ -2540,7 +2438,7 @@ namespace MissionPlanner.Controls
                 y += 30;
 
                 var lblSTL = new Label { Text = "STL File:", Location = new Point(margin, y + 3), AutoSize = true };
-                string selectedSTLPath = _planeSTLPath;
+                string selectedSTLPath = _stlLoader.CustomSTLPath;
                 string stlButtonText = string.IsNullOrEmpty(selectedSTLPath) ? "Default" : Path.GetFileName(selectedSTLPath);
                 var btnSTL = new Button { Location = new Point(inputX, y), Width = inputWidth, Height = 23, Text = stlButtonText };
                 btnSTL.Click += (s, ev) =>
@@ -2635,10 +2533,7 @@ namespace MissionPlanner.Controls
                     _showTurnRadius = chkTurnRadius.Checked;
                     _showTrail = chkTrail.Checked;
 
-                    bool stlChanged = _planeSTLPath != selectedSTLPath;
-                    _planeSTLPath = selectedSTLPath;
-                    if (stlChanged)
-                        _planeLoaded = false;
+                    _stlLoader.CustomSTLPath = selectedSTLPath;
 
                     Settings.Instance["map3d_zoom_level"] = zoom.ToString();
                     Settings.Instance["map3d_camera_dist"] = _cameraDist.ToString();
@@ -2648,7 +2543,7 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_waypoint_marker_size"] = _waypointMarkerSize.ToString();
                     Settings.Instance["map3d_adsb_size"] = _adsbCircleSize.ToString();
                     Settings.Instance["map3d_mav_color"] = _planeColor.ToArgb().ToString();
-                    Settings.Instance["map3d_plane_stl_path"] = _planeSTLPath;
+                    Settings.Instance["map3d_plane_stl_path"] = _stlLoader.CustomSTLPath;
                     Settings.Instance["map3d_show_heading"] = _showHeadingLine.ToString();
                     Settings.Instance["map3d_show_nav_bearing"] = _showNavBearingLine.ToString();
                     Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
