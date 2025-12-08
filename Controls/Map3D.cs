@@ -283,6 +283,7 @@ namespace MissionPlanner.Controls
         private bool _showGpsHeadingLine = true;
         private bool _showTurnRadius = true;
         private bool _showTrail = true;
+        private bool _fpvMode = false; // First-person view mode - camera at aircraft position
         private double _waypointMarkerSize = 60; // Half-size of waypoint markers in meters
         private double _adsbCircleSize = 500; // Diameter of ADSB aircraft circles in meters
         // Trail (flight path history) - stored as absolute UTM coordinates (X, Y, Z)
@@ -398,6 +399,7 @@ namespace MissionPlanner.Controls
             _showGpsHeadingLine = Settings.Instance.GetBoolean("map3d_show_gps_heading", true);
             _showTurnRadius = Settings.Instance.GetBoolean("map3d_show_turn_radius", true);
             _showTrail = Settings.Instance.GetBoolean("map3d_show_trail", false);
+            _fpvMode = Settings.Instance.GetBoolean("map3d_fpv_mode", false);
             _waypointMarkerSize = Settings.Instance.GetDouble("map3d_waypoint_marker_size", 60);
             _adsbCircleSize = Settings.Instance.GetDouble("map3d_adsb_size", 500);
 
@@ -1622,16 +1624,33 @@ namespace MissionPlanner.Controls
                         _trailPoints.Add(new double[] { absX, absY, absZ });
                     }
 
-                    // Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
-                    double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
-                    cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
-                    cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
-                    cameraZ = _planeDrawZ + _cameraHeight;
+                    if (_fpvMode)
+                    {
+                        // FPV mode: camera at aircraft position, looking in direction of flight
+                        // Based on OpenGLtest2.cs FPV camera logic
+                        cameraX = _planeDrawX;
+                        cameraY = _planeDrawY;
+                        cameraZ = _planeDrawZ;
 
-                    // Look at the plane
-                    lookX = _planeDrawX;
-                    lookY = _planeDrawY;
-                    lookZ = _planeDrawZ;
+                        // Look direction from yaw (no +180 offset, same as OpenGLtest2)
+                        double lookDist = 100;
+                        lookX = cameraX + Math.Sin(MathHelper.Radians(rpy.Z)) * lookDist;
+                        lookY = cameraY + Math.Cos(MathHelper.Radians(rpy.Z)) * lookDist;
+                        lookZ = cameraZ;
+                    }
+                    else
+                    {
+                        // Normal mode: Camera orbits around plane at _cameraDist, offset by _cameraAngle from behind
+                        double cameraAngleRad = MathHelper.Radians(rpy.Z + _cameraAngle + 180); // +180 to start behind plane
+                        cameraX = _planeDrawX + Math.Sin(cameraAngleRad) * _cameraDist;
+                        cameraY = _planeDrawY + Math.Cos(cameraAngleRad) * _cameraDist;
+                        cameraZ = _planeDrawZ + _cameraHeight;
+
+                        // Look at the plane
+                        lookX = _planeDrawX;
+                        lookY = _planeDrawY;
+                        lookZ = _planeDrawZ;
+                    }
                 }
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
@@ -1642,6 +1661,15 @@ namespace MissionPlanner.Controls
                 modelMatrix = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ,
                     (float) lookX, (float) lookY, (float) lookZ,
                     0, 0, 1);
+
+                if (_fpvMode && IsVehicleConnected)
+                {
+                    // In FPV mode, apply roll and pitch via matrix multiplication (same as OpenGLtest2.cs)
+                    // Roll around Z axis
+                    modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationZ((float)(rpy.X * MathHelper.deg2rad)));
+                    // Pitch around X axis (negated)
+                    modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationX((float)(rpy.Y * -MathHelper.deg2rad)));
+                }
 
                 // Update projection matrix based on altitude - 100km render distance when >500m altitude
                 float renderDistance = _center.Alt > 500 ? 100000f : 50000f;
@@ -1738,8 +1766,11 @@ namespace MissionPlanner.Controls
                 // Only draw plane and indicators when connected
                 if (IsVehicleConnected)
                 {
-                    // Draw the plane model
-                    DrawPlane(projMatrix, modelMatrix);
+                    // Draw the plane model (skip in FPV mode since camera is at aircraft position)
+                    if (!_fpvMode)
+                    {
+                        DrawPlane(projMatrix, modelMatrix);
+                    }
 
                     // Draw heading (red) and nav bearing (orange) lines from plane center
                     DrawHeadingLines(projMatrix, modelMatrix);
@@ -2758,6 +2789,19 @@ namespace MissionPlanner.Controls
 
                 var chkTrail = new CheckBox { Text = "Flight Path Trail (armed only)", Location = new Point(margin, y), AutoSize = true, Checked = _showTrail };
                 dialog.Controls.Add(chkTrail);
+                y += 24;
+
+                var chkFPV = new CheckBox { Text = "FPV Mode (camera at aircraft)", Location = new Point(margin, y), AutoSize = true, Checked = _fpvMode };
+                chkFPV.CheckedChanged += (s, ev) =>
+                {
+                    // Disable distance/height controls when FPV is on
+                    numDist.Enabled = !chkFPV.Checked;
+                    numHeight.Enabled = !chkFPV.Checked;
+                };
+                // Set initial state
+                numDist.Enabled = !_fpvMode;
+                numHeight.Enabled = !_fpvMode;
+                dialog.Controls.Add(chkFPV);
                 y += 30;
 
                 int btnWidth = 75;
@@ -2788,6 +2832,7 @@ namespace MissionPlanner.Controls
                     chkGpsHeading.Checked = true;
                     chkTurnRadius.Checked = true;
                     chkTrail.Checked = false;
+                    chkFPV.Checked = false;
                     _cameraAngle = 0.0;
                 };
                 dialog.Controls.Add(btnReset);
@@ -2812,6 +2857,7 @@ namespace MissionPlanner.Controls
                     _showGpsHeadingLine = chkGpsHeading.Checked;
                     _showTurnRadius = chkTurnRadius.Checked;
                     _showTrail = chkTrail.Checked;
+                    _fpvMode = chkFPV.Checked;
 
                     _stlLoader.CustomSTLPath = selectedSTLPath;
 
@@ -2829,6 +2875,7 @@ namespace MissionPlanner.Controls
                     Settings.Instance["map3d_show_gps_heading"] = _showGpsHeadingLine.ToString();
                     Settings.Instance["map3d_show_turn_radius"] = _showTurnRadius.ToString();
                     Settings.Instance["map3d_show_trail"] = _showTrail.ToString();
+                    Settings.Instance["map3d_fpv_mode"] = _fpvMode.ToString();
                     Settings.Instance.Save();
 
                     test_Resize(null, null);
