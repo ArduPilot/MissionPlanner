@@ -1768,8 +1768,9 @@ namespace MissionPlanner.Controls
                 GL.Disable(EnableCap.DepthTest);
                 DrawSkyGradient();
 
-                // disable depth during terrain draw
-                GL.Disable(EnableCap.DepthTest);
+                // Enable depth testing for terrain so ADSB circles can be occluded
+                GL.Enable(EnableCap.DepthTest);
+                GL.DepthMask(true);
                 GL.DepthFunc(DepthFunction.Lequal);
 
                 GL.Enable(EnableCap.Blend);
