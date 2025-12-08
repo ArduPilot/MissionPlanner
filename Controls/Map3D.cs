@@ -28,47 +28,6 @@ using Vector3 = OpenTK.Vector3;
 
 namespace MissionPlanner.Controls
 {
-    /// <summary>
-    /// Simple 1D Kalman filter for smooth interpolation
-    /// </summary>
-    public class SimpleKalmanFilter
-    {
-        private double _q; // process noise covariance
-        private double _r; // measurement noise covariance
-        private double _x; // estimated value
-        private double _p; // estimation error covariance
-        private double _k; // kalman gain
-
-        public SimpleKalmanFilter(double q = 0.1, double r = 1.0, double initialValue = 0)
-        {
-            _q = q;
-            _r = r;
-            _x = initialValue;
-            _p = 1.0;
-        }
-
-        public double Update(double measurement)
-        {
-            // Prediction update
-            _p = _p + _q;
-
-            // Measurement update
-            _k = _p / (_p + _r);
-            _x = _x + _k * (measurement - _x);
-            _p = (1 - _k) * _p;
-
-            return _x;
-        }
-
-        public double Value => _x;
-
-        public void Reset(double value)
-        {
-            _x = value;
-            _p = 1.0;
-        }
-    }
-
     public class Map3D : GLControl, IDeactivate
     {
         public static Map3D instance;
@@ -1432,12 +1391,11 @@ namespace MissionPlanner.Controls
         private List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
         // Kalman filters for smooth position and rotation interpolation
-        private SimpleKalmanFilter _kalmanPosX = new SimpleKalmanFilter(0.05, 0.5);
-        private SimpleKalmanFilter _kalmanPosY = new SimpleKalmanFilter(0.05, 0.5);
-        private SimpleKalmanFilter _kalmanPosZ = new SimpleKalmanFilter(0.05, 0.5);
+        // Lower q = smoother output, higher r = trust measurements less (smoother)
+        private SimpleKalmanFilter _kalmanPosX = new SimpleKalmanFilter(0.02, 1.5);
+        private SimpleKalmanFilter _kalmanPosY = new SimpleKalmanFilter(0.02, 1.5);
+        private SimpleKalmanFilter _kalmanPosZ = new SimpleKalmanFilter(0.01, 2.0); // altitude is typically noisier
 
-        // Default ground plane (shown before tiles load)
-        private Lines _defaultGround;
         // Sky gradient quad
         private Lines _skyGradient;
         // Heading and nav bearing indicator lines
@@ -1445,9 +1403,10 @@ namespace MissionPlanner.Controls
         private Lines _navBearingLine;
         private Lines _gpsHeadingLine;
         private Lines _turnRadiusLine;
-        private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.1, 0.3);
-        private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.1, 0.3);
-        private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.1, 0.3);
+        // Rotation filters - extra smooth since jerky rotation is very noticeable
+        private SimpleKalmanFilter _kalmanRoll = new SimpleKalmanFilter(0.015, 2.0);
+        private SimpleKalmanFilter _kalmanPitch = new SimpleKalmanFilter(0.015, 2.0);
+        private SimpleKalmanFilter _kalmanYaw = new SimpleKalmanFilter(0.015, 2.5); // yaw tends to be noisiest
         private bool _kalmanInitialized = false;
 
         double[] convertCoords(PointLatLngAlt plla)
@@ -1704,13 +1663,7 @@ namespace MissionPlanner.Controls
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.BlendEquation(BlendEquationMode.FuncAdd);
 
-                // Draw default green ground plane (visible before tiles load)
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
-                if (texlist.Count == 0)
-                {
-                    // No tiles loaded yet - draw a large green ground plane
-                    DrawDefaultGround(projMatrix, modelMatrix);
-                }
                 int lastzoom = texlist.Count == 0 ? 0 : texlist[0].Value.zoom;
                 var beforedraw = DateTime.Now;
                 foreach (var tidict in texlist)
@@ -2006,19 +1959,10 @@ namespace MissionPlanner.Controls
                 _rotationKalmanInitialized = true;
             }
 
-            // Handle yaw wraparound for smooth interpolation
-            double yaw = rawRpy.Z;
-            double currentYaw = _kalmanYaw.Value;
-
-            // Normalize yaw difference to prevent jumps at 0/360 boundary
-            double yawDiff = yaw - currentYaw;
-            if (yawDiff > 180) yaw -= 360;
-            else if (yawDiff < -180) yaw += 360;
-
             return new MissionPlanner.Utilities.Vector3(
-                (float)_kalmanRoll.Update(rawRpy.X),
-                (float)_kalmanPitch.Update(rawRpy.Y),
-                (float)_kalmanYaw.Update(yaw)
+                (float)_kalmanRoll.UpdateAngle(rawRpy.X),
+                (float)_kalmanPitch.UpdateAngle(rawRpy.Y),
+                (float)_kalmanYaw.UpdateAngle(rawRpy.Z)
             );
         }
 
@@ -2112,43 +2056,6 @@ namespace MissionPlanner.Controls
             GL.DisableVertexAttribArray(Lines.positionSlot);
             GL.DisableVertexAttribArray(Lines.colorSlot);
             GL.DeleteBuffer(vbo);
-        }
-
-        private void DrawDefaultGround(Matrix4 projection, Matrix4 modelView)
-        {
-            // Create a large green ground plane centered at camera position
-            if (_defaultGround == null)
-            {
-                _defaultGround = new Lines();
-            }
-
-            // Draw a simple colored ground quad using the existing tileInfo infrastructure
-            // This creates a large flat green surface at altitude 0
-            float groundSize = 2000f; // meters
-            float groundAlt = 0f;
-
-            // Dark grass green color
-            float r = 0.2f, g = 0.45f, b = 0.15f, a = 1.0f;
-
-            var groundTile = new tileInfo(Context, WindowInfo, textureSemaphore);
-
-            // Create a quad (two triangles)
-            // Bottom-left
-            groundTile.vertex.Add(new Vertex(-groundSize, -groundSize, groundAlt, r, g, b, a, 0, 0));
-            // Top-left
-            groundTile.vertex.Add(new Vertex(-groundSize, groundSize, groundAlt, r, g, b, a, 0, 1));
-            // Bottom-right
-            groundTile.vertex.Add(new Vertex(groundSize, -groundSize, groundAlt, r, g, b, a, 1, 0));
-            // Top-right
-            groundTile.vertex.Add(new Vertex(groundSize, groundSize, groundAlt, r, g, b, a, 1, 1));
-
-            // Two triangles: 0-1-2 and 1-3-2
-            groundTile.indices.AddRange(new uint[] { 0, 1, 2, 1, 3, 2 });
-
-            // Draw without texture
-            GL.Disable(EnableCap.Texture2D);
-            groundTile.Draw(projection, modelView);
-            groundTile.Cleanup(true);
         }
 
         private void generateTextures()
