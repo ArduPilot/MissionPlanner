@@ -2239,31 +2239,43 @@ namespace MissionPlanner.Controls
                     tileArea.Add(tiles);
                 }
 
-                var allTasks = new List<(LoadTask task, double dist)>();
+                var allTasks = new List<(LoadTask task, int zoomLevel, double dist)>();
 
                 foreach (var ta in tileArea)
                 {
-                    // Get center tile position at this zoom level
-                    var centerAtZoom = prj.FromLatLngToPixel(_center.Lat, _center.Lng, ta.zoom);
-                    double centerTileX = centerAtZoom.X / prj.TileSize.Width;
-                    double centerTileY = centerAtZoom.Y / prj.TileSize.Height;
-
                     foreach (var p in ta.points)
                     {
                         LoadTask task = new LoadTask(p, ta.zoom);
                         if (!core.tileLoadQueue.Contains(task))
                         {
-                            // Calculate distance from center tile
-                            double dx = p.X - centerTileX;
-                            double dy = p.Y - centerTileY;
-                            double dist = dx * dx + dy * dy;
-                            allTasks.Add((task, dist));
+                            // Get tile center in lat/lng
+                            long tileCenterPxX = (p.X * prj.TileSize.Width) + (prj.TileSize.Width / 2);
+                            long tileCenterPxY = (p.Y * prj.TileSize.Height) + (prj.TileSize.Height / 2);
+                            var tileCenter = prj.FromPixelToLatLng(tileCenterPxX, tileCenterPxY, ta.zoom);
+
+                            // Calculate actual geographic distance from map center
+                            double dLat = tileCenter.Lat - _center.Lat;
+                            double dLng = tileCenter.Lng - _center.Lng;
+                            double dist = dLat * dLat + dLng * dLng;
+                            allTasks.Add((task, ta.zoom, dist));
                         }
                     }
                 }
 
-                allTasks.Sort((a, b) => b.dist.CompareTo(a.dist));
+                // Sort by combined priority: close tiles at high zoom should load first
+                // Priority = distance * zoom_weight, where higher zoom gets lower weight (more important)
+                // This way close high-zoom tiles beat far low-zoom tiles
+                allTasks.Sort((a, b) =>
+                {
+                    // Lower priority = load first. We want close (low dist) + high zoom to win
+                    // Multiply distance by inverse zoom factor so high zoom tiles get priority boost
+                    double priorityA = a.dist * (1.0 / (a.zoomLevel + 1));
+                    double priorityB = b.dist * (1.0 / (b.zoomLevel + 1));
+                    // For LIFO: higher priority pushed first (processed last)
+                    return priorityB.CompareTo(priorityA);
+                });
                 foreach (var t in allTasks)
+                {
                     core.tileLoadQueue.Push(t.task);
                 }
 
