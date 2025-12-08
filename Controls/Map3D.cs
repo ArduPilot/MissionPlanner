@@ -1470,6 +1470,7 @@ namespace MissionPlanner.Controls
             core.Zoom = minzoom;
             GMaps.Instance.CacheOnIdleRead = false;
             GMaps.Instance.BoostCacheEngine = true;
+            GMaps.Instance.MemoryCache.Capacity = 500; // 500MB tile cache
             // shared context
             _imageLoaderWindow = new OpenTK.GameWindow(640, 480, Context.GraphicsMode);
             _imageLoaderWindow.Visible = false;
