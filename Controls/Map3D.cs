@@ -1490,6 +1490,8 @@ namespace MissionPlanner.Controls
 
                 if (!IsVehicleConnected)
                 {
+                    ResetKalmanFilters();
+
                     // Vehicle is disconnected - use 2D map's center position and place camera 100m above terrain
                     PointLatLng? map2DPosition = null;
                     try
@@ -1984,6 +1986,19 @@ namespace MissionPlanner.Controls
                 (float)_kalmanPitch.Update(rawRpy.Y),
                 (float)_kalmanYaw.Update(yaw)
             );
+        }
+
+        private void ResetKalmanFilters()
+        {
+            _kalmanInitialized = false;
+            _rotationKalmanInitialized = false;
+
+            _kalmanPosX.Reset(0);
+            _kalmanPosY.Reset(0);
+            _kalmanPosZ.Reset(0);
+            _kalmanRoll.Reset(0);
+            _kalmanPitch.Reset(0);
+            _kalmanYaw.Reset(0);
         }
 
         private int Comparison(KeyValuePair<GPoint, tileInfo> x, KeyValuePair<GPoint, tileInfo> y)
