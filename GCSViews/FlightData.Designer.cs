@@ -1092,7 +1092,10 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
             this.txt_messagebox.Name = "txt_messagebox";
             this.txt_messagebox.ReadOnly = true;
-            this.txt_messagebox.Enabled = false;
+            this.txt_messagebox.TabStop = false;
+            this.txt_messagebox.ShortcutsEnabled = false;
+            this.txt_messagebox.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.txt_messagebox.Enter += new System.EventHandler(this.txt_messagebox_Enter);
             // 
             // tabActionsSimple
             // 
