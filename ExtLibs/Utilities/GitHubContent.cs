@@ -86,10 +86,10 @@ namespace MissionPlanner.Utilities
         {
             if (path != "")
             {
-                path = "/contents" + path;
+                path = "contents/" + path;
             }
 
-            string url = String.Format("{0}/{1}/{2}{3}", githubapiurl, owner, repo, path);
+            string url = String.Format("{0}/{1}/{2}/{3}", githubapiurl, owner, repo, path);
 
             var handler = new HttpClientHandler()
             {
