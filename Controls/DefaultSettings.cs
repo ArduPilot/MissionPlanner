@@ -38,7 +38,7 @@ namespace MissionPlanner.Controls
                 {
                     if (paramfiles == null)
                     {
-                        paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
+                        paramfiles = GitHubContent.GetDirContent("ArduPilot", "ardupilot", "/Tools/Frame_params/", ".param");
                     }
 
                     if (!this.IsHandleCreated || this.IsDisposed)
@@ -71,7 +71,7 @@ namespace MissionPlanner.Controls
 
             try
             {
-                byte[] data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
+                byte[] data = GitHubContent.GetFileContent("ArduPilot", "ardupilot",
                     ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
