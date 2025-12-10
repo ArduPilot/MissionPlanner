@@ -12,7 +12,7 @@ namespace MissionPlanner.Utilities.Tests
         [TestMethod()]
         public void GetDirContentTest()
         {
-            var paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
+            var paramfiles = GitHubContent.GetDirContent("ArduPilot", "ardupilot", "/Tools/Frame_params/", ".param");
 
             Console.WriteLine(paramfiles);
 
@@ -23,8 +23,8 @@ namespace MissionPlanner.Utilities.Tests
         [TestMethod()]
         public void GetFileContentTest()
         {
-            var paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
-            var data = GitHubContent.GetFileContent("ardupilot", "ardupilot", (paramfiles[0].path));
+            var paramfiles = GitHubContent.GetDirContent("ArduPilot", "ardupilot", "/Tools/Frame_params/", ".param");
+            var data = GitHubContent.GetFileContent("ArduPilot", "ardupilot", (paramfiles[0].path));
 
             Console.WriteLine(data);
 
