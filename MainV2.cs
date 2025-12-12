@@ -655,6 +655,8 @@ namespace MissionPlanner
             // load config
             LoadConfig();
 
+            speech_armed_only = Settings.Instance.GetBoolean("speech_armed_only", false);
+
             // force language to be loaded
             L10N.GetConfigLang();
 
