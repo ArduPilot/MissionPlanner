@@ -235,8 +235,8 @@ namespace MissionPlanner.Log
             dflb.Clear();
             GC.Collect();
 
-            // rename log is we have a valid gps time
-            if (logtime != DateTime.MinValue)
+            // rename log fs we have a valid gps time, logtime is after 1990-01-01, since some GPS does not use Unix epoch for invalid time.
+            if (logtime.Year >= 1990)
             {
                 string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                                                                  + MainV2.comPort.MAV.aptype.ToString() +
@@ -402,7 +402,7 @@ namespace MissionPlanner.Log
                 if (current > 0 && current < max)
                 {
                     var per = (current / (double)max) * 100;
-                    
+
                     var elapsed = DateTime.Now - start;
                     if (elapsed.TotalSeconds == 0)
                         elapsed = TimeSpan.FromSeconds(1);
