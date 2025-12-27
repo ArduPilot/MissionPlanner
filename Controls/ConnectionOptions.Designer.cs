@@ -60,7 +60,16 @@
             resources.GetString("CMB_baudrate.Items4"),
             resources.GetString("CMB_baudrate.Items5"),
             resources.GetString("CMB_baudrate.Items6"),
-            resources.GetString("CMB_baudrate.Items7")});
+            resources.GetString("CMB_baudrate.Items7"),
+            resources.GetString("CMB_baudrate.Items8"),
+            resources.GetString("CMB_baudrate.Items9"),
+            resources.GetString("CMB_baudrate.Items10"),
+            resources.GetString("CMB_baudrate.Items11"),
+            resources.GetString("CMB_baudrate.Items12"),
+            resources.GetString("CMB_baudrate.Items13"),
+            resources.GetString("CMB_baudrate.Items14"),
+            resources.GetString("CMB_baudrate.Items15"),
+            resources.GetString("CMB_baudrate.Items16")});
             resources.ApplyResources(this.CMB_baudrate, "CMB_baudrate");
             this.CMB_baudrate.Name = "CMB_baudrate";
             // 
