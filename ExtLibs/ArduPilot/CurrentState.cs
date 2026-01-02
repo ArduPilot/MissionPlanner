@@ -86,6 +86,7 @@ namespace MissionPlanner
         private float _remotesnrdb;
 
         private float _sonarrange;
+        private int _rangefinderalt_index = int.MaxValue;
 
         private float _ter_alt;
 
@@ -2728,6 +2729,10 @@ namespace MissionPlanner
 
                             sonarrange = sonar.distance;
                             sonarvoltage = sonar.voltage;
+
+                            // If we get this message, we prefer it over the DISTANCE_SENSOR message
+                            // (setting this to -1 prevents DISTANCE_SENSOR from updating sonarrange)
+                            _rangefinderalt_index = -1;
                         }
 
                         break;
@@ -2745,6 +2750,25 @@ namespace MissionPlanner
                             else if (sonar.id == 7) rangefinder8 = sonar.current_distance;
                             else if (sonar.id == 8) rangefinder9 = sonar.current_distance;
                             else if (sonar.id == 9) rangefinder10 = sonar.current_distance;
+
+                            // Record the first downward facing rangefinder for alt use
+                            bool is_downward_facing = (sonar.orientation == (byte)MAVLink.MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_PITCH_270);
+                            if (is_downward_facing && sonar.id < _rangefinderalt_index)
+                            {
+                                _rangefinderalt_index = sonar.id;
+                            }
+                            if (sonar.id == _rangefinderalt_index)
+                            {
+                                if (!is_downward_facing)
+                                {
+                                    // this sensor used to be downward facing, but no longer is
+                                    _rangefinderalt_index = int.MaxValue;
+                                }
+                                else
+                                {
+                                    sonarrange = sonar.current_distance / 100;
+                                }
+                            }
                         }
 
                         break;
