@@ -5381,6 +5381,12 @@ namespace MissionPlanner.GCSViews
             txt_messagebox.ScrollToCaret();
         }
 
+        private void txt_messagebox_Enter(object sender, EventArgs e)
+        {
+            // Prevent focusing the message box so the caret/I-beam never appears
+            tabControlactions.Focus();
+        }
+
         private void updateBindingSource()
         {
             //  run at 10 hz.
