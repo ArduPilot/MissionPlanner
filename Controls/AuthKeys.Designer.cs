@@ -78,7 +78,6 @@
             // 
             resources.ApplyResources(this.but_save, "but_save");
             this.but_save.Name = "but_save";
-            this.but_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_save.UseVisualStyleBackColor = true;
             this.but_save.Click += new System.EventHandler(this.but_save_Click);
             // 
@@ -86,7 +85,6 @@
             // 
             resources.ApplyResources(this.but_add, "but_add");
             this.but_add.Name = "but_add";
-            this.but_add.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_add.UseVisualStyleBackColor = true;
             this.but_add.Click += new System.EventHandler(this.but_add_Click);
             // 
@@ -94,7 +92,6 @@
             // 
             resources.ApplyResources(this.but_disablesigning, "but_disablesigning");
             this.but_disablesigning.Name = "but_disablesigning";
-            this.but_disablesigning.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_disablesigning.UseVisualStyleBackColor = true;
             this.but_disablesigning.Click += new System.EventHandler(this.but_disablesigning_Click);
             // 
