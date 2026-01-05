@@ -1376,14 +1376,14 @@ namespace MissionPlanner.Controls
 
                 float x = 0, y = 0;
                 int length = 0;
-                for (float i = start; i <= start + degrees; i++)
+                for (int i = 0; i <= degrees; i++)
                 {
-                    x = (float) Math.Sin(i * deg2rad) * rect.Width / 2;
-                    y = (float) Math.Cos(i * deg2rad) * rect.Height / 2;
+                    x = (float)Math.Sin((start + i) * deg2rad) * rect.Width / 2;
+                    y = (float)Math.Cos((start + i) * deg2rad) * rect.Height / 2;
                     x = x + rect.X + rect.Width / 2;
                     y = y + rect.Y + rect.Height / 2;
-                    vertices[(int)((i - start) * 2)] = x;
-                    vertices[(int)((i - start) * 2 + 1)] = y;
+                    vertices[i * 2] = x;
+                    vertices[i * 2 + 1] = y;
                     length += 2;
                     //GL.Vertex2(x, y);
                 }
