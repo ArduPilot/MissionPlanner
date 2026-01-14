@@ -1,4 +1,7 @@
-﻿namespace MissionPlanner.Joystick
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace MissionPlanner.Joystick
 {
     public struct JoyButton
     {
@@ -10,6 +13,7 @@
         /// <summary>
         /// Fucntion we are doing for this button press
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public buttonfunction function;
 
         /// <summary>

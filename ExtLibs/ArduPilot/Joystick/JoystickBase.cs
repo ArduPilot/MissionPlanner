@@ -1,13 +1,15 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using log4net;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Joystick
 {
@@ -1300,6 +1302,60 @@ namespace MissionPlanner.Joystick
             else
             {
                 return new JoystickWindows(func);
+            }
+        }
+
+        public void ExportConfig(string fileName)
+        {
+            // compress all joystick config files from user data directory
+            string userDataDir = Settings.GetUserDataDirectory();
+
+            // find all joystick config files (buttons and axis)
+            var buttonFiles = Directory.GetFiles(userDataDir, "joystickbutton*.xml", SearchOption.TopDirectoryOnly);
+            var axisFiles = Directory.GetFiles(userDataDir, "joystickaxis*.xml", SearchOption.TopDirectoryOnly);
+
+            var allFiles = buttonFiles.Concat(axisFiles).ToList();
+
+            if (allFiles.Count == 0)
+            {
+                throw new FileNotFoundException("No joystick configuration files found in " + userDataDir);
+            }
+
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+
+            // create archive with all config files
+            using (var archive = ZipFile.Open(fileName, ZipArchiveMode.Create))
+            {
+                foreach (var file in allFiles)
+                {
+                    archive.CreateEntryFromFile(file, Path.GetFileName(file));
+                }
+            }
+        }
+
+        public void ImportConfig(string fileName)
+        {
+            // decompress all joystick config files to user data directory
+            string userDataDir = Settings.GetUserDataDirectory();
+
+            if (!File.Exists(fileName))
+            {
+                throw new FileNotFoundException("Archive file not found: " + fileName);
+            }
+
+            // extract all files from archive to user data directory
+            using (var archive = ZipFile.OpenRead(fileName))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    // only extract joystick config files
+                    if (entry.Name.StartsWith("joystickbutton") || entry.Name.StartsWith("joystickaxis"))
+                    {
+                        string outputPath = Path.Combine(userDataDir, entry.Name);
+                        entry.ExtractToFile(outputPath, true);
+                    }
+                }
             }
         }
     }
