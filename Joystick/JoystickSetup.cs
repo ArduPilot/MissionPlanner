@@ -541,8 +541,21 @@ namespace MissionPlanner.Joystick
             sfd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                MainV2.joystick.saveconfig();
-                MainV2.joystick.ExportConfig(sfd.FileName);
+                if (MainV2.joystick == null)
+                {
+                    CustomMessageBox.Show("No joystick configuration is available to export.", "Export Joystick Config", MessageBoxButtons.OK);
+                    return;
+                }
+
+                try
+                {
+                    MainV2.joystick.saveconfig();
+                    MainV2.joystick.ExportConfig(sfd.FileName);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to export joystick configuration:\n" + ex.Message, "Export Joystick Config", MessageBoxButtons.OK);
+                }
             }
         }
 
