@@ -176,7 +176,7 @@ namespace MissionPlanner.Joystick
         private System.Windows.Forms.CheckBox CHK_elevons;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.CheckBox chk_manualcontrol;
-        private MyButton but_export;
-        private MyButton but_import;
+        private MyButton BUT_export;
+        private MyButton BUT_import;
     }
 }
