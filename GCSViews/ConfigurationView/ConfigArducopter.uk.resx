@@ -178,7 +178,7 @@
     <value>Шв. набору</value>
   </data>
   <data name="groupBox9.Text" xml:space="preserve">
-    <value>Зрізовий фільтр гармонік</value>
+    <value>Динамічний зрізовий фільтр</value>
   </data>
   <data name="label52.Text" xml:space="preserve">
     <value>RC6 Фун.</value>
