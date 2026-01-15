@@ -554,6 +554,11 @@ namespace MissionPlanner.Joystick
                 ofd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
+                    if (MainV2.joystick == null)
+                    {
+                        CustomMessageBox.Show("No joystick is currently initialized. Please initialize a joystick before importing a configuration.");
+                        return;
+                    }
                     MainV2.joystick.ImportConfig(ofd.FileName);
                     MainV2.joystick.loadconfig();
                     CustomMessageBox.Show("Please reopen joystick for changes to take effect");
