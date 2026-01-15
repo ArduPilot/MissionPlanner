@@ -1340,7 +1340,7 @@ namespace MissionPlanner.Joystick
 
             if (!File.Exists(fileName))
             {
-                throw new FileNotFoundException("Archive file not found: " + fileName);
+                throw new FileNotFoundException($"Archive file not found: {fileName}");
             }
 
             // extract all files from archive to user data directory
