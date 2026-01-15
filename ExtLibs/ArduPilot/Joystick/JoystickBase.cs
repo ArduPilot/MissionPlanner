@@ -1,7 +1,6 @@
 ﻿using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
