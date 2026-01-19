@@ -169,7 +169,7 @@
     <value>alan:</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>Расстояние:</value>
+    <value>Mesafe:</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
     <value>Uçuş hızı (est)</value>
@@ -318,4 +318,5 @@
   <data name="label40.Text" xml:space="preserve">
     <value>Deniz seviyesinden yüksekliği:</value>
   </data>
+
 </root>
