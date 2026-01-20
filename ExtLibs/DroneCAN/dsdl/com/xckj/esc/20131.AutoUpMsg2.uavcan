@@ -1,0 +1,7 @@
+OVERRIDE_SIGNATURE 0x2c8e7c3aaca9e11e
+
+uint16 PWM
+uint16 voltage
+uint8 MOS_T
+uint8 CAP_T
+uint8 Motor_T

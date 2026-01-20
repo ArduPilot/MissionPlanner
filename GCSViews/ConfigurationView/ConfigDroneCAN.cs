@@ -21,6 +21,8 @@ using System.Drawing;
 using MissionPlanner.ArduPilot;
 using System.Runtime.InteropServices;
 using System.Net.NetworkInformation;
+using Org.BouncyCastle.Bcpg;
+using System.IO.Packaging;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -1176,7 +1178,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             });
         }
+        private void menu_xc_esc_setid_Click(object sender, EventArgs e)
+        {
+            if (listener != null)
+            {
+                menu_passthrough4.Checked = false;
+                listener.Stop();
+                CustomMessageBox.Show("Stop", "Disabled forwarding");
+                listener = null;
+                return;
+            }
 
+            var id = int.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value
+                .ToString());
+            if (InputBox.Show("Set XC-ESC ID(must only one XC-ESC)", "Enter Id", ref id) == DialogResult.OK)
+            {
+                var slcan = can.PackageMessageSLCAN(0, 16, can.TransferID++,
+                new DroneCAN.DroneCAN.com_xckj_esc_OperateId()
+                {
+                    payload_len = 3,
+                    payload = new byte[] {0, (byte)id, (byte)id},
+                });
+                can.WriteToStreamSLCAN(slcan);
+            }
+        }
         public class CanStats : dronecan_protocol_CanStats
         {
             public int NodeID { get; set; }
