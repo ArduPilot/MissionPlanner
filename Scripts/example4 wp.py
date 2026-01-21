@@ -1,4 +1,5 @@
-﻿import sys
+﻿from __future__ import print_function
+import sys
 import math
 import clr
 import time
@@ -24,22 +25,19 @@ wp1 = Locationwp().Set(-35,117.8,50, id)
 wp2 = Locationwp().Set(-35,117.89,50, id)
 wp3 = Locationwp().Set(-35,117.85,20, id)
 
-print "set wp total"
+print("set wp total")
 MAV.setWPTotal(5)
-print "upload home - reset on arm"
+print("upload home - reset on arm")
 MAV.setWP(home,0,MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
-print "upload to"
+print("upload to")
 MAV.setWP(to,1,MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
-print "upload wp1"
+print("upload wp1")
 MAV.setWP(wp1,2,MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
-print "upload wp2"
+print("upload wp2")
 MAV.setWP(wp2,3,MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
-print "upload wp3"
+print("upload wp3")
 MAV.setWP(wp3,4,MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
-print "final ack"
+print("final ack")
 MAV.setWPACK();
 
-print "done"
-
-
-
+print("done")
