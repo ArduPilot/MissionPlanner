@@ -2857,7 +2857,7 @@ namespace MissionPlanner.Controls
                     if (displayicons)
                     {
                         var bottomsize = ((fontsize + 2) * 3) + fontoffset - 2;
-                        DrawImage(icon, 3, this.Height - bottomsize, bottomsize / 2, bottomsize);
+                        DrawImage(icon, 2, this.Height - bottomsize, bottomsize / 2, bottomsize);
 
                         text = _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
                         drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, yPos[1]);
@@ -3113,8 +3113,16 @@ namespace MissionPlanner.Controls
                     if (displayicons)
                     {
                         var width = (fontsize + 8) * 3;
-                        vibehitzone = new Rectangle(this.Width - (width * 4) + width / 2 - 5, this.Height - (fontsize + 13), (fontsize + 8) * 3, fontsize + 8);
-
+                        //When the width is greater or equal to 325, the vibe button must be placed at half of the HUD's width
+                        if (this.Width >= 325)
+                        {
+                            vibehitzone = new Rectangle((int)(this.Width * 0.5), this.Height - (fontsize + 13), width, fontsize + 8);
+                        }
+                        //When the width is less than 325, the vibe button must be placed just passed half of the HUD's width
+                        else if (this.Width < 325)
+                        {
+                            vibehitzone = new Rectangle((int)(this.Width * 0.535), this.Height - (fontsize + 13), width, fontsize + 8);
+                        }
                     }
                     else
                     {
@@ -3166,10 +3174,15 @@ namespace MissionPlanner.Controls
 
                 if (displayekf)
                 {
+                    //Set the starting Position for the EKF button based off of the VIBE Button
+                    //Variable for the Vibe width
+                    var vibeWidth = vibehitzone.Width;
+                    //Variable for the start position of EKF
+                    var eKFLocationX = vibehitzone.X - vibeWidth - 2;
                     if (displayicons)
                     {
                         var width = (fontsize + 8) * 3;
-                        ekfhitzone = new Rectangle(this.Width - width * 5 + width / 2 - 10 , this.Height - (fontsize + 13), (fontsize + 8) * 3, fontsize + 8);
+                        ekfhitzone = new Rectangle((int)(eKFLocationX), this.Height - (fontsize + 13), width, fontsize + 8);
                     }
                     else
                     {
@@ -3216,10 +3229,12 @@ namespace MissionPlanner.Controls
 
                 if (displayprearm && status == false) // not armed
                 {
+                    //Set the starting Position for the PreArm button - Variable for the start position of PreArm button                    
+                    var readyToArmLocationX = ekfhitzone.X;
                     if (displayicons)
                     {
                         var width = (fontsize + 8) * 3;
-                        prearmhitzone = new Rectangle(this.Width - width * 5 + width / 2 - 7, this.Height - (fontsize*2 + 25), width * 2, fontsize + 8);
+                        prearmhitzone = new Rectangle(readyToArmLocationX, this.Height - (fontsize*2 + 25), width * 2, fontsize + 8);
                     }
                     else
                     {
