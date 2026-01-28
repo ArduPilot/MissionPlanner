@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿using System.Web.UI.WebControls;
+
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigDroneCAN
     {
@@ -29,8 +31,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
@@ -44,6 +46,7 @@
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
@@ -71,7 +74,6 @@
             this.cmb_interfacetype = new System.Windows.Forms.ComboBox();
             this.cmb_networkinterface = new System.Windows.Forms.ComboBox();
             this.but_connect = new MissionPlanner.Controls.MyButton();
-            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,9 +84,10 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.CHK_checkupdate = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -222,6 +225,11 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(441, 20);
             this.textBox3.TabIndex = 18;
+            // 
+            // uAVCANModelBindingSource
+            // 
+            this.uAVCANModelBindingSource.AllowNew = true;
+            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.DroneCANModel);
             // 
             // textBox13
             // 
@@ -483,11 +491,6 @@
             this.but_connect.UseVisualStyleBackColor = true;
             this.but_connect.Click += new System.EventHandler(this.but_connect_Click);
             // 
-            // uAVCANModelBindingSource
-            // 
-            this.uAVCANModelBindingSource.AllowNew = true;
-            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.DroneCANModel);
-            // 
             // myDataGridView1
             // 
             this.myDataGridView1.AllowUserToAddRows = false;
@@ -577,9 +580,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle3.Format = "X";
-            dataGridViewCellStyle3.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SW CRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -587,18 +590,29 @@
             // 
             // Menu
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.NullValue = "Menu";
-            this.Menu.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = "Menu";
+            this.Menu.DefaultCellStyle = dataGridViewCellStyle2;
             this.Menu.HeaderText = "Menu";
             this.Menu.Name = "Menu";
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;
             // 
+            // CHK_checkupdate
+            // 
+            this.CHK_checkupdate.Location = new System.Drawing.Point(338, 61);
+            this.CHK_checkupdate.Name = "CHK_checkupdate";
+            this.CHK_checkupdate.Size = new System.Drawing.Size(121, 23);
+            this.CHK_checkupdate.TabIndex = 99;
+            this.CHK_checkupdate.Text = "Check for Updates";
+            this.CHK_checkupdate.UseVisualStyleBackColor = true;
+            this.CHK_checkupdate.CheckedChanged += new System.EventHandler(this.CHK_checkupdate_CheckedChanged);
+            // 
             // ConfigDroneCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_checkupdate);
             this.Controls.Add(this.but_connect);
             this.Controls.Add(this.cmb_networkinterface);
             this.Controls.Add(this.cmb_interfacetype);
@@ -617,8 +631,8 @@
             this.Size = new System.Drawing.Size(798, 612);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -678,5 +692,6 @@
         private System.Windows.Forms.ComboBox cmb_interfacetype;
         private System.Windows.Forms.ComboBox cmb_networkinterface;
         private Controls.MyButton but_connect;
+        private System.Windows.Forms.CheckBox CHK_checkupdate;
     }
 }

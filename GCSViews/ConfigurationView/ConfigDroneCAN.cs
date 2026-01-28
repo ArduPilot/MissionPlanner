@@ -21,6 +21,7 @@ using System.Drawing;
 using MissionPlanner.ArduPilot;
 using System.Runtime.InteropServices;
 using System.Net.NetworkInformation;
+using System.IO.Compression;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -50,6 +51,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     inter.GetIPProperties().GetIPv4Properties() != null).ToList();
 
             cmb_networkinterface.DisplayMember = "Description";
+
+            this.SetCheckboxFromConfig("dronecan_updatecheck", CHK_checkupdate);
+            
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -312,6 +316,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 });
             };
 
+            can.NodeInfoAdded += (id, msg) =>
+            {
+                this.BeginInvoke((Action)delegate
+                {
+                    if (CHK_checkupdate.Checked)
+                    {
+                        CheckSingleIDForUpdate(id, msg);
+                    }
+                });
+            };
+
             if (!port.IsOpen)
             {
                 try
@@ -504,12 +519,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
                 var url = can.LookForUpdate(devicename, hwversion, beta);
+                APFirmware.FirmwareInfo manifestfw = null;
 
                 if (url == string.Empty)
-                    url = APFirmware.Manifest.Firmware.Where(a => a.MavFirmwareVersionType == (beta ? APFirmware.RELEASE_TYPES.BETA.ToString() : APFirmware.RELEASE_TYPES.OFFICIAL.ToString()) &&
-                    a.VehicleType == "AP_Periph" && a.Format == "bin" &&
+                {
+                    var options = APFirmware.Manifest.Firmware.Where(a => a.MavFirmwareVersionType == (beta ? APFirmware.RELEASE_TYPES.BETA.ToString() : APFirmware.RELEASE_TYPES.OFFICIAL.ToString()) &&
+                    a.VehicleType == "AP_Periph" && (a.Format == "bin" || a.Format == "zip") &&
                     a.MavType == "CAN_PERIPHERAL" &&
-                    devicename.EndsWith(a.Platform)).First()?.Url.ToString();
+                    devicename.EndsWith(a.Platform));
+                    manifestfw = options.First();
+                    url = manifestfw?.Url.ToString();
+                }
 
                 if (url != string.Empty)
                 {
@@ -522,6 +542,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             prd.UpdateProgressAndStatus(5, "Download FW");
                             var tempfile = Path.GetTempFileName();
                             Download.getFilefromNet(url, tempfile);
+
+                            if(url.ToLower().EndsWith(".zip"))
+                            {
+                                var tempdir = Path.Combine(Path.GetDirectoryName(tempfile), DateTime.Now.Ticks.ToString());
+                                System.IO.Compression.ZipFile.ExtractToDirectory(tempfile, tempdir);
+
+                                tempfile = Path.Combine(tempdir, manifestfw.FirmwareName);
+                            }
 
                             DroneCAN.DroneCAN.FileSendCompleteArgs file = (p, s) =>
                             {
@@ -1664,6 +1692,59 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 case ConnectionTypes.MCastCan2:
                     cmb_networkinterface.Visible = true;
                     break;
+            }
+        }
+
+        private void CHK_checkupdate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (can == null)
+            {
+                return;
+            }
+
+            if (can.NodeInfo == null || can.NodeInfo.Count == 0)
+            {
+                return;
+            }
+
+            if (!CHK_checkupdate.Checked)
+            {
+                return;
+            }
+
+            // check for newer firmware - can peripheral
+            foreach (var node in can.NodeInfo)
+            {
+                CheckSingleIDForUpdate((byte)node.Key, node.Value);
+            }
+        }
+
+        void CheckSingleIDForUpdate(byte nodeid, uavcan_protocol_GetNodeInfo_res NodeInfo)
+        {
+            var devicename = can.GetNodeName(nodeid);
+            var githash = can.NodeInfo[nodeid].software_version.vcs_commit.ToString("X");
+            //Version and githash
+
+            //log.Info(node.ToJSON());
+
+            if (APFirmware.Manifest == null)
+                return;
+
+            var option = APFirmware.Manifest.Firmware.Where(a =>
+                a.MavFirmwareVersionType == APFirmware.RELEASE_TYPES.OFFICIAL.ToString() &&
+                a.VehicleType == "AP_Periph" &&
+                (a.Format == "bin" || a.Format == "zip") &&
+                a.MavType == "CAN_PERIPHERAL" &&
+                a.MavFirmwareVersionMajor >= NodeInfo.software_version.major &&
+                a.MavFirmwareVersionMinor >= NodeInfo.software_version.minor &&
+                NodeInfo.software_version.major != 0 &&
+                NodeInfo.software_version.minor != 0 &&
+                devicename.EndsWith(a.Platform) &&
+                !a.GitSha.StartsWith(githash, StringComparison.InvariantCultureIgnoreCase)
+            ).FirstOrDefault();
+            if (option != default(APFirmware.FirmwareInfo))
+            {
+                Common.MessageShowAgain("New firmware", "New firmware for " + devicename + " " + option.MavFirmwareVersion + " " + option.GitSha + "\nUpdate bellow");
             }
         }
     }
