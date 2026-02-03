@@ -165,8 +165,9 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_ICM45686 = 0x3B,
                 DEVTYPE_INS_SCHA63T = 0x3C,
                 DEVTYPE_INS_IIM42653 = 0x3D,
+                DEVTYPE_INS_LSM6DSV = 0x3E,
+                DEVTYPE_INS_ASM330 = 0x3F,
             };
-
 
             //https://github.com/tridge/ardupilot/blob/master/libraries/AP_Baro/AP_Baro_Backend.h#L40
             public enum baro_types
