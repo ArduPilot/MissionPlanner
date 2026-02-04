@@ -2236,6 +2236,7 @@ namespace MissionPlanner
             int count = 0;
 
             DateTime lastratechange = DateTime.Now;
+            DateTime start = DateTime.Now;
 
             joystickthreadrun = true;
 
@@ -2254,6 +2255,35 @@ namespace MissionPlanner
                     if (!MONO)
                     {
                         //joystick stuff
+
+                        bool autoEnable = Settings.Instance.GetBoolean("CHK_Joystick_AutoEnable");
+
+                        if (autoEnable && (DateTime.Now - start).TotalSeconds > 0.5 )
+                        {
+                            string name = Settings.Instance["joystick_name"];
+                            if (joystick == null && name != null)
+                            {
+                                // all config is loaded from the xmls
+                                Joystick.JoystickBase joy = JoystickBase.Create(() => MainV2.comPort);
+
+                                if (!joy.start(name))
+                                {
+                                    joy.Dispose();
+                                } else
+                                {
+                                    joystick = joy;
+                                }
+                                if (Settings.Instance.ContainsKey("joy_elevons"))
+                                {
+                                    joystick.elevons = bool.Parse(Settings.Instance["joy_elevons"].ToString());
+                                }
+                            }
+                        }
+
+                        if (joystick != null && !joystick.enabled && autoEnable)
+                        {
+                            joystick.enabled = true;
+                        }
 
                         if (joystick != null && joystick.enabled)
                         {
