@@ -115,6 +115,8 @@ namespace MissionPlanner.Joystick
                     this.Width = ax.Right;
             }
 
+            BUT_enable.Enabled = !Settings.Instance.GetBoolean("CHK_Joystick_AutoEnable");
+
             this.ResumeLayout();
 
             if (MainV2.joystick != null && MainV2.joystick.enabled)
@@ -177,8 +179,6 @@ namespace MissionPlanner.Joystick
                 MainV2.joystick.enabled = false;
 
                 MainV2.joystick.clearRCOverride();
-
-                MainV2.joystick = null;
 
 
                 //timer1.Stop();

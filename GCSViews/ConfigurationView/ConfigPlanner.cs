@@ -174,6 +174,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // setup other config state
             SetCheckboxFromConfig("CHK_resetapmonconnect", CHK_resetapmonconnect);
             SetCheckboxFromConfig("CHK_rtsresetesp32", CHK_rtsresetesp32);
+            SetCheckboxFromConfig("CHK_Joystick_AutoEnable", CHK_joystickautoenable);
 
             CMB_rateattitude.Text = MainV2.comPort.MAV.cs.rateattitude.ToString();
             CMB_rateposition.Text = MainV2.comPort.MAV.cs.rateposition.ToString();
@@ -1189,6 +1190,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception)
             {
             }
+        }
+
+        private void CHK_joystickautoenable_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["CHK_Joystick_AutoEnable"] = CHK_joystickautoenable.Checked.ToString();
         }
     }
 }
