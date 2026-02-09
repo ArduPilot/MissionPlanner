@@ -7332,7 +7332,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void groupmarkeradd(GMapMarker marker)
         {
             System.Diagnostics.Debug.WriteLine("add marker " + marker.Tag.ToString());
-            groupmarkers.Add(int.Parse(marker.Tag.ToString()));
+            if (int.TryParse(marker.Tag.ToString(), out int temp))
+            {
+                groupmarkers.Add(temp);
+            }
+            else
+            {
+                return;
+            }
             if (marker is GMapMarkerWP)
             {
                 ((GMapMarkerWP) marker).selected = true;
