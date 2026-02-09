@@ -54,6 +54,7 @@ using MissionPlanner.ArduPilot.Mavlink;
 using System.Drawing.Imaging;
 using SharpKml.Engine;
 using MissionPlanner.Controls.Waypoints;
+using MissionPlanner.Utilities.Mission;
 
 namespace MissionPlanner.GCSViews
 {
@@ -127,6 +128,7 @@ namespace MissionPlanner.GCSViews
         private PointLatLng MouseDownStart;
         private PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
         private WPOverlay wpOverlay;
+        private WPOverlay2 wpOverlay2;
         private bool polygongridmode;
         private MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
         private MissionPlanner.Controls.Icon.Zoom zoomicon = new MissionPlanner.Controls.Icon.Zoom();
@@ -1411,18 +1413,18 @@ namespace MissionPlanner.GCSViews
 
                 if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
-                    wpOverlay = new WPOverlay();
-                    wpOverlay.overlay.Id = "WPOverlay";
+                    var useV2 = Settings.Instance.GetBoolean("UseWPOverlay2", true);
+                    GMapOverlay activeOverlay;
+                    List<PointLatLngAlt> activePointlist;
 
+                    if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
+                    if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
+
+                    double wprad = 0, loiterrad = 0;
                     try
                     {
-                        if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
-                        if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
-
-                        wpOverlay.CreateOverlay(home,
-                            commandlist,
-                            double.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist,
-                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist, CurrentState.multiplieralt);
+                        wprad = double.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist;
+                        loiterrad = double.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist;
                     }
                     catch (FormatException)
                     {
@@ -1430,30 +1432,51 @@ namespace MissionPlanner.GCSViews
                             Strings.ERROR);
                     }
 
+                    if (useV2)
+                    {
+                        wpOverlay2 = new WPOverlay2()
+                        {
+                            VehicleClass = MainV2.comPort.MAV.cs.vehicleClass,
+                            ShowPlusMarkers = true,
+                        };
+                        wpOverlay2.overlay.Id = "WPOverlay";
+                        wpOverlay2.CreateOverlay(home, commandlist, wprad, loiterrad, CurrentState.multiplieralt);
+                        activeOverlay = wpOverlay2.overlay;
+                        activePointlist = wpOverlay2.pointlist;
+                    }
+                    else
+                    {
+                        wpOverlay = new WPOverlay();
+                        wpOverlay.overlay.Id = "WPOverlay";
+                        wpOverlay.CreateOverlay(home, commandlist, wprad, loiterrad, CurrentState.multiplieralt);
+                        activeOverlay = wpOverlay.overlay;
+                        activePointlist = wpOverlay.pointlist;
+                    }
+
                     MainMap.HoldInvalidation = true;
 
-                    var existing = MainMap.Overlays.Where(a => a.Id == wpOverlay.overlay.Id).ToList();
+                    var existing = MainMap.Overlays.Where(a => a.Id == activeOverlay.Id).ToList();
                     foreach (var b in existing)
                     {
                         MainMap.Overlays.Remove(b);
                     }
 
-                    MainMap.Overlays.Insert(1, wpOverlay.overlay);
+                    MainMap.Overlays.Insert(1, activeOverlay);
 
-                    wpOverlay.overlay.ForceUpdate();
+                    activeOverlay.ForceUpdate();
 
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
                                         FormatDistance((
-                                            wpOverlay.overlay.Routes.SelectMany(a => a.Points)
+                                            activeOverlay.Routes.SelectMany(a => a.Points)
                                                 .Select(a => (PointLatLngAlt) a)
                                                 .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
                                         ) / 1000.0, false);
 
-                    setgradanddistandaz(wpOverlay.pointlist, home);
+                    setgradanddistandaz(activePointlist, home);
 
-                    if (wpOverlay.pointlist.Count <= 1)
+                    if (activePointlist.Count <= 1)
                     {
-                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(wpOverlay.overlay.Id);
+                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(activeOverlay.Id);
                         if (rect.HasValue)
                         {
                             MainMap.Position = rect.Value.LocationMiddle;
@@ -1462,8 +1485,9 @@ namespace MissionPlanner.GCSViews
                         MainMap_OnMapZoomChanged();
                     }
 
-                    pointlist = wpOverlay.pointlist;
+                    pointlist = activePointlist;
 
+                    if (!useV2)
                     {
                         foreach (var pointLatLngAlt in pointlist.PrevNowNext())
                         {
@@ -1479,9 +1503,16 @@ namespace MissionPlanner.GCSViews
 
                             var pnt = new GMapMarkerPlus(mid);
                             pnt.Tag = new midline() {now = now, next = next};
-                            wpOverlay.overlay.Markers.Add(pnt);
+                            activeOverlay.Markers.Add(pnt);
                         }
                     }
+
+                    editStyleToolStripMenuItem.Visible = useV2;
+
+                    // Sync checkbox without re-triggering CheckedChanged -> writeKML
+                    useLegacyOverlayToolStripMenuItem.CheckedChanged -= useLegacyOverlayToolStripMenuItem_CheckedChanged;
+                    useLegacyOverlayToolStripMenuItem.Checked = !useV2;
+                    useLegacyOverlayToolStripMenuItem.CheckedChanged += useLegacyOverlayToolStripMenuItem_CheckedChanged;
 
                     // draw fence
                     {
@@ -3471,6 +3502,13 @@ namespace MissionPlanner.GCSViews
             panelMap.Visible = true;
 
             writeKML();
+
+            BeginInvoke((Action)(() =>
+                Common.MessageShowAgain("New Mission Overlay",
+                    "Mission Planner now uses an improved mission overlay with styled lines and markers.\n\n" +
+                    "You can customize colors, line styles, and markers via Map Tool > Edit Style.\n\n" +
+                    "If you experience any issues, you can switch back via Map Tool > Use Legacy Overlay.")
+            ));
 
             // switch the action and wp table
             if (Settings.Instance["FP_docking"] == "Bottom")
@@ -7634,7 +7672,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
                                      MAVLink.MAV_MISSION_TYPE.MISSION)
                             {
-
+                                while (pnt2 > 1 && CommandUtils.IsBookmark(GetCommandList()[pnt2 - 2].id))
+                                {
+                                    pnt2 -= 1;
+                                }
                                 InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0,
                                     CurrentMidLine.Position.Lng,
                                     CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
@@ -8525,6 +8566,31 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
 
             return true;
+        }
+
+        MissionStyleEditor _styleEditor;
+
+        private void editStyleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_styleEditor != null && !_styleEditor.IsDisposed)
+            {
+                _styleEditor.BringToFront();
+                return;
+            }
+
+            _styleEditor = new MissionStyleEditor(WPOverlay2.missionStyle.Config, (style) =>
+            {
+                WPOverlay2.missionStyle = style;
+                writeKML();
+            });
+            _styleEditor.FormClosed += (s, _) => _styleEditor = null;
+            _styleEditor.Show(FindForm());
+        }
+
+        private void useLegacyOverlayToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["UseWPOverlay2"] = (!useLegacyOverlayToolStripMenuItem.Checked).ToString();
+            writeKML();
         }
     }
 }
