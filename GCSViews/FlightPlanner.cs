@@ -5688,12 +5688,11 @@ namespace MissionPlanner.GCSViews
             {
                 reader.Read();
                 reader.ReadStartElement("CMD");
-                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
-                    MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
+                if (MainV2.comPort.MAV.cs.vehicleClass == VehicleClass.Plane)
                 {
                     reader.ReadToFollowing("APM");
                 }
-                else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
+                else if (MainV2.comPort.MAV.cs.vehicleClass == VehicleClass.Rover)
                 {
                     reader.ReadToFollowing("APRover");
                 }
