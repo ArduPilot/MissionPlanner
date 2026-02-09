@@ -2541,7 +2541,7 @@ namespace MissionPlanner.GCSViews
                     DataGridViewCell tcell = Commands.Rows[selectedrow].Cells[i];
                     if (tcell.GetType() == typeof(DataGridViewTextBoxCell))
                     {
-                        if (tcell.Value.ToString() == "?")
+                        if (tcell?.Value?.ToString() == "?")
                             tcell.Value = "0";
                     }
                 }
