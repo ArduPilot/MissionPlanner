@@ -17,8 +17,8 @@ namespace MissionPlanner.Maps
         static Dictionary<string, SizeF> fontSizes = new Dictionary<string, SizeF>();
         static Font font;
 
-        public GMapMarkerWP(PointLatLng p, string wpno)
-            : base(p, GMarkerGoogleType.green)
+        public GMapMarkerWP(PointLatLng p, string wpno, GMarkerGoogleType type = GMarkerGoogleType.green)
+            : base(p, type)
         {
             this.wpno = wpno;
             if (font == null)
