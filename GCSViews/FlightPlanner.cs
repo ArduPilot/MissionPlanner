@@ -1374,12 +1374,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        public class midline
-        {
-            public PointLatLngAlt now { get; set; }
-            public PointLatLngAlt next { get; set; }
-        }
-
         /// <summary>
         /// used to write a KML, update the Map view polygon, and update the row headers
         /// </summary>
@@ -7602,12 +7596,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                     updateUndoBuffer(true);
                     int pnt2 = 0;
-                    var midline = CurrentMidLine.Tag as midline;
+                    var midline = CurrentMidLine.Tag as midline?;
                     // var pnt1 = int.Parse(midline.now.Tag);
 
-                    if (polygongridmode && midline.now != null)
+                    if (polygongridmode && midline?.now != null)
                     {
-                        var idx = drawnpolygon.Points.IndexOf(midline.now);
+                        var idx = drawnpolygon.Points.IndexOf(midline?.now);
                         drawnpolygon.Points.Insert(idx + 1,
                             new PointLatLng(CurrentMidLine.Position.Lat, CurrentMidLine.Position.Lng));
 
@@ -7615,7 +7609,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }
                     else
                     {
-                        if (int.TryParse(midline.next.Tag, out pnt2))
+                        if (int.TryParse(midline?.next.Tag, out pnt2))
                         {
                             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
                                 MAVLink.MAV_MISSION_TYPE.FENCE)
