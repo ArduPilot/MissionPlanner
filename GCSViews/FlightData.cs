@@ -3784,39 +3784,53 @@ namespace MissionPlanner.GCSViews
                                         MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt / CurrentState.multiplieralt, "H");
                                 }
 
-                                var wpOverlay = new WPOverlay();
+                                GMapOverlay activeOverlay;
+                                List<PointLatLngAlt> activePointlist;
 
+                                if (Settings.Instance.GetBoolean("UseWPOverlay2", true))
                                 {
+                                    var wpOverlay2 = new WPOverlay2()
+                                    {
+                                        VehicleClass = MainV2.comPort.MAV.cs.vehicleClass,
+                                        ShowPlusMarkers = false,
+                                    };
+                                    activeOverlay = wpOverlay2.overlay;
+                                    activePointlist = wpOverlay2.pointlist;
+
                                     List<Locationwp> mission_items;
                                     mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
                                     mission_items.RemoveAt(0);
 
-                                    if (wps.Count == 1)
-                                    {
-                                        wpOverlay.CreateOverlay(homeplla,
-                                            mission_items,
-                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
-                                            CurrentState.multiplieralt);
-                                    }
-                                    else
-                                    {
-                                        wpOverlay.CreateOverlay(homeplla,
-                                            mission_items,
-                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
-                                            CurrentState.multiplieralt);
+                                    wpOverlay2.CreateOverlay(homeplla,
+                                        mission_items,
+                                        0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
+                                        CurrentState.multiplieralt);
+                                }
+                                else
+                                {
+                                    var wpOverlay = new WPOverlay();
+                                    activeOverlay = wpOverlay.overlay;
+                                    activePointlist = wpOverlay.pointlist;
 
-                                    }
+                                    List<Locationwp> mission_items;
+                                    mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
+                                    mission_items.RemoveAt(0);
+
+                                    wpOverlay.CreateOverlay(homeplla,
+                                        mission_items,
+                                        0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
+                                        CurrentState.multiplieralt);
                                 }
 
-                                var existing = gMapControl1.Overlays.Where(a => a.Id == wpOverlay.overlay.Id).ToList();
+                                var existing = gMapControl1.Overlays.Where(a => a.Id == activeOverlay.Id).ToList();
                                 foreach (var b in existing)
                                 {
                                     gMapControl1.Overlays.Remove(b);
                                 }
 
-                                gMapControl1.Overlays.Insert(1, wpOverlay.overlay);
+                                gMapControl1.Overlays.Insert(1, activeOverlay);
 
-                                wpOverlay.overlay.ForceUpdate();
+                                activeOverlay.ForceUpdate();
 
                                 try
                                 {
@@ -3824,10 +3838,10 @@ namespace MissionPlanner.GCSViews
 
                                     var i = -1;
                                     var travdist = 0.0;
-                                    if (wpOverlay.pointlist.Count > 0)
+                                    if (activePointlist.Count > 0)
                                     {
-                                        var lastplla = wpOverlay.pointlist.Where(a => a != null).FirstOrDefault();
-                                        foreach (var plla in wpOverlay.pointlist)
+                                        var lastplla = activePointlist.Where(a => a != null).FirstOrDefault();
+                                        foreach (var plla in activePointlist)
                                         {
                                             i++;
                                             if (plla == null)
