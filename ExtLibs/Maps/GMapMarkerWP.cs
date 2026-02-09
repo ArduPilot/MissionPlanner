@@ -13,8 +13,8 @@ namespace MissionPlanner.Maps
     {
         string wpno = "";
         public bool selected = false;
-        SizeF txtsize = SizeF.Empty;
         static Dictionary<string, Bitmap> fontBitmaps = new Dictionary<string, Bitmap>();
+        static Dictionary<string, SizeF> fontSizes = new Dictionary<string, SizeF>();
         static Font font;
 
         public GMapMarkerWP(PointLatLng p, string wpno)
@@ -31,7 +31,7 @@ namespace MissionPlanner.Maps
                 {
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                    txtsize = g.MeasureString(wpno, font);
+                    fontSizes[wpno] = g.MeasureString(wpno, font);
 
                     g.DrawString(wpno, font, Brushes.Black, new PointF(0, 0));
                 }
@@ -49,11 +49,14 @@ namespace MissionPlanner.Maps
             
             base.OnRender(g);
 
-            var midw = LocalPosition.X + 10;
+            var midw = LocalPosition.X + 15;
             var midh = LocalPosition.Y + 3;
 
-            if (txtsize.Width > 15)
-                midw -= 4;
+            var offset = (int)(fontSizes[wpno].Width / 2);
+            // For really long WP numbers, better to at least have the left 2.5
+            // digits on the marker rather than having both sides hang off.
+            offset = Math.Min(offset, 10);
+            midw -= offset;
 
             if (Overlay.Control.Zoom> 16 || IsMouseOver)
                 g.DrawImageUnscaled(fontBitmaps[wpno], midw,midh);
