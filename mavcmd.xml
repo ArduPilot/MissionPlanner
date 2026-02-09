@@ -733,7 +733,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z></Z>
+      <Z unitType="alt">Alt</Z>
     </DO_LAND_START>
     <DO_SET_ROI>
       <P1></P1>
