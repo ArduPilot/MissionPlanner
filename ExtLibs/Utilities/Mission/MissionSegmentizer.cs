@@ -217,8 +217,7 @@ namespace MissionPlanner.Utilities
                         segments.AddRange(GenerateSplineSegments(graph, edge, flags, overrideSrcPos));
                         break;
                     case SegmentKind.ArcTurn:
-                        // TODO: generate arc turn segment
-                        segments.Add(GenerateStraightSegment(graph, edge, flags, overrideSrcPos, overrideDestPos));
+                        segments.Add(GenerateArcSegment(graph, edge, flags, overrideSrcPos, overrideDestPos));
                         break;
                 }
             }
@@ -291,6 +290,64 @@ namespace MissionPlanner.Utilities
                     kind = SegmentKind.Straight;
                     return false;
             }
+        }
+
+        static Segment GenerateArcSegment(MissionGraph graph, MissionEdge edge, SegmentFlags flags, PointLatLngAlt overrideSrcPos, PointLatLngAlt overrideDestPos, int samplesPerFullTurn = 40)
+        {
+            var src = edge.FromNode;
+            var dest = edge.ToNode;
+            var srcPos = overrideSrcPos ?? new PointLatLngAlt(src.Command);
+            var destPos = overrideDestPos ?? new PointLatLngAlt(dest.Command);
+            var chordDist = srcPos.GetDistance2(destPos);
+            var arcAngleDeg = (double)dest.Command.p1;
+            var halfAngleRad = arcAngleDeg * Math.PI / 360.0;
+            var sinHalf = Math.Sin(halfAngleRad);
+
+            // Fall back to straight when sin(angle/2) is near zero (radius blows up). The threshold
+            // is 1 degree from multiples of 360: inferred from the 359 in the MAVLink spec.
+            const double halfTolerance = 0.5 * Math.PI / 180.0;
+            if (Math.Abs(sinHalf) < Math.Sin(halfTolerance))
+            {
+                return GenerateStraightSegment(graph, edge, flags, overrideSrcPos, overrideDestPos);
+            }
+
+            // Signed perpendicular offset from chord midpoint to arc center. Positive means center
+            // is to the right of the chord (looking from src to dest) and negative means left.
+            // tan(half) naturally handles all four cases: CW/CCW and <180/>180.
+            var centerOffset = chordDist / (2.0 * Math.Tan(halfAngleRad));
+
+            var chordBearing = srcPos.GetBearing(destPos);
+            var midpoint = srcPos.newpos(chordBearing, chordDist / 2.0);
+            var center = midpoint.newpos(chordBearing + 90.0, centerOffset);
+            var startBearing = center.GetBearing(srcPos);
+
+            // AP supports angles beyond 360 (e.g. 540 = full circle then semicircle). We strip off
+            // full turns beyond two turns to bound the vertex counts; two turns (not one) so the
+            // midpoint marker doesn't land on top of either endpoint.
+            var absAngle = Math.Abs(arcAngleDeg);
+            if (absAngle > 720.0)
+                absAngle -= Math.Ceiling((absAngle - 720.0) / 360.0) * 360.0;
+            int samples = Math.Max(2, (int)(samplesPerFullTurn * absAngle / 360.0) + 2);
+            var drawSweep = Math.Sign(arcAngleDeg) * absAngle;
+
+            var radius = chordDist / (2.0 * Math.Abs(sinHalf));
+            var path = new List<PointLatLngAlt>(samples + 1);
+            for (int i = 0; i <= samples; i++)
+            {
+                double bearing = startBearing + drawSweep * (i / (double)samples);
+                path.Add(center.newpos(bearing, radius));
+            }
+
+            var midBearing = startBearing + drawSweep * 0.5;
+            return new Segment
+            {
+                Kind = SegmentKind.ArcTurn,
+                Flags = flags,
+                StartNode = src,
+                EndNode = dest,
+                Path = path,
+                Midpoint = center.newpos(midBearing, radius),
+            };
         }
 
         static Segment GenerateStraightSegment(MissionGraph graph, MissionEdge edge, SegmentFlags flags, PointLatLngAlt overrideSrcPos, PointLatLngAlt overrideDestPos)
