@@ -39,7 +39,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="Nefarius.Drivers.WinUSB" Version="5.1.0" />
-    <PackageReference Include="Nefarius.Utilities.DeviceManagement" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SocketIOClient" Version="2.0.2.1" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />

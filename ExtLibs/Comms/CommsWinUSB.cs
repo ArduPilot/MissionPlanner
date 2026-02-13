@@ -172,58 +172,6 @@ namespace MissionPlanner.Comms
                 log.Error("Failed to enumerate WinUSB device interfaces", ex);
             }
 
-            // Method 2: PnP enumeration via generic USB device interface GUID.
-            // Catches devices with custom GUIDs not in our list above.
-            try
-            {
-                var usbDeviceGuid = new Guid("A5DCBF10-6530-11D2-901F-00C04FB951ED");
-
-                var instance = 0;
-                while (Nefarius.Utilities.DeviceManagement.PnP.Devcon.FindByInterfaceGuid(
-                    usbDeviceGuid, out var path, out var instanceId, instance++))
-                {
-                    try
-                    {
-                        var device = Nefarius.Utilities.DeviceManagement.PnP.PnPDevice.GetDeviceByInstanceId(instanceId);
-
-                        var hardwareIds = device.GetProperty<string[]>(
-                            Nefarius.Utilities.DeviceManagement.PnP.DevicePropertyKey.Device_HardwareIds);
-
-                        if (hardwareIds != null && hardwareIds.Length > 0)
-                        {
-                            var match = Regex.Match(hardwareIds[0],
-                                @"USB\\VID_([0-9A-Fa-f]{4})&PID_([0-9A-Fa-f]{4})(?:&MI_([0-9A-Fa-f]{2}))?");
-
-                            if (match.Success)
-                            {
-                                var vid = match.Groups[1].Value;
-                                var pid = match.Groups[2].Value;
-                                var mi = match.Groups[3].Success ? match.Groups[3].Value : "";
-
-                                var service = device.GetProperty<string>(
-                                    Nefarius.Utilities.DeviceManagement.PnP.DevicePropertyKey.Device_Service);
-
-                                if (service != null && service.Equals("WinUSB", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    var portName = $"WINUSB_VID_{vid}_PID_{pid}";
-                                    if (!string.IsNullOrEmpty(mi))
-                                        portName += $"_MI_{mi}";
-                                    ports.Add(portName);
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // Skip devices that can't be queried
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Failed to enumerate USB PnP devices", ex);
-            }
-
             return ports.Distinct().ToList();
         }
 
