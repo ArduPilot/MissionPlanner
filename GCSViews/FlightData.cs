@@ -4471,6 +4471,48 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void sendExternalPositionEstimateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show(Strings.PleaseConnect, Strings.ERROR);
+                return;
+            }
+
+            var location = MouseDownStart.Lat.ToString(CultureInfo.InvariantCulture) + ";" +
+                           MouseDownStart.Lng.ToString(CultureInfo.InvariantCulture);
+            if (DialogResult.Cancel == InputBox.Show("External Position Estimate",
+                "Please enter the coords 'lat;lng'", ref location))
+                return;
+
+            var split = location.Split(';');
+
+            if (split.Length == 2 &&
+                double.TryParse(split[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var lat) &&
+                double.TryParse(split[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var lng))
+            {
+                try
+                {
+                    MainV2.comPort.doCommandInt(
+                        (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent,
+                        MAVLink.MAV_CMD.EXTERNAL_POSITION_ESTIMATE,
+                        0, 0, float.NaN, 0,
+                        (int)(lat * 1e7),
+                        (int)(lng * 1e7),
+                        float.NaN);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + ex.Message, Strings.ERROR);
+                }
+            }
+            else
+            {
+                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+            }
+        }
+
         private void pointCameraHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)

@@ -213,6 +213,7 @@ namespace MissionPlanner.GCSViews
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jumpToTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimbalVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendExternalPositionEstimateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimbalVideoFullSizedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimbalVideoMiniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimbalVideoPopOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2527,7 +2528,8 @@ namespace MissionPlanner.GCSViews
             this.takeOffToolStripMenuItem,
             this.onOffCameraOverlapToolStripMenuItem,
             this.jumpToTagToolStripMenuItem,
-            this.gimbalVideoToolStripMenuItem});
+            this.gimbalVideoToolStripMenuItem,
+            this.sendExternalPositionEstimateToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -2673,6 +2675,12 @@ namespace MissionPlanner.GCSViews
             this.gimbalVideoPopOutToolStripMenuItem.Name = "gimbalVideoPopOutToolStripMenuItem";
             resources.ApplyResources(this.gimbalVideoPopOutToolStripMenuItem, "gimbalVideoPopOutToolStripMenuItem");
             this.gimbalVideoPopOutToolStripMenuItem.Click += new System.EventHandler(this.gimbalVideoPopOutToolStripMenuItem_Click);
+            // 
+            // sendExternalPositionEstimateToolStripMenuItem
+            // 
+            this.sendExternalPositionEstimateToolStripMenuItem.Name = "sendExternalPositionEstimateToolStripMenuItem";
+            resources.ApplyResources(this.sendExternalPositionEstimateToolStripMenuItem, "sendExternalPositionEstimateToolStripMenuItem");
+            this.sendExternalPositionEstimateToolStripMenuItem.Click += new System.EventHandler(this.sendExternalPositionEstimateToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -3210,5 +3218,6 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem gimbalVideoFullSizedToolStripMenuItem;
         private ToolStripMenuItem gimbalVideoMiniToolStripMenuItem;
         private ToolStripMenuItem gimbalVideoPopOutToolStripMenuItem;
+        private ToolStripMenuItem sendExternalPositionEstimateToolStripMenuItem;
     }
 }
