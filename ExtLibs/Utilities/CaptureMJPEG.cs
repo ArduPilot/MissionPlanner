@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,7 @@ namespace MissionPlanner.Utilities
     public class CaptureMJPEG
     {
         private static readonly ILog log =
-    LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         static Thread asyncthread;
         static bool running = false;
@@ -41,8 +41,8 @@ namespace MissionPlanner.Utilities
                 IsBackground = true,
                 Priority = ThreadPriority.BelowNormal,
                 Name = "mjpg stream reader"
-            }; 
-            
+            };
+
             asyncthread.Start();
         }
 
@@ -81,149 +81,253 @@ namespace MissionPlanner.Utilities
             running = true;
 
             start:
-
+            
             try
             {
-                // Create a request using a URL that can receive a post. 
-                WebRequest request = HttpWebRequest.Create(URL);
-                // Set the Method property of the request to POST.
+                // Create a request using a URL that can receive a post.
+                var request = (HttpWebRequest)WebRequest.Create(URL);
+                // Set the Method property of the request to POST. 
                 request.Method = "GET";
-
-                ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
+                request.KeepAlive = true;
+                request.AllowReadStreamBuffering = false;
+                request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 request.Headers.Add("Accept-Encoding", "gzip,deflate");
-
-                // Get the response.
-                WebResponse response = request.GetResponse();
-                // Display the status.
-                log.Debug(((HttpWebResponse)response).StatusDescription);
-                // Get the stream containing content returned by the server.
-                Stream dataStream = response.GetResponseStream();
-
-                BinaryReader br = new BinaryReader(dataStream);
-
-                // get boundary header
-
-                string mpheader = response.Headers["Content-Type"];
-                if (mpheader.IndexOf("boundary=") == -1)
+                request.Accept = "multipart/x-mixed-replace";
+                ServicePointManager.Expect100Continue = false;
+                // Get the response. 
+                using (var response = (HttpWebResponse)request.GetResponse())
                 {
-                    ReadLine(br); // this is a blank line
-                    string line = "proxyline";
-                    do
+                    // Display the status. 
+                    log.Debug(response.StatusDescription);
+                    // Get the stream containing content returned by the server.
+                    using (var dataStream = response.GetResponseStream())
+                    using (var br = new BinaryReader(dataStream))
                     {
-                        line = ReadLine(br);
-                        if (line.StartsWith("--"))
+
+                        // Try to get boundary from header; if absent, detect in body.
+                        string contentType = response.Headers["Content-Type"] ?? response.ContentType;
+                        string boundary = null;
+                        bool atPartStart = false;
+
+                        try { boundary = ExtractBoundary(contentType); } // may throw if header missing
+                        catch
                         {
-                            mpheader = line;
-                            break;
+                            // No Content-Type or no boundary=... -> sniff it from body
+                            boundary = DetectBoundaryFromBody(br); // positions us AFTER the first boundary line
+                            atPartStart = true; // next read is headers of first part
                         }
-                    } while (line.Length > 2);
-                }
-                else
-                {
-                    int startboundary = mpheader.IndexOf("boundary=") + 9;
-                    int endboundary = mpheader.Length;
 
-                    mpheader = mpheader.Substring(startboundary, endboundary - startboundary);
-                }
-
-                dataStream.ReadTimeout = 10000; // 10 seconds
-                br.BaseStream.ReadTimeout = 10000;
-
-                while (running)
-                {
-                    try
-                    {
-                        // get the multipart start header
-                        int length = int.Parse(getHeader(br)["Content-Length"]);
-
-                        // read boundary header
-                        if (length > 0)
+                        // Optionally set a read timeout (not all streams support it)
+                        try
                         {
-                            byte[] buf1 = new byte[length];
+                            dataStream.ReadTimeout = 10000; // 10 seconds 
+                            br.BaseStream.ReadTimeout = 10000;
+                        }
+                        catch { }
 
-                            dataStream.ReadTimeout = 3000;
-
-                            int offset = 0;
-                            int len = 0;
-
-                            while (length > 0 && (len = br.Read(buf1, offset, length)) >= 0)
-                            {
-                                offset += len;
-                                length -= len;
-                            }
-                            /*
-                            BinaryWriter sw = new BinaryWriter(File.OpenWrite("test.jpg"));
-
-                            sw.Write(buf1,0,buf1.Length);
-
-                            sw.Close();
-                            */
+                        while (running)
+                        {
                             try
                             {
-                                System.Drawing.Bitmap frame = new System.Drawing.Bitmap(new MemoryStream(buf1));
+                                if (!atPartStart) SeekToBoundaryLine(br, boundary); // find start of next part
+                                else atPartStart = false;
 
-                                fps++;
+                                var headers = ReadHeadersCI(br);
 
-                                if (lastimage.Second != DateTime.Now.Second)
+                                byte[] jpeg;
+                                if (
+                                    headers.TryGetValue("Content-Length", out var lenStr) &&
+                                    int.TryParse(lenStr, out var len) &&
+                                    len > 0
+                                )
                                 {
-                                    Console.WriteLine("MJPEG " + fps);
-                                    fps = 0;
-                                    lastimage = DateTime.Now;
+                                    jpeg = ReadExact(br, len);
+                                    SafeConsumeCrlf(br); // swallow optional trailing CRLF
                                 }
+                                else jpeg = ReadUntilNextBoundary(br, boundary);
 
-                                _onNewImage?.Invoke(null, frame);
+                                try
+                                {
+                                    using (var ms = new MemoryStream(jpeg))
+                                    using (var bmp = new System.Drawing.Bitmap(ms))
+                                    {
+                                        fps++;
+                                        if (lastimage.Second != DateTime.Now.Second)
+                                        {
+                                            Console.WriteLine("MJPEG " + fps);
+                                            fps = 0;
+                                            lastimage = DateTime.Now;
+                                        }
+
+                                        _onNewImage?.Invoke(null, (Bitmap)bmp.Clone());
+                                    }
+                                }
+                                catch (Exception ex) { log.Info(ex); }
                             }
-                            catch { }
-                        }
-                        else
-                        {
-                            throw new Exception("No mjpeg length header");
+                            catch (Exception ex) { log.Info(ex); break; } // reconnect 
                         }
 
-                        // blank line at end of data
-                        System.Threading.Thread.Sleep(1);
-                        ReadLine(br);
+                        _onNewImage?.Invoke(null, null);
                     }
-                    catch (Exception ex) { log.Info(ex); break; }
                 }
-
-                // clear last image
-                _onNewImage?.Invoke(null, null);
-
-                dataStream.Close();
-                response.Close();
-
             }
             catch (Exception ex) { log.Error(ex); }
 
-            // dont stop trying until we are told to stop
             if (running)
                 goto start;
 
             running = false;
         }
 
-        static Dictionary<string, string> getHeader(BinaryReader stream)
+
+        // Additional modifications
+        static string ExtractBoundary(string contentType)
         {
-            Dictionary<string, string> answer = new Dictionary<string, string>();
+            // Typical: "multipart/x-mixed-replace; boundary=frame" (no leading "--")
+            if (string.IsNullOrEmpty(contentType) || !contentType.Contains("boundary="))
+                throw new InvalidOperationException("MJPEG boundary not present in Content-Type.");
 
+            var ct = contentType;
+            var idx = ct.IndexOf("boundary=", StringComparison.OrdinalIgnoreCase);
+            if (idx < 0) throw new InvalidOperationException("MJPEG boundary not present in Content-Type.");
+
+            var val = ct.Substring(idx + "boundary=".Length).Trim();
+            // strip quotes if present
+            if (val.Length >= 2 && ((val[0] == '"' && val.Last() == '"') || (val[0] == '\'' && val.Last() == '\'')))
+                val = val.Substring(1, val.Length - 2);
+            return val;
+        }
+        
+        static string DetectBoundaryFromBody(BinaryReader br)
+        {
+            // RFC 2046 allows an optional preamble; the first boundary appears as:  --<token>\r\n
+            // We read ASCII lines until we hit a line that starts with "--".
             string line;
-
-            do
+            while ((line = ReadLine(br)) != null)
             {
-                line = ReadLine(stream);
-
-                string[] items = line.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-
-
-                if (items.Length == 2)
-                    answer.Add(items[0].Trim(), items[1].Trim());
-
-            } while (line != "");
-
-            return answer;
+                if (line.StartsWith("--") && line.Length > 2)
+                {
+                    var token = line.Substring(2).Trim();
+                    // If it's an end marker like "--boundary--", strip the trailing "--"
+                    if (token.EndsWith("--", StringComparison.Ordinal))
+                        token = token.Substring(0, token.Length - 2);
+                    if (token.Length > 0)
+                        return token;
+                }
+                // else continue through preamble/garbage
+            }
+            throw new InvalidOperationException("Could not detect MJPEG boundary from body.");
         }
 
+
+        static void SeekToBoundaryLine(BinaryReader br, string boundary)
+        {
+            // Boundary line looks like:  --<boundary>\r\n
+            string target = "--" + boundary;
+            string line;
+            do
+            {
+                line = ReadLine(br);
+                if (line == null) throw new EndOfStreamException("MJPEG stream closed while seeking boundary.");
+            } while (!line.StartsWith(target, StringComparison.Ordinal));
+            // Now positioned right before headers
+        }
+
+        static Dictionary<string, string> ReadHeadersCI(BinaryReader br)
+        {
+            var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            string line;
+            while (!string.IsNullOrEmpty(line = ReadLine(br)))
+            {
+                int c = line.IndexOf(':');
+                if (c > 0)
+                {
+                    string key = line.Substring(0, c).Trim();
+                    string val = line.Substring(c + 1).Trim();
+                    headers[key] = val;
+                }
+                // else: ignore malformed lines
+            }
+
+            return headers;
+        }
+
+        static byte[] ReadExact(BinaryReader br, int len)
+        {
+            var buf = new byte[len];
+            int off = 0;
+            while (len > 0)
+            {
+                int n = br.Read(buf, off, len);
+                if (n <= 0)
+                    throw new EndOfStreamException("Unexpected end of stream while reading Content-Length body.");
+                off += n;
+                len -= n;
+            }
+
+            return buf;
+        }
+
+        static void SafeConsumeCrlf(BinaryReader br)
+        {
+            // Best effort: consume \r?\n if present
+            try
+            {
+                int b = br.PeekChar();
+                if (b == '\r')
+                {
+                    br.ReadByte();
+                    if (br.PeekChar() == '\n') br.ReadByte();
+                }
+                else if (b == '\n')
+                {
+                    br.ReadByte();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        static byte[] ReadUntilNextBoundary(BinaryReader br, string boundary)
+        {
+            // We will read byte-by-byte to avoid over-reading beyond the boundary (NetworkStream is not seekable).
+            // Detect the sequence "\r\n--<boundary>"
+            var sep = Encoding.ASCII.GetBytes("\r\n--" + boundary);
+            int match = 0;
+
+            using (var ms = new MemoryStream(256 * 1024))
+            {
+                while (true)
+                {
+                    int b = br.Read();
+                    if (b < 0) throw new EndOfStreamException("MJPEG stream closed while reading frame.");
+
+                    ms.WriteByte((byte)b);
+
+                    if ((byte)b == sep[match])
+                    {
+                        match++;
+                        if (match == sep.Length)
+                        {
+                            // Remove the boundary bytes from the end of frame
+                            ms.SetLength(ms.Length - sep.Length);
+                            // Also remove the preceding CR if we captured it as part of JPEG tail (not strictly required)
+                            long len = ms.Length;
+                            if (len > 0 && ms.GetBuffer()[len - 1] == (byte)'\r')
+                                ms.SetLength(len - 1);
+                            // At this point, the stream is positioned right after "--<boundary>";
+                            // Next call will read the rest of the boundary line + headers.
+                            return ms.ToArray();
+                        }
+                    }
+                    else
+                    {
+                        // Reset partial match if current byte doesn't continue the prefix
+                        match = (sep[0] == (byte)b) ? 1 : 0;
+                    }
+                }
+            }
+        }
     }
 }
