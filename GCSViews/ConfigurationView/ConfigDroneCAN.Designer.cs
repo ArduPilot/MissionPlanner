@@ -1,6 +1,4 @@
-﻿using System.Web.UI.WebControls;
-
-namespace MissionPlanner.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigDroneCAN
     {

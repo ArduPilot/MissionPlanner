@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <RootNamespace>Nefarius.Drivers.WinUSB</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <PackageTags>WinUSB USB</PackageTags>
+        <PackageProjectUrl>https://github.com/nefarius/Nefarius.Drivers.WinUSB</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageId>Nefarius.Drivers.WinUSB</PackageId>
+        <IsPackable>true</IsPackable>
+        <RepositoryUrl>https://github.com/nefarius/Nefarius.Drivers.WinUSB</RepositoryUrl>
+        <Description>WinUSBNet is a .NET class library that provides easy access to the WinUSB API from C#, VB.NET and other .NET languages.</Description>
+        <Platforms>AnyCPU;x64;x86</Platforms>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Copyright>Copyright © 2010-2020 by Thomas Bleeker (MadWizard.org), 2022-2025 Benjamin "Nefarius" Höglinger-Stelzer</Copyright>
+        <Company>Nefarius Software Solutions e.U.</Company>
+        <Authors>Thomas Bleeker, Benjamin "Nefarius" Höglinger-Stelzer</Authors>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <MinVerTagPrefix>v</MinVerTagPrefix>
+    </PropertyGroup>
+
+    <!-- Win32 Metadata -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.268">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="69.0.7-preview">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Windows.WDK.Win32Metadata" Version="0.13.25-experimental">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+    
+    <ItemGroup>        
+        <PackageReference Include="MinVer" Version="7.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>        
+        <PackageReference Include="System.Memory" Version="4.6.3" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    </ItemGroup>
+
+</Project>

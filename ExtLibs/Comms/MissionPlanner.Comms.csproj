@@ -19,26 +19,20 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>false</Optimize>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='debug|net472|AnyCPU'">
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Optimize>false</Optimize>
-	</PropertyGroup>
-
 
   <ItemGroup>
     <Compile Remove="System.IO.Ports\**" />
     <EmbeddedResource Remove="System.IO.Ports\**" />
     <None Remove="System.IO.Ports\**" />
   </ItemGroup>
-
-  <ItemGroup>
+	
+	<ItemGroup>
     <PackageReference Include="log4net" Version="2.0.13" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-    <PackageReference Include="Nefarius.Drivers.WinUSB" Version="5.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SocketIOClient" Version="2.0.2.1" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />
@@ -50,6 +44,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\WinUSBNet\Nefarius.Drivers.WinUSB.csproj" />
   </ItemGroup>
 
   <ItemGroup>

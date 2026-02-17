@@ -106,6 +106,7 @@
     <Compile Remove="ExtLibs\wasm\**" />
     <Compile Remove="ExtLibs\WebAPIs\**" />
     <Compile Remove="ExtLibs\WindowsStore\**" />
+    <Compile Remove="ExtLibs\WinUSBNet\**" />
     <Compile Remove="ExtLibs\Xamarin\**" />
     <Compile Remove="ExtLibs\ZedGraph\**" />
     <Compile Remove="ExtLibs\Zeroconf\**" />
@@ -204,6 +205,7 @@
     <EmbeddedResource Remove="ExtLibs\wasm\**" />
     <EmbeddedResource Remove="ExtLibs\WebAPIs\**" />
     <EmbeddedResource Remove="ExtLibs\WindowsStore\**" />
+    <EmbeddedResource Remove="ExtLibs\WinUSBNet\**" />
     <EmbeddedResource Remove="ExtLibs\Xamarin\**" />
     <EmbeddedResource Remove="ExtLibs\ZedGraph\**" />
     <EmbeddedResource Remove="ExtLibs\Zeroconf\**" />
@@ -301,6 +303,7 @@
     <None Remove="ExtLibs\wasm\**" />
     <None Remove="ExtLibs\WebAPIs\**" />
     <None Remove="ExtLibs\WindowsStore\**" />
+    <None Remove="ExtLibs\WinUSBNet\**" />
     <None Remove="ExtLibs\Xamarin\**" />
     <None Remove="ExtLibs\ZedGraph\**" />
     <None Remove="ExtLibs\Zeroconf\**" />
@@ -499,7 +502,7 @@
    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
    <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
    <PackageReference Include="System.Runtime" Version="4.3.1" />
-   <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+   <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
    <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
