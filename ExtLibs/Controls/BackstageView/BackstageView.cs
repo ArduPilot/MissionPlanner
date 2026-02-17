@@ -10,7 +10,8 @@ using MissionPlanner.Controls.BackstageView;
 namespace MissionPlanner.Controls.BackstageView
 {
     /// <summary>
-    /// A Control to somewhat emulate the 'backstage view' as in MS Office 2010
+    /// A Control to emulate the 'backstage view' (File Menu style) seen in MS Office 2010/2013.
+    /// Handles navigation between different configuration and setup screens.
     /// </summary>
     /// <remarks>
     /// 'Tabs' are added as a control in a <see cref="BackstageViewPage"/>
@@ -61,6 +62,7 @@ namespace MissionPlanner.Controls.BackstageView
             }
         }
 
+        // Tracks the currently popped-out page (if any)
         private BackstageViewPage popoutPage = null;
 
         private int ButtonTopPos = 0;
@@ -75,8 +77,6 @@ namespace MissionPlanner.Controls.BackstageView
             pnlMenu.BackColor = _buttonsAreaBgColor;
             pnlMenu.PencilBorderColor = _buttonsAreaPencilColor;
             pnlMenu.GradColor = this.BackColor;
-
-            
         }
 
         public void UpdateDisplay()
@@ -85,7 +85,6 @@ namespace MissionPlanner.Controls.BackstageView
             {
                 if (!itemType.Show)
                     continue;
-
 
                 if (itemType.Page != null)
                 {
@@ -126,7 +125,6 @@ namespace MissionPlanner.Controls.BackstageView
                 Invalidate();
             }
         }
-
 
         [Description("Background color for the buttons region"), Category("Appearance")]
         [DefaultValue(typeof(Color), "White")]
@@ -234,21 +232,19 @@ namespace MissionPlanner.Controls.BackstageView
             }
 
             var lnkButton = new BackstageViewButton
-                                {
-                                    Text = label,
-                                    Tag = page,
-                                    Top = ButtonTopPos,
-                                    // Top = _items.TakeWhile(i => i != page).Sum(i => i.Spacing),
-                                    Width = this.pnlMenu.Width,
-                                    Height = ButtonHeight + heightextra,
-                                    ContentPageColor = this.BackColor,
-                                    PencilBorderColor = _buttonsAreaPencilColor,
-                                    SelectedTextColor = _selectedTextColor,
-                                    UnSelectedTextColor = _unSelectedTextColor,
-                                    HighlightColor1 = _highlightColor1,
-                                    HighlightColor2 = _highlightColor2,
-                                    //Dock = DockStyle.Bottom
-                                };
+            {
+                Text = label,
+                Tag = page,
+                Top = ButtonTopPos,
+                Width = this.pnlMenu.Width,
+                Height = ButtonHeight + heightextra,
+                ContentPageColor = this.BackColor,
+                PencilBorderColor = _buttonsAreaPencilColor,
+                SelectedTextColor = _selectedTextColor,
+                UnSelectedTextColor = _unSelectedTextColor,
+                HighlightColor1 = _highlightColor1,
+                HighlightColor2 = _highlightColor2,
+            };
 
             pnlMenu.Controls.Add(lnkButton);
             lnkButton.Click += this.ButtonClick;
@@ -331,7 +327,6 @@ namespace MissionPlanner.Controls.BackstageView
                         }
                         continue;
                     }
-
                 }
                 else
                 {
@@ -355,7 +350,6 @@ namespace MissionPlanner.Controls.BackstageView
                     }
                 }
             }
-
             return false;
         }
 
@@ -374,17 +368,45 @@ namespace MissionPlanner.Controls.BackstageView
             }
         }
 
-        /*
-         * Experimental - double clicking a button will spawn it out into a new form
-         * Care must be given to lifecycle here - two pages can now be interacted with 
-         * 'simultaneously'
-         */
+        /// <summary>
+        /// Experimental - double clicking a button will spawn it out into a new form
+        /// Allows interacting with two pages simultaneously.
+        /// </summary>
         private void lnkButton_DoubleClick(object sender, EventArgs e)
         {
             var backstageViewButton = ((BackstageViewButton)sender);
             var associatedPage = backstageViewButton.Tag as BackstageViewPage;
 
             var popoutForm = new Form();
+
+            // ----------------------------------------------------------------------
+            // FIX for missing icon in pop-out window
+            // ----------------------------------------------------------------------
+
+            // Strategy 1: Attempt to copy the icon from the main parent form
+            if (this.FindForm() != null)
+            {
+                popoutForm.Icon = this.FindForm().Icon;
+            }
+
+            // Strategy 2: If strategy 1 fails, try to extract the icon from the executable.
+            // This is wrapped in a preprocessor directive because ExtractAssociatedIcon is only available on Windows.
+#if !NETSTANDARD
+            try
+            {
+                if (popoutForm.Icon == null)
+                {
+                    popoutForm.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+                }
+            }
+            catch { /* Ignore failure to extract icon */ }
+#endif
+
+            // Ensure the icon is visible
+            popoutForm.ShowIcon = true;
+
+            // ----------------------------------------------------------------------
+
             popoutForm.FormClosing += popoutForm_FormClosing;
 
             int maxright = 0, maxdown = 0;
@@ -395,10 +417,9 @@ namespace MissionPlanner.Controls.BackstageView
                 maxdown = Math.Max(ctl.Bottom, maxdown);
             }
 
-            // set the height to 0, so we can derive the header height in the next step
             popoutForm.Height = 0;
-
             popoutForm.Size = new Size(maxright + 20, maxdown + 20 + popoutForm.Height);
+
             popoutForm.Controls.Add(associatedPage.Page);
             popoutForm.Tag = associatedPage;
 
@@ -432,6 +453,10 @@ namespace MissionPlanner.Controls.BackstageView
             this.ActivatePage(associatedPage);
         }
 
+        /// <summary>
+        /// Activates the selected page and displays it in the content panel.
+        /// Also handles closing any existing pop-out windows.
+        /// </summary>
         public void ActivatePage(BackstageViewPage associatedPage)
         {
             if (associatedPage == null)
@@ -455,7 +480,7 @@ namespace MissionPlanner.Controls.BackstageView
             {
                 try
                 {
-                    ((IDeactivate) (_activePage.Page)).Deactivate();
+                    ((IDeactivate)(_activePage.Page)).Deactivate();
                 }
                 catch (Exception ex)
                 {
@@ -463,14 +488,12 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
-            // deactivate the old page - obsolete way of notifying activation
-            //_activePage.Page.Close();
-
             if (_activePage != null && _activePage.Page != null)
                 _activePage.Page.Visible = false;
 
             try
-            { // if the button was on an expanded tab. when we leave it no longer exits
+            {
+                // if the button was on an expanded tab. when we leave it no longer exits
                 if (_activePage != null)
                 {
                     var oldButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == _activePage);
@@ -484,19 +507,34 @@ namespace MissionPlanner.Controls.BackstageView
 
             associatedPage.Page.ResumeLayout(false);
             this.ResumeLayout(false);
+
             // show it
             associatedPage.Page.Visible = true;
+
+            // ---------------------------------------------------------
+            // FIX for Issue #3633: Pop-out window not closing when re-docking
+            // ---------------------------------------------------------
+            // If any page is currently popped out in an external window, close it
+            // before navigating to prevent leaving an empty "ghost" window.
+            if (popoutPage != null)
+            {
+                Form parentWindow = popoutPage.Page.Parent as Form;
+                if (parentWindow != null)
+                {
+                    parentWindow.Close();
+                }
+            }
+            // ---------------------------------------------------------
 
             if (!pnlPages.Controls.Contains(associatedPage.Page))
                 this.pnlPages.Controls.Add(associatedPage.Page);
 
-            // new way of notifying activation. Goal is to get rid of BackStageViewContentPanel
-            // so plain old user controls can be added
+            // new way of notifying activation.
             if (associatedPage.Page is IActivate)
             {
                 try
                 {
-                    ((IActivate) (associatedPage.Page)).Activate();
+                    ((IActivate)(associatedPage.Page)).Activate();
                 }
                 catch (Exception ex)
                 {
@@ -544,7 +582,7 @@ namespace MissionPlanner.Controls.BackstageView
                 {
                     try
                     {
-                        ((IDeactivate) ((BackstageViewPage) (page)).Page).Deactivate();
+                        ((IDeactivate)((BackstageViewPage)(page)).Page).Deactivate();
                     }
                     catch (Exception ex)
                     {
