@@ -1019,7 +1019,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void BUT_ARM_Click(object sender, EventArgs e)
+        private async void BUT_ARM_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
@@ -1035,25 +1035,21 @@ namespace MissionPlanner.GCSViews
                             CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
-                StringBuilder sb = new StringBuilder();
-                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
-                {
-                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
-                        .TrimEnd('\0'));
-                    return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-                bool ans = MainV2.comPort.doARM(!isitarmed);
-                MainV2.comPort.UnSubscribeToPacketType(sub);
+
+                BUT_ARM.Enabled = false;
+                var result = await Task.Run(() => DoArmCommandWithStatus(!isitarmed));
+                bool ans = result.Item1;
+                string statusText = result.Item2;
                 if (ans == false)
                 {
                     if (CustomMessageBox.Show(
-                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
+                            action + " failed.\n" + statusText + "\nForce " + action +
                             " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
                             action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
                             CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
                         CustomMessageBox.DialogResult.Yes)
                     {
-                        ans = MainV2.comPort.doARM(!isitarmed, true);
+                        ans = await Task.Run(() => MainV2.comPort.doARM(!isitarmed, true));
                         if (ans == false)
                         {
                             CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
@@ -1064,6 +1060,43 @@ namespace MissionPlanner.GCSViews
             catch
             {
                 CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
+            }
+            finally
+            {
+                BUT_ARM.Enabled = true;
+            }
+        }
+
+        private Tuple<bool, string> DoArmCommandWithStatus(bool arm)
+        {
+            var sb = new StringBuilder();
+            object sync = new object();
+
+            var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+            {
+                lock (sync)
+                {
+                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text)
+                        .TrimEnd('\0'));
+                }
+
+                return true;
+            }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+
+            try
+            {
+                var ans = MainV2.comPort.doARM(arm);
+                string statusText;
+                lock (sync)
+                {
+                    statusText = sb.ToString();
+                }
+
+                return Tuple.Create(ans, statusText);
+            }
+            finally
+            {
+                MainV2.comPort.UnSubscribeToPacketType(sub);
             }
         }
 
