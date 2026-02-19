@@ -24,6 +24,7 @@
     <Compile Remove="System.IO.Ports\**" />
     <EmbeddedResource Remove="System.IO.Ports\**" />
     <None Remove="System.IO.Ports\**" />
+    <Compile Remove="CommsWinUSB.cs" Condition="'$(OS)' != 'Windows_NT'" />
   </ItemGroup>
 	
 	<ItemGroup>
@@ -44,7 +45,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
-    <ProjectReference Include="..\WinUSBNet\Nefarius.Drivers.WinUSB.csproj" />
+    <ProjectReference Include="..\WinUSBNet\Nefarius.Drivers.WinUSB.csproj" Condition="'$(OS)' == 'Windows_NT'" />
   </ItemGroup>
 
   <ItemGroup>
