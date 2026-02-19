@@ -3601,14 +3601,18 @@ namespace MissionPlanner
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     MissionPlanner.Comms.CommsBLE.SerialPort_GetCustomPorts();
 
+#if !LIB
                 MissionPlanner.Comms.CommsWinUSB.SerialPort_GetCustomPorts();
+#endif
             }
             catch { }
 
             // add the custom port creator
             CustomPortList.Add(new Regex("BLE_.*"), (s1, s2) => { return new CommsBLE() { PortName = s1, BaudRate = int.Parse(s2) }; });
 
+#if !LIB
             CustomPortList.Add(new Regex("WINUSB_VID_.*"), (s1, s2) => { return new CommsWinUSB() { PortName = s1, BaudRate = int.Parse(s2) }; });
+#endif
 
             this.ResumeLayout();
 
