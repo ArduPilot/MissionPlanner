@@ -954,11 +954,11 @@ mc:Ignorable=""d""
                         txtr.BorderStyle = BorderStyle.None;
                     }
                 }
-                else if (ctl.GetType() == typeof(CheckedListBox))
+                else if (ctl.GetType() == typeof(CheckedListBox) || ctl.GetType() == typeof(ListBox))
                 {
                     ctl.BackColor = ControlBGColor;
                     ctl.ForeColor = TextColor;
-                    CheckedListBox txtr = (CheckedListBox)ctl;
+                    var txtr = ctl as ListBox;
                     txtr.BorderStyle = BorderStyle.None;
                 }
                 else if (ctl.GetType() == typeof(TabPage))
@@ -1050,6 +1050,21 @@ mc:Ignorable=""d""
                 {
                     ((MyProgressBar)ctl).BGGradBot = ControlBGColor;
                     ((MyProgressBar)ctl).BGGradTop = BGColor;
+                }
+                else if (ctl.GetType() == typeof(PropertyGrid))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                    var pg = ctl as PropertyGrid;
+                    pg.LineColor = BGColor;
+                    pg.ViewBackColor = ControlBGColor;
+                    pg.ViewForeColor = TextColor;
+                    pg.HelpBackColor = BGColor;
+                    pg.HelpForeColor = TextColor;
+#if !LIB
+                    pg.CategorySplitterColor = BGColor;
+                    pg.CategoryForeColor = TextColor;
+#endif
                 }
 
                 if (ctl.Controls.Count > 0)
@@ -1256,11 +1271,11 @@ mc:Ignorable=""d""
                         txtr.BackColor = ControlBGColor;
                     }
                 }
-                else if (ctl.GetType() == typeof(CheckedListBox))
+                else if (ctl.GetType() == typeof(CheckedListBox) || ctl.GetType() == typeof(ListBox))
                 {
                     ctl.BackColor = ControlBGColor;
                     ctl.ForeColor = TextColor;
-                    CheckedListBox txtr = (CheckedListBox)ctl;
+                    var txtr = ctl as ListBox;
                     txtr.BorderStyle = BorderStyle.None;
                 }
                 else if (ctl.GetType() == typeof(TabPage))
