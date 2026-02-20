@@ -24,8 +24,9 @@ namespace MissionPlanner.Utilities
         private byte compid;
 
         public bool DataAvailable { get; set; } = false;
+        public bool DrawingInProgress { get; set; } = false;
 
-        public Proximity(MAVState mavInt, byte sysid, byte compid) 
+        public Proximity(MAVState mavInt, byte sysid, byte compid)
         {
             this.sysid = sysid;
             this.compid = compid;
@@ -47,6 +48,7 @@ namespace MissionPlanner.Utilities
 
         private bool messageReceived(MAVLinkMessage arg)
         {
+            if (DrawingInProgress) return true;
             //accept any compid, but filter sysid
             if (arg.sysid != _parent.sysid)
                 return true;
@@ -64,7 +66,7 @@ namespace MissionPlanner.Utilities
                 _dS.Add(dist.id, (MAV_SENSOR_ORIENTATION)dist.orientation, dist.current_distance, DateTime.Now, 3);
 
                 DataAvailable = true;
-            } 
+            }
             else if (arg.msgid == (uint) MAVLINK_MSG_ID.OBSTACLE_DISTANCE)
             {
                 var dists = arg.ToStructure<mavlink_obstacle_distance_t>();
@@ -89,7 +91,7 @@ namespace MissionPlanner.Utilities
                     if(dists.distances[a] == ushort.MaxValue)
                         continue;
                     if(dists.distances[a] > dists.max_distance)
-                        continue;    
+                        continue;
                     if(dists.distances[a] < dists.min_distance)
                         continue;
 
@@ -135,7 +137,7 @@ namespace MissionPlanner.Utilities
                     Distance = distance;
                     Received = received;
                     Age = age;
-                }       
+                }
 
                 public data(uint id, double angle, double size, double distance, DateTime received, double age = 1)
                 {
@@ -161,20 +163,23 @@ namespace MissionPlanner.Utilities
                 _dists.Add(new data(id, orientation, distance, received, age));
 
                 expire();
-            }      
-            
+            }
+
             public void Add(uint id, double angle, double size, double distance, DateTime received, double age = 1)
             {
-                var existing = _dists.Where((a) => { return a.SensorId == id && a.Angle == angle; });
-
-                foreach (var item in existing.ToList())
+                lock (this)
                 {
-                    _dists.Remove(item);
+                    var existing = _dists.Where((a) => { return a.SensorId == id && a.Angle == angle; });
+
+                    foreach (var item in existing.ToList())
+                    {
+                        _dists.Remove(item);
+                    }
+
+                    _dists.Add(new data(id, angle, size, distance, received, age));
+
+                    expire();
                 }
-
-                _dists.Add(new data(id, angle, size, distance, received, age));
-
-                expire();
             }
 
             /// <summary>
@@ -230,7 +235,7 @@ namespace MissionPlanner.Utilities
                 {
                     for (int a = 0; a < _dists.Count; a++)
                     {
-                        var expireat = _dists[a].ExpireTime;
+                        var expireat = _dists[a]?.ExpireTime;
 
                         if (expireat < DateTime.Now)
                         {
