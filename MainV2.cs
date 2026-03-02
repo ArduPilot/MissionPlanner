@@ -675,7 +675,10 @@ namespace MissionPlanner
                     if (MainV2.instance.adsbPlanes.ContainsKey(tuple.id))
                     {
                         // update existing
-                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
+                        var plane = (adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id];
+                        plane.ThreatLevel = plane.IsOnGround
+                            ? MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE
+                            : tuple.threat_level;
                     }
                 }
             };
