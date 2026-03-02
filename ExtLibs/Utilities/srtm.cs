@@ -10,6 +10,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using log4net;
 using GMap.NET;
+using System.Linq;
+using System.Transactions;
 
 namespace MissionPlanner.Utilities
 {
@@ -97,6 +99,16 @@ namespace MissionPlanner.Utilities
                 client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
 
             StartQueueProcess();
+
+            Directory.GetFiles(datadirectory).ToList().ForEach(x =>
+            {
+                var fi = new FileInfo(x);
+                if (fi.Length == 0)
+                    File.Delete(x);
+                // fix srtm3 bug cache - delete old files https://discuss.ardupilot.org/t/serious-terrain-data-error-and-how-to-fix-your-vehicle/142593
+                if (fi.LastWriteTimeUtc < new DateTime(2026,03,01,0,0,0, DateTimeKind.Utc))
+                    File.Delete(x);
+            });
         }
 
         static string GetFilename(double lat, double lng)
