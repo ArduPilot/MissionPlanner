@@ -4162,6 +4162,7 @@ namespace MissionPlanner.GCSViews
                                         switch (pllau.ThreatLevel)
                                         {
                                             case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
+                                                // We choose Orange here because it shows better on a green background
                                                 adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
                                                 break;
                                             case MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW:
