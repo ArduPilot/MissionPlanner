@@ -45,7 +45,7 @@ namespace MissionPlanner.Controls
         /// <param name="control">Control to save the settings for</param>
         public static void SaveStartupLocation(this Form control)
         {
-            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
+            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.RestoreBounds.Location, Size = control.RestoreBounds.Size, State = control.WindowState}.ToJSON();
         }
 
         /// <summary>

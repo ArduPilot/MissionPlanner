@@ -201,7 +201,7 @@ namespace Xamarin.GCSViews
                 return list1;
             };
 
-            if (Device.RuntimePlatform == Device.macOS)
+            if (Device.RuntimePlatform == Device.macOS || Device.RuntimePlatform == Device.Android)
             {
                 // support for fw upload
                 MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
@@ -291,7 +291,7 @@ namespace Xamarin.GCSViews
                     Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "mavcmd.xml", 
                     files.mavcmd);
 
-
+                /*
                 try {
                         var pluginsdir = Settings.GetRunningDirectory() + "plugins";
                         Directory.CreateDirectory(pluginsdir);
@@ -328,7 +328,7 @@ namespace Xamarin.GCSViews
                             }
                         }
                     } catch { }
-
+                    */
                     try {
                         var graphsdir = Settings.GetRunningDirectory() + "graphs";
                         Directory.CreateDirectory(graphsdir);

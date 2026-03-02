@@ -31,6 +31,7 @@ using Newtonsoft.Json.Serialization;
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Trace = System.Diagnostics.Trace;
 using System.Threading.Tasks;
+using GMap.NET.Core.GMap.NET.Projections;
 
 namespace MissionPlanner
 {
@@ -184,6 +185,7 @@ namespace MissionPlanner
             log.Info("******************* Logging Configured *******************");
 
             ServicePointManager.DefaultConnectionLimit = 10;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
@@ -326,6 +328,7 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMTSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.NoMap.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Earthbuilder.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Statkart_Topo2.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Eniro_Topo.Instance);
@@ -363,6 +366,7 @@ namespace MissionPlanner
             Console.WriteLine("Setup Settings.Instance.UserAgent");
             Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" +
                                           Environment.OSVersion?.VersionString + ")";
+            GMap.NET.MapProviders.GMapProvider.UserAgent = Settings.Instance.UserAgent;
 
             Console.WriteLine("Setup check gdal dir");
             // optionally add gdal support

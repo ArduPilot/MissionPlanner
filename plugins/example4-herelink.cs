@@ -24,6 +24,8 @@ namespace CameraControl
         private int sub3;
         private int sub4;
 
+        private GStreamer stream;
+
         public override string Name
         {
             get { return "Camera Control"; }
@@ -46,6 +48,7 @@ namespace CameraControl
 
         public override bool Loaded()
         {
+            stream = new GStreamer();
             var rootbut = new ToolStripMenuItem("Herelink Video");
             //rootbut.Click += but_Click;
             ToolStripItemCollection col = Host.FDMenuHud.Items;
@@ -226,7 +229,7 @@ namespace CameraControl
 
         private void but3_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            stream.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -241,24 +244,24 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
             }
 
-            GStreamer.StartA(url);
+            stream.Start(url);
         }
 
         private void but4_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            stream.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -273,24 +276,24 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
             }
 
-            GStreamer.StartA(url);
+            stream.Start(url);
         }
 
         private void but5_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            stream.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -305,23 +308,23 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/H264Video latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
             }
 
-            GStreamer.StartA(url);
+            stream.Start(url);
         }
         private void but6_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            stream.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -336,23 +339,23 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/H264Video1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
             }
 
-            GStreamer.StartA(url);
+            stream.Start(url);
         }
         private void but7_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            stream.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -367,23 +370,23 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
             }
 
-            GStreamer.StartA(url);
+            stream.Start(url);
         }
         private void but8_Click(object sender, EventArgs e)
         {
-            GStreamer.StopAll();
+            stream.Stop();
 
             string ipaddr = "192.168.43.1";
 
@@ -398,19 +401,19 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+            GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-            if (!GStreamer.gstlaunchexists)
+            if (!GStreamer.GstLaunchExists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!GStreamer.gstlaunchexists)
+                if (!GStreamer.GstLaunchExists)
                 {
                     return;
                 }
             }
 
-            GStreamer.StartA(url);
+            stream.Start(url);
         }
         private void but9_Click(object sender, EventArgs e)
         {

@@ -350,7 +350,7 @@ namespace MissionPlanner.Utilities
 
                 RequestModification?.Invoke(url, request);
 
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request, completionOption: HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
                     lock (log)
                         log.Info(url + " " +(response).StatusCode.ToString());
@@ -458,7 +458,7 @@ namespace MissionPlanner.Utilities
                 client.Timeout = TimeSpan.FromSeconds(30);
 
                 // Get the response.
-                var response = client.GetAsync(url).Result;
+                var response = client.GetAsync(url, completionOption: HttpCompletionOption.ResponseHeadersRead).Result;
                 // Display the status.
                 lock (log)
                     log.Info(response.ReasonPhrase);

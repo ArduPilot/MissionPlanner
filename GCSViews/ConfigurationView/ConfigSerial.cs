@@ -20,7 +20,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private bool _gotUARTNames = false;
         private bool _gotOptionRules = false;
-        private int serialPorts = 0; 
+        private int serialPorts = 0;
         private Dictionary<int, string> _uartNames = new Dictionary<int, string>();
         private Dictionary<int,SerialOptionRuleItem> _optionRules = new Dictionary<int, SerialOptionRuleItem>();
 
@@ -58,7 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
                 var baudOptions = ParameterMetaDataRepository.GetParameterOptionsInt("SERIAL1_BAUD", MainV2.comPort.MAV.cs.firmware.ToString());
-                //sanitize data, check for baudrates 
+                //sanitize data, check for baudrates
                 foreach (var item in _optionRules)
                 {
                     int key = item.Key;
@@ -221,6 +221,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 tableLayoutPanel1.GetControlFromPosition(0, i)?.Dispose() ;
                 tableLayoutPanel1.Controls.Add(label, 0, i);
 
+                //In the case if the serial port numbering is not squential, we need to check if the param exists and skip if not
+                if (!MainV2.comPort.MAV.param.ContainsKey(portName + "_BAUD"))
+                {
+                    continue;
+                }
                 //Baud setting combobox
                 string baudParamName = portName + "_BAUD";
                 var baudOptions = ParameterMetaDataRepository.GetParameterOptionsInt(baudParamName, MainV2.comPort.MAV.cs.firmware.ToString());
@@ -369,7 +374,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             tableLayoutPanel1.Controls.Add(noteLabel, 0, serialPorts + 1);
             //make the label span the whole row
             tableLayoutPanel1.SetColumnSpan(noteLabel, 5);
-            
+
             tableLayoutPanel1.ResumeLayout();
 
         }
@@ -400,7 +405,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 noteLabel.Text = portName + " : " + rule.comment;
             }
-            else 
+            else
             {
                 noteLabel.Text = "";
             }
@@ -487,7 +492,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            //This needs to be here even when empty 
+            //This needs to be here even when empty
         }
     }
 

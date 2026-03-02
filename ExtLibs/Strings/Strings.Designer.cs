@@ -19,7 +19,7 @@ namespace MissionPlanner {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
@@ -151,6 +151,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unhealthy Airspeed.
+        /// </summary>
+        public static string BadAirspeed {
+            get {
+                return ResourceManager.GetString("BadAirspeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Baro Health.
         /// </summary>
         public static string BadBaroHealth {
@@ -183,15 +192,6 @@ namespace MissionPlanner {
         public static string BadGPSHealth {
             get {
                 return ResourceManager.GetString("BadGPSHealth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to unhealthy airspeed.
-        /// </summary>
-        public static string BadAirspeed {
-            get {
-                return ResourceManager.GetString("BadAirspeed", resourceCulture);
             }
         }
         
@@ -613,11 +613,11 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error: no responce from MAV.
+        ///   Looks up a localized string similar to Error: no response from MAV.
         /// </summary>
-        public static string ErrorNoResponce {
+        public static string ErrorNoResponse {
             get {
-                return ResourceManager.GetString("ErrorNoResponce", resourceCulture);
+                return ResourceManager.GetString("ErrorNoResponse", resourceCulture);
             }
         }
         
@@ -1696,6 +1696,37 @@ namespace MissionPlanner {
         public static string YouAreUsingUnsupportedHardware {
             get {
                 return ResourceManager.GetString("YouAreUsingUnsupportedHardware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WP# {0} has zero altitude, this means no altitude change! If you want zero altitude, change it to 0.01. Do you want to continue or cancel wp upload?.
+        /// </summary>
+        public static string ZeroAltWarningCopter {
+            get {
+                return ResourceManager.GetString("ZeroAltWarningCopter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WP# {0} has zero altitude. If you actually want zero altitude, change it to 0.01 instead for predictable behavior.
+        ///
+        ///On ArduPlane, zero altitudes may interpreted in two different ways: actual zero altitude, or keep current altitude. WAYPOINT commands will generally honor a zero altitude and LOITER commands will generally interpret it as &quot;use current altitude&quot;, but only if the altitude frame is &quot;relative&quot;. There may be more exceptions and this could change in future versions.
+        ///
+        ///ONLY SET TO ZERO IF YOU REAL [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ZeroAltWarningPlane {
+            get {
+                return ResourceManager.GetString("ZeroAltWarningPlane", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zero Altitude Warning.
+        /// </summary>
+        public static string ZeroAltWarningTitle {
+            get {
+                return ResourceManager.GetString("ZeroAltWarningTitle", resourceCulture);
             }
         }
         

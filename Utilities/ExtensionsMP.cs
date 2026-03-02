@@ -11,7 +11,11 @@ namespace MissionPlanner.Utilities
 {
     public static class ExtensionsMP
     {
-
+        public static void SetCheckboxFromConfig(this MyUserControl me, string configKey, System.Windows.Forms.CheckBox chk)
+        {
+            if (Settings.Instance[configKey] != null)
+                chk.Checked = Settings.Instance.GetBoolean(configKey);
+        }
 
         public static Action<T> UpdateDataSource<T>(this BindingSource ctl, T input)
         {
@@ -135,8 +139,8 @@ namespace MissionPlanner.Utilities
             var frm = ctl.Tag as Form;
             if (frm == null)
                 return;
-
-            frm.ClientSize = ctl.ClientSize;
+            if (frm.WindowState == FormWindowState.Normal)
+                frm.ClientSize = ctl.ClientSize;
         }
 
         private static void Frm_Closing(object sender, System.ComponentModel.CancelEventArgs e)

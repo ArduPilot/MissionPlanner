@@ -154,6 +154,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
       <Version>2.80.2</Version>
     </PackageReference>

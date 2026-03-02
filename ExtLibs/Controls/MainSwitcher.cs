@@ -215,7 +215,9 @@ namespace MissionPlanner.Controls
                 {
                     try
                     {
+                        Control.SuspendLayout();
                         Control.Visible = value;
+                        Control.ResumeLayout();
                     }
                     catch (Exception ex)
                     {

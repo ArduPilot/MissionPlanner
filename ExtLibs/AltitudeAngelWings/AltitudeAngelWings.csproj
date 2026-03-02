@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.32.0" />
     <PackageReference Include="NetTopologySuite" Version="2.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NodaTime.Serialization.JsonNet" Version="3.0.1" />
     <PackageReference Include="Flurl" Version="3.0.2" />
     <PackageReference Include="Flurl.Http" Version="3.2.0" />

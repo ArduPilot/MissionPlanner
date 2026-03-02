@@ -161,15 +161,6 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                // prevent looking for files that dont exist and are common
-                if (filename.Contains("00W000") || filename.Contains("00W001") ||
-                    filename.Contains("01W000") || filename.Contains("01W001") ||
-                    filename.Contains("00E000") || filename.Contains("00E001") ||
-                    filename.Contains("01E000") || filename.Contains("01E001"))
-                {
-                    return altresponce.Ocean;
-                }
-
                 // marked as a oceantile
                 if (oceantile.Contains(filename))
                     return altresponce.Ocean;

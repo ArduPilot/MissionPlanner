@@ -320,7 +320,7 @@ namespace DroneCAN
                     {
                         if (NodeStatus)
                         {
-                            var slcan = PackageMessageSLCAN(SourceNode, 0, transferID++,
+                            var slcan = PackageMessageSLCAN(SourceNode, 30, transferID++,
                                 new DroneCAN.uavcan_protocol_NodeStatus()
                                 {
                                     health = (byte) DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
@@ -373,6 +373,10 @@ namespace DroneCAN
                 }               
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_res))
                 {
+                    if (!NodeInfo.ContainsKey(frame.SourceNode))
+                    {
+                        NodeInfoAdded?.Invoke(frame.SourceNode, msg as DroneCAN.uavcan_protocol_GetNodeInfo_res);
+                    }
                     NodeInfo[frame.SourceNode] = msg as DroneCAN.uavcan_protocol_GetNodeInfo_res;
                 }
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
@@ -460,7 +464,7 @@ namespace DroneCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 30, transferID++, req);
 
                     WriteToStreamSLCAN(slcan);
 
@@ -512,7 +516,7 @@ namespace DroneCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 30, transferID++, req);
 
                     WriteToStreamSLCAN(slcan);
 
@@ -578,7 +582,7 @@ namespace DroneCAN
                 };
 
 
-                var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
+                var slcan = PackageMessageSLCAN(node, 30, transferID++, req);
 
                 WriteToStreamSLCAN(slcan);
 
@@ -750,7 +754,7 @@ namespace DroneCAN
                     {
                         file_GetDirectoryEntryInfo_req.entry_index = i;
 
-                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, file_GetDirectoryEntryInfo_req);
+                        var slcan = PackageMessageSLCAN(DestNode, 30, transferID++, file_GetDirectoryEntryInfo_req);
                      
                             WriteToStreamSLCAN(slcan);
 
@@ -823,7 +827,7 @@ namespace DroneCAN
                     {
                         if (cancel.IsCancellationRequested)
                             break;
-                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, fileReadReq);
+                        var slcan = PackageMessageSLCAN(DestNode, 30, transferID++, fileReadReq);
                       
                             WriteToStreamSLCAN(slcan);
 
@@ -893,7 +897,7 @@ namespace DroneCAN
                         var read = sourcefile.Read(fileWriteReq.data, 0, fileWriteReq.data.Length);
                         fileWriteReq.data_len = (byte) read;
 
-                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, fileWriteReq);
+                        var slcan = PackageMessageSLCAN(DestNode, 30, transferID++, fileWriteReq);
 
                         WriteToStreamSLCAN(slcan);
 
@@ -914,7 +918,7 @@ namespace DroneCAN
                     {
                         fileWriteReq.data_len = (byte) 0;
                         fileWriteReq.offset = (ulong)sourcefile.Length;
-                        var slcan = PackageMessageSLCAN(DestNode, 0, transferID++, fileWriteReq);
+                        var slcan = PackageMessageSLCAN(DestNode, 30, transferID++, fileWriteReq);
                         WriteToStreamSLCAN(slcan);
                         break;
                     }
@@ -974,7 +978,7 @@ namespace DroneCAN
 
                         allocation.unique_id_len = (byte) allocation.unique_id.Length;
 
-                        var slcan = PackageMessageSLCAN(SourceNode, 0, transferID, allocation);
+                        var slcan = PackageMessageSLCAN(SourceNode, 30, transferID, allocation);
                         Console.WriteLine(slcan);
 
                         WriteToStreamSLCAN(slcan);
@@ -1027,7 +1031,7 @@ namespace DroneCAN
                             dynamicBytes.Clear();
                         }
 
-                        var slcan = PackageMessageSLCAN(SourceNode, 0, transferID, allocation);
+                        var slcan = PackageMessageSLCAN(SourceNode, 30, transferID, allocation);
                         Console.WriteLine(slcan);
 
                         WriteToStreamSLCAN(slcan);
@@ -1094,6 +1098,7 @@ namespace DroneCAN
             Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
             ServeFile(firmware_name, "fw.bin");
+            ServeFile(firmware_name, "fw.bi");
 
             var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName("fw.bin".ToLower()));
             ulong firmware_crc = ulong.MaxValue;
@@ -1129,12 +1134,14 @@ namespace DroneCAN
                     var gnires = msg as DroneCAN.uavcan_protocol_GetNodeInfo_res;
                     Console.WriteLine(frame.SourceNode + " " + "GetNodeInfo: seen '{0}' from {1}",
                         ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
-                    if (devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') ||
+                    // ignore devicename, managed by the device itself
+                    if (true || devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') ||
                         devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') + "-BL" || gnires.name_len == 0)
                     {
                         if (firmware_crc != gnires.software_version.image_crc || firmware_crc == ulong.MaxValue)
                         {
-                            if (hwversion ==
+                            // ignore hw version
+                            if (true || hwversion ==
                                 double.Parse(gnires.hardware_version.major + "." + gnires.hardware_version.minor,
                                     CultureInfo.InvariantCulture) || hwversion == 0)
                             {
@@ -1256,7 +1263,7 @@ namespace DroneCAN
                         // get node info
                         DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
 
-                        var slcan = PackageMessageSLCAN((byte) nodeid, 0, transferID++, gnireq);
+                        var slcan = PackageMessageSLCAN((byte) nodeid, 30, transferID++, gnireq);
 
                         WriteToStreamSLCAN(slcan);
                     }
@@ -1526,6 +1533,9 @@ namespace DroneCAN
 
         public delegate void NodeAddedArgs(byte NodeID, DroneCAN.uavcan_protocol_NodeStatus nodeStatus);
         public event NodeAddedArgs NodeAdded;
+
+        public delegate void NodeInfoAddedArgs(byte NodeID, DroneCAN.uavcan_protocol_GetNodeInfo_res nodeStatus);
+        public event NodeInfoAddedArgs NodeInfoAdded;
 
         private byte transferID = 0;
 
@@ -2131,7 +2141,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 30, transferID++, req);
 
                     reqtime = DateTime.Now;
                     WriteToStreamSLCAN(slcan);
@@ -2223,7 +2233,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessageSLCAN(node, 0, transferID++, req);
+                    var slcan = PackageMessageSLCAN(node, 30, transferID++, req);
 
                     WriteToStreamSLCAN(slcan);
 

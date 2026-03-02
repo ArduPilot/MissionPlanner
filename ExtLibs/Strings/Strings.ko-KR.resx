@@ -147,7 +147,7 @@
   <data name="ErrorLogList" xml:space="preserve">
     <value>로그 목록 수신 중 오류</value>
   </data>
-  <data name="ErrorNoResponce" xml:space="preserve">
+  <data name="ErrorNoResponse" xml:space="preserve">
     <value>오류: MAV 응답 없음</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">

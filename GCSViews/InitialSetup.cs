@@ -191,12 +191,6 @@ namespace MissionPlanner.GCSViews
                     mand);
             }
 
-            if ((isCopter || isQuadPlane) && MainV2.DisplayConfiguration.displayInitialParams)
-            {
-                AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
-            }
-
-
             if (MainV2.DisplayConfiguration.displayAccelCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigAccelerometerCalibration), rm.GetString("backstageViewPageaccel.Text"), isConnected && gotAllParams, mand);
@@ -238,13 +232,23 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigFailSafe), rm.GetString("backstageViewPagefs.Text"), isConnected && gotAllParams, mand);
             }
 
+            if ((isCopter || isQuadPlane) && MainV2.DisplayConfiguration.displayInitialParams)
+            {
+                AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
+            }
+
             if (MainV2.DisplayConfiguration.displayHWIDs)
                 AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected && gotAllParams, mand);
 
             var opt = AddBackstageViewPage(typeof(ConfigOptional), rm.GetString("backstageViewPageopt.Text"));
             if (MainV2.DisplayConfiguration.displayRTKInject)
             {
-                AddBackstageViewPage(typeof(ConfigSerialInjectGPS), "RTK/GPS Inject", true, opt);
+                var rtcmStr = rm.GetString("backstageViewPageSerialInjectGPS.Text");
+                if(rtcmStr == null)
+                    {
+                    rtcmStr = "RTK/GPS Inject";
+                }
+                AddBackstageViewPage(typeof(ConfigSerialInjectGPS), rtcmStr, true, opt);
             }
 
             AddBackstageViewPage(typeof(ConfigCubeID), "CubeID Update",

@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         static nmea nmea = new nmea();
 
         static DroneCAN.DroneCAN can = new DroneCAN.DroneCAN();
-        // background thread 
+        // background thread
         private static System.Threading.Thread t12;
         private static bool threadrun = false;
         // track rtcm msg's seen
@@ -60,7 +60,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         static private BinaryWriter basedata;
 
-        // Thread signal. 
+        // Thread signal.
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
         private static string status_line3;
 
@@ -479,17 +479,33 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_baudrate.Text = "460800";
 
                 this.LogInfo("Setup UBLOX done");
-            } 
+            }
             else if (chk_autoconfig.Checked && comboBoxConfigType.Text == "Septentrio")
             {
                 BUT_connect.Enabled = false;
                 try
                 {
                     await ConfigureSeptentrioReceiver();
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     throw ex;
-                } finally { BUT_connect.Enabled = true; }
+                }
+                finally { BUT_connect.Enabled = true; }
+            }
+            else if (chk_autoconfig.Checked && comboBoxConfigType.Text == "Unicore UM982")
+            {
+                BUT_connect.Enabled = false;
+                try
+                {
+                    await ConfigureUnicoreReceiver();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally { BUT_connect.Enabled = true; }
+
             }
             t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
             {
@@ -504,6 +520,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bytes = 0;
             invalidateRTCMStatus();
             panel1.Controls.Clear();
+        }
+
+        private async Task ConfigureUnicoreReceiver()
+        {
+            this.LogInfo("Setup Unicore");
+            try
+            {
+                await Utilities.Unicore.ConfigureBaseReceiver(comPort);
+                this.LogInfo("Setup Unicore done");
+            }
+            catch (Utilities.Septentrio.FailedAckException)
+            {
+                this.LogError("Automatic configuration of Unicore receiver failed");
+                CustomMessageBox.Show("Automatic configuration of Unicore receiver failed.");
+            }
+            catch (InvalidOperationException)
+            {
+                this.LogError("Unicore fixed base position is invalid");
+                CustomMessageBox.Show("Unicore fixed base position is invalid.");
+            }
+            catch (FormatException)
+            {
+                this.LogError("Unicore fixed base position is invalid");
+                CustomMessageBox.Show("Unicore fixed base position is invalid.");
+            }
         }
 
         /// <summary>
@@ -536,7 +577,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 this.LogError("Septentrio fixed base position is invalid");
                 CustomMessageBox.Show("Septentrio fixed base position is invalid.");
             }
-            
+
             this.BeginInvokeIfRequired(new Action(() => CMB_baudrate.Text = $"{Utilities.Septentrio.DefaultBaudrate}"));
         }
 
@@ -1158,7 +1199,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     myGMAP1.ZoomAndCenterMarkers("base");
                 }
             }
-            
+
             try
             {
                 if (basedata != null)
@@ -1409,6 +1450,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 panel_ubloxoptions.Visible = true;
             if (comboBoxConfigType.Text == "Septentrio")
                 panel_septentrio.Visible = true;
+            if (comboBoxConfigType.Text == "Unicore UM982")
+                panel_um982.Visible = true;
         }
 
         // Use Click event because we aren't interested in code changes to the value, only user changes
@@ -1561,7 +1604,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 this.LogError("Configuration of RTCM interval on Septentrio receiver failed");
                 CustomMessageBox.Show("Configuration of RTCM interval on Septentrio receiver failed.");
-            } 
+            }
             catch (FormatException ex) {
                 log.Error(ex.Message);
                 CustomMessageBox.Show(ex.Message);

@@ -63,6 +63,7 @@ namespace MissionPlanner
 
         internal double _battery_voltage2;
 
+        private float _ch1percent = -1;
         private float _ch3percent = -1;
         private float _climbrate;
         private double _current;
@@ -85,6 +86,7 @@ namespace MissionPlanner
         private float _remotesnrdb;
 
         private float _sonarrange;
+        private int _rangefinderalt_index = int.MaxValue;
 
         private float _ter_alt;
 
@@ -927,7 +929,42 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc16_rpm { get; set; }
         [GroupText("ESC")] public float esc16_temp { get; set; }
 
+        [GroupText("RadioOut")]
+        public float ch1percent
+        {
+            get
+            {
+                if (_ch1percent != -1)
+                    return _ch1percent;
+                try
+                {
+                    if (parent != null && parent.parent.MAV.param.ContainsKey("SERVO1_MIN") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO1_TRIM") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO1_MAX") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO1_REVERSED"))
+                    {
+                        float ch1reversed = (float)parent.parent.MAV.param["SERVO1_REVERSED"].Value == 1 ? -100 : 100;
+                        float ch1diff = (ch1out - (float)parent.parent.MAV.param["SERVO1_TRIM"].Value);
+                        return
+                            ch1diff < 0 ? ch1diff / (float)(parent.parent.MAV.param["SERVO1_TRIM"].Value - 
+                            parent.parent.MAV.param["SERVO1_MIN"].Value) * ch1reversed :
+                            ch1diff / (float)(parent.parent.MAV.param["SERVO1_MAX"].Value -
+                            parent.parent.MAV.param["SERVO1_TRIM"].Value) * ch1reversed;
+                    }
+                    if (ch1out == 0)
+                        return 0;
+                    float diff = ch1out - 1500;
+                    return diff < 0 ? diff / (1500 - 1000) * 100 :
+                        diff / (2000 - 1500) * 100;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
 
+            set => _ch1percent = value;
+        }
 
         [GroupText("RadioOut")]
         public float ch3percent
@@ -938,17 +975,24 @@ namespace MissionPlanner
                     return _ch3percent;
                 try
                 {
-                    if (parent != null && parent.parent.MAV.param.ContainsKey("RC3_MIN") &&
-                        parent.parent.MAV.param.ContainsKey("RC3_MAX"))
+                    if (parent != null && parent.parent.MAV.param.ContainsKey("SERVO3_MIN") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO3_TRIM") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO3_MAX") &&
+                        parent.parent.MAV.param.ContainsKey("SERVO3_REVERSED"))
+                    {
+                        float ch3reversed = (float)parent.parent.MAV.param["SERVO3_REVERSED"].Value == 1 ? -100 : 100;
+                        float ch3diff = (ch3out - (float)parent.parent.MAV.param["SERVO3_TRIM"].Value);
                         return
-                            (int)
-                            ((ch3out - parent.parent.MAV.param["RC3_MIN"].Value) /
-                             (parent.parent.MAV.param["RC3_MAX"].Value - parent.parent.MAV.param["RC3_MIN"].Value) *
-                             100);
-
+                            ch3diff < 0 ? ch3diff / (float)(parent.parent.MAV.param["SERVO3_TRIM"].Value -
+                            parent.parent.MAV.param["SERVO3_MIN"].Value) * ch3reversed :
+                            ch3diff / (float)(parent.parent.MAV.param["SERVO3_MAX"].Value -
+                            parent.parent.MAV.param["SERVO3_TRIM"].Value) * ch3reversed;
+                    }
                     if (ch3out == 0)
                         return 0;
-                    return (int)((ch3out - 1100) / (1900 - 1100) * 100);
+                    float diff = ch3out - 1500;
+                    return diff < 0 ? diff / (1500 - 1000) * 100 :
+                        diff / (2000 - 1500) * 100;
                 }
                 catch
                 {
@@ -2074,6 +2118,18 @@ namespace MissionPlanner
 
         [GroupText("PID")] public float pidPDmod { get; set; }
 
+        [GroupText("PID")] public float pidSRateRoll { get; set; }
+
+        [GroupText("PID")] public float pidSRatePitch { get; set; }
+
+        [GroupText("PID")] public float pidSRateYaw { get; set; }
+
+        [GroupText("PID")] public float pidSRateAccZ { get; set; }
+
+        [GroupText("PID")] public float pidSRateSteer { get; set; }
+        
+        [GroupText("PID")] public float pidSRateLanding { get; set; }
+
         [GroupText("Vibe")] public uint vibeclip0 { get; set; }
 
         [GroupText("Vibe")] public uint vibeclip1 { get; set; }
@@ -2142,11 +2198,11 @@ namespace MissionPlanner
         public float efi_rpm { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelflow.Field")]
-        [DisplayText("EFI Fuel Flow (g/min)")]
+        [DisplayText("EFI Fuel Flow (cm3/min)")]
         public float efi_fuelflow { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelconsumed.Field")]
-        [DisplayText("EFI Fuel Consumed (g)")]
+        [DisplayText("EFI Fuel Consumed (cm3)")]
         public float efi_fuelconsumed { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelpressure.Field")]
@@ -2429,7 +2485,7 @@ namespace MissionPlanner
                             alt = altasl - (float)HomeAlt;
                             alt_error = highlatency.target_altitude - alt;
                             targetalt = highlatency.target_altitude;
-                            wp_dist = highlatency.target_distance;
+                            wp_dist = highlatency.target_distance * 10;
                             wpno = highlatency.wp_num;
 
                             if (highlatency.failure_flags != 0)
@@ -2459,15 +2515,15 @@ namespace MissionPlanner
                             yaw = highlatency.heading * 2;
                             target_bearing = highlatency.target_heading * 2;
                             ch3percent = highlatency.throttle;
-                            airspeed = highlatency.airspeed;
-                            targetairspeed = highlatency.airspeed_sp;
-                            groundspeed = highlatency.groundspeed;
+                            airspeed = highlatency.airspeed / 5.0f;
+                            targetairspeed = highlatency.airspeed_sp / 5.0f;
+                            groundspeed = highlatency.groundspeed / 5.0f;
                             wind_vel = highlatency.windspeed / 5.0f;
                             wind_dir = highlatency.wind_heading * 2;
                             gpshdop = highlatency.eph;
                             // epv
                             airspeed1_temp = highlatency.temperature_air;
-                            climbrate = highlatency.climb_rate;
+                            climbrate = highlatency.climb_rate * 10;
                             battery_remaining = highlatency.battery;
 
                         }
@@ -2673,6 +2729,10 @@ namespace MissionPlanner
 
                             sonarrange = sonar.distance;
                             sonarvoltage = sonar.voltage;
+
+                            // If we get this message, we prefer it over the DISTANCE_SENSOR message
+                            // (setting this to -1 prevents DISTANCE_SENSOR from updating sonarrange)
+                            _rangefinderalt_index = -1;
                         }
 
                         break;
@@ -2690,6 +2750,25 @@ namespace MissionPlanner
                             else if (sonar.id == 7) rangefinder8 = sonar.current_distance;
                             else if (sonar.id == 8) rangefinder9 = sonar.current_distance;
                             else if (sonar.id == 9) rangefinder10 = sonar.current_distance;
+
+                            // Record the first downward facing rangefinder for alt use
+                            bool is_downward_facing = (sonar.orientation == (byte)MAVLink.MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_PITCH_270);
+                            if (is_downward_facing && sonar.id < _rangefinderalt_index)
+                            {
+                                _rangefinderalt_index = sonar.id;
+                            }
+                            if (sonar.id == _rangefinderalt_index)
+                            {
+                                if (!is_downward_facing)
+                                {
+                                    // this sensor used to be downward facing, but no longer is
+                                    _rangefinderalt_index = int.MaxValue;
+                                }
+                                else
+                                {
+                                    sonarrange = sonar.current_distance / 100;
+                                }
+                            }
                         }
 
                         break;
@@ -3686,8 +3765,7 @@ namespace MissionPlanner
                         {
                             var pid = mavLinkMessage.ToStructure<MAVLink.mavlink_pid_tuning_t>();
 
-                            //todo: currently only deals with single axis at once
-
+                            // These variables currently only deal a with single axis at once, but SRate can be reported for multiple at once
                             pidff = pid.FF;
                             pidP = pid.P;
                             pidI = pid.I;
@@ -3697,6 +3775,29 @@ namespace MissionPlanner
                             pidachieved = pid.achieved;
                             pidSRate = pid.SRate;
                             pidPDmod = pid.PDmod;
+
+                            switch (pid.axis)
+                            {
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_ROLL:
+                                    pidSRateRoll = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_PITCH:
+                                    pidSRatePitch = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_YAW:
+                                    pidSRateYaw = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_ACCZ:
+                                    pidSRateAccZ = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_STEER:
+                                    pidSRateSteer = pid.SRate;
+                                    break;
+                                case (byte)MAVLink.PID_TUNING_AXIS.PID_TUNING_LANDING:
+                                    pidSRateLanding = pid.SRate;
+                                    break;
+                            }
+
                         }
 
                         break;
@@ -4425,6 +4526,8 @@ namespace MissionPlanner
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc,
                                 MAV.sysid,
                                 MAV.compid); // request rc info
+                            MAV.Camera?.RequestMessageIntervals(MAV.cs.ratestatus); // use ratestatus until we create a new setting for this
+                            MAV.GimbalManager?.Discover();
                         }
                         catch
                         {

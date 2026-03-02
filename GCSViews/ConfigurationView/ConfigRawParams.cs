@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using org.mariuszgromada.math.mxparser;
+using System.Runtime.CompilerServices;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -38,6 +39,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         // Used by Param Tree to filter by prefix
         private string filterPrefix = "";
+
+        private NaturalStringComparer naturalsorter = new NaturalStringComparer();
 
         public ConfigRawParams()
         {
@@ -253,9 +256,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
-                return;
-
             // sort with enable at the bottom - this ensures params are set before the function is disabled
             var temp = _changes.Keys.Cast<string>().ToList();
 
@@ -265,6 +265,50 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             int error = 0;
             bool reboot = false;
+            int maxdisplay = 20;
+
+            if (temp.Count > 0 && temp.Count <= maxdisplay)
+            {
+                // List to track successfully saved parameters
+                List<string> savedParams = new List<string>();
+
+                foreach (string value in temp)
+                {
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("You are not connected", Strings.ERROR);
+                        return;
+                    }
+
+                    // Get the previous value of the param to display in 'param change info'
+                    // (a better way would be to get the value somewhere from inside the code, insted of recieving it over mavlink)
+                    string previousValue = MainV2.comPort.MAV.param[value].ToString();
+                    // new value of param
+                    double newValue = (double)_changes[value];
+
+                    // Add the parameter, previous and new values to the list for 'param change info'
+                    // remember, the 'value' here is key of param, while prev and new are actual values of param
+                    savedParams.Add($"{value}: {previousValue} -> {newValue}");
+                }
+
+                // Join the saved parameters list to a string
+                string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
+
+                // Ask the user for confirmation showing detailed changes
+                if (CustomMessageBox.Show($"You are about to change {savedParams.Count} parameters. Please review the changes below:\n\n{savedParamsMessage}\n\nDo you want to proceed?", "Confirm Parameter Changes",
+        CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
+    CustomMessageBox.DialogResult.Yes)
+                    return;
+            }
+            else if (temp.Count > maxdisplay)
+            {
+                // Ask the user for confirmation without listing individual changes
+                if (CustomMessageBox.Show($"You are about to change {temp.Count} parameters. Are you sure you want to proceed?", "Confirm Parameter Changes",
+            CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
+        CustomMessageBox.DialogResult.Yes)
+                    return;
+            }
+
 
             foreach (string value in temp)
             {
@@ -321,8 +365,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (error > 0)
                 CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
+            else if (temp.Count>0)
+                CustomMessageBox.Show($"{temp.Count} parameters successfully saved.", "Saved");
             else
-                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+                CustomMessageBox.Show("No parameters were changed.", "No changes");
 
             //Check if reboot is required
             if (reboot)
@@ -657,7 +703,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // Sort them again (because of the favorites, they may be out of order)
-            commands.Sort();
+            commands.Sort(naturalsorter);
 
             for (int i = 0; i < commands.Count; i++)
             {
@@ -694,6 +740,96 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
 
+        // Based on https://gist.github.com/Nazardo/e42de483a03ec2e1ef9348e23bec4f95
+        // (c) 2019 M. Levra
+
+        public sealed class NaturalStringComparer : IComparer<string>
+        {
+            #region IComparer<string> Members
+
+            public int Compare(string x, string y)
+            {
+                return NaturalCompare(x, y);
+            }
+
+            #endregion
+
+            public int NaturalCompare(string x, string y)
+            {
+                int indexX = 0;
+                int indexY = 0;
+                while (true)
+                {
+                    // Handle the case when one string has ended.
+                    if (indexX == x.Length)
+                    {
+                        return indexY == y.Length ? 0 : -1;
+                    }
+                    if (indexY == y.Length)
+                    {
+                        return 1;
+                    }
+
+                    char charX = x[indexX];
+                    char charY = y[indexY];
+                    if (char.IsDigit(charX) && char.IsDigit(charY))
+                    {
+                        // Skip leading zeroes in numbers.
+                        while (indexX < x.Length && x[indexX] == '0')
+                        {
+                            indexX++;
+                        }
+                        while (indexY < y.Length && y[indexY] == '0')
+                        {
+                            indexY++;
+                        }
+
+                        // Find the end of numbers
+                        int endNumberX = indexX;
+                        int endNumberY = indexY;
+                        while (endNumberX < x.Length && char.IsDigit(x[endNumberX]))
+                        {
+                            endNumberX++;
+                        }
+                        while (endNumberY < y.Length && char.IsDigit(y[endNumberY]))
+                        {
+                            endNumberY++;
+                        }
+
+                        int digitsLengthX = endNumberX - indexX;
+                        int digitsLengthY = endNumberY - indexY;
+
+                        // If the lengths are different, then the longer number is bigger
+                        if (digitsLengthX != digitsLengthY)
+                        {
+                            return digitsLengthX - digitsLengthY;
+                        }
+                        // Compare numbers digit by digit
+                        while (indexX < endNumberX)
+                        {
+                            if (x[indexX] != y[indexY])
+                                return x[indexX] - y[indexY];
+                            indexX++;
+                            indexY++;
+                        }
+                    }
+                    else
+                    {
+                        // Plain characters comparison
+                        int compareResult = char.ToUpperInvariant(charX).CompareTo(char.ToUpperInvariant(charY));
+                        if (compareResult != 0)
+                        {
+                            return compareResult;
+                        }
+                        indexX++;
+                        indexY++;
+                    }
+                }
+            }
+        }
+
+
+
         private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)
         {
             var fav1obj = Params[Fav.Index, args.RowIndex1].Value;
@@ -709,7 +845,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (args.CellValue2 == null)
                 return;
 
-            args.SortResult = args.CellValue1.ToString().CompareTo(args.CellValue2.ToString());
+            args.SortResult = naturalsorter.NaturalCompare(args.CellValue1.ToString(), args.CellValue2.ToString());
             args.Handled = true;
 
             if (fav1 && fav2)
@@ -813,7 +949,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                var data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
+                var data = GitHubContent.GetFileContent("ArduPilot", "ardupilot",
                     ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
@@ -986,7 +1122,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             processToScreen();
             startup = false;
         }
-        
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string txt = treeView1.SelectedNode.Text + "_";
@@ -1018,11 +1154,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (e.RowIndex < 0)
                 return;
-            
+
             if (optionsControl != null)
             {
-                Params.Controls.Remove(optionsControl);
-                optionsControl.Dispose();
+                try
+                {
+                    Params.Controls.Remove(optionsControl);
+                    optionsControl.Dispose();
+                } catch { }
                 optionsControl = null;
             }
 
@@ -1151,7 +1290,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     num.Minimum = Math.Round((decimal)min, num.DecimalPlaces);
                     num.Maximum = Math.Round((decimal)max, num.DecimalPlaces);
                     num.Increment = Math.Round((decimal)inc, num.DecimalPlaces);
-                    
+
                     // Parse the cell. Clamp the value to the bounds.
                     decimal val = num.Minimum;
                     decimal.TryParse(Params[Value.Index, e.RowIndex].Value?.ToString(), out val);

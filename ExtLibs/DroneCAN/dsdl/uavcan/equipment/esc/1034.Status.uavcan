@@ -9,7 +9,10 @@ float16 voltage             # Volt
 float16 current             # Ampere. Can be negative in case of a regenerative braking.
 float16 temperature         # Kelvin
 
-int18 rpm                   # Negative value indicates reverse rotation
+int18 rpm                   # Current value, with the same sign convention as RPMCommand. For example, a typical
+                            # quadcopter reports non-negative values for all four motors, independent of ESC
+                            # configuration, motor wiring, or propeller direction. ESCs are expected to report
+                            # negative values if currently spinning in reverse.
 
 uint7 power_rating_pct      # Instant demand factor in percent (percent of maximum power); range 0% to 127%.
 

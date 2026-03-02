@@ -188,16 +188,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         var ParamName = ((MavlinkNumericUpDown) control2).ParamName;
                         toolTip1.SetToolTip(control2,
-                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
-                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                            $"{ParamName}:\n{ParameterMetaDataRepository.GetParameterMetaData(ParamName, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString())}");
                     }
 
                     if (control2 is MavlinkComboBox)
                     {
                         var ParamName = ((MavlinkComboBox) control2).ParamName;
                         toolTip1.SetToolTip(control2,
-                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
-                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                            $"{ParamName}:\n{ParameterMetaDataRepository.GetParameterMetaData(ParamName, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString())}");
                     }
                 }
             }

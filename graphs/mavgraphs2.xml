@@ -56,6 +56,16 @@
   <expression>BARO.Alt RFND.Dist1*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))</expression>
  </graph>
 
+ <graph name='Sensors/MCU/Voltages'>
+  <description>MCU Voltage Information</description>
+   <expression>MCU.MVolt MCU.MVmax MCU.MVmin</expression>
+ </graph>
+
+ <graph name='Sensors/MCU/Temperature'>
+  <description>MCU Tepmerature Information</description>
+   <expression>MCU.MTemp</expression>
+ </graph>
+
  <graph name='Radio/RSSI_Distance'>
   <description></description>
   <expression>RADIO_STATUS.rssi RADIO_STATUS.noise RADIO_STATUS.remrssi RADIO_STATUS.remnoise distance_home(GPS_RAW_INT):2</expression>
@@ -709,5 +719,16 @@
   <description></description>
   <expression>VISP.PX VISP.PY VISP.PZ</expression>
  </graph>
+
+ <graph name='Wind/EKF3 vs DCM'>
+  <description>Compares EKF estimate vs DCM estimate</description>
+  <expression>XKF2[0].VWN DCM.VWN XKF2[0].VWE DCM.VWE sqrt(XKF2[0].VWN**2+XKF2[0].VWE**2) sqrt(DCM.VWN**2+DCM.VWE**2)</expression>
+ </graph>
+
+ <graph name='Plane/FlyForward'>
+  <description>If Replay is enabled, the flag fly-forward flag as set in the AHRS</description>
+  <expression>RFRN.Flags&amp;(1&lt;&lt;2)</expression>
+ </graph>
+
 </graphs>
 

@@ -1,4 +1,4 @@
-﻿#if !LIB
+#if !LIB
 extern alias Drawing;
 #endif
 
@@ -56,7 +56,7 @@ namespace MissionPlanner
 
         public static menuicons displayicons; //do not initialize to allow update of custom icons
         public static string running_directory = Settings.GetRunningDirectory();
-        
+
         public abstract class menuicons
         {
             public abstract Image fd { get; }
@@ -212,7 +212,7 @@ namespace MissionPlanner
         public class highcontrastmenuicons : menuicons
         {
             private string running_directory = Settings.GetRunningDirectory();
-            
+
             public override Image fd
             {
                 get
@@ -655,6 +655,8 @@ namespace MissionPlanner
             // load config
             LoadConfig();
 
+            speech_armed_only = Settings.Instance.GetBoolean("speech_armed_only", false);
+
             // force language to be loaded
             L10N.GetConfigLang();
 
@@ -723,6 +725,7 @@ namespace MissionPlanner
             // define default basestream
             comPort.BaseStream = new SerialPort();
             comPort.BaseStream.BaudRate = 57600;
+            ((SerialPort)comPort.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
@@ -901,7 +904,7 @@ namespace MissionPlanner
                 try
                 {
                     DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
-                    //Force new view in case of saved view in config.xml 
+                    //Force new view in case of saved view in config.xml
                     DisplayConfiguration.displayAdvancedParams = false;
                     DisplayConfiguration.displayStandardParams = false;
                     DisplayConfiguration.displayFullParamList = true;
@@ -1451,6 +1454,8 @@ namespace MissionPlanner
                         {
                             _connectionControl.CMB_serialport.Text = comPort.BaseStream.PortName;
                             _connectionControl.CMB_baudrate.Text = comPort.BaseStream.BaudRate.ToString();
+                            ((SerialPort)comPort.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
+
                         }
                     });
                     break;
@@ -1516,6 +1521,8 @@ namespace MissionPlanner
                     else
                     {
                         comPort.BaseStream = new SerialPort();
+                        ((SerialPort)comPort.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
+
                     }
                     break;
             }
@@ -1718,7 +1725,7 @@ namespace MissionPlanner
                     Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ","_") + "_BAUD"] =
                         _connectionControl.CMB_baudrate.Text;
 
-                    this.Text = titlebar + " " + comPort.MAV.VersionString;
+                    this.Text = titlebar + " " + comPort.MAV.VersionString + " on " + comPort.MAV.SerialString;
 
                     // refresh config window if needed
                     if (MyView.current != null && showui)
@@ -2043,7 +2050,7 @@ namespace MissionPlanner
             Warnings.WarningEngine.Stop();
 
             log.Info("stop GStreamer");
-            GStreamer.StopAll();
+            GCSViews.FlightData.hudGStreamer.Stop();
 
             log.Info("closing vlcrender");
             try
@@ -3207,7 +3214,7 @@ namespace MissionPlanner
 
                 }
             }
-            
+
         }
 
 
@@ -3408,22 +3415,22 @@ namespace MissionPlanner
             };
             AutoConnect.NewVideoStream += (sender, gststring) =>
             {
-                MainV2.instance.BeginInvoke((Action)delegate
+                MainV2.instance.BeginInvoke((Action) delegate
                 {
                     try
                     {
                         log.Info("AutoConnect.NewVideoStream " + gststring);
-                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                        GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                        if (!GStreamer.gstlaunchexists)
+                        if (!GStreamer.GstLaunchExists)
                         {
                             if (CustomMessageBox.Show(
                                     "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
                                     "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                                (int)System.Windows.Forms.DialogResult.Yes)
+                                (int) System.Windows.Forms.DialogResult.Yes)
                             {
                                 GStreamerUI.DownloadGStreamer();
-                                if (!GStreamer.gstlaunchexists)
+                                if (!GStreamer.GstLaunchExists)
                                 {
                                     return;
                                 }
@@ -3434,7 +3441,7 @@ namespace MissionPlanner
                             }
                         }
 
-                        GStreamer.StartA(gststring);
+                        GCSViews.FlightData.hudGStreamer.Start(gststring);
                     }
                     catch (Exception ex)
                     {
@@ -3443,47 +3450,6 @@ namespace MissionPlanner
                 });
             };
             AutoConnect.Start();
-
-            // debound based on url
-            List<string> videourlseen = new List<string>();
-            // prevent spaming the ui
-            SemaphoreSlim videodetect = new SemaphoreSlim(1);
-
-            CameraProtocol.OnRTSPDetected += (sender, s) =>
-            {
-                if (isHerelink)
-                {
-                    return;
-                }
-
-                MainV2.instance.BeginInvoke((Action)delegate
-                {
-                    try
-                    {
-                        if (!videourlseen.Contains(s) && videodetect.Wait(0))
-                        {
-                            videourlseen.Add(s);
-                            if (CustomMessageBox.Show(
-                                    "A video stream has been detected, Do you want to connect to it? " + s,
-                                    "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                                (int)System.Windows.Forms.DialogResult.Yes)
-                            {
-                                AutoConnect.RaiseNewVideoStream(sender,
-                                    String.Format(
-                                        "rtspsrc location={0} latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false",
-                                        s));
-                            }
-
-                            videodetect.Release();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-                });
-            };
-
 
             BinaryLog.onFlightMode += (firmware, modeno) =>
             {
@@ -3512,7 +3478,7 @@ namespace MissionPlanner
                 }
             };
 
-            GStreamer.onNewImage += (sender, image) =>
+            GCSViews.FlightData.hudGStreamer.OnNewImage += (sender, image) =>
             {
                 try
                 {
@@ -3706,12 +3672,21 @@ namespace MissionPlanner
             try
             {
                 // prescan
-                MissionPlanner.Comms.CommsBLE.SerialPort_GetCustomPorts();
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    MissionPlanner.Comms.CommsBLE.SerialPort_GetCustomPorts();
+
+#if !LIB
+                MissionPlanner.Comms.CommsWinUSB.SerialPort_GetCustomPorts();
+#endif
             }
             catch { }
 
             // add the custom port creator
             CustomPortList.Add(new Regex("BLE_.*"), (s1, s2) => { return new CommsBLE() { PortName = s1, BaudRate = int.Parse(s2) }; });
+
+#if !LIB
+            CustomPortList.Add(new Regex("WINUSB_VID_.*"), (s1, s2) => { return new CommsWinUSB() { PortName = s1, BaudRate = int.Parse(s2) }; });
+#endif
 
             this.ResumeLayout();
 
@@ -3870,9 +3845,9 @@ namespace MissionPlanner
 
                 if (cmds.ContainsKey("gstream"))
                 {
-                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                    GStreamer.GstLaunch = GStreamer.LookForGstreamer();
 
-                    if (!GStreamer.gstlaunchexists)
+                    if (!GStreamer.GstLaunchExists)
                     {
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
@@ -3892,7 +3867,7 @@ namespace MissionPlanner
                                 {
                                     try
                                     {
-                                        var st = GStreamer.StartA(cmds["gstream"]);
+                                        var st = GCSViews.FlightData.hudGStreamer.Start(cmds["gstream"]);
                                         if (st == null)
                                         {
                                             // prevent spam
@@ -4825,6 +4800,7 @@ namespace MissionPlanner
                                 port.PortName = matches.Groups[1].Value;
                                 port.BaudRate = int.Parse(matches.Groups[2].Value);
                                 mav.BaseStream = port;
+                                ((SerialPort)mav.BaseStream).espFix = Settings.Instance.GetBoolean("CHK_rtsresetesp32", false);
                                 mav.BaseStream.Open();
                             }
                             else
@@ -4848,10 +4824,10 @@ namespace MissionPlanner
                         Comports.Add(mav);
                     });
                 }
-                
+
                 */
 
-                Parallel.ForEach(mavs, mav => 
+                Parallel.ForEach(mavs, mav =>
                 {
                     Console.WriteLine("Process connect " + mav);
                     doConnect(mav, "preset", "0", false, false);

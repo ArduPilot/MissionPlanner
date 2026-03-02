@@ -24,7 +24,7 @@ float32 integration_interval
 #   3. angular velocity around Z (yaw rate)
 #
 float16[3] rate_gyro_latest                 # Latest sample, radian/second
-float32[3] rate_gyro_integral               # Integrated samples, radian/second
+float32[3] rate_gyro_integral               # Integrated samples, radian
 
 #
 # Linear acceleration samples in meter/(second^2).
@@ -34,7 +34,7 @@ float32[3] rate_gyro_integral               # Integrated samples, radian/second
 #   3. linear acceleration along Z (down positive)
 #
 float16[3] accelerometer_latest             # Latest sample, meter/(second^2)
-float32[3] accelerometer_integral           # Integrated samples, meter/(second^2)
+float32[3] accelerometer_integral           # Integrated samples, meter/second
 
 #
 # Covariance matrix. The diagonal entries are ordered as follows:

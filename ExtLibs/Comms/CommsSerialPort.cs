@@ -145,6 +145,10 @@ namespace MissionPlanner.Comms
 
         public void Open()
         {
+            if (espFix && _baseport is WinSerialPort)
+            {
+                ((WinSerialPort)_baseport).espFix = true;
+            }
             _baseport.Open();
         }
 
@@ -193,6 +197,8 @@ namespace MissionPlanner.Comms
             _baseport.toggleDTR();
         }
 
+
+        public bool espFix = false;
 
         private static readonly object locker = new object();
 
@@ -279,8 +285,9 @@ namespace MissionPlanner.Comms
                     ports = ports.Select(p => p?.TrimEnd()).ToArray();
                     ports = ports.Select(FixBlueToothPortNameBug).ToArray();
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
 
                 if (ports != null)
@@ -292,8 +299,9 @@ namespace MissionPlanner.Comms
                     {
                         allPorts.AddRange(GetCustomPorts.Invoke());
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                 }
 
@@ -407,6 +415,7 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(WinSerialPort));
 
+        public bool espFix = false;
         public WinSerialPort()
         {
         }
@@ -471,6 +480,7 @@ namespace MissionPlanner.Comms
             // 500ms write timeout - win32 api default
             base.WriteTimeout = 500;
 
+
             if (base.IsOpen)
                 return;
 
@@ -493,6 +503,10 @@ namespace MissionPlanner.Comms
                 if (!File.Exists(PortName))
                     throw new Exception("No such device");
 
+
+            if (espFix)
+                base.Handshake = System.IO.Ports.Handshake.RequestToSend;
+
             try
             {
                 base.Open();
@@ -509,6 +523,8 @@ namespace MissionPlanner.Comms
 
                 throw;
             }
+            if (espFix)
+                base.Handshake = System.IO.Ports.Handshake.None;
         }
 
         public new void Close()

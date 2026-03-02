@@ -62,7 +62,7 @@ namespace ModeChange
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorNoResponse, Strings.ERROR);
             }
             finally
             {

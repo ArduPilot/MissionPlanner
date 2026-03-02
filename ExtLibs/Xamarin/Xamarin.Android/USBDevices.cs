@@ -156,8 +156,8 @@ namespace Xamarin.Droid
 
             var hasPermission = usbManager.HasPermission(usbdevice.Device);
 
-            var permissionGranted =
-                await usbManager.RequestPermissionAsync(usbdevice.Device, Application.Context);
+            var permissionGranted = hasPermission || await usbManager.RequestPermissionAsync(usbdevice.Device, Application.Context);
+
             if (permissionGranted)
             {
                 if (!hasPermission)

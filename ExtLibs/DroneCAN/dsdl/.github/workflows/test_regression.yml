@@ -18,7 +18,7 @@ jobs:
           tests/test_regression.sh
 
       - name: Archive generated headers
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dsdl_generated
           path: |

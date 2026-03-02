@@ -67,15 +67,9 @@ using Stream = Android.Media.Stream;
 [assembly: UsesPermission("android.permission.INTERNET")]
 [assembly: UsesPermission("android.permission.LOCATION_HARDWARE")]
 [assembly: UsesPermission("android.permission.WAKE_LOCK")]
-[assembly: UsesPermission("android.permission.WRITE_EXTERNAL_STORAGE")]
-[assembly: UsesPermission("android.permission.READ_EXTERNAL_STORAGE")]
-[assembly: UsesPermission("android.permission.CHANGE_NETWORK_STATE")]
 [assembly: UsesPermission("android.permission.CHANGE_WIFI_MULTICAST_STATE")]
-[assembly: UsesPermission("android.permission.CHANGE_WIFI_STATE")]
 [assembly: UsesPermission("android.permission.ACCESS_NETWORK_STATE")]
 [assembly: UsesPermission("android.permission.ACCESS_WIFI_STATE")]
-[assembly: UsesPermission("android.permission.RECEIVE_BOOT_COMPLETED")]
-[assembly: UsesPermission("android.permission.BLUETOOTH")]
 [assembly: UsesPermission("android.permission.USB_PERMISSION")]
 [assembly: UsesPermission("android.permission.BATTERY_STATS")]
 [assembly: UsesFeature("android.hardware.usb.accessory", Required = false)]
@@ -305,8 +299,6 @@ namespace Xamarin.Droid
             {
                 if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) !=
                     (int)Permission.Granted ||
-                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
-                    (int)Permission.Granted ||
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) !=
                     (int)Permission.Granted ||
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothConnect) !=
@@ -316,7 +308,6 @@ namespace Xamarin.Droid
                         new String[]
                         {
                             Manifest.Permission.AccessFineLocation, Manifest.Permission.LocationHardware,
-                            Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage,
                             Manifest.Permission.Bluetooth,
                             Manifest.Permission.BluetoothConnect,
                         }, 1);
@@ -643,12 +634,12 @@ namespace Xamarin.Droid
             StartD2DInfo();
 
             //register the broadcast receivers
-            UsbBroadcastReceiver = new UsbDeviceReceiver(this);
+            UsbBroadcastReceiver = new UsbDeviceReceiver();
             RegisterReceiver(UsbBroadcastReceiver, new IntentFilter(UsbManager.ActionUsbDeviceDetached));
             RegisterReceiver(UsbBroadcastReceiver, new IntentFilter(UsbManager.ActionUsbDeviceAttached));
 
             // Register for broadcasts when a device is discovered
-            BTBroadcastReceiver = new DeviceDiscoveredReceiver(this);
+            BTBroadcastReceiver = new DeviceDiscoveredReceiver();
             RegisterReceiver(BTBroadcastReceiver, new IntentFilter(BluetoothDevice.ActionFound));
             RegisterReceiver(BTBroadcastReceiver, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
         }

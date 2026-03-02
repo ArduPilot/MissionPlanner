@@ -68,6 +68,9 @@ namespace MissionPlanner.ArduPilot
             public string MavFirmwareVersionStr { get; set; }            
 
             [JsonProperty("latest")] public long Latest { get; set; }
+
+            [JsonProperty("firmware-name", NullValueHandling = NullValueHandling.Ignore)]
+            public string FirmwareName { get; set; }
         }
 
         public class ManifestRoot

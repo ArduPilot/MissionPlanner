@@ -64,6 +64,9 @@ namespace MissionPlanner.Utilities
 
         public void SpeakAsync(string text)
         {
+            if (!MainV2.speechEnabled())
+                return;
+
             if (text == null || String.IsNullOrWhiteSpace(text))
                 return;
 

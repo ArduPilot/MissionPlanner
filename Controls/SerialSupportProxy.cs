@@ -28,9 +28,14 @@ namespace MissionPlanner.Controls
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
 
+            // Load radio buttons from settings
+            rad_udp.Checked = Settings.Instance.GetBoolean("SerialSupportProxy_UDP", true);
+            rad_tcp.Checked = !rad_udp.Checked;
+
             // Load saved host name and port from settings
-            TXT_host.Text = Settings.Instance["UDP_host_SerialSupportProxy"] ?? "support.ardupilot.org";
-            NUM_port.Value = int.Parse(Settings.Instance["UDP_port_SerialSupportProxy"] ?? "1");
+            var settings_prefix = rad_udp.Checked ? "UDP" : "TCP";
+            TXT_host.Text = Settings.Instance[settings_prefix + "_host_SerialSupportProxy"] ?? "support.ardupilot.org";
+            NUM_port.Value = int.Parse(Settings.Instance[settings_prefix + "_port_SerialSupportProxy"] ?? "1");
 
             // Highlight the port for immediate typing
             NUM_port.Select();
@@ -55,12 +60,34 @@ namespace MissionPlanner.Controls
             else
             {
                 // The "Connect" button has been clicked. Create connection
-                var udpSerial = new UdpSerialConnect() { ConfigRef = "_SerialSupportProxy" };
-                MainV2.comPort.MirrorStream = udpSerial;
+                ICommsSerial serial;
+                if (rad_udp.Checked)
+                {
+                    serial = new UdpSerialConnect() { ConfigRef = "_SerialSupportProxy" };
+                }
+                else
+                {
+                    serial = new TcpSerial()
+                    {
+                        retrys = 999999,
+                        autoReconnect = true,
+                        Host = TXT_host.Text,
+                        Port = NUM_port.Value.ToString("0"),
+                        ConfigRef = "_SerialSupportProxy"
+                    };
+                }
+                MainV2.comPort.MirrorStream = serial;
                 MainV2.comPort.MirrorStreamWrite = true;
                 try
                 {
-                    udpSerial.Open(TXT_host.Text, NUM_port.Value.ToString());
+                    if (rad_udp.Checked)
+                    {
+                        (serial as UdpSerialConnect).Open(TXT_host.Text, NUM_port.Value.ToString("0"));
+                    }
+                    else
+                    {
+                        serial.Open();
+                    }
                 }
                 catch
                 {
@@ -72,6 +99,9 @@ namespace MissionPlanner.Controls
                 BUT_connect.Text = Strings.Stop;
                 TXT_host.Enabled = false;
                 NUM_port.Enabled = false;
+
+                // Save the UDP/TCP selection
+                Settings.Instance["SerialSupportProxy_UDP"] = rad_udp.Checked.ToString();
             }
         }
     }

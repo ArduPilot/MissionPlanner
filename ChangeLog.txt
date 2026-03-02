@@ -1,4 +1,371 @@
-﻿*Mission Planner 1.3.82 -  Aug 1, 2024
+﻿*Mission Planner 1.3.83 - Sept 10, 2024
+* FlightData : fix android/ios
+* NoMap: and NoProjection
+* GMapMarkerRect: add max int check
+* FlightData: improve wp no selection list on outdated param list
+* Mavlink: update
+* InitialSetup: move Initial Params to be more inline with a standard flow
+* Fix color and position of text messages in HUD
+* temp.resx: Correct typos in button texts and related descriptions shown on the Advanced Tools UI (via pressing CTRL+F)
+* ODID: send 0/0 operator location
+if the operator GPS becomes unplugged we should tell the flight
+controller that we no longer have a position, so pre-arms can fail
+correctly
+* Skips takeoff pitch for QuadPlane
+Prevents unnecessary takeoff pitch input prompts for QuadPlane configurations where FW takeoff setup is not enabled.
+* Adds altitude unit to takeoff altitude prompt
+Updates the takeoff altitude prompt to display the current altitude unit.
+The default takeoff altitude is adjusted based on selected unit.
+* Make warning into a single function.
+Added tip to use small value for zero alt
+Using Strings. added  DE and UK translation.
+* FlightPlanner.cs: Warn operator about zero altitude in a WP
+* CommsBLE: fix for non windows
+* UsbManagerExtensions: fix broadcast reveiver
+* BroadcastReceiver: declare in manifest
+* nuget: update
+* ParameterMetaDataRepositoryAPMpdef: remove malformed xml files
+* ParameterMetaDataRepositoryAPMpdef: fix file name reuse
+* OpenStreetMapProviderBase: update url based on access policy
+* FlightData: dont process updateTransponder if not connected
+* Android: targetSdkVersion  35
+* MainSwitcher: add SuspendLayout/ResumeLayout
+* SITL: add missing files
+* ExtLibs: ArduPilot: CurrentState.cs: add ch1percent
+* ExtLibs: Utilities: Device.cs: update baro types
+- Correct renamed options
+- Add the latest new options
+* Update efi flue flow units
+The mavlink efi status message uses units of cm3/min, not g/min as displayed currently in MP
+* ParameterMetaDataRepositoryAPMpdef: dont download and extract old files
+* MainV2: add board type to title bar
+* Plugin: update ErrorNoResponse
+* DroneCAN: update
+* graphs: update
+* MAVLink: update
+* FlightData: add distinct to tabcontrolactions to prevent dups
+* Fix response spelling in user-facing messages
+Signed-off-by: Ryan Friedman <ryan.friedman@avinc.com>
+* Add Automatic configration for Unicore UM982 (Holybro) Base RTK receiver
+* Fix AltMode resetting
+Fixes resetting Altmode combobox to `Relative` mode after loading saved plan instead of loading last entry value.
+* MAVLinkInterface: cleanup setNewWPAlt
+This should not be clearing giveComport. Setting it to true was removed in 6e012818
+* MAVLinkInterface: delete unnecessary giveComport
+setGuidedModeWP does not need to set giveComport, and this prevents a
+double-set when it calls setWP.
+* ConfigRawParams: fix possible exception
+* ConfigMotorTest: support Tri frames
+* Common: add mapicondesc for ArduCopter
+* mavcmd: add do-set-roi-location and do-set-roi-none
+* When Downloading log with mavlink, transform total byte into human readable text
+* Add copyright to the NaturalStringComparer
+* Add natural shorter to RawParam list and tree
+* Fix serial setup screen for non sequential serial ports
+* Gmap.NET: set UserAgent
+Should prevent OpenStreetMap or others from blocking us
+* DroneCan: fix a fw update null termination issue
+* github: fixed CI builds
+* Correct HIGH_LATENCY2 message units
+* Fix custom commands
+* WinForms: remove plugins
+* CameraProtocol: fix RequestMessageIntervals
+Needs to handle -1 and 0 settings correctly
+* adsb: fix avr ground speed
+* ThemeManager: auto theme child classes of MyButton
+* SITL: fix dev download url
+* GimbalVideoControl: allow multiple funcs per key
+Probably none of these make sense to combine, but the else-ifs made an
+unwritten priority order that was not clear. This behavior is more
+expected, and we clearly warn the user now on the settings page about
+clashes.
+* GimbalControlSettingsForm: warn about binding clashes
+* GimbalVideoControl: fix bug in getMousePosition
+* FlightData: fix gimbal video context menu bugs
+* GimbalVideoControl: fix exceptions on disconnect
+* GimbalVideoControl: initialize GStreamer
+* GimbalVideoControl: autoconnect to first reported stream
+* CameraProtocol: add GStreamerPipeline generator
+* FlightData: add GimbalVideoControl to map
+* GimbalVideoControl: draw tracking feedback
+* CameraProtocol: add tracking feedback
+* GimbalVideoControl: add image tracking
+* CameraProtocol: add image tracking
+* GimbalControlSettings: implement default yaw lock setting
+* GimbalControlSettings: implement FOV settings
+* Add GimbalControlSettingsForm
+* Controls: add Key and Click binding buttons
+* GimbalVideoControl: add click-to-pan
+* CameraProtocol: add pixel to rotation calculation
+* GimbalManagerProtocol: add Get/Set attitude quat
+* Quaternion.cs: overhaul and document
+This library was originally copy-pasted from ArduPilot and ported to C#,
+but many mistakes were made in the process. For example, many of the
+methods in the C++ implementation take a reference variable as input,
+and the C# code was taking a regular input and outputting nothing.
+This commit overhauls the whole library, making it more C#-like and
+documents all methods.
+* CameraProtocol: add CalculateImagePointVector
+* Quaternion: fix earth_to_body
+Previously, this function did nothing. It was also trying to do the
+opposite of what it claimed to do.
+* GimbalManagerProtocol: periodically discover
+* GimbalVideoControl: implement buttons
+* CameraProtocol: ack not needed for most requests
+* GimbalManagerProtocol: redefine gimbal [0]
+Use this to store the lowest found gimbal instead of using it to store
+capabilities flags of all gimbals.
+* GimbalVideoControl: remove side-panel UI
+Do everything through keyboard and context menu
+* GimbalVideoControl: RenderFrame: use Invoke
+* CameraProtocol: handle Video Stream Information
+Add video stream selector
+* GimbalVideoControl: move to Controls
+* GimbalVideoControl: implement click to POI
+* CameraProtocol: add image lat/lon calculator
+Also draw camera bounds on FlightData map
+* GimbalManagerProtocol: use Async commands
+* GimbalVideoControl: key-handling
+* CameraProtocol: add zoom control
+* MAVLinkInterface: add GimbalManagerProtocol
+* GimbalVideoControl: correctly dispose stream
+* GStreamer: properly stop thread
+* GStreamer: make non-singleton
+* GStreamer: cleanup
+- Removed unused code
+- Renamed some public methods with capital letter
+- Suppressed some naming warnings
+- Removed all commented-out code
+- Removed all scratch-pad comments
+- Removed unused usings
+- Fixed various other minor suggestions from Visual Studio
+* CameraProtocol: refactor and document
+- Added cameras to detected autopilot components, not just cameras
+- Added XML documentation to all public members
+- Removed video stream RTSP handling from the class, it will later be
+  re-added as a separate class.
+- Encapsulated camera commands in methods of CameraProtocol. More
+  methods will be added later.
+- Added properties for capabilities (including mode-dependency)
+- Appropriate camera messages, based on camera capability, are requested
+  from the camera at the same rate as the EXTENDED_STATUS stream. We may
+  eventually add a separate rate option for camera messages.
+* GimbalVideoControl: create preferences
+* GimbalVideoControl: add mock UI
+* GStreamer: fix crash when EOS occurs
+* Correct LOITER_TO_ALT plane params
+* FlightData: EKF/Vibe/PreArm popouts default normal
+A user can full-screen these by double-clicking the title bar, or using
+a Windows keyboard shortcut, but we don't want to default to that state
+even if the user did that before closing the window last time.
+* ControlHelpers: fix SaveStartupLocation
+This did not play nice if the window was maximized or minimized when it
+was saved.
+* MAVLinkInterface.cs: remove 0.9 from mavlink parser
+treating 'U' as a header marker byte leads to the problem that we will accidentally consume parts of a valid packet after receiving a "plain text" message.
+This is particularly problematic in ArduPilot's config-error-loop, as we emit the problem as both statustext and raw "line noise" to the GCS; the statustext is lost, mneaning the user doesn't get any specific error message from the autopilot, just "in config error loop".
+Co-authored-by: Bob Long <robertlong13@gmail.com>
+Co-authored-by: Michelle Rossouw <michelleros128@gmail.com>
+* MAVLinkInterface: tidy plaintxtline printing
+This was putting the newline in the wrong spot in the console
+* FlightData: allow plugin tab visibility to persist (#3478)
+This call to saveTabControlActions in unnecessary, and tabs added by
+plugins won't exist yet when this gets called the first time, so they
+get cleared from the settings.
+* ExternsionsMP: fix ShowUserControl minimize bug (#3479)
+When minimizing a form generated by ShowUserControl, the client size
+gets set to 0, which causes issues when the form is restored. Sizes
+should only be copied when the window state is normal.
+* Mono: gettext
+* Drawing: fix missing items
+* FlightData: UtcNow update
+* MavlinkParse: UtcNow update
+* CommsFile: UtcNow change
+* MissionPlanner:add DO_SET_HOME to Copter and Rover (#3470)
+Co-authored-by: Michael Oborne <mich146@hotmail.com>
+* MAVFtp: better deal with end of transfer and add Bps
+* MAVFtp: fix max payload size check
+* MAVFtp: speedup uploads #3229
+* Enhance full parameter change message box (#3412)
+* Enhance parameter succesfully saved confirmation box to display changed parameters with previous and new value and count of total changed parameters
+* Enhance full parameter change message box
+* 0 param change info solved
+* remove redundent confirmation and error handling
+* minor suggested changes
+* Add Chinese translation to RTCM injection function.
+* Add Chinese translation to the title of RTCM injection function.
+* Fix ESP32-C3 Dronebridge Reset on First connect
+* Mavlink: add PLANE_MODE_AUTOLAND #3471
+* Xamarin: sync mavcmd.xml
+* FlightPlanner: add unitType attr to mavcmd.xml
+This fixes an issue where commands that used the <Z> parameter for
+anything other than altitude were getting unit conversions applied
+when they shouldn't have been.
+This also opens up the possibility of converting units for other
+columns.
+* FlightPlanner: fix some alt/dist mutliplier mixups
+* Fix MavLink Connection Timeout
+* SerialSupportProxy: add TCP option
+* Joy_Mount_Mode: fix metadata
+* Download: fix getFilefromNet for slow downloads
+This returns a response as soon as the header comes in, which makes the
+progress bar/ETA work as intended. Previously, the entire file would be
+downloaded before the response could even be checked, causing timeouts
+for large files or slow connections.
+* FlightData: update CMB_mountmode population
+* Mavlink: update
+* DroneCAN: update cs from dsdl
+* DroneCAN: ignore device name and hw version
+* DroneCAN: dsdl update
+* srtm: remove string compare to improve performance
+* nuget: update
+* SITL: add version selector dropdown
+Also adds the new beta download URL
+* GStreamer: allow newer versions
+* Libs: json update
+* Xamarin.UWP: update platform target
+* CurrentState: add individual SRate variables
+Allows the SRate for Roll/Pitch/Yaw to be displayed simultaneously,
+rather than needing to set GCS_PID_MASK to one axis at a time. This is
+useful since tuning one axis may trigger an oscillation in another.
+* FlightData: Actions: add engine start/stop
+* Revert "Fix ADSB Squawk back to decimal"
+This reverts commit 5c46b09c7191db6c49a25c6972b50422fa6dd0c1.
+* GEORef: Fix changed field name in TRIG log message
+* Fix ADSB Squawk back to decimal
+* Example: switch example
+* ParameterMetaDataRepositoryAPMpdef: add version specific pdefs
+* CurrentState: add AIRSPEED message
+* Mavlink: update to use all.xml
+* DevopsUI: better handle 0 content
+* adsb: fix culture #3446
+* CustomWarning: fix repeattime logic
+The RepeatTime setting was also the worst-case detection time
+* MainV2: fix WarningEngine speech init
+Needs to come after the speechEnable setting is loaded
+* Fix int underlow
+* Fix missing default color
+* KML load: Fix default line width
+* Example22: Payload Select Config Page
+* ConfigSecureAP: add creation of key .dat files
+* CommsBLE: change scan to use local instance
+* SerialOutputPass: multi mirrors
+* SerialOutputNMEA: add geoid undulation
+* SerialOutputNMEA: always output alt as M
+* Add interface for plugins to add HW and SW config pages
+* Increase Change Alt Button maximum
+* FlightData: Improve xpdr timeout behavior
+* FlightData: Subscribe to XPDR status on first rx
+* FlightData: Fix transponder mode "ON" display
++ "ON" button should be bolded when all but mode C are enabled; previous behavior was all but mode S.
+* Update ConfigSerialInjectGPS.cs
+Fix Septentrio config error while connected to ublox and changing away from the config RTK/GPS screen.
+* Spline2: use wpnav_speed and wpnav_accel
+* paramcompare: remove double inequality check
+* FlightData: support alt frames for Guided
+* Mavlink: update
+* ConfigDroneCAN: reset grid view on connect
+* ConfigDroneCAN: allow disconnect
+* MainV2: remove periph version checking at connect
+CAN_FORWARD requests are not always safe to perform, e.g., if there is
+more traffic on the bus than the telemetry link can handle. We should
+only forward CAN messages if the user has explicitly asked for it by
+going to the DroneCAN setup tab.
+* MAVLinkInterface: add timestamp decoding
+* AuthKeys: add complexity score
+* Plugin to make Terrain DAT file for copying to the SD card of the flight controller
+* WorkFlow: update mac.yml
+* MAVState: fix InternalsVisibleTo for android build
+* ConfigPanner : Gmaps Acces Mode
+Add ComboBox in ConfigPlanner to choose if map is loaded from cache only, server only or cache and server (default). This setting is saved in the config.xml
+Add button in ConfigPlanner to Open Map Cache Folder
+SRTM files are downloaded if GMaps Access Mode is not CacheOnly
+* Updated NFZ in Portugal.
+Updated NFZ in Portugal.
+Removed previous KMZ's and replaced with single KMZ
+* MSI: Update installer.bat
+From 1.3.82 wix.exe is generated in the net472 subfolder instead in the msi folder...
+* ConfigDroneCAN: mcast support
+* AuthKeys: add Mavlink2Signed visible (#3411)
+* ConnectionOptions fixes (#3254)
+* ConnectionOptions: wait to fetch params until added
+The SerialReader thread does nothing to our new port until it is added
+to the list of Comports, but we cannot add it to that list until the
+BaseStream is open, or the SerialReader will dispose of the port.
+* MAVLinkInterface: apply theme to progress form
+The theme would show correctly for the main connection button, but if
+anything else, like ConnectionOptions, launched the connection, the
+progress bar would show up unthemed.
+* ConfigRawParams: Various bugfixes (#3246)
+* MyDataGridView: enable double-buffering
+Fixes serious graphical corruption that can happen sometimes when scrolling
+* ConfigRawParams: fix off-by-one error
+Additional options like the dropdown box or bitmask button would not show
+up for the first row
+* ConfigRawParams: prevent favorites from changing the tree
+* CurrentState: honor MAVLinkInterface.speechenable (#3258)
+* Workflows: update v1 to v4 (deprecated)
+* Fix batterycell with icons (#3403)
+* Add Scale to Elevation/Terrain Overlays (#3401)
+* CommsNTRIP: swap encode order, to prevent double encoding
+* Utilities: add Half
+* GStreamer: validate install before accepting install
+* Download: use content length
+* CommsBLE: add mtu debug
+* ConfigCubeID: add custom fw upload support
+* InitConfig: Limit Thrst Expo to 0.80 max (#3397)
+* ConfigCubeID: add force baud option (default on)
+* SkiaSharp: revert breaks android and osx
+* Scripts: add heartbeat to example19 multiforward #3394
+* actions: android cache change
+* mono: submodule fix
+* pinkvokegen
+* MainV2: use new CustomPortList for BLE
+* CommsBLE: add
+* Xamarin: add nordic uart over ble
+* SkiaSharp: update
+* We should alse check target_system!=0 when toggling safety switch in ctl-F screen. (#3317)
+Toggle safety switch should perform the same in both action tab and ctl-F screen.
+* FlightPlanner : map prefetch (#3320)
+When prefetching, do not download tile if file already exist
+Add minZoom input in prefetch (like maxZoom)
+* MAVLinkParam: fix rounding to 7 digits (#3389)
+Rounding to fixed number of decimal places led to over rounding small
+numbers and under-rounding big numbers.
+* MAVLinkInterface: add debugger break
+* DroneCan: use correct version number
+* Xamarin: nuget updates
+* MAVFtp: rerequest where duplicating data.
+* CurrentState: add blank handlers for more messages
+* Mavftpui: limit gui updates
+* MAVLinkInterface: logdownload mod
+* SixLabors.ImageSharp: security update
+* BouncyCastle: update for security
+* Spectrogram: fix multiple runs
+* Improve the uk localization (#3385)
+* Commit the translations
+* make some translations shorter
+* make sure the uk localization accommodates enough space for translations
+* make some translations shorter
+* tidy up the legend in the uk localization
+* make some translations shorter
+* defer a translation
+* Make sure translations have enough space on the SITL page in the uk localization
+* Make sure translations have enough space on the ConfigPlanner page in the uk localization
+* improve some translations on the ConfigPlanner page
+* translate GCSViews/ConfigurationView/ConfigArduplane.uk.resx
+* improve some translations in the accel calibration tab
+* improve some translations
+* make sure the buttons are visible in the accel calibration tab
+* improve some ESCCalibration translations
+* make sure input boxes are not covered by text
+* improve some translations
+* Revert unintended changes
+* Mavlink: update
+* Update: remove orphan files at the end
+
+
+*Mission Planner 1.3.82 -  Aug 1, 2024
 ## What's Changed
 * mavcmd: do-change-speed Type field includes possible values by @rmackay9 in https://github.com/ArduPilot/MissionPlanner/pull/3273
 * ConfigPlanner: Fix Korean localization by @EosBandi in https://github.com/ArduPilot/MissionPlanner/pull/3272

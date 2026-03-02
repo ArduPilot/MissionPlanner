@@ -501,8 +501,9 @@ namespace MissionPlanner
         {
 
             // check for a camera
-            if (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
-                tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
+            if (tuple.Item2 == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 ||
+                    (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
+                    tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6))
             {
                 MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
                 Task.Run(async () =>
@@ -549,6 +550,33 @@ namespace MissionPlanner
 
                         MAVlist[tuple.Item1, tuple.Item2]
                             .Gimbal.Discover(this);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
+                });
+            }
+
+            if (tuple.Item2 == (byte)MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 ||
+                (tuple.Item2 >= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER &&
+                tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_ONBOARD_COMPUTER4))
+            {
+                MAVlist[tuple.Item1, tuple.Item2].GimbalManager = new GimbalManagerProtocol(this, MAVlist[tuple.Item1, tuple.Item2].cs);
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        // Open holds this
+                        while (!_openComplete)
+                        {
+                            await Task.Delay(1000);
+                        }
+
+                        await Task.Delay(2000);
+
+                        MAVlist[tuple.Item1, tuple.Item2]
+                            .GimbalManager.Discover();
                     }
                     catch (Exception e)
                     {
@@ -733,7 +761,7 @@ namespace MissionPlanner
                 var countDown = new Timer {Interval = 1000, AutoReset = false};
                 countDown.Elapsed += (sender, e) =>
                 {
-                    int secondsRemaining = (deadline - e.SignalTime).Seconds;
+                    int secondsRemaining = Convert.ToInt32((deadline - e.SignalTime).TotalSeconds);
                     frmProgressReporter.UpdateProgressAndStatus(-1, string.Format(Strings.Trying, secondsRemaining));
                     if (secondsRemaining > 0) countDown.Start();
                 };
@@ -1805,7 +1833,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         MAVlist[sysid, compid].SoftwareVersions = logdata;
                     }
                     else if (logdata.ToLower().Contains("px4v2") ||
-                             Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
+                             (Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+") && !logdata.Contains("IOMCU")))
                     {
                         MAVlist[sysid, compid].SerialString = logdata;
                     }
@@ -1961,7 +1989,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         MAVlist[sysid, compid].SoftwareVersions = logdata;
                     }
                     else if (logdata.ToLower().Contains("px4v2") ||
-                             Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
+                             (Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+") && !logdata.Contains("IOMCU")))
                     {
                         MAVlist[sysid, compid].SerialString = logdata;
                     }
@@ -2498,6 +2526,19 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     param1, 0, 0, 0, 0, 0, 0);
 
             return ans1;
+        }
+
+        /// <summary>
+        /// Control ICE Engine
+        /// </summary>
+        /// <param name="onoff">true to enable, false to disable</param>
+        /// <returns></returns>
+        public bool doEngineControl(byte sysid, byte compid, bool onoff = false)
+        {
+            int param1 = onoff ? 1 : 0;
+
+            return doCommand(sysid, compid, MAV_CMD.DO_ENGINE_CONTROL,
+                    param1, 0, 0, 0, 0, 0, 0);
         }
 
         /// <summary>
@@ -4381,8 +4422,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
 
-            giveComport = true;
-
             try
             {
                 gotohere.id = (ushort) MAV_CMD.WAYPOINT;
@@ -4403,7 +4442,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                     if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
-                        giveComport = false;
                         throw new Exception("Guided Mode Failed");
                     }
                 }
@@ -4418,8 +4456,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             {
                 log.Error(ex);
             }
-
-            giveComport = false;
         }
 
         [Obsolete]
@@ -4441,7 +4477,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                 {
-                    giveComport = false;
                     throw new Exception("Alt Change Failed");
                 }
 
@@ -4454,12 +4489,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             }
             catch (Exception ex)
             {
-                giveComport = false;
                 log.Error(ex);
                 throw;
             }
-
-            giveComport = false;
         }
 
         public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, bool yaw,
@@ -4732,11 +4764,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     }
 
                     // check if looks like a mavlink packet and check for exclusions and write to console
-                    if (buffer[0] != MAVLINK_STX_MAVLINK1 && buffer[0] != 'U' && buffer[0] != MAVLINK_STX)
+                    if (buffer[0] != MAVLINK_STX_MAVLINK1 && buffer[0] != MAVLINK_STX)
                     {
                         if (buffer[0] >= 0x20 && buffer[0] <= 127 || buffer[0] == '\n' || buffer[0] == '\r')
                         {
-                            // check for line termination
+                            // Write printable characters outside of mavlink packets to console
+                            Console.Write((char)buffer[0]);
+
+                            // check for line termination and log it
                             if (buffer[0] == '\r' || buffer[0] == '\n')
                             {
                                 // check new line is valid
@@ -4744,7 +4779,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 {
                                     plaintxtline = buildplaintxtline;
                                     plaintxtlinebuffer.Insert(0, plaintxtline);
-                                    while (plaintxtlinebuffer.Count >= 30)
+                                    while (plaintxtlinebuffer.Count >= 52)
                                         plaintxtlinebuffer.RemoveAt(plaintxtlinebuffer.Count - 1);
                                 }
 
@@ -4752,10 +4787,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 // reset for next line
                                 buildplaintxtline = "";
                             }
-
-                            //TCPConsole.Write(buffer[0]);
-                            Console.Write((char)buffer[0]);
-                            buildplaintxtline += (char)buffer[0];
+                            else
+                            {
+                                buildplaintxtline += (char)buffer[0];
+                            }
                         }
 
                         _bytesReceivedSubj.OnNext(1);
@@ -4771,7 +4806,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream?.BytesToRead);
 
                     // check for a header
-                    if (buffer[0] == MAVLINK_STX_MAVLINK1 || buffer[0] == MAVLINK_STX || buffer[0] == 'U')
+                    if (buffer[0] == MAVLINK_STX_MAVLINK1 || buffer[0] == MAVLINK_STX)
                     {
                         var mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
 
@@ -5081,7 +5116,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 packetSeemValid = false;
                 //The following IF had to be splitted to accomodate the new place of Readlock end.
                 //packetSeemValid helps it.
-                if ((message.header == 'U' || message.header == MAVLINK_STX_MAVLINK1 ||
+                if ((message.header == MAVLINK_STX_MAVLINK1 ||
                      message.header == MAVLINK_STX) &&
                     buffer.Length >= message.payloadlength)
                 {
@@ -6548,7 +6583,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     case 0:
                         byte0 = tempb;
-                        if (byte0 != 'U' && byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX)
+                        if (byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX)
                         {
                             log.DebugFormat("logread - lost sync byte {0} pos {1}", byte0,
                                 logplaybackfile.BaseStream.Position);
@@ -6556,7 +6591,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             do
                             {
                                 byte0 = logplaybackfile.ReadByte();
-                            } while (byte0 != 'U' && byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX);
+                            } while (byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX);
 
                             a = 1;
                             continue;

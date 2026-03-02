@@ -1147,9 +1147,8 @@ mc:Ignorable=""d""
                     ctl.ForeColor = Color.Black;
                     ctl.BackColor = ButBG;
                 }
-                else if (ctl.GetType() == typeof(MyButton))
+                else if (ctl is MyButton but)
                 {
-                    Controls.MyButton but = (MyButton)ctl;
                     but.BGGradTop = ButBG;
                     but.BGGradBot = ButBGBot;
                     but.TextColor = ButtonTextColor;

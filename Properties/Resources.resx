@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -676,5 +676,8 @@ Control-S - save grid file\par
   </data>
   <data name="mavcmd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\mavcmd.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="no-video" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\no-video.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

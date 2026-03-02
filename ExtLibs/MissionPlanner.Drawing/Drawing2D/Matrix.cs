@@ -34,7 +34,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using ClipperLib;
 using SkiaSharp;
 
 namespace System.Drawing.Drawing2D
@@ -646,6 +648,8 @@ namespace System.Drawing.Drawing2D
             }
         }
 
+        public float[] Elements { get { return Data; } }
+
         public static bool IsZero(double value)
         {
             return Math.Abs(value) < 2.2204460492503131E-15;
@@ -746,6 +750,28 @@ namespace System.Drawing.Drawing2D
             
             this.SetMatrix(main.ScaleX, main.SkewX, main.SkewY, main.ScaleY, main.TransX, main.TransY,
                 MatrixTypes.TRANSFORM_IS_UNKNOWN);
+        }
+
+        public Matrix Clone()
+        {
+            Matrix matrix = new Matrix();
+            matrix.SetMatrix(M11, M12, M21, M22, OffsetX, OffsetY, _type);
+            return matrix;
+        }
+
+        public void Multiply(Matrix mat)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Shear(float v1, float v2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Multiply(Matrix matrix, MatrixOrder prepend)
+        {
+            throw new NotImplementedException();
         }
     }
 }

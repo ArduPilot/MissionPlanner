@@ -96,7 +96,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        string caption = item.id + " " + GetItemCaption(item) + "  (" + item.size + ")";
+                        string caption = item.id + " " + GetItemCaption(item) + "  (" + MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)item.size) + ")";
                         AddCheckedListBoxItem(caption);
                     }
                     catch (Exception ex)
@@ -235,8 +235,8 @@ namespace MissionPlanner.Log
             dflb.Clear();
             GC.Collect();
 
-            // rename log is we have a valid gps time
-            if (logtime != DateTime.MinValue)
+            // rename log fs we have a valid gps time, logtime is after 1990-01-01, since some GPS does not use Unix epoch for invalid time.
+            if (logtime.Year >= 1990)
             {
                 string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                                                                  + MainV2.comPort.MAV.aptype.ToString() +
@@ -399,10 +399,10 @@ namespace MissionPlanner.Log
                 if (current == 0)
                     start = DateTime.Now;
 
-                if (current < max)
+                if (current > 0 && current < max)
                 {
                     var per = (current / (double)max) * 100;
-                    
+
                     var elapsed = DateTime.Now - start;
                     if (elapsed.TotalSeconds == 0)
                         elapsed = TimeSpan.FromSeconds(1);
@@ -411,9 +411,11 @@ namespace MissionPlanner.Log
                         avgbps = 1;
                     var left = max - current;
                     var eta = DateTime.Now.AddSeconds(left / avgbps);
-                    
-
-                    labelBytes.Text = current.ToString() + " " + per.ToString("N1") + "% " + eta.ToString("hh:mm t") + " ETA";
+                    var remaining = new DateTime().AddSeconds(left / avgbps);
+                    labelBytes.Text = MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)current) + " "
+                    + per.ToString("N1") + "% "
+                    + MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)avgbps) + "/s "
+                    + (remaining.Day > 1 || remaining.Hour > 0 ? ((remaining.Day - 1) * 24 + remaining.Hour).ToString() + ":" : "") + remaining.ToString("mm:ss") + " left";
                 }
                 else
                 {

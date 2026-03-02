@@ -1,8 +1,10 @@
-﻿using MissionPlanner.Controls;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
 using System;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -530,6 +532,37 @@ namespace MissionPlanner.Joystick
             {
                 MainV2.joystick.UnAcquireJoyStick();
                 MainV2.joystick = null;
+            }
+        }
+
+        private void but_export_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                MainV2.joystick.saveconfig();
+                MainV2.joystick.ExportConfig(sfd.FileName);
+            }
+        }
+
+        private void but_import_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("NOTE: this will replace any existing joystick configuration.\nPlease make sure you have saved your current configuration if needed.", "Import Joystick Config", MessageBoxButtons.OKCancel) == (int)DialogResult.OK)
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    MainV2.joystick.ImportConfig(ofd.FileName);
+                    MainV2.joystick.loadconfig();
+                    CustomMessageBox.Show("Please reopen joystick for changes to take effect");
+                    this.BeginInvoke((Action)delegate ()
+                    {
+                        this.Close();
+                        ((Form)this.Parent).Close();
+                    });
+                }
             }
         }
     }
