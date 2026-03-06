@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -25,6 +26,13 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         // Tracks whether we have received a `CAMERA_INFORMATION` message yet
         private bool have_camera_information = false;
+
+        // Lease-based streaming rates managed by the connection's MessageRateManager.
+        private readonly object _leaseLock = new object();
+        private List<MessageRateLease> _streamingLeases = new List<MessageRateLease>();
+        private MessageRateLease _leaseTracking;
+        private int _lastRateHz = -1;
+        private int _lastTrackingRateHz;
 
         public MAVLink.mavlink_camera_information_t CameraInformation { get; private set; }
         public MAVLink.mavlink_camera_settings_t CameraSettings { get; private set; }
@@ -206,67 +214,89 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         /// <summary>
-        /// Initializes the camera protocol by setting up message parsing and requesting initial camera information.
+        /// Initializes the camera protocol by setting up message parsing and requesting camera information.
         /// </summary>
-        /// <param name="mavState">MAVState parent of this driver</param>
-        public Task StartID(MAVState mavState)
+        /// <remarks>
+        /// Sends fire-and-forget SET_MESSAGE_INTERVAL + GET_MESSAGE_INTERVAL for
+        /// CAMERA_INFORMATION, then watches the MESSAGE_INTERVAL reply to confirm.
+        /// Retries up to 3 times; stops on success, interval_us == 0 (not supported),
+        /// or if CAMERA_INFORMATION arrives in the meantime.
+        /// </remarks>
+        /// <param name="mavState">The MAVState instance for the target camera.</param>
+        public async Task StartID(MAVState mavState)
         {
             parent = mavState;
 
             mavState.parent.OnPacketReceived += ParseMessages;
 
-            return RequestCameraInformationAsync();
-        }
+            if (parent?.parent == null)
+                return;
 
-        /// <summary>
-        /// Sends an asynchronous request to fetch camera information via.
-        /// </summary>
-        public async Task RequestCameraInformationAsync()
-        {
+            var port = parent.parent;
+
+            // Ask the target to stream CAMERA_INFORMATION every ~30s so we discover
+            // cameras even if plugged in after boot.
+            const ushort camInfoId = (ushort)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION;
+            const float intervalUs = 30_000_000; // 30 s
+
+            // Watch MESSAGE_INTERVAL replies for our message to confirm acceptance or rejection.
+            bool confirmed = false;
+            var sub = port.SubscribeToPacketType(
+                MAVLink.MAVLINK_MSG_ID.MESSAGE_INTERVAL,
+                msg =>
+                {
+                    var data = msg.ToStructure<MAVLink.mavlink_message_interval_t>();
+                    if (data.message_id != camInfoId)
+                        return true;
+
+                    if (data.interval_us == 0)
+                        log.Info("Camera: CAMERA_INFORMATION not supported (interval_us=0)");
+                    else
+                        log.InfoFormat("Camera: CAMERA_INFORMATION interval confirmed at {0} us", data.interval_us);
+
+                    confirmed = true;
+                    return true;
+                },
+                parent.sysid, parent.compid);
+
             try
             {
-                if (parent?.parent != null)
+                for (int attempt = 0; attempt < 3; attempt++)
                 {
-                    // New-style request
-                    var resp = await parent.parent.doCommandAsync(
-                        parent.sysid, parent.compid,
-                        MAVLink.MAV_CMD.REQUEST_MESSAGE,
-                        (float)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION,
-                        0, 0, 0, 0, 0, 0
-                    );
-                    // Fall back to deprecated request message
-                    if (!resp)
+                    if (have_camera_information || confirmed)
+                        break;
+
+                    try
                     {
-                        await parent.parent.doCommandAsync(
-                            parent.sysid, parent.compid,
-                            MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION,
-                            0, 0, 0, 0, 0, 0, 0,
-                            false // Don't wait for response
-                        );
+                        _ = port.doCommandAsync(parent.sysid, parent.compid,
+                            MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
+                            camInfoId, intervalUs,
+                            0, 0, 0, 0, 0, false);
+
+                        _ = port.doCommandAsync(parent.sysid, parent.compid,
+                            MAVLink.MAV_CMD.GET_MESSAGE_INTERVAL,
+                            camInfoId,
+                            0, 0, 0, 0, 0, 0, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Debug("Camera: SET/GET_MESSAGE_INTERVAL failed: " + ex.Message);
                     }
 
-                    // Get video stream information as well
-                    await parent.parent.doCommandAsync(
-                        parent.sysid, parent.compid,
-                        MAVLink.MAV_CMD.REQUEST_MESSAGE,
-                        (float)MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION,
-                        0, 0, 0, 0, 0, 0,
-                        false // Don't wait for response
-                    );
+                    await Task.Delay(5000).ConfigureAwait(false);
                 }
             }
-            catch (Exception ex)
+            finally
             {
-                log.Error(ex);
+                port.UnSubscribeToPacketType(sub);
             }
         }
 
         /// <summary>
-        /// Event handler for OnPacketReceived.
-        /// Parses incoming MAVLink messages related to camera operations and updates internal state accordingly.
+        /// Parses incoming MAVLink messages and updates camera state.
         /// </summary>
-        /// <param name="sender">MAVLink interface</param>
-        /// <param name="message">MAVLink message to parse</param>
+        /// <param name="sender">The MAVLink interface that received the message.</param>
+        /// <param name="message">The received MAVLink message.</param>
         public void ParseMessages(object sender, MAVLink.MAVLinkMessage message)
         {
             if (message.sysid != parent.sysid || message.compid != parent.compid)
@@ -275,8 +305,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
             switch ((MAVLink.MAVLINK_MSG_ID)message.msgid)
             {
             case MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION:
-                have_camera_information = true;
                 CameraInformation = (MAVLink.mavlink_camera_information_t)message.data;
+                if (!have_camera_information)
+                {
+                    have_camera_information = true;
+                    if (_lastRateHz > 0)
+                        TakeStreamingLeases(_lastRateHz);
+
+                    if ((CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.HAS_VIDEO_STREAM) != 0)
+                        RequestVideoStreamWithRetry();
+                }
                 break;
             case MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS:
                 CameraSettings = (MAVLink.mavlink_camera_settings_t)message.data;
@@ -298,96 +336,172 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         /// <summary>
-        /// Requests that the camera send specific messages types at a specified rate.
-        /// The messages are selected based on the camera's reported capabilities.
+        /// Re-subscribes streaming leases if the desired rate has changed.
         /// </summary>
-        /// <param name="ratehz">Message frequency in messages per second.</param>
-        public void RequestMessageIntervals(int ratehz)
+        /// <remarks>
+        /// Call periodically (e.g. from the rate-request loop). Does nothing until
+        /// CAMERA_INFORMATION has been received. New leases are taken before old
+        /// ones are disposed so there is no gap in coverage.
+        /// Zero or negative values release all streaming leases (the RateManager
+        /// restores the autopilot's default rate).
+        /// </remarks>
+        /// <param name="ratehz">Desired rate in Hz. &lt;= 0 releases leases.</param>
+        public void UpdateRateIfChanged(int ratehz)
         {
-            if (ratehz < 0)
-            {
-                // -1 means don't try to configure message intervals
+            if (!have_camera_information || parent?.parent == null)
                 return;
-            }
 
-            if (parent?.parent == null)
-            {
+            if (ratehz == _lastRateHz)
                 return;
-            }
 
-            // ratehz of 0 means "stop sending", which is what -1 interval_us means in the MAVLink message
-            float interval_us = ratehz > 0 ? (float)(1e6 / ratehz) : -1;
-
-            Task.Run(RequestCameraInformationAsync);
-
-            // Request FOV status
-            Task.Run(async () =>
-            {
-                await parent.parent.doCommandAsync(
-                    parent.sysid, parent.compid,
-                    MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
-                    (float)MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS,
-                    interval_us,
-                    0, 0, 0, 0, 0,
-                    false // Don't wait for response
-                ).ConfigureAwait(false);
-            });
-
-            // Get camera settings
-            if (HasModes || HasZoom || HasFocus)
-            {
-                Task.Run(async () =>
-                {
-                    await parent.parent.doCommandAsync(
-                        parent.sysid, parent.compid,
-                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
-                        (float)MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS,
-                        interval_us,
-                        0, 0, 0, 0, 0,
-                        false // Don't wait for response
-                    ).ConfigureAwait(false);
-                });
-            }
-
-            // We use the capability flags directly here, and NOT whether we are currently able to do these things
-            var can_capture_video = (CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.CAPTURE_VIDEO) > 0;
-            var can_capture_image = (CameraInformation.flags & (int)MAVLink.CAMERA_CAP_FLAGS.CAPTURE_IMAGE) > 0;
-            if (can_capture_video || can_capture_image)
-            {
-                Task.Run(async () =>
-                {
-                    await parent.parent.doCommandAsync(
-                        parent.sysid, parent.compid,
-                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
-                        (float)MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS,
-                        interval_us,
-                        0, 0, 0, 0, 0,
-                        false // Don't wait for response
-                    ).ConfigureAwait(false);
-                });
-            }
+            if (ratehz <= 0)
+                ReleaseStreamingLeases();
+            else
+                TakeStreamingLeases(ratehz);
         }
 
-        public void RequestTrackingMessageInterval(int ratehz)
+        /// <summary>
+        /// Takes (or replaces) streaming leases at the given rate based on camera capabilities.
+        /// </summary>
+        private void TakeStreamingLeases(int ratehz)
+        {
+            var rm = parent.parent.RateManager;
+            double hz = ratehz;
+            string owner = $"Camera({parent.sysid},{parent.compid})";
+
+            // Build new lease set, then swap and dispose old
+            var newLeases = new List<MessageRateLease>
+            {
+                rm.Subscribe(parent.sysid, parent.compid, MAVLink.MAVLINK_MSG_ID.CAMERA_FOV_STATUS, hz, owner),
+                rm.Subscribe(parent.sysid, parent.compid, MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS, hz, owner),
+                rm.Subscribe(parent.sysid, parent.compid, MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS, hz, owner),
+            };
+
+            List<MessageRateLease> old;
+            lock (_leaseLock)
+            {
+                old = _streamingLeases;
+                _streamingLeases = newLeases;
+                _lastRateHz = ratehz;
+            }
+            foreach (var lease in old)
+                lease.Dispose();
+        }
+
+        /// <summary>
+        /// Releases all streaming leases, restoring the autopilot's default rates.
+        /// </summary>
+        private void ReleaseStreamingLeases()
+        {
+            List<MessageRateLease> old;
+            lock (_leaseLock)
+            {
+                old = _streamingLeases;
+                _streamingLeases = new List<MessageRateLease>();
+                _lastRateHz = 0;
+            }
+            foreach (var lease in old)
+                lease.Dispose();
+        }
+
+        /// <summary>
+        /// Subscribes to CAMERA_TRACKING_IMAGE_STATUS at the given rate.
+        /// </summary>
+        /// <remarks>
+        /// Replaces any existing tracking lease.
+        /// </remarks>
+        /// <param name="ratehz">Desired rate in Hz.</param>
+        public void SubscribeTracking(int ratehz)
+        {
+            if (!have_camera_information || parent?.parent == null)
+                return;
+
+            if (ratehz == _lastTrackingRateHz)
+                return;
+
+            var newLease = parent.parent.RateManager.Subscribe(
+                parent.sysid, parent.compid,
+                MAVLink.MAVLINK_MSG_ID.CAMERA_TRACKING_IMAGE_STATUS,
+                ratehz,
+                $"Camera({parent.sysid},{parent.compid})");
+
+            MessageRateLease old;
+            lock (_leaseLock)
+            {
+                old = _leaseTracking;
+                _leaseTracking = newLease;
+                _lastTrackingRateHz = ratehz;
+            }
+            old?.Dispose();
+        }
+
+        /// <summary>
+        /// Releases the tracking message lease if one is active.
+        /// </summary>
+        public void StopTracking()
+        {
+            MessageRateLease old;
+            lock (_leaseLock)
+            {
+                old = _leaseTracking;
+                _leaseTracking = null;
+                _lastTrackingRateHz = 0;
+            }
+            old?.Dispose();
+        }
+
+        /// <summary>
+        /// Sends REQUEST_MESSAGE for VIDEO_STREAM_INFORMATION with retries and backoff.
+        /// </summary>
+        private void RequestVideoStreamWithRetry()
         {
             if (parent?.parent == null)
-            {
                 return;
-            }
 
-            float interval_us = (float)(1e6 / ratehz);
+            var port = parent.parent;
+            byte sysid = parent.sysid, compid = parent.compid;
 
             Task.Run(async () =>
             {
-                await parent.parent.doCommandAsync(
-                        parent.sysid, parent.compid,
-                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
-                        (float)MAVLink.MAVLINK_MSG_ID.CAMERA_TRACKING_IMAGE_STATUS,
-                        interval_us,
-                        0, 0, 0, 0, 0,
-                        false // Don't wait for response
-                ).ConfigureAwait(false);
+                for (int i = 0; i < 3; i++)
+                {
+                    // Stop trying if we disconnect
+                    if (parent?.parent?.BaseStream?.IsOpen != true)
+                        break;
+
+                    if (VideoStreams.Keys.Any(k => k.Item1 == sysid && k.Item2 == compid))
+                        break;
+
+                    try
+                    {
+                        _ = port.doCommandAsync(sysid, compid,
+                            MAVLink.MAV_CMD.REQUEST_MESSAGE,
+                            (float)MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION,
+                            0, 0, 0, 0, 0, 0, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Debug("Camera: REQUEST_MESSAGE(VIDEO_STREAM_INFORMATION) failed: " + ex.Message);
+                    }
+
+                    await Task.Delay(5000).ConfigureAwait(false);
+                }
             });
+        }
+
+        /// <summary>
+        /// Requests VIDEO_STREAM_INFORMATION from the camera (one-shot, best-effort).
+        /// </summary>
+        public void RequestVideoStreamInformation()
+        {
+            if (parent?.parent == null)
+                return;
+
+            parent.parent.doCommand(
+                parent.sysid, parent.compid,
+                MAVLink.MAV_CMD.REQUEST_MESSAGE,
+                (float)MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION,
+                0, 0, 0, 0, 0, 0, false);
         }
 
         /// <summary>

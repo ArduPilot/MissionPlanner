@@ -649,7 +649,7 @@ namespace MissionPlanner.Controls
             }
             else if ((Control.ModifierKeys, me.Button) == preferences.TrackObjectUnderMouse)
             {
-                selectedCamera?.RequestTrackingMessageInterval(5);
+                selectedCamera?.SubscribeTracking(5);
                 var x = (float)point.Value.x;
                 var y = (float)point.Value.y;
                 if (dragStartPoint.HasValue)
@@ -766,9 +766,9 @@ namespace MissionPlanner.Controls
         {
             if (CameraProtocol.VideoStreams.Count < 1)
             {
-                Console.Write("Requesting camera information...");
-                // We must not have any reported video streams. Try to request them
-                selectedCamera?.RequestCameraInformationAsync().Wait();
+                Console.Write("Requesting video stream information...");
+                // We must not have any reported video streams. Try to request them.
+                selectedCamera?.RequestVideoStreamInformation();
                 Console.WriteLine(" done.");
                 // Come back later and see if any streams have been reported
                 AutoConnectTimer.Start();
