@@ -46,3 +46,5 @@ docs/
 obj2/
 obj3/
 
+/.claude/settings.local.json
+/CLAUDE.md
