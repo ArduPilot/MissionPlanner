@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Concurrent;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot.Mavlink
 {
     public class GimbalManagerProtocol
     {
-        CurrentState cs;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private readonly CurrentState cs;
+        private readonly MAVLinkInterface mavint;
 
         // Stores the last GIMBAL_MANAGER_INFORMATION message for each gimbal device/component ID.
         // This index will be 1-6, or MAVLink component IDs 154, 171-175.
@@ -27,7 +33,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_device_attitude_status_t> GimbalStatus =
             new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_device_attitude_status_t>();
 
-        private readonly MAVLinkInterface mavint;
+        private bool have_gimbal_manager_information = false;
+        private int _started;
+
+        // Uncomment the Console.WriteLine line to enable debug output.
+        private static void DebugConsoleWrite(string format, params object[] args)
+        {
+            // Console.WriteLine(format, args);
+        }
 
         public GimbalManagerProtocol(MAVLinkInterface mavint, CurrentState cs)
         {
@@ -35,18 +48,77 @@ namespace MissionPlanner.ArduPilot.Mavlink
             this.cs = cs;
         }
 
-        private bool first_discover = true;
-        public void Discover()
+        /// <summary>
+        /// Initializes the gimbal manager protocol and begins GIMBAL_MANAGER_INFORMATION discovery.
+        /// </summary>
+        /// <remarks>
+        /// Sends fire-and-forget SET_MESSAGE_INTERVAL + GET_MESSAGE_INTERVAL for
+        /// GIMBAL_MANAGER_INFORMATION, then watches the MESSAGE_INTERVAL reply to confirm.
+        /// Retries up to 3 times; stops on success, interval_us == 0 (not supported),
+        /// or if GIMBAL_MANAGER_INFORMATION arrives in the meantime.
+        /// </remarks>
+        /// <param name="sysid">Target system ID.</param>
+        /// <param name="compid">Target component ID.</param>
+        public async Task StartID(byte sysid, byte compid)
         {
-            if (first_discover)
-            {
-                first_discover = false;
-                mavint.OnPacketReceived += MessagesHandler;
-            }
+            if (Interlocked.Exchange(ref _started, 1) != 0)
+                return;
 
-            mavint.doCommand(0, 0, MAVLink.MAV_CMD.REQUEST_MESSAGE,
-                (float)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_INFORMATION,
-                0, 0, 0, 0, 0, 0, false);
+            mavint.OnPacketReceived += MessagesHandler;
+
+            const ushort msgId = (ushort)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_INFORMATION;
+            const float intervalUs = 30_000_000; // 30 s
+
+            bool confirmed = false;
+            var sub = mavint.SubscribeToPacketType(
+                MAVLink.MAVLINK_MSG_ID.MESSAGE_INTERVAL,
+                msg =>
+                {
+                    var data = msg.ToStructure<MAVLink.mavlink_message_interval_t>();
+                    if (data.message_id != msgId)
+                        return true;
+
+                    if (data.interval_us == 0)
+                        log.Info("GimbalManager: GIMBAL_MANAGER_INFORMATION not supported (interval_us=0)");
+                    else
+                        log.InfoFormat("GimbalManager: GIMBAL_MANAGER_INFORMATION interval confirmed at {0} us", data.interval_us);
+
+                    confirmed = true;
+                    return true;
+                },
+                sysid, compid);
+
+            try
+            {
+                for (int attempt = 0; attempt < 3; attempt++)
+                {
+                    if (have_gimbal_manager_information || confirmed)
+                        break;
+
+                    try
+                    {
+                        _ = mavint.doCommandAsync(sysid, compid,
+                            MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL,
+                            msgId, intervalUs,
+                            0, 0, 0, 0, 0, false);
+
+                        _ = mavint.doCommandAsync(sysid, compid,
+                            MAVLink.MAV_CMD.GET_MESSAGE_INTERVAL,
+                            msgId,
+                            0, 0, 0, 0, 0, 0, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Debug("GimbalManager: SET/GET_MESSAGE_INTERVAL failed: " + ex.Message);
+                    }
+
+                    await Task.Delay(5000).ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                mavint.UnSubscribeToPacketType(sub);
+            }
         }
 
         private void MessagesHandler(object sender, MAVLink.MAVLinkMessage message)
@@ -60,6 +132,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 {
                     ManagerInfo[0] = gmi;
                 }
+
+                have_gimbal_manager_information = true;
             }
 
             if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_STATUS)
@@ -212,9 +286,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 yaw -= cs.yaw;
             }
 
-            Console.WriteLine("SetAttitudeAsync: pitch={0}, yaw={1}, yaw_lock={2}", pitch, yaw < 0 ? yaw + 360 : yaw, yaw_lock);
+            DebugConsoleWrite("SetAttitudeAsync: pitch={0}, yaw={1}, yaw_lock={2}", pitch, yaw < 0 ? yaw + 360 : yaw, yaw_lock);
             return SetAnglesCommandAsync(pitch, yaw, yaw_lock, gimbal_device_id);
-            //return Task.FromResult(true);
         }
 
         private double wrap_180(double angle)

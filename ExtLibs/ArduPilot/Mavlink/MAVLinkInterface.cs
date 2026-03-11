@@ -579,8 +579,9 @@ namespace MissionPlanner
 
                         await Task.Delay(2000);
 
-                        MAVlist[tuple.Item1, tuple.Item2]
-                            .GimbalManager.Discover();
+                        await MAVlist[tuple.Item1, tuple.Item2]
+                            .GimbalManager.StartID(tuple.Item1, tuple.Item2)
+                            .ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {
