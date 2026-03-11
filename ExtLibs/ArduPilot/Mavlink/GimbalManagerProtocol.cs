@@ -21,12 +21,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_information_t> ManagerInfo =
             new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_information_t>();
 
-        // Stores the GIMBAL_MANAGER_STATUS message for each gimbal device/component ID.
-        // This index will be 1-6, or MAVLink component IDs 154, 171-175.
-        // Index 0 is used to store the message of the first (lowest) gimbal ID.
-        public ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_status_t> ManagerStatus =
-            new ConcurrentDictionary<byte, MAVLink.mavlink_gimbal_manager_status_t>();
-
         // Stores the GIMBAL_DEVICE_ATTITUDE_STATUS message for each gimbal device/component ID.
         // This index will be 1-6, or MAVLink component IDs 154, 171-175.
         // Index 0 is used to store the message of the first (lowest) gimbal ID.
@@ -136,16 +130,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 have_gimbal_manager_information = true;
             }
 
-            if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_MANAGER_STATUS)
-            {
-                var gms = (MAVLink.mavlink_gimbal_manager_status_t)message.data;
-                ManagerStatus[gms.gimbal_device_id] = gms;
-                if (!ManagerStatus.ContainsKey(0) || gms.gimbal_device_id <= ManagerStatus[0].gimbal_device_id)
-                {
-                    ManagerStatus[0] = gms;
-                }
-            }
-
             if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_DEVICE_ATTITUDE_STATUS)
             {
                 var gds = (MAVLink.mavlink_gimbal_device_attitude_status_t)message.data;
@@ -167,27 +151,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ManagerInfo.TryGetValue(gimbal_device_id, out var info) && ((info.cap_flags & (uint)flags) == (uint)flags);
         }
 
-        public bool HasStatusFlag(MAVLink.GIMBAL_DEVICE_FLAGS flags, byte gimbal_device_id = 0)
-        {
-            return ManagerStatus.TryGetValue(gimbal_device_id, out var status) && ((status.flags & (uint)flags) != 0);
-        }
-
-        public bool YawInVehicleFrame(byte gimbal_device_id = 0)
-        {
-            bool yaw_in_earth_frame = HasStatusFlag(MAVLink.GIMBAL_DEVICE_FLAGS.YAW_IN_EARTH_FRAME, gimbal_device_id);
-            bool yaw_in_vehicle_frame = HasStatusFlag(MAVLink.GIMBAL_DEVICE_FLAGS.YAW_IN_VEHICLE_FRAME, gimbal_device_id);
-
-            // Some older protocols don't set YAW_IN_EARTH_FRAME or YAW_IN_VEHICLE_FRAME flags,
-            // with those, we have to infer it from whether YAW_LOCK is set.
-            if (!yaw_in_earth_frame && !yaw_in_vehicle_frame)
-            {
-                bool yaw_lock = HasStatusFlag(MAVLink.GIMBAL_DEVICE_FLAGS.YAW_LOCK, gimbal_device_id);
-                yaw_in_vehicle_frame = !yaw_lock;
-            }
-
-            return yaw_in_vehicle_frame;
-        }
-
         /// <summary>
         /// Get the reported attitude of the gimbal. Yaw always reported relative to the earth frame.
         /// </summary>
@@ -202,7 +165,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
             var q = new Quaternion(status.q[0], status.q[1], status.q[2], status.q[3]);
 
-            if (YawInVehicleFrame(gimbal_device_id))
+            // Rotate from vehicle frame to earth frame if needed.
+            var flags = (MAVLink.GIMBAL_DEVICE_FLAGS)status.flags;
+            bool yaw_in_earth = (flags & MAVLink.GIMBAL_DEVICE_FLAGS.YAW_IN_EARTH_FRAME) != 0;
+            bool yaw_in_vehicle = (flags & MAVLink.GIMBAL_DEVICE_FLAGS.YAW_IN_VEHICLE_FRAME) != 0;
+
+            // Older protocols may set neither flag; infer from YAW_LOCK.
+            if (!yaw_in_earth && !yaw_in_vehicle)
+                yaw_in_vehicle = (flags & MAVLink.GIMBAL_DEVICE_FLAGS.YAW_LOCK) == 0;
+
+            if (yaw_in_vehicle)
             {
                 q = Quaternion.from_euler(0, 0, cs.yaw * MathHelper.deg2rad) * q;
             }
