@@ -152,10 +152,10 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         /// <summary>
-        /// Get the reported attitude of the gimbal. Yaw always reported relative to the earth frame.
+        /// Gets the reported attitude of the gimbal in the earth frame.
         /// </summary>
-        /// <param name="gimbal_device_id">Device ID of the gimbal. 0 means all gimbals</param>
-        /// <returns></returns>
+        /// <param name="gimbal_device_id">Device ID of the gimbal. 0 means the first gimbal.</param>
+        /// <returns>The gimbal attitude quaternion, or <c>null</c> if no status has been received.</returns>
         public Quaternion GetAttitude(byte gimbal_device_id = 0)
         {
             if (!GimbalStatus.TryGetValue(gimbal_device_id, out var status))
@@ -242,12 +242,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         /// <summary>
-        /// Set the attitude of the gimbal with a quaternion. Yaw always reported relative to the earth frame.
+        /// Commands the gimbal to a given attitude.
         /// </summary>
-        /// <param name="q">Gimbal attitude quaternion</param>
-        /// <param name="yaw_lock">True if the gimbal should continue to point in this orientation. False if it should follow the yaw of the vehicle.</param>
-        /// <param name="gimbal_device_id">Device ID of the gimbal. 0 means all gimbals</param>
-        /// <returns></returns>
+        /// <param name="q">Desired attitude quaternion in the earth frame.</param>
+        /// <param name="yaw_lock">
+        /// <c>true</c> to hold the earth-frame yaw; <c>false</c> to follow vehicle yaw.
+        /// </param>
+        /// <param name="gimbal_device_id">Device ID of the gimbal. 0 means the first gimbal.</param>
+        /// <returns><c>true</c> if the command was acknowledged; otherwise, <c>false</c>.</returns>
         public Task<bool> SetAttitudeAsync(Quaternion q, bool yaw_lock, byte gimbal_device_id = 0)
         {
             var pitch = q.get_euler_pitch() * MathHelper.rad2deg;
