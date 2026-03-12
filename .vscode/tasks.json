@@ -1,0 +1,71 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Debug",
+      "type": "shell",
+      "command": "C:\\Program Files\\dotnet\\dotnet.exe",
+      "args": [
+        "build",
+        "MissionPlanner.csproj",
+        "--configuration",
+        "Debug",
+        "--no-restore",
+        "--verbosity",
+        "minimal"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Build Release",
+      "type": "shell",
+      "command": "C:\\Program Files\\dotnet\\dotnet.exe",
+      "args": [
+        "build",
+        "MissionPlanner.csproj",
+        "--configuration",
+        "Release",
+        "--verbosity",
+        "minimal"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Restore",
+      "type": "shell",
+      "command": "C:\\Program Files\\dotnet\\dotnet.exe",
+      "args": [
+        "restore",
+        "MissionPlanner.csproj"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "C:\\Program Files\\dotnet\\dotnet.exe",
+      "args": [
+        "clean",
+        "MissionPlanner.csproj",
+        "--configuration",
+        "Debug"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

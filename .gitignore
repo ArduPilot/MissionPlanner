@@ -42,7 +42,8 @@ docs/
 *.p12
 *.pem
 *.key
-/.vscode
+# .vscode compartido con el equipo (launch.json, tasks.json)
+# /.vscode
 obj2/
 obj3/
 
