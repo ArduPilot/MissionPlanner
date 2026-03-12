@@ -753,7 +753,7 @@
     <Content Include="Drivers\devcon.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\DriverCleanup.exe">
+    <Content Include="Drivers\DriverCleanup.exe" Condition="Exists('Drivers\DriverCleanup.exe')">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Drivers\Holybro.inf">
@@ -793,6 +793,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="mavextra.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logo2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="mpdesktop.ico">
@@ -957,7 +960,7 @@
     <Content Include="Drivers\vrugimbal.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Update="Drivers\DriverCleanup.exe.config">
+    <None Update="Drivers\DriverCleanup.exe.config" Condition="Exists('Drivers\DriverCleanup.exe.config')">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Drivers\nxp.cat">

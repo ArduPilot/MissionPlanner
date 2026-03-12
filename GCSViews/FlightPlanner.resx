@@ -393,11 +393,38 @@
   <data name="&gt;&gt;BUT_read.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="btnLeerEscribir.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnLeerEscribir.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 90</value>
+  </data>
+  <data name="btnLeerEscribir.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
+  </data>
+  <data name="btnLeerEscribir.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnLeerEscribir.Text" xml:space="preserve">
+    <value>Write and Verify</value>
+  </data>
+  <data name="&gt;&gt;btnLeerEscribir.Name" xml:space="preserve">
+    <value>btnLeerEscribir</value>
+  </data>
+  <data name="&gt;&gt;btnLeerEscribir.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnLeerEscribir.Parent" xml:space="preserve">
+    <value>panel5</value>
+  </data>
+  <data name="&gt;&gt;btnLeerEscribir.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="panel5.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 278</value>
   </data>
   <data name="panel5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 87</value>
+    <value>123, 116</value>
   </data>
   <data name="panel5.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>

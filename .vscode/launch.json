@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run MissionPlanner (Debug)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build Debug",
+      "program": "${workspaceFolder}\\bin\\Debug\\net461\\MissionPlanner.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}\\bin\\Debug\\net461",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    }
+  ]
+}
