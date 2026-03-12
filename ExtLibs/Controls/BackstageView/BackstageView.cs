@@ -514,15 +514,19 @@ namespace MissionPlanner.Controls.BackstageView
             // ---------------------------------------------------------
             // FIX for Issue #3633: Pop-out window not closing when re-docking
             // ---------------------------------------------------------
-            // If any page is currently popped out in an external window, close it
-            // before navigating to prevent leaving an empty "ghost" window.
-            if (popoutPage != null)
+            // If a different page is currently popped out in an external window,
+            // close it before navigating to prevent leaving an empty "ghost" window.
+            if (popoutPage != null && popoutPage != associatedPage)
             {
                 Form parentWindow = popoutPage.Page.Parent as Form;
-                if (parentWindow != null)
+                if (parentWindow != null && !parentWindow.IsDisposed)
                 {
                     parentWindow.Close();
                 }
+
+                // Reset the popped-out page reference so we don't repeatedly
+                // attempt to close an already-closed window on subsequent navigations.
+                popoutPage = null;
             }
             // ---------------------------------------------------------
 
