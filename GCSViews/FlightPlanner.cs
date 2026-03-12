@@ -729,28 +729,6 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// Escribe la misión al dron y la lee de vuelta para verificar que fue recibida correctamente.
-        /// Combina BUT_write_Click y BUT_read_Click en una sola operación atómica.
-        /// </summary>
-        /// <param name="sender">Control que originó el evento.</param>
-        /// <param name="e">Argumentos del evento.</param>
-        private void btnLeerEscribir_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Paso 1: Enviar la misión al dron
-                BUT_write_Click(sender, e);
-
-                // Paso 2: Leer la misión de vuelta para confirmar que fue almacenada correctamente
-                BUT_read_Click(sender, e);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de comunicación: " + ex.Message);
-            }
-        }
-
-        /// <summary>
         /// used to adjust existing point in the datagrid including "H"
         /// </summary>
         /// <param name="pointno"></param>
