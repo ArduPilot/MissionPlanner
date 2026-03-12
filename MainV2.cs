@@ -1080,15 +1080,6 @@ namespace MissionPlanner
                 (int) (200), 31);
             MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
-            if (Program.Logo2 != null)
-            {
-                // Escalar el logo manteniendo proporción para ajustarse a la altura de la barra
-                int targetHeight = MenuArduPilot.Height > 0 ? MenuArduPilot.Height : 31;
-                int targetWidth = (int)Math.Round(Program.Logo2.Width * (targetHeight / (double)Program.Logo2.Height));
-                MenuArduPilot.Image = new Bitmap(Program.Logo2, targetWidth, targetHeight);
-                MenuArduPilot.Width = targetWidth;
-            }
-
             Application.DoEvents();
 
             Comports.Add(comPort);
@@ -4671,11 +4662,11 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start("https://www.gridflight.tech/");
+                System.Diagnostics.Process.Start("https://ardupilot.org");
             }
             catch
             {
-                CustomMessageBox.Show("Failed to open url https://www.gridflight.tech/");
+                CustomMessageBox.Show("Failed to open url https://ardupilot.org");
             }
         }
 
