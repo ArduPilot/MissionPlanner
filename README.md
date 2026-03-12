@@ -1,17 +1,80 @@
-# MissionPlanner
+# MissionPlanner by GridFlight
 
-![Dot Net](https://github.com/ardupilot/missionplanner/actions/workflows/main.yml/badge.svg) ![Android](https://github.com/ardupilot/missionplanner/actions/workflows/android.yml/badge.svg) ![OSX/IOS](https://github.com/ardupilot/missionplanner/actions/workflows/mac.yml/badge.svg)
+![GridFlight Logo](logo2.png)
 
-Website : http://ardupilot.org/planner/
+![GridFlight MissionPlanner](https://img.shields.io/badge/GridFlight-MissionPlanner-orange)
 
-Forum : http://discuss.ardupilot.org/c/ground-control-software/mission-planner
+## MissionPlannerPaintec - Solución Mejorada
 
-Download latest stable version : http://firmware.ardupilot.org/Tools/MissionPlanner/MissionPlanner-latest.msi
+**MissionPlannerPaintec** es una versión mejorada y personalizada de Mission Planner, desarrollada por **GridFlight** para proporcionar una experiencia más intuitiva y adaptada a las necesidades específicas de nuestros clientes.
 
-Changelog : https://github.com/ArduPilot/MissionPlanner/blob/master/ChangeLog.txt
+Esta solución ha sido optimizada para simplificar los flujos de trabajo de planificación de misiones, ofreciendo una interfaz de usuario mejorada y funcionalidades adaptadas a los requisitos del sector de drones comerciales.
 
-License : https://github.com/ArduPilot/MissionPlanner/blob/master/COPYING.txt
+---
 
+## Características Principales
+
+- **Interfaz Intuitiva**: Diseño simplificado para una experiencia de usuario más fluida
+- **Optimizado para Clientes**: Funcionalidades adaptadas a las necesidades del sector comercial de drones
+- **Mejoras de Rendimiento**: Optimizaciones internas para mayor estabilidad y velocidad
+- **Soporte Localizado**: Compatible con múltiples idiomas para usuarios internacionales
+
+## Acerca de GridFlight
+
+**GridFlight** es una empresa especializada en soluciones tecnológicas para la industria de drones. Nuestros servicios incluyen:
+
+- Desarrollo de software personalizado para sistemas UAV
+- Integración de misiones autónomas
+- Consultoría técnica y soporte especializado
+- Formación y certificación de operadores
+
+---
+
+## Información Técnica
+
+### Requisitos del Sistema
+
+- Windows 10/11 (64-bit)
+- Visual Studio 2022
+- .NET Framework 4.8 o superior
+
+### Compilación
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/clanga-paintec/MissionPlannerPaintec.git
+
+# Inicializar submódulos
+git submodule update --init
+
+# Compilar con Visual Studio
+# Abrir MissionPlanner.sln y compilar
+```
+
+---
+
+## Licencia
+
+Este proyecto está basado en el código abierto de [ArduPilot Mission Planner](https://github.com/ArduPilot/MissionPlanner). Consulte el archivo [COPYING.txt](COPYING.txt) para más información sobre la licencia original.
+
+---
+
+## Contacto
+
+Para consultas técnicas o comerciales:
+- **GridFlight** - Soluciones UAV Avanzadas
+- Website: *Próximamente disponible*
+- Email: *Contacto a través de GitHub*
+
+---
+
+## Enlace Original
+
+Proyecto original: [ArduPilot Mission Planner](https://github.com/ArduPilot/MissionPlanner)
+
+Website original: http://ardupilot.org/planner/
+
+---
 
 ## How to compile
 
@@ -115,7 +178,7 @@ You can debug Mission Planner on Mono with `MONO_LOG_LEVEL=debug mono MissionPla
 |---|---|---|
 | C:\ProgramData\Mission Planner\gmapcache | Map cache | yes |
 | C:\ProgramData\Mission Planner\srtm | Elevation data cache | yes |
-| C:\ProgramData\Mission Planner\\*.pdef.xml | Parameter cache | yes |
+| C:\ProgramData\Mission Planner\*.pdef.xml | Parameter cache | yes |
 | C:\ProgramData\Mission Planner\LogMessages*.xml | DF Log metadata cache | yes |
 
 on linux this is in /home/<user>/.local/share/Mission Planner/

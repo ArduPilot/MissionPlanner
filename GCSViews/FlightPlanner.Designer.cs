@@ -64,6 +64,7 @@ namespace MissionPlanner.GCSViews
             this.but_writewpfast = new MissionPlanner.Controls.MyButton();
             this.BUT_write = new MissionPlanner.Controls.MyButton();
             this.BUT_read = new MissionPlanner.Controls.MyButton();
+            this.btnLeerEscribir = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -291,6 +292,7 @@ namespace MissionPlanner.GCSViews
             this.panel5.Controls.Add(this.but_writewpfast);
             this.panel5.Controls.Add(this.BUT_write);
             this.panel5.Controls.Add(this.BUT_read);
+            this.panel5.Controls.Add(this.btnLeerEscribir);
             resources.ApplyResources(this.panel5, "panel5");
             this.panel5.Name = "panel5";
             // 
@@ -311,12 +313,20 @@ namespace MissionPlanner.GCSViews
             this.BUT_write.Click += new System.EventHandler(this.BUT_write_Click);
             // 
             // BUT_read
-            // 
+            //
             resources.ApplyResources(this.BUT_read, "BUT_read");
             this.BUT_read.Name = "BUT_read";
             this.BUT_read.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_read.UseVisualStyleBackColor = true;
             this.BUT_read.Click += new System.EventHandler(this.BUT_read_Click);
+            //
+            // btnLeerEscribir
+            //
+            resources.ApplyResources(this.btnLeerEscribir, "btnLeerEscribir");
+            this.btnLeerEscribir.Name = "btnLeerEscribir";
+            this.btnLeerEscribir.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.btnLeerEscribir.UseVisualStyleBackColor = true;
+            this.btnLeerEscribir.Click += new System.EventHandler(this.btnLeerEscribir_Click);
             // 
             // panel1
             // 
@@ -1590,6 +1600,7 @@ namespace MissionPlanner.GCSViews
         public System.Windows.Forms.ComboBox CMB_altmode;
         public MyButton BUT_read;
         public MyButton BUT_write;
+        public MyButton btnLeerEscribir;
         public Panel panel5;
         public Panel panel1;
         public LinkLabel label4;
