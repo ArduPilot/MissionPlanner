@@ -795,9 +795,6 @@
     <Content Include="mavextra.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="logo2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="mpdesktop.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

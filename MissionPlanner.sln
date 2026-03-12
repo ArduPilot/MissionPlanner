@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32811.315
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,6 +13,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wix", "wix\wix.csproj", "{76374F95-C343-4ACC-B86F-7ECFDD668F46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\Dowding\ElevationGraphShortcut.cs = plugins\Dowding\ElevationGraphShortcut.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Stats", "ExtLibs\MissionPlanner.Stats\MissionPlanner.Stats.csproj", "{6A6F4345-0A45-413E-B6D6-FD73660DAD4C}"
 EndProject
