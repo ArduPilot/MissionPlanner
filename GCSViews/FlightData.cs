@@ -2509,11 +2509,26 @@ namespace MissionPlanner.GCSViews
 
         private void CMB_modes_Click(object sender, EventArgs e)
         {
+            string[] blacklist = { "Acro", "FBWA", "FBWB", "AVOID_ADSB", "QAcro", "Thermal", "Loiter To QLand", "AUTOLAND", "INITIALISING" };
             string current_value = CMB_modes.Text;
-            CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
+
+            //CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware); codigo original
+            CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware)
+                .Where(kvp => !blacklist.Contains(kvp.Value, StringComparer.OrdinalIgnoreCase))
+                .ToList();
             CMB_modes.ValueMember = "Key";
             CMB_modes.DisplayMember = "Value";
             CMB_modes.Text = current_value;
+        }
+        private void CMB_modes_full_list_Click(object sender, EventArgs e)
+        {
+
+            string current_value = CMB_modes_full_list.Text;
+
+            CMB_modes_full_list.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
+            CMB_modes_full_list.ValueMember = "Key";
+            CMB_modes_full_list.DisplayMember = "Value";
+            CMB_modes_full_list.Text = current_value;
         }
 
         private void CMB_setwp_Click(object sender, EventArgs e)
