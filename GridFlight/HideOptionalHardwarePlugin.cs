@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner;
+using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Plugin;
 
@@ -115,8 +116,10 @@ namespace GridFlight
         }
 
         /// <summary>
-        /// Activa el loop a 1 Hz para detectar cuándo InitialSetup es instanciada
-        /// y poder ocultar CubeID Update, que no tiene flag en DisplayConfiguration.
+        /// Activa el loop permanente a 1 Hz.
+        /// CubeID no tiene flag en DisplayConfiguration: se añade incondicionalmente en
+        /// InitialSetup.cs:254 cada vez que el usuario navega a SETUP, por lo que hay que
+        /// ocultarlo en cada visita. El loop corre sin apagarse para manejar esas re-entradas.
         /// </summary>
         public override bool Loaded()
         {
@@ -125,26 +128,43 @@ namespace GridFlight
         }
 
         /// <summary>
-        /// Comprueba (a 1 Hz) si InitialSetup ya ha sido creada y cargada.
-        /// Cuando la encuentra, oculta CubeID Update en el hilo UI y desactiva el loop.
+        /// Comprueba a 1 Hz si CubeID Update está visible y, solo en ese caso, lo oculta.
         ///
-        /// Loop() corre en un hilo de fondo (ver MainV2.cs:2497-2537).
-        /// Toda operación de UI se delega a BeginInvoke para ser seguro con los hilos.
-        /// La condición loopratehz > 0 (MainV2.cs:2507) es lo que activa esta llamada.
+        /// El loop es permanente porque MainSwitcher destruye y recrea InitialSetup en cada
+        /// visita al tab SETUP (MainSwitcher.cs:131-135: Dispose + Control = null). Cada nueva
+        /// instancia tiene Show=true por defecto, así que el ocultado debe repetirse.
+        ///
+        /// Guarda de idempotencia: si CubeID ya está oculto (Show=false), no se llama a
+        /// BeginInvoke ni a DrawMenu — el coste es una sola iteración LINQ sobre ~20 ítems.
+        ///
+        /// Loop() corre en un hilo de fondo (MainV2.cs:2497-2537).
+        /// Toda operación de UI se delega a BeginInvoke.
         /// </summary>
         public override bool Loop()
         {
-            var hwConfigScreen = Host.MainForm.MyView.screens
+            var hwConfigScreen = MainV2.View.screens
                 .FirstOrDefault(s => s.Name == "HWConfig");
 
-            if (hwConfigScreen?.Control is InitialSetup setup
-                && setup.backstageView?.Pages.Count > 0)
-            {
-                // Desactivar el loop ANTES del BeginInvoke para evitar re-entradas
-                loopratehz = 0;
+            var setup = hwConfigScreen?.Control as InitialSetup;
+            if (setup == null)
+                return true;
+            if (setup.backstageView == null || setup.backstageView.Pages.Count == 0)
+                return true;
 
-                Host.MainForm.BeginInvoke((MethodInvoker)(() => HideCubeIDPage(setup)));
+            // Guarda de idempotencia: solo actúa cuando CubeID es visible.
+            // Esto ocurre una vez por visita al tab SETUP.
+            bool cubeIdVisible = false;
+            foreach (BackstageViewPage page in setup.backstageView.Pages)
+            {
+                if (page.LinkText == "CubeID Update" && page.Show)
+                {
+                    cubeIdVisible = true;
+                    break;
+                }
             }
+
+            if (cubeIdVisible)
+                Host.MainForm.BeginInvoke((MethodInvoker)(() => HideCubeIDPage(setup)));
 
             return true;
         }
@@ -161,15 +181,19 @@ namespace GridFlight
         /// <param name="setup">Instancia de InitialSetup ya activada.</param>
         private void HideCubeIDPage(InitialSetup setup)
         {
-            foreach (var page in setup.backstageView.Pages)
+            foreach (BackstageViewPage page in setup.backstageView.Pages)
             {
                 if (page.LinkText == "CubeID Update")
                 {
                     page.Show = false;
-                    setup.backstageView.Refresh();
                     break;
                 }
             }
+
+            // Refresh() sólo repinta el control (OnPaint → DrawMenu(null, false) → early return).
+            // DrawMenu con force=true es la única forma de que pnlMenu.Controls.Clear() se ejecute
+            // y los botones ya pintados para CubeID sean eliminados del panel.
+            setup.backstageView.DrawMenu(setup.backstageView.SelectedPage, force: true);
         }
     }
 }
