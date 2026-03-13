@@ -211,15 +211,6 @@
   <data name="contextMenuStripHud.Size" type="System.Drawing.Size, System.Drawing">
     <value>269, 180</value>
   </data>
-  <data name="contextMenuStripHud.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="hud1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SubMainLeft.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="customizeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
   </data>
@@ -234,9 +225,6 @@
   </data>
   <data name="contextMenuStripactionstab.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 48</value>
-  </data>
-  <data name="contextMenuStripactionstab.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="setViewCountToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>237, 22</value>
@@ -253,35 +241,11 @@
   <data name="contextMenuStripQuickView.Size" type="System.Drawing.Size, System.Drawing">
     <value>238, 48</value>
   </data>
-  <data name="contextMenuStripQuickView.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="quickView6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="quickView5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="quickView4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="quickView3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="quickView2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="quickView1.ToolTip" xml:space="preserve">
     <value>Двічі натисніть на мене, щоб змінити</value>
   </data>
-  <data name="tableLayoutPanelQuick.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabQuick.Text" xml:space="preserve">
     <value>Швидкий доступ</value>
-  </data>
-  <data name="tabQuick.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_SendMSG.Text" xml:space="preserve">
     <value>Повідомлення</value>
@@ -295,17 +259,11 @@
   <data name="BUT_abortland.ToolTip" xml:space="preserve">
     <value>Доступно лише для літаків</value>
   </data>
-  <data name="modifyandSetLoiterRad.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_clear_track.Text" xml:space="preserve">
     <value>Стерти маршрут</value>
   </data>
   <data name="BUT_clear_track.ToolTip" xml:space="preserve">
     <value>Стерти записаний шлях з карти</value>
-  </data>
-  <data name="CMB_action.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUTactiondo.Text" xml:space="preserve">
     <value>Виконати</value>
@@ -315,18 +273,6 @@
   </data>
   <data name="BUT_resumemis.Text" xml:space="preserve">
     <value>Продовжити місію</value>
-  </data>
-  <data name="BUT_resumemis.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="modifyandSetAlt.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="modifyandSetSpeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CMB_setwp.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
     <value>Армувати/Деармувати</value>
@@ -364,9 +310,6 @@
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
     <value>Перезапустити місію з самого початку</value>
   </data>
-  <data name="CMB_mountmode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_quickrtl.Text" xml:space="preserve">
     <value>RTL (Повернення додому)</value>
   </data>
@@ -385,9 +328,6 @@
   <data name="BUT_setwp.ToolTip" xml:space="preserve">
     <value>Змінити цільовий ППМ</value>
   </data>
-  <data name="CMB_modes.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_quickauto.Text" xml:space="preserve">
     <value>Авто</value>
   </data>
@@ -397,26 +337,11 @@
   <data name="BUT_setmode.Text" xml:space="preserve">
     <value>Встановити режим</value>
   </data>
-  <data name="BUT_setmode.ToolTip" xml:space="preserve">
-    <value>Встановити новий режим</value>
-  </data>
-  <data name="tableLayoutPanel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabActions.Text" xml:space="preserve">
     <value>Дії</value>
   </data>
-  <data name="tabActions.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="txt_messagebox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabPagemessages.Text" xml:space="preserve">
     <value>Повідомлення</value>
-  </data>
-  <data name="tabPagemessages.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="myButton1.Text" xml:space="preserve">
     <value>Віраж</value>
@@ -439,17 +364,8 @@
   <data name="tabActionsSimple.Text" xml:space="preserve">
     <value>Дії</value>
   </data>
-  <data name="tabActionsSimple.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="checkListControl1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabPagePreFlight.Text" xml:space="preserve">
     <value>Передпольотна перевірка</value>
-  </data>
-  <data name="tabPagePreFlight.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Gvspeed.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -647,9 +563,6 @@
         rt/+tebi0+8/dtOPl/6v/qPq8f0eTk47xfU/k8vln0/Lj86o/9k=
 </value>
   </data>
-  <data name="Gvspeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Gheading.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAAAAAAAD/7gAOQWRvYmUAZAAAAAAB/9sAQwAGBAQEBQQGBQUGCQYFBgkLCAYG
@@ -846,9 +759,6 @@
         rt/+tebi0+8/dtOPl/6v/qPq8f0eTk47xfU/k8vln0/Lj86o/9k=
 </value>
   </data>
-  <data name="Gheading.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Galt.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAAAAAAAD/7gAOQWRvYmUAZAAAAAAB/9sAQwAGBAQEBQQGBQUGCQYFBgkLCAYG
@@ -1044,9 +954,6 @@
         CgA7H+OfZ/sf3D1Os+7/AH70/wBl9LL/ALnJycHqvUcmP/JpwcW+tv7t9QfSf237d/2R/wD43939D6D7
         rt/+tebi0+8/dtOPl/6v/qPq8f0eTk47xfU/k8vln0/Lj86o/9k=
 </value>
-  </data>
-  <data name="Galt.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Gspeed.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1250,38 +1157,8 @@
   <data name="tabGauges.Text" xml:space="preserve">
     <value>Прилади</value>
   </data>
-  <data name="tabGauges.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NACp_tb.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NIC_tb.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NACp_lbl.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NIC_lbl.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Squawk_nud.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FlightID_tb.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="fault_clb.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="XPDRConnect_btn.Text" xml:space="preserve">
     <value>Під'єднатися до транспондера</value>
-  </data>
-  <data name="XPDRConnect_btn.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Squawk_label.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="FlightID_label.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -1289,161 +1166,20 @@
   <data name="FlightID_label.Text" xml:space="preserve">
     <value>ID польоту</value>
   </data>
-  <data name="FlightID_label.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="IDENT_btn.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ALT_btn.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="STBY_btn.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ON_btn.Text" xml:space="preserve">
     <value>УВІМК</value>
-  </data>
-  <data name="ON_btn.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Mode_clb.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabTransponder.Text" xml:space="preserve">
     <value>Транспондер</value>
   </data>
-  <data name="tabTransponder.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabStatus.Text" xml:space="preserve">
     <value>Стан</value>
-  </data>
-  <data name="tabStatus.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions8.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions9.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions11.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions12.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions8.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions9.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions11.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions12.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions13.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions14.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions15.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="relayOptions16.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="flowLayoutPanelServos.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabServo.Text" xml:space="preserve">
     <value>Серво/Реле</value>
   </data>
-  <data name="tabServo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="auxOptions7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="flowLayoutPanel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabAuxFunction.Text" xml:space="preserve">
     <value>Aux Функції</value>
-  </data>
-  <data name="tabAuxFunction.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBoxRedirectOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 17</value>
@@ -1451,14 +1187,8 @@
   <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
     <value>Перенаправити вивід програми</value>
   </data>
-  <data name="checkBoxRedirectOutput.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_edit_selected.Text" xml:space="preserve">
     <value>Редагувати обраний сценарій</value>
-  </data>
-  <data name="BUT_edit_selected.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="labelSelectedScript.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 13</value>
@@ -1466,20 +1196,11 @@
   <data name="labelSelectedScript.Text" xml:space="preserve">
     <value>Обраний скрипт: немає</value>
   </data>
-  <data name="labelSelectedScript.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_run_script.Text" xml:space="preserve">
     <value>Запустити скрипт</value>
   </data>
-  <data name="BUT_run_script.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_abort_script.Text" xml:space="preserve">
     <value>Перервати запущений скрипт</value>
-  </data>
-  <data name="BUT_abort_script.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="labelScriptStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 13</value>
@@ -1487,74 +1208,26 @@
   <data name="labelScriptStatus.Text" xml:space="preserve">
     <value>Стан скрипту: немає запущених</value>
   </data>
-  <data name="labelScriptStatus.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_select_script.Text" xml:space="preserve">
     <value>Оберіть скрипт</value>
-  </data>
-  <data name="BUT_select_script.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabScripts.Text" xml:space="preserve">
     <value>Скрипти</value>
   </data>
-  <data name="tabScripts.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_PayloadFolder.Text" xml:space="preserve">
-    <value>Файли корисного навантаження</value>
-  </data>
-  <data name="BUT_PayloadFolder.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TXT_gimbalRollPos.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="trackBarRoll.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="groupBoxRoll.Text" xml:space="preserve">
     <value>Крен</value>
-  </data>
-  <data name="groupBoxRoll.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TXT_gimbalYawPos.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="trackBarYaw.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="groupBoxYaw.Text" xml:space="preserve">
     <value>Рискання</value>
   </data>
-  <data name="groupBoxYaw.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_resetGimbalPos.Text" xml:space="preserve">
     <value>Скинути позицію</value>
-  </data>
-  <data name="BUT_resetGimbalPos.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="trackBarPitch.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TXT_gimbalPitchPos.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="groupBoxPitch.Text" xml:space="preserve">
     <value>Нахил</value>
   </data>
-  <data name="groupBoxPitch.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabPayload.Text" xml:space="preserve">
     <value>Керування корисним навантаженням</value>
-  </data>
-  <data name="tabPayload.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 13</value>
@@ -1562,159 +1235,57 @@
   <data name="label2.Text" xml:space="preserve">
     <value>Швидкість</value>
   </data>
-  <data name="label2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_speed10.Text" xml:space="preserve">
     <value>10х</value>
-  </data>
-  <data name="BUT_speed10.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_speed5.Text" xml:space="preserve">
     <value>5х</value>
   </data>
-  <data name="BUT_speed5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_speed2.Text" xml:space="preserve">
     <value>2х</value>
-  </data>
-  <data name="BUT_speed2.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_speed1.Text" xml:space="preserve">
     <value>1х</value>
   </data>
-  <data name="BUT_speed1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1_2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1_4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1_10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_loadtelem.Text" xml:space="preserve">
     <value>Завантажити журнал</value>
-  </data>
-  <data name="BUT_loadtelem.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lbl_playbackspeed.Text" xml:space="preserve">
     <value>х 1.0</value>
   </data>
-  <data name="lbl_playbackspeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lbl_logpercent.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LBL_logfn.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Tlog &gt; Kml або Графік</value>
-  </data>
-  <data name="BUT_log2kml.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>Відтворити/Призупинити</value>
   </data>
-  <data name="BUT_playlog.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tracklog.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tableLayoutPaneltlogs.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabTLogs.Text" xml:space="preserve">
     <value>Журнали телеметрії</value>
-  </data>
-  <data name="tabTLogs.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_DFMavlink.Text" xml:space="preserve">
     <value>Завантажити Журнал DataFlash через MAVLink</value>
   </data>
-  <data name="BUT_DFMavlink.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_georefimage.Text" xml:space="preserve">
     <value>Файли геореференції</value>
-  </data>
-  <data name="BUT_georefimage.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>Переглянути журнал</value>
   </data>
-  <data name="BUT_logbrowse.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_matlab.Text" xml:space="preserve">
     <value>Створити Matlab файл</value>
-  </data>
-  <data name="BUT_matlab.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="but_bintolog.Text" xml:space="preserve">
     <value>Перетворити
 .Bin в .Log</value>
   </data>
-  <data name="but_bintolog.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="but_dflogtokml.Text" xml:space="preserve">
     <value>Створити KML + gpx</value>
-  </data>
-  <data name="but_dflogtokml.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_loganalysis.Text" xml:space="preserve">
     <value>Авто-аналіз</value>
   </data>
-  <data name="BUT_loganalysis.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tableLayoutPanel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tablogbrowse.Text" xml:space="preserve">
     <value>Журнали DataFlash</value>
-  </data>
-  <data name="tablogbrowse.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabControlactions.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panel_persistent.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SubMainLeft.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SubMainLeft.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="MainH.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="zg1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>261, 22</value>
@@ -1827,35 +1398,17 @@
   <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
     <value>262, 268</value>
   </data>
-  <data name="contextMenuStripMap.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Мштб.</value>
   </data>
-  <data name="label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="but_disablejoystick.Text" xml:space="preserve">
     <value>Вимкнути джойстик</value>
   </data>
-  <data name="but_disablejoystick.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Zoomlevel.ToolTip" xml:space="preserve">
     <value>Змінити рівень масштабування</value>
-  </data>
-  <data name="distanceBar1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TRK_zoom.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="windDir1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>319, 167</value>
@@ -1866,9 +1419,6 @@
   <data name="label6.Text" xml:space="preserve">
     <value>GPS (Чорний)</value>
   </data>
-  <data name="label6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 167</value>
   </data>
@@ -1878,26 +1428,17 @@
   <data name="label5.Text" xml:space="preserve">
     <value>Цільовий курс</value>
   </data>
-  <data name="label5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Прямий до ППМ</value>
   </data>
-  <data name="label3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Поточний курс</value>
-  </data>
-  <data name="label4.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lbl_hdop.Text" xml:space="preserve">
     <value>HDOP: 0</value>
@@ -1910,18 +1451,6 @@
   </data>
   <data name="lbl_sats.ToolTip" xml:space="preserve">
     <value>Кулькість супутників</value>
-  </data>
-  <data name="gMapControl1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="coords1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 17</value>
@@ -1940,6 +1469,477 @@
   </data>
   <data name="CB_tuning.ToolTip" xml:space="preserve">
     <value>Показати графік для налаштування - зі значеннями цільової висоти проти фактичної</value>
+  </data>
+  <data name="BUT_setmode.ToolTip" xml:space="preserve">
+    <value>Встановити новий режим</value>
+  </data>
+  <data name="BUT_PayloadFolder.Text" xml:space="preserve">
+    <value>Файли корисного навантаження</value>
+  </data>
+  <data name="contextMenuStripHud.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="hud1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubMainLeft.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="contextMenuStripactionstab.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="contextMenuStripQuickView.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="quickView2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableLayoutPanelQuick.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabQuick.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="modifyandSetLoiterRad.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMB_action.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_resumemis.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="modifyandSetAlt.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="modifyandSetSpeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMB_setwp.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMB_mountmode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMB_modes.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableLayoutPanel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabActions.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="txt_messagebox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPagemessages.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabActionsSimple.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkListControl1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPagePreFlight.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Gvspeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Gheading.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Galt.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabGauges.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NACp_tb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NIC_tb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NACp_lbl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NIC_lbl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Squawk_nud.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlightID_tb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="fault_clb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="XPDRConnect_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Squawk_label.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlightID_label.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IDENT_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ALT_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="STBY_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ON_btn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mode_clb.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabTransponder.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabStatus.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servoOptions12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="relayOptions16.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanelServos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabServo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="auxOptions7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabAuxFunction.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBoxRedirectOutput.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_edit_selected.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelSelectedScript.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_run_script.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_abort_script.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelScriptStatus.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_select_script.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabScripts.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_PayloadFolder.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_gimbalRollPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="trackBarRoll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBoxRoll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_gimbalYawPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="trackBarYaw.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBoxYaw.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_resetGimbalPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="trackBarPitch.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_gimbalPitchPos.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBoxPitch.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPayload.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1_2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1_4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_speed1_10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_loadtelem.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_playbackspeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_logpercent.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LBL_logfn.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_log2kml.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_playlog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tracklog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableLayoutPaneltlogs.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabTLogs.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_DFMavlink.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_georefimage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_logbrowse.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_matlab.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="but_bintolog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="but_dflogtokml.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_loganalysis.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tableLayoutPanel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tablogbrowse.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabControlactions.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel_persistent.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubMainLeft.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubMainLeft.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MainH.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="zg1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="contextMenuStripMap.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="but_disablejoystick.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="distanceBar1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TRK_zoom.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="windDir1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="gMapControl1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="coords1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="panel1.ToolTip" xml:space="preserve">
     <value />

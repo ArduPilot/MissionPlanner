@@ -1645,6 +1645,20 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.setMode(CMB_modes.Text);
         }
 
+        //Codigo Gridflight
+        private void BUT_setmode_full_list_Click(object sender, EventArgs e)
+        {
+            if (MainV2.comPort.MAV.cs.failsafe)
+            {
+                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe", MessageBoxButtons.YesNo) !=
+                    (int)DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            MainV2.comPort.setMode(CMB_modes_full_list.Text);
+        }
         private void BUT_setwp_Click(object sender, EventArgs e)
         {
             try

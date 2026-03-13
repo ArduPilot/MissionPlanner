@@ -70,6 +70,7 @@ namespace MissionPlanner.GCSViews
             this.CMB_modes_full_list = new System.Windows.Forms.ComboBox();
             this.BUT_quickauto = new MissionPlanner.Controls.MyButton();
             this.BUT_setmode = new MissionPlanner.Controls.MyButton();
+            this.BUT_setmode_full_list = new MissionPlanner.Controls.MyButton();
             this.tabPagemessages = new System.Windows.Forms.TabPage();
             this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tabActionsSimple = new System.Windows.Forms.TabPage();
@@ -750,13 +751,13 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.BUT_SendMSG, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.BUT_abortland, 4, 1);
-            this.tableLayoutPanel1.Controls.Add(this.modifyandSetLoiterRad, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.modifyandSetLoiterRad, 4, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_clear_track, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.CMB_action, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUTactiondo, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUT_resumemis, 4, 3);
-            this.tableLayoutPanel1.Controls.Add(this.modifyandSetAlt, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.modifyandSetSpeed, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.modifyandSetAlt, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.modifyandSetSpeed, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.CMB_setwp, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.BUT_ARM, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_mountmode, 1, 3);
@@ -769,9 +770,10 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.BUT_quickmanual, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.BUT_setwp, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.CMB_modes, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.CMB_modes_full_list, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.CMB_modes_full_list, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_quickauto, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUT_setmode, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_setmode_full_list, 1, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // BUT_SendMSG
@@ -979,10 +981,10 @@ namespace MissionPlanner.GCSViews
             // 
             // CMB_modes_full_list
             // 
+            resources.ApplyResources(this.CMB_modes_full_list, "CMB_modes_full_list");
             this.CMB_modes_full_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_modes_full_list.DropDownWidth = 150;
             this.CMB_modes_full_list.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_modes_full_list, "CMB_modes_full_list");
             this.CMB_modes_full_list.Name = "CMB_modes_full_list";
             this.CMB_modes_full_list.Click += new System.EventHandler(this.CMB_modes_full_list_Click);
             // 
@@ -1006,9 +1008,19 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.BUT_setmode, "BUT_setmode");
             this.BUT_setmode.Name = "BUT_setmode";
             this.BUT_setmode.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.toolTip1.SetToolTip(this.BUT_setmode, resources.GetString("BUT_setmode.ToolTip"));
             this.BUT_setmode.UseVisualStyleBackColor = true;
             this.BUT_setmode.Click += new System.EventHandler(this.BUT_setmode_Click);
+            // 
+            // BUT_setmode_full_list
+            // 
+            resources.ApplyResources(this.BUT_setmode_full_list, "BUT_setmode_full_list");
+            this.BUT_setmode_full_list.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_setmode_full_list.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_setmode_full_list.ColorNotEnabled = System.Drawing.Color.Empty;
+            this.BUT_setmode_full_list.Name = "BUT_setmode_full_list";
+            this.BUT_setmode_full_list.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_setmode_full_list.UseVisualStyleBackColor = true;
+            this.BUT_setmode_full_list.Click += new System.EventHandler(this.BUT_setmode_full_list_Click);
             // 
             // tabPagemessages
             // 
@@ -2459,7 +2471,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 0D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -3029,6 +3041,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ComboBox CMB_modes;
         private System.Windows.Forms.ComboBox CMB_modes_full_list;
         private Controls.MyButton BUT_setmode;
+        private Controls.MyButton BUT_setmode_full_list;
         private System.Windows.Forms.ComboBox CMB_setwp;
         private Controls.MyButton BUT_setwp;
         private Controls.MyButton BUT_quickmanual;

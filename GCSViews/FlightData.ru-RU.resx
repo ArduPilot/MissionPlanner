@@ -112,55 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Лететь сюда</value>
-  </data>
   <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
     <value>Записывать HUD</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
     <value>Остановить запись</value>
-  </data>
-  <data name="BUT_joystick.Text" xml:space="preserve">
-    <value>Джойстик</value>
-  </data>
-  <data name="BUT_joystick.ToolTip" xml:space="preserve">
-    <value>Выбор и настройка джойстика</value>
-  </data>
-  <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>РУЧНОЙ</value>
-  </data>
-  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>Сменить режим в РУЧНОЙ/СТАБИЛИЗАЦИЯ</value>
-  </data>
-  <data name="BUT_quickrtl.Text" xml:space="preserve">
-    <value>БАЗА</value>
-  </data>
-  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
-    <value>Сменить режим в БАЗА</value>
-  </data>
-  <data name="BUT_quickauto.Text" xml:space="preserve">
-    <value>АВТО</value>
-  </data>
-  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>Сменить режим на АВТО</value>
-  </data>
-  <data name="BUT_setwp.Text" xml:space="preserve">
-    <value>Уст. WP</value>
-  </data>
-  <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>Сменить текущую ТОЧКУ (WP)</value>
-  </data>
-  <data name="BUT_setmode.Text" xml:space="preserve">
-    <value>Уст. Режим</value>
-  </data>
-  <data name="BUT_setmode.ToolTip" xml:space="preserve">
-    <value>Установить другой полетный режим</value>
   </data>
   <data name="BUT_clear_track.Text" xml:space="preserve">
     <value>Стереть трек</value>
@@ -168,11 +129,17 @@
   <data name="BUT_clear_track.ToolTip" xml:space="preserve">
     <value>Стирает проложенный путь с карты</value>
   </data>
-  <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>Уст. высоту</value>
+  <data name="BUTactiondo.Text" xml:space="preserve">
+    <value>Выполнить</value>
   </data>
-  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>Установить текущую высоту как 0.</value>
+  <data name="BUTactiondo.ToolTip" xml:space="preserve">
+    <value>Выполняет действие из списка</value>
+  </data>
+  <data name="BUT_joystick.Text" xml:space="preserve">
+    <value>Джойстик</value>
+  </data>
+  <data name="BUT_joystick.ToolTip" xml:space="preserve">
+    <value>Выбор и настройка джойстика</value>
   </data>
   <data name="BUT_RAWSensor.Text" xml:space="preserve">
     <value>Просмотр сенсоров</value>
@@ -180,17 +147,44 @@
   <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
     <value>Смотреть сырые данные с сенсоров</value>
   </data>
+  <data name="BUT_Homealt.Text" xml:space="preserve">
+    <value>Уст. высоту</value>
+  </data>
+  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
+    <value>Установить текущую высоту как 0.</value>
+  </data>
   <data name="BUTrestartmission.Text" xml:space="preserve">
     <value>Перезап. Миссии</value>
   </data>
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
     <value>Перезапускает миссию с самого начала</value>
   </data>
-  <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>Выполнить</value>
+  <data name="BUT_quickrtl.Text" xml:space="preserve">
+    <value>БАЗА</value>
   </data>
-  <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>Выполняет действие из списка</value>
+  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
+    <value>Сменить режим в БАЗА</value>
+  </data>
+  <data name="BUT_quickmanual.Text" xml:space="preserve">
+    <value>РУЧНОЙ</value>
+  </data>
+  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
+    <value>Сменить режим в РУЧНОЙ/СТАБИЛИЗАЦИЯ</value>
+  </data>
+  <data name="BUT_setwp.Text" xml:space="preserve">
+    <value>Уст. WP</value>
+  </data>
+  <data name="BUT_setwp.ToolTip" xml:space="preserve">
+    <value>Сменить текущую ТОЧКУ (WP)</value>
+  </data>
+  <data name="BUT_quickauto.Text" xml:space="preserve">
+    <value>АВТО</value>
+  </data>
+  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
+    <value>Сменить режим на АВТО</value>
+  </data>
+  <data name="BUT_setmode.Text" xml:space="preserve">
+    <value>Уст. Режим</value>
   </data>
   <data name="tabActions.Text" xml:space="preserve">
     <value>Действия</value>
@@ -204,11 +198,11 @@
   <data name="tabStatus.Text" xml:space="preserve">
     <value>Статус</value>
   </data>
+  <data name="BUT_loadtelem.Text" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
   <data name="lbl_logpercent.Text" xml:space="preserve">
     <value>0.00 %</value>
-  </data>
-  <data name="NUM_playbackspeed.ToolTip" xml:space="preserve">
-    <value>Скорость воспроизведения</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Лог &gt; KML</value>
@@ -216,26 +210,17 @@
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>Старт/Стоп</value>
   </data>
-  <data name="BUT_loadtelem.Text" xml:space="preserve">
-    <value>Загрузить</value>
-  </data>
   <data name="tabTLogs.Text" xml:space="preserve">
     <value>Логи телеметрии</value>
   </data>
-  <data name="TXT_lat.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Zoomlevel.ToolTip" xml:space="preserve">
-    <value>Изменить уровень увеличения</value>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Лететь сюда</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Увел.</value>
   </data>
-  <data name="TXT_long.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TXT_alt.Text" xml:space="preserve">
-    <value>0</value>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>Изменить уровень увеличения</value>
   </data>
   <data name="CHK_autopan.Text" xml:space="preserve">
     <value>Центровка</value>
@@ -249,22 +234,37 @@
   <data name="CB_tuning.ToolTip" xml:space="preserve">
     <value>Показывает график для тонкой настройки</value>
   </data>
-  <data name="lbl_windvel.Text" xml:space="preserve">
-    <value>Скор: 0</value>
-  </data>
-  <data name="lbl_windvel.ToolTip" xml:space="preserve">
-    <value>Скорость ветра</value>
-  </data>
-  <data name="lbl_winddir.Text" xml:space="preserve">
-    <value>Напр: 0</value>
-  </data>
-  <data name="lbl_winddir.ToolTip" xml:space="preserve">
-    <value>Направление ветра</value>
+  <data name="BUT_setmode.ToolTip" xml:space="preserve">
+    <value>Установить другой полетный режим</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Вверх</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>Вниз</value>
+  </data>
+  <data name="lbl_windvel.ToolTip" xml:space="preserve">
+    <value>Скорость ветра</value>
+  </data>
+  <data name="TXT_alt.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lbl_winddir.ToolTip" xml:space="preserve">
+    <value>Направление ветра</value>
+  </data>
+  <data name="lbl_windvel.Text" xml:space="preserve">
+    <value>Скор: 0</value>
+  </data>
+  <data name="TXT_long.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TXT_lat.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lbl_winddir.Text" xml:space="preserve">
+    <value>Напр: 0</value>
+  </data>
+  <data name="NUM_playbackspeed.ToolTip" xml:space="preserve">
+    <value>Скорость воспроизведения</value>
   </data>
 </root>

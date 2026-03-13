@@ -205,20 +205,32 @@
   <data name="tabQuick.Text" xml:space="preserve">
     <value>快速</value>
   </data>
+  <data name="BUT_clear_track.Text" xml:space="preserve">
+    <value>清除轨迹</value>
+  </data>
+  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
+    <value>在地图上清除记录路径</value>
+  </data>
+  <data name="BUTactiondo.Text" xml:space="preserve">
+    <value>执行动作</value>
+  </data>
+  <data name="BUTactiondo.ToolTip" xml:space="preserve">
+    <value>预先在左侧形成动作</value>
+  </data>
   <data name="BUT_resumemis.Text" xml:space="preserve">
     <value>恢复任务</value>
-  </data>
-  <data name="BUT_mountmode.Text" xml:space="preserve">
-    <value>设置挂载</value>
-  </data>
-  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
-    <value>改变为左侧的模式</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
     <value>解锁/锁定</value>
   </data>
   <data name="BUT_ARM.ToolTip" xml:space="preserve">
     <value>解锁Mav</value>
+  </data>
+  <data name="BUT_mountmode.Text" xml:space="preserve">
+    <value>设置挂载</value>
+  </data>
+  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
+    <value>改变为左侧的模式</value>
   </data>
   <data name="BUT_joystick.Text" xml:space="preserve">
     <value>游戏
@@ -227,41 +239,11 @@
   <data name="BUT_joystick.ToolTip" xml:space="preserve">
     <value>设置与启用你的游戏摇杆</value>
   </data>
-  <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>手动</value>
+  <data name="BUT_RAWSensor.Text" xml:space="preserve">
+    <value>原始传感器查看</value>
   </data>
-  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>改变模式为手动/自稳</value>
-  </data>
-  <data name="BUT_quickrtl.Text" xml:space="preserve">
-    <value>返航</value>
-  </data>
-  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
-    <value>改变模式为返航</value>
-  </data>
-  <data name="BUT_quickauto.Text" xml:space="preserve">
-    <value>自动</value>
-  </data>
-  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>更改为自动模式</value>
-  </data>
-  <data name="BUT_setwp.Text" xml:space="preserve">
-    <value>设定航点</value>
-  </data>
-  <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>更改当前目标航点</value>
-  </data>
-  <data name="BUT_setmode.Text" xml:space="preserve">
-    <value>设置模式</value>
-  </data>
-  <data name="BUT_setmode.ToolTip" xml:space="preserve">
-    <value>更改为左侧的模式</value>
-  </data>
-  <data name="BUT_clear_track.Text" xml:space="preserve">
-    <value>清除轨迹</value>
-  </data>
-  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
-    <value>在地图上清除记录路径</value>
+  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
+    <value>查看陀螺仪和加速度计原始数据，及数传原始收发</value>
   </data>
   <data name="BUT_Homealt.Text" xml:space="preserve">
     <value>设置
@@ -270,12 +252,6 @@
   <data name="BUT_Homealt.ToolTip" xml:space="preserve">
     <value>设置当前显示高度为0，或者家的高度显示为0</value>
   </data>
-  <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>原始传感器查看</value>
-  </data>
-  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>查看陀螺仪和加速度计原始数据，及数传原始收发</value>
-  </data>
   <data name="BUTrestartmission.Text" xml:space="preserve">
     <value>重新开始
 任务</value>
@@ -283,17 +259,47 @@
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
     <value>重新从头开始任务</value>
   </data>
-  <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>执行动作</value>
+  <data name="BUT_quickrtl.Text" xml:space="preserve">
+    <value>返航</value>
   </data>
-  <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>预先在左侧形成动作</value>
+  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
+    <value>改变模式为返航</value>
+  </data>
+  <data name="BUT_quickmanual.Text" xml:space="preserve">
+    <value>手动</value>
+  </data>
+  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
+    <value>改变模式为手动/自稳</value>
+  </data>
+  <data name="BUT_setwp.Text" xml:space="preserve">
+    <value>设定航点</value>
+  </data>
+  <data name="BUT_setwp.ToolTip" xml:space="preserve">
+    <value>更改当前目标航点</value>
+  </data>
+  <data name="BUT_quickauto.Text" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
+    <value>更改为自动模式</value>
+  </data>
+  <data name="BUT_setmode.Text" xml:space="preserve">
+    <value>设置模式</value>
   </data>
   <data name="tabActions.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
   </data>
   <data name="tabActions.Text" xml:space="preserve">
     <value>动作</value>
+  </data>
+  <data name="txt_messagebox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 157</value>
+  </data>
+  <data name="tabPagemessages.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 163</value>
+  </data>
+  <data name="tabPagemessages.Text" xml:space="preserve">
+    <value>消息</value>
   </data>
   <data name="myButton1.Text" xml:space="preserve">
     <value>留待</value>
@@ -343,70 +349,6 @@
   <data name="tabServo.Text" xml:space="preserve">
     <value>舵机</value>
   </data>
-  <data name="BUT_loadtelem.Text" xml:space="preserve">
-    <value>加载日志</value>
-  </data>
-  <data name="lbl_playbackspeed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 63</value>
-  </data>
-  <data name="lbl_logpercent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 33</value>
-  </data>
-  <data name="tracklog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 24</value>
-  </data>
-  <data name="LBL_logfn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>330, 24</value>
-  </data>
-  <data name="BUT_log2kml.Text" xml:space="preserve">
-    <value>Tlog &gt; Kml 或图像</value>
-  </data>
-  <data name="BUT_playlog.Text" xml:space="preserve">
-    <value>播放/暂停</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>速度</value>
-  </data>
-  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 97</value>
-  </data>
-  <data name="tableLayoutPaneltlogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 163</value>
-  </data>
-  <data name="tabTLogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 163</value>
-  </data>
-  <data name="tabTLogs.Text" xml:space="preserve">
-    <value>遥测日志</value>
-  </data>
-  <data name="BUT_loganalysis.Text" xml:space="preserve">
-    <value>自动分析</value>
-  </data>
-  <data name="BUT_DFMavlink.Text" xml:space="preserve">
-    <value>通过Mavlink
-下载闪存日志</value>
-  </data>
-  <data name="but_dflogtokml.Text" xml:space="preserve">
-    <value>创建KML + gpx</value>
-  </data>
-  <data name="but_bintolog.Text" xml:space="preserve">
-    <value>PX4 .Bin 转 .Log</value>
-  </data>
-  <data name="BUT_matlab.Text" xml:space="preserve">
-    <value>创建Matlab文件</value>
-  </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>回顾日志</value>
-  </data>
-  <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 163</value>
-  </data>
-  <data name="tablogbrowse.Text" xml:space="preserve">
-    <value>数据闪存日志</value>
-  </data>
   <data name="checkBoxRedirectOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 16</value>
   </data>
@@ -443,14 +385,69 @@
   <data name="tabScripts.Text" xml:space="preserve">
     <value>脚本</value>
   </data>
-  <data name="txt_messagebox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 157</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
-  <data name="tabPagemessages.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label2.Text" xml:space="preserve">
+    <value>速度</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 97</value>
+  </data>
+  <data name="BUT_loadtelem.Text" xml:space="preserve">
+    <value>加载日志</value>
+  </data>
+  <data name="lbl_playbackspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>384, 63</value>
+  </data>
+  <data name="lbl_logpercent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>384, 33</value>
+  </data>
+  <data name="LBL_logfn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>330, 24</value>
+  </data>
+  <data name="BUT_log2kml.Text" xml:space="preserve">
+    <value>Tlog &gt; Kml 或图像</value>
+  </data>
+  <data name="BUT_playlog.Text" xml:space="preserve">
+    <value>播放/暂停</value>
+  </data>
+  <data name="tracklog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 24</value>
+  </data>
+  <data name="tableLayoutPaneltlogs.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
   </data>
-  <data name="tabPagemessages.Text" xml:space="preserve">
-    <value>消息</value>
+  <data name="tabTLogs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 163</value>
+  </data>
+  <data name="tabTLogs.Text" xml:space="preserve">
+    <value>遥测日志</value>
+  </data>
+  <data name="BUT_DFMavlink.Text" xml:space="preserve">
+    <value>通过Mavlink
+下载闪存日志</value>
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>回顾日志</value>
+  </data>
+  <data name="BUT_matlab.Text" xml:space="preserve">
+    <value>创建Matlab文件</value>
+  </data>
+  <data name="but_bintolog.Text" xml:space="preserve">
+    <value>PX4 .Bin 转 .Log</value>
+  </data>
+  <data name="but_dflogtokml.Text" xml:space="preserve">
+    <value>创建KML + gpx</value>
+  </data>
+  <data name="BUT_loganalysis.Text" xml:space="preserve">
+    <value>自动分析</value>
+  </data>
+  <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 163</value>
+  </data>
+  <data name="tablogbrowse.Text" xml:space="preserve">
+    <value>数据闪存日志</value>
   </data>
   <data name="tabControlactions.Size" type="System.Drawing.Size, System.Drawing">
     <value>358, 189</value>
@@ -510,6 +507,12 @@
   <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 180</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>缩放</value>
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>改变放大级别</value>
+  </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>283, 393</value>
   </data>
@@ -567,12 +570,6 @@
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>634, 421</value>
   </data>
-  <data name="Zoomlevel.ToolTip" xml:space="preserve">
-    <value>改变放大级别</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>缩放</value>
-  </data>
   <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
     <value>325, 12</value>
   </data>
@@ -603,13 +600,16 @@
   <data name="MainH.Size" type="System.Drawing.Size, System.Drawing">
     <value>1008, 462</value>
   </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 462</value>
+  </data>
+  <data name="BUT_setmode.ToolTip" xml:space="preserve">
+    <value>更改为左侧的模式</value>
+  </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>上</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>下</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 462</value>
   </data>
 </root>

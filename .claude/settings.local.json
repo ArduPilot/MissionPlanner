@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -ri \"BUT_set\\\\|setmode\" \"C:\\\\Users\\\\PAINTEC\\\\source\\\\repos\\\\MissionPlannerPaintec\" --include=\"*.cs\" -l 2>/dev/null | head -10)",
+      "Bash(grep -ri \"BUT_set\" \"C:\\\\Users\\\\PAINTEC\\\\source\\\\repos\\\\MissionPlannerPaintec\" --include=\"*.cs\" -l 2>/dev/null | head -10)"
+    ]
+  }
+}
