@@ -22,7 +22,6 @@ using MissionPlanner.ArduPilot;
 using System.Runtime.InteropServices;
 using System.Net.NetworkInformation;
 using System.IO.Compression;
-using OpenTK.Input;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
