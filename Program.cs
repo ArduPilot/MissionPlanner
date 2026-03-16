@@ -185,6 +185,7 @@ namespace MissionPlanner
             log.Info("******************* Logging Configured *******************");
 
             ServicePointManager.DefaultConnectionLimit = 10;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
@@ -343,6 +344,12 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Relief.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Slopezone.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Sea.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.GIBSArctic.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.GIBSAntarctic.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.ArcGISArcticBathymetry.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.EsriArcticImagery.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.EsriArcticOceanBase.Instance);
+
 
             if(Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Desktop || Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Unknown)
                 ZedGraph.PaneBase.Default.IsFontsScaled = false;

@@ -373,6 +373,10 @@ namespace DroneCAN
                 }               
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_res))
                 {
+                    if (!NodeInfo.ContainsKey(frame.SourceNode))
+                    {
+                        NodeInfoAdded?.Invoke(frame.SourceNode, msg as DroneCAN.uavcan_protocol_GetNodeInfo_res);
+                    }
                     NodeInfo[frame.SourceNode] = msg as DroneCAN.uavcan_protocol_GetNodeInfo_res;
                 }
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(DroneCAN.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
@@ -1529,6 +1533,9 @@ namespace DroneCAN
 
         public delegate void NodeAddedArgs(byte NodeID, DroneCAN.uavcan_protocol_NodeStatus nodeStatus);
         public event NodeAddedArgs NodeAdded;
+
+        public delegate void NodeInfoAddedArgs(byte NodeID, DroneCAN.uavcan_protocol_GetNodeInfo_res nodeStatus);
+        public event NodeInfoAddedArgs NodeInfoAdded;
 
         private byte transferID = 0;
 

@@ -4,7 +4,7 @@ on: [push, workflow_dispatch, pull_request]
 jobs:
   buildIOS:
     name: Build IOS
-    runs-on: macos-13
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +37,7 @@ jobs:
 
   buildOSX:
     name: Build OSX
-    runs-on: macos-13
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v2

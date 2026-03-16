@@ -11,7 +11,11 @@ namespace MissionPlanner.Utilities
 {
     public static class ExtensionsMP
     {
-
+        public static void SetCheckboxFromConfig(this MyUserControl me, string configKey, System.Windows.Forms.CheckBox chk)
+        {
+            if (Settings.Instance[configKey] != null)
+                chk.Checked = Settings.Instance.GetBoolean(configKey);
+        }
 
         public static Action<T> UpdateDataSource<T>(this BindingSource ctl, T input)
         {

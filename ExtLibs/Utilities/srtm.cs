@@ -10,6 +10,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using log4net;
 using GMap.NET;
+using System.Linq;
+using System.Transactions;
 
 namespace MissionPlanner.Utilities
 {
