@@ -334,6 +334,65 @@ namespace MissionPlanner.Log
             return result;
         }
 
+        private static bool IsGraphableNumericType(Type type)
+        {
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Single:
+                case TypeCode.Int16:
+                case TypeCode.UInt16:
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.Int32:
+                case TypeCode.UInt32:
+                case TypeCode.Int64:
+                case TypeCode.UInt64:
+                case TypeCode.Double:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static bool TryAddGraphValue(PointPairList list, XDate time, object value)
+        {
+            switch (Type.GetTypeCode(value.GetType()))
+            {
+                case TypeCode.Single:
+                    list.Add(time, (Single) value);
+                    return true;
+                case TypeCode.Int16:
+                    list.Add(time, (short) value);
+                    return true;
+                case TypeCode.UInt16:
+                    list.Add(time, (ushort) value);
+                    return true;
+                case TypeCode.Byte:
+                    list.Add(time, (byte) value);
+                    return true;
+                case TypeCode.SByte:
+                    list.Add(time, (sbyte) value);
+                    return true;
+                case TypeCode.Int32:
+                    list.Add(time, (Int32) value);
+                    return true;
+                case TypeCode.UInt32:
+                    list.Add(time, (UInt32) value);
+                    return true;
+                case TypeCode.UInt64:
+                    list.Add(time, (ulong) value);
+                    return true;
+                case TypeCode.Int64:
+                    list.Add(time, (long) value);
+                    return true;
+                case TypeCode.Double:
+                    list.Add(time, (double) value);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private async Task<List<string>> GetLogFileValidFields(string logfile)
         {
             // if (selectform != null && !selectform.IsDisposed)
@@ -435,9 +494,38 @@ namespace MissionPlanner.Log
                         // field.Name has the field's name.
 
                         object fieldValue = field.GetValue(data); // Get value
+                        XDate time = new XDate(mine.lastlogread);
 
                         if (field.FieldType.IsArray)
                         {
+                            var elementType = field.FieldType.GetElementType();
+
+                            if (elementType == null || !IsGraphableNumericType(elementType) || !(fieldValue is IEnumerable values))
+                                continue;
+
+                            int index = 0;
+                            foreach (var subValue in values)
+                            {
+                                string indexedFieldName = field.Name + "[" + index + "]";
+                                string optionName = field.DeclaringType.Name + "." + indexedFieldName;
+                                string dataKey = indexedFieldName + " " + field.DeclaringType.Name;
+
+                                if (!seenIt.ContainsKey(optionName))
+                                {
+                                    seenIt[optionName] = 1;
+                                    options.Add(optionName);
+                                }
+
+                                if (!this.datappl.ContainsKey(dataKey))
+                                    this.datappl[dataKey] = new PointPairList();
+
+                                if (!TryAddGraphValue((PointPairList) this.datappl[dataKey], time, subValue))
+                                {
+                                    Console.WriteLine("Unknown data type");
+                                }
+
+                                index++;
+                            }
                         }
                         else
                         {
@@ -454,54 +542,7 @@ namespace MissionPlanner.Log
                             PointPairList list =
                                 ((PointPairList) this.datappl[field.Name + " " + field.DeclaringType.Name]);
 
-                            object value = fieldValue;
-                            // seconds scale
-                            //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
-
-                            XDate time = new XDate(mine.lastlogread);
-
-                            if (value.GetType() == typeof(Single))
-                            {
-                                list.Add(time, (Single) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(short))
-                            {
-                                list.Add(time, (short) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(ushort))
-                            {
-                                list.Add(time, (ushort) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(byte))
-                            {
-                                list.Add(time, (byte) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(sbyte))
-                            {
-                                list.Add(time, (sbyte) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(Int32))
-                            {
-                                list.Add(time, (Int32) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(UInt32))
-                            {
-                                list.Add(time, (UInt32) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(ulong))
-                            {
-                                list.Add(time, (ulong) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(long))
-                            {
-                                list.Add(time, (long) field.GetValue(data));
-                            }
-                            else if (value.GetType() == typeof(double))
-                            {
-                                list.Add(time, (double) field.GetValue(data));
-                            }
-
-                            else
+                            if (!TryAddGraphValue(list, time, fieldValue))
                             {
                                 Console.WriteLine("Unknown data type");
                             }
@@ -863,7 +904,8 @@ namespace MissionPlanner.Log
 
                 if (split.Length == 2)
                 {
-                    var unit = MAVLink.GetUnit(split[0],
+                    var fieldName = split[0].Split('[')[0];
+                    var unit = MAVLink.GetUnit(fieldName,
                         name: split[1].Replace("mavlink_", "").RemoveFromEnd("_t").ToUpper());
 
                     var index = zg1.GraphPane.YAxisList.IndexOf(unit);
