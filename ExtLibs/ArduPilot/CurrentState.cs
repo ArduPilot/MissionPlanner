@@ -2287,6 +2287,23 @@ namespace MissionPlanner
             {
                 switch (mavLinkMessage.msgid)
                 {
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SIMSTATE:
+                        {
+                            var simstate = mavLinkMessage.ToStructure<MAVLink.mavlink_simstate_t>();
+                            lat = simstate.lat / 1e7;
+                            lng = simstate.lng / 1e7;
+                            roll = (float)(simstate.roll * MathHelper.rad2deg);
+                            pitch = (float)(simstate.pitch * MathHelper.rad2deg);
+                            yaw = (float)(simstate.yaw * MathHelper.rad2deg);
+                            gy = simstate.ygyro;
+                            gx = simstate.xgyro;
+                            gz = simstate.zgyro;
+                            ax = simstate.xacc;
+                            ay = simstate.yacc;
+                            az = simstate.zacc;
+                        }
+                        break;
+
                     case (uint)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED:
 
                         // hil mavlink 0.9
