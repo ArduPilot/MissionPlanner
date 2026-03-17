@@ -48,6 +48,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.btnMountFuse = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -216,11 +217,23 @@
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
+            //
+            // btnMountFuse
+            //
+            this.btnMountFuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMountFuse.Location = new System.Drawing.Point(763, 0);
+            this.btnMountFuse.Name = "btnMountFuse";
+            this.btnMountFuse.Size = new System.Drawing.Size(125, 23);
+            this.btnMountFuse.TabIndex = 3;
+            this.btnMountFuse.Text = "Mount as Drive";
+            this.btnMountFuse.UseVisualStyleBackColor = true;
+            this.btnMountFuse.Click += new System.EventHandler(this.BtnMountFuse_Click);
+            //
             // MavFTPUI
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnMountFuse);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "MavFTPUI";
@@ -258,5 +271,6 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripMenuItem getCRC32ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadBurstToolStripMenuItem;
+        private System.Windows.Forms.Button btnMountFuse;
     }
 }

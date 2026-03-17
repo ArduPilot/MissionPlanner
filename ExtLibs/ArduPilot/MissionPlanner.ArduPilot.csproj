@@ -27,6 +27,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SharpCompress" Version="0.29.0" />
     <PackageReference Include="SharpDX.DirectInput" Version="4.1.0" />
+    <PackageReference Include="DokanNet" Version="2.1.0" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using Ionic.Zip;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities;
 using System;
@@ -648,6 +649,48 @@ namespace MissionPlanner.Controls
         private void MavFTPUI_Load(object sender, EventArgs e)
         {
             PopulateTreeView();
+        }
+
+        // Default drive letter used for the FUSE mount
+        private const string DefaultMountPoint = "M:\\";
+
+        private void BtnMountFuse_Click(object sender, EventArgs e)
+        {
+            if (MavFtpDokan.IsMounted)
+            {
+                // Unmount
+                try
+                {
+                    MavFtpDokan.Unmount(DefaultMountPoint);
+                    btnMountFuse.Text = "Mount as Drive";
+                    toolStripStatusLabel1.Text = "FUSE drive unmounted";
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Unmount error", ex);
+                    CustomMessageBox.Show("Failed to unmount: " + ex.Message);
+                }
+            }
+            else
+            {
+                // Ask user for mount point
+                string mountPoint = DefaultMountPoint;
+                var dr = InputBox.Show("Mount Point", "Enter drive letter or path (e.g. M:\\)", ref mountPoint);
+                if (dr != DialogResult.OK)
+                    return;
+
+                try
+                {
+                    MavFtpDokan.Mount(_mavftp, mountPoint);
+                    btnMountFuse.Text = "Unmount Drive";
+                    toolStripStatusLabel1.Text = "FUSE drive mounted at " + mountPoint;
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Mount error", ex);
+                    CustomMessageBox.Show("Failed to mount: " + ex.Message + "\n\nMake sure Dokan driver is installed.");
+                }
+            }
         }
     }
 }
