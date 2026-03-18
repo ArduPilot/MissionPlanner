@@ -6287,8 +6287,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
+                // use brute force, for all three possible params
+
                 // m
                 port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
+
+                // m
+                port.setParam("WP_RADIUS_M", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
 
                 // cm's
                 port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
@@ -6700,6 +6705,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     TXT_WPRad.Text = string.Format("{0:N2}",
                         (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
                 }
+
+                // In meters
+                if (param.ContainsKey("WP_RADIUS_M"))
+                {
+                    TXT_WPRad.Text = string.Format("{0:N2}",
+                        (((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist)));
+                }
+
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
 
