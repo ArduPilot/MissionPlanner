@@ -744,6 +744,10 @@ namespace MissionPlanner.GCSViews
                 bool added = false;
                 foreach (TabPage tabPage in TabListOriginal)
                 {
+                    // skip the Quick tab if it is currently undocked into a popup window
+                    if (tabQuickDetached && tabPage == tabQuick)
+                        continue;
+
                     if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
                         tabControlactions.TabPages.Add(tabPage);
@@ -765,7 +769,7 @@ namespace MissionPlanner.GCSViews
             loadTabControlActions();
 
             //we want to at least have one tabpage
-            if (tabControlactions.TabPages.Count == 0)
+            if (tabControlactions.TabPages.Count == 0 && !tabQuickDetached)
             {
                 tabControlactions.TabPages.Add(tabQuick);
                 tabControlactions.SelectedIndex = 0;
