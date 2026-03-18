@@ -43,6 +43,7 @@ docs/
 *.pem
 *.key
 /.vscode
+/.idea
 obj2/
 obj3/
 
