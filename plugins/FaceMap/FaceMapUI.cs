@@ -1575,12 +1575,17 @@ namespace MissionPlanner
 
                     if (CHK_usespeed.Checked)
                     {
+                        double speed = 0;
                         if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                         {
-                            double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
-                            speed = speed / 100;
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0, gridobject);
+                            speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value / 100;
                         }
+                        else if (MainV2.comPort.MAV.param["WP_SPD"] != null)
+                        {
+                            speed = MainV2.comPort.MAV.param["WP_SPD"].Value;
+                        }
+                        if (speed > 0)
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0, gridobject);
                     }
 
                     if (CHK_toandland.Checked)
