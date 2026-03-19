@@ -5569,13 +5569,20 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        // cm/s - ac
-                        Spline2._wp_accel_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL") ? MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value : 100;
-                        Spline2._wp_speed_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED") ? MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value : 600;
+                        // cm/s - ac, m/s in 4.7+
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_ACC"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WP_ACC"].float_value * 100;
+                        else
+                            Spline2._wp_accel_cms = 100;
 
-                        // ar
-                        //WP_ACCEL - m/s
-                        //WP_SPEED - m/s
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_SPD"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WP_SPD"].float_value * 100;
+                        else
+                            Spline2._wp_speed_cms = 600;
                     }
                     catch
                     {
@@ -6706,11 +6713,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
                 }
 
-                // In meters
+                // In meters (4.7+)
                 if (param.ContainsKey("WP_RADIUS_M"))
                 {
                     TXT_WPRad.Text = string.Format("{0:N2}",
-                        (((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist)));
+                        (((double)param["WP_RADIUS_M"] * CurrentState.multiplierdist)));
                 }
 
 
