@@ -2269,13 +2269,15 @@ namespace MissionPlanner
                                 if (!joy.start(name))
                                 {
                                     joy.Dispose();
-                                } else
+                                } 
+                                else
                                 {
                                     joystick = joy;
-                                }
-                                if (Settings.Instance.ContainsKey("joy_elevons"))
-                                {
-                                    joystick.elevons = bool.Parse(Settings.Instance["joy_elevons"].ToString());
+
+                                    if (Settings.Instance.ContainsKey("joy_elevons"))
+                                    {
+                                        joystick.elevons = bool.Parse(Settings.Instance["joy_elevons"].ToString());
+                                    }
                                 }
                             }
                         }
