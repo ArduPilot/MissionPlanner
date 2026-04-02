@@ -875,20 +875,22 @@ namespace MissionPlanner.GCSViews
                 var extra = " ";
 
                 if (!string.IsNullOrEmpty(config))
-                    extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
+                    extra += @" --defaults """ + config + @",identity.parm"" ";
+                else
+                    extra += @" --defaults ""identity.parm"" ";
 
                 var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
                 if (max == a)
                 {
                     extra += String.Format(
-			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} ",
                         a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
                 else
                 {
                     extra += String.Format(
-			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} ",
 			a, "" /*"--serial2 tcpclient:127.0.0.1:" + (5770 + 10 * a)*/, a + 1,
                         BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
@@ -900,6 +902,7 @@ namespace MissionPlanner.GCSViews
                 File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
 SERIAL1_PROTOCOL=2
 SYSID_THISMAV={0}
+MAV_SYSID={0}
 SIM_TERRAIN=0
 TERRAIN_ENABLE=0
 SCHED_LOOP_RATE=50
@@ -1021,20 +1024,22 @@ SIM_DRIFT_TIME=0
                 var extra = " ";
 
                 if (!string.IsNullOrEmpty(config))
-                    extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
+                    extra += @" --defaults """ + config + @",identity.parm"" ";
+                else
+                    extra += @" --defaults ""identity.parm"" ";
 
                 var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
                 if (max == a)
                 {
                     extra += String.Format(
-			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} ",
                         a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
                 else
                 {
                     extra += String.Format(
-			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} -P SYSID_THISMAV={2} ",
+			" -M{4} -s1 --home {3} --instance {0} --serial0 tcp:0 {1} ",
 			a, "--serial2 tcpclient:127.0.0.1:" + (5772 + 10 * a), a + 1,
                         BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
@@ -1046,6 +1051,7 @@ SIM_DRIFT_TIME=0
                 File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
 SERIAL1_PROTOCOL=2
 SYSID_THISMAV={0}
+MAV_SYSID={0}
 SIM_TERRAIN=0
 TERRAIN_ENABLE=0
 SCHED_LOOP_RATE=50
@@ -1075,6 +1081,8 @@ SIM_DRIFT_TIME=0
                     "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""../" +
                     Path.GetFileName(await exepath).Replace("C:", "/mnt/c").Replace("\\", "/").Replace(".exe", ".elf") + @"""" + " " +
                     extra.Replace("C:", "/mnt/c").Replace("\\", "/") + " &\nsleep .3\ncd ..\n");
+
+                log.InfoFormat("sitl: {0} {1} {2}", exestart.WorkingDirectory, exestart.FileName, exestart.Arguments);
 
                 simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
