@@ -5611,9 +5611,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
 
         /// <summary>
-        /// Used to extract mission from log file - both sent or received
+        /// Processes a MAVLink packet received from the stream and updates cached state for the
+        /// addressed vehicle/component. This includes tracking mission/fence/rally and parameter
+        /// data from sent or received traffic, and may also trigger protocol side effects such as
+        /// sending responses for messages that require them (for example, TIMESYNC handling).
         /// </summary>
-        /// <param name="buffer">packet</param>
+        /// <param name="buffer">The MAVLink packet to process. Its contents may be used to update local mission/parameter state and may cause protocol responses to be sent.</param>
+        /// <param name="sysid">The system id associated with the packet when resolving vehicle state updates.</param>
+        /// <param name="compid">The component id associated with the packet when resolving vehicle state updates.</param>
         private void processInfoFromStream(ref MAVLinkMessage buffer, byte sysid, byte compid)
         {
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT)
