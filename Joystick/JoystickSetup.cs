@@ -568,7 +568,7 @@ namespace MissionPlanner.Joystick
                 {
                     if (MainV2.joystick == null)
                     {
-                        CustomMessageBox.Show("No joystick is currently initialized. Please initialize a joystick before importing a configuration.");
+                        CustomMessageBox.Show("No joystick is currently initialized. Please initialize a joystick before importing a configuration.", "Import Joystick Config", MessageBoxButtons.OK);
                         return;
                     }
                     MainV2.joystick.ImportConfig(ofd.FileName);
