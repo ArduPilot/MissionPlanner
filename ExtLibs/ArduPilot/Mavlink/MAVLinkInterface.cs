@@ -5087,10 +5087,35 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 // packet is now verified
 
-                // extract wp's/rally/fence/camera feedback/params from stream, including gcs packets on playback
+                // log before any processing that could send response packets (e.g. timesync)
+                try
+                {
+                    SaveToTlog(new Span<byte>(buffer));
+
+                    if (logfile != null)
+                    {
+                        lock (logfile)
+                        {
+                            if (msgid == 0)
+                            {
+                                if (logfile != null && logfile.CanWrite)
+                                    logfile.Flush();
+                                if (rawlogfile != null && rawlogfile.CanWrite)
+                                    rawlogfile.Flush();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+
+                // extract wp's/rally/fence/camera feedback/params from stream, including gcs packets on playback.
+                // may also send responses (e.g. timesync reply)
                 if (buffer.Length >= 5)
                 {
-                    getInfoFromStream(ref message, sysid, compid);
+                    processInfoFromStream(ref message, sysid, compid);
                 }
 
                 // if its a gcs packet - dont process further
@@ -5333,31 +5358,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 compidcurrent = compid;
                             }
                         }
-                    }
-
-                    try
-                    {
-                        // this is to ensure the log is in packet order, as the events on Received may send a packet. (ie mavftp)
-                        SaveToTlog(new Span<byte>(buffer));
-
-                        if (logfile != null)
-                        {
-                            lock (logfile)
-                            {
-                                if (msgid == 0)
-                                {
-                                    // flush on heartbeat - 1 seconds
-                                    if (logfile != null && logfile.CanWrite)
-                                        logfile.Flush();
-                                    if (rawlogfile != null && rawlogfile.CanWrite)
-                                        rawlogfile.Flush();
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
                     }
 
                     // process for all mavs, filtering done inside - subscription handler
@@ -5611,10 +5611,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
 
         /// <summary>
-        /// Used to extract mission from log file - both sent or received
+        /// Processes a MAVLink packet received from the stream and updates cached state for the
+        /// addressed vehicle/component. This includes tracking mission/fence/rally and parameter
+        /// data from sent or received traffic, and may also trigger protocol side effects such as
+        /// sending responses for messages that require them (for example, TIMESYNC handling).
         /// </summary>
-        /// <param name="buffer">packet</param>
-        private void getInfoFromStream(ref MAVLinkMessage buffer, byte sysid, byte compid)
+        /// <param name="buffer">The MAVLink packet to process. Its contents may be used to update local mission/parameter state and may cause protocol responses to be sent.</param>
+        /// <param name="sysid">The system id associated with the packet when resolving vehicle state updates.</param>
+        /// <param name="compid">The component id associated with the packet when resolving vehicle state updates.</param>
+        private void processInfoFromStream(ref MAVLinkMessage buffer, byte sysid, byte compid)
         {
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT)
             {
