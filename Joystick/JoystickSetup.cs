@@ -1,4 +1,3 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
