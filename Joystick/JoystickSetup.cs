@@ -571,14 +571,21 @@ namespace MissionPlanner.Joystick
                         CustomMessageBox.Show("No joystick is currently initialized. Please initialize a joystick before importing a configuration.", "Import Joystick Config", MessageBoxButtons.OK);
                         return;
                     }
-                    MainV2.joystick.ImportConfig(ofd.FileName);
-                    MainV2.joystick.loadconfig();
-                    CustomMessageBox.Show("Please reopen joystick for changes to take effect");
-                    this.BeginInvoke((Action)delegate ()
+                    try
                     {
-                        this.Close();
-                        ((Form)this.Parent).Close();
-                    });
+                        MainV2.joystick.ImportConfig(ofd.FileName);
+                        MainV2.joystick.loadconfig();
+                        CustomMessageBox.Show("Please reopen joystick for changes to take effect");
+                        this.BeginInvoke((Action)delegate ()
+                        {
+                            this.Close();
+                            ((Form)this.Parent).Close();
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Failed to import joystick configuration.\n\nError: " + ex.Message, "Import Error");
+                    }
                 }
             }
         }
