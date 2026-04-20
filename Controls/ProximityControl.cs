@@ -18,6 +18,7 @@ namespace MissionPlanner.Controls
 
         MAVState _parent;
         private Proximity.directionState _dS => _parent?.Proximity?.DirectionState;
+        private bool _drawingInProgress => _parent?.Proximity?.DrawingInProgress ?? false;
 
         private Timer timer1;
         private IContainer components;
@@ -90,6 +91,8 @@ namespace MissionPlanner.Controls
 
         private void Temp_Paint(object sender, PaintEventArgs e)
         {
+            if (_parent.Proximity != null)
+                _parent.Proximity.DrawingInProgress = true;
             e.Graphics.Clear(BackColor);
 
             var midx = e.ClipRectangle.Width / 2.0f;
@@ -111,14 +114,18 @@ namespace MissionPlanner.Controls
                     e.Graphics.DrawImage(Resources.quadicon, midx - imw, midy - imw, size, size);
                     break;
             }
-            
+
             if (_dS == null)
+            {
+                if (_parent.Proximity != null)
+                    _parent.Proximity.DrawingInProgress = false;
                 return;
+            }
 
             Pen redpen = new Pen(Color.Red, 3);
             Pen yellowpen = new Pen(Color.Yellow, 3);
             var font = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size + 2, FontStyle.Bold);
-                 
+
             float move = 5;
 
             for (float x = 50f; x <= screenradius; x+=50f)
@@ -205,6 +212,7 @@ namespace MissionPlanner.Controls
                         break;
                 }
             }
+            _parent.Proximity.DrawingInProgress = false;
         }
 
         public new void Show()
