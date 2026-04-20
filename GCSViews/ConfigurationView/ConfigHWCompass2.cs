@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
@@ -18,9 +20,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private List<MAVLink.MAVLinkMessage> mprog = new List<MAVLink.MAVLinkMessage>();
         private List<MAVLink.MAVLinkMessage> mrep = new List<MAVLink.MAVLinkMessage>();
+        private Dictionary<string, string> badFitMessages = new Dictionary<string, string>();
+        private static readonly Regex BadFitRegex = new Regex(@"Mag\((\d+)\) bad ", RegexOptions.Compiled);
 
         private int packetsub1;
         private int packetsub2;
+        private int packetsub3;
 
         public class CompassDeviceInfo : DeviceInfo
         {
@@ -281,12 +286,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mprog.Clear();
             mrep.Clear();
+            badFitMessages.Clear();
             horizontalProgressBar1.Value = 0;
             horizontalProgressBar2.Value = 0;
             horizontalProgressBar3.Value = 0;
 
             packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
             packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            packetsub3 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, ReceviedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             BUT_OBmagcalaccept.Enabled = true;
             BUT_OBmagcalcancel.Enabled = true;
@@ -316,6 +323,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 return true;
             }
+            else if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
+            {
+                var msg = packet.ToStructure<MAVLink.mavlink_statustext_t>();
+                var text = Encoding.ASCII.GetString(msg.text);
+                int nul = text.IndexOf('\0');
+                if (nul != -1) text = text.Substring(0, nul);
+
+                var m = BadFitRegex.Match(text);
+                if (m.Success)
+                {
+                    lock (badFitMessages)
+                    {
+                        badFitMessages[m.Groups[1].Value] = text;
+                    }
+                }
+
+                return false;
+            }
 
             return true;
         }
@@ -334,6 +359,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+            MainV2.comPort.UnSubscribeToPacketType(packetsub3);
 
             timer1.Stop();
         }
@@ -351,6 +377,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+            MainV2.comPort.UnSubscribeToPacketType(packetsub3);
 
             timer1.Stop();
         }
@@ -390,7 +417,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     message += "id:" + item.Key + " " + obj.completion_pct.ToString() + "% ";
                     compasscount++;
                 }
-                lbl_obmagresult.AppendText(message + "\r\n");
+                lbl_obmagresult.AppendText(message + Environment.NewLine);
             }
 
             lock (mrep)
@@ -415,7 +442,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     lbl_obmagresult.AppendText("id:" + obj.compass_id + " x:" + obj.ofs_x.ToString("0.0") + " y:" +
                                                obj.ofs_y.ToString("0.0") + " z:" +
                                                obj.ofs_z.ToString("0.0") + " fit:" + obj.fitness.ToString("0.0") + " " +
-                                               (MAVLink.MAG_CAL_STATUS)obj.cal_status + "\n");
+                                               (MAVLink.MAG_CAL_STATUS)obj.cal_status + Environment.NewLine);
 
                     try
                     {
@@ -441,18 +468,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                     }
 
-                    if ((MAVLink.MAG_CAL_STATUS)obj.cal_status != MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
-                    {
-                        //CustomMessageBox.Show(Strings.CommandFailed);
-                    }
-
                     if (obj.autosaved == 1)
                     {
                         completecount++;
                         timer1.Interval = 1000;
                     }
                 }
+
             }
+
+            // show any bad-fit messages collected so far (latest per compass)
+            lock (badFitMessages)
+            {
+                foreach (var fitMsg in badFitMessages.Values)
+                {
+                    lbl_obmagresult.AppendText(fitMsg + Environment.NewLine);
+                }
+            }
+
+            lbl_obmagresult.SelectionStart = lbl_obmagresult.TextLength;
+            lbl_obmagresult.ScrollToCaret();
 
             if (compasscount == completecount && compasscount != 0)
             {
