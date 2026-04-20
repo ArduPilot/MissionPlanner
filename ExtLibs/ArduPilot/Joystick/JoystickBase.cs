@@ -134,8 +134,9 @@ namespace MissionPlanner.Joystick
                         JoyButtons = (JoyButton[]) reader.Deserialize(sr);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error("Failed to load joystick button config from " + this.joystickconfigbutton, ex);
                 }
 
                 try
@@ -149,8 +150,9 @@ namespace MissionPlanner.Joystick
                         JoyChannels = (JoyChannel[]) reader.Deserialize(sr);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error("Failed to load joystick axis config from " + this.joystickconfigaxis, ex);
                 }
             }
 
@@ -1321,17 +1323,22 @@ namespace MissionPlanner.Joystick
                 throw new FileNotFoundException("No joystick configuration files found in " + userDataDir);
             }
 
-            if (File.Exists(fileName))
-                File.Delete(fileName);
+            string tempFile = fileName + ".tmp";
+            if (File.Exists(tempFile))
+                File.Delete(tempFile);
 
-            // create archive with all config files
-            using (var archive = ZipFile.Open(fileName, ZipArchiveMode.Create))
+            using (var archive = ZipFile.Open(tempFile, ZipArchiveMode.Create))
             {
                 foreach (var file in allFiles)
                 {
                     archive.CreateEntryFromFile(file, Path.GetFileName(file));
                 }
             }
+
+            if (File.Exists(fileName))
+                File.Replace(tempFile, fileName, null);
+            else
+                File.Move(tempFile, fileName);
         }
 
         public void ImportConfig(string fileName)
