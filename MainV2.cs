@@ -663,7 +663,6 @@ namespace MissionPlanner
             ShowAirports = true;
 
             // setup adsb
-            Utilities.adsb.ApplicationVersion = System.Windows.Forms.Application.ProductVersion;
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
             MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
