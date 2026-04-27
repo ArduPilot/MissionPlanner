@@ -2458,7 +2458,7 @@ namespace MissionPlanner
         /// </summary>
         private void UpdateConnectIcon()
         {
-            if ((DateTime.UtcNow - connectButtonUpdate).Milliseconds > 500)
+            if ((DateTime.UtcNow - connectButtonUpdate).TotalMilliseconds > 500)
             {
                 //                        Console.WriteLine(DateTime.Now.Millisecond);
                 if (comPort.BaseStream.IsOpen)

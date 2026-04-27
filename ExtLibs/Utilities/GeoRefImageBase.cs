@@ -721,7 +721,7 @@ namespace MissionPlanner.GeoRef
 
                     AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
                                " PROCESSED with GPS position found " +
-                               (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
+                               (shotLocation.Time - correctedTime).TotalMilliseconds + " ms away\n");
                 }
             });
 
@@ -850,7 +850,7 @@ namespace MissionPlanner.GeoRef
                         cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
                         if (cameraLocationFromGPSMsg != null)
                         {
-                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away" +
+                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).TotalMilliseconds + " ms away" +
                                         " offset: " + (p.ShotTimeReportedByCamera - dCAMMsgTime).TotalSeconds;
                             p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
                         }
@@ -890,7 +890,7 @@ namespace MissionPlanner.GeoRef
                     {
                         System.TimeSpan diffGPSTimeCAMTime = cameraLocationFromGPSMsg.Time - dCAMMsgTime;
 
-                        if (diffGPSTimeCAMTime.Milliseconds > 2*millisShutterLag)
+                        if (diffGPSTimeCAMTime.TotalMilliseconds > 2 * millisShutterLag)
                         {
                             // Stay with CAM Message as it is closer to CorrectedTime
                             p.Time = dCAMMsgTime;
@@ -909,7 +909,7 @@ namespace MissionPlanner.GeoRef
                                 cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
                                 if (cameraLocationFromGPSMsg != null)
                                 {
-                                    logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds +
+                                    logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).TotalMilliseconds +
                                                 " ms away";
                                     p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
                                 }
@@ -937,7 +937,7 @@ namespace MissionPlanner.GeoRef
                             string logAltMsg = useAMSLAlt ? "AMSL Alt" : "RelAlt";
 
                             AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) +
-                                       " processed with GPS Msg : " + diffGPSTimeCAMTime.Milliseconds +
+                                       " processed with GPS Msg : " + diffGPSTimeCAMTime.TotalMilliseconds +
                                        " ms ahead of CAM Msg. " + logAltMsg + "\n");
                         }
 
