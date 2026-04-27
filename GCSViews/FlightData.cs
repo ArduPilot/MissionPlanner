@@ -819,6 +819,11 @@ namespace MissionPlanner.GCSViews
 
         protected override void Dispose(bool disposing)
         {
+            if (MainV2.comPort != null) MainV2.comPort.ParamListChanged -= FlightData_ParentChanged;
+            POI.POIModified -= POI_POIModified;
+            NoFly.NoFly.NoFlyEvent -= NoFly_NoFlyEvent;
+            if (MainV2.cam != null) MainV2.cam.camimage -= cam_camimage;
+
             base.Dispose(disposing);
 
             MainV2.comPort.logreadmode = false;
