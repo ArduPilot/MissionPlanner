@@ -487,7 +487,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (VersionDetection.GetVersion(MainV2.comPort.MAV.VersionString) >= new Version(4, 7)
                 && sender is MavlinkNumericUpDown mnud)
             {
-                var warning = paramchanges47.changedByNewParamWarning(mnud.ParamName);
+                var warning = ParamChanges47.changedByNewParamWarning(mnud.ParamName);
                 if (warning != null)
                 {
                     lblUnitWarning.Text = "Change in 4.7: " + warning;

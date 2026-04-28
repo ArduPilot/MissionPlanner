@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MissionPlanner.Utilities
 {
-    public class paramchanges47
+    public class ParamChanges47
     {
         // 4.7 parameter changes - keyed by new param name, value is "OLD → NEW: description"
         private static readonly Dictionary<string, string> _byNewParam = new Dictionary<string, string>
