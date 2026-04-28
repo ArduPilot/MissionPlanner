@@ -88,11 +88,6 @@ namespace MissionPlanner.Utilities
             { "Q_LOIT_ACC_MAX_M", "Q_LOIT_ACC_MAX → Q_LOIT_ACC_MAX_M: units changed from cm/s/s to m/s/s" },
             { "Q_LOIT_BRK_ACC_M", "Q_LOIT_BRK_ACCEL → Q_LOIT_BRK_ACC_M: units changed from cm/s/s to m/s/s" },
             { "Q_LOIT_BRK_JRK_M", "Q_LOIT_BRK_JERK → Q_LOIT_BRK_JRK_M: units changed from cm/s/s/s to m/s/s/s" },
-            // Q_PILOT (Plane QuadPlane)
-            { "Q_PILOT_ACCEL_Z", "Q_PILOT_ACCEL_Z → Q_PILOT_ACCEL_Z: units changed from cm/s/s to m/s/s" },
-            { "Q_PILOT_SPD_UP", "Q_PILOT_SPEED_UP → Q_PILOT_SPD_UP: units changed from cm/s to m/s" },
-            { "Q_PILOT_SPD_DN", "Q_PILOT_SPEED_DN → Q_PILOT_SPD_DN: units changed from cm/s to m/s" },
-            { "Q_PILOT_TKO_ALT_M", "Q_PILOT_TKOFF_ALT → Q_PILOT_TKO_ALT_M: units changed from cm to m" },
             // Q_P_VELXY → Q_P_NE_VEL (Plane QuadPlane)
             { "Q_P_NE_VEL_P", "Q_P_VELXY_P → Q_P_NE_VEL_P: no scaling change, name only" },
             { "Q_P_NE_VEL_I", "Q_P_VELXY_I → Q_P_NE_VEL_I: no scaling change, name only" },
