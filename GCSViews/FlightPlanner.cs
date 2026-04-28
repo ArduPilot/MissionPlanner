@@ -5569,13 +5569,20 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        // cm/s - ac
-                        Spline2._wp_accel_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL") ? MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value : 100;
-                        Spline2._wp_speed_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED") ? MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value : 600;
+                        // cm/s - ac, m/s in 4.7+
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_ACC"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WP_ACC"].float_value * 100;
+                        else
+                            Spline2._wp_accel_cms = 100;
 
-                        // ar
-                        //WP_ACCEL - m/s
-                        //WP_SPEED - m/s
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_SPD"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WP_SPD"].float_value * 100;
+                        else
+                            Spline2._wp_speed_cms = 600;
                     }
                     catch
                     {
@@ -6287,8 +6294,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
+                // use brute force, for all three possible params
+
                 // m
                 port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
+
+                // m
+                port.setParam("WP_RADIUS_M", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
 
                 // cm's
                 port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
@@ -6700,6 +6712,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     TXT_WPRad.Text = string.Format("{0:N2}",
                         (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
                 }
+
+                // In meters (4.7+)
+                if (param.ContainsKey("WP_RADIUS_M"))
+                {
+                    TXT_WPRad.Text = string.Format("{0:N2}",
+                        (((double)param["WP_RADIUS_M"] * CurrentState.multiplierdist)));
+                }
+
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
 
