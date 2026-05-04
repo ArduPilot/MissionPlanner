@@ -4448,7 +4448,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 else
                 {
                     setPositionTargetGlobalInt((byte) sysid, (byte) compid,
-                        true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
+                        true, false, false, false, (MAV_FRAME)gotohere.frame,
                         gotohere.lat, gotohere.lng, gotohere.alt, 0, 0, 0, 0, 0);
                 }
             }
