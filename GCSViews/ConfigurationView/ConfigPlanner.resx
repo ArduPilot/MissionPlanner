@@ -2902,6 +2902,33 @@
   <data name="&gt;&gt;BUT_mapCacheDir.ZOrder" xml:space="preserve">
     <value>93</value>
   </data>
+  <data name="CHK_speechadsb.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_speechadsb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>947, 88</value>
+  </data>
+  <data name="CHK_speechadsb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 21</value>
+  </data>
+  <data name="CHK_speechadsb.TabIndex" type="System.Int32, mscorlib">
+    <value>131</value>
+  </data>
+  <data name="CHK_speechadsb.Text" xml:space="preserve">
+    <value>ADSB Alerts</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.Name" xml:space="preserve">
+    <value>CHK_speechadsb</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CHK_speechadsb.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="CHK_rtsresetesp32.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
