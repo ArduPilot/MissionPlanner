@@ -142,10 +142,6 @@ namespace MissionPlanner.Utilities
                     {
                         // ADSB Exchange API format - see https://api.adsb.lol/docs
                         string url = "{0}/v2/point/{1}/{2}/{3}";
-                        Download.RequestModification += (u, request) => {
-                            // for future use if necessary: request.Headers.Add("X-API-Auth", "example");
-                            request.SetHeader("User-Agent", "Mission-Planner/" + ApplicationVersion);
-                        };
                         var delay = API_LOOP_DELAY_MILLISECONDS;
 
                         while (true)

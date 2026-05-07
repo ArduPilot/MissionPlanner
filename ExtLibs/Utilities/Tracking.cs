@@ -60,6 +60,7 @@ namespace MissionPlanner.Utilities
 
         static Tracking()
         {
+            client.Timeout = TimeSpan.FromSeconds(30);
         }
 
         public static void AddEvent(string cat, string action, string label, string value)
@@ -101,6 +102,8 @@ namespace MissionPlanner.Utilities
         {
             get; set;
         }
+
+        static readonly HttpClient client = new HttpClient();
 
         public static string productName
         {
@@ -297,10 +300,6 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Add("User-Agent", productName + " " + productVersion + " (" + Environment.OSVersion.VersionString + ")");
-                client.Timeout = TimeSpan.FromSeconds(30);
-
                 string data = "";
 
                 List<KeyValuePair<string, string>> data1 = (List<KeyValuePair<string, string>>)temp;
@@ -321,7 +320,9 @@ namespace MissionPlanner.Utilities
 
                 log.Debug(data);
 
-                client.PostAsync(secureTrackingEndpoint, new StringContent(data));
+                var request = new HttpRequestMessage(HttpMethod.Post, secureTrackingEndpoint) { Content = new StringContent(data) };
+                request.Headers.TryAddWithoutValidation("User-Agent", productName + " " + productVersion + " (" + Environment.OSVersion.VersionString + ")");
+                client.SendAsync(request);
             }
             catch { }
         }
