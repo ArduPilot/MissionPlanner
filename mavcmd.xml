@@ -726,6 +726,15 @@
       <Y></Y>
       <Z></Z>
     </DO_GRIPPER>
+    <DO_RETURN_PATH_START>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z unitType="alt">Alt</Z>
+    </DO_RETURN_PATH_START>
     <DO_LAND_START>
       <P1></P1>
       <P2></P2>
@@ -733,7 +742,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z></Z>
+      <Z unitType="alt">Alt</Z>
     </DO_LAND_START>
     <DO_SET_ROI>
       <P1></P1>
