@@ -98,7 +98,6 @@ namespace MissionPlanner.Joystick
             // 
             resources.ApplyResources(this.BUT_enable, "BUT_enable");
             this.BUT_enable.Name = "BUT_enable";
-            this.BUT_enable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_enable.UseVisualStyleBackColor = true;
             this.BUT_enable.Click += new System.EventHandler(this.BUT_enable_Click);
             // 
@@ -106,7 +105,6 @@ namespace MissionPlanner.Joystick
             // 
             resources.ApplyResources(this.BUT_save, "BUT_save");
             this.BUT_save.Name = "BUT_save";
-            this.BUT_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -126,7 +124,6 @@ namespace MissionPlanner.Joystick
             // 
             resources.ApplyResources(this.but_export, "but_export");
             this.but_export.Name = "but_export";
-            this.but_export.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_export.UseVisualStyleBackColor = true;
             this.but_export.Click += new System.EventHandler(this.but_export_Click);
             // 
@@ -134,7 +131,6 @@ namespace MissionPlanner.Joystick
             // 
             resources.ApplyResources(this.but_import, "but_import");
             this.but_import.Name = "but_import";
-            this.but_import.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_import.UseVisualStyleBackColor = true;
             this.but_import.Click += new System.EventHandler(this.but_import_Click);
             // 

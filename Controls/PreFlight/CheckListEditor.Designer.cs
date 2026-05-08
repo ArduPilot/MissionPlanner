@@ -70,7 +70,6 @@ namespace MissionPlanner.Controls.PreFlight
             this.BUT_Add.Size = new System.Drawing.Size(75, 23);
             this.BUT_Add.TabIndex = 1;
             this.BUT_Add.Text = "+";
-            this.BUT_Add.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Add.UseVisualStyleBackColor = true;
             this.BUT_Add.Click += new System.EventHandler(this.BUT_Add_Click);
             // 
@@ -81,7 +80,6 @@ namespace MissionPlanner.Controls.PreFlight
             this.BUT_save.Size = new System.Drawing.Size(75, 23);
             this.BUT_save.TabIndex = 2;
             this.BUT_save.Text = "Save";
-            this.BUT_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
