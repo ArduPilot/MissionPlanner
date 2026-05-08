@@ -282,6 +282,8 @@ namespace MissionPlanner
 
         public bool ReadOnly = false;
 
+        public MessageRateManager RateManager { get; private set; }
+
         public TerrainFollow Terrain;
 
         public event ProgressEventHandler Progress;
@@ -491,6 +493,8 @@ namespace MissionPlanner
             _mavlink2count = 0;
             _mavlink2signed = 0;
 
+            RateManager = new MessageRateManager(this);
+
             AIS.Start(this);
 
             // new hearbeat detected
@@ -575,8 +579,9 @@ namespace MissionPlanner
 
                         await Task.Delay(2000);
 
-                        MAVlist[tuple.Item1, tuple.Item2]
-                            .GimbalManager.Discover();
+                        await MAVlist[tuple.Item1, tuple.Item2]
+                            .GimbalManager.StartID(tuple.Item1, tuple.Item2)
+                            .ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {
@@ -967,6 +972,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             MAV.packetslost = 0;
             MAV.synclost = 0;
             _openComplete = true;
+            RateManager.OnConnectionOpen();
         }
 
         private string getAppVersion()
@@ -6836,6 +6842,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 _bytesSentSubj.Dispose();
             if (MAVlist != null)
                 MAVlist.Dispose();
+            if (RateManager != null)
+                RateManager.Dispose();
 
             this.Close();
 

@@ -29,6 +29,12 @@ namespace MissionPlanner.Controls
         // logger
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        // Uncomment the Console.WriteLine line to enable debug output.
+        private static void DebugConsoleWrite(string format, params object[] args)
+        {
+            // Console.WriteLine(format, args);
+        }
+
         private GimbalControlSettings preferences = new GimbalControlSettings();
 
         private readonly GStreamer _stream = new GStreamer();
@@ -433,7 +439,7 @@ namespace MissionPlanner.Controls
                 previousPitchRate = pitch;
                 previousYawRate = yaw;
                 selectedGimbalManager?.SetRatesCommandAsync(pitch, yaw, yaw_lock, selectedGimbalID);
-                Console.WriteLine($"Pitch: {pitch}, Yaw: {yaw}");
+                DebugConsoleWrite("Pitch: {0}, Yaw: {1}", pitch, yaw);
             }
 
             float zoom = 0;
@@ -452,7 +458,7 @@ namespace MissionPlanner.Controls
             {
                 previousZoomRate = zoom;
                 selectedCamera?.SetZoomAsync(zoom, CAMERA_ZOOM_TYPE.ZOOM_TYPE_CONTINUOUS);
-                Console.WriteLine($"Zoom: {zoom}");
+                DebugConsoleWrite("Zoom: {0}", zoom);
             }
         }
 
@@ -506,7 +512,7 @@ namespace MissionPlanner.Controls
 
         private void TakePicture()
         {
-                Console.WriteLine("Take picture");
+                DebugConsoleWrite("Take picture");
                 selectedCamera?.TakeSinglePictureAsync();
         }
 
@@ -515,12 +521,12 @@ namespace MissionPlanner.Controls
             isRecording = start;
             if(start)
             {
-                Console.WriteLine("Start recording");
+                DebugConsoleWrite("Start recording");
                 selectedCamera?.StartRecordingAsync();
             }
             else
             {
-                Console.WriteLine("Stop recording");
+                DebugConsoleWrite("Stop recording");
                 selectedCamera?.StopRecordingAsync();
             }
         }
@@ -528,7 +534,7 @@ namespace MissionPlanner.Controls
         private void SetYawLock(bool locked)
         {
             string message = locked ? "lock" : "follow";
-            Console.WriteLine($"Set yaw {message}");
+            DebugConsoleWrite("Set yaw {0}", message);
             yaw_lock = locked;
             yawLockToolStripMenuItem.Checked = locked;
             selectedGimbalManager?.SetRatesCommandAsync(previousPitchRate, previousYawRate, yaw_lock, selectedGimbalID);
@@ -536,25 +542,25 @@ namespace MissionPlanner.Controls
 
         private void Retract()
         {
-            Console.WriteLine("Retract");
+            DebugConsoleWrite("Retract");
             selectedGimbalManager?.RetractAsync();
         }
 
         private void Neutral()
         {
-            Console.WriteLine("Neutral");
+            DebugConsoleWrite("Neutral");
             selectedGimbalManager?.NeutralAsync();
         }
 
         private void PointDown()
         {
-            Console.WriteLine("Point down");
+            DebugConsoleWrite("Point down");
             selectedGimbalManager?.SetAnglesCommandAsync(-90, 0, false, selectedGimbalID);
         }
 
         private void Home()
         {
-            Console.WriteLine("Home");
+            DebugConsoleWrite("Home");
             var loc = MainV2.comPort?.MAV?.cs.HomeLocation;
             selectedGimbalManager?.SetROILocationAsync(loc.Lat, loc.Lng, loc.Alt, frame: MAV_FRAME.GLOBAL);
         }
@@ -632,8 +638,8 @@ namespace MissionPlanner.Controls
                     return;
                 }
                 q = attitude * q;
-                Console.WriteLine("Attitude: {0:0.0} {1:0.0} {2:0.0}", attitude.get_euler_yaw() * MathHelper.rad2deg, attitude.get_euler_pitch() * MathHelper.rad2deg, attitude.get_euler_roll() * MathHelper.rad2deg);
-                Console.WriteLine("New: {0:0.0} {1:0.0} {2:0.0}", q.get_euler_yaw() * MathHelper.rad2deg, q.get_euler_pitch() * MathHelper.rad2deg, q.get_euler_roll() * MathHelper.rad2deg);
+                DebugConsoleWrite("Attitude: {0:0.0} {1:0.0} {2:0.0}", attitude.get_euler_yaw() * MathHelper.rad2deg, attitude.get_euler_pitch() * MathHelper.rad2deg, attitude.get_euler_roll() * MathHelper.rad2deg);
+                DebugConsoleWrite("New: {0:0.0} {1:0.0} {2:0.0}", q.get_euler_yaw() * MathHelper.rad2deg, q.get_euler_pitch() * MathHelper.rad2deg, q.get_euler_roll() * MathHelper.rad2deg);
 
                 selectedGimbalManager?.SetAttitudeAsync(q, yaw_lock, selectedGimbalID);
                
@@ -649,7 +655,7 @@ namespace MissionPlanner.Controls
             }
             else if ((Control.ModifierKeys, me.Button) == preferences.TrackObjectUnderMouse)
             {
-                selectedCamera?.RequestTrackingMessageInterval(5);
+                selectedCamera?.SubscribeTracking(5);
                 var x = (float)point.Value.x;
                 var y = (float)point.Value.y;
                 if (dragStartPoint.HasValue)
@@ -766,10 +772,9 @@ namespace MissionPlanner.Controls
         {
             if (CameraProtocol.VideoStreams.Count < 1)
             {
-                Console.Write("Requesting camera information...");
-                // We must not have any reported video streams. Try to request them
-                selectedCamera?.RequestCameraInformationAsync().Wait();
-                Console.WriteLine(" done.");
+                // We must not have any reported video streams. Try to request them.
+                selectedCamera?.RequestVideoStreamInformation();
+                DebugConsoleWrite("Requested video stream information");
                 // Come back later and see if any streams have been reported
                 AutoConnectTimer.Start();
                 return;
