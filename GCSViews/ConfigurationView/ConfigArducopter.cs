@@ -64,14 +64,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] {"HLD_LAT_P", "POS_XY_P", "PSC_POSXY_P", "Q_P_POSXY_P"},
                 MainV2.comPort.MAV.param);
-            LOITER_LAT_D.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_D", "PSC_VELXY_D", "Q_P_VELXY_D"},
+            LOITER_LAT_D.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_D", "PSC_VELXY_D", "Q_P_VELXY_D", "PSC_NE_VEL_D", "Q_P_NE_VEL_D"},
                 MainV2.comPort.MAV.param);
-            LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_I", "VEL_XY_I", "PSC_VELXY_I", "Q_P_VELXY_I"},
+            LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_I", "VEL_XY_I", "PSC_VELXY_I", "Q_P_VELXY_I", "PSC_NE_VEL_I", "Q_P_NE_VEL_I"},
                 MainV2.comPort.MAV.param);
             LOITER_LAT_IMAX.setup(0, 0, 10, 1f,
-                new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX", "PSC_VELXY_IMAX", "Q_P_VELXY_IMAX"},
+                new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX", "PSC_VELXY_IMAX", "Q_P_VELXY_IMAX", "PSC_NE_VEL_IMAX", "Q_P_NE_VEL_IMAX"},
                 MainV2.comPort.MAV.param);
-            LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_P", "VEL_XY_P", "PSC_VELXY_P", "Q_P_VELXY_P"},
+            LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_P", "VEL_XY_P", "PSC_VELXY_P", "Q_P_VELXY_P", "PSC_NE_VEL_P", "Q_P_NE_VEL_P"},
                 MainV2.comPort.MAV.param);
 
             RATE_PIT_P.setup(0, 0, 1, 0.001f, new[] { "RATE_PIT_P", "ATC_RAT_PIT_P", "Q_A_RAT_PIT_P" }, MainV2.comPort.MAV.param);
@@ -115,26 +115,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.MAV.param);
 
 
-            THR_ACCEL_P.setup(0, 0, 1, 0.001f, new[] { "THR_ACCEL_P", "ACCEL_Z_P", "PSC_ACCZ_P", "Q_P_ACCZ_P" },
+            THR_ACCEL_P.setup(0, 0, 1, 0.001f, new[] { "THR_ACCEL_P", "ACCEL_Z_P", "PSC_ACCZ_P", "Q_P_ACCZ_P", "PSC_D_ACC_P", "Q_P_D_ACC_P" },
                 MainV2.comPort.MAV.param);
-            THR_ACCEL_I.setup(0, 0, 1, 0.001f, new[] { "THR_ACCEL_I", "ACCEL_Z_I", "PSC_ACCZ_I", "Q_P_ACCZ_I" },
+            THR_ACCEL_I.setup(0, 0, 1, 0.001f, new[] { "THR_ACCEL_I", "ACCEL_Z_I", "PSC_ACCZ_I", "Q_P_ACCZ_I", "PSC_D_ACC_I", "Q_P_D_ACC_I" },
                 MainV2.comPort.MAV.param);
-            THR_ACCEL_D.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_D", "ACCEL_Z_D", "PSC_ACCZ_D", "Q_P_ACCZ_D"},
+            THR_ACCEL_D.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_D", "ACCEL_Z_D", "PSC_ACCZ_D", "Q_P_ACCZ_D", "PSC_D_ACC_D", "Q_P_D_ACC_D"},
                 MainV2.comPort.MAV.param);
-            THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX", "PSC_ACCZ_IMAX", "Q_P_ACCZ_IMAX"},
+            THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX", "PSC_ACCZ_IMAX", "Q_P_ACCZ_IMAX", "PSC_D_ACC_IMAX", "Q_P_D_ACC_IMAX"},
                 MainV2.comPort.MAV.param);
 
             THR_ALT_P.setup(0, 0, 1, 0.001f, new[] {"THR_ALT_P", "POS_Z_P", "PSC_POSZ_P", "Q_P_POSZ_P"},
                 MainV2.comPort.MAV.param);
-            THR_RATE_P.setup(0, 0, 1, 0.001f, new[] {"THR_RATE_P", "VEL_Z_P", "PSC_VELZ_P", "Q_P_VELZ_P"},
+            THR_RATE_P.setup(0, 0, 1, 0.001f, new[] {"THR_RATE_P", "VEL_Z_P", "PSC_VELZ_P", "Q_P_VELZ_P", "PSC_D_VEL_P", "Q_P_D_VEL_P"},
                 MainV2.comPort.MAV.param);
 
-            WPNAV_LOIT_SPEED.setup(0, 0, 1, 0.001f, new[] {"WPNAV_LOIT_SPEED", "LOIT_SPEED", "Q_LOIT_SPEED"},
+            WPNAV_LOIT_SPEED.setup(0, 0, 1, 0.001f, new[] {"WPNAV_LOIT_SPEED", "LOIT_SPEED", "Q_LOIT_SPEED", "LOIT_SPEED_MS", "Q_LOIT_SPEED_MS"},
                 MainV2.comPort.MAV.param);
-            WPNAV_RADIUS.setup(0, 0, 1, 0.001f, new[] {"WPNAV_RADIUS", "Q_WP_RADIUS"}, MainV2.comPort.MAV.param);
-            WPNAV_SPEED.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED", "Q_WP_SPEED"}, MainV2.comPort.MAV.param);
-            WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED_DN", "Q_WP_SPEED_DN"}, MainV2.comPort.MAV.param);
-            WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED_UP", "Q_WP_SPEED_UP"}, MainV2.comPort.MAV.param);
+            WPNAV_RADIUS.setup(0, 0, 1, 0.001f, new[] {"WPNAV_RADIUS", "Q_WP_RADIUS", "WP_RADIUS_M", "Q_WP_RADIUS_M"}, MainV2.comPort.MAV.param);
+            WPNAV_SPEED.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED", "Q_WP_SPEED", "WP_SPD", "Q_WP_SPD"}, MainV2.comPort.MAV.param);
+            WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED_DN", "Q_WP_SPEED_DN", "WP_SPD_DN", "Q_WP_SPD_DN"}, MainV2.comPort.MAV.param);
+            WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED_UP", "Q_WP_SPEED_UP", "WP_SPD_UP", "Q_WP_SPD_UP"}, MainV2.comPort.MAV.param);
 
             INS_GYRO_FILTER.setup(0, 0, 1, 1f, new[] { "INS_GYRO_FILTER" }, MainV2.comPort.MAV.param);
             INS_ACCEL_FILTER.setup(0, 0, 1, 1f, new[] { "INS_ACCEL_FILTER" }, MainV2.comPort.MAV.param);
@@ -156,11 +156,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             INS_HNTCH_OPTS.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_OPTS" }, MainV2.comPort.MAV.param);
             INS_HNTCH_HMNCS.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_HMNCS" }, MainV2.comPort.MAV.param);
 
-            mavlinkNumericUpDownatc_accel_r_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_R_MAX", "Q_A_ACCEL_R_MAX"},
+            mavlinkNumericUpDownatc_accel_r_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_R_MAX", "Q_A_ACCEL_R_MAX", "ATC_ACC_R_MAX", "Q_A_ACC_R_MAX"},
                 MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownatc_accel_p_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_P_MAX", "Q_A_ACCEL_P_MAX"},
+            mavlinkNumericUpDownatc_accel_p_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_P_MAX", "Q_A_ACCEL_P_MAX", "ATC_ACC_P_MAX", "Q_A_ACC_P_MAX"},
                 MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownatc_accel_y_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_Y_MAX", "Q_A_ACCEL_Y_MAX"},
+            mavlinkNumericUpDownatc_accel_y_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_Y_MAX", "Q_A_ACCEL_Y_MAX", "ATC_ACC_Y_MAX", "Q_A_ACC_Y_MAX"},
                 MainV2.comPort.MAV.param);
             mavlinkNumericUpDownatc_input_tc.setup(0, 0, 1, 0.001f, new[] {"ATC_INPUT_TC", "Q_A_INPUT_TC"},
                 MainV2.comPort.MAV.param);
@@ -223,19 +223,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
             {
-                // If we have reached the target line length and the next      
-                // character is whitespace then begin a new line.   
+                // If we have reached the target line length and the next
+                // character is whitespace then begin a new line.
                 if (currentLinePosition >= lineLength &&
                     char.IsWhiteSpace(text[textIndex]))
                 {
                     sb.Append(Environment.NewLine);
                     currentLinePosition = 0;
                 }
-                // If we have just started a new line, skip all the whitespace.    
+                // If we have just started a new line, skip all the whitespace.
                 if (currentLinePosition == 0)
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
                         textIndex++;
-                // Append the next character.     
+                // Append the next character.
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
             }
@@ -479,6 +479,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void numeric_ValueUpdated(object sender, EventArgs e)
         {
             EEPROM_View_float_TextChanged(sender, e);
+        }
+
+        private void OnEnter_NumUpDown(object sender, EventArgs e)
+        {
+            // show unit change warning for Copter 4.7 renamed parameters
+            if (VersionDetection.GetVersion(MainV2.comPort.MAV.VersionString) >= new Version(4, 7)
+                && sender is MavlinkNumericUpDown mnud)
+            {
+                var warning = ParamChanges47.changedByNewParamWarning(mnud.ParamName);
+                if (warning != null)
+                {
+                    lblUnitWarning.Text = "Change in 4.7: " + warning;
+                    lblUnitWarning.Visible = true;
+                    lblUnitWarning.ForeColor = Color.Red;
+                    return;
+                }
+            }
+
+            lblUnitWarning.Visible = false;
         }
     }
 }

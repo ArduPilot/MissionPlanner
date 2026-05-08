@@ -162,9 +162,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             //Fill up the list of params to change
             new_params.Add("ACRO_YAW_P", acro_yaw_p);
-            new_params.Add(atc_prefix + "_ACCEL_P_MAX", atc_accel_p_max);
-            new_params.Add(atc_prefix + "_ACCEL_R_MAX", atc_accel_r_max);
-            new_params.Add(atc_prefix + "_ACCEL_Y_MAX", atc_accel_y_max);
+            if (MainV2.comPort.MAV.param.ContainsKey(atc_prefix + "_ACCEL_P_MAX"))
+            {
+                new_params.Add(atc_prefix + "_ACCEL_P_MAX", atc_accel_p_max);
+                new_params.Add(atc_prefix + "_ACCEL_R_MAX", atc_accel_r_max);
+                new_params.Add(atc_prefix + "_ACCEL_Y_MAX", atc_accel_y_max);
+            }
+            else
+            {
+                new_params.Add(atc_prefix + "_ACC_P_MAX", atc_accel_p_max / 100.0);
+                new_params.Add(atc_prefix + "_ACC_R_MAX", atc_accel_r_max / 100.0);
+                new_params.Add(atc_prefix + "_ACC_Y_MAX", atc_accel_y_max / 100.0);
+            }
 
             //Filters has different name in 4.x and in 3.x
             if (MainV2.comPort.MAV.cs.version.Major == 4)
@@ -228,7 +237,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (paramCompareForm.DialogResult == DialogResult.OK)
             {
-                CustomMessageBox.Show("Initial Parameters succesfully updated.\r\nCheck parameters before flight!\r\n\r\nAfter test flight :\r\n\tSet ATC_THR_MIX_MAN to 0.5\r\n\tSet PSC_ACCZ_P to MOT_THST_HOVER\r\n\tSet PSC_ACCZ_I to 2*MOT_THST_HOVER\r\n\r\nHappy flying!", "Initial parameter calculator");
+                CustomMessageBox.Show("Initial Parameters succesfully updated.\r\nCheck parameters before flight!\r\n\r\nAfter test flight :\r\n\tSet ATC_THR_MIX_MAN to 0.5\r\n\tSet PSC_ACCZ_P/PSC_D_ACC_P to MOT_THST_HOVER\r\n\tSet PSC_ACCZ_I/PSC_D_ACC_I to 2*MOT_THST_HOVER\r\n\r\nHappy flying!", "Initial parameter calculator");
             }
 
             }

@@ -40,8 +40,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDown2.setup(30, 65536, (float)CurrentState.fromDistDisplayUnit(1), 1, "FENCE_RADIUS",
                 MainV2.comPort.MAV.param);
 
-            mavlinkNumericUpDown3.setup(1, 500, (float)CurrentState.fromDistDisplayUnit(100), 1, "RTL_ALT",
-                MainV2.comPort.MAV.param);
+            if (MainV2.comPort.MAV.param.ContainsKey("RTL_ALT_M"))
+                mavlinkNumericUpDown3.setup(1, 500, (float)CurrentState.fromDistDisplayUnit(1), 1, "RTL_ALT_M",
+                    MainV2.comPort.MAV.param);
+            else
+                mavlinkNumericUpDown3.setup(1, 500, (float)CurrentState.fromDistDisplayUnit(100), 1, "RTL_ALT",
+                    MainV2.comPort.MAV.param);
         }
     }
 }
