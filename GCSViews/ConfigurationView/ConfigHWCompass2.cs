@@ -400,7 +400,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     _startedCompasses.Add(item.Key);
                     compasscount++;
                 }
-                lbl_obmagresult.AppendText(message + "\r\n");
+                lbl_obmagresult.AppendText(message + Environment.NewLine);
             }
 
             lock (mrep)
@@ -499,7 +499,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 string failures = "";
                 foreach (var kv in lastFailureStatus)
-                    failures += "Mag " + kv.Key + ": " + GMap.NET.Internals.Stuff.EnumToString(kv.Value) + Environment.NewLine;
+                    failures += "Mag " + kv.Key + ": " + kv.Value.ToString() + Environment.NewLine;
                 lbl_obmagresult.AppendText(failures);
             }
 
