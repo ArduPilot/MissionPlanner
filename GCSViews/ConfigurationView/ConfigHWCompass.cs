@@ -419,6 +419,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private List<MAVLink.MAVLinkMessage> mprog = new List<MAVLink.MAVLinkMessage>();
         private List<MAVLink.MAVLinkMessage> mrep = new List<MAVLink.MAVLinkMessage>();
+        private Dictionary<byte, MAVLink.MAG_CAL_STATUS> lastFailureStatus = new Dictionary<byte, MAVLink.MAG_CAL_STATUS>();
+        private HashSet<byte> _startedCompasses = new HashSet<byte>();
+        private HashSet<byte> _autosavedCompasses = new HashSet<byte>();
 
         private bool ReceviedPacket(MAVLink.MAVLinkMessage packet)
         {
@@ -465,6 +468,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mprog.Clear();
             mrep.Clear();
+            lastFailureStatus.Clear();
+            _startedCompasses.Clear();
+            _autosavedCompasses.Clear();
             horizontalProgressBar1.Value = 0;
             horizontalProgressBar2.Value = 0;
             horizontalProgressBar3.Value = 0;
@@ -534,19 +540,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     try
                     {
-                        if (item.Key == 0)
-                            horizontalProgressBar1.Value = obj.completion_pct;
-                        if (item.Key == 1)
-                            horizontalProgressBar2.Value = obj.completion_pct;
-                        if (item.Key == 2)
-                            horizontalProgressBar3.Value = obj.completion_pct;
+                        if (!_autosavedCompasses.Contains(item.Key))
+                        {
+                            if (item.Key == 0)
+                                horizontalProgressBar1.Value = obj.completion_pct;
+                            if (item.Key == 1)
+                                horizontalProgressBar2.Value = obj.completion_pct;
+                            if (item.Key == 2)
+                                horizontalProgressBar3.Value = obj.completion_pct;
+                        }
                     }
                     catch { }
 
                     message += "id:" + item.Key + " " + obj.completion_pct.ToString() + "% ";
+                    _startedCompasses.Add(item.Key);
                     compasscount++;
                 }
-                lbl_obmagresult.AppendText(message + "\n");
+                lbl_obmagresult.AppendText(message + Environment.NewLine);
             }
 
             lock (mrep)
@@ -557,13 +567,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     var obj = (MAVLink.mavlink_mag_cal_report_t)item.data;
 
-                    if (obj.compass_id == 0 && obj.ofs_x == 0)
+                    if (obj.compass_id == 0 && obj.ofs_x == 0 && obj.ofs_y == 0 && obj.ofs_z == 0
+                        && obj.cal_status == (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_NOT_STARTED)
                         continue;
 
                     status[obj.compass_id] = item;
                 }
 
                 // message for user
+                var failedCompassIds = new List<byte>();
                 foreach (var item in status.Values)
                 {
                     var obj = (MAVLink.mavlink_mag_cal_report_t)item.data;
@@ -571,35 +583,76 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     lbl_obmagresult.AppendText("id:" + obj.compass_id + " x:" + obj.ofs_x.ToString("0.0") + " y:" +
                                                obj.ofs_y.ToString("0.0") + " z:" +
                                                obj.ofs_z.ToString("0.0") + " fit:" + obj.fitness.ToString("0.0") + " " +
-                                               (MAVLink.MAG_CAL_STATUS)obj.cal_status + "\n");
+                                               (MAVLink.MAG_CAL_STATUS)obj.cal_status + Environment.NewLine);
 
                     try
                     {
-                        if (obj.compass_id == 0)
-                            horizontalProgressBar1.Value = 100;
-                        if (obj.compass_id == 1)
-                            horizontalProgressBar2.Value = 100;
-                        if (obj.compass_id == 2)
-                            horizontalProgressBar3.Value = 100;
+                        if (obj.autosaved == 1)
+                        {
+                            if (obj.compass_id == 0)
+                                horizontalProgressBar1.Value = 100;
+                            if (obj.compass_id == 1)
+                                horizontalProgressBar2.Value = 100;
+                            if (obj.compass_id == 2)
+                                horizontalProgressBar3.Value = 100;
+                        }
                     }
                     catch
                     {
                     }
 
-                    if ((MAVLink.MAG_CAL_STATUS)obj.cal_status != MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
+                    var calStatus = (MAVLink.MAG_CAL_STATUS)obj.cal_status;
+                    // Assumption: autosaved==1 is only ever set by firmware on SUCCESS.
+                    // The calStatus>SUCCESS branch below always runs after the autosaved
+                    // block, so if that assumption ever breaks the bar would be reset to
+                    // 0/red while completecount still increments — guard here if needed.
+                    if (calStatus > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
                     {
-                        //CustomMessageBox.Show(Strings.CommandFailed);
+                        lastFailureStatus[obj.compass_id] = calStatus;
+                        failedCompassIds.Add(obj.compass_id);
+                        // purge stale progress so the old 99% can't overwrite the reset
+                        lock (mprog)
+                        {
+                            mprog.RemoveAll(m => ((MAVLink.mavlink_mag_cal_progress_t)m.data).compass_id == obj.compass_id);
+                        }
+                        // reset bar so the user sees the retry starting from 0
+                        try
+                        {
+                            if (obj.compass_id == 0) horizontalProgressBar1.Value = 0;
+                            if (obj.compass_id == 1) horizontalProgressBar2.Value = 0;
+                            if (obj.compass_id == 2) horizontalProgressBar3.Value = 0;
+                        }
+                        catch { }
                     }
+                    else if (calStatus == MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
+                        lastFailureStatus.Remove(obj.compass_id);
+                    // running/waiting states leave lastFailureStatus unchanged so the
+                    // previous failure reason stays visible while calibration retries
 
                     if (obj.autosaved == 1)
                     {
+                        _autosavedCompasses.Add(obj.compass_id);
                         completecount++;
                         timer1.Interval = 1000;
                     }
                 }
+
+                // consume failure reports so they don't re-fire next tick and kill retry progress
+                // (lastFailureStatus preserves the message for display)
+                if (failedCompassIds.Count > 0)
+                    mrep.RemoveAll(m => failedCompassIds.Contains(((MAVLink.mavlink_mag_cal_report_t)m.data).compass_id));
             }
 
-            if (compasscount == completecount && compasscount != 0)
+            // show last known failure reason per compass (persists across firmware auto-restarts)
+            if (lastFailureStatus.Count > 0)
+            {
+                string failures = "";
+                foreach (var kv in lastFailureStatus)
+                    failures += "Mag " + kv.Key + ": " + kv.Value.ToString() + Environment.NewLine;
+                lbl_obmagresult.AppendText(failures);
+            }
+
+            if (_startedCompasses.Count > 0 && completecount == _startedCompasses.Count)
             {
                 BUT_OBmagcalcancel.Enabled = false;
                 BUT_OBmagcalaccept.Enabled = false;
