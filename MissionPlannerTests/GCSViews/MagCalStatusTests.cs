@@ -28,6 +28,12 @@ namespace MissionPlanner.GCSViews.Tests
         private const byte RAW_BAD_FITNESS = 10;
 
         // ── 1. Wire values ────────────────────────────────────────────────────
+        //
+        // These are intentional documentation tests — the constants are defined
+        // as literal integers above, so the assertions always pass today.  Once
+        // mavlink/mavlink#2478 merges and Mavlink.cs is regenerated the plan is
+        // to replace the raw constants with the named enum members and assert
+        // their numeric values here, turning these into real regression guards.
 
         [TestMethod]
         public void BadOffsets_RawValue_Is8()
