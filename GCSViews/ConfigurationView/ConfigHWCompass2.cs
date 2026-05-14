@@ -457,6 +457,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     var calStatus = (MAVLink.MAG_CAL_STATUS)obj.cal_status;
+                    // Assumption: autosaved==1 is only ever set by firmware on SUCCESS.
+                    // The calStatus>SUCCESS branch below always runs after the autosaved
+                    // block, so if that assumption ever breaks the bar would be reset to
+                    // 0/red while completecount still increments — guard here if needed.
                     if (calStatus > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
                     {
                         lastFailureStatus[obj.compass_id] = calStatus;
