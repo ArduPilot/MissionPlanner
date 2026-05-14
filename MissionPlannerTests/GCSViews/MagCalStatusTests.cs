@@ -9,11 +9,11 @@ namespace MissionPlanner.GCSViews.Tests
     ///
     /// Firmware sends cal_status in MAG_CAL_REPORT. Three new values are added:
     ///   8 = BAD_OFFSETS  – any offset component >= COMPASS_OFFS_MAX
-    ///   9 = BAD_DIAG     – diagonal or off-diagonal scaling out of range
-    ///  10 = BAD_FITNESS  – fitness (RMS residual) exceeds tolerance
+    ///   9 = BAD_DIAG_SCALING – diagonal or off-diagonal scaling out of range
+    ///  10 = BAD_FITNESS       – fitness (RMS residual) exceeds tolerance
     ///
     /// These values are tested via raw byte cast because the named enum members
-    /// (MAG_CAL_BAD_OFFSETS/DIAG/FITNESS) are not yet in the generated Mavlink.cs.
+    /// (MAG_CAL_BAD_OFFSETS/DIAG_SCALING/FITNESS) are not yet in the generated Mavlink.cs.
     /// They will be added when mavlink/mavlink#2478 merges and Mavlink.cs is
     /// regenerated.  A follow-up to switch from raw casts to named members and
     /// add ToString assertions is tracked in that upstream PR.
@@ -24,7 +24,7 @@ namespace MissionPlanner.GCSViews.Tests
         // Wire values for the three new failure codes from ArduPilot/ardupilot#32757.
         // Named enum members arrive with mavlink/mavlink#2478 + Mavlink.cs regen.
         private const byte RAW_BAD_OFFSETS = 8;
-        private const byte RAW_BAD_DIAG    = 9;
+        private const byte RAW_BAD_DIAG_SCALING = 9;
         private const byte RAW_BAD_FITNESS = 10;
 
         // ── 1. Wire values ────────────────────────────────────────────────────
@@ -36,9 +36,9 @@ namespace MissionPlanner.GCSViews.Tests
         }
 
         [TestMethod]
-        public void BadDiag_RawValue_Is9()
+        public void BadDiagScaling_RawValue_Is9()
         {
-            Assert.AreEqual(9, RAW_BAD_DIAG);
+            Assert.AreEqual(9, RAW_BAD_DIAG_SCALING);
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews.Tests
         [TestMethod]
         public void CastByte9_IsDistinctFromKnownValues()
         {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG;
+            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG_SCALING;
             Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,    status);
             Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED,     status);
             Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS, status);
@@ -95,9 +95,9 @@ namespace MissionPlanner.GCSViews.Tests
         [TestMethod]
         public void RawByte9_IsGreaterThanSuccess()
         {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG;
+            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG_SCALING;
             Assert.IsTrue(status > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
-                "cal_status=9 (BAD_DIAG) must trigger the failure guard");
+                "cal_status=9 (BAD_DIAG_SCALING) must trigger the failure guard");
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace MissionPlanner.GCSViews.Tests
                 MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_ORIENTATION,
                 MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS,
                 (MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS,
-                (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG,
+                (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG_SCALING,
                 (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS,
             };
             foreach (var f in failures)
