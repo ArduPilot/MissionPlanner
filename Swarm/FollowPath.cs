@@ -47,13 +47,20 @@ namespace MissionPlanner.Swarm
                         PointLatLngAlt target = newpositions[a];
 
                         // send it
-                        port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp()
+                        try
                         {
-                            alt = (float)target.Alt,
-                            lat = target.Lat,
-                            lng = target.Lng,
-                            id = (ushort)MAVLink.MAV_CMD.WAYPOINT
-                        });
+                            port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp()
+                            {
+                                alt = (float)target.Alt,
+                                lat = target.Lat,
+                                lng = target.Lng,
+                                id = (ushort)MAVLink.MAV_CMD.WAYPOINT
+                            });
+                        }
+                        catch
+                        {
+                            // this mav refused its target; keep driving the others
+                        }
                     }
                 }
             }
