@@ -4459,10 +4459,61 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
 
+            gotohere.id = (ushort) MAV_CMD.WAYPOINT;
+
+            if (!MAVlist[sysid, compid].UnsupportedCommands.ContainsKey(MAV_CMD.DO_REPOSITION))
+            {
+                byte flags = 0;
+                if (setguidedmode)
+                {
+                    flags |= (byte) MAV_DO_REPOSITION_FLAGS.CHANGE_MODE;
+                }
+
+                MAV_RESULT? result = null;
+                try
+                {
+                    result = doCommandIntResult(sysid, compid, MAV_CMD.DO_REPOSITION,
+                        -1,                         // param1 - groundspeed (default)
+                        flags,                      // param2 - flags
+                        0,                          // param3 - loiter radius (Planes)
+                        float.NaN,                  // param4 - yaw (NaN: keep current yaw behaviour)
+                        (int) (gotohere.lat * 1e7), // param5 - latitude
+                        (int) (gotohere.lng * 1e7), // param6 - longitude
+                        gotohere.alt,               // param7 - altitude
+                        true,                       // require ack
+                        null,                       // callback
+                        (MAV_FRAME) gotohere.frame, // frame
+                        // often sent from the UI thread or a position-update loop;
+                        // a lost ack must not stall either for long
+                        retries: 1, timeoutms: 1000);
+                }
+                catch (Exception ex)
+                {
+                    // no ack - fall back to the legacy method
+                    log.Error(ex);
+                }
+
+                if (result == MAV_RESULT.ACCEPTED)
+                {
+                    // the legacy paths below record the target in setWP/setPositionTargetGlobalInt
+                    MAVlist[sysid, compid].GuidedMode = gotohere;
+                    return;
+                }
+
+                if (result == MAV_RESULT.UNSUPPORTED)
+                {
+                    MAVlist[sysid, compid].UnsupportedCommands[MAV_CMD.DO_REPOSITION] = true;
+                }
+                else if (result != null && result != MAV_RESULT.COMMAND_LONG_ONLY)
+                {
+                    // the vehicle refused this target (e.g. outside the fence); don't bypass that
+                    log.ErrorFormat("setGuidedModeWP {0}:{1} DO_REPOSITION refused: {2}", sysid, compid, result);
+                    throw new Exception("Guided Mode Failed: " + result);
+                }
+            }
+
             try
             {
-                gotohere.id = (ushort) MAV_CMD.WAYPOINT;
-
                 if (setguidedmode)
                 {
                     // fix for followme change
