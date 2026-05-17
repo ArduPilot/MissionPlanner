@@ -4422,6 +4422,34 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
 
+	    try
+	    {
+		byte flags = 0;
+		if (setguidedmode) {
+		    flags |= (byte)MAV_DO_REPOSITION_FLAGS.CHANGE_MODE;
+		}
+		if (doCommandInt(
+			(byte) sysid, (byte) compid,
+			MAV_CMD.DO_REPOSITION,
+			-1,                       // param1 - groundspeed
+			flags,                    // param2 - flags
+			0,                        // param3 - loiter radius (Planes)
+			0,                        // param4 - yaw
+			(int)(gotohere.lat*1e7),  // param5
+			(int)(gotohere.lng*1e7),  // param6
+			gotohere.alt,             // param7
+			true,                     // require ack
+			null,                     // callback
+			(MAV_FRAME)gotohere.frame // frame
+		    )) {
+		    return;
+		}
+	    }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
             try
             {
                 gotohere.id = (ushort) MAV_CMD.WAYPOINT;
