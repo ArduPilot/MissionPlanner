@@ -2946,13 +2946,20 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.cs.mode == "Guided")
             {
-                MainV2.comPort.setGuidedModeWP(new Locationwp
+                try
                 {
-                    alt = MainV2.comPort.MAV.GuidedMode.z,
-                    lat = MainV2.comPort.MAV.GuidedMode.x / 1e7,
-                    lng = MainV2.comPort.MAV.GuidedMode.y / 1e7,
-                    frame = (byte)frame
-                });
+                    MainV2.comPort.setGuidedModeWP(new Locationwp
+                    {
+                        alt = MainV2.comPort.MAV.GuidedMode.z,
+                        lat = MainV2.comPort.MAV.GuidedMode.x / 1e7,
+                        lng = MainV2.comPort.MAV.GuidedMode.y / 1e7,
+                        frame = (byte)frame
+                    });
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + ex.Message, Strings.ERROR);
+                }
             }
         }
 
@@ -6064,6 +6071,9 @@ namespace MissionPlanner.GCSViews
             {
                 byte.TryParse(Settings.Instance["guided_alt_frame"], out frame);
             }
+
+            // record the frame this target is in, as the alt entry box does
+            MainV2.comPort.MAV.GuidedMode.frame = frame;
 
             var split = location.Split(';');
 
