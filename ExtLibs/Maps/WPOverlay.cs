@@ -69,7 +69,8 @@ namespace MissionPlanner.ArduPilot
                     command != (ushort) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
                     command != (ushort) MAVLink.MAV_CMD.DELAY &&
                     command != (ushort) MAVLink.MAV_CMD.GUIDED_ENABLE
-                    || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI || command == (ushort)MAVLink.MAV_CMD.DO_LAND_START)
+                    || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI || command == (ushort)MAVLink.MAV_CMD.DO_LAND_START
+                    || command == (ushort)MAVLink.MAV_CMD.DO_RETURN_PATH_START)
                 {
                     // land can be 0,0 or a lat,lng
                     if ((command == (ushort)MAVLink.MAV_CMD.LAND || command == (ushort)MAVLink.MAV_CMD.VTOL_LAND) && item.lat == 0 && item.lng == 0)
