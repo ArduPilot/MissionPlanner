@@ -4894,7 +4894,7 @@ namespace MissionPlanner.GCSViews
             if (string.IsNullOrEmpty(key))
                 return false;
 
-            if (key.StartsWith("quickView", StringComparison.Ordinal))
+            if (key.StartsWith("quickView", StringComparison.OrdinalIgnoreCase))
                 return true;
 
             return key == "tabcontrolactions" ||
@@ -4913,7 +4913,7 @@ namespace MissionPlanner.GCSViews
                 return int.TryParse(value, out var count) && count >= 1 && count <= MaxQuickViewDimension;
             }
 
-            if (key.StartsWith("quickView", StringComparison.Ordinal) &&
+            if (key.StartsWith("quickView", StringComparison.OrdinalIgnoreCase) &&
                 key != "quickViewRows" &&
                 key != "quickViewCols")
             {
@@ -4958,7 +4958,7 @@ namespace MissionPlanner.GCSViews
             foreach (var key in Settings.Instance.Keys.Where(IsShareableDisplaySettingKey).OrderBy(a => a))
             {
                 if (Settings.config.TryGetValue(key, out var value))
-                    yield return new KeyValuePair<string, string>(key, value ?? "");
+                    yield return new KeyValuePair<string, string>(key, value);
             }
         }
 
