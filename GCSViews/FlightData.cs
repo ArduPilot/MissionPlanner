@@ -4917,12 +4917,27 @@ namespace MissionPlanner.GCSViews
                 key != "quickViewRows" &&
                 key != "quickViewCols")
             {
-                return typeof(CurrentState).GetProperty(value) != null;
+                return typeof(CurrentState).GetProperty(value, BindingFlags.Public | BindingFlags.Instance) != null;
             }
 
             if (key == "tabcontrolactions")
             {
-                return value.All(c => char.IsLetterOrDigit(c) || c == '_' || c == ';');
+                if (string.IsNullOrEmpty(value))
+                    return true;
+
+                if (value.Contains(";;"))
+                    return false;
+
+                foreach (var segment in value.Split(';'))
+                {
+                    if (segment.Length == 0)
+                        continue;
+
+                    if (!segment.All(c => char.IsLetterOrDigit(c) || c == '_'))
+                        return false;
+                }
+
+                return true;
             }
 
             if (key == "tabControlactions_Multiline" || key == "HudSwap")
