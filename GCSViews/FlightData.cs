@@ -40,6 +40,9 @@ namespace MissionPlanner.GCSViews
 {
     public partial class FlightData : MyUserControl, IActivate, IDeactivate
     {
+        private const int MaxDisplaySettingValueLength = 512;
+        private const int MaxQuickViewDimension = 30;
+
         public static FlightData instance;
         public static GMapOverlay kmlpolygons;
         public static HUD myhud;
@@ -4902,12 +4905,12 @@ namespace MissionPlanner.GCSViews
 
         private static bool IsValidShareableDisplaySettingValue(string key, string value)
         {
-            if (value == null || value.Length > 512)
+            if (value == null || value.Length > MaxDisplaySettingValueLength)
                 return false;
 
             if (key == "quickViewRows" || key == "quickViewCols")
             {
-                return int.TryParse(value, out var count) && count >= 1 && count <= 30;
+                return int.TryParse(value, out var count) && count >= 1 && count <= MaxQuickViewDimension;
             }
 
             if (key.StartsWith("quickView", StringComparison.Ordinal) &&
@@ -4984,7 +4987,7 @@ namespace MissionPlanner.GCSViews
                     if (xmlreader.NodeType != XmlNodeType.Element)
                         continue;
 
-                    if (xmlreader.Name == "Config" || xmlreader.Name == "xml")
+                    if (xmlreader.Name == "Config")
                         continue;
 
                     if (!IsShareableDisplaySettingKey(xmlreader.Name))
