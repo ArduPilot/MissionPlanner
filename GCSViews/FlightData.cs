@@ -27,6 +27,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
@@ -240,6 +241,20 @@ namespace MissionPlanner.GCSViews
             log.Info("Ctor Start");
 
             InitializeComponent();
+
+            var exportQuickViewDisplaySettingsToolStripMenuItem =
+                new ToolStripMenuItem("Export Quick View / Display Settings...");
+            exportQuickViewDisplaySettingsToolStripMenuItem.Click +=
+                exportQuickViewDisplaySettingsToolStripMenuItem_Click;
+
+            var importQuickViewDisplaySettingsToolStripMenuItem =
+                new ToolStripMenuItem("Import Quick View / Display Settings...");
+            importQuickViewDisplaySettingsToolStripMenuItem.Click +=
+                importQuickViewDisplaySettingsToolStripMenuItem_Click;
+
+            contextMenuStripQuickView.Items.Add(new ToolStripSeparator());
+            contextMenuStripQuickView.Items.Add(exportQuickViewDisplaySettingsToolStripMenuItem);
+            contextMenuStripQuickView.Items.Add(importQuickViewDisplaySettingsToolStripMenuItem);
 
             log.Info("Components Done");
 
@@ -4869,6 +4884,115 @@ namespace MissionPlanner.GCSViews
         private void setMapBearing()
         {
             BeginInvoke((Action) delegate { gMapControl1.Bearing = (int) ((MainV2.comPort.MAV.cs.yaw + 360) % 360); });
+        }
+
+        private static bool IsShareableDisplaySettingKey(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return false;
+
+            if (key.StartsWith("quickView", StringComparison.Ordinal))
+                return true;
+
+            return key == "tabcontrolactions" ||
+                   key == "tabControlactions_Multiline" ||
+                   key == "HudSwap" ||
+                   key == "FlightSplitter";
+        }
+
+        private static IEnumerable<KeyValuePair<string, string>> GetShareableDisplaySettings()
+        {
+            foreach (var key in Settings.Instance.Keys.Where(IsShareableDisplaySettingKey).OrderBy(a => a))
+            {
+                if (Settings.config.TryGetValue(key, out var value))
+                    yield return new KeyValuePair<string, string>(key, value ?? "");
+            }
+        }
+
+        private static void SaveShareableDisplaySettings(string fileName)
+        {
+            using (var xmlwriter = new XmlTextWriter(fileName, Encoding.UTF8))
+            {
+                xmlwriter.Formatting = Formatting.Indented;
+                xmlwriter.WriteStartDocument();
+                xmlwriter.WriteStartElement("Config");
+
+                foreach (var setting in GetShareableDisplaySettings())
+                {
+                    xmlwriter.WriteElementString(setting.Key, setting.Value);
+                }
+
+                xmlwriter.WriteEndElement();
+                xmlwriter.WriteEndDocument();
+            }
+        }
+
+        private static void LoadShareableDisplaySettings(string fileName)
+        {
+            using (var xmlreader = new XmlTextReader(fileName))
+            {
+                while (xmlreader.Read())
+                {
+                    if (xmlreader.NodeType != XmlNodeType.Element)
+                        continue;
+
+                    if (xmlreader.Name == "Config" || xmlreader.Name == "xml")
+                        continue;
+
+                    if (!IsShareableDisplaySettingKey(xmlreader.Name))
+                    {
+                        xmlreader.Skip();
+                        continue;
+                    }
+
+                    Settings.Instance[xmlreader.Name] = xmlreader.ReadString();
+                }
+            }
+        }
+
+        private void exportQuickViewDisplaySettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
+                saveFileDialog.FileName = "MissionPlanner.DisplaySettings.xml";
+                saveFileDialog.Title = "Export Quick View / Display Settings";
+
+                if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                try
+                {
+                    SaveShareableDisplaySettings(saveFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to export display settings: " + ex.Message, Strings.ERROR);
+                }
+            }
+        }
+
+        private void importQuickViewDisplaySettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
+                openFileDialog.Title = "Import Quick View / Display Settings";
+
+                if (openFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                try
+                {
+                    LoadShareableDisplaySettings(openFileDialog.FileName);
+                    Activate();
+                    Settings.Instance.Save();
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to import display settings: " + ex.Message, Strings.ERROR);
+                }
+            }
         }
 
         private void setMJPEGSourceToolStripMenuItem_Click(object sender, EventArgs e)
