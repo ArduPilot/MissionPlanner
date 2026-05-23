@@ -4900,6 +4900,41 @@ namespace MissionPlanner.GCSViews
                    key == "FlightSplitter";
         }
 
+        private static bool IsValidShareableDisplaySettingValue(string key, string value)
+        {
+            if (value == null || value.Length > 512)
+                return false;
+
+            if (key == "quickViewRows" || key == "quickViewCols")
+            {
+                return int.TryParse(value, out var count) && count >= 1 && count <= 30;
+            }
+
+            if (key.StartsWith("quickView", StringComparison.Ordinal) &&
+                key != "quickViewRows" &&
+                key != "quickViewCols")
+            {
+                return typeof(CurrentState).GetProperty(value) != null;
+            }
+
+            if (key == "tabcontrolactions")
+            {
+                return value.All(c => char.IsLetterOrDigit(c) || c == '_' || c == ';');
+            }
+
+            if (key == "tabControlactions_Multiline" || key == "HudSwap")
+            {
+                return bool.TryParse(value, out _);
+            }
+
+            if (key == "FlightSplitter")
+            {
+                return int.TryParse(value, out var split) && split > 0;
+            }
+
+            return false;
+        }
+
         private static IEnumerable<KeyValuePair<string, string>> GetShareableDisplaySettings()
         {
             foreach (var key in Settings.Instance.Keys.Where(IsShareableDisplaySettingKey).OrderBy(a => a))
@@ -4911,9 +4946,14 @@ namespace MissionPlanner.GCSViews
 
         private static void SaveShareableDisplaySettings(string fileName)
         {
-            using (var xmlwriter = new XmlTextWriter(fileName, Encoding.UTF8))
+            var settings = new XmlWriterSettings
             {
-                xmlwriter.Formatting = Formatting.Indented;
+                Encoding = Encoding.UTF8,
+                Indent = true
+            };
+
+            using (var xmlwriter = XmlWriter.Create(fileName, settings))
+            {
                 xmlwriter.WriteStartDocument();
                 xmlwriter.WriteStartElement("Config");
 
@@ -4929,7 +4969,15 @@ namespace MissionPlanner.GCSViews
 
         private static void LoadShareableDisplaySettings(string fileName)
         {
-            using (var xmlreader = new XmlTextReader(fileName))
+            var settings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null,
+                IgnoreComments = true,
+                IgnoreWhitespace = true
+            };
+
+            using (var xmlreader = XmlReader.Create(fileName, settings))
             {
                 while (xmlreader.Read())
                 {
@@ -4945,7 +4993,10 @@ namespace MissionPlanner.GCSViews
                         continue;
                     }
 
-                    Settings.Instance[xmlreader.Name] = xmlreader.ReadString();
+                    var key = xmlreader.Name;
+                    var value = xmlreader.ReadString();
+                    if (IsValidShareableDisplaySettingValue(key, value))
+                        Settings.Instance[key] = value;
                 }
             }
         }
