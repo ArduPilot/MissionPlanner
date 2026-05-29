@@ -603,7 +603,8 @@ namespace MissionPlanner.Utilities
                             {
                                 lat = double.Parse(match.Groups[1].Value),
                                 lng = double.Parse(match.Groups[2].Value),
-                                alt = float.Parse(match.Groups[3].Value)
+                                alt = float.Parse(match.Groups[3].Value),
+                                frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
                             };
                             try
                             {
@@ -639,7 +640,8 @@ namespace MissionPlanner.Utilities
                             {
                                 lat = double.Parse(match.Groups[1].Value),
                                 lng = double.Parse(match.Groups[2].Value),
-                                alt = float.Parse(match.Groups[3].Value)
+                                alt = float.Parse(match.Groups[3].Value),
+                                frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
                             };
                             try
                             {
