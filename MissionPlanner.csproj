@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <ApplicationIcon>mpdesktop.ico</ApplicationIcon>
@@ -241,7 +241,7 @@
       <Version>2.80.2</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views" Version="2.80.2" />
-    <PackageReference Include="SSH.NET" version="2020.0.2" targetFramework="net40" />
+    <PackageReference Include="SSH.NET" Version="2024.2.0" />
     <PackageReference Include="System.CodeDom">
       <Version>8.0.0</Version>
     </PackageReference>
