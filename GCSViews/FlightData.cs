@@ -15,6 +15,7 @@ using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -202,6 +203,10 @@ namespace MissionPlanner.GCSViews
             Format_SD_Card,
         }
 
+        private BindingList<string> ActionList=new BindingList<string>(Enum.GetNames(typeof(actions)).ToList());
+         
+        private Dictionary<string, Action<string>> CustomActions = new Dictionary<string, Action<string>>();
+
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
         {
             {0, "UNKNOWN" },
@@ -343,7 +348,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            CMB_action.DataSource = Enum.GetNames(typeof(actions));
+            CMB_action.DataSource = ActionList;
 
             CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
@@ -1674,7 +1679,22 @@ namespace MissionPlanner.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
-
+            // Custom action handling
+            {
+                var customAction = CustomActions[CMB_action.Text];
+                if(customAction!=null)
+                {
+                    try
+                    {
+                        customAction.Invoke(CMB_action.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
+                    }
+                    return;
+                }
+            }
 
             if (CMB_action.Text == actions.Format_SD_Card.ToString())
             {
@@ -6691,6 +6711,48 @@ namespace MissionPlanner.GCSViews
 
             // Pass `this` to keep the pop-out always on top
             form.Show(this);
+        }
+
+        public void RegisterCustomAction(string action, Action<string> handler, string after=null, string before=null)
+        {
+            if(ActionList.Contains(action))
+            {
+                throw new Exception($"Action {action} already exists");
+            }
+            int index = -1;
+            if(after!=null)
+            {
+                var afterIndex = ActionList.IndexOf(after);
+                if(afterIndex!=-1)
+                {
+                    index = afterIndex + 1;
+                }
+            }
+            if(before!=null)
+            {
+                var beforeIndex = ActionList.IndexOf(before);
+                if(beforeIndex!=-1)
+                {
+                    index = beforeIndex;
+                }
+            }
+            if(index!=-1)
+            {
+                ActionList.Insert(index, action);
+            } else
+            {
+                ActionList.Add(action);
+            }
+            CustomActions.Add(action, handler);
+        }
+
+        public bool UnregisterCustomAction(string action)
+        {
+            if (!CustomActions.Remove(action))
+            {
+                return false;
+            }
+            return ActionList.Remove(action);
         }
     }
 }
