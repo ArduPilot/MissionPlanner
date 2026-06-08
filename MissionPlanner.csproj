@@ -1185,6 +1185,9 @@
 
   </ItemGroup>
   <ItemGroup>
+    <None Include="plugins\AnonymizeBinlogPlugin.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="SikRadio\ISikRadioForm.cs" />
     <Compile Include="SikRadio\RFD900.cs" />
     <Compile Include="SikRadio\RFDLib\Array.cs" />

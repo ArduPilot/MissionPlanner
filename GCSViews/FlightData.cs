@@ -55,6 +55,7 @@ namespace MissionPlanner.GCSViews
         internal GMapMarker CurrentGMapMarker;
 
         internal PointLatLng MouseDownStart;
+        internal Point MouseDownStartLocal;
 
         //The file path of the selected script
         internal string selectedscript = "";
@@ -743,6 +744,10 @@ namespace MissionPlanner.GCSViews
                 bool added = false;
                 foreach (TabPage tabPage in TabListOriginal)
                 {
+                    // skip the Quick tab if it is currently undocked into a popup window
+                    if (tabQuickDetached && tabPage == tabQuick)
+                        continue;
+
                     if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
                         tabControlactions.TabPages.Add(tabPage);
@@ -764,7 +769,7 @@ namespace MissionPlanner.GCSViews
             loadTabControlActions();
 
             //we want to at least have one tabpage
-            if (tabControlactions.TabPages.Count == 0)
+            if (tabControlactions.TabPages.Count == 0 && !tabQuickDetached)
             {
                 tabControlactions.TabPages.Add(tabQuick);
                 tabControlactions.SelectedIndex = 0;
@@ -2933,6 +2938,7 @@ namespace MissionPlanner.GCSViews
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStartLocal = e.Location;
             Console.WriteLine("gMapControl1_MouseDown "+ MouseDownStart);
 
             if (ModifierKeys == Keys.Control)
@@ -2971,13 +2977,26 @@ namespace MissionPlanner.GCSViews
         {
             if (e.Button == MouseButtons.Left)
             {
-                PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+                // incremental delta avoids direction lock near pole/singularity regions
+                int dx = e.X - MouseDownStartLocal.X;
+                int dy = e.Y - MouseDownStartLocal.Y;
 
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
+                if (dx == 0 && dy == 0)
+                    return;
 
-                gMapControl1.Position = new PointLatLng(center.Position.Lat + latdif,
-                    center.Position.Lng + lngdif);
+                double absLat = Math.Abs(gMapControl1.Position.Lat);
+                PointLatLng newCenter = gMapControl1.FromLocalToLatLng(
+                    gMapControl1.Width / 2 - dx,
+                    gMapControl1.Height / 2 - dy);
+
+                if (!double.IsNaN(newCenter.Lat) && !double.IsNaN(newCenter.Lng) &&
+                    !double.IsInfinity(newCenter.Lat) && !double.IsInfinity(newCenter.Lng))
+                {
+                    gMapControl1.Position = newCenter;
+                }
+
+                // consume this step (critical for stable drag)
+                MouseDownStartLocal = e.Location;
             }
             else
             {

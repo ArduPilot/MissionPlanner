@@ -216,7 +216,7 @@ namespace MissionPlanner.Warnings
                     break;
             }
 
-            if (condition)
+            if (condition && userepeattime)
             {
                 lastrepeat = DateTime.Now;
             }

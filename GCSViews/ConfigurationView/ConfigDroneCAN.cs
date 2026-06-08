@@ -998,6 +998,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
+            var portlock = Control.ModifierKeys.HasFlag(Keys.Control) ? false : true;
+
             var port = 500;
             var baudrate = 230400;
             var target_node =
@@ -1053,8 +1055,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                     target_node = target_node,
                                     serial_id = -1,
                                     baudrate = (uint)baud,
-                                    options = (byte)uavcan_tunnel_Targetted
-                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT,
+                                    options = (byte) (portlock ? uavcan_tunnel_Targetted
+                                        .UAVCAN_TUNNEL_TARGETTED_OPTION_LOCK_PORT : 0),
                                     buffer_len = (byte)packet.Length,
                                     buffer = packet
                                 });

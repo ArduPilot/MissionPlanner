@@ -1306,7 +1306,8 @@ namespace MissionPlanner.Utilities
                         NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
                         NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
 
-                        var capsstring = NativeMethods.gst_caps_to_string(caps_s);
+                        // Memory leak: gst_caps_to_string allocates memory that requires g_free()
+                        // var capsstring = NativeMethods.gst_caps_to_string(caps_s);
                         var buffer = NativeMethods.gst_sample_get_buffer(sample);
                         if (buffer != IntPtr.Zero)
                         {

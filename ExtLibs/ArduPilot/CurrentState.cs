@@ -503,6 +503,8 @@ namespace MissionPlanner
         public float targetairspeed { get; private set; }
 
         public bool lowairspeed { get; set; }
+        private float _cachedAirspeedMin = 0;
+        private DateTime _lastAirspeedMinCheck = DateTime.MinValue;
 
         [DisplayFieldName("asratio.Field")]
         [DisplayText("Airspeed Ratio")]
@@ -3835,6 +3837,37 @@ namespace MissionPlanner
                             //This comes from the EKF, so it supposed to be correct
                             climbrate = vfr.climb;
                             gotVFR = true; // we have a vfr packet
+
+                            if ((timeSinceArmInAir > 0) && (DateTime.Now - _lastAirspeedMinCheck).TotalSeconds > 5)
+                            {
+                                try
+                                {
+                                    if (parent?.param != null)
+                                    {
+                                        if (parent.param.ContainsKey("AIRSPEED_MIN"))
+                                        {
+                                            _cachedAirspeedMin = (float)parent.param["AIRSPEED_MIN"].Value;
+                                        }
+                                        else if (parent.param.ContainsKey("ARSPD_FBW_MIN"))
+                                        {
+                                            _cachedAirspeedMin = (float)parent.param["ARSPD_FBW_MIN"].Value;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("Error getting AIRSPEED_MIN or ARSPD_FBW_MIN from param for lowairspeed handling", ex);
+                                }
+
+                                _lastAirspeedMinCheck = DateTime.Now;
+                            }
+
+                            lowairspeed = armed
+                                && (timeSinceArmInAir > 0)
+                                && (_cachedAirspeedMin > 0)
+                                && sensors_enabled.differential_pressure
+                                && sensors_health.differential_pressure
+                                && (vfr.airspeed < _cachedAirspeedMin);
                         }
 
                         break;

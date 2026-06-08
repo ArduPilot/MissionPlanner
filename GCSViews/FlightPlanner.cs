@@ -125,6 +125,7 @@ namespace MissionPlanner.GCSViews
         private DateTime mapupdate = DateTime.MinValue;
         private string mobileGpsLog = string.Empty;
         private PointLatLng MouseDownStart;
+        private Point MouseDownStartLocal;
         private PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
         private WPOverlay wpOverlay;
         private bool polygongridmode;
@@ -1035,7 +1036,9 @@ namespace MissionPlanner.GCSViews
                     if (now == null || next == null)
                         continue;
 
-                    var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
+                    var p1 = MainMap.FromLatLngToLocal(now);
+                    var p2 = MainMap.FromLatLngToLocal(next);
+                    var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
 
                     var pnt = new GMapMarkerPlus(mid);
                     pnt.Tag = new midline() {now = now, next = next};
@@ -1480,8 +1483,10 @@ namespace MissionPlanner.GCSViews
                             if (now == null || next == null)
                                 continue;
 
-                            var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2,
-                                (now.Alt + next.Alt) / 2);
+                            var p1 = MainMap.FromLatLngToLocal(now);
+                            var p2 = MainMap.FromLatLngToLocal(next);
+                            var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
+                            mid.Alt = (now.Alt + next.Alt) / 2;
 
                             var pnt = new GMapMarkerPlus(mid);
                             pnt.Tag = new midline() {now = now, next = next};
@@ -1557,7 +1562,9 @@ namespace MissionPlanner.GCSViews
                                 if (now == null || next == null)
                                     continue;
 
-                                var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
+                                var p1 = MainMap.FromLatLngToLocal(now);
+                                var p2 = MainMap.FromLatLngToLocal(next);
+                                var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
 
                                 var pnt = new GMapMarkerPlus(mid);
                                 pnt.Tag = new midline() {now = now, next = next};
@@ -5562,13 +5569,20 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        // cm/s - ac
-                        Spline2._wp_accel_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL") ? MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value : 100;
-                        Spline2._wp_speed_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED") ? MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value : 600;
+                        // cm/s - ac, m/s in 4.7+
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_ACC"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WP_ACC"].float_value * 100;
+                        else
+                            Spline2._wp_accel_cms = 100;
 
-                        // ar
-                        //WP_ACCEL - m/s
-                        //WP_SPEED - m/s
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_SPD"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WP_SPD"].float_value * 100;
+                        else
+                            Spline2._wp_speed_cms = 600;
                     }
                     catch
                     {
@@ -6280,8 +6294,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
+                // use brute force, for all three possible params
+
                 // m
                 port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
+
+                // m
+                port.setParam("WP_RADIUS_M", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
 
                 // cm's
                 port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
@@ -6693,6 +6712,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     TXT_WPRad.Text = string.Format("{0:N2}",
                         (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
                 }
+
+                // In meters (4.7+)
+                if (param.ContainsKey("WP_RADIUS_M"))
+                {
+                    TXT_WPRad.Text = string.Format("{0:N2}",
+                        (((double)param["WP_RADIUS_M"] * CurrentState.multiplierdist)));
+                }
+
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
 
@@ -7357,6 +7384,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 return;
 
             MouseDownStart = MainMap.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStartLocal = e.Location;
 
             //   Console.WriteLine("MainMap MD");
 
@@ -7526,16 +7554,34 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
                 else // left click pan
                 {
-                    double latdif = MouseDownStart.Lat - point.Lat;
-                    double lngdif = MouseDownStart.Lng - point.Lng;
-
                     try
                     {
                         lock (thisLock)
                         {
                             if (!isMouseClickOffMenu)
-                                MainMap.Position = new PointLatLng(center.Position.Lat + latdif,
-                                    center.Position.Lng + lngdif);
+                            {
+                                // incremental delta avoids direction lock when crossing pole singularities
+                                int dx = e.X - MouseDownStartLocal.X;
+                                int dy = e.Y - MouseDownStartLocal.Y;
+
+                                if (dx == 0 && dy == 0)
+                                    return;
+
+                                double absLat = Math.Abs(MainMap.Position.Lat);
+
+                                PointLatLng newCenter = MainMap.FromLocalToLatLng(
+                                    MainMap.Width / 2 - dx,
+                                    MainMap.Height / 2 - dy);
+
+                                if (!double.IsNaN(newCenter.Lat) && !double.IsNaN(newCenter.Lng) &&
+                                    !double.IsInfinity(newCenter.Lat) && !double.IsInfinity(newCenter.Lng))
+                                {
+                                    MainMap.Position = newCenter;
+                                }
+
+                                // key part: consume this step so next move is relative to current state
+                                MouseDownStartLocal = e.Location;
+                            }
                         }
                     }
                     catch (Exception ex)
