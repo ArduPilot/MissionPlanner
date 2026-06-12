@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label5.Text" xml:space="preserve">
-    <value>FS Value</value>
+    <value>Valeur FS</value>
   </data>
   <data name="groupBox10.Text" xml:space="preserve">
-    <value>Servo Yaw Pid</value>
+    <value>PID Servo Lacet</value>
   </data>
   <data name="label57.Text" xml:space="preserve">
     <value>INT_MAX</value>
@@ -134,5 +134,164 @@
   </data>
   <data name="label60.Text" xml:space="preserve">
     <value>P</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Croisière</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Gaz 0-100%</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Ratio</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Croisière</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Vitesse air m/s</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Tangage Min</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Tangage Max</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Inclinaison Max</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Angles de navigation</value>
+  </data>
+  <data name="label83.Text" xml:space="preserve">
+    <value>P vers T</value>
+  </data>
+  <data name="label78.Text" xml:space="preserve">
+    <value>Mix gouverne</value>
+  </data>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>Autres mixages</value>
+  </data>
+  <data name="label73.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label74.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label75.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label76.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="groupBox14.Text" xml:space="preserve">
+    <value>PID Énergie/Altitude</value>
+  </data>
+  <data name="label69.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label70.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label71.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label72.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>PID Tangage Nav Alt</value>
+  </data>
+  <data name="label65.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label66.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label67.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label68.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>PID Tangage Nav VA</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label54.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label56.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>PID Servo Tangage</value>
+  </data>
+  <data name="label49.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label50.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label51.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>PID Servo Roulis</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Écrire les paramètres</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Actualiser les paramètres</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Amortissement</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Période</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Contrôle L1 - Contrôle de virage</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Descente Max (m/s)</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Constante de temps</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Amortissement tangage</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Descente Min (m/s)</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Montée Max (m/s)</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>TECS</value>
+  </data>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>Actualiser l'écran</value>
   </data>
 </root>

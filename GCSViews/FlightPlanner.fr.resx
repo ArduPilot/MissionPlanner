@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>Elevation Graph</value>
+    <value>Graphique d'élévation</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fly To Here</value>
+    <value>Voler ici</value>
   </data>
   <data name="CHK_geheight.Text" xml:space="preserve">
     <value>Valider hauteur</value>
@@ -145,7 +145,7 @@
     <value>Préced.</value>
   </data>
   <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load and Append</value>
+    <value>Charger et ajouter</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Zoom</value>
@@ -172,13 +172,13 @@
     <value>P2</value>
   </data>
   <data name="cameraToolStripMenuItem.Text" xml:space="preserve">
-    <value>Camera</value>
+    <value>Caméra</value>
   </data>
   <data name="rotateMapToolStripMenuItem.Text" xml:space="preserve">
     <value>Pivoter carte</value>
   </data>
   <data name="kMLOverlayToolStripMenuItem.Text" xml:space="preserve">
-    <value>KML Overlay</value>
+    <value>Superposition KML</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
     <value>Lat</value>
@@ -193,7 +193,7 @@
     <value>Alt (abs)</value>
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
-    <value>Map Tool</value>
+    <value>Outil carte</value>
   </data>
   <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
     <value>Sans cesse</value>
@@ -202,7 +202,7 @@
     <value>Alt</value>
   </data>
   <data name="setROIToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set ROI</value>
+    <value>Définir ROI</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Endroit du pointeur</value>
@@ -217,7 +217,7 @@
     <value>Rad. musarder</value>
   </data>
   <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load WP File</value>
+    <value>Charger fichier WP</value>
   </data>
   <data name="jumpstartToolStripMenuItem.Text" xml:space="preserve">
     <value>Démarrer</value>
@@ -226,10 +226,10 @@
     <value>Lecture PNs</value>
   </data>
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load Polygon</value>
+    <value>Charger polygone</value>
   </data>
   <data name="prefetchToolStripMenuItem.Text" xml:space="preserve">
-    <value>Prefetch</value>
+    <value>Pré-chargement</value>
   </data>
   <data name="GeoFenceuploadToolStripMenuItem.Text" xml:space="preserve">
     <value>Téléchager vers</value>
@@ -241,7 +241,7 @@
     <value>Radius PNs</value>
   </data>
   <data name="zoomToToolStripMenuItem.Text" xml:space="preserve">
-    <value>Zoom To</value>
+    <value>Zoomer vers</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Long</value>
@@ -274,7 +274,7 @@
     <value>Effacer la rangée</value>
   </data>
   <data name="takeoffToolStripMenuItem.Text" xml:space="preserve">
-    <value>Takeoff</value>
+    <value>Décollage</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
     <value>Ajouter point au Polygon</value>
@@ -313,10 +313,10 @@
     <value>Saut</value>
   </data>
   <data name="landToolStripMenuItem.Text" xml:space="preserve">
-    <value>Land</value>
+    <value>Atterrissage</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
-    <value>File Load/Save</value>
+    <value>Charger/Enregistrer fichier</value>
   </data>
   <data name="TXT_DefaultAlt.Text" xml:space="preserve">
     <value>100</value>
@@ -325,7 +325,7 @@
     <value>Limite distance</value>
   </data>
   <data name="saveWPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save WP File</value>
+    <value>Enregistrer fichier WP</value>
   </data>
   <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Enreg. sur disque</value>
@@ -373,21 +373,207 @@
     <value>P3</value>
   </data>
   <data name="toolStripMenuItem1.Text" xml:space="preserve">
-    <value>Complex</value>
+    <value>Complexe</value>
   </data>
   <data name="savePolygonToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save Polygon</value>
+    <value>Enregistrer polygone</value>
   </data>
   <data name="createWpCircleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Create Wp Circle</value>
+    <value>Créer un cercle WP</value>
   </data>
   <data name="ContextMeasure.Text" xml:space="preserve">
-    <value>Measure Distance</value>
+    <value>Mesurer la distance</value>
   </data>
   <data name="Down.HeaderText" xml:space="preserve">
     <value>Bas</value>
   </data>
   <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Reverse WPs</value>
+    <value>Inverser les WPs</value>
+  </data>
+  <data name="CHK_verifyheight.Text" xml:space="preserve">
+    <value>Vérifier la hauteur</value>
+  </data>
+  <data name="but_writewpfast.Text" xml:space="preserve">
+    <value>Écriture rapide</value>
+  </data>
+  <data name="chk_usemavftp.Text" xml:space="preserve">
+    <value>MAVFTP</value>
+  </data>
+  <data name="but_mincommands.Text" xml:space="preserve">
+    <value>˅</value>
+  </data>
+  <data name="CMB_altmode.Text" xml:space="preserve">
+    <value>Relative</value>
+  </data>
+  <data name="CHK_splinedefault.Text" xml:space="preserve">
+    <value>Spline</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Alerte alt.</value>
+  </data>
+  <data name="TXT_altwarn.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_InjectCustomMap.Text" xml:space="preserve">
+    <value>Injecter carte personnalisée</value>
+  </data>
+  <data name="chk_grid.Text" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="lnk_kml.Text" xml:space="preserve">
+    <value>Voir KML</value>
+  </data>
+  <data name="lbl_wpfile.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="BUT_loadwpfile.Text" xml:space="preserve">
+    <value>Charger fichier</value>
+  </data>
+  <data name="BUT_saveWPFile.Text" xml:space="preserve">
+    <value>Enregistrer fichier</value>
+  </data>
+  <data name="currentPositionToolStripMenuItem.Text" xml:space="preserve">
+    <value>À la position actuelle</value>
+  </data>
+  <data name="insertWpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Insérer un WP</value>
+  </data>
+  <data name="insertSplineWPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Insérer un WP Spline</value>
+  </data>
+  <data name="addPolygonPointToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Dessiner un polygone</value>
+  </data>
+  <data name="clearPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Effacer le polygone</value>
+  </data>
+  <data name="savePolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Enregistrer le polygone</value>
+  </data>
+  <data name="loadPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Charger le polygone</value>
+  </data>
+  <data name="fromSHPToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Depuis SHP</value>
+  </data>
+  <data name="fromCurrentWaypointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Depuis les waypoints actuels</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Décaler le polygone</value>
+  </data>
+  <data name="areaToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Surface</value>
+  </data>
+  <data name="clearToolStripMenuItem.Text" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Définir un point de ralliement</value>
+  </data>
+  <data name="getRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Télécharger</value>
+  </data>
+  <data name="saveRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="clearRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Effacer les points de ralliement</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Enregistrer ralliement dans un fichier</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Charger ralliement depuis un fichier</value>
+  </data>
+  <data name="rallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Points de ralliement</value>
+  </data>
+  <data name="createSplineCircleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Créer un cercle Spline</value>
+  </data>
+  <data name="areaToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Surface</value>
+  </data>
+  <data name="textToolStripMenuItem.Text" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="createCircleSurveyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Créer un relevé circulaire</value>
+  </data>
+  <data name="surveyGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>Relevé (Grille)</value>
+  </data>
+  <data name="prefetchWPPathToolStripMenuItem.Text" xml:space="preserve">
+    <value>Pré-charger chemin WP</value>
+  </data>
+  <data name="gDALOpacityToolStripMenuItem.Text" xml:space="preserve">
+    <value>Opacité GDAL</value>
+  </data>
+  <data name="loadKMLFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Charger fichier KML</value>
+  </data>
+  <data name="loadSHPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Charger fichier SHP</value>
+  </data>
+  <data name="poiaddToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="poideleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="poieditToolStripMenuItem.Text" xml:space="preserve">
+    <value>Éditer</value>
+  </data>
+  <data name="pOIToolStripMenuItem.Text" xml:space="preserve">
+    <value>POI</value>
+  </data>
+  <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>Modifier l'altitude</value>
+  </data>
+  <data name="enterUTMCoordToolStripMenuItem.Text" xml:space="preserve">
+    <value>Entrer coordonnées UTM</value>
+  </data>
+  <data name="switchDockingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Basculer l'ancrage</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Définir le point d'origine ici</value>
+  </data>
+  <data name="fromSHPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Depuis SHP</value>
+  </data>
+  <data name="areaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Surface</value>
+  </data>
+  <data name="fenceInclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clôture d'inclusion</value>
+  </data>
+  <data name="fenceExclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clôture d'exclusion</value>
+  </data>
+  <data name="convertWPToPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Depuis les waypoints actuels</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Décaler le polygone</value>
+  </data>
+  <data name="drawAPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Dessiner un polygone</value>
+  </data>
+  <data name="toolStripMenuItem3.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="testToolStripMenuItem.Text" xml:space="preserve">
+    <value>test</value>
+  </data>
+  <data name="zoomToVehicleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoomer sur le véhicule</value>
+  </data>
+  <data name="zoomToMissionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoomer sur la mission</value>
+  </data>
+  <data name="zoomToHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoomer sur le point d'origine</value>
   </data>
 </root>
