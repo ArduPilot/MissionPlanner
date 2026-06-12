@@ -310,8 +310,8 @@ namespace MissionPlanner.Log
                         // fix new line types
                         ThemeManager.ApplyThemeTo(this);
 
-                        zg1.Invalidate();
                         zg1.AxisChange();
+                        zg1.Invalidate();
                     }
                     catch
                     {
@@ -991,8 +991,8 @@ namespace MissionPlanner.Log
 
                 zg1.GraphPane.XAxis.AxisGap = 0;
 
-                zg1.Invalidate();
                 zg1.AxisChange();
+                zg1.Invalidate();
             }
             catch
             {
@@ -1408,6 +1408,7 @@ namespace MissionPlanner.Log
                     }
                 }
 
+                zg1.AxisChange();
                 zg1.Invalidate();
             }
             else if (e.Node != null && e.Node.Parent == null) // root nood ticked
