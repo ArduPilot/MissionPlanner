@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -151,9 +151,93 @@
     <value>Site Web Déclination</value>
   </data>
   <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
-    <value>Live Calibration</value>
+    <value>Calibration en direct</value>
   </data>
   <data name="CHK_enableairspeed.Text" xml:space="preserve">
-    <value>Activ. Airspeed</value>
+    <value>Activ. Vitesse air</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
+    <value>Accepter</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
+    <value>Démarrer</value>
+  </data>
+  <data name="groupBoxonboardcalib.Text" xml:space="preserve">
+    <value>Calibration boussole embarquée</value>
+  </data>
+  <data name="groupBoxmpcalib.Text" xml:space="preserve">
+    <value>Calibration boussole Mission Planner</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>OU</value>
+  </data>
+  <data name="LBL_primary_compass.Text" xml:space="preserve">
+    <value>Boussole principale :</value>
+  </data>
+  <data name="CHK_compass_learn.Text" xml:space="preserve">
+    <value>Apprendre automatiquement les offsets</value>
+  </data>
+  <data name="groupBoxGeneralSettings.Text" xml:space="preserve">
+    <value>Paramètres généraux boussole</value>
+  </data>
+  <data name="LBL_compass1_mot.Text" xml:space="preserve">
+    <value>MOT</value>
+  </data>
+  <data name="LBL_compass1_offset.Text" xml:space="preserve">
+    <value>OFFSET</value>
+  </data>
+  <data name="CHK_compass1_external.Text" xml:space="preserve">
+    <value>Montée en externe</value>
+  </data>
+  <data name="CHK_compass1_use.Text" xml:space="preserve">
+    <value>Utiliser cette boussole</value>
+  </data>
+  <data name="groupBoxCompass1.Text" xml:space="preserve">
+    <value>Boussole n°1</value>
+  </data>
+  <data name="LBL_compass2_mot.Text" xml:space="preserve">
+    <value>MOT</value>
+  </data>
+  <data name="LBL_compass2_offset.Text" xml:space="preserve">
+    <value>OFFSET</value>
+  </data>
+  <data name="CHK_compass2_external.Text" xml:space="preserve">
+    <value>Montée en externe</value>
+  </data>
+  <data name="CHK_compass2_use.Text" xml:space="preserve">
+    <value>Utiliser cette boussole</value>
+  </data>
+  <data name="groupBoxCompass2.Text" xml:space="preserve">
+    <value>Boussole n°2</value>
+  </data>
+  <data name="LBL_compass3_mot.Text" xml:space="preserve">
+    <value>MOT</value>
+  </data>
+  <data name="LBL_compass3_offset.Text" xml:space="preserve">
+    <value>OFFSET</value>
+  </data>
+  <data name="CHK_compass3_external.Text" xml:space="preserve">
+    <value>Montée en externe</value>
+  </data>
+  <data name="CHK_compass3_use.Text" xml:space="preserve">
+    <value>Utiliser cette boussole</value>
+  </data>
+  <data name="groupBoxCompass3.Text" xml:space="preserve">
+    <value>Boussole n°3</value>
+  </data>
+  <data name="buttonAPMExternal.Text" xml:space="preserve">
+    <value>APM et boussole externe</value>
+  </data>
+  <data name="QuickAPM25.Text" xml:space="preserve">
+    <value>APM2.5 (Boussole interne)</value>
+  </data>
+  <data name="buttonQuickPixhawk.Text" xml:space="preserve">
+    <value>Pixhawk/PX4</value>
+  </data>
+  <data name="but_largemagcal.Text" xml:space="preserve">
+    <value>Calibration mag gros véhicule</value>
   </data>
 </root>

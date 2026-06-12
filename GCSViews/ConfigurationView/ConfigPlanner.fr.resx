@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -118,109 +118,223 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>Map is rotated to follow the plane</value>
+    <value>La carte pivote pour suivre l'avion</value>
   </data>
   <data name="CHK_speechaltwarning.Text" xml:space="preserve">
-    <value>Alt Warning</value>
+    <value>Alerte altitude</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>HUD</value>
+    <value>Affichage tête haute</value>
   </data>
   <data name="BUT_videostop.Text" xml:space="preserve">
-    <value>Stop</value>
+    <value>Arrêter</value>
   </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>Battery Warning</value>
+    <value>Alerte batterie</value>
   </data>
   <data name="CHK_enablespeech.Text" xml:space="preserve">
-    <value>Enable Speech</value>
+    <value>Activer la synthèse vocale</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>Track Length</value>
+    <value>Longueur de trace</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
-    <value>Waypoints</value>
+    <value>Points de navigation</value>
   </data>
   <data name="CHK_speechcustom.Text" xml:space="preserve">
-    <value>Time Interval</value>
+    <value>Intervalle de temps</value>
   </data>
   <data name="label26.Text" xml:space="preserve">
-    <value>Video Format</value>
+    <value>Format vidéo</value>
   </data>
   <data name="label103.Text" xml:space="preserve">
     <value>Position</value>
   </data>
   <data name="label102.Text" xml:space="preserve">
-    <value>Attitude</value>
+    <value>Assiette</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Map Follow</value>
+    <value>Suivi carte</value>
   </data>
   <data name="label101.Text" xml:space="preserve">
-    <value>Telemetry Rates</value>
+    <value>Taux de télémétrie</value>
   </data>
   <data name="label107.Text" xml:space="preserve">
     <value>RC</value>
   </data>
   <data name="label104.Text" xml:space="preserve">
-    <value>Mode/Status</value>
+    <value>Mode/État</value>
   </data>
   <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>Enable HUD Overlay</value>
+    <value>Activer la superposition HUD</value>
   </data>
   <data name="label108.Text" xml:space="preserve">
-    <value>APM Reset</value>
+    <value>Réinit. APM</value>
   </data>
   <data name="CHK_loadwponconnect.Text" xml:space="preserve">
-    <value>Load Waypoints on connect?</value>
+    <value>Charger les waypoints à la connexion ?</value>
   </data>
   <data name="label98.Text" xml:space="preserve">
-    <value>Speed Units</value>
+    <value>Unités de vitesse</value>
   </data>
   <data name="CHK_speechwaypoint.Text" xml:space="preserve">
-    <value>Waypoint</value>
+    <value>Point de navigation</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
-    <value>NOTE: The Configuration Tab will NOT display these units, as those are raw values.
+    <value>NOTE : L'onglet Configuration N'affichera PAS ces unités, car ce sont des valeurs brutes.
 </value>
   </data>
   <data name="label92.Text" xml:space="preserve">
-    <value>Video Device</value>
+    <value>Périphérique vidéo</value>
   </data>
   <data name="label93.Text" xml:space="preserve">
-    <value>UI Language</value>
+    <value>Langue de l'interface</value>
   </data>
   <data name="label96.Text" xml:space="preserve">
-    <value>Joystick</value>
+    <value>Manette de jeu</value>
   </data>
   <data name="CHK_GDIPlus.Text" xml:space="preserve">
-    <value>GDI+ (old type)</value>
+    <value>GDI+ (ancien type)</value>
   </data>
   <data name="label94.Text" xml:space="preserve">
-    <value>OSD Color</value>
+    <value>Couleur OSD</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>Sensor</value>
+    <value>Capteur</value>
   </data>
   <data name="label97.Text" xml:space="preserve">
-    <value>Dist Units</value>
+    <value>Unités de distance</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
-    <value>Speech</value>
+    <value>Synthèse vocale</value>
   </data>
   <data name="BUT_Joystick.Text" xml:space="preserve">
-    <value>Joystick Setup</value>
+    <value>Configuration manette</value>
   </data>
   <data name="CHK_mavdebug.Text" xml:space="preserve">
-    <value>Mavlink Message Debug</value>
+    <value>Débogage messages Mavlink</value>
   </data>
   <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>Reset APM on USB Connect</value>
+    <value>Réinitialiser APM à la connexion USB</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
-    <value>Mode </value>
+    <value>Mode</value>
   </data>
   <data name="BUT_videostart.Text" xml:space="preserve">
-    <value>Start</value>
+    <value>Démarrer</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Distance au point d'origine</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
+    <value>Afficher dans les données de vol</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Chemin des journaux</value>
+  </data>
+  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
+    <value>Parcourir</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Thème</value>
+  </data>
+  <data name="BUT_themecustom.Text" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
+    <value>Armement/Désarmement</value>
+  </data>
+  <data name="BUT_Vario.Text" xml:space="preserve">
+    <value>Démarrer/Arrêter Vario</value>
+  </data>
+  <data name="chk_analytics.Text" xml:space="preserve">
+    <value>Refuser les stats anonymes</value>
+  </data>
+  <data name="CHK_beta.Text" xml:space="preserve">
+    <value>Mises à jour bêta</value>
+  </data>
+  <data name="CHK_Password.Text" xml:space="preserve">
+    <value>Protéger la config par mot de passe</value>
+  </data>
+  <data name="CHK_speechlowspeed.Text" xml:space="preserve">
+    <value>Vitesse faible</value>
+  </data>
+  <data name="CHK_showairports.Text" xml:space="preserve">
+    <value>Afficher les aéroports</value>
+  </data>
+  <data name="chk_ADSB.Text" xml:space="preserve">
+    <value>ADSB</value>
+  </data>
+  <data name="chk_tfr.Text" xml:space="preserve">
+    <value>TFR</value>
+  </data>
+  <data name="chk_temp.Text" xml:space="preserve">
+    <value>Écran de test</value>
+  </data>
+  <data name="chk_norcreceiver.Text" xml:space="preserve">
+    <value>Pas de récepteur RC</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
+    <value>Valider auto les paramètres</value>
+  </data>
+  <data name="chk_shownofly.Text" xml:space="preserve">
+    <value>Zone interdite</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Unités d'altitude</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>ID GCS</value>
+  </data>
+  <data name="CHK_params_bg.Text" xml:space="preserve">
+    <value>Télécharger les paramètres en arrière-plan</value>
+  </data>
+  <data name="chk_slowMachine.Text" xml:space="preserve">
+    <value>Exécution sur un ordinateur lent</value>
+  </data>
+  <data name="CHK_speechArmedOnly.Text" xml:space="preserve">
+    <value>Uniquement quand armé</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>NOTE : Définir le niveau bas de SÉVÉRITÉ pour parler</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Aéronef inactif</value>
+  </data>
+  <data name="chk_displaycog.Text" xml:space="preserve">
+    <value>Afficher COG</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Icône aéronef</value>
+  </data>
+  <data name="chk_displayheading.Text" xml:space="preserve">
+    <value>Afficher le cap</value>
+  </data>
+  <data name="chk_displaynavbearing.Text" xml:space="preserve">
+    <value>Afficher le relèvement nav</value>
+  </data>
+  <data name="chk_displayradius.Text" xml:space="preserve">
+    <value>Afficher le rayon de virage</value>
+  </data>
+  <data name="chk_displaytarget.Text" xml:space="preserve">
+    <value>Afficher la cible</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Longueur de ligne</value>
+  </data>
+  <data name="chk_displaytooltip.Text" xml:space="preserve">
+    <value>Afficher l'info-bulle</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Mode d'accès carte</value>
+  </data>
+  <data name="BUT_mapCacheDir.Text" xml:space="preserve">
+    <value>Ouvrir le cache carte</value>
+  </data>
+  <data name="CHK_rtsresetesp32.Text" xml:space="preserve">
+    <value>Désactiver le reset RTS sur ESP32 SerialUSB</value>
   </data>
 </root>
