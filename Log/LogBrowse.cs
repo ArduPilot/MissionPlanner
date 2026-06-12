@@ -3865,6 +3865,8 @@ main()
 
                     Dictionary<string, FileStream> filehandles = new Dictionary<string, FileStream>();
 
+                    var exportBase = Path.GetFullPath(dir) + Path.DirectorySeparatorChar;
+
                     foreach (var file in files)
                     {
                         var name = file.GetRaw<string>("FileName");
@@ -3872,7 +3874,18 @@ main()
                         var length = file.GetRaw<byte>("Length");
                         var data = file.GetRaw<byte[]>("Data");
 
-                        var path = Path.Combine(dir, name);
+                        // Sanitize the filename to prevent path traversal attacks.
+                        // Strip leading directory separators so Path.Combine cannot
+                        // treat name as an absolute path, then resolve the full path
+                        // and verify it stays inside the chosen export directory.
+                        var sanitizedName = name.TrimStart(Path.DirectorySeparatorChar,
+                            Path.AltDirectorySeparatorChar);
+                        var path = Path.GetFullPath(Path.Combine(dir, sanitizedName));
+                        if (!path.StartsWith(exportBase, StringComparison.OrdinalIgnoreCase))
+                        {
+                            log.WarnFormat("Skipping file with path traversal attempt: {0}", name);
+                            continue;
+                        }
 
                         Directory.CreateDirectory(Path.GetDirectoryName(path));
 
