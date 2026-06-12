@@ -110,8 +110,7 @@ namespace MissionPlanner.Utilities
 
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            var th = new Thread(ProcessClient) { IsBackground = true };
-            th.Start(client);
+            ThreadPool.QueueUserWorkItem(state => ProcessClient(state), client);
 
             // Signal the calling thread to continue.
             tcpClientConnected.Set();
@@ -592,6 +591,17 @@ namespace MissionPlanner.Utilities
                     {
                         //http://127.0.0.1:56781/guided?lat=-34&lng=117.8&alt=30
 
+                        // Restrict guided-mode commands to localhost to prevent remote injection.
+                        var remoteGuidedEp = client.Client.RemoteEndPoint as System.Net.IPEndPoint;
+                        if (remoteGuidedEp == null || !IPAddress.IsLoopback(remoteGuidedEp.Address))
+                        {
+                            string rejectHeader = "HTTP/1.1 403 Forbidden\r\n\r\nForbidden";
+                            byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
+                            stream.Write(rejectTemp, 0, rejectTemp.Length);
+                            stream.Close();
+                            return;
+                        }
+
                         Regex rex = new Regex(@"lat=([\-\.0-9]+)&lng=([\-\.0-9]+)&alt=([\.0-9]+)",
                             RegexOptions.IgnoreCase);
 
@@ -628,6 +638,17 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("post /guide"))
                     {
+                        // Restrict guided-mode commands to localhost to prevent remote injection.
+                        var remoteGuideEp = client.Client.RemoteEndPoint as System.Net.IPEndPoint;
+                        if (remoteGuideEp == null || !IPAddress.IsLoopback(remoteGuideEp.Address))
+                        {
+                            string rejectHeader = "HTTP/1.1 403 Forbidden\r\n\r\nForbidden";
+                            byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
+                            stream.Write(rejectTemp, 0, rejectTemp.Length);
+                            stream.Close();
+                            return;
+                        }
+
                         Regex rex = new Regex(@"lat"":([\-\.0-9]+),""lon"":([\-\.0-9]+),""alt"":([\.0-9]+)",
                             RegexOptions.IgnoreCase);
 
@@ -856,7 +877,22 @@ namespace MissionPlanner.Utilities
                             if (fileurl == "" || fileurl == "/")
                                 fileurl = "index.html";
 
-                            if (File.Exists(mavelous_web + fileurl))
+                            // Prevent path traversal: resolve the full path and verify it
+                            // stays within the mavelous_web directory.
+                            string mavelousBase = Path.GetFullPath(mavelous_web);
+                            string fullFilePath = Path.GetFullPath(Path.Combine(mavelousBase, fileurl));
+                            if (!fullFilePath.StartsWith(mavelousBase + Path.DirectorySeparatorChar,
+                                    StringComparison.OrdinalIgnoreCase) &&
+                                !fullFilePath.Equals(mavelousBase, StringComparison.OrdinalIgnoreCase))
+                            {
+                                string header404 = "HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\n\r\n";
+                                byte[] temp404 = asciiEncoding.GetBytes(header404);
+                                stream.Write(temp404, 0, temp404.Length);
+                                stream.Flush();
+                                goto again;
+                            }
+
+                            if (File.Exists(fullFilePath))
                             {
                                 string header = "HTTP/1.1 200 OK\r\n";
                                 if (fileurl.Contains(".htm"))
@@ -868,7 +904,7 @@ namespace MissionPlanner.Utilities
                                 else
                                     header += "Content-Type: text/plain\r\n";
 
-                                var fileinfo = new FileInfo(mavelous_web + fileurl);
+                                var fileinfo = new FileInfo(fullFilePath);
 
                                 var filetime = fileinfo.LastWriteTimeUtc.ToString("ddd, dd MMM yyyy HH:mm:ss") + " GMT";
                                 var modified = Regex.Match(head, "If-Modified-Since:(.*)", RegexOptions.IgnoreCase);
@@ -890,7 +926,7 @@ namespace MissionPlanner.Utilities
                                 stream.Write(temp, 0, temp.Length);
 
                                 BinaryReader file =
-                                    new BinaryReader(File.Open(mavelous_web + fileurl, FileMode.Open, FileAccess.Read,
+                                    new BinaryReader(File.Open(fullFilePath, FileMode.Open, FileAccess.Read,
                                         FileShare.Read));
                                 byte[] buffer = new byte[1024];
                                 while (file.BaseStream.Position < file.BaseStream.Length)
