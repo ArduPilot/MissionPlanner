@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using log4net;
+using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 
 namespace MissionPlanner.Comms
@@ -280,7 +281,7 @@ namespace MissionPlanner.Comms
 
                 try
                 {
-                    ports = System.IO.Ports.SerialPort.GetPortNames();
+                    ports = GetSystemPortNames();
                     // any exceptions will still result in a list
                     ports = ports.Select(p => p?.TrimEnd()).ToArray();
                     ports = ports.Select(FixBlueToothPortNameBug).ToArray();
@@ -307,6 +308,88 @@ namespace MissionPlanner.Comms
 
                 return allPorts.Distinct().ToArray();
             }
+        }
+
+        private static string[] GetSystemPortNames()
+        {
+            var ports = GetSystemPortNamesWithTimeout(2000);
+
+            if (ports != null)
+                return ports;
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                return GetWindowsRegistryPortNames();
+
+            return Array.Empty<string>();
+        }
+
+        private static string[] GetSystemPortNamesWithTimeout(int timeoutMilliseconds)
+        {
+            string[] ports = null;
+            Exception exception = null;
+
+            using (var done = new ManualResetEvent(false))
+            {
+                var thread = new Thread(() =>
+                {
+                    try
+                    {
+                        ports = System.IO.Ports.SerialPort.GetPortNames();
+                    }
+                    catch (Exception ex)
+                    {
+                        exception = ex;
+                    }
+                    finally
+                    {
+                        done.Set();
+                    }
+                });
+
+                thread.IsBackground = true;
+                thread.Start();
+
+                if (!done.WaitOne(timeoutMilliseconds))
+                {
+                    log.Warn($"System.IO.Ports.SerialPort.GetPortNames timed out after {timeoutMilliseconds} ms.");
+                    return null;
+                }
+            }
+
+            if (exception != null)
+            {
+                log.Error(exception);
+                return null;
+            }
+
+            return ports ?? Array.Empty<string>();
+        }
+
+        private static string[] GetWindowsRegistryPortNames()
+        {
+            var ports = new List<string>();
+
+            try
+            {
+                using (RegistryKey subkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DEVICEMAP\\SERIALCOMM"))
+                {
+                    if (subkey != null)
+                    {
+                        foreach (var value in subkey.GetValueNames())
+                        {
+                            var port = subkey.GetValue(value, "")?.ToString();
+                            if (!string.IsNullOrWhiteSpace(port))
+                                ports.Add(port);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
+            return ports.ToArray();
         }
 
         public static Func<List<string>> GetCustomPorts;
