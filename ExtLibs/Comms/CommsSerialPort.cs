@@ -206,6 +206,7 @@ namespace MissionPlanner.Comms
         private static readonly Dictionary<string, string> comportnamecache = new Dictionary<string, string>();
 
         private static string portnamenice = "";
+        private const int SystemPortEnumerationTimeoutMs = 2000;
 
         public new static string[] GetPortNames()
         {
@@ -312,7 +313,7 @@ namespace MissionPlanner.Comms
 
         private static string[] GetSystemPortNames()
         {
-            var ports = GetSystemPortNamesWithTimeout(2000);
+            var ports = GetSystemPortNamesWithTimeout(SystemPortEnumerationTimeoutMs);
 
             if (ports != null)
                 return ports;
@@ -326,39 +327,19 @@ namespace MissionPlanner.Comms
         private static string[] GetSystemPortNamesWithTimeout(int timeoutMilliseconds)
         {
             string[] ports = null;
-            Exception exception = null;
 
-            using (var done = new ManualResetEvent(false))
+            try
             {
-                var thread = new Thread(() =>
-                {
-                    try
-                    {
-                        ports = System.IO.Ports.SerialPort.GetPortNames();
-                    }
-                    catch (Exception ex)
-                    {
-                        exception = ex;
-                    }
-                    finally
-                    {
-                        done.Set();
-                    }
-                });
-
-                thread.IsBackground = true;
-                thread.Start();
-
-                if (!done.WaitOne(timeoutMilliseconds))
-                {
-                    log.Warn($"System.IO.Ports.SerialPort.GetPortNames timed out after {timeoutMilliseconds} ms.");
-                    return null;
-                }
+                CallWithTimeout(_ => { ports = System.IO.Ports.SerialPort.GetPortNames(); }, timeoutMilliseconds, 0);
             }
-
-            if (exception != null)
+            catch (TimeoutException ex)
             {
-                log.Error(exception);
+                log.Warn($"System.IO.Ports.SerialPort.GetPortNames timed out after {timeoutMilliseconds} ms.", ex);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unexpected error while enumerating system serial ports.", ex);
                 return null;
             }
 
@@ -386,7 +367,7 @@ namespace MissionPlanner.Comms
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error("Failed to retrieve COM ports from Windows registry.", ex);
             }
 
             return ports.ToArray();
