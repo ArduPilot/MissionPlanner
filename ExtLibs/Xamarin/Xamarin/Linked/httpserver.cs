@@ -110,7 +110,7 @@ namespace MissionPlanner.Utilities
 
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            ThreadPool.QueueUserWorkItem(ProcessClient, client);
+            ThreadPool.QueueUserWorkItem(state => ProcessClient(state), client);
 
             // Signal the calling thread to continue.
             tcpClientConnected.Set();
@@ -599,9 +599,9 @@ namespace MissionPlanner.Utilities
                             byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
                             stream.Write(rejectTemp, 0, rejectTemp.Length);
                             stream.Close();
+                            return;
                         }
-                        else
-                        {
+
                         Regex rex = new Regex(@"lat=([\-\.0-9]+)&lng=([\-\.0-9]+)&alt=([\.0-9]+)",
                             RegexOptions.IgnoreCase);
 
@@ -634,7 +634,6 @@ namespace MissionPlanner.Utilities
                             stream.Write(temp, 0, temp.Length);
                         }
                         stream.Close();
-                        }
                     }
                     /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("post /guide"))
@@ -647,9 +646,9 @@ namespace MissionPlanner.Utilities
                             byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
                             stream.Write(rejectTemp, 0, rejectTemp.Length);
                             stream.Close();
+                            return;
                         }
-                        else
-                        {
+
                         Regex rex = new Regex(@"lat"":([\-\.0-9]+),""lon"":([\-\.0-9]+),""alt"":([\.0-9]+)",
                             RegexOptions.IgnoreCase);
 
@@ -682,7 +681,6 @@ namespace MissionPlanner.Utilities
                             stream.Write(temp, 0, temp.Length);
                         }
                         stream.Close();
-                        }
                     }
                     /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains(" /command_long"))
