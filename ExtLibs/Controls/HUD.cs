@@ -249,6 +249,11 @@ namespace MissionPlanner.Controls
 
         internal bool started = false;
 
+        /// <summary>
+        /// Custom paint events that will be called after the default paint.
+        /// </summary>
+        public event Action<HUD> OnCustomPaint;
+
         static HUD()
         {
             log.Info("Static HUD ctor");
@@ -3053,6 +3058,10 @@ namespace MissionPlanner.Controls
                                 item.Header + hrs.ToString("00") + ":" + mins.ToString("00") + ":" +
                                 secs.ToString("00"), font, fontsize + 2, _whiteBrush, this.Width / 8, height);
                         }
+                        else if (item.Item.Name == "string")
+                        {
+                            drawstring(item.Header, font, fontsize + 2, _whiteBrush, this.Width / 8, height);
+                        }
                         else
                         {
                             drawstring(item.Header + item.GetValue.ToString("0.##"), font, fontsize + 2,
@@ -3291,6 +3300,7 @@ namespace MissionPlanner.Controls
                         }
                     }
                 }
+                OnCustomPaint?.Invoke(this);
 
                 if (DesignMode)
                 {
