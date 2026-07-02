@@ -36,6 +36,17 @@ namespace MissionPlanner.Utilities
 
         public static bool run = true;
 
+        // Connection limits to mitigate resource-exhaustion (DoS) via large
+        // numbers of concurrent or persistent (websocket/mjpeg) connections.
+        // Each admitted connection runs on its own background thread; the caps
+        // below bound the total thread/memory usage and per-source abuse.
+        private const int MaxConcurrentConnections = 200;
+        private const int MaxConnectionsPerIp = 20;
+        private static int activeConnections = 0;
+
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<IPAddress, int> perIpConnections =
+            new System.Collections.Concurrent.ConcurrentDictionary<IPAddress, int>();
+
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -108,12 +119,157 @@ namespace MissionPlanner.Utilities
             // End the operation and display the received data on  
             // the console.
 
-            TcpClient client = listener.EndAcceptTcpClient(ar);
+            TcpClient client;
+            try
+            {
+                client = listener.EndAcceptTcpClient(ar);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                // Signal the calling thread to continue.
+                tcpClientConnected.Set();
+                return;
+            }
 
-            ThreadPool.QueueUserWorkItem(state => ProcessClient(state), client);
-
-            // Signal the calling thread to continue.
+            // Signal the calling thread to continue accepting the next connection.
             tcpClientConnected.Set();
+
+            // Enforce connection limits to mitigate resource-exhaustion (DoS).
+            IPAddress remoteIp = GetRemoteIp(client);
+            if (remoteIp == null || !TryAcquireConnectionSlot(remoteIp))
+            {
+                try { client.Close(); }
+                catch { }
+                return;
+            }
+
+            // Run each connection on its own bounded background thread rather than a
+            // thread-pool thread: the persistent websocket/mjpeg handlers block with
+            // Thread.Sleep for the life of the connection, which would starve the
+            // shared thread pool. The caps above bound the total thread count.
+            try
+            {
+                var th = new Thread(() =>
+                {
+                    try
+                    {
+                        ProcessClient(client);
+                    }
+                    finally
+                    {
+                        ReleaseConnectionSlot(remoteIp);
+                    }
+                }) { IsBackground = true, Name = "httpserver client" };
+                th.Start();
+            }
+            catch
+            {
+                ReleaseConnectionSlot(remoteIp);
+                try { client.Close(); }
+                catch { }
+            }
+        }
+
+        private static IPAddress GetRemoteIp(TcpClient client)
+        {
+            try
+            {
+                var ep = client.Client.RemoteEndPoint as IPEndPoint;
+                if (ep != null)
+                    return ep.Address;
+            }
+            catch
+            {
+            }
+            return null;
+        }
+
+        private static bool TryAcquireConnectionSlot(IPAddress ip)
+        {
+            // Global cap.
+            if (Interlocked.Increment(ref activeConnections) > MaxConcurrentConnections)
+            {
+                Interlocked.Decrement(ref activeConnections);
+                log.WarnFormat("httpserver: rejecting {0}, global connection limit ({1}) reached", ip,
+                    MaxConcurrentConnections);
+                return false;
+            }
+
+            // Per-IP cap.
+            int newCount = perIpConnections.AddOrUpdate(ip, 1, (key, count) => count + 1);
+            if (newCount > MaxConnectionsPerIp)
+            {
+                DecrementPerIp(ip);
+                Interlocked.Decrement(ref activeConnections);
+                log.WarnFormat("httpserver: rejecting {0}, per-IP connection limit ({1}) reached", ip,
+                    MaxConnectionsPerIp);
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void ReleaseConnectionSlot(IPAddress ip)
+        {
+            if (ip == null)
+                return;
+            Interlocked.Decrement(ref activeConnections);
+            DecrementPerIp(ip);
+        }
+
+        private static void DecrementPerIp(IPAddress ip)
+        {
+            if (ip == null)
+                return;
+            perIpConnections.AddOrUpdate(ip, 0, (key, count) => count - 1);
+            int val;
+            if (perIpConnections.TryGetValue(ip, out val) && val <= 0)
+                perIpConnections.TryRemove(ip, out val);
+        }
+
+        private static string GetHeaderValue(string head, string name)
+        {
+            if (string.IsNullOrEmpty(head))
+                return null;
+            var m = Regex.Match(head, @"(?im)^" + Regex.Escape(name) + @":[ \t]*(.+?)[ \t]*\r?$");
+            return m.Success ? m.Groups[1].Value : null;
+        }
+
+        private static bool IsLoopbackOrigin(string value)
+        {
+            try
+            {
+                Uri uri;
+                if (!Uri.TryCreate(value, UriKind.Absolute, out uri))
+                    return false;
+                if (string.Equals(uri.Host, "localhost", StringComparison.OrdinalIgnoreCase))
+                    return true;
+                IPAddress addr;
+                if (IPAddress.TryParse(uri.Host, out addr))
+                    return IPAddress.IsLoopback(addr);
+            }
+            catch
+            {
+            }
+            return false;
+        }
+
+        // Detect a browser cross-site (CSRF) request: the socket is already known to
+        // be loopback, but if it carries an Origin/Referer that is not a loopback
+        // origin then a local browser is issuing it on behalf of a remote page.
+        // Non-browser clients (scripts) send neither header and are allowed.
+        private static bool IsCrossSiteRequest(string head)
+        {
+            var origin = GetHeaderValue(head, "Origin");
+            if (!string.IsNullOrEmpty(origin) && !IsLoopbackOrigin(origin))
+                return true;
+
+            var referer = GetHeaderValue(head, "Referer");
+            if (!string.IsNullOrEmpty(referer) && !IsLoopbackOrigin(referer))
+                return true;
+
+            return false;
         }
 
         public void ProcessClient(object clientobj)
@@ -591,9 +747,11 @@ namespace MissionPlanner.Utilities
                     {
                         //http://127.0.0.1:56781/guided?lat=-34&lng=117.8&alt=30
 
-                        // Restrict guided-mode commands to localhost to prevent remote injection.
+                        // Restrict guided-mode commands to localhost and reject cross-site
+                        // (CSRF) browser requests to prevent waypoint injection.
                         var remoteGuidedEp = client.Client.RemoteEndPoint as System.Net.IPEndPoint;
-                        if (remoteGuidedEp == null || !IPAddress.IsLoopback(remoteGuidedEp.Address))
+                        if (remoteGuidedEp == null || !IPAddress.IsLoopback(remoteGuidedEp.Address) ||
+                            IsCrossSiteRequest(head))
                         {
                             string rejectHeader = "HTTP/1.1 403 Forbidden\r\n\r\nForbidden";
                             byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
@@ -638,9 +796,11 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("post /guide"))
                     {
-                        // Restrict guided-mode commands to localhost to prevent remote injection.
+                        // Restrict guided-mode commands to localhost and reject cross-site
+                        // (CSRF) browser requests to prevent waypoint injection.
                         var remoteGuideEp = client.Client.RemoteEndPoint as System.Net.IPEndPoint;
-                        if (remoteGuideEp == null || !IPAddress.IsLoopback(remoteGuideEp.Address))
+                        if (remoteGuideEp == null || !IPAddress.IsLoopback(remoteGuideEp.Address) ||
+                            IsCrossSiteRequest(head))
                         {
                             string rejectHeader = "HTTP/1.1 403 Forbidden\r\n\r\nForbidden";
                             byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
