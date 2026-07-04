@@ -207,6 +207,8 @@ def generate_message_enums(f, xml):
                 m.entry.remove(fe)
                 continue
             fe.description = cleanText(fe.description)
+            for p in fe.param:
+                p.description = cleanText(p.description)
             fe.name = fe.name.replace(m.name + "_","")
             firstchar = re.search('^([0-9])', fe.name )
             if firstchar != None and firstchar.group():
