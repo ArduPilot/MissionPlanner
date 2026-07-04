@@ -1,11 +1,13 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using SkiaSharp;
 
 namespace System.Drawing
-{ 
+{
     [Serializable]
+    [TypeConverter(typeof(IconConverter))]
     public class Icon : Bitmap, ISerializable, ICloneable, IDisposable
     {
         private byte[] iconData;
