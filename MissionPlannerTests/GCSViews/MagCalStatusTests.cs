@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace MissionPlanner.GCSViews.Tests
@@ -7,111 +8,83 @@ namespace MissionPlanner.GCSViews.Tests
     /// Tests for MAG_CAL_STATUS handling paired with ArduPilot/ardupilot#32757
     /// (AP_Compass: report specific failure reason when fit is rejected).
     ///
-    /// Firmware sends cal_status in MAG_CAL_REPORT. Three new values are added:
-    ///   8 = BAD_OFFSETS  – any offset component >= COMPASS_OFFS_MAX
-    ///   9 = BAD_DIAG_SCALING – diagonal or off-diagonal scaling out of range
-    ///  10 = BAD_FITNESS       – fitness (RMS residual) exceeds tolerance
+    /// Firmware sends cal_status in MAG_CAL_REPORT. Three failure codes are
+    /// exercised end-to-end here:
+    ///   8 = MAG_CAL_FAILED_OFFSETS         – any offset component >= COMPASS_OFFS_MAX
+    ///   9 = MAG_CAL_FAILED_DIAG_SCALING    – diagonal or off-diagonal scaling out of range
+    ///  10 = MAG_CAL_FAILED_RESIDUALS_HIGH  – fitness (RMS residual) exceeds tolerance
     ///
-    /// These values are tested via raw byte cast because the named enum members
-    /// (MAG_CAL_BAD_OFFSETS/DIAG_SCALING/FITNESS) are not yet in the generated Mavlink.cs.
-    /// They will be added when mavlink/mavlink#2478 merges and Mavlink.cs is
-    /// regenerated.  A follow-up to switch from raw casts to named members and
-    /// add ToString assertions is tracked in that upstream PR.
+    /// The named enum members now live in the generated Mavlink.cs (mavlink/mavlink#2478),
+    /// so the wire-value checks below are real regression guards: if upstream ever
+    /// renumbers a member or Mavlink.cs is regenerated against a diverged xml,
+    /// these fail loudly.
     /// </summary>
     [TestClass]
     public class MagCalStatusTests
     {
-        // Wire values for the three new failure codes from ArduPilot/ardupilot#32757.
-        // Named enum members arrive with mavlink/mavlink#2478 + Mavlink.cs regen.
-        private const byte RAW_BAD_OFFSETS = 8;
-        private const byte RAW_BAD_DIAG_SCALING = 9;
-        private const byte RAW_BAD_FITNESS = 10;
-
-        // ── 1. Wire values ────────────────────────────────────────────────────
+        // ── 1. Wire values (regression guards) ────────────────────────────────
         //
-        // These are intentional documentation tests — the constants are defined
-        // as literal integers above, so the assertions always pass today.  Once
-        // mavlink/mavlink#2478 merges and Mavlink.cs is regenerated the plan is
-        // to replace the raw constants with the named enum members and assert
-        // their numeric values here, turning these into real regression guards.
+        // Pin the byte value of every failure code the UI branches on. A silent
+        // renumber upstream would otherwise break the >MAG_CAL_SUCCESS guard
+        // and the lastFailureStatus dictionary lookup.
 
         [TestMethod]
-        public void BadOffsets_RawValue_Is8()
+        public void FailedOffsets_WireValue_Is8()
         {
-            Assert.AreEqual(8, RAW_BAD_OFFSETS);
+            Assert.AreEqual((byte)8, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_OFFSETS);
         }
 
         [TestMethod]
-        public void BadDiagScaling_RawValue_Is9()
+        public void FailedDiagScaling_WireValue_Is9()
         {
-            Assert.AreEqual(9, RAW_BAD_DIAG_SCALING);
+            Assert.AreEqual((byte)9, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_DIAG_SCALING);
         }
 
         [TestMethod]
-        public void BadFitness_RawValue_Is10()
+        public void FailedResidualsHigh_WireValue_Is10()
         {
-            Assert.AreEqual(10, RAW_BAD_FITNESS);
-        }
-
-        // ── 2. Cast from raw byte (as received from firmware) ────────────────
-
-        [TestMethod]
-        public void CastByte8_IsDistinctFromKnownValues()
-        {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS;
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,    status);
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED,     status);
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS, status);
-            Assert.AreEqual((byte)8, (byte)status);
+            Assert.AreEqual((byte)10, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RESIDUALS_HIGH);
         }
 
         [TestMethod]
-        public void CastByte9_IsDistinctFromKnownValues()
+        public void KnownStatus_WireValues_ArePinned()
         {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG_SCALING;
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,    status);
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED,     status);
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS, status);
-            Assert.AreEqual((byte)9, (byte)status);
+            // Full snapshot of the enum contract the UI relies on. If any of
+            // these shift, the >MAG_CAL_SUCCESS guard partitions incorrectly.
+            Assert.AreEqual((byte)0, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_NOT_STARTED);
+            Assert.AreEqual((byte)1, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_WAITING_TO_START);
+            Assert.AreEqual((byte)2, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_RUNNING_STEP_ONE);
+            Assert.AreEqual((byte)3, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_RUNNING_STEP_TWO);
+            Assert.AreEqual((byte)4, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS);
+            Assert.AreEqual((byte)5, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED);
+            Assert.AreEqual((byte)6, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_ORIENTATION);
+            Assert.AreEqual((byte)7, (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RADIUS);
         }
 
-        [TestMethod]
-        public void CastByte10_IsDistinctFromKnownValues()
-        {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS;
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,    status);
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED,     status);
-            Assert.AreNotEqual(MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS, status);
-            Assert.AreEqual((byte)10, (byte)status);
-        }
-
-        // ── 3. Failure guard: calStatus > MAG_CAL_SUCCESS (value 4) ──────────
+        // ── 2. Failure guard: calStatus > MAG_CAL_SUCCESS (value 4) ──────────
         //
         // The timer_Tick guard `if (calStatus > MAG_CAL_SUCCESS)` must capture
-        // all failure codes, including the three new ones sent as raw 8/9/10.
+        // every failure code, including the three added by PR#32757.
 
         [TestMethod]
-        public void RawByte8_IsGreaterThanSuccess()
+        public void FailedOffsets_IsGreaterThanSuccess()
         {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS;
-            Assert.IsTrue(status > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
-                "cal_status=8 (BAD_OFFSETS) must trigger the failure guard");
+            Assert.IsTrue(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_OFFSETS > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
+                "MAG_CAL_FAILED_OFFSETS must trigger the failure guard");
         }
 
         [TestMethod]
-        public void RawByte9_IsGreaterThanSuccess()
+        public void FailedDiagScaling_IsGreaterThanSuccess()
         {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG_SCALING;
-            Assert.IsTrue(status > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
-                "cal_status=9 (BAD_DIAG_SCALING) must trigger the failure guard");
+            Assert.IsTrue(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_DIAG_SCALING > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
+                "MAG_CAL_FAILED_DIAG_SCALING must trigger the failure guard");
         }
 
         [TestMethod]
-        public void RawByte10_IsGreaterThanSuccess()
+        public void FailedResidualsHigh_IsGreaterThanSuccess()
         {
-            var status = (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS;
-            Assert.IsTrue(status > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
-                "cal_status=10 (BAD_FITNESS) must trigger the failure guard");
+            Assert.IsTrue(MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RESIDUALS_HIGH > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
+                "MAG_CAL_FAILED_RESIDUALS_HIGH must trigger the failure guard");
         }
 
         [TestMethod]
@@ -120,11 +93,11 @@ namespace MissionPlanner.GCSViews.Tests
             var failures = new[]
             {
                 MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED,
-                MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_ORIENTATION,
-                MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS,
-                (MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS,
-                (MAVLink.MAG_CAL_STATUS)RAW_BAD_DIAG_SCALING,
-                (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS,
+                MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_ORIENTATION,
+                MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RADIUS,
+                MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_OFFSETS,
+                MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_DIAG_SCALING,
+                MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RESIDUALS_HIGH,
             };
             foreach (var f in failures)
                 Assert.IsTrue(f > MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS,
@@ -147,7 +120,10 @@ namespace MissionPlanner.GCSViews.Tests
                     $"{s} should NOT be > MAG_CAL_SUCCESS");
         }
 
-        // ── 4. Named string representation ────────────────────────────────────
+        // ── 3. Named string representation ────────────────────────────────────
+        //
+        // The UI prints `calStatus.ToString()` verbatim as a fallback when no
+        // [Description] is available. Lock the names so a renamed member is caught.
 
         [TestMethod]
         public void Failed_ToStringIsNamed()
@@ -156,49 +132,48 @@ namespace MissionPlanner.GCSViews.Tests
         }
 
         [TestMethod]
-        public void BadRadius_ToStringIsNamed()
+        public void FailedRadius_ToStringIsNamed()
         {
-            Assert.AreEqual("MAG_CAL_BAD_RADIUS", MAVLink.MAG_CAL_STATUS.MAG_CAL_BAD_RADIUS.ToString());
+            Assert.AreEqual("MAG_CAL_FAILED_RADIUS", MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RADIUS.ToString());
         }
 
-        // ── 5. lastFailureStatus dictionary semantics ─────────────────────────
+        // ── 4. MAVLink [Description] surfaces the failure reason ──────────────
         //
-        // Simulates the per-compass failure tracking in timer1_Tick:
-        //   - failure status is stored per compass ID
-        //   - a later success removes the entry
-        //   - a later failure replaces (not accumulates) the entry
+        // The compass config views print status text using the mavlink dialect's
+        // [Description] attribute when present. We don't pin exact upstream wording
+        // (mavlink is allowed to reword), but we do lock that each specific failure
+        // code carries *some* non-empty description whose key term matches the code.
+        // If this ever regresses to empty descriptions, the UI silently falls back
+        // to bare enum names and the user loses the "why".
 
-        [TestMethod]
-        public void LastFailureStatus_StoresFailurePerCompass()
+        private static string DescriptionOf(MAVLink.MAG_CAL_STATUS status)
         {
-            var dict = new Dictionary<byte, MAVLink.MAG_CAL_STATUS>();
-            dict[0] = (MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS;
-            dict[1] = (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS;
-
-            Assert.AreEqual((MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS, dict[0]);
-            Assert.AreEqual((MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS, dict[1]);
+            var field = typeof(MAVLink.MAG_CAL_STATUS).GetField(status.ToString());
+            var attr = field == null ? null
+                : (MAVLink.Description)Attribute.GetCustomAttribute(field, typeof(MAVLink.Description));
+            return attr?.Text ?? "";
         }
 
         [TestMethod]
-        public void LastFailureStatus_SuccessRemovesEntry()
+        public void SpecificFailures_CarryDescriptionsWithKeyTerm()
         {
-            var dict = new Dictionary<byte, MAVLink.MAG_CAL_STATUS>();
-            dict[0] = (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS;
+            var expectedTerms = new Dictionary<MAVLink.MAG_CAL_STATUS, string>
+            {
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_ORIENTATION,    "orientation" },
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RADIUS,         "radius" },
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_OFFSETS,        "offset" },
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_DIAG_SCALING,   "scaling" },
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RESIDUALS_HIGH, "fitness" },
+            };
 
-            dict.Remove(0); // success received
-
-            Assert.IsFalse(dict.ContainsKey(0));
-        }
-
-        [TestMethod]
-        public void LastFailureStatus_LaterFailureReplaces()
-        {
-            var dict = new Dictionary<byte, MAVLink.MAG_CAL_STATUS>();
-            dict[0] = (MAVLink.MAG_CAL_STATUS)RAW_BAD_FITNESS;
-            dict[0] = (MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS; // second attempt fails differently
-
-            Assert.AreEqual((MAVLink.MAG_CAL_STATUS)RAW_BAD_OFFSETS, dict[0]);
-            Assert.AreEqual(1, dict.Count); // no accumulation
+            foreach (var kv in expectedTerms)
+            {
+                var desc = DescriptionOf(kv.Key);
+                Assert.IsFalse(string.IsNullOrEmpty(desc),
+                    $"{kv.Key} has no [Description]; UI would fall back to bare enum name.");
+                Assert.IsTrue(desc.IndexOf(kv.Value, StringComparison.OrdinalIgnoreCase) >= 0,
+                    $"{kv.Key} description \"{desc}\" no longer contains key term \"{kv.Value}\".");
+            }
         }
     }
 }

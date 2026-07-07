@@ -138,7 +138,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(321, 107);
+            this.pictureBox3.Location = new System.Drawing.Point(203, 107);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(23, 23);
             this.pictureBox3.TabIndex = 20;
@@ -146,7 +146,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(321, 78);
+            this.pictureBox2.Location = new System.Drawing.Point(203, 78);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(23, 23);
             this.pictureBox2.TabIndex = 19;
@@ -154,7 +154,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(321, 49);
+            this.pictureBox1.Location = new System.Drawing.Point(203, 49);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(23, 23);
             this.pictureBox1.TabIndex = 18;
@@ -233,7 +233,7 @@
             this.horizontalProgressBar3.maxline = 0;
             this.horizontalProgressBar3.minline = 0;
             this.horizontalProgressBar3.Name = "horizontalProgressBar3";
-            this.horizontalProgressBar3.Size = new System.Drawing.Size(258, 23);
+            this.horizontalProgressBar3.Size = new System.Drawing.Size(140, 23);
             this.horizontalProgressBar3.TabIndex = 6;
             // 
             // horizontalProgressBar2
@@ -245,7 +245,7 @@
             this.horizontalProgressBar2.maxline = 0;
             this.horizontalProgressBar2.minline = 0;
             this.horizontalProgressBar2.Name = "horizontalProgressBar2";
-            this.horizontalProgressBar2.Size = new System.Drawing.Size(258, 23);
+            this.horizontalProgressBar2.Size = new System.Drawing.Size(140, 23);
             this.horizontalProgressBar2.TabIndex = 5;
             // 
             // horizontalProgressBar1
@@ -257,27 +257,27 @@
             this.horizontalProgressBar1.maxline = 0;
             this.horizontalProgressBar1.minline = 0;
             this.horizontalProgressBar1.Name = "horizontalProgressBar1";
-            this.horizontalProgressBar1.Size = new System.Drawing.Size(258, 23);
+            this.horizontalProgressBar1.Size = new System.Drawing.Size(140, 23);
             this.horizontalProgressBar1.TabIndex = 4;
             // 
             // lbl_obmagresult
             // 
             this.lbl_obmagresult.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.lbl_obmagresult.Location = new System.Drawing.Point(350, 20);
+            this.lbl_obmagresult.Location = new System.Drawing.Point(232, 20);
             this.lbl_obmagresult.Multiline = true;
             this.lbl_obmagresult.Name = "lbl_obmagresult";
             this.lbl_obmagresult.ReadOnly = true;
             this.lbl_obmagresult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.lbl_obmagresult.Size = new System.Drawing.Size(244, 110);
+            this.lbl_obmagresult.Size = new System.Drawing.Size(362, 110);
             this.lbl_obmagresult.TabIndex = 3;
             // 
             // BUT_OBmagcalaccept
             // 
             this.BUT_OBmagcalaccept.Enabled = false;
             this.BUT_OBmagcalaccept.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_OBmagcalaccept.Location = new System.Drawing.Point(125, 20);
+            this.BUT_OBmagcalaccept.Location = new System.Drawing.Point(81, 20);
             this.BUT_OBmagcalaccept.Name = "BUT_OBmagcalaccept";
-            this.BUT_OBmagcalaccept.Size = new System.Drawing.Size(75, 23);
+            this.BUT_OBmagcalaccept.Size = new System.Drawing.Size(70, 23);
             this.BUT_OBmagcalaccept.TabIndex = 1;
             this.BUT_OBmagcalaccept.Text = "Accept";
             this.BUT_OBmagcalaccept.UseVisualStyleBackColor = true;
@@ -287,9 +287,9 @@
             // 
             this.BUT_OBmagcalcancel.Enabled = false;
             this.BUT_OBmagcalcancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_OBmagcalcancel.Location = new System.Drawing.Point(206, 20);
+            this.BUT_OBmagcalcancel.Location = new System.Drawing.Point(156, 20);
             this.BUT_OBmagcalcancel.Name = "BUT_OBmagcalcancel";
-            this.BUT_OBmagcalcancel.Size = new System.Drawing.Size(75, 23);
+            this.BUT_OBmagcalcancel.Size = new System.Drawing.Size(70, 23);
             this.BUT_OBmagcalcancel.TabIndex = 2;
             this.BUT_OBmagcalcancel.Text = "Cancel";
             this.BUT_OBmagcalcancel.UseVisualStyleBackColor = true;
@@ -298,9 +298,9 @@
             // BUT_OBmagcalstart
             // 
             this.BUT_OBmagcalstart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_OBmagcalstart.Location = new System.Drawing.Point(44, 20);
+            this.BUT_OBmagcalstart.Location = new System.Drawing.Point(6, 20);
             this.BUT_OBmagcalstart.Name = "BUT_OBmagcalstart";
-            this.BUT_OBmagcalstart.Size = new System.Drawing.Size(75, 23);
+            this.BUT_OBmagcalstart.Size = new System.Drawing.Size(70, 23);
             this.BUT_OBmagcalstart.TabIndex = 0;
             this.BUT_OBmagcalstart.Text = "Start";
             this.BUT_OBmagcalstart.UseVisualStyleBackColor = true;
