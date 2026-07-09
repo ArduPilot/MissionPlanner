@@ -388,7 +388,14 @@ namespace MissionPlanner.Utilities
                 {
                     using (GZipStream gs = new GZipStream(file, CompressionMode.Decompress))
                     {
-                        cache = (cache)deserializer.Deserialize(gs);
+                        try
+                        {
+                            cache = (cache)deserializer.Deserialize(gs);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
                     }
                 }
 
