@@ -136,7 +136,7 @@ namespace MissionPlanner.Log
                                 if (packet == null || packet.compid == 190)
                                     continue;
 
-                                if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                                if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.SIMSTATE || packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.HIL_CONTROLS)
                                 {
                                     packetsseen++;
                                     issitl = true;
