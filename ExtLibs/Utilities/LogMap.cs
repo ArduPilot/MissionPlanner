@@ -89,7 +89,7 @@ namespace MissionPlanner.Log
                 {
                     using (
                         DFLogBuffer colbuf =
-                            new DFLogBuffer(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            new DFLogBuffer(logfile)
                         )
                     {
                         loc_list[0] = new List<PointLatLngAlt>();

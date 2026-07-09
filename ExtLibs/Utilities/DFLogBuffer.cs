@@ -95,7 +95,7 @@ namespace MissionPlanner.Utilities
 
         void setlinecount()
         {
-            if (!LoadCache())
+            if (string.IsNullOrEmpty(_filename) || !LoadCache())
             {
                 byte[] buffer = new byte[1024 * 1024];
 
@@ -346,7 +346,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    return Path.GetTempPath() + Path.GetFileNameWithoutExtension(_filename) + new FileInfo(_filename).Length;
+                    return Path.GetTempPath() + Path.GetFullPath(_filename).Replace("/", "_").Replace("\\", "_").Replace(":", "_") + Path.GetFileNameWithoutExtension(_filename) + new FileInfo(_filename).Length;
                 }
                 catch
                 {
@@ -357,6 +357,8 @@ namespace MissionPlanner.Utilities
 
         private void SaveCache()
         {
+            if (string.IsNullOrEmpty(_filename))
+                return;
             // save cache if file is over 300mb
             if (basestream.Length < 1024 * 1024 * 300)
                 return;

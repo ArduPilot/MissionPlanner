@@ -76,8 +76,10 @@ namespace MissionPlanner.Log
         private void queueRunner(object nothing)
         {
             a = 0;
-            lock(files)
-                Parallel.ForEach(files, async (file) => { await ProcessFile(file).ConfigureAwait(false); });
+            lock (files)
+                Parallel.ForEach(files,
+                    //new ParallelOptions() { MaxDegreeOfParallelism = 8 },
+                    async (file) => { await ProcessFile(file).ConfigureAwait(false); });
 
             Loading.ShowLoading("Populating Data", this);
 
@@ -204,7 +206,7 @@ namespace MissionPlanner.Log
             }
             else if (file.ToLower().EndsWith(".bin") || file.ToLower().EndsWith(".log"))
             {
-                using (DFLogBuffer colbuf = new DFLogBuffer(new BufferedStream(File.OpenRead(file), 1024 * 1024 * 5)))
+                using (DFLogBuffer colbuf = new DFLogBuffer(file))
                 {
                     PointLatLngAlt lastpos = null;
                     DateTime start = DateTime.MinValue;
@@ -268,6 +270,7 @@ namespace MissionPlanner.Log
 
             lock (logs)
                 logs.Add(loginfo);
+            log.Info("Finished " + file);
         }
 
         static object locker = new object();
