@@ -4,6 +4,7 @@ using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
 using System;
 using System.Drawing;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows.Forms;
@@ -64,9 +65,32 @@ namespace MissionPlanner.Joystick
             {
             } // IF 1 DOESNT EXIST NONE WILL
 
-            var tempjoystick = JoystickBase.Create(() => MainV2.comPort);
+            try
+            {
+                JoystickProfileManager.EnsureDefault();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("EnsureDefault profile failed: " + ex);
+            }
+            RefreshProfileList();
 
             label14.Text += " " + MainV2.comPort.MAV.cs.firmware.ToString();
+
+            BuildAxisControls();
+
+            if (MainV2.joystick != null && MainV2.joystick.enabled)
+            {
+                timer1.Start();
+                BUT_enable.Text = "Disable";
+            }
+
+            startup = false;
+        }
+
+        private void BuildAxisControls()
+        {
+            var tempjoystick = JoystickBase.Create(() => MainV2.comPort);
 
             var y = label8.Bottom;
 
@@ -118,14 +142,55 @@ namespace MissionPlanner.Joystick
             }
 
             this.ResumeLayout();
+        }
 
-            if (MainV2.joystick != null && MainV2.joystick.enabled)
+        private void RefreshUIAfterProfileLoad()
+        {
+            if (MainV2.joystick != null)
             {
-                timer1.Start();
-                BUT_enable.Text = "Disable";
+                try { MainV2.joystick.UnAcquireJoyStick(); } catch { }
+                if (MainV2.joystick.enabled)
+                {
+                    MainV2.joystick.enabled = false;
+                    MainV2.joystick.clearRCOverride();
+                }
+                MainV2.joystick = null;
             }
 
-            startup = false;
+            BUT_enable.Text = "Enable";
+
+            this.SuspendLayout();
+            try
+            {
+                var toRemove = new System.Collections.Generic.List<Control>();
+                foreach (Control c in this.Controls)
+                {
+                    if (c.Name == null) continue;
+                    if (c.Name.StartsWith("axis") ||
+                        c.Name.StartsWith("cmbbutton") ||
+                        c.Name.StartsWith("mybut") ||
+                        c.Name.StartsWith("hbar") ||
+                        c.Name.StartsWith("cmbaction") ||
+                        c.Name.StartsWith("butsettings") ||
+                        c.Name.StartsWith("butlabel"))
+                    {
+                        toRemove.Add(c);
+                    }
+                }
+                foreach (var c in toRemove)
+                {
+                    this.Controls.Remove(c);
+                    c.Dispose();
+                }
+
+                noButtons = 0;
+
+                BuildAxisControls();
+            }
+            finally
+            {
+                this.ResumeLayout();
+            }
         }
 
         int[] getButtonNumbers()
@@ -199,6 +264,19 @@ namespace MissionPlanner.Joystick
             MainV2.joystick.saveconfig();
 
             Settings.Instance["joy_elevons"] = CHK_elevons.Checked.ToString();
+
+            var active = JoystickProfileManager.ActiveProfile;
+            if (!string.IsNullOrEmpty(active))
+            {
+                try
+                {
+                    JoystickProfileManager.SaveActive(MainV2.joystick);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to update active profile: " + ex.Message);
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -370,6 +448,7 @@ namespace MissionPlanner.Joystick
             butlabel.Location = new Point(x, y);
             butlabel.Size = new Size(47, 13);
             butlabel.Text = "But " + (int.Parse(name) + 1);
+            butlabel.Name = "butlabel" + name;
 
             butnumberlist.Location = new Point(butlabel.Right, y);
             butnumberlist.Size = new Size(70, 21);
@@ -537,33 +616,257 @@ namespace MissionPlanner.Joystick
 
         private void but_export_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
-            if (sfd.ShowDialog() == DialogResult.OK)
+            var active = JoystickProfileManager.ActiveProfile;
+
+            using (var sfd = new SaveFileDialog())
             {
-                MainV2.joystick.saveconfig();
-                MainV2.joystick.ExportConfig(sfd.FileName);
+                sfd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
+                sfd.FileName = string.IsNullOrEmpty(active) ? "joystick" : active;
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                try
+                {
+                    if (MainV2.joystick != null && !string.IsNullOrEmpty(active))
+                    {
+                        JoystickProfileManager.SaveActive(MainV2.joystick);
+                        JoystickProfileManager.ExportToFile(active, sfd.FileName);
+                    }
+                    else if (MainV2.joystick != null)
+                    {
+                        MainV2.joystick.saveconfig();
+                        MainV2.joystick.ExportConfig(sfd.FileName);
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Enable a joystick first");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to export: " + ex.Message);
+                }
             }
         }
 
         private void but_import_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("NOTE: this will replace any existing joystick configuration.\nPlease make sure you have saved your current configuration if needed.", "Import Joystick Config", MessageBoxButtons.OKCancel) == (int)DialogResult.OK)
+            using (var ofd = new OpenFileDialog())
             {
-                OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
-                if (ofd.ShowDialog() == DialogResult.OK)
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                string name = Path.GetFileNameWithoutExtension(ofd.FileName) ?? "Imported";
+                if (InputBox.Show("Import Profile", "New profile name:", ref name) != DialogResult.OK)
+                    return;
+                name = (name ?? string.Empty).Trim();
+                if (string.IsNullOrEmpty(name))
+                    return;
+
+                try
                 {
-                    MainV2.joystick.ImportConfig(ofd.FileName);
-                    MainV2.joystick.loadconfig();
-                    CustomMessageBox.Show("Please reopen joystick for changes to take effect");
-                    this.BeginInvoke((Action)delegate ()
+                    if (JoystickProfileManager.ProfileExists(name))
                     {
-                        this.Close();
-                        ((Form)this.Parent).Close();
-                    });
+                        if (CustomMessageBox.Show("Profile '" + name + "' already exists. Overwrite?",
+                                "Overwrite Profile", MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
+                            return;
+                    }
+
+                    JoystickProfileManager.ImportFromFile(ofd.FileName, name);
+                    LoadProfileInPlace(name);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to import profile: " + ex.Message);
                 }
             }
+        }
+
+        private void CMB_profile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            var selected = CMB_profile.SelectedItem as string;
+            if (string.IsNullOrEmpty(selected))
+                return;
+
+            var active = JoystickProfileManager.ActiveProfile;
+            if (string.Equals(selected, active, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            var result = CustomMessageBox.Show(
+                "Switch joystick profile to '" + selected + "'?\n" +
+                "This will replace the current joystick configuration.\n" +
+                "Save the current configuration first if needed.",
+                "Switch Profile", MessageBoxButtons.OKCancel);
+
+            if (result != (int)DialogResult.OK)
+            {
+                bool wasStartup = startup;
+                startup = true;
+                try
+                {
+                    if (!string.IsNullOrEmpty(active))
+                    {
+                        var revert = CMB_profile.Items.Cast<string>()
+                            .FirstOrDefault(p => string.Equals(p, active, StringComparison.OrdinalIgnoreCase));
+                        if (revert != null)
+                            CMB_profile.SelectedItem = revert;
+                    }
+                }
+                finally
+                {
+                    startup = wasStartup;
+                }
+                return;
+            }
+
+            try
+            {
+                LoadProfileInPlace(selected);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to load profile: " + ex.Message);
+                RefreshProfileList();
+            }
+        }
+
+        private void BUT_profileCreate_Click(object sender, EventArgs e)
+        {
+            if (MainV2.joystick == null)
+            {
+                CustomMessageBox.Show("Enable a joystick first to capture its configuration as a profile");
+                return;
+            }
+
+            string name = string.Empty;
+            if (InputBox.Show("Create Profile", "Profile name:", ref name) != DialogResult.OK)
+                return;
+
+            name = (name ?? string.Empty).Trim();
+            if (string.IsNullOrEmpty(name))
+                return;
+
+            try
+            {
+                if (JoystickProfileManager.ProfileExists(name))
+                {
+                    if (CustomMessageBox.Show("Profile '" + name + "' already exists. Overwrite?",
+                            "Overwrite Profile", MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
+                        return;
+                }
+
+                JoystickProfileManager.SaveAs(MainV2.joystick, name);
+                RefreshProfileList();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to create profile: " + ex.Message);
+            }
+        }
+
+        private void BUT_profileDelete_Click(object sender, EventArgs e)
+        {
+            var selected = CMB_profile.SelectedItem as string;
+            if (string.IsNullOrEmpty(selected))
+                return;
+
+            if (string.Equals(selected, JoystickProfileManager.DefaultProfileName, StringComparison.OrdinalIgnoreCase))
+            {
+                CustomMessageBox.Show("The Default profile cannot be deleted.");
+                return;
+            }
+
+            bool isActive = string.Equals(selected, JoystickProfileManager.ActiveProfile, StringComparison.OrdinalIgnoreCase);
+
+            string prompt = isActive
+                ? "Delete the active profile '" + selected + "'?\nIts joystick configuration will be removed."
+                : "Delete profile '" + selected + "'?";
+
+            if (CustomMessageBox.Show(prompt, "Delete Profile", MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
+                return;
+
+            try
+            {
+                JoystickProfileManager.Delete(selected);
+
+                if (isActive)
+                {
+                    var remaining = JoystickProfileManager.ListProfiles();
+                    if (remaining.Count > 0)
+                        LoadProfileInPlace(remaining[0]);
+                }
+
+                RefreshProfileList();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to delete profile: " + ex.Message);
+            }
+        }
+
+        private void RefreshProfileList()
+        {
+            bool wasStartup = startup;
+            startup = true;
+            try
+            {
+                CMB_profile.Items.Clear();
+                var profiles = JoystickProfileManager.ListProfiles();
+                foreach (var name in profiles)
+                    CMB_profile.Items.Add(name);
+
+                var active = JoystickProfileManager.ActiveProfile;
+                var match = string.IsNullOrEmpty(active)
+                    ? null
+                    : profiles.FirstOrDefault(p => string.Equals(p, active, StringComparison.OrdinalIgnoreCase));
+
+                if (match != null)
+                {
+                    CMB_profile.SelectedItem = match;
+                }
+                else if (profiles.Count > 0)
+                {
+                    CMB_profile.SelectedItem = profiles[0];
+                    JoystickProfileManager.ActiveProfile = profiles[0];
+                }
+            }
+            finally
+            {
+                startup = wasStartup;
+            }
+        }
+
+        private void LoadProfileInPlace(string name)
+        {
+            JoystickBase loader;
+            bool createdLoader = false;
+            if (MainV2.joystick != null)
+            {
+                loader = MainV2.joystick;
+            }
+            else
+            {
+                loader = JoystickBase.Create(() => MainV2.comPort);
+                createdLoader = true;
+            }
+
+            try
+            {
+                JoystickProfileManager.Load(loader, name);
+            }
+            finally
+            {
+                if (createdLoader)
+                    loader.Dispose();
+            }
+
+            RefreshUIAfterProfileLoad();
+            RefreshProfileList();
         }
     }
 }
