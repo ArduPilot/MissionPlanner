@@ -410,21 +410,25 @@ namespace MissionPlanner.Log
             string vehicle_msg = null;
             foreach (var item in logdata.GetEnumeratorType("MSG"))
             {
-               if (new string[] { "AntennaTracker V", "ArduCopter V", "ArduPlane V", "ArduSub V", "Blimp V" }.Any(s => item.items[2].Contains(s)))
-               {
-                    if (vehicle_msg != null)
+                try
+                {
+                    if (new string[] { "AntennaTracker V", "ArduCopter V", "ArduPlane V", "ArduSub V", "Blimp V" }.Any(s => item.items[2].Contains(s)))
                     {
-                        // should not find multiple vehicle messages
-                        if (vehicle_msg == item.items[2])
+                        if (vehicle_msg != null)
                         {
-                            // allow if both are the same
-                            continue;
+                            // should not find multiple vehicle messages
+                            if (vehicle_msg == item.items[2])
+                            {
+                                // allow if both are the same
+                                continue;
+                            }
+                            vehicle_msg = null;
+                            break;
                         }
-                        vehicle_msg = null;
-                        break;
+                        vehicle_msg = item.items[2];
                     }
-                    vehicle_msg = item.items[2];
-               }
+                }
+                catch { }
             }
             var VehicleType = "";
             if (vehicle_msg != null)

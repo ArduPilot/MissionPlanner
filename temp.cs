@@ -864,6 +864,8 @@ namespace MissionPlanner
                 SearchOption.AllDirectories), Settings.Instance.LogDir);
             MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.log",
                 SearchOption.AllDirectories), Settings.Instance.LogDir);
+            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.rlog",
+             SearchOption.AllDirectories), Settings.Instance.LogDir);
         }
 
         private void but_logdlscp_Click(object sender, EventArgs e)

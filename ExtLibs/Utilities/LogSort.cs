@@ -54,8 +54,6 @@ namespace MissionPlanner.Log
                             if (!Directory.Exists(destdir))
                                 Directory.CreateDirectory(destdir);
 
-                            log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
-
                             MoveFileUsingMask(logfile, destdir);
                         }
                         catch
@@ -74,15 +72,48 @@ namespace MissionPlanner.Log
 
                     if (logfile.ToLower().EndsWith(".bin")|| logfile.ToLower().EndsWith(".log"))
                     {
-                        var logBuffer = new DFLogBuffer(File.OpenRead(logfile));
+                        var logBuffer = new DFLogBuffer(logfile);
 
                         //PARM, 68613507, SYSID_THISMAV, 1
 
                         var sysidlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "SYSID_THISMAV");
                         var brdsernumlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "BRD_SERIAL_NUM");
+                        var msgs = logBuffer.GetEnumeratorType("MSG").Take(100);
+                        try
+                        {
+                            sysid = int.Parse(sysidlist.First()["Value"].ToString());
+                        }
+                        catch { }
+                        try
+                        {
+                            brdsernum = int.Parse(brdsernumlist.First()["Value"].ToString());
+                        }
+                        catch { }
+                        try
+                        {
+                            if (msgs.Select(a => a["Message"].ToLower().Contains("copter")).Count() > 0)
+                            {
+                                aptype = MAVLink.MAV_TYPE.QUADROTOR;
+                                var frame = msgs.Select(a => a["Message"].ToLower().Contains("frame:"));
+                                if (frame.Count() > 0)
+                                { 
+                                    if(frame.First().ToString().Contains("hexa"))
+                                        aptype = MAVLink.MAV_TYPE.HEXAROTOR;
+                                    if (frame.First().ToString().Contains("octo"))
+                                        aptype = MAVLink.MAV_TYPE.OCTOROTOR;
 
-                        sysid = int.Parse(sysidlist.First()["Value"].ToString());
-                        brdsernum = int.Parse(brdsernumlist.First()["Value"].ToString());
+                                }
+                            }
+                            if (msgs.Select(a => a["Message"].ToLower().Contains("plane")).Count() > 0)
+                            {
+                                aptype = MAVLink.MAV_TYPE.FIXED_WING;
+                            }
+                            if (msgs.Select(a => a["Message"].ToLower().Contains("rover")).Count() > 0)
+                            {
+                                aptype = MAVLink.MAV_TYPE.GROUND_ROVER;
+                            }
+                        }
+                        catch { }
 
                         //logBuffer.dflog
 
@@ -106,6 +137,31 @@ namespace MissionPlanner.Log
                                 Directory.CreateDirectory(destdir);
 
                             MoveFileUsingMask(logfile, destdir);
+
+                            return;
+                        }
+
+                        if (sysid != 0 && aptype != MAVLink.MAV_TYPE.GENERIC)
+                        {
+                            logBuffer.Dispose();
+
+                            var destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                        + aptype.ToString() + Path.DirectorySeparatorChar
+                                                        + sysid + Path.DirectorySeparatorChar;
+
+                            // add on board serial number parameter if different than default value 0
+                            if (brdsernum != 0)
+                            {
+                                destdir += brdsernum + Path.DirectorySeparatorChar;
+                            }
+
+
+                            if (!Directory.Exists(destdir))
+                                Directory.CreateDirectory(destdir);
+
+                            MoveFileUsingMask(logfile, destdir);
+
+                            return;
                         }
 
                         return;
@@ -115,7 +171,7 @@ namespace MissionPlanner.Log
                     }
 
 
-                    var parse = new MAVLink.MavlinkParse(true);
+                    var parse = new MAVLink.MavlinkParse(logfile.ToLower().EndsWith("tlog"));
                     using (var binfile = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         var midpoint = binfile.Length / 8;
@@ -151,7 +207,7 @@ namespace MissionPlanner.Log
                                     compid = packet.compid;
                                     aptype = (MAVLink.MAV_TYPE) hb.type;
 
-                                    if (hblist.Count > 10)
+                                    if (hblist.Count > 100)
                                         break;
                                 }
                                 else if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.PARAM_VALUE)
@@ -180,10 +236,6 @@ namespace MissionPlanner.Log
                             if (!Directory.Exists(masterdestdir + Path.DirectorySeparatorChar + "BAD"))
                                 Directory.CreateDirectory(masterdestdir + Path.DirectorySeparatorChar +
                                                           "BAD");
-
-                            log.Info("Move log bad " + logfile + " to " + masterdestdir +
-                                     Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar +
-                                     Path.GetFileName(logfile) + " " + info.Length);
 
                             MoveFileUsingMask(logfile,
                                 masterdestdir + Path.DirectorySeparatorChar + "BAD" +
@@ -247,10 +299,11 @@ namespace MissionPlanner.Log
             string[] files = Directory.GetFiles(dir, filter);
             foreach (var file in files)
             {
-                log.Info("Move log " + file + " to " + destdir + Path.GetFileName(file));
-
+                Console.Write(".");
                 if (file == destdir + Path.GetFileName(file))
                     continue;
+
+                log.Info("Move log " + file + " to " + destdir + Path.GetFileName(file));
 
                 File.Move(file, destdir + Path.GetFileName(file));
             }
