@@ -552,7 +552,7 @@ namespace MissionPlanner
                         await Task.Delay(2000);
 
                         MAVlist[tuple.Item1, tuple.Item2]
-                            .Gimbal.Discover(this);
+                            .Gimbal?.Discover(this);
                     }
                     catch (Exception e)
                     {
@@ -579,7 +579,7 @@ namespace MissionPlanner
                         await Task.Delay(2000);
 
                         MAVlist[tuple.Item1, tuple.Item2]
-                            .GimbalManager.Discover();
+                            .GimbalManager?.Discover();
                     }
                     catch (Exception e)
                     {

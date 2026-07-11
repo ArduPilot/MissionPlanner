@@ -173,6 +173,8 @@ namespace MissionPlanner.Log
                     var length = mine.logplaybackfile.BaseStream.Length;
 
                     var a = 0;
+                    var gpssec = 0;
+                    var updates = 0;
 
                     // abandon last 100 bytes
                     while (mine.logplaybackfile.BaseStream.Position < (length - 100))
@@ -186,14 +188,20 @@ namespace MissionPlanner.Log
                         if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK)
                             loginfo.CamMSG++;
 
-                        if (a % 10 == 0)
+                        if (a % 200 == 0 || mine.MAV.cs.gpstime.Second != gpssec)
+                        {
+                            updates++;
+                            gpssec = mine.MAV.cs.gpstime.Second;
                             mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
+                        }
 
                         a++;
 
                         if (mine.lastlogread > end)
                             end = mine.lastlogread;
                     }
+
+                    log.Info("Finished reading " + file + " with " + a + " packets and " + updates + " updates");
 
                     loginfo.Home = mine.MAV.cs.Location;
 

@@ -4187,7 +4187,7 @@ namespace MissionPlanner
                     case (uint)MAVLink.MAVLINK_MSG_ID.AHRS:
                         {
                             var ahrs = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs_t>();
-                            
+
                         }
                         break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.AHRS2:
@@ -4206,23 +4206,98 @@ namespace MissionPlanner
                         {
                             var airspeedp = mavLinkMessage.ToStructure<MAVLink.mavlink_airspeed_t>();
 
-                           if(airspeedp.id == 0)
+                            if (airspeedp.id == 0)
                             {
                                 airspeed = airspeedp.airspeed;
                                 airspeed1_temp = (float)(airspeedp.temperature / 100.0);
                             }
                         }
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_LONG:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_READ:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE3:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_QUATERNION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_REACHED:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.RALLY_POINT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ACK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CANFD_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL:
                     case (uint)MAVLink.MAVLINK_MSG_ID.LOG_DATA:
                     case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_WRITE_REPLY:
                     case (uint)MAVLink.MAVLINK_MSG_ID.TIMESYNC:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_VALUE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ACTUATOR_CONTROL_TARGET:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS3:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ENCAPSULATED_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DATA_TRANSMISSION_HANDSHAKE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ALTITUDE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEBUG_VECT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_READ:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_ACK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW_RAD:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SET_MODE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_RTCM_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_READ_REPLY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_HEARTBEAT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_DATA_BLOCK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_SET:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_ENTRY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_POINT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_TARGET:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.WIND_COV:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ESTIMATOR_STATUS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ODOMETRY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PING:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HOME_POSITION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_CHECK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_GLOBAL_ORIGIN:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DATA16:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_OPERATOR_ID:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_BASIC_ID:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_LOCATION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SELF_ID:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SYSTEM:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HIL_SENSOR:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_FETCH_POINT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_ERASE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_TORQUE_CMD_REPORT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_REPORT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_SET_RESPONSE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SETUP_SIGNING:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_GET_RESPONSE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_BLOCK_STATUS:
                         break;
                     default:
                         {
-                            Debug.WriteLine("Unhandled CS message " + mavLinkMessage.msgid + " = " + mavLinkMessage.msgtypename);
+                            Debug.WriteLine("//Unhandled CS message " + mavLinkMessage.msgid + " = \ncase (uint)MAVLink.MAVLINK_MSG_ID." + mavLinkMessage.msgtypename + ":");
                         }
                         break;
                 }
