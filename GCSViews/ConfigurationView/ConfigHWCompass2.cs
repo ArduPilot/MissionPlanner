@@ -15,7 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private List<CompassDeviceInfo> list;
 
-        private bool _calChangesRequireReboot = false;
+        private bool _calChangesRequireReboot;
 
         // Number of physical compass slots the UI can display (progress bars + indicators).
         private const int MaxCompassInstances = 3;
@@ -55,11 +55,58 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (status == MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
                 return "Success";
 
+            // MAG_CAL_FAILED (5) has an empty [Description] in the upstream enum —
+            // it is the old generic failure code sent by firmware that predates the
+            // specific failure codes (6-10). Give it a readable fallback.
+            if (status == MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED)
+                return "Calibration failed";
+
             var field = typeof(MAVLink.MAG_CAL_STATUS).GetField(status.ToString());
             var attr = field == null ? null
                 : (MAVLink.Description)Attribute.GetCustomAttribute(field, typeof(MAVLink.Description));
 
             return string.IsNullOrWhiteSpace(attr?.Text) ? status.ToString() : attr.Text;
+        }
+
+        // Read a float param from the already-loaded param list; return fallback if absent.
+        private static float TryGetParam(string name, float fallback)
+        {
+            var p = MainV2.comPort.MAV.param;
+            return p.ContainsKey(name) ? (float)p[name].Value : fallback;
+        }
+
+        // Compact detail string appended after the status text.
+        // Only includes values that are actionable for that specific failure code.
+        // Numbers use F1 (1 decimal place) to keep the text box readable.
+        //   SUCCESS               -> offsets + fitness  (what was saved to flash)
+        //   FAILED_OFFSETS        -> offsets + limit    (which axis overflowed and by how much)
+        //   FAILED_RESIDUALS_HIGH -> fitness only       (how bad the fit was)
+        //   FAILED_ORIENTATION    -> orientation_confidence + hardcoded min threshold
+        //   all others            -> empty string
+        private static string StatusDetail(MAVLink.mavlink_mag_cal_report_t r)
+        {
+            var s = (MAVLink.MAG_CAL_STATUS)r.cal_status;
+            switch (s)
+            {
+                case MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS:
+                    return $"  [x:{r.ofs_x:F1} y:{r.ofs_y:F1} z:{r.ofs_z:F1}  fit:{r.fitness:F1}]";
+
+                case MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_OFFSETS:
+                {
+                    float limit = TryGetParam("COMPASS_OFFS_MAX", 2000f);
+                    return $"  [x:{r.ofs_x:F1} y:{r.ofs_y:F1} z:{r.ofs_z:F1}  limit:\u00b1{limit:F0}]";
+                }
+
+                case MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_RESIDUALS_HIGH:
+                    return $"  [fit:{r.fitness:F1}]";
+
+                case MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED_ORIENTATION:
+                    // 0.4 is hardcoded in ArduPilot firmware, not a configurable param.
+                    return $"  [orientation confidence:{r.orientation_confidence:F2}  min:0.40]";
+
+                default:
+                    return string.Empty;
+            }
         }
 
         private static int CountBits(byte mask)
@@ -317,13 +364,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
-                        // doReboot returns true on success
-                        if (!MainV2.comPort.doReboot())
+                        // doReboot returns true on success; only clear the flag when the
+                        // reboot actually went through so the ⚠ button stays visible if it fails.
+                        if (MainV2.comPort.doReboot())
                         {
-                            CustomMessageBox.Show("Reboot failed. please manually reboot the hardware.", Strings.ERROR);
+                            _calChangesRequireReboot = false;
+                            UpdateRebootButtonState();
                         }
-                        _calChangesRequireReboot = false;
-                        UpdateRebootButtonState();
+                        else
+                        {
+                            CustomMessageBox.Show("Reboot failed. Please manually reboot the hardware.", Strings.ERROR);
+                        }
                     }
                     catch
                     {
@@ -339,7 +390,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void UpdateRebootButtonState()
         {
-            but_reboot.Text = _calChangesRequireReboot ? "Reboot \u26A0" : "Reboot";
+            if (_calChangesRequireReboot)
+            {
+                but_reboot.Text = "Reboot Now \u26A0";
+                toolTipReboot.SetToolTip(but_reboot, "Compass calibration saved - reboot required to take effect");
+            }
+            else
+            {
+                but_reboot.Text = "Reboot";
+                toolTipReboot.SetToolTip(but_reboot, string.Empty);
+            }
         }
 
         private async void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -593,10 +653,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // Repaint the result panel from state. The progress bars follow the firmware stream;
         // the only extra thing the operator needs is the last failure reason so they can fix
         // it and retry. This is the sole place that writes to the bars, indicators and text.
+        // All lines are assembled into one StringBuilder and written in a single Text assignment
+        // to avoid the \r\n / \n mismatch that multiple AppendText calls produce in a WinForms
+        // TextBox (which uses \n internally) and to prevent repeated scroll-to-end repaints.
         private void RenderCalibrationState()
         {
-            lbl_obmagresult.Clear();
-
             // Progress row spans every compass we have heard from, so a failed compass is
             // still listed instead of silently vanishing from the row.
             var ids = new SortedSet<byte>(_liveProgress.Keys);
@@ -606,6 +667,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (((_activeCalMask >> i) & 1) != 0)
                     ids.Add(i);
 
+            var sb = new StringBuilder();
+
+            // --- progress row ---
             var progressRow = new StringBuilder();
             foreach (var id in ids)
             {
@@ -625,28 +689,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     progressRow.Append(" (attempt ").Append(att).Append(')');
                 progressRow.Append("  ");
             }
+            sb.AppendLine(progressRow.ToString().TrimEnd());
 
-            lbl_obmagresult.AppendText(progressRow.ToString().TrimEnd() + Environment.NewLine);
-
-            // One terminal status line per compass, ordered by id, so the operator sees which
-            // compasses saved and which need fixing. The attempt count lives on the progress
-            // row above, so this line is just the neutral result.
+            // --- one terminal status line per compass ---
+            // Ordered by id so the operator sees which compasses saved and which need fixing.
+            // The attempt count lives on the progress row above, so this line is the neutral
+            // result plus any actionable detail values.
             foreach (var kv in _latestReports.OrderBy(kv => kv.Key))
-                lbl_obmagresult.AppendText(
-                    CompassLabel(kv.Key) + ": " + StatusText((MAVLink.MAG_CAL_STATUS)kv.Value.cal_status) + Environment.NewLine);
+                sb.AppendLine(
+                    CompassLabel(kv.Key) + ": "
+                    + StatusText((MAVLink.MAG_CAL_STATUS)kv.Value.cal_status)
+                    + StatusDetail(kv.Value));
 
-            // Partial-save guidance: firmware autosaves successful compasses individually —
-            // their params are already written. Reboot is required before those values take effect.
+            // --- partial-save guidance ---
+            // Firmware autosaves successful compasses individually — their params are already
+            // written. Reboot is required before those values take effect.
             var autosaved = AutosavedSuccessCompasses();
             if (autosaved.Count > 0 && AnyFailedCompass())
             {
                 var savedList = string.Join(", ", autosaved.Select(id => CompassLabel(id)));
-                lbl_obmagresult.AppendText(
+                sb.AppendLine(
                     "Partial save: " + savedList +
                     " already persisted to params." +
                     " Reboot required before those changes take effect." +
-                    " Failed compasses continue to retry." + Environment.NewLine);
+                    " Failed compasses continue to retry.");
             }
+
+            // Single assignment: avoids repeated scroll-to-end repaints and the \r\n double-
+            // spacing that multiple AppendText calls produce in a WinForms TextBox.
+            lbl_obmagresult.Text = sb.ToString();
         }
 
         // Fire the completion path once every expected compass has succeeded and none is in a
@@ -705,7 +776,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_reboot_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Reboot the autopilot now?") == CustomMessageBox.DialogResult.OK)
+            if (CustomMessageBox.Show("Reboot the autopilot now?", "Reboot",
+                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
                 // Cancel any in-flight cal before rebooting so firmware doesn't keep
                 // running the calibrator while the link tears down. Idempotent if no
@@ -726,9 +798,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     BUT_OBmagcalcancel.Enabled = false;
                 }
 
-                MainV2.comPort.doReboot(false, true);
-                _calChangesRequireReboot = false;
-                UpdateRebootButtonState();
+                if (MainV2.comPort.doReboot(false, true))
+                {
+                    _calChangesRequireReboot = false;
+                    UpdateRebootButtonState();
+                }
+                else
+                {
+                    CustomMessageBox.Show("Reboot failed. Please manually reboot the hardware.", Strings.ERROR);
+                }
             }
         }
 
