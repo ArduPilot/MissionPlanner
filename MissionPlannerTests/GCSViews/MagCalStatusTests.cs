@@ -26,7 +26,7 @@ namespace MissionPlanner.GCSViews.Tests
         //
         // Pin the byte value of every failure code the UI branches on. A silent
         // renumber upstream would otherwise break the >MAG_CAL_SUCCESS guard
-        // and the lastFailureStatus dictionary lookup.
+        // used in both ConfigHWCompass and ConfigHWCompass2.
 
         [TestMethod]
         public void FailedOffsets_WireValue_Is8()

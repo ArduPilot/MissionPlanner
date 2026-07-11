@@ -50,22 +50,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // with upstream and new status messages are picked up without UI-side string mapping.
         // Note: mavgen emits its own MAVLink.Description attribute (see MavlinkParse.cs),
         // NOT System.ComponentModel.DescriptionAttribute.
+        //
+        // MAG_CAL_SUCCESS (4) and MAG_CAL_FAILED (5) both have empty [Description] upstream.
+        // When the description is empty we use a readable fallback rather than the raw enum
+        // name so the UI stays user-friendly while remaining forward-compatible: if upstream
+        // ever adds a description for these codes it will be used automatically.
+        private static readonly Dictionary<MAVLink.MAG_CAL_STATUS, string> _statusFallback =
+            new Dictionary<MAVLink.MAG_CAL_STATUS, string>
+            {
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS, "Success" },
+                { MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED,  "Calibration failed" },
+            };
+
         private static string StatusText(MAVLink.MAG_CAL_STATUS status)
         {
-            if (status == MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
-                return "Success";
-
-            // MAG_CAL_FAILED (5) has an empty [Description] in the upstream enum —
-            // it is the old generic failure code sent by firmware that predates the
-            // specific failure codes (6-10). Give it a readable fallback.
-            if (status == MAVLink.MAG_CAL_STATUS.MAG_CAL_FAILED)
-                return "Calibration failed";
-
             var field = typeof(MAVLink.MAG_CAL_STATUS).GetField(status.ToString());
             var attr = field == null ? null
                 : (MAVLink.Description)Attribute.GetCustomAttribute(field, typeof(MAVLink.Description));
 
-            return string.IsNullOrWhiteSpace(attr?.Text) ? status.ToString() : attr.Text;
+            if (!string.IsNullOrWhiteSpace(attr?.Text))
+                return attr.Text;
+
+            // Upstream description is empty: use the readable fallback if one is registered,
+            // otherwise fall back to the raw enum name.
+            return _statusFallback.TryGetValue(status, out var fallback) ? fallback : status.ToString();
         }
 
         // Read a float param from the already-loaded param list; return fallback if absent.
