@@ -60,12 +60,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.WP_SPEED = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            this.NAVL1_DAMPING = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.NAVL1_PERIOD = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
-            this.WP_OVERSHOOT = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
             this.WP_RADIUS = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.TURN_G_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -115,9 +109,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_P)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_OVERSHOOT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_G_MAX)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -338,12 +329,6 @@
             // 
             this.groupBox4.Controls.Add(this.WP_SPEED);
             this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Controls.Add(this.NAVL1_DAMPING);
-            this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.NAVL1_PERIOD);
-            this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Controls.Add(this.WP_OVERSHOOT);
-            this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.WP_RADIUS);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.TURN_G_MAX);
@@ -364,50 +349,6 @@
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            // 
-            // NAVL1_DAMPING
-            // 
-            resources.ApplyResources(this.NAVL1_DAMPING, "NAVL1_DAMPING");
-            this.NAVL1_DAMPING.Max = 1F;
-            this.NAVL1_DAMPING.Min = 0F;
-            this.NAVL1_DAMPING.Name = "NAVL1_DAMPING";
-            this.NAVL1_DAMPING.ParamName = null;
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // NAVL1_PERIOD
-            // 
-            resources.ApplyResources(this.NAVL1_PERIOD, "NAVL1_PERIOD");
-            this.NAVL1_PERIOD.Max = 1F;
-            this.NAVL1_PERIOD.Min = 0F;
-            this.NAVL1_PERIOD.Name = "NAVL1_PERIOD";
-            this.NAVL1_PERIOD.ParamName = null;
-            // 
-            // label18
-            // 
-            resources.ApplyResources(this.label18, "label18");
-            this.label18.Name = "label18";
-            // 
-            // WP_OVERSHOOT
-            // 
-            resources.ApplyResources(this.WP_OVERSHOOT, "WP_OVERSHOOT");
-            this.WP_OVERSHOOT.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.WP_OVERSHOOT.Max = 1F;
-            this.WP_OVERSHOOT.Min = 0F;
-            this.WP_OVERSHOOT.Name = "WP_OVERSHOOT";
-            this.WP_OVERSHOOT.ParamName = null;
-            // 
-            // label19
-            // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
             // 
             // WP_RADIUS
             // 
@@ -700,9 +641,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_P)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_OVERSHOOT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_G_MAX)).EndInit();
             this.groupBox5.ResumeLayout(false);
@@ -768,14 +706,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.MyButton BUT_refreshpart;
-        private Controls.MavlinkNumericUpDown WP_OVERSHOOT;
-        private System.Windows.Forms.Label label19;
         private Controls.MavlinkNumericUpDown CRUISE_SPEED;
         private System.Windows.Forms.Label label12;
-        private Controls.MavlinkNumericUpDown NAVL1_DAMPING;
-        private System.Windows.Forms.Label label13;
-        private Controls.MavlinkNumericUpDown NAVL1_PERIOD;
-        private System.Windows.Forms.Label label18;
         private Controls.MavlinkNumericUpDown TURN_RADIUS;
         private System.Windows.Forms.Label label11;
         private Controls.MavlinkNumericUpDown ATC_ACCEL_MAX;
