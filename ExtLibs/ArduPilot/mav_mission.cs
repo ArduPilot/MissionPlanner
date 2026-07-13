@@ -148,8 +148,6 @@ namespace MissionPlanner.ArduPilot
                     }
                 }
 
-                port.setWPACK(sysid, compid, type);
-
             }
             catch (Exception ex)
             {
@@ -244,8 +242,6 @@ namespace MissionPlanner.ArduPilot
                                             " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
                     }
                 }
-
-                port.setWPACK(sysid, compid, type);
 
             }
             catch (Exception ex)
