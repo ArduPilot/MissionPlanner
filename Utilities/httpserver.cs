@@ -6,6 +6,7 @@ using SharpKml.Dom;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -1093,6 +1094,22 @@ namespace MissionPlanner.Utilities
                             byte[] temp = asciiEncoding.GetBytes(header);
                             stream.Write(temp, 0, temp.Length);
                         }
+                        stream.Close();
+                    }
+                    else if (url.ToLower().Contains("/adsb"))
+                    {
+                        string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\n\r\n";
+                        byte[] temp = asciiEncoding.GetBytes(header);
+                        stream.Write(temp, 0, temp.Length);
+
+                        var adsbdata = MainV2.instance.adsbPlanes.Values
+                            .Select(plane => new adsb.ApiVehicleInfo(plane))
+                            .ToJSON();
+
+                        byte[] buffer = Encoding.ASCII.GetBytes(adsbdata);
+
+                        stream.Write(buffer, 0, buffer.Length);
+
                         stream.Close();
                     }
                     /////////////////////////////////////////////////////////////////

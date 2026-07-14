@@ -1454,6 +1454,48 @@ namespace MissionPlanner.Utilities
                 return this.Category;
             }
         }
+
+        /// <summary>
+        /// Snapshot of a PointLatLngAltHdg for the HTTP API. Fields are explicitly listed
+        /// so we never serialize object references like Source, which would drag the
+        /// entire MAVLinkInterface along with it.
+        /// </summary>
+        public class ApiVehicleInfo
+        {
+            public string Icao;
+            public string CallSign;
+            public ushort Squawk;
+            public double Lat;
+            public double Lng;
+            public double Alt;
+            public float Heading;
+            public double Speed;
+            public double VerticalSpeed;
+            public string Category;
+            public string Type;
+            public bool IsOnGround;
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel;
+            public DateTime Time;
+
+            public ApiVehicleInfo(PointLatLngAltHdg plane)
+            {
+                Icao = plane.Tag;
+                CallSign = plane.CallSign;
+                Squawk = plane.Squawk;
+                Lat = plane.Lat;
+                Lng = plane.Lng;
+                Alt = plane.Alt;
+                Heading = plane.Heading;
+                Speed = plane.Speed;
+                VerticalSpeed = plane.VerticalSpeed;
+                Category = plane.Category;
+                Type = plane.Type;
+                IsOnGround = plane.IsOnGround;
+                ThreatLevel = plane.ThreatLevel;
+                Time = plane.Time;
+            }
+        }
+
         public static string GetEmitterCategoryShort(MAVLink.ADSB_EMITTER_TYPE category)
         {
             switch (category)
