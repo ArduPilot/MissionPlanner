@@ -1,4 +1,4 @@
-#if !LIB
+﻿#if !LIB
 extern alias Drawing;
 #endif
 
@@ -1224,6 +1224,9 @@ namespace MissionPlanner
                     plane.Speed = adsb.Speed;
                     plane.VerticalSpeed = adsb.VerticalSpeed;
                     plane.Source = sender;
+                    plane.Category = adsb.Category;
+                    plane.Type = adsb.Type;
+                    plane.IsOnGround = adsb.IsOnGround;
                     instance.adsbPlanes[id] = plane;
                 }
                 else
@@ -1233,7 +1236,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
@@ -3137,7 +3140,7 @@ namespace MissionPlanner
                 packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
                 packet.callsign = currentPlane.CallSign.MakeBytes();
                 packet.squawk = currentPlane.Squawk;
-                packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.emitter_type = ((byte)currentPlane.GetEmitterCategory());
                 packet.heading = (ushort)(currentPlane.Heading * 100);
                 packet.lat = (int)(currentPlane.Lat * 1e7);
                 packet.lon = (int)(currentPlane.Lng * 1e7);
