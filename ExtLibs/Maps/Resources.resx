@@ -1721,4 +1721,43 @@ Control-S - save grid file\par
   <data name="boatsprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\boatsprite.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="adsb_balloon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_balloon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_emergency_surface" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_emergency_surface.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_glider" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_glider.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_heavy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_heavy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_highly_manuv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_highly_manuv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_light" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_light.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_parachute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_parachute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_rotocraft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_rotocraft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_service_surface" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_service_surface.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_uav" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_uav.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adsb_unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\adsb_unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
