@@ -1496,6 +1496,124 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// Thresholds for one threat level; the equivalent of ArduPilot's
+        /// AVD_W_TIME/AVD_W_DIST_XY/AVD_W_DIST_Z (or their AVD_F_ counterparts)
+        /// </summary>
+        public class ThreatThresholds
+        {
+            /// <summary>
+            /// How many seconds ahead to project both tracks
+            /// </summary>
+            public double TimeHorizon;
+            /// <summary>
+            /// Lateral separation (m) at closest approach below which this level applies
+            /// </summary>
+            public double DistanceXY;
+            /// <summary>
+            /// Vertical separation (m) at closest approach below which this level applies
+            /// </summary>
+            public double DistanceZ;
+        }
+
+        public class ThreatAssessment
+        {
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL Level;
+            /// <summary>
+            /// Seconds until the point of closest approach
+            /// </summary>
+            public double TimeToClosestApproach;
+        }
+
+        /// <summary>
+        /// Classify the collision threat an aircraft poses to us the same way ArduPilot's
+        /// AP_Avoidance does: project both tracks forward, find the point of closest
+        /// approach within the time horizon, and compare the separation there against the
+        /// critical (HIGH) and then warn (LOW) thresholds.
+        /// </summary>
+        public static ThreatAssessment AssessThreat(PointLatLngAlt ourLocation, double ourVelocityNorth,
+            double ourVelocityEast, double ourVerticalSpeed, PointLatLngAltHdg plane,
+            ThreatThresholds warn, ThreatThresholds critical)
+        {
+            // Relative NE position of the aircraft (m)
+            double bearing = ourLocation.GetBearing(plane) * MathHelper.deg2rad;
+            double distance = ourLocation.GetDistance(plane);
+            double relPosNorth = Math.Cos(bearing) * distance;
+            double relPosEast = Math.Sin(bearing) * distance;
+
+            // Relative NE velocity (m/s); aircraft speeds are cm/s
+            double headingRad = plane.Heading * MathHelper.deg2rad;
+            double relVelNorth = plane.Speed / 100.0 * Math.Cos(headingRad) - ourVelocityNorth;
+            double relVelEast = plane.Speed / 100.0 * Math.Sin(headingRad) - ourVelocityEast;
+
+            // Relative vertical position (m) and velocity (m/s), positive = aircraft above us
+            double relPosZ = plane.Alt - ourLocation.Alt;
+            double relVelZ = plane.VerticalSpeed / 100.0 - ourVerticalSpeed;
+
+            double timeToClosest;
+            if (WithinThresholds(critical, relPosNorth, relPosEast, relVelNorth, relVelEast, relPosZ, relVelZ, out timeToClosest))
+            {
+                return new ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH,
+                    TimeToClosestApproach = timeToClosest
+                };
+            }
+            if (WithinThresholds(warn, relPosNorth, relPosEast, relVelNorth, relVelEast, relPosZ, relVelZ, out timeToClosest))
+            {
+                return new ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW,
+                    TimeToClosestApproach = timeToClosest
+                };
+            }
+            return new ThreatAssessment
+            {
+                Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE,
+                TimeToClosestApproach = double.MaxValue
+            };
+        }
+
+        private static bool WithinThresholds(ThreatThresholds thresholds, double relPosNorth, double relPosEast,
+            double relVelNorth, double relVelEast, double relPosZ, double relVelZ, out double timeToClosest)
+        {
+            double closestXY = ClosestApproachXY(relPosNorth, relPosEast, relVelNorth, relVelEast,
+                thresholds.TimeHorizon, out timeToClosest);
+            double closestZ = ClosestApproachZ(relPosZ, relVelZ, thresholds.TimeHorizon);
+            return closestXY < thresholds.DistanceXY && closestZ < thresholds.DistanceZ;
+        }
+
+        /// <summary>
+        /// Minimum lateral separation (m) over the time horizon, and the time (s) at which it occurs
+        /// </summary>
+        private static double ClosestApproachXY(double relPosNorth, double relPosEast, double relVelNorth,
+            double relVelEast, double timeHorizon, out double timeToClosest)
+        {
+            double closingSpeedSq = relVelNorth * relVelNorth + relVelEast * relVelEast;
+            timeToClosest = 0;
+            if (closingSpeedSq > 1e-6)
+            {
+                // Time at which the relative position passes closest to us, clamped to the horizon
+                double t = -(relPosNorth * relVelNorth + relPosEast * relVelEast) / closingSpeedSq;
+                timeToClosest = Math.Min(Math.Max(t, 0), timeHorizon);
+            }
+            double north = relPosNorth + relVelNorth * timeToClosest;
+            double east = relPosEast + relVelEast * timeToClosest;
+            return Math.Sqrt(north * north + east * east);
+        }
+
+        /// <summary>
+        /// Minimum vertical separation (m) over the time horizon
+        /// </summary>
+        private static double ClosestApproachZ(double relPosZ, double relVelZ, double timeHorizon)
+        {
+            double endPosZ = relPosZ + relVelZ * timeHorizon;
+            // If we cross the aircraft's altitude within the horizon, the separation reaches zero
+            if (Math.Sign(relPosZ) != Math.Sign(endPosZ))
+                return 0;
+            return Math.Min(Math.Abs(relPosZ), Math.Abs(endPosZ));
+        }
+
         public static string GetEmitterCategoryShort(MAVLink.ADSB_EMITTER_TYPE category)
         {
             switch (category)
