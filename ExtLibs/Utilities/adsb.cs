@@ -189,7 +189,7 @@ namespace MissionPlanner.Utilities
                                     {
                                         VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
                                         CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                        Squawk = Convert.ToUInt16(ac.squawk, 16) // Convert the hex value back to a raw uint16
+                                        Squawk = Convert.ToUInt16(ac.squawk, 10), // Convert the string into a collquial number representation, so that "1200" becomes 1200.
                                     };
 
                                     UpdatePlanePosition(this, plane);
@@ -923,7 +923,7 @@ namespace MissionPlanner.Utilities
                             ushort squawk = 0;
                             try
                             {
-                                squawk = Convert.ToUInt16(strArray[17], 16); // Convert the hex value back to a raw uint16
+                                squawk = Convert.ToUInt16(strArray[17], 10); // Convert the value as the colloquial "1200" -> 1200.
                             }
                             catch { }
 
@@ -1306,6 +1306,9 @@ namespace MissionPlanner.Utilities
 
             public string CallSign { get; set; } = "";
 
+            /// <summary>
+            /// Squawk in colloquially used format - where the decimal value 1200 (0b10010110000) represents what the rest of the world calls 1200.
+            /// </summary>
             public ushort Squawk { get; set; }
 
             /// <summary>
