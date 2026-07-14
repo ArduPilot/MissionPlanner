@@ -125,6 +125,27 @@ namespace MissionPlanner
         public static void Start(string[] args)
         {
             Program.args = args;
+
+            // ---- AutoFlasher build: force portable mode ------------------------
+            // Redirect ALL user-writable state into <exe>\PortableData\Mission Planner\
+            // so this build cannot touch the user's regular MP install
+            // (Documents\Mission Planner, AppData, ProgramData).
+            // This MUST run before any Settings.* call.
+            try
+            {
+                var portableRoot = System.IO.Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory, "PortableData");
+                System.IO.Directory.CreateDirectory(portableRoot);
+                MissionPlanner.Utilities.Settings.CustomUserDataDirectory = portableRoot;
+                Environment.SetEnvironmentVariable("APPDATA", portableRoot);
+                Environment.SetEnvironmentVariable("LOCALAPPDATA", portableRoot);
+                Console.WriteLine("Portable mode active. Data dir: " + portableRoot);
+            }
+            catch (Exception portEx)
+            {
+                Console.WriteLine("Portable mode setup failed: " + portEx.Message);
+            }
+
             Console.WriteLine(
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
             Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
