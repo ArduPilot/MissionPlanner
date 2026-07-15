@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews
 {
@@ -16,6 +17,8 @@ namespace MissionPlanner.GCSViews
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            POI.POIModified -= POI_POIModified;
+
             if (disposing && (components != null))
             {
                 components.Dispose();
