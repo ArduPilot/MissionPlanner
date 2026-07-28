@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MissionPlanner.Utilities
@@ -237,27 +238,14 @@ namespace MissionPlanner.Utilities
                         buffer.Append(incoming);
 
                         string currentText = buffer.ToString();
-                        int promptIdx = currentText.IndexOf('>');
 
-                        if (promptIdx >= 3)
+                        // Match serial and USB port names (COMx or USBx) directly preceding the '>' prompt character
+                        var match = Regex.Match(currentText, @"(COM\d+|USB\d+)\s*>");
+                        if (match.Success)
                         {
-                            // Look back 4 characters before '>'
-                            int start = Math.Max(0, promptIdx - 4);
-                            string candidate = currentText.Substring(start, promptIdx - start);
-
-                            // Limit the candidate to serial and USB port names (COMx or USBx)
-                            if (candidate.Contains("COM"))
-                            {
-                                int idx = candidate.IndexOf("COM");
-                                LastDetectedPort = candidate.Substring(idx);
-                                return LastDetectedPort;
-                            }
-                            else if (candidate.Contains("USB"))
-                            {
-                                int idx = candidate.IndexOf("USB");
-                                LastDetectedPort = candidate.Substring(idx);
-                                return LastDetectedPort;
-                            }
+                            // Extract active port name (e.g., COM1 or USB1)
+                            LastDetectedPort = match.Groups[1].Value;
+                            return LastDetectedPort;
                         }
                     }
                 }
@@ -265,7 +253,7 @@ namespace MissionPlanner.Utilities
                 await Task.Delay(20);
             }
 
-            // Default fallback if no active port is detected within the timeout
+            // Fallback if no active port is detected within the timeout window
             return LastDetectedPort;
         }
 
