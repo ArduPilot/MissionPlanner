@@ -90,10 +90,11 @@ namespace MissionPlanner.Utilities
             receiverPort.WriteTimeout = 200;
  
             string activePort = await ConfigureBaudAndDetectPort(receiverPort);
-            log.Info($"Detected active port: {activePort}"); // debugging only
+            log.Info($"Detected active port: {activePort}");
 
             await SendAck(receiverPort, "setPVTMode,Static,All,Auto\n");
-            await SendAck(receiverPort, $"setDataInOut,{activePort},Auto,RTCMv3\n");
+            // Append +RTCMv3 output to preserve any existing streams already configured on this port
+            await SendAck(receiverPort, $"setDataInOut,{activePort},Auto,+RTCMv3\n");
         }
 
         /// <summary>
@@ -169,9 +170,11 @@ namespace MissionPlanner.Utilities
         /// <exception cref="FailedAckException" />
         public static Task SetEnabledRTCM(ICommsSerial receiverPort, RTCMLevel level, RTCMSignals signals)
         {
+            string activePort = LastDetectedPort;
+
             int messageLevel;
             string messages = "RTCM1006+RTCM1033+RTCM1230";
-
+            
             switch (level)
             {
                 case RTCMLevel.Lite:
@@ -195,9 +198,6 @@ namespace MissionPlanner.Utilities
             if ((signals & RTCMSignals.Beidou) == RTCMSignals.Beidou)
                 messages += "+RTCM112" + messageLevel;
 
-            string activePort = LastDetectedPort;
-            log.Info($"RTCMv3 output on: {activePort} with {messages} messages"); // debugging only
-
             return SendAck(receiverPort, $"setRTCMv3Output,{activePort},{messages}\n");
         }
 
@@ -208,7 +208,6 @@ namespace MissionPlanner.Utilities
         /// <exception cref="IOException" />
         public static async Task<string> DetectPort(ICommsSerial receiverPort)
         {
-
             // Clear any stale unread incoming bytes
             if (receiverPort.BytesToRead > 0)
             {
@@ -217,7 +216,7 @@ namespace MissionPlanner.Utilities
 
             await receiverPort.BaseStream.FlushAsync();
 
-            // Send ping command (gecm: getEchoMessage)
+            // Send ping command (gecm / getEchoMessage)
             byte[] pingBytes = Encoding.ASCII.GetBytes("gecm\n");
             await receiverPort.BaseStream.WriteAsync(pingBytes, 0, pingBytes.Length);
 
@@ -265,8 +264,6 @@ namespace MissionPlanner.Utilities
                 // Prevent busy-waiting and wait for serial data 
                 await Task.Delay(20);
             }
-
-            log.Info("DetectPort ACK timeout"); // debugging only
 
             // Default fallback if no active port is detected within the timeout
             return LastDetectedPort;

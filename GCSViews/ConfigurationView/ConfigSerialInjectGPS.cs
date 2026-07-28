@@ -1579,12 +1579,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <exception cref="InvalidOperationException" />
         private async Task UpdateSeptentrioRTCMSettings()
         { 
-
-            if (comPort == null || !comPort.IsOpen)
-            {
-                return;
-            }
-
             Utilities.Septentrio.RTCMSignals signals = Utilities.Septentrio.RTCMSignals.None;
             Utilities.Septentrio.RTCMLevel level;
             float rtcmInterval;
