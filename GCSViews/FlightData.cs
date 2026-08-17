@@ -201,6 +201,7 @@ namespace MissionPlanner.GCSViews
             Engine_Stop,
             Terminate_Flight,
             Format_SD_Card,
+            Reboot_Mass_Storage,
         }
 
         private BindingList<string> ActionList=new BindingList<string>(Enum.GetNames(typeof(actions)).ToList());
@@ -1801,6 +1802,14 @@ namespace MissionPlanner.GCSViews
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
                         MainV2.comPort.doReboot();
+                        ((Control) sender).Enabled = true;
+                        return;
+                    }
+                    if (CMB_action.Text == actions.Reboot_Mass_Storage.ToString())
+                    {
+                        const float rebootToMassStorage = 5f; // ArduPilot REBOOT_TO_MASS_STORAGE action
+                        MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                            MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, rebootToMassStorage, 0, 0, 0, 0, 0, 0);
                         ((Control) sender).Enabled = true;
                         return;
                     }
